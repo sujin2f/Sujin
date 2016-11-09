@@ -1,0 +1,66 @@
+<header id="header_fixed">
+	<div class="container">
+
+		<section class="span6">
+			<div class="mobile">
+				<a href="">
+					<span class="dashicons dashicons-menu"></span>
+				</a>
+			</div>
+
+			<a href="{{vars.homeUrl}}" rel="home" itemprop="url" class="logo">
+				<img width="{{vars.logo[1]}}" height="{{vars.logo[2]}}" src="{{vars.logo[0]}}" itemprop="logo" />
+			</a>
+
+			<nav>
+				<ul>
+					<li
+						ng-repeat     = "menu in vars.menu"
+						ng-include    = "vars.viewBase + 'template/nav.html'"
+						ng-mouseover  = "Hover( menu.ID )"
+						ng-mouseleave = "Leave( menu.ID )"
+						ng-class      = "{ hover : vars.hover == menu.ID }"
+					></li>
+				</ul>
+			</nav>
+		</section>
+
+		<section class="span6">
+			<form>
+				<input id="frm-search" type="text" name="s" value="" />
+				<a href=""><span class="dashicons dashicons-search"></span></a>
+			</form>
+
+			<div>
+				<?php echo get_template_part( "template-part/social" ); ?>
+			</div>
+		</section>
+	</div>
+</header>
+
+<header id="mobile_nav">
+	<nav>
+		<?php wp_nav_menu( $nav_option ); ?>
+	</nav>
+</header>
+
+<header id="header_normal">
+	<div class="container">
+		<div class="row">
+			<div class="span12">
+				<div class="row">
+					<section class="span3">
+						<?php if ( empty( $we_meta[ 'hide-logo' ] ) ) { ?>
+						<a class="logo" href="<?php echo $home_link ?>">Sujin</a>
+						<?php } ?>
+					</section>
+					<section class="span9 nav">
+						<nav>
+							<?php wp_nav_menu( $nav_option ); ?>
+						 </nav>
+					</section>
+				</div>
+			</div>
+		</div>
+	</div>
+</header>
