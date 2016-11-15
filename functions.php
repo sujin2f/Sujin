@@ -14,6 +14,6 @@ if ( !defined( "ABSPATH" ) ) {
 }
 
 include_once( "autoload.php" );
-include_once( 'assets/vendors/wp_express/autoload.php' );
+include_once( 'wp_express/autoload.php' );
 
 new \Sujin\Init();

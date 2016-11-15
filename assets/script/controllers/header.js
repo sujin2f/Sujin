@@ -6,13 +6,13 @@
  * @author  Sujin 수진 Choi http://www.sujinc.com/
 */
 
-angular.module( 'SujinMk7' )
-	.controller( 'Header', function( $scope ) {
+angular.module( 'Sujin' )
+	.controller( 'Header', function( $scope, DataService ) {
 		$scope.vars = {
-			logo    : variables.logo,
-			homeUrl : variables.homeUrl,
-			menu    : variables.menu,
-			viewBase: variables.viewBase,
+			logo    : DataService.logo,
+			homeUrl : DataService.homeUrl,
+			menu    : DataService.menu,
+			viewBase: DataService.viewBase,
 
 			hover   : '',
 		};

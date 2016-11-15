@@ -16,7 +16,7 @@ if ( !defined( "ABSPATH" ) ) {
 get_header();
 ?>
 
-<div ng-view></div>
+<div ng-view id="content-container"></div>
 
 <?php
 get_footer();

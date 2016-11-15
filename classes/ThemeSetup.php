@@ -30,14 +30,38 @@ class ThemeSetup {
 		add_action( 'after_setup_theme',  array( $this, 'add_theme_support' ) );
 		add_action( 'after_setup_theme',  array( $this, 'register_nav_menu' ) );
 		add_action( 'after_setup_theme',  array( $this, 'set_post_thumbnail' ) );
+
+		// Default Image
+		add_filter( 'post_thumbnail_html', array( $this, 'get_default_thumbnail' ), 15, 5 );
+	}
+
+	public function get_default_thumbnail( $html, $post_id, $post_thumbnail_id, $size, $attr ) {
+		if ( $html )
+			return $html;
+
+		if ( $default_image = get_theme_mod( 'sujin_default_image' ) ) {
+			$id    = attachment_url_to_postid( $default_image );
+			$thumb = wp_get_attachment_image( $id, $size, false );
+
+			return $thumb;
+		}
+
+		return $html;
 	}
 
 	private function set_variables() {
 		$custom_logo_id = get_theme_mod( 'custom_logo' );
 
+		$custom_logo_header_src = get_theme_mod( 'sujin_logo_header' );
+		$custom_logo_footer_src = get_theme_mod( 'sujin_logo_footer' );
+
 		self::$variable_array = array(
 			'viewBase' => get_stylesheet_directory_uri() . '/views/',
-			'logo'     => wp_get_attachment_image_src( $custom_logo_id, 'full' ),
+			'logo'     => array(
+				'fixed'  => $custom_logo_header_src,
+				'menu'   => wp_get_attachment_image_src( $custom_logo_id, 'full' ),
+				'footer' => $custom_logo_footer_src,
+			),
 			'homeUrl'  => esc_url( home_url( '/' ) ),
 		);
 	}
@@ -53,12 +77,15 @@ class ThemeSetup {
 	}
 
 	private function load_scripts() {
-		$angular_url       = 'https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js';
-		$angular_route_url = 'https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.js';
+		$angular_url          = get_stylesheet_directory_uri() . '/assets/script/vendors/angular.min.js';
+		$angular_route_url    = get_stylesheet_directory_uri() . '/assets/script/vendors/angular-route.js';
+		$angular_sanitize_url = get_stylesheet_directory_uri() . '/assets/script/vendors/angular-sanitize.min.js';
+
 		$script_url        = get_stylesheet_directory_uri() . '/assets/script/min/script-min.js';
 
 		wp_enqueue_script( 'angular', $angular_url, false, '1.5.8', true );
 		wp_enqueue_script( 'angular-route', $angular_route_url, array( 'angular' ), '1.5.8', true );
+		wp_enqueue_script( 'angular-sanitize', $angular_sanitize_url, array( 'angular' ), '1.5.8', true );
 
 		wp_enqueue_script( 'sujin', $script_url, array( 'angular' ), '7.0.0', true );
 
@@ -94,7 +121,7 @@ class ThemeSetup {
 
 		$menu_location  = get_nav_menu_locations();
 		$menu           = wp_get_nav_menu_object( $menu_location[ 'primary' ] );
-		$menu_items     = wp_get_nav_menu_items( $menu->term_id, array( 'update_post_term_cache' => false ) );
+		$menu_items     = wp_get_nav_menu_items( $menu->term_id, array( 'update_post_term_cache' => true ) );
 		$menu_items_new = array();
 
 		foreach( $menu_items as $item ) {

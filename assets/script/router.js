@@ -6,25 +6,25 @@
  * @author  Sujin 수진 Choi http://www.sujinc.com/
  */
 
-angular.module( 'SujinMk7', [ 'ngRoute' ] );
-
-angular.module( 'SujinMk7', [ 'ngRoute' ] )
+angular.module( 'Sujin', [ 'ngRoute' ] )
 	.config( function( $routeProvider, $locationProvider ) {
 		$routeProvider
 			.when("/", {
 				templateUrl : variables.viewBase + 'main.html',
-			});
-/*
-		.when("/red", {
-		templateUrl : "red.htm"
-		})
-		.when("/green", {
-		templateUrl : "green.htm"
-		})
-		.when("/blue", {
-		templateUrl : "blue.htm"
-		});
-*/
+				controller  : 'mainController',
+			})
+			.when( "/list/:post_type/:page?", {
+				templateUrl : variables.viewBase + 'list.html',
+				controller  : 'listController',
+			})
+			.when( "/:year/:month/:day/:post_name", {
+				templateUrl : variables.viewBase + 'post.html',
+				controller  : 'postController',
+			})
+			.when( "/:page_name", {
+				templateUrl : variables.viewBase + 'page.html',
+				controller  : 'pageController',
+			})
 
- 		$locationProvider.html5Mode( true );
+			$locationProvider.html5Mode( true );
 	});

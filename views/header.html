@@ -8,11 +8,11 @@
 				</a>
 			</div>
 
-			<a href="{{vars.homeUrl}}" rel="home" itemprop="url" class="logo">
-				<img width="{{vars.logo[1]}}" height="{{vars.logo[2]}}" src="{{vars.logo[0]}}" itemprop="logo" />
+			<a href="{{vars.homeUrl}}" class="logo">
+				<img src="{{vars.logo.fixed}}" />
 			</a>
 
-			<nav>
+			<nav class="desktop">
 				<ul>
 					<li
 						ng-repeat     = "menu in vars.menu"
@@ -25,7 +25,7 @@
 			</nav>
 		</section>
 
-		<section class="span6">
+		<section class="span6 desktop">
 			<form>
 				<input id="frm-search" type="text" name="s" value="" />
 				<a href=""><span class="dashicons dashicons-search"></span></a>
@@ -38,29 +38,40 @@
 	</div>
 </header>
 
-<header id="mobile_nav">
+<header id="mobile_nav" class="mobile">
 	<nav>
-		<?php wp_nav_menu( $nav_option ); ?>
+		<ul>
+			<li
+				ng-repeat     = "menu in vars.menu"
+				ng-include    = "vars.viewBase + 'template/nav.html'"
+				ng-mouseover  = "Hover( menu.ID )"
+				ng-mouseleave = "Leave( menu.ID )"
+				ng-class      = "{ hover : vars.hover == menu.ID }"
+			></li>
+		</ul>
 	</nav>
 </header>
 
-<header id="header_normal">
+<header id="header_desktop" class="desktop">
 	<div class="container">
-		<div class="row">
-			<div class="span12">
-				<div class="row">
-					<section class="span3">
-						<?php if ( empty( $we_meta[ 'hide-logo' ] ) ) { ?>
-						<a class="logo" href="<?php echo $home_link ?>">Sujin</a>
-						<?php } ?>
-					</section>
-					<section class="span9 nav">
-						<nav>
-							<?php wp_nav_menu( $nav_option ); ?>
-						 </nav>
-					</section>
-				</div>
-			</div>
-		</div>
+		<section class="span3">
+			<a href="{{vars.homeUrl}}" class="logo">
+				<img width="{{vars.logo.menu[1]}}" height="{{vars.logo.menu[2]}}" src="{{vars.logo.menu[0]}}" />
+			</a>
+		</section>
+
+		<section class="span9">
+			<nav>
+				<ul>
+					<li
+						ng-repeat     = "menu in vars.menu"
+						ng-include    = "vars.viewBase + 'template/nav.html'"
+						ng-mouseover  = "Hover( menu.ID )"
+						ng-mouseleave = "Leave( menu.ID )"
+						ng-class      = "{ hover : vars.hover == menu.ID }"
+					></li>
+				</ul>
+			</nav>
+		</section>
 	</div>
 </header>

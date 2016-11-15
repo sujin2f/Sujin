@@ -22,9 +22,14 @@ class Customizer {
 	}
 
 	function setup_cusomnizer( $wp_customize ) {
+		$this->cusomnize_thumbnails( $wp_customize );
+		$this->cusomnize_logo( $wp_customize );
+
+	}
+
+	private function cusomnize_thumbnails( $wp_customize ) {
 		$wp_customize->add_section( 'sujin_thumbnail', array(
 			'title'    => __( 'Thumbnail', 'Sujin' ),
-			'description' => '',
 			'priority' => 100,
 		));
 
@@ -50,6 +55,7 @@ class Customizer {
 			),
 		)));
 
+		// Thumbnail Sizes
 		$thumbnails = array(
 			'post-thumbnail-width'  => array( DefaultValues::PostThumbnailWidth, 'Thumbnail Width' ),
 			'post-thumbnail-height' => array( DefaultValues::PostThumbnailHeight, 'Thumbnail Height' ),
@@ -80,5 +86,23 @@ class Customizer {
 				'settings'   => "sujin_thumbnail[$option_key]",
 			));
 		}
+	}
+
+	private function cusomnize_logo( $wp_customize ) {
+		$wp_customize->add_setting( 'sujin_logo_header' );
+		$wp_customize->add_control( new \WP_Customize_Image_Control( $wp_customize, 'sujin_logo_header',
+			array(
+				'label' => __( 'Logo Header', 'Sujin' ),
+				'section' => 'title_tagline',
+				'settings' => 'sujin_logo_header',
+			) ) );
+
+		$wp_customize->add_setting( 'sujin_logo_footer' );
+		$wp_customize->add_control( new \WP_Customize_Image_Control( $wp_customize, 'sujin_logo_footer',
+			array(
+				'label' => __( 'Logo Footer', 'Sujin' ),
+				'section' => 'title_tagline',
+				'settings' => 'sujin_logo_footer',
+			) ) );
 	}
 }

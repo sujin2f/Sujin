@@ -12,9 +12,8 @@ if ( !defined( "ABSPATH" ) ) {
 	header( "HTTP/1.1 404 Not Found" );
 	exit();
 }
-?>
-<!DOCTYPE html>
-<html <?php language_attributes(); ?> ng-app="SujinMk7">
+?><!DOCTYPE html>
+<html <?php language_attributes(); ?> ng-app="Sujin">
 	<head>
 		<title><?php // $Sujin->Template->HeaderTitle(); ?></title>
 
@@ -41,7 +40,7 @@ if ( !defined( "ABSPATH" ) ) {
 		<?php wp_head(); ?>
 	</head>
 
-	<body <?php body_class(); ?>>
+	<body ng-controller="BodyController" ng-class="bodyClass()">
 		<header
 			id            = "main_header"
 			ng-controller = "Header"

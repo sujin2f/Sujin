@@ -1,0 +1,97 @@
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+#Visual Studio files
+######################
+*.[Oo]bj
+*.user
+*.aps
+*.pch
+*.vspscc
+*.vssscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.[Cc]ache
+*.ilk
+*.lib
+*.sbr
+*.sdf
+ipch/
+obj/
+[Bb]in
+[Dd]ebug*/
+[Rr]elease*/
+Ankh.NoLoad
+
+# Packages #
+############
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+*.codekit
+*.codekit3
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Icon?
+*.swp
+
+#Project files
+######################
+[Bb]uild/
+
+#Subversion files
+######################
+.svn
+
+# Office Temp Files
+######################
+~$*
+
+# Unused
+######################
+2015/*
+[Ee]xamples*/
+book_apps*/
+ex_solutions*/
+ex_starts*/
+Text Books*/
+/2016/Java/Chapter8/nbproject/private/
+/2016/Java/Chapter8/dist/
+/2016/Java/Chapter9/nbproject/private/
+/2016/Java/AnyWhere/nbproject/private/
+/2016/Java/AnyWhere/dist/
+/2016/Java/Byun_Movie/nbproject/private/
+/2016/GBLearn/all-in-one-drive/
+/2016/Java/Triangle/nbproject/private/

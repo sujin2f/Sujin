@@ -170,7 +170,6 @@
 	column-rule-style: @columnRuleStyle;
 	column-rule-width: @columnRuleWidth;
 }
-
 .translate(@x:0, @y:0) {
 	.transform(translate(@x, @y));
 }
@@ -220,4 +219,14 @@
 .bold() {
 	font-family:'Helvetica Neue', 'NanumGothicBoldWeb';
 	font-weight:bold;
+}
+
+.browser-support( @tag, @value ) {
+/*
+	@tag:           @value;
+	-moz-@{tag}:    @value;
+	-webkit-@{tag}: @value;
+	-ms-@{tag}:     @value;
+	-o-@{tag}:      @value;
+*/
 }

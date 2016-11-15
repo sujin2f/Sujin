@@ -22,6 +22,7 @@ class Init {
 
 	function __construct() {
 		$this->ThemeSetup = new ThemeSetup();
+		new RestApi();
 
 /*
 		$this->AdminPages = new AdminPages();

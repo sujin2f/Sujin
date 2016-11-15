@@ -6,4 +6,4 @@
  * @author  Sujin 수진 Choi http://www.sujinc.com/
  */
 
-angular.module( 'SujinMk7', [ 'ngRoute' ] );
+angular.module( 'Sujin', [ 'ngRoute', 'ngSanitize' ] );

@@ -20,6 +20,10 @@ html, body {
 	padding: 0;
 }
 
+body {
+	background-color: #F5F5F5;
+}
+
 h1 {
 	font-size  : @font-size-h1;
 	font-weight: 200;
@@ -39,7 +43,9 @@ textarea:focus, input:focus{
 }
 
 a {
+	color          : @brand-primary;
 	text-decoration: none;
+
 	&:hover   { text-decoration: none; }
 	&:active  { text-decoration: none; }
 	&:link    { text-decoration: none; }
@@ -47,9 +53,10 @@ a {
 }
 
 .container {
-	margin  : 0 auto;
-	width   :@full-width;
-	overflow: auto;
+	width           : @full-width;
+	margin          : 0 auto;
+	padding         : 0 20px;
+	overflow        : auto;
 
 	@media ( max-width: @browser-full ) {
 		width:@ipad-h;
@@ -64,11 +71,28 @@ a {
 	}
 }
 
+*[class*=span] {
+	float:      left;
+	min-height: 1px;
+}
+
 .span6 {
 	width: 50%;
-	float: left;
+}
+.span3 {
+	width: 25%;
+}
+.span9{
+	width: 75%;
 }
 
 .mobile {
 	display: none;
+}
+
+.absolute-center {
+	position:  absolute;
+	top:       50%;
+	left:      50%;
+	transform: translateY(-50%) translateX(-50%);
 }
