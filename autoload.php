@@ -32,26 +32,3 @@ if ( !function_exists( 'load_sujin_mk7' ) ) {
 
 	load_sujin_mk7();
 }
-
-if ( !class_exists('WE_Redirect' ) ) {
-	class WE_Redirect {
-		public function __construct() {
-			add_filter( 'wp_redirect', array( $this, 'wp_redirect' ) );
-		}
-
-		public function wp_redirect( $location = false ) {
-			if ( !$location ) $location = $_SERVER[ 'REQUEST_URI' ];
-
-			if ( headers_sent() ) {
-				printf( '<meta http-equiv="refresh" content="0; url=%s">', $location );
-				printf( '<script>window.location="%s"</script>', $location );
-
-				die;
-			}
-
-			return $location;
-		}
-
-	}
-	new WE_Redirect;
-}

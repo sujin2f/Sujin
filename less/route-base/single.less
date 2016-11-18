@@ -1,0 +1,151 @@
+main.single {
+	> .container {
+		padding-bottom: 30px;
+	}
+
+	article {
+		padding: 0 30px;
+
+		header {
+			h1 {
+				position: absolute;
+				margin-top: -90px;
+				z-index: 900;
+				background: @black;
+				color: @white;
+				padding: 10px 15px;
+				border-radius: 5px;
+			}
+
+			.meta {
+				padding: 30px 10px;
+				margin-bottom: 30px;
+				border-bottom: 1px solid @gray-9;
+				font-size: 14px;
+				line-height: 1.5em;
+				overflow: auto;
+
+				p {
+					margin   : 0;
+				}
+			}
+		}
+
+		.post_content {
+			h2 {
+				border-left : 10px solid @brand-primary;
+				padding-left: 7px;
+			}
+
+			blockquote {
+				background: white;
+			}
+
+			img {
+				max-width: 100%;
+				height: auto;
+			}
+
+			.wp-caption {
+				max-width: 100%;
+				padding: 10px;
+				background: white;
+
+				p.wp-caption-text {
+					margin: 0;
+					color: @gray-6;
+					font-style: italic;
+				}
+			}
+		}
+
+		ul.post_tags {
+			list-style:none;
+			padding: 20px 0 0;
+			overflow: auto;
+
+			li {
+				float: left;
+				display: inline-block;
+				background-color: white;
+				margin-right: 9px;
+				padding: 0 9px;
+				font-size: 14px;
+				border-radius: 4px;
+			}
+		}
+	}
+
+	footer#post_widgets {
+		padding-top: 30px;
+		background-color: white;
+
+		h1 {
+			font-size: 23px;
+			margin-bottom: 7px;
+		}
+
+		#single-pager {
+			overflow: auto;
+			margin-bottom: 40px;
+
+			.span6 {
+				a {
+					color: @black;
+					.transition();
+
+					span.dashicons {
+					    width: inherit;
+						height: inherit;
+						padding: 6px 6px 5px;
+						background-color: @brand-primary;
+						color: #FFFFFF;
+						font-size: 30px;
+						border-radius: 3px;
+						.transition();
+					}
+
+					span.text {
+						padding: 5px;
+						display: inline-block;
+					}
+
+					&:hover {
+						color: @brand-primary;
+
+						span.dashicons {
+							background-color: @black;
+						}
+					}
+				}
+
+				&.next {
+					span {
+						float: right;
+					}
+				}
+			}
+		}
+
+		#related_posts {
+			overflow: auto;
+			margin-bottom: 30px;
+
+			li {
+				padding:0 5px;
+
+				&:last-child {
+					margin-right:0;
+				}
+
+				time, p {
+					display: none;
+				}
+
+				&:nth-child( 4n + 1 ) {
+					clear:both;
+				}
+			}
+		}
+	}
+}

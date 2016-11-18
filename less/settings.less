@@ -1,0 +1,229 @@
+@import url('https://fonts.googleapis.com/css?family=Ubuntu:300,400,700');
+
+/*
+ * Variables
+ */
+@brand-primary   : #A60000;
+@font-size       : 16px;
+@font-size-h1    : 37px;
+@line-height-base: 2;
+@font-family     : 'Ubuntu', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+@full-width      : 1170px;
+
+@less_image_dir  : '../assets/images/';
+@image_dir       : '../images/';
+
+/*
+ * Commons
+ */
+* {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing   : border-box;
+	box-sizing        : border-box;
+
+	margin : 0;
+	padding: 0;
+}
+
+:after, :before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing   : border-box;
+    box-sizing        : border-box;
+
+	margin : 0;
+	padding: 0;
+}
+
+html, body {
+    font-family: @font-family;
+	font-size  : @font-size;
+	font-weight: 200;
+	line-height: @line-height;
+}
+
+h1 {
+	font-size  : @font-size-h1;
+	font-weight: 800;
+}
+
+h2 {
+	font-size  : @font-size-h2;
+	font-weight: 700;
+}
+
+h3 {
+	font-size  : @font-size-h3;
+	font-weight: 600;
+}
+
+h4 {
+	font-size  : @font-size-h4;
+	font-weight: 500;
+}
+
+h5 {
+	font-size  : @font-size-h5;
+	font-weight: 400;
+}
+
+h6 {
+	font-size  : @font-size-h6;
+	font-weight: 300;
+}
+
+textarea, input, select {
+	border-radius: 3px;
+	display: inline-block;
+	padding: 15px 16px;
+	background-color: @white;
+	color: @black;
+	vertical-align: middle;
+	border: 1px solid #cccccc;
+	font-size: @font-size;
+	.transition( 0.2s, ease-out, background-color );
+}
+
+textarea:focus, input:focus, select:focus {
+    outline: none;
+    background-color: white;
+}
+
+.button {
+    border: none;
+    box-shadow: none;
+    cursor: pointer;
+    display: inline-block;
+    padding: 15px;
+    font-weight: 500;
+    border-radius: 3px;
+    text-transform: capitalize;
+    font-size:15px;
+    line-height:18px;
+    margin:20px 0;
+    background-color: @gray-9;
+    color:@black;
+    .transition();
+
+    &.primary {
+	    color: white;
+	    background-color: @brand-primary;
+    }
+
+    &:hover {
+	    color:@white;
+	    background-color: @black;
+    }
+}
+
+a {
+	color          : @brand-primary;
+	text-decoration: none;
+
+	&:hover   { text-decoration: none; }
+	&:active  { text-decoration: none; }
+	&:link    { text-decoration: none; }
+	&:visited { text-decoration: none; }
+}
+
+ul, ol {
+	list-style: none;
+}
+
+main article {
+	p {
+		margin: 16px 0;
+	}
+
+	ul, ol {
+		margin: 16px 0;
+		padding-left: 20px;
+	}
+
+	ul {
+		list-style: disc;
+	}
+
+	ol {
+		list-style: decimal;
+	}
+
+	blockquote {
+		padding: 16px 40px;
+	}
+}
+
+*[class*=span] {
+	float:      left;
+	min-height: 1px;
+}
+
+.span8 { width: 66.666665%; }
+.span6 { width: 50%; }
+.span4 { width: 33.33333333332%; }
+.span3 { width: 25%; }
+.span9 { width: 75%; }
+
+.dashicons, .dashicons-before:before {
+	line-height: @line-height;
+}
+
+/*
+ * Functions
+ */
+.text2image( @image_url ) {
+	width      : image-width( "@{less_image_dir}@{image_url}" );
+	height     : image-height( "@{less_image_dir}@{image_url}" );
+	text-indent: -10000px;
+	overflow   : hidden;
+	display    : block;
+	background : transparent url( "@{image_dir}@{image_url}" ) no-repeat 0 0;
+}
+
+.transition( @duration:0.2s, @ease:ease-out, @part:all ) {
+	-webkit-transition: @part @duration @ease;
+	-moz-transition   : @part @duration @ease;
+	-o-transition     : @part @duration @ease;
+	transition        : @part @duration @ease;
+}
+
+.border-radius(@topright: 0, @bottomright: 0, @bottomleft: 0, @topleft: 0) {
+	border-top-right-radius   : @topright;
+	border-bottom-right-radius: @bottomright;
+	border-bottom-left-radius : @bottomleft;
+	border-top-left-radius    : @topleft;
+}
+
+/*
+ * Auto Setting
+ */
+@gray-base:	#000;
+@gray-1   : lighten( @gray-base, 10% );
+@gray-2   : lighten( @gray-base, 20% );
+@gray-3   : lighten( @gray-base, 30% );
+@gray-4   : lighten( @gray-base, 40% );
+@gray-5   : lighten( @gray-base, 50% );
+@gray-6   : lighten( @gray-base, 60% );
+@gray-7   : lighten( @gray-base, 70% );
+@gray-8   : lighten( @gray-base, 80% );
+@gray-9   : lighten( @gray-base, 90% );
+
+@white: #F9F9F9;
+@black: #050505;
+
+@brand-dark: darken( @brand-primary, 10% );
+
+@font-size-large:	ceil( @font-size * 1.25 );
+@font-size-small:	ceil( @font-size * 0.85 );
+
+@font-size-h2: ceil( @font-size-h1 * 0.80 );
+@font-size-h3: ceil( @font-size-h2 * 0.80 );
+@font-size-h4: ceil( @font-size-h3 * 0.80 );
+@font-size-h5: @font-size;
+@font-size-h6: ceil( @font-size * 0.80 );
+
+@line-height: floor( @font-size * @line-height-base );
+
+@ipad-h      : 960px;
+@ipad-v      : 768px;
+@phone-h     : 480px;
+@phone-v     : 320px;

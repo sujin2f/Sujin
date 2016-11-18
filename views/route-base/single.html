@@ -1,0 +1,73 @@
+<div class="container">
+	<article class="span9">
+		<header class="post_title">
+			<h1 ng-bind-html="postData.post.title.rendered | html"></h1>
+
+			<section class="meta">
+				<div ng-bind-html="postData.post.author.avatar | html"></div>
+				<div class="float">
+					<strong>{{postData.post.author.display_name}}</strong>
+					<p>{{postData.post.author.description}}</p>
+					Published on <time>{{postData.post.formatted_date}}</time>
+				</div>
+			</section>
+		</header>
+
+		<div class="post_content" ng-bind-html="postData.post.content.rendered | html"></div>
+
+		<ul class="post_tags">
+			<li ng-repeat="tag in postData.post.tags">
+				<a href="/tags/{{tag.slug}}">{{tag.name}}</a>
+			</li>
+		</ul>
+
+		<a href="#"
+			socialshare
+			socialshare-provider="twitter"
+			socialshare-text="720kb AngularJS Socialshare"
+			socialshare-hashtags="angularjs, angular-socialshare"
+			socialshare-url="http://720kb.net">
+			Share me
+		</a>
+	</article>
+
+	<aside class="span3" ng-include="GLOBALS.viewBase + '/layout/sidebar.html'">
+	</aside>
+</div>
+
+<footer id="post_widgets">
+	<div class="container">
+		<div class="span9">
+			<nav id="single-pager">
+				<ul>
+					<li class="span6 prev">
+						<a href="{{postData.post.prev.link}}" ng-if="postData.post.prev">
+							<span class="dashicons dashicons-arrow-left-alt2"></span>
+							<span class="text">{{postData.post.prev.post_title}}</span>
+						</a>
+					</li>
+					<li class="span6 next" ng-if="postData.post.next">
+						<a href="{{postData.post.next.link}}" ng-if="postData.post.next">
+							<span class="dashicons dashicons-arrow-right-alt2"></span>
+							<span class="text">{{postData.post.next.post_title}}</span>
+						</a>
+					</li>
+				</ul>
+			</nav>
+
+			<h1>Related Posts</h1>
+			<ul id="related_posts">
+				<li
+					class      = "span3 post_grid"
+					ng-repeat  = "post in postData.post.related"
+					ng-include = "GLOBALS.viewBase + '/template-part/post-grid.html'"
+				></li>
+			</ul>
+
+			<section
+				ng-include    = "GLOBALS.viewBase + '/template-part/comments.html'"
+				ng-controller = "commentsController"
+			></section>
+		</div>
+	</div>
+</footer>

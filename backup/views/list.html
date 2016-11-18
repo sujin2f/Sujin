@@ -1,0 +1,28 @@
+<div class="container">
+	<div class="row">
+		<ul class="post-list">
+			<li
+				class = "posts_grid"
+				ng-repeat = "post in postData"
+			>
+				<figure>
+					<a href="{{post.link}}" title="{{post.title.rendered}}">
+						<div class="zoom-icon"></div>
+						<div class="inner-shadow"></div>
+
+						<div ng-bind-html="post.thumbnail | html"></div>
+					</a>
+				</figure>
+
+				<h4><a href="{{post.link}}"> {{post.title.rendered}}</a></h4>
+
+				<time datetime="{{post.date}}">
+				<span class="day">12</span>
+				<span class="month_year">Aug 2016</span>
+				</time>
+
+				<p ng-bind-html="post.excerpt.rendered | html"></p>
+			</li>
+		</ul>
+	</div>
+</div>

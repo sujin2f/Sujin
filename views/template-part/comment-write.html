@@ -1,0 +1,18 @@
+<h3>Write a Comment</h3>
+
+<p class="gray_text">Your email address will not be published.</p>
+
+<form>
+	<textarea ng-model="form.text"></textarea>
+
+	<div id="comment_author_input">
+		<input class="span4" type="text" ng-model="form.name" placeholder="Name *" />
+		<input class="span4" type="text" ng-model="form.mail" placeholder="Email *" />
+		<input class="span4" type="text" ng-model="form.site" placeholder="Website" />
+	</div>
+
+	<div id="comment_form_buttons" ng-class="{'activated' : isFormAvailable()}">
+		<a href="" class="button" ng-click="clearForm()">Cancel reply</a>
+		<input type="submit" class="button primary" value="Post Comment">
+	</div>
+</form>

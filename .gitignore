@@ -52,8 +52,6 @@ Ankh.NoLoad
 *.log
 *.sql
 *.sqlite
-*.codekit
-*.codekit3
 
 # OS generated files #
 ######################
@@ -64,7 +62,6 @@ Ankh.NoLoad
 .Trashes
 ehthumbs.db
 Thumbs.db
-Icon?
 *.swp
 
 #Project files
@@ -81,17 +78,3 @@ Icon?
 
 # Unused
 ######################
-2015/*
-[Ee]xamples*/
-book_apps*/
-ex_solutions*/
-ex_starts*/
-Text Books*/
-/2016/Java/Chapter8/nbproject/private/
-/2016/Java/Chapter8/dist/
-/2016/Java/Chapter9/nbproject/private/
-/2016/Java/AnyWhere/nbproject/private/
-/2016/Java/AnyWhere/dist/
-/2016/Java/Byun_Movie/nbproject/private/
-/2016/GBLearn/all-in-one-drive/
-/2016/Java/Triangle/nbproject/private/

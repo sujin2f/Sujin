@@ -1,6 +1,6 @@
 <?php
 /**
- * Class : Init
+ * Class : Admin
  *
  * @project Sujin
  * @since   7.0.0
@@ -15,14 +15,8 @@ if ( !defined( "ABSPATH" ) ) {
 	exit();
 }
 
-class Init {
+class Admin {
 	function __construct() {
-		new ThemeSetup();
-		new TypePost();
-
-/*
-// 		new Admin();
-		new RestApi();
-*/
+		new Admin\Customizer();
 	}
 }

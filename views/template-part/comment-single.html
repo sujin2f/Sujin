@@ -1,0 +1,14 @@
+<figure>
+	<img src="{{comment.author_avatar_urls[96]}}" class="avatar" />
+</figure>
+
+<header>
+	<strong>{{comment.author_name}}</strong>
+	<time class="gray_text">{{comment.formatted_date}}</time>
+</header>
+
+<div ng-bind-html="comment.content.rendered | html"></div>
+
+<a class="comment-reply-link" href="" ng-if="!comment.parent">
+	<span class="dashicons dashicons-admin-comments"></span> <span>Reply</span>
+</a>

@@ -1,0 +1,61 @@
+<section id="header_fixed">
+	<div class="container">
+		<section class="span6">
+			<a href="" class="mobile">
+				<span class="dashicons dashicons-menu"></span>
+			</a>
+
+			<a href="{{GLOBALS.homeUrl}}" class="logo">
+				<img src="{{GLOBALS.themeURL}}/assets/images/logos/fixed.png" />
+			</a>
+
+			<nav class="gnb">
+				<ul>
+					<li ng-repeat="(key, menu) in getMenu()">
+						<a ng-href="{{menu.url}}" ng-class="">{{menu.title}}</a>
+					</li>
+				</ul>
+			</nav>
+		</section>
+
+		<section class="span6 desktop">
+			<form>
+				<input id="frm-search" type="text" name="s" value="" />
+				<a href=""><span class="dashicons dashicons-search"></span></a>
+			</form>
+
+			<nav ng-include="GLOBALS.viewBase + '/template-part/social.html'" class="social"></nav>
+		</section>
+	</div>
+</section>
+
+<section id="header_mobile" class="mobile">
+	<nav>
+		<ul>
+			<li ng-repeat="(key, menu) in getMenu()">
+				<a ng-href="{{menu.url}}" ng-class="">{{menu.title}}</a>
+			</li>
+		</ul>
+	</nav>
+</section>
+
+<section id="header_global" style="{{getHeaderStyle()}}">
+	<div class="foreground"></div>
+	<div class="container">
+		<section class="span3">
+			<a href="{{GLOBALS.homeUrl}}" class="logo">
+				<img src="{{GLOBALS.themeURL}}/assets/images/logos/menu.png" />
+			</a>
+		</section>
+
+		<section class="span9">
+			<nav>
+				<ul>
+					<li ng-repeat="(key, menu) in getMenu()">
+						<a ng-href="{{menu.url}}" ng-class="">{{menu.title}}</a>
+					</li>
+				</ul>
+			</nav>
+		</section>
+	</div>
+</section>
