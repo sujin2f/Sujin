@@ -1,0 +1,111 @@
+body {
+	background-color: @gray;
+}
+
+.container {
+	width           : @full-width;
+	margin          : 0 auto;
+	padding         : 0 20px;
+	overflow        : auto;
+	min-height      : 1px;
+
+	@media ( max-width: @full-width ) {
+		width:@ipadH;
+	}
+
+	@media ( max-width: @ipadH ) {
+		width:@ipadV;
+	}
+
+	@media ( max-width: @ipadV ) {
+		width:100%;
+	}
+}
+
+.foreground {
+	background: transparent url('@{image_dir}dotted-dark-foreground.png');
+	width:      100%;
+	height:     100%;
+	position:   absolute;
+	top:        0;
+	z-index: 2;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+}
+
+.background {
+	background-repeat: no-repeat;
+	background-position: center center;
+	-webkit-background-size: cover;
+	-moz-background-size:    cover;
+	-o-background-size:      cover;
+	background-size:         cover;
+	position:   absolute;
+	top:        0;
+	width:      100%;
+	height:     100%;
+}
+
+.avatar {
+	border-radius: 100px;
+	float: left;
+	margin-right:10px;
+	width:65px;
+	height: 65px;
+}
+
+.float {
+	float: left;
+}
+
+#back2top {
+	position: fixed;
+	right: 20px;
+	bottom: -60px;
+	overflow: hidden;
+	z-index: 200;
+	padding: 0;
+	margin: 0;
+	.transition( 0.3s, ease-out, bottom );
+
+	a {
+		.transition();
+		text-align: center;
+		text-decoration: none;
+		text-indent: -10000px;
+		overflow: hidden;
+		display: block;
+		.text2image( 'icon-up-arrow.png' );
+		background-color: #A60000;
+		width: 50px;
+		height: 50px;
+		background-position: center center;
+
+		&:hover {
+			background-color: @black;
+		}
+	}
+
+	.scrolled & {
+		bottom: 20px;
+	}
+}
+
+.gray_text {
+	color: @gray-6;
+}
+
+.bg-red {
+	background-color: @brand-dark !important;
+	color: white;
+
+	h2 {
+		border-color: white !important;
+	}
+
+	&::selection, & *::selection {
+		color: @brand-primary;
+		background: white;
+	}
+}

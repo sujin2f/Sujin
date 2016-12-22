@@ -9,28 +9,1150 @@
 	],
 "creatorBuild": "25479",
 "files": {
-	"\/README.md": {
-		"cS": 0,
-		"eF": 1,
-		"eL": 1,
-		"eLB": 0,
-		"ema": 1,
-		"eSQ": 1,
-		"ft": 4096,
+	"\/.gitignore": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/.gitignore",
+		"oF": 0
+		},
+	"\/.gitmodules": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/.gitmodules",
+		"oF": 0
+		},
+	"\/assets\/angular\/angular-google-adsense.min.js": {
+		"ft": 64,
+		"mi": 1,
 		"oA": 0,
-		"oAP": "\/README.html",
+		"oAP": "\/assets\/angular\/min\/angular-google-adsense.min-min.js",
 		"oF": 0,
-		"oFM": 0,
+		"sC": 1,
+		"tS": 0
+		},
+	"\/assets\/angular\/angular-route.js": {
+		"ft": 64,
+		"mi": 1,
+		"oA": 0,
+		"oAP": "\/assets\/angular\/min\/angular-route-min.js",
+		"oF": 0,
+		"sC": 1,
+		"tS": 0
+		},
+	"\/assets\/angular\/angular-sanitize.min.js": {
+		"ft": 64,
+		"mi": 1,
+		"oA": 0,
+		"oAP": "\/assets\/angular\/min\/angular-sanitize.min-min.js",
+		"oF": 0,
+		"sC": 1,
+		"tS": 0
+		},
+	"\/assets\/angular\/angular-socialshare.min.js": {
+		"ft": 64,
+		"mi": 1,
+		"oA": 0,
+		"oAP": "\/assets\/angular\/min\/angular-socialshare.min-min.js",
+		"oF": 0,
+		"sC": 1,
+		"tS": 0
+		},
+	"\/assets\/angular\/angular.min.js": {
+		"ft": 64,
+		"mi": 1,
+		"oA": 0,
+		"oAP": "\/assets\/angular\/min\/angular.min-min.js",
+		"oF": 0,
+		"sC": 1,
+		"tS": 0
+		},
+	"\/assets\/angular\/min\/angular-google-adsense.min-min.js": {
+		"ft": 64,
+		"mi": 1,
+		"oA": 0,
+		"oAP": "\/assets\/angular\/min\/min\/angular-google-adsense.min-min-min.js",
+		"oF": 0,
+		"sC": 1,
+		"tS": 0
+		},
+	"\/assets\/css\/angular-socialshare.min-ck.css": {
+		"aP": 0,
+		"bl": 0,
+		"ft": 16,
+		"ma": 0,
+		"oA": 2,
+		"oAP": "\/assets\/css\/angular-socialshare.min-ck-ck.css",
+		"oF": 0,
+		"oS": 0
+		},
+	"\/assets\/css\/angular-socialshare.min.css": {
+		"aP": 0,
+		"bl": 0,
+		"ft": 16,
+		"ma": 0,
+		"oA": 2,
+		"oAP": "\/assets\/css\/angular-socialshare.min-ck.css",
+		"oF": 0,
+		"oS": 0
+		},
+	"\/assets\/css\/index.php": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/assets\/css\/index.php",
+		"oF": 0
+		},
+	"\/assets\/css\/style.css": {
+		"aP": 0,
+		"bl": 0,
+		"ft": 16,
+		"ma": 0,
+		"oA": 2,
+		"oAP": "\/assets\/css\/style-ck.css",
+		"oF": 0,
+		"oS": 0
+		},
+	"\/assets\/Icon\r": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/assets\/Icon\r",
+		"oF": 0
+		},
+	"\/assets\/images\/dotted-dark-foreground.png": {
+		"ft": 32768,
+		"iS": 15363,
+		"oA": 0,
+		"oAP": "\/assets\/images\/dotted-dark-foreground.png",
+		"oF": 0,
+		"opt": 0
+		},
+	"\/assets\/images\/favicon.png": {
+		"ft": 32768,
+		"iS": 390,
+		"oA": 0,
+		"oAP": "\/assets\/images\/favicon.png",
+		"oF": 0,
+		"opt": 0
+		},
+	"\/assets\/images\/icon-up-arrow.png": {
+		"ft": 32768,
+		"iS": 2891,
+		"oA": 0,
+		"oAP": "\/assets\/images\/icon-up-arrow.png",
+		"oF": 0,
+		"opt": 0
+		},
+	"\/assets\/images\/index.php": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/assets\/images\/index.php",
+		"oF": 0
+		},
+	"\/assets\/images\/list\/background.jpg": {
+		"ft": 16384,
+		"iS": 130806,
+		"oA": 0,
+		"oAP": "\/assets\/images\/list\/background.jpg",
+		"oF": 0,
+		"opt": 1
+		},
+	"\/assets\/images\/logos\/fixed.png": {
+		"ft": 32768,
+		"iS": 1575,
+		"oA": 0,
+		"oAP": "\/assets\/images\/logos\/fixed.png",
+		"oF": 0,
+		"opt": 0
+		},
+	"\/assets\/images\/logos\/footer.png": {
+		"ft": 32768,
+		"iS": 1586,
+		"oA": 0,
+		"oAP": "\/assets\/images\/logos\/footer.png",
+		"oF": 0,
+		"opt": 0
+		},
+	"\/assets\/images\/logos\/front-page.png": {
+		"ft": 32768,
+		"iS": 19977,
+		"oA": 0,
+		"oAP": "\/assets\/images\/logos\/front-page.png",
+		"oF": 0,
+		"opt": 0
+		},
+	"\/assets\/images\/logos\/index.php": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/assets\/images\/logos\/index.php",
+		"oF": 0
+		},
+	"\/assets\/images\/logos\/logo-dark.png": {
+		"ft": 32768,
+		"iS": 22461,
+		"oA": 0,
+		"oAP": "\/assets\/images\/logos\/logo-dark.png",
+		"oF": 0,
+		"opt": 0
+		},
+	"\/assets\/images\/logos\/logo.psd": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/assets\/images\/logos\/logo.psd",
+		"oF": 0
+		},
+	"\/assets\/images\/logos\/menu-dark.png": {
+		"ft": 32768,
+		"iS": 2731,
+		"oA": 0,
+		"oAP": "\/assets\/images\/logos\/menu-dark.png",
+		"oF": 0,
+		"opt": 0
+		},
+	"\/assets\/images\/logos\/menu.png": {
+		"ft": 32768,
+		"iS": 2241,
+		"oA": 0,
+		"oAP": "\/assets\/images\/logos\/menu.png",
+		"oF": 0,
+		"opt": 1
+		},
+	"\/assets\/images\/main\/backgrounds\/1.jpg": {
+		"ft": 16384,
+		"iS": 46787,
+		"oA": 0,
+		"oAP": "\/assets\/images\/main\/backgrounds\/1.jpg",
+		"oF": 0,
+		"opt": 0
+		},
+	"\/assets\/images\/main\/backgrounds\/1.mobile.jpg": {
+		"ft": 16384,
+		"iS": 44379,
+		"oA": 0,
+		"oAP": "\/assets\/images\/main\/backgrounds\/1.mobile.jpg",
+		"oF": 0,
+		"opt": 0
+		},
+	"\/assets\/images\/main\/backgrounds\/2.jpg": {
+		"ft": 16384,
+		"iS": 40186,
+		"oA": 0,
+		"oAP": "\/assets\/images\/main\/backgrounds\/2.jpg",
+		"oF": 0,
+		"opt": 0
+		},
+	"\/assets\/images\/main\/backgrounds\/2.mobile.jpg": {
+		"ft": 16384,
+		"iS": 50843,
+		"oA": 0,
+		"oAP": "\/assets\/images\/main\/backgrounds\/2.mobile.jpg",
+		"oF": 0,
+		"opt": 0
+		},
+	"\/assets\/images\/main\/backgrounds\/3.jpg": {
+		"ft": 16384,
+		"iS": 70236,
+		"oA": 0,
+		"oAP": "\/assets\/images\/main\/backgrounds\/3.jpg",
+		"oF": 0,
+		"opt": 0
+		},
+	"\/assets\/images\/main\/backgrounds\/3.mobile.jpg": {
+		"ft": 16384,
+		"iS": 73642,
+		"oA": 0,
+		"oAP": "\/assets\/images\/main\/backgrounds\/3.mobile.jpg",
+		"oF": 0,
+		"opt": 0
+		},
+	"\/assets\/images\/main\/backgrounds\/4.jpg": {
+		"ft": 16384,
+		"iS": 228050,
+		"oA": 0,
+		"oAP": "\/assets\/images\/main\/backgrounds\/4.jpg",
+		"oF": 0,
+		"opt": 0
+		},
+	"\/assets\/images\/main\/backgrounds\/4.mobile.jpg": {
+		"ft": 16384,
+		"iS": 25482,
+		"oA": 0,
+		"oAP": "\/assets\/images\/main\/backgrounds\/4.mobile.jpg",
+		"oF": 0,
+		"opt": 1
+		},
+	"\/assets\/images\/main\/backgrounds\/index.php": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/assets\/images\/main\/backgrounds\/index.php",
+		"oF": 0
+		},
+	"\/assets\/images\/main\/front-page-logo.png": {
+		"ft": 32768,
+		"iS": 19977,
+		"oA": 0,
+		"oAP": "\/assets\/images\/main\/front-page-logo.png",
+		"oF": 0,
+		"opt": 0
+		},
+	"\/assets\/images\/main\/index.php": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/assets\/images\/main\/index.php",
+		"oF": 0
+		},
+	"\/assets\/images\/opengraph_image.jpg": {
+		"ft": 16384,
+		"iS": 13209,
+		"oA": 0,
+		"oAP": "\/assets\/images\/opengraph_image.jpg",
+		"oF": 0,
+		"opt": 0
+		},
+	"\/assets\/images\/pages\/about\/profile.jpg": {
+		"ft": 16384,
+		"iS": 9294,
+		"oA": 0,
+		"oAP": "\/assets\/images\/pages\/about\/profile.jpg",
+		"oF": 0,
+		"opt": 0
+		},
+	"\/assets\/images\/red.png": {
+		"ft": 32768,
+		"iS": 18655,
+		"oA": 0,
+		"oAP": "\/assets\/images\/red.png",
+		"oF": 0,
+		"opt": 1
+		},
+	"\/assets\/images\/social\/icon-flickr.png": {
+		"ft": 32768,
+		"iS": 1047,
+		"oA": 0,
+		"oAP": "\/assets\/images\/social\/icon-flickr.png",
+		"oF": 0,
+		"opt": 0
+		},
+	"\/assets\/images\/social\/icon-github.png": {
+		"ft": 32768,
+		"iS": 1785,
+		"oA": 0,
+		"oAP": "\/assets\/images\/social\/icon-github.png",
+		"oF": 0,
+		"opt": 0
+		},
+	"\/assets\/images\/social\/icon-linkedin.png": {
+		"ft": 32768,
+		"iS": 1309,
+		"oA": 0,
+		"oAP": "\/assets\/images\/social\/icon-linkedin.png",
+		"oF": 0,
+		"opt": 0
+		},
+	"\/assets\/images\/social\/single-facebook.png": {
+		"ft": 32768,
+		"iS": 2473,
+		"oA": 0,
+		"oAP": "\/assets\/images\/social\/single-facebook.png",
+		"oF": 0,
+		"opt": 0
+		},
+	"\/assets\/images\/social\/single-twitter.png": {
+		"ft": 32768,
+		"iS": 2220,
+		"oA": 0,
+		"oAP": "\/assets\/images\/social\/single-twitter.png",
+		"oF": 0,
+		"opt": 0
+		},
+	"\/assets\/index.php": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/assets\/index.php",
+		"oF": 0
+		},
+	"\/autoload.php": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/autoload.php",
+		"oF": 0
+		},
+	"\/classes\/AgentMode.php": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/classes\/AgentMode.php",
+		"oF": 0
+		},
+	"\/classes\/Constants.php": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/classes\/Constants.php",
+		"oF": 0
+		},
+	"\/classes\/Customizer.php": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/classes\/Customizer.php",
+		"oF": 0
+		},
+	"\/classes\/Icon\r": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/classes\/Icon\r",
+		"oF": 0
+		},
+	"\/classes\/index.php": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/classes\/index.php",
+		"oF": 0
+		},
+	"\/classes\/Init.php": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/classes\/Init.php",
+		"oF": 0
+		},
+	"\/classes\/RestApi.php": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/classes\/RestApi.php",
+		"oF": 0
+		},
+	"\/classes\/ThemeSetup.php": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/classes\/ThemeSetup.php",
+		"oF": 0
+		},
+	"\/functions.php": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/functions.php",
+		"oF": 0
+		},
+	"\/Icon\r": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/Icon\r",
+		"oF": 0
+		},
+	"\/index.php": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/index.php",
+		"oF": 0
+		},
+	"\/less\/_functions.less": {
+		"aP": 0,
+		"bl": 0,
+		"dJ": 0,
+		"ft": 1,
+		"ie": 1,
+		"iI": 0,
+		"ma": 1,
+		"oA": 1,
+		"oAP": "\/css\/_functions.css",
+		"oF": 0,
 		"oS": 0,
-		"pHT": 0,
-		"pME": 1,
-		"rFN": 0,
-		"uCM": 0
+		"rU": 0,
+		"sI": 0,
+		"sM": 0,
+		"sU": 0
+		},
+	"\/less\/common.less": {
+		"aP": 0,
+		"bl": 0,
+		"dJ": 0,
+		"ft": 1,
+		"ie": 1,
+		"iI": 0,
+		"ma": 1,
+		"oA": 1,
+		"oAP": "\/css\/common.css",
+		"oF": 0,
+		"oS": 0,
+		"rU": 0,
+		"sI": 0,
+		"sM": 0,
+		"sU": 0
+		},
+	"\/less\/Icon\r": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/less\/Icon\r",
+		"oF": 0
+		},
+	"\/less\/route-base\/list.less": {
+		"aP": 0,
+		"bl": 0,
+		"dJ": 0,
+		"ft": 1,
+		"ie": 1,
+		"iI": 0,
+		"ma": 1,
+		"oA": 1,
+		"oAP": "\/less\/css\/list.css",
+		"oF": 0,
+		"oS": 0,
+		"rU": 0,
+		"sI": 0,
+		"sM": 0,
+		"sU": 0
+		},
+	"\/less\/route-base\/main.less": {
+		"aP": 0,
+		"bl": 0,
+		"dJ": 0,
+		"ft": 1,
+		"ie": 1,
+		"iI": 0,
+		"ma": 1,
+		"oA": 1,
+		"oAP": "\/less\/css\/main.css",
+		"oF": 0,
+		"oS": 0,
+		"rU": 0,
+		"sI": 0,
+		"sM": 0,
+		"sU": 0
+		},
+	"\/less\/route-base\/page.less": {
+		"aP": 0,
+		"bl": 0,
+		"dJ": 0,
+		"ft": 1,
+		"ie": 1,
+		"iI": 0,
+		"ma": 1,
+		"oA": 1,
+		"oAP": "\/less\/css\/page.css",
+		"oF": 0,
+		"oS": 0,
+		"rU": 0,
+		"sI": 0,
+		"sM": 0,
+		"sU": 0
+		},
+	"\/less\/route-base\/pages\/about.less": {
+		"aP": 0,
+		"bl": 0,
+		"dJ": 0,
+		"ft": 1,
+		"ie": 1,
+		"iI": 0,
+		"ma": 1,
+		"oA": 1,
+		"oAP": "\/less\/route-base\/css\/about.css",
+		"oF": 0,
+		"oS": 0,
+		"rU": 0,
+		"sI": 0,
+		"sM": 0,
+		"sU": 0
+		},
+	"\/less\/route-base\/single.less": {
+		"aP": 0,
+		"bl": 0,
+		"dJ": 0,
+		"ft": 1,
+		"ie": 1,
+		"iI": 0,
+		"ma": 1,
+		"oA": 1,
+		"oAP": "\/less\/css\/single.css",
+		"oF": 0,
+		"oS": 0,
+		"rU": 0,
+		"sI": 0,
+		"sM": 0,
+		"sU": 0
+		},
+	"\/less\/settings.less": {
+		"aP": 0,
+		"bl": 0,
+		"dJ": 0,
+		"ft": 1,
+		"ie": 1,
+		"iI": 0,
+		"ma": 1,
+		"oA": 1,
+		"oAP": "\/css\/settings.css",
+		"oF": 0,
+		"oS": 0,
+		"rU": 0,
+		"sI": 0,
+		"sM": 0,
+		"sU": 0
+		},
+	"\/less\/style.less": {
+		"aP": 0,
+		"bl": 0,
+		"dJ": 0,
+		"ft": 1,
+		"ie": 1,
+		"iI": 0,
+		"ma": 0,
+		"oA": 0,
+		"oAP": "\/assets\/css\/style.css",
+		"oF": 2,
+		"oS": 0,
+		"rU": 0,
+		"sI": 0,
+		"sM": 0,
+		"sU": 0
+		},
+	"\/less\/template-part\/comments.less": {
+		"aP": 0,
+		"bl": 0,
+		"dJ": 0,
+		"ft": 1,
+		"ie": 1,
+		"iI": 0,
+		"ma": 1,
+		"oA": 1,
+		"oAP": "\/less\/css\/comments.css",
+		"oF": 0,
+		"oS": 0,
+		"rU": 0,
+		"sI": 0,
+		"sM": 0,
+		"sU": 0
+		},
+	"\/less\/template-part\/footer.less": {
+		"aP": 0,
+		"bl": 0,
+		"dJ": 0,
+		"ft": 1,
+		"ie": 1,
+		"iI": 0,
+		"ma": 1,
+		"oA": 1,
+		"oAP": "\/less\/css\/footer.css",
+		"oF": 0,
+		"oS": 0,
+		"rU": 0,
+		"sI": 0,
+		"sM": 0,
+		"sU": 0
+		},
+	"\/less\/template-part\/header.less": {
+		"aP": 0,
+		"bl": 0,
+		"dJ": 0,
+		"ft": 1,
+		"ie": 1,
+		"iI": 0,
+		"ma": 1,
+		"oA": 1,
+		"oAP": "\/less\/css\/header.css",
+		"oF": 0,
+		"oS": 0,
+		"rU": 0,
+		"sI": 0,
+		"sM": 0,
+		"sU": 0
+		},
+	"\/less\/template-part\/pagination.less": {
+		"aP": 0,
+		"bl": 0,
+		"dJ": 0,
+		"ft": 1,
+		"ie": 1,
+		"iI": 0,
+		"ma": 1,
+		"oA": 1,
+		"oAP": "\/less\/css\/pagination.css",
+		"oF": 0,
+		"oS": 0,
+		"rU": 0,
+		"sI": 0,
+		"sM": 0,
+		"sU": 0
+		},
+	"\/less\/template-part\/post-grid.less": {
+		"aP": 0,
+		"bl": 0,
+		"dJ": 0,
+		"ft": 1,
+		"ie": 1,
+		"iI": 0,
+		"ma": 1,
+		"oA": 1,
+		"oAP": "\/less\/css\/post-grid.css",
+		"oF": 0,
+		"oS": 0,
+		"rU": 0,
+		"sI": 0,
+		"sM": 0,
+		"sU": 0
+		},
+	"\/less\/template-part\/sidebar.less": {
+		"aP": 0,
+		"bl": 0,
+		"dJ": 0,
+		"ft": 1,
+		"ie": 1,
+		"iI": 0,
+		"ma": 1,
+		"oA": 1,
+		"oAP": "\/less\/css\/sidebar.css",
+		"oF": 0,
+		"oS": 0,
+		"rU": 0,
+		"sI": 0,
+		"sM": 0,
+		"sU": 0
+		},
+	"\/less\/template-part\/social.less": {
+		"aP": 0,
+		"bl": 0,
+		"dJ": 0,
+		"ft": 1,
+		"ie": 1,
+		"iI": 0,
+		"ma": 1,
+		"oA": 1,
+		"oAP": "\/less\/css\/social.css",
+		"oF": 0,
+		"oS": 0,
+		"rU": 0,
+		"sI": 0,
+		"sM": 0,
+		"sU": 0
+		},
+	"\/scripts.js": {
+		"ft": 64,
+		"mi": 1,
+		"oA": 0,
+		"oAP": "\/min\/scripts-min.js",
+		"oF": 0,
+		"sC": 1,
+		"tS": 0
+		},
+	"\/scripts\/app.js": {
+		"ft": 64,
+		"mi": 0,
+		"oA": 0,
+		"oAP": "\/scripts.js",
+		"oF": 3,
+		"sC": 1,
+		"tS": 0
+		},
+	"\/scripts\/controllers\/route-base\/list.js": {
+		"ft": 64,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "\/scripts\/controllers\/route-base\/min\/list-min.js",
+		"oF": 0,
+		"sC": 1,
+		"tS": 0
+		},
+	"\/scripts\/controllers\/route-base\/main.js": {
+		"ft": 64,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "\/scripts\/controllers\/route-base\/min\/main-min.js",
+		"oF": 0,
+		"sC": 1,
+		"tS": 0
+		},
+	"\/scripts\/controllers\/route-base\/page.js": {
+		"ft": 64,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "\/scripts\/controllers\/route-base\/min\/page-min.js",
+		"oF": 0,
+		"sC": 1,
+		"tS": 0
+		},
+	"\/scripts\/controllers\/route-base\/single.js": {
+		"ft": 64,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "\/scripts\/controllers\/route-base\/min\/single-min.js",
+		"oF": 0,
+		"sC": 1,
+		"tS": 0
+		},
+	"\/scripts\/controllers\/template-part\/body.js": {
+		"ft": 64,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "\/scripts\/controllers\/template-part\/min\/body-min.js",
+		"oF": 0,
+		"sC": 1,
+		"tS": 0
+		},
+	"\/scripts\/controllers\/template-part\/comments.js": {
+		"ft": 64,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "\/scripts\/controllers\/template-part\/min\/comments-min.js",
+		"oF": 0,
+		"sC": 1,
+		"tS": 0
+		},
+	"\/scripts\/controllers\/template-part\/footer.js": {
+		"ft": 64,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "\/scripts\/controllers\/template-part\/min\/footer-min.js",
+		"oF": 0,
+		"sC": 1,
+		"tS": 0
+		},
+	"\/scripts\/controllers\/template-part\/head.js": {
+		"ft": 64,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "\/scripts\/controllers\/template-part\/min\/head-min.js",
+		"oF": 0,
+		"sC": 1,
+		"tS": 0
+		},
+	"\/scripts\/controllers\/template-part\/header.js": {
+		"ft": 64,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "\/scripts\/controllers\/template-part\/min\/header-min.js",
+		"oF": 0,
+		"sC": 1,
+		"tS": 0
+		},
+	"\/scripts\/controllers\/template-part\/pagination.js": {
+		"ft": 64,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "\/scripts\/controllers\/template-part\/min\/pagination-min.js",
+		"oF": 0,
+		"sC": 1,
+		"tS": 0
+		},
+	"\/scripts\/controllers\/template-part\/recent-comments.js": {
+		"ft": 64,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "\/scripts\/controllers\/template-part\/min\/recent-comments-min.js",
+		"oF": 0,
+		"sC": 1,
+		"tS": 0
+		},
+	"\/scripts\/controllers\/template-part\/recent-posts.js": {
+		"ft": 64,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "\/scripts\/controllers\/template-part\/min\/recent-posts-min.js",
+		"oF": 0,
+		"sC": 1,
+		"tS": 0
+		},
+	"\/scripts\/Icon\r": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/scripts\/Icon\r",
+		"oF": 0
+		},
+	"\/scripts\/index.php": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/scripts\/index.php",
+		"oF": 0
+		},
+	"\/scripts\/services\/directive.adense.js": {
+		"ft": 64,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "\/scripts\/services\/min\/directive.adense-min.js",
+		"oF": 0,
+		"sC": 1,
+		"tS": 0
+		},
+	"\/scripts\/services\/directive.graph.js": {
+		"ft": 64,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "\/scripts\/services\/min\/directive.graph-min.js",
+		"oF": 0,
+		"sC": 1,
+		"tS": 0
+		},
+	"\/scripts\/services\/directive.scroll.js": {
+		"ft": 64,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "\/scripts\/services\/min\/directive.scroll-min.js",
+		"oF": 0,
+		"sC": 1,
+		"tS": 0
+		},
+	"\/scripts\/services\/filter.html.js": {
+		"ft": 64,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "\/scripts\/services\/min\/filter.html-min.js",
+		"oF": 0,
+		"sC": 1,
+		"tS": 0
+		},
+	"\/scripts\/services\/router.js": {
+		"ft": 64,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "\/scripts\/services\/min\/router-min.js",
+		"oF": 0,
+		"sC": 1,
+		"tS": 0
+		},
+	"\/scripts\/services\/service.menu.js": {
+		"ft": 64,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "\/scripts\/services\/min\/service.menu-min.js",
+		"oF": 0,
+		"sC": 1,
+		"tS": 0
+		},
+	"\/style-ck.css": {
+		"aP": 0,
+		"bl": 0,
+		"ft": 16,
+		"ma": 0,
+		"oA": 2,
+		"oAP": "\/style-ck-ck.css",
+		"oF": 0,
+		"oS": 0
+		},
+	"\/style.css": {
+		"aP": 0,
+		"bl": 0,
+		"ft": 16,
+		"ma": 0,
+		"oA": 2,
+		"oAP": "\/style-ck.css",
+		"oF": 0,
+		"oS": 0
+		},
+	"\/views\/Icon\r": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/views\/Icon\r",
+		"oF": 0
+		},
+	"\/views\/pages\/about.html": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/views\/pages\/about.html",
+		"oF": 0
+		},
+	"\/views\/route-base\/list.html": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/views\/route-base\/list.html",
+		"oF": 0
+		},
+	"\/views\/route-base\/main.html": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/views\/route-base\/main.html",
+		"oF": 0
+		},
+	"\/views\/route-base\/page.html": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/views\/route-base\/page.html",
+		"oF": 0
+		},
+	"\/views\/route-base\/single.html": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/views\/route-base\/single.html",
+		"oF": 0
+		},
+	"\/views\/template-part\/comment-single.html": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/views\/template-part\/comment-single.html",
+		"oF": 0
+		},
+	"\/views\/template-part\/comment-write.html": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/views\/template-part\/comment-write.html",
+		"oF": 0
+		},
+	"\/views\/template-part\/comments.html": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/views\/template-part\/comments.html",
+		"oF": 0
+		},
+	"\/views\/template-part\/footer.html": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/views\/template-part\/footer.html",
+		"oF": 0
+		},
+	"\/views\/template-part\/graph.html": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/views\/template-part\/graph.html",
+		"oF": 0
+		},
+	"\/views\/template-part\/header.html": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/views\/template-part\/header.html",
+		"oF": 0
+		},
+	"\/views\/template-part\/menu-item.html": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/views\/template-part\/menu-item.html",
+		"oF": 0
+		},
+	"\/views\/template-part\/pagenation.html": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/views\/template-part\/pagenation.html",
+		"oF": 0
+		},
+	"\/views\/template-part\/post-grid.html": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/views\/template-part\/post-grid.html",
+		"oF": 0
+		},
+	"\/views\/template-part\/sidebar.html": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/views\/template-part\/sidebar.html",
+		"oF": 0
+		},
+	"\/views\/template-part\/single-pager.html": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/views\/template-part\/single-pager.html",
+		"oF": 0
+		},
+	"\/views\/template-part\/social.html": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/views\/template-part\/social.html",
+		"oF": 0
 		}
 	},
 "hooks": [
 	],
 "manualImportLinks": {
+	"\/scripts\/app.js": [
+		{
+			"followForSyntaxChecking": 1,
+			"linkedFileAbbreviatedPath": "\/scripts\/services\/router.js",
+			"position": 0,
+			"type": 1
+			},
+		{
+			"followForSyntaxChecking": 1,
+			"linkedFileAbbreviatedPath": "\/scripts\/services\/directive.adense.js",
+			"position": 1,
+			"type": 1
+			},
+		{
+			"followForSyntaxChecking": 1,
+			"linkedFileAbbreviatedPath": "\/scripts\/services\/directive.scroll.js",
+			"position": 2,
+			"type": 1
+			},
+		{
+			"followForSyntaxChecking": 1,
+			"linkedFileAbbreviatedPath": "\/scripts\/services\/directive.graph.js",
+			"position": 3,
+			"type": 1
+			},
+		{
+			"followForSyntaxChecking": 1,
+			"linkedFileAbbreviatedPath": "\/scripts\/services\/filter.html.js",
+			"position": 4,
+			"type": 1
+			},
+		{
+			"followForSyntaxChecking": 1,
+			"linkedFileAbbreviatedPath": "\/scripts\/controllers\/route-base\/main.js",
+			"position": 5,
+			"type": 1
+			},
+		{
+			"followForSyntaxChecking": 1,
+			"linkedFileAbbreviatedPath": "\/scripts\/controllers\/route-base\/single.js",
+			"position": 6,
+			"type": 1
+			},
+		{
+			"followForSyntaxChecking": 1,
+			"linkedFileAbbreviatedPath": "\/scripts\/controllers\/route-base\/list.js",
+			"position": 7,
+			"type": 1
+			},
+		{
+			"followForSyntaxChecking": 1,
+			"linkedFileAbbreviatedPath": "\/scripts\/controllers\/route-base\/page.js",
+			"position": 8,
+			"type": 1
+			},
+		{
+			"followForSyntaxChecking": 1,
+			"linkedFileAbbreviatedPath": "\/scripts\/controllers\/template-part\/recent-comments.js",
+			"position": 9,
+			"type": 1
+			},
+		{
+			"followForSyntaxChecking": 1,
+			"linkedFileAbbreviatedPath": "\/scripts\/controllers\/template-part\/recent-posts.js",
+			"position": 10,
+			"type": 1
+			},
+		{
+			"followForSyntaxChecking": 1,
+			"linkedFileAbbreviatedPath": "\/scripts\/controllers\/template-part\/comments.js",
+			"position": 11,
+			"type": 1
+			},
+		{
+			"followForSyntaxChecking": 1,
+			"linkedFileAbbreviatedPath": "\/scripts\/controllers\/template-part\/pagination.js",
+			"position": 12,
+			"type": 1
+			},
+		{
+			"followForSyntaxChecking": 1,
+			"linkedFileAbbreviatedPath": "\/scripts\/controllers\/template-part\/body.js",
+			"position": 13,
+			"type": 1
+			},
+		{
+			"followForSyntaxChecking": 1,
+			"linkedFileAbbreviatedPath": "\/scripts\/controllers\/template-part\/header.js",
+			"position": 14,
+			"type": 1
+			},
+		{
+			"followForSyntaxChecking": 1,
+			"linkedFileAbbreviatedPath": "\/scripts\/controllers\/template-part\/footer.js",
+			"position": 15,
+			"type": 1
+			},
+		{
+			"followForSyntaxChecking": 1,
+			"linkedFileAbbreviatedPath": "\/scripts\/controllers\/template-part\/head.js",
+			"position": 16,
+			"type": 1
+			},
+		{
+			"followForSyntaxChecking": 1,
+			"linkedFileAbbreviatedPath": "\/scripts\/services\/service.menu.js",
+			"position": 17,
+			"type": 1
+			}
+		]
 	},
 "projectAttributes": {
 	"creationDate": 499930146,

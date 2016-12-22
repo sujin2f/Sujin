@@ -1,0 +1,14 @@
+<div class="container">
+	<div class="row">
+		<h1>{{GLOBALS.title}}</h1>
+		<ul>
+			<li
+				class = "post_grid span4"
+				ng-repeat = "post in WP_Posts"
+				ng-include = "GLOBALS.viewBase + '/template-part/post-grid.html'"
+			></li>
+		</ul>
+
+		<div ng-include="GLOBALS.viewBase + '/template-part/pagenation.html'"></div>
+	</div>
+</div>

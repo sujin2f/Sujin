@@ -1,0 +1,9 @@
+<section ng-controller="PaginationController" class="paging">
+	<ul>
+		<li ng-repeat="page in getPages() track by $index" ng-class="{selected : page == getSelectedPage()}">
+
+			<a href="" ng-click="togglePage( page )" ng-if="page">{{page}}</a>
+			<a href="" ng-if="!page" class="blank"><</a>
+		</li>
+	</ul>
+</section>

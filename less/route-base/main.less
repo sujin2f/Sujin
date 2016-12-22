@@ -1,0 +1,36 @@
+body.ng-home {
+
+	.absolute-center {
+		padding-top: 48px;
+		position:  absolute;
+		top:       50%;
+		left:      50%;
+		transform: translateY(-50%) translateX(-50%);
+		z-index:  3;
+		width : 100%;
+
+		h1 {
+			.text2image( 'logos/front-page.png' );
+			// .txt2img
+			width: 100%;
+			background-position: center bottom;
+			margin-bottom: 15px;
+		}
+
+		p {
+			font-size:     30px;
+			font-weight:   100;
+			text-align:    center;
+			color:         white;
+			margin-bottom: 0;
+		}
+	}
+}
+
+body.full-background {
+	#header_global {
+		.foreground {
+			display: none;
+		}
+	}
+}

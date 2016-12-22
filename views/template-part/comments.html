@@ -1,0 +1,20 @@
+<section id="comment">
+	<h1>{{getHeader()}}</h1>
+
+	<nav class="pagination"></nav>
+
+	<ul>
+		<li
+			id         = "comment-{{comment.id}}"
+			ng-repeat  = "comment in commentData().comments"
+			ng-include = "GLOBALS.viewBase + '/template-part/comment-single.html'"
+			ng-class   = "{'depth' : comment.parent}"
+		>
+		</li>
+	</ul>
+
+	<div
+		id         = "respond"
+		ng-include = "GLOBALS.viewBase + '/template-part/comment-write.html'"
+	></div>
+</section>

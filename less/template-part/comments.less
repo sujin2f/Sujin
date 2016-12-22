@@ -1,0 +1,85 @@
+#comment {
+	time {
+		font-size: 14px;
+	}
+
+	ul {
+		margin-bottom: 40px;
+
+		li {
+			margin-top: 10px;
+			padding: 20px;
+			border: 1px solid #eee;
+			overflow: auto;
+
+			p {
+				line-height: 1.6em;
+				font-size: 15px;
+			}
+
+			.comment-reply-link {
+				float: right;
+				border-radius: 3px;
+				padding: 0 9px;
+
+				.transition( 0.2s, ease-out, all );
+
+				&:hover {
+					color: white;
+					background-color: @brand-primary;
+				}
+			}
+
+			&.depth {
+				margin-left: 30px;
+			}
+		}
+	}
+
+	textarea {
+		width: 100%;
+		min-height: 150px;
+		margin-bottom: 20px;
+	}
+
+	#comment_author_input {
+		overflow: auto;
+
+		input {
+		    margin-right: 0.75%;
+		    width: ~"calc(33.3333% - 0.5%)";
+
+			&:last-child {
+				margin-right:0;
+			}
+
+			@media ( max-width: ( @ipadV ) ) {
+			    margin: 0 0 10px;
+			    width: 100%;
+			}
+		}
+	}
+
+	#comment_form_buttons {
+		.opacity( 0.1 );
+
+		.transition( 0.2s, ease-out, opacity );
+
+		a, button, input {
+			margin-right: 10px;
+			cursor: default;
+		}
+
+		&.activated {
+			.opacity( 1 );
+
+			a, button, input {
+				cursor: pointer;
+			}
+		}
+	}
+
+	.info {
+		margin: 20px 0;
+	}
+}

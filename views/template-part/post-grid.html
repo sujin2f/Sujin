@@ -1,0 +1,17 @@
+<figure class="thumbnail">
+	<a href="{{post.link}}" title="{{post.post_title ? post.post_title : post.title.rendered}}">
+		<div class="zoom-icon"></div>
+		<div class="inner-shadow"></div>
+
+		<div ng-bind-html="post.thumbnail.html | html"></div>
+	</a>
+</figure>
+
+<h2><a href="{{post.link}}"> {{post.post_title ? post.post_title : post.title.rendered}}</a></h2>
+
+<time datetime="{{post.date}}">
+	<span class="day">{{getFormattedDate( post.date, 'd' );}}</span>
+	<span class="month_year">{{getFormattedDate( post.date, 'm Y' );}}</span>
+</time>
+
+<p ng-bind-html="( post.post_excerpt ? post.post_excerpt : post.excerpt.rendered ) | html"></p>

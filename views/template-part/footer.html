@@ -1,0 +1,47 @@
+<section id="widget-holder">
+	<div class="container">
+		<section class="span4 googleAd">
+			<ins class="adsbygoogle" style="display:block" ad-client="ca-pub-6757157308071440" ad-slot="6425390524" ad-format="auto"></ins>
+			<div data-adense></div>
+		</section>
+
+		<section class="span4" id="flickr">
+			<h1>Photo Stream</h1>
+
+			<ul id="footer_flickr">
+				<li class="flickr_li span3" ng-if="GLOBALS.flickr" ng-repeat="flickr in GLOBALS.flickr">
+					<figure class="thumbnail featured-thumbnail">
+						<a class="thumbnail" href="{{flickr.link}}" title="{{flickr.title}}" target="_blank">
+							<div class="zoom-icon"></div>
+							<div class="inner-shadow"></div>
+							<img class="flickr_img" ng-src="{{flickr.media_s}}" alt="{{flickr.title}}">
+						</a>
+					</figure>
+				</li>
+			</ul>
+		</section>
+<!--
+
+
+		<section class="span4">
+			<section class="tags">
+				<h1>Tag Cloud</h1>
+			</section>
+		</section>
+-->
+	</div>
+</section>
+
+<section id="copyright-holder">
+	<div class="container">
+		<section class="span8">
+			<a href="/" class="logo">SUJIN</a>
+			<p>
+				Content on this site is licensed under a <a href="http://creativecommons.org/licenses/by-nc-sa/3.0" target="_blank">Creative Commons Attribution 3.0 License</a>
+			</p>
+		</section>
+		<section class="span4">
+			<nav ng-include="GLOBALS.viewBase + '/template-part/social.html'" class="social"></nav>
+		</section>
+	</div>
+</section>

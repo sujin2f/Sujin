@@ -1,0 +1,68 @@
+.post-list {
+	h1 {
+		position: absolute;
+		margin-top: -130px;
+		z-index: 900;
+		background: @black;
+		color: @white;
+		padding: 10px 15px;
+		border-radius: 5px;
+
+		@media ( max-width: ( @full-width ) ) {
+			position:static;
+			margin-top: 0;
+			font-size: 30px;
+		}
+	}
+
+	ul {
+		overflow: auto;
+		margin: 50px 0;
+	}
+
+	li.post_grid {
+		margin-bottom:30px;
+		position: relative;
+		padding: 0 10px;
+
+		time {
+			position: absolute;
+			top: 0;
+			right: 10px;
+			background: @brand-primary;
+			color: @white;
+			z-index: 300;
+			font-weight:100;
+			padding:9px 10px 5px;
+
+			span.day {
+				font-size: 40px;
+				display: block;
+				text-align: center;
+				line-height: 35px;
+			}
+		}
+
+		&:nth-child( 3n + 1 ) {
+			clear: both;
+		}
+
+		@media ( max-width: ( @ipadH ) ) {
+			width: 50%;
+
+			&:nth-child( 3n + 1 ) {
+				clear:inherit;
+			}
+
+			&:nth-child( 2n + 1 ) {
+				clear: both;
+			}
+		}
+
+		@media ( max-width: ( @phoneH ) ) {
+			width: 100%;
+			clear: both;
+		}
+
+	}
+}
