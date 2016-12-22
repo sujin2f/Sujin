@@ -66,14 +66,11 @@
 		"sC": 1,
 		"tS": 0
 		},
-	"\/assets\/angular\/min\/angular-google-adsense.min-min.js": {
-		"ft": 64,
-		"mi": 1,
-		"oA": 0,
-		"oAP": "\/assets\/angular\/min\/min\/angular-google-adsense.min-min-min.js",
-		"oF": 0,
-		"sC": 1,
-		"tS": 0
+	"\/assets\/angular\/index.php": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/assets\/angular\/index.php",
+		"oF": 0
 		},
 	"\/assets\/css\/angular-socialshare.min-ck.css": {
 		"aP": 0,
@@ -910,16 +907,6 @@
 		"oF": 0,
 		"sC": 1,
 		"tS": 0
-		},
-	"\/style-ck.css": {
-		"aP": 0,
-		"bl": 0,
-		"ft": 16,
-		"ma": 0,
-		"oA": 2,
-		"oAP": "\/style-ck-ck.css",
-		"oF": 0,
-		"oS": 0
 		},
 	"\/style.css": {
 		"aP": 0,
