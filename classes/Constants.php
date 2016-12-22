@@ -12,8 +12,8 @@ class Constants {
 	const PostThumbnailWidth  = 370;
 	const PostThumbnailHeight = 200;
 
-	const RelatedpostWidth  = 201;
-	const RelatedpostHeight = 109;
+	const RelatedpostWidth  = 200;
+	const RelatedpostHeight = 110;
 
 	const RecentPostWidth  = 80;
 	const RecentPostHeight = 80;

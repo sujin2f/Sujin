@@ -6,6 +6,11 @@ main.single {
 	article {
 		padding: 0 30px;
 
+		@media ( max-width: ( @ipadV ) ) {
+			width: 100%;
+			padding: 0;
+		}
+
 		header {
 			h1 {
 				position: absolute;
@@ -15,6 +20,12 @@ main.single {
 				color: @white;
 				padding: 10px 15px;
 				border-radius: 5px;
+
+				@media ( max-width: ( @full-width ) ) {
+					position:static;
+					margin-top: 0;
+					font-size: 30px;
+				}
 			}
 
 			.meta {
@@ -27,6 +38,10 @@ main.single {
 
 				p {
 					margin   : 0;
+				}
+
+				.meta_text {
+					width: ~"calc( 100% - 75px )";
 				}
 			}
 		}
@@ -66,19 +81,66 @@ main.single {
 
 			li {
 				float: left;
-				display: inline-block;
-				background-color: white;
-				margin-right: 9px;
-				padding: 0 9px;
-				font-size: 14px;
-				border-radius: 4px;
+				margin: 0 9px 7px 0;
+
+				a {
+					display: inline-block;
+					background-color: @brand-primary;
+					padding: 0 9px;
+					font-size: 14px;
+					border-radius: 4px;
+					color: white;
+					.transition();
+
+					&:hover {
+						background-color: @black;
+					}
+				}
 			}
+		}
+
+		.social {
+			a {
+				background:white;
+				color: @gray;
+			    border-radius:30px;
+			    .transition();
+
+			    span {
+					width: 40px;
+					height: 40px;
+				    display: flex;
+				    align-items: center;
+				    justify-content: center;
+			    }
+
+			    &:hover {
+				    background-color: @brand-primary;
+				    color: @white;
+			    }
+			}
+// 			text-shadow: 2px 2px 4px #000000;
+/*
+			.twitter {
+				.text2image( 'social/single-twitter.png' );
+			}
+
+			.facebook {
+				.text2image( 'social/single-facebook.png' );
+			}
+*/
 		}
 	}
 
 	footer#post_widgets {
 		padding-top: 30px;
 		background-color: white;
+
+		.container > .span9 {
+			@media ( max-width: ( @ipadV ) ) {
+				width: 100%
+			}
+		}
 
 		h1 {
 			font-size: 23px;
@@ -108,6 +170,7 @@ main.single {
 					span.text {
 						padding: 5px;
 						display: inline-block;
+						width: ~"calc( 100% - 46px )";
 					}
 
 					&:hover {
@@ -120,8 +183,24 @@ main.single {
 				}
 
 				&.next {
+					border-left: 1px solid @gray-8;
+
 					span {
 						float: right;
+						text-align: right;
+					}
+				}
+
+				@media ( max-width: ( @ipadV ) ) {
+					width: 100%;
+					margin-bottom: 10px;
+					border-left: none;
+
+					&.next {
+						span {
+							float: none;
+							text-align: left;
+						}
 					}
 				}
 			}
@@ -134,17 +213,27 @@ main.single {
 			li {
 				padding:0 5px;
 
-				&:last-child {
-					margin-right:0;
+				img {
+					width:100%;
+					height:auto;
 				}
 
 				time, p {
 					display: none;
 				}
 
+				&:last-child {
+					margin-right:0;
+				}
+
 				&:nth-child( 4n + 1 ) {
 					clear:both;
 				}
+
+				@media ( max-width: ( @ipadH ) ) {
+					width: 50%;
+				}
+
 			}
 		}
 	}

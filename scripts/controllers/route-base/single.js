@@ -26,7 +26,17 @@ ngSujin.controller( 'singleController', function( $scope, $http, $routeParams, $
 		$http.get( restUrl ).then(
 			function( response ) {
 				scope.postData.post = response.data[0];
+
 				GLOBALS.headerBackground = scope.postData.post.thumbnail.url;
+				GLOBALS.title            = scope.postData.post.title.rendered;
+				GLOBALS.description      = scope.postData.post.excerpt.rendered.replace(/<\/?[^>]+(>|$)/g, "");
+				GLOBALS.postID           = scope.postData.post.id;
+
+				var tags = [];
+				scope.postData.post.tags.forEach( function( tag ) {
+					tags.push( tag.name );
+				});
+				GLOBALS.tags = tags.join();
 			},
 			function( response ) {
 			}

@@ -14,6 +14,17 @@ if ( !defined( "ABSPATH" ) ) {
 }
 
 include_once( "autoload.php" );
-include_once( 'wp_express/autoload.php' );
+// include_once( 'wp_express/autoload.php' );
 
-new \Sujin\Init();
+$agents = '/(facebookexternalhit|Twitterbot|Pinterest|Google.*snippet|GoogleBot|facebot)/i';
+if ( preg_match( $agents, $_SERVER[ 'HTTP_USER_AGENT' ] ) ) {
+	$agent_mode = new \Sujin\AgentMode();
+	$agent_mode->trigger_agent_mode();
+} else {
+	new \Sujin\Init();
+}
+
+/*
+global $wp_rewrite;
+var_dump( $wp_rewrite );
+*/

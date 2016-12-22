@@ -5,6 +5,11 @@
  * @project Sujin
  * @since   7.0.0
  * @author  Sujin 수진 Choi http://www.sujinc.com/
+ *
+ * @todo Paging : List
+ 	http://www.codelord.net/2015/06/20/simple-pagination-and-url-params-with-ui-router/
+ 	http://engineering.thinknear.com/blog/2015/01/07/advanced-angular-ui-router-part-i/
+ * @todo Comment Reply
  */
 
 if ( !defined( "ABSPATH" ) ) {
@@ -12,16 +17,16 @@ if ( !defined( "ABSPATH" ) ) {
 	header( "HTTP/1.1 404 Not Found" );
 	exit();
 }
-
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?> ng-app="Sujin">
 	<head
 		ng-controller = "HeadController"
 	>
-		<title>Sujin <?php // $Sujin->Template->HeaderTitle(); ?></title>
+		<title>Sujin | {{GLOBALS.title}}</title>
 
 		<meta charset="<?php bloginfo( 'charset' ); ?>" />
-		<meta name="keywords" content="<?php // echo $Sujin->AdminPages->GeneralPage->value[ 'keywords' ] ?>" />
+		<meta name="keywords" content="{{GLOBALS.tags}}" />
+		<meta name="description" content="{{GLOBALS.description}}" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
@@ -38,9 +43,11 @@ if ( !defined( "ABSPATH" ) ) {
 		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
 
+		<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 		<script src="http://platform.twitter.com/widgets.js"></script>
 
 		<base href="/" />
+		<meta name="fragment" content="!">
 
 		<?php wp_head(); ?>
 	</head>
@@ -49,11 +56,12 @@ if ( !defined( "ABSPATH" ) ) {
 		ng-controller = "BodyController"
 		ng-class      = "bodyClass()"
 		scroll
+		<?php body_class(); ?>
 	>
 		<header
 			id            = "main_header"
-			ng-controller = "MenuController"
-			ng-include    = "'<?php echo Sujin\Constants::ViewURL(); ?>/layout/menu.html'"
+			ng-controller = "MenuController as menu"
+			ng-include    = "'<?php echo Sujin\Constants::ViewURL(); ?>/template-part/header.html'"
 		></header>
 
 		<main ng-view ng-class="getContainerClass()"></main>
@@ -61,7 +69,7 @@ if ( !defined( "ABSPATH" ) ) {
 		<footer
 			id            = "main_footer"
 			ng-controller = "FooterController"
-			ng-include    = "'<?php echo Sujin\Constants::ViewURL(); ?>/layout/footer.html'"
+			ng-include    = "'<?php echo Sujin\Constants::ViewURL(); ?>/template-part/footer.html'"
 		></footer>
 
 		<div id="back2top">
@@ -71,4 +79,3 @@ if ( !defined( "ABSPATH" ) ) {
 		<?php wp_footer(); ?>
 	</body>
 </html>
-

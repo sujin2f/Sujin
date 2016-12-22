@@ -1,0 +1,6 @@
+<a ng-href="{{menu.url}}" ng-class="{'current' : menu.current}">{{menu.title}}</a>
+
+<ul ng-if="menu.subs">
+	<li ng-repeat="menu in menu.subs" ng-include="GLOBALS.viewBase + '/template-part/menu-item.html'">
+	</li>
+</ul>

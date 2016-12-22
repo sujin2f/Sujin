@@ -1,0 +1,17 @@
+<section ng-controller="recentPostsController">
+	<h1>Recent Posts</h1>
+	<ul>
+		<li ng-repeat="post in WP_posts" ng-include="GLOBALS.viewBase + '/template-part/post-grid.html'" class="post_grid"></li>
+	</ul>
+</section>
+
+<!--
+<section ng-controller="recentCommentsController">
+	<h1>Recent Comments</h1>
+	<ul>
+		<li ng-repeat="comment in WP_comments">
+			<a href="{{comment.link}}" ng-bind-html="comment.content.rendered"></a>
+		</li>
+	</ul>
+</section>
+-->

@@ -4,6 +4,8 @@
  * Variables
  */
 @brand-primary   : #A60000;
+@gray            : #F5F5F5;
+
 @font-size       : 16px;
 @font-size-h1    : 37px;
 @line-height-base: 2;
@@ -32,6 +34,11 @@
 
 	margin : 0;
 	padding: 0;
+}
+
+::selection {
+    color: white;
+    background: @brand-primary;
 }
 
 html, body {
@@ -167,6 +174,90 @@ main article {
 	line-height: @line-height;
 }
 
+.mobile {
+	@media ( min-width: ( @full-width - 1 ) ) {
+		display: none !important;
+	}
+}
+
+.desktop {
+	@media ( max-width: ( @full-width ) ) {
+		display: none !important;
+	}
+}
+
+figure.thumbnail {
+	position: relative;
+	overflow: hidden;
+
+	a {
+		.zoom-icon {
+			position: absolute;
+			z-index: 2;
+			width: 100%;
+			height: 100%;
+			background: @brand-primary;
+			.transition( 0.3s );
+			.opacity( 0 );
+
+			&:before {
+				content: "\f179";
+				display: block;
+				width: 100%;
+				height: 100%;
+			    font-family: dashicons;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 60px;
+				color: white;
+			}
+
+		}
+
+		.inner-shadow {
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			display: block;
+			.inner-shadow();
+			z-index: 3;
+		}
+
+		img {
+			width: 100%;
+			height: auto;
+			.transition();
+			display: block;
+		}
+
+		&:hover .zoom-icon {
+			.opacity( 0.5 );
+		}
+
+		&:hover img {
+			.transform( rotate(7deg), scale(1.5,1.5) );
+		}
+	}
+}
+
+.info {
+	background-color: @brand-primary;
+	color: white;
+	border-radius: 3px;
+	padding: 6px 10px;
+
+	&:before {
+		content: "\f348";
+	    font-family: dashicons;
+	    vertical-align: bottom;
+	    font-size: @font-size-large;
+	    margin-right: 6px;
+	}
+}
+
 /*
  * Functions
  */
@@ -191,6 +282,36 @@ main article {
 	border-bottom-right-radius: @bottomright;
 	border-bottom-left-radius : @bottomleft;
 	border-top-left-radius    : @topleft;
+}
+
+.transform(...) {
+	-webkit-transform: @arguments;
+	-moz-transform: @arguments;
+	-o-transform: @arguments;
+	-ms-transform: @arguments;
+	transform: @arguments;
+}
+
+.opacity(@opacity: 0.5) {
+	-moz-opacity: @opacity;
+	-khtml-opacity: @opacity;
+	-webkit-opacity: @opacity;
+	opacity: @opacity;
+	@opperc: @opacity * 100;
+	-ms-filter: ~"progid:DXImageTransform.Microsoft.Alpha(opacity=@{opperc})";
+	filter: ~"alpha(opacity=@{opperc})";
+}
+
+.inner-shadow(@horizontal:0, @vertical:2px, @blur:30px, @alpha: 0.4) {
+	-webkit-box-shadow: inset @horizontal @vertical @blur rgba(0, 0, 0, @alpha);
+	-moz-box-shadow: inset @horizontal @vertical @blur rgba(0, 0, 0, @alpha);
+	box-shadow: inset @horizontal @vertical @blur rgba(0, 0, 0, @alpha);
+}
+
+.shadow(@x-axis: 0, @y-axis: 1px, @blur: 2px, @alpha: 0.1) {
+	-webkit-box-shadow: @x-axis @y-axis @blur rgba(0, 0, 0, @alpha);
+	-moz-box-shadow: @x-axis @y-axis @blur rgba(0, 0, 0, @alpha);
+	box-shadow: @x-axis @y-axis @blur rgba(0, 0, 0, @alpha);
 }
 
 /*
@@ -223,7 +344,7 @@ main article {
 
 @line-height: floor( @font-size * @line-height-base );
 
-@ipad-h      : 960px;
-@ipad-v      : 768px;
-@phone-h     : 480px;
-@phone-v     : 320px;
+@ipadH      : 960px;
+@ipadV      : 768px;
+@phoneH     : 480px;
+@phoneV     : 320px;

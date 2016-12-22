@@ -7,7 +7,7 @@
 		"uuidString": "A2C7237B-17BF-459A-8709-F0CF564BA952"
 		}
 	],
-"creatorBuild": "25428",
+"creatorBuild": "25479",
 "files": {
 	"\/.gitignore": {
 		"ft": 8192,
@@ -20,6 +20,15 @@
 		"oA": 2,
 		"oAP": "\/.gitmodules",
 		"oF": 0
+		},
+	"\/assets\/angular\/angular-google-adsense.min.js": {
+		"ft": 64,
+		"mi": 1,
+		"oA": 0,
+		"oAP": "\/assets\/angular\/min\/angular-google-adsense.min-min.js",
+		"oF": 0,
+		"sC": 1,
+		"tS": 0
 		},
 	"\/assets\/angular\/angular-route.js": {
 		"ft": 64,
@@ -53,6 +62,15 @@
 		"mi": 1,
 		"oA": 0,
 		"oAP": "\/assets\/angular\/min\/angular.min-min.js",
+		"oF": 0,
+		"sC": 1,
+		"tS": 0
+		},
+	"\/assets\/angular\/min\/angular-google-adsense.min-min.js": {
+		"ft": 64,
+		"mi": 1,
+		"oA": 0,
+		"oAP": "\/assets\/angular\/min\/min\/angular-google-adsense.min-min-min.js",
 		"oF": 0,
 		"sC": 1,
 		"tS": 0
@@ -107,6 +125,14 @@
 		"oF": 0,
 		"opt": 0
 		},
+	"\/assets\/images\/favicon.png": {
+		"ft": 32768,
+		"iS": 390,
+		"oA": 0,
+		"oAP": "\/assets\/images\/favicon.png",
+		"oF": 0,
+		"opt": 0
+		},
 	"\/assets\/images\/icon-up-arrow.png": {
 		"ft": 32768,
 		"iS": 2891,
@@ -120,6 +146,14 @@
 		"oA": 2,
 		"oAP": "\/assets\/images\/index.php",
 		"oF": 0
+		},
+	"\/assets\/images\/list\/background.jpg": {
+		"ft": 16384,
+		"iS": 43892,
+		"oA": 0,
+		"oAP": "\/assets\/images\/list\/background.jpg",
+		"oF": 0,
+		"opt": 1
 		},
 	"\/assets\/images\/logos\/fixed.png": {
 		"ft": 32768,
@@ -164,6 +198,14 @@
 		"oA": 2,
 		"oAP": "\/assets\/images\/logos\/logo.psd",
 		"oF": 0
+		},
+	"\/assets\/images\/logos\/menu-dark.png": {
+		"ft": 32768,
+		"iS": 2731,
+		"oA": 0,
+		"oAP": "\/assets\/images\/logos\/menu-dark.png",
+		"oF": 0,
+		"opt": 0
 		},
 	"\/assets\/images\/logos\/menu.png": {
 		"ft": 32768,
@@ -223,7 +265,7 @@
 		},
 	"\/assets\/images\/main\/backgrounds\/4.jpg": {
 		"ft": 16384,
-		"iS": 23376,
+		"iS": 228050,
 		"oA": 0,
 		"oAP": "\/assets\/images\/main\/backgrounds\/4.jpg",
 		"oF": 0,
@@ -235,7 +277,7 @@
 		"oA": 0,
 		"oAP": "\/assets\/images\/main\/backgrounds\/4.mobile.jpg",
 		"oF": 0,
-		"opt": 0
+		"opt": 1
 		},
 	"\/assets\/images\/main\/backgrounds\/index.php": {
 		"ft": 8192,
@@ -257,13 +299,29 @@
 		"oAP": "\/assets\/images\/main\/index.php",
 		"oF": 0
 		},
+	"\/assets\/images\/opengraph_image.jpg": {
+		"ft": 16384,
+		"iS": 13209,
+		"oA": 0,
+		"oAP": "\/assets\/images\/opengraph_image.jpg",
+		"oF": 0,
+		"opt": 0
+		},
+	"\/assets\/images\/pages\/about\/profile.jpg": {
+		"ft": 16384,
+		"iS": 9294,
+		"oA": 0,
+		"oAP": "\/assets\/images\/pages\/about\/profile.jpg",
+		"oF": 0,
+		"opt": 0
+		},
 	"\/assets\/images\/red.png": {
 		"ft": 32768,
 		"iS": 15517,
 		"oA": 0,
 		"oAP": "\/assets\/images\/red.png",
 		"oF": 0,
-		"opt": 0
+		"opt": 1
 		},
 	"\/assets\/images\/social\/icon-flickr.png": {
 		"ft": 32768,
@@ -289,6 +347,22 @@
 		"oF": 0,
 		"opt": 0
 		},
+	"\/assets\/images\/social\/single-facebook.png": {
+		"ft": 32768,
+		"iS": 2473,
+		"oA": 0,
+		"oAP": "\/assets\/images\/social\/single-facebook.png",
+		"oF": 0,
+		"opt": 0
+		},
+	"\/assets\/images\/social\/single-twitter.png": {
+		"ft": 32768,
+		"iS": 2220,
+		"oA": 0,
+		"oAP": "\/assets\/images\/social\/single-twitter.png",
+		"oF": 0,
+		"opt": 0
+		},
 	"\/assets\/index.php": {
 		"ft": 8192,
 		"oA": 2,
@@ -301,373 +375,22 @@
 		"oAP": "\/autoload.php",
 		"oF": 0
 		},
-	"\/backup\/assets\/less\/pages\/list.less": {
-		"aP": 0,
-		"bl": 0,
-		"dJ": 0,
-		"ft": 1,
-		"ie": 1,
-		"iI": 0,
-		"ma": 1,
-		"oA": 0,
-		"oAP": "\/backup\/assets\/less\/css\/list.css",
-		"oF": 0,
-		"oS": 0,
-		"rU": 0,
-		"sI": 0,
-		"sM": 0,
-		"sU": 0
-		},
-	"\/backup\/assets\/script\/controllers\/list.js": {
-		"ft": 64,
-		"mi": 1,
-		"oA": 1,
-		"oAP": "\/backup\/assets\/script\/controllers\/min\/list-min.js",
-		"oF": 0,
-		"sC": 1,
-		"tS": 0
-		},
-	"\/backup\/assets\/script\/controllers\/page.js": {
-		"ft": 64,
-		"mi": 1,
-		"oA": 1,
-		"oAP": "\/backup\/assets\/script\/controllers\/min\/page-min.js",
-		"oF": 0,
-		"sC": 1,
-		"tS": 0
-		},
-	"\/backup\/assets\/script\/data.js": {
-		"ft": 64,
-		"mi": 1,
-		"oA": 1,
-		"oAP": "\/backup\/assets\/script\/min\/data-min.js",
-		"oF": 0,
-		"sC": 1,
-		"tS": 0
-		},
-	"\/backup\/assets\/script\/min\/script-min.js": {
-		"ft": 64,
-		"mi": 1,
-		"oA": 0,
-		"oAP": "\/backup\/assets\/script\/min\/min\/script-min-min.js",
-		"oF": 0,
-		"sC": 1,
-		"tS": 0
-		},
-	"\/backup\/classes\/Admin.php": {
+	"\/classes\/AgentMode.php": {
 		"ft": 8192,
 		"oA": 2,
-		"oAP": "\/backup\/classes\/Admin.php",
-		"oF": 0
-		},
-	"\/backup\/classes\/Admin\/Customizer.php": {
-		"ft": 8192,
-		"oA": 2,
-		"oAP": "\/backup\/classes\/Admin\/Customizer.php",
-		"oF": 0
-		},
-	"\/backup\/classes\/wp_express\/autoload.php": {
-		"ft": 8192,
-		"oA": 2,
-		"oAP": "\/backup\/classes\/wp_express\/autoload.php",
-		"oF": 0
-		},
-	"\/backup\/classes\/wp_express\/documents\/AdminPage-List.md": {
-		"cS": 0,
-		"eF": 1,
-		"eL": 1,
-		"eLB": 0,
-		"ema": 1,
-		"eSQ": 1,
-		"ft": 4096,
-		"oA": 0,
-		"oAP": "\/backup\/classes\/wp_express\/documents\/AdminPage-List.html",
-		"oF": 0,
-		"oFM": 0,
-		"oS": 0,
-		"pHT": 0,
-		"pME": 1,
-		"rFN": 0,
-		"uCM": 0
-		},
-	"\/backup\/classes\/wp_express\/documents\/AdminPage-Options.md": {
-		"cS": 0,
-		"eF": 1,
-		"eL": 1,
-		"eLB": 0,
-		"ema": 1,
-		"eSQ": 1,
-		"ft": 4096,
-		"oA": 0,
-		"oAP": "\/backup\/classes\/wp_express\/documents\/AdminPage-Options.html",
-		"oF": 0,
-		"oFM": 0,
-		"oS": 0,
-		"pHT": 0,
-		"pME": 1,
-		"rFN": 0,
-		"uCM": 0
-		},
-	"\/backup\/classes\/wp_express\/documents\/AdminPage-Simple.md": {
-		"cS": 0,
-		"eF": 1,
-		"eL": 1,
-		"eLB": 0,
-		"ema": 1,
-		"eSQ": 1,
-		"ft": 4096,
-		"oA": 0,
-		"oAP": "\/backup\/classes\/wp_express\/documents\/AdminPage-Simple.html",
-		"oF": 0,
-		"oFM": 0,
-		"oS": 0,
-		"pHT": 0,
-		"pME": 1,
-		"rFN": 0,
-		"uCM": 0
-		},
-	"\/backup\/classes\/wp_express\/documents\/AdminPage.md": {
-		"cS": 0,
-		"eF": 1,
-		"eL": 1,
-		"eLB": 0,
-		"ema": 1,
-		"eSQ": 1,
-		"ft": 4096,
-		"oA": 0,
-		"oAP": "\/backup\/classes\/wp_express\/documents\/AdminPage.html",
-		"oF": 0,
-		"oFM": 0,
-		"oS": 0,
-		"pHT": 0,
-		"pME": 1,
-		"rFN": 0,
-		"uCM": 0
-		},
-	"\/backup\/classes\/wp_express\/documents\/Ajax.md": {
-		"cS": 0,
-		"eF": 1,
-		"eL": 1,
-		"eLB": 0,
-		"ema": 1,
-		"eSQ": 1,
-		"ft": 4096,
-		"oA": 0,
-		"oAP": "\/backup\/classes\/wp_express\/documents\/Ajax.html",
-		"oF": 0,
-		"oFM": 0,
-		"oS": 0,
-		"pHT": 0,
-		"pME": 1,
-		"rFN": 0,
-		"uCM": 0
-		},
-	"\/backup\/classes\/wp_express\/documents\/images\/AdminList_001.png": {
-		"ft": 32768,
-		"iS": 93708,
-		"oA": 0,
-		"oAP": "\/backup\/classes\/wp_express\/documents\/images\/AdminList_001.png",
-		"oF": 0,
-		"opt": 0
-		},
-	"\/backup\/classes\/wp_express\/documents\/images\/AdminOption_001.png": {
-		"ft": 32768,
-		"iS": 63662,
-		"oA": 0,
-		"oAP": "\/backup\/classes\/wp_express\/documents\/images\/AdminOption_001.png",
-		"oF": 0,
-		"opt": 0
-		},
-	"\/backup\/classes\/wp_express\/documents\/images\/AdminSimple_001.png": {
-		"ft": 32768,
-		"iS": 40496,
-		"oA": 0,
-		"oAP": "\/backup\/classes\/wp_express\/documents\/images\/AdminSimple_001.png",
-		"oF": 0,
-		"opt": 0
-		},
-	"\/backup\/classes\/wp_express\/documents\/images\/AdminSimple_002.png": {
-		"ft": 32768,
-		"iS": 22445,
-		"oA": 0,
-		"oAP": "\/backup\/classes\/wp_express\/documents\/images\/AdminSimple_002.png",
-		"oF": 0,
-		"opt": 0
-		},
-	"\/backup\/classes\/wp_express\/documents\/images\/AdminSimple_003.png": {
-		"ft": 32768,
-		"iS": 13211,
-		"oA": 0,
-		"oAP": "\/backup\/classes\/wp_express\/documents\/images\/AdminSimple_003.png",
-		"oF": 0,
-		"opt": 0
-		},
-	"\/backup\/classes\/wp_express\/documents\/PostType.md": {
-		"cS": 0,
-		"eF": 1,
-		"eL": 1,
-		"eLB": 0,
-		"ema": 1,
-		"eSQ": 1,
-		"ft": 4096,
-		"oA": 0,
-		"oAP": "\/backup\/classes\/wp_express\/documents\/PostType.html",
-		"oF": 0,
-		"oFM": 0,
-		"oS": 0,
-		"pHT": 0,
-		"pME": 1,
-		"rFN": 0,
-		"uCM": 0
-		},
-	"\/backup\/classes\/wp_express\/documents\/Settings.md": {
-		"cS": 0,
-		"eF": 1,
-		"eL": 1,
-		"eLB": 0,
-		"ema": 1,
-		"eSQ": 1,
-		"ft": 4096,
-		"oA": 0,
-		"oAP": "\/backup\/classes\/wp_express\/documents\/Settings.html",
-		"oF": 0,
-		"oFM": 0,
-		"oS": 0,
-		"pHT": 0,
-		"pME": 1,
-		"rFN": 0,
-		"uCM": 0
-		},
-	"\/backup\/classes\/wp_express\/documents\/Taxonomy.md": {
-		"cS": 0,
-		"eF": 1,
-		"eL": 1,
-		"eLB": 0,
-		"ema": 1,
-		"eSQ": 1,
-		"ft": 4096,
-		"oA": 0,
-		"oAP": "\/backup\/classes\/wp_express\/documents\/Taxonomy.html",
-		"oF": 0,
-		"oFM": 0,
-		"oS": 0,
-		"pHT": 0,
-		"pME": 1,
-		"rFN": 0,
-		"uCM": 0
-		},
-	"\/backup\/classes\/wp_express\/documents\/Wordpress Express.mdj": {
-		"ft": 8192,
-		"oA": 2,
-		"oAP": "\/backup\/classes\/wp_express\/documents\/Wordpress Express.mdj",
-		"oF": 0
-		},
-	"\/backup\/classes\/wp_express\/README.md": {
-		"cS": 0,
-		"eF": 1,
-		"eL": 1,
-		"eLB": 0,
-		"ema": 1,
-		"eSQ": 1,
-		"ft": 4096,
-		"oA": 0,
-		"oAP": "\/backup\/classes\/wp_express\/README.html",
-		"oF": 0,
-		"oFM": 0,
-		"oS": 0,
-		"pHT": 0,
-		"pME": 1,
-		"rFN": 0,
-		"uCM": 0
-		},
-	"\/backup\/classes\/wp_express\/src\/AdminPage.php": {
-		"ft": 8192,
-		"oA": 2,
-		"oAP": "\/backup\/classes\/wp_express\/src\/AdminPage.php",
-		"oF": 0
-		},
-	"\/backup\/classes\/wp_express\/src\/AdminPage\/ListPage.php": {
-		"ft": 8192,
-		"oA": 2,
-		"oAP": "\/backup\/classes\/wp_express\/src\/AdminPage\/ListPage.php",
-		"oF": 0
-		},
-	"\/backup\/classes\/wp_express\/src\/AdminPage\/Options.php": {
-		"ft": 8192,
-		"oA": 2,
-		"oAP": "\/backup\/classes\/wp_express\/src\/AdminPage\/Options.php",
-		"oF": 0
-		},
-	"\/backup\/classes\/wp_express\/src\/Ajax.php": {
-		"ft": 8192,
-		"oA": 2,
-		"oAP": "\/backup\/classes\/wp_express\/src\/Ajax.php",
-		"oF": 0
-		},
-	"\/backup\/classes\/wp_express\/src\/Extensions\/Abs.php": {
-		"ft": 8192,
-		"oA": 2,
-		"oAP": "\/backup\/classes\/wp_express\/src\/Extensions\/Abs.php",
-		"oF": 0
-		},
-	"\/backup\/classes\/wp_express\/src\/Extensions\/HtmlHelper.php": {
-		"ft": 8192,
-		"oA": 2,
-		"oAP": "\/backup\/classes\/wp_express\/src\/Extensions\/HtmlHelper.php",
-		"oF": 0
-		},
-	"\/backup\/classes\/wp_express\/src\/Extensions\/ListPage.php": {
-		"ft": 8192,
-		"oA": 2,
-		"oAP": "\/backup\/classes\/wp_express\/src\/Extensions\/ListPage.php",
-		"oF": 0
-		},
-	"\/backup\/classes\/wp_express\/src\/Extensions\/Setting.php": {
-		"ft": 8192,
-		"oA": 2,
-		"oAP": "\/backup\/classes\/wp_express\/src\/Extensions\/Setting.php",
-		"oF": 0
-		},
-	"\/backup\/classes\/wp_express\/src\/Extensions\/StoredInfoSet.php": {
-		"ft": 8192,
-		"oA": 2,
-		"oAP": "\/backup\/classes\/wp_express\/src\/Extensions\/StoredInfoSet.php",
-		"oF": 0
-		},
-	"\/backup\/classes\/wp_express\/src\/PostType.php": {
-		"ft": 8192,
-		"oA": 2,
-		"oAP": "\/backup\/classes\/wp_express\/src\/PostType.php",
-		"oF": 0
-		},
-	"\/backup\/classes\/wp_express\/src\/Taxonomy.php": {
-		"ft": 8192,
-		"oA": 2,
-		"oAP": "\/backup\/classes\/wp_express\/src\/Taxonomy.php",
-		"oF": 0
-		},
-	"\/backup\/classes\/wp_express\/Wordpress Express.mdj": {
-		"ft": 8192,
-		"oA": 2,
-		"oAP": "\/backup\/classes\/wp_express\/Wordpress Express.mdj",
-		"oF": 0
-		},
-	"\/backup\/views\/list.html": {
-		"ft": 8192,
-		"oA": 2,
-		"oAP": "\/backup\/views\/list.html",
-		"oF": 0
-		},
-	"\/backup\/views\/page.html": {
-		"ft": 8192,
-		"oA": 2,
-		"oAP": "\/backup\/views\/page.html",
+		"oAP": "\/classes\/AgentMode.php",
 		"oF": 0
 		},
 	"\/classes\/Constants.php": {
 		"ft": 8192,
 		"oA": 2,
 		"oAP": "\/classes\/Constants.php",
+		"oF": 0
+		},
+	"\/classes\/Customizer.php": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/classes\/Customizer.php",
 		"oF": 0
 		},
 	"\/classes\/Icon\r": {
@@ -688,16 +411,16 @@
 		"oAP": "\/classes\/Init.php",
 		"oF": 0
 		},
+	"\/classes\/RestApi.php": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/classes\/RestApi.php",
+		"oF": 0
+		},
 	"\/classes\/ThemeSetup.php": {
 		"ft": 8192,
 		"oA": 2,
 		"oAP": "\/classes\/ThemeSetup.php",
-		"oF": 0
-		},
-	"\/classes\/TypePost.php": {
-		"ft": 8192,
-		"oA": 2,
-		"oAP": "\/classes\/TypePost.php",
 		"oF": 0
 		},
 	"\/functions.php": {
@@ -758,6 +481,23 @@
 		"oAP": "\/less\/Icon\r",
 		"oF": 0
 		},
+	"\/less\/route-base\/list.less": {
+		"aP": 0,
+		"bl": 0,
+		"dJ": 0,
+		"ft": 1,
+		"ie": 1,
+		"iI": 0,
+		"ma": 1,
+		"oA": 1,
+		"oAP": "\/less\/css\/list.css",
+		"oF": 0,
+		"oS": 0,
+		"rU": 0,
+		"sI": 0,
+		"sM": 0,
+		"sU": 0
+		},
 	"\/less\/route-base\/main.less": {
 		"aP": 0,
 		"bl": 0,
@@ -768,6 +508,40 @@
 		"ma": 1,
 		"oA": 1,
 		"oAP": "\/less\/css\/main.css",
+		"oF": 0,
+		"oS": 0,
+		"rU": 0,
+		"sI": 0,
+		"sM": 0,
+		"sU": 0
+		},
+	"\/less\/route-base\/page.less": {
+		"aP": 0,
+		"bl": 0,
+		"dJ": 0,
+		"ft": 1,
+		"ie": 1,
+		"iI": 0,
+		"ma": 1,
+		"oA": 1,
+		"oAP": "\/less\/css\/page.css",
+		"oF": 0,
+		"oS": 0,
+		"rU": 0,
+		"sI": 0,
+		"sM": 0,
+		"sU": 0
+		},
+	"\/less\/route-base\/pages\/about.less": {
+		"aP": 0,
+		"bl": 0,
+		"dJ": 0,
+		"ft": 1,
+		"ie": 1,
+		"iI": 0,
+		"ma": 1,
+		"oA": 1,
+		"oAP": "\/less\/route-base\/css\/about.css",
 		"oF": 0,
 		"oS": 0,
 		"rU": 0,
@@ -820,7 +594,7 @@
 		"oA": 0,
 		"oAP": "\/assets\/css\/style.css",
 		"oF": 2,
-		"oS": 1,
+		"oS": 0,
 		"rU": 0,
 		"sI": 0,
 		"sM": 0,
@@ -860,7 +634,7 @@
 		"sM": 0,
 		"sU": 0
 		},
-	"\/less\/template-part\/menu.less": {
+	"\/less\/template-part\/header.less": {
 		"aP": 0,
 		"bl": 0,
 		"dJ": 0,
@@ -869,7 +643,24 @@
 		"iI": 0,
 		"ma": 1,
 		"oA": 1,
-		"oAP": "\/less\/css\/menu.css",
+		"oAP": "\/less\/css\/header.css",
+		"oF": 0,
+		"oS": 0,
+		"rU": 0,
+		"sI": 0,
+		"sM": 0,
+		"sU": 0
+		},
+	"\/less\/template-part\/pagination.less": {
+		"aP": 0,
+		"bl": 0,
+		"dJ": 0,
+		"ft": 1,
+		"ie": 1,
+		"iI": 0,
+		"ma": 1,
+		"oA": 1,
+		"oAP": "\/less\/css\/pagination.css",
 		"oF": 0,
 		"oS": 0,
 		"rU": 0,
@@ -894,7 +685,7 @@
 		"sM": 0,
 		"sU": 0
 		},
-	"\/less\/template-part\/side-bar.less": {
+	"\/less\/template-part\/sidebar.less": {
 		"aP": 0,
 		"bl": 0,
 		"dJ": 0,
@@ -903,7 +694,7 @@
 		"iI": 0,
 		"ma": 1,
 		"oA": 1,
-		"oAP": "\/less\/css\/side-bar.css",
+		"oAP": "\/less\/css\/sidebar.css",
 		"oF": 0,
 		"oS": 0,
 		"rU": 0,
@@ -946,38 +737,11 @@
 		"sC": 1,
 		"tS": 0
 		},
-	"\/scripts\/controllers\/body.js": {
+	"\/scripts\/controllers\/route-base\/list.js": {
 		"ft": 64,
 		"mi": 1,
 		"oA": 1,
-		"oAP": "\/scripts\/controllers\/min\/body-min.js",
-		"oF": 0,
-		"sC": 1,
-		"tS": 0
-		},
-	"\/scripts\/controllers\/footer.js": {
-		"ft": 64,
-		"mi": 1,
-		"oA": 1,
-		"oAP": "\/scripts\/controllers\/min\/footer-min.js",
-		"oF": 0,
-		"sC": 1,
-		"tS": 0
-		},
-	"\/scripts\/controllers\/head.js": {
-		"ft": 64,
-		"mi": 1,
-		"oA": 1,
-		"oAP": "\/scripts\/controllers\/min\/head-min.js",
-		"oF": 0,
-		"sC": 1,
-		"tS": 0
-		},
-	"\/scripts\/controllers\/menu.js": {
-		"ft": 64,
-		"mi": 1,
-		"oA": 1,
-		"oAP": "\/scripts\/controllers\/min\/menu-min.js",
+		"oAP": "\/scripts\/controllers\/route-base\/min\/list-min.js",
 		"oF": 0,
 		"sC": 1,
 		"tS": 0
@@ -991,6 +755,15 @@
 		"sC": 1,
 		"tS": 0
 		},
+	"\/scripts\/controllers\/route-base\/page.js": {
+		"ft": 64,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "\/scripts\/controllers\/route-base\/min\/page-min.js",
+		"oF": 0,
+		"sC": 1,
+		"tS": 0
+		},
 	"\/scripts\/controllers\/route-base\/single.js": {
 		"ft": 64,
 		"mi": 1,
@@ -1000,11 +773,56 @@
 		"sC": 1,
 		"tS": 0
 		},
+	"\/scripts\/controllers\/template-part\/body.js": {
+		"ft": 64,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "\/scripts\/controllers\/template-part\/min\/body-min.js",
+		"oF": 0,
+		"sC": 1,
+		"tS": 0
+		},
 	"\/scripts\/controllers\/template-part\/comments.js": {
 		"ft": 64,
 		"mi": 1,
 		"oA": 1,
 		"oAP": "\/scripts\/controllers\/template-part\/min\/comments-min.js",
+		"oF": 0,
+		"sC": 1,
+		"tS": 0
+		},
+	"\/scripts\/controllers\/template-part\/footer.js": {
+		"ft": 64,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "\/scripts\/controllers\/template-part\/min\/footer-min.js",
+		"oF": 0,
+		"sC": 1,
+		"tS": 0
+		},
+	"\/scripts\/controllers\/template-part\/head.js": {
+		"ft": 64,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "\/scripts\/controllers\/template-part\/min\/head-min.js",
+		"oF": 0,
+		"sC": 1,
+		"tS": 0
+		},
+	"\/scripts\/controllers\/template-part\/header.js": {
+		"ft": 64,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "\/scripts\/controllers\/template-part\/min\/header-min.js",
+		"oF": 0,
+		"sC": 1,
+		"tS": 0
+		},
+	"\/scripts\/controllers\/template-part\/pagination.js": {
+		"ft": 64,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "\/scripts\/controllers\/template-part\/min\/pagination-min.js",
 		"oF": 0,
 		"sC": 1,
 		"tS": 0
@@ -1039,6 +857,24 @@
 		"oAP": "\/scripts\/index.php",
 		"oF": 0
 		},
+	"\/scripts\/services\/directive.adense.js": {
+		"ft": 64,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "\/scripts\/services\/min\/directive.adense-min.js",
+		"oF": 0,
+		"sC": 1,
+		"tS": 0
+		},
+	"\/scripts\/services\/directive.graph.js": {
+		"ft": 64,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "\/scripts\/services\/min\/directive.graph-min.js",
+		"oF": 0,
+		"sC": 1,
+		"tS": 0
+		},
 	"\/scripts\/services\/directive.scroll.js": {
 		"ft": 64,
 		"mi": 1,
@@ -1057,15 +893,6 @@
 		"sC": 1,
 		"tS": 0
 		},
-	"\/scripts\/services\/menu.js": {
-		"ft": 64,
-		"mi": 1,
-		"oA": 1,
-		"oAP": "\/scripts\/services\/min\/menu-min.js",
-		"oF": 0,
-		"sC": 1,
-		"tS": 0
-		},
 	"\/scripts\/services\/router.js": {
 		"ft": 64,
 		"mi": 1,
@@ -1074,6 +901,25 @@
 		"oF": 0,
 		"sC": 1,
 		"tS": 0
+		},
+	"\/scripts\/services\/service.menu.js": {
+		"ft": 64,
+		"mi": 1,
+		"oA": 1,
+		"oAP": "\/scripts\/services\/min\/service.menu-min.js",
+		"oF": 0,
+		"sC": 1,
+		"tS": 0
+		},
+	"\/style-ck.css": {
+		"aP": 0,
+		"bl": 0,
+		"ft": 16,
+		"ma": 0,
+		"oA": 2,
+		"oAP": "\/style-ck-ck.css",
+		"oF": 0,
+		"oS": 0
 		},
 	"\/style.css": {
 		"aP": 0,
@@ -1091,28 +937,28 @@
 		"oAP": "\/views\/Icon\r",
 		"oF": 0
 		},
-	"\/views\/layout\/footer.html": {
+	"\/views\/pages\/about.html": {
 		"ft": 8192,
 		"oA": 2,
-		"oAP": "\/views\/layout\/footer.html",
+		"oAP": "\/views\/pages\/about.html",
 		"oF": 0
 		},
-	"\/views\/layout\/menu.html": {
+	"\/views\/route-base\/list.html": {
 		"ft": 8192,
 		"oA": 2,
-		"oAP": "\/views\/layout\/menu.html",
-		"oF": 0
-		},
-	"\/views\/layout\/sidebar.html": {
-		"ft": 8192,
-		"oA": 2,
-		"oAP": "\/views\/layout\/sidebar.html",
+		"oAP": "\/views\/route-base\/list.html",
 		"oF": 0
 		},
 	"\/views\/route-base\/main.html": {
 		"ft": 8192,
 		"oA": 2,
 		"oAP": "\/views\/route-base\/main.html",
+		"oF": 0
+		},
+	"\/views\/route-base\/page.html": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/views\/route-base\/page.html",
 		"oF": 0
 		},
 	"\/views\/route-base\/single.html": {
@@ -1139,16 +985,46 @@
 		"oAP": "\/views\/template-part\/comments.html",
 		"oF": 0
 		},
+	"\/views\/template-part\/footer.html": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/views\/template-part\/footer.html",
+		"oF": 0
+		},
+	"\/views\/template-part\/graph.html": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/views\/template-part\/graph.html",
+		"oF": 0
+		},
+	"\/views\/template-part\/header.html": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/views\/template-part\/header.html",
+		"oF": 0
+		},
+	"\/views\/template-part\/menu-item.html": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/views\/template-part\/menu-item.html",
+		"oF": 0
+		},
+	"\/views\/template-part\/pagenation.html": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/views\/template-part\/pagenation.html",
+		"oF": 0
+		},
 	"\/views\/template-part\/post-grid.html": {
 		"ft": 8192,
 		"oA": 2,
 		"oAP": "\/views\/template-part\/post-grid.html",
 		"oF": 0
 		},
-	"\/views\/template-part\/recent-comments.html": {
+	"\/views\/template-part\/sidebar.html": {
 		"ft": 8192,
 		"oA": 2,
-		"oAP": "\/views\/template-part\/recent-comments.html",
+		"oAP": "\/views\/template-part\/sidebar.html",
 		"oF": 0
 		},
 	"\/views\/template-part\/single-pager.html": {
@@ -1176,74 +1052,104 @@
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/scripts\/services\/directive.scroll.js",
+			"linkedFileAbbreviatedPath": "\/scripts\/services\/directive.adense.js",
 			"position": 1,
 			"type": 1
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/scripts\/services\/filter.html.js",
+			"linkedFileAbbreviatedPath": "\/scripts\/services\/directive.scroll.js",
 			"position": 2,
 			"type": 1
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/scripts\/controllers\/menu.js",
+			"linkedFileAbbreviatedPath": "\/scripts\/services\/directive.graph.js",
 			"position": 3,
 			"type": 1
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/scripts\/services\/menu.js",
+			"linkedFileAbbreviatedPath": "\/scripts\/services\/filter.html.js",
 			"position": 4,
 			"type": 1
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/scripts\/controllers\/footer.js",
+			"linkedFileAbbreviatedPath": "\/scripts\/controllers\/route-base\/main.js",
 			"position": 5,
 			"type": 1
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/scripts\/controllers\/head.js",
+			"linkedFileAbbreviatedPath": "\/scripts\/controllers\/route-base\/single.js",
 			"position": 6,
 			"type": 1
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/scripts\/controllers\/body.js",
+			"linkedFileAbbreviatedPath": "\/scripts\/controllers\/route-base\/list.js",
 			"position": 7,
 			"type": 1
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/scripts\/controllers\/route-base\/main.js",
+			"linkedFileAbbreviatedPath": "\/scripts\/controllers\/route-base\/page.js",
 			"position": 8,
 			"type": 1
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/scripts\/controllers\/route-base\/single.js",
+			"linkedFileAbbreviatedPath": "\/scripts\/controllers\/template-part\/recent-comments.js",
 			"position": 9,
 			"type": 1
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/scripts\/controllers\/template-part\/recent-comments.js",
+			"linkedFileAbbreviatedPath": "\/scripts\/controllers\/template-part\/recent-posts.js",
 			"position": 10,
 			"type": 1
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/scripts\/controllers\/template-part\/recent-posts.js",
+			"linkedFileAbbreviatedPath": "\/scripts\/controllers\/template-part\/comments.js",
 			"position": 11,
 			"type": 1
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/scripts\/controllers\/template-part\/comments.js",
+			"linkedFileAbbreviatedPath": "\/scripts\/controllers\/template-part\/pagination.js",
 			"position": 12,
+			"type": 1
+			},
+		{
+			"followForSyntaxChecking": 1,
+			"linkedFileAbbreviatedPath": "\/scripts\/controllers\/template-part\/body.js",
+			"position": 13,
+			"type": 1
+			},
+		{
+			"followForSyntaxChecking": 1,
+			"linkedFileAbbreviatedPath": "\/scripts\/controllers\/template-part\/header.js",
+			"position": 14,
+			"type": 1
+			},
+		{
+			"followForSyntaxChecking": 1,
+			"linkedFileAbbreviatedPath": "\/scripts\/controllers\/template-part\/footer.js",
+			"position": 15,
+			"type": 1
+			},
+		{
+			"followForSyntaxChecking": 1,
+			"linkedFileAbbreviatedPath": "\/scripts\/controllers\/template-part\/head.js",
+			"position": 16,
+			"type": 1
+			},
+		{
+			"followForSyntaxChecking": 1,
+			"linkedFileAbbreviatedPath": "\/scripts\/services\/service.menu.js",
+			"position": 17,
 			"type": 1
 			}
 		]
@@ -1696,6 +1602,10 @@
 			"active": 0,
 			"optionString": "{'properties': 'always'}"
 			},
+		"capitalized-comments": {
+			"active": 0,
+			"optionString": "'always', {'ignoreInlineComments': false, 'ignoreConsecutiveComments': false}"
+			},
 		"class-methods-use-this": {
 			"active": 0,
 			"optionString": "{'exceptMethods': []}"
@@ -1859,6 +1769,10 @@
 		"max-statements": {
 			"active": 0,
 			"optionString": "{'max': 10}, {'ignoreTopLevelFunctions': true}"
+			},
+		"max-statements-per-line": {
+			"active": 0,
+			"optionString": "{'max': 1}"
 			},
 		"multiline-ternary": {
 			"active": 0,
@@ -2224,6 +2138,10 @@
 			"active": 0,
 			"optionString": "'except-parens'"
 			},
+		"no-return-await": {
+			"active": 0,
+			"optionString": ""
+			},
 		"no-script-url": {
 			"active": 0,
 			"optionString": ""
@@ -2455,6 +2373,10 @@
 		"radix": {
 			"active": 0,
 			"optionString": "'always'"
+			},
+		"require-await": {
+			"active": 0,
+			"optionString": ""
 			},
 		"require-jsdoc": {
 			"active": 0,
@@ -3290,6 +3212,10 @@
 			"active": 1,
 			"flagValue": -1
 			},
+		"support-ie8": {
+			"active": 0,
+			"flagValue": -1
+			},
 		"toplevel": {
 			"active": 0,
 			"flagValue": -1
@@ -3311,7 +3237,7 @@
 			"flagValue": 80
 			}
 		},
-	"uglifyReservedNamesString": "$, $scope, $routeParams, $http, $window, $sce, $locationProvider, $routeProvider, MenuInfo, Socialshare, $rootScope, $broadcast, $on, $root, $parent, $anchorScroll",
+	"uglifyReservedNamesString": "$, $scope, $routeParams, $http, $window, $sce, $locationProvider, $routeProvider, MenuInfo, Socialshare, $rootScope, $broadcast, $on, $root, $parent, $anchorScroll, $element",
 	"websiteRelativeRoot": ""
 	},
 "settingsFileVersion": "3"

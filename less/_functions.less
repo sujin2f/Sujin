@@ -30,7 +30,7 @@
 
 
 
-.gradient( @color: #F5F5F5, @start: #EEE, @stop: #FFF ) {
+.gradient( @color: @gray, @start: #EEE, @stop: #FFF ) {
 	background: @color;
 	background: -webkit-gradient(
 				linear,
@@ -52,7 +52,7 @@
 	filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=0)",@stop,@start));
 }
 
-.bw-gradient( @color: #F5F5F5, @start: 0, @stop: 255 ) {
+.bw-gradient( @color: @gray, @start: 0, @stop: 255 ) {
 	background: @color;
 	background: -webkit-gradient(
 				linear,

@@ -1,0 +1,29 @@
+<div class="container">
+	<article>
+		<header class="post_title">
+			<h1 ng-bind-html="postData.post.title.rendered | html"></h1>
+		</header>
+
+		<div class="post_content" ng-bind-html="postData.post.content.rendered | html"></div>
+
+		<nav class="social">
+			<a href="#"
+				class="twitter"
+				socialshare
+				socialshare-provider="twitter"
+				socialshare-text="{{postData.post.title.rendered}}"
+				socialshare-url="{{postData.post.link}}">
+				<span class="dashicons dashicons-twitter"></span>
+			</a>
+
+			<a href="#"
+				class="facebook"
+				socialshare
+				socialshare-provider="facebook"
+				socialshare-text="{{postData.post.title.rendered}}"
+				socialshare-url="{{postData.post.link}}">
+				<span class="dashicons dashicons-facebook-alt"></span>
+			</a>
+		</nav>
+	</article>
+</div>

@@ -18,7 +18,7 @@ if ( !defined( "ABSPATH" ) ) {
 class Init {
 	function __construct() {
 		new ThemeSetup();
-		new TypePost();
+		new RestApi();
 
 /*
 // 		new Admin();

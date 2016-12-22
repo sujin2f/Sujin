@@ -1,0 +1,49 @@
+<section id="header_fixed">
+	<div class="container">
+		<section class="menu">
+			<a href="" class="mobile" id="mobile_toggle" ng-click="toggleMobileOpend()">
+				<span class="dashicons dashicons-menu"></span>
+			</a>
+
+			<a href="{{GLOBALS.homeUrl}}" class="logo desktop">
+				<img src="{{GLOBALS.themeURL}}/assets/images/logos/fixed.png" />
+			</a>
+
+			<nav class="gnb desktop">
+				<ul>
+					<li ng-repeat="menu in getMenu()" ng-include="GLOBALS.viewBase + '/template-part/menu-item.html'"></li>
+				</ul>
+			</nav>
+		</section>
+
+		<section class="search">
+			<form ng-submit="search()">
+				<input id="frm-search" type="text" ng-model="$parent.search_string" />
+				<a href="" ng-class="{'active' : $parent.search_string}"><span class="dashicons dashicons-search"></span></a>
+			</form>
+
+			<nav ng-include="GLOBALS.viewBase + '/template-part/social.html'" class="social desktop"></nav>
+		</section>
+	</div>
+</section>
+
+<section id="header_mobile" ng-show="getMobileOpend()">
+	<nav>
+		<ul>
+			<li ng-repeat="menu in getMenu()" ng-include="GLOBALS.viewBase + '/template-part/menu-item.html'"></li>
+		</ul>
+	</nav>
+</section>
+
+<section id="header_global" style="{{getHeaderStyle()}}">
+	<div class="foreground"></div>
+	<div class="container">
+		<a href="{{GLOBALS.homeUrl}}" class="logo">Sujin</a>
+
+		<nav class="desktop">
+			<ul>
+				<li ng-repeat="menu in getMenu()" ng-include="GLOBALS.viewBase + '/template-part/menu-item.html'"></li>
+			</ul>
+		</nav>
+	</div>
+</section>

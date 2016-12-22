@@ -4,8 +4,8 @@
 			<h1 ng-bind-html="postData.post.title.rendered | html"></h1>
 
 			<section class="meta">
-				<div ng-bind-html="postData.post.author.avatar | html"></div>
-				<div class="float">
+				<div ng-bind-html="postData.post.author.avatar | html" class="float"></div>
+				<div class="float meta_text">
 					<strong>{{postData.post.author.display_name}}</strong>
 					<p>{{postData.post.author.description}}</p>
 					Published on <time>{{postData.post.formatted_date}}</time>
@@ -13,25 +13,40 @@
 			</section>
 		</header>
 
+		<ins class="adsbygoogle" style="display:block" ad-client="ca-pub-6757157308071440" ad-slot="6425390524" ad-format="auto"></ins>
+		<div data-adense></div>
+
+
 		<div class="post_content" ng-bind-html="postData.post.content.rendered | html"></div>
 
 		<ul class="post_tags">
 			<li ng-repeat="tag in postData.post.tags">
-				<a href="/tags/{{tag.slug}}">{{tag.name}}</a>
+				<a href="/tags/{{tag.slug}}">#{{tag.name}}</a>
 			</li>
 		</ul>
 
-		<a href="#"
-			socialshare
-			socialshare-provider="twitter"
-			socialshare-text="720kb AngularJS Socialshare"
-			socialshare-hashtags="angularjs, angular-socialshare"
-			socialshare-url="http://720kb.net">
-			Share me
-		</a>
+		<nav class="social">
+			<a href="#"
+				class="twitter"
+				socialshare
+				socialshare-provider="twitter"
+				socialshare-text="{{postData.post.title.rendered}}"
+				socialshare-url="{{postData.post.link}}">
+				<span class="dashicons dashicons-twitter"></span>
+			</a>
+
+			<a href="#"
+				class="facebook"
+				socialshare
+				socialshare-provider="facebook"
+				socialshare-text="{{postData.post.title.rendered}}"
+				socialshare-url="{{postData.post.link}}">
+				<span class="dashicons dashicons-facebook-alt"></span>
+			</a>
+		</nav>
 	</article>
 
-	<aside class="span3" ng-include="GLOBALS.viewBase + '/layout/sidebar.html'">
+	<aside class="span3" ng-include="GLOBALS.viewBase + '/template-part/sidebar.html'">
 	</aside>
 </div>
 

@@ -9,19 +9,18 @@
 // angular.module( 'Sujin', [ 'djds4rce.angular-socialshare' ] )
 ngSujin.controller( 'recentPostsController', function( $scope, $http ) {
 	var scope = $scope;
-
 	scope.GLOBALS = GLOBALS;
-	scope.WP_posts = {};
 
-	var restUrl = GLOBALS.homeUrl + '/wp-json/wp/v2/posts?filter[per_page]=4&filter[thumbnail_size]=recent-post';
+	if ( ! GLOBALS.mobile ) {
+		scope.WP_posts = {};
+		var restUrl = GLOBALS.homeUrl + '/wp-json/wp/v2/posts?per_page=4&filter[thumbnail_size]=recent-post';
 
-	$http.get( restUrl ).then(
-		function( response ) {
-			scope.WP_posts = response.data;
-console.log(response.data);
-		},
-		function( response ) {
-		}
-	);
-
+		$http.get( restUrl ).then(
+			function( response ) {
+				scope.WP_posts = response.data;
+			},
+			function( response ) {
+			}
+		);
+	}
 });

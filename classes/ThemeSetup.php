@@ -32,6 +32,8 @@ class ThemeSetup {
 			'viewBase' => Constants::ViewURL(),
 			'themeURL' => Constants::ThemeURL(),
 			'homeUrl'  => Constants::HomeURL(),
+			'mobile'   => wp_is_mobile(),
+			'flickr'   => $this->get_flickr(),
 		));
 	}
 
@@ -58,6 +60,7 @@ class ThemeSetup {
 		$angular_route_url    = get_stylesheet_directory_uri() . '/assets/angular/angular-route.js';
 		$angular_sanitize_url = get_stylesheet_directory_uri() . '/assets/angular/angular-sanitize.min.js';
 		$angular_social_share = get_stylesheet_directory_uri() . '/assets/angular/angular-socialshare.min.js';
+		$angular_google_ad    = get_stylesheet_directory_uri() . '/assets/angular/angular-google-adsense.min.js';
 
 		$script_url = get_stylesheet_directory_uri() . '/scripts.js';
 
@@ -65,6 +68,7 @@ class ThemeSetup {
 		wp_enqueue_script( 'angular-route', $angular_route_url, array( 'angular' ), '1.5.8', true );
 		wp_enqueue_script( 'angular-sanitize', $angular_sanitize_url, array( 'angular' ), '1.5.8', true );
 		wp_enqueue_script( 'angular-social', $angular_social_share, array( 'angular' ), '1.5.8', true );
+		wp_enqueue_script( 'angular-google-ad', $angular_google_ad, array( 'angular' ), '1.5.8', true );
 
 		wp_enqueue_script( 'sujin', $script_url, array( 'angular' ), '7.0.0', true );
 	}
@@ -83,6 +87,9 @@ class ThemeSetup {
 		add_theme_support( 'html5' );
 		add_theme_support( 'widgets' );
 		add_theme_support( 'automatic-feed-links' );
+
+		if ( is_admin() )
+			new Customizer();
 	}
 
 	public function set_post_thumbnail() {
@@ -95,5 +102,51 @@ class ThemeSetup {
 		add_image_size( 'slide'         , Constants::SlideWidth        , Constants::SlideHeight        , array( 'center', 'center' ) );
 		add_image_size( 'latest_work'   , Constants::LatestWorkWidth   , Constants::LatestWorkHeight   , array( 'center', 'center' ) );
 */
+	}
+
+	private $flickr_id    = '76710296@N02';
+	private $flickr_limit = '16';
+	private function get_flickr() {
+		if ( $content = get_transient( 'flickr' ) )
+			return $content;
+
+		$url = "http://api.flickr.com/services/feeds/photos_public.gne?id={$this->flickr_id}&limit={$this->flickr_limit}&format=json&nojsoncallback=1";
+
+		$conn = curl_init( $url );
+		curl_setopt( $conn, CURLOPT_SSL_VERIFYPEER, true );
+		curl_setopt( $conn, CURLOPT_FRESH_CONNECT,  true );
+		curl_setopt( $conn, CURLOPT_RETURNTRANSFER, 1 );
+		$response = curl_exec( $conn );
+		curl_close( $conn );
+
+		$response = json_decode( str_replace( "\\'", "'", $response ) );
+		if ( !$response )
+			return;
+
+		$response = $response->items;
+
+		$content = array();
+		if ( $response ) {
+			foreach( $response as $item ) {
+				$media_m = $item->media->m;
+				$media_s = str_replace( '_m.', '_s.', $media_m );
+				$media_t = str_replace( '_m.', '_t.', $media_m );
+				$media_b = str_replace( '_m.', '_b.', $media_m );
+				$media = str_replace( '_m.', '.', $media_m );
+
+				$content[] = array(
+					'title' => $item->title,
+					'media' => $media,
+					'media_m' => $media_m,
+					'media_s' => $media_s,
+					'media_t' => $media_t,
+					'media_b' => $media_b,
+					'link'    => $item->link,
+				);
+			}
+		}
+
+		set_transient( 'flickr', $content, 12 * HOUR_IN_SECONDS );
+		return $content;
 	}
 }
