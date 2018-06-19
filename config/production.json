@@ -1,0 +1,13 @@
+{
+  "process": {
+    "env": {
+      "SUJIN_BASE_URL": "/",
+      "SUJIN_AJAX_URL": "http://sujinc.com:7777/"
+    }
+  },
+  "webpack": {
+    "output": {
+      "publicPath": "http://sujinc.com/"
+    }
+  }
+}

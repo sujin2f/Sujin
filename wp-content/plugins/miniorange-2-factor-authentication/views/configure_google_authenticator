@@ -1,0 +1,213 @@
+<?php
+
+function mo2f_configure_google_authenticator( $user ) {
+
+	$mo2f_google_auth     = isset( $_SESSION['mo2f_google_auth'] ) ? $_SESSION['mo2f_google_auth'] : null;
+	$data                 = isset( $_SESSION['mo2f_google_auth'] ) ? $mo2f_google_auth['ga_qrCode'] : null;
+	$ga_secret            = isset( $_SESSION['mo2f_google_auth'] ) ? $mo2f_google_auth['ga_secret'] : null;
+	$is_flow_driven_setup = get_user_meta( $user->ID, 'skipped_flow_driven_setup', true ) ? 0 : 1;
+	$h_size               = $is_flow_driven_setup ? 'h4' : 'h3';
+	?>
+    <table>
+        <tr>
+            <td class="mo2f_google_authy_step1">
+                <h4><?php echo '<' . $h_size . '>' . mo2f_lt( 'Step-1: Select phone Type' ) . '</' . $h_size . '>'; ?></h4>
+                <hr/>
+                <form name="f" method="post" id="mo2f_configure_google_authy_form1" action="">
+                    <input type="radio" name="mo2f_app_type_radio"
+                           value="android" <?php checked( $mo2f_google_auth['ga_phone'] == 'android' ); ?> />
+                    <b><?php echo mo2f_lt( 'Android' ); ?></b>
+                    <br><br>
+                    <input type="radio" name="mo2f_app_type_radio"
+                           value="iphone" <?php checked( $mo2f_google_auth['ga_phone'] == 'iphone' ); ?> />
+                    <b><?php echo mo2f_lt( 'iPhone' ); ?></b>
+                    <br><br>
+                    <input type="radio" name="mo2f_app_type_radio"
+                           value="blackberry" <?php checked( $mo2f_google_auth['ga_phone'] == 'blackberry' ); ?> />
+                    <b><?php echo mo2f_lt( 'BlackBerry / Windows' ); ?></b>
+                    <br><br>
+                    <input type="hidden" name="option" value="mo2f_configure_google_auth_phone_type"/>
+                </form>
+                <form name="f" method="post" action="" id="mo2f_go_back_form">
+                    <input type="hidden" name="option" value="mo2f_go_back"/>
+					<?php if ( ! $is_flow_driven_setup ) { ?>
+                        <input type="submit" name="back" id="go_back" class="button button-primary button-large"
+                               style="width:45%;" value="<?php echo mo2f_lt( 'Back' ); ?>"/>
+					<?php } ?>
+                </form>
+            </td>
+            <td class="mo2f_vertical_line"></td>
+            <td class="mo2f_google_authy_step2">
+				<?php echo '<' . $h_size . '>' . mo2f_lt( 'Step-2: Set up Google Authenticator' ) . '</' . $h_size . '>'; ?>
+
+                <hr>
+                <div id="mo2f_android_div"
+                     style="<?php echo $mo2f_google_auth['ga_phone'] == 'android' ? 'display:block' : 'display:none'; ?>">
+                    <h4><?php echo mo2f_lt( 'Install the Google Authenticator App for Android.' ); ?></h4>
+                    <ol>
+                        <li><?php echo mo2f_lt( 'Navigate to Google Play Store in your phone.' ); ?></li>
+                        <li><?php echo mo2f_lt( 'Search for Google Authenticator.' ); ?></b>
+                            <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2"
+                               target="_blank"><?php echo mo2f_lt( 'Download the app from the Play Store and install it.' ); ?></a>
+                        </li>
+
+                    </ol>
+                    <h4><?php echo mo2f_lt( 'Open Google Authenticator.' ); ?></h4>
+                    <ol>
+                        <li><?php echo mo2f_lt( 'In the app, tap on Menu and select "Set up account".' ); ?></li>
+                        <li><?php echo mo2f_lt( 'Select "Scan a barcode". Use your phone\'s camera to scan this barcode.' ); ?></li>
+                        <center>
+                            <div id="displayQrCode"><?php echo '<img src="data:image/jpg;base64,' . $data . '" />'; ?></div>
+                        </center>
+
+                    </ol>
+                    <br>
+                    <div><a data-toggle="collapse" href="#mo2f_scanbarcode_a"
+                            aria-expanded="false"><b><?php echo mo2f_lt( 'Can\'t scan the barcode? ' ); ?></b></a>
+                    </div>
+                    <div class="mo2f_collapse" id="mo2f_scanbarcode_a">
+                        <ol class="mo2f_ol">
+                            <li><?php echo mo2f_lt( 'Tap on Menu and select' ); ?>
+                                <b> <?php echo mo2f_lt( ' Set up account ' ); ?></b>.
+                            </li>
+                            <li><?php echo mo2f_lt( 'Select' ); ?>
+                                <b> <?php echo mo2f_lt( ' Enter provided key ' ); ?></b>.
+                            </li>
+                            <li><?php echo mo2f_lt( 'For the' ); ?>
+                                <b> <?php echo mo2f_lt( ' Enter account name ' ); ?></b>
+								<?php echo mo2f_lt( 'field, type your preferred account name' ); ?>.
+                            </li>
+                            <li><?php echo mo2f_lt( 'For the' ); ?>
+                                <b> <?php echo mo2f_lt( ' Enter your key ' ); ?></b>
+								<?php echo mo2f_lt( 'field, type the below secret key' ); ?>:
+                            </li>
+
+                            <div class="mo2f_google_authy_secret_outer_div">
+                                <div class="mo2f_google_authy_secret_inner_div">
+									<?php echo $ga_secret; ?>
+                                </div>
+                                <div class="mo2f_google_authy_secret">
+									<?php echo mo2f_lt( 'Spaces do not matter' ); ?>.
+                                </div>
+                            </div>
+                            <li><?php echo mo2f_lt( 'Key type: make sure' ); ?>
+                                <b> <?php echo mo2f_lt( ' Time-based ' ); ?></b>
+								<?php echo mo2f_lt( ' is selected' ); ?>.
+                            </li>
+
+                            <li><?php echo mo2f_lt( 'Tap Add.' ); ?></li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div id="mo2f_iphone_div"
+                     style="<?php echo $mo2f_google_auth['ga_phone'] == 'iphone' ? 'display:block' : 'display:none'; ?>">
+                    <h4><?php echo mo2f_lt( 'Install the Google Authenticator app for iPhone.' ); ?></h4>
+                    <ol>
+                        <li><?php echo mo2f_lt( 'Navigate to App Store in your phone.' ); ?></li>
+                        <li><?php echo mo2f_lt( 'Search for Google Authenticator.' ); ?></b>
+                            <a href="http://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8"
+                               target="_blank"><?php echo mo2f_lt( 'Download the app from the App Store and install it.' ); ?></a>
+                        </li>
+                    </ol>
+                    <h4><?php echo mo2f_lt( 'Open Google Authenticator.' ); ?></h4>
+                    <ol>
+                        <li><?php echo mo2f_lt( 'In the app, tap on "+" first, and then on "Scan Barcode".' ); ?></li>
+                        <li><?php echo mo2f_lt( 'Use your phone\'s camera to scan the barcode.' ); ?>
+                            <center><br>
+                                <div id="displayQrCode"><?php echo '<img src="data:image/jpg;base64,' . $data . '" />'; ?></div>
+                            </center>
+                        </li>
+                    </ol>
+                    <br>
+                    <div><a data-toggle="collapse" href="#mo2f_scanbarcode_i"
+                            aria-expanded="false"><b><?php echo mo2f_lt( 'Can\'t scan the barcode? ' ); ?></b></a>
+                    </div>
+                    <div class="mo2f_collapse" id="mo2f_scanbarcode_i">
+                        <ol class="mo2f_ol">
+                            <li><?php echo mo2f_lt( 'In the app, tap on + .' ); ?></li>
+                            <li><?php echo mo2f_lt( 'Make sure the Key Type is selected as' ); ?>
+                                <b> <?php echo mo2f_lt( ' Time-based ' ); ?></b>.
+                            </li>
+                            <li><?php echo mo2f_lt( 'For the' ); ?>
+                                <b> <?php echo mo2f_lt( ' Account ' ); ?></b>
+								<?php echo mo2f_lt( 'field, type your preferred account name' ); ?>.
+                            </li>
+                            <li><?php echo mo2f_lt( 'For the' ); ?>
+                                <b> <?php echo mo2f_lt( ' Key ' ); ?></b>
+								<?php echo mo2f_lt( 'field, type the below secret key' ); ?>:
+                            </li>
+
+                            <div class="mo2f_google_authy_secret_outer_div">
+                                <div class="mo2f_google_authy_secret_inner_div">
+									<?php echo $ga_secret; ?>
+                                </div>
+                                <div class="mo2f_google_authy_secret">
+									<?php echo mo2f_lt( 'Spaces do not matter' ); ?>.
+                                </div>
+                            </div>
+                            <li><?php echo mo2f_lt( 'Tap Add.' ); ?></li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div id="mo2f_blackberry_div"
+                     style="<?php echo $mo2f_google_auth['ga_phone'] == 'blackberry' ? 'display:block' : 'display:none'; ?>">
+                    <h4><?php echo mo2f_lt( 'Install the Google Authenticator app for BlackBerry' ); ?></h4>
+                    <ol>
+                        <li><?php echo mo2f_lt( 'On your phone, open a web browser.Go to ' ); ?>
+                            <b> m.google.com/authenticator</b>.
+                        </li>
+                        <li><?php echo mo2f_lt( 'Download and install the Google Authenticator application.' ); ?></li>
+                    </ol>
+                    <br>
+                    <h4><?php echo mo2f_lt( 'Now open and configure Google Authenticator.' ); ?></h4>
+                    <ol>
+                        <li><?php echo mo2f_lt( 'In Google Authenticator, select Manual key entry.' ); ?></li>
+                        <li><?php echo mo2f_lt( 'In "Enter account name" type your full email address.' ); ?></li>
+                        <li><?php echo mo2f_lt( 'In "Enter key" type your secret key:' ); ?></li>
+                        <div class="mo2f_google_authy_secret_outer_div">
+                            <div class="mo2f_google_authy_secret_inner_div">
+								<?php echo $ga_secret; ?>
+                            </div>
+                            <div class="mo2f_google_authy_secret">
+								<?php echo mo2f_lt( 'Spaces do not matter' ); ?>.
+                            </div>
+                        </div>
+                        <li><?php echo mo2f_lt( 'Choose Time-based type of key.' ); ?></li>
+                        <li><?php echo mo2f_lt( 'Tap Save.' ); ?></li>
+                    </ol>
+                </div>
+
+            </td>
+            <td class="mo2f_vertical_line"></td>
+            <td class="mo2f_google_authy_step3">
+                <h4><?php echo '<' . $h_size . '>' . mo2f_lt( 'Step-3: Verify and Save' ) . '</' . $h_size . '>';; ?></h4>
+                <hr>
+                <div style="<?php echo isset( $_SESSION['mo2f_google_auth'] ) ? 'display:block' : 'display:none'; ?>">
+                    <div><?php echo mo2f_lt( 'After you have scanned the QR code and created an account, enter the verification code from the scanned account here.' ); ?></div>
+                    <br>
+                    <form name="f" method="post" action="">
+						<span><b><?php echo mo2f_lt( 'Code:' ); ?> </b>&nbsp;
+						<input class="mo2f_table_textbox" style="width:200px;" autofocus="true" required="true"
+                               type="text" name="google_token" placeholder="<?php echo mo2f_lt( 'Enter OTP' ); ?>"
+                               style="width:95%;"/></span><br><br>
+                        <input type="hidden" name="google_auth_secret" value="<?php echo $ga_secret ?>"/>
+                        <input type="hidden" name="option" value="mo2f_configure_google_authenticator_validate"/>
+                        <input type="submit" name="validate" id="validate" class="button button-primary button-large"
+                               style="margin-left:12%;" value="<?php echo mo2f_lt( 'Verify and Save' ); ?>"/>
+                    </form>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <script>
+        jQuery('input[type=radio][name=mo2f_app_type_radio]').change(function () {
+            jQuery('#mo2f_configure_google_authy_form1').submit();
+        });
+        jQuery('html,body').animate({scrollTop: jQuery(document).height()}, 600);
+    </script>
+	<?php
+}
+
+?>

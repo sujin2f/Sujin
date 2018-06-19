@@ -1,0 +1,25 @@
+version: '2'
+services:
+  wordpress:
+    container_name: wordpress-sujin
+    image: sujin2f/wordpress:latest
+    external_links:
+      - mariadb:mysql
+      - mailhog
+    restart: always
+    environment:
+      VIRTUAL_HOST: sujinc.test
+      WORDPRESS_DB_NAME: sujinc.dev
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_PASSWORD: password
+      WORDPRESS_DEBUG: 1 
+      TZ: America/Toronto
+    volumes:
+      - ./wp-content:/var/www/html/wp-content
+    ports:
+      - 80
+    networks:
+      - local_default
+networks:
+  local_default:
+    external: true

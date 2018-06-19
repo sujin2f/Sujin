@@ -1,0 +1,7 @@
+/node_modules
+/npm-debug.log
+/wp-content
+/dist
+/build
+/stats.json
+/logo.*

@@ -1,0 +1,21 @@
+.social-media {
+	margin: 0;
+	padding: 0;
+
+	li {
+		list-style: none;
+
+		a {
+			display: inline-block;
+			width: 26px;
+			height: 26px;
+			text-align: center;
+			padding-top: 3px;
+			transition: ease-out color 0.3s;
+
+			span {
+				font-size: 23px;
+			}
+		}
+	}
+}

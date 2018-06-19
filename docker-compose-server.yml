@@ -1,0 +1,44 @@
+version: '2'
+services:
+  mariadb:
+    container_name: mariadb
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - mysql:/var/lib/mysql
+    ports:
+      - 3306:3306
+    restart: always
+    networks:
+      - local_default
+  wordpress:
+    container_name: wordpress
+    image: wordpress:latest
+    links:
+      - mariadb:mysql
+    restart: always
+    environment:
+      WORDPRESS_DB_NAME: sujinc
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_PASSWORD: password
+      TZ: America/Toronto
+    volumes:
+      - ./backend:/var/www/html/wp-content
+    ports:
+      - 7777:80
+    networks:
+      - local_default
+  sujin:
+    container_name: sujin
+    image: sujin2f/sujin:7.5.4
+    restart: always
+    ports:
+      - 80:8080
+    networks:
+      - local_default
+volumes:
+  mysql:
+networks:
+  local_default:
+    external: true

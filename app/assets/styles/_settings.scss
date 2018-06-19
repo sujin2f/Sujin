@@ -1,0 +1,31 @@
+@import '~foundation-sites/scss/util/util';
+
+@import url('//fonts.googleapis.com/css?family=Lato:200,300,500|Ubuntu:700');
+@import url('//fonts.googleapis.com/earlyaccess/nanumgothic.css');
+
+$header-height: 48px;
+
+$foundation-palette: (
+  primary: #970000,
+  secondary: #777,
+  success: #3E854D,
+  warning: #ffae00,
+  alert: #ec5840,
+);
+$body-font-family: system-ui, 'Nanum Gothic', -apple-system, BlinkMacSystemFont, 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+$global-flexbox: true;
+
+$light-gray: #f6f6f6;
+$medium-gray: #ababab;
+$dark-gray: #1a1a1a;
+
+$body-background: $light-gray;
+
+// $font-ubuntu: 'Ubuntu', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$font-ubuntu: system-ui, 'Nanum Gothic', -apple-system, BlinkMacSystemFont, 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+$page-header-height: 300px;
+$page-header-height-medium: 400px;
+$page-header-height-small: 500px;
+$search-size: 26px;

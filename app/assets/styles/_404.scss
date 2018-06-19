@@ -1,0 +1,32 @@
+.template-404 {
+	.page-header-wrapper {
+		height: calc(100vh - #{$header-height});
+
+		.background {
+			height: calc(100vh - #{$header-height});
+		}
+		.foreground {
+			height: calc(100vh - #{$header-height});
+		}
+		.text {
+			height: calc(100vh - #{$header-height});
+
+			h1 {
+				font-size: 70px;
+
+				@include breakpoint(small only) {
+					font-size: 40px;
+				}
+			}
+
+			p {
+				font-size: 30px;
+				margin-bottom: 0;
+
+				@include breakpoint(small only) {
+					font-size: 20px;
+				}
+			}
+		}
+	}
+}

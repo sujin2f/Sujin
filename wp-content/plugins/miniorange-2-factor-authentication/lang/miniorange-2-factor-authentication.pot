@@ -1,0 +1,1766 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: miniOrange 2 Factor Authentication\n"
+"POT-Creation-Date: 2018-05-04 15:14+0530\n"
+"PO-Revision-Date: 2017-11-08 17:27+0530\n"
+"Last-Translator: \n"
+"Language-Team: miniOrange\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.4\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: de\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;mo2f_lt\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: class-miniorange-2-factor-login.php:49
+#: class-miniorange-2-factor-pass2fa-login.php:39
+#: class-miniorange-2-factor-pass2fa-login.php:164
+#: class-miniorange-2-factor-pass2fa-login.php:178
+#: class-miniorange-2-factor-pass2fa-login.php:350
+#: class-miniorange-2-factor-pass2fa-login.php:1032
+msgid "ERROR"
+msgstr ""
+
+#: class-miniorange-2-factor-login.php:49
+msgid "Login with password is disabled for you. Please Login using your phone."
+msgstr ""
+
+#: class-miniorange-2-factor-login.php:250
+msgid "or"
+msgstr ""
+
+#: class-miniorange-2-factor-login.php:255
+msgid "Username"
+msgstr ""
+
+#: class-miniorange-2-factor-login.php:260
+msgid "Login with 2nd factor"
+msgstr ""
+
+#: class-miniorange-2-factor-pass2fa-login.php:39
+#: class-miniorange-2-factor-pass2fa-login.php:137
+#: class-miniorange-2-factor-pass2fa-login.php:164
+#: class-miniorange-2-factor-pass2fa-login.php:178
+#: class-miniorange-2-factor-pass2fa-login.php:350
+msgid "Invalid Request."
+msgstr ""
+
+#: class-miniorange-2-factor-pass2fa-login.php:98
+msgid "Please try again or contact your admin."
+msgstr ""
+
+#: class-miniorange-2-factor-pass2fa-login.php:106
+#: class-miniorange-2-factor-pass2fa-login.php:114
+msgid "Please login into your account using password."
+msgstr ""
+
+#: class-miniorange-2-factor-pass2fa-login.php:122
+msgid "Invalid Username."
+msgstr ""
+
+#: class-miniorange-2-factor-pass2fa-login.php:137
+msgid "ERROR "
+msgstr ""
+
+#: class-miniorange-2-factor-pass2fa-login.php:230
+#: class-miniorange-2-factor-pass2fa-login.php:247
+#: class-miniorange-2-factor-pass2fa-login.php:312
+#: class-miniorange-2-factor-pass2fa-login.php:363
+#: class-miniorange-2-factor-pass2fa-login.php:417
+#: class-miniorange-2-factor-pass2fa-login.php:440
+#: class-miniorange-2-factor-pass2fa-login.php:511
+#: class-miniorange-2-factor-pass2fa-login.php:525
+msgid "<strong>ERROR</strong>: Invalid Request."
+msgstr ""
+
+#: class-miniorange-2-factor-pass2fa-login.php:303
+#: class-miniorange-2-factor-pass2fa-login.php:502
+msgid "<strong>ERROR</strong>: Please try again.."
+msgstr ""
+
+#: class-miniorange-2-factor-pass2fa-login.php:336
+#: class-miniorange-2-factor-pass2fa-login.php:341
+msgid "<strong>ERROR</strong>: Please try again."
+msgstr ""
+
+#: class-miniorange-2-factor-pass2fa-login.php:482
+msgid "<strong>ERROR</strong>: Invalid Request. Please try again."
+msgstr ""
+
+#: class-miniorange-2-factor-pass2fa-login.php:615
+#: class-miniorange-2-factor-pass2fa-login.php:622
+#: class-miniorange-2-factor-pass2fa-login.php:793
+#: class-miniorange-2-factor-pass2fa-login.php:800
+#: class-miniorange-2-factor-pass2fa-login.php:837
+#: class-miniorange-2-factor-pass2fa-login.php:886
+msgid "<strong>ERROR</strong>: An error occured while processing your request. Please Try again."
+msgstr ""
+
+#: class-miniorange-2-factor-pass2fa-login.php:976
+msgid "<strong>ERROR</strong>: Two Factor method has not been configured."
+msgstr ""
+
+#: class-miniorange-2-factor-pass2fa-login.php:1022
+msgid "Bad login/pass combination."
+msgstr ""
+
+#: class-miniorange-2-factor-pass2fa-login.php:1032
+msgid "Invalid Username or password."
+msgstr ""
+
+#: class-miniorange-2-factor-user-registration.php:87
+msgid "Warning: "
+msgstr ""
+
+#: class-miniorange-2-factor-user-registration.php:89
+#: miniorange_2_factor_configuration.php:7
+msgid "PHP CURL extension"
+msgstr ""
+
+#: class-miniorange-2-factor-user-registration.php:89
+#: miniorange_2_factor_configuration.php:7
+msgid "is not installed or disabled"
+msgstr ""
+
+#: class-miniorange-2-factor-user-registration.php:104
+#: miniorange_2_factor_configuration.php:35
+msgid "FAQ"
+msgstr ""
+
+#: class-miniorange-2-factor-user-registration.php:114
+msgid "User Profile "
+msgstr ""
+
+#: class-miniorange-2-factor-user-registration.php:114
+msgid "Account Setup "
+msgstr ""
+
+#: class-miniorange-2-factor-user-registration.php:117
+#: miniorange_2_factor_configuration.php:59
+msgid "Setup Two-Factor"
+msgstr ""
+
+#: class-mo2f-constants.php:10
+msgid "Successfully validated."
+msgstr ""
+
+#: class-mo2f-constants.php:13
+msgid "Please scan the QR Code now."
+msgstr ""
+
+#: class-mo2f-constants.php:16
+msgid "miniOrange QR Code Authentication"
+msgstr ""
+
+#: class-mo2f-constants.php:19
+msgid "miniOrange Push Notification"
+msgstr ""
+
+#: class-mo2f-constants.php:22
+msgid "miniOrange Soft Token"
+msgstr ""
+
+#: class-mo2f-constants.php:25
+msgid "Security Questions"
+msgstr ""
+
+#: class-mo2f-constants.php:28 class-mo2f-constants.php:118
+msgid "Google Authenticator"
+msgstr ""
+
+#: class-mo2f-constants.php:31
+msgid "Authy Authenticator"
+msgstr ""
+
+#: class-mo2f-constants.php:34
+msgid "Email Verification"
+msgstr ""
+
+#: class-mo2f-constants.php:37
+msgid "OTP Over SMS"
+msgstr ""
+
+#: class-mo2f-constants.php:40
+msgid "OTP Over SMS And Email"
+msgstr ""
+
+#: class-mo2f-constants.php:43
+msgid "Your license has expired. Please renew your license to continue using our service."
+msgstr ""
+
+#: class-mo2f-constants.php:46
+msgid "The total transaction limit has been exceeded. Please upgrade your premium plan."
+msgstr ""
+
+#: class-mo2f-constants.php:49
+msgid "The transaction limit has exceeded."
+msgstr ""
+
+#: class-mo2f-constants.php:52
+msgid "GenerateOtpRequest is null"
+msgstr ""
+
+#: class-mo2f-constants.php:55
+msgid "The sms transaction limit has been exceeded. Please refer to the Licensing Plans tab for purchasing your SMS transactions."
+msgstr ""
+
+#: class-mo2f-constants.php:58
+msgid "The email transaction limit has been exceeded. Please refer to the Licensing Plans tab for purchasing your SMS transactions."
+msgstr ""
+
+#: class-mo2f-constants.php:61
+msgid "Transaction limit exceeded. Please contact your administrator"
+msgstr ""
+
+#: class-mo2f-constants.php:64
+msgid "Free Trial has already been taken or expired for this plugin. Please upgrade to a premium plan."
+msgstr ""
+
+#: class-mo2f-constants.php:67
+msgid "Invalid format."
+msgstr ""
+
+#: class-mo2f-constants.php:70
+msgid "Mobile registration failed."
+msgstr ""
+
+#: class-mo2f-constants.php:73
+msgid "Invalid mobile authentication request."
+msgstr ""
+
+#: class-mo2f-constants.php:76
+msgid "Exception during SMS sending"
+msgstr ""
+
+#: class-mo2f-constants.php:79
+msgid "There was an error during sending an SMS."
+msgstr ""
+
+#: class-mo2f-constants.php:82
+msgid "Exception during logUserTransaction"
+msgstr ""
+
+#: class-mo2f-constants.php:85
+msgid "There was an error processing the challenge user request."
+msgstr ""
+
+#: class-mo2f-constants.php:88
+msgid "What is your first company name?"
+msgstr ""
+
+#: class-mo2f-constants.php:91
+msgid "What was your childhood nickname?"
+msgstr ""
+
+#: class-mo2f-constants.php:94
+msgid "In what city did you meet your spouse/significant other?"
+msgstr ""
+
+#: class-mo2f-constants.php:97
+msgid "What is the name of your favorite childhood friend?"
+msgstr ""
+
+#: class-mo2f-constants.php:100
+msgid "What was your first vehicle's registration number?"
+msgstr ""
+
+#: class-mo2f-constants.php:103
+msgid "What is your grandmother's maiden name?"
+msgstr ""
+
+#: class-mo2f-constants.php:106
+msgid "Who is your favourite sports player?"
+msgstr ""
+
+#: class-mo2f-constants.php:109
+msgid "What is your favourite sport?"
+msgstr ""
+
+#: class-mo2f-constants.php:112
+msgid "In what city or town was your first job"
+msgstr ""
+
+#: class-mo2f-constants.php:115
+msgid "What school did you attend for sixth grade?"
+msgstr ""
+
+#: class-mo2f-constants.php:121
+msgid "Authy 2-Factor Authentication"
+msgstr ""
+
+#: class-mo2f-constants.php:124
+msgid "An unknown error occurred while creating the end user."
+msgstr ""
+
+#: class-mo2f-constants.php:127
+msgid "An unknown error occurred while challenging the user."
+msgstr ""
+
+#: class-mo2f-constants.php:130
+msgid "An unknown error occurred while generating QR Code for registering mobile."
+msgstr ""
+
+#: class-mo2f-constants.php:133
+msgid "An unknown error occurred while validating the user's identity."
+msgstr ""
+
+#: class-mo2f-constants.php:136
+msgid "Customer not found."
+msgstr ""
+
+#: class-mo2f-constants.php:139
+msgid "The customer is not valid"
+msgstr ""
+
+#: class-mo2f-constants.php:142
+msgid "The user is not valid "
+msgstr ""
+
+#: class-mo2f-constants.php:145
+msgid "Customer already exists."
+msgstr ""
+
+#: class-mo2f-constants.php:148
+msgid "Customer Name is null"
+msgstr ""
+
+#: class-mo2f-constants.php:151
+msgid "Customer check request failed."
+msgstr ""
+
+#: class-mo2f-constants.php:154
+msgid "Invalid username or password. Please try again."
+msgstr ""
+
+#: class-mo2f-constants.php:157
+msgid "You are not authorized to perform this operation."
+msgstr ""
+
+#: class-mo2f-constants.php:160
+msgid "Invalid request. No such challenge request was initiated."
+msgstr ""
+
+#: class-mo2f-constants.php:163
+msgid "No OTP Token for the given request was found."
+msgstr ""
+
+#: class-mo2f-constants.php:166
+msgid "Query submitted."
+msgstr ""
+
+#: class-mo2f-constants.php:169
+msgid "Invalid parameters."
+msgstr ""
+
+#: class-mo2f-constants.php:172
+msgid "Alternate email cannot be same as primary email."
+msgstr ""
+
+#: class-mo2f-constants.php:175
+msgid "CustomerId is null."
+msgstr ""
+
+#: class-mo2f-constants.php:178
+msgid "You are not authorized to create users. Please upgrade to premium plan. "
+msgstr ""
+
+#: class-mo2f-constants.php:181
+msgid "Your user creation limit has been completed. Please upgrade your license to add more users."
+msgstr ""
+
+#: class-mo2f-constants.php:184
+msgid "Username cannot be blank."
+msgstr ""
+
+#: class-mo2f-constants.php:187
+msgid "End user created successfully."
+msgstr ""
+
+#: class-mo2f-constants.php:190
+msgid "There was an exception processing the update user request."
+msgstr ""
+
+#: class-mo2f-constants.php:193
+msgid "End user found."
+msgstr ""
+
+#: class-mo2f-constants.php:196
+msgid "End user found under different customer. "
+msgstr ""
+
+#: class-mo2f-constants.php:199
+msgid "End user not found."
+msgstr ""
+
+#: class-mo2f-constants.php:202
+msgid "Customer successfully registered."
+msgstr ""
+
+#: class-mo2f-constants.php:205
+msgid "Customer registration failed."
+msgstr ""
+
+#: class-mo2f-constants.php:208
+msgid "There was an error processing the register mobile request."
+msgstr ""
+
+#: class-mo2f-constants.php:211
+msgid "There was an exception processing the get user request."
+msgstr ""
+
+#: class-mo2f-constants.php:214
+msgid "End User retrieved successfully."
+msgstr ""
+
+#: class-mo2f-constants.php:217
+msgid "You have successfully completed the test."
+msgstr ""
+
+#: class-mo2f-constants.php:220
+msgid "All the fields are required. Please enter valid entries."
+msgstr ""
+
+#: class-mo2f-constants.php:223
+msgid "You already have an account with miniOrange. Please enter a valid password."
+msgstr ""
+
+#: class-mo2f-constants.php:226
+msgid "Invalid request. Please try again"
+msgstr ""
+
+#: class-mo2f-constants.php:229
+msgid "Invalid OTP. Please try again."
+msgstr ""
+
+#: class-mo2f-constants.php:232
+msgid "Invalid email or password. Please try again."
+msgstr ""
+
+#: class-mo2f-constants.php:235
+msgid "Password and Confirm password do not match."
+msgstr ""
+
+#: class-mo2f-constants.php:238
+msgid "Please enter your registered email and password."
+msgstr ""
+
+#: class-mo2f-constants.php:241
+msgid "One Time Passcode has been sent for verification to "
+msgstr ""
+
+#: class-mo2f-constants.php:244
+msgid "There was an error in sending OTP over email. Please click on Resend OTP to try again."
+msgstr ""
+
+#: class-mo2f-constants.php:247
+msgid "Error occured while registration. Please try again."
+msgstr ""
+
+#: class-mo2f-constants.php:250
+msgid "An error occured while processing your request. Please Try again."
+msgstr ""
+
+#: class-mo2f-constants.php:253
+msgid "There was an error in sending sms. Please click on Resend OTP to try again."
+msgstr ""
+
+#: class-mo2f-constants.php:256
+msgid "Error occurred while registering the user. Please try again."
+msgstr ""
+
+#: class-mo2f-constants.php:259
+msgid "is set as your 2 factor authentication method."
+msgstr ""
+
+#: class-mo2f-constants.php:262
+msgid "Error occured while saving your kba details. Please try again."
+msgstr ""
+
+#: class-mo2f-constants.php:265
+msgid "Please answer the following security questions."
+msgstr ""
+
+#: class-mo2f-constants.php:268
+msgid "There was an error fetching security questions. Please try again."
+msgstr ""
+
+#: class-mo2f-constants.php:271
+msgid "Invalid Answers. Please try again."
+msgstr ""
+
+#: class-mo2f-constants.php:274
+msgid "Choose a password with minimum length 8."
+msgstr ""
+
+#: class-mo2f-constants.php:277
+msgid "Your account has been retrieved successfully."
+msgstr ""
+
+#: class-mo2f-constants.php:280
+msgid "has been set as your default 2nd factor method"
+msgstr ""
+
+#: class-mo2f-constants.php:283
+msgid "Another One Time Passcode has been sent"
+msgstr ""
+
+#: class-mo2f-constants.php:286
+msgid "for verification to"
+msgstr ""
+
+#: class-mo2f-constants.php:289
+msgid "There was an error in sending email. Please click on Resend OTP to try again."
+msgstr ""
+
+#: class-mo2f-constants.php:292
+msgid "The email is already used by other user. Please register with other email."
+msgstr ""
+
+#: class-mo2f-constants.php:295
+msgid "Please submit your query with email"
+msgstr ""
+
+#: class-mo2f-constants.php:298
+msgid "Your query could not be submitted. Please try again."
+msgstr ""
+
+#: class-mo2f-constants.php:301
+msgid "Thanks for getting in touch! We shall get back to you shortly."
+msgstr ""
+
+#: class-mo2f-constants.php:304
+msgid "Your settings are saved successfully."
+msgstr ""
+
+#: class-mo2f-constants.php:307
+msgid "Authentication failed. Please try again to test the configuration."
+msgstr ""
+
+#: class-mo2f-constants.php:310
+msgid "Invalid request. Please register with miniOrange before configuring your mobile."
+msgstr ""
+
+#: class-mo2f-constants.php:313
+msgid "Please enter email-id to register."
+msgstr ""
+
+#: class-mo2f-constants.php:316
+msgid "Please enter a value to test your authentication."
+msgstr ""
+
+#: class-mo2f-constants.php:319
+msgid "Please enter the one time passcode below."
+msgstr ""
+
+#: class-mo2f-constants.php:322
+msgid "There was an error in sending one time passcode. Please click on Resend OTP to try again."
+msgstr ""
+
+#: class-mo2f-constants.php:325
+msgid "A Push notification has been sent to your miniOrange Authenticator App."
+msgstr ""
+
+#: class-mo2f-constants.php:328
+msgid "Error occurred while validating the OTP. Please try again."
+msgstr ""
+
+#: class-mo2f-constants.php:331
+msgid "to test Google Authenticator method."
+msgstr ""
+
+#: class-mo2f-constants.php:334
+msgid "Error occurred while validating the OTP. Please try again. Possible causes:"
+msgstr ""
+
+#: class-mo2f-constants.php:337
+msgid "Your App Time is not in sync.Go to settings and tap on tap on Sync Time now ."
+msgstr ""
+
+#: class-mo2f-constants.php:340
+msgid "Error occurred while validating the user. Please try again."
+msgstr ""
+
+#: class-mo2f-constants.php:343
+msgid "Only digits are allowed. Please enter again."
+msgstr ""
+
+#: class-mo2f-constants.php:346
+msgid "to test Authy 2-Factor Authentication method."
+msgstr ""
+
+#: class-mo2f-constants.php:349
+msgid "method."
+msgstr ""
+
+#: class-mo2f-constants.php:352
+msgid "to test"
+msgstr ""
+
+#: class-mo2f-constants.php:355
+msgid "is set as your Two-Factor method."
+msgstr ""
+
+#: class-mo2f-constants.php:358
+msgid "A verification email is sent to"
+msgstr ""
+
+#: class-mo2f-constants.php:361
+msgid "Please click on accept link to verify your email."
+msgstr ""
+
+#: class-mo2f-constants.php:364
+msgid "Your account has been created successfully."
+msgstr ""
+
+#: class-mo2f-constants.php:367
+msgid "Your account has been removed. Please contact your administrator."
+msgstr ""
+
+#: class-mo2f-constants.php:370
+msgid "You are registered successfully."
+msgstr ""
+
+#: class-mo2f-constants.php:373
+msgid "You have denied the request."
+msgstr ""
+
+#: class-mo2f-constants.php:376
+msgid "Two-Factor plugin has been disabled."
+msgstr ""
+
+#: class-mo2f-constants.php:379
+msgid "Error occurred while saving the settings.Please try again."
+msgstr ""
+
+#: class-mo2f-constants.php:382
+msgid "Invalid request. Please register with miniOrange and configure 2-Factor to save your login settings."
+msgstr ""
+
+#: class-mo2f-constants.php:385
+msgid "You already have an account with miniOrange, please sign in."
+msgstr ""
+
+#: class-mo2f-constants.php:388
+msgid "to configure another 2 Factor authentication method."
+msgstr ""
+
+#: class-mo2f-constants.php:391
+msgid "Your phone number is not configured. Please configure it before selecting OTP Over SMS as your 2-factor method."
+msgstr ""
+
+#: class-mo2f-constants.php:394
+#: miniorange_2_factor_mobile_configuration.php:315
+msgid "Click Here"
+msgstr ""
+
+#: class-mo2f-constants.php:397
+msgid "An error occured while creating your account. Please try again by sending OTP again."
+msgstr ""
+
+#: class-rba-attributes.php:43 class-two-factor-setup.php:46
+msgid "Please enable curl extension."
+msgstr ""
+
+#: class-rba-attributes.php:45 class-two-factor-setup.php:48
+#: miniorange_2_factor_mobile_configuration.php:681
+msgid "Click here"
+msgstr ""
+
+#: class-rba-attributes.php:47 class-two-factor-setup.php:50
+msgid "for the steps to enable curl or check Help & Troubleshooting."
+msgstr ""
+
+#: miniorange_2_factor_common_login.php:15
+msgid "Please wait"
+msgstr ""
+
+#: miniorange_2_factor_common_login.php:184
+#: miniorange_2_factor_common_login.php:266
+#: miniorange_2_factor_common_login.php:359
+#: miniorange_2_factor_common_login.php:508
+#: miniorange_2_factor_common_login.php:646
+#: miniorange_2_factor_common_login.php:742
+msgid "Back to login"
+msgstr ""
+
+#: miniorange_2_factor_common_login.php:186
+msgid "How would you like to authenticate yourself?"
+msgstr ""
+
+#: miniorange_2_factor_common_login.php:196
+msgid "Please choose the options from below:"
+msgstr ""
+
+#: miniorange_2_factor_common_login.php:201
+msgid "Send a one time passcode to my registered email"
+msgstr ""
+
+#: miniorange_2_factor_common_login.php:206
+msgid "Answer your Security Questions (KBA)"
+msgstr ""
+
+#: miniorange_2_factor_common_login.php:210
+#: miniorange_2_factor_mobile_configuration.php:367
+#: miniorange_2_factor_mobile_configuration.php:400
+msgid "Continue"
+msgstr ""
+
+#: miniorange_2_factor_common_login.php:269
+msgid "Validate Security Questions"
+msgstr ""
+
+#: miniorange_2_factor_common_login.php:276
+msgid "Please answer the following questions:"
+msgstr ""
+
+#: miniorange_2_factor_common_login.php:300
+msgid "Remember this device."
+msgstr ""
+
+#: miniorange_2_factor_common_login.php:309
+#: miniorange_2_factor_common_login.php:671
+msgid "Validate"
+msgstr ""
+
+#: miniorange_2_factor_common_login.php:361
+msgid "Accept Your Transaction"
+msgstr ""
+
+#: miniorange_2_factor_common_login.php:373
+msgid "Waiting for your approval..."
+msgstr ""
+
+#: miniorange_2_factor_common_login.php:390
+#: miniorange_2_factor_common_login.php:535
+msgid "Forgot Phone?"
+msgstr ""
+
+#: miniorange_2_factor_common_login.php:395
+#: miniorange_2_factor_common_login.php:541
+msgid "Phone is Offline?"
+msgstr ""
+
+#: miniorange_2_factor_common_login.php:400
+msgid "Didn't receive mail?"
+msgstr ""
+
+#: miniorange_2_factor_common_login.php:510
+msgid "Scan QR Code"
+msgstr ""
+
+#: miniorange_2_factor_common_login.php:522
+msgid "Identify yourself by scanning the QR code with miniOrange Authenticator app."
+msgstr ""
+
+#: miniorange_2_factor_common_login.php:648
+#: miniorange_2_factor_configuration.php:257
+#: miniorange_2_factor_configuration.php:274
+#: miniorange_2_factor_mobile_configuration.php:184
+#: miniorange_2_factor_mobile_configuration.php:207
+msgid "Validate OTP"
+msgstr ""
+
+#: miniorange_2_factor_common_login.php:663
+msgid "Enter code"
+msgstr ""
+
+#: miniorange_2_factor_common_login.php:666
+msgid "Only digits within range 4-8 are allowed."
+msgstr ""
+
+#: miniorange_2_factor_common_login.php:682
+msgid "Forgot Phone ?"
+msgstr ""
+
+#: miniorange_2_factor_common_login.php:745
+#: miniorange_2_factor_configuration.php:368
+msgid "Remember Device"
+msgstr ""
+
+#: miniorange_2_factor_common_login.php:750
+msgid "Do you want to remember this device?"
+msgstr ""
+
+#: miniorange_2_factor_common_login.php:753
+#: miniorange_2_factor_common_login.php:765
+msgid "Yes"
+msgstr ""
+
+#: miniorange_2_factor_common_login.php:756
+msgid "No"
+msgstr ""
+
+#: miniorange_2_factor_common_login.php:759
+msgid "Please wait...We are taking you into your account."
+msgstr ""
+
+#: miniorange_2_factor_common_login.php:764
+#: miniorange_2_factor_common_login.php:767
+msgid "Click on "
+msgstr ""
+
+#: miniorange_2_factor_common_login.php:765
+msgid "if this is your personal device."
+msgstr ""
+
+#: miniorange_2_factor_common_login.php:768
+msgid "No "
+msgstr ""
+
+#: miniorange_2_factor_common_login.php:768
+msgid "if this is a public device."
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:5
+#: miniorange_2_factor_configuration.php:15
+msgid "Warning:"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:15
+msgid "Your current PHP version is "
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:16
+msgid "Some of the functionality of the plugin may not work in this version of PHP. Please upgrade your PHP version to 5.3.0 or above."
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:17
+msgid "You can also write us by submitting a query on the right hand side in our "
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:18
+msgid "Support Section"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:39
+msgid "Upgrade to Standard/Premium"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:53
+msgid "User Profile"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:55
+msgid "Account Setup"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:64
+msgid "Add-ons"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:67
+msgid "Standard/Premium Features"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:67
+msgid "Login Options"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:169
+#: miniorange_2_factor_mobile_configuration.php:29
+msgid "Register with miniOrange"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:173
+msgid "Already have an account?"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:173
+msgid "SIGN IN"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:178
+msgid "Email :"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:187
+msgid "Company/Organisation:"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:193
+msgid "First Name:"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:199
+msgid "Last Name:"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:200
+msgid "last_name"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:206
+msgid "Phone number :"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:215
+msgid "Password :"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:219
+msgid "Confirm Password :"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:227
+msgid "Create Account"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:264
+#: miniorange_2_factor_mobile_configuration.php:192
+msgid "Enter OTP:"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:266
+#: miniorange_2_factor_mobile_configuration.php:196
+msgid "Enter OTP"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:268
+#: miniorange_2_factor_configuration.php:313
+#: miniorange_2_factor_mobile_configuration.php:199
+msgid "Resend OTP ?"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:282
+#: miniorange_2_factor_configuration.php:896
+#: miniorange_2_factor_mobile_configuration.php:215
+msgid "Back"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:295
+msgid "I did not receive any email with OTP . What should I do ?"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:298
+msgid "If you can't see the email from miniOrange in your mails, please check your "
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:299
+msgid "SPAM Folder"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:299
+msgid "If you don't see an email even in SPAM folder, verify your identity with our alternate method."
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:301
+msgid "Enter your valid phone number here and verify your identity using one time passcode sent to your phone."
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:307
+msgid "Enter Phone Number"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:310
+msgid "Enter phone number without any space or dashes."
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:317
+msgid "Send OTP"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:322
+msgid "What is an OTP ?"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:323
+msgid "OTP is a one time passcode ( a series of numbers) that is sent to your email or phone number to verify that you have access to your email account or phone. "
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:351
+#: miniorange_2_factor_configuration.php:426
+msgid "Activate Plugin"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:356
+#: miniorange_2_factor_configuration.php:431
+#: miniorange_2_factor_configuration.php:455
+msgid "Purchase"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:359
+#: miniorange_2_factor_configuration.php:459
+msgid "Description"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:361
+msgid ""
+"This Add-On helps you in remembering the device, in which case you will not be prompted for the 2-factor authentication\n"
+"\t\t\tif you login from the remembered device again. You can also decide the nu,ber of devices that can be remembered. Users can also be restricted access to the site based on the IP address they are logging in from."
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:370
+msgid "With this feature, User would get an option to remember the personal device where Two Factor is not required. Every time the user logs in with the same device it detects                     the saved device so he will directly login without being prompted for the 2nd factor. If user logs in from new device he will be prompted with 2nd                          Factor."
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:376
+msgid "Limit Number Of Device"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:378
+msgid "With this feature, the admin can restrict the number of devices from which the user can access the website. If the device limit is exceeded the admin can set three actions where it can allow the users to login, deny the access or challenge the user for authentication."
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:384
+msgid "IP Restriction: Limit users to login from specific IPs"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:386
+msgid "The Admin can enable IP restrictions for the users. It will provide additional security to the accounts and perform different action to the accounts only from the listed IP Ranges. If user tries to access with a restricted IP, Admin can set three action: Allow, challenge or deny. Depending upon the action it will allow the user to login, challenge(prompt) for authentication or deny the access."
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:409
+msgid "Risk Based Access"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:411
+msgid "Personalization"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:414
+msgid "Shortcode"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:436
+msgid "Description "
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:448
+msgid ""
+"Activate\n"
+"                        Plugin"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:492
+msgid ""
+"This Add-On helps you modify and redesign the login screen's UI, and various customizations in the plugin dashboard.\n"
+"\t\tAlong with customizing the plugin Icon and name, you can also customize the email and sms templates you and your users receive during authentication."
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:498
+msgid "Customize Plugin Icon"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:501
+msgid "With this feature, you can customize the plugin icon in the dashboard which is useful when you want your                     custom logo to be displayed to the users."
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:504
+msgid "Customize Plugin Name"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:507
+msgid "With this feature, you can customize the name of the plugin in the dashboard."
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:513
+msgid "Customize UI of Login Pop up's"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:516
+msgid "With this feature, you can customize the login pop-ups during two factor authentication according to the theme of                 your website."
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:522
+msgid "Custom Email and SMS Templates"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:525
+msgid "You can change the templates for Email and SMS which user receives during authentication."
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:535
+msgid ""
+"A shortcode is a WordPress-specific code that lets you do things with very little effort. Shortcodes can embed\n"
+"        ugly code in just one line. You can use these shortcodes on any custom page. Just include the shortcode on your page and boom!"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:542
+msgid "List of Shortcodes"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:546
+msgid "Enable Two Factor: "
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:546
+msgid ""
+"This shortcode provides\n"
+"                            an option to turn on/off 2-factor by user."
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:549
+msgid "Enable Reconfiguration: "
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:549
+msgid "This shortcode provides an option to configure the Google Authenticator and Security Questions by user."
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:552
+msgid "Enable Remember Device: "
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:552
+msgid ""
+" This shortcode provides\n"
+"                            'Enable Remember Device' from your custom login form."
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:627
+msgid "Select Login Screen Options"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:641
+msgid "Login with password + 2nd Factor "
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:642
+msgid "Default & Recommended"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:653
+msgid "Remember device"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:653
+msgid "option "
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:656
+msgid " Checking this option will display an option "
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:657
+msgid "Remember this device"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:657
+msgid "on 2nd factor screen. In the next login from the same device, user will bypass 2nd factor, i.e. user will be logged in through username + password only."
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:669
+msgid "Login with 2nd Factor only "
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:670
+msgid "No password required."
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:674
+#: miniorange_2_factor_configuration.php:697
+#: miniorange_2_factor_settings.php:309
+msgid "See preview"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:683
+msgid "Checking this option will add login with your phone button below default login form. Click above link to see the preview."
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:693
+msgid "\tI want to hide default login form."
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:707
+msgid "Checking this option will hide default login form and just show login with your phone. Click above link to see the preview."
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:713
+msgid "Backup Methods"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:723
+msgid "Enable Forgot Phone."
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:726
+msgid "This option will provide you an alternate way of logging in to your site in case you are unable to login with your primary authentication method."
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:732
+msgid "Settings"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:742
+msgid "Enable XML-RPC Login."
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:744
+msgid "Enabling this option will decrease your overall login security. Users will be able to login through external applications which support XML-RPC without authenticating from miniOrange. "
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:745
+msgid "Please keep it unchecked."
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:751
+msgid "Save Settings"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:870
+msgid "Sign In to your miniOrange Account"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:874
+msgid "Enter your miniOrange username and password to login."
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:876
+msgid "FORGOT PASSWORD?"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:881
+msgid "Email:"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:886
+msgid "Password:"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:898
+msgid "Submit"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:929
+msgid "Features in the Standard Plan"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:940
+#: miniorange_2_factor_configuration.php:1106
+msgid "Backup Options"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:947
+#: miniorange_2_factor_configuration.php:1113
+msgid ""
+"Use these backup options to login to your site in case your \n"
+"                            phone is lost / not accessible or if you are not able to login using your primary \n"
+"                            authentication method."
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:952
+#: miniorange_2_factor_configuration.php:1118
+msgid "KBA (Security Questions)"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:963
+#: miniorange_2_factor_configuration.php:1037
+msgid "Customizations"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:970
+#: miniorange_2_factor_configuration.php:1044
+msgid "Login Screen Options"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:973
+#: miniorange_2_factor_configuration.php:1047
+msgid "Login with Wordpress username/password and 2nd Factor"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:975
+#: miniorange_2_factor_configuration.php:987
+#: miniorange_2_factor_configuration.php:1049
+#: miniorange_2_factor_configuration.php:1061
+msgid "See Preview"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:985
+#: miniorange_2_factor_configuration.php:1059
+msgid "Login with Wordpress username and 2nd Factor only"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:1003
+#: miniorange_2_factor_configuration.php:1077
+msgid "Custom Redirect URLs"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:1004
+#: miniorange_2_factor_configuration.php:1078
+msgid ""
+"Enable Custom Relay state URL's (based on user roles in Wordpress) to which the users\n"
+"            will get redirected to, after the 2-factor authentication"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:1009
+#: miniorange_2_factor_configuration.php:1083
+msgid "Custom Security Questions (KBA)"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:1011
+#: miniorange_2_factor_configuration.php:1085
+msgid ""
+"Add up to 16 Custom Security Questions for Knowledge based authentication (KBA).\n"
+"                You also have the option to select how many standard and custom questions should be shown to the\n"
+"                users"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:1018
+#: miniorange_2_factor_configuration.php:1092
+msgid "Custom account name in Google Authenticator App"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:1021
+#: miniorange_2_factor_configuration.php:1095
+msgid "Customize the Account name in the Google Authenticator App"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:1028
+msgid "Features in the Premium Plan"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:1119
+msgid "OTP Over Email"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:1120
+msgid "Backup Codes"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:1130
+msgid "Inline Registration Options"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:1138
+msgid ""
+"Inline Registration is the registration process the users go through the first time they\n"
+"                            setup 2FA."
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:1140
+msgid ""
+"If Inline Registration is enabled by the admin for the users, the next time\n"
+"                            the users login to the website, they will be prompted to set up the 2FA of their choice by\n"
+"                            creating an account with miniOrange."
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:1148
+msgid "Features"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:1150
+msgid "Invoke 2FA Registration & Setup for Users during first-time login (Inline Registration)"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:1153
+msgid "Verify Email address of User during Inline Registration"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:1154
+msgid "Remove Knowledge Based Authentication(KBA) setup during inline registration"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:1155
+msgid "Enable 2FA for specific Roles"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:1156
+msgid "Enable specific 2FA methods to Users during Inline Registration"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:1159
+msgid "Show specific 2FA methods to All Users"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:1161
+msgid "Show specific 2FA methods to Users based on their roles"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:1172
+msgid "User Login Options"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:1179
+msgid "These are the options customizable for your users."
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:1185
+msgid "Enable 2FA during login for specific users on your site"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:1187
+msgid "Enable login from external apps that support XML-RPC. (eg. Wordpress App)"
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:1190
+msgid ""
+"Use the Password generated in the 2FA plugin to login to your Wordpress Site from\n"
+"                                    any application that supports XML-RPC."
+msgstr ""
+
+#: miniorange_2_factor_configuration.php:1197
+msgid ""
+"Enable KBA (Security Questions) as 2FA for Users logging in to the site from mobile\n"
+"            phones."
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:28
+msgid "Please "
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:29
+msgid "to configure the miniOrange 2 Factor plugin."
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:139
+msgid "A new security system has been enabled to better protect your account. Please configure your Two-Factor Authentication method by setting up your account."
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:151
+msgid "Email"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:159
+msgid "Please enter a valid email id that you have access to. You will be able to move forward after verifying an OTP that we will be sending to this email"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:168
+msgid "Get Started"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:268
+msgid "Your Profile"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:274
+msgid "Customer Email"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:280
+msgid "Customer ID"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:290
+msgid "User Email Registered with miniOrange"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:298
+msgid "Activated 2nd Factor"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:305
+msgid "Wordpress user who has 2 factor enabled"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:316
+msgid " to reset your miniOrange account's password."
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:326
+msgid "Deactivate plugin"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:329
+msgid "Register with Another Email Address"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:545
+msgid "Enable 2-factor Authentication for Users"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:562
+msgid "Enable 2-factor Authentication"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:571
+msgid "Selected Method - "
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:640
+msgid "Authentication methods"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:642
+msgid "Current Plan"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:658
+msgid "Standard plan - Authentication methods"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:669
+msgid "Premium plan - Authentication methods"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:679
+msgid "These authentication methods are available in the STANDARD and PREMIUM plans"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:681
+msgid "to learn more"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1151
+msgid ""
+"If you wish to choose Email Verification / OTP Over SMS / OTP Over SMS and Email / OTP Over Email as your authentication method,\n"
+"                    SMS transaction prices & SMS delivery charges apply and they depend on country. SMS validity is for lifetime."
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1158
+msgid "The plugin works with many of the default custom login forms (like Woocommerce / Theme My Login), however if you face any issues with your custom login form, contact us and we will help you with it."
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1168
+msgid "Click on 'Upgrade' button of your preferred plan above."
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1169
+msgid " You will be redirected to the miniOrange Console. Enter your miniOrange username and password, after which you will be redirected to the payment page."
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1171
+msgid "Select the number of users you wish to upgrade for, and any add-ons if you wish to purchase, and make the payment."
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1172
+msgid "After making the payment, you can find the Standard/Premium plugin to download from the 'License' tab in the left navigation bar of the miniOrange Console."
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1173
+msgid "Download the premium plugin from the miniOrange Console."
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1174
+msgid "In the Wordpress dashboard, uninstall the free plugin and install the premium plugin downloaded."
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1175
+msgid "Login to the premium plugin with the miniOrange account you used to make the payment, after this your users will be able to set up 2FA."
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1181
+msgid "There is no license key required to activate the Standard/Premium Plugins. You will have to just login with the miniOrange Account you used to make the purchase."
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1190
+msgid "At miniOrange, we want to ensure you are 100% happy with your purchase. If the premium plugin you purchased is not working as advertised and you've attempted to resolve any issues with our support team, which couldn't get resolved then we will refund the whole amount within 10 days of the purchase."
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1198
+msgid "If you have any doubts regarding the licensing plans, you can mail us at"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1199
+msgid "or submit a query using the support form."
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1244
+msgid "(Only applicable if OTP over SMS is your preferred authentication method.)"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1244
+msgid "SMS Cost"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1247
+msgid "$5 per 100 OTP + SMS delivery charges"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1248
+msgid "$15 per 500 OTP + SMS delivery charges"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1249
+msgid "$22 per 1k OTP + SMS delivery charges"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1250
+msgid "$30 per 5k OTP + SMS delivery charges"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1251
+msgid "$40 per 10k OTP + SMS delivery charges"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1252
+msgid "$90 per 50k OTP + SMS delivery charges"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1261
+msgid "(Only applicable if OTP over Email/Email Verification is your preferred authentication method.)"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1261
+msgid "Email Cost"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1264
+msgid "$5 per 100 Email"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1265
+msgid "$15 per 100 Email"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1266
+msgid "$22 per 1k Email"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1267
+msgid "$30 per 5k Email"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1268
+msgid "$40 per 10k Email"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1269
+msgid "$90 per 50k Email"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1279
+#: miniorange_2_factor_mobile_configuration.php:1298
+msgid "Yearly Subscription Fees"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1282
+msgid "1 - 50 users - $30 per year"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1283
+msgid "50 - 100 users - $49 per year"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1284
+msgid "100 - 500 users - $99 per year"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1285
+msgid "500 - 1000 users - $199 per year"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1286
+msgid "1000 - 5000 users - $299 per year"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1287
+msgid "5000 -  10000 users - $499 per year"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1288
+msgid "10000 - 20000 users - $799 per year"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1301
+msgid "1 - 50 users - $99 per year"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1302
+msgid "50 - 100 users - $199 per year"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1303
+msgid "100 - 500 users - $349 per year"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1304
+msgid "500 - 1000 users - $499 per year"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1305
+msgid "1000 - 5000 users - $799 per year"
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1306
+msgid "5000 -  10000 users - $999 per year "
+msgstr ""
+
+#: miniorange_2_factor_mobile_configuration.php:1307
+msgid "10000 - 20000 users - $1449 per year"
+msgstr ""
+
+#: miniorange_2_factor_settings.php:287
+msgid "miniOrange 2-Factor Plugin:"
+msgstr ""
+
+#: miniorange_2_factor_settings.php:287
+msgid "You have"
+msgstr ""
+
+#: miniorange_2_factor_settings.php:287
+msgid "SMS transactions"
+msgstr ""
+
+#: miniorange_2_factor_settings.php:287
+msgid "remaining"
+msgstr ""
+
+#: miniorange_2_factor_settings.php:287
+msgid "Check Transactions"
+msgstr ""
+
+#: miniorange_2_factor_settings.php:287 miniorange_2_factor_settings.php:298
+msgid "Dismiss this notice."
+msgstr ""
+
+#: miniorange_2_factor_settings.php:296 miniorange_2_factor_settings.php:307
+msgid "miniOrange 2-Factor Plugin: "
+msgstr ""
+
+#: miniorange_2_factor_settings.php:296
+msgid "You have not configured your 2-factor authentication method yet."
+msgstr ""
+
+#: miniorange_2_factor_settings.php:297
+msgid " Click here"
+msgstr ""
+
+#: miniorange_2_factor_settings.php:297
+msgid " to set it up."
+msgstr ""
+
+#: miniorange_2_factor_settings.php:307
+msgid ""
+"If you facing issues after the plugin update \n"
+"\t\t\tlike not seeing anything in the Account Setup Tab [ <a class=\"btn btn-link\" data-toggle=\"collapse\" id=\"showpreviewofbug\" href=\"#previewofbug\"\n"
+"                              aria-expanded=\"false\">"
+msgstr ""
+
+#: miniorange_2_factor_settings.php:310
+msgid " Please click on "
+msgstr ""
+
+#: miniorange_2_factor_settings.php:310
+msgid "Dismiss Notice "
+msgstr ""
+
+#: miniorange_2_factor_settings.php:310
+msgid " if you are not facing any issues."
+msgstr ""
+
+#: miniorange_2_factor_settings.php:315
+msgid "Clear / Refresh Cache"
+msgstr ""
+
+#: miniorange_2_factor_settings.php:319
+msgid "Dismiss Notice"
+msgstr ""
+
+#: miniorange_2_factor_settings.php:1712
+msgid "Your KBA as alternate 2 factor is configured successfully."
+msgstr ""
+
+#: miniorange_2_factor_support.php:13
+msgid "Support"
+msgstr ""
+
+#: miniorange_2_factor_support.php:17
+msgid "Need any help setting it up? Facing any issues? Shoot us a query and we will get back to you."
+msgstr ""
+
+#: miniorange_2_factor_support.php:19
+msgid "Have a look at these FAQ's to see if your question has been answered already! "
+msgstr ""
+
+#: miniorange_2_factor_support.php:48
+msgid "Your query here..."
+msgstr ""
+
+#: miniorange_2_factor_support.php:56
+msgid "Submit Query"
+msgstr ""

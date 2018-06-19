@@ -1,0 +1,66 @@
+<?php function mo2f_test_miniorange_push_notification( $user ) {
+	$is_flow_driven_setup = get_user_meta( $user->ID, 'skipped_flow_driven_setup', true ) ? 0 : 1;
+	if ( ! $is_flow_driven_setup ) { ?>
+        <h3><?php echo mo2f_lt( 'Test Push Notification' ); ?></h3>
+        <hr>
+	<?php } ?>
+    <div>
+        <br><br>
+        <center>
+            <h4><?php echo mo2f_lt( 'A Push Notification has been sent to your phone.' ); ?>
+                <br><?php echo mo2f_lt( 'We are waiting for your approval...' ); ?>
+            </h4>
+            <img src="<?php echo plugins_url( '/../includes/images/ajax-loader-login.gif', __FILE__ ); ?>"/>
+        </center>
+		<?php if ( ! $is_flow_driven_setup ) { ?>
+            <input type="button" name="back" id="go_back" class="button button-primary button-large"
+                   value="<?php echo mo2f_lt( 'Back' ); ?>" style="margin-top:100px;margin-left:10px;"/>
+		<?php } ?>
+        <br><br>
+    </div>
+
+    <form name="f" method="post" action="" id="mo2f_go_back_form">
+        <input type="hidden" name="option" value="mo2f_go_back"/>
+    </form>
+    <form name="f" method="post" id="mo2f_push_success_form" action="">
+        <input type="hidden" name="option" value="mo2f_out_of_band_success"/>
+    </form>
+    <form name="f" method="post" id="mo2f_push_error_form" action="">
+        <input type="hidden" name="option" value="mo2f_out_of_band_error"/>
+    </form>
+
+    <script>
+        jQuery('#go_back').click(function () {
+            jQuery('#mo2f_go_back_form').submit();
+        });
+
+        var timeout;
+        pollMobileValidation();
+
+        function pollMobileValidation() {
+            var transId = "<?php echo $_SESSION['mo2f_transactionId'];  ?>";
+            var jsonString = "{\"txId\":\"" + transId + "\"}";
+            var postUrl = "<?php echo get_option( 'mo2f_host_name' );  ?>" + "/moas/api/auth/auth-status";
+
+            jQuery.ajax({
+                url: postUrl,
+                type: "POST",
+                dataType: "json",
+                data: jsonString,
+                contentType: "application/json; charset=utf-8",
+                success: function (result) {
+                    var status = JSON.parse(JSON.stringify(result)).status;
+                    if (status == 'SUCCESS') {
+                        jQuery('#mo2f_push_success_form').submit();
+                    } else if (status == 'ERROR' || status == 'FAILED' || status == 'DENIED') {
+                        jQuery('#mo2f_push_error_form').submit();
+                    } else {
+                        timeout = setTimeout(pollMobileValidation, 3000);
+                    }
+                }
+            });
+        }
+
+    </script>
+
+<?php } ?>

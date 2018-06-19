@@ -1,0 +1,52 @@
+body.login div#login {
+    display: block;
+}
+
+body.login div#login form#loginform input#user_login {
+    display: none;
+}
+
+body.login div#login form#loginform p.forgetmenot {
+    display: none;
+}
+
+body.login div#login form#loginform p.submit input#wp-submit {
+    display: none;
+}
+
+body.login div#login form#loginform p label {
+    display: none;
+}
+
+body.login div#login p#nav {
+    display: none;
+}
+
+body.login div#login form#loginform input#user_pass {
+    display: none;
+}
+
+body.login div#login div#login_error {
+    display: none;
+}
+
+body.login div#login div#login_error1 {
+    border-left: 4px solid #dd3d36;
+    margin-left: 0;
+    padding: 12px;
+    background: #fff;
+    -webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+input.button-add {
+    background: #00a0d2 url(../../includes/images/mo_white_logo.png) no-repeat 10px center !important;
+    background-size: 16px !important;
+    border-color: #00a0d2;
+    border-width: 0px;
+    vertical-align: middle !important;
+    border-radius: 3px !important;
+    color: white;
+    height: 30px;
+    cursor: pointer;
+}

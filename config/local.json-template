@@ -1,0 +1,12 @@
+{
+  "process": {
+    "env": {
+      "SUJIN_BASE_URL": "/"
+    }
+  },
+  "webpack": {
+    "output": {
+      "publicPath": "http://sujinc.com/"
+    }
+  }
+}

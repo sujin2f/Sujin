@@ -1,0 +1,215 @@
+
+.mo2f_powered_by_miniorange {
+    width: 100px;
+    height: 30px;
+    -webkit-background-size: 100px 25px;
+    background-size: 100px 25px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.mo2f_powered_by_div {
+    text-align: right;
+    font-size: 9px;
+    padding-right: 5px;
+    background-color: #FFFFFF;
+    width: 92%;
+    border-radius: 6px;
+}
+
+.mo2f-login-container {
+    display: inline-block !important;
+    display: -moz-inline-stack !important;
+    text-align: center !important;
+    width: 100%;
+
+}
+
+.mo2f-textbox {
+    width: 160px;
+    margin: 15px 0px !important;
+    background-color: rgba(123, 110, 110, 0.06) !important;
+    border-radius: 4px !important;
+    padding: 3px !important;
+}
+
+.mo2f-button {
+    width: 100% !important;
+    color: #fff !important;
+    line-height: normal;
+    height: 30px !important;
+    margin: 0px !important;
+    font-size: 14px !important;
+    padding: 7px !important;
+    background-color: #f0ad4e !important;
+    border-color: #eea236 !important;
+    -webkit-appearance: none;
+    -webkit-border-radius: 3px !important;
+    border-radius: 3px !important;
+
+}
+
+.mo2fa_display_message_login {
+    text-align: left !important;
+    font-size: 13px !important;
+}
+
+.mo2f-link {
+    color: #0191BF !important;
+    font-size: 14px !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+}
+
+.mo_green {
+    background: #2ECC71 !important;
+    border-color: #2ECC71 !important;
+    width: 26% !important;
+    border-width: 1px;
+    vertical-align: middle !important;
+    border-radius: 3px !important;
+    color: white;
+    height: 30px;
+    cursor: pointer;
+}
+
+.mo_red {
+    background: #E74C3C !important;
+    border-color: #E74C3C !important;
+    width: 26% !important;
+    border-width: 1px;
+    vertical-align: middle !important;
+    border-radius: 3px !important;
+    color: white;
+    height: 30px;
+    cursor: pointer;
+}
+
+.showQRHelp, .showOTPHelp {
+    text-align: center !important;
+
+}
+
+.mo2f_device {
+/ / padding-left: 200 px !important;
+    vertical-align: -webkit-baseline-middle !important;
+    line-height: 3 !important;
+}
+
+.miniorange-button {
+    height: 30px;
+    font-size: 14px !important;
+    line-height: 5px !important;
+    padding: 16px !important;
+    border-width: 1px;
+    vertical-align: middle !important;
+    background-color: #f0ad4e !important;
+    border-color: #eea236 !important;
+    -webkit-appearance: none;
+    border-style: solid;
+    -webkit-border-radius: 3px !important;
+    border-radius: 3px !important;
+    white-space: nowrap;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.mo_hr {
+    border-top: 1px solid rgba(220, 214, 214, 0.25) !important;
+    margin-top: 5px !important;
+    margin-right: 10px !important;
+}
+
+.mo_margin_left {
+    margin-left: 20px !important;
+}
+
+.mo_app_link {
+    text-decoration: none !important;
+    color: #000 !important;
+}
+
+.mo2f_td_show {
+    display: grid !important;
+}
+
+.mo2f_td_hide {
+    display: none !important;
+}
+
+.mo2f_label {
+    font-weight: 100 !important;
+    margin-left: 10px !important;
+
+}
+
+.mo2f_kba_ques {
+    width: 394px !important;
+    border-radius: 4px !important;
+    height: 40px !important;
+    font-size: 14px !important;
+}
+
+.mo2f_kba_table {
+    padding: 0 10px;
+    width: 100%;
+    border: hidden !important;
+}
+
+.mo2f_kba_tb_data {
+    padding-left: 15px;
+}
+
+.mo2f_table_textbox_1 {
+    width: 150px;
+    height: 30px !important;
+    font-size: 14px !important;
+}
+
+.mo2f_table_textbox {
+    width: 200px;
+    height: 40px !important;
+    font-size: 14px !important;
+
+}
+
+.mo2f_kba_header {
+    font-weight: bold;
+    border: hidden !important;
+}
+
+.mo2f_kba_body {
+    border: hidden !important;
+}
+
+.mo2f_separator {
+    border-left: 1px solid #EBECEC;
+    padding: 5px;
+}
+
+.mo2f_authn_header {
+    font-size: 14px !important;
+}
+
+#mo2f_inline_table {
+    border: hidden !important;
+}
+
+.mo2f_ordered_list {
+    margin: 0 0 0 1em !important;
+}
+
+.mo2f_list {
+    font-size: 14px !important;
+}
+
+
+
+
+
+

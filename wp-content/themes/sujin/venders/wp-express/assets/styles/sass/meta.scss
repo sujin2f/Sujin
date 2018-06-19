@@ -1,0 +1,42 @@
+.wp-express-meta {
+	margin-bottom: 20px;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+
+	label {
+		font-size: 13px;
+		display: block;
+		vertical-align: text-bottom;
+		font-weight: bold;
+	}
+
+	.hidden {
+		display: none !important;
+	}
+}
+.wp-express-meta-file {
+	.btn-upload {
+		display: flex;
+		align-items: center;
+		color: #444;
+		text-decoration: none;
+
+		button {
+			margin-left: 10px;
+		}
+	}
+}
+
+.wp-express-meta-checkbox {
+}
+
+.wp-express-meta-text {
+	display: flex;
+	align-items: center;
+
+	label {
+		margin-right: 10px;
+	}
+}

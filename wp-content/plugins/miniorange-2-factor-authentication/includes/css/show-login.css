@@ -1,0 +1,89 @@
+body.login div#login {
+    display: block;
+}
+
+body.login div#login form#loginform input#user_login {
+    display: block;
+}
+
+body.login div#login form#loginform p.forgetmenot {
+    display: block;
+}
+
+body.login div#login form#loginform p.submit input#wp-submit {
+    display: block;
+}
+
+body.login div#login form#loginform p label {
+    display: block;
+}
+
+body.login div#login p#nav {
+    display: block;
+}
+
+body.login div#login form#loginform input#user_pass {
+    display: block;
+}
+
+body.login div#login div#login_error {
+    display: block;
+}
+
+body.login div#login div#login_error1 {
+    border-left: 4px solid #dd3d36;
+    margin-left: 0;
+    padding: 12px;
+    background: #fff;
+    -webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+input.button-add {
+    background: #00a0d2 url(../../includes/images/mo_white_logo.png) no-repeat 10px center !important;
+    background-size: 16px !important;
+}
+
+.miniorange-button {
+    height: 34px;
+    display: inline-block;
+    font-size: 14px;
+    line-height: 28px;
+    padding: 0 12px 2px;
+    border-width: 1px;
+    vertical-align: baseline;
+    border-style: solid;
+    border-color: #0073aa;
+    -webkit-appearance: none;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    white-space: nowrap;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-box-shadow: inset 0 1px 0 rgba(120, 200, 230, .5), 0 1px 0 rgba(0, 0, 0, .15);
+    box-shadow: inset 0 1px 0 rgba(120, 200, 230, .5), 0 1px 0 rgba(0, 0, 0, .15);
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.login_with_2factor_inner_div {
+    border-bottom: 1px solid #EEE;
+    width: 90%;
+    margin: 0 5%;
+    z-index: 1;
+    top: 50%;
+    position: absolute;
+}
+
+.login_with_2factor_h2 {
+    color: #666;
+    margin: 0 auto 20px auto;
+    padding: 3px 0;
+    text-align: center;
+    background: white;
+    width: 20%;
+    position: relative;
+    z-index: 2;
+}

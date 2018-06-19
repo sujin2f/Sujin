@@ -1,0 +1,317 @@
+body.login-action-login div#login {
+    display: none;
+}
+
+body.login-action-login div#login form#loginform input#user_login {
+    display: none;
+}
+
+body.login-action-login div#login form#loginform p.forgetmenot {
+    display: none;
+}
+
+body.login-action-login div#login form#loginform p.submit input#wp-submit {
+    display: none;
+}
+
+body.login-action-login div#login form#loginform p label {
+    display: none;
+}
+
+body.login-action-login div#login p#nav {
+    display: none;
+}
+
+body.login-action-login div#login form#loginform input#user_pass {
+    display: none;
+}
+
+body.login-action-login div#login div#login_error {
+    display: none;
+}
+
+body.login-action-login p.message {
+    display: none;
+}
+
+body.login-action-login div#login #loginform {
+    box-shadow: inherit;
+}
+
+body.login-action-login div#login div#login_error1 {
+    border-left: 4px solid #dd3d36;
+    margin-left: 0;
+    padding: 12px;
+    background: #fff;
+    -webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.mo2f_header {
+    font-size: 28px;
+    font-family: -webkit-body;
+    color: #777;
+}
+
+.mo2f_powered_by_miniorange {
+    width: 100px;
+    height: 25px;
+    -webkit-background-size: 100px 25px;
+    background-size: 100px 25px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.mo2f_powered_by_div {
+    text-align: right;
+    font-size: 9px;
+    padding-right: 2%;
+    background-color: #FFFFFF;
+}
+
+.button-green {
+    color: rgb(0, 160, 210);
+    background: none !important;
+    border: none;
+    padding: 0 !important;
+    font: inherit;
+    border-color: transparent !important;
+    /*border is optional*/
+    border-bottom: 1px solid #444;
+    cursor: pointer;
+}
+
+.mo2fa_display_message {
+    padding: 12px;
+    border-left: 4px solid #00a0d2;
+    background-color: #fff;
+    -webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
+
+}
+
+.mo2fa_messages_container {
+    width: 300px;
+}
+
+.mo2fa_otp_messages_container {
+    width: 400px;
+}
+
+.mo2fa_push_messages_container {
+    width: 300px;
+}
+
+.miniorange_mobile_auth, .miniorange_app_setup_page {
+    border: 1px none transparent;
+    padding: 10% 24px 10px 20px;
+    min-height: 360px;
+    background: transparent;
+    z-index: 99999;
+}
+
+.miniorange_kba_page {
+    border: 1px none transparent;
+    padding: 10% 24px 10px 20px;
+    min-height: 360px;
+    background: transparent;
+    z-index: 99999;
+
+}
+
+.miniorange_push_oobemail_auth, .miniorange_trust_device {
+    border: 1px none transparent;
+    padding: 10% 24px 10px 20px;
+    min-height: 360px;
+    background: transparent;
+    z-index: 99999;
+}
+
+.miniorange_soft_auth {
+    border: 1px none transparent;
+    padding: 10% 24px 10px 20px;
+    min-height: 360px;
+    background: transparent;
+    z-index: 99999;
+}
+
+.miniorange-inner-login-container {
+    background-color: #fff;
+    margin: 0px auto !important;
+    width: 400px;
+    border-radius: 5px;
+    border: 1px solid rgba(128, 128, 128, 0.06);
+}
+
+.miniorange-inner-kba-login-container {
+    background-color: #fff;
+    margin: 0px auto !important;
+    width: 500px;
+    border-radius: 5px;
+    z-index: 99999;
+    border: 1px solid rgba(128, 128, 128, 0.06);
+}
+
+.miniorange-inner-push-login-container {
+    background-color: #fff;
+    margin: 0px auto !important;
+    width: 300px;
+    border-radius: 5px;
+
+    z-index: 99999;
+    border: 1px solid rgba(128, 128, 128, 0.06);
+}
+
+.miniorange-button {
+    height: 30px;
+    display: inline-block;
+    font-size: 14px;
+    line-height: 28px;
+    padding: 0 12px 2px;
+    border-width: 1px;
+    vertical-align: baseline;
+    background: #00a0d2;
+    border-style: solid;
+    border-color: #0073aa;
+    -webkit-appearance: none;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    white-space: nowrap;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-box-shadow: inset 0 1px 0 rgba(120, 200, 230, .5), 0 1px 0 rgba(0, 0, 0, .15);
+    box-shadow: inset 0 1px 0 rgba(120, 200, 230, .5), 0 1px 0 rgba(0, 0, 0, .15);
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.mo_green {
+    background: #2ECC71;
+    border-color: #2ECC71;
+    width: 37%;
+}
+
+.mo_red {
+    background: #E74C3C;
+    border-color: #E74C3C;
+    width: 37%;
+}
+
+.showQRHelp, .showOTPHelp {
+    text-align: center !important;
+}
+
+.mo_email_textbox {
+    width: 48%;
+    text-align: center;
+    height: 40px;
+    font-size: 18px;
+    border-radius: 5px;
+}
+
+.mo_header_background {
+    padding: 5px !important;
+    background-color: beige !important;
+}
+
+.mo2f_textbox {
+    width: 60% !important;
+    border-radius: 4px !important;
+    height: 30px !important;
+    font-size: 14px !important;
+}
+
+.mo2f_kba_textbox {
+    width: 100% !important;
+    border-radius: 4px !important;
+    height: 30px !important;
+    font-size: 14px !important;
+}
+
+.mo_hr {
+    border-top: 1px solid rgba(220, 214, 214, 0.25) !important;
+    margin-top: 5px !important;
+    margin-right: 10px !important;
+}
+
+.mo_margin_left {
+    margin-left: 20px !important;
+}
+
+.miniorange-app-setup-container {
+    background-color: #fff;
+    margin: 0px auto !important;
+    width: 700px;
+    border-radius: 5px;
+    margin-top: -100px !important;
+    z-index: 99999;
+    border: 1px solid rgba(128, 128, 128, 0.06);
+
+}
+
+.miniorange-ga-setup-container {
+    background-color: #fff;
+    margin: 0px auto !important;
+    width: 900px;
+    border-radius: 5px;
+    margin-top: -50px !important;
+    z-index: 99999;
+    border: 1px solid rgba(128, 128, 128, 0.06);
+}
+
+.mo_app_link {
+    text-decoration: none !important;
+    color: #000 !important;
+}
+
+.mo2fa_app_setup_messages {
+    width: 700px;
+}
+
+.mo2f_td_show {
+    display: grid !important;
+}
+
+.mo2f_td_hide {
+    display: none !important;
+}
+
+.mo2f_kba_ques {
+    width: 370px !important;
+    border-radius: 4px !important;
+    height: 30px !important;
+    font-size: 14px !important;
+}
+
+.mo2f_kba_table {
+    padding: 0 10px;
+    width: 100%;
+}
+
+.mo2f_kba_tb_data {
+    padding-left: 15px;
+}
+
+.mo2f_table_textbox {
+    width: 150px;
+    height: 30px !important;
+    font-size: 14px !important;
+
+}
+
+.mo2f_kba_header {
+    font-weight: bold;
+}
+
+.mo2f_separator {
+    border-left: 1px solid #EBECEC;
+    padding: 5px;
+}
+
+.mo2f_inline_padding {
+    padding-left: 20px;
+    padding-right: 20px;
+}

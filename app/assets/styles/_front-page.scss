@@ -1,0 +1,38 @@
+.template-front-page {
+	.page-header-wrapper {
+		height: calc(100vh - #{$header-height});
+
+		.background {
+			height: calc(100vh - #{$header-height});
+		}
+		.foreground {
+			height: calc(100vh - #{$header-height});
+		}
+		.text {
+			height: calc(100vh - #{$header-height});
+
+			h1 {
+				height: 116px;
+				text-indent: -10000px;
+				overflow: hidden;
+				display: block;
+				background: transparent url('/images/logo/front-page-logo.png') no-repeat 0 0;
+				width: 100%;
+				background-position: center bottom;
+				margin-bottom: 15px;
+			}
+
+			p {
+				font-size: 30px;
+				text-align: center;
+				margin-bottom: 0;
+				background-color: rgba(map-get($foundation-palette, 'primary'), 0.8);
+
+
+				@include breakpoint(small only) {
+					font-size: 20px;
+				}
+			}
+		}
+	}
+}

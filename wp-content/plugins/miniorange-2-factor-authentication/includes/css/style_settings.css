@@ -1,0 +1,746 @@
+.mo2f_table_layout {
+    background-color: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    padding: 0px 24px 0px 20px;
+    min-height: 373px;
+}
+
+.impt {
+    color: #FF0000
+}
+
+.mo2f_small_layout {
+    background-color: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    padding: 0px 24px 10px 20px;
+}
+
+.mo2f_support_layout {
+    width: 93%;
+    background-color: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    padding: 0px 24px 0px 20px;
+}
+
+.mo2f_help_layout {
+    background-color: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    padding-left: 20px;
+    min-height: 550px;
+}
+
+.mo2f_table_layout td strong {
+    margin-left: 10px;
+}
+
+.col1 {
+    width: 20%;
+}
+
+#panel1 {
+    width: 100%;
+}
+
+.panel_toggle {
+    cursor: pointer;
+}
+
+.panel_toggle:hover {
+    text-decoration: underline;
+}
+
+.mo2f_table_textbox {
+    width: 100%;
+    height: 30px;
+}
+
+.mo2f_settings_table {
+    width: 100%;
+}
+
+#mo2f_note {
+    background-color: #d9edf7;
+    border-radius: 4px;
+    padding: 5px;
+    color: #31708f;
+    font-style: italic;
+}
+
+.button-green {
+    background: #95D387 !important;
+    color: #ffffff !important;
+    border: 1px solid #95D387 !important;
+}
+
+.mo2f_user_layout {
+    margin-top: 20px;
+    margin-right: 20px;
+}
+
+.header2 {
+    font-size: 1.6em;
+    color: #00A0D2;
+}
+
+.alert-box {
+    margin-top: 21px;
+}
+
+.extra-large {
+    padding: 10px !important;
+    font-size: 2em !important;
+    height: 46px !important;
+    border-radius: 5px !important;
+    line-height: 25px !important;
+}
+
+.mo2f_account_header {
+    margin: 0px !important;
+
+}
+
+a {
+    text-decoration: none !important;
+
+}
+
+.mo2f_help_container {
+    background-color: #ccc !important;
+}
+
+.mo2f_faqs > h3, .mo2f_faqs > div {
+    margin-left: 15px !important;
+    margin-right: 5px !important;
+
+}
+
+.mo2f_faqs > div {
+    padding: 5px 20px !important;
+    border-left: 2px solid grey;
+}
+
+.mo2f_faqs > hr {
+    border-top: 1px solid rgb(135, 129, 129) !important;
+    margin-right: 20px !important;
+}
+
+.mo2f_faqs > h3 > a:focus {
+    box-shadow: 0px 0px 0px 0px #fff !important;
+}
+
+.mo2f_msgs {
+    font-size: 14px !important;
+}
+
+.mo2f_row {
+
+    display: -webkit-inline-box !important;
+}
+
+.configuredBasic {
+    background: url(../images/feat_smart.png) rgba(99, 143, 223, 0.42) no-repeat right;
+    padding: 10px;
+    margin-bottom: 0px;
+}
+
+.configuredSmart {
+    background: url(../images/Smartphone-24.png) rgba(99, 143, 223, 0.42) no-repeat right;
+    padding: 10px;
+    margin-bottom: 0px;
+}
+
+.notConfiguredBasic {
+    background: url(../images/feat_smart.png) rgba(221, 221, 221, 0.66) no-repeat right;
+    padding: 10px;
+    margin-bottom: 0px;
+}
+
+.notConfiguredSmart {
+    background: url(../images/Smartphone-24.png) rgba(221, 221, 221, 0.66) no-repeat right;
+    padding: 10px;
+    margin-bottom: 0px;
+}
+
+.configuredLandline {
+    background: url(../images/landline_sprite.png) rgba(99, 143, 223, 0.42) no-repeat right;
+    padding: 10px;
+    margin-bottom: 0px;
+}
+
+.notConfiguredLandline {
+    background: url(../images/landline_sprite.png) rgba(221, 221, 221, 0.66) no-repeat right;
+    padding: 10px;
+    margin-bottom: 0px;
+}
+
+.selectedMethod {
+    background-color: rgba(54, 157, 4, 0.42) !important;
+}
+
+.color-icon {
+    vertical-align: middle;
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    margin-left: 20px;
+}
+
+.activeMethod {
+    background-color: rgba(99, 143, 223, 0.42) !important;
+    margin-left: 23%;
+
+}
+
+.inactiveMethod {
+    background-color: rgba(221, 221, 221, 0.66) !important;
+    margin-left: 20.5%;
+
+}
+
+.configuredLaptop {
+    background: url(../images/laptop-24.png) rgba(99, 143, 223, 0.42) no-repeat right;
+    padding: 10px;
+    margin-bottom: 0px;
+}
+
+.notConfiguredLaptop {
+    background: url(../images/laptop-24.png) rgba(221, 221, 221, 0.66) no-repeat right;
+    padding: 20px;
+    margin-bottom: 0px;
+}
+
+.mo2f_column_padding {
+    padding-right: 10px;
+
+}
+
+.mo2f_td_show {
+    display: table-cell;
+}
+
+.mo2f_td_hide {
+    display: none !important;
+}
+
+.mo2f_pricing_table {
+    text-align: center;
+    font-size: 15px !important;
+}
+
+.mo2f_pricing_header {
+    color: #fff !important;
+    margin: 8px !important;
+}
+
+.mo2f_pricing_sub_header {
+    margin: 4px !important;
+    color: #fff !important;
+}
+
+.mo2f_pricing_text {
+    font-size: 15px !important;
+    color: #fff !important;
+    font-weight: bold !important;
+}
+
+.mo2f_pricing_free_tab {
+    background-color: rgba(34, 153, 221, 0.82) !important;
+}
+
+.mo2f_pricing_paid_tab {
+    background-color: #1a71a4 !important;
+}
+
+.mo2f_kba_ques {
+    width: 412px !important;
+    border-radius: 4px;
+    height: 30px;
+    font-size: 13px !important;
+}
+
+.mo2f_kba_table {
+    padding-left: 10px;
+    width: 80%;
+}
+
+.mo2f_kba_tb_data {
+    padding-left: 80px;
+}
+
+.mo2f_grayed_out {
+    background-color: rgba(128, 128, 128, 0.05) !important;
+    opacity: .5;
+}
+
+.mo2f_grayed_out_link {
+    position: absolute;
+    float: right;
+    margin: 0.5% 0 0 24%;
+    z-index: 99;
+}
+
+.black_overlay {
+    display: none;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    z-index: 1001;
+    -moz-opacity: 0.8;
+    opacity: .80;
+    filter: alpha(opacity=80);
+}
+
+.mo2f_setup_2factor_tab {
+    align-content: center;
+    width: 98%;
+    padding: 20px;
+    min-height: 400px;
+}
+
+.mo2f_2factor_heading_images {
+    display: inline-block;
+    padding: 15px;
+    width: 20px;
+    height: 20px;
+    float: left
+}
+
+.mo2f_advanced_options_images {
+    display: inline-block;
+    padding: 15px;
+    width: 20px;
+    height: 20px;
+    float: left
+}
+
+.mo2f_view_premium_plan_auth_methods, .mo2f_view_standard_plan_auth_methods, .mo2f_view_backup_options, .mo2f_view_backup_options_prem,
+.mo2f_view_login_options, .mo2f_view_inline_registration_options, .mo2f_view_customizations, .mo2f_advanced_options_a,
+.mo2f_view_customizations_prem {
+    color: navy;
+    cursor: pointer;
+}
+
+.mo2f_view_free_plan_auth_methods {
+    color: black;
+    cursor: pointer;
+}
+
+.mo2f_view_free_plan_auth_methods:hover {
+    color: black;
+}
+
+.mo2f_view_premium_plan_auth_methods:hover, .mo2f_view_standard_plan_auth_methods:hover, .mo2f_view_backup_options:hover,
+.mo2f_view_backup_options_prem:hover, .mo2f_view_customizations_prem:hover, .mo2f_view_login_options:hover, .mo2f_view_inline_registration_options:hover, .mo2f_view_customizations:hover {
+    color: limegreen;
+}
+
+.mo2f_heading_style {
+    font-size: 18px;
+    font-family: Segoe UI;
+    padding: 11px;
+}
+
+.mo2f_auth_methods_table {
+    border-spacing: 15px;
+    border-collapse: separate;
+}
+
+.mo2f_auth_methods_thumbnail {
+    width: 50px;
+    height: 50px;
+    padding: 20px;
+    line-height: 80px;
+}
+
+.mo2f_auth_method_title {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.mo2f_configure_2_factor {
+    padding: 10px;
+    float: left;
+    line-height: 20px;
+}
+
+.mo2f_set_2_factor {
+    padding: 10px;
+    float: right;
+    line-height: 20px;
+}
+
+.mo2f_configure_set_2_factor {
+    background-color: Transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+    color: white;
+}
+
+.mo2f_configure_set_2_factor:hover {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.mo_table-bordered, .mo_table-bordered > tbody > tr > td {
+    border: 1px solid #ddd;
+}
+
+.mo_table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+
+.mo_table-bordered > thead > tr > th {
+    vertical-align: top !important;
+}
+
+.mo_plan-desc {
+    font-size: 14px !important;
+}
+
+.mo_align-center > tr > td {
+    text-align: center !important;
+}
+
+.mo-fa-icon > tr > td > i.fa {
+    color: #5b8a0f;
+
+}
+
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+}
+
+/* added by gayathri */
+
+.mo2f_google_authy_step1 {
+    vertical-align: top;
+    padding-right: 15px;
+    width: 26%;
+}
+
+.mo2f_google_authy_step2 {
+    vertical-align: top;
+    padding-right: 15px;
+    width: 46%;
+}
+
+.mo2f_google_authy_step3 {
+    vertical-align: top;
+    width: 30%
+}
+
+.mo2f_vertical_line {
+    border-left: 1px solid #EBECEC;
+    padding: 5px
+}
+
+.mo2f_ol li {
+    padding: 1px;
+}
+
+.mo2f_google_authy_secret_outer_div {
+    padding: 10px;
+    background-color: #f9edbe;
+    width: 20em;
+    text-align: center;
+}
+
+.mo2f_google_authy_secret_text {
+    font-size: 80%;
+    color: #666666;
+}
+
+.mo2f_google_authy_secret_inner_div {
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1.5;
+}
+
+.mo2f_backup_options, .kbaSectiondiv {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.mo2f_backup_options_div {
+    padding-left: 10px;
+    padding-right: 40px;
+}
+
+.mo2f_rememberdevice {
+    float: left;
+    font-size: 15px;
+    padding-right: 10px;
+}
+
+.mo2f_trust_device {
+    vertical-align: text-top;
+}
+
+.mo2f_push_oob_message {
+    font-size: 16px;
+    font-weight: bold;
+    color: #34495E;
+}
+
+.mo2f_login_prompt_messages {
+    font-size: 16px;
+    font-weight: bold;
+    color: #2980B9;
+
+}
+
+.mo2f_display_none_forms {
+    display: none
+}
+
+.mo2f_licensing_plans {
+    background-color: white;
+    border-style: solid;
+    border-color: lightgrey;
+    border-radius: 4px;
+    border-width: 1px;
+    padding: 10px;
+}
+
+.mo2f_licensing_plans_tr {
+    background-color: #bbccdd;
+}
+
+.mo2f_licensing_plans_plan_desc {
+    color: white;
+    font-size: 16px
+}
+
+.mo2f_licensing_plans_ol {
+    margin-left: 3%
+}
+
+.mo2f_container_views {
+    background-color: white;
+    border-style: solid;
+    border-color: lightgray;
+    border-width: 1px;
+    border-radius: 2px;
+    padding: 20px;
+    min-height: 400px;
+}
+
+.mo2f_register_with_mo_message {
+    display: block;
+    color: red;
+    background-color: rgba(251, 232, 0, 0.15);
+    padding: 5px;
+    border: solid 1px rgba(255, 0, 9, 0.36)
+}
+
+.mo2f_advanced_options_outer_div {
+    background-color: white;
+    border-style: solid;
+    border-color: lightgrey;
+    border-radius: 4px;
+    border-width: 1px;
+    padding: 20px;
+    align-content: center
+}
+
+.mo2f_advanced_options {
+    font-family: 'Segoe UI';
+    background-color: white;
+    min-width: 750px;
+    padding: 5px;
+}
+
+.mo2f_advanced_options_div {
+    font-family: 'Segoe UI';
+    background-color: white;
+    border-color: #CACFD2;
+    min-height: 350px;
+    border-style: solid;
+    border-width: 2px;
+    padding: 20px;
+}
+
+.mo2f_advanced_options_note {
+    background-color: #bbccdd;
+    border-radius: 2px;
+}
+
+.mo2f_advanced_options_a {
+    cursor: pointer;
+    font-size: 15px;
+    color: #333;
+    font-weight: bold;
+}
+
+.mo2f_advanced_options_EC {
+    background-color: white;
+    border-style: solid;
+    border-color: lightgrey;
+    border-radius: 4px;
+    border-width: 1px;
+    padding: 30px;
+    width: 700px;
+    align-content: center
+
+}
+
+.mo2f_setup_2_factor_tab {
+    background-color: white;
+    border-style: solid;
+    border-color: lightgrey;
+    border-radius: 4px;
+    border-width: 1px;
+    padding: 20px;
+    width: 1060px;
+    align-content: center
+
+}
+
+#step1_skip, #step2_skip, #step3_skip, #step5_skip_test, #step4_skip_test {
+    float: left;
+}
+
+.mo2f_advanced_options_a {
+    font-family: "Segoe UI";;
+    padding: 20px;
+    font-weight: bold;
+    font-size: medium;
+    color: black
+}
+
+.mo2f_advanced_options_a:hover {
+    curosr: pointer
+}
+
+.mo2f_vertical-submenu {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    border-spacing: auto;
+
+}
+
+.mo2f_vertical-submenu a {
+    display: inline;
+    background-color: #cce;
+    color: black;
+    margin-left: 6px;
+    width: 28%;
+    margin-top: 15px;
+    text-decoration: none;
+    text-align: center;
+    padding: 11px;
+}
+
+.mo2f_vertical-submenu a:hover {
+    background-color: #ccc;
+}
+
+.mo2f_vertical-submenu a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.mo2f_box {
+    border: 1px solid #DCDCDC;
+    padding: 20px;
+}
+
+.mo2f_pointer {
+    cursor: pointer;
+}
+
+.mo2f_addon_spacing {
+    margin-left: 1%;
+    padding: 1px 16px;
+}
+
+.mo2f_std_prem_p {
+    font-size: 20px;
+    font-family: Segoe UI;
+    color: darkblue;
+}
+
+.mo2f_push_oob_backup {
+    font-size: 17px;
+    font-family: Segoe UI;
+    color: cornflowerblue;
+}
+
+.add-new-h2 {
+    margin-left: 4px;
+    padding: 4px 8px;
+    position: relative;
+    top: -3px;
+    text-decoration: none;
+    border: none;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    background: #f7f7f7;
+    text-shadow: none;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: normal;
+    color: #0073aa;
+    cursor: pointer;
+    outline: 0
+}
+
+.twofa-license {
+    background-color: orange !important;
+    color: #000 !important
+}
+
+.twofa-license:hover {
+    color: #fff !important;
+    border-color: #c28f37 !important
+}
+
+
+

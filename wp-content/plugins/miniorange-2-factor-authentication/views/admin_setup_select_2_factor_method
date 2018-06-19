@@ -1,0 +1,231 @@
+<?php
+
+include dirname( __FILE__ ) . '/select_2_factor_authentication_method';
+
+function start_flow_driven_setup( $user ) {
+	global $Mo2fdbQueries;
+	$current_modal             = get_user_meta( $user->ID, 'current_modal', true );
+	$is_large_modal            = in_array( get_user_meta( $user->ID, 'mo2f_2FA_method_to_configure', true ), array(
+		"Google Authenticator",
+		"Security Questions"
+	) ) && $current_modal == "3" ? true : false;
+	$configured_2FA_method     = $Mo2fdbQueries->get_user_detail( 'mo2f_configured_2FA_method', $user->ID );
+	$twoFA_method_to_configure = get_user_meta( $user->ID, 'mo2f_2FA_method_to_configure', true );
+	$mo2f_message              = get_option( 'mo2f_message' );
+	?>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <div class="container">
+        <div class="<?php if ( $is_large_modal ) { ?>
+        modal fade bd-example-modal-lg<?php } else { ?>modal fade<?php } ?>" id="myModal" role="dialog"
+             style="margin-top:40px;overflow-y: scroll;overflow-x: scroll;" data-backdrop="static"
+             data-keyboard="false">
+            <div class="<?php if ( $is_large_modal ) { ?>
+                 modal-dialog modal-lg <?php } else { ?>modal-dialog<?php } ?>">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">
+                            <button type="button" id="close_modal" class="close" data-dismiss="modal">&times;</button>
+							<?php switch ( $current_modal ) {
+								case "1":
+									echo "Hi! Thanks for signing up with miniOrange.";
+									break;
+								case "2":
+									echo "Step 1: Select 2-factor authentication method to configure";
+									break;
+								case "3":
+									echo "Step 2: Configure " . $twoFA_method_to_configure;
+									break;
+								case "4":
+									echo "Configuration of " . $configured_2FA_method . " successful.";
+									break;
+								case "5":
+									echo "Step 3: Test " . $configured_2FA_method;
+									break;
+								case "6":
+									echo "2 Factor Authentication Complete.";
+									break;
+
+							} ?>
+                        </h4>
+                    </div>
+                    <br>
+					<?php if ( $current_modal && $mo2f_message ) { ?>
+                        <div style="padding:10px;">
+                            <div class="alert alert-info" style="margin-bottom:0px">
+                                <p style="font-size:15px"><?php echo $mo2f_message; ?></p>
+                            </div>
+                        </div>
+					<?php } ?>
+
+                    <div style="padding:10px">
+						<?php $percent = get_modal_percent( $user ); ?>
+                        <div class="progress" style="height:14px;margin-bottom:0px">
+                            <div class="progress-bar progress-bar-striped bg-success" role="progressbar"
+                                 style="background-color:green;width: <?php echo $percent; ?>%"
+                                 aria-valuenow="<?php echo $percent; ?>" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+
+                    <div class="modal-body">
+						<?php switch ( $current_modal ) {
+							case "1": ?>
+                                <p>We will take you through a series of steps in which you can set up your preferred
+                                    2-factor method and test it out.</p>
+								<?php break;
+							case "2":
+								prompt_user_to_select_2factor_method();
+								break;
+							case "3":
+								mo2f_show_2FA_configuration_screen( $user, $twoFA_method_to_configure );
+								break;
+							case "4":
+								?>
+                                <p>You have successfully configured your 2-factor authentication method. It is
+                                    recommended to test out the configured 2-factor authentication method once. Click on
+                                    Next to continue to Test or Skip and Test it later.</p>
+								<?php break;
+							case "5":
+								mo2f_show_2FA_test_screen( $user, $configured_2FA_method );
+								break;
+							case "6":
+								?>
+                                <p>Now on, every time you login to your site, you will be asked for a 2-factor
+                                    authentication prompt to validate your identity.</p>
+								<?php break;
+
+						} ?>
+
+                    </div>
+                    <div class="modal-footer">
+						<?php switch ( $current_modal ) {
+							case "1": ?>
+                                <button type="button" id="step1_skip" class="btn btn-default" data-dismiss="modal">Skip
+                                    Setup
+                                </button>
+                                <button type="button" id="step1_next" class="btn btn-default">Next</button>
+								<?php break;
+							case "2": ?>
+                                <button type="button" id="step2_skip" class="btn btn-default" data-dismiss="modal">Skip
+                                    Setup
+                                </button>
+								<?php
+								break;
+							case "3": ?>
+                                <button type="button" id="step3_back" class="btn btn-default">Back</button>
+                                <button type="button" id="step3_skip" class="btn btn-default" data-dismiss="modal">Skip
+                                    Setup
+                                </button>
+								<?php
+								break;
+							case "4": ?>
+                                <button type="button" id="step4_skip_test" class="btn btn-default" data-dismiss="modal">
+                                    Skip Test
+                                </button>
+                                <button type="button" id="step4_next"
+                                        onclick="testAuthenticationMethod('<?php echo $configured_2FA_method; ?>');"
+                                        class="btn btn-default">Next
+                                </button>
+								<?php
+								break;
+							case "5": ?>
+                                <button type="button" id="step5_back" class="btn btn-default">Reconfigure 2FA method
+                                </button>
+                                <button type="button" id="step5_skip_test" class="btn btn-default" data-dismiss="modal">
+                                    Skip Test
+                                </button>
+								<?php
+								break;
+							case "6": ?>
+                                <button type="button" id="step6_complete_setup" class="btn btn-default">Finish</button>
+								<?php
+								break;
+
+						} ?>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <form name="f" method="post" action="" id="mo2f_start_flow_driven_setup">
+        <input type="hidden" name="option" value="mo2f_step1_next"/>
+    </form>
+
+    <form name="f" method="post" action="" id="mo2f_skip_test_form">
+        <input type="hidden" name="option" value="mo2f_skip_test"/>
+    </form>
+    <form name="f" method="post" action="" id="mo2f_skip_flow_driven_setup">
+        <input type="hidden" name="option" value="mo2f_skip_flow_driven_setup"/>
+    </form>
+    <form name="f" method="post" action="" id="mo2f_go_back_to_previous_step">
+        <input type="hidden" name="option" value="mo2f_back_to_previous_step"/>
+    </form>
+    <form name="f" method="post" action="" id="mo2f_go_back_to_reconfigure_2FA">
+        <input type="hidden" name="option" value="mo2f_go_back_to_reconfigure_2FA"/>
+    </form>
+
+
+    <script>
+
+        jQuery(function () {
+            jQuery('#myModal').modal('toggle');
+        });
+
+        jQuery('#step1_next').click(function () {
+            jQuery('#mo2f_start_flow_driven_setup').submit();
+        });
+
+        jQuery('#step1_skip').click(function () {
+            jQuery('#mo2f_skip_flow_driven_setup').submit();
+        });
+
+        jQuery('#step2_skip').click(function () {
+            jQuery('#mo2f_skip_flow_driven_setup').submit();
+        });
+
+        jQuery('#step3_skip').click(function () {
+            jQuery('#mo2f_skip_flow_driven_setup').submit();
+        });
+
+        jQuery('#step4_skip_test').click(function () {
+            jQuery('#mo2f_skip_test_form').submit();
+        });
+
+        jQuery('#step5_skip_test').click(function () {
+            jQuery('#mo2f_skip_test_form').submit();
+        });
+
+        jQuery('#close_modal').click(function () {
+            jQuery('#mo2f_skip_flow_driven_setup').submit();
+        });
+
+        jQuery('#step6_complete_setup').click(function () {
+            jQuery('#mo2f_skip_flow_driven_setup').submit();
+        });
+
+        jQuery('#step3_back').click(function () {
+            jQuery('#mo2f_go_back_to_previous_step').submit();
+        });
+        jQuery('#step5_back').click(function () {
+            jQuery('#mo2f_go_back_to_reconfigure_2FA').submit();
+        });
+
+
+    </script>
+
+	<?php
+}
+
+function get_modal_percent( $user ) {
+	$current_modal = get_user_meta( $user->ID, 'current_modal', true );
+
+	return ( 100 / 6 ) * (int) $current_modal;
+}
+
+
+?>
