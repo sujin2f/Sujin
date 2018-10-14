@@ -53,6 +53,11 @@ li {
 	font-weight: 100;
 }
 
+dd {
+	margin-bottom: 1em;
+	overflow-wrap: break-word;
+}
+
 .txt2image {
 	text-indent: -1000px;
 	overflow: hidden;
@@ -109,5 +114,12 @@ li {
 		&:before {
 			content: '#';
 		}
+	}
+}
+
+.template-dev-tools {
+	.container {
+		margin-top: 50px;
+		margin-bottom: 50px;
 	}
 }

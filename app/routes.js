@@ -2,6 +2,7 @@ import React from 'react';
 
 // Screens
 import FrontPage from 'app/scenes/public/screens/FrontPage';
+import DevTools from 'app/scenes/public/screens/DevTools';
 import Page from 'app/scenes/public/screens/Page';
 import Archive from 'app/scenes/public/screens/Archive';
 import Post from 'app/scenes/public/screens/Post';
@@ -13,6 +14,11 @@ export default {
     {
       path: `${process.env.SUJIN_BASE_URL}`,
       component: FrontPage,
+      exact: true,
+    },
+    {
+      path: `${process.env.SUJIN_BASE_URL}dev-tools/:subMenu?`,
+      component: DevTools,
       exact: true,
     },
     {
