@@ -12,10 +12,12 @@ services:
       WORDPRESS_DB_NAME: sujinc.dev
       WORDPRESS_DB_USER: root
       WORDPRESS_DB_PASSWORD: password
-      WORDPRESS_DEBUG: 1 
+      WORDPRESS_DEBUG: 1
       TZ: America/Toronto
     volumes:
-      - ./wp-content:/var/www/html/wp-content
+      - ../../storage/sujin/plugins:/var/www/html/wp-content/plugins
+      - ../../storage/sujin/uploads:/var/www/html/wp-content/uploads
+      - ./:/var/www/html/wp-content/themes/sujin-gutenberg
     ports:
       - 80
     networks:

@@ -8,6 +8,8 @@ root = true
 end_of_line = lf
 insert_final_newline = true
 charset = utf-8
+indent_style = space
+indent_size = 2
 
 # 4 Tab
 [*.{php, scss, css}]
@@ -15,6 +17,6 @@ indent_style = tab
 indent_size = 4
 
 # 2 Spaces
-[*.{js,json,yml}]
+[*.{js,jsx,json,yml}]
 indent_style = space
 indent_size = 2

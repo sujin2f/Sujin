@@ -1,18 +1,23 @@
 /* eslint-disable */
+import path from 'path';
+import merge from 'webpack-merge';
+import parts from './webpack.config.parts';
 
-switch (process.env.npm_lifecycle_event) {
-  case 'start':
-    module.exports = require('./webpack-config/webpack.config.dev.web').default;
-    break;
+const dist = path.resolve(__dirname, 'dist');
 
-  case 'ssr:dev':
-    module.exports = require('./webpack-config/webpack.config.development.ssr').default;
-    break;
+const config = [
+  merge.smart(
+    {
+      // Entry points, resolver path, and output path
+      entry: {
+        app: path.resolve(__dirname, 'app', 'app.jsx'),
+        style: path.resolve(__dirname, 'assets', 'styles', 'app.scss'),
+      },
+    },
+    parts.setBase(dist),
+    parts.setResolve(),
 
-  case 'ssr:build':
-    module.exports = require('./webpack-config/webpack.config.production.ssr').default;
-    break;
+  ),
+];
 
-  case 'run:stats':
-    module.exports = require('./webpack-config/webpack.config.stats').default;
-}
+module.exports = config;

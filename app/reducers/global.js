@@ -9,14 +9,12 @@ import {
   GET_MENU_FAIL,
 } from 'app/actions/global';
 
-import { getLink } from 'app/utils/common';
-
 // Initial State
 const initialState = {
   scrolled: '',
   mobileMenu: false,
   pushed: '',
-  menu: [],
+  menu: {},
 };
 
 // Actions
@@ -44,24 +42,30 @@ function global(state = initialState, action) {
     case GET_MENU_INIT: {
       return {
         ...state,
-        menu: [],
+        menu: {},
       };
     }
     case GET_MENU_SUCCESS: {
       const menu = action.response.data.map(m => ({
         title: m.title,
-        url: getLink(m.url),
+        url: m.url,
       }));
 
       return {
         ...state,
-        menu,
+        menu: {
+          ...state.menu,
+          [action.menuType]: menu,
+        },
       };
     }
     case GET_MENU_FAIL: {
       return {
         ...state,
-        menu: [],
+        menu: {
+          ...state.menu,
+          [action.menuType]: [],
+        },
       };
     }
 

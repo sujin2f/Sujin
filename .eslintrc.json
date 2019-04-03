@@ -1,38 +1,50 @@
-{
-  "extends": "airbnb",
-  "env": {
-    "browser": true
-  },
-  "plugins": [
-    "react",
-    "jsx-a11y",
-    "import"
+module.exports = {
+  extends: [
+    'airbnb',
+    'plugin:wordpress/esnext',
   ],
-  "rules": {
-    "class-methods-use-this": "off",
-    "no-console": "off",
-    "no-useless-constructor": "off",
-    "react/prop-types": "off",
-    "react/prefer-stateless-function": "off",
-    "react/jsx-first-prop-new-line": "off",
-    "react/jsx-closing-bracket-location": "off",
-    "new-cap": "off",
-    "linebreak-style": "off",
-    "react/jsx-filename-extension": "off",
-    "jsx-a11y/no-static-element-interactions": "off",
-    "max-len": [2, 100, 2],
-    "jsx-a11y/anchor-is-valid": ["error", {
-      "components": [ "Link" ],
-      "specialLink": [ "to" ]
-    }],
-    "object-curly-newline": "off",
-    "react/no-danger": "off"
+  env: {
+    browser: false,
+    es6: true,
+    node: true,
   },
-  "settings": {
+  parser: "babel-eslint",
+  parserOptions: {
+    sourceType: 'module',
+    ecmaFeatures: {
+      jsx: true,
+      modules: true,
+    },
+  },
+  globals: {
+    wp: true,
+    window: true,
+    document: true,
+  },
+  plugins: [
+    'wordpress',
+    'react',
+    'jsx-a11y',
+    'import'
+  ],
+  settings: {
     "import/resolver": {
-      "webpack": {
-        "config": "webpack.config.babel.js"
+      webpack: {
+        config: "webpack.config.babel.js"
       }
     }
+  },
+  rules: {
+    'template-curly-spacing': ["error", "never"],
+    "no-console": "off",
+    "react/react-in-jsx-scope": "off",
+    "operator-linebreak": ["error", "after"],
+    "max-len": [2, 100, 2],
+    "click-events-have-key-events": "off",
+    "react/prop-types": "off",
+    "react/prefer-stateless-function": "off",
+    "import/no-extraneous-dependencies": "off",
+    "class-methods-use-this": "off",
   }
-}
+};
+
