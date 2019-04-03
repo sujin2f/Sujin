@@ -1,41 +1,41 @@
-module.exports = {
-  extends: [
-    'airbnb',
-    'plugin:wordpress/esnext',
+{
+  "extends": [
+    "airbnb",
+    "plugin:wordpress/esnext"
   ],
-  env: {
-    browser: false,
-    es6: true,
-    node: true,
+  "env": {
+    "browser": false,
+    "es6": true,
+    "node": true
   },
-  parser: "babel-eslint",
-  parserOptions: {
-    sourceType: 'module',
-    ecmaFeatures: {
-      jsx: true,
-      modules: true,
-    },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true,
+      "modules": true
+    }
   },
-  globals: {
-    wp: true,
-    window: true,
-    document: true,
+  "globals": {
+    "wp": true,
+    "window": true,
+    "document": true
   },
-  plugins: [
-    'wordpress',
-    'react',
-    'jsx-a11y',
-    'import'
+  "plugins": [
+    "wordpress",
+    "react",
+    "jsx-a11y",
+    "import"
   ],
-  settings: {
+  "settings": {
     "import/resolver": {
-      webpack: {
-        config: "webpack.config.babel.js"
+      "webpack": {
+        "config": "webpack.config.babel.js"
       }
     }
   },
-  rules: {
-    'template-curly-spacing': ["error", "never"],
+  "rules": {
+    "template-curly-spacing": ["error", "never"],
     "no-console": "off",
     "react/react-in-jsx-scope": "off",
     "operator-linebreak": ["error", "after"],
@@ -44,7 +44,6 @@ module.exports = {
     "react/prop-types": "off",
     "react/prefer-stateless-function": "off",
     "import/no-extraneous-dependencies": "off",
-    "class-methods-use-this": "off",
+    "class-methods-use-this": "off"
   }
-};
-
+}
