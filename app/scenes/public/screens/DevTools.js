@@ -3,6 +3,7 @@ import { withRouter } from 'react-router';
 
 import CaseTool from 'app/components/DevTools/CaseTool';
 import TextSort from 'app/components/DevTools/TextSort';
+import SymbolAlignment from 'app/components/DevTools/SymbolAlignment';
 
 import GlobalFooter from 'app/components/Layout/GlobalFooter';
 
@@ -22,6 +23,9 @@ class DevTools extends Component {
           }
           {this.props.match.params.subMenu === 'text-sort' &&
             <TextSort />
+          }
+          {this.props.match.params.subMenu === 'symbol-alignment' &&
+            <SymbolAlignment />
           }
         </main>
 

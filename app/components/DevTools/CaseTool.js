@@ -99,42 +99,42 @@ class CaseTool extends Component {
               <dl className="row">
                 <div className="columns large-6 medium-12">
                   <dt><span className="label">camelCase</span></dt>
-                  <dd className="lead">{camelCase(this.state.converted)}</dd>
+                  <dd className="lead"><code>{camelCase(this.state.converted)}</code></dd>
                 </div>
 
                 <div className="columns large-6 medium-12">
                   <dt><span className="label">PascalCase</span></dt>
-                  <dd className="lead">{pascalCase(this.state.converted)}</dd>
+                  <dd className="lead"><code>{pascalCase(this.state.converted)}</code></dd>
                 </div>
 
                 <div className="columns large-6 medium-12">
                   <dt><span className="label">param-case</span></dt>
-                  <dd className="lead">{paramCase(this.state.converted)}</dd>
+                  <dd className="lead"><code>{paramCase(this.state.converted)}</code></dd>
                 </div>
 
                 <div className="columns large-6 medium-12">
                   <dt><span className="label">snake_case</span></dt>
-                  <dd className="lead">{snakeCase(this.state.converted)}</dd>
+                  <dd className="lead"><code>{snakeCase(this.state.converted)}</code></dd>
                 </div>
 
                 <div className="columns large-6 medium-12">
                   <dt><span className="label">CONSTANT_CASE</span></dt>
-                  <dd className="lead">{constantCase(this.state.converted)}</dd>
+                  <dd className="lead"><code>{constantCase(this.state.converted)}</code></dd>
                 </div>
 
                 <div className="columns large-6 medium-12">
                   <dt><span className="label">Title Case</span></dt>
-                  <dd className="lead">{titleCase(this.state.converted)}</dd>
+                  <dd className="lead"><code>{titleCase(this.state.converted)}</code></dd>
                 </div>
 
                 <div className="columns large-6 medium-12">
                   <dt><span className="label">dotCase</span></dt>
-                  <dd className="lead">{dotCase(this.state.converted)}</dd>
+                  <dd className="lead"><code>{dotCase(this.state.converted)}</code></dd>
                 </div>
 
                 <div className="columns large-6 medium-12">
                   <dt><span className="label">path/case</span></dt>
-                  <dd className="lead">{pathCase(this.state.converted)}</dd>
+                  <dd className="lead"><code>{pathCase(this.state.converted)}</code></dd>
                 </div>
               </dl>
             }
