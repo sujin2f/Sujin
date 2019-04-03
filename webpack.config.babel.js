@@ -11,7 +11,6 @@ const config = [
       // Entry points, resolver path, and output path
       entry: {
         app: path.resolve(__dirname, 'app', 'app.jsx'),
-        style: path.resolve(__dirname, 'assets', 'styles', 'app.scss'),
       },
     },
     parts.setBase(dist),

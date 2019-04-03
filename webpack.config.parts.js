@@ -73,28 +73,12 @@ exports.setBase = function(dist) {
       new FriendlyErrorsWebpackPlugin(),
       new webpack.NoEmitOnErrorsPlugin(),
       new ExtractTextPlugin('[name].css'),
-      new WebpackCleanPlugin(
-        ['style.js'],
-        { basePath: dist }
-      ),
       new CompressionPlugin({
           test: /\.js$|\.css$|\.html$|\.eot?.+$|\.ttf?.+$|\.woff?.+$|\.svg?.+$/,
           filename: '[path].gz[query]',
           algorithm: 'gzip',
           threshold: 10240,
           minRatio: 0.8,
-      }),
-      new OptimizeCSSAssetsPlugin({
-        cssProcessor: cssnano,
-        cssProcessorOptions: {
-          discardComments: {
-            removeAll: true,
-          },
-          // Run cssnano in safe mode to avoid
-          // potentially unsafe transformations.
-          safe: true,
-        },
-        canPrint: false,
       }),
     ],
     optimization: {

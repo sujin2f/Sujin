@@ -13,7 +13,8 @@ class Link extends Component {
 
   pushHash = (e) => {
     const { to, history } = this.props;
-    history.push(to);
+    const origin = window.location.origin;
+    history.push(to.replace(origin, ''));
     e.preventDefault();
   }
 

@@ -7,6 +7,8 @@ import selectors from 'app/selectors';
 import actions from 'app/actions';
 import reducer from 'app/reducers';
 
+import '../assets/styles/app.scss';
+
 ((wp) => {
   const { render } = wp.element;
   const { registerStore } = wp.data;

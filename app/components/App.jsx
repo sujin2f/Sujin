@@ -1,25 +1,28 @@
 import React, { Component } from 'react';
-import Public from 'app/scenes/public';
+import Public from 'app/scenes/Public';
 
 import Router from 'app/components/router/Router';
 import Route from 'app/components/router/Route';
 
-import FrontPage from 'app/scenes/public/FrontPage';
-import Page from 'app/scenes/public/Page';
+import FrontPageContainer from 'app/scenes/FrontPage';
+import FrontPage from 'app/scenes/FrontPage/FrontPage';
+import Page from 'app/scenes/Public/Page';
 
 class App extends Component {
   render() {
     return (
-      <Public>
-        <Router>
-          <Route path="/">
+      <Router>
+        <Route path="/">
+          <FrontPageContainer>
             <FrontPage />
-          </Route>
-          <Route path="/app">
+          </FrontPageContainer>
+        </Route>
+        <Route path="/app">
+          <Public>
             <Page />
-          </Route>
-        </Router>
-      </Public>
+          </Public>
+        </Route>
+      </Router>
     );
   }
 }

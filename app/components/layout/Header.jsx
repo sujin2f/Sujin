@@ -41,7 +41,7 @@ class Header extends Component {
                 onClick={() => toggleMobileMenu()}
                 type="button"
               >
-                {/* Hamberger */}
+                {/* TODO Hamberger */}
                 <span className="fa fa-bars" aria-hidden="true" />
               </button>
               <Menu
@@ -53,7 +53,7 @@ class Header extends Component {
             <section className="columns small-6 hide-for-small-only flex-container-row right">
               <Search />
 
-              {/* Social Media */}
+              {/* TODO Social Media */}
               <div className="show-for-large" position="top" />
             </section>
           </div>
