@@ -50,7 +50,7 @@ function global(state = initialState, action) {
         title: m.title,
         url: m.url,
       }));
-
+      console.log(action.menuType);
       return {
         ...state,
         menu: {
