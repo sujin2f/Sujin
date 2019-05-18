@@ -12,8 +12,10 @@ namespace Sujin\Wordpress\Theme\Sujin;
 use Sujin\Wordpress\Theme\Sujin\Theme_Supports;
 use Sujin\Wordpress\Theme\Sujin\Helpers\Rest_Helper;
 
-use Sujin\Wordpress\WP_Express\Simple_Rest_API;
-use Sujin\Wordpress\WP_Express\Theme_Customizer;
+use Sujin\Wordpress\WP_Express\Setting;
+use Sujin\Wordpress\WP_Express\Fields\Settings\Input as Option_Input;
+
+use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1\Flickr;
 
 use WP_REST_Server, WP_REST_Response, WP_Query;
 
@@ -24,13 +26,11 @@ class REST_API {
 	private $flickr;
 
 	public function __construct() {
-		$this->flickr = Theme_Customizer::get_instance('Flickr ID');
+		Setting::get_instance('Flickr Feed')
+			->add( Option_Input::get_instance( 'Flicker ID' ) );
 
+/*
 		Simple_Rest_API::get_instance( 'sujin/v1' )
-			->set_base( 'flickr' )
-			->set_methods( WP_REST_Server::READABLE )
-			->set_callback( array( $this, 'get_flickrs' ) )
-
 			->set_base( 'posts' )
 			->set_methods( WP_REST_Server::READABLE )
 			->set_callback( array( $this, 'get_posts_by_slug' ) )
@@ -46,6 +46,8 @@ class REST_API {
 			->set_base( 'menu/(?P<menu>[\\w-]+)' )
 			->set_methods( WP_REST_Server::READABLE )
 			->set_callback( array( $this, 'get_menu_items' ) );
+*/
+		new Flickr();
 
 		add_filter( 'rest_prepare_post', array( $this, 'get_single_post' ), 15, 3 );
 		add_filter( 'rest_prepare_page', array( $this, 'get_single_post' ), 15, 3 );
@@ -61,61 +63,6 @@ class REST_API {
 		$response->data['redirect']  = get_post_meta( $post_id, 'redirect', true );
 
 		return $response;
-	}
-
-	public function get_flickrs() {
-		if ( $contents = get_transient( 'flickr' ) )
-			return rest_ensure_response( $contents );
-
-		$flickr_id = $this->flickr->get_value();
-
-		if ( ! $flickr_id ) {
-			return rest_ensure_response( array() );
-		}
-
-		$url = sprintf(
-			'http://api.flickr.com/services/feeds/photos_public.gne?id=%s&format=json&nojsoncallback=1',
-			$flickr_id
-		);
-
-		$conn = curl_init( $url );
-		curl_setopt( $conn, CURLOPT_SSL_VERIFYPEER, true );
-		curl_setopt( $conn, CURLOPT_FRESH_CONNECT,  true );
-		curl_setopt( $conn, CURLOPT_RETURNTRANSFER, 1 );
-		$response = curl_exec( $conn );
-		curl_close( $conn );
-
-		$response = json_decode( str_replace( "\\'", "'", $response ) );
-		if ( !$response )
-			return;
-
-		$response = $response->items;
-
-		$contents = array();
-		if ( $response ) {
-			foreach( $response as $item ) {
-				$media_m = $item->media->m;
-				$media_s = str_replace( '_m.', '_s.', $media_m );
-				$media_t = str_replace( '_m.', '_t.', $media_m );
-				$media_b = str_replace( '_m.', '_b.', $media_m );
-				$media = str_replace( '_m.', '.', $media_m );
-
-				$contents[] = array(
-					'title' => $item->title,
-					'media' => $media,
-					'media_m' => $media_m,
-					'media_s' => $media_s,
-					'media_t' => $media_t,
-					'media_b' => $media_b,
-					'link'    => $item->link,
-				);
-			}
-		}
-
-		$contents = rest_ensure_response( $contents );
-		set_transient( 'flickr', $contents, 12 * HOUR_IN_SECONDS );
-
-		return rest_ensure_response( $contents );
 	}
 
 	public function get_posts_by_slug( $request ) {
