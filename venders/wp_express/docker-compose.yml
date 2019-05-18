@@ -1,0 +1,61 @@
+version: '2'
+services:
+  db:
+    container_name: mariadb
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - mysql:/var/lib/mysql
+    ports:
+      - 3307:3306
+    restart: always
+    networks:
+      - local_default
+  mailhog:
+    container_name: mailhog
+    image: mailhog/mailhog
+    ports:
+      - 1025:1025
+      - 8025:8025
+    networks:
+      - local_default
+    environment:
+      VIRTUAL_HOST: mailhog.test
+  proxy:
+    container_name: nginx-proxy
+    image: jwilder/nginx-proxy
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    command: >
+      bash -c "touch /etc/nginx/conf.d/max_size.conf
+      && echo \"client_max_body_size 100M;\" > /etc/nginx/conf.d/max_size.conf
+      && forego start -r"
+    ports:
+      - 80:80
+    restart: always
+    networks:
+      - local_default
+  wordpress:
+    container_name: wordpress-wpexpress
+    image: sujin2f/wordpress:latest
+    external_links:
+      - mariadb:mysql
+      - mailhog
+    restart: always
+    environment:
+      VIRTUAL_HOST: wpexpress.test
+      WORDPRESS_DB_NAME: wpexpress.test
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_PASSWORD: password
+      WORDPRESS_DEBUG: 1
+      TZ: America/Toronto
+    volumes:
+      - ./:/var/www/html/wp-content/mu-plugins
+    ports:
+      - 80
+    networks:
+      - local_default
+networks:
+  local_default:
+    external: true
