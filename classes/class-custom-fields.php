@@ -9,55 +9,30 @@
 
 namespace Sujin\Wordpress\Theme\Sujin;
 
-use Sujin\Wordpress\WP_Express\Admin;
 use Sujin\Wordpress\WP_Express\Meta_Box;
-use Sujin\Wordpress\WP_Express\Meta\Post_Meta;
-use Sujin\Wordpress\WP_Express\Meta\Term_Meta;
+use Sujin\Wordpress\WP_Express\Fields\Post_Meta\Input as Meta_Input;
+use Sujin\Wordpress\WP_Express\Fields\Post_Meta\Attachment as Meta_Attachment;
+use Sujin\Wordpress\WP_Express\Fields\Post_Meta\Checkbox as Meta_Checkbox;
+
+use Sujin\Wordpress\WP_Express\Fields\Term_Meta\Attachment as Term_Meta_Attachment;
 
 class Custom_Fields {
 	use Helpers\Singleton;
 
-  	public $post_metas = array();
-  	public $term_meta = array();
-
 	function __construct() {
 		$metabox = Meta_Box::get_instance( 'Images' )
-			->set_post_type( 'post' )
-			->set_post_type( 'page' );
+			->post_type( 'post' )
+			->post_type( 'page' )
+			->add( Meta_Attachment::get_instance( 'List' )->show_in_rest( true ) )
+			->add( Meta_Attachment::get_instance( 'Icon' )->show_in_rest( true ) )
+			->add( Meta_Attachment::get_instance( 'Title' )->show_in_rest( true ) )
+			->add( Meta_Attachment::get_instance( 'Background' )->show_in_rest( true ) )
+			->add( Meta_Checkbox::get_instance( 'Use Background Color' )->show_in_rest( true ) )
+			->add( Meta_Input::get_instance( 'Background Color' )->type( 'color' )->show_in_rest( true ) );
 
-		$this->post_metas[] = Post_Meta::get_instance( 'List' )
-			->set_type( 'file' )
-			->set_show_in_rest( true, 'full' )
-			->set_metabox( $metabox );
-
-		$this->post_metas[] = Post_Meta::get_instance( 'Icon' )
-			->set_type( 'file' )
-			->set_show_in_rest( true, 'full' )
-			->set_metabox( $metabox );
-
-		$this->post_metas[] = Post_Meta::get_instance( 'Title' )
-			->set_type( 'file' )
-			->set_show_in_rest( true, 'full' )
-			->set_metabox( $metabox );
-
-		$this->post_metas[] = Post_Meta::get_instance( 'Background' )
-			->set_type( 'file' )
-			->set_show_in_rest( true, 'full' )
-			->set_metabox( $metabox );
-
-		$this->post_metas[] = Post_Meta::get_instance( 'Use Background Color' )
-			->set_type( 'checkbox' )
-			->set_show_in_rest( true )
-			->set_metabox( $metabox );
-
-		$this->post_metas[] = Post_Meta::get_instance( 'Background Color' )
-			->set_type( 'color' )
-			->set_show_in_rest( true )
-			->set_metabox( $metabox );
-
-		$this->term_meta = Term_Meta::get_instance( 'Thumbnail' )
-			->set_taxonomy( 'category' )
-			->set_taxonomy( 'post_tag' )
-			->set_type( 'file' );
+		Term_Meta_Attachment::get_instance( 'Thumbnail' )
+			->attach_to( 'category' )
+			->attach_to( 'post_tag' )
+			->show_in_rest( true );
 	}
 }
