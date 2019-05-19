@@ -61,6 +61,10 @@
 		}
 	}
 
+
+
+
+
   #search-container {
     height: $header-height;
 
@@ -202,9 +206,29 @@
 }
 
 .page-header-wrapper {
-  position: relative;
-  min-height: $page-header-height;
-  background-color: $black;
+	position: relative;
+	min-height: $page-header-height;
+	background-color: $black;
+	padding-top: $header-height;
+
+	.background {
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-size: cover;
+		width: 100%;
+		min-height: $page-header-height;
+		position: absolute;
+
+/*
+    @include breakpoint(medium only) {
+      min-height: $page-header-height-medium;
+    }
+
+    @include breakpoint(small only) {
+      min-height: $page-header-height-small;
+    }
+*/
+	}
 
 /*
   @include breakpoint(medium only) {
@@ -216,24 +240,6 @@
   }
 */
 
-  .background {
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
-    width: 100%;
-    min-height: $page-header-height;
-    position: absolute;
-
-/*
-    @include breakpoint(medium only) {
-      min-height: $page-header-height-medium;
-    }
-
-    @include breakpoint(small only) {
-      min-height: $page-header-height-small;
-    }
-*/
-  }
 
   &.bg-size-contain .background {
     background-size: contain;
