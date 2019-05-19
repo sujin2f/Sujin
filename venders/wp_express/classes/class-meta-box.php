@@ -23,6 +23,7 @@ class Meta_Box extends Abs_Base {
 	private const DEFAULT_POST_TYPE = 'post';
 
 	public const POST_TYPE = 'post_type';
+	public const FIELDS    = 'fields';
 	private $_post_types   = array();
 	private $_fields       = array();
 
@@ -32,17 +33,24 @@ class Meta_Box extends Abs_Base {
 		add_action( 'save_post', array( $this, '_save_post' ), 10, 2 );
 	}
 
-	public function __call( string $name, array $arguments ): Meta_Box {
+	public function __call( string $name, array $arguments ) {
+		$name = '_' . $name;
+
 		switch ( strtolower( $name ) ) {
 			case self::POST_TYPE:
-				if ( empty( $arguments ) ) {
-					return $this->_post_types;
-				}
-
-				$this->_post_types[] = $arguments[0];
+				$name = $name . 's';
 				break;
 		}
 
+		if ( ! property_exists( $this, $name ) ) {
+			return $this;
+		}
+
+		if ( empty( $arguments ) ) {
+			return $this->{$name};
+		}
+
+		$this->{$name} = $arguments[0];
 		return $this;
 	}
 

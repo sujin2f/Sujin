@@ -51,7 +51,7 @@ class Admin extends Abs_Base {
 		add_action( 'plugin_action_links', array( $this, '_plugin_action_links' ), 15, 3 );
 	}
 
-	public function __call( string $name, array $arguments ): Admin {
+	public function __call( string $name, array $arguments ) {
 		switch ( strtolower( $name ) ) {
 			case self::POSITION:
 			case self::ICON:

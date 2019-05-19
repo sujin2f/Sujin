@@ -2,10 +2,13 @@
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1;
 
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Abs_Rest_Base;
+use Sujin\Wordpress\Theme\Sujin\Helpers\Rest_Helper;
 
+use Sujin\Wordpress\WP_Express\Fields\Post_Meta\Attachment as Post_Meta_Attachment;
 use Sujin\Wordpress\WP_Express\Fields\Term_Meta\Attachment as Term_Meta_Attachment;
+use Sujin\Wordpress\WP_Express\Meta_Box;
 
-use WP_REST_Controller, WP_REST_Server, WP_REST_Response, WP_REST_Request, WP_Error;
+use WP_REST_Controller, WP_REST_Server, WP_REST_Response, WP_REST_Request, WP_Error, WP_Query;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	header( 'Status: 404 Not Found' );
@@ -14,6 +17,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Posts extends Abs_Rest_Base {
+	use Rest_Helper;
+
 	public function __construct() {
 		parent::__construct();
 		$this->resource_name = 'posts';
@@ -71,9 +76,6 @@ class Posts extends Abs_Rest_Base {
 				'schema' => array( $this, 'get_item_schema' ),
 			)
 		);
-/*
-
-
 
 		register_rest_route(
 			$this->namespace,
@@ -81,13 +83,12 @@ class Posts extends Abs_Rest_Base {
 			array(
 				array(
 					'methods'             => WP_REST_Server::READABLE,
-					'callback'            => array( $this, 'get_items' ),
+					'callback'            => array( $this, 'get_related' ),
 					'permission_callback' => array( $this, 'get_items_permissions_check' ),
 				),
 				'schema' => array( $this, 'get_item_schema' ),
 			)
 		);
-*/
 	}
 
 	public function get_items_permissions_check( $request ): bool {
@@ -195,5 +196,86 @@ class Posts extends Abs_Rest_Base {
 
 		return $response;
 
+	}
+
+	public function get_related( $request ) {
+		$related_posts = $this->get_related_posts( array( $request->get_param( 'post_id' ) ) );
+
+		foreach( array_keys( $related_posts ) as $key ) {
+			$related_posts[ $key ] = (array) $related_posts[ $key ];
+
+			$related_posts[ $key ]['id']        = $related_posts[ $key ]['ID'];
+			$related_posts[ $key ]['title']     = array( 'rendered' => $related_posts[ $key ]['post_title'] );
+			$related_posts[ $key ]['content']   = array( 'rendered' => $related_posts[ $key ]['post_content'] );
+			$related_posts[ $key ]['excerpt']   = array( 'rendered' => $related_posts[ $key ]['post_excerpt'] );
+			$related_posts[ $key ]['thumbnail'] = $this->get_thumbnail( $related_posts[ $key ]['ID'] );
+			$related_posts[ $key ]['link']      = get_permalink( $related_posts[ $key ]['ID'] );
+			$related_posts[ $key ]['meta']      = $this->get_meta( $related_posts[ $key ]['ID'] );
+
+			unset( $related_posts[ $key ]['ID'] );
+			unset( $related_posts[ $key ]['post_title'] );
+			unset( $related_posts[ $key ]['post_content'] );
+			unset( $related_posts[ $key ]['post_excerpt'] );
+		}
+
+		return rest_ensure_response( $related_posts );
+	}
+
+	private function get_related_posts( $post_ids, $posts = array(), $key = 'tag__in' ) {
+		switch( $key ) {
+			case 'tag__in':
+				$array = array_map( function( $wp_term ) { return $wp_term->term_id; }, $this->get_tags( $post_ids[0] ) );
+				break;
+			case 'category__in':
+				$array = array_map( function( $wp_term ) { return $wp_term->term_id; }, $this->get_categories( $post_ids[0] ) );
+				break;
+			default:
+				$key   = '';
+				$array = '';
+				break;
+		}
+
+		$query_args = array(
+			'posts_per_page'      => 4 - count( $posts ),
+			'ignore_sticky_posts' => 1,
+			'post__not_in'        => $post_ids,
+			$key                  => $array,
+		);
+
+		$query = new WP_Query( $query_args );
+		wp_reset_query();
+
+		$posts    = array_merge( $posts, $query->posts );
+		$new_ids  = array_map( function( $posts ) { return $posts->ID; }, $query->posts );
+		$post_ids = array_merge( $post_ids, $new_ids );
+
+		if ( count( $posts ) >= 4 )
+			return array_slice( $posts, 0, 4 );
+
+		if ( $key == '' )
+			return $posts;
+
+		if ( $key == 'category__in' )
+			$key = '';
+
+		if ( $key == 'tag__in' )
+			$key = 'category__in';
+
+		return $this->get_related_posts( $post_ids, $posts, $key );
+	}
+
+	private function get_meta( $post_id ) {
+		$fields      = Meta_Box::get_instance( 'Images' )->fields();
+		$meta_values = array();
+
+		foreach ( $fields as $field ) {
+			if ( $field instanceof Post_Meta_Attachment ) {
+				$meta_values[ $field->get_id() ] = $field->get_image( $post_id );
+			} else {
+				$meta_values[ $field->get_id() ] = $field->get( $post_id );
+			}
+		}
+
+		return $meta_values;
 	}
 }
