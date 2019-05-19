@@ -16,6 +16,7 @@ class Header extends Component {
       toggleMobileMenu,
       mobileMenuActivated,
       mainMenu,
+      socialMedia,
     } = this.props;
     const wrapperClass = mobileMenuActivated ? 'show-mobile-menu' : '';
 
@@ -42,15 +43,18 @@ class Header extends Component {
               />
               <Menu
                 className="show-for-large menu-top"
-                position="top"
+                position="top-main"
                 menu={mainMenu}
               />
             </section>
             <section className="columns small-6 hide-for-small-only">
               <Search />
 
-              {/* TODO Social Media */}
-              <div className="show-for-large" position="top" />
+              <Menu
+                className="show-for-large social-media"
+                position="top-social"
+                menu={socialMedia}
+              />
             </section>
           </div>
         </section>

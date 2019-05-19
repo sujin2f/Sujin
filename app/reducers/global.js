@@ -1,6 +1,5 @@
 // Import Actions
 import {
-  TOGGLE_SCROLL,
   TOGGLE_MOBILE_MENU,
   RESET_MOBILE_MENU,
 
@@ -20,12 +19,6 @@ const initialState = {
 // Actions
 function global(state = initialState, action) {
   switch (action.type) {
-    case TOGGLE_SCROLL: {
-      return {
-        ...state,
-        scrolled: action.key,
-      };
-    }
     case TOGGLE_MOBILE_MENU: {
       return {
         ...state,
@@ -49,8 +42,10 @@ function global(state = initialState, action) {
       const menu = action.response.data.map(m => ({
         title: m.title,
         url: m.url,
+        classes: m.classes,
+        target: m.target,
       }));
-      console.log(action.menuType);
+
       return {
         ...state,
         menu: {

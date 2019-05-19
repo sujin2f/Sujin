@@ -11,7 +11,11 @@ class Link extends Component {
     this.pushHash = this.pushHash.bind(this);
   }
 
-  pushHash = (e) => {
+  pushHash = (e, target) => {
+    if (target === '_blank') {
+      return;
+    }
+
     const { to, history } = this.props;
     const origin = window.location.origin;
     history.push(to.replace(origin, ''));
@@ -19,13 +23,19 @@ class Link extends Component {
   }
 
   render() {
-    const { to, children, className } = this.props;
+    const {
+      to,
+      children,
+      className,
+      target,
+    } = this.props;
 
     return (
       <a
         href={to}
-        onClick={(e) => this.pushHash(e)}
+        onClick={(e) => this.pushHash(e, target)}
         className={className}
+        target={target}
       >
         {children}
       </a>

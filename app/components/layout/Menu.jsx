@@ -15,7 +15,13 @@ class Menu extends Component {
               key={`menu-${position}-${m.title}`}
               itemType="http://schema.org/SiteNavigationElement"
             >
-              <Link to={m.url}>{m.title}</Link>
+              <Link
+                to={m.url}
+                className={m.classes.join(' ')}
+                target={m.target ? m.target : '_self'}
+              >
+                {m.title}
+              </Link>
             </li>
           ))
         }

@@ -105,6 +105,11 @@ class Taxonomy extends Abs_Base {
 		return $this;
 	}
 
+	public function attach_to( $post_type ): Taxonomy {
+		$this->_post_types[] = $post_type;
+		return $this;
+	}
+
 	// TODO
 	public function _manage_columns() {
 	}

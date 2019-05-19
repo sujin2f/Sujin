@@ -17,7 +17,7 @@ class Post_Series {
 
 	function __construct() {
 		Taxonomy::get_instance('Series')
-			->set_post_type('post')
-			->set_show_in_rest(true);
+			->attach_to('post')
+			->show_in_rest(true);
  	}
 }

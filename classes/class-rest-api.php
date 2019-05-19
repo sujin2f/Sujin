@@ -18,6 +18,7 @@ use Sujin\Wordpress\WP_Express\Fields\Settings\Input as Option_Input;
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1\Flickr;
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1\Posts;
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1\Menu;
+use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1\Media;
 
 use WP_REST_Server, WP_REST_Response, WP_Query;
 
@@ -34,6 +35,7 @@ class REST_API {
 		new Flickr();
 		new Posts();
 		new Menu();
+		new Media();
 
 		add_filter( 'rest_prepare_post', array( $this, 'get_single_post' ), 15, 3 );
 		add_filter( 'rest_prepare_page', array( $this, 'get_single_post' ), 15, 3 );

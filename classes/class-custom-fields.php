@@ -9,6 +9,8 @@
 
 namespace Sujin\Wordpress\Theme\Sujin;
 
+use Sujin\Wordpress\WP_Express\Taxonomy;
+
 use Sujin\Wordpress\WP_Express\Meta_Box;
 use Sujin\Wordpress\WP_Express\Fields\Post_Meta\Input as Meta_Input;
 use Sujin\Wordpress\WP_Express\Fields\Post_Meta\Attachment as Meta_Attachment;
@@ -33,6 +35,10 @@ class Custom_Fields {
 		Term_Meta_Attachment::get_instance( 'Thumbnail' )
 			->attach_to( 'category' )
 			->attach_to( 'post_tag' )
+			->show_in_rest( true );
+
+		Taxonomy::get_instance( 'Category' )
+			->attach_to( 'attachment' )
 			->show_in_rest( true );
 	}
 }
