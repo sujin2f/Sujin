@@ -45,8 +45,8 @@ class Search extends Component {
     const wrapperClass = searchOpened ? 'open' : '';
 
     return (
-      <section id="search-container" className="flex-container-row">
-        <div className={`${wrapperClass} flex-container-row`}>
+      <section id="search-container">
+        <div className={`${wrapperClass}`}>
           <input
             type="text"
             id="search-string"
@@ -56,11 +56,10 @@ class Search extends Component {
           />
           <Link
             id="search-button"
+            className="icon magnify"
             onClick={this.handleSubmitSearch}
             to={`/search/${searchString}`}
-          >
-            <span className="fa fa-search" aria-hidden="true" />
-          </Link>
+          />
         </div>
       </section>
     );

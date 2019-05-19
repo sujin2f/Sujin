@@ -69,8 +69,14 @@ class Flickr extends Abs_Rest_Base {
 		$response = json_decode( str_replace( "\\'", "'", $response ) );
 		$data     = array();
 
-		if ( is_object( $response ) && ! $response->items ) {
-			return rest_ensure_response( $data );
+		if ( ! $response || ! $response->items ) {
+			return new WP_Error(
+				'no_content',
+				'The account has no photo.',
+				array(
+					'status' => self::STATUS_CODE_NO_CONTENT,
+				)
+			);
 		}
 
 		foreach ( $response->items as $item ) {

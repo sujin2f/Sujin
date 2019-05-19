@@ -12,6 +12,7 @@ import Route from 'app/components/router/Route';
 import Public from 'app/scenes/Public';
 import FrontPage from 'app/scenes/Public/FrontPage';
 import Page from 'app/scenes/Public/Page';
+import Archive from 'app/scenes/Public/Archive';
 
 ((wp) => {
   const { render } = wp.element;
@@ -28,8 +29,25 @@ import Page from 'app/scenes/Public/Page';
         </Public>
       </Route>
 
-      {/* Test Page */}
-      <Route path="/app">
+      <Route path="/category/([\w-]+)">
+        <Public>
+          <Archive />
+        </Public>
+      </Route>
+
+      <Route path="/tag/([\w-]+)">
+        <Public>
+          <Archive />
+        </Public>
+      </Route>
+
+      <Route path="/search/([\w-]+)">
+        <Public>
+          <Archive />
+        </Public>
+      </Route>
+
+      <Route path="/([\w-]+)">
         <Public>
           <Page />
         </Public>

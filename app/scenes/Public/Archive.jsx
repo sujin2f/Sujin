@@ -3,7 +3,7 @@ import PageHeader from 'app/components/layout/PageHeader';
 
 const { Fragment } = wp.element;
 
-class Page extends Component {
+class Archive extends Component {
   render() {
     return (
       <section className="page-wrapper">
@@ -16,10 +16,10 @@ class Page extends Component {
           </Fragment>
         </PageHeader>
 
-        Page
+        Archive
       </section>
     );
   }
 }
 
-export default Page;
+export default Archive;
