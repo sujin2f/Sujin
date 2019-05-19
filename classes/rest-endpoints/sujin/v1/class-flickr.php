@@ -1,6 +1,7 @@
 <?php
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1;
 
+use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Abs_Rest_Base;
 use Sujin\Wordpress\WP_Express\Fields\Settings\Input as Option_Input;
 
 use WP_REST_Controller, WP_REST_Server, WP_REST_Response, WP_REST_Request, WP_Error;
@@ -11,16 +12,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
 
-class Flickr extends WP_REST_Controller {
-	private const STATUS_CODE_NO_CONTENT      = 204;
-	private const STATUS_CODE_NOT_IMPLEMENTED = 501;
-
+class Flickr extends Abs_Rest_Base {
 	public function __construct() {
-		$this->namespace     = '/sujin/v1';
+		parent::__construct();
 		$this->resource_name = 'flickr';
-
-		add_action( 'rest_api_init', array( $this, 'create_rest_routes' ), 10, 0 );
 	}
+
 	public function create_rest_routes() {
 		register_rest_route(
 			$this->namespace,
@@ -122,7 +119,7 @@ class Flickr extends WP_REST_Controller {
 		return (array) $response->get_data();
 	}
 
-	public function get_item_schema() {
+	public function get_item_schema(): array {
 		$schema = array(
 			'$schema'              => 'http://json-schema.org/draft-04/schema#',
 			'title'                => 'flicr',

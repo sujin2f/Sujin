@@ -16,6 +16,7 @@ use Sujin\Wordpress\WP_Express\Setting;
 use Sujin\Wordpress\WP_Express\Fields\Settings\Input as Option_Input;
 
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1\Flickr;
+use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1\Posts;
 
 use WP_REST_Server, WP_REST_Response, WP_Query;
 
@@ -31,23 +32,17 @@ class REST_API {
 
 /*
 		Simple_Rest_API::get_instance( 'sujin/v1' )
-			->set_base( 'posts' )
-			->set_methods( WP_REST_Server::READABLE )
-			->set_callback( array( $this, 'get_posts_by_slug' ) )
 
 			->set_base( 'posts/related/(?P<post_id>\d+)' )
 			->set_methods( WP_REST_Server::READABLE )
 			->set_callback( array( $this, 'retrive_related_posts' ) )
-
-			->set_base( 'post' )
-			->set_methods( WP_REST_Server::READABLE )
-			->set_callback( array( $this, 'get_post_by_slug' ) )
 
 			->set_base( 'menu/(?P<menu>[\\w-]+)' )
 			->set_methods( WP_REST_Server::READABLE )
 			->set_callback( array( $this, 'get_menu_items' ) );
 */
 		new Flickr();
+		new Posts();
 
 		add_filter( 'rest_prepare_post', array( $this, 'get_single_post' ), 15, 3 );
 		add_filter( 'rest_prepare_page', array( $this, 'get_single_post' ), 15, 3 );
@@ -61,84 +56,6 @@ class REST_API {
 		$response->data['tags']      = $this->get_tags( $post_id );
 		$response->data['prevnext']  = $this->get_prevnext( $post_id );
 		$response->data['redirect']  = get_post_meta( $post_id, 'redirect', true );
-
-		return $response;
-	}
-
-	public function get_posts_by_slug( $request ) {
-		$result_text = array();
-		$cat_ = null;
-		$tag_ = null;
-
-		if ( $categories = $request->get_param( 'category_names' ) ) {
-			if ( ! is_array( $categories ) )
-				$categories = array( $categories );
-
-			foreach( $categories as $category ) {
-				if ( ! $category )
-					continue;
-
-				$cat_ = get_term_by( 'slug', $category, 'category' );
-				$result_text[] = 'categories[]=' . $cat_->term_id;
-			}
-		}
-
-		if ( $tags = $request->get_param( 'tag_names' ) ) {
-			if ( ! is_array( $tags ) )
-				$tags = array( $tags );
-
-			foreach( $tags as $tag ) {
-				if ( ! $tag )
-					continue;
-
-				$tag_ = get_term_by( 'slug', $tag, 'post_tag' );
-				$result_text[] = 'tags[]=' . $tag_->term_id;
-			}
-		}
-
-		if ( $search = $request->get_param( 'search' ) ) {
-			$result_text[] = 'search=' . $search;
-		}
-
-		$url = 'http://localhost/wp-json/wp/v2/posts/?';
-		$url.= implode( '&', $result_text );
-		$url.= '&per_page=' . $request['per_page'];
-		$url.= '&page=' . $request['page'];
-		if ( $request['thumbnail_size'] )
-			$url.= '&thumbnail_size=' . $request['thumbnail_size'];
-
-		$response = wp_remote_get( $url );
-
-		if ( is_wp_error( $response ) ) {
-			return $response;
-		}
-
-		$headers  = $response['headers']->getAll();
-
-		$response = new WP_REST_Response( json_decode( $response['body'] ) );
-		$response->header( 'access-control-expose-headers', 'X-WP-Total, X-WP-TotalPages, X-WP-Term-Description, X-WP-Term-Name, X-WP-Term-Thumbnail' );
-		$response->header( 'x-wp-total', $headers['x-wp-total'] );
-		$response->header( 'x-wp-totalpages', $headers['x-wp-totalpages'] );
-
-		if ( $request['category_names'] ) {
-			$category = get_category_by_slug( $request['category_names'] );
-			$response->header( 'x-wp-term-description', urlencode( $category->category_description ) );
-			$response->header( 'x-wp-term-name', urlencode( $category->cat_name ) );
-
-			$thumbnail = Custom_Fields::get_instance()->term_meta->get_value( 'category', $category->slug );
-			$thumbnail = wp_get_attachment_image_src( $thumbnail, 'full' )[0];
-			$response->header( 'x-wp-term-thumbnail', $thumbnail );
-		}
-
-		if ( $request['tag_names'] ) {
-			$tag = get_term_by( 'slug', $request['tag_names'], 'post_tag');
-			$response->header( 'x-wp-term-description', urlencode( $tag->description ) );
-			$response->header( 'x-wp-term-name', urlencode( $tag->name ) );
-
-			$thumbnail = Custom_Fields::get_instance()->term_meta->get_value( 'post_tag', $tag->slug );
-			$thumbnail = wp_get_attachment_image_src( $thumbnail, 'full' )[0];
-			$response->header( 'x-wp-term-thumbnail', $thumbnail );
-		}
 
 		return $response;
 	}
@@ -211,25 +128,6 @@ class REST_API {
 		}
 
 		return $meta_values;
-	}
-
-	public function get_post_by_slug( $request ) {
-		$args = array(
-			'name'        => $request['post_slug'],
-			'post_type'   => 'post',
-			'post_status' => 'publish',
-			'numberposts' => 1
-		);
-		$my_posts = get_posts($args);
-
-		if ( $my_posts ) {
-			$response = wp_remote_get( 'http://localhost/wp-json/wp/v2/posts/' . $my_posts[0]->ID );
-			$response = json_decode( $response[ 'body' ] );
-		} else {
-			$response = array();
-		}
-
-		return $response;
 	}
 
 	public function get_menu_items( $request ) {
