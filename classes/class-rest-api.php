@@ -17,6 +17,7 @@ use Sujin\Wordpress\WP_Express\Fields\Settings\Input as Option_Input;
 
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1\Flickr;
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1\Posts;
+use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1\Menu;
 
 use WP_REST_Server, WP_REST_Response, WP_Query;
 
@@ -30,19 +31,9 @@ class REST_API {
 		Setting::get_instance('Flickr Feed')
 			->add( Option_Input::get_instance( 'Flicker ID' ) );
 
-/*
-		Simple_Rest_API::get_instance( 'sujin/v1' )
-
-			->set_base( 'posts/related/(?P<post_id>\d+)' )
-			->set_methods( WP_REST_Server::READABLE )
-			->set_callback( array( $this, 'retrive_related_posts' ) )
-
-			->set_base( 'menu/(?P<menu>[\\w-]+)' )
-			->set_methods( WP_REST_Server::READABLE )
-			->set_callback( array( $this, 'get_menu_items' ) );
-*/
 		new Flickr();
 		new Posts();
+		new Menu();
 
 		add_filter( 'rest_prepare_post', array( $this, 'get_single_post' ), 15, 3 );
 		add_filter( 'rest_prepare_page', array( $this, 'get_single_post' ), 15, 3 );
@@ -58,19 +49,5 @@ class REST_API {
 		$response->data['redirect']  = get_post_meta( $post_id, 'redirect', true );
 
 		return $response;
-	}
-
-	public function get_menu_items( $request ) {
-		$locations = get_nav_menu_locations();
-		$slug      = $request->get_param( 'menu' );
-		$id        = $locations[ $slug ] ?? null;
-
-		if ( is_null( $id ) ) {
-			return array();
-		}
-
-		$nav_menu = wp_get_nav_menu_object( $id );
-
-		return wp_get_nav_menu_items( $nav_menu->term_id );
 	}
 }

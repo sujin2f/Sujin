@@ -26,31 +26,27 @@ class Header extends Component {
         className={wrapperClass}
       >
         {/* For Transparent Logo */}
-        <section className="floating-row">
-          <div className="section left" />
+        <section className="flex-row fixed-nav">
+          <div className="section" />
           <div className="section center" />
-          <div className="section right" />
+          <div className="section" />
         </section>
 
-        <section className="floating-row">
+        <section className="fixed-nav">
           <div className="row">
-            <section className="columns small-6 flex-container-row">
+            <section className="columns small-6">
               <button
-                id="btn-toggle-mobile"
-                className="hide-for-large"
+                className="hide-for-large icon hamburger"
                 onClick={() => toggleMobileMenu()}
                 type="button"
-              >
-                {/* TODO Hamberger */}
-                <span className="fa fa-bars" aria-hidden="true" />
-              </button>
+              />
               <Menu
-                className="show-for-large flex-container-row menu-top"
+                className="show-for-large menu-top"
                 position="top"
                 menu={mainMenu}
               />
             </section>
-            <section className="columns small-6 hide-for-small-only flex-container-row right">
+            <section className="columns small-6 hide-for-small-only">
               <Search />
 
               {/* TODO Social Media */}
@@ -59,8 +55,8 @@ class Header extends Component {
           </div>
         </section>
 
-        <section className="logo">
-          <Link to="/" className="txt2image">Sujin</Link>
+        <section className="logo-container">
+          <Link to="/" className="icon logo reverse">Sujin</Link>
         </section>
 
         <section id="mobile-menu" className="hide-for-large">

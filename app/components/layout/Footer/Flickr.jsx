@@ -29,7 +29,7 @@ class Flickr extends Component {
                   <div className="zoom-icon" />
                   <div className="inner-shadow" />
 
-                  <img src={item.media_s} alt={item.title} />
+                  <img src={item.media.s} alt={item.title} />
                 </a>
               </figure>
             </div>

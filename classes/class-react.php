@@ -35,9 +35,9 @@ class React {
 
 		wp_register_style(
 			'sujin-app',
-			get_stylesheet_directory_uri() . '/dist/app.css',
+			get_stylesheet_directory_uri() . '/dist/style.css',
 			array(),
-			filemtime( get_stylesheet_directory() . '/dist/app.css' )
+			filemtime( get_stylesheet_directory() . '/dist/style.css' )
 		);
 	}
 

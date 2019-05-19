@@ -7,9 +7,19 @@ import { STORE } from 'app/constants/common';
 
 const { withDispatch, withSelect } = wp.data;
 const { compose } = wp.compose;
-const { Fragment } = wp.element;
 
 class Public extends Component {
+  constructor(props) {
+    super(props);
+    this.handleScroll = this.handleScroll.bind(this);
+    this.state = {
+      scrolled: '',
+    };
+    if (typeof window !== 'undefined') {
+      window.addEventListener('scroll', this.handleScroll);
+    }
+  }
+
   componentDidMount() {
     const {
       mainMenu,
@@ -26,15 +36,34 @@ class Public extends Component {
     }
   }
 
+  handleScroll() {
+    if (typeof window !== 'undefined') {
+      const { scrolled } = this.state;
+
+      if (window.scrollY > 80 && !scrolled) {
+        this.setState({
+          scrolled: 'scrolled',
+        });
+      }
+
+      if (window.scrollY <= 80 && scrolled) {
+        this.setState({
+          scrolled: '',
+        });
+      }
+    }
+  }
+
   render() {
-    const { children } = this.props;
+    const { children, footerClass } = this.props;
+    const { scrolled } = this.state;
 
     return (
-      <Fragment>
+      <div className={scrolled}>
         <Header />
         {children}
-        <Footer />
-      </Fragment>
+        <Footer className={footerClass === 'front-page' ? 'hide' : ''} />
+      </div>
     );
   }
 }

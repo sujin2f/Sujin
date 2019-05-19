@@ -23,6 +23,7 @@
 				}
 			}
 
+/*
 			@include breakpoint(medium only) {
 				.columns {
 					&:nth-child(19), &:nth-child(20) {
@@ -30,6 +31,7 @@
 					}
 				}
 			}
+*/
 		}
 	}
 
@@ -55,11 +57,13 @@
 			}
 
 			.social-media {
+/*
 				@include breakpoint(small only) {
 					.social-media-RSS {
 						display: none;
 					}
 				}
+*/
 
 				a {
 					color: $white;

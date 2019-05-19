@@ -1,0 +1,25 @@
+.icon {
+	mask-position: center;
+	mask-repeat: no-repeat;
+	mask-size: contain;
+	-webkit-mask-position: center;
+	-webkit-mask-repeat: no-repeat;
+	-webkit-mask-size: contain;
+
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+
+	&.hamburger {
+		-webkit-mask-image: url('../images/icons/hamburger.svg');
+		mask-image: url('../images/icons/hamburger.svg');
+	}
+
+	&.logo {
+		background-image: url('../images/logo.svg');
+	}
+
+	&.logo.reverse {
+		background-image: url('../images/logo-background.svg');
+	}
+}

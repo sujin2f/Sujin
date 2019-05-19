@@ -19,10 +19,14 @@ class Link extends Component {
   }
 
   render() {
-    const { to, children } = this.props;
+    const { to, children, className } = this.props;
 
     return (
-      <a href={to} onClick={(e) => this.pushHash(e)}>
+      <a
+        href={to}
+        onClick={(e) => this.pushHash(e)}
+        className={className}
+      >
         {children}
       </a>
     );

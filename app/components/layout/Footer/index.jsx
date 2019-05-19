@@ -9,8 +9,10 @@ class GlobalFooter extends Component {
   }
 
   render() {
+    const { className } = this.props;
+
     return (
-      <section id="footer">
+      <section id="footer" className={className}>
         <div className="row widget-area">
           <div className="small-12 medium-4 large-4 columns">
             <ins

@@ -1,16 +1,11 @@
-html, body {
+#wpadminbar {
+	display: none;
+}
+
+html[lang="en-US"], body {
 	font-size: 100%;
-	margin: 0;
+	margin: 0 !important;
 }
-
-body.admin-bar {
-  margin-top: $admin-bar-height;
-
-  @media screen and (min-width: $wp-mobile-screen-width) {
-    margin-top: $admin-bar-height-mobile;
-  }
-}
-
 
 ::selection {
 	background-color: map-get($foundation-palette, 'primary');
@@ -68,12 +63,17 @@ dd {
 	overflow-wrap: break-word;
 }
 
+.flex-row {
+	display: flex;
+}
+
 .txt2image {
 	text-indent: -1000px;
 	overflow: hidden;
 	display: inline-block;
 }
 
+/*
 .flex-container-row {
 	display: flex;
 	flex-direction: row;
@@ -83,11 +83,13 @@ dd {
 		justify-content: flex-end;
 	}
 }
+*/
 
 .page-wrapper {
 	border-top: $header-height solid $black;
 }
 
+/*
 .loading {
 	text-align: center;
 
@@ -133,3 +135,4 @@ dd {
 		margin-bottom: 50px;
 	}
 }
+*/

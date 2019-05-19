@@ -4,10 +4,10 @@ import Link from 'app/components/router/Link';
 class FrontPage extends Component {
   render() {
     return (
-      <div>
+      <section className="page-wrapper">
         Page:
         <Link to="/app">app</Link>
-      </div>
+      </section>
     );
   }
 }
