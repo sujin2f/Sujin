@@ -1,4 +1,3 @@
-import React, { Component } from 'react';
 import axios from 'axios';
 
 import PageHeader from 'app/components/layout/PageHeader';
@@ -7,7 +6,7 @@ import { STORE } from 'app/constants/common';
 
 const { withDispatch, withSelect } = wp.data;
 const { compose } = wp.compose;
-const { Fragment } = wp.element;
+const { Fragment, Component } = wp.element;
 
 class FrontPage extends Component {
   componentDidMount() {
@@ -30,16 +29,12 @@ class FrontPage extends Component {
         `url(${mainBackground.large})`;
 
     return (
-      <section className="page-wrapper template-front-page">
-        <PageHeader
-          backgroundImage={backgroundImage}
-        >
-          <Fragment>
-            <h1>SUJIN</h1>
-            <p>Wordpress/React Developer</p>
-          </Fragment>
-        </PageHeader>
-      </section>
+      <PageHeader backgroundImage={backgroundImage}>
+        <Fragment>
+          <h1>SUJIN</h1>
+          <p>Wordpress/React Developer</p>
+        </Fragment>
+      </PageHeader>
     );
   }
 }

@@ -1,42 +1,37 @@
-export const TOGGLE_MOBILE_MENU = 'sujin/v2/global/TOGGLE_MOBILE_MENU';
-export const RESET_MOBILE_MENU = 'sujin/v2/global/RESET_MOBILE_MENU';
+export const SET_MOBILE_MENU = 'sujin/v2/global/SET_MOBILE_MENU';
 
 export const GET_MENU_INIT = 'sujin/v2/global/GET_MENU_INIT';
 export const GET_MENU_SUCCESS = 'sujin/v2/global/GET_MENU_SUCCESS';
 export const GET_MENU_FAIL = 'sujin/v2/global/GET_MENU_FAIL';
 
 // Mobile Menu
-export function toggleMobileMenu() {
+export function setMobileMenu(status) {
   return {
-    type: TOGGLE_MOBILE_MENU,
+    type: SET_MOBILE_MENU,
+    status,
   };
 }
 
-export function resetMobileMenu() {
-  return {
-    type: RESET_MOBILE_MENU,
-  };
-}
-
-// Read Menu
-export function getMenuInit() {
+// Read WP Menu
+export function getMenuInit(slug) {
   return {
     type: GET_MENU_INIT,
+    slug,
   };
 }
 
-export function getMenuSuccess(menuType, response) {
+export function getMenuSuccess(slug, response) {
   return {
     type: GET_MENU_SUCCESS,
-    menuType,
+    slug,
     response,
   };
 }
 
-export function getMenuFail(menuType, error) {
+export function getMenuFail(slug, error) {
   return {
     type: GET_MENU_FAIL,
-    menuType,
+    slug,
     error,
   };
 }

@@ -1,6 +1,3 @@
-@import url('//fonts.googleapis.com/css?family=Lato:200,300,500|Ubuntu:700');
-@import url('//fonts.googleapis.com/earlyaccess/nanumgothic.css');
-
 $header-height: 48px;
 
 $body-font-family: system-ui, 'Nanum Gothic', -apple-system, BlinkMacSystemFont, 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -18,6 +15,8 @@ $black: #000000;
 $light-gray: #F6F6F6;
 $medium-gray: #ABABAB;
 $dark-gray: #1A1A1A;
+$primary-dark: darken(map-get($foundation-palette, 'primary'), 15%);
+$primary-black: darken(map-get($foundation-palette, 'primary'), 23%);
 
 $body-background: $light-gray;
 

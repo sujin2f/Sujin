@@ -1,3 +1,4 @@
+// Tags
 #wpadminbar {
 	display: none;
 }
@@ -63,15 +64,11 @@ dd {
 	overflow-wrap: break-word;
 }
 
+// Classes
 .flex-row {
 	display: flex;
 }
 
-.txt2image {
-	text-indent: -1000px;
-	overflow: hidden;
-	display: inline-block;
-}
 
 /*
 .flex-container-row {

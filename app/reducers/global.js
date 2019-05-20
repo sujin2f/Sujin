@@ -1,16 +1,16 @@
 // Import Actions
 import {
-  TOGGLE_MOBILE_MENU,
-  RESET_MOBILE_MENU,
+  SET_MOBILE_MENU,
 
   GET_MENU_INIT,
   GET_MENU_SUCCESS,
   GET_MENU_FAIL,
 } from 'app/actions/global';
 
+import { IS_LOADING } from 'app/constants/common';
+
 // Initial State
 const initialState = {
-  scrolled: '',
   mobileMenu: false,
   pushed: '',
   menu: {},
@@ -19,38 +19,27 @@ const initialState = {
 // Actions
 function global(state = initialState, action) {
   switch (action.type) {
-    case TOGGLE_MOBILE_MENU: {
+    case SET_MOBILE_MENU: {
       return {
         ...state,
-        mobileMenu: !state.mobileMenu,
+        mobileMenu: (action.status === 'toggle') ? !state.mobileMenu : action.status,
       };
     }
-    case RESET_MOBILE_MENU: {
-      return {
-        ...state,
-        mobileMenu: false,
-      };
-    }
-
     case GET_MENU_INIT: {
-      return {
-        ...state,
-        menu: {},
-      };
-    }
-    case GET_MENU_SUCCESS: {
-      const menu = action.response.data.map(m => ({
-        title: m.title,
-        url: m.url,
-        classes: m.classes,
-        target: m.target,
-      }));
-
       return {
         ...state,
         menu: {
           ...state.menu,
-          [action.menuType]: menu,
+          [action.slug]: IS_LOADING,
+        },
+      };
+    }
+    case GET_MENU_SUCCESS: {
+      return {
+        ...state,
+        menu: {
+          ...state.menu,
+          [action.slug]: action.response.data,
         },
       };
     }
@@ -59,7 +48,7 @@ function global(state = initialState, action) {
         ...state,
         menu: {
           ...state.menu,
-          [action.menuType]: [],
+          [action.slug]: [],
         },
       };
     }

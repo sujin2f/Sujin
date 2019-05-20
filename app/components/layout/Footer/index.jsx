@@ -9,10 +9,8 @@ class GlobalFooter extends Component {
   }
 
   render() {
-    const { className } = this.props;
-
     return (
-      <section id="footer" className={className}>
+      <footer>
         <div className="row widget-area">
           <div className="small-12 medium-4 large-4 columns">
             <ins
@@ -29,7 +27,7 @@ class GlobalFooter extends Component {
           <div className="small-12 medium-4 large-4 columns" />
         </div>
         <Copywrite />
-      </section>
+      </footer>
     );
   }
 }

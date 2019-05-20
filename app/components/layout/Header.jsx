@@ -4,28 +4,21 @@ import Link from 'app/components/router/Link';
 
 import Menu from 'app/components/layout/Menu';
 import Search from 'app/components/layout/Search';
-// import SocialMedia from './SocialMedia';
+
 import { STORE } from 'app/constants/common';
 
-const { withSelect, withDispatch } = wp.data;
+const { withDispatch } = wp.data;
 const { compose } = wp.compose;
+const { Fragment } = wp.element;
 
 class Header extends Component {
   render() {
     const {
-      toggleMobileMenu,
-      mobileMenuActivated,
-      mainMenu,
-      socialMedia,
+      setMobileMenu,
     } = this.props;
-    const wrapperClass = mobileMenuActivated ? 'show-mobile-menu' : '';
 
     return (
-      <section
-        id="global-header"
-        itemType="http://schema.org/WPHeader"
-        className={wrapperClass}
-      >
+      <Fragment>
         {/* For Transparent Logo */}
         <section className="flex-row fixed-nav">
           <div className="section" />
@@ -38,23 +31,15 @@ class Header extends Component {
             <section className="columns small-6">
               <button
                 className="hide-for-large icon hamburger"
-                onClick={() => toggleMobileMenu()}
+                onClick={() => setMobileMenu()}
                 type="button"
               />
-              <Menu
-                className="show-for-large menu-top"
-                position="top-main"
-                menu={mainMenu}
-              />
+              <Menu className="show-for-large" slug="main-menu" />
             </section>
             <section className="columns small-6 hide-for-small-only">
               <Search />
 
-              <Menu
-                className="show-for-large social-media"
-                position="top-social"
-                menu={socialMedia}
-              />
+              <Menu className="show-for-large" slug="social-media" />
             </section>
           </div>
         </section>
@@ -64,21 +49,15 @@ class Header extends Component {
         </section>
 
         <section id="mobile-menu" className="hide-for-large">
-          <Menu position="mobile" menu={mainMenu} />
+          <Menu slug="main-menu" />
         </section>
-      </section>
+      </Fragment>
     );
   }
 }
 
-const mapStateToProps = withSelect((select) => ({
-  mobileMenuActivated: select(STORE).getMobileMenuActivated(),
-  mainMenu: select(STORE).getMenu('main-menu'),
-  socialMedia: select(STORE).getMenu('social-media'),
-}));
-
 const mapDispatchToProps = withDispatch((dispatch) => ({
-  toggleMobileMenu: () => dispatch(STORE).toggleMobileMenu(),
+  setMobileMenu: () => dispatch(STORE).setMobileMenu('toggle'),
 }));
 
-export default compose([mapStateToProps, mapDispatchToProps])(Header);
+export default compose([mapDispatchToProps])(Header);

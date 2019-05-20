@@ -30,55 +30,51 @@
 }
 
 .social-media {
-	li {
-		a {
-			text-indent: -2000px;
-			overflow: hidden;
-			width: 26px;
-			height: 26px;
-			padding: 0;
-			transition: ease-out background-color 0.3s;
-			margin-right: .2em;
-			border-radius: 6px;
+	a {
+		text-indent: -2000px;
+		overflow: hidden;
+		width: 26px;
+		height: 26px;
+		padding: 0;
+		transition: ease-out background-color 0.3s;
+		margin-right: .2em;
+		border-radius: 6px;
 
-			mask-position: center;
-			mask-repeat: no-repeat;
-			mask-size: contain;
-			-webkit-mask-position: center;
-			-webkit-mask-repeat: no-repeat;
-			-webkit-mask-size: contain;
+		mask-position: center;
+		mask-repeat: no-repeat;
+		mask-size: contain;
+		-webkit-mask-position: center;
+		-webkit-mask-repeat: no-repeat;
+		-webkit-mask-size: contain;
 
-			&.github {
-				-webkit-mask-image: url('../images/icons/github.svg');
-				mask-image: url('../images/icons/github.svg');
-				mask-position-y: 3px;
-				-webkit-mask-position-y: 3px;
-			}
+		&.github {
+			-webkit-mask-image: url('../images/icons/github.svg');
+			mask-image: url('../images/icons/github.svg');
+		}
 
-			&.facebook {
-				-webkit-mask-image: url('../images/icons/facebook.svg');
-				mask-image: url('../images/icons/facebook.svg');
-			}
+		&.facebook {
+			-webkit-mask-image: url('../images/icons/facebook.svg');
+			mask-image: url('../images/icons/facebook.svg');
+		}
 
-			&.twitter {
-				-webkit-mask-image: url('../images/icons/twitter.svg');
-				mask-image: url('../images/icons/twitter.svg');
-			}
+		&.twitter {
+			-webkit-mask-image: url('../images/icons/twitter.svg');
+			mask-image: url('../images/icons/twitter.svg');
+		}
 
-			&.flickr {
-				-webkit-mask-image: url('../images/icons/flickr.svg');
-				mask-image: url('../images/icons/flickr.svg');
-			}
+		&.flickr {
+			-webkit-mask-image: url('../images/icons/flickr.svg');
+			mask-image: url('../images/icons/flickr.svg');
+		}
 
-			&.linkedin {
-				-webkit-mask-image: url('../images/icons/linkedin.svg');
-				mask-image: url('../images/icons/linkedin.svg');
-			}
+		&.linkedin {
+			-webkit-mask-image: url('../images/icons/linkedin.svg');
+			mask-image: url('../images/icons/linkedin.svg');
+		}
 
-			&.rss {
-				-webkit-mask-image: url('../images/icons/rss.svg');
-				mask-image: url('../images/icons/rss.svg');
-			}
+		&.rss {
+			-webkit-mask-image: url('../images/icons/rss.svg');
+			mask-image: url('../images/icons/rss.svg');
 		}
 	}
 }

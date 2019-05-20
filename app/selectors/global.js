@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 
-export const getMenu = (state, type) => state.global.menu[type] || [];
+export const getMenu = (state, slug) => state.global.menu[slug];
 
-export const getMobileMenuActivated = (state) => state.global.mobileMenu;
+export const getMobileMenuClass = (state) => state.global.mobileMenu ? 'mobile-menu' : '';
 
 /* eslint-enable import/prefer-default-export */

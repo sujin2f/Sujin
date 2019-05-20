@@ -2,17 +2,11 @@ import React, { Component } from 'react';
 
 import Menu from 'app/components/layout/Menu';
 
-import { STORE } from 'app/constants/common';
-
-const { withSelect } = wp.data;
-const { compose } = wp.compose;
-
 class PageHeader extends Component {
   render() {
     const {
       children,
       backgroundImage,
-      mainMenu,
     } = this.props;
 
     return (
@@ -26,11 +20,7 @@ class PageHeader extends Component {
 
         <div className="row">
           <section className="columns small-12">
-            <Menu
-              className="show-for-large menu-top"
-              position="middle"
-              menu={mainMenu}
-            />
+            <Menu className="show-for-large flex-row" slug="main-menu" />
           </section>
         </div>
       </section>
@@ -38,8 +28,4 @@ class PageHeader extends Component {
   }
 }
 
-const mapStateToProps = withSelect((select) => ({
-  mainMenu: select(STORE).getMenu('main-menu'),
-}));
-
-export default compose([mapStateToProps])(PageHeader);
+export default PageHeader;

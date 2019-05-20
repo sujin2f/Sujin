@@ -24,7 +24,7 @@ import Archive from 'app/scenes/Public/Archive';
     <Router>
       {/* Front Page */}
       <Route path="/">
-        <Public footerClass="front-page">
+        <Public className="stretched-background hideFooter">
           <FrontPage />
         </Public>
       </Route>
