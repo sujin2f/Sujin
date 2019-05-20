@@ -26,6 +26,7 @@ class Router extends Component {
     history.listen((location, action) => {
       if (action === 'PUSH') {
         this.changeLocation(location);
+        setHistory(history);
       }
     });
   }
