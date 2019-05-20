@@ -12,10 +12,8 @@ class Route extends Component {
       const locations = location.pathname.split('/').filter(v => v);
       const paths = path.split('/').filter(v => v);
 
-      console.log(locations, paths);
       if (locations.length === paths.length) {
         const matched = locations.reduce((acc, v, k) => {
-          console.log(v, paths[k]);
           return v.match(paths[k]) && acc;
         }, true);
 

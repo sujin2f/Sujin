@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-
 import Copywrite from 'app/components/layout/Footer/Copywrite';
 import Flickr from 'app/components/layout/Footer/Flickr';
+
+const { Fragment, Component } = wp.element;
 
 class GlobalFooter extends Component {
   componentDidMount() {
@@ -10,7 +10,7 @@ class GlobalFooter extends Component {
 
   render() {
     return (
-      <footer>
+      <Fragment>
         <div className="row widget-area">
           <div className="small-12 medium-4 large-4 columns">
             <ins
@@ -27,7 +27,7 @@ class GlobalFooter extends Component {
           <div className="small-12 medium-4 large-4 columns" />
         </div>
         <Copywrite />
-      </footer>
+      </Fragment>
     );
   }
 }

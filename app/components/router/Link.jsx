@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
-
 import { STORE } from 'app/constants/common';
 
 const { withSelect } = wp.data;
 const { compose } = wp.compose;
+const { Component } = wp.element;
 
 class Link extends Component {
   constructor(props) {

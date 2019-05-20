@@ -1,5 +1,3 @@
-import React, { Component } from 'react';
-
 import Link from 'app/components/router/Link';
 
 import Menu from 'app/components/layout/Menu';
@@ -9,7 +7,7 @@ import { STORE } from 'app/constants/common';
 
 const { withDispatch } = wp.data;
 const { compose } = wp.compose;
-const { Fragment } = wp.element;
+const { Fragment, Component } = wp.element;
 
 class Header extends Component {
   render() {

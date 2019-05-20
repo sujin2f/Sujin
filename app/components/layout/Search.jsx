@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-
 import Link from 'app/components/router/Link';
+
+const { Component } = wp.element;
 
 class Search extends Component {
   constructor(props) {

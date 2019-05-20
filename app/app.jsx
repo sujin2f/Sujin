@@ -23,7 +23,7 @@ import Archive from 'app/scenes/Public/Archive';
   render(
     <Router>
       <Route path="/">
-        <Public className="stretched-background hideFooter">
+        <Public className="stretched-background hide-footer">
           <FrontPage />
         </Public>
       </Route>

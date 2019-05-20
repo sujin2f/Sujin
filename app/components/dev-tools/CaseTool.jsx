@@ -1,4 +1,3 @@
-import React, { Component, Fragment } from 'react';
 import Helmet from 'react-helmet';
 
 import PageHeader from 'app/components/Layout/PageHeader';
@@ -17,6 +16,8 @@ import preserveCase,
 } from 'app/actions/dev-tools';
 
 import Menu from './Menu';
+
+const { Fragment, Component } = wp.element;
 
 class CaseTool extends Component {
   constructor(props) {

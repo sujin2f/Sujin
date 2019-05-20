@@ -1,8 +1,12 @@
-import React, { Component } from 'react';
 import { createBrowserHistory } from 'history';
 import { STORE } from 'app/constants/common';
 
-const { Fragment } = wp.element;
+const {
+  Fragment,
+  Component,
+  Children,
+  cloneElement,
+} = wp.element;
 const { withDispatch } = wp.data;
 const { compose } = wp.compose;
 
@@ -34,8 +38,8 @@ class Router extends Component {
     const { children } = this.props;
     const { location } = this.state;
 
-    const alterChildren = React.Children.map(children, (child, index) => {
-      return React.cloneElement(child, {
+    const alterChildren = Children.map(children, (child, index) => {
+      return cloneElement(child, {
         index,
         location,
       });

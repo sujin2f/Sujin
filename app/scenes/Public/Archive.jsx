@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
 import PageHeader from 'app/components/layout/PageHeader';
 
-const { Fragment } = wp.element;
+const { Fragment, Component } = wp.element;
 
 class Archive extends Component {
   render() {

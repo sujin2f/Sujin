@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-
 import CaseTool from 'app/components/dev-tools/CaseTool';
 import TextSort from 'app/components/dev-tools/TextSort';
 import SymbolAlignment from 'app/components/dev-tools/SymbolAlignment';
+
+const { Component } = wp.element;
 
 class DevTools extends Component {
   render() {

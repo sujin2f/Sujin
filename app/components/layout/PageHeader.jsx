@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-
 import Menu from 'app/components/layout/Menu';
+
+const { Component } = wp.element;
 
 class PageHeader extends Component {
   render() {

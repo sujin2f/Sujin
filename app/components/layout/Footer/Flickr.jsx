@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
 import axios from 'axios';
 
 import { STORE } from 'app/constants/common';
 
 const { withDispatch, withSelect } = wp.data;
 const { compose } = wp.compose;
+const { Component } = wp.element;
 
 class Flickr extends Component {
   componentDidMount() {
