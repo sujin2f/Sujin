@@ -8,21 +8,21 @@ const { compose } = wp.compose;
 
 class Flickr extends Component {
   componentDidMount() {
-    const { getFlickr, entities } = this.props;
-    if (entities && entities.length === 0) {
-      getFlickr();
+    const { requestFlickr, flickrItmes } = this.props;
+    if (flickrItmes && flickrItmes.length === 0) {
+      requestFlickr();
     }
   }
 
   render() {
-    const { entities } = this.props;
+    const { flickrItmes } = this.props;
 
     return (
       <div id="Flickr">
         <h1>Photo Stream</h1>
 
         <div className="row">
-          {entities && entities.map(item => (
+          {flickrItmes.map(item => (
             <div className="large-3 medium-2 small-3 columns" key={`flikr-${item.link}`}>
               <figure className="thumbnail">
                 <a href={item.link} title={item.title} target="_blank" rel="noopener noreferrer">
@@ -41,18 +41,18 @@ class Flickr extends Component {
 }
 
 const mapStateToProps = withSelect((select) => ({
-  entities: select(STORE).getFlickr(),
+  flickrItmes: select(STORE).getFlickrItmes(),
 }));
 
 const mapDispatchToProps = withDispatch((dispatch) => ({
-  getFlickr: () => {
-    dispatch(STORE).getFlickrInit();
+  requestFlickr: () => {
+    dispatch(STORE).requestFlickrInit();
 
     axios.get('wp-json/sujin/v1/flickr/')
       .then((response) => {
-        dispatch(STORE).getFlickrSuccess(response);
+        dispatch(STORE).requestFlickrSuccess(response);
       }).catch((error) => {
-        dispatch(STORE).getFlickrFail(error);
+        dispatch(STORE).requestFlickrFail(error);
       });
   },
 }));

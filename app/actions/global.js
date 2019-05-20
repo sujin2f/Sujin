@@ -1,8 +1,8 @@
 export const SET_MOBILE_MENU = 'sujin/v2/global/SET_MOBILE_MENU';
 
-export const GET_MENU_INIT = 'sujin/v2/global/GET_MENU_INIT';
-export const GET_MENU_SUCCESS = 'sujin/v2/global/GET_MENU_SUCCESS';
-export const GET_MENU_FAIL = 'sujin/v2/global/GET_MENU_FAIL';
+export const REQUEST_MENU_INIT = 'sujin/v2/global/REQUEST_MENU_INIT';
+export const REQUEST_MENU_SUCCESS = 'sujin/v2/global/REQUEST_MENU_SUCCESS';
+export const REQUEST_MENU_FAIL = 'sujin/v2/global/REQUEST_MENU_FAIL';
 
 // Mobile Menu
 export function setMobileMenu(status) {
@@ -13,24 +13,24 @@ export function setMobileMenu(status) {
 }
 
 // Read WP Menu
-export function getMenuInit(slug) {
+export function requestMenuInit(slug) {
   return {
-    type: GET_MENU_INIT,
+    type: REQUEST_MENU_INIT,
     slug,
   };
 }
 
-export function getMenuSuccess(slug, response) {
+export function requestMenuSuccess(slug, response) {
   return {
-    type: GET_MENU_SUCCESS,
+    type: REQUEST_MENU_SUCCESS,
     slug,
     response,
   };
 }
 
-export function getMenuFail(slug, error) {
+export function requestMenuFail(slug, error) {
   return {
-    type: GET_MENU_FAIL,
+    type: REQUEST_MENU_FAIL,
     slug,
     error,
   };

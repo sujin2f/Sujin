@@ -26,6 +26,7 @@ class Menu extends Component {
       getMenu,
       className = '',
       slug,
+      id,
     } = this.props;
 
     const menuItems = getMenu(slug);
@@ -35,7 +36,7 @@ class Menu extends Component {
     }
 
     return (
-      <nav className={`${className} ${slug} menu`}>
+      <nav id={id} className={`${className} ${slug} menu`}>
         {menuItems.map(menuItem => (
           <Link
             to={menuItem.url}
@@ -65,13 +66,13 @@ const mapStateToProps = withSelect((select) => ({
 
 const mapDispatchToProps = withDispatch((dispatch) => ({
   requestMenu: (slug) => {
-    dispatch(STORE).getMenuInit(slug);
+    dispatch(STORE).requestMenuInit(slug);
 
     axios.get(`/wp-json/sujin/v1/menu/${slug}`)
       .then((response) => {
-        dispatch(STORE).getMenuSuccess(slug, response);
+        dispatch(STORE).requestMenuSuccess(slug, response);
       }).catch((error) => {
-        dispatch(STORE).getMenuFail(slug, error);
+        dispatch(STORE).requestMenuFail(slug, error);
       });
   },
 }));

@@ -1,22 +1,22 @@
-export const GET_MAIN_BACKGROUND_INIT = 'sujin/front-page/GET_MAIN_BACKGROUND_INIT';
-export const GET_MAIN_BACKGROUND_SUCCESS = 'sujin/front-page/GET_MAIN_BACKGROUND_SUCCESS';
-export const GET_MAIN_BACKGROUND_FAIL = 'sujin/front-page/GET_MAIN_BACKGROUND_FAIL';
+export const REQUEST_MAIN_BACKGROUND_INIT = 'sujin/front-page/REQUEST_MAIN_BACKGROUND_INIT';
+export const REQUEST_MAIN_BACKGROUND_SUCCESS = 'sujin/front-page/REQUEST_MAIN_BACKGROUND_SUCCESS';
+export const REQUEST_MAIN_BACKGROUND_FAIL = 'sujin/front-page/REQUEST_MAIN_BACKGROUND_FAIL';
 
-export function getMainBackgroundInit() {
+export function requestMainBackgroundInit() {
   return {
-    type: GET_MAIN_BACKGROUND_INIT,
+    type: REQUEST_MAIN_BACKGROUND_INIT,
   };
 }
 
-export function getMainBackgroundSuccess(response) {
+export function requestMainBackgroundSuccess(response) {
   return {
-    type: GET_MAIN_BACKGROUND_SUCCESS,
+    type: REQUEST_MAIN_BACKGROUND_SUCCESS,
     response,
   };
 }
 
-export function getMainBackgroundFail() {
+export function requestMainBackgroundFail() {
   return {
-    type: GET_MAIN_BACKGROUND_FAIL,
+    type: REQUEST_MAIN_BACKGROUND_FAIL,
   };
 }

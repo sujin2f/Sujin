@@ -20,7 +20,11 @@ class PageHeader extends Component {
 
         <div className="row">
           <section className="columns small-12">
-            <Menu className="show-for-large flex-row" slug="main-menu" />
+            <Menu
+              id="primany-page-header"
+              className="show-for-large flex-row"
+              slug="main-menu"
+            />
           </section>
         </div>
       </section>

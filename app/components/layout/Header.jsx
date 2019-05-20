@@ -34,12 +34,20 @@ class Header extends Component {
                 onClick={() => setMobileMenu()}
                 type="button"
               />
-              <Menu className="show-for-large" slug="main-menu" />
+              <Menu
+                id="primary-top"
+                className="show-for-large"
+                slug="main-menu"
+              />
             </section>
             <section className="columns small-6 hide-for-small-only">
               <Search />
 
-              <Menu className="show-for-large" slug="social-media" />
+              <Menu
+                id="social-media-top"
+                className="show-for-large"
+                slug="social-media"
+              />
             </section>
           </div>
         </section>
@@ -48,9 +56,11 @@ class Header extends Component {
           <Link to="/" className="icon logo reverse">Sujin</Link>
         </section>
 
-        <section id="mobile-menu" className="hide-for-large">
-          <Menu slug="main-menu" />
-        </section>
+        <Menu
+          id="primary-mobile"
+          className="hide-for-large"
+          slug="main-menu"
+        />
       </Fragment>
     );
   }

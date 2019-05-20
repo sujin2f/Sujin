@@ -2,9 +2,9 @@
 import {
   SET_MOBILE_MENU,
 
-  GET_MENU_INIT,
-  GET_MENU_SUCCESS,
-  GET_MENU_FAIL,
+  REQUEST_MENU_INIT,
+  REQUEST_MENU_SUCCESS,
+  REQUEST_MENU_FAIL,
 } from 'app/actions/global';
 
 import { IS_LOADING } from 'app/constants/common';
@@ -25,7 +25,7 @@ function global(state = initialState, action) {
         mobileMenu: (action.status === 'toggle') ? !state.mobileMenu : action.status,
       };
     }
-    case GET_MENU_INIT: {
+    case REQUEST_MENU_INIT: {
       return {
         ...state,
         menu: {
@@ -34,7 +34,7 @@ function global(state = initialState, action) {
         },
       };
     }
-    case GET_MENU_SUCCESS: {
+    case REQUEST_MENU_SUCCESS: {
       return {
         ...state,
         menu: {
@@ -43,7 +43,7 @@ function global(state = initialState, action) {
         },
       };
     }
-    case GET_MENU_FAIL: {
+    case REQUEST_MENU_FAIL: {
       return {
         ...state,
         menu: {

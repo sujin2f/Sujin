@@ -22,32 +22,49 @@ import Archive from 'app/scenes/Public/Archive';
 
   render(
     <Router>
-      {/* Front Page */}
       <Route path="/">
         <Public className="stretched-background hideFooter">
           <FrontPage />
         </Public>
       </Route>
 
-      <Route path="/category/([\w-]+)">
+      <Route path="/category/([a-zA-Z0-9-_%]+)">
         <Public>
           <Archive />
         </Public>
       </Route>
 
-      <Route path="/tag/([\w-]+)">
+      <Route path="/category/([a-zA-Z0-9-_%]+)/page/([0-9]+)">
         <Public>
           <Archive />
         </Public>
       </Route>
 
-      <Route path="/search/([\w-]+)">
+      <Route path="/tag/([a-zA-Z0-9-_%]+)">
         <Public>
           <Archive />
         </Public>
       </Route>
 
-      <Route path="/([\w-]+)">
+      <Route path="/tag/([a-zA-Z0-9-_%]+)/page/([0-9]+)">
+        <Public>
+          <Archive />
+        </Public>
+      </Route>
+
+      <Route path="/search/([a-zA-Z0-9-_%]+)">
+        <Public>
+          <Archive />
+        </Public>
+      </Route>
+
+      <Route path="/search/([a-zA-Z0-9-_\%]+)/?page/([0-9]+)">
+        <Public>
+          <Archive />
+        </Public>
+      </Route>
+
+      <Route path="/([a-zA-Z0-9-_\%]+)">
         <Public>
           <Page />
         </Public>

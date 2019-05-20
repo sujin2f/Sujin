@@ -11,12 +11,12 @@ const { Fragment, Component } = wp.element;
 class FrontPage extends Component {
   componentDidMount() {
     const {
+      requestMainBackground,
       mainBackground,
-      getMainBackground,
     } = this.props;
 
     if (Object.keys(mainBackground).length === 0) {
-      getMainBackground();
+      requestMainBackground();
     }
   }
 
@@ -44,12 +44,12 @@ const mapStateToProps = withSelect((select) => ({
 }));
 
 const mapDispatchToProps = withDispatch((dispatch) => ({
-  getMainBackground: () => {
+  requestMainBackground: () => {
     axios.get('/wp-json/sujin/v1/media/random')
       .then((response) => {
-        dispatch(STORE).getMainBackgroundSuccess(response);
+        dispatch(STORE).requestMainBackgroundSuccess(response);
       }).catch((error) => {
-        dispatch(STORE).getMainBackgroundFail(error);
+        dispatch(STORE).requestMainBackgroundFail(error);
       });
   },
 }));

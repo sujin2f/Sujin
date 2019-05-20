@@ -1,7 +1,7 @@
 import {
-  GET_MAIN_BACKGROUND_INIT,
-  GET_MAIN_BACKGROUND_SUCCESS,
-  GET_MAIN_BACKGROUND_FAIL,
+  REQUEST_MAIN_BACKGROUND_INIT,
+  REQUEST_MAIN_BACKGROUND_SUCCESS,
+  REQUEST_MAIN_BACKGROUND_FAIL,
 } from 'app/actions/front-page';
 
 const initialState = {
@@ -11,7 +11,7 @@ const initialState = {
 
 function frontPage(state = initialState, action) {
   switch (action.type) {
-    case GET_MAIN_BACKGROUND_INIT: {
+    case REQUEST_MAIN_BACKGROUND_INIT: {
       return {
         ...state,
         loading: true,
@@ -19,7 +19,7 @@ function frontPage(state = initialState, action) {
       };
     }
 
-    case GET_MAIN_BACKGROUND_SUCCESS: {
+    case REQUEST_MAIN_BACKGROUND_SUCCESS: {
       return {
         ...state,
         entities: action.response.data,
@@ -27,7 +27,7 @@ function frontPage(state = initialState, action) {
       };
     }
 
-    case GET_MAIN_BACKGROUND_FAIL: {
+    case REQUEST_MAIN_BACKGROUND_FAIL: {
       return {
         ...state,
         loading: false,

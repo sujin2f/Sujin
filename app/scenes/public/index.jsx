@@ -41,12 +41,12 @@ class Public extends Component {
     const {
       children,
       className = '',
-      mobileMenu,
+      mobileMenuClass,
     } = this.props;
     const { scrolled } = this.state;
 
     return (
-      <div id="wrapper" className={`${className} ${scrolled} ${mobileMenu}`}>
+      <div id="wrapper" className={`${className} ${scrolled} ${mobileMenuClass}`}>
         <header itemType="http://schema.org/WPHeader">
           <Header />
         </header>
@@ -64,7 +64,7 @@ class Public extends Component {
 }
 
 const mapStateToProps = withSelect((select) => ({
-  mobileMenu: select(STORE).getMobileMenuClass(),
+  mobileMenuClass: select(STORE).getMobileMenuClass(),
 }));
 
 export default compose([mapStateToProps])(Public);
