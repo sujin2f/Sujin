@@ -5,7 +5,7 @@ import Content from 'app/components/single/Content';
 import Loading from 'app/components/layout/Loading';
 import { STORE, IS_ERROR } from 'app/constants/common';
 
-import { getRenderedText } from 'app/utils/global';
+import { getRenderedText, getParsedJson } from 'app/utils/global';
 
 const { withDispatch, withSelect } = wp.data;
 const { compose } = wp.compose;
@@ -65,9 +65,11 @@ class Page extends Component {
       );
     }
 
+    const backgroundImage = getParsedJson(page.meta.background);
+
     return (
       <section className="page-wrapper">
-        <PageHeader backgroundImage="">
+        <PageHeader backgroundImage={backgroundImage.large}>
           <Fragment>
             <h1>{getRenderedText(page.title)}</h1>
             <p>{getRenderedText(page.excerpt)}</p>

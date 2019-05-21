@@ -25,8 +25,8 @@ class FrontPage extends Component {
 
     const backgroundImage =
       Object.keys(mainBackground).length === 0 ?
-        '' :
-        `url(${mainBackground.large})`;
+        false :
+        mainBackground.large;
 
     return (
       <PageHeader backgroundImage={backgroundImage}>

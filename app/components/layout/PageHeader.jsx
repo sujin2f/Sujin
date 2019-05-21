@@ -6,12 +6,16 @@ class PageHeader extends Component {
   render() {
     const {
       children,
-      backgroundImage,
+      backgroundImage: maybeBackgroundImage,
     } = this.props;
+
+    const backgroundImage = !maybeBackgroundImage ? {} : {
+      backgroundImage: `url(${maybeBackgroundImage})`,
+    };
 
     return (
       <header className="page-header-wrapper">
-        <div className="background" style={{ backgroundImage }} />
+        <div className="background" style={backgroundImage} />
         <div className="foreground" />
 
         <div className="text">

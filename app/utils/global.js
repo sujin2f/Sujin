@@ -22,5 +22,9 @@ export function isMobile() {
 }
 
 export const getRenderedText = text => (text && text.rendered) || '';
+export const getParsedJson = (json) => {
+  const attachment = json || '{}';
+  return JSON.parse(attachment);
+};
 
 /* eslint-enable import/prefer-default-export */

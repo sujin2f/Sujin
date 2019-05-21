@@ -16,6 +16,7 @@ class Theme_Customizer {
 
 	function __construct() {
 		add_action( 'customize_register', array( $this, 'mytheme_customize_register' ) );
+		add_filter( 'the_excerpt', 'strip_tags' );
 	}
 
 	public function mytheme_customize_register( $wp_customize ) {
