@@ -47,7 +47,7 @@ abstract class Abs_Setting_Element extends Abs_Base_Element {
 		register_setting( $parent_id, $this->get_id() );
 	}
 
-	public function _attach_to( Setting $setting ) {
+	public function attach_to( Setting $setting ) {
 		$this->_setting           = $setting;
 		$this->_options['legend'] = $setting->get_name();
 	}

@@ -4,10 +4,11 @@ import {
   REQUEST_PAGE_FAIL,
 } from 'app/actions/page';
 
-import { IS_LOADING, IS_ERROR } from 'app/constants/common';
+import { IS_ERROR } from 'app/constants/common';
 
 const initialState = {
   entities: {},
+  loading: false,
 };
 
 function page(state = initialState, action) {
@@ -17,8 +18,9 @@ function page(state = initialState, action) {
         ...state,
         entities: {
           ...state.entities,
-          [action.slug]: IS_LOADING,
+          [action.slug]: {},
         },
+        loading: true,
       };
     }
 
@@ -30,6 +32,7 @@ function page(state = initialState, action) {
           ...state.entities,
           [action.slug]: data,
         },
+        loading: false,
       };
     }
 
@@ -40,6 +43,7 @@ function page(state = initialState, action) {
           ...state.entities,
           [action.slug]: IS_ERROR,
         },
+        loading: false,
       };
     }
 

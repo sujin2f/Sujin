@@ -44,7 +44,7 @@ class Post_Type extends Abs_Base {
 		'query_var'             => null,
 		'can_export'            => null,
 		'delete_with_user'      => null,
-		'show_in_rest'          => null,
+		'show_in_rest'          => true,
 		'rest_base'             => null,
 		'rest_controller_class' => null,
 		'_builtin'              => null,

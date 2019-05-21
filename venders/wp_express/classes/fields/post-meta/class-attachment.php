@@ -20,4 +20,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Attachment extends Abs_Post_Meta_Element {
 	use Trait_Attachment;
+
+	public function __construct( string $name, array $attrs = array() ) {
+		parent::__construct( $name, $attrs );
+
+		add_action( 'init', array( $this, '_rest_value' ) );
+	}
+
+	public function _register_meta() {
+		$args = array(
+			'type'         => 'string',
+			'single'       => true,
+			'show_in_rest' => true,
+		);
+		register_meta( 'post', $this->get_id(), $args );
+	}
+
+	public function _rest_value() {
+		foreach ( $this->metabox->get_parents() as $parent ) {
+			add_filter( 'get_' . $parent . '_metadata', array( $this, '_rest_metadata' ), 15, 3 );
+		}
+	}
 }

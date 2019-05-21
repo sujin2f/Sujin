@@ -1,49 +1,80 @@
 import axios from 'axios';
 
 import PageHeader from 'app/components/layout/PageHeader';
-import { STORE, IS_LOADING, IS_ERROR } from 'app/constants/common';
+import Content from 'app/components/single/Content';
+import Loading from 'app/components/layout/Loading';
+import { STORE, IS_ERROR } from 'app/constants/common';
+
+import { getRenderedText } from 'app/utils/global';
 
 const { withDispatch, withSelect } = wp.data;
 const { compose } = wp.compose;
 const { Fragment, Component } = wp.element;
 
 class Page extends Component {
-  static getDerivedStateFromProps(props) {
-    const {
-      history,
-      requestPage,
-      getPage,
-    } = props;
+  constructor(props) {
+    super(props);
 
-    const slug = history.location.pathname.split('/').filter(v => v).pop();
-    const page = getPage(slug);
+    this.state = {
+      slug: false,
+    };
+  }
 
-    if (IS_LOADING === page) {
-      return;
+  static getDerivedStateFromProps(props, state) {
+    const slug = props.history.location.pathname
+      .split('/')
+      .filter(v => v)
+      .pop();
+
+    if (state.slug === slug || props.getPage(slug).page) {
+      return { slug };
     }
 
-    if (IS_ERROR === page) {
-      return;
-    }
+    props.requestPage(slug);
 
-    if (!page) {
-      requestPage(slug);
-    }
+    return { slug };
   }
 
   render() {
+    if (!this.state.slug) {
+      return null;
+    }
+    const {
+      page,
+      loading,
+    } = this.props.getPage(this.state.slug);
+
+    if (loading) {
+      return (
+        <section className="page-wrapper">
+          <PageHeader>
+            <Loading />
+          </PageHeader>
+        </section>
+      );
+    }
+
+    if (IS_ERROR === page) {
+      return (
+        <section className="page-wrapper">
+          <PageHeader>
+            <h1>Error Reading Content</h1>
+            <p>Please try it again</p>
+          </PageHeader>
+        </section>
+      );
+    }
+
     return (
       <section className="page-wrapper">
-        <PageHeader
-          backgroundImage=""
-        >
+        <PageHeader backgroundImage="">
           <Fragment>
-            <h1>SUJIN</h1>
-            <p>Wordpress/React Developer</p>
+            <h1>{getRenderedText(page.title)}</h1>
+            <p>{getRenderedText(page.excerpt)}</p>
           </Fragment>
         </PageHeader>
 
-        Page
+        <Content post={page} />
       </section>
     );
   }

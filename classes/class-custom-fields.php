@@ -23,22 +23,20 @@ class Custom_Fields {
 
 	function __construct() {
 		$metabox = Meta_Box::get_instance( 'Images' )
-			->post_type( 'post' )
-			->post_type( 'page' )
-			->add( Meta_Attachment::get_instance( 'List' )->show_in_rest( true ) )
-			->add( Meta_Attachment::get_instance( 'Icon' )->show_in_rest( true ) )
-			->add( Meta_Attachment::get_instance( 'Title' )->show_in_rest( true ) )
-			->add( Meta_Attachment::get_instance( 'Background' )->show_in_rest( true ) )
-			->add( Meta_Checkbox::get_instance( 'Use Background Color' )->show_in_rest( true ) )
-			->add( Meta_Input::get_instance( 'Background Color' )->type( 'color' )->show_in_rest( true ) );
+			->attach_to( 'post' )
+			->attach_to( 'page' )
+			->add( Meta_Attachment::get_instance( 'List' ) )
+			->add( Meta_Attachment::get_instance( 'Icon' ) )
+			->add( Meta_Attachment::get_instance( 'Title' ) )
+			->add( Meta_Attachment::get_instance( 'Background' ) )
+			->add( Meta_Checkbox::get_instance( 'Use Background Color' ) )
+			->add( Meta_Input::get_instance( 'Background Color' )->type( 'color' ) );
 
 		Term_Meta_Attachment::get_instance( 'Thumbnail' )
 			->attach_to( 'category' )
-			->attach_to( 'post_tag' )
-			->show_in_rest( true );
+			->attach_to( 'post_tag' );
 
 		Taxonomy::get_instance( 'Category' )
-			->attach_to( 'attachment' )
-			->show_in_rest( true );
+			->attach_to( 'attachment' );
 	}
 }

@@ -19,6 +19,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Taxonomy extends Abs_Base {
 	const DEFAULT_POST_TYPE = 'post';
 
+	public $_is_tag = false;
+
 	private $_post_types = array();
 	private $_arguments  = array(
 		'label'                 => null,
@@ -28,7 +30,7 @@ class Taxonomy extends Abs_Base {
 		'show_ui'               => null,
 		'show_in_menu'          => null,
 		'show_in_nav_menus'     => null,
-		'show_in_rest'          => null,
+		'show_in_rest'          => true,
 		'rest_base'             => null,
 		'rest_controller_class' => null,
 		'show_tagcloud'         => null,
@@ -50,8 +52,7 @@ class Taxonomy extends Abs_Base {
 		parent::__construct( $name );
 
 		if ( 'tag' === strtolower( $name ) ) {
-			$this->_name = 'Tags';
-			$this->_id   = 'post_tag';
+			$this->_is_tag = 'post_tag';
 		}
 
 		$this->_user_args = $arguments;
@@ -77,6 +78,13 @@ class Taxonomy extends Abs_Base {
 		}
 
 		return $this;
+	}
+
+	public function get_id(): string {
+		if ( is_null( parent::get_id() ) ) {
+			throw new Initialized_Exception();
+		}
+		return $this->_is_tag ?: parent::get_id();
 	}
 
 	public function _register_taxonomy() {

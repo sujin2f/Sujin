@@ -44,7 +44,7 @@ class Setting extends Abs_Base {
 	}
 
 	public function add( Abs_Setting_Element $field ): Setting {
-		$field->_attach_to( $this );
+		$field->attach_to( $this );
 		return $this;
 	}
 

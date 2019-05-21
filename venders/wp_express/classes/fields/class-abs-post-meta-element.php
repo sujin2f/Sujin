@@ -10,6 +10,8 @@
 
 namespace Sujin\Wordpress\WP_Express\Fields;
 
+use Sujin\Wordpress\WP_Express\Meta_Box;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	header( 'Status: 404 Not Found' );
 	header( 'HTTP/1.1 404 Not Found' );
@@ -17,6 +19,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 abstract class Abs_Post_Meta_Element extends Abs_Base_Element {
+	protected $metabox;
+
+	public function __construct( string $name, array $attrs = array() ) {
+		parent::__construct( $name, $attrs );
+		add_action( 'init', array( $this, '_register_meta' ) );
+	}
 	public function get( ?int $post_id = null ) {
 		if ( empty( $this->_attributes['value'] ) ) {
 			$this->_refresh_attributes( $post_id );
@@ -26,6 +34,20 @@ abstract class Abs_Post_Meta_Element extends Abs_Base_Element {
 
 	public function _update( int $post_id, $value ) {
 		update_post_meta( $post_id, $this->get_id(), $value );
+	}
+
+	public function attach_to( Meta_Box $metabox ): Abs_Post_Meta_Element {
+		$this->metabox = $metabox;
+		return $this;
+	}
+
+	public function _register_meta() {
+		$args = array(
+			'type'         => 'string',
+			'single'       => true,
+			'show_in_rest' => true,
+		);
+		register_meta( 'post', $this->get_id(), $args );
 	}
 
 	protected function _refresh_attributes( ?int $post_id = null ) {

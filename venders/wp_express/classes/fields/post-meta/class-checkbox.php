@@ -21,6 +21,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Checkbox extends Abs_Post_Meta_Element {
 	use Trait_Checkbox;
 
+	public function _register_meta() {
+		$args = array(
+			'type'         => 'boolean',
+			'single'       => true,
+			'show_in_rest' => true,
+		);
+		register_meta( 'post', $this->get_id(), $args );
+	}
+
 	protected function _render_wrapper_open() {
 		?>
 		<section

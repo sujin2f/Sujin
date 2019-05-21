@@ -3,8 +3,8 @@
  * Metabox Class
  *
  * @project WP-Express
- * @since   1.0.0
  * @author  Sujin 수진 Choi http://www.sujinc.com/
+ * @todo    actions go to the elements
  */
 
 namespace Sujin\Wordpress\WP_Express;
@@ -22,10 +22,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Meta_Box extends Abs_Base {
 	private const DEFAULT_POST_TYPE = 'post';
 
-	public const POST_TYPE = 'post_type';
-	public const FIELDS    = 'fields';
-	private $_post_types   = array();
-	private $_fields       = array();
+	private $_post_types = array();
+	private $_fields     = array();
 
 	public function __construct( $name ) {
 		parent::__construct( $name );
@@ -33,34 +31,24 @@ class Meta_Box extends Abs_Base {
 		add_action( 'save_post', array( $this, '_save_post' ), 10, 2 );
 	}
 
-	public function __call( string $name, array $arguments ) {
-		$name = '_' . $name;
-
-		switch ( strtolower( $name ) ) {
-			case self::POST_TYPE:
-				$name = $name . 's';
-				break;
-		}
-
-		if ( ! property_exists( $this, $name ) ) {
-			return $this;
-		}
-
-		if ( empty( $arguments ) ) {
-			return $this->{$name};
-		}
-
-		$this->{$name} = $arguments[0];
-		return $this;
-	}
-
 	public function _register_meta_box() {
-		$post_types = $this->_get_post_types_strings();
-		add_meta_box( $this->get_id(), $this->get_name(), array( $this, '_show_meta_box' ), $post_types );
+		$post_types = $this->get_parents();
+		add_meta_box(
+			$this->get_id(),
+			$this->get_name(),
+			array( $this, '_show_meta_box' ),
+			$post_types
+		);
 	}
 
 	public function add( Abs_Post_Meta_Element $field ): Meta_Box {
 		$this->_fields[] = $field;
+		$field->attach_to( $this );
+		return $this;
+	}
+
+	public function attach_to( $post_type ): Meta_Box {
+		$this->_post_types[] = $post_type;
 		return $this;
 	}
 
@@ -87,16 +75,17 @@ class Meta_Box extends Abs_Base {
 			return;
 		}
 
-		foreach ( $this->_get_post_types_strings() as $post_type ) {
+		foreach ( $this->get_parents() as $post_type ) {
 			if ( $post->post_type === $post_type ) {
 				foreach ( $this->_fields as $field ) {
-					$field->_update( $post_id, $_POST[ $field->get_id() ] );
+					$value = $_POST[ $field->get_id() ] ?? false;
+					$field->_update( $post_id, $value );
 				}
 			}
 		}
 	}
 
-	private function _get_post_types_strings(): array {
+	public function get_parents(): array {
 		$post_types = array();
 
 		foreach ( $this->_post_types as $post_type ) {

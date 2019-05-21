@@ -10,7 +10,7 @@ class PageHeader extends Component {
     } = this.props;
 
     return (
-      <section className="page-header-wrapper">
+      <header className="page-header-wrapper">
         <div className="background" style={{ backgroundImage }} />
         <div className="foreground" />
 
@@ -27,7 +27,7 @@ class PageHeader extends Component {
             />
           </section>
         </div>
-      </section>
+      </header>
     );
   }
 }
