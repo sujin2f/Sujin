@@ -5,7 +5,6 @@
  * @project WP-Express
  * @since   1.0.0
  * @author  Sujin 수진 Choi http://www.sujinc.com/
- * @todo    Register Meta
  */
 
 namespace Sujin\Wordpress\WP_Express\Fields;
@@ -19,20 +18,40 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 abstract class Abs_Term_Meta_Element extends Abs_Base_Element {
-	public function attach_to( $term ): Abs_Term_Meta_Element {
-		$parent = $term;
+	private $_taxonomies = array();
 
-		if ( $term instanceof Taxonomy ) {
-			$parent = $term->get_id();
+	public function __construct( string $name, array $attrs = array() ) {
+		parent::__construct( $name, $attrs );
+		add_action( 'init', array( $this, '_register_meta' ) );
+	}
+
+	public function attach_to( $taxonomy ): Abs_Term_Meta_Element {
+		$this->_taxonomies[] = $taxonomy;
+
+		if ( $taxonomy instanceof Taxonomy ) {
+			$taxonomy = $taxonomy->get_id();
 		}
-		add_action( $parent . '_edit_form_fields', array( $this, '_render' ), 25 );
-		add_action( 'edited_' . $parent, array( $this, '_update' ), 25 );
+		add_action( $taxonomy . '_edit_form_fields', array( $this, '_render' ), 25 );
+		add_action( 'edited_' . $taxonomy, array( $this, '_update' ), 25 );
 
 		return $this;
 	}
 
+	public function update( int $term_id, $value ) {
+		update_term_meta( $term_id, $this->get_id(), $value );
+	}
+
 	public function _update( int $term_id ) {
-		update_term_meta( $term_id, $this->get_id(), $_POST[ $this->get_id() ] );
+		$this->update( $term_id, $_POST[ $this->get_id() ] );
+	}
+
+	public function _register_meta() {
+		$args = array(
+			'type'         => 'string',
+			'single'       => true,
+			'show_in_rest' => true,
+		);
+		register_meta( 'term', $this->get_id(), $args );
 	}
 
 	protected function _refresh_attributes( ?int $term_id = null ) {
@@ -62,5 +81,15 @@ abstract class Abs_Term_Meta_Element extends Abs_Base_Element {
 
 	protected function _render_wrapper_close() {
 		echo '</td></tr>';
+	}
+
+	public function _get_parents(): array {
+		$taxonomies = array();
+
+		foreach ( $this->_taxonomies as $taxonomy ) {
+			$taxonomies[] = ( $taxonomy instanceof Taxonomy ) ? $taxonomy->get_id() : $taxonomy;
+		}
+
+		return $taxonomies;
 	}
 }

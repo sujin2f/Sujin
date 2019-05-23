@@ -20,4 +20,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Input extends Abs_Term_Meta_Element {
 	use Trait_Input;
+
+	public function _register_meta() {
+		$args = array(
+			'type'         => 'number' === $this->_attributes['type'] ? 'integer' : 'string',
+			'single'       => true,
+			'show_in_rest' => true,
+		);
+		register_meta( 'post', $this->get_id(), $args );
+	}
 }

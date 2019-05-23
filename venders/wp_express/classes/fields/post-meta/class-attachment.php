@@ -23,7 +23,6 @@ class Attachment extends Abs_Post_Meta_Element {
 
 	public function __construct( string $name, array $attrs = array() ) {
 		parent::__construct( $name, $attrs );
-
 		add_action( 'init', array( $this, '_rest_value' ) );
 	}
 
@@ -37,7 +36,7 @@ class Attachment extends Abs_Post_Meta_Element {
 	}
 
 	public function _rest_value() {
-		foreach ( $this->metabox->get_parents() as $parent ) {
+		foreach ( $this->_metabox->_get_parents() as $parent ) {
 			add_filter( 'get_' . $parent . '_metadata', array( $this, '_rest_metadata' ), 15, 3 );
 		}
 	}

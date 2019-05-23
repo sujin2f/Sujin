@@ -1,4 +1,4 @@
-.template-page, .template-single {
+.template-single {
 	article {
 		.assist-thumb {
 			border-radius: 100px;
@@ -9,10 +9,12 @@
 			left: 50%;
 			margin-top: -80px;
 
+/*
 			@include breakpoint(small only) {
 				width: 120px;
 				margin-top: -60px;
 			}
+*/
 		}
 
 		.series {
@@ -38,9 +40,11 @@
 			&:nth-child(2).more-margin {
 				margin-top: 100px;
 
+/*
 				@include breakpoint(small only) {
 					margin-top: 80px;
 				}
+*/
 			}
 		}
 
@@ -214,6 +218,7 @@
 					}
 				}
 
+/*
 				@include breakpoint(small only) {
 					a {
 						flex-direction: row;
@@ -223,6 +228,7 @@
 						}
 					}
 				}
+*/
 			}
 
 			a {
@@ -256,7 +262,7 @@
 	}
 }
 
-.template-page {
+.template-single {
 	article {
 		max-width: 930px;
 		margin-right: auto;
@@ -265,8 +271,9 @@
 }
 
 // About Page
-article.page-about {
+article.post-about {
 	.flex-container-row {
+		display: flex;
 		margin-bottom: 10px;
 		align-items: flex-start;
 

@@ -4,6 +4,7 @@
  *
  * @project WP Express
  * @author  Sujin 수진 Choi http://www.sujinc.com/
+ * @todo Multiple, options/callback...
  */
 
 namespace Sujin\Wordpress\WP_Express\Fields;
@@ -17,7 +18,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
 
-// TODO Multiple, options/callback...
 abstract class Abs_Base_Element extends Abs_Base {
 	protected $_attributes = array(
 		'class'       => null,
@@ -63,19 +63,18 @@ abstract class Abs_Base_Element extends Abs_Base {
 		return $this;
 	}
 
-	public function _render( $maybe_id = null ): bool {
+	public function _render( $maybe_id = null ) {
 		if ( $maybe_id instanceof WP_Term ) {
 			$maybe_id = $maybe_id->term_id;
 		}
 		$this->_refresh_attributes( $maybe_id ?: null );
 		if ( false === $this->_is_available() ) {
-			return false;
+			return;
 		}
 		$this->_parse_attributes( $this->_defaults_attributes );
 		$this->_render_wrapper_open();
 		$this->_render_form();
 		$this->_render_wrapper_close();
-		return true;
 	}
 
 	protected abstract function _refresh_attributes( ?int $maybe_id = null );

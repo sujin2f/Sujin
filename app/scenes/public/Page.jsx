@@ -20,22 +20,26 @@ class Page extends Component {
     };
   }
 
-  static getDerivedStateFromProps(props, state) {
-    const slug = props.history.location.pathname
-      .split('/')
-      .filter(v => v)
-      .pop();
+  /*
+    static getDerivedStateFromProps(props, state) {
+      const slug = props.history.location.pathname
+        .split('/')
+        .filter(v => v)
+        .pop();
 
-    if (state.slug === slug || props.getPage(slug).page) {
+      if (state.slug === slug || props.getPage(slug).page) {
+        return { slug };
+      }
+
+      props.requestPage(slug);
+
       return { slug };
     }
-
-    props.requestPage(slug);
-
-    return { slug };
-  }
+  */
 
   render() {
+    console.log(this.props);
+
     if (!this.state.slug) {
       return null;
     }

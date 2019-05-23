@@ -26,6 +26,10 @@ abstract class Abs_Setting_Element extends Abs_Base_Element {
 		add_action( 'admin_init', array( $this, '_add_settings_field' ) );
 	}
 
+	public function get( ?int $_ = null ) {
+		return get_option( $this->get_id() );
+	}
+
 	public function _add_settings_field() {
 		if ( empty( $this->_setting ) || empty( $this->_setting->admin_page() ) ) {
 			return;

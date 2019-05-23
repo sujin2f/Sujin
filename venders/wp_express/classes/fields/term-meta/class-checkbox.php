@@ -21,6 +21,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Checkbox extends Abs_Term_Meta_Element {
 	use Trait_Checkbox;
 
+	public function _register_meta() {
+		$args = array(
+			'type'         => 'boolean',
+			'single'       => true,
+			'show_in_rest' => true,
+		);
+		register_meta( 'post', $this->get_id(), $args );
+	}
+
 	protected function _render_wrapper_open() {
 		?>
 		<tr class="<?php echo esc_attr( self::PREFIX ); ?> form-field term-<?php echo esc_attr( $this->get_id() ); ?>-wrap checkbox">

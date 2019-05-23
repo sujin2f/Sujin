@@ -144,12 +144,13 @@ class Admin extends Abs_Base {
 				$page_slug        = null;
 				$this->_admin_url = admin_url( 'admin.php?page=' . $this->get_id() );
 
-				## WP Express classes
+				## When the position is WP Express class
 				if ( is_object( $this->_position ) && false !== stripos( get_class( $this->_position ), 'WP_Express' ) ) {
 					$page_slug = add_submenu_page( $this->_position->get_id(), ...$args );
 					break;
 				}
 
+				## When the position is numeric
 				if ( is_numeric( $this->_position ) ) {
 					## To existing position
 					if ( isset( $menu[ $this->_position ] ) ) {
@@ -164,15 +165,17 @@ class Admin extends Abs_Base {
 					break;
 				}
 
-				## String
+				## When the position is a menu Name
 				foreach ( $menu as $menu_item ) {
 					if ( $this->_position === $menu_item[0] ) {
 						$position_key = $menu_item[2];
-						$page_slug    = add_submenu_page( $position_key, ...$args );
+						## To existing position
+						$page_slug = add_submenu_page( $position_key, ...$args );
 						break 2;
 					}
 				}
 
+				## To root position
 				$args[]    = $this->_position;
 				$page_slug = add_menu_page( ...$args );
 				break;
