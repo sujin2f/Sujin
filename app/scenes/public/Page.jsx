@@ -67,8 +67,6 @@ class Page extends Component {
       );
     }
 
-    console.log(this.props.getPage(this.state.slug));
-
     const backgroundImage = getParsedJson(page.meta.background);
 
     return (
@@ -81,7 +79,9 @@ class Page extends Component {
             </Fragment>
           </PageHeader>
 
-          <Content post={page} />
+          <section className="row">
+            <Content post={page} className="medium-12" />
+          </section>
         </section>
       </Public>
     );

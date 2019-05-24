@@ -3,7 +3,9 @@ import axios from 'axios';
 import Public from 'app/scenes/Public';
 import PageHeader from 'app/components/layout/PageHeader';
 import Loading from 'app/components/layout/Loading';
+import Link from 'app/components/router/Link';
 import { STORE, IS_ERROR } from 'app/constants/common';
+import { getRenderedText, getParsedJson } from 'app/utils/global';
 
 const { Fragment, Component } = wp.element;
 const { withDispatch, withSelect } = wp.data;
@@ -48,11 +50,10 @@ class Archive extends Component {
     } = this.state;
 
     const {
-      category,
+      archive,
       loading,
     } = this.props.getArchive(kind, slug, page);
 
-    console.log(this.props.match);
     if (loading) {
       return (
         <Public className="template-archive">
@@ -65,7 +66,7 @@ class Archive extends Component {
       );
     }
 
-    if (IS_ERROR === category) {
+    if (IS_ERROR === archive) {
       return (
         <Public className="template-archive">
           <section className="page-wrapper">
@@ -90,7 +91,44 @@ class Archive extends Component {
             </Fragment>
           </PageHeader>
 
-          Archive
+          <section className="row medium-12">
+            {archive.map(item => {
+              const date = new Date(item.date);
+              const day = date.getDate();
+              const month = date.toLocaleString('en-us', { month: 'short' });
+              const year = date.getFullYear();
+              const image = getParsedJson(item.meta.list);
+
+              return (
+                <div
+                  className="large-4 medium-6 small-12"
+                  key={`${kind}-${slug}-${page}-${item.id}`}
+                >
+                  <figure className="thumbnail" itemType="http://schema.org/ImageObject">
+                    <Link
+                      to={item.link}
+                      rel="noopener noreferrer"
+                      title={decodeURIComponent(getRenderedText(item.title))}
+                    >
+                      <div className="zoom-icon">
+                        <i className="fa fa-search" aria-hidden="true" />
+                      </div>
+                      <div className="inner-shadow" />
+                      <time dateTime={item.date}>
+                        <span className="day">{day}</span>
+                        <span className="month">{month}</span>
+                        <span className="year">{year}</span>
+                      </time>
+                      <div
+                        style={{ backgroundImage: `url('${image['post-thumbnail']}')` }}
+                        className="attachment-post-thumbnail size-post-thumbnail wp-post-image"
+                      />
+                    </Link>
+                  </figure>
+                </div>
+              );
+            })}
+          </section>
         </section>
       </Public>
     );

@@ -24,7 +24,7 @@ function archive(state = initialState, action) {
           state.entities[action.kind][action.slug]
         ) ||
         {};
-      console.log(slugObject);
+
       return {
         ...state,
         entities: {

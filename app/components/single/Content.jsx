@@ -19,6 +19,7 @@ class Content extends Component {
         series,
         tags,
       },
+      className,
     } = this.props;
 
     console.log(this.props);
@@ -133,27 +134,23 @@ class Content extends Component {
     const contentsFirst = contents.shift();
 
     return (
-      <Fragment>
-        <section className="row">
-          <article
-            className={`columns large-9 medium-12 post-${slug} post-${id}`}
-            itemProp="mainEntity"
-            itemType="http://schema.org/BlogPosting"
-          >
-            {icon.thumbnail &&
-              <img src={icon.thumbnail} alt="Thumbnail" className="assist-thumb" />
-            }
+      <article
+        className={`columns ${className} post-${slug} post-${id}`}
+        itemProp="mainEntity"
+        itemType="http://schema.org/BlogPosting"
+      >
+        {icon.thumbnail &&
+          <img src={icon.thumbnail} alt="Thumbnail" className="assist-thumb" />
+        }
 
-            <section className={icon.thumbnail ? 'more-margin' : ''}>
-              {contentsFirst}
-            </section>
-
-            {contents}
-
-            <Tags tags={tags} />
-          </article>
+        <section className={icon.thumbnail ? 'more-margin' : ''}>
+          {contentsFirst}
         </section>
-      </Fragment>
+
+        {contents}
+
+        <Tags tags={tags} />
+      </article>
     );
   }
 }
