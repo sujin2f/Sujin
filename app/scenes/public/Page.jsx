@@ -6,7 +6,7 @@ import Content from 'app/components/single/Content';
 import Loading from 'app/components/layout/Loading';
 import { STORE, IS_ERROR } from 'app/constants/common';
 
-import { getRenderedText, getParsedJson } from 'app/utils/global';
+import { getRenderedText, parseJson } from 'app/utils/common';
 
 const { withDispatch, withSelect } = wp.data;
 const { compose } = wp.compose;
@@ -45,11 +45,9 @@ class Page extends Component {
     if (loading) {
       return (
         <Public className="template-single">
-          <section className="page-wrapper">
-            <PageHeader>
-              <Loading />
-            </PageHeader>
-          </section>
+          <PageHeader>
+            <Loading />
+          </PageHeader>
         </Public>
       );
     }
@@ -57,31 +55,27 @@ class Page extends Component {
     if (IS_ERROR === page) {
       return (
         <Public className="template-single">
-          <section className="page-wrapper">
-            <PageHeader>
-              <h1>Error Reading Content</h1>
-              <p>Please try it again</p>
-            </PageHeader>
-          </section>
+          <PageHeader>
+            <h1>Error Reading Content</h1>
+            <p>Please try it again</p>
+          </PageHeader>
         </Public>
       );
     }
 
-    const backgroundImage = getParsedJson(page.meta.background);
+    const backgroundImage = parseJson(page.meta.background);
 
     return (
       <Public className="template-single">
-        <section className="page-wrapper">
-          <PageHeader backgroundImage={backgroundImage.large}>
-            <Fragment>
-              <h1>{getRenderedText(page.title)}</h1>
-              <p>{getRenderedText(page.excerpt)}</p>
-            </Fragment>
-          </PageHeader>
+        <PageHeader backgroundImage={backgroundImage.large}>
+          <Fragment>
+            <h1>{getRenderedText(page.title)}</h1>
+            <p>{getRenderedText(page.excerpt)}</p>
+          </Fragment>
+        </PageHeader>
 
-          <section className="row">
-            <Content post={page} className="medium-12" />
-          </section>
+        <section className="row">
+          <Content post={page} className="medium-12" />
         </section>
       </Public>
     );

@@ -4,7 +4,7 @@
 import Header from 'app/components/layout/Header';
 import Footer from 'app/components/layout/Footer';
 
-import { getScrolled } from 'app/utils/global';
+import { getScrolled } from 'app/utils/common';
 import { STORE } from 'app/constants/common';
 
 const { withSelect } = wp.data;

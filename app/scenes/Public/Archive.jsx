@@ -5,7 +5,11 @@ import PageHeader from 'app/components/layout/PageHeader';
 import Loading from 'app/components/layout/Loading';
 import Link from 'app/components/router/Link';
 import { STORE, IS_ERROR } from 'app/constants/common';
-import { getRenderedText, getParsedJson } from 'app/utils/global';
+import {
+  getRenderedText,
+  parseJson,
+  parseDate,
+} from 'app/utils/common';
 
 const { Fragment, Component } = wp.element;
 const { withDispatch, withSelect } = wp.data;
@@ -29,8 +33,11 @@ class Archive extends Component {
       (props.match.tag && 'tag') ||
       (props.match.search && 'search');
     const slug = props.match[kind];
+    const entities =
+      props.getArchive(kind, slug, page).archive &&
+      props.getArchive(kind, slug, page).archive.entities;
 
-    if (!slug || state.slug === slug || props.getArchive(kind, slug, page).archive) {
+    if (!slug || state.slug === slug || entities) {
       return { kind, slug, page };
     }
 
@@ -43,92 +50,85 @@ class Archive extends Component {
       return null;
     }
 
-    const {
-      kind,
-      slug,
-      page,
-    } = this.state;
-
-    const {
-      archive,
-      loading,
-    } = this.props.getArchive(kind, slug, page);
+    const { kind, slug, page } = this.state;
+    const { archive, loading } = this.props.getArchive(kind, slug, page);
 
     if (loading) {
       return (
         <Public className="template-archive">
-          <section className="page-wrapper">
-            <PageHeader>
-              <Loading />
-            </PageHeader>
-          </section>
+          <PageHeader>
+            <Loading />
+          </PageHeader>
         </Public>
       );
     }
 
-    if (IS_ERROR === archive) {
+    if (IS_ERROR === archive.entities) {
       return (
         <Public className="template-archive">
-          <section className="page-wrapper">
-            <PageHeader>
-              <h1>Error Reading Content</h1>
-              <p>Please try it again</p>
-            </PageHeader>
-          </section>
+          <PageHeader>
+            <h1>Error Reading Content</h1>
+            <p>Please try it again</p>
+          </PageHeader>
         </Public>
       );
     }
 
     return (
       <Public className="template-archive">
-        <section className="page-wrapper">
-          <PageHeader
-            backgroundImage=""
-          >
-            <Fragment>
-              <h1>SUJIN</h1>
-              <p>Wordpress/React Developer</p>
-            </Fragment>
-          </PageHeader>
+        <PageHeader backgroundImage={archive.background}>
+          <Fragment>
+            <h1>{archive.title}</h1>
+            <p>{archive.description}</p>
+          </Fragment>
+        </PageHeader>
 
-          <section className="row medium-12">
-            {archive.map(item => {
-              const date = new Date(item.date);
-              const day = date.getDate();
-              const month = date.toLocaleString('en-us', { month: 'short' });
-              const year = date.getFullYear();
-              const image = getParsedJson(item.meta.list);
+        <section className="row post-grid">
+          {archive.entities.map(item => {
+            const date = parseDate(item.date);
+            const title = decodeURIComponent(getRenderedText(item.title));
+            const excerpt = decodeURIComponent(getRenderedText(item.excerpt));
+            const image = parseJson(item.meta.list, 'post-thumbnail');
 
-              return (
+            return (
+              <div
+                className="columns large-4 medium-6 small-12"
+                key={`${kind}-${slug}-${page}-${item.id}`}
+              >
+                <figure className="thumbnail" itemType="http://schema.org/ImageObject">
+                  <Link to={item.link} rel="noopener noreferrer" title={title}>
+                    <div className="zoom-icon" />
+                    {/* ?? */}
+                    <div className="inner-shadow" />
+                    <time dateTime={date.date}>
+                      <span className="day">{date.day}</span>
+                      <span className="month">{date.month}</span>
+                      <span className="year">{date.year}</span>
+                    </time>
+                    <div
+                      style={{ backgroundImage: `url('${image}')` }}
+                      className="attachment-post-thumbnail size-post-thumbnail wp-post-image"
+                    />
+                  </Link>
+                </figure>
+
+                <h2 itemProp="headline">
+                  <Link
+                    to={item.link}
+                    rel="noopener noreferrer"
+                    title={title}
+                    dangerouslySetInnerHTML={{ __html: title }}
+                  />
+                </h2>
+
                 <div
-                  className="large-4 medium-6 small-12"
-                  key={`${kind}-${slug}-${page}-${item.id}`}
-                >
-                  <figure className="thumbnail" itemType="http://schema.org/ImageObject">
-                    <Link
-                      to={item.link}
-                      rel="noopener noreferrer"
-                      title={decodeURIComponent(getRenderedText(item.title))}
-                    >
-                      <div className="zoom-icon">
-                        <i className="fa fa-search" aria-hidden="true" />
-                      </div>
-                      <div className="inner-shadow" />
-                      <time dateTime={item.date}>
-                        <span className="day">{day}</span>
-                        <span className="month">{month}</span>
-                        <span className="year">{year}</span>
-                      </time>
-                      <div
-                        style={{ backgroundImage: `url('${image['post-thumbnail']}')` }}
-                        className="attachment-post-thumbnail size-post-thumbnail wp-post-image"
-                      />
-                    </Link>
-                  </figure>
-                </div>
-              );
-            })}
-          </section>
+                  itemProp="description"
+                  className="description"
+                  dangerouslySetInnerHTML={{ __html: excerpt }}
+                />
+              </div>
+            );
+          })}
         </section>
       </Public>
     );

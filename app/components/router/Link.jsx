@@ -27,6 +27,7 @@ class Link extends Component {
       children,
       className,
       target,
+      dangerouslySetInnerHTML,
     } = this.props;
 
     return (
@@ -35,6 +36,7 @@ class Link extends Component {
         onClick={(e) => this.pushHash(e, target)}
         className={className}
         target={target}
+        dangerouslySetInnerHTML={dangerouslySetInnerHTML}
       >
         {children}
       </a>

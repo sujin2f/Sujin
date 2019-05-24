@@ -69,6 +69,11 @@ dd {
 	display: flex;
 }
 
+.row {
+	display: flex;
+	flex-wrap: wrap;
+}
+
 
 /*
 .flex-container-row {

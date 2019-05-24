@@ -22,9 +22,23 @@ export function isMobile() {
 }
 
 export const getRenderedText = text => (text && text.rendered) || '';
-export const getParsedJson = (json) => {
-  const attachment = json || '{}';
-  return JSON.parse(attachment);
+export const parseJson = (string, key) => {
+  if (!string) {
+    return {};
+  }
+  // TODO error control
+  const json = JSON.parse(string);
+  return key ? json[key] : json;
+};
+export const parseDate = (string) => {
+  // TODO error control
+  const date = new Date(string);
+  return {
+    date,
+    day: date.getDate(),
+    month: date.toLocaleString('en-us', { month: 'short' }),
+    year: date.getFullYear(),
+  };
 };
 
 /* eslint-enable import/prefer-default-export */

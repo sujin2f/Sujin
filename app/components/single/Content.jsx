@@ -4,7 +4,7 @@ import { Carousel } from 'react-responsive-carousel';
 
 import Tags from 'app/components/single/Tags';
 import Link from 'app/components/router/Link';
-import { getRenderedText, getParsedJson } from 'app/utils/global';
+import { getRenderedText, parseJson } from 'app/utils/common';
 
 const { Fragment, Component } = wp.element;
 
@@ -129,7 +129,7 @@ class Content extends Component {
       contents.push(seriesContent);
     }
 
-    const icon = getParsedJson(meta.icon);
+    const icon = parseJson(meta.icon);
 
     const contentsFirst = contents.shift();
 

@@ -45,6 +45,7 @@
     "react/prefer-stateless-function": "off",
     "import/no-extraneous-dependencies": "off",
     "class-methods-use-this": "off",
-    "react/destructuring-assignment": "off"
+    "react/destructuring-assignment": "off",
+    "react/no-danger": "off"
   }
 }
