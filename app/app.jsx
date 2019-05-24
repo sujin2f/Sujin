@@ -9,7 +9,6 @@ import Router from 'app/components/router/Router';
 import Route from 'app/components/router/Route';
 
 // Scenes
-import Public from 'app/scenes/Public';
 import FrontPage from 'app/scenes/Public/FrontPage';
 import Page from 'app/scenes/Public/Page';
 import Archive from 'app/scenes/Public/Archive';
@@ -23,51 +22,35 @@ import Archive from 'app/scenes/Public/Archive';
   render(
     <Router>
       <Route path="/">
-        <Public className="stretched-background hide-footer">
-          <FrontPage />
-        </Public>
+        <FrontPage />
       </Route>
 
-      <Route path="/category/([a-zA-Z0-9-_%]+)">
-        <Public>
-          <Archive />
-        </Public>
+      <Route path="/category/:category/page/:page?">
+        <Archive />
       </Route>
 
-      <Route path="/category/([a-zA-Z0-9-_%]+)/page/([0-9]+)">
-        <Public>
-          <Archive />
-        </Public>
+      <Route path="/category/:category">
+        <Archive />
       </Route>
 
-      <Route path="/tag/([a-zA-Z0-9-_%]+)">
-        <Public>
-          <Archive />
-        </Public>
+      <Route path="/tag/:tag/page/:page?">
+        <Archive />
       </Route>
 
-      <Route path="/tag/([a-zA-Z0-9-_%]+)/page/([0-9]+)">
-        <Public>
-          <Archive />
-        </Public>
+      <Route path="/tag/:tag">
+        <Archive />
       </Route>
 
-      <Route path="/search/([a-zA-Z0-9-_%]+)">
-        <Public>
-          <Archive />
-        </Public>
+      <Route path="/search/:search/page/:page?">
+        <Archive />
       </Route>
 
-      <Route path="/search/([a-zA-Z0-9-_\%]+)/?page/([0-9]+)">
-        <Public>
-          <Archive />
-        </Public>
+      <Route path="/search/:search">
+        <Archive />
       </Route>
 
-      <Route path="/([a-zA-Z0-9-_\%]+)">
-        <Public>
-          <Page />
-        </Public>
+      <Route path="/:slug">
+        <Page />
       </Route>
     </Router>,
     document.getElementById('app'),

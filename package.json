@@ -23,6 +23,7 @@
     "axios": "^0.18.0",
     "foundation-sites": "^6.5.3",
     "history": "^4.9.0",
+    "path-to-regexp": "^3.0.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-gist": "^1.2.1",

@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+import Public from 'app/scenes/Public';
 import PageHeader from 'app/components/layout/PageHeader';
 import Content from 'app/components/single/Content';
 import Loading from 'app/components/layout/Loading';
@@ -20,29 +21,22 @@ class Page extends Component {
     };
   }
 
-  /*
-    static getDerivedStateFromProps(props, state) {
-      const slug = props.history.location.pathname
-        .split('/')
-        .filter(v => v)
-        .pop();
+  static getDerivedStateFromProps(props, state) {
+    const slug = props.match.slug;
 
-      if (state.slug === slug || props.getPage(slug).page) {
-        return { slug };
-      }
-
-      props.requestPage(slug);
-
+    if (!slug || state.slug === slug || props.getPage(slug).page) {
       return { slug };
     }
-  */
+
+    props.requestPage(slug);
+    return { slug };
+  }
 
   render() {
-    console.log(this.props);
-
     if (!this.state.slug) {
       return null;
     }
+
     const {
       page,
       loading,
@@ -50,45 +44,52 @@ class Page extends Component {
 
     if (loading) {
       return (
-        <section className="page-wrapper">
-          <PageHeader>
-            <Loading />
-          </PageHeader>
-        </section>
+        <Public className="template-single">
+          <section className="page-wrapper">
+            <PageHeader>
+              <Loading />
+            </PageHeader>
+          </section>
+        </Public>
       );
     }
 
     if (IS_ERROR === page) {
       return (
-        <section className="page-wrapper">
-          <PageHeader>
-            <h1>Error Reading Content</h1>
-            <p>Please try it again</p>
-          </PageHeader>
-        </section>
+        <Public className="template-single">
+          <section className="page-wrapper">
+            <PageHeader>
+              <h1>Error Reading Content</h1>
+              <p>Please try it again</p>
+            </PageHeader>
+          </section>
+        </Public>
       );
     }
+
+    console.log(this.props.getPage(this.state.slug));
 
     const backgroundImage = getParsedJson(page.meta.background);
 
     return (
-      <section className="page-wrapper">
-        <PageHeader backgroundImage={backgroundImage.large}>
-          <Fragment>
-            <h1>{getRenderedText(page.title)}</h1>
-            <p>{getRenderedText(page.excerpt)}</p>
-          </Fragment>
-        </PageHeader>
+      <Public className="template-single">
+        <section className="page-wrapper">
+          <PageHeader backgroundImage={backgroundImage.large}>
+            <Fragment>
+              <h1>{getRenderedText(page.title)}</h1>
+              <p>{getRenderedText(page.excerpt)}</p>
+            </Fragment>
+          </PageHeader>
 
-        <Content post={page} />
-      </section>
+          <Content post={page} />
+        </section>
+      </Public>
     );
   }
 }
 
 const mapStateToProps = withSelect((select) => ({
   getPage: (slug) => select(STORE).getPage(slug),
-  history: select(STORE).getHistory(),
 }));
 
 const mapDispatchToProps = withDispatch((dispatch) => ({

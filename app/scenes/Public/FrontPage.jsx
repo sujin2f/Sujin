@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import PageHeader from 'app/components/layout/PageHeader';
+import Public from 'app/scenes/Public';
 
 import { STORE } from 'app/constants/common';
 
@@ -29,12 +30,14 @@ class FrontPage extends Component {
         mainBackground.large;
 
     return (
-      <PageHeader backgroundImage={backgroundImage}>
-        <Fragment>
-          <h1>SUJIN</h1>
-          <p>Wordpress/React Developer</p>
-        </Fragment>
-      </PageHeader>
+      <Public className="stretched-background hide-footer">
+        <PageHeader backgroundImage={backgroundImage}>
+          <Fragment>
+            <h1>SUJIN</h1>
+            <p>Wordpress/React Developer</p>
+          </Fragment>
+        </PageHeader>
+      </Public>
     );
   }
 }

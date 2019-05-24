@@ -53,6 +53,19 @@ class Posts extends Abs_Rest_Base {
 
 		register_rest_route(
 			$this->namespace,
+			'/' . $this->resource_name . '/category/(?P<slug>[\w-]+)/page/(?P<page>[0-9]+)',
+			array(
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_items_by_term' ),
+					'permission_callback' => array( $this, 'get_items_permissions_check' ),
+				),
+				'schema' => array( $this, 'get_item_schema' ),
+			)
+		);
+
+		register_rest_route(
+			$this->namespace,
 			'/' . $this->resource_name . '/tag/(?P<slug>[\w-]+)',
 			array(
 				array(
@@ -66,7 +79,7 @@ class Posts extends Abs_Rest_Base {
 
 		register_rest_route(
 			$this->namespace,
-			'/' . $this->resource_name . '/search/(?P<search>[a-zA-Z0-9-]+)',
+			'/' . $this->resource_name . '/search/(?P<search>[\w-]+)',
 			array(
 				array(
 					'methods'             => WP_REST_Server::READABLE,
@@ -132,6 +145,7 @@ class Posts extends Abs_Rest_Base {
 		}
 
 		$url = '?' . $url_param . '[]=' . $term->term_id;
+		$url .= $request->get_param( 'page' ) ? '&page=' . $request->get_param( 'page' ) : '';
 
 		$per_page = $request->get_param( 'per_page' );
 		if ( $per_page ) {
