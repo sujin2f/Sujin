@@ -16,12 +16,14 @@ class Route extends Component {
     if (matched) {
       const pathname = path.split('/')
         .filter(p => p.charAt(0) === ':')
-        .map(p => p.slice(1).replace('?', ''));
+        .map(p => p.slice(1).replace(/\?|(\(.+\))/, ''));
 
       const match = pathname.reduce((acc, value, index) => ({
         ...acc,
         [value]: matched[index + 1],
       }), {});
+
+      console.log(pathname, match);
 
       const alterChildren = Children.map(children, (child, index) => {
         return cloneElement(child, {

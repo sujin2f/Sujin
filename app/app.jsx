@@ -10,8 +10,9 @@ import Route from 'app/components/router/Route';
 
 // Scenes
 import FrontPage from 'app/scenes/Public/FrontPage';
-import Page from 'app/scenes/Public/Page';
 import Archive from 'app/scenes/Public/Archive';
+import Page from 'app/scenes/Public/Page';
+import Post from 'app/scenes/Public/Post';
 
 ((wp) => {
   const { render } = wp.element;
@@ -47,6 +48,14 @@ import Archive from 'app/scenes/Public/Archive';
 
       <Route path="/search/:search">
         <Archive />
+      </Route>
+
+      <Route path="/search/:search">
+        <Archive />
+      </Route>
+
+      <Route path="/:year(\d+)/:month(\d+)/:day(\d+)/:postSlug">
+        <Post />
       </Route>
 
       <Route path="/:slug">
