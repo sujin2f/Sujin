@@ -3,6 +3,8 @@ import axios from 'axios';
 import Public from 'app/scenes/Public';
 import PageHeader from 'app/components/layout/PageHeader';
 import Loading from 'app/components/layout/Loading';
+import Tags from 'app/components/Tags';
+
 import Link from 'app/components/router/Link';
 import { STORE, IS_ERROR } from 'app/constants/common';
 import {
@@ -126,6 +128,8 @@ class Archive extends Component {
                   className="description"
                   dangerouslySetInnerHTML={{ __html: excerpt }}
                 />
+
+                <Tags tags={item.tags} />
               </div>
             );
           })}

@@ -2,7 +2,7 @@ import TweetEmbed from 'react-tweet-embed';
 import Gist from 'react-gist';
 import { Carousel } from 'react-responsive-carousel';
 
-import Tags from 'app/components/single/Tags';
+import Tags from 'app/components/Tags';
 import Link from 'app/components/router/Link';
 import { getRenderedText, parseJson } from 'app/utils/common';
 

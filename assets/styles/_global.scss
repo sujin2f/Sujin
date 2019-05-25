@@ -74,6 +74,30 @@ dd {
 	flex-wrap: wrap;
 }
 
+.tags {
+	list-style: none;
+	display: flex;
+	flex-wrap: wrap;
+	margin: 0 !important;
+
+	a {
+		display: inline-block;
+		background-color: map-get($foundation-palette, 'primary') !important;
+		color: $white !important;
+		padding: 0 7px;
+		margin: 0 5px 5px 0;
+	    border-radius: 6px;
+	    transition: background-color ease-out 0.5s;
+
+		&:hover {
+			background-color: $black !important;
+		}
+
+		&:before {
+			content: '#';
+		}
+	}
+}
 
 /*
 .flex-container-row {
@@ -102,30 +126,6 @@ dd {
 	}
 }
 
-.tags {
-	list-style: none;
-	display: flex;
-	flex-wrap: wrap;
-	margin: 0 !important;
-
-	a {
-		display: inline-block;
-		background-color: map-get($foundation-palette, 'primary') !important;
-		color: $white !important;
-		padding: 0 7px;
-		margin: 0 5px 5px 0;
-	    border-radius: 6px;
-	    transition: background-color ease-out 0.5s;
-
-		&:hover {
-			background-color: $black !important;
-		}
-
-		&:before {
-			content: '#';
-		}
-	}
-}
 
 .template-dev-tools {
 	.container {
