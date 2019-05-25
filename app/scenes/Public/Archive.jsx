@@ -3,15 +3,9 @@ import axios from 'axios';
 import Public from 'app/scenes/Public';
 import PageHeader from 'app/components/layout/PageHeader';
 import Loading from 'app/components/layout/Loading';
-import Tags from 'app/components/Tags';
+import Item from 'app/components/archive/Item';
 
-import Link from 'app/components/router/Link';
 import { STORE, IS_ERROR } from 'app/constants/common';
-import {
-  getRenderedText,
-  parseJson,
-  parseDate,
-} from 'app/utils/common';
 
 const { Fragment, Component } = wp.element;
 const { withDispatch, withSelect } = wp.data;
@@ -86,53 +80,9 @@ class Archive extends Component {
         </PageHeader>
 
         <section className="row post-grid">
-          {archive.entities.map(item => {
-            const date = parseDate(item.date);
-            const title = decodeURIComponent(getRenderedText(item.title));
-            const excerpt = decodeURIComponent(getRenderedText(item.excerpt));
-            const image = parseJson(item.meta.list, 'post-thumbnail');
-
-            return (
-              <div
-                className="columns large-4 medium-6 small-12"
-                key={`${kind}-${slug}-${page}-${item.id}`}
-              >
-                <figure className="thumbnail" itemType="http://schema.org/ImageObject">
-                  <Link to={item.link} rel="noopener noreferrer" title={title}>
-                    <div className="zoom-icon" />
-                    {/* ?? */}
-                    <div className="inner-shadow" />
-                    <time dateTime={date.date}>
-                      <span className="day">{date.day}</span>
-                      <span className="month">{date.month}</span>
-                      <span className="year">{date.year}</span>
-                    </time>
-                    <div
-                      style={{ backgroundImage: `url('${image}')` }}
-                      className="attachment-post-thumbnail size-post-thumbnail wp-post-image"
-                    />
-                  </Link>
-                </figure>
-
-                <h2 itemProp="headline">
-                  <Link
-                    to={item.link}
-                    rel="noopener noreferrer"
-                    title={title}
-                    dangerouslySetInnerHTML={{ __html: title }}
-                  />
-                </h2>
-
-                <div
-                  itemProp="description"
-                  className="description"
-                  dangerouslySetInnerHTML={{ __html: excerpt }}
-                />
-
-                <Tags tags={item.tags} />
-              </div>
-            );
-          })}
+          {archive.entities.map(item => (
+            <Item item={item} key={`${kind}-${slug}-${page}-${item.id}`} />
+          ))}
         </section>
       </Public>
     );

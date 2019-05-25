@@ -27,6 +27,19 @@ class Posts extends Abs_Rest_Base {
 	public function create_rest_routes() {
 		register_rest_route(
 			$this->namespace,
+			'/' . $this->resource_name,
+			array(
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_items' ),
+					'permission_callback' => array( $this, 'get_items_permissions_check' ),
+				),
+				'schema' => array( $this, 'get_item_schema' ),
+			)
+		);
+
+		register_rest_route(
+			$this->namespace,
 			'/' . $this->resource_name . '/(?P<slug>[\w-]+)',
 			array(
 				array(
@@ -111,6 +124,18 @@ class Posts extends Abs_Rest_Base {
 			$response = array();
 		}
 
+		return rest_ensure_response( $response );
+	}
+
+	public function get_items( $request ) {
+		$url = '';
+
+		$per_page = $request->get_param( 'per_page' );
+		if ( $per_page ) {
+			$url = '?per_page=' . $per_page;
+		}
+
+		$response = $this->remote_get( $url );
 		return rest_ensure_response( $response );
 	}
 

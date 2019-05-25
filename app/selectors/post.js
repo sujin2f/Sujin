@@ -5,4 +5,12 @@ export const getPost = (state, slug) => ({
   loading: state.post.loading,
 });
 
+export const getRecentPosts = (state) => ({
+  entities: Object.keys(state.post.ids)
+    .slice(-4)
+    .map((key) => state.post.ids[key])
+    .map((key) => state.post.entities[key]),
+  loading: state.post.recentLoading,
+});
+
 /* eslint-enable import/prefer-default-export */

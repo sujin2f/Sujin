@@ -2,8 +2,10 @@ import axios from 'axios';
 
 import Public from 'app/scenes/Public';
 import PageHeader from 'app/components/layout/PageHeader';
-import Content from 'app/components/single/Content';
 import Loading from 'app/components/layout/Loading';
+import Content from 'app/components/single/Content';
+import RecentPosts from 'app/components/single/RecentPosts';
+
 import { STORE, IS_ERROR } from 'app/constants/common';
 
 import { getRenderedText, parseJson } from 'app/utils/common';
@@ -76,7 +78,16 @@ class Post extends Component {
         </PageHeader>
 
         <section className="row">
-          <Content post={post} className="medium-12" />
+          <Content post={post} className="large-9 medium-12" />
+
+          <aside id="recent-posts" className="columns large-3 show-for-large">
+            <header>
+              <h2 className="section-header">Recent Posts</h2>
+            </header>
+
+            <RecentPosts />
+          </aside>
+
         </section>
       </Public>
     );
