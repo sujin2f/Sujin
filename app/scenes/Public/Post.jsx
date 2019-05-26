@@ -5,6 +5,8 @@ import PageHeader from 'app/components/layout/PageHeader';
 import Loading from 'app/components/layout/Loading';
 import Content from 'app/components/single/Content';
 import RecentPosts from 'app/components/single/RecentPosts';
+import Item from 'app/components/archive/Item';
+import Link from 'app/components/router/Link';
 
 import { STORE, IS_ERROR } from 'app/constants/common';
 
@@ -24,7 +26,7 @@ class Post extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    const slug = props.match.postSlug;
+    const slug = props.matched.postSlug;
 
 
     if (!slug || state.slug === slug || props.getPost(slug).post) {
@@ -78,7 +80,55 @@ class Post extends Component {
         </PageHeader>
 
         <section className="row">
-          <Content post={post} className="large-9 medium-12" />
+          <Content post={post} className="large-9 medium-12">
+            <aside id="single-footer">
+              <nav>
+                {post.prevnext && (
+                  <ul className="row" id="single-pager">
+                    {post.prevnext.prev && (
+                      <li className="small-12 medium-6 columns prev">
+                        <Link href={post.prevnext.prev.link}>
+                          <i className="fa fa-chevron-left" aria-hidden="true" />
+                          <span>{post.prevnext.prev.title}</span>
+                        </Link>
+                      </li>
+                    )}
+                    {!post.prevnext.prev && (
+                      <li className="small-12 medium-6 columns prev" />
+                    )}
+                    {post.prevnext.next && (
+                      <li className="small-12 medium-6 columns next">
+                        <Link href={post.prevnext.next.link}>
+                          <i className="fa fa-chevron-right" aria-hidden="true" />
+                          <span>{post.prevnext.next.title}</span>
+                        </Link>
+                      </li>
+                    )}
+                  </ul>
+                )}
+              </nav>
+
+              <section id="related-posts">
+                <header className="row">
+                  <div className="columns small-12">
+                    <h2 className="section-header">Related Posts</h2>
+                  </div>
+                </header>
+
+                {post.related.data && (
+                  <section className="post-grid row">
+                    {post.related.data.map(related => (
+                      <Item
+                        item={related}
+                        key={`related--${related.id}`}
+                        columns="large-3 medium-6 small-12"
+                      />
+                    ))}
+                  </section>
+                )}
+              </section>
+            </aside>
+          </Content>
 
           <aside id="recent-posts" className="columns large-3 show-for-large">
             <header>
@@ -87,7 +137,6 @@ class Post extends Component {
 
             <RecentPosts />
           </aside>
-
         </section>
       </Public>
     );
@@ -96,12 +145,12 @@ class Post extends Component {
 
 const mapStateToProps = withSelect((select) => ({
   getPost: (slug) => select(STORE).getPost(slug),
+  matched: select(STORE).getMatched(),
 }));
 
 const mapDispatchToProps = withDispatch((dispatch) => ({
   requestPost: (slug) => {
     dispatch(STORE).requestPostInit(slug);
-    console.log(slug);
 
     axios.get(`/wp-json/sujin/v1/posts/${slug}`)
       .then((response) => {

@@ -48,6 +48,7 @@ class REST_API {
 		$response->data['thumbnail'] = $this->get_thumbnail( $post_id, $thumbnail_size );
 		$response->data['tags']      = $this->get_tags( $post_id );
 		$response->data['prevnext']  = $this->get_prevnext( $post_id );
+		$response->data['related']   = $this->get_related( $post_id );
 		$response->data['redirect']  = get_post_meta( $post_id, 'redirect', true );
 
 		return $response;

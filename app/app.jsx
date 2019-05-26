@@ -7,12 +7,14 @@ import reducer from 'app/reducers';
 // Router
 import Router from 'app/components/router/Router';
 import Route from 'app/components/router/Route';
+import NoMatch from 'app/components/router/NoMatch';
 
 // Scenes
 import FrontPage from 'app/scenes/Public/FrontPage';
 import Archive from 'app/scenes/Public/Archive';
 import Page from 'app/scenes/Public/Page';
 import Post from 'app/scenes/Public/Post';
+
 
 ((wp) => {
   const { render } = wp.element;
@@ -61,6 +63,8 @@ import Post from 'app/scenes/Public/Post';
       <Route path="/:slug">
         <Page />
       </Route>
+
+      <NoMatch />
     </Router>,
     document.getElementById('app'),
   );

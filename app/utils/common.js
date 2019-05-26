@@ -26,8 +26,15 @@ export const parseJson = (string, key) => {
   if (!string) {
     return {};
   }
-  // TODO error control
-  const json = JSON.parse(string);
+
+  let json;
+
+  try {
+    json = JSON.parse(string);
+  } catch (_) {
+    return string;
+  }
+
   return key ? json[key] : json;
 };
 export const parseDate = (string) => {

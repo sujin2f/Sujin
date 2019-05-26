@@ -15,7 +15,6 @@ function frontPage(state = initialState, action) {
       return {
         ...state,
         loading: true,
-        entities: {},
       };
     }
 

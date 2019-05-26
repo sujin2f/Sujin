@@ -20,8 +20,13 @@ class RecentPosts extends Component {
 
   componentDidMount() {
     const {
+      getRecentPosts,
       requestRecentPosts,
     } = this.props;
+
+    if (getRecentPosts().entities && getRecentPosts().entities.length >= 4) {
+      return;
+    }
 
     if (!this.state.loaded) {
       requestRecentPosts();
@@ -32,8 +37,6 @@ class RecentPosts extends Component {
   render() {
     const { getRecentPosts } = this.props;
     const { entities, loading } = getRecentPosts();
-
-    console.log(entities);
 
     return (
       <Fragment>

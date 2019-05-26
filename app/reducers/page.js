@@ -16,10 +16,6 @@ function page(state = initialState, action) {
     case REQUEST_PAGE_INIT: {
       return {
         ...state,
-        entities: {
-          ...state.entities,
-          [action.slug]: {},
-        },
         loading: true,
       };
     }

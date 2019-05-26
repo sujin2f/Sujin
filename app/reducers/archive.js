@@ -18,25 +18,8 @@ const initialState = {
 function archive(state = initialState, action) {
   switch (action.type) {
     case REQUEST_ARCHIVE_INIT: {
-      const slugObject =
-        (
-          state.entities[action.kind] &&
-          state.entities[action.kind][action.slug]
-        ) ||
-        {};
-
       return {
         ...state,
-        entities: {
-          ...state.entities,
-          [action.kind]: {
-            ...state.entities[action.kind],
-            [action.slug]: {
-              ...slugObject,
-              [action.page]: [],
-            },
-          },
-        },
         loading: true,
       };
     }
@@ -44,7 +27,6 @@ function archive(state = initialState, action) {
     case REQUEST_ARCHIVE_SUCCESS: {
       const data = action.response.data.length === 0 ? IS_ERROR : action.response.data;
       const totalPages = parseInt(action.response.headers['x-wp-totalpages'], 10);
-      const numPosts = parseInt(action.response.headers['x-wp-total'], 10);
       const background = action.response.headers['x-wp-term-thumbnail'];
 
       const title =
@@ -63,13 +45,12 @@ function archive(state = initialState, action) {
           [action.kind]: {
             ...state.entities[action.kind],
             [action.slug]: {
+              totalPages,
+              background,
+              title,
+              description,
               ...state.entities[action.kind][action.slug],
               [action.page]: {
-                totalPages,
-                numPosts,
-                background,
-                title,
-                description,
                 entities: data,
               },
             },

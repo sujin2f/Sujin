@@ -22,7 +22,7 @@ class Page extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    const slug = props.match.slug;
+    const slug = props.matched.slug;
 
     if (!slug || state.slug === slug || props.getPage(slug).page) {
       return { slug };
@@ -84,6 +84,7 @@ class Page extends Component {
 
 const mapStateToProps = withSelect((select) => ({
   getPage: (slug) => select(STORE).getPage(slug),
+  matched: select(STORE).getMatched(),
 }));
 
 const mapDispatchToProps = withDispatch((dispatch) => ({

@@ -20,9 +20,8 @@ class Content extends Component {
         tags,
       },
       className,
+      children,
     } = this.props;
-
-    console.log(this.props);
 
     // Extract Shortcodes
     const patternShortcode = /(\[([\w-]+)[^\]]*?\][^\2]*?\[\/[^\]]*\2\]|\[[\w-]+[^\]]*?\/\])/ig;
@@ -150,6 +149,8 @@ class Content extends Component {
         {contents}
 
         <Tags tags={tags} />
+
+        {children}
       </article>
     );
   }

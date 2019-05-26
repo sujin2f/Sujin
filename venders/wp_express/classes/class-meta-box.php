@@ -29,7 +29,6 @@ class Meta_Box extends Abs_Base {
 	}
 
 	public function add( Abs_Post_Meta_Element $field ): Meta_Box {
-		$this->_fields[] = $field;
 		$field->attach_to( $this );
 		return $this;
 	}

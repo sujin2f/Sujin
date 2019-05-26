@@ -1,13 +1,18 @@
 import pathToRegexp from 'path-to-regexp';
 
-const { Children, cloneElement, Component } = wp.element;
+import { STORE } from 'app/constants/common';
+
+const { Fragment, Component } = wp.element;
+const { withDispatch, withSelect } = wp.data;
+const { compose } = wp.compose;
 
 class Route extends Component {
   render() {
     const {
       path,
-      location,
       children,
+      location,
+      setMatched,
     } = this.props;
 
     const regExp = new RegExp(pathToRegexp(path));
@@ -18,24 +23,30 @@ class Route extends Component {
         .filter(p => p.charAt(0) === ':')
         .map(p => p.slice(1).replace(/\?|(\(.+\))/, ''));
 
-      const match = pathname.reduce((acc, value, index) => ({
+      const newMatched = pathname.reduce((acc, value, index) => ({
         ...acc,
         [value]: matched[index + 1],
-      }), {});
+      }), { matched: true });
 
-      console.log(pathname, match);
+      setMatched(newMatched);
 
-      const alterChildren = Children.map(children, (child, index) => {
-        return cloneElement(child, {
-          index,
-          match,
-        });
-      });
-      return alterChildren;
+      return (
+        <Fragment>
+          {children}
+        </Fragment>
+      );
     }
 
     return null;
   }
 }
 
-export default Route;
+const mapStateToProps = withSelect((select) => ({
+  location: select(STORE).getLocation(),
+}));
+
+const mapDispatchToProps = withDispatch((dispatch) => ({
+  setMatched: (matched) => dispatch(STORE).setMatched(matched),
+}));
+
+export default compose([mapStateToProps, mapDispatchToProps])(Route);

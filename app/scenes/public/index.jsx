@@ -1,6 +1,3 @@
-// TODO React to wp for all Components
-// Global classes to here, like moile munu/ detact
-
 import Header from 'app/components/layout/Header';
 import Footer from 'app/components/layout/Footer';
 

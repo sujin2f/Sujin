@@ -15,8 +15,8 @@ class Link extends Component {
       return;
     }
 
-    const { to, history } = this.props;
-    const origin = window.location.origin;
+    const { to, history, location } = this.props;
+    const origin = location.origin;
     history.push(to.replace(origin, ''));
     e.preventDefault();
   }
@@ -24,18 +24,18 @@ class Link extends Component {
   render() {
     const {
       to,
-      children,
-      className,
       target,
+      className,
       dangerouslySetInnerHTML,
+      children,
     } = this.props;
 
     return (
       <a
         href={to}
         onClick={(e) => this.pushHash(e, target)}
-        className={className}
         target={target}
+        className={className}
         dangerouslySetInnerHTML={dangerouslySetInnerHTML}
       >
         {children}
@@ -46,6 +46,7 @@ class Link extends Component {
 
 const mapStateToProps = withSelect((select) => ({
   history: select(STORE).getHistory(),
+  location: select(STORE).getLocation(),
 }));
 
 export default compose([mapStateToProps])(Link);

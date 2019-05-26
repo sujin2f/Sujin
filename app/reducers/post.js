@@ -21,10 +21,6 @@ function post(state = initialState, action) {
     case REQUEST_POST_INIT: {
       return {
         ...state,
-        entities: {
-          ...state.entities,
-          [action.slug]: {},
-        },
         loading: true,
       };
     }

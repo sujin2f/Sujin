@@ -1,10 +1,12 @@
+import Image from '../../../assets/images/loading.svg';
+
 const { Component } = wp.element;
 
 class Loading extends Component {
   render() {
     return (
       <section>
-        Loading
+        <img src={Image} alt="Loading" />
       </section>
     );
   }

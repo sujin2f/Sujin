@@ -4,6 +4,7 @@ import Public from 'app/scenes/Public';
 import PageHeader from 'app/components/layout/PageHeader';
 import Loading from 'app/components/layout/Loading';
 import Item from 'app/components/archive/Item';
+import Paging from 'app/components/archive/Paging';
 
 import { STORE, IS_ERROR } from 'app/constants/common';
 
@@ -23,17 +24,21 @@ class Archive extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    const page = props.match.search || 1;
+    const page = props.matched.page || 1;
     const kind =
-      (props.match.category && 'category') ||
-      (props.match.tag && 'tag') ||
-      (props.match.search && 'search');
-    const slug = props.match[kind];
+      (props.matched.category && 'category') ||
+      (props.matched.tag && 'tag') ||
+      (props.matched.search && 'search');
+    const slug = props.matched[kind];
     const entities =
       props.getArchive(kind, slug, page).archive &&
       props.getArchive(kind, slug, page).archive.entities;
 
-    if (!slug || state.slug === slug || entities) {
+    if (state.kind === kind && state.slug === slug && state.page === page) {
+      return { kind, slug, page };
+    }
+
+    if (!slug || entities) {
       return { kind, slug, page };
     }
 
@@ -47,9 +52,16 @@ class Archive extends Component {
     }
 
     const { kind, slug, page } = this.state;
-    const { archive, loading } = this.props.getArchive(kind, slug, page);
+    const {
+      archive,
+      loading,
+      totalPages,
+      background,
+      title,
+      description,
+    } = this.props.getArchive(kind, slug, page);
 
-    if (loading) {
+    if (loading || !archive) {
       return (
         <Public className="template-archive">
           <PageHeader>
@@ -72,10 +84,10 @@ class Archive extends Component {
 
     return (
       <Public className="template-archive">
-        <PageHeader backgroundImage={archive.background}>
+        <PageHeader backgroundImage={background}>
           <Fragment>
-            <h1>{archive.title}</h1>
-            <p>{archive.description}</p>
+            <h1>{title}</h1>
+            <p>{description}</p>
           </Fragment>
         </PageHeader>
 
@@ -84,6 +96,12 @@ class Archive extends Component {
             <Item item={item} key={`${kind}-${slug}-${page}-${item.id}`} />
           ))}
         </section>
+
+        <Paging
+          totalPages={totalPages}
+          currentPage={page}
+          urlPrefix={`/${kind}/${slug}`}
+        />
       </Public>
     );
   }
@@ -91,6 +109,7 @@ class Archive extends Component {
 
 const mapStateToProps = withSelect((select) => ({
   getArchive: (kind, slug, page) => select(STORE).getArchive(kind, slug, page),
+  matched: select(STORE).getMatched(),
 }));
 
 const mapDispatchToProps = withDispatch((dispatch) => ({
@@ -100,7 +119,8 @@ const mapDispatchToProps = withDispatch((dispatch) => ({
     axios.get(`/wp-json/sujin/v1/posts/${kind}/${slug}/page/${page}?per_page=12`)
       .then((response) => {
         dispatch(STORE).requestArchiveSuccess(page, kind, slug, response);
-        // TODO Register a Post
+        // Register each Post
+        response.data.map(value => dispatch(STORE).requestPostSuccess(value.slug, { data: value }));
       }).catch(() => {
         dispatch(STORE).requestArchiveFail(page, kind, slug);
       });

@@ -7,6 +7,10 @@ if ( !defined( "ABSPATH" ) ) {
 	exit();
 }
 
+use Sujin\Wordpress\WP_Express\Fields\Post_Meta\Attachment;
+
+use WP_Query;
+
 /**
  * trait Posts_Helper
  *
@@ -33,10 +37,10 @@ trait Rest_Helper {
 
 		if ( $prev_ = $this->get_adjacent_post( $post_id, true, '', true ) ) {
 			$prev = array(
-				'id'          => $prev_->ID,
-				'router_link' => get_permalink( $prev_->ID ),
-				'title'       => array( 'rendered' => $prev_->post_title ),
-				'slug'        => $prev_->post_name,
+				'id'    => $prev_->ID,
+				'link'  => str_replace( get_option( 'siteurl' ), '/', get_permalink( $prev_->ID ) ),
+				'title' => $prev_->post_title,
+				'slug'  => $prev_->post_name,
 			);
 
 			$prevnext[ 'prev' ] = $prev;
@@ -44,10 +48,10 @@ trait Rest_Helper {
 
 		if ( $next_ = $this->get_adjacent_post( $post_id, true, '', false ) ) {
 			$next = array(
-				'id'          => $next_->ID,
-				'router_link' => get_permalink( $next_->ID ),
-				'title'       => array( 'rendered' => $next_->post_title ),
-				'slug'        => $next_->post_name,
+				'id'    => $next_->ID,
+				'link'  => str_replace( get_option( 'siteurl' ), '/', get_permalink( $next_->ID ) ),
+				'title' => $next_->post_title,
+				'slug'  => $next_->post_name,
 			);
 
 			$prevnext[ 'next' ] = $next;
@@ -157,5 +161,70 @@ trait Rest_Helper {
 			$result = get_post( $result );
 
 		return $result;
+	}
+
+	public function get_related( $post_id ) {
+		$related_posts = $this->get_related_posts( array( $post_id ) );
+
+		foreach( array_keys( $related_posts ) as $key ) {
+			$related_posts[ $key ] = (array) $related_posts[ $key ];
+
+			$related_posts[ $key ]['id']           = $related_posts[ $key ]['ID'];
+			$related_posts[ $key ]['title']        = array( 'rendered' => $related_posts[ $key ]['post_title'] );
+			$related_posts[ $key ]['content']      = array( 'rendered' => $related_posts[ $key ]['post_content'] );
+			$related_posts[ $key ]['excerpt']      = array( 'rendered' => $related_posts[ $key ]['post_excerpt'] );
+			$related_posts[ $key ]['meta']['list'] = $this->get_thumbnail( $related_posts[ $key ]['ID'] ) ?: Attachment::get_instance( 'List' )->get( $related_posts[ $key ]['ID'] );
+			$related_posts[ $key ]['link']         = get_permalink( $related_posts[ $key ]['ID'] );
+
+			unset( $related_posts[ $key ]['ID'] );
+			unset( $related_posts[ $key ]['post_title'] );
+			unset( $related_posts[ $key ]['post_content'] );
+			unset( $related_posts[ $key ]['post_excerpt'] );
+		}
+
+		return rest_ensure_response( $related_posts );
+	}
+
+	private function get_related_posts( $post_ids, $posts = array(), $key = 'tag__in' ) {
+		switch( $key ) {
+			case 'tag__in':
+				$array = array_map( function( $wp_term ) { return $wp_term->term_id; }, $this->get_tags( $post_ids[0] ) );
+				break;
+			case 'category__in':
+				$array = array_map( function( $wp_term ) { return $wp_term->term_id; }, $this->get_categories( $post_ids[0] ) );
+				break;
+			default:
+				$key   = '';
+				$array = '';
+				break;
+		}
+
+		$query_args = array(
+			'posts_per_page'      => 4 - count( $posts ),
+			'ignore_sticky_posts' => 1,
+			'post__not_in'        => $post_ids,
+			$key                  => $array,
+		);
+
+		$query = new WP_Query( $query_args );
+		wp_reset_query();
+
+		$posts    = array_merge( $posts, $query->posts );
+		$new_ids  = array_map( function( $posts ) { return $posts->ID; }, $query->posts );
+		$post_ids = array_merge( $post_ids, $new_ids );
+
+		if ( count( $posts ) >= 4 )
+			return array_slice( $posts, 0, 4 );
+
+		if ( $key == '' )
+			return $posts;
+
+		if ( $key == 'category__in' )
+			$key = '';
+
+		if ( $key == 'tag__in' )
+			$key = 'category__in';
+
+		return $this->get_related_posts( $post_ids, $posts, $key );
 	}
 }

@@ -11,14 +11,16 @@ const { Component } = wp.element;
 
 class Item extends Component {
   render() {
-    const { item } = this.props;
+    const { item, columns } = this.props;
     const date = parseDate(item.date);
     const title = decodeURIComponent(getRenderedText(item.title));
     const excerpt = decodeURIComponent(getRenderedText(item.excerpt));
     const image = parseJson(item.meta.list, 'post-thumbnail');
 
+    const className = columns ? `columns ${columns}` : 'columns large-4 medium-6 small-12';
+
     return (
-      <div className="columns large-4 medium-6 small-12">
+      <div className={className}>
         <figure className="thumbnail" itemType="http://schema.org/ImageObject">
           <Link to={item.link} rel="noopener noreferrer" title={title}>
             <div className="zoom-icon" />
