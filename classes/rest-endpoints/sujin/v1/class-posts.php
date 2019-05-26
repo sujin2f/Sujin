@@ -38,7 +38,7 @@ class Posts extends Abs_Rest_Base {
 
 		register_rest_route(
 			$this->namespace,
-			'/' . $this->resource_name . '/(?P<slug>[\w-]+)',
+			'/' . $this->resource_name . '/slug',
 			array(
 				array(
 					'methods'             => WP_REST_Server::READABLE,
