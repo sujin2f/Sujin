@@ -1,6 +1,6 @@
 $header-height: 48px;
 
-$body-font-family: system-ui, 'Nanum Gothic', -apple-system, BlinkMacSystemFont, 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$body-font-family: 'Lato', 'Nanum Gothic', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
 // Colors
 $foundation-palette: (
@@ -20,7 +20,7 @@ $primary-black: darken(map-get($foundation-palette, 'primary'), 23%);
 
 $body-background: $light-gray;
 
-$font-ubuntu: system-ui, 'Nanum Gothic', -apple-system, BlinkMacSystemFont, 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$font-ubuntu: 'Ubuntu', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
 $page-header-height: 300px;
 $page-header-height-medium: 400px;

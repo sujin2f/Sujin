@@ -7,7 +7,7 @@ import { STORE } from 'app/constants/common';
 
 const { withDispatch, withSelect } = wp.data;
 const { compose } = wp.compose;
-const { Fragment, Component } = wp.element;
+const { Component } = wp.element;
 
 class FrontPage extends Component {
   componentDidMount() {
@@ -32,10 +32,8 @@ class FrontPage extends Component {
     return (
       <Public className="stretched-background hide-footer">
         <PageHeader backgroundImage={backgroundImage}>
-          <Fragment>
-            <h1>SUJIN</h1>
-            <p>Wordpress/React Developer</p>
-          </Fragment>
+          <h1>SUJIN</h1>
+          <p>Wordpress/React Developer</p>
         </PageHeader>
       </Public>
     );

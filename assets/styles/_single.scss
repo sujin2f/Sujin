@@ -9,12 +9,10 @@
 			left: 50%;
 			margin-top: -80px;
 
-/*
 			@include breakpoint(small only) {
 				width: 120px;
 				margin-top: -60px;
 			}
-*/
 		}
 
 		.series {
@@ -40,11 +38,9 @@
 			&:nth-child(2).more-margin {
 				margin-top: 100px;
 
-/*
 				@include breakpoint(small only) {
 					margin-top: 80px;
 				}
-*/
 			}
 		}
 
@@ -148,7 +144,6 @@
 			}
 		}
 
-/*
 		.tags {
 			list-style: none;
 			margin: 30px 0 12px;
@@ -173,7 +168,6 @@
 				}
 			}
 		}
-*/
 	}
 
 	#single-footer {
@@ -218,7 +212,6 @@
 					}
 				}
 
-/*
 				@include breakpoint(small only) {
 					a {
 						flex-direction: row;
@@ -228,7 +221,6 @@
 						}
 					}
 				}
-*/
 			}
 
 			a {

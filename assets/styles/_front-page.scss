@@ -28,11 +28,10 @@
 				margin-bottom: 0;
 				background-color: rgba(map-get($foundation-palette, 'primary'), 0.8);
 
-	/*
 				@include breakpoint(small only) {
 					font-size: 20px;
 				}
-	*/
+
 			}
 		}
 	}

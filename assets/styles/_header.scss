@@ -20,12 +20,16 @@
 		height: $header-height;
 		overflow: hidden;
 
-		.icon {
+		.icon.hamburger {
 			width: $header-height;
 			height: $header-height;
 			background-color: map-get($foundation-palette, 'primary');
 			mask-size: calc(#{$header-height} - 18px);
 			-webkit-mask-size: calc(#{$header-height} - 18px);
+
+			&:hover {
+				background-color: $black;
+			}
 		}
 
 		.columns {
@@ -114,25 +118,6 @@
 			}
 		}
 	}
-
-
-
-
-
-  #btn-toggle-mobile {
-    width: $header-height;
-    height: $header-height;
-    display: flex;
-    align-items: center;
-    outline: none;
-
-    span {
-      font-size: 25px;
-    }
-  }
-
-
-
 }
 
 .page-header-wrapper {
@@ -141,79 +126,42 @@
 	background-color: $black;
 	padding-top: $header-height;
 
+	@include breakpoint(medium only) {
+		min-height: $page-header-height-medium;
+	}
+
+	@include breakpoint(small only) {
+		min-height: $page-header-height-small;
+	}
+
 	.background {
 		background-repeat: no-repeat;
 		background-position: center center;
 		background-size: cover;
 		width: 100%;
-		min-height: $page-header-height;
+		height: calc(100% - #{$header-height});
 		position: absolute;
-
-		/*
-		@include breakpoint(medium only) {
-		min-height: $page-header-height-medium;
-		}
-
-		@include breakpoint(small only) {
-		min-height: $page-header-height-small;
-		}
-		*/
 	}
 
 	.foreground {
 		background: transparent url('../images/background/dotted-dark-foreground.png');
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-size: cover;
 		width: 100%;
-		min-height: $page-header-height;
+		height: calc(100% - #{$header-height});
 		position: absolute;
-
-		/*
-		@include breakpoint(medium only) {
-		min-height: $page-header-height-medium;
-		}
-
-		@include breakpoint(small only) {
-		min-height: $page-header-height-small;
-		}
-		*/
 	}
-
-	/*
-	@include breakpoint(medium only) {
-	min-height: $page-header-height-medium;
-	}
-
-	@include breakpoint(small only) {
-	min-height: $page-header-height-small;
-	}
-	*/
-
-
-	/*
-	&.bg-size-contain .background {
-	background-size: contain;
-	}
-	*/
-
 
 	.text {
-		position: absolute;
 		width: 100%;
-		min-height: $page-header-height;
+		height: calc(100% - #{$header-height});
+		position: absolute;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
 		color: white;
-
-		/*
-		@include breakpoint(medium only) {
-		min-height: $page-header-height-medium;
-		}
-
-		@include breakpoint(small only) {
-		min-height: $page-header-height-small;
-		}
-		*/
 
 		h1 {
 			padding: 0 20px;
@@ -228,15 +176,14 @@
 				}
 			}
 
-			/*
 			@include breakpoint(medium only) {
-			font-size: 40px;
+				font-size: 40px;
 			}
 
 			@include breakpoint(small only) {
-			font-size: 35px;
+				font-size: 35px;
 			}
-			*/
+
 		}
 
 		p {
@@ -246,11 +193,9 @@
 			padding: 0 20px;
 			line-height: 1.4;
 
-			/*
 			@include breakpoint(small only) {
-			font-size: 16px;
+				font-size: 16px;
 			}
-			*/
 		}
 	}
 }

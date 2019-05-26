@@ -5,6 +5,7 @@ import PageHeader from 'app/components/layout/PageHeader';
 import Loading from 'app/components/layout/Loading';
 import Item from 'app/components/archive/Item';
 import Paging from 'app/components/archive/Paging';
+import NotFound from 'app/scenes/Public/NotFound';
 
 import { STORE, IS_ERROR } from 'app/constants/common';
 
@@ -63,7 +64,7 @@ class Archive extends Component {
 
     if (loading || !archive) {
       return (
-        <Public className="template-archive">
+        <Public className="stretched-background hide-footer">
           <PageHeader>
             <Loading />
           </PageHeader>
@@ -73,12 +74,7 @@ class Archive extends Component {
 
     if (IS_ERROR === archive.entities) {
       return (
-        <Public className="template-archive">
-          <PageHeader>
-            <h1>Error Reading Content</h1>
-            <p>Please try it again</p>
-          </PageHeader>
-        </Public>
+        <NotFound />
       );
     }
 

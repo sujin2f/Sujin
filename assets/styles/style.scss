@@ -1,11 +1,27 @@
-/*
+@font-face{
+	font-family: 'Fira Code';
+	src: url('/fonts/FiraCode-Regular.eot');
+	src: url('/fonts/FiraCode-Regular.eot') format('embedded-opentype'),
+		 url('/fonts/FiraCode-Regular.woff2') format('woff2'),
+		 url('/fonts/FiraCode-Regular.woff') format('woff'),
+		 url('/fonts/FiraCode-Regular.ttf') format('truetype');
+	font-weight: 400;
+	font-style: normal;
+}
 @import url('//fonts.googleapis.com/css?family=Lato:200,300,500|Ubuntu:700');
 @import url('//fonts.googleapis.com/earlyaccess/nanumgothic.css');
-*/
 
 @import "settings";
 
 @import "~foundation-sites/dist/css/foundation-float.css";
+
+@import "~foundation-sites/scss/foundation";
+
+/*
+@include foundation-everything;
+@include foundation-flex-classes;
+@include foundation-flex-grid;
+*/
 
 @import "global";
 @import "icon";

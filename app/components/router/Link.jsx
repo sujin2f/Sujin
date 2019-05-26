@@ -1,5 +1,7 @@
 import { STORE } from 'app/constants/common';
 
+import { scrollTo } from 'app/utils/common';
+
 const { withSelect } = wp.data;
 const { compose } = wp.compose;
 const { Component } = wp.element;
@@ -18,6 +20,7 @@ class Link extends Component {
     const { to, history, location } = this.props;
     const origin = location.origin;
     history.push(to.replace(origin, ''));
+    scrollTo();
     e.preventDefault();
   }
 

@@ -7,6 +7,7 @@ import Content from 'app/components/single/Content';
 import RecentPosts from 'app/components/single/RecentPosts';
 import Item from 'app/components/archive/Item';
 import Link from 'app/components/router/Link';
+import NotFound from 'app/scenes/Public/NotFound';
 
 import { STORE, IS_ERROR } from 'app/constants/common';
 
@@ -49,7 +50,7 @@ class Post extends Component {
 
     if (loading) {
       return (
-        <Public className="template-single">
+        <Public className="stretched-background hide-footer">
           <PageHeader>
             <Loading />
           </PageHeader>
@@ -59,12 +60,7 @@ class Post extends Component {
 
     if (IS_ERROR === post) {
       return (
-        <Public className="template-single">
-          <PageHeader>
-            <h1>Error Reading Content</h1>
-            <p>Please try it again</p>
-          </PageHeader>
-        </Public>
+        <NotFound />
       );
     }
 

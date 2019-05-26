@@ -1,3 +1,5 @@
+import Scroll from 'react-scroll';
+
 /* eslint-disable import/prefer-default-export */
 
 export function getScrolled(scrolled) {
@@ -22,6 +24,7 @@ export function isMobile() {
 }
 
 export const getRenderedText = text => (text && text.rendered) || '';
+
 export const parseJson = (string, key) => {
   if (!string) {
     return {};
@@ -37,6 +40,7 @@ export const parseJson = (string, key) => {
 
   return key ? json[key] : json;
 };
+
 export const parseDate = (string) => {
   // TODO error control
   const date = new Date(string);
@@ -47,5 +51,20 @@ export const parseDate = (string) => {
     year: date.getFullYear(),
   };
 };
+
+export function scrollTo(id) {
+  if (!id) {
+    Scroll.animateScroll.scrollTo(0, { duration: 500 });
+    return;
+  }
+
+  const box = document.getElementById(id).getBoundingClientRect();
+  const docElem = document.documentElement;
+  const { body } = document;
+  const clientTop = docElem.clientTop || body.clientTop || 0;
+  const scrollTop = window.pageYOffset || docElem.scrollTop || body.scrollTop;
+
+  Scroll.animateScroll.scrollTo((box.top + scrollTop) - clientTop, { duration: 500 });
+}
 
 /* eslint-enable import/prefer-default-export */

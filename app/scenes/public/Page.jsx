@@ -4,13 +4,14 @@ import Public from 'app/scenes/Public';
 import PageHeader from 'app/components/layout/PageHeader';
 import Content from 'app/components/single/Content';
 import Loading from 'app/components/layout/Loading';
+import NotFound from 'app/scenes/Public/NotFound';
 import { STORE, IS_ERROR } from 'app/constants/common';
 
 import { getRenderedText, parseJson } from 'app/utils/common';
 
 const { withDispatch, withSelect } = wp.data;
 const { compose } = wp.compose;
-const { Fragment, Component } = wp.element;
+const { Component } = wp.element;
 
 class Page extends Component {
   constructor(props) {
@@ -44,7 +45,7 @@ class Page extends Component {
 
     if (loading) {
       return (
-        <Public className="template-single">
+        <Public className="stretched-background hide-footer">
           <PageHeader>
             <Loading />
           </PageHeader>
@@ -54,12 +55,7 @@ class Page extends Component {
 
     if (IS_ERROR === page) {
       return (
-        <Public className="template-single">
-          <PageHeader>
-            <h1>Error Reading Content</h1>
-            <p>Please try it again</p>
-          </PageHeader>
-        </Public>
+        <NotFound />
       );
     }
 
@@ -68,10 +64,8 @@ class Page extends Component {
     return (
       <Public className="template-single">
         <PageHeader backgroundImage={backgroundImage.large}>
-          <Fragment>
-            <h1>{getRenderedText(page.title)}</h1>
-            <p>{getRenderedText(page.excerpt)}</p>
-          </Fragment>
+          <h1>{getRenderedText(page.title)}</h1>
+          <p>{getRenderedText(page.excerpt)}</p>
         </PageHeader>
 
         <section className="row">

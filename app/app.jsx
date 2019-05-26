@@ -14,7 +14,7 @@ import FrontPage from 'app/scenes/Public/FrontPage';
 import Archive from 'app/scenes/Public/Archive';
 import Page from 'app/scenes/Public/Page';
 import Post from 'app/scenes/Public/Post';
-
+import NotFound from 'app/scenes/Public/NotFound';
 
 ((wp) => {
   const { render } = wp.element;
@@ -60,7 +60,9 @@ import Post from 'app/scenes/Public/Post';
         <Page />
       </Route>
 
-      <NoMatch />
+      <NoMatch>
+        <NotFound />
+      </NoMatch>
     </Router>,
     document.getElementById('app'),
   );
