@@ -1,5 +1,7 @@
-import Link from 'app/components/router/Link';
+import { STORE } from 'app/constants/common';
 
+const { withSelect } = wp.data;
+const { compose } = wp.compose;
 const { Component } = wp.element;
 
 class Search extends Component {
@@ -20,24 +22,31 @@ class Search extends Component {
     this.setState({ searchString: event.target.value });
   }
 
-  handleKeyDownSearch(event) {
-    if (event.keyCode === 13) {
-      document.getElementById('search-button').click();
+  handleKeyDownSearch(e) {
+    if (e.keyCode === 13) {
+      this.handleSubmitSearch(e);
     }
   }
 
-  handleSubmitSearch(event) {
+  handleSubmitSearch(e) {
     const { searchOpened, searchString } = this.state;
+    const { history } = this.props;
+
     if (!searchOpened || !searchString) {
-      event.preventDefault();
       this.setState({
         searchOpened: !searchOpened,
       });
 
       setTimeout(() => document.getElementById('search-string').focus(), 300);
-    } else {
-      this.setState({ searchString: '' });
+    } else if (searchString) {
+      const to = `/search/${searchString}`;
+      history.push(to);
+      this.setState({
+        searchString: '',
+      });
     }
+
+    e.preventDefault();
   }
 
   render() {
@@ -45,25 +54,28 @@ class Search extends Component {
     const wrapperClass = searchOpened ? 'open' : '';
 
     return (
-      <section id="search-container">
-        <div className={`${wrapperClass}`}>
-          <input
-            type="text"
-            id="search-string"
-            value={searchString}
-            onChange={this.handleChangeSearch}
-            onKeyDown={this.handleKeyDownSearch}
-          />
-          <Link
-            id="search-button"
-            className="icon magnify"
-            onClick={this.handleSubmitSearch}
-            to={`/search/${searchString}`}
-          />
-        </div>
+      <section id="search-container" className={`${wrapperClass}`}>
+        <input
+          type="text"
+          id="search-string"
+          value={searchString}
+          onChange={this.handleChangeSearch}
+          onKeyDown={this.handleKeyDownSearch}
+        />
+        <button
+          id="search-button"
+          className="icon magnify"
+          onClick={this.handleSubmitSearch}
+          type="submit"
+        />
       </section>
     );
   }
 }
 
-export default Search;
+const mapStateToProps = withSelect((select) => ({
+  location: select(STORE).getLocation(),
+  history: select(STORE).getHistory(),
+}));
+
+export default compose([mapStateToProps])(Search);

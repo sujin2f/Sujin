@@ -52,10 +52,6 @@ import Post from 'app/scenes/Public/Post';
         <Archive />
       </Route>
 
-      <Route path="/search/:search">
-        <Archive />
-      </Route>
-
       <Route path="/:year(\d+)/:month(\d+)/:day(\d+)/:postSlug">
         <Post />
       </Route>

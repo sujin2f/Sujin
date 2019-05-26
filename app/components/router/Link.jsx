@@ -25,16 +25,19 @@ class Link extends Component {
     const {
       to,
       target,
+      id,
       className,
       dangerouslySetInnerHTML,
       children,
+      onClick = (e) => this.pushHash(e, target),
     } = this.props;
 
     return (
       <a
         href={to}
-        onClick={(e) => this.pushHash(e, target)}
+        onClick={onClick}
         target={target}
+        id={id}
         className={className}
         dangerouslySetInnerHTML={dangerouslySetInnerHTML}
       >
