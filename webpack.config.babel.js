@@ -11,7 +11,9 @@ const entry = {
 
 const config = [
   merge.smart(
-    { entry },
+    {
+      entry,
+    },
     parts.setBase(entry, dist),
     parts.setResolve(),
   ),

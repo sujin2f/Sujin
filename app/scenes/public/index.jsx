@@ -21,7 +21,7 @@ class Public extends Component {
   }
 
   // Scrolled Control
-  handleScroll = () => {
+  handleScroll() {
     if (typeof window !== 'undefined') {
       const { scrolled: scrolledOrigin } = this.state;
       const scrolled = getScrolled(scrolledOrigin);

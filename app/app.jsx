@@ -52,7 +52,7 @@ import NotFound from 'app/scenes/Public/NotFound';
         <Archive />
       </Route>
 
-      <Route path="/:year(\d+)/:month(\d+)/:day(\d+)/:postSlug">
+      <Route path="/:year([0-9]+)/:month([0-9]+)/:day([0-9]+)/:postSlug">
         <Post />
       </Route>
 

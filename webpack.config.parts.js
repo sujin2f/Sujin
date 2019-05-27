@@ -7,6 +7,7 @@ import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 import WebpackCleanPlugin from 'webpack-clean';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import CleanWebpackPlugin from 'clean-webpack-plugin';
 import cssnano from 'cssnano';
 
 exports.setBase = function(entry, dist) {
@@ -35,6 +36,7 @@ exports.setBase = function(entry, dist) {
       rules: [
         {
           test: /\.(jsx?)$/,
+          enforce: 'pre',
           use: [
             {
               loader: 'babel-loader',
@@ -43,7 +45,6 @@ exports.setBase = function(entry, dist) {
               loader: 'eslint-loader',
             },
           ],
-          exclude: /node_modules/,
         },
         {
           test: /\.s?css$/,
@@ -64,6 +65,7 @@ exports.setBase = function(entry, dist) {
       ],
     },
     plugins: [
+      new CleanWebpackPlugin(),
       new FriendlyErrorsWebpackPlugin(),
       new webpack.NoEmitOnErrorsPlugin(),
       new CompressionPlugin({

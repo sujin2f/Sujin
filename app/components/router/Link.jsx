@@ -12,7 +12,7 @@ class Link extends Component {
     this.pushHash = this.pushHash.bind(this);
   }
 
-  pushHash = (e, target) => {
+  pushHash(e, target) {
     if (target === '_blank') {
       return;
     }

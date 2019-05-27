@@ -23,7 +23,12 @@ export function isMobile() {
   return regex1.test(userAgent) || regex2.test(userAgent.substr(0, 4));
 }
 
-export const getRenderedText = text => (text && text.rendered) || '';
+export const getRenderedText = (text) => {
+  if (typeof text === 'object') {
+    return text.rendered;
+  }
+  return text || '';
+};
 
 export const parseJson = (string, key) => {
   if (!string) {
