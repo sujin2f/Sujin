@@ -40,6 +40,9 @@ exports.setBase = function(entry, dist) {
           use: [
             {
               loader: 'babel-loader',
+              query: {
+                compact: false.,
+              },
             },
             {
               loader: 'eslint-loader',

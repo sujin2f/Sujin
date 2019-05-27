@@ -86,33 +86,35 @@ export function parseContent(content) {
   return splited;
 }
 
-export function parseSeries(id, series) {
-  if (!series || series.length === 0) {
+export function parseSeries(id, seriesPosts) {
+  if (!seriesPosts || seriesPosts.length === 0) {
     return [];
   }
 
-  return (
+  console.log(seriesPosts);
+
+  return [(
     <section className="series" key="series">
       <h2>Series</h2>
       <ul>
-        {series.map((item) => {
+        {seriesPosts.map((item) => {
           if (id !== item.id) {
             return (
               <li key={`series-${hash(item.id)}`}>
-                <Link to={item.link}>{getRenderedText(item.title)}</Link>
+                <Link to={item.link}>{item.title}</Link>
               </li>
             );
           }
 
           return (
             <li key={`series-${hash(item.id)}`}>
-              {getRenderedText(item.title)}
+              {item.title}
             </li>
           );
         })}
       </ul>
     </section>
-  );
+  )];
 }
 
 /* eslint-enable import/prefer-default-export */

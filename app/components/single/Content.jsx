@@ -13,7 +13,7 @@ class Content extends Component {
         slug,
         meta,
         content,
-        series,
+        seriesPosts,
         tags,
       },
       className,
@@ -21,9 +21,11 @@ class Content extends Component {
     } = this.props;
 
     const contents = [
-      ...parseSeries(id, series),
+      ...parseSeries(id, seriesPosts),
       ...parseContent(content),
     ];
+
+    console.log(contents);
 
     const icon = parseJson(meta.icon);
 

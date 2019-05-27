@@ -45,11 +45,32 @@ class REST_API {
 		$post_id = $response->data[ 'id' ];
 		$thumbnail_size = $request->get_param('thumbnail_size') ? $request->get_param('thumbnail_size') : Theme_Supports::IMAGE_SIZE_POST;
 
-		$response->data['thumbnail'] = $this->get_thumbnail( $post_id, $thumbnail_size );
-		$response->data['tags']      = $this->get_tags( $post_id );
-		$response->data['prevnext']  = $this->get_prevnext( $post_id );
-		$response->data['related']   = $this->get_related( $post_id );
-		$response->data['redirect']  = get_post_meta( $post_id, 'redirect', true );
+		$response->data['thumbnail']   = $this->get_thumbnail( $post_id, $thumbnail_size );
+		$response->data['tags']        = $this->get_tags( $post_id );
+		$response->data['prevnext']    = $this->get_prevnext( $post_id );
+		$response->data['related']     = $this->get_related( $post_id );
+		$response->data['redirect']    = get_post_meta( $post_id, 'redirect', true );
+		$response->data['seriesPosts'] = array();
+
+		foreach ( $response->data['series'] as $series_id ) {
+			$posts = new WP_Query( array(
+				'tax_query' => array(
+					array(
+						'taxonomy' => 'series',
+						'field'    => 'id',
+						'terms'    => $series_id,
+					),
+				),
+			) );
+
+			foreach ( $posts->posts as $post ) {
+				$response->data['seriesPosts'][] = array(
+					'id'    => $post->ID,
+					'link'  => get_permalink( $post ),
+					'title' => $post->post_title,
+				);
+			}
+		}
 
 		return $response;
 	}
