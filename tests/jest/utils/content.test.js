@@ -21,7 +21,7 @@ test( "No-Shortcode Content Parse Test", () => {
   const content = 'Lorem ipsum dolor sit amet';
   const parsed = parseContent(content);
 
-  expect(parsed).toEqual(['Lorem ipsum dolor sit amet']);
+  expect(parsed[0].props.dangerouslySetInnerHTML.__html).toEqual('Lorem ipsum dolor sit amet');
 });
 
 test( "Content Parse Test", () => {
@@ -30,10 +30,10 @@ test( "Content Parse Test", () => {
 
   expect(typeof parsed).toEqual('object');
   expect(parsed.length).toEqual(8);
-  expect(parsed[0]).toContain('Lorem ipsum dolor sit amet');
-  expect(parsed[2]).toContain('Lorem ipsum dolor sit amet');
-  expect(parsed[4]).toContain('Lorem ipsum dolor sit amet');
-  expect(parsed[6]).toContain('Lorem ipsum dolor sit amet');
+  expect(parsed[0].props.dangerouslySetInnerHTML.__html).toContain('Lorem ipsum dolor sit amet');
+  expect(parsed[2].props.dangerouslySetInnerHTML.__html).toContain('Lorem ipsum dolor sit amet');
+  expect(parsed[4].props.dangerouslySetInnerHTML.__html).toContain('Lorem ipsum dolor sit amet');
+  expect(parsed[6].props.dangerouslySetInnerHTML.__html).toContain('Lorem ipsum dolor sit amet');
 
   expect(parsed[1].key).toEqual('c37089888bb659d6152d23a4b38436112b232e23');
   expect(parsed[3].key).toEqual('55845d5607676220fda1f795887cac3dd7dd9e65');
@@ -56,8 +56,8 @@ test( "Series", () => {
   ];
   const parsed = parseSeries(1, series);
 
-  expect(parsed.props.children[0].type).toEqual('h2');
-  expect(parsed.props.children[1].props.children.length).toEqual(2);
+  expect(parsed[0].props.children[0].type).toEqual('h2');
+  expect(parsed[0].props.children[1].props.children.length).toEqual(2);
 });
 
 test( "Empty Series", () => {

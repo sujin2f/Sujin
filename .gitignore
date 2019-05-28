@@ -8,6 +8,7 @@
 
 # Build
 /dist
+/logs
 
 # Composer
 vendor/

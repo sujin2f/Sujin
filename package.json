@@ -5,7 +5,7 @@
   "scripts": {
     "start": "cross-env BABEL_ENV=default webpack --watch",
     "build": "cross-env BABEL_ENV=default webpack",
-    "test": "jest"
+    "test": "cross-env BABEL_ENV=test jest --config jest.config.js --coverage"
   },
   "author": {
     "email": "sujin.2f@google.com",

@@ -91,8 +91,6 @@ export function parseSeries(id, seriesPosts) {
     return [];
   }
 
-  console.log(seriesPosts);
-
   return [(
     <section className="series" key="series">
       <h2>Series</h2>

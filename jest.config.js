@@ -1,8 +1,5 @@
 module.exports = {
   verbose: true,
-  collectCoverageFrom: [
-    'tests/jest/**',
-  ],
   moduleNameMapper: {
     'app/(.*)': '<rootDir>/app/$1',
   },
@@ -12,5 +9,12 @@ module.exports = {
   moduleDirectories: ['node_modules', 'app'],
   globals: {
     'wp': {},
-  }
+  },
+  collectCoverageFrom: [
+    'app/**',
+  ],
+  collectCoverage: true,
+  coverageDirectory: "<rootDir>/logs",
+  coverageReporters: ["clover"],
+  testPathIgnorePatterns: ['/node_modules/', '/vendor/'],
 };
