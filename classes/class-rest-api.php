@@ -52,7 +52,7 @@ class REST_API {
 		$response->data['redirect']    = get_post_meta( $post_id, 'redirect', true );
 		$response->data['seriesPosts'] = array();
 
-		foreach ( $response->data['series'] as $series_id ) {
+		foreach ( $response->data['series'] ?? array() as $series_id ) {
 			$posts = new WP_Query(
 				array(
 					'tax_query' => array(
