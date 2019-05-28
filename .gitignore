@@ -9,4 +9,6 @@
 # Build
 /dist
 
-/vender
+# Composer
+vendor/
+wordpress/
