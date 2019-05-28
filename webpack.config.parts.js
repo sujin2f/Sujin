@@ -19,8 +19,8 @@ exports.setBase = function(entry, dist) {
       const filename = entry[key].split('/').pop();
       return [
         ...value,
-        `dist/${filename.replace('.scss', '.js')}`,
-        `dist/${filename.replace('.scss', '.js.map')}`,
+        path.resolve(dist, filename.replace('.scss', '.js')),
+        path.resolve(dist, filename.replace('.scss', '.js.map')),
       ];
     }, []);
 
@@ -41,7 +41,7 @@ exports.setBase = function(entry, dist) {
             {
               loader: 'babel-loader',
               query: {
-                compact: false.,
+                compact: false,
               },
             },
             {

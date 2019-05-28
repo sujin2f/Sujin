@@ -26,8 +26,8 @@ class Theme_Supports {
 	const IMAGE_SIZE_RECENT  = 'recent-post';
 
 	function __construct() {
-		add_action( 'after_setup_theme',  array( $this, 'add_theme_support' ) );
-		add_action( 'after_setup_theme',  array( $this, 'set_post_thumbnail' ) );
+		add_action( 'after_setup_theme', array( $this, 'add_theme_support' ) );
+		add_action( 'after_setup_theme', array( $this, 'set_post_thumbnail' ) );
 		add_action( 'init', array( $this, 'register_nav_menu' ) );
 	}
 
@@ -43,12 +43,12 @@ class Theme_Supports {
 		add_theme_support( 'automatic-feed-links' );
 		add_theme_support( 'title-tag' );
 
-		add_post_type_support( 'page', 'excerpt' ) ;
+		add_post_type_support( 'page', 'excerpt' );
 	}
 
 	public function set_post_thumbnail() {
-		add_image_size( 'post-thumbnail', self::POST_THUMBNAIL_WIDTH,          self::POST_THUMBNAIL_HEIGHT,         array( 'center', 'center' ) );
-		add_image_size( 'related-post'  , self::RELATED_POSTS_THUMBNAIL_WIDTH, self::RELATED_POSTS_THUMBNAIL_WIDTH, array( 'center', 'center' ) );
-		add_image_size( 'recent-post'   , self::RECENT_POSTS_THUMBNAIL_WIDTH,  self::RECENT_POSTS_THUMBNAIL_WIDTH,  array( 'center', 'center' ) );
+		add_image_size( 'post-thumbnail', self::POST_THUMBNAIL_WIDTH, self::POST_THUMBNAIL_HEIGHT, array( 'center', 'center' ) );
+		add_image_size( 'related-post', self::RELATED_POSTS_THUMBNAIL_WIDTH, self::RELATED_POSTS_THUMBNAIL_WIDTH, array( 'center', 'center' ) );
+		add_image_size( 'recent-post', self::RECENT_POSTS_THUMBNAIL_WIDTH, self::RECENT_POSTS_THUMBNAIL_WIDTH, array( 'center', 'center' ) );
 	}
 }

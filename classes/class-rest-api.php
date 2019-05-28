@@ -29,7 +29,7 @@ class REST_API {
 	private $flickr;
 
 	public function __construct() {
-		Setting::get_instance('Flickr Feed')
+		Setting::get_instance( 'Flickr Feed' )
 			->add( Option_Input::get_instance( 'Flicker ID' ) );
 
 		new Flickr();
@@ -42,8 +42,8 @@ class REST_API {
 	}
 
 	public function get_single_post( $response, $post, $request ) {
-		$post_id = $response->data[ 'id' ];
-		$thumbnail_size = $request->get_param('thumbnail_size') ? $request->get_param('thumbnail_size') : Theme_Supports::IMAGE_SIZE_POST;
+		$post_id        = $response->data['id'];
+		$thumbnail_size = $request->get_param( 'thumbnail_size' ) ? $request->get_param( 'thumbnail_size' ) : Theme_Supports::IMAGE_SIZE_POST;
 
 		$response->data['thumbnail']   = $this->get_thumbnail( $post_id, $thumbnail_size );
 		$response->data['tags']        = $this->get_tags( $post_id );
@@ -53,15 +53,17 @@ class REST_API {
 		$response->data['seriesPosts'] = array();
 
 		foreach ( $response->data['series'] as $series_id ) {
-			$posts = new WP_Query( array(
-				'tax_query' => array(
-					array(
-						'taxonomy' => 'series',
-						'field'    => 'id',
-						'terms'    => $series_id,
+			$posts = new WP_Query(
+				array(
+					'tax_query' => array(
+						array(
+							'taxonomy' => 'series',
+							'field'    => 'id',
+							'terms'    => $series_id,
+						),
 					),
-				),
-			) );
+				)
+			);
 
 			foreach ( $posts->posts as $post ) {
 				$response->data['seriesPosts'][] = array(

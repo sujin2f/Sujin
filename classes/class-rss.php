@@ -10,18 +10,19 @@
 namespace Sujin\Wordpress\Theme\Sujin;
 
 class RSS {
-  use Helpers\Singleton;
+	use Helpers\Singleton;
 
 	function __construct() {
-		add_filter( 'get_bloginfo_rss',   array( $this, 'get_bloginfo_rss' ), 15, 2 );
-		add_filter( 'the_permalink_rss',  array( $this, 'the_guid' ), 15 );
+		add_filter( 'get_bloginfo_rss', array( $this, 'get_bloginfo_rss' ), 15, 2 );
+		add_filter( 'the_permalink_rss', array( $this, 'the_guid' ), 15 );
 		add_filter( 'comments_link_feed', array( $this, 'the_guid' ), 15 );
-		add_filter( 'the_guid',           array( $this, 'the_guid' ), 15 );
- 	}
+		add_filter( 'the_guid', array( $this, 'the_guid' ), 15 );
+	}
 
 	function get_bloginfo_rss( $info, $show ) {
-		if ( 'url' === $show )
+		if ( 'url' === $show ) {
 			$info = convert_chars( 'http://www.sujinc.com/' );
+		}
 
 		return $info;
 	}

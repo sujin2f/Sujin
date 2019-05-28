@@ -44,22 +44,26 @@ class Media extends Abs_Rest_Base {
 	}
 
 	public function get_random_background( $request ) {
-		$posts = get_posts( array(
-			'posts_per_page'   => 1,
-			'tax_query'        => array(
-				array(
-					'taxonomy' => 'category',
-					'field'    => 'slug',
-					'terms'    => 'background',
+		$posts = get_posts(
+			array(
+				'posts_per_page' => 1,
+				'tax_query'      => array(
+					array(
+						'taxonomy' => 'category',
+						'field'    => 'slug',
+						'terms'    => 'background',
+					),
 				),
-			),
-			'orderby'          => 'rand',
-			'post_type'        => 'attachment',
-		) );
+				'orderby'        => 'rand',
+				'post_type'      => 'attachment',
+			)
+		);
 
-		return rest_ensure_response( array(
-			'large'  => wp_get_attachment_image_src( $posts[0]->ID, 'large' )[0],
-			'medium' => wp_get_attachment_image_src( $posts[0]->ID, 'medium' )[0],
-		) );
+		return rest_ensure_response(
+			array(
+				'large'  => wp_get_attachment_image_src( $posts[0]->ID, 'large' )[0],
+				'medium' => wp_get_attachment_image_src( $posts[0]->ID, 'medium' )[0],
+			)
+		);
 	}
 }

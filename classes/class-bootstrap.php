@@ -10,7 +10,7 @@
 namespace Sujin\Wordpress\Theme\Sujin;
 
 class Bootstrap {
-  use Helpers\Singleton;
+	use Helpers\Singleton;
 
 	function __construct() {
 		Theme_Supports::get_instance();

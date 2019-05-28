@@ -38,7 +38,9 @@ class Flickr extends Abs_Rest_Base {
 	}
 
 	public function get_items( $request ) {
-		if ( $contents = get_transient( 'flickr' ) ) {
+		$contents = get_transient( 'flickr' );
+
+		if ( $contents ) {
 			return rest_ensure_response( $contents );
 		}
 
@@ -61,7 +63,7 @@ class Flickr extends Abs_Rest_Base {
 
 		$conn = curl_init( $url );
 		curl_setopt( $conn, CURLOPT_SSL_VERIFYPEER, true );
-		curl_setopt( $conn, CURLOPT_FRESH_CONNECT,  true );
+		curl_setopt( $conn, CURLOPT_FRESH_CONNECT, true );
 		curl_setopt( $conn, CURLOPT_RETURNTRANSFER, 1 );
 		$response = curl_exec( $conn );
 		curl_close( $conn );
@@ -92,7 +94,7 @@ class Flickr extends Abs_Rest_Base {
 	}
 
 	public function prepare_item_for_response( $item, $request ): WP_REST_Response {
-		$item = (array) $item;
+		$item          = (array) $item;
 		$item['media'] = array(
 			'origin' => str_replace( '_m.', '.', $item['media']->m ),
 			's'      => str_replace( '_m.', '_s.', $item['media']->m ),
@@ -101,7 +103,7 @@ class Flickr extends Abs_Rest_Base {
 			'm'      => $item['media']->m,
 		);
 
-		$item = array_filter( $item, array( $this, 'filter_schema'), ARRAY_FILTER_USE_KEY );
+		$item = array_filter( $item, array( $this, 'filter_schema' ), ARRAY_FILTER_USE_KEY );
 		return rest_ensure_response( $item );
 	}
 
@@ -120,27 +122,27 @@ class Flickr extends Abs_Rest_Base {
 
 	public function get_item_schema(): array {
 		$schema = array(
-			'$schema'              => 'http://json-schema.org/draft-04/schema#',
-			'title'                => 'flicr',
-			'type'                 => 'object',
-			'properties'           => array(
+			'$schema'    => 'http://json-schema.org/draft-04/schema#',
+			'title'      => 'flicr',
+			'type'       => 'object',
+			'properties' => array(
 				'title' => array(
-					'description'  => 'The title of the photo.',
-					'type'         => 'string',
-					'context'      => array( 'view', 'edit', 'embed' ),
-					'readonly'     => true,
+					'description' => 'The title of the photo.',
+					'type'        => 'string',
+					'context'     => array( 'view', 'edit', 'embed' ),
+					'readonly'    => true,
 				),
-				'link' => array(
-					'description'  => 'Flickr URL for the image',
-					'type'         => 'string',
-					'context'      => array( 'view', 'edit', 'embed' ),
-					'readonly'     => true,
+				'link'  => array(
+					'description' => 'Flickr URL for the image',
+					'type'        => 'string',
+					'context'     => array( 'view', 'edit', 'embed' ),
+					'readonly'    => true,
 				),
 				'media' => array(
-					'description'  => 'Image URLs',
-					'type'         => 'array',
-					'context'      => array( 'view', 'edit', 'embed' ),
-					'readonly'     => true,
+					'description' => 'Image URLs',
+					'type'        => 'array',
+					'context'     => array( 'view', 'edit', 'embed' ),
+					'readonly'    => true,
 				),
 
 			),

@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class React {
-  use Singleton;
+	use Singleton;
 
 	public function __construct() {
 		add_action( 'init', array( $this, 'register_scripts' ) );

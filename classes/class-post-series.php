@@ -13,11 +13,11 @@ use Sujin\Wordpress\Theme\Sujin\Helpers\Singleton;
 use Sujin\Wordpress\WP_Express\Taxonomy;
 
 class Post_Series {
-  use Singleton;
+	use Singleton;
 
 	function __construct() {
-		Taxonomy::get_instance('Series')
-			->attach_to('post')
-			->show_in_rest(true);
- 	}
+		Taxonomy::get_instance( 'Series' )
+			->attach_to( 'post' )
+			->show_in_rest( true );
+	}
 }

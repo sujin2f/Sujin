@@ -107,12 +107,12 @@ class Posts extends Abs_Rest_Base {
 	}
 
 	public function get_item( $request ) {
-		$name = $request->get_param( 'slug' );
-		$args = array(
+		$name  = $request->get_param( 'slug' );
+		$args  = array(
 			'name'        => $name,
 			'post_type'   => 'post',
 			'post_status' => 'publish',
-			'numberposts' => 1
+			'numberposts' => 1,
 		);
 		$posts = get_posts( $args );
 
@@ -154,17 +154,17 @@ class Posts extends Abs_Rest_Base {
 			return rest_ensure_response( array() );
 		}
 
-		$url = '?' . $url_param . '[]=' . $term->term_id;
+		$url  = '?' . $url_param . '[]=' . $term->term_id;
 		$url .= $request->get_param( 'page' ) ? '&page=' . $request->get_param( 'page' ) : '';
 
 		$per_page = $request->get_param( 'per_page' );
 		if ( $per_page ) {
-			$url.= '&per_page=' . $per_page;
+			$url .= '&per_page=' . $per_page;
 		}
 
 		$page = $request->get_param( 'page' );
 		if ( $page ) {
-			$url.= '&page=' . $page;
+			$url .= '&page=' . $page;
 		}
 
 		$response = $this->remote_get( $url );
@@ -186,12 +186,12 @@ class Posts extends Abs_Rest_Base {
 
 		$per_page = $request->get_param( 'per_page' );
 		if ( $per_page ) {
-			$url.= '&per_page=' . $per_page;
+			$url .= '&per_page=' . $per_page;
 		}
 
 		$page = $request->get_param( 'page' );
 		if ( $page ) {
-			$url.= '&page=' . $page;
+			$url .= '&page=' . $page;
 		}
 
 		$response = $this->remote_get( $url );
