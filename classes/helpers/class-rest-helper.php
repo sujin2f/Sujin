@@ -151,10 +151,10 @@ trait Rest_Helper {
 		$order = $previous ? 'DESC' : 'ASC';
 
 		$join  = apply_filters( "get_{$adjacent}_post_join", $join, $in_same_term, $excluded_terms, $taxonomy, $post );
-		$where = apply_filters( "get_{$adjacent}_post_where", $wpdb->prepare( "WHERE p.post_date $op %s AND p.post_type = %s $where", $current_post_date, $post->post_type ), $in_same_term, $excluded_terms, $taxonomy, $post );
+		$where = apply_filters( "get_{$adjacent}_post_where", $wpdb->prepare( "WHERE p.post_date $op %s AND p.post_type = %s $where", $current_post_date, $post->post_type ), $in_same_term, $excluded_terms, $taxonomy, $post ); // phpcs:ignore
 		$sort  = apply_filters( "get_{$adjacent}_post_sort", "ORDER BY p.post_date $order LIMIT 1", $post );
 
-		$query = "SELECT p.ID FROM $wpdb->posts AS p $join $where $sort";
+		$query = "SELECT p.ID FROM $wpdb->posts AS p $join $where $sort"; // phpcs:ignore
 		$query_key = 'adjacent_post_' . md5( $query );
 		$result    = wp_cache_get( $query_key, 'counts' );
 		if ( false !== $result ) {
@@ -164,7 +164,7 @@ trait Rest_Helper {
 			return $result;
 		}
 
-		$result = $wpdb->get_var( $query );
+		$result = $wpdb->get_var( $query ); // phpcs:ignore
 		if ( null === $result ) {
 			$result = '';
 		}
