@@ -22,6 +22,6 @@ if ( ! function_exists( 'register_block_type' ) ) {
 }
 
 include_once( get_stylesheet_directory() . '/autoload.php' );
-include_once( get_stylesheet_directory() . '/venders/wp_express/autoload.php' );
+include_once( get_stylesheet_directory() . '/vender/wp_express/autoload.php' );
 
 Sujin\Wordpress\Theme\Sujin\Bootstrap::get_instance();
