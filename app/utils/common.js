@@ -36,7 +36,7 @@ export const getRenderedText = (object) => {
 };
 
 export const parseJson = (string, key) => {
-  if (!isNaN(string)) {
+  if (!Number.isNaN(string)) {
     return {};
   }
 
@@ -49,7 +49,7 @@ export const parseJson = (string, key) => {
 };
 
 const isDate = (date) => {
-  return date instanceof Date && !isNaN(date);
+  return date instanceof Date && !Number.isNaN(date);
 };
 
 export const parseDate = (string) => {

@@ -61,8 +61,8 @@ class Media extends Abs_Rest_Base {
 
 		return rest_ensure_response(
 			array(
-				'large'  => wp_get_attachment_image_src( $posts[0]->ID, 'large' )[0],
-				'medium' => wp_get_attachment_image_src( $posts[0]->ID, 'medium' )[0],
+				'large'       => wp_get_attachment_image_src( $posts[0]->ID, 'large' )[0],
+				'mediumLarge' => wp_get_attachment_image_src( $posts[0]->ID, 'medium_large' )[0],
 			)
 		);
 	}

@@ -4,8 +4,10 @@ import {
   REQUEST_MAIN_BACKGROUND_FAIL,
 } from 'app/actions/front-page';
 
+import { IS_ERROR } from 'app/constants/common';
+
 const initialState = {
-  entities: {},
+  entities: false,
   loading: false,
 };
 
@@ -30,7 +32,7 @@ function frontPage(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        entities: {},
+        entities: IS_ERROR,
       };
     }
 
