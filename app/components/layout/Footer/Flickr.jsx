@@ -17,8 +17,6 @@ class Flickr extends Component {
   render() {
     const { flickrItmes } = this.props;
 
-    console.log(flickrItmes);
-
     return (
       <div id="Flickr">
         <h1>Photo Stream</h1>

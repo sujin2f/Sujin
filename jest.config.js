@@ -17,4 +17,5 @@ module.exports = {
   coverageDirectory: "<rootDir>/logs",
   coverageReporters: ["clover"],
   testPathIgnorePatterns: ['/node_modules/', '/vendor/'],
+  setupFiles: ['<rootDir>/tests/jest/global.js'],
 };

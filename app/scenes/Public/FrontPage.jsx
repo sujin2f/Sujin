@@ -24,10 +24,9 @@ class FrontPage extends Component {
   render() {
     const { mainBackground } = this.props;
 
-    const backgroundImage =
-      Object.keys(mainBackground).length === 0 ?
-        false :
-        mainBackground.large;
+    const backgroundImage = Object.keys(mainBackground).length === 0 ?
+      false :
+      mainBackground.large;
 
     return (
       <Public className="stretched-background hide-footer">

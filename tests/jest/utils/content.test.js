@@ -10,21 +10,21 @@ const {
   parseSeries,
 } = require('../../../app/utils/content');
 
-test( "Empty Content Parse Test", () => {
+test('Empty Content Parse Test', () => {
   const content = '';
   const parsed = parseContent(content);
 
   expect(parsed).toEqual([]);
 });
 
-test( "No-Shortcode Content Parse Test", () => {
+test('No-Shortcode Content Parse Test', () => {
   const content = 'Lorem ipsum dolor sit amet';
   const parsed = parseContent(content);
 
   expect(parsed[0].props.dangerouslySetInnerHTML.__html).toEqual('Lorem ipsum dolor sit amet');
 });
 
-test( "Content Parse Test", () => {
+test('Content Parse Test', () => {
   const content = 'Lorem ipsum dolor sit amet [gist id="d6ff10312084824d2a2058a70dbdb961" file="docker-compose.yml" /] Lorem ipsum dolor sit amet [carousel sc1="http://sujinc.test/wp-content/uploads/2018/05/myjf-sc1.jpg" sc2="http://sujinc.test/wp-content/uploads/2018/05/myjf-sc2.jpg" /] Lorem ipsum dolor sit amet [tweet id="476962421873975296" /] Lorem ipsum dolor sit amet [tweet id="476962421873975298" /]';
   const parsed = parseContent(content);
 
@@ -41,7 +41,7 @@ test( "Content Parse Test", () => {
   expect(parsed[7].key).toEqual('eef59b14c904a740feff29af4cc8af4689165e73');
 });
 
-test( "Series", () => {
+test('Series', () => {
   const series = [
     {
       id: 0,
@@ -60,7 +60,7 @@ test( "Series", () => {
   expect(parsed[0].props.children[1].props.children.length).toEqual(2);
 });
 
-test( "Empty Series", () => {
+test('Empty Series', () => {
   const series = '';
   const parsed = parseSeries(1, series);
 

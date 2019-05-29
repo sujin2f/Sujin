@@ -8,7 +8,7 @@ export function getScrolled(scrolled) {
   }
 
   if (window.scrollY <= 80 && scrolled) {
-    return '';
+    return false;
   }
 
   return false;
@@ -23,32 +23,43 @@ export function isMobile() {
   return regex1.test(userAgent) || regex2.test(userAgent.substr(0, 4));
 }
 
-export const getRenderedText = (text) => {
-  if (typeof text === 'object') {
-    return text.rendered;
+export const getRenderedText = (object) => {
+  if (object && typeof object === 'object') {
+    return object.rendered || '';
   }
-  return text || '';
+
+  if (typeof object === 'boolean') {
+    return '';
+  }
+
+  return object || '';
 };
 
 export const parseJson = (string, key) => {
-  if (!string) {
+  if (!isNaN(string)) {
     return {};
   }
 
-  let json;
-
   try {
-    json = JSON.parse(string);
+    const json = JSON.parse(string) || {};
+    return key ? json[key] : json;
   } catch (_) {
-    return string;
+    return {};
   }
+};
 
-  return key ? json[key] : json;
+const isDate = (date) => {
+  return date instanceof Date && !isNaN(date);
 };
 
 export const parseDate = (string) => {
-  // TODO error control
-  const date = new Date(string);
+  const tryDate = new Date(string) || new Date();
+  const isParsed = isDate(new Date(string) || new Date());
+  const isNotDate = typeof string === 'boolean' || !string;
+
+  const isAvailable = isParsed && !isNotDate;
+  const date = isAvailable ? tryDate : new Date();
+
   return {
     date,
     day: date.getDate(),
