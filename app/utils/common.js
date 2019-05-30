@@ -84,6 +84,9 @@ export function scrollTo(id) {
 }
 
 export const backgroundImageStyle = (image) => {
+  if (typeof image !== 'string' && !(image instanceof String)) {
+    return {};
+  }
   return (image && { backgroundImage: `url(${image})` }) || {};
 };
 
