@@ -7,6 +7,8 @@ import {
   parseDate,
 } from 'app/utils/common';
 
+import DEFAULT_BACKGROUND from '../../../assets/images/thumbnail.svg';
+
 const { Component } = wp.element;
 
 class Item extends Component {
@@ -15,8 +17,10 @@ class Item extends Component {
     const date = parseDate(item.date);
     const title = decodeURIComponent(getRenderedText(item.title));
     const excerpt = decodeURIComponent(getRenderedText(item.excerpt));
-    const image = parseJson(item.meta.list, 'post-thumbnail');
-
+    const image =
+      parseJson(item.meta.list, 'post-thumbnail') ||
+      item.thumbnail ||
+      DEFAULT_BACKGROUND;
     const className = columns ? `columns ${columns}` : 'columns large-4 medium-6 small-12';
 
     return (

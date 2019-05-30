@@ -8,6 +8,7 @@ import Paging from 'app/components/archive/Paging';
 import NotFound from 'app/scenes/Public/NotFound';
 
 import { STORE, IS_ERROR } from 'app/constants/common';
+import DEFAULT_BACKGROUND from '../../../assets/images/background/category.jpg';
 
 const { Fragment, Component } = wp.element;
 const { withDispatch, withSelect } = wp.data;
@@ -80,7 +81,7 @@ class Archive extends Component {
 
     return (
       <Public className="template-archive">
-        <PageHeader backgroundImage={background}>
+        <PageHeader backgroundImage={background || DEFAULT_BACKGROUND}>
           <Fragment>
             <h1>{title}</h1>
             <p>{description}</p>

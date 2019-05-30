@@ -121,10 +121,11 @@
 }
 
 .page-header-wrapper {
-	position: relative;
-	min-height: calc(#{$header-height} + #{$page-header-height});
+	min-height: $page-header-height;
 	background-color: $black;
-	padding-top: $header-height;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover;
 
 	@include breakpoint(medium only) {
 		min-height: $page-header-height-medium;
@@ -134,68 +135,71 @@
 		min-height: $page-header-height-small;
 	}
 
-	.background {
-		background-repeat: no-repeat;
-		background-position: center center;
-		background-size: cover;
-		width: 100%;
-		height: calc(100% - #{$header-height});
-		position: absolute;
-	}
-
-	.foreground {
+	.overlay {
 		background: transparent url('../images/background/dotted-dark-foreground.png');
 		background-repeat: no-repeat;
 		background-position: center center;
 		background-size: cover;
-		width: 100%;
-		height: calc(100% - #{$header-height});
-		position: absolute;
-	}
-
-	.text {
-		width: 100%;
-		height: calc(100% - #{$header-height});
-		position: absolute;
+		min-height: $page-header-height;
 		display: flex;
-		flex-direction: column;
-		justify-content: center;
 		align-items: center;
-		color: white;
+		justify-content: center;
+		width: 100%;
 
-		h1 {
-			padding: 0 20px;
-			text-align: center;
+		.text {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			color: white;
+			margin-top: 1em;
 
-			.flag {
-				text-align: left;
-				line-height: 0;
+			h1 {
 
-				.label {
-					font-size: 20px;
+				.flag {
+					text-align: left;
+					line-height: 0;
+
+					.label {
+						font-size: 20px;
+					}
+				}
+
+				@include breakpoint(medium only) {
+					font-size: 40px;
+				}
+
+				@include breakpoint(small only) {
+					font-size: 35px;
+				}
+
+			}
+
+			> p {
+				margin: 0;
+				display: flex;
+				flex-direction: column;
+				align-items: flex-start;
+
+				> p {
+					font-weight: 200;
+					font-size: 1.2em;
+					margin-bottom: 0.2em;
+					line-height: 1.4;
+					background-color: rgba(map-get($foundation-palette, 'primary'), 0.8);
+					padding: 0 0.2em;
+
+					@include breakpoint(small only) {
+						font-size: 16px;
+					}
 				}
 			}
-
-			@include breakpoint(medium only) {
-				font-size: 40px;
-			}
-
-			@include breakpoint(small only) {
-				font-size: 35px;
-			}
-
 		}
 
-		p {
-			font-weight: 100;
-			font-size: 19px;
-			text-align: center;
-			padding: 0 20px;
-			line-height: 1.4;
-
-			@include breakpoint(small only) {
-				font-size: 16px;
-			}
+		> .row {
+			position: absolute;
+			width: 100%;
+			top: $header-height;
 		}
 	}
 }

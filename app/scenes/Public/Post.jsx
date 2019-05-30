@@ -10,8 +10,9 @@ import Link from 'app/components/router/Link';
 import NotFound from 'app/scenes/Public/NotFound';
 
 import { STORE, IS_ERROR } from 'app/constants/common';
-
 import { getRenderedText, parseJson } from 'app/utils/common';
+
+import DEFAULT_BACKGROUND from '../../../assets/images/background/category.jpg';
 
 const { withDispatch, withSelect } = wp.data;
 const { compose } = wp.compose;
@@ -64,14 +65,17 @@ class Post extends Component {
       );
     }
 
-    const backgroundImage = parseJson(post.meta.background);
+    const backgroundImage =
+      parseJson(post.meta.background, 'post-thumbnail') ||
+      post.thumbnail ||
+      DEFAULT_BACKGROUND;
 
     return (
       <Public className="template-single">
-        <PageHeader backgroundImage={backgroundImage.large}>
+        <PageHeader backgroundImage={backgroundImage}>
           <Fragment>
             <h1>{getRenderedText(post.title)}</h1>
-            <p>{getRenderedText(post.excerpt)}</p>
+            <p dangerouslySetInnerHTML={{ __html: getRenderedText(post.excerpt) }} />
           </Fragment>
         </PageHeader>
 

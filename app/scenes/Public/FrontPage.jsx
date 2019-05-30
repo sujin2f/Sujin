@@ -37,7 +37,7 @@ class FrontPage extends Component {
     const background = mainBackground === IS_ERROR ? DEFAULT_BACKGROUND : false;
 
     if (typeof mainBackground === 'object') {
-      return isMobile() ? mainBackground.large : mainBackground.mediumLarge;
+      return isMobile() ? mainBackground.desktop : mainBackground.mobile;
     }
 
     return background;

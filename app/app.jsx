@@ -66,4 +66,6 @@ import NotFound from 'app/scenes/Public/NotFound';
     </Router>,
     document.getElementById('app'),
   );
+
+  document.getElementsByTagName('body')[0].classList.add('unicorn');
 })(window.wp);

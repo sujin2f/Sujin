@@ -8,6 +8,16 @@ html[lang="en-US"], body {
 	margin: 0 !important;
 }
 
+body.unicorn {
+	background-image: url('../images/background/unicorn.png');
+	background-size: 3em;
+}
+
+#app {
+	min-height: 100%;
+	background-color: white;
+}
+
 ::selection {
 	background-color: map-get($foundation-palette, 'primary');
 	color: $white;

@@ -22,9 +22,9 @@ $body-background: $light-gray;
 
 $font-ubuntu: 'Ubuntu', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
-$page-header-height: 300px;
-$page-header-height-medium: 400px;
-$page-header-height-small: 500px;
+$page-header-height: 300px + $header-height;
+$page-header-height-medium: 400px + $header-height;
+$page-header-height-small: 500px + $header-height;
 $search-size: 26px;
 
 $admin-bar-height: 32px;

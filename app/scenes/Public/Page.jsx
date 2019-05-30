@@ -17,10 +17,7 @@ const { Component } = wp.element;
 class Page extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      slug: false,
-    };
+    this.state = { slug: false };
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -66,7 +63,7 @@ class Page extends Component {
       <Public className="template-single">
         <PageHeader backgroundImage={backgroundImage.large}>
           <h1>{getRenderedText(page.title)}</h1>
-          <p>{getRenderedText(page.excerpt)}</p>
+          <p dangerouslySetInnerHTML={{ __html: getRenderedText(page.excerpt) }} />
         </PageHeader>
 
         <section className="row">

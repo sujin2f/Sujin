@@ -37,6 +37,11 @@ function archive(state = initialState, action) {
           '' :
           decodeURIComponent(action.response.headers['x-wp-term-description']);
 
+      const entities =
+        action.response.data.length > 0 ?
+          action.response.data :
+          IS_ERROR;
+
       return {
         ...state,
         entities: {
@@ -50,7 +55,7 @@ function archive(state = initialState, action) {
               description,
               ...state.entities[action.kind][action.slug],
               [action.page]: {
-                entities: action.response.data,
+                entities,
               },
             },
           },

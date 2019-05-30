@@ -63,13 +63,13 @@ describe.each(dataGetRenderedText)(
 const dataParseJson = [
   ['{"key":"value"}', false, { key: 'value'}],
   ['{"key":"value"}', 'key', 'value'],
-  ['Lorem ipsum dolor sit amet', false, {}],
-  [9999, false, {}],
-  [null, false, {}],
-  [true, false, {}],
-  [false, false, {}],
-  [undefined, false, {}],
-  [{ key: 'value' }, false, {}],
+  ['Lorem ipsum dolor sit amet', false, null],
+  [9999, false, null],
+  [null, false, null],
+  [true, false, null],
+  [false, false, null],
+  [undefined, false, null],
+  [{ key: 'value' }, false, null],
 ];
 
 describe.each(dataParseJson)(

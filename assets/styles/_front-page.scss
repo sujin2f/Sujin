@@ -2,15 +2,11 @@
 	.page-header-wrapper {
 		height: calc(100vh);
 
-		.background {
-			height: calc(100vh - #{$header-height});
+		.overlay {
+			height: calc(100vh);
 		}
-		.foreground {
-			height: calc(100vh - #{$header-height});
-		}
-		.text {
-			height: calc(100vh - #{$header-height});
 
+		.text {
 			h1 {
 				height: 116px;
 				text-indent: -10000px;
@@ -23,15 +19,9 @@
 			}
 
 			p {
-				font-size: 30px;
+				font-size: 1.5em;
 				text-align: center;
 				margin-bottom: 0;
-				background-color: rgba(map-get($foundation-palette, 'primary'), 0.8);
-
-				@include breakpoint(small only) {
-					font-size: 20px;
-				}
-
 			}
 		}
 	}

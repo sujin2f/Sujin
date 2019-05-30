@@ -36,20 +36,20 @@ export const getRenderedText = (object) => {
 };
 
 export const parseJson = (string, key) => {
-  if (!Number.isNaN(string)) {
-    return {};
+  if (parseInt(string, 10) || !string || typeof string === 'boolean') {
+    return null;
   }
 
   try {
-    const json = JSON.parse(string) || {};
-    return key ? json[key] : json;
+    const json = JSON.parse(string) || null;
+    return key && json ? json[key] : json;
   } catch (_) {
-    return {};
+    return null;
   }
 };
 
 const isDate = (date) => {
-  return date instanceof Date && !Number.isNaN(date);
+  return date instanceof Date && date.getDate();
 };
 
 export const parseDate = (string) => {
@@ -82,5 +82,9 @@ export function scrollTo(id) {
 
   Scroll.animateScroll.scrollTo((box.top + scrollTop) - clientTop, { duration: 500 });
 }
+
+export const backgroundImageStyle = (image) => {
+  return (image && { backgroundImage: `url(${image})` }) || {};
+};
 
 /* eslint-enable import/prefer-default-export */

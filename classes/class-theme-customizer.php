@@ -16,6 +16,16 @@ class Theme_Customizer {
 
 	function __construct() {
 		add_action( 'customize_register', array( $this, 'mytheme_customize_register' ) );
+		add_filter( 'the_excerpt', array( $this, 'the_excerpt' ) );
+	}
+
+	public function the_excerpt( $excerpt ) {
+		$breaks  = array( '<br />', '<br>', '<br/>' );
+		$excerpt = str_replace( $breaks, "\r\n\r\n", $excerpt );
+		$excerpt = strip_tags( $excerpt );
+		$excerpt = wpautop( $excerpt );
+
+		return $excerpt;
 	}
 
 	public function mytheme_customize_register( $wp_customize ) {

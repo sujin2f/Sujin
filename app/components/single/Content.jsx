@@ -25,9 +25,7 @@ class Content extends Component {
       ...parseContent(content),
     ];
 
-    console.log(contents);
-
-    const icon = parseJson(meta.icon);
+    const icon = parseJson(meta.icon, 'thumbnail');
 
     return (
       <article
@@ -35,11 +33,11 @@ class Content extends Component {
         itemProp="mainEntity"
         itemType="http://schema.org/BlogPosting"
       >
-        {icon.thumbnail &&
-          <img src={icon.thumbnail} alt="Thumbnail" className="assist-thumb" />
+        {icon &&
+          <img src={icon} alt="Thumbnail" className="assist-thumb" />
         }
 
-        <section className={icon.thumbnail ? 'more-margin' : ''}>
+        <section className={icon ? 'more-margin' : ''}>
           {contents}
         </section>
 
