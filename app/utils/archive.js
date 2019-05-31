@@ -1,14 +1,17 @@
 /* eslint-disable import/prefer-default-export */
 
-export const getPaging = (totalPages, currentPage = 1, offset = 5) => {
+export const getPaging = (totalPages, currentPage = 1, offsetValue = 5) => {
   let entities = [];
+  const total = parseInt(totalPages, 10);
+  const current = parseInt(currentPage, 10);
+  const offset = parseInt(offsetValue, 10);
 
-  if (!totalPages) {
+  if (!total) {
     return entities;
   }
 
-  const start = (currentPage - offset) > 2 ? currentPage - offset : 1;
-  const end = (currentPage + offset) < totalPages -1 ? currentPage + offset : totalPages;
+  const start = (current - offset) > 2 ? current - offset : 1;
+  const end = (current + offset) < (total - 1) ? current + offset : total;
 
   if (start > 2) {
     entities.push(1);
@@ -20,9 +23,9 @@ export const getPaging = (totalPages, currentPage = 1, offset = 5) => {
     ...Array.from(Array(end - start + 1).keys()).map(v => v + start),
   ];
 
-  if (end < totalPages - 1) {
+  if (end < total - 1) {
     entities.push('...');
-    entities.push(totalPages);
+    entities.push(total);
   }
 
   return entities;

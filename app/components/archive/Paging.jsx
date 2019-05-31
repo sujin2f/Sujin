@@ -20,12 +20,12 @@ class Paging extends Component {
       <section className="paging row">
         <div className="columns small-12">
           <ul className="pagination text-center" role="navigation" aria-label="Pagination">
-            {entities.map(entity => {
+            {entities.map((entity, id) => {
               const url = `${urlPrefix}/page/${entity}`;
               return (
                 <li
                   className={`${parseInt(currentPage, 10) === entity ? 'active' : ''}`}
-                  key={hash(url)}
+                  key={hash(`url-${id}`)}
                 >
                   {entity !== '...' && (
                     <Link to={url}>
