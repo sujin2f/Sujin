@@ -2,7 +2,7 @@ import { STORE } from 'app/constants/common';
 
 import { scrollTo } from 'app/utils/common';
 
-const { withSelect } = wp.data;
+const { withSelect, withDispatch } = wp.data;
 const { compose } = wp.compose;
 const { Component } = wp.element;
 
@@ -17,7 +17,12 @@ class Link extends Component {
       return;
     }
 
-    const { to, history, location, setMobileMenu } = this.props;
+    const {
+      to,
+      history,
+      location,
+      setMobileMenu,
+    } = this.props;
     const origin = location.origin;
     history.push(to.replace(origin, ''));
     scrollTo();

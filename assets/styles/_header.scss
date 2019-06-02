@@ -146,6 +146,14 @@
 		justify-content: center;
 		width: 100%;
 
+		@include breakpoint(medium only) {
+			min-height: $page-header-height-medium;
+		}
+
+		@include breakpoint(small only) {
+			min-height: $page-header-height-small;
+		}
+
 		.text {
 			display: flex;
 			flex-direction: column;

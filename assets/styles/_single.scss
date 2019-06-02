@@ -156,6 +156,11 @@
 			margin-bottom: 10px;
 
 			@include breakpoint(small only) {
+				flex-direction: column;
+
+				a:prev {
+					margin-bottom: 0.3em;
+				}
 			}
 
 			a {
