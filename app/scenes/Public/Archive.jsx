@@ -84,7 +84,7 @@ class Archive extends Component {
         <PageHeader backgroundImage={background || DEFAULT_BACKGROUND}>
           <Fragment>
             <h1>{title}</h1>
-            <p>{description}</p>
+            <p dangerouslySetInnerHTML={{ __html: description.replace(/\+/g, ' ') }} />
           </Fragment>
         </PageHeader>
 

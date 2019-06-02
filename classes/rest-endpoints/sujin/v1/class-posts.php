@@ -3,6 +3,7 @@ namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1;
 
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Abs_Rest_Base;
 use Sujin\Wordpress\Theme\Sujin\Helpers\Rest_Helper;
+use Sujin\Wordpress\Theme\Sujin\Theme_Customizer;
 
 use Sujin\Wordpress\WP_Express\Fields\Term_Meta\Attachment as Term_Meta_Attachment;
 
@@ -156,7 +157,13 @@ class Posts extends Abs_Rest_Base {
 
 		$response = $this->remote_get( $url );
 
-		$response->header( 'x-wp-term-description', urlencode( $term->description ) );
+		$response->header(
+			'x-wp-term-description',
+			urlencode(
+				Theme_Customizer::get_instance()
+					->the_excerpt( wpautop( $term->description ) )
+			)
+		);
 		$response->header( 'x-wp-term-name', urlencode( $term->name ) );
 
 		$thumbnail = Term_Meta_Attachment::get_instance( 'Thumbnail' )
