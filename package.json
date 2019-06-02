@@ -41,6 +41,7 @@
     "@wordpress/data": "^4.5.0",
     "@wordpress/element": "^2.4.0",
     "@wordpress/shortcode": "^2.3.0",
+    "@wordpress/url": "^2.6.0",
     "ansi-colors": "^2.0.1",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.8.0",

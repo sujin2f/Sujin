@@ -8,7 +8,11 @@ import Link from 'app/components/router/Link';
 
 import { getRenderedText } from 'app/utils/common';
 
+import DEFAULT_BACKGROUND from '../../assets/images/thumbnail.svg';
+
+
 const { regexp, attrs } = wp.shortcode;
+const { addQueryArgs } = wp.url;
 
 /* eslint-disable import/prefer-default-export */
 
@@ -114,5 +118,37 @@ export function parseSeries(id, seriesPosts) {
     </section>
   )];
 }
+
+const getNewWindowFeatures = () => {
+  const top = (window.innerHeight - 600) / 2;
+  const left = (window.innerWidth - 500) / 2;
+  return `toolbar=0,status=0,resizable=yes,width=500,height=600,top=${top},left=${left}`;
+};
+
+export const shareTwitter = (title) => {
+  const url = addQueryArgs(
+    'https://www.twitter.com/intent/tweet',
+    {
+      text: (title && encodeURIComponent(title)) || '',
+      url: window.location.href,
+    },
+  );
+
+  window.open(url, 'Twitter', getNewWindowFeatures());
+};
+
+export const shareFacebook = (title, excerpt, thumbnail) => {
+  const url = addQueryArgs(
+    'https://www.facebook.com/sharer/sharer.php',
+    {
+      u: window.location.href,
+      picture: thumbnail || DEFAULT_BACKGROUND,
+      text: (title && encodeURIComponent(title)) || '',
+      quote: (excerpt && encodeURIComponent(excerpt)) || '',
+    },
+  );
+
+  window.open(url, 'Facebook', getNewWindowFeatures());
+};
 
 /* eslint-enable import/prefer-default-export */

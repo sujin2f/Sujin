@@ -1,7 +1,7 @@
 import SocialShare from 'app/components/single/SocialShare';
 import Tags from 'app/components/Tags';
 import { parseJson } from 'app/utils/common';
-import { parseContent, parseSeries } from 'app/utils/content';
+import { parseContent, parseSeries } from 'app/utils/single';
 
 const { Component } = wp.element;
 

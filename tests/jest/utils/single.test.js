@@ -3,12 +3,15 @@ global.wp = {
   element: require('@wordpress/element'),
   data: require('@wordpress/data'),
   compose: require('@wordpress/compose'),
+  url: require('@wordpress/url'),
 };
 
 const {
   parseContent,
   parseSeries,
-} = require('../../../app/utils/content');
+  shareTwitter,
+  shareFacebook,
+} = require('../../../app/utils/single');
 
 test('Empty Content Parse Test', () => {
   const content = '';
@@ -65,4 +68,16 @@ test('Empty Series', () => {
   const parsed = parseSeries(1, series);
 
   expect(parsed).toEqual([]);
+});
+
+test('Test Share Twitter', () => {
+  global.open = jest.fn();
+  shareTwitter('title');
+  expect(global.open).toBeCalledWith(expect.any(String), 'Twitter', expect.any(String));
+});
+
+test('Test Share Facebbook', () => {
+  global.open = jest.fn();
+  shareFacebook('title');
+  expect(global.open).toBeCalledWith(expect.any(String), 'Facebook', expect.any(String));
 });

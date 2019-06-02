@@ -79,3 +79,37 @@
 		}
 	}
 }
+
+.social-share {
+	display: flex;
+	margin-top: 40px;
+
+	button {
+		background-color: $dark-gray;
+		width: 50px;
+		height: 50px;
+		border-radius: 30px;
+		margin-right: 5px;
+		transition: background-color ease-out 0.5s;
+		-webkit-mask-size: contain;
+		mask-size: contain;
+		mask-position: center;
+		-webkit-mask-position: center;
+		mask-repeat: no-repeat;
+		-webkit-mask-repeat: no-repeat;
+
+		&:hover {
+			background-color: map-get($foundation-palette, 'primary');
+		}
+
+		&.twitter {
+			-webkit-mask-image: url('../images/icons/twitter.svg');
+			mask-image: url('../images/icons/twitter.svg');
+		}
+
+		&.facebook {
+			-webkit-mask-image: url('../images/icons/facebook.svg');
+			mask-image: url('../images/icons/facebook.svg');
+		}
+	}
+}

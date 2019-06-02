@@ -19,17 +19,17 @@ use WP_Query;
  *
  */
 trait Rest_Helper {
-	protected function get_thumbnail( $post_id, $thumbnail_size = 'post-thumbnail' ) {
-		$thumbnail_url = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), $thumbnail_size );
-		return is_array( $thumbnail_url ) ? $thumbnail_url[0] : null;
-	}
-
 	protected function get_tags( $post_id ) {
 		return wp_get_post_tags( $post_id );
 	}
 
 	protected function get_categories( $post_id ) {
 		return wp_get_object_terms( $post_id, 'category' );
+	}
+
+	protected function get_thumbnail( $post_id, $thumbnail_size = 'post-thumbnail' ) {
+		$thumbnail_url = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), $thumbnail_size );
+		return is_array( $thumbnail_url ) ? $thumbnail_url[0] : null;
 	}
 
 	protected function get_prevnext( $post_id ) {
@@ -179,86 +179,65 @@ trait Rest_Helper {
 	}
 
 	public function get_related( $post_id ) {
-		$related_posts = $this->get_related_posts( array( $post_id ) );
+		$tax_query = array_merge(
+			array( 'relation' => 'OR' ),
+			array(
+				array(
+					'taxonomy' => 'post_tag',
+					'field'    => 'id',
+					'terms'    => array_map(
+						function( $term ) {
+							return $term->term_id;
+						},
+						wp_get_post_tags( $post_id )
+					),
+				),
+			),
+			array(
+				array(
+					'taxonomy' => 'category',
+					'field'    => 'id',
+					'terms'    => array_map(
+						function( $term ) {
+							return $term->term_id;
+						},
+						wp_get_object_terms( $post_id, 'category' )
+					),
+				),
+			)
+		);
 
-		foreach ( array_keys( $related_posts ) as $key ) {
-			$related_posts[ $key ] = (array) $related_posts[ $key ];
-
-			$related_posts[ $key ]['id']           = $related_posts[ $key ]['ID'];
-			$related_posts[ $key ]['title']        = array( 'rendered' => $related_posts[ $key ]['post_title'] );
-			$related_posts[ $key ]['content']      = array( 'rendered' => $related_posts[ $key ]['post_content'] );
-			$related_posts[ $key ]['excerpt']      = array( 'rendered' => $related_posts[ $key ]['post_excerpt'] );
-			$related_posts[ $key ]['meta']['list'] = $this->get_thumbnail( $related_posts[ $key ]['ID'] ) ?: Attachment::get_instance( 'List' )->get( $related_posts[ $key ]['ID'] );
-			$related_posts[ $key ]['link']         = get_permalink( $related_posts[ $key ]['ID'] );
-
-			unset( $related_posts[ $key ]['ID'] );
-			unset( $related_posts[ $key ]['post_title'] );
-			unset( $related_posts[ $key ]['post_content'] );
-			unset( $related_posts[ $key ]['post_excerpt'] );
-		}
-
-		return rest_ensure_response( $related_posts );
-	}
-
-	private function get_related_posts( $post_ids, $posts = array(), $key = 'tag__in' ) {
-		switch ( $key ) {
-			case 'tag__in':
-				$array = array_map(
-					function( $wp_term ) {
-							return $wp_term->term_id;
-					},
-					$this->get_tags( $post_ids[0] )
-				);
-				break;
-			case 'category__in':
-				$array = array_map(
-					function( $wp_term ) {
-							return $wp_term->term_id;
-					},
-					$this->get_categories( $post_ids[0] )
-				);
-				break;
-			default:
-				$key   = '';
-				$array = '';
-				break;
-		}
+		$tax_query['relation'] = 'OR';
 
 		$query_args = array(
-			'posts_per_page'      => 4 - count( $posts ),
+			'posts_per_page'      => 4,
 			'ignore_sticky_posts' => 1,
-			'post__not_in'        => $post_ids,
-			$key                  => $array,
+			'post__not_in'        => array( $post_id ),
+			'tax_query'           => $tax_query,
 		);
 
 		$query = new WP_Query( $query_args );
 		wp_reset_query();
 
-		$posts    = array_merge( $posts, $query->posts );
-		$new_ids  = array_map(
-			function( $posts ) {
-					return $posts->ID;
-			},
-			$query->posts
-		);
-		$post_ids = array_merge( $post_ids, $new_ids );
-
-		if ( count( $posts ) >= 4 ) {
-			return array_slice( $posts, 0, 4 );
+		$posts = array();
+		foreach ( $query->posts as $post ) {
+			$posts[] = array(
+				'id'        => $post->ID,
+				'title'     => array(
+					'rendered' => $post->post_title,
+				),
+				'excerpt'   => array(
+					'rendered' => $post->post_excerpt,
+				),
+				'date'      => $post->post_date,
+				'meta'      => array(
+					'list' => Attachment::get_instance( 'List' )->get( $post->ID ),
+				),
+				'thumbnail' => $this->get_thumbnail( $post->ID ),
+				'link'      => get_permalink( $post->ID ),
+			);
 		}
 
-		if ( empty( $key ) ) {
-			return $posts;
-		}
-
-		if ( 'category__in' === $key ) {
-			$key = '';
-		}
-
-		if ( 'tag__in' === $key ) {
-			$key = 'category__in';
-		}
-
-		return $this->get_related_posts( $post_ids, $posts, $key );
+		return $posts;
 	}
 }

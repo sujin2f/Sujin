@@ -5,8 +5,8 @@ import PageHeader from 'app/components/layout/PageHeader';
 import Loading from 'app/components/layout/Loading';
 import Content from 'app/components/single/Content';
 import RecentPosts from 'app/components/single/RecentPosts';
+import PrevNext from 'app/components/single/PrevNext';
 import Item from 'app/components/archive/Item';
-import Link from 'app/components/router/Link';
 import NotFound from 'app/scenes/Public/NotFound';
 
 import { STORE, IS_ERROR } from 'app/constants/common';
@@ -82,31 +82,7 @@ class Post extends Component {
         <section className="row">
           <Content post={post} className="large-9 medium-12">
             <aside id="single-footer">
-              <nav>
-                {post.prevnext && (
-                  <ul className="row" id="single-pager">
-                    {post.prevnext.prev && (
-                      <li className="small-12 medium-6 columns prev">
-                        <Link href={post.prevnext.prev.link}>
-                          <i className="fa fa-chevron-left" aria-hidden="true" />
-                          <span>{post.prevnext.prev.title}</span>
-                        </Link>
-                      </li>
-                    )}
-                    {!post.prevnext.prev && (
-                      <li className="small-12 medium-6 columns prev" />
-                    )}
-                    {post.prevnext.next && (
-                      <li className="small-12 medium-6 columns next">
-                        <Link href={post.prevnext.next.link}>
-                          <i className="fa fa-chevron-right" aria-hidden="true" />
-                          <span>{post.prevnext.next.title}</span>
-                        </Link>
-                      </li>
-                    )}
-                  </ul>
-                )}
-              </nav>
+              <PrevNext prevnext={post.prevnext} />
 
               <section id="related-posts">
                 <header className="row">
@@ -115,9 +91,9 @@ class Post extends Component {
                   </div>
                 </header>
 
-                {post.related.data && (
+                {post.related && (
                   <section className="post-grid row">
-                    {post.related.data.map(related => (
+                    {post.related.map(related => (
                       <Item
                         item={related}
                         key={`related--${related.id}`}

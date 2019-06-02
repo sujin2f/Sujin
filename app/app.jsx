@@ -1,3 +1,6 @@
+// TODO semantic elements
+// https://webflow.com/blog
+// /html5-semantic-elements-and-webflow-the-essential-guide
 // Redux
 import { STORE } from 'app/constants/common';
 import selectors from 'app/selectors';

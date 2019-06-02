@@ -87,19 +87,6 @@ class Posts extends Abs_Rest_Base {
 				'schema' => array( $this, 'get_item_schema' ),
 			)
 		);
-
-		register_rest_route(
-			$this->namespace,
-			'/' . $this->resource_name . '/related/(?P<post_id>[\d]+)',
-			array(
-				array(
-					'methods'             => WP_REST_Server::READABLE,
-					'callback'            => array( $this, 'get_related' ),
-					'permission_callback' => array( $this, 'get_items_permissions_check' ),
-				),
-				'schema' => array( $this, 'get_item_schema' ),
-			)
-		);
 	}
 
 	public function get_items_permissions_check( $request ): bool {

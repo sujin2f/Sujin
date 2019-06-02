@@ -1,3 +1,5 @@
+// TODO animation https://codepen.io/ramon82/pen/opJXGr
+
 import Menu from 'app/components/layout/Menu';
 import { backgroundImageStyle } from 'app/utils/common';
 
