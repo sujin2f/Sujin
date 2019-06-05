@@ -5,6 +5,7 @@ const {
   parseJson,
   parseDate,
   backgroundImageStyle,
+  scrollTo,
 } = require('../../../app/utils/common');
 
 /*
@@ -178,3 +179,42 @@ describe.each(dataBackgroundImageStyle)(
   },
 );
 
+test('scrollTo', () => {
+  Element.prototype.getBoundingClientRect = jest.fn(() => {
+      return {
+          width: 120,
+          height: 120,
+          top: 100,
+          left: 0,
+          bottom: 0,
+          right: 0,
+      }
+  });
+
+  document.body.innerHTML = `
+    <section>
+      <div id="first-container">First Container</div>
+      <div id="second-container">Second Container</div>
+      <div id="third-container">Third Container</div>
+      <div id="forth-container">Forth Container</div>
+      <div id="fifth-container">Fifth Container</div>
+      <div id="sixth-container">Sixth Container</div>
+    </section>
+    <section id="second-section">Second Section</section>
+    `;
+
+  window.pageYOffset = 100;
+  scrollTo();
+
+  setTimeout(() => {
+    const actual = window.pageYOffset;
+    expect(actual).toEqual(0);
+  }, 600);
+
+  scrollTo('second-section');
+
+  setTimeout(() => {
+    const actual = window.pageYOffset;
+    expect(actual).toEqual(100);
+  }, 600);
+});

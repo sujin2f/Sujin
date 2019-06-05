@@ -18,4 +18,8 @@ module.exports = {
   coverageReporters: ["clover"],
   testPathIgnorePatterns: ['/node_modules/', '/vendor/'],
   setupFiles: ['<rootDir>/tests/jest/global.js'],
+  transform: {
+    '^.+\\.jsx?$': 'babel-jest',
+    '^.+\\.svg$': 'jest-svg-transformer',
+  },
 };

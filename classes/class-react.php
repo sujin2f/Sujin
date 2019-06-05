@@ -39,6 +39,12 @@ class React {
 			array(),
 			filemtime( get_stylesheet_directory() . '/dist/style.css' )
 		);
+
+		$data = array(
+			'themeUrl' => get_stylesheet_directory_uri(),
+		);
+
+		wp_localize_script( 'sujin-app', 'sujin', $data );
 	}
 
 	public function enqueue_scripts() {
