@@ -1,7 +1,8 @@
+import Helmet from 'react-helmet';
 import axios from 'axios';
 
 import PageHeader from 'app/components/layout/PageHeader';
-import Public from 'app/scenes/Public';
+import Public from 'app/scenes/public';
 
 import { STORE, IS_ERROR } from 'app/constants/common';
 import { isMobile } from 'app/utils/common';
@@ -46,6 +47,10 @@ class FrontPage extends Component {
   render() {
     return (
       <Public className="stretched-background hide-footer">
+        <Helmet>
+          <title>Sujin | Wordpress Full Stack Developer</title>
+        </Helmet>
+
         <PageHeader backgroundImage={this.parseBackground()}>
           <h1>SUJIN</h1>
           <p>Wordpress/React Developer</p>

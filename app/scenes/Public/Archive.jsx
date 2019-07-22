@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-import Public from 'app/scenes/Public';
+import Public from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
 import Loading from 'app/components/layout/Loading';
 import Item from 'app/components/archive/Item';
 import Paging from 'app/components/archive/Paging';
-import NotFound from 'app/scenes/Public/NotFound';
+import NotFound from 'app/scenes/public/NotFound';
 
 import { STORE, IS_ERROR } from 'app/constants/common';
 import DEFAULT_BACKGROUND from '../../../assets/images/background/category.jpg';

@@ -18,7 +18,7 @@
 		width: 100%;
 		z-index: 10000;
 		height: $header-height;
-		overflow: hidden;
+		overflow: visible;
 
 		.icon.hamburger {
 			width: $header-height;
@@ -35,6 +35,7 @@
 		.columns {
 			display: flex;
 			height: $header-height;
+			overflow: visible;
 
 			&.hide-for-small-only {
 				justify-content: flex-end;
@@ -55,7 +56,7 @@
 			height: $header-height;
 			display: block;
 			text-indent: -3000px;
-			background-color: rgba(0, 0, 0, 0.2);
+			background-color: rgba(0, 0, 0, 0.1);
 		}
 	}
 
@@ -204,20 +205,38 @@
 			}
 		}
 
-		> .row {
+		> .menu-container {
 			position: absolute;
 			width: 100%;
 			top: $header-height;
+
+			> section {
+				overflow: visible;
+
+				#primany-page-header {
+					overflow: visible;
+
+					div {
+						position: relative;
+
+						nav.children {
+							top: 69px;
+						}
+					}
+				}
+			}
 		}
 	}
 }
 
 nav#primary-top {
+	overflow: visible;
+
 	$elements: 15;
 	@for $i from 0 to $elements {
 		$px: -1 * (50 + ($i * 30));
 
-		a:nth-child(#{$i}) {
+		> a:nth-child(#{$i}) {
 			margin-top: #{$px}px;
 		}
 	}
@@ -239,6 +258,9 @@ nav#primary-top {
 			color: $white;
 		}
 	}
+	nav.children {
+		top: 48px;
+	}
 }
 
 #wrapper.scrolled nav#primary-top a {
@@ -258,22 +280,37 @@ nav#primary-mobile {
 	height: 0;
 	z-index: 100;
 	width: 100%;
+
+	div {
+		width: 100%;
+
+		a {
+			transition: background-color 0.3s ease-out;
+			color: $white;
+			padding: 20px;
+			width: 100%;
+
+			&:hover {
+				background-color: $black;
+			}
+		}
+
+		nav.children {
+			display: block !important;
+			position: static;
+			width: 100%;
+			background: none;
+
+			a {
+				padding-left: 50px;
+			}
+		}
+	}
 }
 
 // Mobile Menu
 #wrapper.mobile-menu nav#primary-mobile {
 	height: auto;
-
-	a {
-		transition: background-color 0.3s ease-out;
-		color: $white;
-		padding: 20px;
-		width: 100%;
-
-		&:hover {
-			background-color: $black;
-		}
-	}
 }
 
 nav#primany-page-header {

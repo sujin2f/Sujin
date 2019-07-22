@@ -39,6 +39,10 @@ class Link extends Component {
       dangerouslySetInnerHTML,
       children,
       onClick = (e) => this.pushHash(e, target),
+      onMouseOver,
+      onMouseLeave,
+      onFocus,
+      onBlur,
     } = this.props;
 
     return (
@@ -49,6 +53,10 @@ class Link extends Component {
         id={id}
         className={className}
         dangerouslySetInnerHTML={dangerouslySetInnerHTML}
+        onMouseOver={onMouseOver}
+        onMouseLeave={onMouseLeave}
+        onFocus={onFocus}
+        onBlur={onBlur}
       >
         {children}
       </a>

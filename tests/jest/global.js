@@ -3,6 +3,7 @@ global.wp = {
   element: require('@wordpress/element'),
   data: require('@wordpress/data'),
   compose: require('@wordpress/compose'),
+  url: require('@wordpress/url'),
 };
 
 

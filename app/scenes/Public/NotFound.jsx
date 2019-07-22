@@ -1,5 +1,5 @@
 import PageHeader from 'app/components/layout/PageHeader';
-import Public from 'app/scenes/Public';
+import Public from 'app/scenes/public';
 
 const { Component } = wp.element;
 

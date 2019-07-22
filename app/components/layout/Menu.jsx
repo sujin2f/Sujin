@@ -9,6 +9,15 @@ const { compose } = wp.compose;
 const { Component } = wp.element;
 
 class Menu extends Component {
+  constructor(props) {
+    super(props);
+    this.showChildren = this.showChildren.bind(this);
+    this.hideChildren = this.hideChildren.bind(this);
+    this.state = {
+      hover: {},
+    };
+  }
+
   componentDidMount() {
     const {
       slug,
@@ -19,6 +28,24 @@ class Menu extends Component {
     if (!getMenu(slug)) {
       requestMenu(slug);
     }
+  }
+
+  showChildren(id) {
+    this.setState(prevState => ({
+      hover: {
+        ...prevState.hover,
+        [id]: true,
+      },
+    }));
+  }
+
+  hideChildren(id) {
+    this.setState(prevState => ({
+      hover: {
+        ...prevState.hover,
+        [id]: false,
+      },
+    }));
   }
 
   render() {
@@ -38,15 +65,41 @@ class Menu extends Component {
     return (
       <nav id={id} className={`${className} ${slug} menu`}>
         {menuItems.map(menuItem => (
-          <Link
-            to={menuItem.url}
-            className={menuItem.classes.join(' ')}
-            target={menuItem.target}
-            itemType="http://schema.org/SiteNavigationElement"
-            key={`menu-${slug}-${menuItem.id}`}
+          <div
+            onMouseOver={() => this.showChildren(menuItem.ID)}
+            onMouseLeave={() => this.hideChildren(menuItem.ID)}
+            onFocus={() => this.showChildren(menuItem.ID)}
+            onBlur={() => this.hideChildren(menuItem.ID)}
           >
-            {menuItem.title}
-          </Link>
+            <Link
+              to={menuItem.url}
+              className={menuItem.classes.join(' ')}
+              target={menuItem.target}
+              itemType="http://schema.org/SiteNavigationElement"
+              key={`menu-${slug}-${menuItem.ID}`}
+            >
+              {menuItem.title}
+            </Link>
+
+            {menuItem.children.length > 0 && (
+              <nav
+                id={`nav-child-${menuItem.ID}`}
+                className={`children ${this.state.hover[menuItem.ID] ? '' : 'hide'}`}
+              >
+                {menuItem.children.map(menuChild => (
+                  <Link
+                    to={menuChild.url}
+                    className={menuChild.classes.join(' ')}
+                    target={menuChild.target}
+                    itemType="http://schema.org/SiteNavigationElement"
+                    key={`menu-${slug}-${menuChild.ID}`}
+                  >
+                    {menuChild.title}
+                  </Link>
+                ))}
+              </nav>
+            )}
+          </div>
         ))}
       </nav>
     );

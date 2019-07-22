@@ -13,11 +13,11 @@ import Route from 'app/components/router/Route';
 import NoMatch from 'app/components/router/NoMatch';
 
 // Scenes
-import FrontPage from 'app/scenes/Public/FrontPage';
-import Archive from 'app/scenes/Public/Archive';
-import Page from 'app/scenes/Public/Page';
-import Post from 'app/scenes/Public/Post';
-import NotFound from 'app/scenes/Public/NotFound';
+import FrontPage from 'app/scenes/public/FrontPage';
+import Archive from 'app/scenes/public/Archive';
+import Page from 'app/scenes/public/Page';
+import Post from 'app/scenes/public/Post';
+import NotFound from 'app/scenes/public/NotFound';
 
 ((wp) => {
   const { render } = wp.element;

@@ -1,3 +1,5 @@
+import hash from 'object-hash';
+
 import Link from 'app/components/router/Link';
 
 const { Component } = wp.element;
@@ -10,7 +12,7 @@ class Tags extends Component {
       <ul className="tags">
         {Object.keys(tags).map(index => (
           <li
-            key={`tag-id-${tags[index].term_id}`}
+            key={hash(`tag-id-${tags[index].term_id}`)}
             id={`tag-id-${tags[index].term_id}`}
           >
             <Link to={`/tag/${tags[index].slug}/page/1`}>

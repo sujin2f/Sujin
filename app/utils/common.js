@@ -8,7 +8,7 @@ export function getScrolled(scrolled) {
   }
 
   if (window.scrollY <= 80 && scrolled) {
-    return false;
+    return '';
   }
 
   return false;

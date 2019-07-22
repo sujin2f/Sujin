@@ -1,13 +1,13 @@
 import axios from 'axios';
 
-import Public from 'app/scenes/Public';
+import Public from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
 import Loading from 'app/components/layout/Loading';
 import Content from 'app/components/single/Content';
 import RecentPosts from 'app/components/single/RecentPosts';
 import PrevNext from 'app/components/single/PrevNext';
 import Item from 'app/components/archive/Item';
-import NotFound from 'app/scenes/Public/NotFound';
+import NotFound from 'app/scenes/public/NotFound';
 
 import { STORE, IS_ERROR } from 'app/constants/common';
 import { getRenderedText, parseJson } from 'app/utils/common';
@@ -29,7 +29,6 @@ class Post extends Component {
 
   static getDerivedStateFromProps(props, state) {
     const slug = props.matched.postSlug;
-
 
     if (!slug || state.slug === slug || props.getPost(slug).post) {
       return { slug };
@@ -126,6 +125,7 @@ const mapStateToProps = withSelect((select) => ({
 
 const mapDispatchToProps = withDispatch((dispatch) => ({
   requestPost: (slug) => {
+    console.log(slug);
     dispatch(STORE).requestPostInit(slug);
 
     axios.get(`/wp-json/sujin/v1/posts/slug/?slug=${slug}`)

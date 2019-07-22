@@ -18,11 +18,11 @@ class PageHeader extends Component {
         style={backgroundImageStyle(backgroundImage)}
       >
         <div className="overlay">
-          <div className="text">
+          <div className="text row">
             {children}
           </div>
 
-          <div className="row">
+          <div className="row menu-container">
             <section className="columns small-12">
               <Menu
                 id="primany-page-header"

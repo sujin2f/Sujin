@@ -10,7 +10,6 @@ import { getRenderedText } from 'app/utils/common';
 
 import DEFAULT_BACKGROUND from '../../assets/images/thumbnail.svg';
 
-
 const { regexp, attrs } = wp.shortcode;
 const { addQueryArgs } = wp.url;
 

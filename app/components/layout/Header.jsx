@@ -30,6 +30,7 @@ class Header extends Component {
               <button
                 className="hide-for-large icon hamburger"
                 onClick={() => setMobileMenu()}
+                data-testid="hamburger"
                 type="button"
               />
               <Menu

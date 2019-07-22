@@ -45,8 +45,21 @@ class Menu extends Abs_Rest_Base {
 			return rest_ensure_response( array() );
 		}
 
-		$nav_menu = wp_get_nav_menu_object( $id );
+		$_nav_menu = wp_get_nav_menu_object( $id );
+		$_nav_menu = wp_get_nav_menu_items( $_nav_menu->term_id );
+		$nav_menu  = array();
 
-		return rest_ensure_response( wp_get_nav_menu_items( $nav_menu->term_id ) );
+		foreach ( $_nav_menu as $menu_item ) {
+			if ( ! empty( $menu_item->menu_item_parent ) ) {
+				$nav_menu[ $menu_item->menu_item_parent ]['children'][] = (array) $menu_item;
+			} else {
+				$nav_menu[ $menu_item->ID ]             = (array) $menu_item;
+				$nav_menu[ $menu_item->ID ]['children'] = array();
+			}
+		}
+
+		$nav_menu = array_values( $nav_menu );
+
+		return rest_ensure_response( $nav_menu );
 	}
 }

@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-import Public from 'app/scenes/Public';
+import Public from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
 import Content from 'app/components/single/Content';
 import Loading from 'app/components/layout/Loading';
-import NotFound from 'app/scenes/Public/NotFound';
+import NotFound from 'app/scenes/public/NotFound';
 
 import { STORE, IS_ERROR } from 'app/constants/common';
 

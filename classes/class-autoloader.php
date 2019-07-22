@@ -22,9 +22,9 @@ class Autoloader {
 		$this->source_dir = dirname( __FILE__ );
 	}
 
-	public function load_class_file( string $class_name ) {
+	private function get_class_path( string $class_name ): string {
 		if ( stripos( $class_name, $this->namespace ) === false ) {
-			return;
+			return '';
 		}
 
 		// Delete Namespace and divide
@@ -45,6 +45,12 @@ class Autoloader {
 		$path = array_filter( $path );
 		$path = implode( DIRECTORY_SEPARATOR, $path );
 
+		return $path;
+	}
+
+	public function load_class_file( string $class_name ): void {
+		$path = $this->get_class_path( $class_name );
+
 		if ( is_readable( $path ) ) {
 			include_once( $path );
 		}
@@ -61,7 +67,7 @@ class Autoloader {
 		return implode( '-', $segments );
 	}
 
-	public function register() {
+	public function register(): void {
 		spl_autoload_register( array( $this, 'load_class_file' ) );
 	}
 }

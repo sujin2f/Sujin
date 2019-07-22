@@ -104,6 +104,12 @@ exports.setResolve = function(resolvePath = {}) {
     resolve: {
       extensions: ['.js', '.jsx', '.json'],
       alias,
+/*
+      modules: [
+        'node_modules',
+        path.resolve(__dirname, 'app'),
+      ],
+*/
     },
   };
 };
