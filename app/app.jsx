@@ -17,6 +17,7 @@ import FrontPage from 'app/scenes/public/FrontPage';
 import Archive from 'app/scenes/public/Archive';
 import Page from 'app/scenes/public/Page';
 import Post from 'app/scenes/public/Post';
+import DevTools from 'app/scenes/public/DevTools';
 import NotFound from 'app/scenes/public/NotFound';
 
 ((wp) => {
@@ -57,6 +58,10 @@ import NotFound from 'app/scenes/public/NotFound';
 
       <Route path="/:year([0-9]+)/:month([0-9]+)/:day([0-9]+)/:postSlug">
         <Post />
+      </Route>
+
+      <Route path="/dev-tools/:subMenu?">
+        <DevTools />
       </Route>
 
       <Route path="/:slug">

@@ -125,7 +125,6 @@ const mapStateToProps = withSelect((select) => ({
 
 const mapDispatchToProps = withDispatch((dispatch) => ({
   requestPost: (slug) => {
-    console.log(slug);
     dispatch(STORE).requestPostInit(slug);
 
     axios.get(`/wp-json/sujin/v1/posts/slug/?slug=${slug}`)

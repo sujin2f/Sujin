@@ -7,7 +7,6 @@ const { Component } = wp.element;
 class PrevNext extends Component {
   render() {
     const { prevnext } = this.props;
-    console.log(prevnext);
 
     return (
       <nav id="prev-next">
@@ -18,7 +17,7 @@ class PrevNext extends Component {
 
           return (
             <Link
-              href={prevnext[key].link}
+              to={prevnext[key].link}
               className={key}
               key={hash(key + prevnext[key].title)}
             >

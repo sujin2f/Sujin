@@ -29,7 +29,7 @@ trait Rest_Helper {
 
 	protected function get_thumbnail( $post_id, $thumbnail_size = 'post-thumbnail' ) {
 		$thumbnail_url = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), $thumbnail_size );
-		return is_array( $thumbnail_url ) ? $thumbnail_url[0] : null;
+		return $thumbnail_url[0] ?? null;
 	}
 
 	protected function get_prevnext( $post_id ) {
@@ -43,7 +43,7 @@ trait Rest_Helper {
 		if ( $prev_ ) {
 			$prev = array(
 				'id'    => $prev_->ID,
-				'link'  => str_replace( get_option( 'siteurl' ), '/', get_permalink( $prev_->ID ) ),
+				'link'  => get_permalink( $prev_->ID ),
 				'title' => $prev_->post_title,
 				'slug'  => $prev_->post_name,
 			);
@@ -56,7 +56,7 @@ trait Rest_Helper {
 		if ( $next_ ) {
 			$next = array(
 				'id'    => $next_->ID,
-				'link'  => str_replace( get_option( 'siteurl' ), '/', get_permalink( $next_->ID ) ),
+				'link'  => get_permalink( $next_->ID ),
 				'title' => $next_->post_title,
 				'slug'  => $next_->post_name,
 			);

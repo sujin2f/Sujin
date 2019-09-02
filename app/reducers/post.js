@@ -11,6 +11,7 @@ import { IS_ERROR } from 'app/constants/common';
 
 const initialState = {
   entities: {},
+  recent: [],
   ids: {},
   loading: false,
   recentLoading: false,
@@ -66,28 +67,9 @@ function post(state = initialState, action) {
     }
 
     case REQUEST_RECENT_POSTS_SUCCESS: {
-      const response = action.response.data.reduce((acc, value) => ({
-        ...acc,
-        [value.slug]: value,
-      }), {});
-
-      const unorderId = action.response.data.reduce((acc, value) => ({
-        ...acc,
-        [value.id]: value.slug,
-      }), { ...state.ids });
-
-      const ids = {};
-      Object.keys(unorderId).sort().forEach((key) => {
-        ids[key] = unorderId[key];
-      });
-
       return {
         ...state,
-        entities: {
-          ...state.entities,
-          ...response,
-        },
-        ids,
+        recent: action.response.data,
         recentLoading: false,
       };
     }
