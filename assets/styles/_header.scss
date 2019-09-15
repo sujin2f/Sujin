@@ -236,7 +236,7 @@ nav#primary-top {
 	@for $i from 0 to $elements {
 		$px: -1 * (50 + ($i * 30));
 
-		> a:nth-child(#{$i}) {
+		> div:nth-child(#{$i}) a {
 			margin-top: #{$px}px;
 		}
 	}

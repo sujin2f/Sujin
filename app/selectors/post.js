@@ -6,10 +6,7 @@ export const getPost = (state, slug) => ({
 });
 
 export const getRecentPosts = (state) => ({
-  entities: Object.keys(state.post.ids)
-    .slice(-4)
-    .map((key) => state.post.ids[key])
-    .map((key) => state.post.entities[key]),
+  entities: state.post.recent,
   loading: state.post.recentLoading,
 });
 
