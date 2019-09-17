@@ -39,6 +39,8 @@ class REST_API {
 
 		add_filter( 'rest_prepare_post', array( $this, 'get_single_post' ), 15, 3 );
 		add_filter( 'rest_prepare_page', array( $this, 'get_single_post' ), 15, 3 );
+
+		remove_filter( 'the_content', 'wpautop' );
 	}
 
 	public function get_single_post( $response, $post, $request ) {

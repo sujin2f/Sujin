@@ -16,6 +16,7 @@ services:
       TZ: America/Toronto
     volumes:
       - ../../Docker/plugins:/var/www/html/wp-content/plugins
+      - ../../Docker/uploads/sujinc.com:/var/www/html/wp-content/uploads
       - ./:/var/www/html/wp-content/themes/sujin-gutenberg
     ports:
       - 80
