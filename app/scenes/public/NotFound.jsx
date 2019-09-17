@@ -6,7 +6,7 @@ const { Component } = wp.element;
 class NotFound extends Component {
   render() {
     return (
-      <Public className="stretched-background hide-footer">
+      <Public className="stretched-background hide-footer template-404">
         <PageHeader>
           <h1>SUJIN</h1>
           <p>Not Found</p>

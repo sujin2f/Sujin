@@ -1,0 +1,12 @@
+#wrapper.template-404 {
+	> main {
+		.page-header-wrapper {
+			background-image: url('../images/background/404.jpg');
+			.text {
+				h1 {
+					width: 270px;
+				}
+			}
+		}
+	}
+}
