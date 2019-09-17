@@ -17,7 +17,7 @@ services:
     volumes:
       - ../../Docker/plugins:/var/www/html/wp-content/plugins
       - ../../Docker/uploads/sujinc.com:/var/www/html/wp-content/uploads
-      - ./:/var/www/html/wp-content/themes/sujin-gutenberg
+      - ./:/var/www/html/wp-content/themes/sujin
     ports:
       - 80
     networks:

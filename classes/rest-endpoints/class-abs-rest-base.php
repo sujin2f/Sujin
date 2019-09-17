@@ -1,6 +1,7 @@
 <?php
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints;
 
+use Sujin\Wordpress\Theme\Sujin\Helpers\Utilities;
 use WP_REST_Controller, WP_REST_Response;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -12,11 +13,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 abstract class Abs_Rest_Base extends WP_REST_Controller {
 	protected const STATUS_CODE_NO_CONTENT      = 204;
 	protected const STATUS_CODE_NOT_IMPLEMENTED = 501;
+	protected const STATUS_CODE_NOT_FOUND       = 404;
 
 	public function __construct() {
-		$this->namespace = '/sujin/v1';
+		$this->namespace = 'sujin/v1';
 		add_action( 'rest_api_init', array( $this, 'create_rest_routes' ), 10, 0 );
 	}
 
 	abstract public function create_rest_routes();
+
+	protected function is_success( $response ): bool {
+		if ( $response instanceof WP_REST_Response ) {
+			return 200 === Utilities::get_item( $response, 'status' );
+		}
+
+		return ! is_wp_error( $response ) &&
+			is_array( Utilities::get_item( $response, 'response' ) ) &&
+			200 === ( Utilities::get_item( $response['response'], 'code' ) );
+	}
 }

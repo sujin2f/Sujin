@@ -2,9 +2,16 @@
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1;
 
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Abs_Rest_Base;
-use Sujin\Wordpress\WP_Express\Fields\Settings\Input as Option_Input;
+use Sujin\Wordpress\WP_Express\Fields\Settings\Input;
+use Sujin\Wordpress\Theme\Sujin\Helpers\Utilities;
 
-use WP_REST_Controller, WP_REST_Server, WP_REST_Response, WP_REST_Request, WP_Error;
+// phpcs:disable Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
+use WP_REST_Controller,
+    WP_REST_Server,
+    WP_REST_Response,
+    WP_REST_Request,
+    WP_Error;
+// phpcs:enable Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
 
 if ( ! defined( 'ABSPATH' ) ) {
 	header( 'Status: 404 Not Found' );
@@ -13,15 +20,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Flickr extends Abs_Rest_Base {
-	public function __construct() {
-		parent::__construct();
-		$this->resource_name = 'flickr';
-	}
+	private const CACHE_TTL     = 12 * HOUR_IN_SECONDS;
+	private const RESOURCE_NAME = 'flickr';
+	private const KEY_ITEMS     = 'items';
+	private const KEY_CACHE     = 'cache_expired';
 
 	public function create_rest_routes() {
 		register_rest_route(
 			$this->namespace,
-			'/' . $this->resource_name,
+			'/' . self::RESOURCE_NAME,
 			array(
 				array(
 					'methods'             => WP_REST_Server::READABLE,
@@ -38,59 +45,80 @@ class Flickr extends Abs_Rest_Base {
 	}
 
 	public function get_items( $request ) {
-		$contents = get_transient( 'flickr' );
+		$transient = get_transient( self::RESOURCE_NAME );
 
-		if ( $contents ) {
-			return rest_ensure_response( $contents );
+		if ( is_array( $this->get_items_node( $transient ) ) && $this->get_cache_expired_node( $transient ) > time() ) {
+			return rest_ensure_response( $this->get_items_node( $transient ) );
 		}
 
-		$flickr_id = Option_Input::get_instance( 'Flicker ID' )->get();
+		$url = $this->get_request_url();
+
+		if ( is_null( $url ) ) {
+			return $this->error_no_id();
+		}
+
+		$response = wp_remote_get( $url );
+
+		if ( ! $this->is_success( $response ) ) {
+			if ( $this->get_items_node( $transient ) ) {
+				return rest_ensure_response( $this->get_items_node( $transient ) );
+			}
+
+			return $this->error_request_fail();
+		}
+
+		$body      = Utilities::get_item( $response, 'body' ) ?? array();
+		$body      = json_decode( $body, true );
+		$items     = $this->get_items_node( $body );
+		$transient = array(
+			'items'         => $items,
+			'cache_expired' => time() + self::CACHE_TTL,
+		);
+
+		set_transient( 'flickr', $transient );
+
+		return rest_ensure_response( $items );
+	}
+
+	private function get_items_node( $object ): ?array {
+		return Utilities::get_item( $object, self::KEY_ITEMS ) ?? null;
+	}
+
+	private function get_cache_expired_node( $object ): ?int {
+		return Utilities::get_item( $object, self::KEY_CACHE ) ?? 0;
+	}
+
+	private function get_request_url(): ?string {
+		$flickr_id = Input::get_instance( 'Flicker ID' )->get();
 
 		if ( ! $flickr_id ) {
-			return new WP_Error(
-				'empty_setting',
-				'You must input the Flickr ID in the setting.',
-				array(
-					'status' => self::STATUS_CODE_NOT_IMPLEMENTED,
-				)
-			);
+			return null;
 		}
 
-		$url = sprintf(
+		return sprintf(
 			'http://api.flickr.com/services/feeds/photos_public.gne?id=%s&format=json&nojsoncallback=1',
 			$flickr_id
 		);
+	}
 
-		$conn = curl_init( $url );
-		curl_setopt( $conn, CURLOPT_SSL_VERIFYPEER, true );
-		curl_setopt( $conn, CURLOPT_FRESH_CONNECT, true );
-		curl_setopt( $conn, CURLOPT_RETURNTRANSFER, 1 );
-		$response = curl_exec( $conn );
-		curl_close( $conn );
+	private function error_no_id(): WP_Error {
+		return new WP_Error(
+			'empty_setting',
+			'You must input the Flickr ID in the setting.',
+			array(
+				'status' => self::STATUS_CODE_NOT_IMPLEMENTED,
+			)
+		);
+	}
 
-		$response = json_decode( str_replace( "\\'", "'", $response ) );
-		$data     = array();
-
-		if ( ! $response || ! $response->items ) {
-			return new WP_Error(
-				'no_content',
-				'The account has no photo.',
-				array(
-					'status' => self::STATUS_CODE_NO_CONTENT,
-				)
-			);
-		}
-
-		foreach ( $response->items as $item ) {
-			$item   = $this->prepare_item_for_response( $item, $request );
-			$data[] = $this->prepare_response_for_collection( $item );
-		}
-
-		$data = rest_ensure_response( $data );
-
-		set_transient( 'flickr', $data, 12 * HOUR_IN_SECONDS );
-
-		return rest_ensure_response( $data );
+	private function error_request_fail(): WP_Error {
+		return new WP_Error(
+			'no_content',
+			'The account has no photo.',
+			array(
+				'status' => self::STATUS_CODE_NO_CONTENT,
+			)
+		);
 	}
 
 	public function prepare_item_for_response( $item, $request ): WP_REST_Response {

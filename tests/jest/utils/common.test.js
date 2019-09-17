@@ -18,7 +18,7 @@ const dataGetScrolled = [
   [100, false, 'scrolled'],
   [100, true, false],
   [0, false, false],
-  [0, true, false],
+  [0, true, ''],
 ];
 
 describe.each(dataGetScrolled)(

@@ -6,17 +6,17 @@ use Sujin\Wordpress\Theme\Sujin\Autoloader;
 class AutoloaderTest extends TestCase {
 	function provider_load_class_file(): array {
 		return array(
-			'Sujin\Wordpress\Theme\Sujin\Test' => array(
+			'Sujin\Wordpress\Theme\Sujin\Test'            => array(
 				'class'    => 'Sujin\\Wordpress\\Theme\\Sujin\\Test',
-				'expected' => 'sujin/classes/class-test.php',
+				'expected' => '/classes/class-test.php',
 			),
 			'Sujin\Wordpress\Theme\Sujin\Test_Underscore' => array(
 				'class'    => 'Sujin\\Wordpress\\Theme\\Sujin\\Test_Underscore',
-				'expected' => 'sujin/classes/class-test-underscore.php',
+				'expected' => '/classes/class-test-underscore.php',
 			),
 			'Sujin\Wordpress\Theme\Sujin\Other_Path\Test_Underscore' => array(
 				'class'    => 'Sujin\\Wordpress\\Theme\\Sujin\\Other_Path\\Test_Underscore',
-				'expected' => 'sujin/classes/other-path/class-test-underscore.php',
+				'expected' => '/classes/other-path/class-test-underscore.php',
 			),
 		);
 	}

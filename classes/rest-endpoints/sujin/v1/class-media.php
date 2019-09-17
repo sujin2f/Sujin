@@ -19,15 +19,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Media extends Abs_Rest_Base {
 	use Rest_Helper;
 
-	public function __construct() {
-		parent::__construct();
-		$this->resource_name = 'media';
-	}
+	private const RESOURCE_NAME = 'media';
 
 	public function create_rest_routes() {
 		register_rest_route(
 			$this->namespace,
-			'/' . $this->resource_name . '/random',
+			'/' . self::RESOURCE_NAME . '/random',
 			array(
 				array(
 					'methods'             => WP_REST_Server::READABLE,
@@ -46,7 +43,7 @@ class Media extends Abs_Rest_Base {
 	public function get_random_background( $request ) {
 		$posts = get_posts(
 			array(
-				'posts_per_page' => 1,
+				'posts_per_page' => 10,
 				'tax_query'      => array(
 					array(
 						'taxonomy' => 'category',

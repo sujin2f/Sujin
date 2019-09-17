@@ -16,6 +16,6 @@ script:
   - php vendor/bin/phpcs
   - npm run test
 before_install:
-  - echo "USE mysql;\nUPDATE user SET password=PASSWORD('password') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root
+  - echo "USE mysql;\nUPDATE user SET authentication_string=PASSWORD('password') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root
 after_success:
   - travis_retry php vendor/bin/php-coveralls -v --json_path=logs/coveralls-upload.json
