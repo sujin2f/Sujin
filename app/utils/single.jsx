@@ -5,6 +5,9 @@ import Gist from 'react-gist';
 import { Carousel } from 'react-responsive-carousel';
 
 import Link from 'app/components/router/Link';
+import CaseTool from 'app/components/dev-tools/CaseTool';
+import TextSort from 'app/components/dev-tools/TextSort';
+import SymbolAlignment from 'app/components/dev-tools/SymbolAlignment';
 
 import { getRenderedText } from 'app/utils/common';
 
@@ -41,6 +44,12 @@ export function parseContent(content) {
       [value]: attrs(value),
     }), matched);
 
+  matched = (string.match(regexp('dev-tools')) || [])
+    .reduce((acc, value) => ({
+      ...acc,
+      [value]: attrs(value),
+    }), matched);
+
   splited = splited.map((value) => {
     if (matched[value]) {
       if (value.indexOf('[carousel') === 0) {
@@ -49,7 +58,7 @@ export function parseContent(content) {
             {Object.keys(matched[value].named).map((keyCarousel) => (
               <div key={hash(matched[value].named[keyCarousel])}>
                 <img
-                  src={matched[value].named[keyCarousel].replace(/(&#8221;|&#8243;)/g, '')}
+                  src={matched[value].named[keyCarousel].replace(/(&#8221;|&#8243;|\/\])/g, '')}
                   alt=""
                 />
               </div>
@@ -61,8 +70,8 @@ export function parseContent(content) {
       if (value.indexOf('[gist') === 0) {
         return (
           <Gist
-            id={matched[value].named.id.replace(/(&#8221;|&#8243;)/g, '')}
-            file={matched[value].named.file.replace(/(&#8221;|&#8243;)/g, '')}
+            id={matched[value].named.id.replace(/(&#8221;|&#8243;|\/\])/g, '')}
+            file={matched[value].named.file.replace(/(&#8221;|&#8243;|\/\])/g, '')}
             key={hash(value)}
           />
         );
@@ -71,10 +80,28 @@ export function parseContent(content) {
       if (value.indexOf('[tweet') === 0) {
         return (
           <TweetEmbed
-            id={matched[value].named.id.replace(/(&#8221;|&#8243;)/g, '')}
+            id={matched[value].named.id.replace(/(&#8221;|&#8243;|\/\])/g, '')}
             key={hash(value)}
           />
         );
+      }
+
+      if (value.indexOf('[dev-tools') === 0) {
+        switch (matched[value].named.id.replace(/(&#8221;|&#8243;|\/\])/g, '')) {
+          case 'text-sort':
+            return (
+              <TextSort key={hash(value)} />
+            );
+          case 'symbol-alignment':
+            return (
+              <SymbolAlignment key={hash(value)} />
+            );
+          case 'case-tool':
+          default:
+            return (
+              <CaseTool key={hash(value)} />
+            );
+        }
       }
     }
 

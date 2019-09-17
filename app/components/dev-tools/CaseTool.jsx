@@ -10,6 +10,8 @@ import preserveCase,
   dotCase,
 } from 'app/actions/dev-tools';
 
+import Link from 'app/components/router/Link';
+
 const { Fragment, Component } = wp.element;
 
 class CaseTool extends Component {
@@ -40,7 +42,23 @@ class CaseTool extends Component {
     return (
       <Fragment>
         <aside className="columns large-3 medium-12">
-          Menu
+          <ul>
+            <li>
+              <Link to="/dev-tools" rel="noopener noreferrer">
+                Case Tool
+              </Link>
+            </li>
+            <li>
+              <Link to="/text-sort" rel="noopener noreferrer">
+                Text Sort
+              </Link>
+            </li>
+            <li>
+              <Link to="/symbol-alignment" rel="noopener noreferrer">
+                Symbol Alignment
+              </Link>
+            </li>
+          </ul>
         </aside>
 
         <article className="columns large-9 medium-12">

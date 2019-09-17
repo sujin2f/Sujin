@@ -17,12 +17,6 @@
 
 @import "~foundation-sites/scss/foundation";
 
-/*
-@include foundation-everything;
-@include foundation-flex-classes;
-@include foundation-flex-grid;
-*/
-
 @import "global";
 @import "icon";
 @import "thumbnail";
@@ -36,8 +30,4 @@
 @import "archive";
 @import "aside";
 @import "carousel";
-/*
 @import "404";
-
-*/
-

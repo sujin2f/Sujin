@@ -28,7 +28,7 @@ class Router extends Component {
 
   render() {
     const { children } = this.props;
-    console.log(children);
+
     return (
       <Fragment>
         {children}

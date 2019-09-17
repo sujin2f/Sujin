@@ -2,25 +2,29 @@ nav.menu {
 	display: flex;
 	align-items: center;
 
-	a {
-		display: flex;
-		align-items: center;
-	}
-
-	nav.children {
-		position: absolute;
-		left: 0;
-		display: flex;
-		flex-direction: column;
-		background: black;
-		align-items: stretch;
-		width: max-content;
-		cursor: pointer;
+	> div {
+		position: relative;
 
 		a {
-			color: $white;
-			width: auto;
-			min-width: max-content;
+			display: flex;
+			align-items: center;
+		}
+
+		nav.children {
+			position: absolute;
+			left: 0;
+			display: flex;
+			flex-direction: column;
+			background: black;
+			align-items: stretch;
+			width: max-content;
+			cursor: pointer;
+
+			a {
+				color: $white;
+				width: auto;
+				min-width: max-content;
+			}
 		}
 	}
 }
