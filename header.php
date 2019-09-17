@@ -4,27 +4,27 @@ use Sujin\Wordpress\WP_Express\Fields\Term_Meta\Attachment as Term_Meta_Attachme
 
 global $wp;
 
-$title       = get_bloginfo( 'name' );
+$title       = '';
 $description = '';
 $url         = home_url( $wp->request );
 $image       = get_stylesheet_directory_uri() . '/assets/images/open-graph.png';
 
 if ( is_home() ) {
-	$title      .= ' | WordPress Full Stack Developer';
+	$title       = 'Sujin | WordPress Full Stack Developer';
 	$description = get_bloginfo( 'description' );
 } elseif ( is_single() ) {
-	$title      .= ' | ' . get_the_title();
+	$title       = get_the_title();
 	$description = get_the_excerpt();
 	$image       = get_the_post_thumbnail_url() ?: $image;
 	$image       = Meta_Attachment::get_instance( 'List' )->get() ?: $image;
 } elseif ( is_archive() ) {
-	$title      .= ' | ' . single_term_title( '', false );
+	$title       = 'Archive: ' . single_term_title( '', false );
 	$description = get_the_archive_description();
 	$image       = Term_Meta_Attachment::get_instance( 'Thumbnail' )->get() ?: $image;
 } elseif ( is_search() ) {
-	$title .= ' | Search Results: ' . get_query_var( 's' );
+	$title = 'Search Results: ' . get_query_var( 's' );
 } elseif ( is_404() ) {
-	$title .= ' | Not Found';
+	$title = 'Not Found';
 }
 ?>
 <!DOCTYPE html>

@@ -90,4 +90,8 @@ export const backgroundImageStyle = (image) => {
   return (image && { backgroundImage: `url(${image})` }) || {};
 };
 
+export const setTitle = (title) => {
+  document.title = title;
+};
+
 /* eslint-enable import/prefer-default-export */
