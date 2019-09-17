@@ -16,7 +16,7 @@ services:
       TZ: America/Toronto
     volumes:
       - ../../Docker/plugins:/var/www/html/wp-content/plugins
-      - ./:/var/www/html/wp-content/themes/sujin-gutenberg
+      - ./:/var/www/html/wp-content/themes/sujin
     ports:
       - 80
     networks:
