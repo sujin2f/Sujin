@@ -4,9 +4,10 @@ import {
   REQUEST_FLICKR_FAIL,
 } from 'app/actions/flickr';
 
-const initialState = {
-  entities: [],
+export const initialState = {
+  error: false,
   loading: false,
+  entities: [],
 };
 
 function flickr(state = initialState, action) {
@@ -14,6 +15,7 @@ function flickr(state = initialState, action) {
     case REQUEST_FLICKR_INIT: {
       return {
         ...state,
+        error: false,
         loading: true,
         entities: [],
       };
@@ -22,14 +24,17 @@ function flickr(state = initialState, action) {
     case REQUEST_FLICKR_SUCCESS: {
       return {
         ...state,
-        entities: action.response.data,
+        error: false,
         loading: false,
+        entities: action.response.data,
       };
     }
 
     case REQUEST_FLICKR_FAIL: {
+      console.log(1);
       return {
         ...state,
+        error: true,
         loading: false,
         entities: [],
       };

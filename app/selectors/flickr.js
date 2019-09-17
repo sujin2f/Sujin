@@ -1,5 +1,7 @@
+import { initialState } from 'app/reducers/flickr';
+
 /* eslint-disable import/prefer-default-export */
 
-export const getFlickrItmes = (state) => state.flickr.entities || [];
+export const getFlickr = (state) => state.flickr || initialState;
 
 /* eslint-enable import/prefer-default-export */

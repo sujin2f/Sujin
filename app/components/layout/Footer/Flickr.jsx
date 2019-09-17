@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import Loading from 'app/components/layout/Loading';
+
 import { STORE } from 'app/constants/common';
 
 const { withDispatch, withSelect } = wp.data;
@@ -8,21 +10,35 @@ const { Component } = wp.element;
 
 class Flickr extends Component {
   componentDidMount() {
-    const { requestFlickr, flickrItmes } = this.props;
-    if (flickrItmes && flickrItmes.length === 0) {
+    const { requestFlickr, flickr } = this.props;
+    if (flickr.entities.length === 0 && flickr.error === false && flickr.loading === false) {
       requestFlickr();
     }
   }
 
   render() {
-    const { flickrItmes } = this.props;
+    const {
+      flickr: {
+        loading,
+        error,
+        entities,
+      },
+    } = this.props;
+
+    if (loading) {
+      return (<Loading />);
+    }
+
+    if (error) {
+      return null;
+    }
 
     return (
       <div id="Flickr">
         <h1>Photo Stream</h1>
 
         <div className="row">
-          {flickrItmes.map(item => (
+          {entities.map(item => (
             <div className="large-3 medium-2 small-3 columns" key={`flikr-${item.link}`}>
               <figure className="thumbnail">
                 <a href={item.link} title={item.title} target="_blank" rel="noopener noreferrer">
@@ -41,7 +57,7 @@ class Flickr extends Component {
 }
 
 const mapStateToProps = withSelect((select) => ({
-  flickrItmes: select(STORE).getFlickrItmes(),
+  flickr: select(STORE).getFlickr(),
 }));
 
 const mapDispatchToProps = withDispatch((dispatch) => ({
