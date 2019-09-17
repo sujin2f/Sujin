@@ -5,11 +5,13 @@ use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Abs_Rest_Base;
 use Sujin\Wordpress\WP_Express\Fields\Settings\Input;
 use Sujin\Wordpress\Theme\Sujin\Helpers\Utilities;
 
+// phpcs:disable Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
 use WP_REST_Controller,
     WP_REST_Server,
     WP_REST_Response,
     WP_REST_Request,
     WP_Error;
+// phpcs:enable Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
 
 if ( ! defined( 'ABSPATH' ) ) {
 	header( 'Status: 404 Not Found' );
@@ -45,7 +47,7 @@ class Flickr extends Abs_Rest_Base {
 	public function get_items( $request ) {
 		$transient = get_transient( self::RESOURCE_NAME );
 
-		if ( is_array( $this->get_items_node( $transient ) ) &&  $this->get_cache_expired_node( $transient ) > time() ) {
+		if ( is_array( $this->get_items_node( $transient ) ) && $this->get_cache_expired_node( $transient ) > time() ) {
 			return rest_ensure_response( $this->get_items_node( $transient ) );
 		}
 

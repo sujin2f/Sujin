@@ -92,8 +92,8 @@ class Posts extends Abs_Rest_Base {
 	}
 
 	public function get_item( $request ) {
-		$name  = $request->get_param( 'slug' );
-		$args  = array(
+		$name     = $request->get_param( 'slug' );
+		$args     = array(
 			'name'        => $name,
 			'post_type'   => 'post',
 			'post_status' => 'publish',

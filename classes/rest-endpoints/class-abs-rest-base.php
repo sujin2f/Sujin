@@ -28,7 +28,7 @@ abstract class Abs_Rest_Base extends WP_REST_Controller {
 		}
 
 		return ! is_wp_error( $response ) &&
-		       is_array( Utilities::get_item( $response, 'response' ) ) &&
-		       200 === ( Utilities::get_item( $response['response'], 'code' ) );
+			is_array( Utilities::get_item( $response, 'response' ) ) &&
+			200 === ( Utilities::get_item( $response['response'], 'code' ) );
 	}
 }

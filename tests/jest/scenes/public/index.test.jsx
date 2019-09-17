@@ -28,32 +28,4 @@ test('Public', async () => {
   );
 
   fireEvent.click(getByTestId('hamburger'));
-
-  console.log(getByTestId('wrapper'));
-
-
-  console.log(container, asFragment());
-
-/*
-*/
-
-//
-
-
-/*
-  let component = renderer.create(
-    <Public />,
-  );
-
-  // Mobile Menu
-  component.root.findByProps({ className: 'hide-for-large icon hamburger' }).props.onClick();
-  expect(component.toJSON().props.className).toMatch(/mobile-menu/);
-
-  // Scroll
-  global.window.scrollY = 100;
-  global.window.dispatchEvent(new Event('scroll'));
-  expect(component.toJSON().props.className).toMatch(/scrolled/);
-
-  component.unmount();
-*/
 });
