@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 abstract class Abs_Rest_Base extends WP_REST_Controller {
 	protected const STATUS_CODE_NO_CONTENT      = 204;
 	protected const STATUS_CODE_NOT_IMPLEMENTED = 501;
-	protected const STATUS_CODE_NOT_FOUND       = 501;
+	protected const STATUS_CODE_NOT_FOUND       = 404;
 
 	public function __construct() {
 		$this->namespace = 'sujin/v1';
@@ -23,6 +23,10 @@ abstract class Abs_Rest_Base extends WP_REST_Controller {
 	abstract public function create_rest_routes();
 
 	protected function is_success( $response ): bool {
+		if ( $response instanceof WP_REST_Response ) {
+			return 200 === Utilities::get_item( $response, 'status' );
+		}
+
 		return ! is_wp_error( $response ) &&
 		       is_array( Utilities::get_item( $response, 'response' ) ) &&
 		       200 === ( Utilities::get_item( $response['response'], 'code' ) );

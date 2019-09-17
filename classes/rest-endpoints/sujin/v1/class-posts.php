@@ -18,15 +18,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Posts extends Abs_Rest_Base {
 	use Rest_Helper;
 
-	public function __construct() {
-		parent::__construct();
-		$this->resource_name = 'posts';
-	}
+	private const RESOURCE_NAME = 'posts';
 
 	public function create_rest_routes() {
 		register_rest_route(
 			$this->namespace,
-			'/' . $this->resource_name,
+			'/' . self::RESOURCE_NAME,
 			array(
 				array(
 					'methods'             => WP_REST_Server::READABLE,
@@ -39,7 +36,7 @@ class Posts extends Abs_Rest_Base {
 
 		register_rest_route(
 			$this->namespace,
-			'/' . $this->resource_name . '/slug',
+			'/' . self::RESOURCE_NAME . '/slug',
 			array(
 				array(
 					'methods'             => WP_REST_Server::READABLE,
@@ -52,7 +49,7 @@ class Posts extends Abs_Rest_Base {
 
 		register_rest_route(
 			$this->namespace,
-			'/' . $this->resource_name . '/category/(?P<slug>[\w-]+)/page/(?P<page>[0-9]+)',
+			'/' . self::RESOURCE_NAME . '/category/(?P<slug>[\w-]+)/page/(?P<page>[0-9]+)',
 			array(
 				array(
 					'methods'             => WP_REST_Server::READABLE,
@@ -65,7 +62,7 @@ class Posts extends Abs_Rest_Base {
 
 		register_rest_route(
 			$this->namespace,
-			'/' . $this->resource_name . '/tag/(?P<slug>[\w-]+)/page/(?P<page>[0-9]+)',
+			'/' . self::RESOURCE_NAME . '/tag/(?P<slug>[\w-]+)/page/(?P<page>[0-9]+)',
 			array(
 				array(
 					'methods'             => WP_REST_Server::READABLE,
@@ -78,7 +75,7 @@ class Posts extends Abs_Rest_Base {
 
 		register_rest_route(
 			$this->namespace,
-			'/' . $this->resource_name . '/search/(?P<search>[\w-]+)/page/(?P<page>[0-9]+)',
+			'/' . self::RESOURCE_NAME . '/search/(?P<search>[\w-]+)/page/(?P<page>[0-9]+)',
 			array(
 				array(
 					'methods'             => WP_REST_Server::READABLE,
@@ -102,26 +99,34 @@ class Posts extends Abs_Rest_Base {
 			'post_status' => 'publish',
 			'numberposts' => 1,
 		);
-		$posts = get_posts( $args );
+		$posts    = get_posts( $args );
+		$response = array();
 
 		if ( $posts ) {
 			$response = $this->remote_get( $posts[0]->ID );
-		} else {
-			$response = array();
+		}
+
+		if ( ! $this->is_success( $response ) ) {
+			return $this->error_not_found();
 		}
 
 		return rest_ensure_response( $response );
 	}
 
 	public function get_items( $request ) {
-		$url = '';
-
+		$url      = '';
 		$per_page = $request->get_param( 'per_page' );
+
 		if ( $per_page ) {
 			$url = '?per_page=' . $per_page;
 		}
 
 		$response = $this->remote_get( $url );
+
+		if ( ! $this->is_success( $response ) ) {
+			return $this->error_not_found();
+		}
+
 		return rest_ensure_response( $response );
 	}
 
@@ -139,7 +144,7 @@ class Posts extends Abs_Rest_Base {
 		$term = get_term_by( 'slug', $term, $taxonomy );
 
 		if ( ! $term ) {
-			return rest_ensure_response( array() );
+			return $this->error_not_found();
 		}
 
 		$url  = '?' . $url_param . '[]=' . $term->term_id;
@@ -156,6 +161,10 @@ class Posts extends Abs_Rest_Base {
 		}
 
 		$response = $this->remote_get( $url );
+
+		if ( ! $this->is_success( $response ) ) {
+			return $this->error_not_found();
+		}
 
 		$response->header(
 			'x-wp-term-description',
@@ -189,6 +198,11 @@ class Posts extends Abs_Rest_Base {
 		}
 
 		$response = $this->remote_get( $url );
+
+		if ( ! $this->is_success( $response ) ) {
+			return $this->error_not_found();
+		}
+
 		return rest_ensure_response( $response );
 	}
 
@@ -214,5 +228,15 @@ class Posts extends Abs_Rest_Base {
 
 		return $response;
 
+	}
+
+	private function error_not_found(): WP_Error {
+		return new WP_Error(
+			'not_found',
+			'Endpoint has no content',
+			array(
+				'status' => self::STATUS_CODE_NOT_FOUND,
+			)
+		);
 	}
 }

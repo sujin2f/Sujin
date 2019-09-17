@@ -23,10 +23,6 @@ class Flickr extends Abs_Rest_Base {
 	private const KEY_ITEMS     = 'items';
 	private const KEY_CACHE     = 'cache_expired';
 
-	public function __construct() {
-		parent::__construct();
-	}
-
 	public function create_rest_routes() {
 		register_rest_route(
 			$this->namespace,
