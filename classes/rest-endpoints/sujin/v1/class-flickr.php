@@ -2,9 +2,13 @@
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1;
 
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Abs_Rest_Base;
-use Sujin\Wordpress\WP_Express\Fields\Settings\Input as Option_Input;
+use Sujin\Wordpress\WP_Express\Fields\Settings\Input;
 
-use WP_REST_Controller, WP_REST_Server, WP_REST_Response, WP_REST_Request, WP_Error;
+use WP_REST_Controller,
+    WP_REST_Server,
+    WP_REST_Response,
+    WP_REST_Request,
+    WP_Error;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	header( 'Status: 404 Not Found' );
@@ -44,7 +48,7 @@ class Flickr extends Abs_Rest_Base {
 			return rest_ensure_response( $contents );
 		}
 
-		$flickr_id = Option_Input::get_instance( 'Flicker ID' )->get();
+		$flickr_id = Input::get_instance( 'Flicker ID' )->get();
 
 		if ( ! $flickr_id ) {
 			return new WP_Error(
@@ -61,17 +65,9 @@ class Flickr extends Abs_Rest_Base {
 			$flickr_id
 		);
 
-		$conn = curl_init( $url );
-		curl_setopt( $conn, CURLOPT_SSL_VERIFYPEER, true );
-		curl_setopt( $conn, CURLOPT_FRESH_CONNECT, true );
-		curl_setopt( $conn, CURLOPT_RETURNTRANSFER, 1 );
-		$response = curl_exec( $conn );
-		curl_close( $conn );
+		$response = wp_remote_get( $url );
 
-		$response = json_decode( str_replace( "\\'", "'", $response ) );
-		$data     = array();
-
-		if ( ! $response || ! $response->items ) {
+		if ( is_wp_error( $response ) || 200 !== $response['response']['code'] ) {
 			return new WP_Error(
 				'no_content',
 				'The account has no photo.',
@@ -81,16 +77,12 @@ class Flickr extends Abs_Rest_Base {
 			);
 		}
 
-		foreach ( $response->items as $item ) {
-			$item   = $this->prepare_item_for_response( $item, $request );
-			$data[] = $this->prepare_response_for_collection( $item );
-		}
+		$response = json_decode( $response['body'], true );
+		$response = rest_ensure_response( $response['items'] );
 
-		$data = rest_ensure_response( $data );
+		set_transient( 'flickr', $response, 12 * HOUR_IN_SECONDS );
 
-		set_transient( 'flickr', $data, 12 * HOUR_IN_SECONDS );
-
-		return rest_ensure_response( $data );
+		return rest_ensure_response( $response );
 	}
 
 	public function prepare_item_for_response( $item, $request ): WP_REST_Response {

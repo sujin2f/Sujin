@@ -14,7 +14,7 @@ abstract class Abs_Rest_Base extends WP_REST_Controller {
 	protected const STATUS_CODE_NOT_IMPLEMENTED = 501;
 
 	public function __construct() {
-		$this->namespace = '/sujin/v1';
+		$this->namespace = 'sujin/v1';
 		add_action( 'rest_api_init', array( $this, 'create_rest_routes' ), 10, 0 );
 	}
 
