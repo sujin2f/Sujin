@@ -3,6 +3,7 @@ namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1;
 
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Abs_Rest_Base;
 use Sujin\Wordpress\WP_Express\Fields\Settings\Input;
+use Sujin\Wordpress\Theme\Sujin\Helpers\Utilities;
 
 use WP_REST_Controller,
     WP_REST_Server,
@@ -17,15 +18,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Flickr extends Abs_Rest_Base {
+	private const CACHE_TTL     = 12 * HOUR_IN_SECONDS;
+	private const RESOURCE_NAME = 'flickr';
+	private const KEY_ITEMS     = 'items';
+	private const KEY_CACHE     = 'cache_expired';
+
 	public function __construct() {
 		parent::__construct();
-		$this->resource_name = 'flickr';
 	}
 
 	public function create_rest_routes() {
 		register_rest_route(
 			$this->namespace,
-			'/' . $this->resource_name,
+			'/' . self::RESOURCE_NAME,
 			array(
 				array(
 					'methods'             => WP_REST_Server::READABLE,
@@ -42,47 +47,80 @@ class Flickr extends Abs_Rest_Base {
 	}
 
 	public function get_items( $request ) {
-		$contents = get_transient( 'flickr' );
+		$transient = get_transient( self::RESOURCE_NAME );
 
-		if ( $contents ) {
-			return rest_ensure_response( $contents );
+		if ( is_array( $this->get_items_node( $transient ) ) &&  $this->get_cache_expired_node( $transient ) > time() ) {
+			return rest_ensure_response( $this->get_items_node( $transient ) );
 		}
 
-		$flickr_id = Input::get_instance( 'Flicker ID' )->get();
+		$url = $this->get_request_url();
 
-		if ( ! $flickr_id ) {
-			return new WP_Error(
-				'empty_setting',
-				'You must input the Flickr ID in the setting.',
-				array(
-					'status' => self::STATUS_CODE_NOT_IMPLEMENTED,
-				)
-			);
+		if ( is_null( $url ) ) {
+			return $this->error_no_id();
 		}
-
-		$url = sprintf(
-			'http://api.flickr.com/services/feeds/photos_public.gne?id=%s&format=json&nojsoncallback=1',
-			$flickr_id
-		);
 
 		$response = wp_remote_get( $url );
 
-		if ( is_wp_error( $response ) || 200 !== $response['response']['code'] ) {
-			return new WP_Error(
-				'no_content',
-				'The account has no photo.',
-				array(
-					'status' => self::STATUS_CODE_NO_CONTENT,
-				)
-			);
+		if ( ! $this->is_success( $response ) ) {
+			if ( $this->get_items_node( $transient ) ) {
+				return rest_ensure_response( $this->get_items_node( $transient ) );
+			}
+
+			return $this->error_request_fail();
 		}
 
-		$response = json_decode( $response['body'], true );
-		$response = rest_ensure_response( $response['items'] );
+		$body      = Utilities::get_item( $response, 'body' ) ?? array();
+		$body      = json_decode( $body, true );
+		$items     = $this->get_items_node( $body );
+		$transient = array(
+			'items'         => $items,
+			'cache_expired' => time() + self::CACHE_TTL,
+		);
 
-		set_transient( 'flickr', $response, 12 * HOUR_IN_SECONDS );
+		set_transient( 'flickr', $transient );
 
-		return rest_ensure_response( $response );
+		return rest_ensure_response( $items );
+	}
+
+	private function get_items_node( $object ): ?array {
+		return Utilities::get_item( $object, self::KEY_ITEMS ) ?? null;
+	}
+
+	private function get_cache_expired_node( $object ): ?int {
+		return Utilities::get_item( $object, self::KEY_CACHE ) ?? 0;
+	}
+
+	private function get_request_url(): ?string {
+		$flickr_id = Input::get_instance( 'Flicker ID' )->get();
+
+		if ( ! $flickr_id ) {
+			return null;
+		}
+
+		return sprintf(
+			'http://api.flickr.com/services/feeds/photos_public.gne?id=%s&format=json&nojsoncallback=1',
+			$flickr_id
+		);
+	}
+
+	private function error_no_id(): WP_Error {
+		return new WP_Error(
+			'empty_setting',
+			'You must input the Flickr ID in the setting.',
+			array(
+				'status' => self::STATUS_CODE_NOT_IMPLEMENTED,
+			)
+		);
+	}
+
+	private function error_request_fail(): WP_Error {
+		return new WP_Error(
+			'no_content',
+			'The account has no photo.',
+			array(
+				'status' => self::STATUS_CODE_NO_CONTENT,
+			)
+		);
 	}
 
 	public function prepare_item_for_response( $item, $request ): WP_REST_Response {
