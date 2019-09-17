@@ -7,6 +7,8 @@ import Item from 'app/components/archive/Item';
 import Paging from 'app/components/archive/Paging';
 import NotFound from 'app/scenes/public/NotFound';
 
+import { setTitle } from 'app/utils/common';
+
 import { STORE, IS_ERROR } from 'app/constants/common';
 import DEFAULT_BACKGROUND from '../../../assets/images/background/category.jpg';
 
@@ -74,10 +76,13 @@ class Archive extends Component {
     }
 
     if (IS_ERROR === archive.entities) {
+      setTitle('Not Found');
       return (
         <NotFound />
       );
     }
+
+    setTitle(`Archive: ${title}`);
 
     return (
       <Public className="template-archive">

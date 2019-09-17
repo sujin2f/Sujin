@@ -8,7 +8,7 @@ import NotFound from 'app/scenes/public/NotFound';
 
 import { STORE, IS_ERROR } from 'app/constants/common';
 
-import { getRenderedText, parseJson } from 'app/utils/common';
+import { getRenderedText, parseJson, setTitle } from 'app/utils/common';
 
 import DEFAULT_BACKGROUND from '../../../assets/images/background/category.jpg';
 
@@ -54,6 +54,7 @@ class Page extends Component {
     }
 
     if (IS_ERROR === page) {
+      setTitle('Not Found');
       return (
         <NotFound />
       );
@@ -63,6 +64,8 @@ class Page extends Component {
       parseJson(page.meta.background, 'post-thumbnail') ||
       page.thumbnail ||
       DEFAULT_BACKGROUND;
+
+    setTitle(getRenderedText(page.title));
 
     return (
       <Public className="template-single">
