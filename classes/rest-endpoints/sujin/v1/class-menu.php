@@ -19,7 +19,7 @@ class Menu extends Abs_Rest_Base {
 
 	public function create_rest_routes() {
 		register_rest_route(
-			$this->namespace,
+			self::NAMESPACE,
 			'/' . $this->resource_name . '/(?P<menu>[\w-]+)',
 			array(
 				array(

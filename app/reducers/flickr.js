@@ -31,7 +31,6 @@ function flickr(state = initialState, action) {
     }
 
     case REQUEST_FLICKR_FAIL: {
-      console.log(1);
       return {
         ...state,
         error: true,

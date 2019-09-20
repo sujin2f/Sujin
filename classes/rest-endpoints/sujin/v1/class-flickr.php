@@ -2,8 +2,8 @@
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1;
 
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Abs_Rest_Base;
-use Sujin\Wordpress\WP_Express\Fields\Settings\Input;
 use Sujin\Wordpress\Theme\Sujin\Helpers\Utilities;
+use Sujin\Wordpress\WP_Express\Fields\Settings\Input;
 
 // phpcs:disable Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
 use WP_REST_Controller,
@@ -20,14 +20,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Flickr extends Abs_Rest_Base {
-	private const CACHE_TTL     = 12 * HOUR_IN_SECONDS;
-	private const RESOURCE_NAME = 'flickr';
-	private const KEY_ITEMS     = 'items';
-	private const KEY_CACHE     = 'cache_expired';
+	protected const CACHE_TTL     = 12 * HOUR_IN_SECONDS;
+	protected const RESOURCE_NAME = 'flickr';
 
 	public function create_rest_routes() {
 		register_rest_route(
-			$this->namespace,
+			self::NAMESPACE,
 			'/' . self::RESOURCE_NAME,
 			array(
 				array(
@@ -45,47 +43,35 @@ class Flickr extends Abs_Rest_Base {
 	}
 
 	public function get_items( $request ) {
-		$transient = get_transient( self::RESOURCE_NAME );
+		$transient = $this->get_transient();
 
-		if ( is_array( $this->get_items_node( $transient ) ) && $this->get_cache_expired_node( $transient ) > time() ) {
-			return rest_ensure_response( $this->get_items_node( $transient ) );
+		if ( $transient[ self::KEY_RETURN ] ) {
+			return rest_ensure_response( $transient[ self::KEY_ITEMS ] );
 		}
 
 		$url = $this->get_request_url();
 
 		if ( is_null( $url ) ) {
-			return $this->error_no_id();
+			return rest_ensure_response( $this->error_no_id() );
 		}
 
 		$response = wp_remote_get( $url );
 
 		if ( ! $this->is_success( $response ) ) {
-			if ( $this->get_items_node( $transient ) ) {
-				return rest_ensure_response( $this->get_items_node( $transient ) );
+			if ( $transient[ self::KEY_ITEMS ] ) {
+				return rest_ensure_response( $transient[ self::KEY_ITEMS ] );
 			}
 
-			return $this->error_request_fail();
+			return rest_ensure_response( $this->error_request_fail() );
 		}
 
-		$body      = Utilities::get_item( $response, 'body' ) ?? array();
-		$body      = json_decode( $body, true );
-		$items     = $this->get_items_node( $body );
-		$transient = array(
-			'items'         => $items,
-			'cache_expired' => time() + self::CACHE_TTL,
-		);
+		$body  = Utilities::get_item( $response, 'body' ) ?? array();
+		$body  = json_decode( $body, true );
+		$items = Utilities::get_item( $object, 'items' );
 
-		set_transient( 'flickr', $transient );
+		$this->set_transient( $items );
 
 		return rest_ensure_response( $items );
-	}
-
-	private function get_items_node( $object ): ?array {
-		return Utilities::get_item( $object, self::KEY_ITEMS ) ?? null;
-	}
-
-	private function get_cache_expired_node( $object ): ?int {
-		return Utilities::get_item( $object, self::KEY_CACHE ) ?? 0;
 	}
 
 	private function get_request_url(): ?string {
@@ -135,11 +121,7 @@ class Flickr extends Abs_Rest_Base {
 		return rest_ensure_response( $item );
 	}
 
-	public function filter_schema( string $key ): bool {
-		$schema = $this->get_item_schema();
-		return array_key_exists( $key, $schema['properties'] );
-	}
-
+	// TODO
 	public function prepare_response_for_collection( $response ): array {
 		if ( ! ( $response instanceof WP_REST_Response ) ) {
 			return $response;
@@ -149,9 +131,9 @@ class Flickr extends Abs_Rest_Base {
 	}
 
 	public function get_item_schema(): array {
-		$schema = array(
+		return array(
 			'$schema'    => 'http://json-schema.org/draft-04/schema#',
-			'title'      => 'flicr',
+			'title'      => 'flickr',
 			'type'       => 'object',
 			'properties' => array(
 				'title' => array(
@@ -175,7 +157,5 @@ class Flickr extends Abs_Rest_Base {
 
 			),
 		);
-
-		return $schema;
 	}
 }

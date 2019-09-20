@@ -18,11 +18,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Posts extends Abs_Rest_Base {
 	use Rest_Helper;
 
-	private const RESOURCE_NAME = 'posts';
+	protected const RESOURCE_NAME = 'posts';
 
 	public function create_rest_routes() {
 		register_rest_route(
-			$this->namespace,
+			self::NAMESPACE,
 			'/' . self::RESOURCE_NAME,
 			array(
 				array(
@@ -35,7 +35,7 @@ class Posts extends Abs_Rest_Base {
 		);
 
 		register_rest_route(
-			$this->namespace,
+			self::NAMESPACE,
 			'/' . self::RESOURCE_NAME . '/slug',
 			array(
 				array(
@@ -48,7 +48,7 @@ class Posts extends Abs_Rest_Base {
 		);
 
 		register_rest_route(
-			$this->namespace,
+			self::NAMESPACE,
 			'/' . self::RESOURCE_NAME . '/category/(?P<slug>[\w-]+)/page/(?P<page>[0-9]+)',
 			array(
 				array(
@@ -61,7 +61,7 @@ class Posts extends Abs_Rest_Base {
 		);
 
 		register_rest_route(
-			$this->namespace,
+			self::NAMESPACE,
 			'/' . self::RESOURCE_NAME . '/tag/(?P<slug>[\w-]+)/page/(?P<page>[0-9]+)',
 			array(
 				array(
@@ -74,7 +74,7 @@ class Posts extends Abs_Rest_Base {
 		);
 
 		register_rest_route(
-			$this->namespace,
+			self::NAMESPACE,
 			'/' . self::RESOURCE_NAME . '/search/(?P<search>[\w-]+)/page/(?P<page>[0-9]+)',
 			array(
 				array(
