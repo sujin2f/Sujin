@@ -12,15 +12,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Menu extends Abs_Rest_Base {
+	protected const CACHE_TTL     = 12 * HOUR_IN_SECONDS;
+	protected const RESOURCE_NAME = 'menu';
+
 	public function __construct() {
 		parent::__construct();
-		$this->resource_name = 'menu';
 	}
 
 	public function create_rest_routes() {
 		register_rest_route(
 			self::NAMESPACE,
-			'/' . $this->resource_name . '/(?P<menu>[\w-]+)',
+			'/' . self::RESOURCE_NAME . '/(?P<menu>[\w-]+)',
 			array(
 				array(
 					'methods'             => WP_REST_Server::READABLE,

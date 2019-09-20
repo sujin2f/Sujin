@@ -50,7 +50,8 @@ class Flickr extends Abs_Rest_Base {
 	}
 
 	public function get_items( $request ) {
-		$transient = $this->get_transient();
+		$this->request = $request;
+		$transient     = $this->get_transient();
 
 		if ( $transient[ self::KEY_RETURN ] ) {
 			return rest_ensure_response( $transient[ self::KEY_ITEMS ] );
@@ -75,6 +76,10 @@ class Flickr extends Abs_Rest_Base {
 		$body  = Utilities::get_item( $response, 'body' ) ?? array();
 		$body  = json_decode( $body, true );
 		$items = Utilities::get_item( $body, 'items' );
+
+		foreach ( array_keys( $items ) as $arr_key ) {
+			$items[ $arr_key ] = $this->prepare_item_for_response( $items[ $arr_key ], $request )->data;
+		}
 
 		$this->set_transient( $items );
 
@@ -117,11 +122,11 @@ class Flickr extends Abs_Rest_Base {
 	public function prepare_item_for_response( $item, $request ): WP_REST_Response {
 		$item          = (array) $item;
 		$item['media'] = array(
-			'origin' => str_replace( '_m.', '.', $item['media']->m ),
-			's'      => str_replace( '_m.', '_s.', $item['media']->m ),
-			't'      => str_replace( '_m.', '_t.', $item['media']->m ),
-			'b'      => str_replace( '_m.', '_b.', $item['media']->m ),
-			'm'      => $item['media']->m,
+			'origin' => str_replace( '_m.', '.', $item['media']['m'] ),
+			's'      => str_replace( '_m.', '_s.', $item['media']['m'] ),
+			't'      => str_replace( '_m.', '_t.', $item['media']['m'] ),
+			'b'      => str_replace( '_m.', '_b.', $item['media']['m'] ),
+			'm'      => $item['media']['m'],
 		);
 
 		$item = array_filter( $item, array( $this, 'filter_schema' ), ARRAY_FILTER_USE_KEY );
