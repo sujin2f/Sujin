@@ -23,6 +23,13 @@ class Flickr extends Abs_Rest_Base {
 	protected const CACHE_TTL     = 12 * HOUR_IN_SECONDS;
 	protected const RESOURCE_NAME = 'flickr';
 
+	public function __construct() {
+		parent::__construct();
+
+		$option = Input::get_instance( 'Flicker ID' )->get_id();
+		add_action( "update_option_{$option}", array( $this, 'delete_transient' ) );
+	}
+
 	public function create_rest_routes() {
 		register_rest_route(
 			self::NAMESPACE,
@@ -67,7 +74,7 @@ class Flickr extends Abs_Rest_Base {
 
 		$body  = Utilities::get_item( $response, 'body' ) ?? array();
 		$body  = json_decode( $body, true );
-		$items = Utilities::get_item( $object, 'items' );
+		$items = Utilities::get_item( $body, 'items' );
 
 		$this->set_transient( $items );
 
