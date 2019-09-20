@@ -76,7 +76,24 @@ abstract class Abs_Rest_Base extends WP_REST_Controller {
 	}
 
 	private function get_transient_key(): string {
-		return 'rest-sujin-v1-' . static::RESOURCE_NAME;
+		$transient_key = 'rest-sujin-v1-' . static::RESOURCE_NAME;
+
+		if ( is_null( $this->transient_suffix ) ) {
+			return $transient_key;
+		}
+
+		$with_suffix    = $transient_key . '-' . $this->transient_suffix;
+		$transient_keys = get_option( 'transient_keys_' . $transient_key, array() );
+		if ( ! in_array( $with_suffix, $transient_keys, true ) ) {
+			array_push( $transient_keys, $with_suffix );
+		}
+
+		return $with_suffix;
+	}
+
+	protected $transient_suffix = null;
+	protected function set_transient_suffix( string $suffix ) {
+		$this->transient_suffix = $suffix;
 	}
 
 	private function get_items_node( $object ) {
