@@ -28,6 +28,14 @@ class Menu extends Abs_Rest_Base {
 					'methods'             => WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'get_items' ),
 					'permission_callback' => array( $this, 'get_items_permissions_check' ),
+					'args'                => array(
+						'menu' => array(
+							'description'       => 'Menu Slug',
+							'type'              => 'string',
+							'required'          => true,
+							'sanitize_callback' => 'sanitize_text_field',
+						),
+					),
 				),
 				'schema' => array( $this, 'get_item_schema' ),
 			)
