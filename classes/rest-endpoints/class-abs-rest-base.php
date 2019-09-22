@@ -91,7 +91,17 @@ abstract class Abs_Rest_Base extends WP_REST_Controller {
 	}
 
 	public function delete_transient() {
-		delete_transient( $this->get_transient_key() );
+		$transient_key  = $this->get_transient_key();
+
+		if ( is_null( $this->transient_suffix ) ) {
+			$transient_keys = get_option( 'transient_keys_' . $transient_key, array() );
+
+			foreach ( $transient_keys as $key ) {
+				delete_transient( $key );
+			}
+		}
+
+		delete_transient( $transient_key );
 	}
 
 	private function get_transient_key(): string {

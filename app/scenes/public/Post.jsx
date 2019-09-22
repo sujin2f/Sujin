@@ -10,7 +10,7 @@ import Item from 'app/components/archive/Item';
 import NotFound from 'app/scenes/public/NotFound';
 
 import { STORE, IS_ERROR } from 'app/constants/common';
-import { getRenderedText, parseJson, setTitle } from 'app/utils/common';
+import { parseJson, setTitle } from 'app/utils/common';
 
 import DEFAULT_BACKGROUND from '../../../assets/images/background/category.jpg';
 
@@ -70,14 +70,14 @@ class Post extends Component {
       post.thumbnail ||
       DEFAULT_BACKGROUND;
 
-    setTitle(getRenderedText(post.title));
+    setTitle(post.title);
 
     return (
       <Public className="template-single">
         <PageHeader backgroundImage={backgroundImage}>
           <Fragment>
-            <h1>{getRenderedText(post.title)}</h1>
-            <p dangerouslySetInnerHTML={{ __html: getRenderedText(post.excerpt) }} />
+            <h1>{post.title}</h1>
+            <p dangerouslySetInnerHTML={{ __html: post.excerpt }} />
           </Fragment>
         </PageHeader>
 

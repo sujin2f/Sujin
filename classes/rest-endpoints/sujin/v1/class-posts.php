@@ -28,6 +28,11 @@ class Posts extends Abs_Rest_Base {
 	protected const CACHE_TTL     = 'never';
 	protected const RESOURCE_NAME = 'posts';
 
+	public function __construct() {
+		parent::__construct();
+		add_action( 'save_post', array( $this, 'delete_transient' ) );
+	}
+
 	public function create_rest_routes() {
 		register_rest_route(
 			self::NAMESPACE,
@@ -167,13 +172,7 @@ class Posts extends Abs_Rest_Base {
 		$return = rest_ensure_response( $posts );
 
 		if ( 'search' !== $term ) {
-			$return->header(
-				'x-wp-term-description',
-				urlencode(
-					Theme_Customizer::get_instance()
-						->the_excerpt( wpautop( $term->description ) )
-				)
-			);
+			$return->header( 'x-wp-term-description', $term->description );
 			$return->header( 'x-wp-term-name', urlencode( $term->name ) );
 
 			$thumbnail = Term_Meta_Attachment::get_instance( 'Thumbnail' )
@@ -208,6 +207,32 @@ class Posts extends Abs_Rest_Base {
 			);
 		}
 
+		$term   = wp_get_post_terms( $item->ID, 'series' )[0];
+		$series = array();
+		if ( $term ) {
+			$_series = new WP_Query(
+				array(
+					'post_type' => 'post',
+					'tax_query' => array(
+						'relation' => 'AND',
+						array(
+							'taxonomy' => 'series',
+							'terms'    => $term->term_id,
+						),
+					),
+					'posts_per_page' => -1,
+				)
+			);
+
+			foreach( array_keys( $_series->posts ) as $key ) {
+				$series[ $key ] = array(
+					'id'    => $_series->posts[ $key ]->ID,
+					'title' => $_series->posts[ $key ]->post_title,
+					'link'  => get_permalink( $_series->posts[ $key ] ),
+				);
+			}
+		}
+
 		$item = array(
 			'id'        => $item->ID,
 			'date'      => $item->post_date,
@@ -225,7 +250,7 @@ class Posts extends Abs_Rest_Base {
 				'thumbnail'            => Post_Meta_Attachment::get_instance( 'Thumbnail' )->get( $item->ID ),
 			),
 			'tags'      => $tags,
-			'series'    => array(),
+			'series'    => $series,
 			'thumbnail' => wp_get_attachment_image_src( get_post_thumbnail_id( $item->ID ), 'post-thumbnail' )[0] ?? null,
 			'prevnext'  => array(
 				'prev' => $this->get_prev_next( $item ),

@@ -2,7 +2,6 @@ import Tags from 'app/components/Tags';
 
 import Link from 'app/components/router/Link';
 import {
-  getRenderedText,
   parseJson,
   parseDate,
 } from 'app/utils/common';
@@ -15,8 +14,8 @@ class Item extends Component {
   render() {
     const { item, columns } = this.props;
     const date = parseDate(item.date);
-    const title = decodeURIComponent(getRenderedText(item.title));
-    const excerpt = decodeURIComponent(getRenderedText(item.excerpt));
+    const title = decodeURIComponent(item.title);
+    const excerpt = decodeURIComponent(item.excerpt);
     const image =
       parseJson(item.meta.list, 'post-thumbnail') ||
       item.thumbnail ||
