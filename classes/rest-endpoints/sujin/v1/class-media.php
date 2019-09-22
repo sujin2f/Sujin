@@ -8,7 +8,13 @@ use Sujin\Wordpress\WP_Express\Fields\Post_Meta\Attachment as Post_Meta_Attachme
 use Sujin\Wordpress\WP_Express\Fields\Term_Meta\Attachment as Term_Meta_Attachment;
 use Sujin\Wordpress\WP_Express\Meta_Box;
 
-use WP_REST_Controller, WP_REST_Server, WP_REST_Response, WP_Error, WP_Query;
+// phpcs:disable Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
+use WP_REST_Controller,
+    WP_REST_Server,
+    WP_REST_Response,
+    WP_Error,
+    WP_Query;
+// phpcs:enable Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
 
 if ( ! defined( 'ABSPATH' ) ) {
 	header( 'Status: 404 Not Found' );
@@ -17,8 +23,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Media extends Abs_Rest_Base {
-	use Rest_Helper;
-
 	protected const RESOURCE_NAME = 'media';
 
 	public function __construct() {
@@ -36,22 +40,17 @@ class Media extends Abs_Rest_Base {
 				array(
 					'methods'             => WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'get_random_items' ),
-					'permission_callback' => array( $this, 'get_items_permissions_check' ),
+					'permission_callback' => array( $this, 'permissions_check' ),
 				),
 				'schema' => array( $this, 'get_item_schema' ),
 			)
 		);
 	}
 
-	public function get_items_permissions_check( $request ): bool {
-		return true;
-	}
-
 	public function get_random_items( $request ) {
-		$this->request = $request;
-		$transient     = $this->get_transient();
+		$transient = $this->get_transient();
 
-		if ( $transient[ self::KEY_RETURN ] ) {
+		if ( $transient[ self::KEY_RETURN ] && ! self::DEV_MODE ) {
 			return rest_ensure_response( $transient[ self::KEY_ITEMS ] );
 		}
 
@@ -94,13 +93,13 @@ class Media extends Abs_Rest_Base {
 	}
 
 	public function prepare_item_for_response( $item, $request ): WP_REST_Response {
-		$fields = $this->get_fields_for_response( $request );
-		$item   = array(
-			'title'   => $item->post_title,
-			'desktop' => wp_get_attachment_image_src( $item->ID, 'large' )[0],
-			'mobile'  => wp_get_attachment_image_src( $item->ID, 'medium_large' )[0],
+		$item = (array) $item;
+		$item = array(
+			'title'   => $item['post_title'],
+			'desktop' => wp_get_attachment_image_src( $item['ID'], 'large' )[0],
+			'mobile'  => wp_get_attachment_image_src( $item['ID'], 'medium_large' )[0],
 		);
-		$item   = array_filter( $item, array( $this, 'filter_schema' ), ARRAY_FILTER_USE_KEY );
+		$item = parent::prepare_item_for_response( $item, $request );
 		return rest_ensure_response( $item );
 	}
 

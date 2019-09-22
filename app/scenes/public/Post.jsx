@@ -130,7 +130,7 @@ const mapDispatchToProps = withDispatch((dispatch) => ({
   requestPost: (slug) => {
     dispatch(STORE).requestPostInit(slug);
 
-    axios.get(`/wp-json/sujin/v1/posts/slug/?slug=${slug}`)
+    axios.get(`/wp-json/sujin/v1/posts/?slug=${slug}`)
       .then((response) => {
         dispatch(STORE).requestPostSuccess(slug, response);
       }).catch(() => {

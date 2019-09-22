@@ -38,22 +38,17 @@ class Flickr extends Abs_Rest_Base {
 				array(
 					'methods'             => WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'get_items' ),
-					'permission_callback' => array( $this, 'get_items_permissions_check' ),
+					'permission_callback' => array( $this, 'permissions_check' ),
 				),
 				'schema' => array( $this, 'get_item_schema' ),
 			)
 		);
 	}
 
-	public function get_items_permissions_check( $request ): bool {
-		return true;
-	}
-
 	public function get_items( $request ) {
-		$this->request = $request;
-		$transient     = $this->get_transient();
+		$transient = $this->get_transient();
 
-		if ( $transient[ self::KEY_RETURN ] ) {
+		if ( $transient[ self::KEY_RETURN ] && ! self::DEV_MODE ) {
 			return rest_ensure_response( $transient[ self::KEY_ITEMS ] );
 		}
 
@@ -129,7 +124,7 @@ class Flickr extends Abs_Rest_Base {
 			'm'      => $item['media']['m'],
 		);
 
-		$item = array_filter( $item, array( $this, 'filter_schema' ), ARRAY_FILTER_USE_KEY );
+		$item = parent::prepare_item_for_response( $item, $request );
 		return rest_ensure_response( $item );
 	}
 

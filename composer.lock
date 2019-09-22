@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "sujin/wp-express",
-            "version": "3.2.1",
+            "version": "3.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sujin2f/wp_express.git",
-                "reference": "df93d1d05fc3b9c3c5dc558160cfc3ecd9915d7e"
+                "reference": "58de7785faa832b2b05a1831014b3c2532d05e85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sujin2f/wp_express/zipball/df93d1d05fc3b9c3c5dc558160cfc3ecd9915d7e",
-                "reference": "df93d1d05fc3b9c3c5dc558160cfc3ecd9915d7e",
+                "url": "https://api.github.com/repos/sujin2f/wp_express/zipball/58de7785faa832b2b05a1831014b3c2532d05e85",
+                "reference": "58de7785faa832b2b05a1831014b3c2532d05e85",
                 "shasum": ""
             },
             "require": {
@@ -53,7 +53,7 @@
                 "development",
                 "wordpress"
             ],
-            "time": "2019-08-09T21:08:12+00:00"
+            "time": "2019-09-15T20:12:52+00:00"
         }
     ],
     "packages-dev": [
@@ -97,9 +97,9 @@
             "authors": [
                 {
                     "name": "Franck Nijhof",
+                    "role": "Developer / IT Manager",
                     "email": "franck.nijhof@dealerdirect.com",
-                    "homepage": "http://www.frenck.nl",
-                    "role": "Developer / IT Manager"
+                    "homepage": "http://www.frenck.nl"
                 }
             ],
             "description": "PHP_CodeSniffer Standards Composer Installer Plugin",
@@ -580,18 +580,18 @@
             "authors": [
                 {
                     "name": "Arne Blankerts",
-                    "email": "arne@blankerts.de",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "email": "arne@blankerts.de"
                 },
                 {
                     "name": "Sebastian Heuer",
-                    "email": "sebastian@phpeople.de",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "email": "sebastian@phpeople.de"
                 },
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "email": "sebastian@phpunit.de"
                 }
             ],
             "description": "Component for reading phar.io manifest information from a PHP Archive (PHAR)",
@@ -1305,16 +1305,16 @@
         },
         {
             "name": "phpunit/php-token-stream",
-            "version": "3.1.0",
+            "version": "3.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-token-stream.git",
-                "reference": "e899757bb3df5ff6e95089132f32cd59aac2220a"
+                "reference": "995192df77f63a59e47f025390d2d1fdf8f425ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/e899757bb3df5ff6e95089132f32cd59aac2220a",
-                "reference": "e899757bb3df5ff6e95089132f32cd59aac2220a",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/995192df77f63a59e47f025390d2d1fdf8f425ff",
+                "reference": "995192df77f63a59e47f025390d2d1fdf8f425ff",
                 "shasum": ""
             },
             "require": {
@@ -1350,7 +1350,7 @@
             "keywords": [
                 "tokenizer"
             ],
-            "time": "2019-07-25T05:29:42+00:00"
+            "time": "2019-09-17T06:23:10+00:00"
         },
         {
             "name": "phpunit/phpunit",
@@ -2690,8 +2690,8 @@
             "authors": [
                 {
                     "name": "Arne Blankerts",
-                    "email": "arne@blankerts.de",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "email": "arne@blankerts.de"
                 }
             ],
             "description": "A small library for converting tokenized PHP source code into XML and potentially other formats",

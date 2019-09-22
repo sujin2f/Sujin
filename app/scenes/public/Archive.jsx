@@ -118,7 +118,7 @@ const mapDispatchToProps = withDispatch((dispatch) => ({
   requestArchive: (kind, slug, page) => {
     dispatch(STORE).requestArchiveInit(kind, slug, page);
 
-    axios.get(`/wp-json/sujin/v1/posts/${kind}/${slug}/page/${page}?per_page=12`)
+    axios.get(`/wp-json/sujin/v1/posts/?list_type=${kind}&keyword=${slug}&page=${page}&per_page=12`)
       .then((response) => {
         dispatch(STORE).requestArchiveSuccess(page, kind, slug, response);
         // Register each Post

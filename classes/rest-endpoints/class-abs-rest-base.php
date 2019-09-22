@@ -2,7 +2,12 @@
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints;
 
 use Sujin\Wordpress\Theme\Sujin\Helpers\Utilities;
-use WP_REST_Controller, WP_REST_Response, WP_REST_Request;
+
+// phpcs:disable Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
+use WP_REST_Controller,
+    WP_REST_Response,
+    WP_REST_Request;
+// phpcs:enable Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
 
 if ( ! defined( 'ABSPATH' ) ) {
 	header( 'Status: 404 Not Found' );
@@ -11,6 +16,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 abstract class Abs_Rest_Base extends WP_REST_Controller {
+	protected const DEV_MODE = true;
+
 	protected const NAMESPACE = 'sujin/v1';
 
 	protected const STATUS_CODE_NO_CONTENT      = 204;
@@ -24,13 +31,25 @@ abstract class Abs_Rest_Base extends WP_REST_Controller {
 	protected const KEY_RETURN    = 'return';
 	private   const KEY_CACHE     = 'cache_expired';
 
-	protected $request;
+	protected $transient_suffix = null;
 
 	public function __construct() {
 		add_action( 'rest_api_init', array( $this, 'create_rest_routes' ), 10, 0 );
 	}
 
 	abstract public function create_rest_routes();
+
+	public function permissions_check( $request ): bool {
+		if ( self::DEV_MODE ) {
+			return true;
+		}
+
+		$referer  = $request->get_header( 'referer' );
+		$referer  = wp_parse_url( $referer );
+		$home_url = wp_parse_url( get_home_url() );
+
+		return ( $referer['host'] ?? null ) === $home_url['host'];
+	}
 
 	// Request
 	protected function is_success( $response ): bool {
@@ -49,7 +68,7 @@ abstract class Abs_Rest_Base extends WP_REST_Controller {
 		$items         = $this->get_items_node( $transient );
 		$cache_expired = $this->get_cache_expired_node( $transient );
 
-		if ( ! is_null( $items ) && $cache_expired > time() ) {
+		if ( ! is_null( $items ) && ( 'never' === $cache_expired || $cache_expired > time() ) ) {
 			return array(
 				self::KEY_RETURN => true,
 				self::KEY_ITEMS  => $items,
@@ -65,7 +84,7 @@ abstract class Abs_Rest_Base extends WP_REST_Controller {
 	protected function set_transient( $items ) {
 		$transient = array(
 			self::KEY_ITEMS => $items,
-			self::KEY_CACHE => time() + static::CACHE_TTL,
+			self::KEY_CACHE => static::CACHE_TTL === 'never' ? static::CACHE_TTL : time() + static::CACHE_TTL,
 		);
 
 		set_transient( $this->get_transient_key(), $transient );
@@ -91,7 +110,6 @@ abstract class Abs_Rest_Base extends WP_REST_Controller {
 		return $with_suffix;
 	}
 
-	protected $transient_suffix = null;
 	protected function set_transient_suffix( string $suffix ) {
 		$this->transient_suffix = $suffix;
 	}
@@ -100,13 +118,19 @@ abstract class Abs_Rest_Base extends WP_REST_Controller {
 		return Utilities::get_item( $object, self::KEY_ITEMS ) ?? null;
 	}
 
-	private function get_cache_expired_node( $object ): ?int {
+	private function get_cache_expired_node( $object ) {
 		return Utilities::get_item( $object, self::KEY_CACHE ) ?? 0;
 	}
 
-	// Schema
+	// Response
+	public function prepare_item_for_response( $item, $request ): WP_REST_Response {
+		$this->request = $request;
+		$item          = array_filter( $item, array( $this, 'filter_schema' ), ARRAY_FILTER_USE_KEY );
+		return rest_ensure_response( $item );
+	}
+
 	public function filter_schema( string $key ): bool {
-		$fields = $this->get_fields_for_response( $this->request );
+		$fields = $this->get_fields_for_response( null );
 		return in_array( $key, $fields );
 	}
 }
