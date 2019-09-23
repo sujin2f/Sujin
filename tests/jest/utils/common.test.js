@@ -32,31 +32,6 @@ describe.each(dataGetScrolled)(
 );
 
 /*
- * Data Provider for getRenderedText
- * @param input
- * @param expected
- */
-const dataGetRenderedText = [
-  [{ rendered: 'Lorem ipsum dolor sit amet' }, 'Lorem ipsum dolor sit amet'],
-  ['Lorem ipsum dolor sit amet', 'Lorem ipsum dolor sit amet'],
-  [9999, 9999],
-  [null, ''],
-  [true, ''],
-  [false, ''],
-  [undefined, ''],
-  [{ key: 'value' }, ''],
-];
-
-describe.each(dataGetRenderedText)(
-  'getRenderedText()',
-  (input, expected) => {
-    test(`getRenderedText ${input}`, () => {
-      expect(getRenderedText(input)).toBe(expected);
-    });
-  },
-);
-
-/*
  * Data Provider for parseJson
  * @param string
  * @param key

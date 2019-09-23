@@ -104,37 +104,37 @@ class Menu extends Abs_Rest_Base {
 			'title'      => 'media',
 			'type'       => 'object',
 			'properties' => array(
-				'ID' => array(
+				'ID'               => array(
 					'description' => 'Unique ID',
 					'type'        => 'integer',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
 				),
-				'title' => array(
+				'title'            => array(
 					'description' => 'The title of the menu item.',
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
 				),
-				'url'  => array(
+				'url'              => array(
 					'description' => 'Link URL',
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
 				),
-				'target' => array(
+				'target'           => array(
 					'description' => 'Link target',
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
 				),
-				"menu_item_parent" => array(
+				'menu_item_parent' => array(
 					'description' => 'Parent ID',
 					'type'        => 'integer',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
 				),
-				"classes" => array(
+				'classes'          => array(
 					'description' => 'HTML class',
 					'type'        => 'array',
 					'context'     => array( 'view', 'edit', 'embed' ),

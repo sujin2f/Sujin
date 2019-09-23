@@ -114,19 +114,19 @@ class Media extends Abs_Rest_Base {
 			'title'      => 'media',
 			'type'       => 'object',
 			'properties' => array(
-				'title' => array(
+				'title'   => array(
 					'description' => 'The title of the photo.',
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
 				),
-				'desktop'  => array(
+				'desktop' => array(
 					'description' => 'URL for desktop',
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
 				),
-				'mobile' => array(
+				'mobile'  => array(
 					'description' => 'URL for mobile',
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit', 'embed' ),

@@ -43,7 +43,7 @@ class Posts extends Abs_Rest_Base {
 					'callback'            => array( $this, 'get_items' ),
 					'permission_callback' => array( $this, 'permissions_check' ),
 					'args'                => array(
-						'slug' => array(
+						'slug'      => array(
 							'description'       => 'Post Slug',
 							'type'              => 'string',
 							'required'          => false,
@@ -55,19 +55,19 @@ class Posts extends Abs_Rest_Base {
 							'required'          => false,
 							'sanitize_callback' => 'sanitize_text_field',
 						),
-						'keyword' => array(
+						'keyword'   => array(
 							'description'       => 'Keyword',
 							'type'              => 'string',
 							'required'          => false,
 							'sanitize_callback' => 'sanitize_text_field',
 						),
-						'page' => array(
+						'page'      => array(
 							'description'       => 'Page Number',
 							'type'              => 'string',
 							'required'          => false,
 							'sanitize_callback' => 'sanitize_text_field',
 						),
-						'per_page' => array(
+						'per_page'  => array(
 							'description'       => 'Posts per page',
 							'type'              => 'string',
 							'required'          => false,
@@ -90,9 +90,9 @@ class Posts extends Abs_Rest_Base {
 		}
 
 		$args = array(
-			'name'        => $name,
-			'post_type'   => array( 'post', 'page' ),
-			'post_status' => 'publish',
+			'name'           => $name,
+			'post_type'      => array( 'post', 'page' ),
+			'post_status'    => 'publish',
 			'posts_per_page' => 1,
 		);
 		$post = new WP_Query( $args );
@@ -112,7 +112,6 @@ class Posts extends Abs_Rest_Base {
 		$post = $this->prepare_response_for_collection( $post );
 
 		$this->set_transient( $post );
-
 
 		return rest_ensure_response( $post );
 	}
@@ -206,7 +205,7 @@ class Posts extends Abs_Rest_Base {
 	public function prepare_item_for_response( $item, $request ): WP_REST_Response {
 		$tags = wp_get_post_tags( $item->ID );
 
-		foreach( array_keys( $tags ) as $key ) {
+		foreach ( array_keys( $tags ) as $key ) {
 			$tags[ $key ] = array(
 				'name'    => $tags[ $key ]->name,
 				'term_id' => $tags[ $key ]->term_id,
@@ -219,8 +218,8 @@ class Posts extends Abs_Rest_Base {
 		if ( $term ) {
 			$_series = new WP_Query(
 				array(
-					'post_type' => 'post',
-					'tax_query' => array(
+					'post_type'      => 'post',
+					'tax_query'      => array(
 						'relation' => 'AND',
 						array(
 							'taxonomy' => 'series',
@@ -231,7 +230,7 @@ class Posts extends Abs_Rest_Base {
 				)
 			);
 
-			foreach( array_keys( $_series->posts ) as $key ) {
+			foreach ( array_keys( $_series->posts ) as $key ) {
 				$series[ $key ] = array(
 					'id'    => $_series->posts[ $key ]->ID,
 					'title' => $_series->posts[ $key ]->post_title,
@@ -355,91 +354,91 @@ class Posts extends Abs_Rest_Base {
 			'title'      => 'post',
 			'type'       => 'object',
 			'properties' => array(
-				'id' => array(
+				'id'             => array(
 					'description' => 'Unique ID',
 					'type'        => 'number',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
 				),
-				'slug' => array(
+				'slug'           => array(
 					'description' => 'Post slug',
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
 				),
-				'date' => array(
+				'date'           => array(
 					'description' => 'Date',
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
 				),
-				'link'  => array(
+				'link'           => array(
 					'description' => 'Link URL',
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
 				),
-				'title' => array(
+				'title'          => array(
 					'description' => 'Title',
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
 				),
-				"content" => array(
+				'content'        => array(
 					'description' => 'Content',
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
 				),
-				"excerpt" => array(
+				'excerpt'        => array(
 					'description' => 'Excerpt',
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
 				),
-				"comment_status" => array(
+				'comment_status' => array(
 					'description' => 'Comment status',
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
 				),
-				"meta" => array(
+				'meta'           => array(
 					'description' => 'Meta data',
 					'type'        => 'array',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
 				),
-				"tags" => array(
+				'tags'           => array(
 					'description' => 'Tags',
 					'type'        => 'array',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
 				),
-				"series" => array(
+				'series'         => array(
 					'description' => 'Series',
 					'type'        => 'array',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
 				),
-				"thumbnail" => array(
+				'thumbnail'      => array(
 					'description' => 'Thumbnail',
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
 				),
-				'prevnext' => array(
+				'prevnext'       => array(
 					'description' => 'Prev / Next',
 					'type'        => 'array',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
 				),
-				'related' => array(
+				'related'        => array(
 					'description' => 'Related contents',
 					'type'        => 'array',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
 				),
-				'type' => array(
+				'type'           => array(
 					'description' => 'Post Type',
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit', 'embed' ),

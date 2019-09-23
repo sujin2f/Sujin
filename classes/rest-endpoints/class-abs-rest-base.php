@@ -118,7 +118,7 @@ abstract class Abs_Rest_Base extends WP_REST_Controller {
 			delete_transient( $key );
 		}
 
-		$transient_key = $this->get_transient_key( );
+		$transient_key = $this->get_transient_key();
 		delete_transient( $transient_key );
 	}
 
