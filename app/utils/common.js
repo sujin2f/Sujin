@@ -23,18 +23,6 @@ export function isMobile() {
   return regex1.test(userAgent) || regex2.test(userAgent.substr(0, 4));
 }
 
-export const getRenderedText = (object) => {
-  if (object && typeof object === 'object') {
-    return object.rendered || '';
-  }
-
-  if (typeof object === 'boolean') {
-    return '';
-  }
-
-  return object || '';
-};
-
 export const parseJson = (string, key) => {
   if (parseInt(string, 10) || !string || typeof string === 'boolean') {
     return null;

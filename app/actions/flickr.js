@@ -8,15 +8,19 @@ export function requestFlickrInit() {
   };
 }
 
-export function requestFlickrSuccess(response) {
-  return {
-    type: REQUEST_FLICKR_SUCCESS,
-    response,
-  };
-}
-
 export function requestFlickrFail() {
   return {
     type: REQUEST_FLICKR_FAIL,
+  };
+}
+
+export function requestFlickrSuccess(response) {
+  if (response.status === 204) {
+    return requestFlickrFail();
+  }
+
+  return {
+    type: REQUEST_FLICKR_SUCCESS,
+    response,
   };
 }

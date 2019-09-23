@@ -4,8 +4,6 @@ import {
   REQUEST_PAGE_FAIL,
 } from 'app/actions/page';
 
-import { IS_ERROR } from 'app/constants/common';
-
 const initialState = {
   entities: {},
   loading: false,
@@ -21,12 +19,11 @@ function page(state = initialState, action) {
     }
 
     case REQUEST_PAGE_SUCCESS: {
-      const data = action.response.data.length === 0 ? IS_ERROR : action.response.data[0];
       return {
         ...state,
         entities: {
           ...state.entities,
-          [action.slug]: data,
+          [action.slug]: action.response.data,
         },
         loading: false,
       };
@@ -37,7 +34,7 @@ function page(state = initialState, action) {
         ...state,
         entities: {
           ...state.entities,
-          [action.slug]: IS_ERROR,
+          [action.slug]: action.code,
         },
         loading: false,
       };

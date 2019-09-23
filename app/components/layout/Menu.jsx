@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import Link from 'app/components/router/Link';
 
-import { STORE, IS_LOADING } from 'app/constants/common';
+import { STORE } from 'app/constants/common';
 
 const { withSelect, withDispatch } = wp.data;
 const { compose } = wp.compose;
@@ -58,7 +58,7 @@ class Menu extends Component {
 
     const menuItems = getMenu(slug);
 
-    if (menuItems === IS_LOADING || !menuItems) {
+    if (!menuItems) {
       return null;
     }
 
@@ -110,7 +110,7 @@ class Menu extends Component {
 const mapStateToProps = withSelect((select) => ({
   /*
    * @param  string       slug
-   * @return array|string IS_LOADING can be returned. WAIT!
+   * @return array|string
    */
   getMenu: (slug) => {
     return select(STORE).getMenu(slug);

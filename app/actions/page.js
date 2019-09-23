@@ -17,9 +17,10 @@ export function requestPageSuccess(slug, response) {
   };
 }
 
-export function requestPageFail(slug) {
+export function requestPageFail(code, slug) {
   return {
     type: REQUEST_PAGE_FAIL,
+    code,
     slug,
   };
 }

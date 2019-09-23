@@ -9,8 +9,6 @@ import CaseTool from 'app/components/dev-tools/CaseTool';
 import TextSort from 'app/components/dev-tools/TextSort';
 import SymbolAlignment from 'app/components/dev-tools/SymbolAlignment';
 
-import { getRenderedText } from 'app/utils/common';
-
 import DEFAULT_BACKGROUND from '../../assets/images/thumbnail.svg';
 
 const { regexp, attrs } = wp.shortcode;
@@ -18,12 +16,17 @@ const { addQueryArgs } = wp.url;
 
 /* eslint-disable import/prefer-default-export */
 
+const replaceQuotes = (matched, key) => {
+  const regex = /(&#8221;|&#8243;|\/\])/g;
+  return (matched[key] && matched[key].replace(regex, '')) || '';
+};
+
 export function parseContent(content) {
   const patternShortcode = /(\[([\w-]+)[^\]]*?\][^\2]*?\[\/[^\]]*\2\]|\[[\w-]+[^\]]*?\/\])/ig;
-  const string = getRenderedText(content);
+  const string = content;
 
   let matched = {};
-  let splited = (string.split(patternShortcode) || [])
+  let splited = (content.split(patternShortcode) || [])
     .filter(v => v);
 
   matched = (string.match(regexp('carousel')) || [])
@@ -58,7 +61,7 @@ export function parseContent(content) {
             {Object.keys(matched[value].named).map((keyCarousel) => (
               <div key={hash(matched[value].named[keyCarousel])}>
                 <img
-                  src={matched[value].named[keyCarousel].replace(/(&#8221;|&#8243;|\/\])/g, '')}
+                  src={replaceQuotes(matched[value].named, 'keyCarousel')}
                   alt=""
                 />
               </div>
@@ -68,26 +71,31 @@ export function parseContent(content) {
       }
 
       if (value.indexOf('[gist') === 0) {
+        const id = replaceQuotes(matched[value].named, 'id');
+        const file = replaceQuotes(matched[value].named, 'file');
+
         return (
           <Gist
-            id={matched[value].named.id.replace(/(&#8221;|&#8243;|\/\])/g, '')}
-            file={matched[value].named.file.replace(/(&#8221;|&#8243;|\/\])/g, '')}
+            id={id}
+            file={file}
             key={hash(value)}
           />
         );
       }
 
       if (value.indexOf('[tweet') === 0) {
+        const id = replaceQuotes(matched[value].named, 'id');
         return (
           <TweetEmbed
-            id={matched[value].named.id.replace(/(&#8221;|&#8243;|\/\])/g, '')}
+            id={id}
             key={hash(value)}
           />
         );
       }
 
       if (value.indexOf('[dev-tools') === 0) {
-        switch (matched[value].named.id.replace(/(&#8221;|&#8243;|\/\])/g, '')) {
+        const id = replaceQuotes(matched[value].named, 'id');
+        switch (id) {
           case 'text-sort':
             return (
               <TextSort key={hash(value)} />

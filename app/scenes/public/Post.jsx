@@ -9,8 +9,8 @@ import PrevNext from 'app/components/single/PrevNext';
 import Item from 'app/components/archive/Item';
 import NotFound from 'app/scenes/public/NotFound';
 
-import { STORE, IS_ERROR } from 'app/constants/common';
-import { getRenderedText, parseJson, setTitle } from 'app/utils/common';
+import { STORE } from 'app/constants/common';
+import { parseJson } from 'app/utils/common';
 
 import DEFAULT_BACKGROUND from '../../../assets/images/background/category.jpg';
 
@@ -48,6 +48,11 @@ class Post extends Component {
       loading,
     } = this.props.getPost(this.state.slug);
 
+    const {
+      setTitle,
+      title,
+    } = this.props;
+
     if (loading) {
       return (
         <Public className="stretched-background hide-footer">
@@ -58,8 +63,7 @@ class Post extends Component {
       );
     }
 
-    if (IS_ERROR === post) {
-      setTitle('Not Found');
+    if (post === 'NOT_FOUND') {
       return (
         <NotFound />
       );
@@ -70,14 +74,16 @@ class Post extends Component {
       post.thumbnail ||
       DEFAULT_BACKGROUND;
 
-    setTitle(getRenderedText(post.title));
+    if (title !== post.title) {
+      setTitle(post.title);
+    }
 
     return (
       <Public className="template-single">
         <PageHeader backgroundImage={backgroundImage}>
           <Fragment>
-            <h1>{getRenderedText(post.title)}</h1>
-            <p dangerouslySetInnerHTML={{ __html: getRenderedText(post.excerpt) }} />
+            <h1>{post.title}</h1>
+            <p dangerouslySetInnerHTML={{ __html: post.excerpt }} />
           </Fragment>
         </PageHeader>
 
@@ -124,18 +130,22 @@ class Post extends Component {
 const mapStateToProps = withSelect((select) => ({
   getPost: (slug) => select(STORE).getPost(slug),
   matched: select(STORE).getMatched(),
+  title: select(STORE).getTitle(),
 }));
 
 const mapDispatchToProps = withDispatch((dispatch) => ({
   requestPost: (slug) => {
     dispatch(STORE).requestPostInit(slug);
 
-    axios.get(`/wp-json/sujin/v1/posts/slug/?slug=${slug}`)
+    axios.get(`/wp-json/sujin/v1/posts/?slug=${slug}`)
       .then((response) => {
         dispatch(STORE).requestPostSuccess(slug, response);
-      }).catch(() => {
-        dispatch(STORE).requestPostFail(slug);
+      }).catch((error) => {
+        dispatch(STORE).requestPostFail(error.response.data.code, slug);
       });
+  },
+  setTitle: (title) => {
+    dispatch(STORE).setTitle(title);
   },
 }));
 

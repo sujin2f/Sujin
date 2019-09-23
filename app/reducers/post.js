@@ -7,8 +7,6 @@ import {
   REQUEST_RECENT_POSTS_FAIL,
 } from 'app/actions/post';
 
-import { IS_ERROR } from 'app/constants/common';
-
 const initialState = {
   entities: {},
   recent: [],
@@ -27,7 +25,7 @@ function post(state = initialState, action) {
     }
 
     case REQUEST_POST_SUCCESS: {
-      const data = Object.keys(action.response.data) === 0 ? IS_ERROR : action.response.data;
+      const data = Object.keys(action.response.data) === 0 ? {} : action.response.data;
 
       const unorderId = { ...state.ids };
       unorderId[data.id] = action.slug;
@@ -49,11 +47,12 @@ function post(state = initialState, action) {
     }
 
     case REQUEST_POST_FAIL: {
+      console.log(action);
       return {
         ...state,
         entities: {
           ...state.entities,
-          [action.slug]: IS_ERROR,
+          [action.slug]: action.code,
         },
         loading: false,
       };
