@@ -21,12 +21,11 @@ function page(state = initialState, action) {
     }
 
     case REQUEST_PAGE_SUCCESS: {
-      const data = action.response.data.length === 0 ? IS_ERROR : action.response.data[0];
       return {
         ...state,
         entities: {
           ...state.entities,
-          [action.slug]: data,
+          [action.slug]: action.response.data,
         },
         loading: false,
       };
