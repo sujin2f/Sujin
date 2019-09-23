@@ -6,9 +6,9 @@ import Content from 'app/components/single/Content';
 import Loading from 'app/components/layout/Loading';
 import NotFound from 'app/scenes/public/NotFound';
 
-import { STORE, IS_ERROR } from 'app/constants/common';
+import { STORE } from 'app/constants/common';
 
-import { parseJson, setTitle } from 'app/utils/common';
+import { parseJson } from 'app/utils/common';
 
 import DEFAULT_BACKGROUND from '../../../assets/images/background/category.jpg';
 
@@ -43,6 +43,11 @@ class Page extends Component {
       loading,
     } = this.props.getPage(this.state.slug);
 
+    const {
+      setTitle,
+      title,
+    } = this.props;
+
     if (loading) {
       return (
         <Public className="stretched-background hide-footer">
@@ -53,8 +58,7 @@ class Page extends Component {
       );
     }
 
-    if (IS_ERROR === page) {
-      setTitle('Not Found');
+    if (page === 'NOT_FOUND') {
       return (
         <NotFound />
       );
@@ -65,7 +69,9 @@ class Page extends Component {
       page.thumbnail ||
       DEFAULT_BACKGROUND;
 
-    setTitle(page.title);
+    if (title !== page.title) {
+      setTitle(page.title);
+    }
 
     return (
       <Public className="template-single">
@@ -85,6 +91,7 @@ class Page extends Component {
 const mapStateToProps = withSelect((select) => ({
   getPage: (slug) => select(STORE).getPage(slug),
   matched: select(STORE).getMatched(),
+  title: select(STORE).getTitle(),
 }));
 
 const mapDispatchToProps = withDispatch((dispatch) => ({
@@ -94,9 +101,12 @@ const mapDispatchToProps = withDispatch((dispatch) => ({
     axios.get(`/wp-json/sujin/v1/posts/?slug=${slug}`)
       .then((response) => {
         dispatch(STORE).requestPageSuccess(slug, response);
-      }).catch(() => {
-        dispatch(STORE).requestPageFail(slug);
+      }).catch((error) => {
+        dispatch(STORE).requestPageFail(error.response.data.code, slug);
       });
+  },
+  setTitle: (title) => {
+    dispatch(STORE).setTitle(title);
   },
 }));
 

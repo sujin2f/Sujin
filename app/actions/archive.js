@@ -21,9 +21,10 @@ export function requestArchiveSuccess(page, kind, slug, response) {
   };
 }
 
-export function requestArchiveFail(page, kind, slug) {
+export function requestArchiveFail(code, page, kind, slug) {
   return {
     type: REQUEST_ARCHIVE_FAIL,
+    code,
     kind,
     slug,
     page,

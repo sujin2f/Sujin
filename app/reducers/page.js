@@ -4,8 +4,6 @@ import {
   REQUEST_PAGE_FAIL,
 } from 'app/actions/page';
 
-import { IS_ERROR } from 'app/constants/common';
-
 const initialState = {
   entities: {},
   loading: false,
@@ -36,7 +34,7 @@ function page(state = initialState, action) {
         ...state,
         entities: {
           ...state.entities,
-          [action.slug]: IS_ERROR,
+          [action.slug]: action.code,
         },
         loading: false,
       };

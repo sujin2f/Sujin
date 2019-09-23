@@ -39,7 +39,7 @@ class Media extends Abs_Rest_Base {
 			array(
 				array(
 					'methods'             => WP_REST_Server::READABLE,
-					'callback'            => array( $this, 'get_random_items' ),
+					'callback'            => array( $this, 'get_items' ),
 					'permission_callback' => array( $this, 'permissions_check' ),
 				),
 				'schema' => array( $this, 'get_item_schema' ),
@@ -47,7 +47,7 @@ class Media extends Abs_Rest_Base {
 		);
 	}
 
-	public function get_random_items( $request ) {
+	public function get_items( $request ) {
 		$transient = $this->get_transient();
 
 		if ( $transient[ self::KEY_RETURN ] && ! self::DEV_MODE ) {
@@ -70,6 +70,11 @@ class Media extends Abs_Rest_Base {
 		);
 
 		if ( empty( $posts ) ) {
+			if ( $transient[ self::KEY_ITEMS ] ) {
+				return rest_ensure_response( $transient[ self::KEY_ITEMS ] );
+			}
+
+			$this->set_transient( $this->error_no_content() );
 			return rest_ensure_response( $this->error_no_content() );
 		}
 
@@ -84,7 +89,7 @@ class Media extends Abs_Rest_Base {
 
 	private function error_no_content(): WP_Error {
 		return new WP_Error(
-			'no_content',
+			'NO_CONTENT',
 			'The account has no photo.',
 			array(
 				'status' => self::STATUS_CODE_NO_CONTENT,

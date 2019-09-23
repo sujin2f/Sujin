@@ -8,15 +8,19 @@ export function requestMainBackgroundInit() {
   };
 }
 
-export function requestMainBackgroundSuccess(response) {
-  return {
-    type: REQUEST_MAIN_BACKGROUND_SUCCESS,
-    response,
-  };
-}
-
 export function requestMainBackgroundFail() {
   return {
     type: REQUEST_MAIN_BACKGROUND_FAIL,
+  };
+}
+
+export function requestMainBackgroundSuccess(response) {
+  if (response.status === 204) {
+    return requestMainBackgroundFail();
+  }
+
+  return {
+    type: REQUEST_MAIN_BACKGROUND_SUCCESS,
+    response,
   };
 }

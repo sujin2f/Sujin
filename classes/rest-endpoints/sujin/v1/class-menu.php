@@ -16,12 +16,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Menu extends Abs_Rest_Base {
-	protected const CACHE_TTL     = 'never';
+	protected const CACHE_TTL     = null;
 	protected const RESOURCE_NAME = 'menu';
 
 	public function __construct() {
 		parent::__construct();
-		add_action( 'wp_update_nav_menu', array( $this, 'update_nav_menu' ) );
+		add_action( 'wp_update_nav_menu', array( $this, 'delete_transient' ) );
 	}
 
 	public function create_rest_routes() {
@@ -48,19 +48,24 @@ class Menu extends Abs_Rest_Base {
 	}
 
 	public function get_items( $request ) {
+		$slug = $request->get_param( 'menu' );
+		$this->set_transient_suffix( $slug );
+
+		$transient = $this->get_transient();
+		if ( $transient[ self::KEY_RETURN ] ) {
+			return rest_ensure_response( $transient[ self::KEY_ITEMS ] );
+		}
+
 		$locations = get_nav_menu_locations();
-		$slug      = $request->get_param( 'menu' );
 		$id        = $locations[ $slug ] ?? null;
 
 		if ( is_null( $id ) ) {
+			if ( $transient[ self::KEY_ITEMS ] ) {
+				return rest_ensure_response( $transient[ self::KEY_ITEMS ] );
+			}
+
+			$this->set_transient( $this->error_no_menu() );
 			return rest_ensure_response( $this->error_no_menu() );
-		}
-
-		$this->set_transient_suffix( $id );
-		$transient = $this->get_transient();
-
-		if ( $transient[ self::KEY_RETURN ] && ! self::DEV_MODE ) {
-			return rest_ensure_response( $transient[ self::KEY_ITEMS ] );
 		}
 
 		$_nav_menu = wp_get_nav_menu_object( $id );
@@ -88,24 +93,9 @@ class Menu extends Abs_Rest_Base {
 		return rest_ensure_response( $nav_menu );
 	}
 
-	private function error_no_menu(): WP_Error {
-		return new WP_Error(
-			'no_menu',
-			'The menu is not exist.',
-			array(
-				'status' => self::STATUS_CODE_NOT_FOUND,
-			)
-		);
-	}
-
 	public function prepare_item_for_response( $item, $request ): WP_REST_Response {
 		$item = parent::prepare_item_for_response( (array) $item, $request );
 		return rest_ensure_response( $item );
-	}
-
-	public function update_nav_menu( $menu_id ) {
-		$this->set_transient_suffix( $menu_id );
-		$this->delete_transient();
 	}
 
 	public function get_item_schema(): array {
@@ -151,6 +141,16 @@ class Menu extends Abs_Rest_Base {
 					'readonly'    => true,
 				),
 			),
+		);
+	}
+
+	private function error_no_menu(): WP_Error {
+		return new WP_Error(
+			'NO_MENU',
+			'The menu is not exist.',
+			array(
+				'status' => self::STATUS_CODE_NOT_FOUND,
+			)
 		);
 	}
 }

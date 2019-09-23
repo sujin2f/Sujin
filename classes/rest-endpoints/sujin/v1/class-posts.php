@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Posts extends Abs_Rest_Base {
-	protected const CACHE_TTL     = 'never';
+	protected const CACHE_TTL     = null;
 	protected const RESOURCE_NAME = 'posts';
 
 	public function __construct() {
@@ -99,11 +99,17 @@ class Posts extends Abs_Rest_Base {
 		$post = $post->posts;
 
 		if ( empty( $post ) ) {
-			return $this->error_not_found();
+			if ( $transient[ self::KEY_ITEMS ] ) {
+				return rest_ensure_response( $transient[ self::KEY_ITEMS ] );
+			}
+
+			$this->set_transient( $this->error_not_found_post() );
+			return $this->error_not_found_post();
 		}
 
 		$post = array_pop( $post );
-		$post = $this->prepare_item_for_response( $post, $request )->data;
+		$post = $this->prepare_item_for_response( $post, $request );
+		$post = $this->prepare_response_for_collection( $post );
 
 		$this->set_transient( $post );
 
@@ -125,7 +131,9 @@ class Posts extends Abs_Rest_Base {
 		$page      = $request->get_param( 'page' ) ?? 1;
 		$per_page  = $request->get_param( 'per_page' ) ?? 12;
 		$taxonomy  = null;
+		$term      = 'search';
 
+		// Transient
 		$this->set_transient_suffix( $list_type . $keyword . $page . $per_page );
 		$transient = $this->get_transient();
 
@@ -133,6 +141,7 @@ class Posts extends Abs_Rest_Base {
 			return $transient[ self::KEY_ITEMS ];
 		}
 
+		// Query args
 		$args = array(
 			'post_type'      => 'post',
 			'post_status'    => 'publish',
@@ -144,11 +153,13 @@ class Posts extends Abs_Rest_Base {
 			case 'category':
 				$args['category_name'] = $keyword;
 				$taxonomy              = 'category';
+				$term                  = get_term_by( 'slug', $keyword, $taxonomy );
 				break;
 
 			case 'tag':
 				$args['tag'] = $keyword;
 				$taxonomy    = 'post_tag';
+				$term        = get_term_by( 'slug', $keyword, $taxonomy );
 				break;
 
 			case 'search':
@@ -157,16 +168,19 @@ class Posts extends Abs_Rest_Base {
 				break;
 		}
 
-		$term  = 'search' === $taxonomy ? $taxonomy : get_term_by( 'slug', $keyword, $taxonomy );
+		// The term is not exist
+		if ( false === $term ) {
+			$this->set_transient( $this->error_not_found_term( $list_type ) );
+			return rest_ensure_response( $this->error_not_found_term( $list_type ) );
+		}
+
+		// Query posts
 		$posts = new WP_Query( $args );
 		$posts = $posts->posts;
 
-		if ( empty( $posts ) ) {
-			return $this->error_not_found();
-		}
-
 		foreach ( array_keys( $posts ) as $key ) {
-			$posts[ $key ] = $this->prepare_item_for_response( $posts[ $key ], $request )->data;
+			$posts[ $key ] = $this->prepare_item_for_response( $posts[ $key ], $request );
+			$posts[ $key ] = $this->prepare_response_for_collection( $posts[ $key ] );
 		}
 
 		$return = rest_ensure_response( $posts );
@@ -179,21 +193,14 @@ class Posts extends Abs_Rest_Base {
 				->get( $term->term_id );
 			$thumbnail = wp_get_attachment_image_src( $thumbnail, 'full' )[0];
 			$return->header( 'x-wp-term-thumbnail', $thumbnail );
+		} else {
+			$return->header( 'x-wp-term-description', 'Search result for ' . $keyword );
+			$return->header( 'x-wp-term-name', $keyword );
 		}
 
 		$this->set_transient( $return );
 
 		return $return;
-	}
-
-	private function error_not_found(): WP_Error {
-		return new WP_Error(
-			'not_found',
-			'Endpoint has no content',
-			array(
-				'status' => self::STATUS_CODE_NOT_FOUND,
-			)
-		);
 	}
 
 	public function prepare_item_for_response( $item, $request ): WP_REST_Response {
@@ -207,7 +214,7 @@ class Posts extends Abs_Rest_Base {
 			);
 		}
 
-		$term   = wp_get_post_terms( $item->ID, 'series' )[0];
+		$term   = wp_get_post_terms( $item->ID, 'series' );
 		$series = array();
 		if ( $term ) {
 			$_series = new WP_Query(
@@ -217,7 +224,7 @@ class Posts extends Abs_Rest_Base {
 						'relation' => 'AND',
 						array(
 							'taxonomy' => 'series',
-							'terms'    => $term->term_id,
+							'terms'    => $term[0]->term_id,
 						),
 					),
 					'posts_per_page' => -1,
@@ -238,7 +245,9 @@ class Posts extends Abs_Rest_Base {
 			'date'      => $item->post_date,
 			'link'      => get_permalink( $item ),
 			'title'     => $item->post_title,
+			'slug'      => $item->post_name,
 			'content'   => wpautop( do_shortcode( $item->post_content ) ),
+			'type'      => $item->post_type,
 			'excerpt'   => $item->post_excerpt,
 			'meta'      => array(
 				'list'                 => Post_Meta_Attachment::get_instance( 'List' )->get( $item->ID ),
@@ -348,7 +357,13 @@ class Posts extends Abs_Rest_Base {
 			'properties' => array(
 				'id' => array(
 					'description' => 'Unique ID',
-					'type'        => 'integer',
+					'type'        => 'number',
+					'context'     => array( 'view', 'edit', 'embed' ),
+					'readonly'    => true,
+				),
+				'slug' => array(
+					'description' => 'Post slug',
+					'type'        => 'string',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
 				),
@@ -424,7 +439,33 @@ class Posts extends Abs_Rest_Base {
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
 				),
+				'type' => array(
+					'description' => 'Post Type',
+					'type'        => 'string',
+					'context'     => array( 'view', 'edit', 'embed' ),
+					'readonly'    => true,
+				),
 			),
+		);
+	}
+
+	private function error_not_found_term( string $list_type ): WP_Error {
+		return new WP_Error(
+			'NOT_FOUND',
+			'The ' . $list_type . ' does not exist.',
+			array(
+				'status' => self::STATUS_CODE_NOT_FOUND,
+			)
+		);
+	}
+
+	private function error_not_found_post(): WP_Error {
+		return new WP_Error(
+			'NOT_FOUND',
+			'The article does not exist.',
+			array(
+				'status' => self::STATUS_CODE_NOT_FOUND,
+			)
 		);
 	}
 }

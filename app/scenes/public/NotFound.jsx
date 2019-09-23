@@ -1,12 +1,17 @@
+import { STORE } from 'app/constants/common';
 import PageHeader from 'app/components/layout/PageHeader';
 import Public from 'app/scenes/public';
-import { setTitle } from 'app/utils/common';
 
 const { Component } = wp.element;
+const { withDispatch, withSelect } = wp.data;
+const { compose } = wp.compose;
 
 class NotFound extends Component {
   render() {
-    setTitle('Not Found');
+    if (this.props.title !== 'Not Found') {
+      this.props.setTitle('Not Found');
+    }
+
     return (
       <Public className="stretched-background hide-footer template-404">
         <PageHeader>
@@ -18,4 +23,14 @@ class NotFound extends Component {
   }
 }
 
-export default NotFound;
+const mapStateToProps = withSelect((select) => ({
+  title: select(STORE).getTitle(),
+}));
+
+const mapDispatchToProps = withDispatch((dispatch) => ({
+  setTitle: (title) => {
+    dispatch(STORE).setTitle(title);
+  },
+}));
+
+export default compose([mapStateToProps, mapDispatchToProps])(NotFound);

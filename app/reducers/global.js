@@ -1,24 +1,34 @@
 // Import Actions
 import {
   SET_MOBILE_MENU,
+  SET_TITLE,
 
   REQUEST_MENU_INIT,
   REQUEST_MENU_SUCCESS,
   REQUEST_MENU_FAIL,
 } from 'app/actions/global';
 
-import { IS_LOADING } from 'app/constants/common';
+import { DEFAULT_TITLE } from 'app/constants/common';
+import { setTitle } from 'app/utils/common';
 
 // Initial State
 const initialState = {
   mobileMenu: false,
   pushed: '',
   menu: {},
+  title: DEFAULT_TITLE,
 };
 
 // Actions
 function global(state = initialState, action) {
   switch (action.type) {
+    case SET_TITLE: {
+      setTitle(action.title);
+      return {
+        ...state,
+        title: action.title,
+      };
+    }
     case SET_MOBILE_MENU: {
       return {
         ...state,
@@ -30,7 +40,7 @@ function global(state = initialState, action) {
         ...state,
         menu: {
           ...state.menu,
-          [action.slug]: IS_LOADING,
+          [action.slug]: [],
         },
       };
     }

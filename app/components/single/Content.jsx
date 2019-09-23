@@ -13,15 +13,16 @@ class Content extends Component {
         slug,
         meta,
         content,
-        seriesPosts,
+        series,
         tags,
+        type,
       },
       className,
       children,
     } = this.props;
 
     const contents = [
-      ...parseSeries(id, seriesPosts),
+      ...parseSeries(id, series),
       ...parseContent(content),
     ];
 
@@ -29,7 +30,7 @@ class Content extends Component {
 
     return (
       <article
-        className={`columns ${className} post-${slug} post-${id}`}
+        className={`columns ${className} ${type}-${slug} post-${id}`}
         itemProp="mainEntity"
         itemType="http://schema.org/BlogPosting"
       >

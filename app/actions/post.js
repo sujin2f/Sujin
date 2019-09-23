@@ -22,9 +22,10 @@ export function requestPostSuccess(slug, response) {
   };
 }
 
-export function requestPostFail(slug) {
+export function requestPostFail(code, slug) {
   return {
     type: REQUEST_POST_FAIL,
+    code,
     slug,
   };
 }

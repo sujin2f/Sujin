@@ -20,6 +20,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Flickr extends Abs_Rest_Base {
+	protected const DEV_MODE = false;
+
 	protected const CACHE_TTL     = 12 * HOUR_IN_SECONDS;
 	protected const RESOURCE_NAME = 'flickr';
 
@@ -46,20 +48,25 @@ class Flickr extends Abs_Rest_Base {
 	}
 
 	public function get_items( $request ) {
+		// Get transient
 		$transient = $this->get_transient();
 
 		if ( $transient[ self::KEY_RETURN ] && ! self::DEV_MODE ) {
 			return rest_ensure_response( $transient[ self::KEY_ITEMS ] );
 		}
 
+		// Get URL
 		$url = $this->get_request_url();
 
 		if ( is_null( $url ) ) {
+			$this->set_transient( $this->error_no_id() );
 			return rest_ensure_response( $this->error_no_id() );
 		}
 
+		// Request
 		$response = wp_remote_get( $url );
 
+		// Request fails
 		if ( ! $this->is_success( $response ) ) {
 			if ( $transient[ self::KEY_ITEMS ] ) {
 				return rest_ensure_response( $transient[ self::KEY_ITEMS ] );
@@ -68,12 +75,14 @@ class Flickr extends Abs_Rest_Base {
 			return rest_ensure_response( $this->error_request_fail() );
 		}
 
-		$body  = Utilities::get_item( $response, 'body' ) ?? array();
-		$body  = json_decode( $body, true );
-		$items = Utilities::get_item( $body, 'items' );
+		$response = $response['http_response'];
+		$body     = $response->get_data();
+		$body     = json_decode( $body, true );
+		$items    = Utilities::get_item( $body, 'items' );
 
 		foreach ( array_keys( $items ) as $arr_key ) {
-			$items[ $arr_key ] = $this->prepare_item_for_response( $items[ $arr_key ], $request )->data;
+			$items[ $arr_key ] = $this->prepare_item_for_response( $items[ $arr_key ], $request );
+			$items[ $arr_key ] = $this->prepare_response_for_collection( $items[ $arr_key ] );
 		}
 
 		$this->set_transient( $items );
@@ -96,7 +105,7 @@ class Flickr extends Abs_Rest_Base {
 
 	private function error_no_id(): WP_Error {
 		return new WP_Error(
-			'empty_setting',
+			'EMPTY_SETTING',
 			'You must input the Flickr ID in the setting.',
 			array(
 				'status' => self::STATUS_CODE_NOT_IMPLEMENTED,
@@ -106,7 +115,7 @@ class Flickr extends Abs_Rest_Base {
 
 	private function error_request_fail(): WP_Error {
 		return new WP_Error(
-			'no_content',
+			'NO_ITEM',
 			'The account has no photo.',
 			array(
 				'status' => self::STATUS_CODE_NO_CONTENT,
@@ -126,15 +135,6 @@ class Flickr extends Abs_Rest_Base {
 
 		$item = parent::prepare_item_for_response( $item, $request );
 		return rest_ensure_response( $item );
-	}
-
-	// TODO
-	public function prepare_response_for_collection( $response ): array {
-		if ( ! ( $response instanceof WP_REST_Response ) ) {
-			return $response;
-		}
-
-		return (array) $response->get_data();
 	}
 
 	public function get_item_schema(): array {

@@ -4,8 +4,6 @@ import {
   REQUEST_ARCHIVE_FAIL,
 } from 'app/actions/archive';
 
-import { IS_ERROR } from 'app/constants/common';
-
 const initialState = {
   entities: {
     category: {},
@@ -40,7 +38,7 @@ function archive(state = initialState, action) {
       const entities =
         action.response.data.length > 0 ?
           action.response.data :
-          IS_ERROR;
+          {};
 
       return {
         ...state,
@@ -65,6 +63,7 @@ function archive(state = initialState, action) {
     }
 
     case REQUEST_ARCHIVE_FAIL: {
+      console.log(action);
       return {
         ...state,
         entities: {
@@ -73,7 +72,7 @@ function archive(state = initialState, action) {
             ...state.entities[action.kind],
             [action.slug]: {
               ...state.entities[action.kind][action.slug],
-              [action.page]: IS_ERROR,
+              [action.page]: action.code,
             },
           },
         },

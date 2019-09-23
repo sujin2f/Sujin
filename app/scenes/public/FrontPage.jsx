@@ -3,8 +3,8 @@ import axios from 'axios';
 import PageHeader from 'app/components/layout/PageHeader';
 import Public from 'app/scenes/public';
 
-import { STORE } from 'app/constants/common';
-import { isMobile, setTitle } from 'app/utils/common';
+import { STORE, DEFAULT_TITLE } from 'app/constants/common';
+import { isMobile } from 'app/utils/common';
 
 import DEFAULT_BACKGROUND from '../../../assets/images/background/backup-background.jpg';
 
@@ -61,7 +61,11 @@ class FrontPage extends Component {
   }
 
   render() {
-    setTitle('Sujin | Wordpress Full Stack Developer');
+    const { setTitle, title } = this.props;
+
+    if (title !== DEFAULT_TITLE) {
+      setTitle(DEFAULT_TITLE);
+    }
 
     return (
       <Public className="stretched-background hide-footer">
@@ -76,6 +80,7 @@ class FrontPage extends Component {
 
 const mapStateToProps = withSelect((select) => ({
   mainBackground: select(STORE).getMainBackground(),
+  title: select(STORE).getTitle(),
 }));
 
 const mapDispatchToProps = withDispatch((dispatch) => ({
@@ -86,6 +91,9 @@ const mapDispatchToProps = withDispatch((dispatch) => ({
       }).catch((error) => {
         dispatch(STORE).requestMainBackgroundFail(error);
       });
+  },
+  setTitle: (title) => {
+    dispatch(STORE).setTitle(title);
   },
 }));
 
