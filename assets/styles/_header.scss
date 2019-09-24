@@ -160,7 +160,7 @@
 			flex-direction: column;
 			justify-content: center;
 			align-items: center;
-			color: white;
+			color: $white;
 			margin-top: 1em;
 
 			h1 {
@@ -192,11 +192,13 @@
 				align-items: flex-start;
 
 				> p {
-					font-weight: 200;
+					font-weight: 400;
+					font-family: $font-ubuntu;
 					font-size: 1.2em;
 					margin-bottom: 0;
 					line-height: 1.4;
-					background-color: rgba(map-get($foundation-palette, 'primary'), 0.8);
+					background-color: $white;
+					color: $black;
 					padding: 0 0.2em;
 
 					@include breakpoint(small only) {
