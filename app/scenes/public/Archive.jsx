@@ -127,22 +127,29 @@ class Archive extends Component {
       <Public className="template-archive">
         <PageHeader backgroundImage={background || DEFAULT_BACKGROUND}>
           <Fragment>
-            <h1>{title}</h1>
-            <p dangerouslySetInnerHTML={{ __html: description.replace(/\+/g, ' ') }} />
+            <h1>
+              <span>{kind}</span>
+              {title}
+            </h1>
+            <p><p dangerouslySetInnerHTML={{ __html: description.replace(/\+/g, ' ') }} /></p>
           </Fragment>
         </PageHeader>
 
-        <section className="row post-grid">
-          {archive.entities.map(item => (
-            <Item item={item} key={`${kind}-${slug}-${page}-${item.id}`} />
-          ))}
-        </section>
+        {archive.entities && archive.entities.length > 0 && (
+          <Fragment>
+            <section className="row post-grid">
+              {archive.entities.map(item => (
+                <Item item={item} key={`${kind}-${slug}-${page}-${item.id}`} />
+              ))}
+            </section>
 
-        <Paging
-          totalPages={totalPages}
-          currentPage={page}
-          urlPrefix={`/${kind}/${slug}`}
-        />
+            <Paging
+              totalPages={totalPages}
+              currentPage={page}
+              urlPrefix={`/${kind}/${slug}`}
+            />
+          </Fragment>
+        )}
       </Public>
     );
   }

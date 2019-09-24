@@ -164,14 +164,15 @@
 			margin-top: 1em;
 
 			h1 {
+				display: flex;
+				align-items: center;
+				flex-direction: column;
 
-				.flag {
-					text-align: left;
-					line-height: 0;
-
-					.label {
-						font-size: 20px;
-					}
+				span {
+					background-color: $white;
+					color: $black;
+					padding: 0 0.4em 0.1em;
+					font-size: 20px;
 				}
 
 				@include breakpoint(medium only) {
@@ -193,7 +194,7 @@
 				> p {
 					font-weight: 200;
 					font-size: 1.2em;
-					margin-bottom: 0.2em;
+					margin-bottom: 0;
 					line-height: 1.4;
 					background-color: rgba(map-get($foundation-palette, 'primary'), 0.8);
 					padding: 0 0.2em;
