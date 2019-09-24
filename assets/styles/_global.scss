@@ -28,7 +28,7 @@ a {
 }
 
 p {
-	font-weight: 300;
+	font-weight: 400;
 	line-height: 1.8;
 }
 
@@ -39,16 +39,16 @@ h1 {
 
 
 h2 {
-    font-size: 20pt;
+	font-size: 20pt;
 	font-family: $font-ubuntu;
-    letter-spacing: -1.3px;
-    	font-weight: 300;
+	letter-spacing: -1.3px;
+	font-weight: 300;
 }
 
 h3 {
 	font-size: 15pt;
 	letter-spacing: -0.4px;
-	font-weight: 300;
+	font-weight: 400;
 }
 
 article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
@@ -92,8 +92,8 @@ dd {
 		color: $white !important;
 		padding: 0 7px;
 		margin: 0 5px 5px 0;
-	    border-radius: 6px;
-	    transition: background-color ease-out 0.5s;
+		border-radius: 6px;
+		transition: background-color ease-out 0.5s;
 
 		&:hover {
 			background-color: $black !important;
@@ -104,39 +104,3 @@ dd {
 		}
 	}
 }
-
-/*
-.flex-container-row {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-
-	&.right {
-		justify-content: flex-end;
-	}
-}
-*/
-
-/*
-.loading {
-	text-align: center;
-
-	img {
-		display: block;
-		margin: 0 auto 10px;
-		margin-bottom: 10px;
-	}
-
-	i {
-		color: map-get($foundation-palette, 'primary');
-	}
-}
-
-
-.template-dev-tools {
-	.container {
-		margin-top: 50px;
-		margin-bottom: 50px;
-	}
-}
-*/
