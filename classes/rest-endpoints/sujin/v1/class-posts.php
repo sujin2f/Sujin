@@ -185,7 +185,7 @@ class Posts extends Abs_Rest_Base {
 		$return = rest_ensure_response( $posts );
 
 		if ( 'search' !== $term ) {
-			$return->header( 'x-wp-term-description', $term->description );
+			$return->header( 'x-wp-term-description', urlencode( $term->description ) );
 			$return->header( 'x-wp-term-name', urlencode( $term->name ) );
 
 			$thumbnail = Term_Meta_Attachment::get_instance( 'Thumbnail' )
@@ -193,8 +193,12 @@ class Posts extends Abs_Rest_Base {
 			$thumbnail = wp_get_attachment_image_src( $thumbnail, 'full' )[0];
 			$return->header( 'x-wp-term-thumbnail', $thumbnail );
 		} else {
-			$return->header( 'x-wp-term-description', 'Search result for ' . $keyword );
-			$return->header( 'x-wp-term-name', $keyword );
+			if ( $posts ) {
+				$return->header( 'x-wp-term-description', urlencode( 'Search result for ' . $keyword ) );
+			} else {
+				$return->header( 'x-wp-term-description', urlencode( 'No search result' ) );
+			}
+			$return->header( 'x-wp-term-name', urlencode( $keyword ) );
 		}
 
 		$this->set_transient( $return );
@@ -239,6 +243,10 @@ class Posts extends Abs_Rest_Base {
 			}
 		}
 
+		$br      = array( '<br />', '<br/>', '<br>', '&lt;br /&gt;', '&lt;br/&gt;', '&lt;br&gt;' );
+		$excerpt = str_replace( $br, "\r\n\r\n", $item->post_excerpt );
+		$excerpt = wpautop( $excerpt );
+
 		$item = array(
 			'id'        => $item->ID,
 			'date'      => $item->post_date,
@@ -247,7 +255,7 @@ class Posts extends Abs_Rest_Base {
 			'slug'      => $item->post_name,
 			'content'   => wpautop( do_shortcode( $item->post_content ) ),
 			'type'      => $item->post_type,
-			'excerpt'   => $item->post_excerpt,
+			'excerpt'   => $excerpt,
 			'meta'      => array(
 				'list'                 => Post_Meta_Attachment::get_instance( 'List' )->get( $item->ID ),
 				'icon'                 => Post_Meta_Attachment::get_instance( 'Icon' )->get( $item->ID ),

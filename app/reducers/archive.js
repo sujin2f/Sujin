@@ -23,37 +23,26 @@ function archive(state = initialState, action) {
     }
 
     case REQUEST_ARCHIVE_SUCCESS: {
+      const { kind, slug, page } = action;
       const totalPages = parseInt(action.response.headers['x-wp-totalpages'], 10);
       const background = action.response.headers['x-wp-term-thumbnail'];
-
-      const title =
-        action.kind === 'search' ?
-          action.slug :
-          decodeURIComponent(action.response.headers['x-wp-term-name']);
-      const description =
-        action.kind === 'search' ?
-          '' :
-          decodeURIComponent(action.response.headers['x-wp-term-description']);
-
-      const entities =
-        action.response.data.length > 0 ?
-          action.response.data :
-          {};
+      const title = decodeURIComponent(action.response.headers['x-wp-term-name']);
+      const description = decodeURIComponent(action.response.headers['x-wp-term-description']);
 
       return {
         ...state,
         entities: {
           ...state.entities,
-          [action.kind]: {
-            ...state.entities[action.kind],
-            [action.slug]: {
+          [kind]: {
+            ...state.entities[kind],
+            [slug]: {
+              ...state.entities[kind][slug],
               totalPages,
               background,
               title,
               description,
-              ...state.entities[action.kind][action.slug],
-              [action.page]: {
-                entities,
+              [page]: {
+                entities: action.response.data,
               },
             },
           },
