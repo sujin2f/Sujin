@@ -61,7 +61,7 @@ export function parseContent(content) {
             {Object.keys(matched[value].named).map((keyCarousel) => (
               <div key={hash(matched[value].named[keyCarousel])}>
                 <img
-                  src={replaceQuotes(matched[value].named, 'keyCarousel')}
+                  src={replaceQuotes(matched[value].named, keyCarousel)}
                   alt=""
                 />
               </div>
