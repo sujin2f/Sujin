@@ -23,7 +23,7 @@ class Router extends Component {
       if (action === 'PUSH' || action === 'POP') {
         setHistory(history);
         setLocation(location);
-        setMatched({});
+        setMatched(null);
       }
     });
   }

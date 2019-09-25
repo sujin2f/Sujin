@@ -7,7 +7,7 @@ import {
 // Initial State
 const initialState = {
   history: {},
-  matched: {},
+  matched: null,
   location: {},
 };
 

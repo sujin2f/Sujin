@@ -12,7 +12,7 @@ class NoMatch extends Component {
       children,
     } = this.props;
 
-    if (Object.keys(matched).length) {
+    if (matched) {
       return null;
     }
 

@@ -13,13 +13,20 @@ class Route extends Component {
       path,
       children,
       location,
+      matched,
       setMatched,
     } = this.props;
 
-    const matched = getMatched(path, location.pathname);
+    const newMatched = getMatched(path, location.pathname);
 
-    if (matched.matched) {
-      setMatched(matched.matched);
+    if (matched && JSON.stringify(matched) !== JSON.stringify(newMatched.matched)) {
+      return null;
+    }
+
+    if (newMatched.matched) {
+      if (!matched) {
+        setMatched(newMatched.matched);
+      }
 
       return (
         <Fragment>
@@ -34,6 +41,7 @@ class Route extends Component {
 
 const mapStateToProps = withSelect((select) => ({
   location: select(STORE).getLocation(),
+  matched: select(STORE).getMatched(),
 }));
 
 const mapDispatchToProps = withDispatch((dispatch) => ({
