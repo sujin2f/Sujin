@@ -20,7 +20,7 @@ class About_Item {
 		add_shortcode( self::SHORTCODE, array( $this, 'do_shortcode' ), 15, 2 );
 	}
 
-	public function do_shortcode( array $atts, string $content = "" ): string {
+	public function do_shortcode( array $atts, string $content = '' ): string {
 		$atts = shortcode_atts(
 			array(
 				'from' => null,
