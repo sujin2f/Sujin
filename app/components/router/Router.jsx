@@ -1,20 +1,32 @@
 import { createBrowserHistory } from 'history';
 import { STORE } from 'app/constants/common';
+import { parseMatched } from 'app/utils/router';
 
-const { Fragment, Component } = wp.element;
-const { withDispatch } = wp.data;
+const { Component } = wp.element;
+const { withSelect, withDispatch } = wp.data;
 const { compose } = wp.compose;
 
 class Router extends Component {
-  componentDidMount() {
-    console.log('Router::componentDidMount()');
+  constructor(props) {
+    super(props);
+    this.state = { mounted: false };
+    this.setHistory = this.setHistory.bind(this);
+    this.getValidChild = this.getValidChild.bind(this);
+  }
 
+  componentDidMount() {
+    this.setHistory();
+    this.setState({ mounted: true });
+  }
+
+  setHistory() {
     const {
       setHistory,
       setLocation,
       setMatched,
     } = this.props;
 
+    // Set history
     const history = createBrowserHistory();
     setHistory(history);
     setLocation(history.location);
@@ -28,18 +40,52 @@ class Router extends Component {
     });
   }
 
+  getValidChild() {
+    const {
+      children,
+      matched,
+      location,
+      setMatched,
+    } = this.props;
+
+    let validChild = null;
+
+    children.some((child) => {
+      if (!child.props.path) {
+        validChild = child;
+        return true;
+      }
+
+      const parsed = parseMatched(child.props.path, location.pathname);
+
+      if (parsed.matched) {
+        if (!matched) {
+          setMatched(parsed.matched);
+        }
+
+        validChild = child;
+        return true;
+      }
+
+      return false;
+    });
+
+    return [validChild];
+  }
+
   render() {
-    console.log('Router::render()');
+    if (!this.state.mounted) {
+      return null;
+    }
 
-    const { children } = this.props;
-
-    return (
-      <Fragment>
-        {children}
-      </Fragment>
-    );
+    return this.getValidChild();
   }
 }
+
+const mapStateToProps = withSelect((select) => ({
+  location: select(STORE).getLocation(),
+  matched: select(STORE).getMatched(),
+}));
 
 const mapDispatchToProps = withDispatch((dispatch) => ({
   setHistory: (history) => dispatch(STORE).setHistory(history),
@@ -47,4 +93,4 @@ const mapDispatchToProps = withDispatch((dispatch) => ({
   setMatched: (matched) => dispatch(STORE).setMatched(matched),
 }));
 
-export default compose([mapDispatchToProps])(Router);
+export default compose([mapStateToProps, mapDispatchToProps])(Router);

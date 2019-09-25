@@ -9,8 +9,6 @@ import reducer from 'app/reducers';
 
 // Router
 import Router from 'app/components/router/Router';
-import Route from 'app/components/router/Route';
-import NoMatch from 'app/components/router/NoMatch';
 
 // Scenes
 import FrontPage from 'app/scenes/public/FrontPage';
@@ -25,49 +23,18 @@ import NotFound from 'app/scenes/public/NotFound';
 
   registerStore(STORE, { reducer, selectors, actions });
 
-  console.log('app.js');
-
   render(
     <Router>
-      <Route path="/">
-        <FrontPage />
-      </Route>
-
-      <Route path="/category/:category/page/:page?">
-        <Archive />
-      </Route>
-
-      <Route path="/category/:category">
-        <Archive />
-      </Route>
-
-      <Route path="/tag/:tag/page/:page?">
-        <Archive />
-      </Route>
-
-      <Route path="/tag/:tag">
-        <Archive />
-      </Route>
-
-      <Route path="/search/:search/page/:page?">
-        <Archive />
-      </Route>
-
-      <Route path="/search/:search">
-        <Archive />
-      </Route>
-
-      <Route path="/:year([0-9]+)/:month([0-9]+)/:day([0-9]+)/:postSlug">
-        <Post />
-      </Route>
-
-      <Route path="/:slug">
-        <Page />
-      </Route>
-
-      <NoMatch>
-        <NotFound />
-      </NoMatch>
+      <FrontPage path="/" />
+      <Archive path="/category/:category/page/:page?" />
+      <Archive path="/category/:category" />
+      <Archive path="/tag/:tag/page/:page?" />
+      <Archive path="/tag/:tag" />
+      <Archive path="/search/:search/page/:page?" />
+      <Archive path="/search/:search" />
+      <Post path="/:year([0-9]+)/:month([0-9]+)/:day([0-9]+)/:postSlug" />
+      <Page path="/:slug" />
+      <NotFound />
     </Router>,
     document.getElementById('app'),
   );

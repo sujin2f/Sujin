@@ -1,8 +1,6 @@
 import axios from 'axios';
-
 import PageHeader from 'app/components/layout/PageHeader';
 import Public from 'app/scenes/public';
-
 import { STORE, DEFAULT_TITLE } from 'app/constants/common';
 import { isMobile } from 'app/utils/common';
 
@@ -14,30 +12,24 @@ const { Component } = wp.element;
 
 class FrontPage extends Component {
   constructor(props) {
-    console.log('FrontPage::constructor()');
-
     super(props);
     this.requestMainBackground = this.requestMainBackground.bind(this);
     this.parseBackground = this.parseBackground.bind(this);
   }
 
   componentDidMount() {
-    console.log('FrontPage::componentDidMount()');
     this.requestMainBackground();
   }
 
   requestMainBackground() {
-    console.log('FrontPage::requestMainBackground()');
-
     const {
       mainBackground: {
         entities,
-        loading,
         error,
       },
     } = this.props;
 
-    if (entities.length > 0 && loading === false && error === false) {
+    if (entities.length > 0 && error === false) {
       return;
     }
 
@@ -45,8 +37,6 @@ class FrontPage extends Component {
   }
 
   parseBackground() {
-    console.log('FrontPage::parseBackground()');
-
     const {
       mainBackground: {
         entities,
@@ -64,16 +54,12 @@ class FrontPage extends Component {
     }
 
     const index = Math.floor(Math.random() * entities.length);
-    return isMobile() ? entities[index].desktop : entities[index].mobile;
+    return isMobile() ? entities[index].mobile : entities[index].desktop;
   }
 
   render() {
-    console.log('FrontPage::render()');
-
-    const { setTitle, title } = this.props;
-
-    if (title !== DEFAULT_TITLE) {
-      setTitle(DEFAULT_TITLE);
+    if (this.props.title !== DEFAULT_TITLE) {
+      this.props.setTitle(DEFAULT_TITLE);
     }
 
     return (
