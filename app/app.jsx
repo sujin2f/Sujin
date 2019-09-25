@@ -25,6 +25,8 @@ import NotFound from 'app/scenes/public/NotFound';
 
   registerStore(STORE, { reducer, selectors, actions });
 
+  console.log('app.js');
+
   render(
     <Router>
       <Route path="/">

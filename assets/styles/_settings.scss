@@ -1,6 +1,6 @@
 $header-height: 48px;
 
-$body-font-family: 'Lato', 'Nanum Gothic', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$body-font-family: 'Ubuntu', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
 // Colors
 $foundation-palette: (
@@ -19,8 +19,6 @@ $primary-dark: darken(map-get($foundation-palette, 'primary'), 15%);
 $primary-black: darken(map-get($foundation-palette, 'primary'), 23%);
 
 $body-background: $light-gray;
-
-$font-ubuntu: 'Ubuntu', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
 $page-header-height: 300px + $header-height;
 $page-header-height-medium: 400px + $header-height;

@@ -1,9 +1,11 @@
 #wrapper.stretched-background > main {
 	.page-header-wrapper {
 		height: calc(100vh);
+		min-height: inherit;
 
 		.overlay {
 			height: calc(100vh);
+			min-height: inherit;
 		}
 
 		.text {
@@ -15,12 +17,16 @@
 				background: transparent url('../images/logo.svg') no-repeat 0 0;
 				width: 100%;
 				background-position: center bottom;
-				margin-bottom: 15px;
+				margin-bottom: 20px;
 			}
 
 			p {
+				padding: 0 0.2em;
+				line-height: inherit;
+				background-color: $white;
+				color: $black;
 				font-size: 1.5em;
-				text-align: center;
+				font-weight: 400;
 				margin-bottom: 0;
 			}
 		}

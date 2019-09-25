@@ -253,7 +253,7 @@ class Posts extends Abs_Rest_Base {
 			'link'      => get_permalink( $item ),
 			'title'     => $item->post_title,
 			'slug'      => $item->post_name,
-			'content'   => wpautop( do_shortcode( $item->post_content ) ),
+			'content'   => do_shortcode( wpautop( $item->post_content ) ),
 			'type'      => $item->post_type,
 			'excerpt'   => $excerpt,
 			'meta'      => array(

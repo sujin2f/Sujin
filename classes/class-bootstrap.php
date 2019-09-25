@@ -19,5 +19,7 @@ class Bootstrap {
 		Custom_Fields::get_instance();
 		Post_Series::get_instance();
 		React::get_instance();
+
+		Shortcode\About_Item::get_instance();
 	}
 }

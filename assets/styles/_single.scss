@@ -133,6 +133,10 @@
 				figure {
 					a {
 						display: initial;
+
+						time {
+							display: none;
+						}
 					}
 				}
 
@@ -228,29 +232,34 @@ article.page-about {
 		display: flex;
 		margin-bottom: 10px;
 		align-items: flex-start;
+		border-top: 1px solid map-get($foundation-palette, 'primary');
 
 		.year {
 			display: flex;
 			flex-direction: column;
-			justify-content: center;
-			border-radius: 100px;
+			justify-content: space-evenly;
 			background-color: map-get($foundation-palette, 'primary');
 			color: $white;
 			width: 80px;
 			height: 80px;
 			margin-right: 20px;
-			margin-top: 3px;
+			align-items: center;
 
 			div {
-				width: 80px;
 				text-align: center;
+				width: 80px;
 				margin: 2px 0;
-				border-top: 1px solid #f6f6f6;
 
-				&:first-child {
-					border-top: none;
+				&.separator {
+					background-color: white;
+					height: 5px;
+					width: 5px;
 				}
 			}
+		}
+
+		.detail {
+			padding-top: 1em;
 		}
 	}
 }

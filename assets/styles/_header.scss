@@ -160,8 +160,8 @@
 			flex-direction: column;
 			justify-content: center;
 			align-items: center;
-			color: white;
-			margin-top: 1em;
+			color: $white;
+			margin-top: 2em;
 
 			h1 {
 				display: flex;
@@ -169,10 +169,11 @@
 				flex-direction: column;
 
 				span {
+					font-size: 0.4em;
+					font-weight: 200;
 					background-color: $white;
 					color: $black;
 					padding: 0 0.4em 0.1em;
-					font-size: 20px;
 				}
 
 				@include breakpoint(medium only) {
@@ -192,11 +193,12 @@
 				align-items: flex-start;
 
 				> p {
-					font-weight: 200;
+					font-weight: 400;
 					font-size: 1.2em;
 					margin-bottom: 0;
 					line-height: 1.4;
-					background-color: rgba(map-get($foundation-palette, 'primary'), 0.8);
+					background-color: $white;
+					color: $black;
 					padding: 0 0.2em;
 
 					@include breakpoint(small only) {
