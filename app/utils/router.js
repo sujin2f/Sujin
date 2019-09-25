@@ -2,7 +2,7 @@ import pathToRegexp from 'path-to-regexp';
 
 /* eslint-disable import/prefer-default-export */
 
-export function getMatched(path, url) {
+export function parseMatched(path, url) {
   const regExp = new RegExp(pathToRegexp(path));
   const matchedResult = regExp.exec(url);
 
