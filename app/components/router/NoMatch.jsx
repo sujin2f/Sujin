@@ -6,6 +6,7 @@ const { compose } = wp.compose;
 
 class NoMatch extends Component {
   render() {
+    console.log('NoMatch::render()');
     const {
       matched,
       children,

@@ -73,8 +73,12 @@ class Archive extends Component {
     };
   }
 
+  componentDidMount() {
+    console.log('Archive::componentDidMount()');
+  }
+
   static getDerivedStateFromProps(props, state) {
-    console.log('getDerivedStateFromProps', props, state);
+    console.log('Archive::requestArticle()');
 
     const newState = Archive.requestArticle(props, state);
     Archive.setTitle(props, state, newState.kind, newState.slug, newState.page);
@@ -87,7 +91,8 @@ class Archive extends Component {
   }
 
   render() {
-    console.log('Archive::render');
+    console.log('Archive::render()');
+
     const {
       kind,
       slug,

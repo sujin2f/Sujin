@@ -14,16 +14,21 @@ const { Component } = wp.element;
 
 class FrontPage extends Component {
   constructor(props) {
+    console.log('FrontPage::constructor()');
+
     super(props);
     this.requestMainBackground = this.requestMainBackground.bind(this);
     this.parseBackground = this.parseBackground.bind(this);
   }
 
   componentDidMount() {
+    console.log('FrontPage::componentDidMount()');
     this.requestMainBackground();
   }
 
   requestMainBackground() {
+    console.log('FrontPage::requestMainBackground()');
+
     const {
       mainBackground: {
         entities,
@@ -40,6 +45,8 @@ class FrontPage extends Component {
   }
 
   parseBackground() {
+    console.log('FrontPage::parseBackground()');
+
     const {
       mainBackground: {
         entities,
@@ -61,6 +68,8 @@ class FrontPage extends Component {
   }
 
   render() {
+    console.log('FrontPage::render()');
+
     const { setTitle, title } = this.props;
 
     if (title !== DEFAULT_TITLE) {

@@ -7,6 +7,8 @@ const { compose } = wp.compose;
 
 class Router extends Component {
   componentDidMount() {
+    console.log('Router::componentDidMount()');
+
     const {
       setHistory,
       setLocation,
@@ -27,6 +29,8 @@ class Router extends Component {
   }
 
   render() {
+    console.log('Router::render()');
+
     const { children } = this.props;
 
     return (

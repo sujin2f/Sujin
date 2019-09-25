@@ -8,6 +8,7 @@ const { compose } = wp.compose;
 
 class Route extends Component {
   render() {
+    console.log('Route::render()');
     const {
       path,
       children,
