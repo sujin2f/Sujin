@@ -169,10 +169,11 @@
 				flex-direction: column;
 
 				span {
+					font-size: 0.4em;
+					font-weight: 200;
 					background-color: $white;
 					color: $black;
 					padding: 0 0.4em 0.1em;
-					font-size: 0.4em;
 				}
 
 				@include breakpoint(medium only) {
@@ -193,7 +194,6 @@
 
 				> p {
 					font-weight: 400;
-					font-family: $font-ubuntu;
 					font-size: 1.2em;
 					margin-bottom: 0;
 					line-height: 1.4;

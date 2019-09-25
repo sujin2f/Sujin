@@ -43,7 +43,7 @@ class About_Item {
 				}
 				?>
 			</div>
-			<div class="detail"><?php echo str_replace( array( '<p>', '</p>' ), '', $content ); ?></div>
+			<div class="detail"><?php echo $content; ?></div>
 		</div>
 		<?php
 
