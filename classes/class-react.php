@@ -26,6 +26,21 @@ class React {
 
 	public function register_scripts() {
 		wp_register_script(
+			'sujin-app-vendor',
+			get_stylesheet_directory_uri() . '/dist/vendors~app.js',
+			array(),
+			false,
+			true
+		);
+
+		wp_register_style(
+			'sujin-app-vendor',
+			get_stylesheet_directory_uri() . '/dist/vendors~style.css',
+			array(),
+			false
+		);
+
+		wp_register_script(
 			'sujin-app',
 			get_stylesheet_directory_uri() . '/dist/app.js',
 			array(),
@@ -39,18 +54,15 @@ class React {
 			array(),
 			filemtime( get_stylesheet_directory() . '/dist/style.css' )
 		);
-
-		$data = array(
-			'themeUrl' => get_stylesheet_directory_uri(),
-		);
-
-		wp_localize_script( 'sujin-app', 'sujin', $data );
 	}
 
 	public function enqueue_scripts() {
 		wp_enqueue_script( 'wp-shortcode' );
 		wp_enqueue_script( 'wp-components' );
+
 		wp_enqueue_script( 'sujin-app' );
+		wp_enqueue_script( 'sujin-app-vendor' );
 		wp_enqueue_style( 'sujin-app' );
+		wp_enqueue_style( 'sujin-app-vendor' );
 	}
 }
