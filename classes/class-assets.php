@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
 
-class React {
+class Assets {
 	use Singleton;
 
 	public function __construct() {
@@ -54,6 +54,9 @@ class React {
 			array(),
 			filemtime( get_stylesheet_directory() . '/dist/style.css' )
 		);
+
+		wp_deregister_script('jquery');
+		wp_register_script('jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js', false, '1.12.4');
 	}
 
 	public function enqueue_scripts() {
@@ -64,5 +67,8 @@ class React {
 		wp_enqueue_script( 'sujin-app-vendor' );
 		wp_enqueue_style( 'sujin-app' );
 		wp_enqueue_style( 'sujin-app-vendor' );
+
+		wp_dequeue_style( 'wp-block-library' );
+
 	}
 }
