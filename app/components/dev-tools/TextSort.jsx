@@ -1,6 +1,3 @@
-import SyntaxHighlighter from 'react-syntax-highlighter';
-import { arduinoLight } from 'react-syntax-highlighter/styles/hljs';
-
 import Link from 'app/components/router/Link';
 
 import { sortText } from 'app/actions/dev-tools';
@@ -69,12 +66,9 @@ class TextSort extends Component {
           <textarea id="sort-text" onChange={this.handleChangeText} rows="10" />
 
           {convertedText && (
-            <SyntaxHighlighter
-              style={arduinoLight}
-              showLineNumbers
-            >
+            <pre>
               {convertedText}
-            </SyntaxHighlighter>
+            </pre>
           )}
         </article>
       </Fragment>

@@ -9,6 +9,7 @@ import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import CleanWebpackPlugin from 'clean-webpack-plugin';
 import cssnano from 'cssnano';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
 exports.setBase = function(entry, dist) {
   const production = 'build' === process.env.npm_lifecycle_event;
@@ -23,6 +24,24 @@ exports.setBase = function(entry, dist) {
         path.resolve(dist, filename.replace('.scss', '.js.map')),
       ];
     }, []);
+
+  const plugins = [
+    new CleanWebpackPlugin(),
+    new FriendlyErrorsWebpackPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
+    new CompressionPlugin({
+        test: /\.js$|\.css$|\.html$|\.eot?.+$|\.ttf?.+$|\.woff?.+$|\.svg?.+$/,
+        filename: '[path].gz[query]',
+        algorithm: 'gzip',
+        threshold: 10240,
+        minRatio: 0.8,
+    }),
+    new WebpackCleanPlugin(clean),
+    new MiniCssExtractPlugin(),
+  ];
+  if (!production) {
+    plugins.push(new BundleAnalyzerPlugin());
+  }
 
   return {
     mode: production ? 'production' : 'development',
@@ -69,20 +88,7 @@ exports.setBase = function(entry, dist) {
         },
       ],
     },
-    plugins: [
-      new CleanWebpackPlugin(),
-      new FriendlyErrorsWebpackPlugin(),
-      new webpack.NoEmitOnErrorsPlugin(),
-      new CompressionPlugin({
-          test: /\.js$|\.css$|\.html$|\.eot?.+$|\.ttf?.+$|\.woff?.+$|\.svg?.+$/,
-          filename: '[path].gz[query]',
-          algorithm: 'gzip',
-          threshold: 10240,
-          minRatio: 0.8,
-      }),
-      new WebpackCleanPlugin(clean),
-      new MiniCssExtractPlugin(),
-    ],
+    plugins,
     optimization: {
       minimizer: [
         new UglifyJsPlugin(),
