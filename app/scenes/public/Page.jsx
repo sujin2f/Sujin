@@ -3,7 +3,6 @@ import axios from 'axios';
 import Public from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
 import Content from 'app/components/single/Content';
-import Loading from 'app/components/layout/Loading';
 import NotFound from 'app/scenes/public/NotFound';
 
 import { STORE } from 'app/constants/common';
@@ -20,6 +19,10 @@ class Page extends Component {
   constructor(props) {
     super(props);
     this.state = { slug: false };
+
+    this.getLoading = this.getLoading.bind(this);
+    this.getNotFound = this.getNotFound.bind(this);
+    this.setTitle = this.setTitle.bind(this);
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -33,52 +36,70 @@ class Page extends Component {
     return { slug };
   }
 
+  getLoading() {
+    const { loading } = this.props.getPage(this.state.slug);
+
+    if (loading) {
+      return (
+        <Public className="stretched-background hide-footer">
+          <PageHeader isLoading />
+        </Public>
+      );
+    }
+
+    return null;
+  }
+
+  getNotFound() {
+    const { page } = this.props.getPage(this.state.slug);
+
+    if (page === 'NOT_FOUND') {
+      return (<NotFound />);
+    }
+
+    return null;
+  }
+
+  setTitle() {
+    const { page } = this.props.getPage(this.state.slug);
+    const { title, setTitle } = this.props;
+
+    if (title !== page.title) {
+      setTitle(page.title);
+    }
+  }
+
   render() {
     if (!this.state.slug) {
       return null;
     }
 
-    const {
-      page,
-      loading,
-    } = this.props.getPage(this.state.slug);
-
-    const {
-      setTitle,
-      title,
-    } = this.props;
-
+    const loading = this.getLoading();
     if (loading) {
-      return (
-        <Public className="stretched-background hide-footer">
-          <PageHeader>
-            <Loading />
-          </PageHeader>
-        </Public>
-      );
+      return loading;
     }
 
-    if (page === 'NOT_FOUND') {
-      return (
-        <NotFound />
-      );
+    const notFound = this.getNotFound();
+    if (notFound) {
+      return notFound;
     }
+
+    this.setTitle();
+
+    const { page } = this.props.getPage(this.state.slug);
 
     const backgroundImage =
       parseJson(page.meta.background, 'post-thumbnail') ||
       page.thumbnail ||
       DEFAULT_BACKGROUND;
 
-    if (title !== page.title) {
-      setTitle(page.title);
-    }
-
     return (
       <Public className="template-single">
-        <PageHeader backgroundImage={backgroundImage}>
-          <h1>{page.title}</h1>
-          <p dangerouslySetInnerHTML={{ __html: page.excerpt }} />
-        </PageHeader>
+        <PageHeader
+          backgroundImage={backgroundImage}
+          title={page.title}
+          description={page.excerpt}
+        />
 
         <section className="row">
           <Content post={page} className="medium-12" />

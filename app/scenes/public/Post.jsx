@@ -2,11 +2,10 @@ import axios from 'axios';
 
 import Public from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
-import Loading from 'app/components/layout/Loading';
 import Content from 'app/components/single/Content';
 import RecentPosts from 'app/components/single/RecentPosts';
+import RelatedPosts from 'app/components/single/RelatedPosts';
 import PrevNext from 'app/components/single/PrevNext';
-import Item from 'app/components/archive/Item';
 import NotFound from 'app/scenes/public/NotFound';
 
 import { STORE } from 'app/constants/common';
@@ -16,15 +15,16 @@ import DEFAULT_BACKGROUND from '../../../assets/images/background/category.jpg';
 
 const { withDispatch, withSelect } = wp.data;
 const { compose } = wp.compose;
-const { Fragment, Component } = wp.element;
+const { Component } = wp.element;
 
 class Post extends Component {
   constructor(props) {
     super(props);
+    this.state = { slug: false };
 
-    this.state = {
-      slug: false,
-    };
+    this.getLoading = this.getLoading.bind(this);
+    this.getNotFound = this.getNotFound.bind(this);
+    this.setTitle = this.setTitle.bind(this);
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -38,54 +38,72 @@ class Post extends Component {
     return { slug };
   }
 
+  getLoading() {
+    const { loading } = this.props.getPost(this.state.slug);
+
+    if (loading) {
+      return (
+        <Public className="stretched-background hide-footer">
+          <PageHeader isLoading />
+        </Public>
+      );
+    }
+
+    return null;
+  }
+
+  getNotFound() {
+    const { post } = this.props.getPost(this.state.slug);
+
+    if (post === 'NOT_FOUND') {
+      return (<NotFound />);
+    }
+
+    return null;
+  }
+
+  setTitle() {
+    const { post } = this.props.getPost(this.state.slug);
+    const { title, setTitle } = this.props;
+
+    if (title !== post.title) {
+      setTitle(post.title);
+    }
+  }
+
   render() {
     if (!this.state.slug) {
       return null;
     }
 
-    const {
-      post,
-      loading,
-    } = this.props.getPost(this.state.slug);
-
-    const {
-      setTitle,
-      title,
-    } = this.props;
-
+    const loading = this.getLoading();
     if (loading) {
-      return (
-        <Public className="stretched-background hide-footer">
-          <PageHeader>
-            <Loading />
-          </PageHeader>
-        </Public>
-      );
+      return loading;
     }
 
-    if (post === 'NOT_FOUND') {
-      return (
-        <NotFound />
-      );
+    const notFound = this.getNotFound();
+    if (notFound) {
+      return notFound;
     }
+
+    this.setTitle();
+
+    const { post } = this.props.getPost(this.state.slug);
 
     const backgroundImage =
       parseJson(post.meta.background, 'post-thumbnail') ||
       post.thumbnail ||
       DEFAULT_BACKGROUND;
 
-    if (title !== post.title) {
-      setTitle(post.title);
-    }
-
     return (
       <Public className="template-single">
-        <PageHeader backgroundImage={backgroundImage}>
-          <Fragment>
-            <h1>{post.title}</h1>
-            <p dangerouslySetInnerHTML={{ __html: post.excerpt }} />
-          </Fragment>
-        </PageHeader>
+        <PageHeader
+          backgroundImage={backgroundImage}
+          title={post.title}
+          description={post.excerpt}
+          backgroundColor={post.meta['background-color']}
+          useBackgroundColor={post.meta['use-background-color']}
+        />
 
         <section className="row">
           <Content post={post} className="large-9 medium-12">
@@ -93,32 +111,12 @@ class Post extends Component {
               <PrevNext prevnext={post.prevnext} />
 
               <section id="related-posts">
-                <header className="row">
-                  <div className="columns small-12">
-                    <h2 className="section-header">Related Posts</h2>
-                  </div>
-                </header>
-
-                {post.related && (
-                  <section className="post-grid row">
-                    {post.related.map(related => (
-                      <Item
-                        item={related}
-                        key={`related--${related.id}`}
-                        columns="large-3 medium-6 small-12"
-                      />
-                    ))}
-                  </section>
-                )}
+                <RelatedPosts items={post.related} />
               </section>
             </aside>
           </Content>
 
           <aside id="recent-posts" className="columns large-3 show-for-large">
-            <header>
-              <h2 className="section-header">Recent Posts</h2>
-            </header>
-
             <RecentPosts />
           </aside>
         </section>
