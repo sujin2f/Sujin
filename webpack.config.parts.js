@@ -31,6 +31,7 @@ exports.setBase = function(entry, dist) {
     output: {
       path: dist,
       filename: '[name].js',
+      publicPath: '/wp-content/themes/sujin/',
     },
     module: {
       rules: [
@@ -61,10 +62,11 @@ exports.setBase = function(entry, dist) {
         },
         {
           test: /\.(gif|png|jpe?g|svg)$/i,
-          use: [
-            'url-loader',
-          ],
-        }
+          loader: 'file-loader',
+          options: {
+            name: '[path][name].[ext]',
+          },
+        },
       ],
     },
     plugins: [
@@ -86,6 +88,9 @@ exports.setBase = function(entry, dist) {
         new UglifyJsPlugin(),
         new OptimizeCSSAssetsPlugin(),
       ],
+      splitChunks: {
+        chunks: 'all',
+      },
     },
     // Prevent conflicts
     externals: {
