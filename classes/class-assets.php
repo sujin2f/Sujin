@@ -16,8 +16,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
 
-class Assets {
+final class Assets {
 	use Singleton;
+
+	private const JQUERY_CDN = 'http://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js';
 
 	public function __construct() {
 		add_action( 'init', array( $this, 'register_scripts' ) );
@@ -31,13 +33,6 @@ class Assets {
 			array(),
 			false,
 			true
-		);
-
-		wp_register_style(
-			'sujin-app-vendor',
-			get_stylesheet_directory_uri() . '/dist/vendors~style.css',
-			array(),
-			false
 		);
 
 		wp_register_script(
@@ -55,8 +50,10 @@ class Assets {
 			filemtime( get_stylesheet_directory() . '/dist/style.css' )
 		);
 
-		wp_deregister_script('jquery');
-		wp_register_script('jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js', false, '1.12.4');
+		if ( ! is_admin() && $GLOBALS['pagenow'] !== 'wp-login.php' ) {
+			wp_deregister_script( 'jquery' );
+			wp_register_script( 'jquery', self::JQUERY_CDN, false, '1.12.4' );
+		}
 	}
 
 	public function enqueue_scripts() {
@@ -66,7 +63,6 @@ class Assets {
 		wp_enqueue_script( 'sujin-app' );
 		wp_enqueue_script( 'sujin-app-vendor' );
 		wp_enqueue_style( 'sujin-app' );
-		wp_enqueue_style( 'sujin-app-vendor' );
 
 		wp_dequeue_style( 'wp-block-library' );
 
