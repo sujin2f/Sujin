@@ -48,7 +48,8 @@ class React {
 	}
 
 	public function enqueue_scripts() {
-		wp_enqueue_script( 'wp-format-library' );
+		wp_enqueue_script( 'wp-shortcode' );
+		wp_enqueue_script( 'wp-components' );
 		wp_enqueue_script( 'sujin-app' );
 		wp_enqueue_style( 'sujin-app' );
 	}
