@@ -12,6 +12,7 @@ import cssnano from 'cssnano';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
 exports.setBase = function(entry, dist) {
+  const dev = 'start' === process.env.npm_lifecycle_event;
   const production = 'build' === process.env.npm_lifecycle_event;
   const productionSetting = {};
   const clean = Object.keys(entry)
@@ -39,7 +40,7 @@ exports.setBase = function(entry, dist) {
     new WebpackCleanPlugin(clean),
     new MiniCssExtractPlugin(),
   ];
-  if (!production) {
+  if (!production && !dev) {
     plugins.push(new BundleAnalyzerPlugin());
   }
 
