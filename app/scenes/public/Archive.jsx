@@ -2,7 +2,6 @@ import axios from 'axios';
 
 import Public from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
-import Loading from 'app/components/layout/Loading';
 import Item from 'app/components/archive/Item';
 import Paging from 'app/components/archive/Paging';
 import NotFound from 'app/scenes/public/NotFound';
@@ -15,52 +14,45 @@ const { withDispatch, withSelect } = wp.data;
 const { compose } = wp.compose;
 
 class Archive extends Component {
-  static requestArticle(props, state) {
-    const page = Archive.getPaged(props);
-    const kind = Archive.getKind(props);
-    const slug = props.matched[kind];
+  static shouldRequest(props, state) {
+    const { kind, slug, page } = Archive.parseMatched(props.matched);
 
     if (!slug) {
-      return { kind, slug, page };
+      return false;
     }
 
     // If not changed
     if (state.kind === kind && state.slug === slug && state.page === page) {
-      return { kind, slug, page };
+      return false;
     }
 
-    const archive = props.getArchive(kind, slug, page).archive;
-    const entities = archive && archive.entities;
+    const archive = props.getArchive({ kind, slug, page }).archive;
 
-    if (entities) {
-      return { kind, slug, page };
+    if (archive && archive.entities) {
+      return false;
     }
 
-    props.requestArchive(kind, slug, page);
     return { kind, slug, page };
   }
 
-  static getPaged(props) {
-    return (props.matched && props.matched.page) || 1;
+  static parseMatched(matched) {
+    const page = (matched && matched.page) || 1;
+    const kind =
+      (matched.category && 'category') ||
+      (matched.tag && 'tag') ||
+      (matched.search && 'search');
+    const slug = matched[kind];
+
+    return { kind, slug, page };
   }
 
-  static getKind(props) {
-    return (props.matched.category && 'category') ||
-      (props.matched.tag && 'tag') ||
-      (props.matched.search && 'search');
-  }
-
-  static setTitle(props, state, kind, slug, page) {
-    const { title } = props.getArchive(kind, slug, page);
-    const titleToBe = Archive.getTitle(title);
-
-    if (props.title !== titleToBe && title) {
-      props.setTitle(titleToBe);
+  static setTitle(props, state, requestParams) {
+    const { title } = props.getArchive(requestParams);
+    if (title !== state.title) {
+      props.setTitle(`Archive: ${title}`);
     }
-  }
 
-  static getTitle(title) {
-    return `Archive: ${title}`;
+    return title;
   }
 
   constructor(props) {
@@ -70,34 +62,54 @@ class Archive extends Component {
       kind: null,
       slug: null,
       page: null,
+      title: undefined,
     };
+
+    this.getLoading = this.getLoading.bind(this);
+    this.getNotFound = this.getNotFound.bind(this);
   }
 
-  componentDidMount() {
-    console.log('Archive::componentDidMount()');
+  getLoading() {
+    const { archive, loading } = this.props.getArchive(this.state);
+
+    if (loading || !archive) {
+      return (
+        <Public className="stretched-background hide-footer">
+          <PageHeader isLoading />
+        </Public>
+      );
+    }
+
+    return null;
+  }
+
+  getNotFound() {
+    const { archive } = this.props.getArchive(this.state);
+
+    if (archive === 'NOT_FOUND') {
+      return (<NotFound />);
+    }
+
+    return null;
   }
 
   static getDerivedStateFromProps(props, state) {
-    console.log('Archive::requestArticle()');
+    const shouldRequest = Archive.shouldRequest(props, state);
 
-    const newState = Archive.requestArticle(props, state);
-    Archive.setTitle(props, state, newState.kind, newState.slug, newState.page);
-
-    if (state === newState) {
-      return null;
+    if (shouldRequest) {
+      props.requestArchive(shouldRequest);
     }
 
-    return newState;
+    const requestParams = Archive.parseMatched(props.matched);
+
+    return {
+      ...requestParams,
+      title: Archive.setTitle(props, state, requestParams),
+    };
   }
 
   render() {
-    console.log('Archive::render()');
-
-    const {
-      kind,
-      slug,
-      page,
-    } = this.state;
+    const { kind, slug, page } = this.state;
 
     if (!slug) {
       return null;
@@ -105,40 +117,30 @@ class Archive extends Component {
 
     const {
       archive,
-      loading,
       totalPages,
       background,
       description,
       title,
-    } = this.props.getArchive(kind, slug, page);
+    } = this.props.getArchive(this.state);
 
-    if (loading || !archive) {
-      return (
-        <Public className="stretched-background hide-footer">
-          <PageHeader>
-            <Loading />
-          </PageHeader>
-        </Public>
-      );
+    const loading = this.getLoading();
+    if (loading) {
+      return loading;
     }
 
-    if (archive === 'NOT_FOUND') {
-      return (
-        <NotFound />
-      );
+    const notFound = this.getNotFound();
+    if (notFound) {
+      return notFound;
     }
 
     return (
       <Public className="template-archive">
-        <PageHeader backgroundImage={background || DEFAULT_BACKGROUND}>
-          <Fragment>
-            <h1>
-              <span>{kind}</span>
-              {title}
-            </h1>
-            <p><p dangerouslySetInnerHTML={{ __html: description.replace(/\+/g, ' ') }} /></p>
-          </Fragment>
-        </PageHeader>
+        <PageHeader
+          backgroundImage={background || DEFAULT_BACKGROUND}
+          prefix={kind}
+          title={title}
+          description={description.replace(/\+/g, ' ')}
+        />
 
         {archive.entities && archive.entities.length > 0 && (
           <Fragment>
@@ -161,13 +163,13 @@ class Archive extends Component {
 }
 
 const mapStateToProps = withSelect((select) => ({
-  getArchive: (kind, slug, page) => select(STORE).getArchive(kind, slug, page),
+  getArchive: (state) => select(STORE).getArchive(state.kind, state.slug, state.page),
   matched: select(STORE).getMatched(),
   title: select(STORE).getTitle(),
 }));
 
 const mapDispatchToProps = withDispatch((dispatch) => ({
-  requestArchive: (kind, slug, page) => {
+  requestArchive: ({ kind, slug, page }) => {
     dispatch(STORE).requestArchiveInit(kind, slug, page);
 
     axios.get(`/wp-json/sujin/v1/posts/?list_type=${kind}&keyword=${slug}&page=${page}&per_page=12`)

@@ -4,8 +4,8 @@ import Public from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
 import Content from 'app/components/single/Content';
 import RecentPosts from 'app/components/single/RecentPosts';
+import RelatedPosts from 'app/components/single/RelatedPosts';
 import PrevNext from 'app/components/single/PrevNext';
-import Item from 'app/components/archive/Item';
 import NotFound from 'app/scenes/public/NotFound';
 
 import { STORE } from 'app/constants/common';
@@ -110,28 +110,14 @@ class Post extends Component {
               <PrevNext prevnext={post.prevnext} />
 
               <section id="related-posts">
-                <header className="row">
-                  <div className="columns small-12">
-                    <h2 className="section-header">Related Posts</h2>
-                  </div>
-                </header>
-
-                {post.related && (
-                  <section className="post-grid row">
-                    {post.related.map(related => (
-                      <Item
-                        item={related}
-                        key={`related--${related.id}`}
-                        columns="large-3 medium-6 small-12"
-                      />
-                    ))}
-                  </section>
-                )}
+                <RelatedPosts items={post.related} />
               </section>
             </aside>
           </Content>
 
-          <RecentPosts />
+          <aside id="recent-posts" className="columns large-3 show-for-large">
+            <RecentPosts />
+          </aside>
         </section>
       </Public>
     );

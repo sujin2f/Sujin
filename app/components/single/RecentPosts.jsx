@@ -7,7 +7,7 @@ import { STORE } from 'app/constants/common';
 
 const { withDispatch, withSelect } = wp.data;
 const { compose } = wp.compose;
-const { Component } = wp.element;
+const { Component, Fragment } = wp.element;
 
 class RecentPosts extends Component {
   constructor(props) {
@@ -36,21 +36,15 @@ class RecentPosts extends Component {
     const { entities, loading } = getRecentPosts();
 
     if (loading) {
-      return (
-        <aside id="recent-posts" className="columns large-3 show-for-large">
-          <Loading />
-        </aside>
-      );
+      return (<Loading />);
     }
 
     if (!loading && !entities) {
-      return (
-        <aside id="recent-posts" className="columns large-3 show-for-large" />
-      );
+      return null;
     }
 
     return (
-      <aside id="recent-posts" className="columns large-3 show-for-large">
+      <Fragment>
         <header>
           <h2 className="section-header">Recent Posts</h2>
         </header>
@@ -63,7 +57,7 @@ class RecentPosts extends Component {
             item={entity}
           />
         ))}
-      </aside>
+      </Fragment>
     );
   }
 }
