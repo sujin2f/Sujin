@@ -64,10 +64,11 @@ class FrontPage extends Component {
 
     return (
       <Public className="stretched-background hide-footer">
-        <PageHeader backgroundImage={this.parseBackground()}>
-          <h1>SUJIN</h1>
-          <p>Wordpress/React Developer</p>
-        </PageHeader>
+        <PageHeader
+          backgroundImage={this.parseBackground()}
+          title="SUJIN"
+          description="<p>Wordpress/React Developer</p>"
+        />
       </Public>
     );
   }

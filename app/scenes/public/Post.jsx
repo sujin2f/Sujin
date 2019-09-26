@@ -90,7 +90,8 @@ class Post extends Component {
 
     const { post } = this.props.getPost(this.state.slug);
 
-    const backgroundImage = parseJson(post.meta.background, 'post-thumbnail') ||
+    const backgroundImage =
+      parseJson(post.meta.background, 'post-thumbnail') ||
       post.thumbnail ||
       DEFAULT_BACKGROUND;
 

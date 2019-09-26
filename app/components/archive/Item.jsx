@@ -27,7 +27,6 @@ class Item extends Component {
         <figure className="thumbnail" itemType="http://schema.org/ImageObject">
           <Link to={item.link} rel="noopener noreferrer" title={title}>
             <div className="zoom-icon" />
-            {/* ?? */}
             <div className="inner-shadow" />
             <time dateTime={date.date}>
               <span className="day">{date.day}</span>
