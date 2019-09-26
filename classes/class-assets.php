@@ -2,6 +2,7 @@
 namespace Sujin\Wordpress\Theme\Sujin;
 
 use Sujin\Wordpress\Theme\Sujin\Helpers\Singleton;
+use Sujin\Wordpress\WP_Express\Google_Font_Loader;
 
 /**
  * Initialize
@@ -24,6 +25,8 @@ final class Assets {
 	public function __construct() {
 		add_action( 'init', array( $this, 'register_scripts' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+
+		Google_Font_Loader::get_instance( 'Ubuntu:300,400,500,700' );
 	}
 
 	public function register_scripts() {
