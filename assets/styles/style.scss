@@ -1,22 +1,26 @@
 @import url('//fonts.googleapis.com/css?family=Ubuntu:300,400,500,700');
 
-@import "settings";
+@import '~foundation-sites/scss/foundation';
 
-@import "~foundation-sites/dist/css/foundation-float.css";
+@include foundation-global-styles;
+@include foundation-forms;
+@include foundation-typography;
+@include foundation-flex-grid;
+@include foundation-visibility-classes;
 
-@import "~foundation-sites/scss/foundation";
+@import 'settings';
 
-@import "global";
-@import "icon";
-@import "thumbnail";
-@import "menu";
+@import 'global';
+@import 'icon';
+@import 'thumbnail';
+@import 'menu';
 
-@import "header";
-@import "footer";
+@import 'header';
+@import 'footer';
 
-@import "front-page";
-@import "single";
-@import "archive";
-@import "aside";
-@import "carousel";
-@import "404";
+@import 'front-page';
+@import 'single';
+@import 'archive';
+@import 'aside';
+@import 'carousel';
+@import '404';
