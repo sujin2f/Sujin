@@ -7,15 +7,12 @@ import { STORE } from 'app/constants/common';
 
 const { withDispatch, withSelect } = wp.data;
 const { compose } = wp.compose;
-const { Fragment, Component } = wp.element;
+const { Component } = wp.element;
 
 class RecentPosts extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      loaded: false,
-    };
+    this.state = { loaded: false };
   }
 
   componentDidMount() {
@@ -38,12 +35,27 @@ class RecentPosts extends Component {
     const { getRecentPosts } = this.props;
     const { entities, loading } = getRecentPosts();
 
-    return (
-      <Fragment>
-        {loading &&
+    if (loading) {
+      return (
+        <aside id="recent-posts" className="columns large-3 show-for-large">
           <Loading />
-        }
-        {!loading && entities && entities.map(entity => (
+        </aside>
+      );
+    }
+
+    if (!loading && !entities) {
+      return (
+        <aside id="recent-posts" className="columns large-3 show-for-large" />
+      );
+    }
+
+    return (
+      <aside id="recent-posts" className="columns large-3 show-for-large">
+        <header>
+          <h2 className="section-header">Recent Posts</h2>
+        </header>
+
+        {entities.map(entity => (
           <Item
             key={`recent-post-id-${entity.id}`}
             id={`post-id-${entity.id}`}
@@ -51,7 +63,7 @@ class RecentPosts extends Component {
             item={entity}
           />
         ))}
-      </Fragment>
+      </aside>
     );
   }
 }
