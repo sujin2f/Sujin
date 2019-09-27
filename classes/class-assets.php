@@ -53,7 +53,7 @@ final class Assets {
 			filemtime( get_stylesheet_directory() . '/dist/style.css' )
 		);
 
-		if ( ! is_admin() && $GLOBALS['pagenow'] !== 'wp-login.php' ) {
+		if ( ! is_admin() && 'wp-login.php' !== $GLOBALS['pagenow'] ) {
 			wp_deregister_script( 'jquery' );
 			wp_register_script( 'jquery', self::JQUERY_CDN, false, '1.12.4' );
 		}
