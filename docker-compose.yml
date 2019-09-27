@@ -15,8 +15,7 @@ services:
       WORDPRESS_DEBUG: 1
       TZ: America/Toronto
     volumes:
-      - ../../Docker/plugins:/var/www/html/wp-content/plugins
-      - ../../Docker/uploads/sujinc.com:/var/www/html/wp-content/uploads
+      - ../../Docker/wp-content/sujinc.com:/var/www/html/wp-content
       - ./:/var/www/html/wp-content/themes/sujin
     ports:
       - 80

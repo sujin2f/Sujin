@@ -1,6 +1,3 @@
-import SyntaxHighlighter from 'react-syntax-highlighter';
-import { arduinoLight } from 'react-syntax-highlighter/styles/hljs';
-
 import { symbolAlignment } from 'app/actions/dev-tools';
 
 import Link from 'app/components/router/Link';
@@ -73,11 +70,9 @@ class SymbolAlignment extends Component {
           <textarea id="sort-text" onChange={this.handleChangeText} rows="10" />
 
           {convertedText && (
-            /* eslint-disable max-len */
-            <SyntaxHighlighter style={arduinoLight} showLineNumbers>
+            <pre>
               {convertedText}
-            </SyntaxHighlighter>
-            /* eslint-enable max-len */
+            </pre>
           )}
         </article>
       </Fragment>

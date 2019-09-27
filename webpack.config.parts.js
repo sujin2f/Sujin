@@ -9,8 +9,10 @@ import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import CleanWebpackPlugin from 'clean-webpack-plugin';
 import cssnano from 'cssnano';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
 exports.setBase = function(entry, dist) {
+  const dev = 'start' === process.env.npm_lifecycle_event;
   const production = 'build' === process.env.npm_lifecycle_event;
   const productionSetting = {};
   const clean = Object.keys(entry)
@@ -24,6 +26,26 @@ exports.setBase = function(entry, dist) {
       ];
     }, []);
 
+  const plugins = [
+    new CleanWebpackPlugin(),
+    new FriendlyErrorsWebpackPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
+    new CompressionPlugin({
+        test: /\.js$|\.css$|\.html$|\.eot?.+$|\.ttf?.+$|\.woff?.+$|\.svg?.+$/,
+        filename: '[path].gz[query]',
+        algorithm: 'gzip',
+        threshold: 10240,
+        minRatio: 0.8,
+    }),
+    new WebpackCleanPlugin(clean),
+    new MiniCssExtractPlugin(),
+  ];
+  if (!production && !dev) {
+    plugins.push(new BundleAnalyzerPlugin());
+  }
+
+  const splitChunks = dev ? {} : { chunks: 'all' };
+
   return {
     mode: production ? 'production' : 'development',
     devtool: production ? false : 'inline-source-map',
@@ -31,6 +53,7 @@ exports.setBase = function(entry, dist) {
     output: {
       path: dist,
       filename: '[name].js',
+      publicPath: '/wp-content/themes/sujin/',
     },
     module: {
       rules: [
@@ -61,31 +84,20 @@ exports.setBase = function(entry, dist) {
         },
         {
           test: /\.(gif|png|jpe?g|svg)$/i,
-          use: [
-            'url-loader',
-          ],
-        }
+          loader: 'file-loader',
+          options: {
+            name: '[path][name].[ext]',
+          },
+        },
       ],
     },
-    plugins: [
-      new CleanWebpackPlugin(),
-      new FriendlyErrorsWebpackPlugin(),
-      new webpack.NoEmitOnErrorsPlugin(),
-      new CompressionPlugin({
-          test: /\.js$|\.css$|\.html$|\.eot?.+$|\.ttf?.+$|\.woff?.+$|\.svg?.+$/,
-          filename: '[path].gz[query]',
-          algorithm: 'gzip',
-          threshold: 10240,
-          minRatio: 0.8,
-      }),
-      new WebpackCleanPlugin(clean),
-      new MiniCssExtractPlugin(),
-    ],
+    plugins,
     optimization: {
       minimizer: [
         new UglifyJsPlugin(),
         new OptimizeCSSAssetsPlugin(),
       ],
+      splitChunks,
     },
     // Prevent conflicts
     externals: {

@@ -1,32 +1,24 @@
-@font-face{
-	font-family: 'Fira Code';
-	src: url('/fonts/FiraCode-Regular.eot');
-	src: url('/fonts/FiraCode-Regular.eot') format('embedded-opentype'),
-		 url('/fonts/FiraCode-Regular.woff2') format('woff2'),
-		 url('/fonts/FiraCode-Regular.woff') format('woff'),
-		 url('/fonts/FiraCode-Regular.ttf') format('truetype');
-	font-weight: 400;
-	font-style: normal;
-}
-@import url('//fonts.googleapis.com/css?family=Ubuntu:300,400,500,700');
+@import '~foundation-sites/scss/foundation';
 
-@import "settings";
+@include foundation-global-styles;
+@include foundation-forms;
+@include foundation-typography;
+@include foundation-flex-grid;
+@include foundation-visibility-classes;
 
-@import "~foundation-sites/dist/css/foundation-float.css";
+@import 'settings';
 
-@import "~foundation-sites/scss/foundation";
+@import 'global';
+@import 'icon';
+@import 'thumbnail';
+@import 'menu';
 
-@import "global";
-@import "icon";
-@import "thumbnail";
-@import "menu";
+@import 'header';
+@import 'footer';
 
-@import "header";
-@import "footer";
-
-@import "front-page";
-@import "single";
-@import "archive";
-@import "aside";
-@import "carousel";
-@import "404";
+@import 'front-page';
+@import 'single';
+@import 'archive';
+@import 'aside';
+@import 'carousel';
+@import '404';

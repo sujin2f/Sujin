@@ -55,6 +55,7 @@ class RecentPosts extends Component {
             id={`post-id-${entity.id}`}
             columns="large-12 medium-12 small-12"
             item={entity}
+            thumbnail={{ desktop: 'recent-post', mobile: 'recent-post' }}
           />
         ))}
       </Fragment>

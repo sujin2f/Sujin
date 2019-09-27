@@ -7,7 +7,10 @@ import Paging from 'app/components/archive/Paging';
 import NotFound from 'app/scenes/public/NotFound';
 
 import { STORE } from 'app/constants/common';
+import { isMobile } from 'app/utils/common';
+
 import DEFAULT_BACKGROUND from '../../../assets/images/background/category.jpg';
+import DEFAULT_BACKGROUND_MOBILE from '../../../assets/images/background/category-mobile.jpg';
 
 const { Fragment, Component } = wp.element;
 const { withDispatch, withSelect } = wp.data;
@@ -133,10 +136,14 @@ class Archive extends Component {
       return notFound;
     }
 
+    const defaultBackground = isMobile() ? DEFAULT_BACKGROUND_MOBILE : DEFAULT_BACKGROUND;
+    const backgroundImage = background || defaultBackground;
+
     return (
       <Public className="template-archive">
+
         <PageHeader
-          backgroundImage={background || DEFAULT_BACKGROUND}
+          backgroundImage={backgroundImage}
           prefix={kind}
           title={title}
           description={description.replace(/\+/g, ' ')}

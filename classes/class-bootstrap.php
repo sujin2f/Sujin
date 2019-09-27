@@ -18,7 +18,7 @@ class Bootstrap {
 		Theme_Customizer::get_instance();
 		Custom_Fields::get_instance();
 		Post_Series::get_instance();
-		React::get_instance();
+		Assets::get_instance();
 
 		Shortcode\About_Item::get_instance();
 	}
