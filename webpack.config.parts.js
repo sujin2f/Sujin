@@ -44,6 +44,8 @@ exports.setBase = function(entry, dist) {
     plugins.push(new BundleAnalyzerPlugin());
   }
 
+  const splitChunks = dev ? {} : { chunks: 'all' };
+
   return {
     mode: production ? 'production' : 'development',
     devtool: production ? false : 'inline-source-map',
@@ -95,9 +97,7 @@ exports.setBase = function(entry, dist) {
         new UglifyJsPlugin(),
         new OptimizeCSSAssetsPlugin(),
       ],
-      splitChunks: {
-        chunks: 'all',
-      },
+      splitChunks,
     },
     // Prevent conflicts
     externals: {

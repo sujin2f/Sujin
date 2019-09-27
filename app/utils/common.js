@@ -36,6 +36,25 @@ export const parseJson = (string, key) => {
   }
 };
 
+export const parseExImage = (
+  meta,
+  thumbnail,
+  desktop,
+  mobile,
+  defaultDesktop = null,
+  defaultMobile = null,
+) => {
+  if (!isMobile()) {
+    return parseJson(meta, desktop) ||
+      parseJson(JSON.stringify(thumbnail), desktop) ||
+      defaultDesktop;
+  }
+
+  return parseJson(meta, mobile) ||
+    parseJson(JSON.stringify(thumbnail), mobile) ||
+    defaultMobile;
+};
+
 const isDate = (date) => {
   return date instanceof Date && date.getDate();
 };

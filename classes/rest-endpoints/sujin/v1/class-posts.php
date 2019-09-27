@@ -267,7 +267,14 @@ class Posts extends Abs_Rest_Base {
 			),
 			'tags'      => $tags,
 			'series'    => $series,
-			'thumbnail' => wp_get_attachment_image_src( get_post_thumbnail_id( $item->ID ), 'post-thumbnail' )[0] ?? null,
+			'thumbnail' => array(
+				'thumbnail' => wp_get_attachment_image_src( get_post_thumbnail_id( $item->ID ), 'thumbnail' )[0] ?? null,
+				'medium' => wp_get_attachment_image_src( get_post_thumbnail_id( $item->ID ), 'medium' )[0] ?? null,
+				'medium_large' => wp_get_attachment_image_src( get_post_thumbnail_id( $item->ID ), 'medium_large' )[0] ?? null,
+				'large' => wp_get_attachment_image_src( get_post_thumbnail_id( $item->ID ), 'large' )[0] ?? null,
+				'post-thumbnail' => wp_get_attachment_image_src( get_post_thumbnail_id( $item->ID ), 'post-thumbnail' )[0] ?? null,
+				'recent-post' => wp_get_attachment_image_src( get_post_thumbnail_id( $item->ID ), 'recent-post' )[0] ?? null,
+			),
 			'prevnext'  => array(
 				'prev' => $this->get_prev_next( $item ),
 				'next' => $this->get_prev_next( $item, false ),
@@ -348,7 +355,7 @@ class Posts extends Abs_Rest_Base {
 				'meta'      => array(
 					'list' => Post_Meta_Attachment::get_instance( 'List' )->get( $post->ID ),
 				),
-				'thumbnail' => wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'post-thumbnail' )[0] ?? null,
+				'thumbnail' => wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'related-post' )[0] ?? null,
 				'link'      => get_permalink( $post->ID ),
 			);
 		}

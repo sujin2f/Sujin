@@ -9,9 +9,10 @@ import PrevNext from 'app/components/single/PrevNext';
 import NotFound from 'app/scenes/public/NotFound';
 
 import { STORE } from 'app/constants/common';
-import { parseJson } from 'app/utils/common';
+import { parseExImage } from 'app/utils/common';
 
 import DEFAULT_BACKGROUND from '../../../assets/images/background/category.jpg';
+import DEFAULT_BACKGROUND_MOBILE from '../../../assets/images/background/category-mobile.jpg';
 
 const { withDispatch, withSelect } = wp.data;
 const { compose } = wp.compose;
@@ -91,9 +92,14 @@ class Post extends Component {
     const { post } = this.props.getPost(this.state.slug);
 
     const backgroundImage =
-      parseJson(post.meta.background, 'post-thumbnail') ||
-      post.thumbnail ||
-      DEFAULT_BACKGROUND;
+      parseExImage(
+        post.meta.background,
+        post.thumbnail,
+        'medium_large',
+        'post-thumbnail',
+        DEFAULT_BACKGROUND,
+        DEFAULT_BACKGROUND_MOBILE,
+      );
 
     return (
       <Public className="template-single">

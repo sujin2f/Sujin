@@ -5,6 +5,8 @@ import { STORE, DEFAULT_TITLE } from 'app/constants/common';
 import { isMobile } from 'app/utils/common';
 
 import DEFAULT_BACKGROUND from '../../../assets/images/background/backup-background.jpg';
+import DEFAULT_BACKGROUND_MOBILE
+  from '../../../assets/images/background/backup-background-mobile.jpg';
 
 const { withDispatch, withSelect } = wp.data;
 const { compose } = wp.compose;
@@ -46,6 +48,9 @@ class FrontPage extends Component {
     } = this.props;
 
     if (error) {
+      if (isMobile()) {
+        return DEFAULT_BACKGROUND_MOBILE;
+      }
       return DEFAULT_BACKGROUND;
     }
 
