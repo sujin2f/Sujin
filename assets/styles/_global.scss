@@ -67,12 +67,10 @@ button {
 	cursor: pointer;
 }
 
-/*
 dd {
 	margin-bottom: 1em;
 	overflow-wrap: break-word;
 }
-*/
 
 // Classes
 .flex-row {
@@ -97,7 +95,7 @@ dd {
 		padding: 0 7px;
 		margin: 0 5px 5px 0;
 		border-radius: 2px;
-		transition: background-color ease-out 0.5s;
+		transition: background-color ease-out 0.2s;
 
 		&:hover {
 			background-color: map-get($foundation-palette, 'primary') !important;

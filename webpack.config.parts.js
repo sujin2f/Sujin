@@ -95,9 +95,6 @@ exports.setBase = function(entry, dist) {
         new UglifyJsPlugin(),
         new OptimizeCSSAssetsPlugin(),
       ],
-      splitChunks: {
-        chunks: 'all',
-      },
     },
     // Prevent conflicts
     externals: {
