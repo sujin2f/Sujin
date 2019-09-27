@@ -7,15 +7,12 @@ import { STORE } from 'app/constants/common';
 
 const { withDispatch, withSelect } = wp.data;
 const { compose } = wp.compose;
-const { Fragment, Component } = wp.element;
+const { Component, Fragment } = wp.element;
 
 class RecentPosts extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      loaded: false,
-    };
+    this.state = { loaded: false };
   }
 
   componentDidMount() {
@@ -38,17 +35,27 @@ class RecentPosts extends Component {
     const { getRecentPosts } = this.props;
     const { entities, loading } = getRecentPosts();
 
+    if (loading) {
+      return (<Loading />);
+    }
+
+    if (!loading && !entities) {
+      return null;
+    }
+
     return (
       <Fragment>
-        {loading &&
-          <Loading />
-        }
-        {!loading && entities && entities.map(entity => (
+        <header>
+          <h2 className="section-header">Recent Posts</h2>
+        </header>
+
+        {entities.map(entity => (
           <Item
             key={`recent-post-id-${entity.id}`}
             id={`post-id-${entity.id}`}
             columns="large-12 medium-12 small-12"
             item={entity}
+            thumbnail={{ desktop: 'recent-post', mobile: 'recent-post' }}
           />
         ))}
       </Fragment>

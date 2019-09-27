@@ -1,25 +1,56 @@
 // TODO animation https://codepen.io/ramon82/pen/opJXGr
 
 import Menu from 'app/components/layout/Menu';
-import { backgroundImageStyle } from 'app/utils/common';
+import Loading from 'app/components/layout/Loading';
 
-const { Component } = wp.element;
+const { Component, Fragment } = wp.element;
 
 class PageHeader extends Component {
   render() {
     const {
-      children,
+      prefix,
+      title,
+      description,
       backgroundImage,
+      backgroundColor,
+      useBackgroundColor,
+      isLoading,
     } = this.props;
+
+    let content = null;
+    let style = {};
+
+    if (isLoading) {
+      content = (<Loading />);
+    } else {
+      style = {
+        backgroundImage:
+          typeof backgroundImage !== 'string' && !(backgroundImage instanceof String) ?
+            null :
+            `url(${backgroundImage})`,
+        backgroundSize: useBackgroundColor ? 'contain' : 'cover',
+        backgroundColor: backgroundColor || null,
+      };
+
+      content = (
+        <Fragment>
+          <h1>
+            {prefix && (<span>{prefix}</span>)}
+            {title}
+          </h1>
+          <p dangerouslySetInnerHTML={{ __html: description }} />
+        </Fragment>
+      );
+    }
 
     return (
       <header
         className="page-header-wrapper"
-        style={backgroundImageStyle(backgroundImage)}
+        style={style}
       >
         <div className="overlay">
           <div className="text row">
-            {children}
+            {content}
           </div>
 
           <div className="row menu-container">
