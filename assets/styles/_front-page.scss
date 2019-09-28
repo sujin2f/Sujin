@@ -25,9 +25,13 @@
 				line-height: inherit;
 				background-color: $white;
 				color: $black;
-				font-size: 1.5em;
+				font-size: 1.3em;
 				font-weight: 400;
 				margin-bottom: 0;
+
+				@include breakpoint(small only) {
+					font-size: 1.2em;
+				}
 			}
 		}
 	}

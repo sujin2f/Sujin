@@ -8,7 +8,6 @@ import WebpackCleanPlugin from 'webpack-clean';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import CleanWebpackPlugin from 'clean-webpack-plugin';
-import cssnano from 'cssnano';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
 exports.setBase = function(entry, dist) {
@@ -78,8 +77,23 @@ exports.setBase = function(entry, dist) {
             {
               loader: MiniCssExtractPlugin.loader,
             },
-            'css-loader',
-            'sass-loader',
+            {
+              loader: 'css-loader',
+              options: { sourceMap: true },
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                sourceMap: true,
+                config: {
+                  path: 'postcss.config.js'
+                }
+              }
+            },
+            {
+              loader: 'sass-loader',
+              options: { sourceMap: true },
+            },
           ],
         },
         {

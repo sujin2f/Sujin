@@ -25,7 +25,6 @@
 			height: $header-height;
 			background-color: map-get($foundation-palette, 'primary');
 			mask-size: calc(#{$header-height} - 18px);
-			-webkit-mask-size: calc(#{$header-height} - 18px);
 
 			&:hover {
 				background-color: $black;
@@ -107,7 +106,6 @@
 			color: $white;
 			text-align: center;
 			background-color: $white;
-			-webkit-mask-size: 1em;
 			mask-size: 1em;
 		}
 
@@ -182,11 +180,15 @@
 
 				@include breakpoint(small only) {
 					font-size: 35px;
+
+					span {
+						font-size: 0.6em;
+					}
 				}
 
 			}
 
-			> p {
+			.columns > p {
 				margin: 0;
 				display: flex;
 				flex-direction: column;
@@ -197,8 +199,8 @@
 					font-size: 1.2em;
 					margin-bottom: 0;
 					line-height: 1.4;
-					background-color: $white;
-					color: $black;
+					background-color: $black;
+					color: $white;
 					padding: 0 0.2em;
 
 					@include breakpoint(small only) {

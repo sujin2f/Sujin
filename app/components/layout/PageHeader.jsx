@@ -3,7 +3,7 @@
 import Menu from 'app/components/layout/Menu';
 import Loading from 'app/components/layout/Loading';
 
-const { Component, Fragment } = wp.element;
+const { Component } = wp.element;
 
 class PageHeader extends Component {
   render() {
@@ -33,13 +33,15 @@ class PageHeader extends Component {
       };
 
       content = (
-        <Fragment>
-          <h1>
-            {prefix && (<span>{prefix}</span>)}
-            {title}
-          </h1>
-          <p dangerouslySetInnerHTML={{ __html: description }} />
-        </Fragment>
+        <div className="text row">
+          <div className="columns small-12">
+            <h1>
+              {prefix && (<span>{prefix}</span>)}
+              {title}
+            </h1>
+            <p dangerouslySetInnerHTML={{ __html: description }} />
+          </div>
+        </div>
       );
     }
 
@@ -49,9 +51,7 @@ class PageHeader extends Component {
         style={style}
       >
         <div className="overlay">
-          <div className="text row">
-            {content}
-          </div>
+          {content}
 
           <div className="row menu-container">
             <section className="columns small-12">

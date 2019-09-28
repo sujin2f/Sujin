@@ -174,7 +174,10 @@ class Posts extends Abs_Rest_Base {
 		}
 
 		// Query posts
-		$posts = new WP_Query( $args );
+		$posts         = new WP_Query( $args );
+		$found_posts   = $posts->found_posts;
+		$max_num_pages = $posts->max_num_pages;
+
 		$posts = $posts->posts;
 
 		foreach ( array_keys( $posts ) as $key ) {
@@ -183,9 +186,11 @@ class Posts extends Abs_Rest_Base {
 		}
 
 		$return = rest_ensure_response( $posts );
+		$return->header( 'X-WP-Total', $found_posts );
+		$return->header( 'X-WP-TotalPages', $max_num_pages );
 
 		if ( 'search' !== $term ) {
-			$return->header( 'x-wp-term-description', urlencode( $term->description ) );
+			$return->header( 'x-wp-term-description', urlencode( wpautop( $term->description ) ) );
 			$return->header( 'x-wp-term-name', urlencode( $term->name ) );
 
 			$thumbnail = Term_Meta_Attachment::get_instance( 'Thumbnail' )
@@ -194,9 +199,9 @@ class Posts extends Abs_Rest_Base {
 			$return->header( 'x-wp-term-thumbnail', $thumbnail );
 		} else {
 			if ( $posts ) {
-				$return->header( 'x-wp-term-description', urlencode( 'Search result for ' . $keyword ) );
+				$return->header( 'x-wp-term-description', urlencode( '<p>Search result for ' . $keyword . '</p>' ) );
 			} else {
-				$return->header( 'x-wp-term-description', urlencode( 'No search result' ) );
+				$return->header( 'x-wp-term-description', urlencode( '<p>No search result</p>' ) );
 			}
 			$return->header( 'x-wp-term-name', urlencode( $keyword ) );
 		}
