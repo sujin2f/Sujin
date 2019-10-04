@@ -174,7 +174,10 @@ class Posts extends Abs_Rest_Base {
 		}
 
 		// Query posts
-		$posts = new WP_Query( $args );
+		$posts         = new WP_Query( $args );
+		$found_posts   = $posts->found_posts;
+		$max_num_pages = $posts->max_num_pages;
+
 		$posts = $posts->posts;
 
 		foreach ( array_keys( $posts ) as $key ) {
@@ -183,9 +186,11 @@ class Posts extends Abs_Rest_Base {
 		}
 
 		$return = rest_ensure_response( $posts );
+		$return->header( 'X-WP-Total', $found_posts );
+		$return->header( 'X-WP-TotalPages', $max_num_pages );
 
 		if ( 'search' !== $term ) {
-			$return->header( 'x-wp-term-description', urlencode( $term->description ) );
+			$return->header( 'x-wp-term-description', urlencode( wpautop( $term->description ) ) );
 			$return->header( 'x-wp-term-name', urlencode( $term->name ) );
 
 			$thumbnail = Term_Meta_Attachment::get_instance( 'Thumbnail' )
@@ -194,9 +199,9 @@ class Posts extends Abs_Rest_Base {
 			$return->header( 'x-wp-term-thumbnail', $thumbnail );
 		} else {
 			if ( $posts ) {
-				$return->header( 'x-wp-term-description', urlencode( 'Search result for ' . $keyword ) );
+				$return->header( 'x-wp-term-description', urlencode( '<p>Search result for ' . $keyword . '</p>' ) );
 			} else {
-				$return->header( 'x-wp-term-description', urlencode( 'No search result' ) );
+				$return->header( 'x-wp-term-description', urlencode( '<p>No search result</p>' ) );
 			}
 			$return->header( 'x-wp-term-name', urlencode( $keyword ) );
 		}
@@ -267,14 +272,7 @@ class Posts extends Abs_Rest_Base {
 			),
 			'tags'      => $tags,
 			'series'    => $series,
-			'thumbnail' => array(
-				'thumbnail'      => wp_get_attachment_image_src( get_post_thumbnail_id( $item->ID ), 'thumbnail' )[0] ?? null,
-				'medium'         => wp_get_attachment_image_src( get_post_thumbnail_id( $item->ID ), 'medium' )[0] ?? null,
-				'medium_large'   => wp_get_attachment_image_src( get_post_thumbnail_id( $item->ID ), 'medium_large' )[0] ?? null,
-				'large'          => wp_get_attachment_image_src( get_post_thumbnail_id( $item->ID ), 'large' )[0] ?? null,
-				'post-thumbnail' => wp_get_attachment_image_src( get_post_thumbnail_id( $item->ID ), 'post-thumbnail' )[0] ?? null,
-				'recent-post'    => wp_get_attachment_image_src( get_post_thumbnail_id( $item->ID ), 'recent-post' )[0] ?? null,
-			),
+			'thumbnail' => $this->get_thumbnail_array( $item->ID ),
 			'prevnext'  => array(
 				'prev' => $this->get_prev_next( $item ),
 				'next' => $this->get_prev_next( $item, false ),
@@ -355,7 +353,7 @@ class Posts extends Abs_Rest_Base {
 				'meta'      => array(
 					'list' => Post_Meta_Attachment::get_instance( 'List' )->get( $post->ID ),
 				),
-				'thumbnail' => wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'related-post' )[0] ?? null,
+				'thumbnail' => $this->get_thumbnail_array( $post->ID ),
 				'link'      => get_permalink( $post->ID ),
 			);
 		}
@@ -460,6 +458,17 @@ class Posts extends Abs_Rest_Base {
 					'readonly'    => true,
 				),
 			),
+		);
+	}
+
+	private function get_thumbnail_array( int $post_id ): array {
+		return array(
+			'thumbnail'      => wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), 'thumbnail' )[0] ?? null,
+			'medium'         => wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), 'medium' )[0] ?? null,
+			'medium_large'   => wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), 'medium_large' )[0] ?? null,
+			'large'          => wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), 'large' )[0] ?? null,
+			'post-thumbnail' => wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), 'post-thumbnail' )[0] ?? null,
+			'recent-post'    => wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), 'recent-post' )[0] ?? null,
 		);
 	}
 

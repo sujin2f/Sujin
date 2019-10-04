@@ -3,16 +3,12 @@
 	mask-position: center;
 	mask-repeat: no-repeat;
 	mask-size: contain;
-	-webkit-mask-position: center;
-	-webkit-mask-repeat: no-repeat;
-	-webkit-mask-size: contain;
 
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
 
 	&.hamburger {
-		-webkit-mask-image: url('../images/icons/hamburger.svg');
 		mask-image: url('../images/icons/hamburger.svg');
 	}
 
@@ -25,7 +21,6 @@
 	}
 
 	&.magnify {
-		-webkit-mask-image: url('../images/icons/magnify.svg');
 		mask-image: url('../images/icons/magnify.svg');
 	}
 }
@@ -44,37 +39,28 @@
 		mask-position: center;
 		mask-repeat: no-repeat;
 		mask-size: contain;
-		-webkit-mask-position: center;
-		-webkit-mask-repeat: no-repeat;
-		-webkit-mask-size: contain;
 
 		&.github {
-			-webkit-mask-image: url('../images/icons/github.svg');
 			mask-image: url('../images/icons/github.svg');
 		}
 
 		&.facebook {
-			-webkit-mask-image: url('../images/icons/facebook.svg');
 			mask-image: url('../images/icons/facebook.svg');
 		}
 
 		&.twitter {
-			-webkit-mask-image: url('../images/icons/twitter.svg');
 			mask-image: url('../images/icons/twitter.svg');
 		}
 
 		&.flickr {
-			-webkit-mask-image: url('../images/icons/flickr.svg');
 			mask-image: url('../images/icons/flickr.svg');
 		}
 
 		&.linkedin {
-			-webkit-mask-image: url('../images/icons/linkedin.svg');
 			mask-image: url('../images/icons/linkedin.svg');
 		}
 
 		&.rss {
-			-webkit-mask-image: url('../images/icons/rss.svg');
 			mask-image: url('../images/icons/rss.svg');
 		}
 	}
@@ -89,61 +75,24 @@
 		height: 50px;
 		border-radius: 30px;
 		margin-right: 5px;
-		transition: background-color ease-out 0.5s;
-		-webkit-mask-size: contain;
-		mask-size: contain;
+		transition: all ease-out 0.1s;
+		mask-size: 50px;
 		mask-position: center;
-		-webkit-mask-position: center;
 		mask-repeat: no-repeat;
-		-webkit-mask-repeat: no-repeat;
 
 		&.twitter {
-			-webkit-mask-image: url('../images/icons/twitter.svg');
 			mask-image: url('../images/icons/twitter.svg');
 			background-color: #4EC8F4;
 		}
 
 		&.facebook {
-			-webkit-mask-image: url('../images/icons/facebook.svg');
 			mask-image: url('../images/icons/facebook.svg');
 			background-color: #1B75BB;
 		}
 
 		&:hover {
 			background-color: $dark-gray;
-		}
-	}
-}
-
-#prev-next {
-	a {
-		i {
-			&:after {
-				content: '';
-
-				-webkit-mask-position: center;
-				-webkit-mask-repeat: no-repeat;
-				-webkit-mask-size: 10px;
-
-				background-position: center;
-				background-repeat: no-repeat;
-				background-size: cover;
-
-				-webkit-mask-image: url('../images/icons/prev.svg');
-				mask-image: url('../images/icons/prev.svg');
-
-				width: 40px;
-				height: 40px;
-				display: block;
-
-				background-color: white;
-			}
-		}
-
-		&.next {
-			i:after {
-				transform: rotate(180deg);
-			}
+			mask-size: 60px;
 		}
 	}
 }

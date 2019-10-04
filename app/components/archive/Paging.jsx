@@ -3,6 +3,7 @@ import hash from 'object-hash';
 import Link from 'app/components/router/Link';
 
 import { getPaging } from 'app/utils/archive';
+import { isMobile } from 'app/utils/common';
 
 const { Component } = wp.element;
 
@@ -14,7 +15,8 @@ class Paging extends Component {
       urlPrefix,
     } = this.props;
 
-    const entities = getPaging(totalPages, currentPage, 5);
+    const pagingRange = isMobile() ? 1 : 5;
+    const entities = getPaging(totalPages, currentPage, pagingRange);
 
     return (
       <section className="paging row">
@@ -22,18 +24,24 @@ class Paging extends Component {
           <ul className="pagination text-center" role="navigation" aria-label="Pagination">
             {entities.map((entity, id) => {
               const url = `${urlPrefix}/page/${entity}`;
+              const isCurrnet = parseInt(currentPage, 10) === entity;
               return (
                 <li
-                  className={`${parseInt(currentPage, 10) === entity ? 'active' : ''}`}
+                  className={`${isCurrnet ? 'active' : ''}`}
                   key={hash(`url-${id}`)}
                 >
-                  {entity !== '...' && (
+                  {entity !== '...' && isCurrnet && (
+                    <span>{entity}</span>
+                  )}
+
+                  {entity !== '...' && !isCurrnet && (
                     <Link to={url}>
                       {entity}
                     </Link>
                   )}
+
                   {entity === '...' &&
-                    <span className="fa fa-ellipsis-h" aria-hidden="true" />
+                    <span>&hellip;</span>
                   }
                 </li>
               );

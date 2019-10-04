@@ -5,8 +5,7 @@
 		padding: 30px 0 40px;
 
 		h1 {
-			color: white;
-			font-size: 1.5rem;
+			@include section-title-footer;
 		}
 
 		#Flickr {
@@ -46,7 +45,6 @@
 				width: 62px;
 				height: 27px;
 				margin-right: 10px;
-				-webkit-mask-image: url('../images/logo.svg');
 				mask-image: url('../images/logo.svg');
 				background: $medium-gray;
 			}

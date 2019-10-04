@@ -10,7 +10,7 @@ class RelatedPosts extends Component {
       <Fragment>
         <header className="row">
           <div className="columns small-12">
-            <h2 className="section-header">Related Posts</h2>
+            <h2 className="section-header"><span>Related Posts</span></h2>
           </div>
         </header>
 

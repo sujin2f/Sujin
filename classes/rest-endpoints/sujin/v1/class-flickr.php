@@ -85,6 +85,9 @@ class Flickr extends Abs_Rest_Base {
 			$items[ $arr_key ] = $this->prepare_response_for_collection( $items[ $arr_key ] );
 		}
 
+		shuffle( $items );
+		$items = array_slice( $items, 0, 12 );
+
 		$this->set_transient( $items );
 
 		return rest_ensure_response( $items );

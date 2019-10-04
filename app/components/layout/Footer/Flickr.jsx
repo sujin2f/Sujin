@@ -35,11 +35,11 @@ class Flickr extends Component {
 
     return (
       <div id="Flickr">
-        <h1>Photo Stream</h1>
+        <h1><span>Photo Stream</span></h1>
 
         <div className="row">
           {entities.map(item => (
-            <div className="large-3 medium-2 small-3 columns" key={`flikr-${item.link}`}>
+            <div className="large-3 medium-4 small-3 columns" key={`flikr-${item.link}`}>
               <figure className="thumbnail">
                 <a href={item.link} title={item.title} target="_blank" rel="noopener noreferrer">
                   <div className="zoom-icon" />

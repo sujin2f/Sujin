@@ -1,6 +1,10 @@
 #recent-posts {
 	margin-top: 50px;
 
+	> header h2 {
+		@include section-title;
+	}
+
 	.loading {
 		img {
 			display: none;

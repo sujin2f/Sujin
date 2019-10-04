@@ -54,25 +54,32 @@
 	}
 
 	a {
-		background-color: $white;
+		background-color: $light-gray;
 		padding: 10px;
 		min-width: 40px;
 		min-height: 40px;
 		margin: 0 2px;
 		transition: background-color 0.3s ease-out;
+		display: block;
 
 		&:hover {
-			background-color: $light-gray;
-			color: $black;
+			background-color: map-get($foundation-palette, 'primary');
+			color: $white;
 		}
 	}
 
-	i {
-		margin: 0 5px;
+	span {
+		background-color: $light-gray;
+		padding: 10px;
+		min-width: 40px;
+		min-height: 40px;
+		margin: 0 2px;
+		display: block;
 	}
 
-	.active a {
+	.active span {
 		background: map-get($foundation-palette, 'primary');
 		color: $white;
+		cursor: default;
 	}
 }

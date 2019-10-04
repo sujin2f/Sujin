@@ -46,7 +46,7 @@ class RecentPosts extends Component {
     return (
       <Fragment>
         <header>
-          <h2 className="section-header">Recent Posts</h2>
+          <h2 className="section-header"><span>Recent Posts</span></h2>
         </header>
 
         {entities.map(entity => (
