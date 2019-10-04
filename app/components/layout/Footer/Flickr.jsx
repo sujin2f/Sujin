@@ -35,7 +35,7 @@ class Flickr extends Component {
 
     return (
       <div id="Flickr">
-        <h1>Photo Stream</h1>
+        <h1><span>Photo Stream</span></h1>
 
         <div className="row">
           {entities.map(item => (

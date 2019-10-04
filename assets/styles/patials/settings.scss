@@ -28,3 +28,26 @@ $search-size: 26px;
 $admin-bar-height: 32px;
 $admin-bar-height-mobile: 46px;
 $wp-mobile-screen-width: 782px;
+
+@mixin section-title {
+	border-bottom: 1px solid map-get($foundation-palette, 'primary');
+	font-size: 1.3em;
+
+	span {
+		background-color: map-get($foundation-palette, 'primary');
+		color: $white;
+		display: inline-block;
+		padding: 0 10px;
+	}
+}
+
+@mixin section-title-footer {
+	@include section-title;
+
+	border-bottom: 1px solid $white;
+
+	span {
+		background-color: $white;
+		color: $dark-gray;
+	}
+}

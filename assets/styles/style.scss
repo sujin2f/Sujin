@@ -6,19 +6,19 @@
 @include foundation-flex-grid;
 @include foundation-visibility-classes;
 
-@import 'settings';
+@import 'patials/settings.scss';
 
-@import 'global';
-@import 'icon';
-@import 'thumbnail';
-@import 'menu';
+@import 'patials/global.scss';
+@import 'patials/icon.scss';
+@import 'patials/thumbnail.scss';
+@import 'patials/menu.scss';
 
-@import 'header';
-@import 'footer';
+@import 'patials/header.scss';
+@import 'patials/footer.scss';
 
-@import 'front-page';
-@import 'single';
-@import 'archive';
-@import 'aside';
-@import 'carousel';
-@import '404';
+@import 'patials/front-page.scss';
+@import 'patials/single.scss';
+@import 'patials/archive.scss';
+@import 'patials/aside.scss';
+@import 'patials/carousel.scss';
+@import 'patials/404.scss';

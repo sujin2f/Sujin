@@ -1,5 +1,9 @@
 .template-single {
 	article {
+		max-width: 930px;
+		margin-right: auto;
+		margin-left: auto;
+
 		.assist-thumb {
 			border-radius: 100px;
 			width: 150px;
@@ -22,6 +26,7 @@
 			border-radius: 7px;
 
 			h2 {
+				@include section-title;
 				margin-top: 15px;
 			}
 		}
@@ -61,8 +66,27 @@
 			text-decoration-color: rgba(map-get($foundation-palette, 'primary'), 0.4);
 		}
 
-		blockquote, blockquote p {
+		blockquote {
+			background-image: url('../images/icons/quote.svg');
+			background-position: center 15px;
+			background-repeat: no-repeat;
+			background-size: 35px;
 			line-height: 2;
+			padding: 60px 30px 0px;
+			border: none;
+			background-color: $light-gray;
+			display: inline-block;
+			color: $black;
+			margin: 0px 60px 20px;
+
+			p {
+				line-height: 2;
+				color: $black;
+			}
+
+			@include breakpoint(small only) {
+				margin: 0 0 20px;
+			}
 		}
 
 		twitterwidget {
@@ -129,6 +153,10 @@
 		#related-posts {
 			overflow: hidden;
 
+			header h2 {
+				@include section-title;
+			}
+
 			.post-grid {
 				figure {
 					a {
@@ -159,14 +187,6 @@
 			margin-top: 20px;
 			margin-bottom: 10px;
 
-			@include breakpoint(small only) {
-				flex-direction: column;
-
-				a:prev {
-					margin-bottom: 0.3em;
-				}
-			}
-
 			a {
 				display: flex;
 				align-items: center;
@@ -174,6 +194,7 @@
 				transition: color ease-out 0.3s;
 				flex-grow: 1;
 				background: none;
+				width: 50%;
 
 				i {
 					background-color: map-get($foundation-palette, 'primary');
@@ -181,6 +202,21 @@
 				    width: 40px;
 					height: 40px;
 					transition: background-color ease-out 0.3s;
+
+					&:after {
+						content: '';
+
+						mask-image: url('../images/icons/prev.svg');
+						mask-size: 15px;
+						mask-repeat: no-repeat;
+						mask-position: center;
+
+						width: 40px;
+						height: 40px;
+						display: block;
+
+						background-color: white;
+					}
 				}
 
 				&:hover {
@@ -203,9 +239,25 @@
 
 					i {
 						margin-left: 0.5em;
+
+						&:after {
+							transform: rotate(180deg);
+						}
+					}
+				}
+			}
+
+			@include breakpoint(small only) {
+				flex-direction: column;
+
+				a {
+					width: 100%;
+
+					&.prev {
+						margin-bottom: 0.3em;
 					}
 
-					@include breakpoint(small only) {
+					&.next {
 						flex-direction: row;
 
 						i {
@@ -215,14 +267,6 @@
 				}
 			}
 		}
-	}
-}
-
-.template-single {
-	article {
-		max-width: 930px;
-		margin-right: auto;
-		margin-left: auto;
 	}
 }
 

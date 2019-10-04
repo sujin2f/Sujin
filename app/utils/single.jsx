@@ -131,7 +131,7 @@ export function parseSeries(id, seriesPosts) {
 
   return [(
     <section className="series" key="series">
-      <h2>Series</h2>
+      <h2><span>Series</span></h2>
       <ul>
         {seriesPosts.map((item) => {
           if (id !== item.id) {
