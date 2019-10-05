@@ -13,5 +13,3 @@ const reducer = require('../../app/reducers').default;
 const selectors = require('../../app/selectors').default;
 
 wp.data.registerStore(STORE, { reducer, selectors, actions });
-
-
