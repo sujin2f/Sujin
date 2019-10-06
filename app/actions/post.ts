@@ -1,20 +1,31 @@
-import {
-  REQUEST_POST_INIT,
-  REQUEST_POST_SUCCESS,
-  REQUEST_POST_FAIL,
-  REQUEST_RECENT_POSTS_INIT,
-  REQUEST_RECENT_POSTS_SUCCESS,
-  REQUEST_RECENT_POSTS_FAIL,
-} from 'app/constants/redux';
-
+import Post from 'app/types/responses/post';
 import {
   RequestPostInit,
   RequestPostSuccess,
   RequestPostFail,
+
   RequestRecentPostsInit,
   RequestRecentPostsSuccess,
   RequestRecentPostsFail,
+
+  RequestArchiveInit,
+  RequestArchiveSuccess,
+  RequestArchiveFail,
 } from 'app/types/actions/post';
+
+import {
+  REQUEST_POST_INIT,
+  REQUEST_POST_SUCCESS,
+  REQUEST_POST_FAIL,
+
+  REQUEST_RECENT_POSTS_INIT,
+  REQUEST_RECENT_POSTS_SUCCESS,
+  REQUEST_RECENT_POSTS_FAIL,
+
+  REQUEST_ARCHIVE_INIT,
+  REQUEST_ARCHIVE_SUCCESS,
+  REQUEST_ARCHIVE_FAIL,
+} from 'app/constants/redux';
 
 // Post
 export function requestPostInit(slug: string): RequestPostInit {
@@ -23,19 +34,15 @@ export function requestPostInit(slug: string): RequestPostInit {
     slug,
   };
 }
-
-export function requestPostSuccess(slug: string, response: any): RequestPostSuccess {
+export function requestPostSuccess(post: Post): RequestPostSuccess {
   return {
     type: REQUEST_POST_SUCCESS,
-    slug,
-    response,
+    post,
   };
 }
-
-export function requestPostFail(code: string, slug: string): RequestPostFail {
+export function requestPostFail(slug: string): RequestPostFail {
   return {
     type: REQUEST_POST_FAIL,
-    code,
     slug,
   };
 }
@@ -46,16 +53,52 @@ export function requestRecentPostsInit(): RequestRecentPostsInit {
     type: REQUEST_RECENT_POSTS_INIT,
   };
 }
-
-export function requestRecentPostsSuccess(response: any): RequestRecentPostsSuccess {
+export function requestRecentPostsSuccess(posts: Array<Post>): RequestRecentPostsSuccess {
   return {
     type: REQUEST_RECENT_POSTS_SUCCESS,
-    response,
+    posts,
   };
 }
-
 export function requestRecentPostsFail(): RequestRecentPostsFail {
   return {
     type: REQUEST_RECENT_POSTS_FAIL,
+  };
+}
+
+// Archive
+export function requestArchiveInit(page: number, kind: string, slug: string): RequestArchiveInit {
+  return {
+    type: REQUEST_ARCHIVE_INIT,
+    kind,
+    slug,
+    page,
+  };
+}
+
+export function requestArchiveSuccess(page: number, kind: string, slug: string, header: any, posts: Array<Post>): RequestArchiveSuccess {
+  const totalPages = parseInt(header['x-wp-totalpages'], 10);
+  const background = header['x-wp-term-thumbnail'];
+  const title = decodeURIComponent(header['x-wp-term-name']);
+  const description = decodeURIComponent(header['x-wp-term-description']);
+
+  return {
+    type: REQUEST_ARCHIVE_SUCCESS,
+    kind,
+    slug,
+    page,
+    totalPages,
+    background,
+    title,
+    description,
+    posts,
+  };
+}
+
+export function requestArchiveFail(page: number, kind: string, slug: string): RequestArchiveFail {
+  return {
+    type: REQUEST_ARCHIVE_FAIL,
+    kind,
+    slug,
+    page,
   };
 }

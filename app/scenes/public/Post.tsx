@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import { default as PostType } from 'app/types/responses/post';
+
 import Public from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
 import Content from 'app/components/single/Content';
@@ -31,7 +33,7 @@ class Post extends Component {
   static getDerivedStateFromProps(props, state) {
     const slug = props.matched.postSlug;
 
-    if (!slug || state.slug === slug || props.getPost(slug).post) {
+    if (!slug || state.slug === slug || typeof props.getPost(slug) !== 'undefined') {
       return { slug };
     }
 
@@ -40,9 +42,9 @@ class Post extends Component {
   }
 
   getLoading() {
-    const { loading } = this.props.getPost(this.state.slug);
+    const post = this.props.getPost(this.state.slug);
 
-    if (loading) {
+    if (post === true) {
       return (
         <Public className="stretched-background hide-footer">
           <PageHeader isLoading />
@@ -54,9 +56,9 @@ class Post extends Component {
   }
 
   getNotFound() {
-    const { post } = this.props.getPost(this.state.slug);
+    const post = this.props.getPost(this.state.slug);
 
-    if (post === 'NOT_FOUND') {
+    if (post === false) {
       return (<NotFound />);
     }
 
@@ -64,7 +66,7 @@ class Post extends Component {
   }
 
   setTitle() {
-    const { post } = this.props.getPost(this.state.slug);
+    const post = this.props.getPost(this.state.slug);
     const { title, setTitle } = this.props;
 
     if (title !== post.title) {
@@ -89,7 +91,7 @@ class Post extends Component {
 
     this.setTitle();
 
-    const { post } = this.props.getPost(this.state.slug);
+    const post = this.props.getPost(this.state.slug);
 
     const backgroundImage =
       parseExImage(
@@ -143,9 +145,10 @@ const mapDispatchToProps = withDispatch((dispatch) => ({
 
     axios.get(`/wp-json/sujin/v1/posts/?slug=${slug}`)
       .then((response) => {
-        dispatch(STORE).requestPostSuccess(slug, response);
+        const page = new PostType(response.data);
+        dispatch(STORE).requestPostSuccess(page);
       }).catch((error) => {
-        dispatch(STORE).requestPostFail(error.response.data.code, slug);
+        dispatch(STORE).requestPostFail(slug);
       });
   },
   setTitle: (title) => {

@@ -145,7 +145,6 @@ const mapDispatchToProps = withDispatch((dispatch) => ({
     axios.get(`/wp-json/sujin/v1/posts/?slug=${slug}`)
       .then((response) => {
         const page = new Post(response.data);
-        console.log(page.date);
         dispatch(STORE).requestPageSuccess(page);
       }).catch((error) => {
         dispatch(STORE).requestPageFail(slug);

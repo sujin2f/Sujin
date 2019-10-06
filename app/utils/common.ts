@@ -29,19 +29,6 @@ export function isMobile() {
   return regex1.test(userAgent) || regex2.test(userAgent.substr(0, 4));
 }
 
-export const parseJson = (string, key) => {
-  if (parseInt(string, 10) || !string || typeof string === 'boolean') {
-    return null;
-  }
-
-  try {
-    const json = JSON.parse(string) || null;
-    return key && json ? json[key] : json;
-  } catch (_) {
-    return null;
-  }
-};
-
 export const parseExImage = (
   meta,
   thumbnail,
@@ -51,14 +38,10 @@ export const parseExImage = (
   defaultMobile = null,
 ) => {
   if (!isMobile()) {
-    return parseJson(meta, desktop) ||
-      parseJson(JSON.stringify(thumbnail), desktop) ||
-      defaultDesktop;
+    return meta[desktop] || thumbnail[desktop] || defaultDesktop;
   }
 
-  return parseJson(meta, mobile) ||
-    parseJson(JSON.stringify(thumbnail), mobile) ||
-    defaultMobile;
+  return meta[mobile] || thumbnail[mobile] || defaultMobile;
 };
 
 const isDate = (date) => {

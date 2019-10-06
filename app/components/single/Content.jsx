@@ -1,6 +1,5 @@
 import SocialShare from 'app/components/single/SocialShare';
 import Tags from 'app/components/Tags';
-import { parseJson } from 'app/utils/common';
 import { parseContent, parseSeries } from 'app/utils/single';
 
 const { Component } = wp.element;
@@ -26,7 +25,7 @@ class Content extends Component {
       ...parseContent(content),
     ];
 
-    const icon = parseJson(meta.icon, 'thumbnail');
+    const icon = meta.icon.thumbnail;
 
     return (
       <article

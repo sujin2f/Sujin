@@ -1,82 +1,149 @@
+import PostState from 'app/types/states/post';
+import PostActions from 'app/types/actions/post';
+
 import {
   REQUEST_POST_INIT,
   REQUEST_POST_SUCCESS,
   REQUEST_POST_FAIL,
+
   REQUEST_RECENT_POSTS_INIT,
   REQUEST_RECENT_POSTS_SUCCESS,
   REQUEST_RECENT_POSTS_FAIL,
+
+  REQUEST_ARCHIVE_INIT,
+  REQUEST_ARCHIVE_SUCCESS,
+  REQUEST_ARCHIVE_FAIL,
 } from 'app/constants/redux';
 
-const initialState = {
+const initialState: PostState = {
   entities: {},
-  recent: [],
-  ids: {},
-  loading: false,
-  recentLoading: false,
+  recent: undefined,
+  archive: {
+    category: {},
+    tag: {},
+    search: {},
+  },
 };
 
-function post(state = initialState, action) {
+function post(state: PostState = initialState, action: PostActions): PostState {
   switch (action.type) {
     case REQUEST_POST_INIT: {
       return {
         ...state,
-        loading: true,
+        entities: {
+          ...state.entities,
+          [action.slug]: true,
+        },
       };
     }
-
     case REQUEST_POST_SUCCESS: {
-      const data = action.response.data;
-
-      const unorderId = { ...state.ids };
-      unorderId[data.id] = action.slug;
-
-      const ids = {};
-      Object.keys(unorderId).sort().forEach((key) => {
-        ids[key] = unorderId[key];
-      });
-
       return {
         ...state,
         entities: {
           ...state.entities,
-          [action.slug]: data,
+          [decodeURIComponent(action.post.slug)]: action.post,
         },
-        ids,
-        loading: false,
       };
     }
-
     case REQUEST_POST_FAIL: {
-      console.log(action);
       return {
         ...state,
         entities: {
           ...state.entities,
-          [action.slug]: action.code,
+          [action.slug]: false,
         },
-        loading: false,
       };
     }
 
     case REQUEST_RECENT_POSTS_INIT: {
       return {
         ...state,
-        recentLoading: true,
+        recent: true,
       };
     }
-
     case REQUEST_RECENT_POSTS_SUCCESS: {
       return {
         ...state,
-        recent: action.response.data,
-        recentLoading: false,
+        recent: action.posts,
       };
     }
-
     case REQUEST_RECENT_POSTS_FAIL: {
       return {
         ...state,
-        recentLoading: false,
+        recent: false,
+      };
+    }
+
+    case REQUEST_ARCHIVE_INIT: {
+      const { kind, slug, page } = action;
+      const archive = { ...state.archive[kind] };
+
+      if (!archive[slug]) {
+        archive[slug] = {
+          entities: {
+            [page]: true,
+          },
+        };
+      }
+
+      if (!archive[slug].entities[page]) {
+        archive[slug].entities[page] = true;
+      }
+
+      return {
+        ...state,
+        archive: {
+          ...state.archive,
+          [kind]: archive,
+        },
+      };
+    }
+    case REQUEST_ARCHIVE_SUCCESS: {
+      const { kind, slug, page } = action;
+      const entities = { ...state.entities };
+
+      action.posts.forEach((post) => entities[decodeURIComponent(post.slug)] = post);
+
+      return {
+        ...state,
+        entities,
+        archive: {
+          ...state.archive,
+          [kind]: {
+            ...state.archive[kind],
+            [slug]: {
+              ...state.archive[kind][slug],
+              totalPages: action.totalPages,
+              background: action.background,
+              title: action.title,
+              description: action.description,
+              entities: {
+                ...state.archive[kind][slug].entities,
+                [page]: action.posts,
+              },
+            },
+          },
+        },
+      };
+    }
+    case REQUEST_ARCHIVE_FAIL: {
+      const { kind, slug, page } = action;
+
+      return {
+        ...state,
+        archive: {
+          ...state.archive,
+          [kind]: {
+            ...state.archive[kind],
+            [slug]: {
+              ...state.archive[kind][slug],
+              entities: {
+                ...state.archive[kind][slug].entities,
+                [page]: false,
+              },
+            },
+          },
+        },
       };
     }
 

@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+import Post from 'app/types/responses/post';
 import Loading from 'app/components/layout/Loading';
 import Item from 'app/components/archive/Item';
 
@@ -21,7 +22,7 @@ class RecentPosts extends Component {
       requestRecentPosts,
     } = this.props;
 
-    if (getRecentPosts().entities && getRecentPosts().entities.length >= 4) {
+    if (typeof getRecentPosts() !== 'undefined') {
       return;
     }
 
@@ -33,13 +34,13 @@ class RecentPosts extends Component {
 
   render() {
     const { getRecentPosts } = this.props;
-    const { entities, loading } = getRecentPosts();
+    const posts = this.props.getRecentPosts();
 
-    if (loading) {
+    if (posts === true) {
       return (<Loading />);
     }
 
-    if (!loading && !entities) {
+    if (!posts) {
       return null;
     }
 
@@ -49,7 +50,7 @@ class RecentPosts extends Component {
           <h2 className="section-header"><span>Recent Posts</span></h2>
         </header>
 
-        {entities.map(entity => (
+        {posts.map(entity => (
           <Item
             key={`recent-post-id-${entity.id}`}
             id={`post-id-${entity.id}`}
@@ -73,7 +74,8 @@ const mapDispatchToProps = withDispatch((dispatch) => ({
 
     axios.get('/wp-json/sujin/v1/posts/?per_page=4')
       .then((response) => {
-        dispatch(STORE).requestRecentPostsSuccess(response);
+        const posts = response.data.map((post) => new Post(post));
+        dispatch(STORE).requestRecentPostsSuccess(posts);
       }).catch(() => {
         dispatch(STORE).requestRecentPostsFail();
       });
