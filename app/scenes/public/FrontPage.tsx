@@ -1,19 +1,31 @@
 import axios from 'axios';
+
+import { MainBackgroundArray } from 'app/types/responses/main-background';
+
 import PageHeader from 'app/components/layout/PageHeader';
 import Public from 'app/scenes/public';
+
 import { STORE, DEFAULT_TITLE } from 'app/constants/common';
 import { isMobile } from 'app/utils/common';
 
 import DEFAULT_BACKGROUND from '../../../assets/images/background/backup-background.jpg';
-import DEFAULT_BACKGROUND_MOBILE
-  from '../../../assets/images/background/backup-background-mobile.jpg';
+import DEFAULT_BACKGROUND_MOBILE from '../../../assets/images/background/backup-background-mobile.jpg';
 
 const { withDispatch, withSelect } = wp.data;
 const { compose } = wp.compose;
 const { Component } = wp.element;
 
-class FrontPage extends Component {
-  constructor(props) {
+interface Props {
+  // select
+  background: MainBackgroundArray;
+  title: string;
+  // props
+  requestMainBackground(): void;
+  setTitle(title: string): void;
+};
+
+class FrontPage extends Component<Props> {
+  constructor(props: Props) {
     super(props);
     this.requestMainBackground = this.requestMainBackground.bind(this);
     this.parseBackground = this.parseBackground.bind(this);
@@ -23,43 +35,32 @@ class FrontPage extends Component {
     this.requestMainBackground();
   }
 
-  requestMainBackground() {
-    const {
-      mainBackground: {
-        entities,
-        error,
-      },
-    } = this.props;
+  requestMainBackground(): void {
+    const { background } = this.props;
 
-    if (entities.length > 0 && error === false) {
-      return;
+    if (typeof background !== 'undefined') {
+      return null;
     }
 
     this.props.requestMainBackground();
   }
 
-  parseBackground() {
-    const {
-      mainBackground: {
-        entities,
-        loading,
-        error,
-      },
-    } = this.props;
+  parseBackground(): string {
+    const { background } = this.props;
 
-    if (error) {
+    if (false === background) {
       if (isMobile()) {
         return DEFAULT_BACKGROUND_MOBILE;
       }
       return DEFAULT_BACKGROUND;
     }
 
-    if (loading || entities.length === 0) {
-      return null;
+    if (typeof background !== 'object' || background.length === 0) {
+      return '';
     }
 
-    const index = Math.floor(Math.random() * entities.length);
-    return isMobile() ? entities[index].mobile : entities[index].desktop;
+    const index = Math.floor(Math.random() * background.length);
+    return isMobile() ? background[index].mobile : background[index].desktop;
   }
 
   render() {
@@ -80,20 +81,25 @@ class FrontPage extends Component {
 }
 
 const mapStateToProps = withSelect((select) => ({
-  mainBackground: select(STORE).getMainBackground(),
+  background: select(STORE).getMainBackground(),
   title: select(STORE).getTitle(),
 }));
 
 const mapDispatchToProps = withDispatch((dispatch) => ({
-  requestMainBackground: () => {
+  requestMainBackground: (): void => {
     axios.get('/wp-json/sujin/v1/media/random')
       .then((response) => {
-        dispatch(STORE).requestMainBackgroundSuccess(response);
-      }).catch((error) => {
-        dispatch(STORE).requestMainBackgroundFail(error);
+        if (response.status === 204) {
+          dispatch(STORE).requestMainBackgroundFail();
+          return;
+        }
+
+        dispatch(STORE).requestMainBackgroundSuccess(response.data);
+      }).catch(() => {
+        dispatch(STORE).requestMainBackgroundFail();
       });
   },
-  setTitle: (title) => {
+  setTitle: (title: string): void => {
     dispatch(STORE).setTitle(title);
   },
 }));

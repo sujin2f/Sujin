@@ -1,4 +1,4 @@
-export default function preserveCase(input) {
+export default function preserveCase(input: string): Array<string> {
   let output = '';
   let lastChar = '';
 
@@ -24,7 +24,7 @@ export default function preserveCase(input) {
   return outputArr.filter(c => c);
 }
 
-export function camelCase(texts) {
+export function camelCase(texts: Array<string>): string {
   const output = texts.map((text, index) => {
     if (index === 0) {
       return text.toLowerCase();
@@ -35,46 +35,46 @@ export function camelCase(texts) {
   return output.join('');
 }
 
-export function pascalCase(texts) {
+export function pascalCase(texts: Array<string>): string {
   const output = texts.map(text => `${text.charAt(0).toUpperCase()}${text.slice(1)}`);
   return output.join('');
 }
 
-export function pathCase(texts) {
+export function pathCase(texts: Array<string>): string {
   const output = texts.map(text => text.toLowerCase());
   return output.join('/');
 }
 
-export function paramCase(texts) {
+export function paramCase(texts: Array<string>): string {
   const output = texts.map(text => text.toLowerCase());
   return output.join('-');
 }
 
-export function snakeCase(texts) {
+export function snakeCase(texts: Array<string>): string {
   const output = texts.map(text => text.toLowerCase());
   return output.join('_');
 }
 
-export function constantCase(texts) {
+export function constantCase(texts: Array<string>): string {
   const output = texts.map(text => text.toUpperCase());
   return output.join('_');
 }
 
-export function titleCase(texts) {
+export function titleCase(texts: Array<string>): string {
   const output = texts.map(text => `${text.charAt(0).toUpperCase()}${text.slice(1)}`);
   return output.join(' ');
 }
 
-export function dotCase(texts) {
+export function dotCase(texts: Array<string>): string {
   const output = texts.map(text => text.toLowerCase());
   return output.join('.');
 }
 
-export function sortText(text, removeEmpty) {
+export function sortText(text: string, removeEmpty: boolean): string {
   return text.split('\n').filter(l => (removeEmpty && l) || (!removeEmpty)).sort().join('\n');
 }
 
-export function symbolAlignment(text, symbol) {
+export function symbolAlignment(text: string, symbol: string): string {
   const lineInfo = [];
   const maxPosition = []; // this key is indent
 

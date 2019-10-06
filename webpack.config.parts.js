@@ -72,6 +72,20 @@ exports.setBase = function(entry, dist) {
           ],
         },
         {
+          test: /\.ts(x?)$/,
+          exclude: /node_modules/,
+          use: [
+            {
+              loader: 'ts-loader',
+            },
+          ],
+        },
+        {
+            enforce: 'pre',
+            test: /\.js$/,
+            loader: 'source-map-loader',
+        },
+        {
           test: /\.s?css$/,
           use: [
             {
@@ -128,7 +142,7 @@ exports.setResolve = function(resolvePath = {}) {
 
   return {
     resolve: {
-      extensions: ['.js', '.jsx', '.json'],
+      extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
       alias,
     },
   };

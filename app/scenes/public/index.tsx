@@ -8,8 +8,20 @@ const { withSelect } = wp.data;
 const { compose } = wp.compose;
 const { Component } = wp.element;
 
-class Public extends Component {
-  constructor(props) {
+interface Props {
+  // select
+  mobileMenuClass: string;
+  // props
+  className: string;
+  children: any;
+};
+
+interface State {
+  scrolled: string;
+};
+
+class Public extends Component<Props, State> {
+  constructor(public props: Props) {
     super(props);
 
     // Scrolled Control
@@ -22,16 +34,14 @@ class Public extends Component {
 
   // Scrolled Control
   handleScroll() {
-    if (typeof window !== 'undefined') {
-      const { scrolled: scrolledOrigin } = this.state;
-      const scrolled = getScrolled(scrolledOrigin);
+    const { scrolled: scrolledOrigin } = this.state;
+    const scrolled = getScrolled(scrolledOrigin);
 
-      if (scrolled === false) {
-        return;
-      }
-
-      this.setState({ scrolled });
+    if (scrolled === false) {
+      return;
     }
+
+    this.setState({ scrolled });
   }
 
   render() {

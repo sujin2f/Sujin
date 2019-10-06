@@ -2,7 +2,7 @@ import {
   REQUEST_ARCHIVE_INIT,
   REQUEST_ARCHIVE_SUCCESS,
   REQUEST_ARCHIVE_FAIL,
-} from 'app/actions/archive';
+} from 'app/constants/redux';
 
 const initialState = {
   entities: {

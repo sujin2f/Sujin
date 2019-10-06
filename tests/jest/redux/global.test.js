@@ -32,14 +32,10 @@ test('Front Page', async () => {
   }];
 
   dispatch(STORE)
-    .requestMainBackgroundSuccess({ data: entities })
+    .requestMainBackgroundSuccess(entities)
     .then((action) => {
       const actual = select(STORE).getMainBackground();
-      const expected = {
-        entities,
-        loading: false,
-        error: false,
-      };
+      const expected = entities;
 
       expect(actual).toEqual(expected);
     });

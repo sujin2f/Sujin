@@ -1,35 +1,39 @@
 import axios from 'axios';
 
+import {
+  default as FlickrType,
+  FlickrArray,
+} from 'app/types/responses/flickr';
 import Loading from 'app/components/layout/Loading';
-
 import { STORE } from 'app/constants/common';
 
 const { withDispatch, withSelect } = wp.data;
 const { compose } = wp.compose;
 const { Component } = wp.element;
 
-class Flickr extends Component {
+interface Props {
+  // select
+  flickr: FlickrArray;
+  // dispatch
+  requestFlickr: void;
+};
+
+class Flickr extends Component<Props> {
   componentDidMount() {
     const { requestFlickr, flickr } = this.props;
-    if (flickr.entities.length === 0 && flickr.error === false && flickr.loading === false) {
+    if (typeof flickr === 'undefined') {
       requestFlickr();
     }
   }
 
   render() {
-    const {
-      flickr: {
-        loading,
-        error,
-        entities,
-      },
-    } = this.props;
+    const { flickr } = this.props;
 
-    if (loading) {
+    if (true === flickr) {
       return (<Loading />);
     }
 
-    if (error) {
+    if (typeof flickr !== 'object') {
       return null;
     }
 
@@ -38,7 +42,7 @@ class Flickr extends Component {
         <h1><span>Photo Stream</span></h1>
 
         <div className="row">
-          {entities.map(item => (
+          {flickr.map((item: FlickrType) => (
             <div className="large-3 medium-4 small-3 columns" key={`flikr-${item.link}`}>
               <figure className="thumbnail">
                 <a href={item.link} title={item.title} target="_blank" rel="noopener noreferrer">
@@ -61,14 +65,19 @@ const mapStateToProps = withSelect((select) => ({
 }));
 
 const mapDispatchToProps = withDispatch((dispatch) => ({
-  requestFlickr: () => {
+  requestFlickr: (): void => {
     dispatch(STORE).requestFlickrInit();
 
     axios.get('wp-json/sujin/v1/flickr/')
       .then((response) => {
-        dispatch(STORE).requestFlickrSuccess(response);
-      }).catch((error) => {
-        dispatch(STORE).requestFlickrFail(error);
+        if (response.status === 204) {
+          dispatch(STORE).requestFlickrFail();
+          return;
+        }
+
+        dispatch(STORE).requestFlickrSuccess(response.data);
+      }).catch(() => {
+        dispatch(STORE).requestFlickrFail();
       });
   },
 }));

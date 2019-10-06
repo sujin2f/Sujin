@@ -21,12 +21,12 @@ class Link extends Component {
       to,
       history,
       location,
-      setMobileMenu,
+      setMobileMenuFalse,
     } = this.props;
     const origin = location.origin;
     history.push(to.replace(origin, ''));
     scrollTo();
-    setMobileMenu();
+    setMobileMenuFalse();
     e.preventDefault();
   }
 
@@ -70,7 +70,7 @@ const mapStateToProps = withSelect((select) => ({
 }));
 
 const mapDispatchToProps = withDispatch((dispatch) => ({
-  setMobileMenu: () => dispatch(STORE).setMobileMenu(false),
+  setMobileMenuFalse: () => dispatch(STORE).setMobileMenu(false),
 }));
 
 export default compose([mapStateToProps, mapDispatchToProps])(Link);

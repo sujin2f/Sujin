@@ -1,15 +1,35 @@
 import axios from 'axios';
 
+import {
+  default as MenuType,
+  MenuArray,
+} from 'app/types/responses/menu';
 import Link from 'app/components/router/Link';
-
 import { STORE } from 'app/constants/common';
 
 const { withSelect, withDispatch } = wp.data;
 const { compose } = wp.compose;
 const { Component } = wp.element;
 
-class Menu extends Component {
-  constructor(props) {
+interface Props {
+  // select
+  getMenu: MenuArray;
+  // dispatch
+  requestMenu: void;
+  // props
+  id: string;
+  slug: string;
+  className?: string;
+};
+
+interface State {
+  hover: {
+    [id: number]: boolean,
+  };
+};
+
+class Menu extends Component<Props, State> {
+  constructor(props:Props) {
     super(props);
     this.showChildren = this.showChildren.bind(this);
     this.hideChildren = this.hideChildren.bind(this);
@@ -19,18 +39,14 @@ class Menu extends Component {
   }
 
   componentDidMount() {
-    const {
-      slug,
-      getMenu,
-      requestMenu,
-    } = this.props;
+    const { slug, getMenu, requestMenu } = this.props;
 
-    if (!getMenu(slug)) {
+    if (undefined === getMenu(slug)) {
       requestMenu(slug);
     }
   }
 
-  showChildren(id) {
+  showChildren(id: number): void {
     this.setState(prevState => ({
       hover: {
         ...prevState.hover,
@@ -39,7 +55,7 @@ class Menu extends Component {
     }));
   }
 
-  hideChildren(id) {
+  hideChildren(id: number): void {
     this.setState(prevState => ({
       hover: {
         ...prevState.hover,
@@ -51,20 +67,20 @@ class Menu extends Component {
   render() {
     const {
       getMenu,
-      className = '',
+      className,
       slug,
       id,
     } = this.props;
 
     const menuItems = getMenu(slug);
 
-    if (!menuItems) {
+    if (typeof menuItems !== 'object') {
       return null;
     }
 
     return (
       <nav id={id} className={`${className} ${slug} menu`}>
-        {menuItems.map(menuItem => (
+        {menuItems.map((menuItem: MenuType) => (
           <div
             onMouseOver={() => this.showChildren(menuItem.ID)}
             onMouseLeave={() => this.hideChildren(menuItem.ID)}
@@ -86,7 +102,7 @@ class Menu extends Component {
                 id={`nav-child-${menuItem.ID}`}
                 className={`children ${this.state.hover[menuItem.ID] ? '' : 'hide'}`}
               >
-                {menuItem.children.map(menuChild => (
+                {menuItem.children.map((menuChild: MenuType) => (
                   <Link
                     to={menuChild.url}
                     className={menuChild.classes.join(' ')}
@@ -108,22 +124,16 @@ class Menu extends Component {
 
 // Get
 const mapStateToProps = withSelect((select) => ({
-  /*
-   * @param  string       slug
-   * @return array|string
-   */
-  getMenu: (slug) => {
-    return select(STORE).getMenu(slug);
-  },
+  getMenu: (slug: string): MenuArray => select(STORE).getMenu(slug),
 }));
 
 const mapDispatchToProps = withDispatch((dispatch) => ({
-  requestMenu: (slug) => {
+  requestMenu: (slug: string): void => {
     dispatch(STORE).requestMenuInit(slug);
 
     axios.get(`/wp-json/sujin/v1/menu/${slug}`)
       .then((response) => {
-        dispatch(STORE).requestMenuSuccess(slug, response);
+        dispatch(STORE).requestMenuSuccess(slug, response.data);
       }).catch((error) => {
         dispatch(STORE).requestMenuFail(slug, error);
       });

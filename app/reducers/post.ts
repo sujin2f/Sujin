@@ -5,7 +5,7 @@ import {
   REQUEST_RECENT_POSTS_INIT,
   REQUEST_RECENT_POSTS_SUCCESS,
   REQUEST_RECENT_POSTS_FAIL,
-} from 'app/actions/post';
+} from 'app/constants/redux';
 
 const initialState = {
   entities: {},
@@ -25,7 +25,7 @@ function post(state = initialState, action) {
     }
 
     case REQUEST_POST_SUCCESS: {
-      const data = Object.keys(action.response.data) === 0 ? {} : action.response.data;
+      const data = action.response.data;
 
       const unorderId = { ...state.ids };
       unorderId[data.id] = action.slug;

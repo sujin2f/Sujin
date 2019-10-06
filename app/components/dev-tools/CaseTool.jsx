@@ -8,7 +8,7 @@ import preserveCase,
   titleCase,
   pathCase,
   dotCase,
-} from 'app/actions/dev-tools';
+} from 'app/utils/dev-tools';
 
 import Link from 'app/components/router/Link';
 

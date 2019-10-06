@@ -6,8 +6,24 @@ const { Component } = wp.element;
 const { withSelect, withDispatch } = wp.data;
 const { compose } = wp.compose;
 
-class Router extends Component {
-  constructor(props) {
+interface Props {
+  // dispatch
+  setHistory: void;
+  setLocation: void;
+  setMatched: void;
+  // select
+  location: any;
+  matched: any;
+  // props
+  children: any;
+};
+
+interface State {
+  mounted: boolean;
+};
+
+class Router extends Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = { mounted: false };
     this.setHistory = this.setHistory.bind(this);
@@ -19,7 +35,7 @@ class Router extends Component {
     this.setState({ mounted: true });
   }
 
-  setHistory() {
+  setHistory(): void {
     const {
       setHistory,
       setLocation,
@@ -28,10 +44,11 @@ class Router extends Component {
 
     // Set history
     const history = createBrowserHistory();
+
     setHistory(history);
     setLocation(history.location);
 
-    history.listen((location, action) => {
+    history.listen((location, action: string) => {
       if (action === 'PUSH' || action === 'POP') {
         setHistory(history);
         setLocation(location);
@@ -88,9 +105,9 @@ const mapStateToProps = withSelect((select) => ({
 }));
 
 const mapDispatchToProps = withDispatch((dispatch) => ({
-  setHistory: (history) => dispatch(STORE).setHistory(history),
-  setLocation: (location) => dispatch(STORE).setLocation(location),
-  setMatched: (matched) => dispatch(STORE).setMatched(matched),
+  setHistory: (history): void => dispatch(STORE).setHistory(history),
+  setLocation: (location): void => dispatch(STORE).setLocation(location),
+  setMatched: (matched): void => dispatch(STORE).setMatched(matched),
 }));
 
 export default compose([mapStateToProps, mapDispatchToProps])(Router);

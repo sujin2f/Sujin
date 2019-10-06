@@ -2,7 +2,7 @@ import {
   REQUEST_PAGE_INIT,
   REQUEST_PAGE_SUCCESS,
   REQUEST_PAGE_FAIL,
-} from 'app/actions/page';
+} from 'app/constants/redux';
 
 const initialState = {
   entities: {},

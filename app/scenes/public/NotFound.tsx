@@ -10,7 +10,14 @@ const { Component } = wp.element;
 const { withDispatch, withSelect } = wp.data;
 const { compose } = wp.compose;
 
-class NotFound extends Component {
+interface Props {
+  // select
+  title: string;
+  // props
+  setTitle(title: string): void;
+};
+
+class NotFound extends Component<Props> {
   render() {
     if (this.props.title !== 'Not Found') {
       this.props.setTitle('Not Found');
@@ -32,7 +39,7 @@ const mapStateToProps = withSelect((select) => ({
 }));
 
 const mapDispatchToProps = withDispatch((dispatch) => ({
-  setTitle: (title) => {
+  setTitle: (title: string): void => {
     dispatch(STORE).setTitle(title);
   },
 }));

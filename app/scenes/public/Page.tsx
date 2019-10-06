@@ -16,17 +16,31 @@ const { withDispatch, withSelect } = wp.data;
 const { compose } = wp.compose;
 const { Component } = wp.element;
 
-class Page extends Component {
+interface Props {
+  // select
+  getPage(slug: string): any;
+  matched: any;
+  title: string;
+  // props
+  requestPage(slug: string): void;
+  setTitle(title: string): void;
+};
+
+interface State {
+  slug: string;
+};
+
+class Page extends Component<Props, State> {
   constructor(props) {
     super(props);
-    this.state = { slug: false };
+    this.state = { slug: '' };
 
     this.getLoading = this.getLoading.bind(this);
     this.getNotFound = this.getNotFound.bind(this);
     this.setTitle = this.setTitle.bind(this);
   }
 
-  static getDerivedStateFromProps(props, state) {
+  static getDerivedStateFromProps(props: Props, state: State): State {
     const slug = props.matched.slug;
 
     if (!slug || state.slug === slug || props.getPage(slug).page) {
@@ -37,7 +51,7 @@ class Page extends Component {
     return { slug };
   }
 
-  getLoading() {
+  getLoading(): any {
     const { loading } = this.props.getPage(this.state.slug);
 
     if (loading) {
@@ -51,7 +65,7 @@ class Page extends Component {
     return null;
   }
 
-  getNotFound() {
+  getNotFound(): any {
     const { page } = this.props.getPage(this.state.slug);
 
     if (page === 'NOT_FOUND') {
@@ -61,7 +75,7 @@ class Page extends Component {
     return null;
   }
 
-  setTitle() {
+  setTitle(): void {
     const { page } = this.props.getPage(this.state.slug);
     const { title, setTitle } = this.props;
 
@@ -70,7 +84,7 @@ class Page extends Component {
     }
   }
 
-  render() {
+  render(): any {
     if (!this.state.slug) {
       return null;
     }
@@ -116,13 +130,13 @@ class Page extends Component {
 }
 
 const mapStateToProps = withSelect((select) => ({
-  getPage: (slug) => select(STORE).getPage(slug),
+  getPage: (slug: string) => select(STORE).getPage(slug),
   matched: select(STORE).getMatched(),
   title: select(STORE).getTitle(),
 }));
 
 const mapDispatchToProps = withDispatch((dispatch) => ({
-  requestPage: (slug) => {
+  requestPage: (slug: string): void => {
     dispatch(STORE).requestPageInit(slug);
 
     axios.get(`/wp-json/sujin/v1/posts/?slug=${slug}`)
@@ -132,7 +146,7 @@ const mapDispatchToProps = withDispatch((dispatch) => ({
         dispatch(STORE).requestPageFail(error.response.data.code, slug);
       });
   },
-  setTitle: (title) => {
+  setTitle: (title: string): void => {
     dispatch(STORE).setTitle(title);
   },
 }));

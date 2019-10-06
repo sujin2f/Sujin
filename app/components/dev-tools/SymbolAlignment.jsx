@@ -1,4 +1,4 @@
-import { symbolAlignment } from 'app/actions/dev-tools';
+import { symbolAlignment } from 'app/utils/dev-tools';
 
 import Link from 'app/components/router/Link';
 

@@ -1,6 +1,6 @@
 import Link from 'app/components/router/Link';
 
-import { sortText } from 'app/actions/dev-tools';
+import { sortText } from 'app/utils/dev-tools';
 
 const { Fragment, Component } = wp.element;
 
