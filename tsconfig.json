@@ -2,6 +2,7 @@
   "compilerOptions": {
     "outDir": "./dist/",
     "baseUrl": ".",
+    "esModuleInterop": true,
     "sourceMap": true,
     "noImplicitAny": false,
     "module": "commonjs",
@@ -12,4 +13,5 @@
     },
   },
   "include": ["./app/app.d.ts"],
+  "exclude": ["node_modues"],
 }

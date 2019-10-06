@@ -10,7 +10,7 @@ class Tags extends Component {
 
     return (
       <ul className="tags">
-        {Object.keys(tags).map(index => (
+        {Object.keys(tags).map((index) => (
           <li
             key={hash(`tag-id-${tags[index].term_id}`)}
             id={`tag-id-${tags[index].term_id}`}

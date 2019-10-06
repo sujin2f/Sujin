@@ -1,3 +1,4 @@
+import Post from 'app/types/responses/post';
 import {
   REQUEST_PAGE_INIT,
   REQUEST_PAGE_SUCCESS,
@@ -11,12 +12,13 @@ export interface RequestPageInit {
 
 export interface RequestPageSuccess {
   type: REQUEST_PAGE_SUCCESS;
-  slug: string;
-  response: any;
+  page: Post;
 }
 
 export interface RequestPageFail {
   type: REQUEST_PAGE_FAIL;
-  code: string;
   slug: string;
 }
+
+type PageActions = RequestPageInit | RequestPageSuccess | RequestPageFail;
+export default PageActions;

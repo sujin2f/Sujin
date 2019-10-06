@@ -244,6 +244,7 @@ class Posts extends Abs_Rest_Base {
 					'id'    => $_series->posts[ $key ]->ID,
 					'title' => $_series->posts[ $key ]->post_title,
 					'link'  => get_permalink( $_series->posts[ $key ] ),
+					'slug'  => $_series->posts[ $key ]->post_name,
 				);
 			}
 		}

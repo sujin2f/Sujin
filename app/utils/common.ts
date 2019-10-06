@@ -1,3 +1,9 @@
+declare global {
+    interface Window {
+      opera: any;
+    }
+}
+
 import Scroll from 'react-scroll';
 
 /* eslint-disable import/prefer-default-export */
@@ -75,7 +81,7 @@ export const parseDate = (string) => {
   };
 };
 
-export function scrollTo(id) {
+export function scrollTo(id = null) {
   if (!id) {
     Scroll.animateScroll.scrollTo(0, { duration: 500 });
     return;

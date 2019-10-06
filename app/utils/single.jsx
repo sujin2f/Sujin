@@ -27,7 +27,7 @@ export function parseContent(content) {
 
   let matched = {};
   let splited = (content.split(patternShortcode) || [])
-    .filter(v => v);
+    .filter((v) => v);
 
   matched = (string.match(regexp('carousel')) || [])
     .reduce((acc, value) => ({

@@ -67,7 +67,7 @@ class SymbolAlignment extends Component {
               value={this.state.symbol}
             />
           </section>
-          <textarea id="sort-text" onChange={this.handleChangeText} rows="10" />
+          <textarea id="sort-text" onChange={this.handleChangeText} rows={10} />
 
           {convertedText && (
             <pre>

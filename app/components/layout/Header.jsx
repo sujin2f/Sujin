@@ -32,6 +32,7 @@ class Header extends Component {
                 onClick={() => setMobileMenu()}
                 data-testid="hamburger"
                 type="button"
+                label="Toggle Menu"
               />
               <Menu
                 id="primary-top"

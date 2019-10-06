@@ -1,5 +1,8 @@
 import axios from 'axios';
 
+import Post from 'app/types/responses/post';
+import ReactComponent from 'app/types/component';
+
 import Public from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
 import Content from 'app/components/single/Content';
@@ -18,7 +21,7 @@ const { Component } = wp.element;
 
 interface Props {
   // select
-  getPage(slug: string): any;
+  getPage(slug: string): Post | boolean | undefined;
   matched: any;
   title: string;
   // props
@@ -43,7 +46,7 @@ class Page extends Component<Props, State> {
   static getDerivedStateFromProps(props: Props, state: State): State {
     const slug = props.matched.slug;
 
-    if (!slug || state.slug === slug || props.getPage(slug).page) {
+    if (!slug || state.slug === slug || typeof props.getPage(slug) !== 'undefined') {
       return { slug };
     }
 
@@ -51,10 +54,10 @@ class Page extends Component<Props, State> {
     return { slug };
   }
 
-  getLoading(): any {
-    const { loading } = this.props.getPage(this.state.slug);
+  getLoading(): ReactComponent {
+    const page = this.props.getPage(this.state.slug);
 
-    if (loading) {
+    if (page === true) {
       return (
         <Public className="stretched-background hide-footer">
           <PageHeader isLoading />
@@ -65,10 +68,10 @@ class Page extends Component<Props, State> {
     return null;
   }
 
-  getNotFound(): any {
-    const { page } = this.props.getPage(this.state.slug);
+  getNotFound(): ReactComponent {
+    const page = this.props.getPage(this.state.slug);
 
-    if (page === 'NOT_FOUND') {
+    if (page === false) {
       return (<NotFound />);
     }
 
@@ -76,7 +79,7 @@ class Page extends Component<Props, State> {
   }
 
   setTitle(): void {
-    const { page } = this.props.getPage(this.state.slug);
+    const page = this.props.getPage(this.state.slug);
     const { title, setTitle } = this.props;
 
     if (title !== page.title) {
@@ -84,7 +87,7 @@ class Page extends Component<Props, State> {
     }
   }
 
-  render(): any {
+  render(): ReactComponent {
     if (!this.state.slug) {
       return null;
     }
@@ -101,7 +104,7 @@ class Page extends Component<Props, State> {
 
     this.setTitle();
 
-    const { page } = this.props.getPage(this.state.slug);
+    const page = this.props.getPage(this.state.slug);
 
     const backgroundImage =
       parseExImage(
@@ -141,9 +144,11 @@ const mapDispatchToProps = withDispatch((dispatch) => ({
 
     axios.get(`/wp-json/sujin/v1/posts/?slug=${slug}`)
       .then((response) => {
-        dispatch(STORE).requestPageSuccess(slug, response);
+        const page = new Post(response.data);
+        console.log(page.date);
+        dispatch(STORE).requestPageSuccess(page);
       }).catch((error) => {
-        dispatch(STORE).requestPageFail(error.response.data.code, slug);
+        dispatch(STORE).requestPageFail(slug);
       });
   },
   setTitle: (title: string): void => {

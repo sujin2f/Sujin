@@ -63,7 +63,7 @@ class TextSort extends Component {
             />
             Remove Empty Lines
           </label>
-          <textarea id="sort-text" onChange={this.handleChangeText} rows="10" />
+          <textarea id="sort-text" onChange={this.handleChangeText} rows={10} />
 
           {convertedText && (
             <pre>

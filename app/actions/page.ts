@@ -1,14 +1,15 @@
-import {
-  REQUEST_PAGE_INIT,
-  REQUEST_PAGE_SUCCESS,
-  REQUEST_PAGE_FAIL,
-} from 'app/constants/redux';
-
+import Post from 'app/types/responses/post';
 import {
   RequestPageInit,
   RequestPageSuccess,
   RequestPageFail,
 } from 'app/types/actions/page';
+
+import {
+  REQUEST_PAGE_INIT,
+  REQUEST_PAGE_SUCCESS,
+  REQUEST_PAGE_FAIL,
+} from 'app/constants/redux';
 
 export function requestPageInit(slug: string): RequestPageInit {
   return {
@@ -17,18 +18,16 @@ export function requestPageInit(slug: string): RequestPageInit {
   };
 }
 
-export function requestPageSuccess(slug: string, response: any): RequestPageSuccess {
+export function requestPageSuccess(page: Post): RequestPageSuccess {
   return {
     type: REQUEST_PAGE_SUCCESS,
-    slug,
-    response,
+    page,
   };
 }
 
-export function requestPageFail(code: string, slug: string): RequestPageFail {
+export function requestPageFail(slug: string): RequestPageFail {
   return {
     type: REQUEST_PAGE_FAIL,
-    code,
     slug,
   };
 }

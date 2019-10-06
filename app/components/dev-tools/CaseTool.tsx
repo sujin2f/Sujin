@@ -34,8 +34,9 @@ class CaseTool extends Component {
   reset(event) {
     event.preventDefault();
     this.setState({ converted: [] });
-    document.getElementById('convert-keyword').value = '';
-    document.getElementById('convert-keyword').focus();
+
+    this.refs.convertKeyword.value = '';
+    this.refs.convertKeyword.focus();
   }
 
   render() {
@@ -70,6 +71,7 @@ class CaseTool extends Component {
               id="convert-keyword"
               className="input-group-field"
               type="text"
+              ref="convertKeyword"
               onChange={this.handleChangeKeyword}
             />
 

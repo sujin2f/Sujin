@@ -15,7 +15,7 @@ class Content extends Component {
         content,
         series,
         tags,
-        type,
+        postType,
       },
       className,
       children,
@@ -30,13 +30,11 @@ class Content extends Component {
 
     return (
       <article
-        className={`columns ${className} ${type}-${slug} post-${id}`}
+        className={`columns ${className} ${postType}-${slug} post-${id}`}
         itemProp="mainEntity"
         itemType="http://schema.org/BlogPosting"
       >
-        {icon &&
-          <img src={icon} alt="Thumbnail" className="assist-thumb" />
-        }
+        {icon && (<img src={icon} alt="Thumbnail" className="assist-thumb" />)}
 
         <section className={icon ? 'more-margin' : ''}>
           {contents}

@@ -1,10 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 
-export const getPaging = (totalPages, currentPage = 1, offsetValue = 5) => {
+export const getPaging = (total: number, current: number = 1, offset: number = 5): Array<number> => {
   let entities = [];
-  const total = parseInt(totalPages, 10);
-  const current = parseInt(currentPage, 10);
-  const offset = parseInt(offsetValue, 10);
 
   if (!total) {
     return entities;
@@ -15,7 +12,7 @@ export const getPaging = (totalPages, currentPage = 1, offsetValue = 5) => {
 
   if (start > 2) {
     entities.push(1);
-    entities.push('...');
+    entities.push(-1);
   }
 
   entities = [
@@ -24,7 +21,7 @@ export const getPaging = (totalPages, currentPage = 1, offsetValue = 5) => {
   ];
 
   if (end < total - 1) {
-    entities.push('...');
+    entities.push(-1);
     entities.push(total);
   }
 

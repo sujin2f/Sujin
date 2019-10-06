@@ -1,7 +1,7 @@
 {
   "extends": [
     "airbnb",
-    "plugin:wordpress/esnext"
+    "plugin:@wordpress/eslint-plugin/esnext"
   ],
   "env": {
     "browser": false,
@@ -22,7 +22,6 @@
     "document": true
   },
   "plugins": [
-    "wordpress",
     "react",
     "jsx-a11y",
     "import"
@@ -46,6 +45,11 @@
     "import/no-extraneous-dependencies": "off",
     "class-methods-use-this": "off",
     "react/destructuring-assignment": "off",
-    "react/no-danger": "off"
+    "react/no-danger": "off",
+    "indent": ["error", 2, { "SwitchCase": 1 }],
+    "space-in-parens": ["error", "never"],
+    "computed-property-spacing": ["error", "never"],
+    "space-unary-ops": ["error", {"words": true, "nonwords": false}],
+    "array-bracket-spacing": ["error", "never"]
   }
 }

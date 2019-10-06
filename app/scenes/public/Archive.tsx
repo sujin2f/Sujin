@@ -3,7 +3,7 @@ import axios from 'axios';
 import Public from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
 import Item from 'app/components/archive/Item';
-import Paging from 'app/components/archive/Paging';
+// import Paging from 'app/components/archive/Paging';
 import NotFound from 'app/scenes/public/NotFound';
 
 import { STORE } from 'app/constants/common';
@@ -157,11 +157,13 @@ class Archive extends Component {
               ))}
             </section>
 
+            {/*
             <Paging
               totalPages={totalPages}
               currentPage={page}
               urlPrefix={`/${kind}/${slug}`}
             />
+            */}
           </Fragment>
         )}
       </Public>
