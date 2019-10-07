@@ -1,3 +1,4 @@
+import Matched from 'app/types/matched';
 import Menu from 'app/types/responses/menu';
 import MainBackground from 'app/types/responses/main-background';
 import Flickr from 'app/types/responses/flickr';
@@ -29,7 +30,7 @@ export interface SetHistory {
 }
 export interface SetMatched {
   type: SET_MATCHED;
-  matched: any;
+  matched: Matched;
 }
 export interface SetLocation {
   type: SET_LOCATION;

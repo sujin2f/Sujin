@@ -1,4 +1,5 @@
 // Types
+import Matched from 'app/types/matched';
 import Menu from 'app/types/responses/menu';
 import MainBackground from 'app/types/responses/main-background';
 import Flickr from 'app/types/responses/flickr';
@@ -50,7 +51,7 @@ export function setHistory(history: any): SetHistory {
     history,
   };
 }
-export function setMatched(matched: any): SetMatched {
+export function setMatched(matched: Matched): SetMatched {
   return {
     type: SET_MATCHED,
     matched,

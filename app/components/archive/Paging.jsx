@@ -24,25 +24,25 @@ class Paging extends Component {
           <ul className="pagination text-center" role="navigation" aria-label="Pagination">
             {entities.map((entity, id) => {
               const url = `${urlPrefix}/page/${entity}`;
-              const isCurrnet = parseInt(currentPage, 10) === entity;
+              const isCurrnet = currentPage === entity;
               return (
                 <li
                   className={`${isCurrnet ? 'active' : ''}`}
                   key={hash(`url-${id}`)}
                 >
-                  {entity !== '...' && isCurrnet && (
+                  {isCurrnet && (
                     <span>{entity}</span>
                   )}
 
-                  {entity !== '...' && !isCurrnet && (
+                  {entity !== -1 && !isCurrnet && (
                     <Link to={url}>
                       {entity}
                     </Link>
                   )}
 
-                  {entity === '...' &&
+                  {entity === -1 && (
                     <span>&hellip;</span>
-                  }
+                  )}
                 </li>
               );
             })}

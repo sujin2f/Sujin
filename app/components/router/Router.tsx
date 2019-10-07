@@ -1,3 +1,6 @@
+import Matched from 'app/types/matched';
+import Matched from 'app/types/matched';
+
 import { createBrowserHistory } from 'history';
 import { STORE } from 'app/constants/common';
 import { parseMatched } from 'app/utils/router';
@@ -8,14 +11,14 @@ const { compose } = wp.compose;
 
 interface Props {
   // dispatch
-  setHistory: void;
-  setLocation: void;
-  setMatched: void;
+  setHistory(history: any): void;
+  setLocation(location: any): void;
+  setMatched(matched: Matched): void;
   // select
   location: any;
-  matched: any;
+  matched: Matched;
   // props
-  children: any;
+  children: Array<JSX.Element>;
 };
 
 interface State {
@@ -52,7 +55,7 @@ class Router extends Component<Props, State> {
       if (action === 'PUSH' || action === 'POP') {
         setHistory(history);
         setLocation(location);
-        setMatched(null);
+        setMatched(new Matched({}));
       }
     });
   }
@@ -105,9 +108,9 @@ const mapStateToProps = withSelect((select) => ({
 }));
 
 const mapDispatchToProps = withDispatch((dispatch) => ({
-  setHistory: (history): void => dispatch(STORE).setHistory(history),
-  setLocation: (location): void => dispatch(STORE).setLocation(location),
-  setMatched: (matched): void => dispatch(STORE).setMatched(matched),
+  setHistory: (history: any): void => dispatch(STORE).setHistory(history),
+  setLocation: (location: any): void => dispatch(STORE).setLocation(location),
+  setMatched: (matched: Matched): void => dispatch(STORE).setMatched(matched),
 }));
 
 export default compose([mapStateToProps, mapDispatchToProps])(Router);

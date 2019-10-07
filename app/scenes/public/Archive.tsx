@@ -4,7 +4,7 @@ import Post from 'app/types/responses/post';
 import Public from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
 import Item from 'app/components/archive/Item';
-// import Paging from 'app/components/archive/Paging';
+import Paging from 'app/components/archive/Paging';
 import NotFound from 'app/scenes/public/NotFound';
 
 import { STORE } from 'app/constants/common';
@@ -172,13 +172,11 @@ class Archive extends Component<Props, State> {
               ))}
             </section>
 
-            {/*
             <Paging
               totalPages={totalPages}
               currentPage={page}
               urlPrefix={`/${kind}/${slug}`}
             />
-            */}
           </Fragment>
         )}
       </Public>

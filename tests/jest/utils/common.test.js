@@ -2,7 +2,6 @@ const {
   getScrolled,
   isMobile,
   getRenderedText,
-  parseJson,
   parseDate,
   backgroundImageStyle,
   scrollTo,
@@ -27,33 +26,6 @@ describe.each(dataGetScrolled)(
     test(`Scrolled ${scrollY}, ${scrolled}`, () => {
       window['scrollY'] = scrollY;
       expect(getScrolled(scrolled)).toBe(expected);
-    });
-  },
-);
-
-/*
- * Data Provider for parseJson
- * @param string
- * @param key
- * @param expected
- */
-const dataParseJson = [
-  ['{"key":"value"}', false, { key: 'value'}],
-  ['{"key":"value"}', 'key', 'value'],
-  ['Lorem ipsum dolor sit amet', false, null],
-  [9999, false, null],
-  [null, false, null],
-  [true, false, null],
-  [false, false, null],
-  [undefined, false, null],
-  [{ key: 'value' }, false, null],
-];
-
-describe.each(dataParseJson)(
-  'dataParseJson()',
-  (string, key, expected) => {
-    test(`parseJson ${string}, ${key}`, () => {
-      expect(parseJson(string, key)).toEqual(expected);
     });
   },
 );

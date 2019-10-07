@@ -1,4 +1,5 @@
 // Types
+import Matched from 'app/types/matched';
 import GlobalState from 'app/types/states/global';
 import GlobalActions from 'app/types/actions/global';
 import MainBackgroundArray from 'app/types/responses/main-background';
@@ -31,7 +32,7 @@ import { setTitle } from 'app/utils/common';
 const initState: GlobalState = {
   history: {
     history: {},
-    matched: null,
+    matched: new Matched({}),
     location: {},
   },
   mobileMenu: false,

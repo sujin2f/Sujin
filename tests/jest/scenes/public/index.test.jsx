@@ -6,7 +6,6 @@ import {
   waitForElement,
 } from '@testing-library/react';
 
-import 'jest-dom/extend-expect';
 // import axiosMock from 'axios';
 
 import axios from 'axios';
