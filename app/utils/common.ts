@@ -8,7 +8,7 @@ import Scroll from 'react-scroll';
 
 /* eslint-disable import/prefer-default-export */
 
-export function getScrolled(scrolled) {
+export function getScrolled(scrolled: boolean): string | false {
   if (window.scrollY > 80 && !scrolled) {
     return 'scrolled';
   }
@@ -20,7 +20,7 @@ export function getScrolled(scrolled) {
   return false;
 }
 
-export function isMobile() {
+export function isMobile(): boolean {
   const userAgent = window.navigator.userAgent || window.navigator.vendor || window.opera;
   /* eslint-disable max-len,no-useless-escape */
   const regex1 = /(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i;
@@ -36,32 +36,12 @@ export const parseExImage = (
   mobile,
   defaultDesktop = null,
   defaultMobile = null,
-) => {
-  if (!isMobile()) {
-    return meta[desktop] || thumbnail[desktop] || defaultDesktop;
+): string => {
+  if (isMobile()) {
+    return meta[mobile] || thumbnail[mobile] || defaultMobile || '';
   }
 
-  return meta[mobile] || thumbnail[mobile] || defaultMobile;
-};
-
-const isDate = (date) => {
-  return date instanceof Date && date.getDate();
-};
-
-export const parseDate = (string) => {
-  const tryDate = new Date(string) || new Date();
-  const isParsed = isDate(new Date(string) || new Date());
-  const isNotDate = typeof string === 'boolean' || !string;
-
-  const isAvailable = isParsed && !isNotDate;
-  const date = isAvailable ? tryDate : new Date();
-
-  return {
-    date,
-    day: date.getDate(),
-    month: date.toLocaleString('en-us', { month: 'short' }),
-    year: date.getFullYear(),
-  };
+  return meta[desktop] || thumbnail[desktop] || defaultDesktop || '';
 };
 
 export function scrollTo(id = null) {

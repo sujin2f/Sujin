@@ -352,7 +352,9 @@ class Posts extends Abs_Rest_Base {
 				'excerpt'   => $post->post_excerpt,
 				'date'      => $post->post_date,
 				'meta'      => array(
-					'list' => Post_Meta_Attachment::get_instance( 'List' )->get( $post->ID ),
+					'list'       => Post_Meta_Attachment::get_instance( 'List' )->get( $post->ID ),
+					'thumbnail'  => Post_Meta_Attachment::get_instance( 'Thumbnail' )->get( $post->ID ),
+					'background' => Post_Meta_Attachment::get_instance( 'Background' )->get( $post->ID ),
 				),
 				'thumbnail' => $this->get_thumbnail_array( $post->ID ),
 				'link'      => get_permalink( $post->ID ),

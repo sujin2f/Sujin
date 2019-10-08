@@ -1,3 +1,4 @@
+import Matched from 'app/types/matched';
 import { MenuArray } from 'app/types/responses/menu';
 import { MainBackgroundArray } from 'app/types/responses/main-background';
 import { FlickrArray } from 'app/types/responses/flickr';
@@ -15,6 +16,6 @@ export const getMainBackground = (state: State): MainBackgroundArray => state.gl
 export const getFlickr = (state: State): FlickrArray => state.global.flickr;
 
 export const getHistory = (state:State) => state.global.history.history;
-export const getMatched = (state:State) => state.global.history.matched;
+export const getMatched = (state:State): Matched => state.global.history.matched;
 export const getLocation = (state:State) => state.global.history.location;
 /* eslint-enable import/prefer-default-export */

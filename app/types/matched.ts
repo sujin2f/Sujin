@@ -1,15 +1,3 @@
-export interface Matched {
-  matched: boolean;
-  slug?: string;
-  category?: string;
-  tag?: string;
-  search?: string;
-  year?: number;
-  month?: string;
-  day?: number;
-  page?: number;
-}
-
 export default class Matched {
   readonly matched: boolean;
   readonly slug?: string;
@@ -29,7 +17,7 @@ export default class Matched {
     this.search = data.search;
     this.year = parseInt(data.year, 10);
     this.month = parseInt(data.month, 10);
-    this.day = data.day;
+    this.day = parseInt(data.day, 10);
     this.page = parseInt(data.page, 10);
   }
 }

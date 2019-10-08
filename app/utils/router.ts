@@ -1,11 +1,11 @@
+import Matched from 'app/types/matched';
 import pathToRegexp from 'path-to-regexp';
 
 /* eslint-disable import/prefer-default-export */
 
-export function parseMatched(path, url) {
+export function parseMatched(path: string, url: string): Matched {
   const regExp = new RegExp(pathToRegexp(path));
   const matchedResult = regExp.exec(url);
-
   const pathname = path.split('/')
     .filter(p => p.charAt(0) === ':')
     .map(p => p.slice(1).replace(/\?|(\(.+\))/, ''));
@@ -15,10 +15,7 @@ export function parseMatched(path, url) {
     [value]: matchedResult[index + 1],
   }), { matched: true });
 
-  return {
-    matched,
-    pathname,
-  };
+  return new Matched(matched || {});
 }
 
 /* eslint-enable import/prefer-default-export */

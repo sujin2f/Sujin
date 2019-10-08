@@ -1,18 +1,34 @@
 import { STORE } from 'app/constants/common';
 
-import { scrollTo } from 'app/utils/common';
-
 const { withSelect, withDispatch } = wp.data;
 const { compose } = wp.compose;
 const { Component } = wp.element;
 
-class Link extends Component {
-  constructor(props) {
+interface Props {
+  // select
+  location: any;
+  history: any;
+  // props
+  to: string;
+  target: string;
+  id: string;
+  className: string;
+  dangerouslySetInnerHTML: string;
+  children: Array<JSX.Element>;
+  onClick(e: any): void;
+  onMouseOver(e: any): void;
+  onMouseLeave(e: any): void;
+  onFocus(e: any): void;
+  onBlur(e: any): void;
+};
+
+class Link extends Component<Props> {
+  constructor(props: Props) {
     super(props);
     this.pushHash = this.pushHash.bind(this);
   }
 
-  pushHash(e, target) {
+  pushHash(e, target: string): void {
     if (target === '_blank') {
       return;
     }
@@ -21,12 +37,9 @@ class Link extends Component {
       to,
       history,
       location,
-      setMobileMenuFalse,
     } = this.props;
     const origin = location.origin;
     history.push(to.replace(origin, ''));
-    scrollTo();
-    setMobileMenuFalse();
     e.preventDefault();
   }
 
@@ -69,8 +82,4 @@ const mapStateToProps = withSelect((select) => ({
   location: select(STORE).getLocation(),
 }));
 
-const mapDispatchToProps = withDispatch((dispatch) => ({
-  setMobileMenuFalse: () => dispatch(STORE).setMobileMenu(false),
-}));
-
-export default compose([mapStateToProps, mapDispatchToProps])(Link);
+export default compose([mapStateToProps])(Link);

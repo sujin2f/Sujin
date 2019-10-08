@@ -31,7 +31,7 @@ class Post extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    const slug = props.matched.postSlug;
+    const slug = props.matched.slug;
 
     if (!slug || state.slug === slug || typeof props.getPost(slug) !== 'undefined') {
       return { slug };
@@ -93,7 +93,7 @@ class Post extends Component {
 
     const post = this.props.getPost(this.state.slug);
 
-    const backgroundImage =
+    const backgroundImage: string =
       parseExImage(
         post.meta.background,
         post.thumbnail,

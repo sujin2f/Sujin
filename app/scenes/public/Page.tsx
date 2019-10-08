@@ -106,7 +106,7 @@ class Page extends Component<Props, State> {
 
     const page = this.props.getPage(this.state.slug);
 
-    const backgroundImage =
+    const backgroundImage: string =
       parseExImage(
         page.meta.background,
         page.thumbnail,

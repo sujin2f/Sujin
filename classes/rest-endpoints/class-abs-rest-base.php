@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 abstract class Abs_Rest_Base extends WP_REST_Controller {
-	protected const DEV_MODE = false;
+	protected const DEV_MODE = true;
 
 	protected const NAMESPACE = 'sujin/v1';
 

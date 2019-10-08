@@ -1,9 +1,9 @@
 import Matched from 'app/types/matched';
-import Matched from 'app/types/matched';
 
 import { createBrowserHistory } from 'history';
 import { STORE } from 'app/constants/common';
 import { parseMatched } from 'app/utils/router';
+import { scrollTo } from 'app/utils/common';
 
 const { Component } = wp.element;
 const { withSelect, withDispatch } = wp.data;
@@ -14,6 +14,7 @@ interface Props {
   setHistory(history: any): void;
   setLocation(location: any): void;
   setMatched(matched: Matched): void;
+  setMobileMenuFalse(): void;
   // select
   location: any;
   matched: Matched;
@@ -43,6 +44,7 @@ class Router extends Component<Props, State> {
       setHistory,
       setLocation,
       setMatched,
+      setMobileMenuFalse,
     } = this.props;
 
     // Set history
@@ -53,6 +55,8 @@ class Router extends Component<Props, State> {
 
     history.listen((location, action: string) => {
       if (action === 'PUSH' || action === 'POP') {
+        scrollTo();
+        setMobileMenuFalse();
         setHistory(history);
         setLocation(location);
         setMatched(new Matched({}));
@@ -60,7 +64,7 @@ class Router extends Component<Props, State> {
     });
   }
 
-  getValidChild() {
+  getValidChild(): Array<JSX.Element> {
     const {
       children,
       matched,
@@ -71,23 +75,22 @@ class Router extends Component<Props, State> {
     let validChild = null;
 
     children.some((child) => {
+      const parsedMatch: Matched = parseMatched(child.props.path, location.pathname);
+      if (!parsedMatch.matched) {
+        return false;
+      }
+
       if (!child.props.path) {
         validChild = child;
         return true;
       }
 
-      const parsed = parseMatched(child.props.path, location.pathname);
-
-      if (parsed.matched) {
-        if (!matched) {
-          setMatched(parsed.matched);
-        }
-
-        validChild = child;
-        return true;
+      if (!matched.matched) {
+        setMatched(parsedMatch);
       }
 
-      return false;
+      validChild = child;
+      return true;
     });
 
     return [validChild];
@@ -111,6 +114,7 @@ const mapDispatchToProps = withDispatch((dispatch) => ({
   setHistory: (history: any): void => dispatch(STORE).setHistory(history),
   setLocation: (location: any): void => dispatch(STORE).setLocation(location),
   setMatched: (matched: Matched): void => dispatch(STORE).setMatched(matched),
+  setMobileMenuFalse: (): void => dispatch(STORE).setMobileMenu(false),
 }));
 
 export default compose([mapStateToProps, mapDispatchToProps])(Router);

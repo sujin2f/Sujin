@@ -1,4 +1,8 @@
 // Tags
+html {
+  scroll-behavior: smooth;
+}
+
 html[lang="en-US"], body {
 	font-family: $body-font-family;
 	font-size: 100%;

@@ -38,7 +38,7 @@ import NotFound from 'app/scenes/public/NotFound';
       <Archive path="/tag/:tag" />
       <Archive path="/search/:search/page/:page?" />
       <Archive path="/search/:search" />
-      <Post path="/:year([0-9]+)/:month([0-9]+)/:day([0-9]+)/:postSlug" />
+      <Post path="/:year([0-9]+)/:month([0-9]+)/:day([0-9]+)/:slug" />
       <Page path="/:slug" />
       <NotFound />
     </Router>,
