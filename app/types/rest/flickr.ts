@@ -1,4 +1,3 @@
-/// <reference path="flickr.d.ts" />
 import axios from 'axios';
 
 // Constants

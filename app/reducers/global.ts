@@ -2,7 +2,6 @@
 import Matched from 'app/types/matched';
 import GlobalState from 'app/types/states/global';
 import GlobalActions from 'app/types/actions/global';
-import MainBackgroundArray from 'app/types/rest/main-background';
 
 import {
   SET_HISTORY,
@@ -15,10 +14,6 @@ import {
   REQUEST_MENU_INIT,
   REQUEST_MENU_SUCCESS,
   REQUEST_MENU_FAIL,
-
-  REQUEST_MAIN_BACKGROUND_INIT,
-  REQUEST_MAIN_BACKGROUND_SUCCESS,
-  REQUEST_MAIN_BACKGROUND_FAIL,
 } from 'app/constants/redux';
 
 import { DEFAULT_TITLE } from 'app/constants/common';
@@ -34,7 +29,6 @@ const initState: GlobalState = {
   mobileMenu: false,
   title: DEFAULT_TITLE,
   menu: {},
-  backgrounds: undefined,
 };
 
 // Actions
@@ -117,26 +111,6 @@ function global(state: GlobalState = initState, action: GlobalActions): GlobalSt
       return {
         ...state,
         menu,
-      };
-    }
-
-    // Request background images
-    case REQUEST_MAIN_BACKGROUND_INIT: {
-      return {
-        ...state,
-        backgrounds: true,
-      };
-    }
-    case REQUEST_MAIN_BACKGROUND_SUCCESS: {
-      return {
-        ...state,
-        backgrounds: [...action.backgrounds],
-      };
-    }
-    case REQUEST_MAIN_BACKGROUND_FAIL: {
-      return {
-        ...state,
-        backgrounds: false,
       };
     }
 

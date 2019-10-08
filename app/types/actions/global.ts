@@ -1,6 +1,6 @@
 import Matched from 'app/types/matched';
 import Menu from 'app/types/rest/menu';
-import MainBackground from 'app/types/rest/main-background';
+
 import {
   SET_HISTORY,
   SET_MATCHED,
@@ -12,10 +12,6 @@ import {
   REQUEST_MENU_INIT,
   REQUEST_MENU_SUCCESS,
   REQUEST_MENU_FAIL,
-
-  REQUEST_MAIN_BACKGROUND_INIT,
-  REQUEST_MAIN_BACKGROUND_SUCCESS,
-  REQUEST_MAIN_BACKGROUND_FAIL,
 } from 'app/constants/redux';
 
 // History
@@ -60,17 +56,5 @@ export interface RequestMenuFail {
   error: any;
 }
 
-// Request background images
-export interface RequestMainBackgroundInit {
-  type: REQUEST_MAIN_BACKGROUND_INIT;
-}
-export interface RequestMainBackgroundSuccess {
-  type: REQUEST_MAIN_BACKGROUND_SUCCESS;
-  backgrounds: Array<MainBackground>;
-}
-export interface RequestMainBackgroundFail {
-  type: REQUEST_MAIN_BACKGROUND_FAIL;
-}
-
-type GlobalActions = SetHistory | SetMatched | SetLocation | SetTitle | SetMobileMenu | RequestMenuInit | RequestMenuSuccess | RequestMenuFail | RequestMainBackgroundInit | RequestMainBackgroundSuccess | RequestMainBackgroundFail;
+type GlobalActions = SetHistory | SetMatched | SetLocation | SetTitle | SetMobileMenu | RequestMenuInit | RequestMenuSuccess | RequestMenuFail;
 export default GlobalActions;

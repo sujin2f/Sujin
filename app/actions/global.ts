@@ -1,7 +1,6 @@
 // Types
 import Matched from 'app/types/matched';
 import Menu from 'app/types/rest/menu';
-import MainBackground from 'app/types/rest/main-background';
 import {
   SetHistory,
   SetMatched,
@@ -13,10 +12,6 @@ import {
   RequestMenuInit,
   RequestMenuSuccess,
   RequestMenuFail,
-
-  RequestMainBackgroundInit,
-  RequestMainBackgroundSuccess,
-  RequestMainBackgroundFail,
 } from 'app/types/actions/global';
 import {
   SET_HISTORY,
@@ -29,10 +24,6 @@ import {
   REQUEST_MENU_INIT,
   REQUEST_MENU_SUCCESS,
   REQUEST_MENU_FAIL,
-
-  REQUEST_MAIN_BACKGROUND_INIT,
-  REQUEST_MAIN_BACKGROUND_SUCCESS,
-  REQUEST_MAIN_BACKGROUND_FAIL,
 } from 'app/constants/redux';
 
 // History
@@ -93,23 +84,5 @@ export function requestMenuFail(slug: string, error: any): RequestMenuFail {
     type: REQUEST_MENU_FAIL,
     slug,
     error,
-  };
-}
-
-// Request background images
-export function requestMainBackgroundInit(): RequestMainBackgroundInit {
-  return {
-    type: REQUEST_MAIN_BACKGROUND_INIT,
-  };
-}
-export function requestMainBackgroundSuccess(backgrounds: Array<MainBackground>): RequestMainBackgroundSuccess {
-  return {
-    type: REQUEST_MAIN_BACKGROUND_SUCCESS,
-    backgrounds,
-  };
-}
-export function requestMainBackgroundFail(): RequestMainBackgroundFail {
-  return {
-    type: REQUEST_MAIN_BACKGROUND_FAIL,
   };
 }
