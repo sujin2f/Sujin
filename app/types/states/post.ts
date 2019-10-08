@@ -1,4 +1,4 @@
-import Post, { PostObject } from 'app/types/responses/post';
+import Post, { PostObject } from 'app/types/rest/post';
 
 export default interface PostState {
   entities: PostObject;

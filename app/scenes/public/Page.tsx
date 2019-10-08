@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import Post from 'app/types/responses/post';
+import Post from 'app/types/rest/post';
 import ReactComponent from 'app/types/component';
 
 import Public from 'app/scenes/public';

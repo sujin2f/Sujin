@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import Post from 'app/types/responses/post';
+import Post from 'app/types/rest/post';
 import Loading from 'app/components/layout/Loading';
 import Item from 'app/components/archive/Item';
 

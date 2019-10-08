@@ -2,7 +2,8 @@
 import Matched from 'app/types/matched';
 import GlobalState from 'app/types/states/global';
 import GlobalActions from 'app/types/actions/global';
-import MainBackgroundArray from 'app/types/responses/main-background';
+import MainBackgroundArray from 'app/types/rest/main-background';
+import FlickrController from 'app/types/rest/flickr';
 
 import {
   SET_HISTORY,
@@ -39,7 +40,7 @@ const initState: GlobalState = {
   title: DEFAULT_TITLE,
   menu: {},
   backgrounds: undefined,
-  flickr: undefined,
+  flickr: FlickrController.getInstance(),
 };
 
 // Actions
@@ -147,22 +148,16 @@ function global(state: GlobalState = initState, action: GlobalActions): GlobalSt
 
     // Request Flickr images
     case REQUEST_FLICKR_INIT: {
-      return {
-        ...state,
-        flickr: true,
-      };
+      FlickrController.getInstance().load();
+      return state;
     }
     case REQUEST_FLICKR_SUCCESS: {
-      return {
-        ...state,
-        flickr: [...action.flickr],
-      };
+      FlickrController.getInstance().set();
+      return state;
     }
     case REQUEST_FLICKR_FAIL: {
-      return {
-        ...state,
-        flickr: false,
-      };
+      FlickrController.getInstance().fail();
+      return state;
     }
 
     default: {

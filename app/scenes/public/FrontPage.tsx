@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { MainBackgroundArray } from 'app/types/responses/main-background';
+import { MainBackgroundArray } from 'app/types/rest/main-background';
 
 import PageHeader from 'app/components/layout/PageHeader';
 import Public from 'app/scenes/public';

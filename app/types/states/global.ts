@@ -1,7 +1,7 @@
 import Matched from 'app/types/matched';
-import { MenuArray } from 'app/types/responses/menu';
-import { MainBackgroundArray } from 'app/types/responses/main-background';
-import { FlickrArray } from 'app/types/responses/flickr';
+import { MenuArray } from 'app/types/rest/menu';
+import { MainBackgroundArray } from 'app/types/rest/main-background';
+import FlickrController from 'app/types/rest/flickr';
 
 export default interface GlobalState {
   history: {
@@ -15,5 +15,5 @@ export default interface GlobalState {
     [menupName: string]: MenuArray;
   };
   backgrounds: MainBackgroundArray;
-  flickr: FlickrArray;
+  flickr: FlickrController;
 }

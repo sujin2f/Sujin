@@ -1,4 +1,4 @@
-import Post from 'app/types/responses/post';
+import Post from 'app/types/rest/post';
 import {
   RequestPostInit,
   RequestPostSuccess,

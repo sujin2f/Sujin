@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import Post from 'app/types/responses/post';
+import Post from 'app/types/rest/post';
 import Public from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
 import Item from 'app/components/archive/Item';

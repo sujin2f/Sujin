@@ -1,4 +1,4 @@
-import { PostObject } from 'app/types/responses/post';
+import { PostObject } from 'app/types/rest/post';
 import PageActions from 'app/types/actions/page';
 
 import {

@@ -1,8 +1,7 @@
 // Types
 import Matched from 'app/types/matched';
-import Menu from 'app/types/responses/menu';
-import MainBackground from 'app/types/responses/main-background';
-import Flickr from 'app/types/responses/flickr';
+import Menu from 'app/types/rest/menu';
+import MainBackground from 'app/types/rest/main-background';
 import {
   SetHistory,
   SetMatched,
@@ -129,10 +128,9 @@ export function requestFlickrInit(): RequestFlickrInit {
     type: REQUEST_FLICKR_INIT,
   };
 }
-export function requestFlickrSuccess(flickr: Array<Flickr>): RequestFlickrSuccess {
+export function requestFlickrSuccess(): RequestFlickrSuccess {
   return {
     type: REQUEST_FLICKR_SUCCESS,
-    flickr,
   };
 }
 export function requestFlickrFail(): RequestFlickrFail {

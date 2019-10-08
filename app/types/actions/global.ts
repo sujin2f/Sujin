@@ -1,7 +1,6 @@
 import Matched from 'app/types/matched';
-import Menu from 'app/types/responses/menu';
-import MainBackground from 'app/types/responses/main-background';
-import Flickr from 'app/types/responses/flickr';
+import Menu from 'app/types/rest/menu';
+import MainBackground from 'app/types/rest/main-background';
 import {
   SET_HISTORY,
   SET_MATCHED,
@@ -83,7 +82,6 @@ export interface RequestFlickrInit {
 }
 export interface RequestFlickrSuccess {
   type: REQUEST_FLICKR_SUCCESS;
-  flickr: Array<Flickr>;
 }
 export interface RequestFlickrFail {
   type: REQUEST_FLICKR_FAIL;

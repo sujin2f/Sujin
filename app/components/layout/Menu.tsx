@@ -3,7 +3,7 @@ import axios from 'axios';
 import {
   default as MenuType,
   MenuArray,
-} from 'app/types/responses/menu';
+} from 'app/types/rest/menu';
 import Link from 'app/components/router/Link';
 import { STORE } from 'app/constants/common';
 

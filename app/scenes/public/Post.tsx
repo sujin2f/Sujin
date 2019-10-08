@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { default as PostType } from 'app/types/responses/post';
+import { default as PostType } from 'app/types/rest/post';
 
 import Public from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
