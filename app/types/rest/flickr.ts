@@ -1,12 +1,8 @@
 /// <reference path="flickr.d.ts" />
 import axios from 'axios';
 
-// Types
-import * as FlickrTypes from 'Flickr';
 // Constants
 import { STORE } from 'app/constants/common';
-// WP features
-const { dispatch, select } = wp.data;
 
 class FlickrItem {
   title: string;
@@ -33,65 +29,47 @@ export default class FlickrController {
   static instance: FlickrController;
   readonly REST_URL = 'wp-json/sujin/v1/flickr/';
 
-  private entities: FlickrTypes.state;
-  private loading: boolean = false;
-  private failed: boolean = false;
+  entities: Array<FlickrItem> = [];
+  loading: boolean = false;
+  failed: boolean = false;
+  init: boolean = false;
 
   /*
    * Get singleton object
    */
   static getInstance(): FlickrController {
     if (!FlickrController.instance) {
-      this.instance = new FlickrController();
+      FlickrController.instance = new FlickrController();
     }
-    return this.instance;
+    return FlickrController.instance;
   }
 
   /*
    * REST request
    */
-  public request(): void {
-    dispatch(STORE).requestFlickrInit();
+  public request(component: any): void {
+    this.init = true;
+    this.loading = true;
+    this.failed = false;
+    component.forceUpdate();
 
     axios.get(this.REST_URL)
       .then((response) => {
         if (response.status === 204) {
-          dispatch(STORE).requestFlickrFail();
+          this.loading = false;
+          this.failed = true;
           return;
         }
 
         this.entities = [];
-        this.entities = response.data.map((item) => new FlickrItem(response.data));
-        dispatch(STORE).requestFlickrSuccess();
+        this.entities = response.data.map((item) => new FlickrItem(item));
+        this.loading = false;
+        this.failed = false;
       }).catch(() => {
-        dispatch(STORE).requestFlickrFail();
+        this.loading = false;
+        this.failed = true;
+      }).finally(() => {
+        component.forceUpdate();
       });
-  }
-
-  public set() {
-    this.loading = false;
-    this.failed = false;
-  }
-
-  public load() {
-    this.loading = true;
-    this.failed = false;
-  }
-
-  public fail() {
-    this.loading = false;
-    this.failed = true;
-  }
-
-  public isNotInitialized() {
-    return typeof this.entities === 'undefined';
-  }
-
-  public isLoading(): boolean {
-    return this.loading;
-  }
-
-  public isFailed(): boolean {
-    return this.failed;
   }
 }

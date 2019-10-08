@@ -17,10 +17,6 @@ import {
   RequestMainBackgroundInit,
   RequestMainBackgroundSuccess,
   RequestMainBackgroundFail,
-
-  RequestFlickrInit,
-  RequestFlickrFail,
-  RequestFlickrSuccess,
 } from 'app/types/actions/global';
 import {
   SET_HISTORY,
@@ -37,10 +33,6 @@ import {
   REQUEST_MAIN_BACKGROUND_INIT,
   REQUEST_MAIN_BACKGROUND_SUCCESS,
   REQUEST_MAIN_BACKGROUND_FAIL,
-
-  REQUEST_FLICKR_INIT,
-  REQUEST_FLICKR_SUCCESS,
-  REQUEST_FLICKR_FAIL,
 } from 'app/constants/redux';
 
 // History
@@ -119,22 +111,5 @@ export function requestMainBackgroundSuccess(backgrounds: Array<MainBackground>)
 export function requestMainBackgroundFail(): RequestMainBackgroundFail {
   return {
     type: REQUEST_MAIN_BACKGROUND_FAIL,
-  };
-}
-
-// Request Flickr images
-export function requestFlickrInit(): RequestFlickrInit {
-  return {
-    type: REQUEST_FLICKR_INIT,
-  };
-}
-export function requestFlickrSuccess(): RequestFlickrSuccess {
-  return {
-    type: REQUEST_FLICKR_SUCCESS,
-  };
-}
-export function requestFlickrFail(): RequestFlickrFail {
-  return {
-    type: REQUEST_FLICKR_FAIL,
   };
 }

@@ -10,6 +10,4 @@ declare module "Flickr" {
       m: string;
     };
   }
-
-  export type state = Array<FlickrItem> | boolean | undefined; // true is loading, false is failed, undefined is not yet loaded
 }

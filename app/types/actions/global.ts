@@ -16,10 +16,6 @@ import {
   REQUEST_MAIN_BACKGROUND_INIT,
   REQUEST_MAIN_BACKGROUND_SUCCESS,
   REQUEST_MAIN_BACKGROUND_FAIL,
-
-  REQUEST_FLICKR_INIT,
-  REQUEST_FLICKR_SUCCESS,
-  REQUEST_FLICKR_FAIL,
 } from 'app/constants/redux';
 
 // History
@@ -76,16 +72,5 @@ export interface RequestMainBackgroundFail {
   type: REQUEST_MAIN_BACKGROUND_FAIL;
 }
 
-// Request Flickr images
-export interface RequestFlickrInit {
-  type: REQUEST_FLICKR_INIT;
-}
-export interface RequestFlickrSuccess {
-  type: REQUEST_FLICKR_SUCCESS;
-}
-export interface RequestFlickrFail {
-  type: REQUEST_FLICKR_FAIL;
-}
-
-type GlobalActions = SetHistory | SetMatched | SetLocation | SetTitle | SetMobileMenu | RequestMenuInit | RequestMenuSuccess | RequestMenuFail | RequestMainBackgroundInit | RequestMainBackgroundSuccess | RequestMainBackgroundFail | RequestFlickrInit | RequestFlickrSuccess | RequestFlickrFail;
+type GlobalActions = SetHistory | SetMatched | SetLocation | SetTitle | SetMobileMenu | RequestMenuInit | RequestMenuSuccess | RequestMenuFail | RequestMainBackgroundInit | RequestMainBackgroundSuccess | RequestMainBackgroundFail;
 export default GlobalActions;

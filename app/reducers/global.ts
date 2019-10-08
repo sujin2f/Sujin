@@ -3,7 +3,6 @@ import Matched from 'app/types/matched';
 import GlobalState from 'app/types/states/global';
 import GlobalActions from 'app/types/actions/global';
 import MainBackgroundArray from 'app/types/rest/main-background';
-import FlickrController from 'app/types/rest/flickr';
 
 import {
   SET_HISTORY,
@@ -20,10 +19,6 @@ import {
   REQUEST_MAIN_BACKGROUND_INIT,
   REQUEST_MAIN_BACKGROUND_SUCCESS,
   REQUEST_MAIN_BACKGROUND_FAIL,
-
-  REQUEST_FLICKR_INIT,
-  REQUEST_FLICKR_SUCCESS,
-  REQUEST_FLICKR_FAIL,
 } from 'app/constants/redux';
 
 import { DEFAULT_TITLE } from 'app/constants/common';
@@ -40,7 +35,6 @@ const initState: GlobalState = {
   title: DEFAULT_TITLE,
   menu: {},
   backgrounds: undefined,
-  flickr: FlickrController.getInstance(),
 };
 
 // Actions
@@ -144,20 +138,6 @@ function global(state: GlobalState = initState, action: GlobalActions): GlobalSt
         ...state,
         backgrounds: false,
       };
-    }
-
-    // Request Flickr images
-    case REQUEST_FLICKR_INIT: {
-      FlickrController.getInstance().load();
-      return state;
-    }
-    case REQUEST_FLICKR_SUCCESS: {
-      FlickrController.getInstance().set();
-      return state;
-    }
-    case REQUEST_FLICKR_FAIL: {
-      FlickrController.getInstance().fail();
-      return state;
     }
 
     default: {

@@ -7,32 +7,29 @@ import * as FlickrTypes from 'Flickr';
 import FlickrController from 'app/types/rest/flickr';
 
 import Loading from 'app/components/layout/Loading';
-import { STORE } from 'app/constants/common';
 
-const { withDispatch, withSelect } = wp.data;
-const { compose } = wp.compose;
 const { Component } = wp.element;
 
-interface Props {
-  flickr: FlickrController;
-};
-
-// TODO forceUpdate
-class Flickr extends Component<Props> {
+class Flickr extends Component {
   componentDidMount() {
-    if (FlickrController.getInstance().isNotInitialized()) {
-      FlickrController.getInstance().request();
+    const flickr = FlickrController.getInstance();
+    if (!flickr.init) {
+      flickr.request(this);
     }
   }
 
   render() {
-    const { flickr } = this.props;
+    const flickr:FlickrController = FlickrController.getInstance();
 
-    if (flickr.isLoading()) {
+    if (flickr.loading) {
       return (<Loading />);
     }
 
-    if (flickr.isNotInitialized()) {
+    if (!flickr.init) {
+      return null;
+    }
+
+    if (flickr.failed) {
       return null;
     }
 
@@ -59,8 +56,4 @@ class Flickr extends Component<Props> {
   }
 }
 
-const mapStateToProps = withSelect((select) => ({
-  flickr: select(STORE).getFlickr(),
-}));
-
-export default compose([mapStateToProps])(Flickr);
+export default Flickr;
