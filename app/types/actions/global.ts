@@ -1,5 +1,4 @@
 import Matched from 'app/types/matched';
-import Menu from 'app/types/rest/menu';
 
 import {
   SET_HISTORY,
@@ -8,10 +7,6 @@ import {
 
   SET_TITLE,
   SET_MOBILE_MENU,
-
-  REQUEST_MENU_INIT,
-  REQUEST_MENU_SUCCESS,
-  REQUEST_MENU_FAIL,
 } from 'app/constants/redux';
 
 // History
@@ -40,21 +35,5 @@ export interface SetMobileMenu {
   status: string | boolean;
 }
 
-// Request WP Menu
-export interface RequestMenuInit {
-  type: REQUEST_MENU_INIT;
-  slug: string;
-}
-export interface RequestMenuSuccess {
-  type: REQUEST_MENU_SUCCESS;
-  slug: string;
-  menuArray: Array<Menu>;
-}
-export interface RequestMenuFail {
-  type: REQUEST_MENU_FAIL;
-  slug: string;
-  error: any;
-}
-
-type GlobalActions = SetHistory | SetMatched | SetLocation | SetTitle | SetMobileMenu | RequestMenuInit | RequestMenuSuccess | RequestMenuFail;
+type GlobalActions = SetHistory | SetMatched | SetLocation | SetTitle | SetMobileMenu;
 export default GlobalActions;

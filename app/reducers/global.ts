@@ -10,10 +10,6 @@ import {
 
   SET_TITLE,
   SET_MOBILE_MENU,
-
-  REQUEST_MENU_INIT,
-  REQUEST_MENU_SUCCESS,
-  REQUEST_MENU_FAIL,
 } from 'app/constants/redux';
 
 import { DEFAULT_TITLE } from 'app/constants/common';
@@ -28,7 +24,6 @@ const initState: GlobalState = {
   },
   mobileMenu: false,
   title: DEFAULT_TITLE,
-  menu: {},
 };
 
 // Actions
@@ -82,35 +77,6 @@ function global(state: GlobalState = initState, action: GlobalActions): GlobalSt
       return {
         ...state,
         mobileMenu,
-      };
-    }
-
-    // Request WP Menu
-    case REQUEST_MENU_INIT: {
-      const menu = { ...state.menu };
-      menu[action.slug] = true
-
-      return {
-        ...state,
-        menu,
-      };
-    }
-    case REQUEST_MENU_SUCCESS: {
-      const menu = { ...state.menu };
-      menu[action.slug] = action.menuArray
-
-      return {
-        ...state,
-        menu,
-      };
-    }
-    case REQUEST_MENU_FAIL: {
-      const menu = { ...state.menu };
-      menu[action.slug] = false;
-
-      return {
-        ...state,
-        menu,
       };
     }
 

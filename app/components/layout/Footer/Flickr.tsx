@@ -1,7 +1,5 @@
 /// <reference path="../../../types/rest/flickr.d.ts" />
 
-import axios from 'axios';
-
 // Types
 import * as FlickrTypes from 'Flickr';
 import FlickrController from 'app/types/rest/flickr';
@@ -25,11 +23,7 @@ class Flickr extends Component {
       return (<Loading />);
     }
 
-    if (!flickr.init) {
-      return null;
-    }
-
-    if (flickr.failed) {
+    if (!flickr.init || flickr.failed) {
       return null;
     }
 

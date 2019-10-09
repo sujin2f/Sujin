@@ -1,7 +1,12 @@
+/// <reference path="../../types/rest/menu.d.ts" />
+
 import axios from 'axios';
 
 // Constants
 import { STORE } from 'app/constants/common';
+
+import * as MenuTypes from 'Menu';
+import RestObject from './abs-rest';
 
 class FlickrItem {
   title: string;
@@ -26,7 +31,7 @@ class FlickrItem {
  */
 export default class FlickrController {
   static instance: FlickrController;
-  readonly REST_URL = 'wp-json/sujin/v1/flickr/';
+  readonly REST_URL = '/wp-json/sujin/v1/flickr/';
 
   entities: Array<FlickrItem> = [];
   loading: boolean = false;
@@ -72,3 +77,8 @@ export default class FlickrController {
       });
   }
 }
+
+class Test extends RestObject<FlickrItem> {}
+class Test2 extends RestObject<MenuTypes.MenuItem> {}
+
+console.log(Test.getInstance(Test, FlickrItem));

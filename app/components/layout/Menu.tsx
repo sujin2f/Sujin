@@ -1,22 +1,16 @@
+/// <reference path="../../types/rest/menu.d.ts" />
+
 import axios from 'axios';
 
-import {
-  default as MenuType,
-  MenuArray,
-} from 'app/types/rest/menu';
-import Link from 'app/components/router/Link';
-import { STORE } from 'app/constants/common';
+// Types
+import * as MenuTypes from 'Menu';
+import MenuController from 'app/types/rest/menu';
 
-const { withSelect, withDispatch } = wp.data;
-const { compose } = wp.compose;
+import Link from 'app/components/router/Link';
+
 const { Component } = wp.element;
 
 interface Props {
-  // select
-  getMenu: MenuArray;
-  // dispatch
-  requestMenu: void;
-  // props
   id: string;
   slug: string;
   className?: string;
@@ -39,10 +33,9 @@ class Menu extends Component<Props, State> {
   }
 
   componentDidMount() {
-    const { slug, getMenu, requestMenu } = this.props;
-
-    if (undefined === getMenu(slug)) {
-      requestMenu(slug);
+    const menu: MenuController = MenuController.getInstance(this.props.slug);
+    if (!menu.init) {
+      menu.request(this);
     }
   }
 
@@ -65,52 +58,55 @@ class Menu extends Component<Props, State> {
   }
 
   render() {
+    const menu:MenuController = MenuController.getInstance(this.props.slug);
+
+    if (menu.loading || !menu.init || menu.failed) {
+      return null;
+    }
+
+
     const {
-      getMenu,
       className,
       slug,
       id,
     } = this.props;
 
-    const menuItems = getMenu(slug);
-
-    if (typeof menuItems !== 'object') {
-      return null;
-    }
-
     return (
-      <nav id={id} className={`${className} ${slug} menu`}>
-        {menuItems.map((menuItem: MenuType) => (
+      <nav
+        id={this.props.id}
+        className={`${this.props.className} ${this.props.slug} menu`}
+      >
+        {menu.entities.map((item: MenuTypes.MenuItem) => (
           <div
-            onMouseOver={() => this.showChildren(menuItem.ID)}
-            onMouseLeave={() => this.hideChildren(menuItem.ID)}
-            onFocus={() => this.showChildren(menuItem.ID)}
-            onBlur={() => this.hideChildren(menuItem.ID)}
+            onMouseOver={() => this.showChildren(item.ID)}
+            onMouseLeave={() => this.hideChildren(item.ID)}
+            onFocus={() => this.showChildren(item.ID)}
+            onBlur={() => this.hideChildren(item.ID)}
           >
             <Link
-              to={menuItem.url}
-              className={menuItem.classes.join(' ')}
-              target={menuItem.target}
               itemType="http://schema.org/SiteNavigationElement"
-              key={`menu-${slug}-${menuItem.ID}`}
+              to={item.url}
+              className={item.classes.join(' ')}
+              target={item.target}
+              key={`menu-${item.ID}`}
             >
-              {menuItem.title}
+              {item.title}
             </Link>
 
-            {menuItem.children.length > 0 && (
+            {item.children.length > 0 && (
               <nav
-                id={`nav-child-${menuItem.ID}`}
-                className={`children ${this.state.hover[menuItem.ID] ? '' : 'hide'}`}
+                id={`nav-child-${item.ID}`}
+                className={`children ${this.state.hover[item.ID] ? '' : 'hide'}`}
               >
-                {menuItem.children.map((menuChild: MenuType) => (
+                {item.children.map((childItem: MenuTypes.MenuItem) => (
                   <Link
-                    to={menuChild.url}
-                    className={menuChild.classes.join(' ')}
-                    target={menuChild.target}
+                    target={childItem.target}
+                    to={childItem.url}
+                    className={childItem.classes.join(' ')}
                     itemType="http://schema.org/SiteNavigationElement"
-                    key={`menu-${slug}-${menuChild.ID}`}
+                    key={`menu-${childItem.ID}`}
                   >
-                    {menuChild.title}
+                    {childItem.title}
                   </Link>
                 ))}
               </nav>
@@ -122,22 +118,4 @@ class Menu extends Component<Props, State> {
   }
 }
 
-// Get
-const mapStateToProps = withSelect((select) => ({
-  getMenu: (slug: string): MenuArray => select(STORE).getMenu(slug),
-}));
-
-const mapDispatchToProps = withDispatch((dispatch) => ({
-  requestMenu: (slug: string): void => {
-    dispatch(STORE).requestMenuInit(slug);
-
-    axios.get(`/wp-json/sujin/v1/menu/${slug}`)
-      .then((response) => {
-        dispatch(STORE).requestMenuSuccess(slug, response.data);
-      }).catch((error) => {
-        dispatch(STORE).requestMenuFail(slug, error);
-      });
-  },
-}));
-
-export default compose([mapStateToProps, mapDispatchToProps])(Menu);
+export default Menu;
