@@ -53,3 +53,31 @@ export default abstract class RestObject<T> {
       });
   }
 }
+
+interface IMyClass {}
+
+interface IMyClassBuilder<T extends IMyClass> {
+    new (): T;
+    getInstance(): any;
+}
+
+class MyClass implements IMyClass {
+    static getInstance() {
+        return "";
+    }
+}
+
+class MyService<T extends IMyClass> {
+    private classToCreate: IMyClassBuilder<T>;
+
+    constructor(classToCreate: IMyClassBuilder<T>) {
+        this.classToCreate = classToCreate;
+    }
+
+    getInstance(): T {
+        return this.classToCreate.getInstance();
+    }
+}
+
+let service = new MyService(MyClass);
+let myObject = service.getInstance();
