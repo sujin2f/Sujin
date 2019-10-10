@@ -21,7 +21,7 @@ export class MainBackground {
 
 export default class MainBackgroundController {
   static instance: MainBackgroundController;
-  readonly REST_URL = 'wp-json/sujin/v1/media/random/';
+  readonly REST_URL = '/wp-json/sujin/v1/media/random/';
 
   entities: Array<MainBackground> = [];
   loading: boolean = false;

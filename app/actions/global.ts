@@ -1,6 +1,5 @@
 // Types
 import Matched from 'app/types/matched';
-import Menu from 'app/types/rest/menu';
 import {
   SetHistory,
   SetMatched,
@@ -8,10 +7,6 @@ import {
 
   SetTitle,
   SetMobileMenu,
-
-  RequestMenuInit,
-  RequestMenuSuccess,
-  RequestMenuFail,
 } from 'app/types/actions/global';
 import {
   SET_HISTORY,
@@ -20,10 +15,6 @@ import {
 
   SET_TITLE,
   SET_MOBILE_MENU,
-
-  REQUEST_MENU_INIT,
-  REQUEST_MENU_SUCCESS,
-  REQUEST_MENU_FAIL,
 } from 'app/constants/redux';
 
 // History
@@ -62,27 +53,5 @@ export function setMobileMenu(status: string | boolean): SetMobileMenu { // 'tog
   return {
     type: SET_MOBILE_MENU,
     status,
-  };
-}
-
-// Request WP Menu
-export function requestMenuInit(slug: string): RequestMenuInit {
-  return {
-    type: REQUEST_MENU_INIT,
-    slug,
-  };
-}
-export function requestMenuSuccess(slug: string, menuArray: Array<Menu>): RequestMenuSuccess {
-  return {
-    type: REQUEST_MENU_SUCCESS,
-    slug,
-    menuArray,
-  };
-}
-export function requestMenuFail(slug: string, error: any): RequestMenuFail {
-  return {
-    type: REQUEST_MENU_FAIL,
-    slug,
-    error,
   };
 }

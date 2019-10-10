@@ -12,13 +12,6 @@ export type SET_MOBILE_MENU = typeof SET_MOBILE_MENU;
 export const SET_TITLE = 'sujin/v2/global/SET_TITLE';
 export type SET_TITLE = typeof SET_TITLE;
 
-export const REQUEST_MENU_INIT = 'sujin/v2/global/REQUEST_MENU_INIT';
-export type REQUEST_MENU_INIT = typeof REQUEST_MENU_INIT;
-export const REQUEST_MENU_SUCCESS = 'sujin/v2/global/REQUEST_MENU_SUCCESS';
-export type REQUEST_MENU_SUCCESS = typeof REQUEST_MENU_SUCCESS;
-export const REQUEST_MENU_FAIL = 'sujin/v2/global/REQUEST_MENU_FAIL';
-export type REQUEST_MENU_FAIL = typeof REQUEST_MENU_FAIL;
-
 // post
 export const REQUEST_POST_INIT = 'sujin/post/REQUEST_POST_INIT';
 export type REQUEST_POST_INIT = typeof REQUEST_POST_INIT;

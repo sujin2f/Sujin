@@ -1,4 +1,4 @@
-import MainBackgroundController from 'app/types/rest/main-background';
+import MainBackgroundController from 'app/types/rest/background';
 
 import PageHeader from 'app/components/layout/PageHeader';
 import Public from 'app/scenes/public';
