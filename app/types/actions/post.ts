@@ -7,10 +7,6 @@ import {
   REQUEST_RECENT_POSTS_INIT,
   REQUEST_RECENT_POSTS_SUCCESS,
   REQUEST_RECENT_POSTS_FAIL,
-
-  REQUEST_ARCHIVE_INIT,
-  REQUEST_ARCHIVE_SUCCESS,
-  REQUEST_ARCHIVE_FAIL,
 } from 'app/constants/redux';
 
 export interface RequestPostInit {
@@ -41,31 +37,5 @@ export interface RequestRecentPostsFail {
   type: REQUEST_RECENT_POSTS_FAIL;
 }
 
-export interface RequestArchiveInit {
-  type: REQUEST_ARCHIVE_INIT;
-  kind: string;
-  slug: string;
-  page: number;
-}
-
-export interface RequestArchiveSuccess {
-  type: REQUEST_ARCHIVE_SUCCESS;
-  kind: string;
-  slug: string;
-  page: number;
-  totalPages: number;
-  background: string;
-  title: string;
-  description: string;
-  posts: Array<Post>;
-}
-
-export interface RequestArchiveFail {
-  type: REQUEST_ARCHIVE_FAIL;
-  kind: string;
-  slug: string;
-  page: number;
-}
-
-type PostActions = RequestPostInit | RequestPostSuccess | RequestPostFail | RequestRecentPostsInit | RequestRecentPostsSuccess | RequestRecentPostsFail | RequestArchiveInit | RequestArchiveSuccess | RequestArchiveFail;
+type PostActions = RequestPostInit | RequestPostSuccess | RequestPostFail | RequestRecentPostsInit | RequestRecentPostsSuccess | RequestRecentPostsFail;
 export default PostActions;

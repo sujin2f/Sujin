@@ -46,13 +46,13 @@ export default class FlickrController {
   /*
    * REST request
    */
-  public request(component: any): void {
+  public request(component: any): any {
     this.init = true;
     this.loading = true;
     this.failed = false;
     component.forceUpdate();
 
-    axios.get(this.REST_URL)
+    return axios.get(this.REST_URL)
       .then((response) => {
         if (response.status === 204) {
           this.loading = false;

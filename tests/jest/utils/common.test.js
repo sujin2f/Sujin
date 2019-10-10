@@ -2,7 +2,6 @@ const {
   getScrolled,
   isMobile,
   getRenderedText,
-  parseDate,
   backgroundImageStyle,
   scrollTo,
 } = require('../../../app/utils/common');
@@ -26,40 +25,6 @@ describe.each(dataGetScrolled)(
     test(`Scrolled ${scrollY}, ${scrolled}`, () => {
       window['scrollY'] = scrollY;
       expect(getScrolled(scrolled)).toBe(expected);
-    });
-  },
-);
-
-/*
- * Data Provider for parseDate
- * @param input
- * @param expected
- */
-const dataParseDate = [
-  ['2019-04-19 17:52:14', new Date(2019, 3, 19)],
-  ['Lorem ipsum dolor sit amet', new Date()],
-  [9999, new Date(9999)],
-  [null, new Date()],
-  [true, new Date()],
-  [false, new Date()],
-  [undefined, new Date()],
-  [{ key: 'value' }, new Date()],
-];
-
-describe.each(dataParseDate)(
-  'dataParseDate()',
-  (input, expected) => {
-    test(`parseDate ${input}`, () => {
-      const expectedObject = {
-        day: expected.getDate(),
-        month: expected.toLocaleString('en-us', { month: 'short' }),
-        year: expected.getFullYear(),
-      };
-
-      const actual = parseDate(input);
-      delete actual.date;
-
-      expect(actual).toEqual(expectedObject);
     });
   },
 );
