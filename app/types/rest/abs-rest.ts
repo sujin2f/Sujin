@@ -1,3 +1,4 @@
+// TODO https://stackoverflow.com/questions/40171533/typescript-call-static-method-of-generic-type
 import axios from 'axios';
 
 // Constants

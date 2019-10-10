@@ -79,6 +79,22 @@ export default class FlickrController {
 }
 
 class Test extends RestObject<FlickrItem> {}
-class Test2 extends RestObject<MenuTypes.MenuItem> {}
+class Test2 extends RestObject<FlickrItem> {
+  static instance: {
+    [slug: string]: any;
+  } = {};
 
-console.log(Test.getInstance(Test, FlickrItem));
+  slug: string;
+
+  static getInstances(type, item, slug) {
+    if (!type.instance[slug]) {
+      type.instance[slug] = new type();
+      type.instance[slug].item = item;
+      type.instance[slug].slug = slug;
+    }
+    return type.instance[slug];
+  }
+}
+
+console.log(Test2.getInstances(Test2, FlickrItem, 'test1'));
+console.log(Test2.getInstances(Test2, FlickrItem, 'test2'));
