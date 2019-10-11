@@ -1,13 +1,13 @@
-import axios from 'axios';
+/// <reference path="base.d.ts" />
 
-// Constants
-import { STORE } from 'app/constants/common';
+import { IRestItem, IRestItemBuilder } from 'RestBase';
+import RestController from "./base.ts";
+
 import { isMobile } from 'app/utils/common';
-
 import DEFAULT_BACKGROUND from '../../../assets/images/background/backup-background.jpg';
 import DEFAULT_BACKGROUND_MOBILE from '../../../assets/images/background/backup-background-mobile.jpg';
 
-export class MainBackground {
+export class BackgroundItem implements IRestItem {
   desktop: string;
   mobile: string;
   title: string;
@@ -17,63 +17,30 @@ export class MainBackground {
     this.mobile = data.mobile;
     this.title = data.title;
   }
+
+  static create(data: any): BackgroundItem {
+      return new BackgroundItem(data);
+  }
 }
 
-export default class MainBackgroundController {
-  static instance: MainBackgroundController;
-  readonly REST_URL = '/wp-json/sujin/v1/media/random/';
+export default class BackgroundController extends RestController<BackgroundItem> {
+  static instance: BackgroundController;
+  protected restUrl: string = '/wp-json/sujin/v1/media/random/';
 
-  entities: Array<MainBackground> = [];
-  loading: boolean = false;
-  failed: boolean = false;
-  init: boolean = false;
-
-  /*
-   * Get singleton object
-   */
-  static getInstance(): MainBackgroundController {
-    if (!MainBackgroundController.instance) {
-      MainBackgroundController.instance = new MainBackgroundController();
+  static getInstance() {
+    if (!this.instance) {
+      this.instance = new BackgroundController(BackgroundItem);
     }
-    return MainBackgroundController.instance;
+    return this.instance;
   }
 
-  /*
-   * REST request
-   */
-  public request(component: any): void {
-    this.init = true;
-    this.loading = true;
-    this.failed = false;
-    component.forceUpdate();
-
-    axios.get(this.REST_URL)
-      .then((response) => {
-        if (response.status === 204) {
-          this.loading = false;
-          this.failed = true;
-          return;
-        }
-
-        this.entities = [];
-        this.entities = response.data.map((item) => new MainBackground(item));
-        this.loading = false;
-        this.failed = false;
-      }).catch(() => {
-        this.loading = false;
-        this.failed = true;
-      }).finally(() => {
-        component.forceUpdate();
-      });
-  }
-
-  public getBackgroundImage() {
-    if (this.failed) {
-      return isMobile() ? DEFAULT_BACKGROUND_MOBILE : DEFAULT_BACKGROUND;
-    }
-
+  public getBackgroundImage(): string {
     if (this.loading || !this.init) {
       return '';
+    }
+
+    if (this.failed || !this.entities.length) {
+      return isMobile() ? DEFAULT_BACKGROUND_MOBILE : DEFAULT_BACKGROUND;
     }
 
     const index = Math.floor(Math.random() * this.entities.length);

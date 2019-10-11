@@ -36,7 +36,7 @@ class Archive extends Component<Props> {
       return;
     }
     const archive = ArchiveController.getInstance(type, slug, page);
-    if (!archive.init) {
+    if (!archive.isInit()) {
       archive.request(this);
     }
   }
@@ -49,11 +49,11 @@ class Archive extends Component<Props> {
 
     const archive = ArchiveController.getInstance(type, slug, page);
 
-    if (!archive.init) {
+    if (!archive.isInit()) {
       return null;
     }
 
-    if (archive.loading) {
+    if (archive.isLoading()) {
       return (
         <Public className="stretched-background hide-footer">
           <PageHeader isLoading />
@@ -61,7 +61,7 @@ class Archive extends Component<Props> {
       );
     }
 
-    if (archive.failed) {
+    if (archive.isFailed()) {
       return (<NotFound />);
     }
 
@@ -75,16 +75,16 @@ class Archive extends Component<Props> {
           description={archive.description.replace(/\+/g, ' ')}
         />
 
-        {archive.entities && archive.entities.length > 0 && (
+        {archive.getItems() && archive.getItems().length > 0 && (
           <Fragment>
             <section className="row post-grid">
-              {archive.entities.map(item => (
+              {archive.getItems().map(item => (
                 <Item item={item} key={`${type}-${slug}-${page}-${item.id}`} />
               ))}
             </section>
 
             <Paging
-              totalPages={archive.totalPages}
+              entities={archive.getPaging()}
               currentPage={page}
               urlPrefix={`/${type}/${slug}`}
             />

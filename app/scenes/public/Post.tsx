@@ -1,6 +1,6 @@
-import axios from 'axios';
+import { PostController } from 'app/types/rest/post';
 
-import { default as PostType } from 'app/types/rest/post';
+import { STORE } from 'app/constants/common';
 
 import Public from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
@@ -10,7 +10,6 @@ import RelatedPosts from 'app/components/single/RelatedPosts';
 import PrevNext from 'app/components/single/PrevNext';
 import NotFound from 'app/scenes/public/NotFound';
 
-import { STORE } from 'app/constants/common';
 import { parseExImage } from 'app/utils/common';
 
 import DEFAULT_BACKGROUND from '../../../assets/images/background/category.jpg';
@@ -23,28 +22,33 @@ const { Component } = wp.element;
 class Post extends Component {
   constructor(props) {
     super(props);
-    this.state = { slug: false };
-
-    this.getLoading = this.getLoading.bind(this);
-    this.getNotFound = this.getNotFound.bind(this);
     this.setTitle = this.setTitle.bind(this);
   }
 
-  static getDerivedStateFromProps(props, state) {
-    const slug = props.matched.slug;
-
-    if (!slug || state.slug === slug || typeof props.getPost(slug) !== 'undefined') {
-      return { slug };
+  componentDidMount() {
+    const post = PostController.getInstance(this.props.matched.slug);
+    if (!post.isInit()) {
+      post.request(this);
     }
-
-    props.requestPost(slug);
-    return { slug };
   }
 
-  getLoading() {
-    const post = this.props.getPost(this.state.slug);
+  setTitle() {
+    const post = PostController.getInstance(this.props.matched.slug);
+    const { title, setTitle } = this.props;
 
-    if (post === true) {
+    if (title !== post.getItem().title) {
+      setTitle(post.getItem().title);
+    }
+  }
+
+  render() {
+    const post = PostController.getInstance(this.props.matched.slug);
+
+    if (!post.isInit()) {
+      return null;
+    }
+
+    if (post.isLoading()) {
       return (
         <Public className="stretched-background hide-footer">
           <PageHeader isLoading />
@@ -52,51 +56,16 @@ class Post extends Component {
       );
     }
 
-    return null;
-  }
-
-  getNotFound() {
-    const post = this.props.getPost(this.state.slug);
-
-    if (post === false) {
+    if (post.isFailed()) {
       return (<NotFound />);
-    }
-
-    return null;
-  }
-
-  setTitle() {
-    const post = this.props.getPost(this.state.slug);
-    const { title, setTitle } = this.props;
-
-    if (title !== post.title) {
-      setTitle(post.title);
-    }
-  }
-
-  render() {
-    if (!this.state.slug) {
-      return null;
-    }
-
-    const loading = this.getLoading();
-    if (loading) {
-      return loading;
-    }
-
-    const notFound = this.getNotFound();
-    if (notFound) {
-      return notFound;
     }
 
     this.setTitle();
 
-    const post = this.props.getPost(this.state.slug);
-
     const backgroundImage: string =
       parseExImage(
-        post.meta.background,
-        post.thumbnail,
+        post.getItem().meta.background,
+        post.getItem().thumbnail,
         'medium_large',
         'post-thumbnail',
         DEFAULT_BACKGROUND,
@@ -107,19 +76,19 @@ class Post extends Component {
       <Public className="template-single">
         <PageHeader
           backgroundImage={backgroundImage}
-          title={post.title}
-          description={post.excerpt}
-          backgroundColor={post.meta['background-color']}
-          useBackgroundColor={post.meta['use-background-color']}
+          title={post.getItem().title}
+          description={post.getItem().excerpt}
+          backgroundColor={post.getItem().meta['background-color']}
+          useBackgroundColor={post.getItem().meta['use-background-color']}
         />
 
         <section className="row">
-          <Content post={post} className="large-9 medium-12">
+          <Content post={post.getItem()} className="large-9 medium-12">
             <aside id="single-footer">
-              <PrevNext prevnext={post.prevnext} />
+              <PrevNext prevnext={post.getItem().prevnext} />
 
               <section id="related-posts">
-                <RelatedPosts items={post.related} />
+                <RelatedPosts items={post.getItem().related} />
               </section>
             </aside>
           </Content>
@@ -134,23 +103,11 @@ class Post extends Component {
 }
 
 const mapStateToProps = withSelect((select) => ({
-  getPost: (slug) => select(STORE).getPost(slug),
   matched: select(STORE).getMatched(),
   title: select(STORE).getTitle(),
 }));
 
 const mapDispatchToProps = withDispatch((dispatch) => ({
-  requestPost: (slug) => {
-    dispatch(STORE).requestPostInit(slug);
-
-    axios.get(`/wp-json/sujin/v1/posts/?slug=${slug}`)
-      .then((response) => {
-        const page = new PostType(response.data);
-        dispatch(STORE).requestPostSuccess(page);
-      }).catch((error) => {
-        dispatch(STORE).requestPostFail(slug);
-      });
-  },
   setTitle: (title) => {
     dispatch(STORE).setTitle(title);
   },

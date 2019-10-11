@@ -2,21 +2,15 @@ import hash from 'object-hash';
 
 import Link from 'app/components/router/Link';
 
-import { getPaging } from 'app/utils/archive';
-import { isMobile } from 'app/utils/common';
-
 const { Component } = wp.element;
 
 class Paging extends Component {
   render() {
     const {
-      totalPages,
-      currentPage,
+      entities,
       urlPrefix,
+      currentPage,
     } = this.props;
-
-    const pagingRange = isMobile() ? 1 : 5;
-    const entities = getPaging(totalPages, currentPage, pagingRange);
 
     return (
       <section className="paging row">

@@ -1,3 +1,7 @@
+/// <reference path="base.d.ts" />
+import { IRestItem, IRestItemBuilder } from 'RestBase';
+import RestController from "./base.ts";
+
 class Term {
   readonly id: number;
   readonly name: string;
@@ -75,7 +79,7 @@ class Related extends PrevNext {
   }
 }
 
-export default class Post extends Related {
+export default class Post extends Related implements IRestItem {
   readonly content: string;
   readonly postType: string;
   readonly prevnext: {
@@ -96,8 +100,42 @@ export default class Post extends Related {
     this.series = data.series;
     this.tags = data.tags;
   }
+
+  static create(data: any): Post {
+      return new Post(data);
+  }
 }
 
-export type PostObject = {
-  [slug: string]: Post | boolean;
-}; // true is loading, false is failed
+/*
+ * Post Controller
+ */
+export class PostController extends RestController<Post> {
+  static instance: {
+    [slug: string]: PostController;
+  } = {};
+  protected entity: Post;
+
+  /*
+   * Get multiton object
+   */
+  static getInstance(slug: string): PostController {
+    if (!PostController.instance[slug]) {
+      PostController.instance[slug] = new PostController(Post);
+      PostController.instance[slug].restUrl = `/wp-json/sujin/v1/posts/?slug=${slug}`;
+    }
+    return PostController.instance[slug];
+  }
+
+  protected postResponse(response) {
+    this.entity = this.item.create(response.data);
+  }
+
+  public setFromPost(post: Post) {
+    this.init = true;
+    this.entity = post;
+  }
+
+  public getItem(): Post {
+    return this.entity;
+  }
+}

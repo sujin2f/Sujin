@@ -1,10 +1,7 @@
-// TODO Push into Post, getPaging
-import axios from 'axios';
-
-// Types
-import Post from './post';
-// Constants
-import { STORE } from 'app/constants/common';
+/// <reference path="base.d.ts" />
+import { IRestItem, IRestItemBuilder } from 'RestBase';
+import RestController from "./base.ts";
+import Post, { PostController } from './post';
 // Utiles
 import { isMobile } from 'app/utils/common';
 // Images
@@ -20,7 +17,7 @@ export enum Types {
 /*
  * Archive Controller
  */
-export default class ArchiveController {
+export default class ArchiveController extends RestController<Post> {
   static instance: {
     [type: string]: {
       [slug: string]: {
@@ -28,23 +25,17 @@ export default class ArchiveController {
       }
     }
   } = {};
-  restUrl: string;
+  private readonly defaultBackground: string = isMobile() ? DEFAULT_BACKGROUND_MOBILE : DEFAULT_BACKGROUND;
+  private readonly pagingOffset: number = isMobile() ? 1 : 5;
 
-  readonly defaultBackground: string = isMobile() ? DEFAULT_BACKGROUND_MOBILE : DEFAULT_BACKGROUND;
-  readonly pagingOffset: number = 5
   type: Types;
   slug: string;
   page: number;
 
-  totalPages: number;
+  private totalPages: number;
   background: string;
   description: string;
   title: string;
-
-  entities: Array<Post> = [];
-  loading: boolean = false;
-  failed: boolean = false;
-  init: boolean = false;
 
   /*
    * Get multiton object
@@ -59,7 +50,7 @@ export default class ArchiveController {
     }
 
     if (!ArchiveController.instance[type][slug][page]) {
-      ArchiveController.instance[type][slug][page] = new ArchiveController();
+      ArchiveController.instance[type][slug][page] = new ArchiveController(Post);
       ArchiveController.instance[type][slug][page].restUrl = `/wp-json/sujin/v1/posts/?list_type=${type}&keyword=${slug}&page=${page}&per_page=12`;
       ArchiveController.instance[type][slug][page].type = type;
       ArchiveController.instance[type][slug][page].slug = slug;
@@ -69,35 +60,17 @@ export default class ArchiveController {
     return ArchiveController.instance[type][slug][page];
   }
 
-  /*
-   * REST request
-   */
-  public request(component: any): any {
-    this.init = true;
-    this.loading = true;
-    this.failed = false;
-    component.forceUpdate();
+  protected postResponse(response) {
+    this.totalPages = parseInt(response.headers['x-wp-totalpages'], 10) || 1;
+    this.background = response.headers['x-wp-term-thumbnail'] || this.defaultBackground;
+    this.title = decodeURIComponent(response.headers['x-wp-term-name']) || '';
+    this.description = decodeURIComponent(response.headers['x-wp-term-description']) || '';
 
-    return axios.get(this.restUrl)
-      .then((response) => {
-        if (response.status === 204) {
-          this.failed = true;
-          return;
-        }
+    super.postResponse(response);
 
-        this.totalPages = parseInt(response.headers['x-wp-totalpages'], 10) || 1;
-        this.background = response.headers['x-wp-term-thumbnail'] || this.defaultBackground;
-        this.title = decodeURIComponent(response.headers['x-wp-term-name']) || '';
-        this.description = decodeURIComponent(response.headers['x-wp-term-description']) || '';
-
-        this.entities = [];
-        this.entities = response.data.map((item) => new Post(item));
-      }).catch(() => {
-        this.failed = true;
-      }).finally(() => {
-        this.loading = false;
-        component.forceUpdate();
-      });
+    this.entities.map((entity: Post) => {
+      PostController.getInstance(entity.slug).setFromPost(entity);
+    });
   }
 
   public getPaging(): Array<number> {

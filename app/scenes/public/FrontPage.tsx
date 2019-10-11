@@ -1,4 +1,4 @@
-import MainBackgroundController from 'app/types/rest/background';
+import BackgroundController from 'app/types/rest/background';
 
 import PageHeader from 'app/components/layout/PageHeader';
 import Public from 'app/scenes/public';
@@ -22,8 +22,8 @@ class FrontPage extends Component<Props> {
   }
 
   componentDidMount() {
-    const bg = MainBackgroundController.getInstance();
-    if (!bg.init) {
+    const bg = BackgroundController.getInstance();
+    if (!bg.isInit()) {
       bg.request(this);
     }
   }
@@ -36,7 +36,7 @@ class FrontPage extends Component<Props> {
     return (
       <Public className="stretched-background hide-footer">
         <PageHeader
-          backgroundImage={MainBackgroundController.getInstance().getBackgroundImage()}
+          backgroundImage={BackgroundController.getInstance().getBackgroundImage()}
           title="SUJIN"
           description="<p>Wordpress/React Developer</p>"
         />

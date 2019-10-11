@@ -1,10 +1,4 @@
-/// <reference path="../../types/rest/menu.d.ts" />
-
-import axios from 'axios';
-
-// Types
-import * as MenuTypes from 'Menu';
-import MenuController from 'app/types/rest/menu';
+import MenuController, { MenuItem } from 'app/types/rest/menu';
 
 import Link from 'app/components/router/Link';
 
@@ -34,7 +28,7 @@ class Menu extends Component<Props, State> {
 
   componentDidMount() {
     const menu: MenuController = MenuController.getInstance(this.props.slug);
-    if (!menu.init) {
+    if (!menu.isInit()) {
       menu.request(this);
     }
   }
@@ -60,10 +54,9 @@ class Menu extends Component<Props, State> {
   render() {
     const menu:MenuController = MenuController.getInstance(this.props.slug);
 
-    if (menu.loading || !menu.init || menu.failed) {
+    if (menu.isLoading() || !menu.isInit() || menu.isFailed()) {
       return null;
     }
-
 
     const {
       className,
@@ -76,7 +69,7 @@ class Menu extends Component<Props, State> {
         id={this.props.id}
         className={`${this.props.className} ${this.props.slug} menu`}
       >
-        {menu.entities.map((item: MenuTypes.MenuItem) => (
+        {menu.getItems().map((item: MenuItem) => (
           <div
             onMouseOver={() => this.showChildren(item.ID)}
             onMouseLeave={() => this.hideChildren(item.ID)}
@@ -98,7 +91,7 @@ class Menu extends Component<Props, State> {
                 id={`nav-child-${item.ID}`}
                 className={`children ${this.state.hover[item.ID] ? '' : 'hide'}`}
               >
-                {item.children.map((childItem: MenuTypes.MenuItem) => (
+                {item.children.map((childItem: MenuItem) => (
                   <Link
                     target={childItem.target}
                     to={childItem.url}

@@ -1,14 +1,9 @@
-/// <reference path="../../types/rest/menu.d.ts" />
+/// <reference path="base.d.ts" />
 
-import axios from 'axios';
+import { IRestItem, IRestItemBuilder } from 'RestBase';
+import RestController from "./base.ts";
 
-// Constants
-import { STORE } from 'app/constants/common';
-
-import * as MenuTypes from 'Menu';
-import RestObject from './abs-rest';
-
-class FlickrItem {
+export class FlickrItem implements IRestItem {
   title: string;
   link: string;
   media: {
@@ -24,79 +19,23 @@ class FlickrItem {
     this.link = data.link;
     this.media = data.media;
   }
+
+  static create(data: any): FlickrItem {
+      return new FlickrItem(data);
+  }
 }
 
 /*
  * Flickr Controller
  */
-export default class FlickrController {
+export default class FlickrController extends RestController<FlickrItem> {
   static instance: FlickrController;
-  readonly REST_URL = '/wp-json/sujin/v1/flickr/';
+  protected restUrl: string = '/wp-json/sujin/v1/flickr/';
 
-  entities: Array<FlickrItem> = [];
-  loading: boolean = false;
-  failed: boolean = false;
-  init: boolean = false;
-
-  /*
-   * Get singleton object
-   */
-  static getInstance(): FlickrController {
-    if (!FlickrController.instance) {
-      FlickrController.instance = new FlickrController();
+  static getInstance() {
+    if (!this.instance) {
+      this.instance = new FlickrController(FlickrItem);
     }
-    return FlickrController.instance;
-  }
-
-  /*
-   * REST request
-   */
-  public request(component: any): any {
-    this.init = true;
-    this.loading = true;
-    this.failed = false;
-    component.forceUpdate();
-
-    return axios.get(this.REST_URL)
-      .then((response) => {
-        if (response.status === 204) {
-          this.loading = false;
-          this.failed = true;
-          return;
-        }
-
-        this.entities = [];
-        this.entities = response.data.map((item) => new FlickrItem(item));
-        this.loading = false;
-        this.failed = false;
-      }).catch(() => {
-        this.loading = false;
-        this.failed = true;
-      }).finally(() => {
-        component.forceUpdate();
-      });
+    return this.instance;
   }
 }
-
-class Test extends RestObject<FlickrItem> {}
-/*
-class Test2 extends RestObject<FlickrItem> {
-  static instance: {
-    [slug: string]: any;
-  } = {};
-
-  slug: string;
-
-  static getInstances(type, item, slug) {
-    if (!type.instance[slug]) {
-      type.instance[slug] = new type();
-      type.instance[slug].item = item;
-      type.instance[slug].slug = slug;
-    }
-    return type.instance[slug];
-  }
-}
-
-console.log(Test2.getInstances(Test2, FlickrItem, 'test1'));
-console.log(Test2.getInstances(Test2, FlickrItem, 'test2'));
-*/
