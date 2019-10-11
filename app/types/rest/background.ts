@@ -1,7 +1,7 @@
 /// <reference path="base.d.ts" />
 
 import { IRestItem, IRestItemBuilder } from 'RestBase';
-import RestController from "./base.ts";
+import RestController from "./base";
 
 import { isMobile } from 'app/utils/common';
 import DEFAULT_BACKGROUND from '../../../assets/images/background/backup-background.jpg';

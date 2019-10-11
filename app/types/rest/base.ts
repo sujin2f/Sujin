@@ -25,13 +25,13 @@ export default class RestController<T extends IRestItem> {
   /*
    * REST request
    */
-  public request(component: any): void {
+  public request(component: any) {
     this.init = true;
     this.loading = true;
     this.failed = false;
     component.forceUpdate();
 
-    axios.get(this.restUrl)
+    return axios.get(this.restUrl)
       .then((response) => {
         if (response.status === 204) {
           this.failed = true;

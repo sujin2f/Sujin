@@ -1,6 +1,6 @@
 /// <reference path="base.d.ts" />
 import { IRestItem, IRestItemBuilder } from 'RestBase';
-import RestController from "./base.ts";
+import RestController from "./base";
 
 export class MenuItem implements IRestItem {
   ID: number;
