@@ -1,6 +1,7 @@
 // TODO Title,
 
 import ArchiveController, { Types } from 'app/types/rest/archive';
+import Post from 'app/types/rest/post';
 
 import Public from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
@@ -78,7 +79,7 @@ class Archive extends Component<Props> {
         {archive.getItems() && archive.getItems().length > 0 && (
           <Fragment>
             <section className="row post-grid">
-              {archive.getItems().map(item => (
+              {archive.getItems().map(item: Post => (
                 <Item item={item} key={`${type}-${slug}-${page}-${item.id}`} />
               ))}
             </section>
