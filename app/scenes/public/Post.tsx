@@ -1,3 +1,5 @@
+import Matched from 'app/types/matched';
+
 import { PostController } from 'app/types/rest/post';
 
 import { STORE } from 'app/constants/common';
@@ -25,15 +27,17 @@ class Post extends Component {
     this.setTitle = this.setTitle.bind(this);
   }
 
-  componentDidMount() {
-    const post = PostController.getInstance(this.props.matched.slug);
+  componentDidMount(): void {
+    const matched = Matched.MatchedController.getInstance().getMatched() || Matched.empty;
+    const post = PostController.getInstance(matched.slug);
     if (!post.isInit()) {
       post.request(this);
     }
   }
 
-  setTitle() {
-    const post = PostController.getInstance(this.props.matched.slug);
+  setTitle(): void {
+    const matched = Matched.MatchedController.getInstance().getMatched() || Matched.empty;
+    const post = PostController.getInstance(matched.slug);
     const { title, setTitle } = this.props;
 
     if (title !== post.getItem().title) {
@@ -41,8 +45,9 @@ class Post extends Component {
     }
   }
 
-  render() {
-    const post = PostController.getInstance(this.props.matched.slug);
+  render(): JSX.Element {
+    const matched = Matched.MatchedController.getInstance().getMatched() || Matched.empty;
+    const post = PostController.getInstance(matched.slug);
 
     if (!post.isInit()) {
       return null;
@@ -103,12 +108,11 @@ class Post extends Component {
 }
 
 const mapStateToProps = withSelect((select) => ({
-  matched: select(STORE).getMatched(),
   title: select(STORE).getTitle(),
 }));
 
 const mapDispatchToProps = withDispatch((dispatch) => ({
-  setTitle: (title) => {
+  setTitle: (title): void => {
     dispatch(STORE).setTitle(title);
   },
 }));

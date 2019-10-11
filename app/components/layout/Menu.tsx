@@ -1,3 +1,4 @@
+// Replace with CSS::hover
 import MenuController, { MenuItem } from 'app/types/rest/menu';
 
 import Link from 'app/components/router/Link';
@@ -8,16 +9,16 @@ interface Props {
   id: string;
   slug: string;
   className?: string;
-};
+}
 
 interface State {
   hover: {
-    [id: number]: boolean,
+    [id: number]: boolean;
   };
-};
+}
 
 class Menu extends Component<Props, State> {
-  constructor(props:Props) {
+  constructor(props: Props) {
     super(props);
     this.showChildren = this.showChildren.bind(this);
     this.hideChildren = this.hideChildren.bind(this);
@@ -26,7 +27,7 @@ class Menu extends Component<Props, State> {
     };
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     const menu: MenuController = MenuController.getInstance(this.props.slug);
     if (!menu.isInit()) {
       menu.request(this);
@@ -34,7 +35,7 @@ class Menu extends Component<Props, State> {
   }
 
   showChildren(id: number): void {
-    this.setState(prevState => ({
+    this.setState((prevState: State) => ({
       hover: {
         ...prevState.hover,
         [id]: true,
@@ -43,7 +44,7 @@ class Menu extends Component<Props, State> {
   }
 
   hideChildren(id: number): void {
-    this.setState(prevState => ({
+    this.setState((prevState: State) => ({
       hover: {
         ...prevState.hover,
         [id]: false,
@@ -51,18 +52,12 @@ class Menu extends Component<Props, State> {
     }));
   }
 
-  render() {
-    const menu:MenuController = MenuController.getInstance(this.props.slug);
+  render(): JSX.Element {
+    const menu: MenuController = MenuController.getInstance(this.props.slug);
 
     if (menu.isLoading() || !menu.isInit() || menu.isFailed()) {
       return null;
     }
-
-    const {
-      className,
-      slug,
-      id,
-    } = this.props;
 
     return (
       <nav
@@ -71,10 +66,10 @@ class Menu extends Component<Props, State> {
       >
         {menu.getItems().map((item: MenuItem) => (
           <div
-            onMouseOver={() => this.showChildren(item.ID)}
-            onMouseLeave={() => this.hideChildren(item.ID)}
-            onFocus={() => this.showChildren(item.ID)}
-            onBlur={() => this.hideChildren(item.ID)}
+            onMouseOver={(): void => this.showChildren(item.ID)}
+            onMouseLeave={(): void => this.hideChildren(item.ID)}
+            onFocus={(): void => this.showChildren(item.ID)}
+            onBlur={(): void => this.hideChildren(item.ID)}
           >
             <Link
               itemType="http://schema.org/SiteNavigationElement"

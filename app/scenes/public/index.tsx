@@ -13,12 +13,12 @@ interface Props {
   mobileMenuClass: string;
   // props
   className: string;
-  children: any;
-};
+  children: Array<JSX.Element>;
+}
 
 interface State {
   scrolled: string;
-};
+}
 
 class Public extends Component<Props, State> {
   constructor(public props: Props) {
@@ -33,7 +33,7 @@ class Public extends Component<Props, State> {
   }
 
   // Scrolled Control
-  handleScroll() {
+  handleScroll(): void {
     const { scrolled: scrolledOrigin } = this.state;
     const scrolled = getScrolled(scrolledOrigin);
 
@@ -44,7 +44,7 @@ class Public extends Component<Props, State> {
     this.setState({ scrolled });
   }
 
-  render() {
+  render(): JSX.Element {
     const {
       children,
       className = '',

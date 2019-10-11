@@ -1,13 +1,13 @@
 import { STORE } from 'app/constants/common';
 
-const { withSelect, withDispatch } = wp.data;
+const { withSelect } = wp.data;
 const { compose } = wp.compose;
 const { Component } = wp.element;
 
 interface Props {
   // select
-  location: any;
-  history: any;
+  location;
+  history;
   // props
   to: string;
   target: string;
@@ -15,12 +15,12 @@ interface Props {
   className: string;
   dangerouslySetInnerHTML: string;
   children: Array<JSX.Element>;
-  onClick(e: any): void;
-  onMouseOver(e: any): void;
-  onMouseLeave(e: any): void;
-  onFocus(e: any): void;
-  onBlur(e: any): void;
-};
+  onClick(e): void;
+  onMouseOver(e): void;
+  onMouseLeave(e): void;
+  onFocus(e): void;
+  onBlur(e): void;
+}
 
 class Link extends Component<Props> {
   constructor(props: Props) {
@@ -36,14 +36,15 @@ class Link extends Component<Props> {
     const {
       to,
       history,
-      location,
+      location: {
+        origin,
+      },
     } = this.props;
-    const origin = location.origin;
     history.push(to.replace(origin, ''));
     e.preventDefault();
   }
 
-  render() {
+  render(): JSX.Element {
     const {
       to,
       target,
@@ -51,7 +52,7 @@ class Link extends Component<Props> {
       className,
       dangerouslySetInnerHTML,
       children,
-      onClick = (e) => this.pushHash(e, target),
+      onClick = (e): void => this.pushHash(e, target),
       onMouseOver,
       onMouseLeave,
       onFocus,

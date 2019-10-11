@@ -1,8 +1,5 @@
-import Matched from 'app/types/matched';
-
 import {
   SET_HISTORY,
-  SET_MATCHED,
   SET_LOCATION,
 
   SET_TITLE,
@@ -13,10 +10,6 @@ import {
 export interface SetHistory {
   type: SET_HISTORY;
   history: any;
-}
-export interface SetMatched {
-  type: SET_MATCHED;
-  matched: Matched;
 }
 export interface SetLocation {
   type: SET_LOCATION;
@@ -35,5 +28,5 @@ export interface SetMobileMenu {
   status: string | boolean;
 }
 
-type GlobalActions = SetHistory | SetMatched | SetLocation | SetTitle | SetMobileMenu;
+type GlobalActions = SetHistory | SetLocation | SetTitle | SetMobileMenu;
 export default GlobalActions;

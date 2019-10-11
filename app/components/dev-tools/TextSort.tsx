@@ -16,19 +16,19 @@ class TextSort extends Component {
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
   }
 
-  handleChangeText(event) {
+  handleChangeText(event): void {
     this.setState({
       text: event.target.value,
     });
   }
 
-  handleChangeCheckbox(checked) {
+  handleChangeCheckbox(checked): void {
     this.setState({
       checked: checked.target.checked,
     });
   }
 
-  render() {
+  render(): JSX.Element {
     const convertedText = this.state.text ? sortText(this.state.text, this.state.checked) : false;
 
     return (

@@ -1,7 +1,6 @@
-/// <reference path="base.d.ts" />
-
-import { IRestItem, IRestItemBuilder } from 'RestBase';
-import RestController from "./base";
+/* eslint-disable max-classes-per-file */
+import { IRestItem } from './base.d';
+import RestController from './base';
 
 export class FlickrItem implements IRestItem {
   title: string;
@@ -14,14 +13,14 @@ export class FlickrItem implements IRestItem {
     m: string;
   };
 
-  constructor(data: any) {
+  constructor(data) {
     this.title = data.title;
     this.link = data.link;
     this.media = data.media;
   }
 
-  static create(data: any): FlickrItem {
-      return new FlickrItem(data);
+  static create(data): FlickrItem {
+    return new FlickrItem(data);
   }
 }
 
@@ -30,12 +29,13 @@ export class FlickrItem implements IRestItem {
  */
 export default class FlickrController extends RestController<FlickrItem> {
   static instance: FlickrController;
-  protected restUrl: string = '/wp-json/sujin/v1/flickr/';
+  protected restUrl = '/wp-json/sujin/v1/flickr/';
 
-  static getInstance() {
+  static getInstance(): FlickrController {
     if (!this.instance) {
       this.instance = new FlickrController(FlickrItem);
     }
     return this.instance;
   }
 }
+/* eslint-enable max-classes-per-file */

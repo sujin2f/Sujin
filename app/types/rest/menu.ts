@@ -1,6 +1,6 @@
-/// <reference path="base.d.ts" />
-import { IRestItem, IRestItemBuilder } from 'RestBase';
-import RestController from "./base";
+/* eslint-disable max-classes-per-file */
+import { IRestItem } from './base.d';
+import RestController from './base';
 
 export class MenuItem implements IRestItem {
   ID: number;
@@ -10,7 +10,7 @@ export class MenuItem implements IRestItem {
   title: string;
   url: string;
 
-  constructor(data: any) {
+  constructor(data) {
     this.ID = data.ID;
     this.children = data.children;
     this.classes = data.classes;
@@ -19,8 +19,8 @@ export class MenuItem implements IRestItem {
     this.url = data.url;
   }
 
-  static create(data: any): MenuItem {
-      return new MenuItem(data);
+  static create(data): MenuItem {
+    return new MenuItem(data);
   }
 }
 
@@ -43,3 +43,4 @@ export default class MenuController extends RestController<MenuItem> {
     return MenuController.instance[slug];
   }
 }
+/* eslint-enable max-classes-per-file */

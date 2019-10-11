@@ -1,9 +1,10 @@
-/// <reference path="base.d.ts" />
-import { IRestItem, IRestItemBuilder } from 'RestBase';
-import RestController from "./base";
-import Post, { PostController } from './post';
 // Utiles
 import { isMobile } from 'app/utils/common';
+
+// Types
+import RestController from './base';
+import Post, { PostController } from './post';
+
 // Images
 import DEFAULT_BACKGROUND from '../../../assets/images/background/category.jpg';
 import DEFAULT_BACKGROUND_MOBILE from '../../../assets/images/background/category-mobile.jpg';
@@ -25,16 +26,23 @@ export default class ArchiveController extends RestController<Post> {
       }
     }
   } = {};
-  private readonly defaultBackground: string = isMobile() ? DEFAULT_BACKGROUND_MOBILE : DEFAULT_BACKGROUND;
+
+  private readonly defaultBackground = isMobile() ? DEFAULT_BACKGROUND_MOBILE : DEFAULT_BACKGROUND;
+
   private readonly pagingOffset: number = isMobile() ? 1 : 5;
 
   type: Types;
+
   slug: string;
+
   page: number;
 
   private totalPages: number;
+
   background: string;
+
   description: string;
+
   title: string;
 
   /*
@@ -51,7 +59,8 @@ export default class ArchiveController extends RestController<Post> {
 
     if (!ArchiveController.instance[type][slug][page]) {
       ArchiveController.instance[type][slug][page] = new ArchiveController(Post);
-      ArchiveController.instance[type][slug][page].restUrl = `/wp-json/sujin/v1/posts/?list_type=${type}&keyword=${slug}&page=${page}&per_page=12`;
+      ArchiveController.instance[type][slug][page].restUrl
+        = `/wp-json/sujin/v1/posts/?list_type=${type}&keyword=${slug}&page=${page}&per_page=12`;
       ArchiveController.instance[type][slug][page].type = type;
       ArchiveController.instance[type][slug][page].slug = slug;
       ArchiveController.instance[type][slug][page].page = page;
@@ -60,7 +69,7 @@ export default class ArchiveController extends RestController<Post> {
     return ArchiveController.instance[type][slug][page];
   }
 
-  protected postResponse(response) {
+  protected postResponse(response): void {
     this.totalPages = parseInt(response.headers['x-wp-totalpages'], 10) || 1;
     this.background = response.headers['x-wp-term-thumbnail'] || this.defaultBackground;
     this.title = decodeURIComponent(response.headers['x-wp-term-name']) || '';
@@ -76,12 +85,14 @@ export default class ArchiveController extends RestController<Post> {
   public getPaging(): Array<number> {
     let entities = [];
 
-    if (!this.totalPages || 1 === this.totalPages) {
+    if (!this.totalPages || this.totalPages === 1) {
       return entities;
     }
 
     const start = (this.page - this.pagingOffset) > 2 ? this.page - this.pagingOffset : 1;
-    const end = (this.page + this.pagingOffset) < (this.totalPages - 1) ? this.page + this.pagingOffset : this.totalPages;
+    const end = (this.page + this.pagingOffset) < (this.totalPages - 1) ?
+      this.page + this.pagingOffset :
+      this.totalPages;
 
     if (start > 2) {
       entities.push(1);
@@ -90,7 +101,7 @@ export default class ArchiveController extends RestController<Post> {
 
     entities = [
       ...entities,
-      ...Array.from(Array(end - start + 1).keys()).map(v => v + start),
+      ...Array.from(Array(end - start + 1).keys()).map((v) => v + start),
     ];
 
     if (end < this.totalPages - 1) {

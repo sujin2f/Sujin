@@ -1,8 +1,6 @@
-import Matched from 'app/types/matched';
-
 import { createBrowserHistory } from 'history';
+import Matched from 'app/types/matched';
 import { STORE } from 'app/constants/common';
-import { parseMatched } from 'app/utils/router';
 import { scrollTo } from 'app/utils/common';
 
 const { Component } = wp.element;
@@ -11,20 +9,18 @@ const { compose } = wp.compose;
 
 interface Props {
   // dispatch
-  setHistory(history: any): void;
-  setLocation(location: any): void;
-  setMatched(matched: Matched): void;
+  setHistory(history): void;
+  setLocation(location): void;
   setMobileMenuFalse(): void;
   // select
-  location: any;
-  matched: Matched;
+  location;
   // props
   children: Array<JSX.Element>;
-};
+}
 
 interface State {
   mounted: boolean;
-};
+}
 
 class Router extends Component<Props, State> {
   constructor(props: Props) {
@@ -34,7 +30,7 @@ class Router extends Component<Props, State> {
     this.getValidChild = this.getValidChild.bind(this);
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     this.setHistory();
     this.setState({ mounted: true });
   }
@@ -43,7 +39,7 @@ class Router extends Component<Props, State> {
     const {
       setHistory,
       setLocation,
-      setMatched,
+      // setMatched,
       setMobileMenuFalse,
     } = this.props;
 
@@ -59,7 +55,7 @@ class Router extends Component<Props, State> {
         setMobileMenuFalse();
         setHistory(history);
         setLocation(location);
-        setMatched(new Matched({}));
+        Matched.MatchedController.getInstance().setMatched(Matched.empty);
       }
     });
   }
@@ -67,16 +63,17 @@ class Router extends Component<Props, State> {
   getValidChild(): Array<JSX.Element> {
     const {
       children,
-      matched,
       location,
-      setMatched,
+      // setMatched,
     } = this.props;
 
     let validChild = null;
+    const matched = Matched.MatchedController.getInstance().getMatched() || Matched.empty;
 
     children.some((child) => {
-      const parsedMatch: Matched = parseMatched(child.props.path, location.pathname);
-      if (!parsedMatch.matched) {
+      const parsed = Matched.MatchedController.parseMatched(child.props.path, location.pathname);
+
+      if (!parsed.matched) {
         return false;
       }
 
@@ -86,7 +83,7 @@ class Router extends Component<Props, State> {
       }
 
       if (!matched.matched) {
-        setMatched(parsedMatch);
+        Matched.MatchedController.getInstance().setMatched(parsed);
       }
 
       validChild = child;
@@ -96,7 +93,7 @@ class Router extends Component<Props, State> {
     return [validChild];
   }
 
-  render() {
+  render(): JSX.Element || Array<JSX.Element> {
     if (!this.state.mounted) {
       return null;
     }
@@ -107,13 +104,11 @@ class Router extends Component<Props, State> {
 
 const mapStateToProps = withSelect((select) => ({
   location: select(STORE).getLocation(),
-  matched: select(STORE).getMatched(),
 }));
 
 const mapDispatchToProps = withDispatch((dispatch) => ({
-  setHistory: (history: any): void => dispatch(STORE).setHistory(history),
-  setLocation: (location: any): void => dispatch(STORE).setLocation(location),
-  setMatched: (matched: Matched): void => dispatch(STORE).setMatched(matched),
+  setHistory: (history): void => dispatch(STORE).setHistory(history),
+  setLocation: (location): void => dispatch(STORE).setLocation(location),
   setMobileMenuFalse: (): void => dispatch(STORE).setMobileMenu(false),
 }));
 

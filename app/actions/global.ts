@@ -1,8 +1,6 @@
 // Types
-import Matched from 'app/types/matched';
 import {
   SetHistory,
-  SetMatched,
   SetLocation,
 
   SetTitle,
@@ -10,7 +8,6 @@ import {
 } from 'app/types/actions/global';
 import {
   SET_HISTORY,
-  SET_MATCHED,
   SET_LOCATION,
 
   SET_TITLE,
@@ -18,19 +15,13 @@ import {
 } from 'app/constants/redux';
 
 // History
-export function setHistory(history: any): SetHistory {
+export function setHistory(history): SetHistory {
   return {
     type: SET_HISTORY,
     history,
   };
 }
-export function setMatched(matched: Matched): SetMatched {
-  return {
-    type: SET_MATCHED,
-    matched,
-  };
-}
-export function setLocation(location: any): SetLocation {
+export function setLocation(location): SetLocation {
   return {
     type: SET_LOCATION,
     location: {
@@ -48,8 +39,8 @@ export function setTitle(title: string): SetTitle {
   };
 }
 
-// Mobile Menu
-export function setMobileMenu(status: string | boolean): SetMobileMenu { // 'toggle' || true || false
+// Mobile Menu: 'toggle' || true || false
+export function setMobileMenu(status: string | boolean): SetMobileMenu {
   return {
     type: SET_MOBILE_MENU,
     status,

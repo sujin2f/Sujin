@@ -6,15 +6,15 @@ import Loading from 'app/components/layout/Loading';
 const { Component } = wp.element;
 
 class Flickr extends Component {
-  componentDidMount() {
+  componentDidMount(): void {
     const flickr = FlickrController.getInstance();
     if (!flickr.isInit()) {
       flickr.request(this);
     }
   }
 
-  render() {
-    const flickr:FlickrController = FlickrController.getInstance();
+  render(): JSX.Element {
+    const flickr: FlickrController = FlickrController.getInstance();
 
     if (flickr.isLoading()) {
       return (<Loading />);

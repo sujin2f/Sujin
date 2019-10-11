@@ -78,12 +78,10 @@ exports.setBase = function(entry, dist) {
             {
               loader: 'ts-loader',
             },
+            {
+              loader: 'eslint-loader',
+            },
           ],
-        },
-        {
-            enforce: 'pre',
-            test: /\.js$/,
-            loader: 'source-map-loader',
         },
         {
           test: /\.s?css$/,

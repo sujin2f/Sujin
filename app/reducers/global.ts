@@ -1,11 +1,9 @@
 // Types
-import Matched from 'app/types/matched';
 import GlobalState from 'app/types/states/global';
 import GlobalActions from 'app/types/actions/global';
 
 import {
   SET_HISTORY,
-  SET_MATCHED,
   SET_LOCATION,
 
   SET_TITLE,
@@ -19,7 +17,6 @@ import { setTitle } from 'app/utils/common';
 const initState: GlobalState = {
   history: {
     history: {},
-    matched: new Matched({}),
     location: {},
   },
   mobileMenu: false,
@@ -36,15 +33,6 @@ function global(state: GlobalState = initState, action: GlobalActions): GlobalSt
         history: {
           ...state.history,
           history: action.history,
-        },
-      };
-    }
-    case SET_MATCHED: {
-      return {
-        ...state,
-        history: {
-          ...state.history,
-          matched: action.matched,
         },
       };
     }

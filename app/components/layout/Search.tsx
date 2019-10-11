@@ -18,17 +18,17 @@ class Search extends Component {
     this.handleSubmitSearch = this.handleSubmitSearch.bind(this);
   }
 
-  handleChangeSearch(event) {
+  handleChangeSearch(event): void {
     this.setState({ searchString: event.target.value });
   }
 
-  handleKeyDownSearch(e) {
+  handleKeyDownSearch(e): void {
     if (e.keyCode === 13) {
       this.handleSubmitSearch(e);
     }
   }
 
-  handleSubmitSearch(e) {
+  handleSubmitSearch(e): void {
     const { searchOpened, searchString } = this.state;
     const { history } = this.props;
 
@@ -49,7 +49,7 @@ class Search extends Component {
     e.preventDefault();
   }
 
-  render() {
+  render(): JSX.Element {
     const { searchOpened, searchString } = this.state;
     const wrapperClass = searchOpened ? 'open' : '';
 
@@ -67,6 +67,7 @@ class Search extends Component {
           className="icon magnify"
           onClick={this.handleSubmitSearch}
           type="submit"
+          label="Search"
         />
       </section>
     );

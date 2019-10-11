@@ -1,14 +1,15 @@
 {
   "extends": [
     "airbnb",
-    "plugin:@wordpress/eslint-plugin/esnext"
+    "plugin:@wordpress/eslint-plugin/esnext",
+    "plugin:@typescript-eslint/recommended"
   ],
   "env": {
     "browser": false,
     "es6": true,
     "node": true
   },
-  "parser": "babel-eslint",
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "sourceType": "module",
     "ecmaFeatures": {
@@ -24,9 +25,13 @@
   "plugins": [
     "react",
     "jsx-a11y",
-    "import"
+    "import",
+    "@typescript-eslint"
   ],
   "settings": {
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    },
     "import/resolver": {
       "webpack": {
         "config": "webpack.config.babel.js"
@@ -50,6 +55,20 @@
     "space-in-parens": ["error", "never"],
     "computed-property-spacing": ["error", "never"],
     "space-unary-ops": ["error", {"words": true, "nonwords": false}],
-    "array-bracket-spacing": ["error", "never"]
-  }
+    "array-bracket-spacing": ["error", "never"],
+    "react/jsx-filename-extension": [
+      2,
+      { "extensions": [".jsx", ".tsx"] }
+    ],
+    "react/no-string-refs": "off",
+    "lines-between-class-members": "off"
+  },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "@typescript-eslint/explicit-function-return-type": ["error"]
+      }
+    }
+  ]
 }

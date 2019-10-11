@@ -15,10 +15,10 @@ interface Props {
   title: string;
   // props
   setTitle(title: string): void;
-};
+}
 
 class NotFound extends Component<Props> {
-  render() {
+  render(): JSX.Element {
     if (this.props.title !== 'Not Found') {
       this.props.setTitle('Not Found');
     }

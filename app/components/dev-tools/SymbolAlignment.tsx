@@ -16,19 +16,19 @@ class SymbolAlignment extends Component {
     this.handleChangeSymbol = this.handleChangeSymbol.bind(this);
   }
 
-  handleChangeText(event) {
+  handleChangeText(event): void {
     this.setState({
       text: event.target.value,
     });
   }
 
-  handleChangeSymbol(event) {
+  handleChangeSymbol(event): void {
     this.setState({
       symbol: event.target.value,
     });
   }
 
-  render() {
+  render(): JSX.Element {
     const convertedText =
       this.state.text ?
         symbolAlignment(this.state.text, this.state.symbol) :

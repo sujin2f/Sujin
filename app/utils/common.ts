@@ -1,10 +1,10 @@
+import Scroll from 'react-scroll';
+
 declare global {
     interface Window {
-      opera: any;
+      opera;
     }
 }
-
-import Scroll from 'react-scroll';
 
 /* eslint-disable import/prefer-default-export */
 
@@ -44,7 +44,7 @@ export const parseExImage = (
   return meta[desktop] || thumbnail[desktop] || defaultDesktop || '';
 };
 
-export function scrollTo(id = null) {
+export function scrollTo(id = null): void {
   if (!id) {
     Scroll.animateScroll.scrollTo(0, { duration: 500 });
     return;
@@ -59,14 +59,14 @@ export function scrollTo(id = null) {
   Scroll.animateScroll.scrollTo((box.top + scrollTop) - clientTop, { duration: 500 });
 }
 
-export const backgroundImageStyle = (image) => {
+export const backgroundImageStyle = (image): any => {
   if (typeof image !== 'string' && !(image instanceof String)) {
     return {};
   }
   return (image && { backgroundImage: `url(${image})` }) || {};
 };
 
-export const setTitle = (title) => {
+export const setTitle = (title): void => {
   document.title = title;
 };
 

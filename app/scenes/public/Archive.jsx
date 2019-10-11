@@ -1,7 +1,8 @@
 // TODO Title,
 
+import Matched from 'app/types/matched';
+
 import ArchiveController, { Types } from 'app/types/rest/archive';
-import Post from 'app/types/rest/post';
 
 import Public from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
@@ -9,30 +10,17 @@ import Item from 'app/components/archive/Item';
 import Paging from 'app/components/archive/Paging';
 import NotFound from 'app/scenes/public/NotFound';
 
-import { STORE } from 'app/constants/common';
-
 const { Fragment, Component } = wp.element;
-const { withSelect } = wp.data;
-const { compose } = wp.compose;
 
-interface Props {
-  matched: any;
-};
-
-class Archive extends Component<Props> {
-  static parseMatched(matched) {
-    const type: Types =
-      (matched.category && Types.Category) ||
-      (matched.tag && Types.Tag) ||
-      (matched.search && Types.Search);
-    const slug = matched[type];
-    const page = parseInt((matched && matched.page) || 1, 10);
-
-    return { type, slug, page };
+class Archive extends Component {
+  constructor(props) {
+    super(props);
+    this.parseMatched = this.parseMatched.bind(this);
   }
 
-  componentDidMount() {
-    const { type, slug, page } = Archive.parseMatched(this.props.matched);
+  componentDidMount(): void {
+    const matched = Matched.MatchedController.getInstance().getMatched() || Matched.empty;
+    const { type, slug, page } = this.parseMatched(matched);
     if (!slug) {
       return;
     }
@@ -42,8 +30,20 @@ class Archive extends Component<Props> {
     }
   }
 
-  render() {
-    const { type, slug, page } = Archive.parseMatched(this.props.matched);
+  parseMatched(matched): any {
+    const type =
+      (matched.category && Types.Category) ||
+      (matched.tag && Types.Tag) ||
+      (matched.search && Types.Search);
+    const slug = matched[type];
+    const page = parseInt((matched && matched.page) || 1, 10);
+
+    return { type, slug, page };
+  }
+
+  render(): Array<JSX.Element> {
+    const matched = Matched.MatchedController.getInstance().getMatched() || Matched.empty;
+    const { type, slug, page } = this.parseMatched(matched);
     if (!slug) {
       return null;
     }
@@ -79,7 +79,7 @@ class Archive extends Component<Props> {
         {archive.getItems() && archive.getItems().length > 0 && (
           <Fragment>
             <section className="row post-grid">
-              {archive.getItems().map((item: Post) => (
+              {archive.getItems().map((item) => (
                 <Item item={item} key={`${type}-${slug}-${page}-${item.id}`} />
               ))}
             </section>
@@ -96,8 +96,4 @@ class Archive extends Component<Props> {
   }
 }
 
-const mapStateToProps = withSelect((select) => ({
-  matched: select(STORE).getMatched(),
-}));
-
-export default compose([mapStateToProps])(Archive);
+export default Archive;

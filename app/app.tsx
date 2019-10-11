@@ -2,13 +2,6 @@
 // https://webflow.com/blog
 // /html5-semantic-elements-and-webflow-the-essential-guide
 // Redux
-declare global {
-  interface Window {
-    wp: any;
-  }
-}
-
-// Redux
 import { STORE } from 'app/constants/common';
 import selectors from 'app/selectors';
 import actions from 'app/actions';
@@ -24,7 +17,13 @@ import Page from 'app/scenes/public/Page';
 import Post from 'app/scenes/public/Post';
 import NotFound from 'app/scenes/public/NotFound';
 
-((wp) => {
+declare global {
+  interface Window {
+    wp;
+  }
+}
+
+((wp): void => {
   const { registerStore } = wp.data;
   registerStore(STORE, { reducer, selectors, actions });
 

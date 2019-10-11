@@ -25,13 +25,13 @@ class CaseTool extends Component {
     this.reset = this.reset.bind(this);
   }
 
-  handleChangeKeyword(event) {
+  handleChangeKeyword(event): void {
     this.setState({
       converted: preserveCase(event.target.value),
     });
   }
 
-  reset(event) {
+  reset(event): void {
     event.preventDefault();
     this.setState({ converted: [] });
 
@@ -39,7 +39,7 @@ class CaseTool extends Component {
     this.refs.convertKeyword.focus();
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <Fragment>
         <aside className="columns large-3 medium-12">

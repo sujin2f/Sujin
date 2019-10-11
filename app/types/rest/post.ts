@@ -1,13 +1,13 @@
-/// <reference path="base.d.ts" />
-import { IRestItem, IRestItemBuilder } from 'RestBase';
-import RestController from "./base";
+/* eslint-disable max-classes-per-file */
+import { IRestItem } from './base.d';
+import RestController from './base';
 
 class Term {
   readonly id: number;
   readonly name: string;
   readonly slug: string;
 
-  constructor(data: any) {
+  constructor(data) {
     this.id = data.term_id;
     this.name = data.name;
     this.slug = data.slug;
@@ -20,7 +20,7 @@ class PrevNext {
   readonly title: string;
   readonly slug: string;
 
-  constructor(data: any) {
+  constructor(data) {
     this.id = data.id;
     this.link = data.link;
     this.title = decodeURIComponent(data.title);
@@ -38,7 +38,7 @@ class Related extends PrevNext {
     [key: string]: string;
   };
 
-  constructor(data: any) {
+  constructor(data) {
     super(data);
 
     this.excerpt = decodeURIComponent(data.excerpt);
@@ -47,7 +47,7 @@ class Related extends PrevNext {
     this.thumbnail = data.thumbnail;
   }
 
-  public parseDate() {
+  public parseDate(): { [key: string]: any } {
     return {
       day: this.date.getDate(),
       month: this.date.toLocaleString('en-us', { month: 'short' }),
@@ -55,11 +55,11 @@ class Related extends PrevNext {
     };
   }
 
-  public getImage() {
-
+  public getImage(): void {
+    console.log('getImage');
   }
 
-  private parseMeta(meta) {
+  private parseMeta(meta): { [key: string]: any } {
     const newMeta = {};
 
     Object.keys(meta).forEach((mataKey) => {
@@ -90,7 +90,7 @@ export default class Post extends Related implements IRestItem {
   readonly series: Array<PrevNext>;
   readonly tags: Array<Term>;
 
-  constructor(data: any) {
+  constructor(data) {
     super(data);
 
     this.content = data.content;
@@ -101,8 +101,8 @@ export default class Post extends Related implements IRestItem {
     this.tags = data.tags;
   }
 
-  static create(data: any): Post {
-      return new Post(data);
+  static create(data): Post {
+    return new Post(data);
   }
 }
 
@@ -126,11 +126,11 @@ export class PostController extends RestController<Post> {
     return PostController.instance[slug];
   }
 
-  protected postResponse(response) {
+  protected postResponse(response): void {
     this.entity = this.item.create(response.data);
   }
 
-  public setFromPost(post: Post) {
+  public setFromPost(post: Post): void {
     this.init = true;
     this.entity = post;
   }
@@ -146,20 +146,19 @@ export class PostController extends RestController<Post> {
 export class RecentPostController extends RestController<Post> {
   static instance: RecentPostController;
   protected entity: Array<Post>;
-  protected restUrl: string = '/wp-json/sujin/v1/posts/?per_page=4';
+  protected restUrl = '/wp-json/sujin/v1/posts/?per_page=4';
 
-  static getInstance() {
+  static getInstance(): RecentPostController {
     if (!this.instance) {
       this.instance = new RecentPostController(Post);
     }
     return this.instance;
   }
 
-  protected postResponse(response) {
+  protected postResponse(response): void {
     super.postResponse(response);
 
-    this.entities.map((entity: Post) => {
-      PostController.getInstance(entity.slug).setFromPost(entity);
-    });
+    this.entities.map((entity: Post) => PostController.getInstance(entity.slug).setFromPost(entity));
   }
 }
+/* eslint-enable max-classes-per-file */

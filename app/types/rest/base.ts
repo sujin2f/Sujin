@@ -1,22 +1,21 @@
-/// <reference path="base.d.ts" />
 import axios from 'axios';
-// Constants
-import { STORE } from 'app/constants/common';
+
 // Types
-import { IRestItem, IRestItemBuilder } from 'RestBase';
+import { IRestItem, IRestItemBuilder } from './base.d';
 
 /*
  * Magic Classe to create RestController
- * Reference URL https://stackoverflow.com/questions/40171533/typescript-call-static-method-of-generic-type
+ * Reference URL
+   https://stackoverflow.com/questions/40171533/typescript-call-static-method-of-generic-type
  */
 
 export default class RestController<T extends IRestItem> {
   protected item: IRestItemBuilder<T>;
   protected restUrl: string;
   protected entities: Array<T> = [];
-  protected loading: boolean = false;
-  protected failed: boolean = false;
-  protected init: boolean = false;
+  protected loading = false;
+  protected failed = false;
+  protected init = false;
 
   constructor(item) {
     this.item = item;
@@ -25,7 +24,7 @@ export default class RestController<T extends IRestItem> {
   /*
    * REST request
    */
-  public request(component: any) {
+  public request(component: any): void {
     this.init = true;
     this.loading = true;
     this.failed = false;
@@ -47,7 +46,7 @@ export default class RestController<T extends IRestItem> {
       });
   }
 
-  protected postResponse(response) {
+  protected postResponse(response): void {
     this.entities = [];
     this.entities = response.data.map((item) => this.item.create(item));
   }
