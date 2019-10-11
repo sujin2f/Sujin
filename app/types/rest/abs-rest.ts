@@ -54,30 +54,48 @@ export default abstract class RestObject<T> {
   }
 }
 
-interface IMyClass {}
+// To make Object
+// interface IMyClassBuilder<T extends IMyClass> {
+//     new (): T;
+//     getInstance(): T;
+// };
+// Object
 
-interface IMyClassBuilder<T extends IMyClass> {
+
+class MyClass {
+  n: number;
+  constructor(n: number) {
+      this.n = n;
+  }
+
+  static create(n: number): MyClass {
+      return new MyClass(n);
+  }
+}
+
+interface IMyClassBuilder<T> {
     new (): T;
-    getInstance(): any;
+    create(n: number): T;
 }
 
-class MyClass implements IMyClass {
-    static getInstance() {
-        return "";
+class Singleton<T extends MyClass> {
+  private item: IMyClassBuilder<T>;
+  static instance: any;
+
+  constructor(item: IMyClassBuilder<T>) {
+    this.item = item;
+  }
+  static getInstance(item: any): any {
+    if (!this.instance) {
+      this.instance = new Singleton(item);
     }
+    console.log(this.instance.item);
+    return this.instance;
+  }
+  getNewItem(n: number) {
+    return this.item.create(n);
+  }
 }
-
-class MyService<T extends IMyClass> {
-    private classToCreate: IMyClassBuilder<T>;
-
-    constructor(classToCreate: IMyClassBuilder<T>) {
-        this.classToCreate = classToCreate;
-    }
-
-    getInstance(): T {
-        return this.classToCreate.getInstance();
-    }
-}
-
-let service = new MyService(MyClass);
-let myObject = service.getInstance();
+let controller = Singleton.getInstance(MyClass);
+console.log(controller.getNewItem(1));
+console.log(controller.getNewItem(2));

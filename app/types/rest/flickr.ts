@@ -79,6 +79,7 @@ export default class FlickrController {
 }
 
 class Test extends RestObject<FlickrItem> {}
+/*
 class Test2 extends RestObject<FlickrItem> {
   static instance: {
     [slug: string]: any;
@@ -98,3 +99,4 @@ class Test2 extends RestObject<FlickrItem> {
 
 console.log(Test2.getInstances(Test2, FlickrItem, 'test1'));
 console.log(Test2.getInstances(Test2, FlickrItem, 'test2'));
+*/
