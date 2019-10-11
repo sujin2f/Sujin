@@ -79,7 +79,7 @@ class Archive extends Component<Props> {
         {archive.getItems() && archive.getItems().length > 0 && (
           <Fragment>
             <section className="row post-grid">
-              {archive.getItems().map(item: Post => (
+              {archive.getItems().map((item: Post) => (
                 <Item item={item} key={`${type}-${slug}-${page}-${item.id}`} />
               ))}
             </section>
