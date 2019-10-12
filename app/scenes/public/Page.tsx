@@ -1,4 +1,4 @@
-import Matched from 'app/types/matched';
+import { empty, MatchedController } from 'app/types/matched';
 
 import { PostController } from 'app/types/rest/post';
 
@@ -32,15 +32,15 @@ class Page extends Component<Props> {
   }
 
   componentDidMount(): void {
-    const matched = Matched.MatchedController.getInstance().getMatched() || Matched.empty;
+    const matched = MatchedController.getInstance().getMatched() || empty;
     const post = PostController.getInstance(matched.slug);
-    if (!post.isInit()) {
+    if (matched.slug && !post.isInit()) {
       post.request(this);
     }
   }
 
   setTitle(): void {
-    const matched = Matched.MatchedController.getInstance().getMatched() || Matched.empty;
+    const matched = MatchedController.getInstance().getMatched() || empty;
     const post = PostController.getInstance(matched.slug);
     const { title, setTitle } = this.props;
 
@@ -50,7 +50,7 @@ class Page extends Component<Props> {
   }
 
   render(): JSX.Element {
-    const matched = Matched.MatchedController.getInstance().getMatched() || Matched.empty;
+    const matched = MatchedController.getInstance().getMatched() || empty;
     const post = PostController.getInstance(matched.slug);
 
     if (!post.isInit()) {

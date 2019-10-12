@@ -1,6 +1,6 @@
 // TODO Title,
 
-import Matched from 'app/types/matched';
+import { empty, MatchedController } from 'app/types/matched';
 
 import ArchiveController, { Types } from 'app/types/rest/archive';
 
@@ -13,24 +13,7 @@ import NotFound from 'app/scenes/public/NotFound';
 const { Fragment, Component } = wp.element;
 
 class Archive extends Component {
-  constructor(props) {
-    super(props);
-    this.parseMatched = this.parseMatched.bind(this);
-  }
-
-  componentDidMount(): void {
-    const matched = Matched.MatchedController.getInstance().getMatched() || Matched.empty;
-    const { type, slug, page } = this.parseMatched(matched);
-    if (!slug) {
-      return;
-    }
-    const archive = ArchiveController.getInstance(type, slug, page);
-    if (!archive.isInit()) {
-      archive.request(this);
-    }
-  }
-
-  parseMatched(matched): any {
+  static parseMatched(matched) {
     const type =
       (matched.category && Types.Category) ||
       (matched.tag && Types.Tag) ||
@@ -41,9 +24,21 @@ class Archive extends Component {
     return { type, slug, page };
   }
 
-  render(): Array<JSX.Element> {
-    const matched = Matched.MatchedController.getInstance().getMatched() || Matched.empty;
-    const { type, slug, page } = this.parseMatched(matched);
+  componentDidMount() {
+    const matched = MatchedController.getInstance().getMatched() || empty;
+    const { type, slug, page } = Archive.parseMatched(matched);
+    if (!slug) {
+      return;
+    }
+    const archive = ArchiveController.getInstance(type, slug, page);
+    if (!archive.isInit()) {
+      archive.request(this);
+    }
+  }
+
+  render() {
+    const matched = MatchedController.getInstance().getMatched() || empty;
+    const { type, slug, page } = Archive.parseMatched(matched);
     if (!slug) {
       return null;
     }

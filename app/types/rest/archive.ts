@@ -2,8 +2,8 @@
 import { isMobile } from 'app/utils/common';
 
 // Types
-import RestController from './base';
-import Post, { PostController } from './post';
+import RestController from 'app/types/rest/base';
+import Post, { PostController } from 'app/types/rest/post';
 
 // Images
 import DEFAULT_BACKGROUND from '../../../assets/images/background/category.jpg';
@@ -23,8 +23,8 @@ export default class ArchiveController extends RestController<Post> {
     [type: string]: {
       [slug: string]: {
         [page: number]: ArchiveController;
-      }
-    }
+      };
+    };
   } = {};
 
   private readonly defaultBackground = isMobile() ? DEFAULT_BACKGROUND_MOBILE : DEFAULT_BACKGROUND;
@@ -59,8 +59,7 @@ export default class ArchiveController extends RestController<Post> {
 
     if (!ArchiveController.instance[type][slug][page]) {
       ArchiveController.instance[type][slug][page] = new ArchiveController(Post);
-      ArchiveController.instance[type][slug][page].restUrl
-        = `/wp-json/sujin/v1/posts/?list_type=${type}&keyword=${slug}&page=${page}&per_page=12`;
+      ArchiveController.instance[type][slug][page].restUrl = `/wp-json/sujin/v1/posts/?list_type=${type}&keyword=${slug}&page=${page}&per_page=12`;
       ArchiveController.instance[type][slug][page].type = type;
       ArchiveController.instance[type][slug][page].slug = slug;
       ArchiveController.instance[type][slug][page].page = page;
@@ -77,9 +76,7 @@ export default class ArchiveController extends RestController<Post> {
 
     super.postResponse(response);
 
-    this.entities.map((entity: Post) => {
-      PostController.getInstance(entity.slug).setFromPost(entity);
-    });
+    this.entities.map((entity: Post) => PostController.getInstance(entity.slug).setFromPost(entity));
   }
 
   public getPaging(): Array<number> {

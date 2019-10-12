@@ -1,6 +1,6 @@
 /* eslint-disable max-classes-per-file */
-import { IRestItem } from './base.d';
-import RestController from './base';
+import { IRestItem } from 'app/types/rest/base.d';
+import RestController from 'app/types/rest/base';
 
 export class FlickrItem implements IRestItem {
   title: string;

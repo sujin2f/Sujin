@@ -1,6 +1,6 @@
 /* eslint-disable max-classes-per-file */
-import { IRestItem } from './base.d';
-import RestController from './base';
+import { IRestItem } from 'app/types/rest/base.d';
+import RestController from 'app/types/rest/base';
 
 class Term {
   readonly id: number;
@@ -47,7 +47,7 @@ class Related extends PrevNext {
     this.thumbnail = data.thumbnail;
   }
 
-  public parseDate(): { [key: string]: any } {
+  public parseDate(): { [key: string]: string | number } {
     return {
       day: this.date.getDate(),
       month: this.date.toLocaleString('en-us', { month: 'short' }),
@@ -59,7 +59,7 @@ class Related extends PrevNext {
     console.log('getImage');
   }
 
-  private parseMeta(meta): { [key: string]: any } {
+  private parseMeta(meta: string): { [key: string]: string } {
     const newMeta = {};
 
     Object.keys(meta).forEach((mataKey) => {

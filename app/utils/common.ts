@@ -59,7 +59,7 @@ export function scrollTo(id = null): void {
   Scroll.animateScroll.scrollTo((box.top + scrollTop) - clientTop, { duration: 500 });
 }
 
-export const backgroundImageStyle = (image): any => {
+export const backgroundImageStyle = (image): { [key: string]: string } => {
   if (typeof image !== 'string' && !(image instanceof String)) {
     return {};
   }

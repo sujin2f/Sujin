@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Types
-import { IRestItem, IRestItemBuilder } from './base.d';
+import { IRestItem, IRestItemBuilder } from 'app/types/rest/base.d';
 
 /*
  * Magic Classe to create RestController
@@ -23,8 +23,10 @@ export default class RestController<T extends IRestItem> {
 
   /*
    * REST request
+   *
    */
-  public request(component: any): void {
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  public request(component: any): Promise<void> {
     this.init = true;
     this.loading = true;
     this.failed = false;
@@ -45,6 +47,7 @@ export default class RestController<T extends IRestItem> {
         component.forceUpdate();
       });
   }
+  /* eslint-enable @typescript-eslint/no-explicit-any */
 
   protected postResponse(response): void {
     this.entities = [];

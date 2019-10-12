@@ -1,5 +1,5 @@
 import { createBrowserHistory } from 'history';
-import Matched from 'app/types/matched';
+import { empty, MatchedController } from 'app/types/matched';
 import { STORE } from 'app/constants/common';
 import { scrollTo } from 'app/utils/common';
 
@@ -24,6 +24,7 @@ interface State {
 
 class Router extends Component<Props, State> {
   constructor(props: Props) {
+    console.log('constructor');
     super(props);
     this.state = { mounted: false };
     this.setHistory = this.setHistory.bind(this);
@@ -31,11 +32,13 @@ class Router extends Component<Props, State> {
   }
 
   componentDidMount(): void {
+    console.log('componentDidMount');
     this.setHistory();
     this.setState({ mounted: true });
   }
 
   setHistory(): void {
+    console.log('setHistory');
     const {
       setHistory,
       setLocation,
@@ -55,12 +58,13 @@ class Router extends Component<Props, State> {
         setMobileMenuFalse();
         setHistory(history);
         setLocation(location);
-        Matched.MatchedController.getInstance().setMatched(Matched.empty);
+        MatchedController.getInstance().setMatched(empty);
       }
     });
   }
 
   getValidChild(): Array<JSX.Element> {
+    console.log('getValidChild');
     const {
       children,
       location,
@@ -68,10 +72,12 @@ class Router extends Component<Props, State> {
     } = this.props;
 
     let validChild = null;
-    const matched = Matched.MatchedController.getInstance().getMatched() || Matched.empty;
+    const matched = MatchedController.getInstance().getMatched() || empty;
+    console.log(matched);
 
     children.some((child) => {
-      const parsed = Matched.MatchedController.parseMatched(child.props.path, location.pathname);
+      const parsed = MatchedController.parseMatched(child.props.path, location.pathname);
+      console.log(parsed);
 
       if (!parsed.matched) {
         return false;
@@ -83,7 +89,7 @@ class Router extends Component<Props, State> {
       }
 
       if (!matched.matched) {
-        Matched.MatchedController.getInstance().setMatched(parsed);
+        MatchedController.getInstance().setMatched(parsed);
       }
 
       validChild = child;
@@ -93,7 +99,7 @@ class Router extends Component<Props, State> {
     return [validChild];
   }
 
-  render(): JSX.Element || Array<JSX.Element> {
+  render(): JSX.Element | Array<JSX.Element> {
     if (!this.state.mounted) {
       return null;
     }

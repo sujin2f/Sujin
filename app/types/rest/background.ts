@@ -2,8 +2,8 @@
 import { isMobile } from 'app/utils/common';
 
 // Types
-import { IRestItem } from './base.d';
-import RestController from './base';
+import { IRestItem } from 'app/types/rest/base.d';
+import RestController from 'app/types/rest/base';
 
 import DEFAULT_BG from '../../../assets/images/background/backup-background.jpg';
 import DEFAULT_BG_MOBILE from '../../../assets/images/background/backup-background-mobile.jpg';

@@ -1,4 +1,4 @@
-import Matched from 'app/types/matched';
+import { empty, MatchedController } from 'app/types/matched';
 
 import { PostController } from 'app/types/rest/post';
 
@@ -21,22 +21,30 @@ const { withDispatch, withSelect } = wp.data;
 const { compose } = wp.compose;
 const { Component } = wp.element;
 
-class Post extends Component {
-  constructor(props) {
+interface Props {
+  path: string;
+  title: string;
+  setTitle(title: string): void;
+}
+
+class Post extends Component<Props> {
+  constructor(props: Props) {
     super(props);
     this.setTitle = this.setTitle.bind(this);
   }
 
   componentDidMount(): void {
-    const matched = Matched.MatchedController.getInstance().getMatched() || Matched.empty;
+    console.log('componentDidMount');
+    const matched = MatchedController.getInstance().getMatched() || empty;
     const post = PostController.getInstance(matched.slug);
-    if (!post.isInit()) {
+    if (matched.slug && !post.isInit()) {
       post.request(this);
     }
   }
 
   setTitle(): void {
-    const matched = Matched.MatchedController.getInstance().getMatched() || Matched.empty;
+    console.log('setTitle');
+    const matched = MatchedController.getInstance().getMatched() || empty;
     const post = PostController.getInstance(matched.slug);
     const { title, setTitle } = this.props;
 
@@ -46,7 +54,8 @@ class Post extends Component {
   }
 
   render(): JSX.Element {
-    const matched = Matched.MatchedController.getInstance().getMatched() || Matched.empty;
+    console.log('render');
+    const matched = MatchedController.getInstance().getMatched() || empty;
     const post = PostController.getInstance(matched.slug);
 
     if (!post.isInit()) {

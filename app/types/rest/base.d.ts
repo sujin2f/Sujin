@@ -1,8 +1,5 @@
-declare module "RestBase" {
-  export interface IRestItem {}
+export interface IRestItem {}
 
-  export interface IRestItemBuilder<T extends RestItem> {
-      create(data: any): T;
-  }
+export interface IRestItemBuilder<T extends RestItem> {
+    create(data: any): T;
 }
-

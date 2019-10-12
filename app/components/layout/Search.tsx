@@ -67,7 +67,6 @@ class Search extends Component {
           className="icon magnify"
           onClick={this.handleSubmitSearch}
           type="submit"
-          label="Search"
         />
       </section>
     );
