@@ -1,16 +1,14 @@
+import GlobalController from 'app/controllers/global';
+
 import Header from 'app/components/layout/Header';
 import Footer from 'app/components/layout/Footer';
 
 import { getScrolled } from 'app/utils/common';
-import { STORE } from 'app/constants/common';
 
-const { withSelect } = wp.data;
-const { compose } = wp.compose;
 const { Component } = wp.element;
+const { compose } = wp.compose;
 
 interface Props {
-  // select
-  mobileMenuClass: string;
   // props
   className: string;
   children: Array<JSX.Element>;
@@ -48,12 +46,12 @@ class Public extends Component<Props, State> {
     const {
       children,
       className = '',
-      mobileMenuClass,
     } = this.props;
     const { scrolled } = this.state;
+    const mobileMenu = GlobalController.getInstance().getMobileMenu();
 
     return (
-      <div id="wrapper" className={`${className} ${scrolled} ${mobileMenuClass}`}>
+      <div id="wrapper" className={`${className} ${scrolled} ${mobileMenu}`}>
         <header itemType="http://schema.org/WPHeader">
           <Header />
         </header>
@@ -70,8 +68,4 @@ class Public extends Component<Props, State> {
   }
 }
 
-const mapStateToProps = withSelect((select) => ({
-  mobileMenuClass: select(STORE).getMobileMenuClass(),
-}));
-
-export default compose([mapStateToProps])(Public);
+export default compose([])(Public);

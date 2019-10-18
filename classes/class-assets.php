@@ -68,6 +68,7 @@ final class Assets {
 		wp_enqueue_style( 'sujin-app' );
 
 		wp_dequeue_style( 'wp-block-library' );
-
+		wp_dequeue_style( 'wp-api-fetch' );
+		wp_dequeue_style( 'wp-tinymce' );
 	}
 }

@@ -1,21 +1,10 @@
-import hash from 'object-hash';
-
-import { createBrowserHistory } from 'history';
-import MatchedController, { MatchedItem } from 'app/types/matched';
-import { STORE } from 'app/constants/common';
-import { scrollTo } from 'app/utils/common';
+import MatchedItem from 'app/types/matched';
+import RouteController from 'app/controllers/route';
 
 const { Component } = wp.element;
-const { withSelect, withDispatch } = wp.data;
 const { compose } = wp.compose;
 
 interface Props {
-  // dispatch
-  setHistory(history): void;
-  setLocation(location): void;
-  setMobileMenuFalse(): void;
-  // select
-  location;
   // props
   children: Array<JSX.Element>;
 }
@@ -24,41 +13,29 @@ interface State {
   mounted: boolean;
 }
 
-const mapStateToProps = withSelect((select) => ({
-  location: select(STORE).getLocation(),
-}));
-
-const mapDispatchToProps = withDispatch((dispatch) => ({
-  setHistory: (history): void => dispatch(STORE).setHistory(history),
-  setLocation: (location): void => dispatch(STORE).setLocation(location),
-  setMobileMenuFalse: (): void => dispatch(STORE).setMobileMenu(false),
-}));
-
 class Router extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = { mounted: false };
     this.getValidChild = this.getValidChild.bind(this);
-    this.prepareHistory = this.prepareHistory.bind(this);
   }
 
   componentDidMount(): void {
-    this.prepareHistory();
+    RouteController.getInstance();
     this.setState({ mounted: true });
   }
 
   getValidChild(): Array<JSX.Element> {
     const {
       children,
-      location,
-      // setMatched,
     } = this.props;
 
     let validChild = null;
     // Previous Matched
-    const matched = MatchedController.getInstance().getMatched();
+    const routeController = RouteController.getInstance();
+    const matched = routeController.getMatched();
     children.some((child) => {
-      const parsed: MatchedItem = MatchedController.parseMatched(child.props.path, location.pathname);
+      const parsed: MatchedItem = routeController.parseMatched(child.props.path);
 
       // Not Matched -- maybe the next one
       if (!parsed.matched) {
@@ -73,46 +50,19 @@ class Router extends Component<Props, State> {
 
       // matched was not yet set
       if (!matched.matched) {
-        MatchedController.getInstance().setMatched(parsed);
+        routeController.setMatched(parsed);
       }
-
-      console.log(parsed);
 
       validChild = child;
       validChild.props = {
         ...validChild.props,
         matched: parsed,
-        componentHash: hash(new Date().getTime()),
+        componentHash: routeController.history.location.key,
       };
       return true;
     });
 
     return [validChild];
-  }
-
-  prepareHistory(): void {
-    const {
-      setHistory,
-      setLocation,
-      // setMatched,
-      setMobileMenuFalse,
-    } = this.props;
-
-    // Set history
-    const history = createBrowserHistory();
-
-    setHistory(history);
-    setLocation(history.location);
-
-    history.listen((location, action: string) => {
-      if (action === 'PUSH' || action === 'POP') {
-        scrollTo();
-        setMobileMenuFalse();
-        setHistory(history);
-        setLocation(location);
-        MatchedController.getInstance().setMatched();
-      }
-    });
   }
 
   render(): JSX.Element | Array<JSX.Element> {
@@ -124,4 +74,4 @@ class Router extends Component<Props, State> {
   }
 }
 
-export default compose([mapStateToProps, mapDispatchToProps])(Router);
+export default compose([])(Router);

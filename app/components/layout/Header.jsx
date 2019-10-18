@@ -1,20 +1,14 @@
+import GlobalController from 'app/controllers/global';
+
 import Link from 'app/components/router/Link';
 
 import Menu from 'app/components/layout/Menu';
 import Search from 'app/components/layout/Search';
 
-import { STORE } from 'app/constants/common';
-
-const { withDispatch } = wp.data;
-const { compose } = wp.compose;
 const { Fragment, Component } = wp.element;
 
 class Header extends Component {
   render() {
-    const {
-      setMobileMenu,
-    } = this.props;
-
     return (
       <Fragment>
         {/* For Transparent Logo */}
@@ -29,7 +23,7 @@ class Header extends Component {
             <section className="columns small-6">
               <button
                 className="hide-for-large icon hamburger"
-                onClick={() => setMobileMenu()}
+                onClick={() => GlobalController.getInstance().setMobileMenu()}
                 data-testid="hamburger"
                 type="button"
                 label="Toggle Menu"
@@ -66,8 +60,4 @@ class Header extends Component {
   }
 }
 
-const mapDispatchToProps = withDispatch((dispatch) => ({
-  setMobileMenu: () => dispatch(STORE).setMobileMenu('toggle'),
-}));
-
-export default compose([mapDispatchToProps])(Header);
+export default Header;

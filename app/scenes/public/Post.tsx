@@ -1,5 +1,5 @@
-import MatchedController from 'app/types/matched';
-import TitleController from 'app/types/title';
+import RouteController from 'app/controllers/route';
+import GlobalController from 'app/controllers/global';
 
 import { PostController } from 'app/types/rest/post';
 
@@ -36,14 +36,18 @@ export default class Post extends Component<Props> {
     const { matched } = this.props;
 
     // Check if Matched has changed
-    if (matched.hasChanged(MatchedController.getInstance().getMatched())) {
-      const post = PostController.getInstance(matched.slug);
-
-      // Post doesn't exist
-      if (matched.slug && !post.isInit()) {
-        post.request(this);
-      }
+    if (!matched.hasChanged(RouteController.getInstance().getMatched())) {
+      return;
     }
+
+    const post = PostController.getInstance(matched.slug);
+
+    // Post doesn't exist
+    if (!matched.slug || post.isInit()) {
+      return;
+    }
+
+    post.request(this);
   }
 
   render(): JSX.Element {
@@ -68,7 +72,7 @@ export default class Post extends Component<Props> {
       return (<NotFound />);
     }
 
-    TitleController.getInstance().setTitle(post.getItem().title);
+    GlobalController.getInstance().setTitle(post.getItem().title);
 
     const backgroundImage =
       parseExImage(
@@ -80,6 +84,7 @@ export default class Post extends Component<Props> {
         DEFAULT_BACKGROUND_MOBILE,
       );
 
+    // @ts-ignore
     return (
       <Public className="template-single">
         <PageHeader

@@ -1,6 +1,6 @@
 // TODO Title,
 
-import MatchedController from 'app/types/matched';
+import RouteController from 'app/controllers/route';
 
 import ArchiveController, { Types } from 'app/types/rest/archive';
 
@@ -18,7 +18,12 @@ interface ArchiveMatched {
   page: number;
 }
 
-export default class Archive extends Component {
+interface Props {
+  matched;
+  componentHash: string;
+}
+
+export default class Archive extends Component<Props> {
   static parseMatched(matched): ArchiveMatched {
     const type =
       (matched.category && Types.Category) ||
@@ -30,25 +35,36 @@ export default class Archive extends Component {
     return { type, slug, page };
   }
 
-  componentDidMount(): void {
-    const matched = MatchedController.getInstance().getMatched();
-    const { type, slug, page } = Archive.parseMatched(matched);
-    if (!slug) {
+  constructor(props: Props) {
+    super(props);
+    this.request = this.request.bind(this);
+  }
+
+  /*
+   * Request Archive
+   */
+  request(): void {
+    const { matched } = this.props;
+
+    // Check if Matched has changed
+    if (!matched.hasChanged(RouteController.getInstance().getMatched())) {
       return;
     }
+
+    const { type, slug, page } = Archive.parseMatched(matched);
     const archive = ArchiveController.getInstance(type, slug, page);
-    if (!archive.isInit()) {
-      archive.request(this);
+
+    if (!slug || archive.isInit()) {
+      return;
     }
+
+    archive.request(this);
   }
 
   render(): JSX.Element {
-    const matched = MatchedController.getInstance().getMatched();
+    this.request();
+    const { matched } = this.props;
     const { type, slug, page } = Archive.parseMatched(matched);
-    if (!slug) {
-      return null;
-    }
-
     const archive = ArchiveController.getInstance(type, slug, page);
 
     if (!archive.isInit()) {
@@ -68,6 +84,7 @@ export default class Archive extends Component {
       return (<NotFound />);
     }
 
+    // @ts-ignore
     return (
       <Public className="template-archive">
 

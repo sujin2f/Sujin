@@ -2,10 +2,6 @@
 // https://webflow.com/blog
 // /html5-semantic-elements-and-webflow-the-essential-guide
 // Redux
-import { STORE } from 'app/constants/common';
-import selectors from 'app/selectors';
-import actions from 'app/actions';
-import reducer from 'app/reducers';
 
 // Router
 import Router from 'app/components/router/Router';
@@ -24,9 +20,6 @@ declare global {
 }
 
 ((wp): void => {
-  const { registerStore } = wp.data;
-  registerStore(STORE, { reducer, selectors, actions });
-
   const { render } = wp.element;
   render(
     <Router>

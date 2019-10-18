@@ -1,5 +1,5 @@
-import MatchedController from 'app/types/matched';
-import TitleController from 'app/types/title';
+import RouteController from 'app/controllers/route';
+import GlobalController from 'app/controllers/global';
 
 import { PostController } from 'app/types/rest/post';
 
@@ -15,17 +15,41 @@ import DEFAULT_BACKGROUND_MOBILE from '../../../assets/images/background/categor
 
 const { Component } = wp.element;
 
-export default class Page extends Component {
-  componentDidMount(): void {
-    const matched = MatchedController.getInstance().getMatched();
-    const post = PostController.getInstance(matched.slug);
-    if (matched.slug && !post.isInit()) {
-      post.request(this);
+interface Props {
+  matched;
+  componentHash: string;
+}
+
+export default class Page extends Component<Props> {
+  constructor(props: Props) {
+    super(props);
+    this.request = this.request.bind(this);
+  }
+
+  /*
+   * Request Page
+   */
+  request(): void {
+    const { matched } = this.props;
+
+    // Check if Matched has changed
+    if (!matched.hasChanged(RouteController.getInstance().getMatched())) {
+      return;
     }
+
+    const post = PostController.getInstance(matched.slug);
+
+    // Post doesn't exist
+    if (!matched.slug || post.isInit()) {
+      return;
+    }
+
+    post.request(this);
   }
 
   render(): JSX.Element {
-    const matched = MatchedController.getInstance().getMatched();
+    this.request();
+    const { matched } = this.props;
     const post = PostController.getInstance(matched.slug);
 
     if (!post.isInit()) {
@@ -45,7 +69,7 @@ export default class Page extends Component {
       return (<NotFound />);
     }
 
-    TitleController.getInstance().setTitle(post.getItem().title);
+    GlobalController.getInstance().setTitle(post.getItem().title);
 
     const backgroundImage =
       parseExImage(
@@ -57,6 +81,7 @@ export default class Page extends Component {
         DEFAULT_BACKGROUND_MOBILE,
       );
 
+    // @ts-ignore
     return (
       <Public className="template-single">
         <PageHeader

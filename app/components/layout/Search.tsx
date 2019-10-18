@@ -1,6 +1,3 @@
-import { STORE } from 'app/constants/common';
-
-const { withSelect } = wp.data;
 const { compose } = wp.compose;
 const { Component } = wp.element;
 
@@ -73,9 +70,4 @@ class Search extends Component {
   }
 }
 
-const mapStateToProps = withSelect((select) => ({
-  location: select(STORE).getLocation(),
-  history: select(STORE).getHistory(),
-}));
-
-export default compose([mapStateToProps])(Search);
+export default compose([])(Search);

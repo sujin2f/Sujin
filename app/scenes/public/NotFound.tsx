@@ -1,4 +1,4 @@
-import TitleController from 'app/types/title';
+import GlobalController from 'app/controllers/global';
 
 import PageHeader from 'app/components/layout/PageHeader';
 import Public from 'app/scenes/public';
@@ -11,8 +11,9 @@ const { Component } = wp.element;
 
 export default class NotFound extends Component {
   render(): JSX.Element {
-    TitleController.getInstance().setTitle('Not Found');
+    GlobalController.getInstance().setTitle('Not Found');
 
+    // @ts-ignore
     return (
       <Public className="stretched-background hide-footer template-404">
         <PageHeader backgroundImage={isMobile() ? DEFAULT_BACKGROUND : DEFAULT_BACKGROUND_MOBILE}>

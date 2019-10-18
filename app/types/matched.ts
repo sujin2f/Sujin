@@ -1,7 +1,4 @@
-/* eslint-disable max-classes-per-file */
-import pathToRegexp from 'path-to-regexp';
-
-export class MatchedItem {
+export default class MatchedItem {
   readonly matched: boolean;
   readonly slug?: string;
   readonly category?: string;
@@ -36,45 +33,4 @@ export class MatchedItem {
   }
 }
 
-const emptyMatched: MatchedItem = new MatchedItem({});
-
-export default class MatchedController {
-  static instance: MatchedController;
-
-  protected matched: MatchedItem;
-
-  static getInstance(): MatchedController {
-    if (!this.instance) {
-      this.instance = new MatchedController();
-    }
-    return this.instance;
-  }
-
-  public setMatched(matched?: MatchedItem): void {
-    if (matched) {
-      this.matched = matched;
-    } else {
-      this.matched = emptyMatched;
-    }
-  }
-
-  public getMatched(): MatchedItem {
-    return this.matched || emptyMatched;
-  }
-
-  static parseMatched(path: string, url: string): MatchedItem {
-    const regExp = new RegExp(pathToRegexp(path));
-    const matchedResult = regExp.exec(url);
-    const pathname = path.split('/')
-      .filter((p) => p.charAt(0) === ':')
-      .map((p) => p.slice(1).replace(/\?|(\(.+\))/, ''));
-
-    const matched = matchedResult && pathname.reduce((acc, value, index) => ({
-      ...acc,
-      [value]: matchedResult[index + 1],
-    }), { matched: true });
-
-    return new MatchedItem(matched || {});
-  }
-}
-/* eslint-enable max-classes-per-file */
+export const emptyMatched: MatchedItem = new MatchedItem({});
