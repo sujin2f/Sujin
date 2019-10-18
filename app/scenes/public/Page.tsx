@@ -1,8 +1,7 @@
-import { empty, MatchedController } from 'app/types/matched';
+import MatchedController from 'app/types/matched';
+import TitleController from 'app/types/title';
 
 import { PostController } from 'app/types/rest/post';
-
-import { STORE } from 'app/constants/common';
 
 import Public from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
@@ -14,43 +13,19 @@ import { parseExImage } from 'app/utils/common';
 import DEFAULT_BACKGROUND from '../../../assets/images/background/category.jpg';
 import DEFAULT_BACKGROUND_MOBILE from '../../../assets/images/background/category-mobile.jpg';
 
-const { withDispatch, withSelect } = wp.data;
-const { compose } = wp.compose;
 const { Component } = wp.element;
 
-interface Props {
-  // select
-  title: string;
-  // props
-  setTitle(title: string): void;
-}
-
-class Page extends Component<Props> {
-  constructor(props) {
-    super(props);
-    this.setTitle = this.setTitle.bind(this);
-  }
-
+export default class Page extends Component {
   componentDidMount(): void {
-    const matched = MatchedController.getInstance().getMatched() || empty;
+    const matched = MatchedController.getInstance().getMatched();
     const post = PostController.getInstance(matched.slug);
     if (matched.slug && !post.isInit()) {
       post.request(this);
     }
   }
 
-  setTitle(): void {
-    const matched = MatchedController.getInstance().getMatched() || empty;
-    const post = PostController.getInstance(matched.slug);
-    const { title, setTitle } = this.props;
-
-    if (title !== post.getItem().title) {
-      setTitle(post.getItem().title);
-    }
-  }
-
   render(): JSX.Element {
-    const matched = MatchedController.getInstance().getMatched() || empty;
+    const matched = MatchedController.getInstance().getMatched();
     const post = PostController.getInstance(matched.slug);
 
     if (!post.isInit()) {
@@ -66,12 +41,13 @@ class Page extends Component<Props> {
     }
 
     if (post.isFailed()) {
+      // @ts-ignore
       return (<NotFound />);
     }
 
-    this.setTitle();
+    TitleController.getInstance().setTitle(post.getItem().title);
 
-    const backgroundImage: string =
+    const backgroundImage =
       parseExImage(
         post.getItem().meta.background,
         post.getItem().thumbnail,
@@ -96,15 +72,3 @@ class Page extends Component<Props> {
     );
   }
 }
-
-const mapStateToProps = withSelect((select) => ({
-  title: select(STORE).getTitle(),
-}));
-
-const mapDispatchToProps = withDispatch((dispatch) => ({
-  setTitle: (title: string): void => {
-    dispatch(STORE).setTitle(title);
-  },
-}));
-
-export default compose([mapStateToProps, mapDispatchToProps])(Page);

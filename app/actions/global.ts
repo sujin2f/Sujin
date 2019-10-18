@@ -2,15 +2,11 @@
 import {
   SetHistory,
   SetLocation,
-
-  SetTitle,
   SetMobileMenu,
 } from 'app/types/actions/global';
 import {
   SET_HISTORY,
   SET_LOCATION,
-
-  SET_TITLE,
   SET_MOBILE_MENU,
 } from 'app/constants/redux';
 
@@ -28,14 +24,6 @@ export function setLocation(location): SetLocation {
       ...window.location,
       ...location,
     },
-  };
-}
-
-// Set HTML <title /> tag
-export function setTitle(title: string): SetTitle {
-  return {
-    type: SET_TITLE,
-    title,
   };
 }
 

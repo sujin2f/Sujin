@@ -73,7 +73,8 @@
     {
       "files": ["*.ts", "*.tsx"],
       "rules": {
-        "jsx-a11y/control-has-associated-label": "off"
+        "jsx-a11y/control-has-associated-label": "off",
+        "@typescript-eslint/ban-ts-ignore": "off"
       }
     }
   ]

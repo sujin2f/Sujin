@@ -1,8 +1,7 @@
-import { empty, MatchedController } from 'app/types/matched';
+import MatchedController from 'app/types/matched';
+import TitleController from 'app/types/title';
 
 import { PostController } from 'app/types/rest/post';
-
-import { STORE } from 'app/constants/common';
 
 import Public from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
@@ -17,45 +16,39 @@ import { parseExImage } from 'app/utils/common';
 import DEFAULT_BACKGROUND from '../../../assets/images/background/category.jpg';
 import DEFAULT_BACKGROUND_MOBILE from '../../../assets/images/background/category-mobile.jpg';
 
-const { withDispatch, withSelect } = wp.data;
-const { compose } = wp.compose;
 const { Component } = wp.element;
 
 interface Props {
-  path: string;
-  title: string;
-  setTitle(title: string): void;
+  matched;
+  componentHash: string;
 }
 
-class Post extends Component<Props> {
+export default class Post extends Component<Props> {
   constructor(props: Props) {
     super(props);
-    this.setTitle = this.setTitle.bind(this);
+    this.request = this.request.bind(this);
   }
 
-  componentDidMount(): void {
-    console.log('componentDidMount');
-    const matched = MatchedController.getInstance().getMatched() || empty;
-    const post = PostController.getInstance(matched.slug);
-    if (matched.slug && !post.isInit()) {
-      post.request(this);
-    }
-  }
+  /*
+   * Request Post
+   */
+  request(): void {
+    const { matched } = this.props;
 
-  setTitle(): void {
-    console.log('setTitle');
-    const matched = MatchedController.getInstance().getMatched() || empty;
-    const post = PostController.getInstance(matched.slug);
-    const { title, setTitle } = this.props;
+    // Check if Matched has changed
+    if (matched.hasChanged(MatchedController.getInstance().getMatched())) {
+      const post = PostController.getInstance(matched.slug);
 
-    if (title !== post.getItem().title) {
-      setTitle(post.getItem().title);
+      // Post doesn't exist
+      if (matched.slug && !post.isInit()) {
+        post.request(this);
+      }
     }
   }
 
   render(): JSX.Element {
-    console.log('render');
-    const matched = MatchedController.getInstance().getMatched() || empty;
+    this.request();
+    const { matched } = this.props;
     const post = PostController.getInstance(matched.slug);
 
     if (!post.isInit()) {
@@ -71,12 +64,13 @@ class Post extends Component<Props> {
     }
 
     if (post.isFailed()) {
+      // @ts-ignore
       return (<NotFound />);
     }
 
-    this.setTitle();
+    TitleController.getInstance().setTitle(post.getItem().title);
 
-    const backgroundImage: string =
+    const backgroundImage =
       parseExImage(
         post.getItem().meta.background,
         post.getItem().thumbnail,
@@ -115,15 +109,3 @@ class Post extends Component<Props> {
     );
   }
 }
-
-const mapStateToProps = withSelect((select) => ({
-  title: select(STORE).getTitle(),
-}));
-
-const mapDispatchToProps = withDispatch((dispatch) => ({
-  setTitle: (title): void => {
-    dispatch(STORE).setTitle(title);
-  },
-}));
-
-export default compose([mapStateToProps, mapDispatchToProps])(Post);

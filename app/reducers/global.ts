@@ -5,13 +5,8 @@ import GlobalActions from 'app/types/actions/global';
 import {
   SET_HISTORY,
   SET_LOCATION,
-
-  SET_TITLE,
   SET_MOBILE_MENU,
 } from 'app/constants/redux';
-
-import { DEFAULT_TITLE } from 'app/constants/common';
-import { setTitle } from 'app/utils/common';
 
 // Initial State
 const initState: GlobalState = {
@@ -20,7 +15,6 @@ const initState: GlobalState = {
     location: {},
   },
   mobileMenu: false,
-  title: DEFAULT_TITLE,
 };
 
 // Actions
@@ -43,15 +37,6 @@ function global(state: GlobalState = initState, action: GlobalActions): GlobalSt
           ...state.history,
           location: action.location,
         },
-      };
-    }
-
-    // Set HTML <title /> tag
-    case SET_TITLE: {
-      setTitle(action.title);
-      return {
-        ...state,
-        title: action.title,
       };
     }
 

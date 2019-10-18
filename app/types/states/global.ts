@@ -4,5 +4,4 @@ export default interface GlobalState {
     location: any;
   };
   mobileMenu: boolean;
-  title: string;
 }

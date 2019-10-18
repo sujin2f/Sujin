@@ -7,5 +7,3 @@ export type SET_LOCATION = typeof SET_LOCATION;
 // global
 export const SET_MOBILE_MENU = 'sujin/v2/global/SET_MOBILE_MENU';
 export type SET_MOBILE_MENU = typeof SET_MOBILE_MENU;
-export const SET_TITLE = 'sujin/v2/global/SET_TITLE';
-export type SET_TITLE = typeof SET_TITLE;

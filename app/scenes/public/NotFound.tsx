@@ -1,4 +1,5 @@
-import { STORE } from 'app/constants/common';
+import TitleController from 'app/types/title';
+
 import PageHeader from 'app/components/layout/PageHeader';
 import Public from 'app/scenes/public';
 import { isMobile } from 'app/utils/common';
@@ -7,21 +8,10 @@ import DEFAULT_BACKGROUND from '../../../assets/images/background/404.jpg';
 import DEFAULT_BACKGROUND_MOBILE from '../../../assets/images/background/404-mobile.jpg';
 
 const { Component } = wp.element;
-const { withDispatch, withSelect } = wp.data;
-const { compose } = wp.compose;
 
-interface Props {
-  // select
-  title: string;
-  // props
-  setTitle(title: string): void;
-}
-
-class NotFound extends Component<Props> {
+export default class NotFound extends Component {
   render(): JSX.Element {
-    if (this.props.title !== 'Not Found') {
-      this.props.setTitle('Not Found');
-    }
+    TitleController.getInstance().setTitle('Not Found');
 
     return (
       <Public className="stretched-background hide-footer template-404">
@@ -33,15 +23,3 @@ class NotFound extends Component<Props> {
     );
   }
 }
-
-const mapStateToProps = withSelect((select) => ({
-  title: select(STORE).getTitle(),
-}));
-
-const mapDispatchToProps = withDispatch((dispatch) => ({
-  setTitle: (title: string): void => {
-    dispatch(STORE).setTitle(title);
-  },
-}));
-
-export default compose([mapStateToProps, mapDispatchToProps])(NotFound);

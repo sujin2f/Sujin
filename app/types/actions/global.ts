@@ -1,8 +1,6 @@
 import {
   SET_HISTORY,
   SET_LOCATION,
-
-  SET_TITLE,
   SET_MOBILE_MENU,
 } from 'app/constants/redux';
 
@@ -16,17 +14,11 @@ export interface SetLocation {
   location: any;
 }
 
-// Set HTML <title /> tag
-export interface SetTitle {
-  type: SET_TITLE;
-  title: string;
-}
-
 // Mobile Menu
 export interface SetMobileMenu {
   type: SET_MOBILE_MENU;
   status: string | boolean;
 }
 
-type GlobalActions = SetHistory | SetLocation | SetTitle | SetMobileMenu;
+type GlobalActions = SetHistory | SetLocation | SetMobileMenu;
 export default GlobalActions;

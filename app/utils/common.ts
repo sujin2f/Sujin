@@ -66,8 +66,4 @@ export const backgroundImageStyle = (image): { [key: string]: string } => {
   return (image && { backgroundImage: `url(${image})` }) || {};
 };
 
-export const setTitle = (title): void => {
-  document.title = title;
-};
-
 /* eslint-enable import/prefer-default-export */

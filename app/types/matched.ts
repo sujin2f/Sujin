@@ -23,11 +23,22 @@ export class MatchedItem {
     this.day = parseInt(data.day, 10);
     this.page = parseInt(data.page, 10);
   }
+
+  hasChanged(matchedItem: MatchedItem): boolean {
+    return matchedItem.slug !== this.slug ||
+      matchedItem.category !== this.category ||
+      matchedItem.tag !== this.tag ||
+      matchedItem.search !== this.search ||
+      matchedItem.year !== this.year ||
+      matchedItem.month !== this.month ||
+      matchedItem.day !== this.day ||
+      matchedItem.page !== this.page;
+  }
 }
 
-export const empty: MatchedItem = new MatchedItem({});
+const emptyMatched: MatchedItem = new MatchedItem({});
 
-export class MatchedController {
+export default class MatchedController {
   static instance: MatchedController;
 
   protected matched: MatchedItem;
@@ -39,12 +50,16 @@ export class MatchedController {
     return this.instance;
   }
 
-  public setMatched(matched: MatchedItem): void {
-    this.matched = matched;
+  public setMatched(matched?: MatchedItem): void {
+    if (matched) {
+      this.matched = matched;
+    } else {
+      this.matched = emptyMatched;
+    }
   }
 
   public getMatched(): MatchedItem {
-    return this.matched;
+    return this.matched || emptyMatched;
   }
 
   static parseMatched(path: string, url: string): MatchedItem {

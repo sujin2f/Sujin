@@ -1,5 +1,7 @@
+import hash from 'object-hash';
+
 import { createBrowserHistory } from 'history';
-import { empty, MatchedController } from 'app/types/matched';
+import MatchedController, { MatchedItem } from 'app/types/matched';
 import { STORE } from 'app/constants/common';
 import { scrollTo } from 'app/utils/common';
 
@@ -22,23 +24,73 @@ interface State {
   mounted: boolean;
 }
 
+const mapStateToProps = withSelect((select) => ({
+  location: select(STORE).getLocation(),
+}));
+
+const mapDispatchToProps = withDispatch((dispatch) => ({
+  setHistory: (history): void => dispatch(STORE).setHistory(history),
+  setLocation: (location): void => dispatch(STORE).setLocation(location),
+  setMobileMenuFalse: (): void => dispatch(STORE).setMobileMenu(false),
+}));
+
 class Router extends Component<Props, State> {
   constructor(props: Props) {
-    console.log('constructor');
     super(props);
     this.state = { mounted: false };
-    this.setHistory = this.setHistory.bind(this);
     this.getValidChild = this.getValidChild.bind(this);
+    this.prepareHistory = this.prepareHistory.bind(this);
   }
 
   componentDidMount(): void {
-    console.log('componentDidMount');
-    this.setHistory();
+    this.prepareHistory();
     this.setState({ mounted: true });
   }
 
-  setHistory(): void {
-    console.log('setHistory');
+  getValidChild(): Array<JSX.Element> {
+    const {
+      children,
+      location,
+      // setMatched,
+    } = this.props;
+
+    let validChild = null;
+    // Previous Matched
+    const matched = MatchedController.getInstance().getMatched();
+    children.some((child) => {
+      const parsed: MatchedItem = MatchedController.parseMatched(child.props.path, location.pathname);
+
+      // Not Matched -- maybe the next one
+      if (!parsed.matched) {
+        return false;
+      }
+
+      // Not Matched (404)
+      if (!child.props.path) {
+        validChild = child;
+        return true;
+      }
+
+      // matched was not yet set
+      if (!matched.matched) {
+        MatchedController.getInstance().setMatched(parsed);
+      }
+
+      console.log(parsed);
+
+      validChild = child;
+      validChild.props = {
+        ...validChild.props,
+        matched: parsed,
+        componentHash: hash(new Date().getTime()),
+      };
+      return true;
+    });
+
+    return [validChild];
+  }
+
+  prepareHistory(): void {
     const {
       setHistory,
       setLocation,
@@ -58,45 +110,9 @@ class Router extends Component<Props, State> {
         setMobileMenuFalse();
         setHistory(history);
         setLocation(location);
-        MatchedController.getInstance().setMatched(empty);
+        MatchedController.getInstance().setMatched();
       }
     });
-  }
-
-  getValidChild(): Array<JSX.Element> {
-    console.log('getValidChild');
-    const {
-      children,
-      location,
-      // setMatched,
-    } = this.props;
-
-    let validChild = null;
-    const matched = MatchedController.getInstance().getMatched() || empty;
-    console.log(matched);
-
-    children.some((child) => {
-      const parsed = MatchedController.parseMatched(child.props.path, location.pathname);
-      console.log(parsed);
-
-      if (!parsed.matched) {
-        return false;
-      }
-
-      if (!child.props.path) {
-        validChild = child;
-        return true;
-      }
-
-      if (!matched.matched) {
-        MatchedController.getInstance().setMatched(parsed);
-      }
-
-      validChild = child;
-      return true;
-    });
-
-    return [validChild];
   }
 
   render(): JSX.Element | Array<JSX.Element> {
@@ -107,15 +123,5 @@ class Router extends Component<Props, State> {
     return this.getValidChild();
   }
 }
-
-const mapStateToProps = withSelect((select) => ({
-  location: select(STORE).getLocation(),
-}));
-
-const mapDispatchToProps = withDispatch((dispatch) => ({
-  setHistory: (history): void => dispatch(STORE).setHistory(history),
-  setLocation: (location): void => dispatch(STORE).setLocation(location),
-  setMobileMenuFalse: (): void => dispatch(STORE).setMobileMenu(false),
-}));
 
 export default compose([mapStateToProps, mapDispatchToProps])(Router);

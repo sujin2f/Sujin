@@ -1,6 +1,6 @@
 // TODO Title,
 
-import { empty, MatchedController } from 'app/types/matched';
+import MatchedController from 'app/types/matched';
 
 import ArchiveController, { Types } from 'app/types/rest/archive';
 
@@ -12,8 +12,14 @@ import NotFound from 'app/scenes/public/NotFound';
 
 const { Fragment, Component } = wp.element;
 
-class Archive extends Component {
-  static parseMatched(matched) {
+interface ArchiveMatched {
+  type: Types;
+  slug: string;
+  page: number;
+}
+
+export default class Archive extends Component {
+  static parseMatched(matched): ArchiveMatched {
     const type =
       (matched.category && Types.Category) ||
       (matched.tag && Types.Tag) ||
@@ -24,8 +30,8 @@ class Archive extends Component {
     return { type, slug, page };
   }
 
-  componentDidMount() {
-    const matched = MatchedController.getInstance().getMatched() || empty;
+  componentDidMount(): void {
+    const matched = MatchedController.getInstance().getMatched();
     const { type, slug, page } = Archive.parseMatched(matched);
     if (!slug) {
       return;
@@ -36,8 +42,8 @@ class Archive extends Component {
     }
   }
 
-  render() {
-    const matched = MatchedController.getInstance().getMatched() || empty;
+  render(): JSX.Element {
+    const matched = MatchedController.getInstance().getMatched();
     const { type, slug, page } = Archive.parseMatched(matched);
     if (!slug) {
       return null;
@@ -58,6 +64,7 @@ class Archive extends Component {
     }
 
     if (archive.isFailed()) {
+      // @ts-ignore
       return (<NotFound />);
     }
 
@@ -90,5 +97,3 @@ class Archive extends Component {
     );
   }
 }
-
-export default Archive;
