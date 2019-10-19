@@ -1,8 +1,7 @@
-// TODO Title,
-
 import RouteController from 'app/controllers/route';
-
-import ArchiveController, { Types } from 'app/types/rest/archive';
+import GlobalController from 'app/controllers/global';
+import ArchiveController from 'app/controllers/rest/archive';
+import Types from 'app/types/rest/archive';
 
 import Public from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
@@ -11,6 +10,7 @@ import Paging from 'app/components/archive/Paging';
 import NotFound from 'app/scenes/public/NotFound';
 
 const { Fragment, Component } = wp.element;
+const { compose } = wp.compose;
 
 interface ArchiveMatched {
   type: Types;
@@ -23,7 +23,7 @@ interface Props {
   componentHash: string;
 }
 
-export default class Archive extends Component<Props> {
+class Archive extends Component<Props> {
   static parseMatched(matched): ArchiveMatched {
     const type =
       (matched.category && Types.Category) ||
@@ -52,13 +52,12 @@ export default class Archive extends Component<Props> {
     }
 
     const { type, slug, page } = Archive.parseMatched(matched);
-    const archive = ArchiveController.getInstance(type, slug, page);
 
-    if (!slug || archive.isInit()) {
+    if (!slug) {
       return;
     }
 
-    archive.request(this);
+    ArchiveController.getInstance(type, slug, page).request(this);
   }
 
   render(): JSX.Element {
@@ -80,14 +79,13 @@ export default class Archive extends Component<Props> {
     }
 
     if (archive.isFailed()) {
-      // @ts-ignore
       return (<NotFound />);
     }
 
-    // @ts-ignore
+    GlobalController.getInstance().setTitle(`${type.toUpperCase()}: ${archive.title}`);
+
     return (
       <Public className="template-archive">
-
         <PageHeader
           backgroundImage={archive.background}
           prefix={type}
@@ -114,3 +112,5 @@ export default class Archive extends Component<Props> {
     );
   }
 }
+
+export default compose([])(Archive);

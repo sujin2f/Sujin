@@ -23,35 +23,15 @@ declare global {
   const { render } = wp.element;
   render(
     <Router>
-      {/*
-        // @ts-ignore */}
       <FrontPage path="/" />
-      {/*
-        // @ts-ignore */}
       <Archive path="/category/:category/page/:page?" />
-      {/*
-        // @ts-ignore */}
       <Archive path="/category/:category" />
-      {/*
-        // @ts-ignore */}
       <Archive path="/tag/:tag/page/:page?" />
-      {/*
-        // @ts-ignore */}
       <Archive path="/tag/:tag" />
-      {/*
-        // @ts-ignore */}
       <Archive path="/search/:search/page/:page?" />
-      {/*
-        // @ts-ignore */}
       <Archive path="/search/:search" />
-      {/*
-        // @ts-ignore */}
       <Post path="/:year([0-9]+)/:month([0-9]+)/:day([0-9]+)/:slug" />
-      {/*
-        // @ts-ignore */}
       <Page path="/:slug" />
-      {/*
-        // @ts-ignore */}
       <NotFound />
     </Router>,
     document.getElementById('app'),

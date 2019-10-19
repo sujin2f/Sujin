@@ -1,5 +1,6 @@
 // Types
-import FlickrController, { FlickrItem } from 'app/types/rest/flickr';
+import FlickrController from 'app/controllers/rest/flickr';
+import FlickrItem from 'app/types/rest/flickr';
 
 import Loading from 'app/components/layout/Loading';
 
@@ -7,10 +8,7 @@ const { Component } = wp.element;
 
 class Flickr extends Component {
   componentDidMount(): void {
-    const flickr = FlickrController.getInstance();
-    if (!flickr.isInit()) {
-      flickr.request(this);
-    }
+    FlickrController.getInstance().request(this);
   }
 
   render(): JSX.Element {

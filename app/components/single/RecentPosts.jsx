@@ -1,5 +1,5 @@
 // Types
-import { RecentPostController } from 'app/types/rest/post';
+import RecentPostController from 'app/controllers/rest/recent-post';
 
 import Loading from 'app/components/layout/Loading';
 import Item from 'app/components/archive/Item';
@@ -8,10 +8,7 @@ const { Component, Fragment } = wp.element;
 
 class RecentPosts extends Component {
   componentDidMount() {
-    const posts = RecentPostController.getInstance();
-    if (!posts.isInit()) {
-      posts.request(this);
-    }
+    RecentPostController.getInstance().request(this);
   }
 
   render() {

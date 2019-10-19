@@ -60,7 +60,7 @@ class Public extends Component<Props, State> {
           {children}
         </main>
 
-        <footer>
+        <footer itemType="https://schema.org/WPFooter">
           <Footer />
         </footer>
       </div>

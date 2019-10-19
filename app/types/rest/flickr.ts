@@ -1,8 +1,6 @@
-/* eslint-disable max-classes-per-file */
-import { IRestItem } from 'app/types/rest/base.d';
-import RestController from 'app/types/rest/base';
+import { RestItem } from 'app/types/rest/base';
 
-export class FlickrItem implements IRestItem {
+export default class FlickrItem implements RestItem {
   title: string;
   link: string;
   media: {
@@ -23,19 +21,3 @@ export class FlickrItem implements IRestItem {
     return new FlickrItem(data);
   }
 }
-
-/*
- * Flickr Controller
- */
-export default class FlickrController extends RestController<FlickrItem> {
-  static instance: FlickrController;
-  protected restUrl = '/wp-json/sujin/v1/flickr/';
-
-  static getInstance(): FlickrController {
-    if (!this.instance) {
-      this.instance = new FlickrController(FlickrItem);
-    }
-    return this.instance;
-  }
-}
-/* eslint-enable max-classes-per-file */

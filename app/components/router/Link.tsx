@@ -1,11 +1,9 @@
+import RouteController from 'app/controllers/route';
+
 const { compose } = wp.compose;
 const { Component } = wp.element;
 
 interface Props {
-  // select
-  location;
-  history;
-  // props
   to: string;
   target: string;
   id: string;
@@ -20,36 +18,14 @@ interface Props {
 }
 
 class Link extends Component<Props> {
-  constructor(props: Props) {
-    super(props);
-    this.pushHash = this.pushHash.bind(this);
-  }
-
-  pushHash(e, target: string): void {
-    if (target === '_blank') {
-      return;
-    }
-
-    const {
-      to,
-      history,
-      location: {
-        origin,
-      },
-    } = this.props;
-    history.push(to.replace(origin, ''));
-    e.preventDefault();
-  }
-
   render(): JSX.Element {
+    const { to, target } = this.props;
     const {
-      to,
-      target,
       id,
       className,
       dangerouslySetInnerHTML,
       children,
-      onClick = (e): void => this.pushHash(e, target),
+      onClick = (e): void => RouteController.getInstance().pushHash(e, to, target),
       onMouseOver,
       onMouseLeave,
       onFocus,

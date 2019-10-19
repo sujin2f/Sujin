@@ -1,6 +1,6 @@
 /* eslint-disable max-classes-per-file */
-import { IRestItem } from 'app/types/rest/base.d';
-import RestController from 'app/types/rest/base';
+
+import { RestItem } from 'app/types/rest/base';
 
 class Term {
   readonly id: number;
@@ -79,7 +79,7 @@ class Related extends PrevNext {
   }
 }
 
-export default class Post extends Related implements IRestItem {
+export default class Post extends Related implements RestItem {
   readonly content: string;
   readonly postType: string;
   readonly prevnext: {
@@ -106,59 +106,4 @@ export default class Post extends Related implements IRestItem {
   }
 }
 
-/*
- * Post Controller
- */
-export class PostController extends RestController<Post> {
-  static instance: {
-    [slug: string]: PostController;
-  } = {};
-  protected entity: Post;
-
-  /*
-   * Get multiton object
-   */
-  static getInstance(slug: string): PostController {
-    if (!PostController.instance[slug]) {
-      PostController.instance[slug] = new PostController(Post);
-      PostController.instance[slug].restUrl = `/wp-json/sujin/v1/posts/?slug=${slug}`;
-    }
-    return PostController.instance[slug];
-  }
-
-  protected postResponse(response): void {
-    this.entity = this.item.create(response.data);
-  }
-
-  public setFromPost(post: Post): void {
-    this.init = true;
-    this.entity = post;
-  }
-
-  public getItem(): Post {
-    return this.entity;
-  }
-}
-
-/*
- * Recent Post Controller
- */
-export class RecentPostController extends RestController<Post> {
-  static instance: RecentPostController;
-  protected entity: Array<Post>;
-  protected restUrl = '/wp-json/sujin/v1/posts/?per_page=4';
-
-  static getInstance(): RecentPostController {
-    if (!this.instance) {
-      this.instance = new RecentPostController(Post);
-    }
-    return this.instance;
-  }
-
-  protected postResponse(response): void {
-    super.postResponse(response);
-
-    this.entities.map((entity: Post) => PostController.getInstance(entity.slug).setFromPost(entity));
-  }
-}
-/* eslint-enable max-classes-per-file */
+/* eslint-enable */

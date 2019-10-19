@@ -22,13 +22,20 @@ const dataGetPaging = [
 ];
 */
 
+/*
 describe.each(dataGetPaging)(
   'getPaging()',
   (totalPages, currentPage, offset, expected) => {
+*/
 /*
     test(`getPaging ${totalPages} ${currentPage} ${offset}`, () => {
       expect(getPaging(totalPages, currentPage, offset)).toStrictEqual(expected);
     });
 */
+/*
   },
 );
+*/
+
+test('Match Root', () => {
+});

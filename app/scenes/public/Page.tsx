@@ -1,7 +1,6 @@
 import RouteController from 'app/controllers/route';
 import GlobalController from 'app/controllers/global';
-
-import { PostController } from 'app/types/rest/post';
+import PostController from 'app/controllers/rest/post';
 
 import Public from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
@@ -14,13 +13,14 @@ import DEFAULT_BACKGROUND from '../../../assets/images/background/category.jpg';
 import DEFAULT_BACKGROUND_MOBILE from '../../../assets/images/background/category-mobile.jpg';
 
 const { Component } = wp.element;
+const { compose } = wp.compose;
 
 interface Props {
   matched;
   componentHash: string;
 }
 
-export default class Page extends Component<Props> {
+class Page extends Component<Props> {
   constructor(props: Props) {
     super(props);
     this.request = this.request.bind(this);
@@ -32,19 +32,12 @@ export default class Page extends Component<Props> {
   request(): void {
     const { matched } = this.props;
 
-    // Check if Matched has changed
-    if (!matched.hasChanged(RouteController.getInstance().getMatched())) {
+    // Check if Matched has changed || Post doesn't exist
+    if (!matched.hasChanged(RouteController.getInstance().getMatched()) || !matched.slug) {
       return;
     }
 
-    const post = PostController.getInstance(matched.slug);
-
-    // Post doesn't exist
-    if (!matched.slug || post.isInit()) {
-      return;
-    }
-
-    post.request(this);
+    PostController.getInstance(matched.slug).request(this);
   }
 
   render(): JSX.Element {
@@ -65,7 +58,6 @@ export default class Page extends Component<Props> {
     }
 
     if (post.isFailed()) {
-      // @ts-ignore
       return (<NotFound />);
     }
 
@@ -81,7 +73,6 @@ export default class Page extends Component<Props> {
         DEFAULT_BACKGROUND_MOBILE,
       );
 
-    // @ts-ignore
     return (
       <Public className="template-single">
         <PageHeader
@@ -97,3 +88,5 @@ export default class Page extends Component<Props> {
     );
   }
 }
+
+export default compose([])(Page);

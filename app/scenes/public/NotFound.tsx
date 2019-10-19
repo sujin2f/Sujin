@@ -8,12 +8,12 @@ import DEFAULT_BACKGROUND from '../../../assets/images/background/404.jpg';
 import DEFAULT_BACKGROUND_MOBILE from '../../../assets/images/background/404-mobile.jpg';
 
 const { Component } = wp.element;
+const { compose } = wp.compose;
 
-export default class NotFound extends Component {
+class NotFound extends Component {
   render(): JSX.Element {
     GlobalController.getInstance().setTitle('Not Found');
 
-    // @ts-ignore
     return (
       <Public className="stretched-background hide-footer template-404">
         <PageHeader backgroundImage={isMobile() ? DEFAULT_BACKGROUND : DEFAULT_BACKGROUND_MOBILE}>
@@ -24,3 +24,5 @@ export default class NotFound extends Component {
     );
   }
 }
+
+export default compose([])(NotFound);

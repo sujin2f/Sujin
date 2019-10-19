@@ -1,12 +1,13 @@
-const { parseMatched } = require('../../../app/utils/router');
+import RouteController from 'app/controllers/route';
 
 test('Match Root', () => {
-  const matched = parseMatched( '/', '/' );
+  const matched = RouteController.getInstance().parseMatched('/');
   expect(matched.matched).toEqual(true);
 });
 
 test('Match Post', () => {
-  const matched = parseMatched( '/:year([0-9]+)/:month([0-9]+)/:day([0-9]+)/:slug', '/2019/03/07/test-post' );
+  RouteController.getInstance().history.push('/2019/03/07/test-post');
+  const matched = RouteController.getInstance().parseMatched('/:year([0-9]+)/:month([0-9]+)/:day([0-9]+)/:slug');
   expect(matched.year).toEqual(2019);
   expect(matched.month).toEqual(3);
   expect(matched.day).toEqual(7);
@@ -14,12 +15,14 @@ test('Match Post', () => {
 });
 
 test('Match Category w/o page', () => {
-  const matched = parseMatched( '/category/:category', '/category/cat-01' );
+  RouteController.getInstance().history.push('/category/cat-01');
+  const matched = RouteController.getInstance().parseMatched('/category/:category');
   expect(matched.category).toEqual('cat-01');
 });
 
 test('Match Category w/ page', () => {
-  const matched = parseMatched( '/category/:category/page/:page?', '/category/cat-01/page/1' );
+  RouteController.getInstance().history.push('/category/cat-01/page/1');
+  const matched = RouteController.getInstance().parseMatched('/category/:category/page/:page?');
   expect(matched.category).toEqual('cat-01');
   expect(matched.page).toEqual(1);
 });

@@ -1,14 +1,17 @@
 // Replace with CSS::hover
-import MenuController, { MenuItem } from 'app/types/rest/menu';
+import MenuController from 'app/controllers/rest/menu';
+import MenuItem from 'app/types/rest/menu';
 
 import Link from 'app/components/router/Link';
 
 const { Component } = wp.element;
+const { compose } = wp.compose;
 
 interface Props {
   id: string;
   slug: string;
   className?: string;
+  menu: Array<MenuItem>;
 }
 
 interface State {
@@ -28,10 +31,7 @@ class Menu extends Component<Props, State> {
   }
 
   componentDidMount(): void {
-    const menu: MenuController = MenuController.getInstance(this.props.slug);
-    if (!menu.isInit()) {
-      menu.request(this);
-    }
+    MenuController.getInstance(this.props.slug).request(this);
   }
 
   showChildren(id: number): void {
@@ -106,4 +106,4 @@ class Menu extends Component<Props, State> {
   }
 }
 
-export default Menu;
+export default compose([])(Menu);
