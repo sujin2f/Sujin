@@ -2,7 +2,7 @@ import ComponentMock from '../component.mock';
 import mock from '../axios.mock';
 import data from './flickr.test.data';
 
-import FlickrController, { FlickrItem } from 'app/types/rest/flickr';
+import FlickrController from 'app/controllers/rest/flickr';
 
 mock.onGet('/wp-json/sujin/v1/flickr/').reply(200, data);
 
