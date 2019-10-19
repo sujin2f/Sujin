@@ -21,12 +21,3 @@ include_once( get_stylesheet_directory() . '/autoload.php' );
 include_once( get_stylesheet_directory() . '/vendor/sujin/wp-express/autoload.php' );
 
 Sujin\Wordpress\Theme\Sujin\Bootstrap::get_instance();
-
-/*
-add_action( 'wp_enqueue_scripts', 'this_wp_enqueue_scripts' );
-function this_wp_enqueue_scripts() {
-	$scripts = wp_scripts();
-	var_dump(array_keys($scripts->registered));
-	die;
-}
-*/
