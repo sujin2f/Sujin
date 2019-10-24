@@ -73,7 +73,8 @@ final class Assets {
 
 		// Remove dependancies to minimize script load
 		$scripts = wp_scripts();
-		$scripts->registered['wp-shortcode']->deps = array( 'lodash' );
+
+		$scripts->registered['wp-shortcode']->deps  = array( 'lodash' );
 		$scripts->registered['wp-components']->deps = array(
 			'lodash',
 			'wp-compose',
