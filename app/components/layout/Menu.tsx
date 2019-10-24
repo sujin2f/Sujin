@@ -30,10 +30,6 @@ class Menu extends Component<Props, State> {
     };
   }
 
-  componentDidMount(): void {
-    MenuController.getInstance(this.props.slug).request(this);
-  }
-
   showChildren(id: number): void {
     this.setState((prevState: State) => ({
       hover: {
@@ -53,9 +49,8 @@ class Menu extends Component<Props, State> {
   }
 
   render(): JSX.Element {
-    const menu: MenuController = MenuController.getInstance(this.props.slug);
-
-    if (menu.isLoading() || !menu.isInit() || menu.isFailed()) {
+    const menu = MenuController.getInstance(this.props.slug).addComponent(this).request();
+    if (!menu.init || menu.loading || menu.failed) {
       return null;
     }
 
@@ -64,7 +59,7 @@ class Menu extends Component<Props, State> {
         id={this.props.id}
         className={`${this.props.className} ${this.props.slug} menu`}
       >
-        {menu.getItems().map((item: MenuItem) => (
+        {menu.entities.map((item: MenuItem) => (
           <div
             onMouseOver={(): void => this.showChildren(item.ID)}
             onMouseLeave={(): void => this.hideChildren(item.ID)}

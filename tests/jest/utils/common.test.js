@@ -1,33 +1,9 @@
 const {
-  getScrolled,
   isMobile,
   getRenderedText,
   backgroundImageStyle,
   scrollTo,
 } = require('../../../app/utils/common');
-
-/*
- * Data Provider for getScrolled
- * @param scrollY
- * @param scrolled before
- * @param expected
- */
-const dataGetScrolled = [
-  [100, false, 'scrolled'],
-  [100, true, false],
-  [0, false, false],
-  [0, true, ''],
-];
-
-describe.each(dataGetScrolled)(
-  'getScrolled()',
-  (scrollY, scrolled, expected) => {
-    test(`Scrolled ${scrollY}, ${scrolled}`, () => {
-      window['scrollY'] = scrollY;
-      expect(getScrolled(scrolled)).toBe(expected);
-    });
-  },
-);
 
 /*
  * Data Provider for isMobile

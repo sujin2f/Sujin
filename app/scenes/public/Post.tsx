@@ -1,75 +1,36 @@
-import RouteController from 'app/controllers/route';
 import GlobalController from 'app/controllers/global';
 import PostController from 'app/controllers/rest/post';
 
+import Base from 'app/scenes/public/Base';
 import Public from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
 import Content from 'app/components/single/Content';
 import RecentPosts from 'app/components/single/RecentPosts';
 import RelatedPosts from 'app/components/single/RelatedPosts';
 import PrevNext from 'app/components/single/PrevNext';
-import NotFound from 'app/scenes/public/NotFound';
 
 import { parseExImage } from 'app/utils/common';
 
 import DEFAULT_BACKGROUND from '../../../assets/images/background/category.jpg';
 import DEFAULT_BACKGROUND_MOBILE from '../../../assets/images/background/category-mobile.jpg';
 
-const { Component } = wp.element;
 const { compose } = wp.compose;
 
-interface Props {
-  matched;
-  componentHash: string;
-}
-
-class Post extends Component<Props> {
-  constructor(props: Props) {
-    super(props);
-    this.request = this.request.bind(this);
-  }
-
-  /*
-   * Request Post
-   */
-  request(): void {
-    const { matched } = this.props;
-
-    // Check if Matched has changed || Post doesn't exist
-    if (!matched.hasChanged(RouteController.getInstance().getMatched()) || !matched.slug) {
-      return;
-    }
-
-    PostController.getInstance(matched.slug).request(this);
-  }
-
+class Post extends Base {
   render(): JSX.Element {
-    this.request();
-    const { matched } = this.props;
-    const post = PostController.getInstance(matched.slug);
+    const post = PostController.getInstance().addComponent(this).request();
+    const pendingComponent = this.getPendingComponent(post.init, post.loading, post.failed);
 
-    if (!post.isInit()) {
-      return null;
+    if (pendingComponent) {
+      return pendingComponent;
     }
 
-    if (post.isLoading()) {
-      return (
-        <Public className="stretched-background hide-footer">
-          <PageHeader isLoading />
-        </Public>
-      );
-    }
-
-    if (post.isFailed()) {
-      return (<NotFound />);
-    }
-
-    GlobalController.getInstance().setTitle(post.getItem().title);
+    GlobalController.getInstance().setTitle(post.entity.title);
 
     const backgroundImage =
       parseExImage(
-        post.getItem().meta.background,
-        post.getItem().thumbnail,
+        post.entity.meta.background,
+        post.entity.thumbnail,
         'medium_large',
         'post-thumbnail',
         DEFAULT_BACKGROUND,
@@ -80,19 +41,19 @@ class Post extends Component<Props> {
       <Public className="template-single">
         <PageHeader
           backgroundImage={backgroundImage}
-          title={post.getItem().title}
-          description={post.getItem().excerpt}
-          backgroundColor={post.getItem().meta['background-color']}
-          useBackgroundColor={post.getItem().meta['use-background-color']}
+          title={post.entity.title}
+          description={post.entity.excerpt}
+          backgroundColor={post.entity.meta['background-color']}
+          useBackgroundColor={post.entity.meta['use-background-color']}
         />
 
         <section className="row">
-          <Content post={post.getItem()} className="large-9 medium-12">
+          <Content post={post.entity} className="large-9 medium-12">
             <aside id="single-footer">
-              <PrevNext prevnext={post.getItem().prevnext} />
+              <PrevNext prevnext={post.entity.prevnext} />
 
               <section id="related-posts">
-                <RelatedPosts items={post.getItem().related} />
+                <RelatedPosts items={post.entity.related} />
               </section>
             </aside>
           </Content>

@@ -1,7 +1,8 @@
 import GlobalController from 'app/controllers/global';
 
-import PageHeader from 'app/components/layout/PageHeader';
 import Public from 'app/scenes/public';
+
+import PageHeader from 'app/components/layout/PageHeader';
 import { isMobile } from 'app/utils/common';
 
 import DEFAULT_BACKGROUND from '../../../assets/images/background/404.jpg';

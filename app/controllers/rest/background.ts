@@ -1,6 +1,5 @@
 import { isMobile } from 'app/utils/common';
 
-// Types
 import BackgroundItem from 'app/types/rest/background';
 import RestController from 'app/controllers/rest/base';
 
@@ -9,13 +8,16 @@ import DEFAULT_BG_MOBILE from '../../../assets/images/background/backup-backgrou
 
 export default class BackgroundController extends RestController<BackgroundItem> {
   static instance: BackgroundController;
-  protected restUrl = '/wp-json/sujin/v1/media/random/';
 
   static getInstance(): BackgroundController {
     if (!this.instance) {
       this.instance = new BackgroundController(BackgroundItem);
     }
     return this.instance;
+  }
+
+  protected getRestUrl(): string {
+    return '/wp-json/sujin/v1/media/random/';
   }
 
   public getBackgroundImage(): string {
@@ -29,5 +31,15 @@ export default class BackgroundController extends RestController<BackgroundItem>
 
     const index = Math.floor(Math.random() * this.entities.length);
     return isMobile() ? this.entities[index].mobile : this.entities[index].desktop;
+  }
+
+  public addComponent(component: ReactComponent): BackgroundController {
+    super.addComponent(component);
+    return this;
+  }
+
+  public request(): BackgroundController {
+    super.request();
+    return this;
   }
 }

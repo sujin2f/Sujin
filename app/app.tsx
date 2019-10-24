@@ -24,14 +24,10 @@ declare global {
   render(
     <Router>
       <FrontPage path="/" />
-      <Archive path="/category/:category/page/:page?" />
-      <Archive path="/category/:category" />
-      <Archive path="/tag/:tag/page/:page?" />
-      <Archive path="/tag/:tag" />
-      <Archive path="/search/:search/page/:page?" />
-      <Archive path="/search/:search" />
       <Post path="/:year([0-9]+)/:month([0-9]+)/:day([0-9]+)/:slug" />
       <Page path="/:slug" />
+      <Archive path="/:type/:slug" />
+      <Archive path="/:type/:slug/page/:page?" />
       <NotFound />
     </Router>,
     document.getElementById('app'),

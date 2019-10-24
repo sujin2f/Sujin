@@ -67,7 +67,7 @@ final class Assets {
 		wp_enqueue_script( 'sujin-app-vendor' );
 		wp_enqueue_style( 'sujin-app' );
 
-		wp_enqueue_style( 'wp-block-library' );
+		wp_dequeue_style( 'wp-block-library' );
 		wp_dequeue_script( 'wp-block-library' );
 	}
 }

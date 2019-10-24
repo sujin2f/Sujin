@@ -2,11 +2,13 @@
  * Archive Controller
  */
 
-// Types
-import Types from 'app/types/rest/archive';
+import hash from 'object-hash';
+
+import { Types } from 'app/types/rest/archive';
 import Post from 'app/types/rest/post';
 import RestController from 'app/controllers/rest/base';
 import PostController from 'app/controllers/rest/post';
+import RouteController from 'app/controllers/route';
 
 // Utiles
 import { isMobile } from 'app/utils/common';
@@ -20,44 +22,45 @@ import DEFAULT_BACKGROUND_MOBILE from '../../../assets/images/background/categor
  */
 export default class ArchiveController extends RestController<Post> {
   static instance: {
-    [type: string]: {
-      [slug: string]: {
-        [page: number]: ArchiveController;
-      };
-    };
+    [hash: string]: ArchiveController;
   } = {};
 
   private readonly defaultBackground = isMobile() ? DEFAULT_BACKGROUND_MOBILE : DEFAULT_BACKGROUND;
   private readonly pagingOffset: number = isMobile() ? 1 : 5;
-  type: Types;
-  slug: string;
-  page: number;
+
+  public readonly type: Types;
+  public readonly slug: string;
+  public readonly page: number;
+  public background: string;
+  public description: string;
+  public title: string;
+
   private totalPages: number;
-  background: string;
-  description: string;
-  title: string;
+
+  constructor(itemBuilder) {
+    super(itemBuilder);
+    const matched = RouteController.getInstance().getMatched();
+    this.type = matched.type;
+    this.slug = matched.slug;
+    this.page = matched.page;
+  }
 
   /*
    * Get multiton object
    */
-  static getInstance(type: Types, slug: string, page: number): ArchiveController {
-    if (!ArchiveController.instance[type]) {
-      ArchiveController.instance[type] = {};
+  static getInstance(): ArchiveController {
+    const matched = RouteController.getInstance().getMatched();
+    const key = hash(matched);
+
+    if (!ArchiveController.instance[key]) {
+      ArchiveController.instance[key] = new ArchiveController(Post);
     }
 
-    if (!ArchiveController.instance[type][slug]) {
-      ArchiveController.instance[type][slug] = {};
-    }
+    return ArchiveController.instance[key];
+  }
 
-    if (!ArchiveController.instance[type][slug][page]) {
-      ArchiveController.instance[type][slug][page] = new ArchiveController(Post);
-      ArchiveController.instance[type][slug][page].restUrl = `/wp-json/sujin/v1/posts/?list_type=${type}&keyword=${slug}&page=${page}&per_page=12`;
-      ArchiveController.instance[type][slug][page].type = type;
-      ArchiveController.instance[type][slug][page].slug = slug;
-      ArchiveController.instance[type][slug][page].page = page;
-    }
-
-    return ArchiveController.instance[type][slug][page];
+  protected getRestUrl(): string {
+    return `/wp-json/sujin/v1/posts/?list_type=${this.type}&keyword=${this.slug}&page=${this.page}&per_page=12`;
   }
 
   protected postResponse(response): void {
@@ -99,5 +102,15 @@ export default class ArchiveController extends RestController<Post> {
     }
 
     return entities;
+  }
+
+  public addComponent(component: ReactComponent): ArchiveController {
+    super.addComponent(component);
+    return this;
+  }
+
+  public request(): ArchiveController {
+    super.request();
+    return this;
   }
 }

@@ -1,36 +1,47 @@
-import RestController from 'app/controllers/rest/base';
-import Post from 'app/types/rest/post';
-
 /*
  * Post Controller
  */
+
+import RestController from 'app/controllers/rest/base';
+import Post from 'app/types/rest/post';
+import RouteController from 'app/controllers/route';
+
 export default class PostController extends RestController<Post> {
   static instance: {
-    [slug: string]: PostController;
+    [hash: string]: PostController;
   } = {};
-  protected entity: Post;
+  private readonly slug: string;
 
-  /*
-   * Get multiton object
-   */
-  static getInstance(slug: string): PostController {
-    if (!PostController.instance[slug]) {
-      PostController.instance[slug] = new PostController(Post);
-      PostController.instance[slug].restUrl = `/wp-json/sujin/v1/posts/?slug=${slug}`;
-    }
-    return PostController.instance[slug];
+  constructor(itemBuilder, slug: string) {
+    super(itemBuilder);
+    this.slug = slug;
+  }
+
+  protected getRestUrl(): string {
+    return `/wp-json/sujin/v1/posts/?slug=${this.slug}`;
   }
 
   protected postResponse(response): void {
-    this.entity = this.item.create(response.data);
+    this.entity = this.itemBuilder.create(response.data);
   }
 
+  /*
+   * Post can be made from archive
+   */
   public setFromPost(post: Post): void {
     this.init = true;
     this.entity = post;
   }
 
-  public getItem(): Post {
-    return this.entity;
+  /*
+   * Get multiton object
+   */
+  static getInstance(slug?: string): PostController {
+    const postSlug = slug || RouteController.getInstance().getMatched().slug;
+
+    if (!PostController.instance[postSlug]) {
+      PostController.instance[postSlug] = new PostController(Post, postSlug);
+    }
+    return PostController.instance[postSlug];
   }
 }

@@ -7,8 +7,7 @@ import FlickrController from 'app/controllers/rest/flickr';
 mock.onGet('/wp-json/sujin/v1/flickr/').reply(200, data);
 
 test('FlickrController', () => {
-  const promise = FlickrController.getInstance().request(ComponentMock);
-
+  const promise = FlickrController.getInstance().request(ComponentMock).promise;
   return promise.then(() => {
     const entities = FlickrController.getInstance().getItems();
 

@@ -61,7 +61,8 @@
       { "extensions": [".jsx", ".tsx"] }
     ],
     "react/no-string-refs": "off",
-    "lines-between-class-members": "off"
+    "lines-between-class-members": "off",
+    "import/no-cycle": "off"
   },
   "overrides": [
     {

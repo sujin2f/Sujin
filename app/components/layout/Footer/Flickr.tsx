@@ -1,24 +1,12 @@
-// Types
 import FlickrController from 'app/controllers/rest/flickr';
 import FlickrItem from 'app/types/rest/flickr';
-
-import Loading from 'app/components/layout/Loading';
 
 const { Component } = wp.element;
 
 class Flickr extends Component {
-  componentDidMount(): void {
-    FlickrController.getInstance().request(this);
-  }
-
   render(): JSX.Element {
-    const flickr: FlickrController = FlickrController.getInstance();
-
-    if (flickr.isLoading()) {
-      return (<Loading />);
-    }
-
-    if (!flickr.isInit() || flickr.isFailed()) {
+    const flickr = FlickrController.getInstance().addComponent(this).request();
+    if (!flickr.init || flickr.loading || flickr.failed) {
       return null;
     }
 
@@ -27,7 +15,7 @@ class Flickr extends Component {
         <h1><span>Photo Stream</span></h1>
 
         <div className="row">
-          {flickr.getItems().map((item: FlickrItem) => (
+          {flickr.entities.map((item: FlickrItem) => (
             <div className="large-3 medium-4 small-3 columns" key={`flikr-${item.link}`}>
               <figure className="thumbnail">
                 <a href={item.link} title={item.title} target="_blank" rel="noopener noreferrer">

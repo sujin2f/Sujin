@@ -3,8 +3,6 @@ import GlobalController from 'app/controllers/global';
 import Header from 'app/components/layout/Header';
 import Footer from 'app/components/layout/Footer';
 
-import { getScrolled } from 'app/utils/common';
-
 const { Component } = wp.element;
 const { compose } = wp.compose;
 
@@ -14,44 +12,21 @@ interface Props {
   children: Array<JSX.Element>;
 }
 
-interface State {
-  scrolled: string;
-}
-
-class Public extends Component<Props, State> {
+class Public extends Component<Props> {
   constructor(public props: Props) {
     super(props);
-
-    // Scrolled Control
-    this.handleScroll = this.handleScroll.bind(this);
-    this.state = { scrolled: '' };
-    if (typeof window !== 'undefined') {
-      window.addEventListener('scroll', this.handleScroll);
-    }
-  }
-
-  // Scrolled Control
-  handleScroll(): void {
-    const { scrolled: scrolledOrigin } = this.state;
-    const scrolled = getScrolled(scrolledOrigin);
-
-    if (scrolled === false) {
-      return;
-    }
-
-    this.setState({ scrolled });
+    GlobalController.getInstance(this).setScroll();
   }
 
   render(): JSX.Element {
     const {
       children,
-      className = '',
+      className,
     } = this.props;
-    const { scrolled } = this.state;
-    const mobileMenu = GlobalController.getInstance().getMobileMenu();
+    const { scrollClass, mobileMenuClass } = GlobalController.getInstance(this);
 
     return (
-      <div id="wrapper" className={`${className} ${scrolled} ${mobileMenu}`}>
+      <div id="wrapper" className={`${className} ${scrollClass} ${mobileMenuClass}`}>
         <header itemType="http://schema.org/WPHeader">
           <Header />
         </header>

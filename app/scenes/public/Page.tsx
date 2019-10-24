@@ -1,72 +1,33 @@
-import RouteController from 'app/controllers/route';
 import GlobalController from 'app/controllers/global';
 import PostController from 'app/controllers/rest/post';
 
 import Public from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
 import Content from 'app/components/single/Content';
-import NotFound from 'app/scenes/public/NotFound';
+import Base from 'app/scenes/public/Base';
 
 import { parseExImage } from 'app/utils/common';
 
 import DEFAULT_BACKGROUND from '../../../assets/images/background/category.jpg';
 import DEFAULT_BACKGROUND_MOBILE from '../../../assets/images/background/category-mobile.jpg';
 
-const { Component } = wp.element;
 const { compose } = wp.compose;
 
-interface Props {
-  matched;
-  componentHash: string;
-}
-
-class Page extends Component<Props> {
-  constructor(props: Props) {
-    super(props);
-    this.request = this.request.bind(this);
-  }
-
-  /*
-   * Request Page
-   */
-  request(): void {
-    const { matched } = this.props;
-
-    // Check if Matched has changed || Post doesn't exist
-    if (!matched.hasChanged(RouteController.getInstance().getMatched()) || !matched.slug) {
-      return;
-    }
-
-    PostController.getInstance(matched.slug).request(this);
-  }
-
+class Page extends Base {
   render(): JSX.Element {
-    this.request();
-    const { matched } = this.props;
-    const post = PostController.getInstance(matched.slug);
+    const post = PostController.getInstance().addComponent(this).request();
+    const pendingComponent = this.getPendingComponent(post.init, post.loading, post.failed);
 
-    if (!post.isInit()) {
-      return null;
+    if (pendingComponent) {
+      return pendingComponent;
     }
 
-    if (post.isLoading()) {
-      return (
-        <Public className="stretched-background hide-footer">
-          <PageHeader isLoading />
-        </Public>
-      );
-    }
-
-    if (post.isFailed()) {
-      return (<NotFound />);
-    }
-
-    GlobalController.getInstance().setTitle(post.getItem().title);
+    GlobalController.getInstance().setTitle(post.entity.title);
 
     const backgroundImage =
       parseExImage(
-        post.getItem().meta.background,
-        post.getItem().thumbnail,
+        post.entity.meta.background,
+        post.entity.thumbnail,
         'medium_large',
         'post-thumbnail',
         DEFAULT_BACKGROUND,
@@ -77,12 +38,12 @@ class Page extends Component<Props> {
       <Public className="template-single">
         <PageHeader
           backgroundImage={backgroundImage}
-          title={post.getItem().title}
-          description={post.getItem().excerpt}
+          title={post.entity.title}
+          description={post.entity.excerpt}
         />
 
         <section className="row">
-          <Content post={post.getItem()} className="medium-12" />
+          <Content post={post.entity} className="medium-12" />
         </section>
       </Public>
     );

@@ -1,5 +1,3 @@
-import Scroll from 'react-scroll';
-
 declare global {
     interface Window {
       opera;
@@ -7,18 +5,6 @@ declare global {
 }
 
 /* eslint-disable import/prefer-default-export */
-
-export function getScrolled(scrolled: boolean): string | false {
-  if (window.scrollY > 80 && !scrolled) {
-    return 'scrolled';
-  }
-
-  if (window.scrollY <= 80 && scrolled) {
-    return '';
-  }
-
-  return false;
-}
 
 export function isMobile(): boolean {
   const userAgent = window.navigator.userAgent || window.navigator.vendor || window.opera;
@@ -46,7 +32,7 @@ export const parseExImage = (
 
 export function scrollTo(id = null): void {
   if (!id) {
-    Scroll.animateScroll.scrollTo(0, { duration: 500 });
+    window.scrollTo(0, 0);
     return;
   }
 
@@ -56,7 +42,7 @@ export function scrollTo(id = null): void {
   const clientTop = docElem.clientTop || body.clientTop || 0;
   const scrollTop = window.pageYOffset || docElem.scrollTop || body.scrollTop;
 
-  Scroll.animateScroll.scrollTo((box.top + scrollTop) - clientTop, { duration: 500 });
+  window.scrollTo((box.top + scrollTop) - clientTop, 0);
 }
 
 export const backgroundImageStyle = (image): { [key: string]: string } => {

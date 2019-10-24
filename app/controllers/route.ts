@@ -2,7 +2,6 @@
  * Route Controller
  *
  * Matched and history controller
- * TODO private constructor is allowed?
  */
 
 import pathToRegexp from 'path-to-regexp';
@@ -17,15 +16,12 @@ import { scrollTo } from 'app/utils/common';
 export default class RouteController {
   static instance: RouteController;
   private matched: MatchedItem = emptyMatched;
-  public history: History;
+  public readonly history: History = createBrowserHistory();
   private component;
 
   /* eslint-disable @typescript-eslint/no-explicit-any */
   private constructor(component: any) {
     this.component = component;
-
-    // Prep History
-    this.history = createBrowserHistory();
 
     this.history.listen((location, action: string) => {
       if (action === 'PUSH' || action === 'POP') {
@@ -62,6 +58,10 @@ export default class RouteController {
    * TODO check the path has never changed
    */
   public parseMatched(path: string): MatchedItem {
+    if (!path) {
+      return new MatchedItem({});
+    }
+
     const regExp = new RegExp(pathToRegexp(path));
     const matchedResult = regExp.exec(this.history.location.pathname);
     const pathname = path.split('/')
@@ -115,7 +115,6 @@ export default class RouteController {
       validChild = child;
       validChild.props = {
         ...validChild.props,
-        matched: parsed,
         componentHash: this.history.location.key,
       };
       return true;

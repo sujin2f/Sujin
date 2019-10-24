@@ -1,110 +1,49 @@
-import RouteController from 'app/controllers/route';
+// import RouteController from 'app/controllers/route';
 import GlobalController from 'app/controllers/global';
 import ArchiveController from 'app/controllers/rest/archive';
-import Types from 'app/types/rest/archive';
+// import { Types, ArchiveMatched } from 'app/types/rest/archive';
 
+import Base from 'app/scenes/public/Base';
 import Public from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
 import Item from 'app/components/archive/Item';
 import Paging from 'app/components/archive/Paging';
-import NotFound from 'app/scenes/public/NotFound';
 
-const { Fragment, Component } = wp.element;
+const { Fragment } = wp.element;
 const { compose } = wp.compose;
 
-interface ArchiveMatched {
-  type: Types;
-  slug: string;
-  page: number;
-}
-
-interface Props {
-  matched;
-  componentHash: string;
-}
-
-class Archive extends Component<Props> {
-  static parseMatched(matched): ArchiveMatched {
-    const type =
-      (matched.category && Types.Category) ||
-      (matched.tag && Types.Tag) ||
-      (matched.search && Types.Search);
-    const slug = matched[type];
-    const page = parseInt((matched && matched.page) || 1, 10);
-
-    return { type, slug, page };
-  }
-
-  constructor(props: Props) {
-    super(props);
-    this.request = this.request.bind(this);
-  }
-
-  /*
-   * Request Archive
-   */
-  request(): void {
-    const { matched } = this.props;
-
-    // Check if Matched has changed
-    if (!matched.hasChanged(RouteController.getInstance().getMatched())) {
-      return;
-    }
-
-    const { type, slug, page } = Archive.parseMatched(matched);
-
-    if (!slug) {
-      return;
-    }
-
-    ArchiveController.getInstance(type, slug, page).request(this);
-  }
-
+class Archive extends Base {
   render(): JSX.Element {
-    this.request();
-    const { matched } = this.props;
-    const { type, slug, page } = Archive.parseMatched(matched);
-    const archive = ArchiveController.getInstance(type, slug, page);
+    const archive = ArchiveController.getInstance().addComponent(this).request();
+    const pendingComponent = this.getPendingComponent(archive.init, archive.loading, archive.failed);
 
-    if (!archive.isInit()) {
-      return null;
+    if (pendingComponent) {
+      return pendingComponent;
     }
 
-    if (archive.isLoading()) {
-      return (
-        <Public className="stretched-background hide-footer">
-          <PageHeader isLoading />
-        </Public>
-      );
-    }
-
-    if (archive.isFailed()) {
-      return (<NotFound />);
-    }
-
-    GlobalController.getInstance().setTitle(`${type.toUpperCase()}: ${archive.title}`);
+    GlobalController.getInstance().setTitle(`${archive.type}: ${archive.title}`);
 
     return (
       <Public className="template-archive">
         <PageHeader
           backgroundImage={archive.background}
-          prefix={type}
+          prefix={archive.type}
           title={archive.title}
           description={archive.description.replace(/\+/g, ' ')}
         />
 
-        {archive.getItems() && archive.getItems().length > 0 && (
+        {archive.entities && archive.entities.length > 0 && (
           <Fragment>
             <section className="row post-grid">
-              {archive.getItems().map((item) => (
-                <Item item={item} key={`${type}-${slug}-${page}-${item.id}`} />
+              {archive.entities.map((item) => (
+                <Item item={item} key={`${archive.type}-${archive.slug}-${archive.page}-${item.id}`} />
               ))}
             </section>
 
             <Paging
               entities={archive.getPaging()}
-              currentPage={page}
-              urlPrefix={`/${type}/${slug}`}
+              currentPage={archive.page}
+              urlPrefix={`/${archive.type}/${archive.slug}`}
             />
           </Fragment>
         )}
