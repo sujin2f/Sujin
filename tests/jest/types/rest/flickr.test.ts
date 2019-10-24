@@ -1,5 +1,5 @@
-import ComponentMock from '../component.mock';
-import mock from '../axios.mock';
+import ComponentMock from '../../__mocks__/component.mock';
+import mock from '../../__mocks__/axios.mock';
 import data from './flickr.test.data';
 
 import FlickrController from 'app/controllers/rest/flickr';
@@ -7,9 +7,9 @@ import FlickrController from 'app/controllers/rest/flickr';
 mock.onGet('/wp-json/sujin/v1/flickr/').reply(200, data);
 
 test('FlickrController', () => {
-  const promise = FlickrController.getInstance().request(ComponentMock).promise;
+  const promise = FlickrController.getInstance().addComponent(ComponentMock).request().promise;
   return promise.then(() => {
-    const entities = FlickrController.getInstance().getItems();
+    const entities = FlickrController.getInstance().entities;
 
     expect(entities[0].title).toBe(data[0].title);
     expect(entities[1].title).toBe(data[1].title);

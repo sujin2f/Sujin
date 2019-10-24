@@ -17,13 +17,13 @@ export default class GlobalController {
   public scrollClass: Scrolled = Scrolled.No;
 
   /* eslint-disable @typescript-eslint/no-explicit-any */
-  private constructor(component: any) {
+  private constructor(component?: any) {
     this.component = component;
   }
   /* eslint-enable */
 
   public setScroll(): void {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && this.component) {
       window.addEventListener('scroll', () => {
         const scrolled = this.isScrolled();
 
@@ -71,7 +71,10 @@ export default class GlobalController {
     }
 
     this.mobileMenuClass = this.mobileMenuClass === MobileMenu.Yes ? MobileMenu.No : MobileMenu.Yes;
-    this.component.forceUpdate();
+
+    if (this.component) {
+      this.component.forceUpdate();
+    }
   }
 
   /* eslint-disable @typescript-eslint/no-explicit-any */

@@ -68,6 +68,8 @@ describe.each(dataBackgroundImageStyle)(
 );
 
 test('scrollTo', () => {
+  global.scrollTo = jest.fn();
+
   Element.prototype.getBoundingClientRect = jest.fn(() => {
       return {
           width: 120,

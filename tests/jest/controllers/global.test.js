@@ -1,4 +1,5 @@
 import GlobalController from 'app/controllers/global';
+import ComponentMock from '../__mocks__/component.mock';
 
 test('GlobalController: Mobile Menu', () => {
   const global = GlobalController.getInstance();
@@ -18,26 +19,3 @@ test('GlobalController: <head.title />', () => {
   global.setTitle('Sujin');
   expect(document.title).toBe('Sujin');
 });
-
-/*
- * Data Provider for getScrolled
- * @param scrollY
- * @param scrolled before
- * @param expected
- */
-const dataGetScrolled = [
-  [100, 'scrolled'],
-  [0, ''],
-];
-
-describe.each(dataGetScrolled)(
-  'GlobalController',
-  (scrollY, expected) => {
-    test(`Scrolled ${scrollY}`, () => {
-      const global = GlobalController.getInstance();
-      global.setScroll(() => {});
-      window['scrollY'] = scrollY;
-      expect(global.scrollClass).toBe(expected);
-    });
-  },
-);

@@ -48,14 +48,16 @@ test('[gist /], [carousel /], [tweet /] Content Parse Test', () => {
   expect(typeof parsed).toEqual('object');
   expect(parsed.length).toEqual(14);
 
+  console.log(parsed[5].type.name);
+
   expect(parsed[0].type).toEqual('section');
   expect(parsed[1].type.name).toEqual('Gist');
   expect(parsed[2].type).toEqual('section');
   expect(parsed[3].type.name).toEqual('Carousel');
   expect(parsed[4].type).toEqual('section');
-  expect(parsed[5].type.propTypes.onTweetLoadSuccess).toBeDefined();
+  expect(parsed[5].type.name).toEqual('TweetEmbed');
   expect(parsed[6].type).toEqual('section');
-  expect(parsed[7].type.propTypes.onTweetLoadSuccess).toBeDefined();
+  expect(parsed[7].type.name).toEqual('TweetEmbed');
   expect(parsed[8].type).toEqual('section');
   expect(parsed[9].type.name).toEqual('CaseTool');
   expect(parsed[10].type).toEqual('section');

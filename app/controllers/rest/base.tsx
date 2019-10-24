@@ -16,7 +16,7 @@ export default class RestController<T extends RestItem> {
   public entities: Array<T> = [];
   public entity: T;
   protected components: Array<ReactComponent> = [];
-  private promise: Promise<void>;
+  public promise: Promise<void>;
 
   constructor(itemBuilder) {
     this.itemBuilder = itemBuilder;
