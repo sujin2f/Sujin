@@ -10,7 +10,7 @@ class PrevNext extends Component {
 
     return (
       <nav id="prev-next">
-        {Object.keys(prevnext).map(key => {
+        {Object.keys(prevnext).map((key) => {
           if (!prevnext[key]) {
             return null;
           }

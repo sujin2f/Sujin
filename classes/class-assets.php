@@ -60,6 +60,10 @@ final class Assets {
 	}
 
 	public function enqueue_scripts() {
+		if ( is_admin() ) {
+			return;
+		}
+
 		wp_enqueue_script( 'wp-shortcode' );
 		wp_enqueue_script( 'wp-components' );
 
@@ -67,7 +71,17 @@ final class Assets {
 		wp_enqueue_script( 'sujin-app-vendor' );
 		wp_enqueue_style( 'sujin-app' );
 
-		wp_dequeue_style( 'wp-block-library' );
-
+		// Remove dependancies to minimize script load
+		$scripts = wp_scripts();
+		$scripts->registered['wp-shortcode']->deps = array( 'lodash' );
+		$scripts->registered['wp-components']->deps = array(
+			'lodash',
+			'wp-compose',
+			'wp-dom',
+			'wp-element',
+			'wp-url',
+			'wp-i18n',
+			'moment',
+		);
 	}
 }

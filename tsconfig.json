@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "baseUrl": ".",
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "noImplicitAny": false,
+    "module": "commonjs",
+    "target": "es6",
+    "jsx": "react",
+    "paths": {
+      "app/*": ["app/*"],
+    },
+  },
+  "include": ["./app/app.d.ts"],
+  "exclude": ["node_modues"],
+}

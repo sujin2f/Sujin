@@ -2,8 +2,10 @@ import React from 'react';
 // import renderer from 'react-test-renderer';
 // import mockAxios from 'jest-mock-axios';
 
+/*
 import Post from '../../../app/scenes/public/Post';
 import { STORE } from '../../../app/constants/common';
+*/
 
 test('Post', () => {
 /*

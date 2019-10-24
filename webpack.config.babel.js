@@ -5,7 +5,7 @@ import parts from './webpack.config.parts';
 
 const dist = path.resolve(__dirname, 'dist');
 const entry = {
-  app: path.resolve(__dirname, 'app', 'app.jsx'),
+  app: path.resolve(__dirname, 'app', 'app.tsx'),
   style: path.resolve(__dirname, 'assets', 'styles', 'style.scss'),
 };
 

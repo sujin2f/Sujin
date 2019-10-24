@@ -1,8 +1,8 @@
 import hash from 'object-hash';
 
-import TweetEmbed from 'react-tweet-embed';
-import Gist from 'react-gist';
 import { Carousel } from 'react-responsive-carousel';
+import Gist from 'app/components/single/Gist';
+import TweetEmbed from 'app/components/single/TweetEmbed';
 
 import Link from 'app/components/router/Link';
 import CaseTool from 'app/components/dev-tools/CaseTool';
@@ -27,7 +27,7 @@ export function parseContent(content) {
 
   let matched = {};
   let splited = (content.split(patternShortcode) || [])
-    .filter(v => v);
+    .filter((v) => v);
 
   matched = (string.match(regexp('carousel')) || [])
     .reduce((acc, value) => ({

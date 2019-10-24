@@ -1,7 +1,7 @@
 import Tags from 'app/components/Tags';
 
 import Link from 'app/components/router/Link';
-import { parseExImage, parseDate } from 'app/utils/common';
+import { parseExImage } from 'app/utils/common';
 
 import DEFAULT_BACKGROUND from '../../../assets/images/thumbnail.svg';
 
@@ -9,10 +9,11 @@ const { Component } = wp.element;
 
 class Item extends Component {
   render() {
-    const { item, columns, thumbnail = {} } = this.props;
-    const date = parseDate(item.date);
-    const title = decodeURIComponent(item.title);
-    const excerpt = decodeURIComponent(item.excerpt);
+    const {
+      item,
+      columns,
+      thumbnail = {},
+    } = this.props;
 
     const backgroundImage =
       parseExImage(
@@ -28,13 +29,13 @@ class Item extends Component {
     return (
       <div className={className}>
         <figure className="thumbnail" itemType="http://schema.org/ImageObject">
-          <Link to={item.link} rel="noopener noreferrer" title={title}>
+          <Link to={item.link} rel="noopener noreferrer" title={item.title}>
             <div className="zoom-icon" />
             <div className="inner-shadow" />
-            <time dateTime={date.date}>
-              <span className="day">{date.day}</span>
-              <span className="month">{date.month}</span>
-              <span className="year">{date.year}</span>
+            <time dateTime={item.date}>
+              <span className="day">{item.parseDate().day}</span>
+              <span className="month">{item.parseDate().month}</span>
+              <span className="year">{item.parseDate().year}</span>
             </time>
             <div
               style={{ backgroundImage: `url('${backgroundImage}')` }}
@@ -47,15 +48,15 @@ class Item extends Component {
           <Link
             to={item.link}
             rel="noopener noreferrer"
-            title={title}
-            dangerouslySetInnerHTML={{ __html: title }}
+            title={item.title}
+            dangerouslySetInnerHTML={{ __html: item.title }}
           />
         </h2>
 
         <div
           itemProp="description"
           className="description"
-          dangerouslySetInnerHTML={{ __html: excerpt }}
+          dangerouslySetInnerHTML={{ __html: item.excerpt }}
         />
 
         <Tags tags={item.tags} />

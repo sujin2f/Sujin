@@ -27,21 +27,43 @@ test('No-Shortcode Content Parse Test', () => {
   expect(parsed[0].props.dangerouslySetInnerHTML.__html).toEqual('Lorem ipsum dolor sit amet');
 });
 
-test('Content Parse Test', () => {
-  const content = 'Lorem ipsum dolor sit amet [gist id="d6ff10312084824d2a2058a70dbdb961" file="docker-compose.yml" /] Lorem ipsum dolor sit amet [carousel sc1="http://sujinc.test/wp-content/uploads/2018/05/myjf-sc1.jpg" sc2="http://sujinc.test/wp-content/uploads/2018/05/myjf-sc2.jpg" /] Lorem ipsum dolor sit amet [tweet id="476962421873975296" /] Lorem ipsum dolor sit amet [tweet id="476962421873975298" /]';
+test('[gist /], [carousel /], [tweet /] Content Parse Test', () => {
+  let content = 'Lorem ipsum dolor sit amet';
+  content += '[gist id="d6ff10312084824d2a2058a70dbdb961" file="docker-compose.yml" /]';
+  content += 'Lorem ipsum dolor sit amet';
+  content += '[carousel sc1="http://sujinc.test/wp-content/uploads/2018/05/myjf-sc1.jpg" sc2="http://sujinc.test/wp-content/uploads/2018/05/myjf-sc2.jpg" /]';
+  content += 'Lorem ipsum dolor sit amet';
+  content += '[tweet id="476962421873975296" /]';
+  content += 'Lorem ipsum dolor sit amet';
+  content += '[tweet id="476962421873975298" /]';
+  content += 'Lorem ipsum dolor sit amet';
+  content += '[dev-tools /]';
+  content += 'Lorem ipsum dolor sit amet';
+  content += '[dev-tools id="text-sort" /]';
+  content += 'Lorem ipsum dolor sit amet';
+  content += '[dev-tools id="symbol-alignment" /]';
+
   const parsed = parseContent(content);
 
   expect(typeof parsed).toEqual('object');
-  expect(parsed.length).toEqual(8);
-  expect(parsed[0].props.dangerouslySetInnerHTML.__html).toContain('Lorem ipsum dolor sit amet');
-  expect(parsed[2].props.dangerouslySetInnerHTML.__html).toContain('Lorem ipsum dolor sit amet');
-  expect(parsed[4].props.dangerouslySetInnerHTML.__html).toContain('Lorem ipsum dolor sit amet');
-  expect(parsed[6].props.dangerouslySetInnerHTML.__html).toContain('Lorem ipsum dolor sit amet');
+  expect(parsed.length).toEqual(14);
 
-  expect(parsed[1].key).toEqual('c37089888bb659d6152d23a4b38436112b232e23');
-  expect(parsed[3].key).toEqual('55845d5607676220fda1f795887cac3dd7dd9e65');
-  expect(parsed[5].key).toEqual('021fe8f8cac8caac0de764f7175fe947299421cd');
-  expect(parsed[7].key).toEqual('eef59b14c904a740feff29af4cc8af4689165e73');
+  console.log(parsed[5].type.name);
+
+  expect(parsed[0].type).toEqual('section');
+  expect(parsed[1].type.name).toEqual('Gist');
+  expect(parsed[2].type).toEqual('section');
+  expect(parsed[3].type.name).toEqual('Carousel');
+  expect(parsed[4].type).toEqual('section');
+  expect(parsed[5].type.name).toEqual('TweetEmbed');
+  expect(parsed[6].type).toEqual('section');
+  expect(parsed[7].type.name).toEqual('TweetEmbed');
+  expect(parsed[8].type).toEqual('section');
+  expect(parsed[9].type.name).toEqual('CaseTool');
+  expect(parsed[10].type).toEqual('section');
+  expect(parsed[11].type.name).toEqual('TextSort');
+  expect(parsed[12].type).toEqual('section');
+  expect(parsed[13].type.name).toEqual('SymbolAlignment');
 });
 
 test('Series', () => {

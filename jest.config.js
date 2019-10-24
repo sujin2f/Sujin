@@ -21,5 +21,6 @@ module.exports = {
   setupFiles: ['<rootDir>/tests/jest/global.js'],
   transform: {
     '^.+\\.jsx?$': 'babel-jest',
+    '^.+\\.tsx?$': 'ts-jest',
   },
 };

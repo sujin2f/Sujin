@@ -16,7 +16,7 @@ class RelatedPosts extends Component {
 
         {items && (
           <section className="post-grid row">
-            {items.map(related => (
+            {items.map((related) => (
               <Item
                 item={related}
                 key={`related--${related.id}`}

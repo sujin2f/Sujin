@@ -1,6 +1,5 @@
 import SocialShare from 'app/components/single/SocialShare';
 import Tags from 'app/components/Tags';
-import { parseJson } from 'app/utils/common';
 import { parseContent, parseSeries } from 'app/utils/single';
 
 const { Component } = wp.element;
@@ -15,7 +14,7 @@ class Content extends Component {
         content,
         series,
         tags,
-        type,
+        postType,
       },
       className,
       children,
@@ -26,17 +25,15 @@ class Content extends Component {
       ...parseContent(content),
     ];
 
-    const icon = parseJson(meta.icon, 'thumbnail');
+    const icon = meta.icon.thumbnail;
 
     return (
       <article
-        className={`columns ${className} ${type}-${slug} post-${id}`}
+        className={`columns ${className} ${postType}-${slug} post-${id}`}
         itemProp="mainEntity"
         itemType="http://schema.org/BlogPosting"
       >
-        {icon &&
-          <img src={icon} alt="Thumbnail" className="assist-thumb" />
-        }
+        {icon && (<img src={icon} alt="Thumbnail" className="assist-thumb" />)}
 
         <section className={icon ? 'more-margin' : ''}>
           {contents}
