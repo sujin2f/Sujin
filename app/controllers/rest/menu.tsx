@@ -1,5 +1,6 @@
 import MenuItem from 'app/types/rest/menu';
 import RestController from 'app/controllers/rest/base';
+import { RestItemBuilder } from 'app/types/rest/base';
 
 /*
  * Menu Controller
@@ -10,7 +11,7 @@ export default class MenuController extends RestController<MenuItem> {
   } = {};
   private readonly slug: string;
 
-  constructor(itemBuilder, slug: string) {
+  protected constructor(itemBuilder: RestItemBuilder<MenuItem>, slug: string) {
     super(itemBuilder);
     this.slug = slug;
   }

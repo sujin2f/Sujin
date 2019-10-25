@@ -86,7 +86,7 @@ class TweetEmbed extends Component<Props, State> {
   }
 
   addScript(src: string, cb: () => void): void {
-    if (callbacks.length === 0) {
+    if (!callbacks.length) {
       callbacks.push(cb);
       const s = document.createElement('script');
       s.setAttribute('src', src);

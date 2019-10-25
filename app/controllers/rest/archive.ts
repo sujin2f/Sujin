@@ -9,6 +9,7 @@ import Post from 'app/types/rest/post';
 import RestController from 'app/controllers/rest/base';
 import PostController from 'app/controllers/rest/post';
 import RouteController from 'app/controllers/route';
+import { RestItemBuilder } from 'app/types/rest/base';
 
 // Utiles
 import { isMobile } from 'app/utils/common';
@@ -21,13 +22,13 @@ import DEFAULT_BACKGROUND_MOBILE from '../../../assets/images/background/categor
  * Archive Controller
  */
 export default class ArchiveController extends RestController<Post> {
-  static instance: {
+  private readonly defaultBackground: string = isMobile() ? DEFAULT_BACKGROUND_MOBILE : DEFAULT_BACKGROUND;
+  private readonly pagingOffset: number = isMobile() ? 1 : 5;
+  private totalPages: number;
+
+  public static instance: {
     [hash: string]: ArchiveController;
   } = {};
-
-  private readonly defaultBackground = isMobile() ? DEFAULT_BACKGROUND_MOBILE : DEFAULT_BACKGROUND;
-  private readonly pagingOffset: number = isMobile() ? 1 : 5;
-
   public readonly type: Types;
   public readonly slug: string;
   public readonly page: number;
@@ -35,9 +36,7 @@ export default class ArchiveController extends RestController<Post> {
   public description: string;
   public title: string;
 
-  private totalPages: number;
-
-  constructor(itemBuilder) {
+  protected constructor(itemBuilder: RestItemBuilder<Post>) {
     super(itemBuilder);
     const matched = RouteController.getInstance().getMatched();
     this.type = matched.type;

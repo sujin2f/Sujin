@@ -5,14 +5,15 @@
 import RestController from 'app/controllers/rest/base';
 import Post from 'app/types/rest/post';
 import RouteController from 'app/controllers/route';
+import { RestItemBuilder } from 'app/types/rest/base';
 
 export default class PostController extends RestController<Post> {
-  static instance: {
+  private readonly slug: string;
+  public static instance: {
     [hash: string]: PostController;
   } = {};
-  private readonly slug: string;
 
-  constructor(itemBuilder, slug: string) {
+  protected constructor(itemBuilder: RestItemBuilder<Post>, slug: string) {
     super(itemBuilder);
     this.slug = slug;
   }
