@@ -5,9 +5,9 @@ import RestController from 'app/controllers/rest/base';
  * Flickr Controller
  */
 export default class FlickrController extends RestController<FlickrItem> {
-  static instance: FlickrController;
+  public static instance: FlickrController;
 
-  static getInstance(): FlickrController {
+  public static getInstance(): FlickrController {
     if (!this.instance) {
       this.instance = new FlickrController(FlickrItem);
     }

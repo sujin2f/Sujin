@@ -124,7 +124,57 @@ class Posts extends Abs_Rest_Base {
 			return $this->get_item( $request );
 		}
 
-		// Multiple
+		$list_type = $request->get_param( 'list_type' );
+		$keyword   = $request->get_param( 'keyword' );
+
+		$args = $this->get_items_query_args( $request );
+		$term = $args[1];
+		$args = $args[0];
+
+		// The term is not exist
+		if ( false === $term ) {
+			$this->set_transient( $this->error_not_found_term( $list_type ) );
+			return rest_ensure_response( $this->error_not_found_term( $list_type ) );
+		}
+
+		// Query posts
+		$posts         = new WP_Query( $args );
+		$found_posts   = $posts->found_posts;
+		$max_num_pages = $posts->max_num_pages;
+
+		$posts = $posts->posts;
+
+		foreach ( array_keys( $posts ) as $key ) {
+			$posts[ $key ] = $this->prepare_item_for_response( $posts[ $key ], $request );
+			$posts[ $key ] = $this->prepare_response_for_collection( $posts[ $key ] );
+		}
+
+		$return = rest_ensure_response( $posts );
+		$return->header( 'X-WP-Total', $found_posts );
+		$return->header( 'X-WP-TotalPages', $max_num_pages );
+
+		if ( 'search' !== $term ) {
+			$return->header( 'x-wp-term-description', urlencode( wpautop( $term->description ) ) );
+			$return->header( 'x-wp-term-name', urlencode( $term->name ) );
+
+			$thumbnail = Term_Meta_Attachment::get_instance( 'Thumbnail' )
+				->get( $term->term_id );
+			$thumbnail = wp_get_attachment_image_src( $thumbnail, 'full' )[0];
+			$return->header( 'x-wp-term-thumbnail', $thumbnail );
+
+			$this->set_transient( $return );
+			return $return;
+		}
+
+		$keyword = $posts ? '<p>Search result for ' . $keyword . '</p>' : '<p>No search result</p>';
+		$return->header( 'x-wp-term-description', urlencode( $keyword ) );
+		$return->header( 'x-wp-term-name', urlencode( $keyword ) );
+
+		$this->set_transient( $return );
+		return $return;
+	}
+
+	private function get_items_query_args( WP_REST_Request $request ): array {
 		$list_type = $request->get_param( 'list_type' );
 		$keyword   = $request->get_param( 'keyword' );
 		$page      = $request->get_param( 'page' ) ?? 1;
@@ -167,48 +217,7 @@ class Posts extends Abs_Rest_Base {
 				break;
 		}
 
-		// The term is not exist
-		if ( false === $term ) {
-			$this->set_transient( $this->error_not_found_term( $list_type ) );
-			return rest_ensure_response( $this->error_not_found_term( $list_type ) );
-		}
-
-		// Query posts
-		$posts         = new WP_Query( $args );
-		$found_posts   = $posts->found_posts;
-		$max_num_pages = $posts->max_num_pages;
-
-		$posts = $posts->posts;
-
-		foreach ( array_keys( $posts ) as $key ) {
-			$posts[ $key ] = $this->prepare_item_for_response( $posts[ $key ], $request );
-			$posts[ $key ] = $this->prepare_response_for_collection( $posts[ $key ] );
-		}
-
-		$return = rest_ensure_response( $posts );
-		$return->header( 'X-WP-Total', $found_posts );
-		$return->header( 'X-WP-TotalPages', $max_num_pages );
-
-		if ( 'search' !== $term ) {
-			$return->header( 'x-wp-term-description', urlencode( wpautop( $term->description ) ) );
-			$return->header( 'x-wp-term-name', urlencode( $term->name ) );
-
-			$thumbnail = Term_Meta_Attachment::get_instance( 'Thumbnail' )
-				->get( $term->term_id );
-			$thumbnail = wp_get_attachment_image_src( $thumbnail, 'full' )[0];
-			$return->header( 'x-wp-term-thumbnail', $thumbnail );
-		} else {
-			if ( $posts ) {
-				$return->header( 'x-wp-term-description', urlencode( '<p>Search result for ' . $keyword . '</p>' ) );
-			} else {
-				$return->header( 'x-wp-term-description', urlencode( '<p>No search result</p>' ) );
-			}
-			$return->header( 'x-wp-term-name', urlencode( $keyword ) );
-		}
-
-		$this->set_transient( $return );
-
-		return $return;
+		return array( $args, $term, $list_type );
 	}
 
 	public function prepare_item_for_response( $item, $request ): WP_REST_Response {
@@ -249,8 +258,8 @@ class Posts extends Abs_Rest_Base {
 			}
 		}
 
-		$br      = array( '<br />', '<br/>', '<br>', '&lt;br /&gt;', '&lt;br/&gt;', '&lt;br&gt;' );
-		$excerpt = str_replace( $br, "\r\n\r\n", $item->post_excerpt );
+		$break   = array( '<br />', '<br/>', '<br>', '&lt;br /&gt;', '&lt;br/&gt;', '&lt;br&gt;' );
+		$excerpt = str_replace( $break, "\r\n\r\n", $item->post_excerpt );
 		$excerpt = wpautop( $excerpt );
 
 		$item = array(

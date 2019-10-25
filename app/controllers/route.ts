@@ -14,9 +14,9 @@ import MatchedItem, { emptyMatched } from 'app/types/matched';
 import { scrollTo } from 'app/utils/common';
 
 export default class RouteController {
-  static instance: RouteController;
+  private static instance: RouteController;
+  private readonly history: History = createBrowserHistory();
   private matched: MatchedItem = emptyMatched;
-  public readonly history: History = createBrowserHistory();
   private component;
 
   /* eslint-disable @typescript-eslint/no-explicit-any */

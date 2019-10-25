@@ -8,8 +8,8 @@ class TextSort extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: '',
       checked: true,
+      text: '',
     };
 
     this.handleChangeText = this.handleChangeText.bind(this);

@@ -4,7 +4,7 @@ import GlobalController from 'app/controllers/global';
 import PageHeader from 'app/components/layout/PageHeader';
 import Public from 'app/scenes/public';
 
-import DEFAULT_TITLE from 'app/constants/common';
+import { DEFAULT_TITLE } from 'app/constants/common';
 
 const { Component } = wp.element;
 const { compose } = wp.compose;

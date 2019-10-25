@@ -57,9 +57,9 @@ class Menu extends Abs_Rest_Base {
 		}
 
 		$locations = get_nav_menu_locations();
-		$id        = $locations[ $slug ] ?? null;
+		$menu_id   = $locations[ $slug ] ?? null;
 
-		if ( is_null( $id ) ) {
+		if ( is_null( $menu_id ) ) {
 			if ( $transient[ self::KEY_ITEMS ] ) {
 				return rest_ensure_response( $transient[ self::KEY_ITEMS ] );
 			}
@@ -68,7 +68,7 @@ class Menu extends Abs_Rest_Base {
 			return rest_ensure_response( $this->error_no_menu() );
 		}
 
-		$_nav_menu = wp_get_nav_menu_object( $id );
+		$_nav_menu = wp_get_nav_menu_object( $menu_id );
 		$_nav_menu = wp_get_nav_menu_items( $_nav_menu->term_id );
 		$nav_menu  = array();
 

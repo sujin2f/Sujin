@@ -6,9 +6,9 @@ import Post from 'app/types/rest/post';
  * Recent Post Controller
  */
 export default class RecentPostController extends RestController<Post> {
-  static instance: RecentPostController;
+  public static instance: RecentPostController;
 
-  static getInstance(): RecentPostController {
+  public static getInstance(): RecentPostController {
     if (!this.instance) {
       this.instance = new RecentPostController(Post);
     }

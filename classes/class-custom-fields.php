@@ -18,11 +18,18 @@ use Sujin\Wordpress\WP_Express\Fields\Post_Meta\Checkbox as Meta_Checkbox;
 
 use Sujin\Wordpress\WP_Express\Fields\Term_Meta\Attachment as Term_Meta_Attachment;
 
+use Sujin\Wordpress\WP_Express\Setting;
+use Sujin\Wordpress\WP_Express\Fields\Settings\Input as Option_Input;
+
 class Custom_Fields {
 	use Helpers\Singleton;
 
 	function __construct() {
-		$metabox = Meta_Box::get_instance( 'Images' )
+		$this->set_custom_fields();
+	}
+
+	private function set_custom_fields() {
+		Meta_Box::get_instance( 'Images' )
 			->attach_to( 'post' )
 			->attach_to( 'page' )
 			->add( Meta_Attachment::get_instance( 'List' ) )
@@ -38,5 +45,8 @@ class Custom_Fields {
 
 		Taxonomy::get_instance( 'Category' )
 			->attach_to( 'attachment' );
+
+		Setting::get_instance( 'Flickr Feed' )
+			->add( Option_Input::get_instance( 'Flicker ID' ) );
 	}
 }

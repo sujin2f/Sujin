@@ -9,31 +9,15 @@ import { RestItem, RestItemBuilder } from 'app/types/rest/base';
  */
 
 export default class RestController<T extends RestItem> {
-  protected itemBuilder: RestItemBuilder<T>;
   public loading = false;
   public failed = false;
   public init = false;
   public entities: Array<T> = [];
   public entity: T;
-  protected components: Array<ReactComponent> = [];
   public promise: Promise<void>;
 
-  protected constructor(itemBuilder: RestItemBuilder<T>) {
-    this.itemBuilder = itemBuilder;
-  }
-
-  public addComponent(component: ReactComponent): RestController<T> {
-    this.components = [component];
-    return this;
-  }
-
-  protected forceUpdate(): void {
-    this.components[0].forceUpdate();
-  }
-
-  protected getRestUrl(): string {
-    return '';
-  }
+  protected itemBuilder: RestItemBuilder<T>;
+  protected components: Array<ReactComponent> = [];
 
   /*
    * REST request
@@ -64,6 +48,23 @@ export default class RestController<T extends RestItem> {
       });
 
     return this;
+  }
+
+  public addComponent(component: ReactComponent): RestController<T> {
+    this.components = [component];
+    return this;
+  }
+
+  protected constructor(itemBuilder: RestItemBuilder<T>) {
+    this.itemBuilder = itemBuilder;
+  }
+
+  protected forceUpdate(): void {
+    this.components[0].forceUpdate();
+  }
+
+  protected getRestUrl(): string {
+    return '';
   }
 
   /*

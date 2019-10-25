@@ -6,8 +6,8 @@ class Search extends Component {
     super(props);
 
     this.state = {
-      searchString: '',
       searchOpened: false,
+      searchString: '',
     };
 
     this.handleChangeSearch = this.handleChangeSearch.bind(this);

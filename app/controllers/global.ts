@@ -6,15 +6,16 @@
  */
 
 import { Scrolled, MobileMenu } from 'app/types/global';
+import { TOP_MENU_SCROLLED_POSITION } from 'app/constants/common';
 
 export default class GlobalController {
+  public mobileMenuClass: MobileMenu = MobileMenu.No;
+  public scrollClass: Scrolled = Scrolled.No;
+
   private static instance: GlobalController;
   private component;
   // HTML <head.title />
   private title: string;
-
-  public mobileMenuClass: MobileMenu = MobileMenu.No;
-  public scrollClass: Scrolled = Scrolled.No;
 
   /* eslint-disable @typescript-eslint/no-explicit-any */
   private constructor(component?: any) {
@@ -34,20 +35,6 @@ export default class GlobalController {
         this.component.forceUpdate();
       });
     }
-  }
-
-  private isScrolled(): boolean {
-    if (window.scrollY > 80 && this.scrollClass === Scrolled.No) {
-      this.scrollClass = Scrolled.Yes;
-      return true;
-    }
-
-    if (window.scrollY <= 80 && this.scrollClass === Scrolled.Yes) {
-      this.scrollClass = Scrolled.No;
-      return true;
-    }
-
-    return false;
   }
 
   /*
@@ -78,11 +65,25 @@ export default class GlobalController {
   }
 
   /* eslint-disable @typescript-eslint/no-explicit-any */
-  static getInstance(component?: any): GlobalController {
+  public static getInstance(component?: any): GlobalController {
     if (!this.instance) {
       this.instance = new GlobalController(component);
     }
     return this.instance;
   }
   /* eslint-enable */
+
+  private isScrolled(): boolean {
+    if (window.scrollY > TOP_MENU_SCROLLED_POSITION && this.scrollClass === Scrolled.No) {
+      this.scrollClass = Scrolled.Yes;
+      return true;
+    }
+
+    if (window.scrollY <= TOP_MENU_SCROLLED_POSITION && this.scrollClass === Scrolled.Yes) {
+      this.scrollClass = Scrolled.No;
+      return true;
+    }
+
+    return false;
+  }
 }
