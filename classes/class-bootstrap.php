@@ -13,13 +13,16 @@ class Bootstrap {
 	use Helpers\Singleton;
 
 	function __construct() {
+		$this->init_classes();
+	}
+
+	private function init_classes() {
 		Theme_Supports::get_instance();
 		REST_API::get_instance();
 		Theme_Customizer::get_instance();
 		Custom_Fields::get_instance();
 		Post_Series::get_instance();
 		Assets::get_instance();
-
 		Shortcode\About_Item::get_instance();
 	}
 }

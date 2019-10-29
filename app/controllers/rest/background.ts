@@ -7,17 +7,13 @@ import DEFAULT_BG from '../../../assets/images/background/backup-background.jpg'
 import DEFAULT_BG_MOBILE from '../../../assets/images/background/backup-background-mobile.jpg';
 
 export default class BackgroundController extends RestController<BackgroundItem> {
-  static instance: BackgroundController;
+  public static instance: BackgroundController;
 
-  static getInstance(): BackgroundController {
+  public static getInstance(): BackgroundController {
     if (!this.instance) {
       this.instance = new BackgroundController(BackgroundItem);
     }
     return this.instance;
-  }
-
-  protected getRestUrl(): string {
-    return '/wp-json/sujin/v1/media/random/';
   }
 
   public getBackgroundImage(): string {
@@ -41,5 +37,9 @@ export default class BackgroundController extends RestController<BackgroundItem>
   public request(): BackgroundController {
     super.request();
     return this;
+  }
+
+  protected getRestUrl(): string {
+    return '/wp-json/sujin/v1/media/random/';
   }
 }

@@ -124,13 +124,10 @@ class Posts extends Abs_Rest_Base {
 			return $this->get_item( $request );
 		}
 
-		// Multiple
 		$list_type = $request->get_param( 'list_type' );
 		$keyword   = $request->get_param( 'keyword' );
 		$page      = $request->get_param( 'page' ) ?? 1;
 		$per_page  = $request->get_param( 'per_page' ) ?? 12;
-		$taxonomy  = null;
-		$term      = 'search';
 
 		// Transient
 		$this->set_transient_suffix( $list_type . $keyword . $page . $per_page );
@@ -140,32 +137,9 @@ class Posts extends Abs_Rest_Base {
 			return $transient[ self::KEY_ITEMS ];
 		}
 
-		// Query args
-		$args = array(
-			'post_type'      => 'post',
-			'post_status'    => 'publish',
-			'posts_per_page' => $per_page,
-			'paged'          => $page,
-		);
-
-		switch ( $list_type ) {
-			case 'category':
-				$args['category_name'] = $keyword;
-				$taxonomy              = 'category';
-				$term                  = get_term_by( 'slug', $keyword, $taxonomy );
-				break;
-
-			case 'tag':
-				$args['tag'] = $keyword;
-				$taxonomy    = 'post_tag';
-				$term        = get_term_by( 'slug', $keyword, $taxonomy );
-				break;
-
-			case 'search':
-				$args['s'] = $keyword;
-				$taxonomy  = 'search';
-				break;
-		}
+		$args = $this->get_items_query_args( $request );
+		$term = $args[1];
+		$args = $args[0];
 
 		// The term is not exist
 		if ( false === $term ) {
@@ -197,18 +171,55 @@ class Posts extends Abs_Rest_Base {
 				->get( $term->term_id );
 			$thumbnail = wp_get_attachment_image_src( $thumbnail, 'full' )[0];
 			$return->header( 'x-wp-term-thumbnail', $thumbnail );
-		} else {
-			if ( $posts ) {
-				$return->header( 'x-wp-term-description', urlencode( '<p>Search result for ' . $keyword . '</p>' ) );
-			} else {
-				$return->header( 'x-wp-term-description', urlencode( '<p>No search result</p>' ) );
-			}
-			$return->header( 'x-wp-term-name', urlencode( $keyword ) );
+
+			$this->set_transient( $return );
+			return $return;
 		}
 
-		$this->set_transient( $return );
+		$keyword = $posts ? '<p>Search result for ' . $keyword . '</p>' : '<p>No search result</p>';
+		$return->header( 'x-wp-term-description', urlencode( $keyword ) );
+		$return->header( 'x-wp-term-name', urlencode( $keyword ) );
 
+		$this->set_transient( $return );
 		return $return;
+	}
+
+	private function get_items_query_args( WP_REST_Request $request ): array {
+		$list_type = $request->get_param( 'list_type' );
+		$keyword   = $request->get_param( 'keyword' );
+		$page      = $request->get_param( 'page' ) ?? 1;
+		$per_page  = $request->get_param( 'per_page' ) ?? 12;
+		$taxonomy  = null;
+		$term      = 'search';
+
+		// Query args
+		$args = array(
+			'post_type'      => 'post',
+			'post_status'    => 'publish',
+			'posts_per_page' => $per_page,
+			'paged'          => $page,
+		);
+
+		switch ( $list_type ) {
+			case 'category':
+				$args['category_name'] = $keyword;
+				$taxonomy              = 'category';
+				$term                  = get_term_by( 'slug', $keyword, $taxonomy );
+				break;
+
+			case 'tag':
+				$args['tag'] = $keyword;
+				$taxonomy    = 'post_tag';
+				$term        = get_term_by( 'slug', $keyword, $taxonomy );
+				break;
+
+			case 'search':
+				$args['s'] = $keyword;
+				$taxonomy  = 'search';
+				break;
+		}
+
+		return array( $args, $term, $list_type );
 	}
 
 	public function prepare_item_for_response( $item, $request ): WP_REST_Response {
@@ -249,8 +260,8 @@ class Posts extends Abs_Rest_Base {
 			}
 		}
 
-		$br      = array( '<br />', '<br/>', '<br>', '&lt;br /&gt;', '&lt;br/&gt;', '&lt;br&gt;' );
-		$excerpt = str_replace( $br, "\r\n\r\n", $item->post_excerpt );
+		$break   = array( '<br />', '<br/>', '<br>', '&lt;br /&gt;', '&lt;br/&gt;', '&lt;br&gt;' );
+		$excerpt = str_replace( $break, "\r\n\r\n", $item->post_excerpt );
 		$excerpt = wpautop( $excerpt );
 
 		$item = array(

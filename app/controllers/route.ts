@@ -14,13 +14,13 @@ import MatchedItem, { emptyMatched } from 'app/types/matched';
 import { scrollTo } from 'app/utils/common';
 
 export default class RouteController {
-  static instance: RouteController;
+  private static instance: RouteController;
+  private readonly history: History = createBrowserHistory();
   private matched: MatchedItem = emptyMatched;
-  public readonly history: History = createBrowserHistory();
-  private component;
+  private component: ReactComponent;
 
   /* eslint-disable @typescript-eslint/no-explicit-any */
-  private constructor(component: any) {
+  private constructor(component: ReactComponent) {
     this.component = component;
 
     this.history.listen((location, action: string) => {
@@ -124,7 +124,7 @@ export default class RouteController {
   }
 
   /* eslint-disable @typescript-eslint/no-explicit-any */
-  static getInstance(component?: any): RouteController {
+  static getInstance(component?: ReactComponent): RouteController {
     if (!this.instance) {
       this.instance = new RouteController(component);
     }

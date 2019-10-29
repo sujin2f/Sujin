@@ -9,9 +9,9 @@
     "target": "es6",
     "jsx": "react",
     "paths": {
-      "app/*": ["app/*"],
-    },
+      "app/*": ["app/*"]
+    }
   },
   "include": ["./app/app.d.ts"],
-  "exclude": ["node_modues"],
+  "exclude": ["node_modues"]
 }

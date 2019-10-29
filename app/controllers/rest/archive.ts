@@ -9,9 +9,12 @@ import Post from 'app/types/rest/post';
 import RestController from 'app/controllers/rest/base';
 import PostController from 'app/controllers/rest/post';
 import RouteController from 'app/controllers/route';
+import { RestItemBuilder } from 'app/types/rest/base';
 
 // Utiles
 import { isMobile } from 'app/utils/common';
+
+import { PAGE_OFFSET } from 'app/constants/common';
 
 // Images
 import DEFAULT_BACKGROUND from '../../../assets/images/background/category.jpg';
@@ -21,13 +24,9 @@ import DEFAULT_BACKGROUND_MOBILE from '../../../assets/images/background/categor
  * Archive Controller
  */
 export default class ArchiveController extends RestController<Post> {
-  static instance: {
+  public static instance: {
     [hash: string]: ArchiveController;
   } = {};
-
-  private readonly defaultBackground = isMobile() ? DEFAULT_BACKGROUND_MOBILE : DEFAULT_BACKGROUND;
-  private readonly pagingOffset: number = isMobile() ? 1 : 5;
-
   public readonly type: Types;
   public readonly slug: string;
   public readonly page: number;
@@ -35,9 +34,11 @@ export default class ArchiveController extends RestController<Post> {
   public description: string;
   public title: string;
 
+  private readonly defaultBackground: string = isMobile() ? DEFAULT_BACKGROUND_MOBILE : DEFAULT_BACKGROUND;
+  private readonly pagingOffset: number = isMobile() ? 1 : PAGE_OFFSET;
   private totalPages: number;
 
-  constructor(itemBuilder) {
+  protected constructor(itemBuilder: RestItemBuilder<Post>) {
     super(itemBuilder);
     const matched = RouteController.getInstance().getMatched();
     this.type = matched.type;
@@ -48,7 +49,7 @@ export default class ArchiveController extends RestController<Post> {
   /*
    * Get multiton object
    */
-  static getInstance(): ArchiveController {
+  public static getInstance(): ArchiveController {
     const matched = RouteController.getInstance().getMatched();
     const key = hash(matched);
 
@@ -57,21 +58,6 @@ export default class ArchiveController extends RestController<Post> {
     }
 
     return ArchiveController.instance[key];
-  }
-
-  protected getRestUrl(): string {
-    return `/wp-json/sujin/v1/posts/?list_type=${this.type}&keyword=${this.slug}&page=${this.page}&per_page=12`;
-  }
-
-  protected postResponse(response): void {
-    this.totalPages = parseInt(response.headers['x-wp-totalpages'], 10) || 1;
-    this.background = response.headers['x-wp-term-thumbnail'] || this.defaultBackground;
-    this.title = decodeURIComponent(response.headers['x-wp-term-name']) || '';
-    this.description = decodeURIComponent(response.headers['x-wp-term-description']) || '';
-
-    super.postResponse(response);
-
-    this.entities.map((entity: Post) => PostController.getInstance(entity.slug).setFromPost(entity));
   }
 
   public getPaging(): Array<number> {
@@ -112,5 +98,20 @@ export default class ArchiveController extends RestController<Post> {
   public request(): ArchiveController {
     super.request();
     return this;
+  }
+
+  protected getRestUrl(): string {
+    return `/wp-json/sujin/v1/posts/?list_type=${this.type}&keyword=${this.slug}&page=${this.page}&per_page=12`;
+  }
+
+  protected postResponse(response): void {
+    this.totalPages = parseInt(response.headers['x-wp-totalpages'], 10) || 1;
+    this.background = response.headers['x-wp-term-thumbnail'] || this.defaultBackground;
+    this.title = decodeURIComponent(response.headers['x-wp-term-name']) || '';
+    this.description = decodeURIComponent(response.headers['x-wp-term-description']) || '';
+
+    super.postResponse(response);
+
+    this.entities.map((entity: Post) => PostController.getInstance(entity.slug).setFromPost(entity));
   }
 }

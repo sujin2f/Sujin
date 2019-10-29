@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import { RestItem, RestItemBuilder } from 'app/types/rest/base';
+import { HTTP_RESPONSE_NO_CONTENT } from 'app/constants/common';
 
 /*
  * Magic Classe to create RestController
@@ -9,30 +10,18 @@ import { RestItem, RestItemBuilder } from 'app/types/rest/base';
  */
 
 export default class RestController<T extends RestItem> {
-  protected itemBuilder: RestItemBuilder<T>;
   public loading = false;
   public failed = false;
   public init = false;
   public entities: Array<T> = [];
   public entity: T;
-  protected components: Array<ReactComponent> = [];
   public promise: Promise<void>;
 
-  constructor(itemBuilder) {
+  protected itemBuilder: RestItemBuilder<T>;
+  protected components: Array<ReactComponent> = [];
+
+  protected constructor(itemBuilder: RestItemBuilder<T>) {
     this.itemBuilder = itemBuilder;
-  }
-
-  public addComponent(component: ReactComponent): RestController<T> {
-    this.components = [component];
-    return this;
-  }
-
-  protected forceUpdate(): void {
-    this.components[0].forceUpdate();
-  }
-
-  protected getRestUrl(): string {
-    return '';
   }
 
   /*
@@ -50,7 +39,7 @@ export default class RestController<T extends RestItem> {
 
     this.promise = axios.get(this.getRestUrl())
       .then((response) => {
-        if (response.status === 204) {
+        if (response.status === HTTP_RESPONSE_NO_CONTENT) {
           this.failed = true;
           return;
         }
@@ -64,6 +53,19 @@ export default class RestController<T extends RestItem> {
       });
 
     return this;
+  }
+
+  public addComponent(component: ReactComponent): RestController<T> {
+    this.components = [component];
+    return this;
+  }
+
+  protected forceUpdate(): void {
+    this.components[0].forceUpdate();
+  }
+
+  protected getRestUrl(): string {
+    return '';
   }
 
   /*

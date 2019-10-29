@@ -1,5 +1,5 @@
-import preserveCase,
-{
+import {
+  preserveCase,
   camelCase,
   pascalCase,
   paramCase,

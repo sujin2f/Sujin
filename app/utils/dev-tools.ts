@@ -1,4 +1,4 @@
-export default function preserveCase(input: string): Array<string> {
+export const preserveCase = (input: string): Array<string> => {
   let output = '';
   let lastChar = '';
 
@@ -22,9 +22,9 @@ export default function preserveCase(input: string): Array<string> {
 
   const outputArr = output.split('-');
   return outputArr.filter((c) => c);
-}
+};
 
-export function camelCase(texts: Array<string>): string {
+export const camelCase = (texts: Array<string>): string => {
   const output = texts.map((text, index) => {
     if (index === 0) {
       return text.toLowerCase();
@@ -33,48 +33,47 @@ export function camelCase(texts: Array<string>): string {
   });
 
   return output.join('');
-}
+};
 
-export function pascalCase(texts: Array<string>): string {
+export const pascalCase = (texts: Array<string>): string => {
   const output = texts.map((text) => `${text.charAt(0).toUpperCase()}${text.slice(1)}`);
   return output.join('');
-}
+};
 
-export function pathCase(texts: Array<string>): string {
+export const pathCase = (texts: Array<string>): string => {
   const output = texts.map((text) => text.toLowerCase());
   return output.join('/');
-}
+};
 
-export function paramCase(texts: Array<string>): string {
+export const paramCase = (texts: Array<string>): string => {
   const output = texts.map((text) => text.toLowerCase());
   return output.join('-');
-}
+};
 
-export function snakeCase(texts: Array<string>): string {
+export const snakeCase = (texts: Array<string>): string => {
   const output = texts.map((text) => text.toLowerCase());
   return output.join('_');
-}
+};
 
-export function constantCase(texts: Array<string>): string {
+export const constantCase = (texts: Array<string>): string => {
   const output = texts.map((text) => text.toUpperCase());
   return output.join('_');
-}
+};
 
-export function titleCase(texts: Array<string>): string {
+export const titleCase = (texts: Array<string>): string => {
   const output = texts.map((text) => `${text.charAt(0).toUpperCase()}${text.slice(1)}`);
   return output.join(' ');
-}
+};
 
-export function dotCase(texts: Array<string>): string {
-  const output = texts.map((text) => text.toLowerCase());
-  return output.join('.');
-}
+export const dotCase = (texts: Array<string>): string => texts.map((text) => text.toLowerCase()).join('.');
 
-export function sortText(text: string, removeEmpty: boolean): string {
-  return text.split('\n').filter((l) => (removeEmpty && l) || (!removeEmpty)).sort().join('\n');
-}
+export const sortText = (text: string, removeEmpty: boolean): string => text
+  .split('\n')
+  .filter((l) => (removeEmpty && l) || (!removeEmpty))
+  .sort()
+  .join('\n');
 
-export function symbolAlignment(text: string, symbol: string): string {
+export const symbolAlignment = (text: string, symbol: string): string => {
   const lineInfo = [];
   const maxPosition = []; // this key is indent
 
@@ -125,4 +124,4 @@ export function symbolAlignment(text: string, symbol: string): string {
       return `${before}${spaces}${after}`;
     })
     .join('\n');
-}
+};
