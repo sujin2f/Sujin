@@ -11,6 +11,11 @@ export default class MenuController extends RestController<MenuItem> {
   } = {};
   private readonly slug: string;
 
+  protected constructor(itemBuilder: RestItemBuilder<MenuItem>, slug: string) {
+    super(itemBuilder);
+    this.slug = slug;
+  }
+
   /*
    * Get multiton object
    */
@@ -25,11 +30,6 @@ export default class MenuController extends RestController<MenuItem> {
     this.components.push(component);
     this.components = Array.from(new Set(this.components));
     return this;
-  }
-
-  protected constructor(itemBuilder: RestItemBuilder<MenuItem>, slug: string) {
-    super(itemBuilder);
-    this.slug = slug;
   }
 
   protected forceUpdate(): void {

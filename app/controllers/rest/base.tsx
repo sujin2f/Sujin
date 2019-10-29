@@ -10,9 +10,9 @@ import { HTTP_RESPONSE_NO_CONTENT } from 'app/constants/common';
  */
 
 export default class RestController<T extends RestItem> {
-  public loading: boolean = false;
-  public failed: boolean = false;
-  public init: boolean = false;
+  public loading = false;
+  public failed = false;
+  public init = false;
   public entities: Array<T> = [];
   public entity: T;
   public promise: Promise<void>;
