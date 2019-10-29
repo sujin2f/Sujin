@@ -38,6 +38,14 @@ export default class ArchiveController extends RestController<Post> {
   private readonly pagingOffset: number = isMobile() ? 1 : PAGE_OFFSET;
   private totalPages: number;
 
+  protected constructor(itemBuilder: RestItemBuilder<Post>) {
+    super(itemBuilder);
+    const matched = RouteController.getInstance().getMatched();
+    this.type = matched.type;
+    this.slug = matched.slug;
+    this.page = matched.page;
+  }
+
   /*
    * Get multiton object
    */
@@ -90,14 +98,6 @@ export default class ArchiveController extends RestController<Post> {
   public request(): ArchiveController {
     super.request();
     return this;
-  }
-
-  protected constructor(itemBuilder: RestItemBuilder<Post>) {
-    super(itemBuilder);
-    const matched = RouteController.getInstance().getMatched();
-    this.type = matched.type;
-    this.slug = matched.slug;
-    this.page = matched.page;
   }
 
   protected getRestUrl(): string {

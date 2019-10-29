@@ -9,19 +9,31 @@ import { Scrolled, MobileMenu } from 'app/types/global';
 import { TOP_MENU_SCROLLED_POSITION } from 'app/constants/common';
 
 export default class GlobalController {
+  private static instance: GlobalController;
+
   public mobileMenuClass: MobileMenu = MobileMenu.No;
   public scrollClass: Scrolled = Scrolled.No;
 
-  private static instance: GlobalController;
-  private component;
+  private component: ReactComponent;
   // HTML <head.title />
   private title: string;
 
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  private constructor(component?: any) {
-    this.component = component;
+  public static getInstance(component?: ReactComponent): GlobalController {
+    if (!this.instance) {
+      this.instance = new GlobalController();
+    }
+
+    if (component) {
+      return this.instance.setComponent(component);
+    }
+
+    return this.instance;
   }
-  /* eslint-enable */
+
+  public setComponent(component?: ReactComponent): GlobalController {
+    this.component = component;
+    return this;
+  }
 
   public setScroll(): void {
     if (typeof window !== 'undefined' && this.component) {
@@ -63,15 +75,6 @@ export default class GlobalController {
       this.component.forceUpdate();
     }
   }
-
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  public static getInstance(component?: any): GlobalController {
-    if (!this.instance) {
-      this.instance = new GlobalController(component);
-    }
-    return this.instance;
-  }
-  /* eslint-enable */
 
   private isScrolled(): boolean {
     if (window.scrollY > TOP_MENU_SCROLLED_POSITION && this.scrollClass === Scrolled.No) {

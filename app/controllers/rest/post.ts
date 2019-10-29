@@ -14,6 +14,11 @@ export default class PostController extends RestController<Post> {
 
   private readonly slug: string;
 
+  protected constructor(itemBuilder: RestItemBuilder<Post>, slug: string) {
+    super(itemBuilder);
+    this.slug = slug;
+  }
+
   /*
    * Get multiton object
    */
@@ -32,11 +37,6 @@ export default class PostController extends RestController<Post> {
   public setFromPost(post: Post): void {
     this.init = true;
     this.entity = post;
-  }
-
-  protected constructor(itemBuilder: RestItemBuilder<Post>, slug: string) {
-    super(itemBuilder);
-    this.slug = slug;
   }
 
   protected getRestUrl(): string {

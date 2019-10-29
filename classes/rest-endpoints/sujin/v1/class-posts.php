@@ -126,6 +126,16 @@ class Posts extends Abs_Rest_Base {
 
 		$list_type = $request->get_param( 'list_type' );
 		$keyword   = $request->get_param( 'keyword' );
+		$page      = $request->get_param( 'page' ) ?? 1;
+		$per_page  = $request->get_param( 'per_page' ) ?? 12;
+
+		// Transient
+		$this->set_transient_suffix( $list_type . $keyword . $page . $per_page );
+		$transient = $this->get_transient();
+
+		if ( $transient[ self::KEY_RETURN ] && ! self::DEV_MODE ) {
+			return $transient[ self::KEY_ITEMS ];
+		}
 
 		$args = $this->get_items_query_args( $request );
 		$term = $args[1];
@@ -181,14 +191,6 @@ class Posts extends Abs_Rest_Base {
 		$per_page  = $request->get_param( 'per_page' ) ?? 12;
 		$taxonomy  = null;
 		$term      = 'search';
-
-		// Transient
-		$this->set_transient_suffix( $list_type . $keyword . $page . $per_page );
-		$transient = $this->get_transient();
-
-		if ( $transient[ self::KEY_RETURN ] && ! self::DEV_MODE ) {
-			return $transient[ self::KEY_ITEMS ];
-		}
 
 		// Query args
 		$args = array(

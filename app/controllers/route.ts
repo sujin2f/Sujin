@@ -17,10 +17,10 @@ export default class RouteController {
   private static instance: RouteController;
   private readonly history: History = createBrowserHistory();
   private matched: MatchedItem = emptyMatched;
-  private component;
+  private component: ReactComponent;
 
   /* eslint-disable @typescript-eslint/no-explicit-any */
-  private constructor(component: any) {
+  private constructor(component: ReactComponent) {
     this.component = component;
 
     this.history.listen((location, action: string) => {
@@ -124,7 +124,7 @@ export default class RouteController {
   }
 
   /* eslint-disable @typescript-eslint/no-explicit-any */
-  static getInstance(component?: any): RouteController {
+  static getInstance(component?: ReactComponent): RouteController {
     if (!this.instance) {
       this.instance = new RouteController(component);
     }
