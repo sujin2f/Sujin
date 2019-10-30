@@ -25,7 +25,7 @@ export default class BackgroundController extends RestController<BackgroundItem>
       return isMobile() ? DEFAULT_BG_MOBILE : DEFAULT_BG;
     }
 
-    const index = Math.floor(Math.random() * this.entities.length);
+    const index = Math.floor(Math.random() * (this.entities.length + 1)) - 1;
     return isMobile() ? this.entities[index].mobile : this.entities[index].desktop;
   }
 

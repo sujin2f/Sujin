@@ -2,22 +2,26 @@
  * Global Controller
  *
  * This contains HTML <head.title />, the status of mobile menu, and the scrolling
- * This theme doesn't use Redux to reduce the size of JS
  */
 
 import { Scrolled, MobileMenu } from 'app/types/global';
 import { TOP_MENU_SCROLLED_POSITION } from 'app/constants/common';
 
 export default class GlobalController {
+  // Singleton
   private static instance: GlobalController;
 
+  // CSS classes: Enum(No & Yes)
   public mobileMenuClass: MobileMenu = MobileMenu.No;
   public scrollClass: Scrolled = Scrolled.No;
 
+  // React Component to be refreshed
   private component: ReactComponent;
+
   // HTML <head.title />
   private title: string;
 
+  // Get a singleton controller
   public static getInstance(component?: ReactComponent): GlobalController {
     if (!this.instance) {
       this.instance = new GlobalController();
@@ -30,11 +34,13 @@ export default class GlobalController {
     return this.instance;
   }
 
+  // Set a React Component
   public setComponent(component?: ReactComponent): GlobalController {
     this.component = component;
     return this;
   }
 
+  // Triggers the window event: scroll
   public setScroll(): void {
     if (typeof window !== 'undefined' && this.component) {
       window.addEventListener('scroll', () => {
@@ -44,7 +50,9 @@ export default class GlobalController {
           return;
         }
 
-        this.component.forceUpdate();
+		if (this.component) {
+	        this.component.forceUpdate();
+		}
       });
     }
   }
