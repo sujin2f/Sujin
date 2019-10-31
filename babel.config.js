@@ -2,6 +2,7 @@ module.exports = {
   presets: [
     '@babel/preset-env',
     '@babel/preset-react',
+    '@babel/preset-typescript',
   ],
   plugins: [
     [
@@ -10,5 +11,6 @@ module.exports = {
         'pragma': 'wp.element.createElement',
       },
     ],
+    "@babel/plugin-proposal-class-properties"
   ],
 };

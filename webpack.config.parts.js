@@ -73,10 +73,11 @@ exports.setBase = function(entry, dist) {
         },
         {
           test: /\.ts(x?)$/,
+          enforce: 'pre',
           exclude: /node_modules/,
           use: [
             {
-              loader: 'ts-loader',
+              loader: 'babel-loader',
             },
             {
               loader: 'eslint-loader',
