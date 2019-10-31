@@ -1,0 +1,98 @@
+.icon {
+	text-indent: -9999px;
+	mask-position: center;
+	mask-repeat: no-repeat;
+	mask-size: contain;
+
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+
+	&.hamburger {
+		mask-image: url('../images/icons/hamburger.svg');
+	}
+
+	&.logo {
+		background-image: url('../images/logo.svg');
+	}
+
+	&.logo.reverse {
+		background-image: url('../images/logo-background.svg');
+	}
+
+	&.magnify {
+		mask-image: url('../images/icons/magnify.svg');
+	}
+}
+
+.social-media {
+	a {
+		text-indent: -2000px;
+		overflow: hidden;
+		width: 26px;
+		height: 26px;
+		padding: 0;
+		transition: ease-out background-color 0.3s;
+		margin-right: .2em;
+		border-radius: 6px;
+
+		mask-position: center;
+		mask-repeat: no-repeat;
+		mask-size: contain;
+
+		&.github {
+			mask-image: url('../images/icons/github.svg');
+		}
+
+		&.facebook {
+			mask-image: url('../images/icons/facebook.svg');
+		}
+
+		&.twitter {
+			mask-image: url('../images/icons/twitter.svg');
+		}
+
+		&.flickr {
+			mask-image: url('../images/icons/flickr.svg');
+		}
+
+		&.linkedin {
+			mask-image: url('../images/icons/linkedin.svg');
+		}
+
+		&.rss {
+			mask-image: url('../images/icons/rss.svg');
+		}
+	}
+}
+
+.social-share {
+	display: flex;
+	margin-top: 40px;
+
+	button {
+		width: 50px;
+		height: 50px;
+		border-radius: 30px;
+		margin-right: 5px;
+		transition: all ease-out 0.1s;
+		mask-size: 50px;
+		mask-position: center;
+		mask-repeat: no-repeat;
+
+		&.twitter {
+			mask-image: url('../images/icons/twitter.svg');
+			background-color: #4EC8F4;
+		}
+
+		&.facebook {
+			mask-image: url('../images/icons/facebook.svg');
+			background-color: #1B75BB;
+		}
+
+		&:hover {
+			background-color: $dark-gray;
+			mask-size: 60px;
+		}
+	}
+}

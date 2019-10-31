@@ -1,0 +1,41 @@
+{
+  "name": "sujin/sujinc.com",
+  "description": "Quick Wordpress Development Module.",
+  "keywords": ["wordpress", "development"],
+  "homepage": "https://github.com/sujin2f/wp_express",
+  "type": "library",
+  "license": "Apache-2.0",
+  "authors": [
+    {
+      "name": "Sujin 수진 Choi",
+      "email": "sujin.2f@gmail.com",
+      "homepage": "http://sujinc.com",
+      "role": "Developer"
+    }
+  ],
+  "config": {
+    "platform": {
+      "php": "7.1"
+    }
+  },
+  "require": {
+    "php": ">=7.1",
+    "sujin/wp-express": "^3.0"
+  },
+  "require-dev": {
+    "squizlabs/php_codesniffer": "~3",
+    "wp-coding-standards/wpcs": "^1.2",
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
+    "phpunit/phpunit": "^7",
+    "johnpbloch/wordpress": "5.1.0",
+    "wp-phpunit/wp-phpunit": "5.1",
+    "phpcompatibility/phpcompatibility-wp": "*",
+    "phpcompatibility/php-compatibility": "^9.1",
+    "php-coveralls/php-coveralls": "^2.1"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Sujin\\Wordpress\\Theme\\Sujin\\Tests\\Unit\\": "tests/phpunit/Unit"
+    }
+  }
+}

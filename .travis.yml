@@ -1,0 +1,21 @@
+# .travis.yml
+language: php
+node_js:
+  - 10.15
+php:
+  - 7.3
+services:
+  - mysql
+install:
+  - npm install
+  - curl -s http://getcomposer.org/installer | php
+  - php composer.phar install --dev --no-interaction
+script:
+  - mkdir logs
+  - php vendor/bin/phpunit -c phpunit.xml
+  - php vendor/bin/phpcs
+  - npm run test
+before_install:
+  - echo "USE mysql;\nUPDATE user SET authentication_string=PASSWORD('password') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root
+after_success:
+  - travis_retry php vendor/bin/php-coveralls -v --json_path=logs/coveralls-upload.json

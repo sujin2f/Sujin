@@ -1,0 +1,24 @@
+@import '~foundation-sites/scss/foundation';
+
+@include foundation-global-styles;
+@include foundation-forms;
+@include foundation-typography;
+@include foundation-flex-grid;
+@include foundation-visibility-classes;
+
+@import 'patials/settings.scss';
+
+@import 'patials/global.scss';
+@import 'patials/icon.scss';
+@import 'patials/thumbnail.scss';
+@import 'patials/menu.scss';
+
+@import 'patials/header.scss';
+@import 'patials/footer.scss';
+
+@import 'patials/front-page.scss';
+@import 'patials/single.scss';
+@import 'patials/archive.scss';
+@import 'patials/aside.scss';
+@import 'patials/carousel.scss';
+@import 'patials/404.scss';
