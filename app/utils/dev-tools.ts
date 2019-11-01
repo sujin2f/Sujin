@@ -1,3 +1,11 @@
+/*
+ * Make first letter to upper case
+ */
+const ucfirst = (text: string): string => `${text.charAt(0).toUpperCase()}${text.slice(1)}`;
+
+/*
+ * String to array
+ */
 export const preserveCase = (input: string): Array<string> => {
   let output = '';
   let lastChar = '';
@@ -24,48 +32,49 @@ export const preserveCase = (input: string): Array<string> => {
   return outputArr.filter((c) => c);
 };
 
+/*
+ * camelCase
+ */
 export const camelCase = (texts: Array<string>): string => {
-  const output = texts.map((text, index) => {
-    if (index === 0) {
-      return text.toLowerCase();
-    }
-    return `${text.charAt(0).toUpperCase()}${text.slice(1)}`;
-  });
-
+  const output = texts.map((text) => ucfirst(text));
+  output[0] = output[0].toLowerCase();
   return output.join('');
 };
 
-export const pascalCase = (texts: Array<string>): string => {
-  const output = texts.map((text) => `${text.charAt(0).toUpperCase()}${text.slice(1)}`);
-  return output.join('');
-};
+/*
+ * CONSTANT_CASE
+ */
+export const constantCase = (texts: Array<string>): string => texts.map((text) => text.toUpperCase()).join('_');
 
-export const pathCase = (texts: Array<string>): string => {
-  const output = texts.map((text) => text.toLowerCase());
-  return output.join('/');
-};
-
-export const paramCase = (texts: Array<string>): string => {
-  const output = texts.map((text) => text.toLowerCase());
-  return output.join('-');
-};
-
-export const snakeCase = (texts: Array<string>): string => {
-  const output = texts.map((text) => text.toLowerCase());
-  return output.join('_');
-};
-
-export const constantCase = (texts: Array<string>): string => {
-  const output = texts.map((text) => text.toUpperCase());
-  return output.join('_');
-};
-
-export const titleCase = (texts: Array<string>): string => {
-  const output = texts.map((text) => `${text.charAt(0).toUpperCase()}${text.slice(1)}`);
-  return output.join(' ');
-};
-
+/*
+ * dot.case
+ */
 export const dotCase = (texts: Array<string>): string => texts.map((text) => text.toLowerCase()).join('.');
+
+/*
+ * param-case
+ */
+export const paramCase = (texts: Array<string>): string => texts.map((text) => text.toLowerCase()).join('-');
+
+/*
+ * PascalCase
+ */
+export const pascalCase = (texts: Array<string>): string => texts.map((text) => ucfirst(text)).join('');
+
+/*
+ * path/case
+ */
+export const pathCase = (texts: Array<string>): string => texts.map((text) => text.toLowerCase()).join('/');
+
+/*
+ * snake_case
+ */
+export const snakeCase = (texts: Array<string>): string => texts.map((text) => text.toLowerCase()).join('_');
+
+/*
+ * Title Case
+ */
+export const titleCase = (texts: Array<string>): string => texts.map((text) => ucfirst(text)).join(' ');
 
 export const sortText = (text: string, removeEmpty: boolean): string => text
   .split('\n')

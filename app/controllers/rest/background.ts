@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 import { isMobile } from 'app/utils/common';
 
 import BackgroundItem from 'app/types/rest/background';
@@ -25,7 +27,7 @@ export default class BackgroundController extends RestController<BackgroundItem>
       return isMobile() ? DEFAULT_BG_MOBILE : DEFAULT_BG;
     }
 
-    const index = Math.floor(Math.random() * (this.entities.length + 1)) - 1;
+    const index = Math.floor(Math.random() * this.entities.length);
     return isMobile() ? this.entities[index].mobile : this.entities[index].desktop;
   }
 

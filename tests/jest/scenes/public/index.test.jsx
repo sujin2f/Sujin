@@ -1,3 +1,4 @@
+/*
 import React from 'react';
 import {
   render,
@@ -11,7 +12,7 @@ import {
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 
-import Public from '../../../../app/scenes/public';
+// import Public from '../../../../app/scenes/public';
 // import renderer from 'react-test-renderer';
 
 const mock = new MockAdapter(axios);
@@ -20,6 +21,7 @@ mock.onGet('/wp-json/sujin/v1/menu/main-menu').reply(200, []);
 mock.onGet('/wp-json/sujin/v1/menu/social-media').reply(200, []);
 
 afterEach(cleanup);
+*/
 
 test('Public', async () => {
 /*
