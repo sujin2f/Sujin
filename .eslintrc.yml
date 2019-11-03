@@ -62,6 +62,7 @@ rules:
   lines-between-class-members: off
   import/no-cycle: off
   "@typescript-eslint/no-inferrable-types": off
+  import/no-named-default: off
 overrides:
   - files:
     - "*.js"

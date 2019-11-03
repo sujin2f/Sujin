@@ -8,7 +8,7 @@ import pathToRegexp from 'path-to-regexp';
 import { createBrowserHistory, History } from 'history';
 
 import GlobalController from 'app/controllers/global';
-import MatchedItem, { emptyMatched } from 'app/types/matched';
+import MatchedItem, { emptyMatched } from 'app/items/matched';
 
 // TODO I don't want to add any react dependant modules
 import { scrollTo } from 'app/utils/common';

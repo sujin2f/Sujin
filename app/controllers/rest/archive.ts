@@ -4,13 +4,12 @@
 
 import hash from 'object-hash';
 
-import { Types } from 'app/types/rest/archive';
-import Post from 'app/types/rest/post';
+import { RestItemBuilder } from 'app/types/rest/base';
+import { TermTypes } from 'app/constants/enum';
+import Post from 'app/items/rest/post';
 import RestController from 'app/controllers/rest/base';
 import PostController from 'app/controllers/rest/post';
 import RouteController from 'app/controllers/route';
-import { RestItemBuilder } from 'app/types/rest/base';
-
 // Utiles
 import { isMobile } from 'app/utils/common';
 
@@ -27,7 +26,7 @@ export default class ArchiveController extends RestController<Post> {
   public static instance: {
     [hash: string]: ArchiveController;
   } = {};
-  public readonly type: Types;
+  public readonly type: TermTypes;
   public readonly slug: string;
   public readonly page: number;
   public background: string;

@@ -4,7 +4,7 @@
  * This contains HTML <head.title />, the status of mobile menu, and the scrolling
  */
 
-import { Scrolled, MobileMenu } from 'app/types/global';
+import { Scrolled, MobileMenu } from 'app/constants/enum';
 import { TOP_MENU_SCROLLED_POSITION } from 'app/constants/common';
 
 export default class GlobalController {

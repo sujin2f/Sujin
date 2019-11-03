@@ -1,5 +1,5 @@
 import FlickrController from 'app/controllers/rest/flickr';
-import FlickrItem from 'app/types/rest/flickr';
+import { default as FlickrItem } from 'app/items/rest/flickr';
 
 const { Component } = wp.element;
 

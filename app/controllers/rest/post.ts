@@ -2,10 +2,10 @@
  * Post Controller
  */
 
-import RestController from 'app/controllers/rest/base';
-import Post from 'app/types/rest/post';
-import RouteController from 'app/controllers/route';
 import { RestItemBuilder } from 'app/types/rest/base';
+import RestController from 'app/controllers/rest/base';
+import Post from 'app/items/rest/post';
+import RouteController from 'app/controllers/route';
 
 export default class PostController extends RestController<Post> {
   public static instance: {

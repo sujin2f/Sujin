@@ -1,19 +1,17 @@
-import axios from 'axios';
-
 import { isMobile } from 'app/utils/common';
 
-import BackgroundItem from 'app/types/rest/background';
+import Background from 'app/items/rest/background';
 import RestController from 'app/controllers/rest/base';
 
 import DEFAULT_BG from '../../../assets/images/background/backup-background.jpg';
 import DEFAULT_BG_MOBILE from '../../../assets/images/background/backup-background-mobile.jpg';
 
-export default class BackgroundController extends RestController<BackgroundItem> {
+export default class BackgroundController extends RestController<Background> {
   public static instance: BackgroundController;
 
   public static getInstance(): BackgroundController {
     if (!this.instance) {
-      this.instance = new BackgroundController(BackgroundItem);
+      this.instance = new BackgroundController(Background);
     }
     return this.instance;
   }

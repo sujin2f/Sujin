@@ -1,7 +1,5 @@
-// import RouteController from 'app/controllers/route';
 import GlobalController from 'app/controllers/global';
 import ArchiveController from 'app/controllers/rest/archive';
-// import { Types, ArchiveMatched } from 'app/types/rest/archive';
 
 import Base from 'app/scenes/public/Base';
 import Public from 'app/scenes/public';

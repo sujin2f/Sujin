@@ -3,7 +3,7 @@ import mock from '../../__mocks__/axios.mock';
 import data from './post.test.data';
 
 import PostController from 'app/controllers/rest/post';
-import Post from 'app/types/rest/post';
+import Post from 'app/items/rest/post';
 
 test('PostController', () => {
 /*
