@@ -71,6 +71,8 @@ final class Assets {
 		wp_enqueue_script( 'sujin-app-vendor' );
 		wp_enqueue_style( 'sujin-app' );
 
+		wp_dequeue_style( 'wp-block-library' );
+
 		// Remove dependancies to minimize script load
 		$scripts = wp_scripts();
 
