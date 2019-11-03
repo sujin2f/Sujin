@@ -8,7 +8,7 @@ import pathToRegexp from 'path-to-regexp';
 import { createBrowserHistory, History } from 'history';
 
 import GlobalController from 'app/controllers/global';
-import MatchedItem, { emptyMatched } from 'app/types/matched';
+import MatchedItem, { emptyMatched } from 'app/items/matched';
 
 // TODO I don't want to add any react dependant modules
 import { scrollTo } from 'app/utils/common';
@@ -20,8 +20,10 @@ export default class RouteController {
   private component: ReactComponent;
 
   /* eslint-disable @typescript-eslint/no-explicit-any */
-  private constructor(component: ReactComponent) {
-    this.component = component;
+  private constructor(component?: ReactComponent) {
+    if (component) {
+      this.component = component;
+    }
 
     this.history.listen((location, action: string) => {
       if (action === 'PUSH' || action === 'POP') {
@@ -33,6 +35,16 @@ export default class RouteController {
         }
       }
     });
+  }
+  /* eslint-enable */
+
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  public static getInstance(component?: ReactComponent): RouteController {
+    if (!this.instance) {
+      this.instance = new RouteController(component);
+    }
+
+    return this.instance;
   }
   /* eslint-enable */
 
@@ -122,14 +134,4 @@ export default class RouteController {
 
     return [validChild];
   }
-
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  static getInstance(component?: ReactComponent): RouteController {
-    if (!this.instance) {
-      this.instance = new RouteController(component);
-    }
-
-    return this.instance;
-  }
-  /* eslint-enable */
 }

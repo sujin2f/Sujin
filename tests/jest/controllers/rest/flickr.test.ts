@@ -1,9 +1,11 @@
 import ComponentMock from '../../__mocks__/component.mock';
-import mock from '../../__mocks__/axios.mock';
+import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
 import data from './flickr.test.data';
 
 import FlickrController from 'app/controllers/rest/flickr';
 
+const mock = new MockAdapter(axios);
 mock.onGet('/wp-json/sujin/v1/flickr/').reply(200, data);
 
 test('FlickrController', () => {

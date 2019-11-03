@@ -118,7 +118,7 @@ class CaseTool extends Component {
               </div>
 
               <div className="columns large-6 medium-12">
-                <dt><span className="label">dotCase</span></dt>
+                <dt><span className="label">dot.case</span></dt>
                 <dd className="lead"><code>{dotCase(this.state.converted)}</code></dd>
               </div>
 

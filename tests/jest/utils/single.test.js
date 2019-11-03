@@ -1,11 +1,3 @@
-global.wp = {
-  shortcode: require('@wordpress/shortcode'),
-  element: require('@wordpress/element'),
-  data: require('@wordpress/data'),
-  compose: require('@wordpress/compose'),
-  url: require('@wordpress/url'),
-};
-
 const {
   parseContent,
   parseSeries,
@@ -47,9 +39,6 @@ test('[gist /], [carousel /], [tweet /] Content Parse Test', () => {
 
   expect(typeof parsed).toEqual('object');
   expect(parsed.length).toEqual(14);
-
-  console.log(parsed[5].type.name);
-
   expect(parsed[0].type).toEqual('section');
   expect(parsed[1].type.name).toEqual('Gist');
   expect(parsed[2].type).toEqual('section');

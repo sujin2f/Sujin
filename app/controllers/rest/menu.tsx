@@ -1,17 +1,17 @@
-import MenuItem from 'app/types/rest/menu';
-import RestController from 'app/controllers/rest/base';
 import { RestItemBuilder } from 'app/types/rest/base';
+import Menu from 'app/items/rest/menu';
+import RestController from 'app/controllers/rest/base';
 
 /*
  * Menu Controller
  */
-export default class MenuController extends RestController<MenuItem> {
+export default class MenuController extends RestController<Menu> {
   public static instance: {
     [slug: string]: MenuController;
   } = {};
   private readonly slug: string;
 
-  protected constructor(itemBuilder: RestItemBuilder<MenuItem>, slug: string) {
+  protected constructor(itemBuilder: RestItemBuilder<Menu>, slug: string) {
     super(itemBuilder);
     this.slug = slug;
   }
@@ -21,7 +21,7 @@ export default class MenuController extends RestController<MenuItem> {
    */
   public static getInstance(slug: string): MenuController {
     if (!MenuController.instance[slug]) {
-      MenuController.instance[slug] = new MenuController(MenuItem, slug);
+      MenuController.instance[slug] = new MenuController(Menu, slug);
     }
     return MenuController.instance[slug];
   }

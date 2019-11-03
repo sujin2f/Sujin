@@ -1,6 +1,6 @@
 import { RestItem } from 'app/types/rest/base';
 
-export default class FlickrItem implements RestItem {
+export default class Flickr implements RestItem {
   title: string;
   link: string;
   media: {
@@ -17,7 +17,7 @@ export default class FlickrItem implements RestItem {
     this.media = data.media;
   }
 
-  static create(data): FlickrItem {
-    return new FlickrItem(data);
+  static create(data): Flickr {
+    return new Flickr(data);
   }
 }

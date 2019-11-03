@@ -1,9 +1,9 @@
-import { Types } from 'app/types/rest/archive';
+import { TermTypes } from 'app/constants/enum';
 
 export default class MatchedItem {
   readonly matched: boolean;
   readonly slug?: string;
-  readonly type?: Types;
+  readonly type?: TermTypes;
   readonly page?: number;
 
   constructor(data) {

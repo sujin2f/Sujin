@@ -1,6 +1,6 @@
 // Replace with CSS::hover
 import MenuController from 'app/controllers/rest/menu';
-import MenuItem from 'app/types/rest/menu';
+import { default as MenuItem } from 'app/items/rest/menu';
 
 import Link from 'app/components/router/Link';
 

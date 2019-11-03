@@ -1,8 +1,8 @@
 import { RestItem } from 'app/types/rest/base';
 
-export default class MenuItem implements RestItem {
+export default class Menu implements RestItem {
   ID: number;
-  children: Array<MenuItem>;
+  children: Array<Menu>;
   classes: Array<string>;
   target: string;
   title: string;
@@ -17,7 +17,7 @@ export default class MenuItem implements RestItem {
     this.url = data.url;
   }
 
-  static create(data): MenuItem {
-    return new MenuItem(data);
+  static create(data): Menu {
+    return new Menu(data);
   }
 }

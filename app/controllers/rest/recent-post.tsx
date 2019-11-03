@@ -1,6 +1,6 @@
 import RestController from 'app/controllers/rest/base';
 import PostController from 'app/controllers/rest/post';
-import Post from 'app/types/rest/post';
+import Post from 'app/items/rest/post';
 
 /*
  * Recent Post Controller

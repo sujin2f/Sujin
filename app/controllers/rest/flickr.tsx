@@ -1,15 +1,15 @@
-import FlickrItem from 'app/types/rest/flickr';
+import Flickr from 'app/items/rest/flickr';
 import RestController from 'app/controllers/rest/base';
 
 /*
  * Flickr Controller
  */
-export default class FlickrController extends RestController<FlickrItem> {
+export default class FlickrController extends RestController<Flickr> {
   public static instance: FlickrController;
 
   public static getInstance(): FlickrController {
     if (!this.instance) {
-      this.instance = new FlickrController(FlickrItem);
+      this.instance = new FlickrController(Flickr);
     }
     return this.instance;
   }
