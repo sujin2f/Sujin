@@ -4,13 +4,13 @@
 const ucfirst = (text: string): string => `${text.charAt(0).toUpperCase()}${text.slice(1)}`;
 
 /*
- * String to array
+ * String to array word by word
  */
 export const preserveCase = (input: string): Array<string> => {
   let output = '';
   let lastChar = '';
 
-  for (let i = 0; i < input.length; i += 1) {
+  Array.from(Array(input.length).keys()).forEach((i) => {
     const c = input[i];
 
     if (/[a-z0-9]/.test(c)) {
@@ -26,10 +26,9 @@ export const preserveCase = (input: string): Array<string> => {
     }
 
     lastChar = c;
-  }
+  });
 
-  const outputArr = output.split('-');
-  return outputArr.filter((c) => c);
+  return output.split('-').filter((c) => c);
 };
 
 /*

@@ -50,9 +50,9 @@ export default class GlobalController {
           return;
         }
 
-		if (this.component) {
-	        this.component.forceUpdate();
-		}
+        if (this.component) {
+          this.component.forceUpdate();
+        }
       });
     }
   }

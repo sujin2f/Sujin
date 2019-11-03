@@ -153,7 +153,7 @@ abstract class Abs_Rest_Base extends WP_REST_Controller {
 
 	public function filter_schema( string $key ): bool {
 		$fields = $this->get_fields_for_response( null );
-		return in_array( $key, $fields );
+		return in_array( $key, $fields, true );
 	}
 
 	public function prepare_response_for_collection( $response ): array {

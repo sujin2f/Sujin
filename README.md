@@ -8,14 +8,14 @@ The Wordpress Theme which frontend is React from the new WP Editor Gutenberg.
 
 ## Installation
 To install this theme, move the folder to your themes and build its source:
-```
+```shell
 $ npm i
 $ npm run build
 ```
 
 ## Tech Stack
 1. Language: ES6, Typescript, SASS
-1. Library: React (from WP)
-1. Bundler: Webpack, Babel
-1. Lint: ESLint, TSLint, PHPCS - WPCS
-1. Test: Jest, PHP Unit
+2. Library: React (from WP)
+3. Bundler: Webpack, Babel
+4. Lint: ESLint, TSLint, PHPCS - WPCS
+5. Test: Jest, PHP Unit
