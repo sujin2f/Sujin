@@ -176,9 +176,9 @@ class Posts extends Abs_Rest_Base {
 			return $return;
 		}
 
-		$keyword = $posts ? '<p>Search result for ' . $keyword . '</p>' : '<p>No search result</p>';
-		$return->header( 'x-wp-term-description', urlencode( $keyword ) );
-		$return->header( 'x-wp-term-name', urlencode( $keyword ) );
+		$keyword = $posts ? 'Search result for ' . $keyword : 'No search result';
+		$return->header( 'x-wp-term-description', urlencode( wpautop( $keyword ) ) );
+		$return->header( 'x-wp-term-name', $keyword );
 
 		$this->set_transient( $return );
 		return $return;

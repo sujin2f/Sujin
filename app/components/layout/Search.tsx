@@ -1,3 +1,5 @@
+import RouteController from 'app/controllers/route';
+
 const { compose } = wp.compose;
 const { Component } = wp.element;
 
@@ -27,7 +29,6 @@ class Search extends Component {
 
   handleSubmitSearch(e): void {
     const { searchOpened, searchString } = this.state;
-    const { history } = this.props;
 
     if (!searchOpened || !searchString) {
       this.setState({
@@ -37,7 +38,7 @@ class Search extends Component {
       setTimeout(() => document.getElementById('search-string').focus(), 300);
     } else if (searchString) {
       const to = `/search/${searchString}`;
-      history.push(to);
+      RouteController.getInstance().pushHash(e, to);
       this.setState({
         searchString: '',
       });
