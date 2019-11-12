@@ -35,7 +35,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Sujin\\Wordpress\\Theme\\Sujin\\Tests\\Unit\\": "tests/phpunit/Unit"
+      "Sujin\\Wordpress\\Theme\\Sujin\\Tests\\Unit\\": "tests/phpunit/unit"
     }
   }
 }

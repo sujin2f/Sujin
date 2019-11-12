@@ -6,7 +6,6 @@ use Sujin\Wordpress\Theme\Sujin\Helpers\Utilities;
 // phpcs:disable Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
 use WP_REST_Controller,
     WP_REST_Response,
-    WP_REST_Request,
     WP_HTTP_Requests_Response;
 // phpcs:enable Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
 
@@ -27,11 +26,6 @@ abstract class Abs_Rest_Base extends WP_REST_Controller {
 	// Transient
 	protected const CACHE_TTL     = HOUR_IN_SECONDS;
 	protected const RESOURCE_NAME = '';
-	protected const KEY_ITEMS     = 'items';
-	protected const KEY_RETURN    = 'return';
-	private   const KEY_CACHE     = 'cache_expired';
-
-	protected $transient_suffix = null;
 
 	public function __construct() {
 		add_action( 'rest_api_init', array( $this, 'create_rest_routes' ), 10, 0 );
@@ -65,82 +59,13 @@ abstract class Abs_Rest_Base extends WP_REST_Controller {
 			return ! $response->is_error();
 		}
 
-		return  is_array( Utilities::get_item( $response, 'response' ) ) &&
-			200 === ( Utilities::get_item( $response['response'], 'code' ) );
+		$response = json_decode( wp_json_encode( $response ), true );
+
+		return $response['response'] && $response['response']['code'] && 200 === $response['response']['code'];
 	}
 
-	// Transient
-	protected function get_transient(): array {
-		$transient     = get_transient( $this->get_transient_key() );
-		$items         = $this->get_items_node( $transient );
-		$cache_expired = $this->get_cache_expired_node( $transient );
-
-		if ( ! is_null( $items ) && ( -1 === $cache_expired || $cache_expired > time() ) ) {
-			return array(
-				self::KEY_RETURN => true,
-				self::KEY_ITEMS  => $items,
-			);
-		}
-
-		return array(
-			self::KEY_RETURN => false,
-			self::KEY_ITEMS  => $items,
-		);
-	}
-
-	protected function set_transient( $items ) {
-		$transient = array(
-			self::KEY_ITEMS => $items,
-			self::KEY_CACHE => is_null( static::CACHE_TTL ) ? -1 : time() + static::CACHE_TTL,
-		);
-
-		$transient_key = $this->get_transient_key();
-		set_transient( $transient_key, $transient );
-
-		$transient_key = $this->get_transient_key( true );
-		if ( $this->transient_suffix ) {
-			$with_suffix = $transient_key . '-' . $this->transient_suffix;
-
-			$transient_keys = get_option( 'transient_keys_' . $transient_key, array() );
-			if ( ! in_array( $with_suffix, $transient_keys, true ) ) {
-				array_push( $transient_keys, $with_suffix );
-				update_option( 'transient_keys_' . $transient_key, $transient_keys );
-			}
-		}
-	}
-
-	public function delete_transient() {
-		$transient_key  = $this->get_transient_key( true );
-		$transient_keys = get_option( 'transient_keys_' . $transient_key, array() );
-
-		foreach ( $transient_keys as $key ) {
-			delete_transient( $key );
-		}
-
-		$transient_key = $this->get_transient_key();
-		delete_transient( $transient_key );
-	}
-
-	private function get_transient_key( bool $without_suffix = false ): string {
-		$transient_key = 'rest-sujin-v1-' . static::RESOURCE_NAME;
-
-		if ( is_null( $this->transient_suffix ) || true === $without_suffix ) {
-			return $transient_key;
-		}
-
-		return $transient_key . '-' . $this->transient_suffix;
-	}
-
-	protected function set_transient_suffix( string $suffix ) {
-		$this->transient_suffix = $suffix;
-	}
-
-	private function get_items_node( $object ) {
-		return Utilities::get_item( $object, self::KEY_ITEMS ) ?? null;
-	}
-
-	private function get_cache_expired_node( $object ) {
-		return Utilities::get_item( $object, self::KEY_CACHE ) ?? 0;
+	protected function get_transient_key(): string {
+		return 'rest-sujin-v1-' . static::RESOURCE_NAME;
 	}
 
 	// Response

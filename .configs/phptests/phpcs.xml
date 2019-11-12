@@ -17,11 +17,5 @@
     <exclude-pattern>*.js</exclude-pattern>
 
     <rule ref="WordPress-Core" />
-
-    <rule ref="WordPress.Files.FileName.InvalidClassFileName">
-	    <exclude-pattern>tests/*</exclude-pattern>
-	</rule>
-    <rule ref="WordPress.Files.FileName.NotHyphenatedLowercase">
-	    <exclude-pattern>tests/*</exclude-pattern>
-	</rule>
+    <rule ref="PHPCompatibilityWP" />
 </ruleset>

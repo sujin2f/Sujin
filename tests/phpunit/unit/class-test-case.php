@@ -3,8 +3,9 @@ namespace Sujin\Wordpress\Theme\Sujin\Tests\Unit;
 
 use WP_UnitTestCase;
 use ReflectionClass;
+use Http_Request;
 
-abstract class TestCase extends WP_UnitTestCase {
+abstract class Test_Case extends WP_UnitTestCase {
 	protected static $home_dir = '';
 	protected static $test_dir = '';
 
@@ -57,5 +58,10 @@ abstract class TestCase extends WP_UnitTestCase {
 
 	protected function get_stylesheet_directory_uri() {
 		return get_theme_root_uri( 'twentynineteen' ) . '/twentynineteen';
+	}
+
+	protected function mock_request() {
+		require_once( dirname( dirname( __FILE__ ) ) . '/data-storage/class-http-request.php' );
+		Http_Request::get_instance();
 	}
 }

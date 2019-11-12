@@ -1,7 +1,9 @@
 <?php
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1;
 
+use Sujin\Wordpress\Theme\Sujin\Transient;
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Abs_Rest_Base;
+use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items\Flickr as FlickrItem;
 use Sujin\Wordpress\Theme\Sujin\Helpers\Utilities;
 use Sujin\Wordpress\WP_Express\Fields\Settings\Input;
 
@@ -25,11 +27,17 @@ class Flickr extends Abs_Rest_Base {
 	protected const CACHE_TTL     = 12 * HOUR_IN_SECONDS;
 	protected const RESOURCE_NAME = 'flickr';
 
+	public const FLICKR_ID = 'Flicker ID';
+
 	public function __construct() {
 		parent::__construct();
 
-		$option = Input::get_instance( 'Flicker ID' )->get_id();
+		$option = Input::get_instance( self::FLICKR_ID )->get_id();
 		add_action( "update_option_{$option}", array( $this, 'delete_transient' ) );
+	}
+
+	public function delete_transient() {
+		delete_transient( $this->get_transient_key() );
 	}
 
 	public function create_rest_routes() {
@@ -42,24 +50,23 @@ class Flickr extends Abs_Rest_Base {
 					'callback'            => array( $this, 'get_items' ),
 					'permission_callback' => array( $this, 'permissions_check' ),
 				),
-				'schema' => array( $this, 'get_item_schema' ),
+				'schema' => array( 'FlickrItem', 'get_item_schema' ),
 			)
 		);
 	}
 
-	public function get_items( $request ) {
+	public function get_items( $_ ) {
 		// Get transient
-		$transient = $this->get_transient();
+		$transient = Transient::get_transient( $this->get_transient_key() );
 
-		if ( $transient[ self::KEY_RETURN ] && ! self::DEV_MODE ) {
-			return rest_ensure_response( $transient[ self::KEY_ITEMS ] );
+		if ( $transient && ! $transient->is_expired() && ! self::DEV_MODE ) {
+			return rest_ensure_response( $transient->items );
 		}
 
 		// Get URL
 		$url = $this->get_request_url();
 
 		if ( is_null( $url ) ) {
-			$this->set_transient( $this->error_no_id() );
 			return rest_ensure_response( $this->error_no_id() );
 		}
 
@@ -68,33 +75,33 @@ class Flickr extends Abs_Rest_Base {
 
 		// Request fails
 		if ( ! $this->is_success( $response ) ) {
-			if ( $transient[ self::KEY_ITEMS ] ) {
-				return rest_ensure_response( $transient[ self::KEY_ITEMS ] );
+			if ( $transient && $transient->items ) {
+				return rest_ensure_response( $transient->items );
 			}
 
 			return rest_ensure_response( $this->error_request_fail() );
 		}
 
-		$response = $response['http_response'];
-		$body     = $response->get_data();
-		$body     = json_decode( $body, true );
-		$items    = Utilities::get_item( $body, 'items' );
+		$response = json_decode( wp_json_encode( $response ), true );
+		$items    = json_decode( $response['body'], true );
+		$items    = $items['items'] ?: array();
 
-		foreach ( array_keys( $items ) as $arr_key ) {
-			$items[ $arr_key ] = $this->prepare_item_for_response( $items[ $arr_key ], $request );
-			$items[ $arr_key ] = $this->prepare_response_for_collection( $items[ $arr_key ] );
+		foreach ( array_keys( $items ) as $key ) {
+			$items[ $key ] = new FlickrItem( $items[ $key ] );
 		}
 
 		shuffle( $items );
 		$items = array_slice( $items, 0, 12 );
+		$items = json_decode( wp_json_encode( $items ), true );
 
-		$this->set_transient( $items );
+		$transient = new Transient( $items, self::CACHE_TTL );
+		set_transient( $this->get_transient_key(), wp_json_encode( $transient ) );
 
 		return rest_ensure_response( $items );
 	}
 
 	private function get_request_url(): ?string {
-		$flickr_id = Input::get_instance( 'Flicker ID' )->get();
+		$flickr_id = Input::get_instance( self::FLICKR_ID )->get();
 
 		if ( ! $flickr_id ) {
 			return null;
@@ -118,54 +125,11 @@ class Flickr extends Abs_Rest_Base {
 
 	private function error_request_fail(): WP_Error {
 		return new WP_Error(
-			'NO_ITEM',
-			'The account has no photo.',
+			'NOT_FOUND',
+			'The account does not exist.',
 			array(
-				'status' => self::STATUS_CODE_NO_CONTENT,
+				'status' => self::STATUS_CODE_NOT_FOUND,
 			)
-		);
-	}
-
-	public function prepare_item_for_response( $item, $request ): WP_REST_Response {
-		$item          = (array) $item;
-		$item['media'] = array(
-			'origin' => str_replace( '_m.', '.', $item['media']['m'] ),
-			's'      => str_replace( '_m.', '_s.', $item['media']['m'] ),
-			't'      => str_replace( '_m.', '_t.', $item['media']['m'] ),
-			'b'      => str_replace( '_m.', '_b.', $item['media']['m'] ),
-			'm'      => $item['media']['m'],
-		);
-
-		$item = parent::prepare_item_for_response( $item, $request );
-		return rest_ensure_response( $item );
-	}
-
-	public function get_item_schema(): array {
-		return array(
-			'$schema'    => 'http://json-schema.org/draft-04/schema#',
-			'title'      => 'flickr',
-			'type'       => 'object',
-			'properties' => array(
-				'title' => array(
-					'description' => 'The title of the photo.',
-					'type'        => 'string',
-					'context'     => array( 'view', 'edit', 'embed' ),
-					'readonly'    => true,
-				),
-				'link'  => array(
-					'description' => 'Flickr URL for the image',
-					'type'        => 'string',
-					'context'     => array( 'view', 'edit', 'embed' ),
-					'readonly'    => true,
-				),
-				'media' => array(
-					'description' => 'Image URLs',
-					'type'        => 'array',
-					'context'     => array( 'view', 'edit', 'embed' ),
-					'readonly'    => true,
-				),
-
-			),
 		);
 	}
 }

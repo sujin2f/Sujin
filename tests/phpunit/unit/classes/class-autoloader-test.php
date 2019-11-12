@@ -3,7 +3,7 @@ namespace Sujin\Wordpress\Theme\Sujin\Tests\Unit;
 
 use Sujin\Wordpress\Theme\Sujin\Autoloader;
 
-class AutoloaderTest extends TestCase {
+class Autoloader_Test extends Test_Case {
 	function provider_load_class_file(): array {
 		return array(
 			'Sujin\Wordpress\Theme\Sujin\Test'            => array(

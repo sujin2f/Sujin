@@ -9,17 +9,9 @@
 
 namespace Sujin\Wordpress\Theme\Sujin;
 
-use Sujin\Wordpress\Theme\Sujin\Theme_Supports;
-use Sujin\Wordpress\Theme\Sujin\Helpers\Rest_Helper;
+use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1\{Flickr, Posts, Menu, Media};
 
-use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1\Flickr;
-use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1\Posts;
-use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1\Menu;
-use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1\Media;
-
-use WP_REST_Server, WP_REST_Response, WP_Query;
-
-class REST_API {
+final class REST_API {
 	use Helpers\Singleton;
 
 	public function __construct() {
