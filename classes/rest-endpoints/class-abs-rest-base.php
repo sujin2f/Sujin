@@ -64,7 +64,7 @@ abstract class Abs_Rest_Base extends WP_REST_Controller {
 		return $response['response'] && $response['response']['code'] && 200 === $response['response']['code'];
 	}
 
-	protected function get_transient_key(): string {
+	protected function get_transient_key( string $_ = '' ): string {
 		return 'rest-sujin-v1-' . static::RESOURCE_NAME;
 	}
 

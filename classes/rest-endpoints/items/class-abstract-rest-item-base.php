@@ -18,4 +18,28 @@ abstract class Abstract_Rest_Item_Base implements IteratorAggregate {
 	public function getIterator(): ArrayIterator {
 		return new ArrayIterator( static::get_item_properties() );
 	}
+
+	protected function cast_type( string $type, $value ) {
+		switch ( $type ) {
+			case 'int':
+			case 'integer':
+			case 'number':
+				return (int) $value;
+			case 'bool':
+			case 'boolean':
+				return (boolean) $value;
+			case 'float':
+			case 'double':
+			case 'real':
+				return (float) $value;
+			case 'string':
+				return (string) $value;
+			case 'array':
+				return (array) $value;
+			case 'object':
+				return (object) $value;
+		}
+
+		return $value;
+	}
 }

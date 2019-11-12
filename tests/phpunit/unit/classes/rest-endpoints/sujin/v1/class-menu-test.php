@@ -4,6 +4,7 @@ namespace Sujin\Wordpress\Theme\Sujin\Tests\Unit\Rest_Endpoints\Sujin\V1;
 use Sujin\Wordpress\Theme\Sujin\Tests\Unit\Test_Case;
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1\Menu;
 use Sujin\Wordpress\Theme\Sujin\Transient;
+use WP_REST_Request;
 
 class Menu_Test extends Test_Case {
 	private $object;
@@ -36,15 +37,16 @@ class Menu_Test extends Test_Case {
 		return $menu_id;
 	}
 
-	private function update_nav_menu( int $menu_id ) {
+	private function update_nav_menu( int $menu_id, int $parent_id ): void {
 		wp_update_nav_menu_item(
 			$menu_id,
 			0,
 			array(
-				'menu-item-title'   => 'Home',
-				'menu-item-classes' => 'home',
-				'menu-item-url'     => home_url( '/' ),
-				'menu-item-status'  => 'publish',
+				'menu-item-title'     => 'Home',
+				'menu-item-classes'   => 'home',
+				'menu-item-url'       => home_url( '/' ),
+				'menu-item-status'    => 'publish',
+				'menu-item-parent-id' => $parent_id,
 			)
 		);
 
@@ -52,14 +54,35 @@ class Menu_Test extends Test_Case {
 	}
 
 	public function test_request() {
+		// Request
 		$menu_id = $this->create_nav_menu();
-		$this->update_nav_menu( $menu_id );
+		$request = new WP_REST_Request( 'GET', '' );
+		$request->set_param( 'menu', 'main' );
 
-		/*
-				$locations = get_nav_menu_locations();
-				var_dump($locations);
-		*/
+		$actual = $this->object->get_items( $request )->get_data();
+		$this->assertEquals( 'Home', $actual[0]['title'] );
+		$this->assertEquals( 'http://example.org/', $actual[0]['url'] );
 
-		$this->assertEquals( '', '' );
+		$menu_item_id = $actual[0]['ID'];
+
+		// Request -- doesn't exist
+		$request->set_param( 'menu', 'main2' );
+		$actual = $this->object->get_items( $request );
+		$this->assertEquals( $actual, $this->call_private_method( $this->object, 'error_no_menu' ) );
+
+		// Menu Changed: Transient
+		$transient_key = $this->call_private_method( $this->object, 'get_transient_key', array( 'main' ) );
+		$before        = Transient::get_transient( $transient_key );
+
+		$this->update_nav_menu( $menu_id, $menu_item_id );
+		$request->set_param( 'menu', 'main' );
+		$this->object->get_items( $request );
+
+		$after = Transient::get_transient( $transient_key );
+		$this->assertNotEquals( $before, $after );
+
+		// Children
+		$this->assertEquals( 'Home', $after->items[0]['children'][0]['title'] );
+		$this->assertEquals( 'http://example.org/', $after->items[0]['children'][0]['url'] );
 	}
 }

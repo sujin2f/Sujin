@@ -11,19 +11,19 @@ class Menu extends Abstract_Rest_Item_Base {
 	public $menu_item_parent;
 	public $menu_order;
 	public $classes  = array();
-	public $children = array(); // Array of MenuItem
+	public $children = array(); // Array of Menu
 
 	// Make MenuItem from WP_Post
 	public function __construct( WP_Post $post ) {
-		$properties = array_keys( self::get_item_properties() );
-		foreach ( get_object_vars( $post ) as $key => $value ) {
-			if ( in_array( $key, $properties, true ) ) {
-				$this->$key = $value;
+		// Iterate properites
+		foreach ( $this as $key => $args ) {
+			if ( property_exists( $post, $key ) ) {
+				$this->$key = $this->cast_type( $args['type'], $post->$key );
 			}
 		}
 	}
 
-	public function append_children( MenuItem $child ) {
+	public function append_children( Menu $child ) {
 		$this->children[] = $child;
 	}
 

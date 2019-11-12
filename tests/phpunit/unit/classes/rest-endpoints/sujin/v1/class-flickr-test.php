@@ -36,7 +36,7 @@ class Flickr_Test extends Test_Case {
 		$expected = array( 'title', 'link', 'media' );
 		$this->assertEquals( $expected, array_keys( $actual[0] ) );
 
-		// Setting Changed
+		// Setting Changed: Transient
 		$transient_key = $this->call_private_method( $this->object, 'get_transient_key' );
 		$before        = Transient::get_transient( $transient_key );
 

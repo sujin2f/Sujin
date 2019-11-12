@@ -1,6 +1,7 @@
 <?php
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1;
 
+use Sujin\Wordpress\Theme\Sujin\Transient;
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Abs_Rest_Base;
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items\Menu as MenuItem;
 
@@ -17,7 +18,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Menu extends Abs_Rest_Base {
-	protected const CACHE_TTL     = null;
 	protected const RESOURCE_NAME = 'menu';
 
 	public function __construct() {
@@ -29,7 +29,7 @@ class Menu extends Abs_Rest_Base {
 		$locations = get_terms( 'nav_menu', array( 'hide_empty' => true ) );
 		foreach ( $locations as $location ) {
 			if ( $menu_id === $location->term_id ) {
-				delete_transient( $this->get_transient_key() . '-' . $location->slug );
+				delete_transient( $this->get_transient_key( $location->slug ) );
 			}
 		}
 	}
@@ -52,7 +52,7 @@ class Menu extends Abs_Rest_Base {
 						),
 					),
 				),
-				'schema' => array( $this, 'get_item_schema' ),
+				'schema' => array( 'MenuItem', 'get_item_schema' ),
 			)
 		);
 	}
@@ -60,7 +60,7 @@ class Menu extends Abs_Rest_Base {
 	public function get_items( $request ) {
 		$slug = $request->get_param( 'menu' );
 
-		$transient_key = $this->get_transient_key() . '-' . $slug;
+		$transient_key = $this->get_transient_key( $slug );
 		$transient     = Transient::get_transient( $transient_key );
 
 		if ( $transient && ! $transient->is_expired() && ! self::DEV_MODE ) {
@@ -99,8 +99,8 @@ class Menu extends Abs_Rest_Base {
 		return rest_ensure_response( $response );
 	}
 
-	public function get_item_schema(): array {
-		return MenuItem::get_item_schema();
+	protected function get_transient_key( string $slug = '' ): string {
+		return parent::get_transient_key() . '-' . $slug;
 	}
 
 	private function error_no_menu(): WP_Error {
