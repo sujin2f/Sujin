@@ -6,9 +6,11 @@
     "bundle-analyzer": "npm run run:stats && npm run run:bundle-analyzer",
     "start": "cross-env BABEL_ENV=default webpack --watch",
     "build": "cross-env BABEL_ENV=default webpack",
-    "test": "jest --config jest.config.js --coverage || true",
-    "run:bundle-analyzer": "NODE_ENV=production webpack-bundle-analyzer stats.json",
-    "run:stats": "NODE_ENV=production webpack --profile --json > stats.json"
+    "test": "jest --coverage || true",
+    "run:bundle-analyzer": "NODE_ENV=production webpack-bundle-analyzer logs/stats.json",
+    "run:stats": "NODE_ENV=production webpack --config ./.configs/webpack/webpack.config.babel.js --profile --json > logs/stats.json",
+    "phpunit": "vendor/bin/phpunit -c ./.configs/phptests/phpunit.xml || true",
+    "phpcs": "vendor/bin/phpcs --standard=./.configs/phptests/phpcs.xml || true"
   },
   "author": {
     "email": "sujin.2f@google.com",
@@ -106,5 +108,149 @@
     "> 1%",
     "iOS 7",
     "last 3 iOS versions"
-  ]
+  ],
+  "jest": {
+    "verbose": true,
+    "moduleNameMapper": {
+      "app/(.*)": "<rootDir>/app/$1",
+      "\\.(jpg|jpeg|png|gif|svg|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tests/jest/__mocks__/fileMock.js"
+    },
+    "moduleFileExtensions": [
+      "js", "json", "jsx", "ts", "tsx", "node"
+    ],
+    "moduleDirectories": ["node_modules", "app"],
+    "globals": {
+      "wp": {}
+    },
+    "collectCoverageFrom": [
+      "app/**"
+    ],
+    "collectCoverage": true,
+    "coverageDirectory": "<rootDir>/logs",
+    "coverageReporters": ["clover"],
+    "testPathIgnorePatterns": ["/node_modules/", "/vendor/"],
+    "setupFiles": ["<rootDir>/tests/jest/global.js"],
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest",
+      "^.+\\.tsx?$": "ts-jest"
+    }
+  },
+  "eslintConfig": {
+    "extends": [
+      "airbnb",
+      "plugin:@wordpress/eslint-plugin/esnext",
+      "plugin:@typescript-eslint/recommended"
+    ],
+    "env": {
+      "browser": false,
+      "es6": true,
+      "node": true
+    },
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true,
+        "modules": true
+      }
+    },
+    "globals": {
+      "wp": true,
+      "window": true,
+      "document": true
+    },
+    "plugins": [
+      "react",
+      "jsx-a11y",
+      "import",
+      "@typescript-eslint"
+    ],
+    "settings": {
+      "import/parsers": {
+        "@typescript-eslint/parser": [
+          ".ts",
+          ".tsx"
+        ]
+      },
+      "import/resolver": {
+        "webpack": {
+          "config": "webpack.config.babel.js"
+        }
+      }
+    },
+    "rules": {
+      "template-curly-spacing": ["error", "never"],
+      "no-console": "off",
+      "react/react-in-jsx-scope": "off",
+      "operator-linebreak": ["error", "after"],
+      "max-len": ["error", 150, 2],
+      "click-events-have-key-events": "off",
+      "react/prop-types": "off",
+      "react/prefer-stateless-function": "off",
+      "import/no-extraneous-dependencies": "off",
+      "class-methods-use-this": "off",
+      "react/destructuring-assignment": "off",
+      "react/no-danger": "off",
+      "indent": [
+        "error",
+        2,
+        {
+          "SwitchCase": 1
+        }
+      ],
+      "space-in-parens": ["error", "never"],
+      "computed-property-spacing": ["error", "never"],
+      "space-unary-ops": [
+        "error",
+        {
+          "words": true
+        }
+      ],
+      "nonwords": 0,
+      "array-bracket-spacing": ["error", "never"],
+      "react/jsx-filename-extension": [
+        2,
+        {
+          "extensions": [".jsx", ".tsx"]
+        }
+      ],
+      "react/no-string-refs": "off",
+      "lines-between-class-members": "off",
+      "import/no-cycle": "off",
+      "@typescript-eslint/no-inferrable-types": "off",
+      "import/no-named-default": "off"
+    },
+    "overrides": [
+      {
+        "files": ["*.js", "*.jsx"],
+        "rules": {
+          "@typescript-eslint/explicit-function-return-type": "off"
+        }
+      },
+      {
+        "files": ["*.ts", "*.tsx"],
+        "rules": {
+          "jsx-a11y/control-has-associated-label": "off",
+          "@typescript-eslint/ban-ts-ignore": "off"
+        }
+      }
+    ]
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react",
+      "@babel/preset-typescript"
+    ],
+    "plugins": [
+      [
+        "transform-react-jsx",
+        { "pragma": "wp.element.createElement" }
+      ],
+      "@babel/plugin-proposal-class-properties"
+    ]
+  }
 }
+
+
+

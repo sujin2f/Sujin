@@ -1,9 +1,9 @@
 {
   "name": "sujin/sujinc.com",
-  "description": "Quick Wordpress Development Module.",
+  "description": "Sujin Theme",
   "keywords": ["wordpress", "development"],
-  "homepage": "https://github.com/sujin2f/wp_express",
-  "type": "library",
+  "homepage": "https://github.com/sujin2f/Sujin",
+  "type": "theme",
   "license": "Apache-2.0",
   "authors": [
     {

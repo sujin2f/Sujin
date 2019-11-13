@@ -12,8 +12,8 @@ install:
   - php composer.phar install --dev --no-interaction
 script:
   - mkdir logs
-  - php vendor/bin/phpunit -c phpunit.xml
-  - php vendor/bin/phpcs
+  - npm run phpunit
+  - npm run phpcs
   - npm run test
 before_install:
   - echo "USE mysql;\nUPDATE user SET authentication_string=PASSWORD('password') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root

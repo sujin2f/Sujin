@@ -1,7 +1,7 @@
 /* eslint-disable */
 import path from 'path';
 import merge from 'webpack-merge';
-import parts from './webpack.config.parts';
+import parts from './.configs/webpack/webpack.config.parts';
 
 const dist = path.resolve(__dirname, 'dist');
 const entry = {
