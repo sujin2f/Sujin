@@ -36,7 +36,7 @@ final class Assets {
 		if ( $manifest['vendors~app.js'] ?? null ) {
 			wp_register_script(
 				'sujin-app-vendor',
-				get_stylesheet_directory_uri() . '/dist/' . basename( $manifest['vendors~app.js'] ),
+				$manifest['vendors~app.js'],
 				array(),
 				false,
 				true
@@ -45,7 +45,7 @@ final class Assets {
 
 		wp_register_script(
 			'sujin-app',
-			get_stylesheet_directory_uri() . '/dist/' . basename( $manifest['app.js'] ),
+			$manifest['app.js'],
 			array(),
 			false,
 			true
@@ -53,7 +53,7 @@ final class Assets {
 
 		wp_register_style(
 			'sujin-app',
-			get_stylesheet_directory_uri() . '/dist/' . basename( $manifest['style.css'] ),
+			$manifest['style.css'],
 			array()
 		);
 

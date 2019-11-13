@@ -6,16 +6,49 @@
 
 The Wordpress Theme which frontend is React from the new WP Editor Gutenberg.
 
-## Installation
-To install this theme, move the folder to your themes and build its source:
-```shell
-$ npm i
-$ npm run build
-```
-
 ## Tech Stack
 1. Language: ES6, Typescript, SASS
 2. Library: React (from WP)
 3. Bundler: Webpack, Babel
 4. Lint: ESLint, TSLint, PHPCS - WPCS
 5. Test: Jest, PHP Unit
+
+## Dev Note
+To install this theme in dev mode:
+
+```shell
+# Install NPM packages
+$ npm i
+
+# Install composer
+$ composer install
+
+# Create Docker Image
+$ cd ./.configs/docker/
+$ docker build -f Dockerfile.dev -t sujin2f/wordpress:latest .
+
+# Activate docker containers
+$ cd ./.configs/docker/
+$ docker-compose -f ./docker-compose.infrastructure.yml -f ./docker-compose.yml up -d
+```
+
+### NPM scripts
+```
+# Run NPM
+$ npm start
+
+# Run Jest
+$ npm run test
+
+# Run PHPCS
+$ npm run phpcs
+
+# Run PHP Unit
+$ npm run phpunit
+
+# Bundle Analyzer
+$ npm run bundle-analyzer
+
+# Build
+$ npm run build
+```

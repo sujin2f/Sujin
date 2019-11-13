@@ -6,11 +6,11 @@
     "bundle-analyzer": "npm run run:stats && npm run run:bundle-analyzer",
     "start": "cross-env BABEL_ENV=default webpack --watch",
     "build": "cross-env BABEL_ENV=default webpack",
-    "test": "jest --coverage || true",
+    "test": "jest --coverage",
     "run:bundle-analyzer": "NODE_ENV=production webpack-bundle-analyzer logs/stats.json",
-    "run:stats": "NODE_ENV=production webpack --config ./.configs/webpack/webpack.config.babel.js --profile --json > logs/stats.json",
-    "phpunit": "vendor/bin/phpunit -c ./.configs/phptests/phpunit.xml || true",
-    "phpcs": "vendor/bin/phpcs --standard=./.configs/phptests/phpcs.xml || true"
+    "run:stats": "NODE_ENV=production webpack --profile --json > logs/stats.json",
+    "phpunit": "vendor/bin/phpunit -c ./.configs/phptests/phpunit.xml",
+    "phpcs": "vendor/bin/phpcs --standard=./.configs/phptests/phpcs.xml"
   },
   "author": {
     "email": "sujin.2f@google.com",

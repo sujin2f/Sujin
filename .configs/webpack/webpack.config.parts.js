@@ -11,11 +11,12 @@ import CleanWebpackPlugin from 'clean-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import ManifestPlugin from 'webpack-manifest-plugin';
 
-exports.setBase = function(entry, dist) {
-  const dev = 'start' === process.env.npm_lifecycle_event;
-  const production = 'build' === process.env.npm_lifecycle_event;
-  const productionSetting = {};
-  const clean = Object.keys(entry)
+export const setEntry = (entry) => {
+  return { entry };
+};
+
+export const setBase = (entry, dist, wpThemePath) => {
+  const garbage = Object.keys(entry)
     .filter(key => entry[key].endsWith('.scss'))
     .reduce((value, key) => {
       const filename = entry[key].split('/').pop();
@@ -26,38 +27,49 @@ exports.setBase = function(entry, dist) {
       ];
     }, []);
 
-  const plugins = [
-    new CleanWebpackPlugin(),
-    new FriendlyErrorsWebpackPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
-    new CompressionPlugin({
-        test: /\.js$|\.css$|\.html$|\.eot?.+$|\.ttf?.+$|\.woff?.+$|\.svg?.+$/,
-        filename: '[path].gz[query]',
-        algorithm: 'gzip',
-        threshold: 10240,
-        minRatio: 0.8,
-    }),
-    new WebpackCleanPlugin(clean),
-    new MiniCssExtractPlugin({
-      filename: '[name].[hash].css',
-    }),
-    new ManifestPlugin(),
-  ];
-  if (!production && !dev) {
-    plugins.push(new BundleAnalyzerPlugin());
-  }
-
-  const splitChunks = { chunks: 'all' };
-
   return {
-    mode: production ? 'production' : 'development',
-    devtool: production ? false : 'inline-source-map',
-    cache: production ? true : false,
+    mode: isProduction() ? 'production' : 'development',
+    devtool: isProduction() ? false : 'inline-source-map',
+    cache: isProduction() ? true : false,
+    /*
+     * Prevent Conflict from Gutenberg
+     */
+    externals: {
+      lodash: 'lodash',
+    },
     output: {
       path: dist,
       filename: '[name].[hash].js',
-      publicPath: '/wp-content/themes/sujin/',
+      publicPath: wpThemePath,
     },
+    plugins: [
+      /*
+       * Clean destination before build
+       */
+      new CleanWebpackPlugin(),
+      /*
+       * Clean .js from .sass fater build
+       */
+      new WebpackCleanPlugin(garbage),
+      new FriendlyErrorsWebpackPlugin(),
+      new webpack.NoEmitOnErrorsPlugin(),
+      new ManifestPlugin(),
+      new CompressionPlugin({
+          test: /\.js$|\.css$|\.html$|\.eot?.+$|\.ttf?.+$|\.woff?.+$|\.svg?.+$/,
+          filename: '[path].gz[query]',
+          algorithm: 'gzip',
+          threshold: 10240,
+          minRatio: 0.8,
+      }),
+    ],
+    optimization: {
+      splitChunks: { chunks: 'all' },
+    },
+  };
+};
+
+export const setJS = () => {
+  return {
     module: {
       rules: [
         {
@@ -88,6 +100,25 @@ exports.setBase = function(entry, dist) {
             },
           ],
         },
+      ],
+    },
+    optimization: {
+      minimizer: [
+        new UglifyJsPlugin(),
+      ],
+    },
+  };
+};
+
+export const setCSS = () => {
+  return {
+    plugins: [
+      new MiniCssExtractPlugin({
+        filename: '[name].[hash].css',
+      }),
+    ],
+    module: {
+      rules: [
         {
           test: /\.s?css$/,
           use: [
@@ -111,40 +142,54 @@ exports.setBase = function(entry, dist) {
             },
           ],
         },
+      ],
+    },
+    optimization: {
+      minimizer: [
+        new OptimizeCSSAssetsPlugin(),
+      ],
+    },
+  };
+};
+
+export const setFiles = (wpThemePath) => {
+  return {
+    module: {
+      rules: [
         {
           test: /\.(gif|png|jpe?g|svg)$/i,
           loader: 'file-loader',
           options: {
-            name: '[path][name].[ext]',
+            name: '[name].[hash].[ext]',
+            outputPath: 'images',
+            publicPath: `${wpThemePath}/images/`,
           },
         },
       ],
     },
-    plugins,
-    optimization: {
-      minimizer: [
-        new UglifyJsPlugin(),
-        new OptimizeCSSAssetsPlugin(),
-      ],
-      splitChunks,
-    },
-    // Prevent conflicts
-    externals: {
-      lodash: 'lodash',
-    },
   };
 };
 
-exports.setResolve = function(resolvePath = {}) {
-  const alias = {
-    app: path.resolve(__dirname, '..', '..', 'app'),
-    ...resolvePath,
-  };
+export const setAnalyzer = () => {
+  if (isProduction() || isDev()) {
+    return {};
+  }
 
+  return {
+    plugins: [
+      new BundleAnalyzerPlugin(),
+    ],
+  };
+};
+
+export const setResolve = (resolvePath) => {
   return {
     resolve: {
       extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
-      alias,
+      alias: { ...resolvePath },
     },
   };
 };
+
+const isProduction = () => 'build' === process.env.npm_lifecycle_event;
+const isDev = () => 'start' === process.env.npm_lifecycle_event;

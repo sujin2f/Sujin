@@ -1,7 +1,7 @@
 # .travis.yml
 language: php
 node_js:
-  - 10.15
+  - 12.11.1
 php:
   - 7.3
 services:
