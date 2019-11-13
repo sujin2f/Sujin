@@ -91,7 +91,7 @@ export default class RouteController {
   /*
    * User pushed a link. We are gonna move to the other place! Yea!
    */
-  public pushHash(e, href: string, target: string): void {
+  public pushHash(e, href: string, target: string = ''): void {
     // New Window
     if (target === '_blank') {
       return;

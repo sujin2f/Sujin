@@ -1,6 +1,6 @@
 import hash from 'object-hash';
 
-import { Carousel } from 'react-responsive-carousel';
+import Carousel from 'app/components/single/Carousel';
 import Gist from 'app/components/single/Gist';
 import TweetEmbed from 'app/components/single/TweetEmbed';
 
@@ -55,18 +55,10 @@ export function parseContent(content) {
 
   splited = splited.map((value) => {
     if (matched[value]) {
-      if (value.indexOf('[carousel') === 0) {
+      if (value.indexOf('[carousel') === 0 && Object.keys(matched[value].named).length > 0) {
+        const images = Object.keys(matched[value].named).map((keyCarousel) => replaceQuotes(matched[value].named, keyCarousel));
         return (
-          <Carousel key={hash(value)}>
-            {Object.keys(matched[value].named).map((keyCarousel) => (
-              <div key={hash(matched[value].named[keyCarousel])}>
-                <img
-                  src={replaceQuotes(matched[value].named, keyCarousel)}
-                  alt=""
-                />
-              </div>
-            ))}
-          </Carousel>
+          <Carousel key={hash(value)} images={images} />
         );
       }
 
