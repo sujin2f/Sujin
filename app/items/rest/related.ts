@@ -14,7 +14,9 @@ export default class Related extends PrevNext {
     super(data);
 
     this.excerpt = decodeURIComponent(data.excerpt);
-    this.date = new Date(data.date);
+
+    const date = data.date.split(' ');
+    this.date = new Date(date[0]);
     this.meta = this.parseMeta(data.meta);
     this.thumbnail = data.thumbnail;
   }
