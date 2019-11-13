@@ -1,21 +1,21 @@
 version: '2'
 services:
   wordpress:
-    container_name: wordpress-sujin
+    container_name: "${CONTAINER_NAME}"
     image: sujin2f/wordpress:latest
     external_links:
       - mariadb:mysql
       - mailhog
     restart: always
     environment:
-      VIRTUAL_HOST: sujinc.test
-      WORDPRESS_DB_NAME: sujinc.dev
+      VIRTUAL_HOST: "${VIRTUAL_HOST}"
+      WORDPRESS_DB_NAME: "${VIRTUAL_HOST}"
       WORDPRESS_DB_USER: root
-      WORDPRESS_DB_PASSWORD: password
+      WORDPRESS_DB_PASSWORD: "${DB_PASSWORD}"
       WORDPRESS_DEBUG: 1
       TZ: America/Toronto
     volumes:
-      - ../../Docker/wp-content/sujinc.test:/var/www/html/wp-content
+      - "${WP_CONTENT}"
       - ./:/var/www/html/wp-content/themes/sujin
     ports:
       - 80
