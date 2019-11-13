@@ -13,3 +13,6 @@
 # Composer
 vendor/
 wordpress/
+
+# Docker Env
+.env
