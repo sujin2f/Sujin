@@ -9,6 +9,7 @@ import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import CleanWebpackPlugin from 'clean-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+import ManifestPlugin from 'webpack-manifest-plugin';
 
 exports.setBase = function(entry, dist) {
   const dev = 'start' === process.env.npm_lifecycle_event;
@@ -37,7 +38,10 @@ exports.setBase = function(entry, dist) {
         minRatio: 0.8,
     }),
     new WebpackCleanPlugin(clean),
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '[name].[hash].css',
+    }),
+    new ManifestPlugin(),
   ];
   if (!production && !dev) {
     plugins.push(new BundleAnalyzerPlugin());
@@ -51,7 +55,7 @@ exports.setBase = function(entry, dist) {
     cache: production ? true : false,
     output: {
       path: dist,
-      filename: '[name].js',
+      filename: '[name].[hash].js',
       publicPath: '/wp-content/themes/sujin/',
     },
     module: {
