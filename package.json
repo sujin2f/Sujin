@@ -96,6 +96,7 @@
     "webpack-bundle-analyzer": "^3.5.2",
     "webpack-clean": "^1.2.3",
     "webpack-cli": "^3.3.2",
+    "webpack-manifest-plugin": "^2.2.0",
     "webpack-merge": "^4.2.1"
   },
   "browserslist": [

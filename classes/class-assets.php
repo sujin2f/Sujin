@@ -30,27 +30,31 @@ final class Assets {
 	}
 
 	public function register_scripts() {
+		$manifest = file_get_contents( get_stylesheet_directory() . '/dist/manifest.json' );
+		$manifest = json_decode( $manifest, true );
+
+		if ( $manifest['vendors~app.js'] ?? null ) {
+			wp_register_script(
+				'sujin-app-vendor',
+				get_stylesheet_directory_uri() . '/dist/' . basename( $manifest['vendors~app.js'] ),
+				array(),
+				false,
+				true
+			);
+		}
+
 		wp_register_script(
-			'sujin-app-vendor',
-			get_stylesheet_directory_uri() . '/dist/vendors~app.js',
+			'sujin-app',
+			get_stylesheet_directory_uri() . '/dist/' . basename( $manifest['app.js'] ),
 			array(),
 			false,
 			true
 		);
 
-		wp_register_script(
-			'sujin-app',
-			get_stylesheet_directory_uri() . '/dist/app.js',
-			array(),
-			filemtime( get_stylesheet_directory() . '/dist/app.js' ),
-			true
-		);
-
 		wp_register_style(
 			'sujin-app',
-			get_stylesheet_directory_uri() . '/dist/style.css',
-			array(),
-			filemtime( get_stylesheet_directory() . '/dist/style.css' )
+			get_stylesheet_directory_uri() . '/dist/' . basename( $manifest['style.css'] ),
+			array()
 		);
 
 		if ( ! is_admin() && 'wp-login.php' !== $GLOBALS['pagenow'] ) {
