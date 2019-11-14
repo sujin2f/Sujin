@@ -50,9 +50,13 @@ class Flickr extends Abs_Rest_Base {
 					'callback'            => array( $this, 'get_items' ),
 					'permission_callback' => array( $this, 'permissions_check' ),
 				),
-				'schema' => array( 'FlickrItem', 'get_item_schema' ),
+				'schema' => array( $this, 'get_item_schema' ),
 			)
 		);
+	}
+
+	public function get_item_schema() {
+		return Schema_Valildator::get_instance( self::RESOURCE_NAME )->get_schema();
 	}
 
 	public function get_items( $_ ) {
@@ -88,11 +92,11 @@ class Flickr extends Abs_Rest_Base {
 
 		foreach ( array_keys( $items ) as $key ) {
 			$items[ $key ] = new FlickrItem( $items[ $key ] );
+			$items[ $key ] = json_decode( wp_json_encode( $items[ $key ] ), true );
 		}
 
 		shuffle( $items );
 		$items = array_slice( $items, 0, 12 );
-		$items = json_decode( wp_json_encode( $items ), true );
 
 		$transient = new Transient( $items, self::CACHE_TTL );
 		set_transient( $this->get_transient_key(), wp_json_encode( $transient ) );

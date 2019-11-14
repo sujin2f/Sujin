@@ -1,25 +1,40 @@
 <?php
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items;
 
-use RuntimeException, IteratorAggregate, ArrayIterator;
+use Sujin\Wordpress\Theme\Sujin\Helpers\Schema_Valildator;
+use RuntimeException, ArrayIterator, JsonSerializable;
 
-abstract class Abstract_Rest_Item_Base implements IteratorAggregate {
-	public static function get_item_schema(): array {
-		// This method should be overridden
-		throw new RuntimeException( 'Unimplemented' );
+abstract class Abstract_Rest_Item_Base implements JsonSerializable {
+	protected const ITEM_NAME = '';
+
+	public function get_validator(): Schema_Valildator {
+		return Schema_Valildator::get_instance( $this->get_item_name() );
 	}
 
-	public static function get_item_properties(): array {
-		$properties = static::get_item_schema();
-		$properties = $properties['properties'];
-		return $properties;
+	private function get_item_name(): string {
+		if ( static::ITEM_NAME ) {
+			return static::ITEM_NAME;
+		}
+
+		$called_class = explode( '\\', get_called_class() );
+		return strtolower( array_pop( $called_class ) );
 	}
 
-	public function getIterator(): ArrayIterator {
-		return new ArrayIterator( static::get_item_properties() );
+	public function jsonSerialize(): array {
+		$this->get_validator()->validate_and_cast( $this );
+		return array();
 	}
 
-	protected function cast_type( string $type, $value ) {
+// 	protected function cast_type( string $type, $value ) {
+/*
+		foreach ( $this as $key => $args ) {
+			if ( property_exists( $this, $key ) ) {
+				$this->$key = $this->cast_type( $args['type'], $this->$key );
+			}
+		}
+*/
+
+/*
 		switch ( $type ) {
 			case 'int':
 			case 'integer':
@@ -42,4 +57,5 @@ abstract class Abstract_Rest_Item_Base implements IteratorAggregate {
 
 		return $value;
 	}
+*/
 }
