@@ -1,7 +1,7 @@
 # .travis.yml
 language: php
 node_js:
-  - 12.11.1
+  - 12.11
 php:
   - 7.3
 services:
@@ -12,9 +12,7 @@ install:
   - php composer.phar install --dev --no-interaction
 script:
   - mkdir logs
-  - npm run phpunit
-  - npm run phpcs
-  - npm run test
+  - npm run arson
 before_install:
   - echo "USE mysql;\nUPDATE user SET authentication_string=PASSWORD('password') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root
 after_success:

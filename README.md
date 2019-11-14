@@ -33,7 +33,7 @@ $ docker-compose -f ./docker-compose.infrastructure.yml -f ./docker-compose.yml 
 ```
 
 ### NPM scripts
-```
+```shell
 # Run NPM
 $ npm start
 
@@ -51,4 +51,7 @@ $ npm run bundle-analyzer
 
 # Build
 $ npm run build
+
+# Fire all checks
+$ npm run arson
 ```

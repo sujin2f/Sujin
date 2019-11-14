@@ -3,7 +3,6 @@ import path from 'path';
 import merge from 'webpack-merge';
 import {
   setBase,
-  setEntry,
   setResolve,
   setJS,
   setCSS,
@@ -26,8 +25,8 @@ const wpThemePath = '/wp-content/themes/sujin/dist/';
 
 const config = [
   merge.smart(
+    { entry },
     setBase(entry, dist, wpThemePath),
-    setEntry(entry),
     setResolve(resolve),
     setJS(),
     setCSS(),

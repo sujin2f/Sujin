@@ -11,10 +11,6 @@ import CleanWebpackPlugin from 'clean-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import ManifestPlugin from 'webpack-manifest-plugin';
 
-export const setEntry = (entry) => {
-  return { entry };
-};
-
 export const setBase = (entry, dist, wpThemePath) => {
   const garbage = Object.keys(entry)
     .filter(key => entry[key].endsWith('.scss'))
