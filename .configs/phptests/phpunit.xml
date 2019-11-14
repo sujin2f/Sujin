@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+	backupGlobals="false"
+	backupStaticAttributes="false"
+	bootstrap="../../tests/phpunit/bootstrap.php"
+	colors="true"
+	convertErrorsToExceptions="true"
+	convertNoticesToExceptions="true"
+	convertWarningsToExceptions="true"
+	processIsolation="false"
+	stopOnFailure="false"
+>
+	<testsuites>
+		<testsuite name="Sujin">
+			<directory>../../tests/phpunit/Unit</directory>
+		</testsuite>
+	</testsuites>
+	<php>
+		<env name="WP_PHPUNIT__TESTS_CONFIG" value="tests/phpunit/wp-config.php"/>
+		<ini name="error_reporting" value="E_ALL" />
+	</php>
+	<logging>
+		<log type="coverage-clover" target="../../logs/clover-phpunit.xml"/>
+	</logging>
+
+	<filter>
+		<whitelist processUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">../../classes</directory>
+		</whitelist>
+	</filter>
+</phpunit>
