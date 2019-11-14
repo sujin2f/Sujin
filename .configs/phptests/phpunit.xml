@@ -20,7 +20,7 @@
 		<ini name="error_reporting" value="E_ALL" />
 	</php>
 	<logging>
-		<log type="coverage-clover" target="logs/clover-phpunit.xml"/>
+		<log type="coverage-clover" target="../../logs/clover-phpunit.xml"/>
 	</logging>
 
 	<filter>
