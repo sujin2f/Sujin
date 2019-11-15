@@ -22,40 +22,6 @@ abstract class Abstract_Rest_Item_Base implements JsonSerializable {
 
 	public function jsonSerialize(): array {
 		$this->get_validator()->validate_and_cast( $this );
-		return array();
+		return json_decode( wp_json_encode( $this ), true );
 	}
-
-// 	protected function cast_type( string $type, $value ) {
-/*
-		foreach ( $this as $key => $args ) {
-			if ( property_exists( $this, $key ) ) {
-				$this->$key = $this->cast_type( $args['type'], $this->$key );
-			}
-		}
-*/
-
-/*
-		switch ( $type ) {
-			case 'int':
-			case 'integer':
-			case 'number':
-				return (int) $value;
-			case 'bool':
-			case 'boolean':
-				return (boolean) $value;
-			case 'float':
-			case 'double':
-			case 'real':
-				return (float) $value;
-			case 'string':
-				return (string) $value;
-			case 'array':
-				return (array) $value;
-			case 'object':
-				return (object) $value;
-		}
-
-		return $value;
-	}
-*/
 }

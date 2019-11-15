@@ -25,9 +25,10 @@ class Schema_Valildator {
 	/**
 	 * Gets the schema from .json file
 	 * Otherwise, returns null
+	 * $ref should be an object
 	 */
 	public function get_schema(): ?array {
-		if ( ! empty( $this->schema ) || is_null( $this->schema ) ) {
+		if ( ! empty( $this->schema ) || null === $this->schema ) {
 			return $this->schema;
 		}
 
@@ -51,38 +52,51 @@ class Schema_Valildator {
 	}
 
 	public function validate_and_cast( Abstract_Rest_Item_Base $object ) {
-		var_dump(get_object_vars($object));
-		$this->filter_schema( $this->get_schema(), get_object_vars( $object ), $object, array() );
+		$this->filter_schema( $this->get_schema(), $object, array() );
 
-		var_dump(get_object_vars($object));
-		die;
+var_dump(get_object_vars($object));
 	}
 
-	private function filter_schema( array $schema, array $target, Abstract_Rest_Item_Base $object, array $position ) {
+	private function filter_schema( array $schema, object $object, array $position ): void {
 		$properties = $this->get_properties_from_schema( $schema );
 
-		foreach ( $target as $key => $type ) {
-			// Unset undefined
+		foreach ( get_object_vars( $object ) as $key => $value ) {
+			// Unset undefined in schema
 			if ( ! array_key_exists( $key, $properties ) ) {
-				$this->unset( $object, $position );
+				unset( $object->$key );
+				continue;
 			}
+
+			// Cast value
+			$object->$key = $this->cast_value( $properties[ $key ]['type'], $value );
+
+// Validation (URL, array, object...) / Required fields
 		}
 	}
 
-	private function unset( $object, array $position ) {
-		$removing_candidate = &$object;
-
-		foreach ( $position as $key ) {
-			if ( is_object( $removing_candidate ) ) {
-				$removing_candidate = &$removing_candidate->$key;
-			} else if ( is_array( $removing_candidate ) ) {
-				$removing_candidate = &$removing_candidate[ $key ];
-			}
+	private function cast_value( string $type, $value ) {
+		switch ( $type ) {
+			case 'int':
+			case 'integer':
+			case 'number':
+				return (int) $value;
+			case 'bool':
+			case 'boolean':
+				return (boolean) $value;
+			case 'float':
+			case 'double':
+			case 'real':
+				return (float) $value;
+			case 'string':
+				return (string) $value;
+			case 'array':
+				return (array) $value;
+			case 'object':
+				return (object) $value;
 		}
 
-		unset( $removing_candidate );
+		return $value;
 	}
-
 	private function get_properties_from_schema( array $schema ): array {
 		if ( 'object' !== $schema['type'] ) {
 			return array();
@@ -91,14 +105,20 @@ class Schema_Valildator {
 		$schema = array_map(
 			function( $attrs ) {
 				if ( ! empty( $attrs['$ref'] ) ) {
-					return $attrs['$ref'];
+					return $this->get_properties_from_ref( $attrs['$ref'] );
 				}
 
-				return $attrs['type'];
+				return $attrs;
 			},
 			$schema['properties']
 		);
 
 		return $schema;
+	}
+
+	private function get_properties_from_ref( string $ref ): array {
+		$ref    = array_pop( explode( '/', $ref ) );
+		$schema = $this->get_schema();
+		return $schema['definitions'][ $ref ] ?: array();
 	}
 }
