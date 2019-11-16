@@ -18,42 +18,48 @@ To install this theme in dev mode:
 
 ```shell
 # Install NPM packages
-$ npm i
+npm i
 
 # Install composer
-$ composer install
+composer install
 
 # Create Docker Image
-$ cd ./.configs/docker/
-$ docker build -f Dockerfile.dev -t sujin2f/wordpress:latest .
+cd ./.configs/docker/
+docker build -f Dockerfile.dev -t sujin2f/wordpress:latest .
 
 # Activate docker containers
-$ cd ./.configs/docker/
-$ docker-compose -f ./docker-compose.infrastructure.yml -f ./docker-compose.yml up -d
+cd ./.configs/docker/
+docker-compose -f ./docker-compose.infrastructure.yml -f ./docker-compose.yml up -d
 ```
 
 ### NPM scripts
 ```shell
 # Run NPM
-$ npm start
+npm start
 
 # Run Jest
-$ npm run test
+npm run test
 
 # Run PHPCS
-$ npm run phpcs
+npm run phpcs
 
 # Run PHP Unit
-$ npm run phpunit
+npm run phpunit
 
 # Bundle Analyzer
-$ npm run bundle-analyzer
+npm run bundle-analyzer
 
 # Build
-$ npm run build
+npm run build
 
 # Fire all checks
-$ npm run arson
+npm run arson
+```
+
+### Ignore settings file from your local change
+If you want to change for your local environment like password, execute this on your terminal:
+```shell
+git update-index --skip-worktree ./.configs/docker/.env
 ```
 
 ### Install PHP x-debug
