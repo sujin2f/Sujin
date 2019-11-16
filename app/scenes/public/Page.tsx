@@ -15,7 +15,8 @@ const { compose } = wp.compose;
 
 class Page extends Base {
   render(): JSX.Element {
-    const post = PostController.getInstance().addComponent(this).request();
+    const { hideFrontFooter, hideFrontHeader, frontPage } = this.props;
+    const post = PostController.getInstance(frontPage).addComponent(this).request();
     const pendingComponent = this.getPendingComponent(post.init, post.loading, post.failed);
 
     if (pendingComponent) {
@@ -34,13 +35,18 @@ class Page extends Base {
         DEFAULT_BACKGROUND_MOBILE,
       );
 
+    // TODO 'stretched-background'
+
+    const className = hideFrontFooter ? 'hide-footer template-single' : 'template-single';
     return (
-      <Public className="template-single">
-        <PageHeader
-          backgroundImage={backgroundImage}
-          title={post.entity.title}
-          description={post.entity.excerpt}
-        />
+      <Public className={className}>
+        {!hideFrontHeader && (
+          <PageHeader
+            backgroundImage={backgroundImage}
+            title={post.entity.title}
+            description={post.entity.excerpt}
+          />
+        )}
 
         <section className="row">
           <Content post={post.entity} className="medium-12" />

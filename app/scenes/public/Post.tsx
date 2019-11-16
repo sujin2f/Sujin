@@ -18,7 +18,8 @@ const { compose } = wp.compose;
 
 class Post extends Base {
   render(): JSX.Element {
-    const post = PostController.getInstance().addComponent(this).request();
+    const { hideFrontFooter, hideFrontHeader, frontPage } = this.props;
+    const post = PostController.getInstance(frontPage).addComponent(this).request();
     const pendingComponent = this.getPendingComponent(post.init, post.loading, post.failed);
 
     if (pendingComponent) {
@@ -37,15 +38,18 @@ class Post extends Base {
         DEFAULT_BACKGROUND_MOBILE,
       );
 
+    const className = hideFrontFooter ? 'hide-footer template-single' : 'template-single';
     return (
-      <Public className="template-single">
-        <PageHeader
-          backgroundImage={backgroundImage}
-          title={post.entity.title}
-          description={post.entity.excerpt}
-          backgroundColor={post.entity.meta['background-color']}
-          useBackgroundColor={post.entity.meta['use-background-color']}
-        />
+      <Public className={className}>
+        {!hideFrontHeader && (
+          <PageHeader
+            backgroundImage={backgroundImage}
+            title={post.entity.title}
+            description={post.entity.excerpt}
+            backgroundColor={post.entity.meta['background-color']}
+            useBackgroundColor={post.entity.meta['use-background-color']}
+          />
+        )}
 
         <section className="row">
           <Content post={post.entity} className="large-9 medium-12">

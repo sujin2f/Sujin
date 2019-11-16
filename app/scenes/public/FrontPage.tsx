@@ -2,27 +2,50 @@ import BackgroundController from 'app/controllers/rest/background';
 import GlobalController from 'app/controllers/global';
 
 import PageHeader from 'app/components/layout/PageHeader';
+import Post from 'app/scenes/public/Post';
+import Page from 'app/scenes/public/Page';
 import Public from 'app/scenes/public';
-
-import { DEFAULT_TITLE } from 'app/constants/common';
 
 const { Component } = wp.element;
 const { compose } = wp.compose;
 
 class FrontPage extends Component {
   render(): JSX.Element {
-    const backgroundImage = BackgroundController.getInstance().addComponent(this).request().getBackgroundImage();
-    GlobalController.getInstance().setTitle(DEFAULT_TITLE);
+    if (sujin.frontPage === 'front-page') {
+      const backgroundImage = BackgroundController.getInstance().addComponent(this).request().getBackgroundImage();
+      GlobalController.getInstance().setTitle(sujin.title);
 
-    return (
-      <Public className="stretched-background hide-footer">
-        <PageHeader
-          backgroundImage={backgroundImage}
-          title="SUJIN"
-          description="<p>Wordpress/React Developer</p>"
+      return (
+        <Public className="stretched-background hide-footer">
+          <PageHeader
+            backgroundImage={backgroundImage}
+            title={sujin.title.toUpperCase()}
+            description={sujin.description}
+          />
+        </Public>
+      );
+    }
+    if (sujin.showOnFront === 'posts') {
+      return (
+        <Post
+          hideFrontFooter={sujin.hideFrontFooter}
+          hideFrontHeader={sujin.hideFrontHeader}
+          frontPage={sujin.frontPage}
         />
-      </Public>
-    );
+      );
+    }
+
+    if (sujin.showOnFront === 'page') {
+      return (
+        <Page
+          hideFrontFooter={sujin.hideFrontFooter}
+          hideFrontHeader={sujin.hideFrontHeader}
+          frontPage={sujin.frontPage}
+        />
+      );
+    }
+
+    return null;
   }
 }
 

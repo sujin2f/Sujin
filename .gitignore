@@ -15,3 +15,9 @@ stat.json
 # Composer
 vendor/
 wordpress/
+
+# Environments
+**/.env
+**/docker-compose.yml
+
+

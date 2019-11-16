@@ -1,16 +1,17 @@
 <?php
 use Sujin\Wordpress\WP_Express\Fields\Post_Meta\Attachment as Meta_Attachment;
 use Sujin\Wordpress\WP_Express\Fields\Term_Meta\Attachment as Term_Meta_Attachment;
+use Sujin\Wordpress\WP_Express\Fields\Settings\Attachment as Option_Attachment;
 
 global $wp;
 
 $title       = '';
 $description = '';
 $url         = home_url( $wp->request );
-$image       = get_stylesheet_directory_uri() . '/assets/images/open-graph.png';
+$image       = Option_Attachment::get_instance( 'Open Graph (Default Image)' )->get();
 
 if ( is_home() ) {
-	$title       = 'Sujin | WordPress Full Stack Developer';
+	$title       = get_bloginfo( 'name' );
 	$description = get_bloginfo( 'description' );
 } elseif ( is_single() ) {
 	$title       = get_the_title();
