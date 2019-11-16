@@ -10,6 +10,10 @@ namespace Sujin\Wordpress\Theme\Sujin;
 
 use Sujin\Wordpress\Theme\Sujin\Helpers\Singleton;
 use Sujin\Wordpress\WP_Express\Google_Font_Loader;
+use Sujin\Wordpress\WP_Express\Fields\Settings\Attachment as Option_Attachment;
+use Sujin\Wordpress\WP_Express\Fields\Settings\Checkbox as Option_Checkbox;
+
+use WP_Query;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	header( 'Status: 403 Forbidden' );
@@ -25,8 +29,14 @@ final class Assets {
 	public function __construct() {
 		add_action( 'init', array( $this, 'register_scripts' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_filter( 'upload_mimes', array( $this, 'upload_mimes' ) );
 
 		Google_Font_Loader::get_instance( 'Ubuntu:300,400,500,700' );
+	}
+
+	public function upload_mimes( array $mime_types ): array {
+		$mime_types['svg'] = 'image/svg+xml';
+		return $mime_types;
 	}
 
 	public function register_scripts(): void {
@@ -55,6 +65,45 @@ final class Assets {
 			array(),
 			false,
 			true
+		);
+
+		$show_on_front = get_option( 'show_on_front' );
+		$page_on_front = get_option( 'page_on_front' );
+		$front_page    = null;
+
+		if ( 'posts' === $show_on_front ) {
+			$front_page = new WP_Query(
+				array(
+					'post_type'      => 'post',
+					'post_statue'    => 'publish',
+					'posts_per_page' => 1,
+				)
+			);
+
+		} elseif ( 'page' === $show_on_front ) {
+			$front_page = new WP_Query(
+				array(
+					'post_type'      => 'page',
+					'post_statue'    => 'publish',
+					'posts_per_page' => 1,
+					'p'              => $page_on_front,
+				)
+			);
+
+		}
+
+		wp_localize_script(
+			'sujin-app',
+			'sujin',
+			array(
+				'title'           => get_bloginfo( 'name' ),
+				'description'     => get_bloginfo( 'description' ),
+				'ogImage'         => Option_Attachment::get_instance( 'Open Graph (Default Image)' )->get_image(),
+				'hideFrontHeader' => Option_Checkbox::get_instance( 'Hide Header in Front Page' )->get(),
+				'hideFrontFooter' => Option_Checkbox::get_instance( 'Hide Footer in Front Page' )->get(),
+				'frontPage'       => $front_page->post->post_name,
+				'showOnFront'     => $show_on_front,
+			)
 		);
 
 		wp_register_style(

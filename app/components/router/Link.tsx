@@ -8,6 +8,7 @@ interface Props {
   target: string;
   id: string;
   className: string;
+  style: any; // eslint-disable-line @typescript-eslint/no-explicit-any
   dangerouslySetInnerHTML: string;
   children: Array<JSX.Element>;
   onClick(e): void;
@@ -30,6 +31,7 @@ class Link extends Component<Props> {
       onMouseLeave,
       onFocus,
       onBlur,
+      style,
     } = this.props;
 
     return (
@@ -44,6 +46,7 @@ class Link extends Component<Props> {
         onMouseLeave={onMouseLeave}
         onFocus={onFocus}
         onBlur={onBlur}
+        style={style}
       >
         {children}
       </a>

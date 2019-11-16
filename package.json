@@ -179,6 +179,7 @@
       }
     },
     "globals": {
+      "sujin": true,
       "wp": true,
       "window": true,
       "document": true

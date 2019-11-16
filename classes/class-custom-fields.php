@@ -20,6 +20,8 @@ use Sujin\Wordpress\WP_Express\Fields\Term_Meta\Attachment as Term_Meta_Attachme
 
 use Sujin\Wordpress\WP_Express\Setting;
 use Sujin\Wordpress\WP_Express\Fields\Settings\Input as Option_Input;
+use Sujin\Wordpress\WP_Express\Fields\Settings\Attachment as Option_Attachment;
+use Sujin\Wordpress\WP_Express\Fields\Settings\Checkbox as Option_Checkbox;
 
 class Custom_Fields {
 	use Helpers\Singleton;
@@ -46,7 +48,10 @@ class Custom_Fields {
 		Taxonomy::get_instance( 'Category' )
 			->attach_to( 'attachment' );
 
-		Setting::get_instance( 'Flickr Feed' )
-			->add( Option_Input::get_instance( 'Flicker ID' ) );
+		Setting::get_instance( 'Theme Options' )
+			->add( Option_Input::get_instance( 'Flicker ID' ) )
+			->add( Option_Attachment::get_instance( 'Open Graph (Default Image)' ) )
+			->add( Option_Checkbox::get_instance( 'Hide Header in Front Page' ) )
+			->add( Option_Checkbox::get_instance( 'Hide Footer in Front Page' ) );
 	}
 }

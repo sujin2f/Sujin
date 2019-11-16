@@ -39,6 +39,8 @@ class Post extends WithController {
 
   render(): JSX.Element {
     this.request();
+
+    const { hideFrontFooter, hideFrontHeader, frontPage } = this.props;
     const isPending = this.isPending();
 
     switch (isPending) {
@@ -83,15 +85,19 @@ class Post extends WithController {
         DEFAULT_BACKGROUND_MOBILE,
       );
 
+    const className = hideFrontFooter ? 'hide-footer' : '';
+
     return (
-      <Public className="template-single">
-        <PageHeader
-          backgroundImage={backgroundImage}
-          title={title}
-          description={excerpt}
-          backgroundColor={meta.backgroundColor}
-          useBackgroundColor={meta.useBackgroundColor}
-        />
+      <Public className={`template-single ${className}`}>
+        {!hideFrontHeader && (
+          <PageHeader
+            backgroundImage={backgroundImage}
+            title={title}
+            description={excerpt}
+            backgroundColor={meta['background-color']}
+            useBackgroundColor={meta['use-background-color']}
+          />
+        )}
 
         <section className="row">
           <Content post={post} className="large-9 medium-12">
