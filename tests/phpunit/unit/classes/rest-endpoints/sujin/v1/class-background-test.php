@@ -38,7 +38,7 @@ class Background_Test extends Test_Case {
 		$response = $wp_rest_server->dispatch( $request )->get_data();
 
 		foreach ( $response as $item ) {
-			$this->assertEquals( array( 'title', 'desktop', 'mobile' ), array_keys( $item ) );
+			$this->assertEquals( array( 'desktop', 'mobile', 'title' ), array_keys( $item ) );
 		}
 	}
 }

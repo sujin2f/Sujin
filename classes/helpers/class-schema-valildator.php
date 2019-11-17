@@ -54,6 +54,10 @@ final class Schema_Valildator {
 	 * Entry point of validation
 	 */
 	public function validate_and_cast( Abstract_Rest_Item_Base $object ) {
+		if ( ! $this->get_schema() ) {
+			return;
+		}
+
 		$this->filter_schema( $this->get_schema(), $object );
 	}
 
@@ -81,7 +85,7 @@ final class Schema_Valildator {
 					$schema = 'object' === $type ? $properties[ $key ] : $properties[ $key ]['items'];
 
 					// Has items.type = ''
-					if ( array_key_exists( 'type', $schema ) ) {
+					if ( 'array' === $type && array_key_exists( 'type', $schema ) ) {
 						foreach ( $object->$key as &$child ) {
 							$child = $this->filter_values( $schema, $child );
 						}
@@ -143,7 +147,8 @@ final class Schema_Valildator {
 		switch ( $schema['format'] ) {
 			case 'uri':
 				return filter_var( $value, FILTER_VALIDATE_URL );
-
+			case 'date':
+				return date( 'Y-m-d', strtotime( $value ) );
 		}
 
 		return $value;
@@ -156,7 +161,7 @@ final class Schema_Valildator {
 				return (int) $value;
 			case 'bool':
 			case 'boolean':
-				return (boolean) $value;
+				return (bool) $value;
 			case 'float':
 			case 'double':
 			case 'real':
@@ -172,6 +177,8 @@ final class Schema_Valildator {
 	}
 
 	private function get_properties_from_schema( array $schema ): array {
+		$all_of = $schema['allOf'] ?? array();
+
 		if ( 'object' === $schema['type'] ) {
 			$schema = $schema['properties'];
 		}
@@ -179,17 +186,33 @@ final class Schema_Valildator {
 		// Expand $ref
 		foreach ( array_keys( $schema ) as $key ) {
 			if ( '$ref' === $key ) {
-				return $this->get_properties_from_ref( $schema[ $key ], $echo );
+				$schema = $this->get_properties_from_ref( $schema[ $key ], $echo );
+				continue;
 			}
+		}
+
+		foreach ( $all_of as $ref ) {
+			$schema = array_merge(
+				$schema,
+				$this->get_properties_from_ref( $ref['$ref'] )
+			);
 		}
 
 		return $schema;
 	}
 
 	private function get_properties_from_ref( string $ref ): array {
-		$ref    = array_pop( explode( '/', $ref ) );
-		$schema = $this->get_schema();
+		$ref = explode( '/', $ref );
 
-		return $schema['definitions'][ $ref ] ?: array();
+		if ( '#' === $ref[0] ) {
+			$ref    = array_pop( $ref );
+			$schema = $this->get_schema();
+			return $schema['definitions'][ $ref ] ?: array();
+		}
+
+		$ref    = array_pop( $ref );
+		$schema = Schema_Valildator::get_instance( $ref )->get_schema();
+
+		return $schema['properties'];
 	}
 }

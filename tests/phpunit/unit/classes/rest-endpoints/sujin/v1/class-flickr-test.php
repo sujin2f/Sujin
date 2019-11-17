@@ -49,7 +49,7 @@ class Flickr_Test extends Test_Case {
 		$response = $wp_rest_server->dispatch( $request );
 		$this->assertEquals( 12, count( $response->get_data() ) );
 
-		$expected = array( 'title', 'link', 'media' );
+		$expected = array( 'link', 'media', 'title' );
 		$this->assertEquals( $expected, array_keys( $response->get_data()[0] ) );
 
 		// Setting Changed: Transient

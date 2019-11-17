@@ -22,6 +22,8 @@ abstract class Abstract_Rest_Item_Base implements JsonSerializable {
 
 	public function jsonSerialize(): array {
 		$this->get_validator()->validate_and_cast( $this );
-		return json_decode( wp_json_encode( $this ), true );
+		$array = get_object_vars( $this );
+		ksort( $array );
+		return json_decode( wp_json_encode( $array ), true );
 	}
 }

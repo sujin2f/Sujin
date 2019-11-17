@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "tag",
+  "type": "object",
+  "properties": {
+    "name": {
+      "description": "Term name",
+      "type": "string",
+      "readonly": true
+    },
+    "slug": {
+      "description": "Term slug",
+      "type": "string",
+      "readonly": true
+    },
+    "termId": {
+      "description": "Term ID",
+      "type": "integer",
+      "readonly": true
+    }
+  }
+}

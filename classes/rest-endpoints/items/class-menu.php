@@ -16,8 +16,7 @@ final class Menu extends Abstract_Rest_Item_Base {
 	public $title;
 	public $url;
 	public $target;
-	public $menu_item_parent;
-	public $menu_order;
+	public $parent;
 	public $classes  = array();
 	public $children = array(); // Array of Menu
 
@@ -25,13 +24,12 @@ final class Menu extends Abstract_Rest_Item_Base {
 	 * Create MenuItem from WP_Post
 	*/
 	public function __construct( WP_Post $post ) {
-		$this_keys = array_keys( get_object_vars( $this ) );
-
-		foreach ( $this_keys as $key ) {
-			if ( property_exists( $post, $key ) ) {
-				$this->$key = $post->$key;
-			}
-		}
+		$this->ID      = $post->ID;
+		$this->title   = $post->title;
+		$this->url     = $post->url;
+		$this->target  = $post->target;
+		$this->parent  = $post->menu_item_parent;
+		$this->classes = $post->classes;
 	}
 
 	public function append_children( Menu $child ) {

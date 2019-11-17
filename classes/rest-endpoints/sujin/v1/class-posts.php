@@ -1,9 +1,11 @@
 <?php
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1;
 
+use Sujin\Wordpress\Theme\Sujin\Transient;
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Abs_Rest_Base;
 use Sujin\Wordpress\Theme\Sujin\Helpers\Rest_Helper;
 use Sujin\Wordpress\Theme\Sujin\Theme_Customizer;
+use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items\Post as PostItem;
 
 use Sujin\Wordpress\WP_Express\Fields\Term_Meta\Attachment as Term_Meta_Attachment;
 use Sujin\Wordpress\WP_Express\Fields\Post_Meta\Attachment as Post_Meta_Attachment;
@@ -25,8 +27,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Posts extends Abs_Rest_Base {
-	protected const CACHE_TTL     = null;
+	protected const CACHE_TTL     = 12 * HOUR_IN_SECONDS;
 	protected const RESOURCE_NAME = 'posts';
+	protected const ITEM_NAME     = 'post';
 
 	public function __construct() {
 		parent::__construct();
@@ -34,7 +37,9 @@ class Posts extends Abs_Rest_Base {
 	}
 
 	public function delete_transient(): void {
-
+		foreach ( $this->get_transient_keys() as $key ) {
+			delete_transient( $key );
+		}
 	}
 
 	public function create_rest_routes() {
@@ -85,47 +90,48 @@ class Posts extends Abs_Rest_Base {
 	}
 
 	public function get_item( $request ) {
-		$name = $request->get_param( 'slug' );
-		$this->set_transient_suffix( $name );
-		$transient = $this->get_transient();
+		$slug = $request->get_param( 'slug' );
 
-		if ( $transient[ self::KEY_RETURN ] && ! self::DEV_MODE ) {
-			return rest_ensure_response( $transient[ self::KEY_ITEMS ] );
+		if ( ! $slug ) {
+			return null;
 		}
 
-		$args = array(
-			'name'           => $name,
+		$transient_key = $this->get_transient_key() . '-sinlge-' . $slug;
+		$transient     = Transient::get_transient( $transient_key );
+
+		if ( $transient && ! $transient->is_expired() && ! self::DEV_MODE ) {
+			return rest_ensure_response( $transient->items );
+		}
+
+		$query_args = array(
+			'name'           => $slug,
 			'post_type'      => array( 'post', 'page' ),
 			'post_status'    => 'publish',
 			'posts_per_page' => 1,
 		);
-		$post = new WP_Query( $args );
+		$post = new WP_Query( $query_args );
 		$post = $post->posts;
 
 		if ( empty( $post ) ) {
-			if ( $transient[ self::KEY_ITEMS ] ) {
-				return rest_ensure_response( $transient[ self::KEY_ITEMS ] );
-			}
-
-			$this->set_transient( $this->error_not_found_post() );
 			return $this->error_not_found_post();
 		}
 
 		$post = array_pop( $post );
-		$post = $this->prepare_item_for_response( $post, $request );
-		$post = $this->prepare_response_for_collection( $post );
+		$post = new PostItem( $post );
+		$post = json_decode( wp_json_encode( $post ), true );
 
-		$this->set_transient( $post );
+		$transient = new Transient( $post, self::CACHE_TTL );
+		set_transient( $transient_key, wp_json_encode( $transient ) );
+		$this->add_transient_keys( $transient_key );
 
 		return rest_ensure_response( $post );
 	}
 
 	public function get_items( $request ) {
 		// Single
-		$slug = $request->get_param( 'slug' );
-
-		if ( $slug ) {
-			return $this->get_item( $request );
+		$single = $this->get_item( $request );
+		if ( $single ) {
+			return $single;
 		}
 
 		$list_type = $request->get_param( 'list_type' );
@@ -133,12 +139,11 @@ class Posts extends Abs_Rest_Base {
 		$page      = $request->get_param( 'page' ) ?? 1;
 		$per_page  = $request->get_param( 'per_page' ) ?? 12;
 
-		// Transient
-		$this->set_transient_suffix( $list_type . $keyword . $page . $per_page );
-		$transient = $this->get_transient();
+		$transient_key = $this->get_transient_key() . '-archive-' . $list_type . '-' . $keyword . '-' . $page . '-' . $per_page;
+		$transient     = Transient::get_transient( $transient_key );
 
-		if ( $transient[ self::KEY_RETURN ] && ! self::DEV_MODE ) {
-			return $transient[ self::KEY_ITEMS ];
+		if ( $transient && ! $transient->is_expired() && ! self::DEV_MODE ) {
+			return rest_ensure_response( $transient->items );
 		}
 
 		$args = $this->get_items_query_args( $request );
@@ -147,7 +152,6 @@ class Posts extends Abs_Rest_Base {
 
 		// The term is not exist
 		if ( false === $term ) {
-			$this->set_transient( $this->error_not_found_term( $list_type ) );
 			return rest_ensure_response( $this->error_not_found_term( $list_type ) );
 		}
 
@@ -159,8 +163,8 @@ class Posts extends Abs_Rest_Base {
 		$posts = $posts->posts;
 
 		foreach ( array_keys( $posts ) as $key ) {
-			$posts[ $key ] = $this->prepare_item_for_response( $posts[ $key ], $request );
-			$posts[ $key ] = $this->prepare_response_for_collection( $posts[ $key ] );
+			$posts[ $key ] = new PostItem( $posts[ $key ] );
+			$posts[ $key ] = json_decode( wp_json_encode( $posts[ $key ] ), true );
 		}
 
 		$return = rest_ensure_response( $posts );
@@ -176,7 +180,9 @@ class Posts extends Abs_Rest_Base {
 			$thumbnail = wp_get_attachment_image_src( $thumbnail, 'full' )[0];
 			$return->header( 'x-wp-term-thumbnail', $thumbnail );
 
-			$this->set_transient( $return );
+			$transient = new Transient( $return, self::CACHE_TTL );
+			set_transient( $transient_key, wp_json_encode( $transient ) );
+			$this->add_transient_keys( $transient_key );
 			return $return;
 		}
 
@@ -184,7 +190,10 @@ class Posts extends Abs_Rest_Base {
 		$return->header( 'x-wp-term-description', urlencode( wpautop( $keyword ) ) );
 		$return->header( 'x-wp-term-name', $keyword );
 
-		$this->set_transient( $return );
+		$transient = new Transient( $return, self::CACHE_TTL );
+		set_transient( $transient_key, wp_json_encode( $transient ) );
+		$this->add_transient_keys( $transient_key );
+
 		return $return;
 	}
 
@@ -224,170 +233,6 @@ class Posts extends Abs_Rest_Base {
 		}
 
 		return array( $args, $term, $list_type );
-	}
-
-	public function prepare_item_for_response( $item, $request ): WP_REST_Response {
-		$tags = wp_get_post_tags( $item->ID );
-
-		foreach ( array_keys( $tags ) as $key ) {
-			$tags[ $key ] = array(
-				'name'    => $tags[ $key ]->name,
-				'term_id' => $tags[ $key ]->term_id,
-				'slug'    => $tags[ $key ]->slug,
-			);
-		}
-
-		$term   = wp_get_post_terms( $item->ID, 'series' );
-		$series = array();
-		if ( $term ) {
-			$_series = new WP_Query(
-				array(
-					'post_type'      => 'post',
-					'tax_query'      => array(
-						'relation' => 'AND',
-						array(
-							'taxonomy' => 'series',
-							'terms'    => $term[0]->term_id,
-						),
-					),
-					'posts_per_page' => -1,
-				)
-			);
-
-			foreach ( array_keys( $_series->posts ) as $key ) {
-				$series[ $key ] = array(
-					'id'    => $_series->posts[ $key ]->ID,
-					'title' => $_series->posts[ $key ]->post_title,
-					'link'  => get_permalink( $_series->posts[ $key ] ),
-					'slug'  => $_series->posts[ $key ]->post_name,
-				);
-			}
-		}
-
-		$break   = array( '<br />', '<br/>', '<br>', '&lt;br /&gt;', '&lt;br/&gt;', '&lt;br&gt;' );
-		$excerpt = str_replace( $break, "\r\n\r\n", $item->post_excerpt );
-		$excerpt = wpautop( $excerpt );
-
-		$item = array(
-			'id'        => $item->ID,
-			'date'      => $item->post_date,
-			'link'      => get_permalink( $item ),
-			'title'     => $item->post_title,
-			'slug'      => $item->post_name,
-			'content'   => do_shortcode( wpautop( $item->post_content ) ),
-			'type'      => $item->post_type,
-			'excerpt'   => $excerpt,
-			'meta'      => array(
-				'list'                 => Post_Meta_Attachment::get_instance( 'List' )->get( $item->ID ),
-				'icon'                 => Post_Meta_Attachment::get_instance( 'Icon' )->get( $item->ID ),
-				'title'                => Post_Meta_Attachment::get_instance( 'Title' )->get( $item->ID ),
-				'background'           => Post_Meta_Attachment::get_instance( 'Background' )->get( $item->ID ),
-				'use-background-color' => (bool) Post_Meta_Attachment::get_instance( 'Use Background Color' )->get( $item->ID ),
-				'background-color'     => Post_Meta_Attachment::get_instance( 'Background Color' )->get( $item->ID ),
-				'thumbnail'            => Post_Meta_Attachment::get_instance( 'Thumbnail' )->get( $item->ID ),
-			),
-			'tags'      => $tags,
-			'series'    => $series,
-			'thumbnail' => $this->get_thumbnail_array( $item->ID ),
-			'prevnext'  => array(
-				'prev' => $this->get_prev_next( $item ),
-				'next' => $this->get_prev_next( $item, false ),
-			),
-			'related'   => $this->get_related( $item->ID ),
-		);
-		$item = parent::prepare_item_for_response( $item, $request );
-		return rest_ensure_response( $item );
-	}
-
-	private function get_prev_next( WP_Post $item, bool $previous = true ): ?array {
-		global $post;
-		$post           = $item;
-		$in_same_term   = false;
-		$excluded_terms = '';
-
-		$result = get_adjacent_post( $in_same_term, $excluded_terms, $previous );
-
-		if ( ! $result ) {
-			return null;
-		}
-
-		$result = array(
-			'id'    => $result->ID,
-			'link'  => get_permalink( $result ),
-			'title' => $result->post_title,
-			'slug'  => $result->post_name,
-		);
-
-		return $result;
-	}
-
-	private function get_related( int $post_id ): array {
-		$tax_query = array_merge(
-			array( 'relation' => 'OR' ),
-			array(
-				array(
-					'taxonomy' => 'post_tag',
-					'field'    => 'id',
-					'terms'    => array_map(
-						function( $term ) {
-							return $term->term_id;
-						},
-						wp_get_post_tags( $post_id )
-					),
-				),
-			),
-			array(
-				array(
-					'taxonomy' => 'category',
-					'field'    => 'id',
-					'terms'    => array_map(
-						function( $term ) {
-							return $term->term_id;
-						},
-						wp_get_object_terms( $post_id, 'category' )
-					),
-				),
-			)
-		);
-
-		$query_args = array(
-			'posts_per_page'      => 4,
-			'ignore_sticky_posts' => 1,
-			'post__not_in'        => array( $post_id ),
-			'tax_query'           => $tax_query,
-		);
-
-		$query = new WP_Query( $query_args );
-		$posts = array();
-
-		foreach ( $query->posts as $post ) {
-			$posts[] = array(
-				'id'        => $post->ID,
-				'title'     => $post->post_title,
-				'excerpt'   => $post->post_excerpt,
-				'date'      => $post->post_date,
-				'meta'      => array(
-					'list'       => Post_Meta_Attachment::get_instance( 'List' )->get( $post->ID ),
-					'thumbnail'  => Post_Meta_Attachment::get_instance( 'Thumbnail' )->get( $post->ID ),
-					'background' => Post_Meta_Attachment::get_instance( 'Background' )->get( $post->ID ),
-				),
-				'thumbnail' => $this->get_thumbnail_array( $post->ID ),
-				'link'      => get_permalink( $post->ID ),
-			);
-		}
-
-		return $posts;
-	}
-
-	private function get_thumbnail_array( int $post_id ): array {
-		return array(
-			'thumbnail'      => wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), 'thumbnail' )[0] ?? null,
-			'medium'         => wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), 'medium' )[0] ?? null,
-			'medium_large'   => wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), 'medium_large' )[0] ?? null,
-			'large'          => wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), 'large' )[0] ?? null,
-			'post-thumbnail' => wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), 'post-thumbnail' )[0] ?? null,
-			'recent-post'    => wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), 'recent-post' )[0] ?? null,
-		);
 	}
 
 	private function error_not_found_term( string $list_type ): WP_Error {

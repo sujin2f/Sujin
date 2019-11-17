@@ -13,7 +13,7 @@ class Transient implements JsonSerializable {
 	public $expire_at;
 	public $items;
 
-	public function __construct( array $items, int $cache_ttl = 0 ) {
+	public function __construct( $items, int $cache_ttl = 0 ) {
 		$this->items     = $items;
 		$this->cache_ttl = $cache_ttl;
 		$this->expire_at = time() + $this->cache_ttl;

@@ -69,9 +69,29 @@ abstract class Abs_Rest_Base extends WP_REST_Controller {
 		return $response['response'] && $response['response']['code'] && 200 === $response['response']['code'];
 	}
 
+	// Transient
 	protected function get_transient_key( string $_ = '' ): string {
 		return 'rest-sujin-v1-' . static::RESOURCE_NAME;
 	}
+
+	protected function get_transient_keys(): array {
+		return get_option( 'transient-group-' . $this->get_transient_key(), array() );
+	}
+
+	protected function add_transient_keys( string $key ): void {
+		$keys   = $this->get_transient_keys();
+		$keys[] = $key;
+		$keys   = array_unique( $keys );
+
+		update_option( 'transient-group-' . $this->get_transient_key(), $keys );
+
+	}
+
+	protected function delete_transient_keys(): void {
+		delete_option( 'transient-group-' . $this->get_transient_key() );
+
+	}
+
 
 	// Response
 	public function prepare_item_for_response( $item, $request ): WP_REST_Response {
@@ -100,7 +120,7 @@ abstract class Abs_Rest_Base extends WP_REST_Controller {
 			$schema = static::ITEM_NAME;
 		} else {
 			$called_class = explode( '\\', get_called_class() );
-			$schema = strtolower( array_pop( $called_class ) );
+			$schema       = strtolower( array_pop( $called_class ) );
 		}
 
 		if ( ! $schema ) {

@@ -33,7 +33,7 @@
         "default": "_self",
         "readonly": true
       },
-      "menu_item_parent": {
+      "parent": {
         "description": "Parent ID",
         "type": "integer",
         "readonly": true

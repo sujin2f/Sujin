@@ -2,34 +2,12 @@
   "$schema": "http://json-schema.org/schema#",
   "title": "post",
   "type": "object",
+  "allOf": [
+    {
+      "$ref": "simple-post"
+    }
+  ],
   "properties": {
-    "id": {
-      "description": "Unique ID",
-      "type": "number",
-      "readonly": true
-    },
-    "slug": {
-      "description": "Post slug",
-      "type": "string",
-      "readonly": true
-    },
-    "date": {
-      "description": "Date",
-      "type": "string",
-      "format": "date",
-      "readonly": true
-    },
-    "link": {
-      "description": "Link URL",
-      "type": "string",
-      "format": "uri",
-      "readonly": true
-    },
-    "title": {
-      "description": "Title",
-      "type": "string",
-      "readonly": true
-    },
     "content": {
       "description": "Content",
       "type": "string",
@@ -40,34 +18,38 @@
       "type": "string",
       "readonly": true
     },
-    "comment_status": {
+    "commentStatus": {
       "description": "Comment status",
       "type": "boolean",
-      "readonly": true
-    },
-    "meta": {
-      "description": "Meta data",
-      "type": "array",
       "readonly": true
     },
     "tags": {
       "description": "Tags",
       "type": "array",
+      "items": {
+        "$ref": "tag"
+      },
       "readonly": true
     },
     "series": {
       "description": "Series",
       "type": "array",
+        "items": {
+          "$ref": "simple-post"
+        },
       "readonly": true
     },
-    "thumbnail": {
-      "description": "Thumbnail",
-      "type": "string",
-      "readonly": true
-    },
-    "prevnext": {
+    "prevNext": {
       "description": "Prev / Next",
-      "type": "array",
+      "type": "object",
+      "properties": {
+        'prev': {
+          "$ref": "simple-post"
+        },
+        'next': {
+          "$ref": "simple-post"
+        }
+      }
       "readonly": true
     },
     "related": {
@@ -78,6 +60,10 @@
     "type": {
       "description": "Post Type",
       "type": "string",
+      "enum": [
+        "post",
+        "page"
+      ],
       "readonly": true
     }
   }
