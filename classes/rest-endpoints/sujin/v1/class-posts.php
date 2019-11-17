@@ -33,6 +33,10 @@ class Posts extends Abs_Rest_Base {
 		add_action( 'save_post', array( $this, 'delete_transient' ) );
 	}
 
+	public function delete_transient(): void {
+
+	}
+
 	public function create_rest_routes() {
 		register_rest_route(
 			self::NAMESPACE,
@@ -373,106 +377,6 @@ class Posts extends Abs_Rest_Base {
 		}
 
 		return $posts;
-	}
-
-	public function get_item_schema(): array {
-		return array(
-			'$schema'    => 'http://json-schema.org/draft-04/schema#',
-			'title'      => 'post',
-			'type'       => 'object',
-			'properties' => array(
-				'id'             => array(
-					'description' => 'Unique ID',
-					'type'        => 'number',
-					'context'     => array( 'view', 'edit', 'embed' ),
-					'readonly'    => true,
-				),
-				'slug'           => array(
-					'description' => 'Post slug',
-					'type'        => 'string',
-					'context'     => array( 'view', 'edit', 'embed' ),
-					'readonly'    => true,
-				),
-				'date'           => array(
-					'description' => 'Date',
-					'type'        => 'string',
-					'context'     => array( 'view', 'edit', 'embed' ),
-					'readonly'    => true,
-				),
-				'link'           => array(
-					'description' => 'Link URL',
-					'type'        => 'string',
-					'context'     => array( 'view', 'edit', 'embed' ),
-					'readonly'    => true,
-				),
-				'title'          => array(
-					'description' => 'Title',
-					'type'        => 'string',
-					'context'     => array( 'view', 'edit', 'embed' ),
-					'readonly'    => true,
-				),
-				'content'        => array(
-					'description' => 'Content',
-					'type'        => 'string',
-					'context'     => array( 'view', 'edit', 'embed' ),
-					'readonly'    => true,
-				),
-				'excerpt'        => array(
-					'description' => 'Excerpt',
-					'type'        => 'string',
-					'context'     => array( 'view', 'edit', 'embed' ),
-					'readonly'    => true,
-				),
-				'comment_status' => array(
-					'description' => 'Comment status',
-					'type'        => 'string',
-					'context'     => array( 'view', 'edit', 'embed' ),
-					'readonly'    => true,
-				),
-				'meta'           => array(
-					'description' => 'Meta data',
-					'type'        => 'array',
-					'context'     => array( 'view', 'edit', 'embed' ),
-					'readonly'    => true,
-				),
-				'tags'           => array(
-					'description' => 'Tags',
-					'type'        => 'array',
-					'context'     => array( 'view', 'edit', 'embed' ),
-					'readonly'    => true,
-				),
-				'series'         => array(
-					'description' => 'Series',
-					'type'        => 'array',
-					'context'     => array( 'view', 'edit', 'embed' ),
-					'readonly'    => true,
-				),
-				'thumbnail'      => array(
-					'description' => 'Thumbnail',
-					'type'        => 'string',
-					'context'     => array( 'view', 'edit', 'embed' ),
-					'readonly'    => true,
-				),
-				'prevnext'       => array(
-					'description' => 'Prev / Next',
-					'type'        => 'array',
-					'context'     => array( 'view', 'edit', 'embed' ),
-					'readonly'    => true,
-				),
-				'related'        => array(
-					'description' => 'Related contents',
-					'type'        => 'array',
-					'context'     => array( 'view', 'edit', 'embed' ),
-					'readonly'    => true,
-				),
-				'type'           => array(
-					'description' => 'Post Type',
-					'type'        => 'string',
-					'context'     => array( 'view', 'edit', 'embed' ),
-					'readonly'    => true,
-				),
-			),
-		);
 	}
 
 	private function get_thumbnail_array( int $post_id ): array {

@@ -11,6 +11,7 @@
     "link": {
       "description": "Flickr URL for the image",
       "type": "string",
+      "format": "uri",
       "readonly": true
     },
     "media": {
@@ -18,19 +19,24 @@
       "type": "object",
       "properties": {
         "origin": {
-          "type": "string"
+          "type": "string",
+          "format": "uri"
         },
         "s": {
-          "type": "string"
+          "type": "string",
+          "format": "uri"
         },
         "t": {
-          "type": "string"
+          "type": "string",
+          "format": "uri"
         },
         "b": {
-          "type": "string"
+          "type": "string",
+          "format": "uri"
         },
         "m": {
-          "type": "string"
+          "type": "string",
+          "format": "uri"
         }
       },
       "readonly": true

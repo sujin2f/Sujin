@@ -1,0 +1,84 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "post",
+  "type": "object",
+  "properties": {
+    "id": {
+      "description": "Unique ID",
+      "type": "number",
+      "readonly": true
+    },
+    "slug": {
+      "description": "Post slug",
+      "type": "string",
+      "readonly": true
+    },
+    "date": {
+      "description": "Date",
+      "type": "string",
+      "format": "date",
+      "readonly": true
+    },
+    "link": {
+      "description": "Link URL",
+      "type": "string",
+      "format": "uri",
+      "readonly": true
+    },
+    "title": {
+      "description": "Title",
+      "type": "string",
+      "readonly": true
+    },
+    "content": {
+      "description": "Content",
+      "type": "string",
+      "readonly": true
+    },
+    "excerpt": {
+      "description": "Excerpt",
+      "type": "string",
+      "readonly": true
+    },
+    "comment_status": {
+      "description": "Comment status",
+      "type": "boolean",
+      "readonly": true
+    },
+    "meta": {
+      "description": "Meta data",
+      "type": "array",
+      "readonly": true
+    },
+    "tags": {
+      "description": "Tags",
+      "type": "array",
+      "readonly": true
+    },
+    "series": {
+      "description": "Series",
+      "type": "array",
+      "readonly": true
+    },
+    "thumbnail": {
+      "description": "Thumbnail",
+      "type": "string",
+      "readonly": true
+    },
+    "prevnext": {
+      "description": "Prev / Next",
+      "type": "array",
+      "readonly": true
+    },
+    "related": {
+      "description": "Related contents",
+      "type": "array",
+      "readonly": true
+    },
+    "type": {
+      "description": "Post Type",
+      "type": "string",
+      "readonly": true
+    }
+  }
+}

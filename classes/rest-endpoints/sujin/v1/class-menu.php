@@ -1,4 +1,12 @@
 <?php
+/**
+ * Menu Rest Controller
+ *
+ * @project Sujinc.com
+ * @since   9.0.0
+ * @author  Sujin 수진 Choi http://www.sujinc.com/
+*/
+
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1;
 
 use Sujin\Wordpress\Theme\Sujin\Transient;
@@ -52,7 +60,7 @@ class Menu extends Abs_Rest_Base {
 						),
 					),
 				),
-				'schema' => array( 'MenuItem', 'get_item_schema' ),
+				'schema' => array( $this, 'get_item_schema' ),
 			)
 		);
 	}

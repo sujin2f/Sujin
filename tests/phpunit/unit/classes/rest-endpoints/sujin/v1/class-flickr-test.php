@@ -6,6 +6,8 @@ use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1\Flickr;
 use Sujin\Wordpress\WP_Express\Fields\Settings\Input;
 use Sujin\Wordpress\Theme\Sujin\Transient;
 
+use WP_REST_Request;
+
 class Flickr_Test extends Test_Case {
 	private $object;
 	private $flickr_id;
@@ -16,25 +18,39 @@ class Flickr_Test extends Test_Case {
 
 		$this->object    = new Flickr();
 		$this->flickr_id = Input::get_instance( Flickr::FLICKR_ID )->get_id();
+
+		do_action( 'rest_api_init' );
 	}
 
 	public function test_request() {
 		// Empty Setting
-		$actual = $this->object->get_items( null );
-		$this->assertEquals( $actual, $this->call_private_method( $this->object, 'error_no_id' ) );
+		global $wp_rest_server;
+
+		$request = WP_REST_Request::from_url( rest_url( '/sujin/v1/flickr' ) );
+		$request->set_method( 'GET' );
+		$request->add_header( 'content-type', 'application/json' );
+		$response = $wp_rest_server->dispatch( $request );
+
+		$this->assertEquals(
+			$response->get_data(),
+			$this->get_error_response( $this->call_private_method( $this->object, 'error_no_id' ) )
+		);
 
 		// Request Fail
 		update_option( $this->flickr_id, 'fail' );
-		$actual = $this->object->get_items( null );
-		$this->assertEquals( $actual, $this->call_private_method( $this->object, 'error_request_fail' ) );
+		$response = $wp_rest_server->dispatch( $request );
+		$this->assertEquals(
+			$response->get_data(),
+			$this->get_error_response( $this->call_private_method( $this->object, 'error_request_fail' ) )
+		);
 
 		// Setting Exist
 		update_option( $this->flickr_id, 'test' );
-		$actual = $this->object->get_items( null )->get_data();
-		$this->assertEquals( 12, count( $actual ) );
+		$response = $wp_rest_server->dispatch( $request );
+		$this->assertEquals( 12, count( $response->get_data() ) );
 
 		$expected = array( 'title', 'link', 'media' );
-		$this->assertEquals( $expected, array_keys( $actual[0] ) );
+		$this->assertEquals( $expected, array_keys( $response->get_data()[0] ) );
 
 		// Setting Changed: Transient
 		$transient_key = $this->call_private_method( $this->object, 'get_transient_key' );

@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema#",
-  "title": "media",
+  "title": "menu",
   "type": "object",
   "properties": {
     "$ref": "#/definitions/menu"
@@ -28,9 +28,9 @@
         "type": "string",
         "enum": [
           "_blank",
-          "_self",
-          ""
+          "_self"
         ],
+        "default": "_self",
         "readonly": true
       },
       "menu_item_parent": {
@@ -42,7 +42,7 @@
         "description": "HTML class attributes",
         "type": "array",
         "items": {
-          "type": "integer"
+          "type": "string"
         },
         "readonly": true
       },
@@ -50,7 +50,7 @@
         "description": "Child menu items",
         "type": "array",
         "items": {
-          "$ref": "#/definitions/media"
+          "$ref": "#/definitions/menu"
         },
         "readonly": true
       }

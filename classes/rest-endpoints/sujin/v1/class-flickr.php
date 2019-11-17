@@ -55,10 +55,6 @@ class Flickr extends Abs_Rest_Base {
 		);
 	}
 
-	public function get_item_schema() {
-		return Schema_Valildator::get_instance( self::RESOURCE_NAME )->get_schema();
-	}
-
 	public function get_items( $_ ) {
 		// Get transient
 		$transient = Transient::get_transient( $this->get_transient_key() );

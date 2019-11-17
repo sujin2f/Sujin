@@ -23,9 +23,10 @@ abstract class Abs_Rest_Base extends WP_REST_Controller {
 	protected const STATUS_CODE_NOT_IMPLEMENTED = 501;
 	protected const STATUS_CODE_NOT_FOUND       = 404;
 
-	// Transient
+	// Transient and schema
 	protected const CACHE_TTL     = HOUR_IN_SECONDS;
 	protected const RESOURCE_NAME = '';
+	protected const ITEM_NAME     = '';
 
 	public function __construct() {
 		add_action( 'rest_api_init', array( $this, 'create_rest_routes' ), 10, 0 );
@@ -35,6 +36,10 @@ abstract class Abs_Rest_Base extends WP_REST_Controller {
 
 	public function permissions_check( $request ): bool {
 		if ( self::DEV_MODE ) {
+			return true;
+		}
+
+		if ( defined( 'DIR_TESTDATA' ) && ! empty( DIR_TESTDATA ) ) {
 			return true;
 		}
 
@@ -86,5 +91,22 @@ abstract class Abs_Rest_Base extends WP_REST_Controller {
 		}
 
 		return (array) $response->get_data();
+	}
+
+	public function get_item_schema() {
+		$schema = '';
+
+		if ( static::ITEM_NAME ) {
+			$schema = static::ITEM_NAME;
+		} else {
+			$called_class = explode( '\\', get_called_class() );
+			$schema = strtolower( array_pop( $called_class ) );
+		}
+
+		if ( ! $schema ) {
+			return parent::get_item_schema();
+		}
+
+		return Schema_Valildator::get_instance( $schema )->get_schema();
 	}
 }

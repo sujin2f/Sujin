@@ -4,6 +4,7 @@ namespace Sujin\Wordpress\Theme\Sujin\Tests\Unit;
 use WP_UnitTestCase;
 use ReflectionClass;
 use Http_Request;
+use WP_Error;
 
 abstract class Test_Case extends WP_UnitTestCase {
 	protected static $home_dir = '';
@@ -63,5 +64,15 @@ abstract class Test_Case extends WP_UnitTestCase {
 	protected function mock_request() {
 		require_once( dirname( dirname( __FILE__ ) ) . '/data-storage/class-http-request.php' );
 		Http_Request::get_instance();
+	}
+
+	protected function get_error_response( WP_Error $wp_error ): array {
+		$code = array_keys( $wp_error->errors )[0];
+
+		return array(
+			'code'    => $code,
+			'message' => $wp_error->errors[ $code ][0],
+			'data'    => $wp_error->error_data[ $code ],
+		);
 	}
 }

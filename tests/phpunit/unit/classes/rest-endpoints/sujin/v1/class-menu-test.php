@@ -1,4 +1,12 @@
 <?php
+/**
+ * Menu Rest Controller
+ *
+ * @project Sujinc.com
+ * @since   9.0.0
+ * @author  Sujin 수진 Choi http://www.sujinc.com/
+*/
+
 namespace Sujin\Wordpress\Theme\Sujin\Tests\Unit\Rest_Endpoints\Sujin\V1;
 
 use Sujin\Wordpress\Theme\Sujin\Tests\Unit\Test_Case;
@@ -12,6 +20,7 @@ class Menu_Test extends Test_Case {
 	public function setUp() {
 		parent::setUp();
 		$this->object = new Menu();
+		do_action( 'rest_api_init' );
 	}
 
 	private function create_nav_menu(): int {
@@ -54,30 +63,43 @@ class Menu_Test extends Test_Case {
 	}
 
 	public function test_request() {
-/*
 		// Request
 		$menu_id = $this->create_nav_menu();
-		$request = new WP_REST_Request( 'GET', '' );
-		$request->set_param( 'menu', 'main' );
 
-		$actual = $this->object->get_items( $request )->get_data();
-		$this->assertEquals( 'Home', $actual[0]['title'] );
-		$this->assertEquals( 'http://example.org/', $actual[0]['url'] );
+		global $wp_rest_server;
 
-		$menu_item_id = $actual[0]['ID'];
+		$request = WP_REST_Request::from_url( rest_url( '/sujin/v1/menu/main' ) );
+		$request->set_method( 'GET' );
+		$request->add_header( 'content-type', 'application/json' );
+		$response = $wp_rest_server->dispatch( $request );
+
+		$this->assertEquals( 'Home', $response->get_data()[0]['title'] );
+		$this->assertEquals( 'http://example.org/', $response->get_data()[0]['url'] );
+
+		$menu_item_id = $response->get_data()[0]['ID'];
 
 		// Request -- doesn't exist
-		$request->set_param( 'menu', 'main2' );
-		$actual = $this->object->get_items( $request );
-		$this->assertEquals( $actual, $this->call_private_method( $this->object, 'error_no_menu' ) );
+		$request = WP_REST_Request::from_url( rest_url( '/sujin/v1/menu/main2' ) );
+		$request->set_method( 'GET' );
+		$request->add_header( 'content-type', 'application/json' );
+		$response = $wp_rest_server->dispatch( $request );
+
+		$this->assertEquals(
+			$response->get_data(),
+			$this->get_error_response( $this->call_private_method( $this->object, 'error_no_menu' ) )
+		);
 
 		// Menu Changed: Transient
 		$transient_key = $this->call_private_method( $this->object, 'get_transient_key', array( 'main' ) );
 		$before        = Transient::get_transient( $transient_key );
 
 		$this->update_nav_menu( $menu_id, $menu_item_id );
-		$request->set_param( 'menu', 'main' );
-		$this->object->get_items( $request );
+		$this->update_nav_menu( $menu_id, $menu_item_id );
+
+		$request = WP_REST_Request::from_url( rest_url( '/sujin/v1/menu/main' ) );
+		$request->set_method( 'GET' );
+		$request->add_header( 'content-type', 'application/json' );
+		$response = $wp_rest_server->dispatch( $request );
 
 		$after = Transient::get_transient( $transient_key );
 		$this->assertNotEquals( $before, $after );
@@ -85,6 +107,5 @@ class Menu_Test extends Test_Case {
 		// Children
 		$this->assertEquals( 'Home', $after->items[0]['children'][0]['title'] );
 		$this->assertEquals( 'http://example.org/', $after->items[0]['children'][0]['url'] );
-*/
 	}
 }

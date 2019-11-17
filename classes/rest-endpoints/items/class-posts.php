@@ -1,6 +1,6 @@
 <?php
 /**
- * Menu Item
+ * Post Item
  *
  * @project Sujinc.com
  * @since   9.0.0
@@ -11,15 +11,22 @@ namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items;
 
 use WP_Post;
 
-final class Menu extends Abstract_Rest_Item_Base {
-	public $ID;
+final class Post extends Abstract_Rest_Item_Base {
+	public $id;
+	public $slug;
+	public $date;
+	public $link;
 	public $title;
-	public $url;
-	public $target;
-	public $menu_item_parent;
-	public $menu_order;
-	public $classes  = array();
-	public $children = array(); // Array of Menu
+	public $content;
+	public $excerpt;
+	public $comment_status;
+	public $meta       = array();
+	public $tags       = array();
+	public $series     = array();
+	public $thumbnail  = array();
+	public $prevnext   = array();
+	public $related    = array();
+	public $type;
 
 	/**
 	 * Create MenuItem from WP_Post
@@ -32,9 +39,5 @@ final class Menu extends Abstract_Rest_Item_Base {
 				$this->$key = $post->$key;
 			}
 		}
-	}
-
-	public function append_children( Menu $child ) {
-		$this->children[] = $child;
 	}
 }

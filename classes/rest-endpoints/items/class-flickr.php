@@ -12,8 +12,6 @@ class Flickr extends Abstract_Rest_Item_Base {
 		't'      => '',
 	);
 
-	public $title2 = '';
-
 	public function __construct( array $item ) {
 		$this->title = $item['title'];
 		$this->link  = $item['link'];

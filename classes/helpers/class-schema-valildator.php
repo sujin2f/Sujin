@@ -3,7 +3,7 @@
  * Class : JSON Schema Valildator
  *
  * @project Sujin
- * @since   8.0.0
+ * @since   9.0.0
  * @author  Sujin 수진 Choi http://www.sujinc.com/
  */
 
@@ -11,21 +11,20 @@ namespace Sujin\Wordpress\Theme\Sujin\Helpers;
 
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items\Abstract_Rest_Item_Base;
 
-class Schema_Valildator {
+final class Schema_Valildator {
 	use Multiton;
 
 	private $item_name = '';
 	private $schema    = array();
 
 	protected function __construct( string $key ) {
-		$this->item_name = $key;
+		$this->item_name = str_replace( '_', '-', $key );
 		$this->get_schema();
 	}
 
 	/**
 	 * Gets the schema from .json file
 	 * Otherwise, returns null
-	 * $ref should be an object
 	 */
 	public function get_schema(): ?array {
 		if ( ! empty( $this->schema ) || null === $this->schema ) {
@@ -51,15 +50,21 @@ class Schema_Valildator {
 		return $json;
 	}
 
+	/**
+	 * Entry point of validation
+	 */
 	public function validate_and_cast( Abstract_Rest_Item_Base $object ) {
-		$this->filter_schema( $this->get_schema(), $object, array() );
-
-var_dump(get_object_vars($object));
+		$this->filter_schema( $this->get_schema(), $object );
 	}
 
-	private function filter_schema( array $schema, object $object, array $position ): void {
-		$properties = $this->get_properties_from_schema( $schema );
+	/**
+	 * Reculsive method to filter and validate values
+	 * Object will be an associatied array
+	 */
+	private function filter_schema( array $schema, object $object ): void {
+		$properties = $this->get_properties_from_schema( $schema, $echo );
 
+		// For each property item
 		foreach ( get_object_vars( $object ) as $key => $value ) {
 			// Unset undefined in schema
 			if ( ! array_key_exists( $key, $properties ) ) {
@@ -67,15 +72,84 @@ var_dump(get_object_vars($object));
 				continue;
 			}
 
-			// Cast value
-			$object->$key = $this->cast_value( $properties[ $key ]['type'], $value );
+			$type = $properties[ $key ]['type'];
 
-// Validation (URL, array, object...) / Required fields
+			// For object type, reculsion
+			if ( 'object' === $type || 'array' === $type ) {
+				// Object should not be empty. Otherwise, it could end up with infinity loop.
+				if ( $object->$key ) {
+					$schema = 'object' === $type ? $properties[ $key ] : $properties[ $key ]['items'];
+
+					// Has items.type = ''
+					if ( array_key_exists( 'type', $schema ) ) {
+						foreach ( $object->$key as &$child ) {
+							$child = $this->filter_values( $schema, $child );
+						}
+						continue;
+					}
+
+					$object->$key = (object) $object->$key;
+
+					if ( array_key_exists( '$ref', $schema ) ) {
+						foreach ( $object->$key as &$child ) {
+							$child = (object) $child;
+							$this->filter_schema( $schema, $child );
+							$child = (array) $child;
+						}
+					} else {
+						$this->filter_schema( $schema, $object->$key );
+					}
+
+					$object->$key = (array) $object->$key;
+					continue;
+				}
+
+				$object->$key = array();
+				continue;
+			}
+
+			$object->$key = $this->filter_values( $properties[ $key ], $object->$key );
+
 		}
 	}
 
-	private function cast_value( string $type, $value ) {
-		switch ( $type ) {
+	/**
+	 * Filtering the values
+	 * Calls filter_enum(), filter_format(), and type_cast()
+	 */
+	private function filter_values( array $schema, $value ) {
+		$value = $this->type_cast( $schema, $value );
+		$value = $this->filter_enum( $schema, $value );
+		$value = $this->filter_format( $schema, $value );
+
+		return $value;
+	}
+	private function filter_enum( array $schema, $value ) {
+		if ( ! $schema['enum'] ) {
+			return $value;
+		}
+
+		if ( in_array( $value, $schema['enum'] ) ) {
+			return $value;
+		}
+
+		return $schema['default'];
+	}
+	private function filter_format( array $schema, $value ) {
+		if ( ! $schema['format'] ) {
+			return $value;
+		}
+
+		switch ( $schema['format'] ) {
+			case 'uri':
+				return filter_var( $value, FILTER_VALIDATE_URL );
+
+		}
+
+		return $value;
+	}
+	private function type_cast( array $schema, $value ) {
+		switch ( $schema['type'] ) {
 			case 'int':
 			case 'integer':
 			case 'number':
@@ -90,28 +164,24 @@ var_dump(get_object_vars($object));
 			case 'string':
 				return (string) $value;
 			case 'array':
-				return (array) $value;
 			case 'object':
-				return (object) $value;
+				return (array) $value;
 		}
 
 		return $value;
 	}
+
 	private function get_properties_from_schema( array $schema ): array {
-		if ( 'object' !== $schema['type'] ) {
-			return array();
+		if ( 'object' === $schema['type'] ) {
+			$schema = $schema['properties'];
 		}
 
-		$schema = array_map(
-			function( $attrs ) {
-				if ( ! empty( $attrs['$ref'] ) ) {
-					return $this->get_properties_from_ref( $attrs['$ref'] );
-				}
-
-				return $attrs;
-			},
-			$schema['properties']
-		);
+		// Expand $ref
+		foreach ( array_keys( $schema ) as $key ) {
+			if ( '$ref' === $key ) {
+				return $this->get_properties_from_ref( $schema[ $key ], $echo );
+			}
+		}
 
 		return $schema;
 	}
@@ -119,6 +189,7 @@ var_dump(get_object_vars($object));
 	private function get_properties_from_ref( string $ref ): array {
 		$ref    = array_pop( explode( '/', $ref ) );
 		$schema = $this->get_schema();
+
 		return $schema['definitions'][ $ref ] ?: array();
 	}
 }
