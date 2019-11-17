@@ -11,8 +11,8 @@
 	stopOnFailure="false"
 >
 	<testsuites>
-		<testsuite name="Sujin">
-			<directory>../../tests/phpunit/Unit</directory>
+		<testsuite name="sujin">
+			<directory suffix="-test.php">../../tests/phpunit</directory>
 		</testsuite>
 	</testsuites>
 	<php>

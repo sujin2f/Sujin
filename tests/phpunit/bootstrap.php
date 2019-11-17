@@ -24,3 +24,5 @@ $home_dir = dirname( dirname( __DIR__ ) );
 
 include_once( $home_dir . '/autoload.php' );
 include_once( $home_dir . '/vendor/sujin/wp-express/autoload.php' );
+
+include_once( dirname( __FILE__ ) . '/unit/class-test-case.php' );

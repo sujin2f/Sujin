@@ -28,11 +28,11 @@ class Simple_Post extends Abstract_Rest_Item_Base {
 	 * Create MenuItem from WP_Post
 	*/
 	public function __construct( WP_Post $post ) {
-		$this->id      = $post->ID;
-		$this->date    = $post->post_date;
-		$this->link    = get_permalink( $post );
-		$this->title   = $post->post_title;
-		$this->slug    = $post->post_name;
+		$this->id    = $post->ID;
+		$this->date  = $post->post_date;
+		$this->link  = get_permalink( $post );
+		$this->title = $post->post_title;
+		$this->slug  = $post->post_name;
 
 		$list       = Attachment::get_instance( 'List' )->get( $post->ID );
 		$icon       = Attachment::get_instance( 'Icon' )->get( $post->ID );

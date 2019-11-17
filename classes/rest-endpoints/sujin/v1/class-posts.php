@@ -109,8 +109,8 @@ class Posts extends Abs_Rest_Base {
 			'post_status'    => 'publish',
 			'posts_per_page' => 1,
 		);
-		$post = new WP_Query( $query_args );
-		$post = $post->posts;
+		$post       = new WP_Query( $query_args );
+		$post       = $post->posts;
 
 		if ( empty( $post ) ) {
 			return $this->error_not_found_post();

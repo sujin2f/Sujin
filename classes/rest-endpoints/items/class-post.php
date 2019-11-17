@@ -11,6 +11,8 @@ namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items;
 
 use WP_Post, WP_Query;
 
+// phpcs:disable WordPress.NamingConventions.ValidVariableName.MemberNotSnakeCase
+// phpcs:disable WordPress.NamingConventions.ValidVariableName.NotSnakeCaseMemberVar
 final class Post extends Simple_Post {
 	public $content;
 	public $excerpt;
@@ -139,3 +141,4 @@ final class Post extends Simple_Post {
 		return $posts;
 	}
 }
+// phpcs:enable
