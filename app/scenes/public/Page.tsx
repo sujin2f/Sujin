@@ -28,8 +28,8 @@ class Page extends Base {
       parseExImage(
         post.entity.meta.background,
         post.entity.thumbnail,
-        'medium_large',
-        'post-thumbnail',
+        'large',
+        'medium',
         DEFAULT_BACKGROUND,
         DEFAULT_BACKGROUND_MOBILE,
       );

@@ -10,7 +10,7 @@ const data = [
     thumbnail: {},
     content: '',
     postType: 'post',
-    prevnext: {},
+    prevNext: {},
     related: [],
     series: [],
     tags: [],

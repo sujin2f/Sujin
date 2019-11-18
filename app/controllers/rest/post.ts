@@ -40,7 +40,7 @@ export default class PostController extends RestController<Post> {
   }
 
   protected getRestUrl(): string {
-    return `/wp-json/sujin/v1/posts/?slug=${this.slug}`;
+    return `/wp-json/sujin/v1/post/${this.slug}`;
   }
 
   protected postResponse(response): void {

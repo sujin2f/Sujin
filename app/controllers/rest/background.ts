@@ -40,6 +40,6 @@ export default class BackgroundController extends RestController<Background> {
   }
 
   protected getRestUrl(): string {
-    return '/wp-json/sujin/v1/media/random/';
+    return '/wp-json/sujin/v1/background/random/';
   }
 }

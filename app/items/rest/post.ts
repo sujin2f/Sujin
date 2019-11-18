@@ -6,7 +6,7 @@ import Related from 'app/items/rest/related';
 export default class Post extends Related implements RestItem {
   readonly content: string;
   readonly postType: string;
-  readonly prevnext: {
+  readonly prevNext: {
     prev?: PrevNext;
     next?: PrevNext;
   };
@@ -19,7 +19,7 @@ export default class Post extends Related implements RestItem {
 
     this.content = data.content;
     this.postType = data.type;
-    this.prevnext = data.prevnext;
+    this.prevNext = data.prevNext;
     this.related = data.related.map((rp) => new Related(rp));
     this.series = data.series;
     this.tags = data.tags;

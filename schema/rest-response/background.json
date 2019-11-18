@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "background",
+  "type": "object",
+  "properties": {
+    "desktop": {
+      "description": "Desktop size image",
+      "type": "string",
+      "format": "uri",
+      "readonly": true
+    },
+    "mobile": {
+      "description": "Mobile size image",
+      "type": "string",
+      "format": "uri",
+      "readonly": true
+    },
+    "title": {
+      "description": "Title of the image",
+      "type": "string",
+      "readonly": true
+    }
+  }
+}

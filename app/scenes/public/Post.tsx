@@ -31,8 +31,8 @@ class Post extends Base {
       parseExImage(
         post.entity.meta.background,
         post.entity.thumbnail,
-        'medium_large',
-        'post-thumbnail',
+        'large',
+        'medium',
         DEFAULT_BACKGROUND,
         DEFAULT_BACKGROUND_MOBILE,
       );
@@ -43,14 +43,14 @@ class Post extends Base {
           backgroundImage={backgroundImage}
           title={post.entity.title}
           description={post.entity.excerpt}
-          backgroundColor={post.entity.meta['background-color']}
-          useBackgroundColor={post.entity.meta['use-background-color']}
+          backgroundColor={post.entity.meta.backgroundColor}
+          useBackgroundColor={post.entity.meta.useBackgroundColor}
         />
 
         <section className="row">
           <Content post={post.entity} className="large-9 medium-12">
             <aside id="single-footer">
-              <PrevNext prevnext={post.entity.prevnext} />
+              <PrevNext prevNext={post.entity.prevNext} />
 
               <section id="related-posts">
                 <RelatedPosts items={post.entity.related} />

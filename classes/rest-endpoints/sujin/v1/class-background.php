@@ -1,8 +1,10 @@
 <?php
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1;
 
+use Sujin\Wordpress\Theme\Sujin\Transient;
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Abs_Rest_Base;
-use Sujin\Wordpress\Theme\Sujin\Helpers\Rest_Helper;
+use Sujin\Wordpress\Theme\Sujin\Helpers\Singleton;
+use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items\Background as BackgroundItem;
 
 use Sujin\Wordpress\WP_Express\Fields\Post_Meta\Attachment as Post_Meta_Attachment;
 use Sujin\Wordpress\WP_Express\Fields\Term_Meta\Attachment as Term_Meta_Attachment;
@@ -22,14 +24,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
 
-class Media extends Abs_Rest_Base {
-	protected const RESOURCE_NAME = 'media';
+class Background extends Abs_Rest_Base {
+	use Singleton;
+
+	protected const RESOURCE_NAME = 'background';
 
 	public function __construct() {
 		parent::__construct();
 
 		add_action( 'attachment_updated', array( $this, 'delete_transient' ) );
 		add_action( 'add_attachment', array( $this, 'delete_transient' ) );
+	}
+
+	public function delete_transient() {
+		delete_transient( $this->get_transient_key() );
 	}
 
 	public function create_rest_routes() {
@@ -47,11 +55,12 @@ class Media extends Abs_Rest_Base {
 		);
 	}
 
-	public function get_items( $request ) {
-		$transient = $this->get_transient();
+	public function get_items( $_ ) {
+		// Get transient
+		$transient = Transient::get_transient( $this->get_transient_key() );
 
-		if ( $transient[ self::KEY_RETURN ] && ! self::DEV_MODE ) {
-			return rest_ensure_response( $transient[ self::KEY_ITEMS ] );
+		if ( $transient && ! $transient->is_expired() && ! SUJIN_DEV_MODE ) {
+			return rest_ensure_response( $transient->items );
 		}
 
 		$posts = get_posts(
@@ -70,19 +79,18 @@ class Media extends Abs_Rest_Base {
 		);
 
 		if ( empty( $posts ) ) {
-			if ( $transient[ self::KEY_ITEMS ] ) {
-				return rest_ensure_response( $transient[ self::KEY_ITEMS ] );
-			}
-
-			$this->set_transient( $this->error_no_content() );
 			return rest_ensure_response( $this->error_no_content() );
 		}
 
 		foreach ( array_keys( $posts ) as $arr_key ) {
-			$posts[ $arr_key ] = $this->prepare_item_for_response( $posts[ $arr_key ], $request )->data;
+			$posts[ $arr_key ] = new BackgroundItem( $posts[ $arr_key ] );
 		}
 
-		$this->set_transient( $posts );
+		$posts = json_decode( wp_json_encode( $posts ), true );
+		$posts = array_values( $posts );
+
+		$transient = new Transient( $posts, self::CACHE_TTL );
+		set_transient( $this->get_transient_key(), wp_json_encode( $transient ) );
 
 		return rest_ensure_response( $posts );
 	}
@@ -90,49 +98,10 @@ class Media extends Abs_Rest_Base {
 	private function error_no_content(): WP_Error {
 		return new WP_Error(
 			'NO_CONTENT',
-			'The account has no photo.',
+			'No attachment matched.',
 			array(
 				'status' => self::STATUS_CODE_NO_CONTENT,
 			)
-		);
-	}
-
-	public function prepare_item_for_response( $item, $request ): WP_REST_Response {
-		$item = (array) $item;
-		$item = array(
-			'title'   => $item['post_title'],
-			'desktop' => wp_get_attachment_image_src( $item['ID'], 'large' )[0],
-			'mobile'  => wp_get_attachment_image_src( $item['ID'], 'medium_large' )[0],
-		);
-		$item = parent::prepare_item_for_response( $item, $request );
-		return rest_ensure_response( $item );
-	}
-
-	public function get_item_schema(): array {
-		return array(
-			'$schema'    => 'http://json-schema.org/draft-04/schema#',
-			'title'      => 'media',
-			'type'       => 'object',
-			'properties' => array(
-				'title'   => array(
-					'description' => 'The title of the photo.',
-					'type'        => 'string',
-					'context'     => array( 'view', 'edit', 'embed' ),
-					'readonly'    => true,
-				),
-				'desktop' => array(
-					'description' => 'URL for desktop',
-					'type'        => 'string',
-					'context'     => array( 'view', 'edit', 'embed' ),
-					'readonly'    => true,
-				),
-				'mobile'  => array(
-					'description' => 'URL for mobile',
-					'type'        => 'string',
-					'context'     => array( 'view', 'edit', 'embed' ),
-					'readonly'    => true,
-				),
-			),
 		);
 	}
 }

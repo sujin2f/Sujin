@@ -100,17 +100,17 @@ export default class ArchiveController extends RestController<Post> {
   }
 
   protected getRestUrl(): string {
-    return `/wp-json/sujin/v1/posts/?list_type=${this.type}&keyword=${this.slug}&page=${this.page}&per_page=12`;
+    return `/wp-json/sujin/v1/archive/${this.type}/${this.slug}/${this.page}`;
   }
 
   protected postResponse(response): void {
-    this.totalPages = parseInt(response.headers['x-wp-totalpages'], 10) || 1;
-    this.background = response.headers['x-wp-term-thumbnail'] || this.defaultBackground;
-    this.title = decodeURIComponent(response.headers['x-wp-term-name']) || '';
-    this.description = decodeURIComponent(response.headers['x-wp-term-description']) || '';
-
-    super.postResponse(response);
-
+    this.entities = [];
+    this.entities = response.data.items.map((item) => this.itemBuilder.create(item));
     this.entities.map((entity: Post) => PostController.getInstance(entity.slug).setFromPost(entity));
+
+    this.totalPages = parseInt(response.data.totalPages, 10) || 1;
+    this.background = response.data.thumbnail || this.defaultBackground;
+    this.title = decodeURIComponent(response.data.name) || '';
+    this.description = decodeURIComponent(response.data.description) || '';
   }
 }

@@ -4,6 +4,10 @@
  * PHPUnit bootstrap file
  */
 
+if ( ! defined( 'SUJIN_DEV_MODE' ) ) {
+	define( 'SUJIN_DEV_MODE', true );
+}
+
 // Composer autoloader must be loaded before WP_PHPUNIT__DIR will be available
 require_once dirname( dirname( __DIR__ ) ) . '/vendor/autoload.php';
 
@@ -24,3 +28,5 @@ $home_dir = dirname( dirname( __DIR__ ) );
 
 include_once( $home_dir . '/autoload.php' );
 include_once( $home_dir . '/vendor/sujin/wp-express/autoload.php' );
+
+include_once( dirname( __FILE__ ) . '/unit/class-test-case.php' );

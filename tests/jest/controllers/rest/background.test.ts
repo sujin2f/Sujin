@@ -7,7 +7,7 @@ import data from './background.test.data';
 import BackgroundController from 'app/controllers/rest/background';
 const mock = new MockAdapter(axios);
 
-mock.onGet('/wp-json/sujin/v1/media/random/').reply(200, data);
+mock.onGet('/wp-json/sujin/v1/background/random/').reply(200, data);
 
 test('BackgroundController', () => {
   const promise = BackgroundController.getInstance().addComponent(ComponentMock).request().promise;

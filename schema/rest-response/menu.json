@@ -1,0 +1,59 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "menu",
+  "type": "object",
+  "properties": {
+    "$ref": "#/definitions/menu"
+  },
+  "definitions": {
+    "menu": {
+      "ID": {
+        "description": "Unique ID of WP Post object",
+        "type": "integer",
+        "readonly": true
+      },
+      "title": {
+        "description": "The title of the menu item.",
+        "type": "string",
+        "readonly": true
+      },
+      "url": {
+        "description": "Link URL",
+        "type": "string",
+        "format": "uri",
+        "readonly": true
+      },
+      "target": {
+        "description": "Link target HTML attribute",
+        "type": "string",
+        "enum": [
+          "_blank",
+          "_self"
+        ],
+        "default": "_self",
+        "readonly": true
+      },
+      "parent": {
+        "description": "Parent ID",
+        "type": "integer",
+        "readonly": true
+      },
+      "classes": {
+        "description": "HTML class attributes",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readonly": true
+      },
+      "children": {
+        "description": "Child menu items",
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/menu"
+        },
+        "readonly": true
+      }
+    }
+  }
+}
