@@ -3,7 +3,7 @@ namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1;
 
 use Sujin\Wordpress\Theme\Sujin\Transient;
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Abs_Rest_Base;
-use Sujin\Wordpress\Theme\Sujin\Helpers\Rest_Helper;
+use Sujin\Wordpress\Theme\Sujin\Helpers\Singleton;
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items\Background as BackgroundItem;
 
 use Sujin\Wordpress\WP_Express\Fields\Post_Meta\Attachment as Post_Meta_Attachment;
@@ -25,6 +25,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Background extends Abs_Rest_Base {
+	use Singleton;
+
 	protected const RESOURCE_NAME = 'background';
 
 	public function __construct() {
@@ -57,7 +59,7 @@ class Background extends Abs_Rest_Base {
 		// Get transient
 		$transient = Transient::get_transient( $this->get_transient_key() );
 
-		if ( $transient && ! $transient->is_expired() && ! self::DEV_MODE ) {
+		if ( $transient && ! $transient->is_expired() && ! SUJIN_DEV_MODE ) {
 			return rest_ensure_response( $transient->items );
 		}
 

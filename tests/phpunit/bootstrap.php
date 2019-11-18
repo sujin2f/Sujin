@@ -4,6 +4,10 @@
  * PHPUnit bootstrap file
  */
 
+if ( ! defined( 'SUJIN_DEV_MODE' ) ) {
+	define( 'SUJIN_DEV_MODE', true );
+}
+
 // Composer autoloader must be loaded before WP_PHPUNIT__DIR will be available
 require_once dirname( dirname( __DIR__ ) ) . '/vendor/autoload.php';
 

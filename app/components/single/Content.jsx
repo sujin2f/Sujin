@@ -25,7 +25,7 @@ class Content extends Component {
       ...parseContent(content),
     ];
 
-    const icon = meta.icon.thumbnail;
+    const icon = meta.icon.small;
 
     return (
       <article

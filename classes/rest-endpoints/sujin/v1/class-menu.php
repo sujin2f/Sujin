@@ -12,6 +12,7 @@ namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1;
 use Sujin\Wordpress\Theme\Sujin\Transient;
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Abs_Rest_Base;
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items\Menu as MenuItem;
+use Sujin\Wordpress\Theme\Sujin\Helpers\Singleton;
 
 // phpcs:disable Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
 use WP_REST_Server,
@@ -26,6 +27,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Menu extends Abs_Rest_Base {
+	use Singleton;
+
 	protected const RESOURCE_NAME = 'menu';
 
 	public function __construct() {
@@ -71,7 +74,7 @@ class Menu extends Abs_Rest_Base {
 		$transient_key = $this->get_transient_key( $slug );
 		$transient     = Transient::get_transient( $transient_key );
 
-		if ( $transient && ! $transient->is_expired() && ! self::DEV_MODE ) {
+		if ( $transient && ! $transient->is_expired() && ! SUJIN_DEV_MODE ) {
 			return rest_ensure_response( $transient->items );
 		}
 

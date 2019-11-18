@@ -17,6 +17,10 @@ if ( ! function_exists( 'register_block_type' ) ) {
 	return;
 }
 
+if ( ! defined( 'SUJIN_DEV_MODE' ) ) {
+	define( 'SUJIN_DEV_MODE', true );
+}
+
 include_once( get_stylesheet_directory() . '/autoload.php' );
 include_once( get_stylesheet_directory() . '/vendor/sujin/wp-express/autoload.php' );
 

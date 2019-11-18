@@ -9,16 +9,17 @@
 
 namespace Sujin\Wordpress\Theme\Sujin;
 
-use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1\{Flickr, Posts, Menu, Background};
+use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1\{Flickr, Post, Menu, Background, Archive};
 
 final class REST_API {
 	use Helpers\Singleton;
 
 	public function __construct() {
-		new Flickr();
-		new Posts();
-		new Menu();
-		new Background();
+		Flickr::get_instance();
+		Post::get_instance();
+		Menu::get_instance();
+		Background::get_instance();
+		Archive::get_instance();
 
 		remove_filter( 'the_content', 'wpautop' );
 	}

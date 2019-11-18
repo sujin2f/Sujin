@@ -4,7 +4,7 @@ namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1;
 use Sujin\Wordpress\Theme\Sujin\Transient;
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Abs_Rest_Base;
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items\Flickr as FlickrItem;
-use Sujin\Wordpress\Theme\Sujin\Helpers\Utilities;
+use Sujin\Wordpress\Theme\Sujin\Helpers\Singleton;
 use Sujin\Wordpress\WP_Express\Fields\Settings\Input;
 
 // phpcs:disable Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Flickr extends Abs_Rest_Base {
-	protected const DEV_MODE = false;
+	use Singleton;
 
 	protected const CACHE_TTL     = 12 * HOUR_IN_SECONDS;
 	protected const RESOURCE_NAME = 'flickr';
@@ -59,7 +59,7 @@ class Flickr extends Abs_Rest_Base {
 		// Get transient
 		$transient = Transient::get_transient( $this->get_transient_key() );
 
-		if ( $transient && ! $transient->is_expired() && ! self::DEV_MODE ) {
+		if ( $transient && ! $transient->is_expired() && ! SUJIN_DEV_MODE ) {
 			return rest_ensure_response( $transient->items );
 		}
 

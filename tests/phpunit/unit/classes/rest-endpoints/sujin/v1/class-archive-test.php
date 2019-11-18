@@ -10,7 +10,7 @@
 namespace Sujin\Wordpress\Theme\Sujin\Tests\Unit\Rest_Endpoints\Sujin\V1;
 
 use Sujin\Wordpress\Theme\Sujin\Tests\Unit\Test_Case;
-use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1\Post;
+use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1\Archive;
 use Sujin\Wordpress\Theme\Sujin\Transient;
 
 use Sujin\Wordpress\WP_Express\Fields\Post_Meta\{Attachment, Input, Checkbox};
@@ -18,7 +18,7 @@ use Sujin\Wordpress\WP_Express\Taxonomy;
 
 use WP_REST_Request;
 
-class Post_Test extends Test_Case {
+class Archive_Test extends Test_Case {
 	private $object;
 
 	private $post_01;
@@ -26,22 +26,22 @@ class Post_Test extends Test_Case {
 
 	public function setUp() {
 		parent::setUp();
-		$this->object = Post::get_instance();
+		$this->object = Archive::get_instance();
 		register_taxonomy( 'series', 'post' );
 		do_action( 'rest_api_init' );
 	}
 
-	public function test_sinlge_failed_request() {
+	public function test_archive_failed_request() {
 		global $wp_rest_server;
 
-		$request = WP_REST_Request::from_url( rest_url( '/sujin/v1/post/test' ) );
+		$request = WP_REST_Request::from_url( rest_url( '/sujin/v1/archive/category/portfolio' ) );
 		$request->set_method( 'GET' );
 		$request->add_header( 'content-type', 'application/json' );
 		$response = $wp_rest_server->dispatch( $request );
 
 		$this->assertEquals(
 			$response->get_data(),
-			$this->get_error_response( $this->call_private_method( $this->object, 'error_not_found_post' ) )
+			$this->get_error_response( $this->call_private_method( $this->object, 'error_not_found_term', array( 'category' ) ) )
 		);
 	}
 
@@ -73,15 +73,16 @@ class Post_Test extends Test_Case {
 		update_post_meta( $this->post_01->ID, Attachment::get_instance( 'Background Color' )->get_id(), '#970000' );
 	}
 
-	public function test_sinlge_request() {
+	public function test_category_request() {
 		$this->register_posts();
 
 		global $wp_rest_server;
 
-		$request = WP_REST_Request::from_url( rest_url( '/sujin/v1/post/' . $this->post_01->post_name ) );
+		$request = WP_REST_Request::from_url( rest_url( '/sujin/v1/archive/category/undefined' ) );
 		$request->set_method( 'GET' );
 		$request->add_header( 'content-type', 'application/json' );
 		$response = $wp_rest_server->dispatch( $request )->get_data();
+		$response = $response['items'][0];
 
 		$this->assertEquals( $this->post_01->ID, $response['id'] );
 		$this->assertTrue( ! empty( $response['meta']['list'] ) );

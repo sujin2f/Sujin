@@ -16,7 +16,7 @@ export default class RecentPostController extends RestController<Post> {
   }
 
   protected getRestUrl(): string {
-    return '/wp-json/sujin/v1/posts/?per_page=4';
+    return '/wp-json/sujin/v1/archive/?per_page=4';
   }
 
   protected postResponse(response): void {

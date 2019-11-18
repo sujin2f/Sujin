@@ -1,8 +1,6 @@
 <?php
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints;
 
-use Sujin\Wordpress\Theme\Sujin\Helpers\Utilities;
-
 // phpcs:disable Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
 use WP_REST_Controller,
     WP_REST_Response,
@@ -16,7 +14,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 abstract class Abs_Rest_Base extends WP_REST_Controller {
-	protected const DEV_MODE  = true;
 	protected const NAMESPACE = 'sujin/v1';
 
 	protected const STATUS_CODE_NO_CONTENT      = 204;
@@ -35,7 +32,7 @@ abstract class Abs_Rest_Base extends WP_REST_Controller {
 	abstract public function create_rest_routes();
 
 	public function permissions_check( $request ): bool {
-		if ( self::DEV_MODE ) {
+		if ( SUJIN_DEV_MODE ) {
 			return true;
 		}
 

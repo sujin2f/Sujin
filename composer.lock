@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "sujin/wp-express",
-            "version": "3.3",
+            "version": "3.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sujin2f/wp_express.git",
-                "reference": "439db6734ed3eb9f853e76f628a70d4c6b7b5768"
+                "reference": "f17faa94bec5453a24e46fafbcd46d2616a1ca48"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sujin2f/wp_express/zipball/439db6734ed3eb9f853e76f628a70d4c6b7b5768",
-                "reference": "439db6734ed3eb9f853e76f628a70d4c6b7b5768",
+                "url": "https://api.github.com/repos/sujin2f/wp_express/zipball/f17faa94bec5453a24e46fafbcd46d2616a1ca48",
+                "reference": "f17faa94bec5453a24e46fafbcd46d2616a1ca48",
                 "shasum": ""
             },
             "require": {
@@ -53,7 +53,7 @@
                 "development",
                 "wordpress"
             ],
-            "time": "2019-09-26T18:08:00+00:00"
+            "time": "2019-11-18T02:13:56+00:00"
         }
     ],
     "packages-dev": [

@@ -23,6 +23,7 @@ final class Post extends Simple_Post {
 	public $related  = array();
 	public $type;
 
+	private const BREAKS      = array( '<br />', '<br/>', '<br>', '&lt;br /&gt;', '&lt;br/&gt;', '&lt;br&gt;' );
 	protected const ITEM_NAME = 'post';
 
 	/**
@@ -30,18 +31,21 @@ final class Post extends Simple_Post {
 	*/
 	public function __construct( WP_Post $post ) {
 		parent::__construct( $post );
+
 		$this->content = do_shortcode( wpautop( $post->post_content ) );
 		$this->type    = $post->post_type;
 
-		$break         = array( '<br />', '<br/>', '<br>', '&lt;br /&gt;', '&lt;br/&gt;', '&lt;br&gt;' );
-		$this->excerpt = str_replace( $break, "\r\n\r\n", $post->post_excerpt );
+		// Excerpt
+		$this->excerpt = str_replace( self::BREAKS, "\r\n\r\n", $post->post_excerpt );
 		$this->excerpt = wpautop( $this->excerpt );
 
+		// Tags
 		$this->tags = wp_get_post_tags( $post->ID );
 		foreach ( array_keys( $this->tags ) as $key ) {
 			$this->tags[ $key ] = new Tag( $this->tags[ $key ] );
 		}
 
+		// Series / PrevNext / Related
 		$this->series   = $this->get_series( $post );
 		$this->prevNext = array(
 			'prev' => $this->get_prevnext( $post, true ),

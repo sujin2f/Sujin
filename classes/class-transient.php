@@ -20,10 +20,13 @@ class Transient implements JsonSerializable {
 	}
 
 	public static function get_transient( string $key ): ?Transient {
-		$transient = get_transient( $key );
-		$json      = json_decode( $transient, true );
+		$json = get_transient( $key );
 
-		if ( json_last_error() ) {
+		if ( is_string( $json ) ) {
+			$json = json_decode( $json, true );
+		}
+
+		if ( ! is_array( $json ) ) {
 			return null;
 		}
 

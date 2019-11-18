@@ -19,8 +19,8 @@ class Item extends Component {
       parseExImage(
         item.meta.list,
         item.thumbnail,
-        thumbnail.desktop || 'post-thumbnail',
-        thumbnail.mobile || 'post-thumbnail',
+        thumbnail.desktop || 'medium',
+        thumbnail.mobile || 'medium',
         DEFAULT_BACKGROUND,
         DEFAULT_BACKGROUND,
       );
