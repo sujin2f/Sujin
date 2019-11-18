@@ -50,9 +50,9 @@ class Post extends Abs_Rest_Base {
 					'permission_callback' => array( $this, 'permissions_check' ),
 					'args'                => array(
 						'slug' => array(
-							'description'       => 'Post Slug',
-							'type'              => 'string',
-							'required'          => true,
+							'description' => 'Post Slug',
+							'type'        => 'string',
+							'required'    => true,
 						),
 					),
 				),
