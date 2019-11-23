@@ -11,10 +11,9 @@ test('PostController', () => {
   mock.onAny().reply(200, data);
   const promise = PostController.getInstance('test').addComponent(ComponentMock).request().promise;
   return promise.then(() => {
-    const entity = PostController.getInstance('test').entity;
+    // const entity = PostController.getInstance('test').entity;
 
-    console.log(entity);
-    console.log(PostController.getInstance('test'));
+    return expect(true).toBe(true);
     mock.reset();
   }).catch(() => {
     return expect(true).toBe(false);

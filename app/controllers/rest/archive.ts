@@ -15,10 +15,6 @@ import { isMobile } from 'app/utils/common';
 
 import { PAGE_OFFSET } from 'app/constants/common';
 
-// Images
-import DEFAULT_BACKGROUND from '../../../assets/images/background/category.jpg';
-import DEFAULT_BACKGROUND_MOBILE from '../../../assets/images/background/category-mobile.jpg';
-
 /*
  * Archive Controller
  */
@@ -33,7 +29,6 @@ export default class ArchiveController extends RestController<Post> {
   public description: string;
   public title: string;
 
-  private readonly defaultBackground: string = isMobile() ? DEFAULT_BACKGROUND_MOBILE : DEFAULT_BACKGROUND;
   private readonly pagingOffset: number = isMobile() ? 1 : PAGE_OFFSET;
   private totalPages: number;
 
@@ -109,7 +104,7 @@ export default class ArchiveController extends RestController<Post> {
     this.entities.map((entity: Post) => PostController.getInstance(entity.slug).setFromPost(entity));
 
     this.totalPages = parseInt(response.data.totalPages, 10) || 1;
-    this.background = response.data.thumbnail || this.defaultBackground;
+    this.background = response.data.thumbnail;
     this.title = decodeURIComponent(response.data.name) || '';
     this.description = decodeURIComponent(response.data.description) || '';
   }

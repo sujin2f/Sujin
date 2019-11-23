@@ -7,6 +7,11 @@ import PageHeader from 'app/components/layout/PageHeader';
 import Item from 'app/components/archive/Item';
 import Paging from 'app/components/archive/Paging';
 
+import { parseExImage } from 'app/utils/common';
+
+import DEFAULT_BACKGROUND from '../../../assets/images/background/category.jpg';
+import DEFAULT_BACKGROUND_MOBILE from '../../../assets/images/background/category-mobile.jpg';
+
 const { Fragment } = wp.element;
 const { compose } = wp.compose;
 
@@ -21,10 +26,20 @@ class Archive extends Base {
 
     GlobalController.getInstance().setTitle(`${archive.type}: ${archive.title}`);
 
+    const backgroundImage =
+      parseExImage(
+        archive.background,
+        archive.background,
+        'large',
+        'medium',
+        DEFAULT_BACKGROUND,
+        DEFAULT_BACKGROUND_MOBILE,
+      );
+
     return (
       <Public className="template-archive">
         <PageHeader
-          backgroundImage={archive.background}
+          backgroundImage={backgroundImage}
           prefix={archive.type}
           title={archive.title}
           description={archive.description.replace(/\+/g, ' ')}
