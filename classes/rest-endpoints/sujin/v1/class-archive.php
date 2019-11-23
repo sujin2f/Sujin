@@ -177,7 +177,6 @@ class Archive extends Abs_Rest_Base {
 		}
 
 		$thumbnail = Term_Meta_Attachment::get_instance( 'Thumbnail' )->get( $term->term_id ) ?: null;
-		$thumbnail = $thumbnail ? wp_get_attachment_image_src( $thumbnail, 'full' )[0] : null;
 		$response->set_thumbnail( $thumbnail );
 
 		$response->name        = $term->name;
