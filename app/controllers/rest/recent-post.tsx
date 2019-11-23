@@ -20,8 +20,8 @@ export default class RecentPostController extends RestController<Post> {
   }
 
   protected postResponse(response): void {
-    super.postResponse(response);
-
+    this.entities = [];
+    this.entities = response.data.items.map((item) => this.itemBuilder.create(item));
     this.entities.map((entity: Post) => PostController.getInstance(entity.slug).setFromPost(entity));
   }
 }
