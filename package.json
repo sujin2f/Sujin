@@ -117,9 +117,17 @@
       "\\.(jpg|jpeg|png|gif|svg|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tests/jest/__mocks__/fileMock.js"
     },
     "moduleFileExtensions": [
-      "js", "json", "jsx", "ts", "tsx", "node"
+      "js",
+      "json",
+      "jsx",
+      "ts",
+      "tsx",
+      "node"
     ],
-    "moduleDirectories": ["node_modules", "app"],
+    "moduleDirectories": [
+      "node_modules",
+      "app"
+    ],
     "globals": {
       "wp": {}
     },
@@ -128,9 +136,16 @@
     ],
     "collectCoverage": true,
     "coverageDirectory": "<rootDir>/logs",
-    "coverageReporters": ["clover"],
-    "testPathIgnorePatterns": ["/node_modules/", "/vendor/"],
-    "setupFiles": ["<rootDir>/tests/jest/global.js"],
+    "coverageReporters": [
+      "clover"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/vendor/"
+    ],
+    "setupFiles": [
+      "<rootDir>/tests/jest/global.js"
+    ],
     "transform": {
       "^.+\\.jsx?$": "babel-jest",
       "^.+\\.tsx?$": "ts-jest"
@@ -180,11 +195,21 @@
       }
     },
     "rules": {
-      "template-curly-spacing": ["error", "never"],
+      "template-curly-spacing": [
+        "error",
+        "never"
+      ],
       "no-console": "off",
       "react/react-in-jsx-scope": "off",
-      "operator-linebreak": ["error", "after"],
-      "max-len": ["error", 150, 2],
+      "operator-linebreak": [
+        "error",
+        "after"
+      ],
+      "max-len": [
+        "error",
+        150,
+        2
+      ],
       "click-events-have-key-events": "off",
       "react/prop-types": "off",
       "react/prefer-stateless-function": "off",
@@ -199,8 +224,14 @@
           "SwitchCase": 1
         }
       ],
-      "space-in-parens": ["error", "never"],
-      "computed-property-spacing": ["error", "never"],
+      "space-in-parens": [
+        "error",
+        "never"
+      ],
+      "computed-property-spacing": [
+        "error",
+        "never"
+      ],
       "space-unary-ops": [
         "error",
         {
@@ -208,11 +239,17 @@
         }
       ],
       "nonwords": 0,
-      "array-bracket-spacing": ["error", "never"],
+      "array-bracket-spacing": [
+        "error",
+        "never"
+      ],
       "react/jsx-filename-extension": [
         2,
         {
-          "extensions": [".jsx", ".tsx"]
+          "extensions": [
+            ".jsx",
+            ".tsx"
+          ]
         }
       ],
       "react/no-string-refs": "off",
@@ -223,13 +260,19 @@
     },
     "overrides": [
       {
-        "files": ["*.js", "*.jsx"],
+        "files": [
+          "*.js",
+          "*.jsx"
+        ],
         "rules": {
           "@typescript-eslint/explicit-function-return-type": "off"
         }
       },
       {
-        "files": ["*.ts", "*.tsx"],
+        "files": [
+          "*.ts",
+          "*.tsx"
+        ],
         "rules": {
           "jsx-a11y/control-has-associated-label": "off",
           "@typescript-eslint/ban-ts-ignore": "off"
@@ -246,12 +289,11 @@
     "plugins": [
       [
         "transform-react-jsx",
-        { "pragma": "wp.element.createElement" }
+        {
+          "pragma": "wp.element.createElement"
+        }
       ],
       "@babel/plugin-proposal-class-properties"
     ]
   }
 }
-
-
-
