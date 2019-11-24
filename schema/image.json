@@ -1,6 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema#",
-  "title": "tag",
+  "$id": "http://sujinc.com/image.json",
+  "title": "image",
   "type": "object",
   "properties": {
     "large": {
@@ -27,5 +28,6 @@
       "format": "uri",
       "readonly": true
     }
-  }
+  },
+  "additionalProperties": false
 }

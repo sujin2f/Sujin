@@ -1,6 +1,7 @@
 import RestItem from './index.d';
+import { Flickr as IFlickr } from './flickr.d';
 
-export default class Flickr implements RestItem {
+export default class Flickr implements RestItem, IFlickr {
   title: string;
   link: string;
   media: {

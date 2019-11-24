@@ -1,7 +1,7 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 
-import { mount } from 'enzyme'
+import { shallow } from 'enzyme'
 
 import { rawData, Backgrounds } from 'app/items/rest/background.spec.data';
 
@@ -11,7 +11,7 @@ const mock = new MockAdapter(axios);
 mock.onGet('/wp-json/sujin/v1/background/random/').reply(200, rawData);
 
 it('app/scenes/public/FrontPage', async () => {
-  const wrapper = mount(<FrontPage />);
+  const wrapper = shallow(<FrontPage />);
   const instance = wrapper.instance();
   const controller = instance.getController();
 
@@ -19,5 +19,6 @@ it('app/scenes/public/FrontPage', async () => {
 
   expect(controller.entities).toEqual(Backgrounds);
 
-  expect(wrapper.find('.page-header-wrapper').get(0).props.style.backgroundImage).not.toBeNull();
+  const backgroundImage = controller.getBackgroundImage();
+  expect([rawData[0].desktop, rawData[1].desktop]).toContain(backgroundImage);
 });

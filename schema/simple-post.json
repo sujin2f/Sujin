@@ -1,6 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema#",
-  "title": "post",
+  "$id": "http://sujinc.com/simple-post.json",
+  "title": "simple post",
   "type": "object",
   "properties": {
     "id": {
@@ -35,19 +36,19 @@
       "type": "object",
       "properties": {
         "background" : {
-          "$ref": "images"
+          "$ref": "image.json"
         },
         "icon" : {
-          "$ref": "images"
+          "$ref": "image.json"
         },
         "list" : {
-          "$ref": "images"
+          "$ref": "image.json"
         },
         "title" : {
-          "$ref": "images"
+          "$ref": "image.json"
         },
         "thumbnail" : {
-          "$ref": "images"
+          "$ref": "image.json"
         },
         "backgroundColor": {
           "type": "string",
@@ -60,7 +61,7 @@
       "readonly": true
     },
     "thumbnail": {
-      "$ref": "images"
+      "$ref": "image.json"
     }
   }
 }

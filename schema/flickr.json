@@ -1,5 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema#",
+  "$id": "http://sujinc.com/flickr.json",
   "title": "flickr",
   "type": "object",
   "properties": {
@@ -39,7 +40,11 @@
           "format": "uri"
         }
       },
-      "readonly": true
+      "readonly": true,
+      "additionalProperties": false,
+      "required": ["origin", "s", "t", "b", "m"]
     }
-  }
+  },
+  "additionalProperties": false,
+  "required": ["title", "link", "media"]
 }

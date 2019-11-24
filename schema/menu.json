@@ -1,5 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema#",
+  "$id": "http://sujinc.com/menu.json",
   "title": "menu",
   "type": "object",
   "properties": {
@@ -50,10 +51,11 @@
         "description": "Child menu items",
         "type": "array",
         "items": {
-          "$ref": "#/definitions/menu"
-        },
-        "readonly": true
+          "$ref": "#"
+        }
       }
     }
-  }
+  },
+  "additionalProperties": false,
+  "required": ["ID", "title", "url", "target", "parent", "classes", "children"]
 }
