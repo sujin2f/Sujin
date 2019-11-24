@@ -1,6 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema#",
-  "title": "background",
+  "$id": "http://sujinc.com/background.schema.json",
+  "title": "Background",
   "type": "object",
   "properties": {
     "desktop": {
@@ -20,5 +21,7 @@
       "type": "string",
       "readonly": true
     }
-  }
+  },
+  "additionalProperties": false,
+  "required": ["desktop", "mobile", "title"]
 }

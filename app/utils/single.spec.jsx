@@ -1,9 +1,9 @@
-const {
+import {
   parseContent,
   parseSeries,
   shareTwitter,
   shareFacebook,
-} = require('../../../app/utils/single');
+} from './single';
 
 test('Empty Content Parse Test', () => {
   const content = '';
@@ -16,10 +16,11 @@ test('No-Shortcode Content Parse Test', () => {
   const content = 'Lorem ipsum dolor sit amet';
   const parsed = parseContent(content);
 
-  expect(parsed[0].props.dangerouslySetInnerHTML.__html).toEqual('Lorem ipsum dolor sit amet');
+  expect(parsed[0].props.dangerouslySetInnerHTML.__html).toEqual('Lorem ipsum dolor sit amet'); // eslint-disable-line no-underscore-dangle
 });
 
 test('[gist /], [carousel /], [tweet /] Content Parse Test', () => {
+  /* eslint-disable max-len */
   let content = 'Lorem ipsum dolor sit amet';
   content += '[gist id="d6ff10312084824d2a2058a70dbdb961" file="docker-compose.yml" /]';
   content += 'Lorem ipsum dolor sit amet';
@@ -34,6 +35,7 @@ test('[gist /], [carousel /], [tweet /] Content Parse Test', () => {
   content += '[dev-tools id="text-sort" /]';
   content += 'Lorem ipsum dolor sit amet';
   content += '[dev-tools id="symbol-alignment" /]';
+  /* eslint-enable max-len */
 
   const parsed = parseContent(content);
 

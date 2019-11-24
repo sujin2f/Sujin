@@ -5,14 +5,14 @@
     <!-- define the php version that should be tested against -->
     <config name="testVersion" value="7.3-"/>
 
-    <file>../../autoload.php</file>
-    <file>../../footer.php</file>
-    <file>../../functions.php</file>
-    <file>../../header.php</file>
-    <file>../../index.php</file>
+    <file>../autoload.php</file>
+    <file>../footer.php</file>
+    <file>../functions.php</file>
+    <file>../header.php</file>
+    <file>../index.php</file>
 
-    <file>../../classes</file>
-    <file>../../tests</file>
+    <file>../classes</file>
+    <file>../tests</file>
 
     <exclude-pattern>*.js</exclude-pattern>
 

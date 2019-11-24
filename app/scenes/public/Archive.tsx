@@ -1,7 +1,7 @@
-import GlobalController from 'app/controllers/global';
+import { IRestController } from 'app/controllers/rest/index.d';
 import ArchiveController from 'app/controllers/rest/archive';
+import BaseControllerComponent from 'app/scenes/public/BaseControllerComponent';
 
-import Base from 'app/scenes/public/Base';
 import Public from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
 import Item from 'app/components/archive/Item';
@@ -15,16 +15,22 @@ import DEFAULT_BACKGROUND_MOBILE from '../../../assets/images/background/categor
 const { Fragment } = wp.element;
 const { compose } = wp.compose;
 
-class Archive extends Base {
+class Archive extends BaseControllerComponent {
+  getController(): IRestController {
+    return ArchiveController.getInstance().addComponent(this);
+  }
+
   render(): JSX.Element {
-    const archive = ArchiveController.getInstance().addComponent(this).request();
-    const pendingComponent = this.getPendingComponent(archive.init, archive.loading, archive.failed);
+    this.request();
+    const pendingComponent = this.getPendingComponent();
 
     if (pendingComponent) {
       return pendingComponent;
     }
 
-    GlobalController.getInstance().setTitle(`${archive.type}: ${archive.title}`);
+    const archive = this.getController();
+
+    this.setTitle(`${archive.type}: ${archive.title}`);
 
     const backgroundImage =
       parseExImage(

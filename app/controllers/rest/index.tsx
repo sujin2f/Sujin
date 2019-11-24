@@ -1,7 +1,9 @@
 import axios from 'axios';
 
-import { RestItem, RestItemBuilder } from 'app/types/rest/base';
 import { HTTP_RESPONSE_NO_CONTENT } from 'app/constants/common';
+
+import RestItem from 'app/items/rest/index.d';
+import { IRestItemBuilder } from './index.d';
 
 /*
  * Magic Classe to create RestController
@@ -17,10 +19,10 @@ export default class RestController<T extends RestItem> {
   public entity: T;
   public promise: Promise<void>;
 
-  protected itemBuilder: RestItemBuilder<T>;
+  protected itemBuilder: IRestItemBuilder<T>;
   protected components: Array<ReactComponent> = [];
 
-  protected constructor(itemBuilder: RestItemBuilder<T>) {
+  protected constructor(itemBuilder: IRestItemBuilder<T>) {
     this.itemBuilder = itemBuilder;
   }
 

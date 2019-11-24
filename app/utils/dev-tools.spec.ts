@@ -1,4 +1,4 @@
-const {
+import {
   preserveCase,
   camelCase,
   constantCase,
@@ -9,9 +9,10 @@ const {
   snakeCase,
   titleCase,
 
-  sortText,
-  symbolAlignment,
-} = require('../../../app/utils/dev-tools');
+  // TODO
+  // sortText,
+  // symbolAlignment,
+} from './dev-tools';
 
 test('Case Tool', () => {
   const preserved = preserveCase('Sed utPerspiciatis-unde Omnis_iste---natus____error Sit voluptatem.');

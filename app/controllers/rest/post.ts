@@ -2,19 +2,20 @@
  * Post Controller
  */
 
-import { RestItemBuilder } from 'app/types/rest/base';
-import RestController from 'app/controllers/rest/base';
+import RestController from 'app/controllers/rest';
 import Post from 'app/items/rest/post';
 import RouteController from 'app/controllers/route';
 
-export default class PostController extends RestController<Post> {
+import { IRestController, IRestItemBuilder } from './index.d';
+
+export default class PostController extends RestController<Post> implements IRestController {
   public static instance: {
     [hash: string]: PostController;
   } = {};
 
   private readonly slug: string;
 
-  protected constructor(itemBuilder: RestItemBuilder<Post>, slug: string) {
+  protected constructor(itemBuilder: IRestItemBuilder<Post>, slug: string) {
     super(itemBuilder);
     this.slug = slug;
   }

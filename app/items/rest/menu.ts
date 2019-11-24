@@ -1,4 +1,4 @@
-import { RestItem } from 'app/types/rest/base';
+import RestItem from './index.d';
 
 export default class Menu implements RestItem {
   ID: number;

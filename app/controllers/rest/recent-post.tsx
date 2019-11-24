@@ -1,4 +1,4 @@
-import RestController from 'app/controllers/rest/base';
+import RestController from 'app/controllers/rest';
 import PostController from 'app/controllers/rest/post';
 import Post from 'app/items/rest/post';
 

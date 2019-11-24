@@ -1,6 +1,7 @@
-import { RestItem } from 'app/types/rest/base';
+import RestItem from './index.d';
+import { Background as IBackground } from './background.d';
 
-export default class Background implements RestItem {
+export default class Background implements RestItem, IBackground {
   desktop: string;
   mobile: string;
   title: string;

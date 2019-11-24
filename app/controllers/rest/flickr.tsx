@@ -1,5 +1,5 @@
 import Flickr from 'app/items/rest/flickr';
-import RestController from 'app/controllers/rest/base';
+import RestController from 'app/controllers/rest';
 
 /*
  * Flickr Controller

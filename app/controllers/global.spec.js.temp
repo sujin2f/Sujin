@@ -1,3 +1,4 @@
+// TODO move to scene
 import GlobalController from 'app/controllers/global';
 import ComponentMock from '../__mocks__/component.mock';
 
@@ -59,11 +60,11 @@ describe.each(dataSetScroll)(
 
       // Trigger the event listener
       global.setScroll();
-    
+
       // Trigger the event
       window.scrollY = 300;
       events.scroll({});
-    
+
       expect(global.scrollClass).toBe('scrolled');
     });
   },

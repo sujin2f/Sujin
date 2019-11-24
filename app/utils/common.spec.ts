@@ -1,15 +1,16 @@
-const {
+import {
   isMobile,
-  getRenderedText,
   backgroundImageStyle,
   scrollTo,
-} = require('../../../app/utils/common');
+} from './common';
 
 /*
  * Data Provider for isMobile
  * @param user agent
  * @param expected
  */
+
+/* eslint-disable max-len,no-useless-escape */
 const dataIsMobile = [
   ['Mozilla/5.0 (Linux; Android 8.0.0; SM-G960F Build/R16NW) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.84 Mobile Safari/537.36', true],
   ['Mozilla/5.0 (Linux; Android 7.0; SM-G892A Build/NRD90M; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/60.0.3112.107 Mobile Safari/537.36', true],
@@ -30,12 +31,18 @@ const dataIsMobile = [
   ['Mozilla/5.0 (Nintendo WiiU) AppleWebKit/536.30 (KHTML, like Gecko) NX/3.0.4.2.12 NintendoBrowser/4.3.1.11264.US', false],
   ['Mozilla/5.0 (Windows NT 10.0; Win64; x64; XBOX_ONE_ED) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393', false],
 ];
+/* eslint-enable max-len,no-useless-escape */
+
+// declare let window: any;
 
 describe.each(dataIsMobile)(
   'isMobile()',
   (input, expected) => {
     test(`isMobile ${input}`, () => {
-      navigator.__defineGetter__('userAgent', () => input );
+      Object.defineProperty(window.navigator, 'userAgent', {
+        value: input,
+        configurable: true,
+      });
       const actual = isMobile();
       expect(actual).toEqual(expected);
     });
@@ -68,19 +75,7 @@ describe.each(dataBackgroundImageStyle)(
 );
 
 test('scrollTo', () => {
-  global.scrollTo = jest.fn();
-
-  Element.prototype.getBoundingClientRect = jest.fn(() => {
-      return {
-          width: 120,
-          height: 120,
-          top: 100,
-          left: 0,
-          bottom: 0,
-          right: 0,
-      }
-  });
-
+  window.scrollTo = jest.fn();
   document.body.innerHTML = `
     <section>
       <div id="first-container">First Container</div>
@@ -93,18 +88,9 @@ test('scrollTo', () => {
     <section id="second-section">Second Section</section>
     `;
 
-  window.pageYOffset = 100;
   scrollTo();
+  expect(window.scrollTo).toHaveBeenCalledWith(0, 0);
 
-  setTimeout(() => {
-    const actual = window.pageYOffset;
-    expect(actual).toEqual(0);
-  }, 600);
-
+  // TODO cover
   scrollTo('second-section');
-
-  setTimeout(() => {
-    const actual = window.pageYOffset;
-    expect(actual).toEqual(100);
-  }, 600);
 });

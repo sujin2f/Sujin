@@ -4,10 +4,9 @@
 
 import hash from 'object-hash';
 
-import { RestItemBuilder } from 'app/types/rest/base';
 import { TermTypes } from 'app/constants/enum';
 import Post from 'app/items/rest/post';
-import RestController from 'app/controllers/rest/base';
+import RestController from 'app/controllers/rest';
 import PostController from 'app/controllers/rest/post';
 import RouteController from 'app/controllers/route';
 // Utiles
@@ -15,10 +14,12 @@ import { isMobile } from 'app/utils/common';
 
 import { PAGE_OFFSET } from 'app/constants/common';
 
+import { IRestController, IRestItemBuilder } from './index.d';
+
 /*
  * Archive Controller
  */
-export default class ArchiveController extends RestController<Post> {
+export default class ArchiveController extends RestController<Post> implements IRestController {
   public static instance: {
     [hash: string]: ArchiveController;
   } = {};
@@ -32,7 +33,7 @@ export default class ArchiveController extends RestController<Post> {
   private readonly pagingOffset: number = isMobile() ? 1 : PAGE_OFFSET;
   private totalPages: number;
 
-  protected constructor(itemBuilder: RestItemBuilder<Post>) {
+  protected constructor(itemBuilder: IRestItemBuilder<Post>) {
     super(itemBuilder);
     const matched = RouteController.getInstance().getMatched();
     this.type = matched.type;

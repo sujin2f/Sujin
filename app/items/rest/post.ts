@@ -1,7 +1,8 @@
-import { RestItem } from 'app/types/rest/base';
 import Term from 'app/items/rest/term';
 import PrevNext from 'app/items/rest/prevnext';
 import Related from 'app/items/rest/related';
+
+import RestItem from './index.d';
 
 export default class Post extends Related implements RestItem {
   readonly content: string;

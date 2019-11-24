@@ -1,7 +1,7 @@
-import GlobalController from 'app/controllers/global';
+import { IRestController } from 'app/controllers/rest/index.d';
 import PostController from 'app/controllers/rest/post';
+import BaseControllerComponent from 'app/scenes/public/BaseControllerComponent';
 
-import Base from 'app/scenes/public/Base';
 import Public from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
 import Content from 'app/components/single/Content';
@@ -16,16 +16,22 @@ import DEFAULT_BACKGROUND_MOBILE from '../../../assets/images/background/categor
 
 const { compose } = wp.compose;
 
-class Post extends Base {
+class Post extends BaseControllerComponent {
+  getController(): IRestController {
+    return PostController.getInstance().addComponent(this);
+  }
+
   render(): JSX.Element {
-    const post = PostController.getInstance().addComponent(this).request();
-    const pendingComponent = this.getPendingComponent(post.init, post.loading, post.failed);
+    this.request();
+    const pendingComponent = this.getPendingComponent();
 
     if (pendingComponent) {
       return pendingComponent;
     }
 
-    GlobalController.getInstance().setTitle(post.entity.title);
+    const post = this.getController();
+
+    this.setTitle(post.entity.title);
 
     const backgroundImage =
       parseExImage(

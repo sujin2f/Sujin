@@ -42,7 +42,9 @@ export const scrollTo = (id = null): void => {
   const clientTop = docElem.clientTop || body.clientTop || 0;
   const scrollTop = window.pageYOffset || docElem.scrollTop || body.scrollTop;
 
-  window.scrollTo((box.top + scrollTop) - clientTop, 0);
+  console.log(box.top, scrollTop, clientTop);
+
+  window.scrollTo(0, (box.top + scrollTop) - clientTop);
 };
 
 export const backgroundImageStyle = (image): { [key: string]: string } => {

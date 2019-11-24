@@ -1,12 +1,13 @@
+import { IRestController } from 'app/controllers/rest/index.d';
 import { isMobile } from 'app/utils/common';
 
 import Background from 'app/items/rest/background';
-import RestController from 'app/controllers/rest/base';
+import RestController from 'app/controllers/rest';
 
 import DEFAULT_BG from '../../../assets/images/background/backup-background.jpg';
 import DEFAULT_BG_MOBILE from '../../../assets/images/background/backup-background-mobile.jpg';
 
-export default class BackgroundController extends RestController<Background> {
+export default class BackgroundController extends RestController<Background> implements IRestController {
   public static instance: BackgroundController;
 
   public static getInstance(): BackgroundController {
