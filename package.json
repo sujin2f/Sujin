@@ -11,7 +11,7 @@
     "phpunit": "vendor/bin/phpunit -c ./.configs/phpunit/phpunit.xml",
     "run:bundle-analyzer": "NODE_ENV=production webpack-bundle-analyzer logs/stats.json",
     "run:stats": "NODE_ENV=production webpack --profile --json > logs/stats.json",
-    "schema:create": "cd schema && ./build-ts.sh && cd ..",
+    "schema:create": "cd schema && ./tsbuild.sh && cd ..",
     "start": "cross-env BABEL_ENV=default webpack --watch",
     "test": "jest --coverage"
   },
