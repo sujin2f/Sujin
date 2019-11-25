@@ -12,7 +12,6 @@
     <file>../index.php</file>
 
     <file>../classes</file>
-    <file>../tests</file>
 
     <exclude-pattern>*.js</exclude-pattern>
 
