@@ -16,7 +16,7 @@
     },
     "termId": {
       "description": "Term ID",
-      "type": "integer",
+      "type": "number",
       "readonly": true
     }
   }

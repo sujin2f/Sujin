@@ -1,10 +1,10 @@
 <?php
-namespace Sujin\Wordpress\Theme\Sujin\Tests\Unit\Shortcode;
+namespace Sujin\Wordpress\Theme\Sujin\Shortcode\About_Item;
 
-use Sujin\Wordpress\Theme\Sujin\Tests\Unit\Test_Case;
+use Test_Case;
 use Sujin\Wordpress\Theme\Sujin\Shortcode\About_Item;
 
-class About_Item_Test extends Test_Case {
+class Unit_Test extends Test_Case {
 	private const SHORTCODE = 'about-item';
 
 	public function test_shortcode() {

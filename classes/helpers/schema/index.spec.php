@@ -34,7 +34,6 @@ class Unit_Test extends Test_Case {
 		$this->file_system = vfsStream::setup( 'root', 444, $directory );
 	}
 
-/*
 	public function test_get_schema() {
 		$this->object = Schema::load( $this->file_system->url() . '/schema/simple.json' );
 		$this->assertEquals( 'simple', $this->object->title );
@@ -80,7 +79,6 @@ class Unit_Test extends Test_Case {
 		$this->assertEquals( 1, $object['number'] );
 		$this->assertEquals( array( 'child' => 'http://test.com' ), $object['object'] );
 	}
-*/
 
 	public function test_process_reference_schema() {
 		$this->object = Schema::load( $this->file_system->url() . '/schema/reference.json' );

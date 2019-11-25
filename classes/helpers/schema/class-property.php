@@ -41,11 +41,11 @@ final class Property {
 		$this->items         = $property['items'] ?? null;
 		$this->default       = $property['default'] ?? null;
 		$this->required      = $property['required'] ?? false;
-		$this->item_required = $property['item_required'] ?? false;
+		$this->item_required = $property['item_required'] ?? array();
 	}
 
-	public function validate( object $object, string $key, ?bool $return = null ) {
-		$value = $object->$key;
+	public function validate( $object, ?string $key = null, ?bool $return = null ) {
+		$value = $key ? $object->$key : $object;
 
 		if ( ! $value && $this->default ) {
 			return $this->default;
@@ -60,7 +60,6 @@ final class Property {
 		}
 
 		// Case: Object
-
 		if ( Type::OBJECT === ( (string) $this->type ) && $value ) {
 			$parent_schema = Schema::get_instance( $this->parent );
 			$object_schema = Schema::get_from_properties(

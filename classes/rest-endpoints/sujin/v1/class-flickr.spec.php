@@ -50,7 +50,9 @@ class Unit_Test extends Test_Case {
 		$this->assertEquals( 12, count( $response->get_data() ) );
 
 		$expected = array( 'link', 'media', 'title' );
-		$this->assertEquals( $expected, array_keys( $response->get_data()[0] ) );
+		$keys     = array_keys( $response->get_data()[0] );
+		sort( $keys );
+		$this->assertEquals( $expected, $keys );
 
 		// Setting Changed: Transient
 		$transient_key = $this->call_private_method( $this->object, 'get_transient_key' );

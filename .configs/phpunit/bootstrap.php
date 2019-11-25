@@ -31,5 +31,6 @@ require getenv( 'WP_PHPUNIT__DIR' ) . '/includes/bootstrap.php';
 $home_dir = dirname( dirname( __DIR__ ) );
 
 include_once( $home_dir . '/autoload.php' );
+include_once( $home_dir . '/vendor/sujin/wp-express/autoload.php' );
 
 include_once( SJ_PHPUNIT__DIR . '/class-test-case.php' );

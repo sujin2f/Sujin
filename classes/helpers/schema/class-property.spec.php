@@ -124,6 +124,6 @@ class Unit_Test extends Test_Case {
 			return;
 		}
 
-		$this->assertEquals( $expected, $object->validate( $value ) );
+		$this->assertEquals( $expected, $object->validate( $value, null, true ) );
 	}
 }

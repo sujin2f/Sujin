@@ -22,9 +22,7 @@ final class Reference {
 		$this->path = $path;
 		$this->base = $base;
 		$this->key  = $key;
-	}
 
-	public function validate( object $object, string $key ) {
 		$path = explode( '/', $this->path );
 
 		// In a same file
@@ -41,16 +39,16 @@ final class Reference {
 		}
 
 		$this->properties = $schema->properties;
+	}
 
-		foreach ( $schema->properties as $key => $property ) {
+	public function validate( object $object, string $key, ?bool $return = null ) {
+		foreach ( $this->properties as $key => $property ) {
 			if ( $this->key) {
-var_dump($object);
 				$object->{$this->key}->$key = $property->validate( $object->{$this->key}, $key, true );
-var_dump($object->{$this->key}->$key);
 				continue;
 			}
 
-			$object->$key = $property->validate( $object, $key );
+			$object->$key = $property->validate( $object, $key, true );
 		}
 	}
 

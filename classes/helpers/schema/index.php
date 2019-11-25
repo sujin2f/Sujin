@@ -49,15 +49,40 @@ class Schema {
 		$properties       = $json['properties'] ?? array();
 		$definitions      = $json['definitions'] ?? array();
 		$required         = $json['required'] ?? array();
+		$all_of           = $json['allOf'] ?? array();
+
+		foreach ( $definitions as $key => $definition ) {
+			$schema->definitions[ $key ] = Definition::get_from_properties(
+				$schema->title . '-' . $key,
+				$definition,
+				array(),
+				$schema->base_dir
+			);
+		}
 
 		$schema = Schema::set_properties( $schema, $properties, $required );
 
-		foreach ( $definitions as $key => $definition ) {
-			$schema->definitions[ $key ] = Definition::get_from_properties( $schema->title . '-' . $key, $definition, array(), $schema->base_dir );
-		}
-
 		$schema->initialized = true;
 		$schema->json        = $json;
+
+		if ( ! empty( $all_of ) ) {
+			foreach ( $all_of as $one ) {
+				$keys = array_keys( $one );
+
+				if ( '$ref' === $keys[0] ) {
+					$reference          = new Reference( $one['$ref'], $schema );
+					$schema->properties = array_merge( $schema->properties, $reference->properties );
+				} else {
+					foreach ( $one['properties'] as $key => $property ) {
+						$property['item_required']  = $property['required'] ?? null;
+						$property['required']       = in_array( $key, $required, true );
+						$property['parent']         = $schema->title;
+						$property['key']            = $key;
+						$schema->properties[ $key ] = new Property( $property );
+					}
+				}
+			}
+		}
 
 		return $schema;
 	}
@@ -147,105 +172,5 @@ class Schema {
 		}
 
 		return $object;
-	}
-
-
-
-
-	/**
-	 * Reculsive method to filter and validate values
-	 * Object will be an associatied array
-	 */
-	public function filter_schema( object $object, ?array $schema = null ): void {
-		if ( ! $schema ) {
-			$schema = $this->schema;
-		}
-
-		$properties = $this->get_properties_from_schema( $schema );
-
-		// For each property item
-		foreach ( get_object_vars( $object ) as $key => $value ) {
-			// Unset undefined in schema
-			if ( ! array_key_exists( $key, $properties ) ) {
-				unset( $object->$key );
-				continue;
-			}
-
-			$type = $properties[ $key ]['type'];
-
-			// For object type, reculsion
-			if ( 'object' === $type || 'array' === $type ) {
-				// Object should not be empty. Otherwise, it could end up with infinity loop.
-				if ( $object->$key ) {
-					$schema = 'object' === $type ? $properties[ $key ] : $properties[ $key ]['items'];
-
-					// Has items.type = ''
-					if ( 'array' === $type && array_key_exists( 'type', $schema ) ) {
-						foreach ( $object->$key as &$child ) {
-							$child = $this->filter_values( $schema, $child );
-						}
-						continue;
-					}
-
-					$object->$key = (object) $object->$key;
-
-					if ( array_key_exists( '$ref', $schema ) ) {
-						foreach ( $object->$key as &$child ) {
-							$child = (object) $child;
-							$this->filter_schema( $child, $schema );
-							$child = (array) $child;
-						}
-					} else {
-						$this->filter_schema( $object->$key, $schema );
-					}
-
-					$object->$key = (array) $object->$key;
-					continue;
-				}
-
-				$object->$key = array();
-				continue;
-			}
-		}
-	}
-
-	private function get_properties_from_schema( array $schema ): array {
-		$all_of = $schema['allOf'] ?? array();
-
-		if ( 'object' === $schema['type'] ) {
-			$schema = $schema['properties'];
-		}
-
-		// Expand $ref
-		foreach ( array_keys( $schema ) as $key ) {
-			if ( '$ref' === $key ) {
-				$schema = $this->get_properties_from_ref( $schema[ $key ] );
-				continue;
-			}
-		}
-
-		foreach ( $all_of as $ref ) {
-			$schema = array_merge(
-				$schema,
-				$this->get_properties_from_ref( $ref['$ref'] )
-			);
-		}
-
-		return $schema;
-	}
-
-	private function get_properties_from_ref( string $ref ): array {
-		$ref = explode( '/', $ref );
-
-		if ( '#' === $ref[0] ) {
-			$ref    = array_pop( $ref );
-			$schema = $this->get_schema();
-			return $schema['definitions'][ $ref ] ?: array();
-		}
-
-		$ref    = array_pop( $ref );
-		$schema = Schema_Valildator::get_instance( $ref )->get_schema();
-
-		return $schema['properties'];
 	}
 }

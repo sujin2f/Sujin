@@ -7,17 +7,17 @@ use JsonSerializable;
 abstract class Abstract_Rest_Item_Base implements JsonSerializable {
 	protected const ITEM_NAME  = '';
 
-	private $validator = null;
+	private $schema = null;
 
-	public function get_validator(): Schema_Valildator {
-		if ( $this-validator) {
-			return $this-validator;
+	public function get_schema(): Schema {
+		if ( ! ( $this-schema instanceof Schema ) ) {
+			return $this-schema;
 		}
 
-		$schema_dir      = dirname( dirname( dirname( __DIR__ ) ) ) . '/schema';
-		$this->validator = Schema::load( $schema_dir . '/' . get_item_name() . '.json' );
+		$schema_dir   = dirname( dirname( dirname( __DIR__ ) ) ) . '/schema';
+		$this->schema = Schema::load( $schema_dir . '/' . $this->get_item_name() . '.json' );
 
-		return $this->validator;
+		return $this->schema;
 	}
 
 	private function get_item_name(): string {
@@ -30,9 +30,7 @@ abstract class Abstract_Rest_Item_Base implements JsonSerializable {
 	}
 
 	public function jsonSerialize(): array {
-		$this->get_validator()->filter_schema( $this );
-		$array = get_object_vars( $this );
-		ksort( $array );
-		return json_decode( wp_json_encode( $array ), true );
+		$value = $this->get_schema()->process( $this );
+		return json_decode( wp_json_encode( $value ), true );
 	}
 }

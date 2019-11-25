@@ -38,7 +38,9 @@ class Unit_Test extends Test_Case {
 		$response = $wp_rest_server->dispatch( $request )->get_data();
 
 		foreach ( $response as $item ) {
-			$this->assertEquals( array( 'desktop', 'mobile', 'title' ), array_keys( $item ) );
+			$keys = array_keys( $item );
+			sort( $keys );
+			$this->assertEquals( array( 'desktop', 'mobile', 'title' ), $keys );
 		}
 	}
 }

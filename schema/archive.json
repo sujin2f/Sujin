@@ -14,8 +14,8 @@
       "readonly": true
     },
     "thumbnail": {
-      "$ref": "images"
-    }
+      "$ref": "image.json"
+    },
     "total": {
       "description": "Total number of posts",
       "type": "number",
