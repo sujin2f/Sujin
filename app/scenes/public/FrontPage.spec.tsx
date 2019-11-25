@@ -1,7 +1,7 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 
-import { shallow } from 'enzyme'
+import { shallow } from 'enzyme';
 
 import { rawData, Backgrounds } from 'app/items/rest/background.spec.data';
 

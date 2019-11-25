@@ -1,7 +1,16 @@
+/* eslint-disable max-classes-per-file */
 // TODO move to scene
 import RouteController from 'app/controllers/route';
-import ComponentMock from '../__mocks__/component.mock';
-import eventMock from '../__mocks__/event.mock';
+
+class ComponentMock {
+  static forceUpdate() {} // eslint-disable-line @typescript-eslint/no-empty-function
+}
+
+class Event {
+  preventDefault() {} // eslint-disable-line @typescript-eslint/no-empty-function
+}
+
+const eventMock = new Event();
 
 global.scrollTo = jest.fn();
 
@@ -36,3 +45,4 @@ test('Match Category w/ page', () => {
   expect(matched.slug).toEqual('cat-01');
   expect(matched.page).toEqual(2);
 });
+/* eslint-enable */

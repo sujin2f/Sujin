@@ -18,4 +18,9 @@
 
     <rule ref="WordPress-Core" />
     <rule ref="PHPCompatibilityWP" />
+
+	<rule ref="WordPress.Files.FileName.InvalidClassFileName">
+		<exclude-pattern>**/*.spec.php</exclude-pattern>
+		<exclude-pattern>**/index.php</exclude-pattern>
+	</rule>
 </ruleset>
