@@ -34,9 +34,9 @@
         "series": {
           "description": "Series",
           "type": "array",
-            "items": {
-              "$ref": "simple-post.json"
-            },
+          "items": {
+            "$ref": "simple-post.json"
+          },
           "readonly": true
         },
         "prevNext": {

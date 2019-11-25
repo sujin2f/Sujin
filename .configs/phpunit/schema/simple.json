@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema#",
-  "$id": "http://sujinc.com/item.json",
-  "title": "item",
+  "$id": "http://sujinc.com/simple.json",
+  "title": "simple",
   "type": "object",
   "properties": {
     "title": {
@@ -17,7 +17,7 @@
     },
     "number": {
       "description": "Number",
-      "type": "integer",
+      "type": "number",
       "readonly": true
     },
     "object": {
