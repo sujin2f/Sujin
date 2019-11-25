@@ -42,8 +42,6 @@ export const scrollTo = (id = null): void => {
   const clientTop = docElem.clientTop || body.clientTop || 0;
   const scrollTop = window.pageYOffset || docElem.scrollTop || body.scrollTop;
 
-  console.log(box.top, scrollTop, clientTop);
-
   window.scrollTo(0, (box.top + scrollTop) - clientTop);
 };
 
