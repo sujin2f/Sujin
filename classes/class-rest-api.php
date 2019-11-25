@@ -11,7 +11,7 @@ namespace Sujin\Wordpress\Theme\Sujin;
 
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1\{Flickr, Post, Menu, Background, Archive};
 
-final class REST_API {
+final class Rest_Api {
 	use Helpers\Singleton;
 
 	public function __construct() {

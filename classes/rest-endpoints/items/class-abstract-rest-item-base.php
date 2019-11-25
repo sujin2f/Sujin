@@ -1,14 +1,23 @@
 <?php
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items;
 
-use Sujin\Wordpress\Theme\Sujin\Helpers\Schema_Valildator;
-use RuntimeException, ArrayIterator, JsonSerializable;
+use Sujin\Wordpress\Theme\Sujin\Helpers\Schema;
+use JsonSerializable;
 
 abstract class Abstract_Rest_Item_Base implements JsonSerializable {
-	protected const ITEM_NAME = '';
+	protected const ITEM_NAME  = '';
+
+	private $validator = null;
 
 	public function get_validator(): Schema_Valildator {
-		return Schema_Valildator::get_instance( $this->get_item_name() );
+		if ( $this-validator) {
+			return $this-validator;
+		}
+
+		$schema_dir      = dirname( dirname( dirname( __DIR__ ) ) ) . '/schema';
+		$this->validator = Schema::load( $schema_dir . '/' . get_item_name() . '.json' );
+
+		return $this->validator;
 	}
 
 	private function get_item_name(): string {
@@ -21,7 +30,7 @@ abstract class Abstract_Rest_Item_Base implements JsonSerializable {
 	}
 
 	public function jsonSerialize(): array {
-		$this->get_validator()->validate_and_cast( $this );
+		$this->get_validator()->filter_schema( $this );
 		$array = get_object_vars( $this );
 		ksort( $array );
 		return json_decode( wp_json_encode( $array ), true );
