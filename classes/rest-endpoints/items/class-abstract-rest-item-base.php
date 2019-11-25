@@ -10,7 +10,7 @@ abstract class Abstract_Rest_Item_Base implements JsonSerializable {
 	private $schema = null;
 
 	public function get_schema(): Schema {
-		if ( ! ( $this->schema instanceof Schema ) ) {
+		if ( $this->schema instanceof Schema ) {
 			return $this->schema;
 		}
 
