@@ -34,7 +34,7 @@ $ docker-compose -f ./docker-compose.infrastructure.yml -f ./docker-compose.yml 
 # Install json-schema-to-typescript globally
 $ npm i -G json-schema-to-typescript
 # Create TS interfaces from schema
-$ npm run schema:create
+$ npm run schema:build
 ```
 
 ### NPM scripts
