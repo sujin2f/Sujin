@@ -30,8 +30,8 @@ final class Property {
 	public $default       = null;
 
 	public function __construct( array $property ) {
-		$this->parent      = $property['parent'];
-		$this->key         = $property['key'];
+		$this->parent = $property['parent'];
+		$this->key    = $property['key'];
 
 		$this->description   = $property['description'] ?? null;
 		$this->type          = new Type( $property['type'] );
@@ -128,7 +128,6 @@ final class Property {
 				$value = date( 'Y-m-d', strtotime( $value ) );
 				break;
 		}
-
 
 		return $value;
 	}

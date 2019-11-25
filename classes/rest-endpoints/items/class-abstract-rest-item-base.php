@@ -5,13 +5,13 @@ use Sujin\Wordpress\Theme\Sujin\Helpers\Schema;
 use JsonSerializable;
 
 abstract class Abstract_Rest_Item_Base implements JsonSerializable {
-	protected const ITEM_NAME  = '';
+	protected const ITEM_NAME = '';
 
 	private $schema = null;
 
 	public function get_schema(): Schema {
-		if ( ! ( $this-schema instanceof Schema ) ) {
-			return $this-schema;
+		if ( ! ( $this->schema instanceof Schema ) ) {
+			return $this->schema;
 		}
 
 		$schema_dir   = dirname( dirname( dirname( __DIR__ ) ) ) . '/schema';

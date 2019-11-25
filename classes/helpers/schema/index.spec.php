@@ -52,7 +52,7 @@ class Unit_Test extends Test_Case {
 		);
 
 		$this->object->process( $object );
-		$object = json_decode( wp_json_encode( $object), true );
+		$object = json_decode( wp_json_encode( $object ), true );
 
 		$this->assertEquals( 'Title', $object['title'] );
 		$this->assertEquals( 'http://test.com', $object['url'] );
@@ -72,7 +72,7 @@ class Unit_Test extends Test_Case {
 		);
 
 		$this->object->process( $object );
-		$object = json_decode( wp_json_encode( $object), true );
+		$object = json_decode( wp_json_encode( $object ), true );
 
 		$this->assertEquals( 'Title', $object['title'] );
 		$this->assertEquals( 'http://test.com', $object['url'] );
@@ -95,7 +95,7 @@ class Unit_Test extends Test_Case {
 		);
 
 		$this->object->process( $object );
-		$object = json_decode( wp_json_encode( $object), true );
+		$object = json_decode( wp_json_encode( $object ), true );
 
 		$this->assertEquals( 'Title', $object['object']['child']['title'] );
 		$this->assertEquals( 'http://test.com', $object['object']['child']['url'] );

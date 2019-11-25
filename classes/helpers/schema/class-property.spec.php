@@ -23,7 +23,7 @@ class Unit_Test extends Test_Case {
 
 	function provider_test_validator(): array {
 		return array(
-			'Null String' => array(
+			'Null String'                  => array(
 				'type'       => new Type( 'string' ),
 				'format'     => null,
 				'properties' => null,
@@ -34,7 +34,7 @@ class Unit_Test extends Test_Case {
 				'value'      => null,
 				'expected'   => null,
 			),
-			'Null String Default' => array(
+			'Null String Default'          => array(
 				'type'       => new Type( 'string' ),
 				'format'     => null,
 				'properties' => null,
@@ -45,7 +45,7 @@ class Unit_Test extends Test_Case {
 				'value'      => null,
 				'expected'   => 'Sujin',
 			),
-			'Null String Required' => array(
+			'Null String Required'         => array(
 				'type'       => new Type( 'string' ),
 				'format'     => null,
 				'properties' => null,
@@ -67,7 +67,7 @@ class Unit_Test extends Test_Case {
 				'value'      => null,
 				'expected'   => 'Sujin',
 			),
-			'String Conversion' => array(
+			'String Conversion'            => array(
 				'type'       => new Type( 'string' ),
 				'format'     => null,
 				'properties' => null,
@@ -97,15 +97,15 @@ class Unit_Test extends Test_Case {
 	) {
 		$object = new Property(
 			array(
-				'parent'      => 'parent',
-				'key'         => 'key',
-				'type'        => $type,
-				'format'      => $format,
-				'properties'  => $properties,
-				'enum'        => $enum,
-				'items'       => $items,
-				'default'     => $default,
-				'required'    => $required,
+				'parent'     => 'parent',
+				'key'        => 'key',
+				'type'       => $type,
+				'format'     => $format,
+				'properties' => $properties,
+				'enum'       => $enum,
+				'items'      => $items,
+				'default'    => $default,
+				'required'   => $required,
 			)
 		);
 
@@ -115,7 +115,7 @@ class Unit_Test extends Test_Case {
 
 			try {
 				$object->validate( $value );
-			} catch ( OutOfBoundsException $_) {
+			} catch ( OutOfBoundsException $_ ) {
 				$result = true;
 			}
 

@@ -7,6 +7,7 @@
     "build": "cross-env BABEL_ENV=default webpack",
     "bundle-analyzer": "npm run run:stats && npm run run:bundle-analyzer",
     "lint": "eslint app/**/*.ts app/**/*.tsx app/**/*.js app/**/*.jsx",
+    "phpcbf": "vendor/bin/phpcbf --standard=./.configs/phpcs.xml -s && true",
     "phpcs": "vendor/bin/phpcs --standard=./.configs/phpcs.xml -s",
     "phpunit": "vendor/bin/phpunit -c ./.configs/phpunit/phpunit.xml",
     "run:bundle-analyzer": "NODE_ENV=production webpack-bundle-analyzer logs/stats.json",

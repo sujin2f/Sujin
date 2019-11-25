@@ -43,8 +43,8 @@ final class Reference {
 
 	public function validate( object $object, string $key, ?bool $return = null ) {
 		foreach ( $this->properties as $key => $property ) {
-			if ( $this->key) {
-				$object->{$this->key}->$key = $property->validate( $object->{$this->key}, $key, true );
+			if ( $this->key ) {
+				$object->{$this->key}->$key = $property->validate( $object->{$this->key}, $key, true ); // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found
 				continue;
 			}
 

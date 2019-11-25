@@ -7,28 +7,28 @@ use Sujin\Wordpress\Theme\Sujin\Autoloader;
 class Unit_Test extends Test_Case {
 	function provider_test_load_class_file(): array {
 		return array(
-			'Unit test file' => array(
+			'Unit test file'                => array(
 				'class'    => 'Sujin\\Wordpress\\Theme\\Sujin\\Test\\Unit_Test',
 				'expected' => array(
 					'extension' => '.spec.php',
 					'path'      => array( 'test' ),
 				),
 			),
-			'Root file' => array(
+			'Root file'                     => array(
 				'class'    => 'Sujin\\Wordpress\\Theme\\Sujin\\Test',
 				'expected' => array(
 					'extension' => '.php',
 					'path'      => array( 'test' ),
 				),
 			),
-			'File in a directory' => array(
+			'File in a directory'           => array(
 				'class'    => 'Sujin\\Wordpress\\Theme\\Sujin\\Path\\Test',
 				'expected' => array(
 					'extension' => '.php',
 					'path'      => array( 'path', 'test' ),
 				),
 			),
-			'File has underscore' => array(
+			'File has underscore'           => array(
 				'class'    => 'Sujin\\Wordpress\\Theme\\Sujin\\Test_Underscore',
 				'expected' => array(
 					'extension' => '.php',

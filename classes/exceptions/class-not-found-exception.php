@@ -24,5 +24,5 @@ class Not_Found_Exception extends Exception {
 
 	public function __toString() {
 		return __CLASS__ . ": {$this->message}\n";
-    }
+	}
 }

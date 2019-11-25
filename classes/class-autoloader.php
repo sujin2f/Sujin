@@ -32,12 +32,12 @@ class Autoloader {
 		$path = array(
 			'extension' => '.php',
 			// Delete Namespace and divide
-			'path' => explode( '\\', str_replace( $this->namespace, '', $class_name ) ),
+			'path'      => explode( '\\', str_replace( $this->namespace, '', $class_name ) ),
 		);
 
 		// Unit test file
 		if ( strpos( $class_name, '\\Unit_Test' ) === strlen( $class_name ) - 10 ) {
-			$path['extension']  = '.spec.php';
+			$path['extension'] = '.spec.php';
 			array_pop( $path['path'] );
 		}
 

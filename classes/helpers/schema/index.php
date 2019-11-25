@@ -136,10 +136,10 @@ class Schema {
 				continue;
 			}
 
-			$property['item_required']  = $property['required'] ?? null;
-			$property['required']       = in_array( $key, $required, true );
-			$property['parent']         = $schema->title;
-			$property['key']            = $key;
+			$property['item_required'] = $property['required'] ?? null;
+			$property['required']      = in_array( $key, $required, true );
+			$property['parent']        = $schema->title;
+			$property['key']           = $key;
 
 			$schema->properties[ $key ] = new Property( $property );
 		}
