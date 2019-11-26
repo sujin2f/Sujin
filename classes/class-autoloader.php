@@ -1,9 +1,9 @@
 <?php
 /**
- * Class Autoloader
+ * Autoloader Class
  *
- * @project WP Express
- * @author  Sujin 수진 Choi http://www.sujinc.com/
+ * @package Sujinc.com
+ * @author  Sujin 수진 Choi <http://www.sujinc.com/>
  */
 
 namespace Sujin\Wordpress\Theme\Sujin;
@@ -17,13 +17,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Autoloader {
+	/**
+	 * Base namespace
+	 *
+	 * @var string
+	 */
 	private $namespace = 'Sujin\\Wordpress\\Theme\\Sujin\\';
+
+	/**
+	 * Base directory
+	 *
+	 * @var string
+	 */
 	private $source_dir;
 
 	public function __construct() {
 		$this->source_dir = dirname( __FILE__ );
 	}
 
+	/**
+	 * Returns the target paths
+	 *
+	 * @return array sting extension and array path
+	 */
 	private function get_class_path( string $class_name ): ?array {
 		if ( stripos( $class_name, $this->namespace ) === false ) {
 			return null;
@@ -47,6 +63,9 @@ class Autoloader {
 		return $path;
 	}
 
+	/**
+	 * Entry point
+	 */
 	public function load_class_file( string $class_name ): void {
 		$path = $this->get_class_path( $class_name );
 
@@ -69,7 +88,10 @@ class Autoloader {
 		}
 	}
 
-	public function map_convert_path( string $string ): string {
+	/**
+	 * Callback method of path conversion
+	 */
+	private function map_convert_path( string $string ): string {
 		$segments = array();
 
 		preg_match_all( '/((?:^|[A-Z])[a-z0-9]+)/', $string, $matches );
@@ -77,6 +99,9 @@ class Autoloader {
 		return strtolower( implode( '-', $matches[0] ) );
 	}
 
+	/**
+	 * Entry point from outside
+	 */
 	public function register(): void {
 		spl_autoload_register( array( $this, 'load_class_file' ) );
 	}

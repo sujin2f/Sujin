@@ -1,15 +1,15 @@
 <?php
+/**
+ * Initialize Assets
+ *
+ * @package Sujinc.com
+ * @author  Sujin 수진 Choi <http://www.sujinc.com/>
+*/
+
 namespace Sujin\Wordpress\Theme\Sujin;
 
 use Sujin\Wordpress\Theme\Sujin\Helpers\Singleton;
 use Sujin\Wordpress\WP_Express\Google_Font_Loader;
-
-/**
- * Initialize
- *
- * @project React Theme
- * @author  Sujin 수진 Choi http://www.sujinc.com/
-*/
 
 if ( ! defined( 'ABSPATH' ) ) {
 	header( 'Status: 403 Forbidden' );

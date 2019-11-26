@@ -9,6 +9,7 @@
     "lint": "eslint app/**/*.ts app/**/*.tsx app/**/*.js app/**/*.jsx",
     "phpcbf": "vendor/bin/phpcbf --standard=./.configs/phpcs.xml -s && true",
     "phpcs": "vendor/bin/phpcs --standard=./.configs/phpcs.xml -s",
+    "phpdoc": "vendor/bin/phpdoc -d ./classes -t ./logs/phpdoc",
     "phpunit": "vendor/bin/phpunit -c ./.configs/phpunit/phpunit.xml",
     "run:bundle-analyzer": "NODE_ENV=production webpack-bundle-analyzer logs/stats.json",
     "run:stats": "NODE_ENV=production webpack --profile --json > logs/stats.json",
@@ -136,7 +137,8 @@
       "wp": {}
     },
     "collectCoverageFrom": [
-      "app/**"
+      "app/**",
+      "!app/**/*.spec.*"
     ],
     "collectCoverage": true,
     "coverageDirectory": "<rootDir>/logs",

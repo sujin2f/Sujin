@@ -1,10 +1,20 @@
 <?php
+/**
+ * Autoloader Class Unit Test
+ *
+ * @package Sujinc.com
+ * @author  Sujin 수진 Choi <http://www.sujinc.com/>
+ */
+
 namespace Sujin\Wordpress\Theme\Sujin\Autoloader;
 
 use Test_Case;
 use Sujin\Wordpress\Theme\Sujin\Autoloader;
 
 class Unit_Test extends Test_Case {
+	/**
+	 * Test data
+	 */
 	function provider_test_load_class_file(): array {
 		return array(
 			'Unit test file'                => array(
@@ -46,6 +56,8 @@ class Unit_Test extends Test_Case {
 	}
 
 	/**
+	 * Test the class-path conversion
+	 *
 	 * @dataProvider provider_test_load_class_file
 	 */
 	public function test_load_class_file( string $class, array $expected ): void {
@@ -56,6 +68,9 @@ class Unit_Test extends Test_Case {
 		$this->assertEquals( $expected, $actual );
 	}
 
+	/**
+	 * Test with the actual path
+	 */
 	public function test_call_known(): void {
 		$autoloader = new Autoloader();
 		$autoloader->load_class_file( 'Sujin\\Wordpress\\Theme\\Sujin\\Assets' );
