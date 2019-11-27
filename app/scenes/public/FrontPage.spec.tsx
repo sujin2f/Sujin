@@ -3,7 +3,7 @@ import MockAdapter from 'axios-mock-adapter';
 
 import { shallow } from 'enzyme';
 
-import { rawData, Backgrounds } from 'app/items/rest/background.spec.data';
+import { rawData, Backgrounds } from 'app/items/rest/samples/background.spec.data';
 
 import FrontPage from './FrontPage';
 
