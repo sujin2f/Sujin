@@ -14,5 +14,5 @@ namespace Sujin\Wordpress\Theme\Sujin\Helpers\Schema\Enum;
 use Sujin\Wordpress\Theme\Sujin\Helpers\Schema\Enum;
 
 final class Schema_Type extends Enum {
-	const RESPONSE  = 'response';
+	const RESPONSE = 'response';
 }

@@ -12,8 +12,12 @@ if ( ! defined( 'SJ_PHPUNIT__DIR' ) ) {
 	define( 'SJ_PHPUNIT__DIR', dirname( __FILE__ ) );
 }
 
+if ( ! defined( 'SJ_BASE__DIR' ) ) {
+	define( 'SJ_BASE__DIR', dirname( dirname( __DIR__ ) ) );
+}
+
 // Composer autoloader must be loaded before WP_PHPUNIT__DIR will be available
-require_once dirname( dirname( __DIR__ ) ) . '/vendor/autoload.php';
+require_once SJ_BASE__DIR . '/vendor/autoload.php';
 
 // Give access to tests_add_filter() function.
 require_once getenv( 'WP_PHPUNIT__DIR' ) . '/includes/functions.php';
@@ -28,9 +32,7 @@ tests_add_filter(
 // Start up the WP testing environment.
 require getenv( 'WP_PHPUNIT__DIR' ) . '/includes/bootstrap.php';
 
-$home_dir = dirname( dirname( __DIR__ ) );
-
-include_once( $home_dir . '/autoload.php' );
-include_once( $home_dir . '/vendor/sujin/wp-express/autoload.php' );
+include_once( SJ_BASE__DIR . '/autoload.php' );
+include_once( SJ_BASE__DIR . '/vendor/sujin/wp-express/autoload.php' );
 
 include_once( SJ_PHPUNIT__DIR . '/class-test-case.php' );

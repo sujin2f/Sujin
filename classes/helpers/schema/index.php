@@ -18,7 +18,7 @@ class Schema implements JsonSerializable {
 	use Multiton;
 
 	protected const SCHEMA__DIR = 'schema';
-	protected const REF__KEY    = '$ref';
+	public const REF__KEY       = '$ref';
 
 	/**
 	 * @var array
@@ -65,7 +65,7 @@ class Schema implements JsonSerializable {
 		$properties = array();
 
 		foreach ( $this->properties as $key => $property ) {
-			if ( '$ref' === $key ) {
+			if ( self::REF__KEY === $key ) {
 				$properties = array_merge( $properties, $property->get_properties() );
 				continue;
 			}
@@ -187,11 +187,11 @@ class Schema implements JsonSerializable {
 	private function init(): void {
 		$this->required              = $this->json['required'] ?? array();
 		$this->additional_properties = $this->json['additionalProperties'] ?? false;
-		$this->required              = $this->json['required'];
+		$this->required              = $this->json['required'] ?? array();
 
 		$properties  = $this->json['properties'] ?? array();
 		$definitions = $this->json['definitions'] ?? array();
-		$all_of      = $this->json['all_of'] ?? array();
+		$all_of      = $this->json['allOf'] ?? array();
 
 		foreach ( $definitions as $key => $definition ) {
 			$this->definitions[ $key ] = self::from_json( $this->multiton_id . '/definitions/' . $key, array( 'properties' => $definition ) );
@@ -204,7 +204,7 @@ class Schema implements JsonSerializable {
 				continue;
 			}
 
-			if ( '$ref' === $key ) {
+			if ( self::REF__KEY === $key ) {
 				$this->properties[ $key ] = $this->get_reference( $property );
 				continue;
 			}
@@ -216,14 +216,14 @@ class Schema implements JsonSerializable {
 			$key   = array_key_first( $one_value );
 			$value = $one_value[ $key ];
 
-			switch( $key ) {
-				case '$ref':
+			switch ( $key ) {
+				case self::REF__KEY:
 					$reference        = $this->get_reference( $value );
 					$this->properties = array_merge( $this->properties, $reference->get_properties() );
 					break;
 
 				case 'properties':
-					$one_prop         = self::from_json( $this->multiton_id . '/oneof/' . $one_key, $value );
+					$one_prop         = self::from_json( $this->multiton_id . '/oneof/' . $one_key, $one_value );
 					$this->properties = array_merge( $this->properties, $one_prop->get_properties() );
 			}
 		}

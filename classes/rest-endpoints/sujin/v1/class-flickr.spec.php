@@ -12,7 +12,7 @@ class Unit_Test extends Test_Case {
 	private $object;
 	private $flickr_id;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->mock_request();
 
@@ -20,6 +20,12 @@ class Unit_Test extends Test_Case {
 		$this->flickr_id = Input::get_instance( Flickr::FLICKR_ID )->get_id();
 
 		do_action( 'rest_api_init' );
+
+		add_filter( 'stylesheet_directory', array( $this, 'stylesheet_directory' ) );
+	}
+
+	public function stylesheet_directory() {
+		return SJ_BASE__DIR;
 	}
 
 	public function test_request() {
@@ -63,5 +69,9 @@ class Unit_Test extends Test_Case {
 
 		$this->assertNotEquals( $before, $after );
 		$this->assertEmpty( $after );
+	}
+
+	public function tearDown(): void {
+		remove_filter( 'stylesheet_directory', array( $this, 'stylesheet_directory' ) );
 	}
 }

@@ -24,11 +24,17 @@ class Unit_Test extends Test_Case {
 	private $post_01;
 	private $post_02;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->object = Post::get_instance();
 		register_taxonomy( 'series', 'post' );
 		do_action( 'rest_api_init' );
+
+		add_filter( 'stylesheet_directory', array( $this, 'stylesheet_directory' ) );
+	}
+
+	public function stylesheet_directory() {
+		return SJ_BASE__DIR;
 	}
 
 	public function test_sinlge_failed_request() {
@@ -90,5 +96,9 @@ class Unit_Test extends Test_Case {
 		$this->assertTrue( ! empty( $response['series'] ) );
 		$this->assertTrue( ! empty( $response['tags'] ) );
 		$this->assertTrue( empty( $response['thumbnail'] ) );
+	}
+
+	public function tearDown(): void {
+		remove_filter( 'stylesheet_directory', array( $this, 'stylesheet_directory' ) );
 	}
 }

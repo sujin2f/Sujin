@@ -1,7 +1,7 @@
 <?php
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints;
 
-use Sujin\Wordpress\Theme\Sujin\Helpers\Schema;
+use Sujin\Wordpress\Theme\Sujin\Helpers\Schema\Response_Schema;
 
 // phpcs:disable Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
 use WP_REST_Controller,
@@ -126,13 +126,6 @@ abstract class Abs_Rest_Base extends WP_REST_Controller {
 			return parent::get_item_schema();
 		}
 
-		$schema = Schema::get_instance( $schema_name );
-
-		if ( ! $schema || ! $schema->initialized ) {
-			$schema_dir = dirname( dirname( __DIR__ ) ) . '/schema';
-			$schema     = Schema::load( $schema_dir . '/' . $schema_name . '.json' );
-		}
-
-		return $schema->json;
+		return Response_Schema::from_file( $schema_name . '.json' )->get_json();
 	}
 }

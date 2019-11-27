@@ -67,7 +67,7 @@ class Definitions extends Simple {
 }
 
 class Reference_Item extends Abstract_Rest_Item {
-	public $object =  array(
+	public $object = array(
 		'child' => array(
 			'title'  => 'Title',
 			'url'    => 'http://test.com',
@@ -86,8 +86,10 @@ class Reference_Item extends Abstract_Rest_Item {
 class Recursive_Reference extends Abstract_Rest_Item {
 	public $strings  = array( 'Sujin', 'Choi' );
 	public $children = array(
-		'strings'  => array( 'Sujin', 'Choi', 'sujin.2f@gmail.com' ),
-		'children' => null,
+		array(
+			'strings'  => array( 'Sujin', 'Choi', 'sujin.2f@gmail.com' ),
+			'children' => null,
+		),
 	);
 
 	public function jsonSerialize(): array {
@@ -96,7 +98,6 @@ class Recursive_Reference extends Abstract_Rest_Item {
 }
 
 class Unit_Test extends Test_Case {
-/*
 	public function test_simple_schema() {
 		$actual = json_decode( wp_json_encode( new Simple() ), true );
 
@@ -125,7 +126,7 @@ class Unit_Test extends Test_Case {
 	}
 
 	public function test_reference_schema_nested_item() {
-		$reference = new Reference_Item();
+		$reference                                     = new Reference_Item();
 		$reference->object['child']['object']['child'] = '';
 
 		try {
@@ -137,11 +138,11 @@ class Unit_Test extends Test_Case {
 
 		$this->assertTrue( false );
 	}
-*/
 
 	public function test_recursive_reference() {
 		$actual = json_decode( wp_json_encode( new Recursive_Reference() ), true );
 
-		var_dump($actual);
+		$this->assertEquals( array( 'Sujin', 'Choi' ), $actual['strings'] );
+		$this->assertEquals( array( 'Sujin', 'Choi', 'sujin.2f@gmail.com' ), $actual['children'][0]['strings'] );
 	}
 }

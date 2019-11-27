@@ -10,7 +10,7 @@
 namespace Sujin\Wordpress\Theme\Sujin\Helpers\Schema\Property;
 
 use Test_Case;
-use Sujin\Wordpress\Theme\Sujin\Helpers\Schema;
+use Sujin\Wordpress\Theme\Sujin\Helpers\Schema\Response_Schema;
 use Sujin\Wordpress\Theme\Sujin\Helpers\Schema\Property;
 use Sujin\Wordpress\Theme\Sujin\Helpers\Schema\Enum\Type;
 use Sujin\Wordpress\Theme\Sujin\Helpers\Schema\Enum\Format;
@@ -23,27 +23,30 @@ class Unit_Test extends Test_Case {
 	 */
 	function provider_test_string_validator(): array {
 		return array(
-			'Null String'                  => array(
-				'type'       => Type::string(),
-				'default'    => null,
-				'required'   => false,
-				'value'      => null,
-				'expected'   => null,
-			),
-			'Null String Default'          => array(
-				'type'       => Type::string(),
-				'default'    => 'Sujin',
-				'required'   => false,
-				'value'      => null,
-				'expected'   => 'Sujin',
-			),
-			'Null String Required'         => array(
-				'type'       => Type::string(),
-				'default'    => null,
-				'required'   => true,
-				'value'      => null,
-				'expected'   => 'exception',
-			),
+			/*
+				'Null String'                  => array(
+					'type'       => Type::string(),
+					'default'    => null,
+					'required'   => false,
+					'value'      => null,
+					'expected'   => null,
+				),
+				'Null String Default'          => array(
+					'type'       => Type::string(),
+					'default'    => 'Sujin',
+					'required'   => false,
+					'value'      => null,
+					'expected'   => 'Sujin',
+				),
+			*/
+				'Null String Required' => array(
+					'type'     => Type::string(),
+					'default'  => null,
+					'required' => true,
+					'value'    => null,
+					'expected' => 'exception',
+				),
+		/*
 			'Null String Default Required' => array(
 				'type'       => Type::string(),
 				'default'    => 'Sujin',
@@ -58,6 +61,7 @@ class Unit_Test extends Test_Case {
 				'value'      => 3000,
 				'expected'   => '3000',
 			),
+		*/
 		);
 	}
 
@@ -74,16 +78,20 @@ class Unit_Test extends Test_Case {
 		?string $expected
 	) {
 		$arg = array(
-			'type'     => $type->value(),
-			'default'  => $default,
+			'type'    => $type->value(),
+			'default' => $default,
 		);
 
 		$required = $required ? [ 'test' ] : [];
 		$property = Property::from_json(
-			Schema::get_from_properties( '', [], $required, '' ), // Schema
+			Response_Schema::from_json( 'schema', array() ), // Schema
 			'test',
 			$arg,
 		);
+
+		if ( $required ) {
+			$this->set_private_property( $property, 'required', true );
+		}
 
 		if ( 'exception' === $expected ) {
 			error_reporting( 0 );

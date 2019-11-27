@@ -110,8 +110,8 @@ final class Property {
 	public function init(): void {
 		$this->required = ! empty( $this->schema->get_required() ) ? in_array( $this->id, $this->schema->get_required(), true ) : false;
 
-		if ( ! empty( $this->property['$ref'] ) ) {
-			$this->reference = $this->schema->get_reference( $this->property['$ref'] );
+		if ( ! empty( $this->property[ Schema::REF__KEY ] ) ) {
+			$this->reference = $this->schema->get_reference( $this->property[ Schema::REF__KEY ] );
 			return;
 		}
 
@@ -122,9 +122,9 @@ final class Property {
 		$format       = $this->property['format'] ?? null;
 		$this->format = ! empty( $format ) ? Format::$format() : null;
 
-		$this->enum          = $this->property['enum'] ?? null;
-		$this->items         = $this->property['items'] ?? null;
-		$this->default       = $this->property['default'] ?? null;
+		$this->enum    = $this->property['enum'] ?? null;
+		$this->items   = $this->property['items'] ?? null;
+		$this->default = $this->property['default'] ?? null;
 	}
 
 	/**
@@ -234,6 +234,10 @@ final class Property {
 	 * @used-by Property::filter()
 	 */
 	private function filter_array( $value ) {
+		if ( empty( $this->type ) ) {
+			return $value;
+		}
+
 		if ( Type::ARRAY !== $this->type->case() ) {
 			return $value;
 		}
@@ -244,7 +248,7 @@ final class Property {
 
 		$property = Property::from_json( $this->schema, $id . '::items', $this->items );
 		$array    = array();
-var_dump($property, $value);
+
 		foreach ( $value as $item ) {
 			$array[] = $property->filter( $item );
 		}

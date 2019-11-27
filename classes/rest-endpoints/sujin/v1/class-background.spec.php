@@ -10,11 +10,17 @@ use WP_REST_Request;
 class Unit_Test extends Test_Case {
 	private $object;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->object = new Background();
 		do_action( 'rest_api_init' );
 		Taxonomy::get_instance( 'Category' )->attach_to( 'attachment' );
+
+		add_filter( 'stylesheet_directory', array( $this, 'stylesheet_directory' ) );
+	}
+
+	public function stylesheet_directory() {
+		return SJ_BASE__DIR;
 	}
 
 	private function create_attachment(): void {
@@ -42,5 +48,9 @@ class Unit_Test extends Test_Case {
 			sort( $keys );
 			$this->assertEquals( array( 'desktop', 'mobile', 'title' ), $keys );
 		}
+	}
+
+	public function tearDown(): void {
+		remove_filter( 'stylesheet_directory', array( $this, 'stylesheet_directory' ) );
 	}
 }

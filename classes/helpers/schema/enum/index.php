@@ -17,40 +17,40 @@ use ReflectionClass;
 use InvalidArgumentException;
 
 abstract class Enum {
-    /**
-     * Store existing constants in a static cache per object.
-     * Key is a const value, and the value is Enum instance.
-     *
-     * @var Enum[]
-     */
-    protected static $cache = array();
+	/**
+	 * Store existing constants in a static cache per object.
+	 * Key is a const value, and the value is Enum instance.
+	 *
+	 * @var Enum[]
+	 */
+	protected static $cache = array();
 
-    /**
-     * Selected const key
-     *
-     * @var string
-     */
-    protected $const_key;
+	/**
+	 * Selected const key
+	 *
+	 * @var string
+	 */
+	protected $const_key;
 
-    /**
-     * Origin value
-     *
-     * @var string
-     */
-    protected $value;
+	/**
+	 * Origin value
+	 *
+	 * @var string
+	 */
+	protected $value;
 
 	private function __construct( string $const_key, string $value ) {
 		$this->const_key = $const_key;
 		$this->value     = $value;
 	}
 
-    /**
-     * Get the instance from a string
-     *
-     * @return Enum
-     * @throws InvalidArgumentException
-     * @uses   ReflectionClass
-     */
+	/**
+	 * Get the instance from a string
+	 *
+	 * @return Enum
+	 * @throws InvalidArgumentException
+	 * @uses   ReflectionClass
+	 */
 	public static function __callStatic( string $value, array $_ ): Enum {
 		$class      = get_called_class();
 		$reflection = new ReflectionClass( $class );
@@ -82,37 +82,37 @@ abstract class Enum {
 		throw new InvalidArgumentException( $value . ' is not valid in Enum ' . $class );
 	}
 
-    /**
-     * Get the value of the instance
-     * This will return array when the const is array
-     *
-     * <code>
-     * <?php
-     * $integer = new Number( 'int' );
-     *
-     * switch ( $integer->case() ) {
-     *     case Number::FLOAT:
-     *         do_somthing();
-     *         break;
-     *
-     *     case Number::INT:
-     *         do_somthing();
-     *         break;
-     * }
-     * ?>
-     * </code>
-     *
-     * @return string|string[]
-     */
+	/**
+	 * Get the value of the instance
+	 * This will return array when the const is array
+	 *
+	 * <code>
+	 * <?php
+	 * $integer = new Number( 'int' );
+	 *
+	 * switch ( $integer->case() ) {
+	 *     case Number::FLOAT:
+	 *         do_somthing();
+	 *         break;
+	 *
+	 *     case Number::INT:
+	 *         do_somthing();
+	 *         break;
+	 * }
+	 * ?>
+	 * </code>
+	 *
+	 * @return string|string[]
+	 */
 	public function case() {
 		return constant( get_called_class() . '::' . $this->const_key );
 	}
 
-    /**
-     * Get the original value of the instance
-     *
-     * @return string
-     */
+	/**
+	 * Get the original value of the instance
+	 *
+	 * @return string
+	 */
 	public function value(): string {
 		return $this->value;
 	}

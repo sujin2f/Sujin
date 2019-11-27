@@ -18,8 +18,7 @@ abstract class Abstract_Rest_Item implements JsonSerializable {
 	}
 
 	public function jsonSerialize(): array {
-		$schema = Response_Schema::get_instance( $this->get_item_name() );
-		$value  = $schema->filter( $this );
-		return json_decode( wp_json_encode( $value ), true );
+		return Response_Schema::from_file( $this->get_item_name() . '.json' )
+			->filter( $this );
 	}
 }

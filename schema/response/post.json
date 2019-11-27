@@ -55,6 +55,9 @@
         "related": {
           "description": "Related contents",
           "type": "array",
+          "items": {
+            "$ref": "simple-post.json"
+          },
           "readonly": true
         },
         "type": {

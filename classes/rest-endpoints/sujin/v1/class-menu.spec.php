@@ -18,10 +18,16 @@ use WP_REST_Request;
 class Unit_Test extends Test_Case {
 	private $object;
 
-	public function setUp() {
+	public function setUp(): void {
 		parent::setUp();
 		$this->object = new Menu();
 		do_action( 'rest_api_init' );
+
+		add_filter( 'stylesheet_directory', array( $this, 'stylesheet_directory' ) );
+	}
+
+	public function stylesheet_directory() {
+		return SJ_BASE__DIR;
 	}
 
 	private function create_nav_menu(): int {
@@ -108,5 +114,9 @@ class Unit_Test extends Test_Case {
 		// Children
 		$this->assertEquals( 'Home', $after->items[0]['children'][0]['title'] );
 		$this->assertEquals( 'http://example.org/', $after->items[0]['children'][0]['url'] );
+	}
+
+	public function tearDown(): void {
+		remove_filter( 'stylesheet_directory', array( $this, 'stylesheet_directory' ) );
 	}
 }

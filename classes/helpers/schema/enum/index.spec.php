@@ -13,8 +13,8 @@ use Test_Case;
 use Sujin\Wordpress\Theme\Sujin\Helpers\Schema\Enum;
 
 class Korean_Food extends Enum {
-	const 김치  = array( 'kimchi', '김치', 'Korean pickcle' );
-	const 떡볶이 = 'Duckbonkki';
+	const KIMCHI    = array( 'kimchi', '김치', 'Korean pickcle' );
+	const DUCKBOKKI = 'Duckbokki';
 }
 
 class Unit_Test extends Test_Case {
@@ -25,7 +25,7 @@ class Unit_Test extends Test_Case {
 		$kimchi = Korean_Food::kimchi();
 
 		switch ( $kimchi->case() ) {
-			case Korean_Food::김치:
+			case Korean_Food::KIMCHI:
 				$this->assertTrue( true );
 				return;
 		}
