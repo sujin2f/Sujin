@@ -88,28 +88,6 @@ abstract class Abs_Rest_Base extends WP_REST_Controller {
 
 	protected function delete_transient_keys(): void {
 		delete_option( 'transient-group-' . $this->get_transient_key() );
-
-	}
-
-
-	// Response
-	public function prepare_item_for_response( $item, $request ): WP_REST_Response {
-		$this->request = $request;
-		$item          = array_filter( $item, array( $this, 'filter_schema' ), ARRAY_FILTER_USE_KEY );
-		return rest_ensure_response( $item );
-	}
-
-	public function filter_schema( string $key ): bool {
-		$fields = $this->get_fields_for_response( null );
-		return in_array( $key, $fields, true );
-	}
-
-	public function prepare_response_for_collection( $response ): array {
-		if ( ! ( $response instanceof WP_REST_Response ) ) {
-			return $response;
-		}
-
-		return (array) $response->get_data();
 	}
 
 	public function get_item_schema() {

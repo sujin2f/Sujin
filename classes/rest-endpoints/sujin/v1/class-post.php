@@ -93,7 +93,7 @@ class Post extends Abs_Rest_Base {
 		$post = json_decode( wp_json_encode( $post ), true );
 
 		$transient = new Transient( $post, self::CACHE_TTL );
-		set_transient( $transient_key, wp_json_encode( $transient ) );
+		$transient->set_transient( $transient_key );
 
 		return rest_ensure_response( $post );
 	}
