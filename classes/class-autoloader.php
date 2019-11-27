@@ -8,8 +8,6 @@
 
 namespace Sujin\Wordpress\Theme\Sujin;
 
-use Sujin\Wordpress\Theme\Sujin\Exceptions\Not_Found_Exception;
-
 if ( ! defined( 'ABSPATH' ) ) {
 	header( 'Status: 404 Not Found' );
 	header( 'HTTP/1.1 404 Not Found' );

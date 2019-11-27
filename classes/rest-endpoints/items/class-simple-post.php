@@ -13,7 +13,7 @@ use Sujin\Wordpress\WP_Express\Fields\Post_Meta\{Attachment, Input, Checkbox};
 
 use WP_Post;
 
-class Simple_Post extends Abstract_Rest_Item_Base {
+class Simple_Post extends Abstract_Rest_Item {
 	public $id;
 	public $slug;
 	public $date;

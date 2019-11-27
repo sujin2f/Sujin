@@ -1,176 +1,257 @@
 <?php
 /**
- * Class : JSON Schema Valildator
+ * Schema Base
  *
- * @project Sujin
- * @since   9.0.0
- * @author  Sujin 수진 Choi http://www.sujinc.com/
+ * @package Sujinc.com
+ * @author  Sujin 수진 Choi <http://www.sujinc.com/>
  */
 
 namespace Sujin\Wordpress\Theme\Sujin\Helpers;
 
 use Sujin\Wordpress\Theme\Sujin\Helpers\Schema\Property;
-use Sujin\Wordpress\Theme\Sujin\Helpers\Schema\Reference;
-use Sujin\Wordpress\Theme\Sujin\Helpers\Schema\Definition;
-use Sujin\Wordpress\Theme\Sujin\Helpers\Schema\Enum\Type;
-use Sujin\Wordpress\Theme\Sujin\Helpers\Schema\Enum\Format;
 
-use Sujin\Wordpress\Theme\Sujin\Exceptions\Not_Found_Exception;
 use DomainException;
+use InvalidArgumentException;
+use JsonSerializable;
 
-class Schema {
+class Schema implements JsonSerializable {
 	use Multiton;
 
-	public $initialized = false;
-	public $title       = '';
-	public $properties  = array();
-	public $base_dir    = '';
-	public $json        = '';
+	protected const SCHEMA__DIR = 'schema';
+	protected const REF__KEY    = '$ref';
 
 	/**
-	 * Load schema from filesystem
+	 * @var array
 	 */
-	public static function load( string $file = null ): Schema {
-		if ( ! file_exists( $file ) ) {
-			throw new Not_Found_Exception( $file );
+	private $json;
+
+	/**
+	 * Property list
+	 *
+	 * @var Schema[]|Property[]
+	 */
+	private $properties = array();
+
+	/**
+	 * Definition List
+	 *
+	 * @var Schema[]
+	 */
+	private $definitions = array();
+
+	/**
+	 * Required Keys
+	 *
+	 * @var string[]
+	 */
+	private $required;
+
+	/**
+	 * @var bool
+	 */
+	private $additional_properties;
+
+	/**
+	 * @return string[]
+	 */
+	public function get_required(): ?array {
+		return $this->required;
+	}
+
+	/**
+	 * @return Property[]
+	 */
+	public function get_properties(): array {
+		$properties = array();
+
+		foreach ( $this->properties as $key => $property ) {
+			if ( '$ref' === $key ) {
+				$properties = array_merge( $properties, $property->get_properties() );
+				continue;
+			}
+
+			$properties[ $key ] = $property;
 		}
 
-		$json = file_get_contents( $file );
+		return $properties;
+	}
+
+	/**
+	 * @return Schema
+	 */
+	public function set_json( array $json ): Schema {
+		if ( ! empty( $this->json ) ) {
+			return $this;
+		}
+
+		$this->json = $json;
+		$this->init();
+		return $this;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function get_json(): ?array {
+		return $this->json;
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function get_base_dir(): string {
+		return get_stylesheet_directory() . DIRECTORY_SEPARATOR . self::SCHEMA__DIR . DIRECTORY_SEPARATOR . static::GROUP;
+	}
+
+	/**
+	 * Constructor
+	 *
+	 * Create schema from json array
+	 *
+	 * @throws InvalidArgumentException File does not exist.
+	 * @throws DomainException          Not a valid json format.
+	 */
+	public static function from_json( string $key, array $json ): Schema {
+		return self::get_instance( $key )->set_json( $json );
+	}
+
+	/**
+	 * Constructor
+	 *
+	 * Create schema from filesystem
+	 *
+	 * @throws InvalidArgumentException File does not exist.
+	 * @throws DomainException          Not a valid json format.
+	 */
+	public static function from_file( string $filename ): Schema {
+		$schema = self::get_instance( $filename );
+
+		if ( ! empty( $schema->get_json() ) ) {
+			return $schema;
+		}
+
+		$path = $schema->get_base_dir() . DIRECTORY_SEPARATOR . $filename;
+
+		if ( ! file_exists( $path ) ) {
+			throw new InvalidArgumentException( $path . ' does not exist.' );
+		}
+
+		$json = file_get_contents( $path );
 		$json = json_decode( $json, true );
 
 		if ( json_last_error() ) {
 			throw new DomainException( 'Not a valid json format.' );
 		}
 
-		$schema = Schema::get_instance( $json['title'] );
+		return $schema->set_json( $json );
+	}
 
-		$schema->base_dir = dirname( $file );
-		$schema->title    = $json['title'];
-		$properties       = $json['properties'] ?? array();
-		$definitions      = $json['definitions'] ?? array();
-		$required         = $json['required'] ?? array();
-		$all_of           = $json['allOf'] ?? array();
+	/**
+	 * Validate and filter the value with schema
+	 *
+	 * @param object|array $value
+	 */
+	public function filter( $value ): array {
+		$value = (object) $value;
+		$value = get_object_vars( $value );
+
+		// For each in schema
+		foreach ( $this->get_properties() as $key => $property ) {
+			// Not need to be filtered
+			if ( empty( $property->get_required() ) && empty( $value[ $key ] ) ) {
+				continue;
+			}
+
+			$value[ $key ] = $property->filter( $value[ $key ] );
+		}
+
+		if ( true === $this->additional_properties ) {
+			return $value;
+		}
+
+		// For each $value item, unset undefined in schema
+		foreach ( array_keys( $value ) as $key ) {
+			if ( ! in_array( $key, array_keys( $this->get_properties() ), true ) ) {
+				unset( $value[ $key ] );
+			}
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Make $this->required, additional_properties, properties, definitions
+	 *
+	 * @used-by Schema::set_json()
+	 */
+	private function init(): void {
+		$this->required              = $this->json['required'] ?? array();
+		$this->additional_properties = $this->json['additionalProperties'] ?? false;
+		$this->required              = $this->json['required'];
+
+		$properties  = $this->json['properties'] ?? array();
+		$definitions = $this->json['definitions'] ?? array();
+		$all_of      = $this->json['all_of'] ?? array();
 
 		foreach ( $definitions as $key => $definition ) {
-			$schema->definitions[ $key ] = Definition::get_from_properties(
-				$schema->title . '-' . $key,
-				$definition,
-				array(),
-				$schema->base_dir
-			);
+			$this->definitions[ $key ] = self::from_json( $this->multiton_id . '/definitions/' . $key, array( 'properties' => $definition ) );
 		}
 
-		$schema = Schema::set_properties( $schema, $properties, $required );
-
-		$schema->initialized = true;
-		$schema->json        = $json;
-
-		if ( ! empty( $all_of ) ) {
-			foreach ( $all_of as $one ) {
-				$keys = array_keys( $one );
-
-				if ( '$ref' === $keys[0] ) {
-					$reference          = new Reference( $one['$ref'], $schema );
-					$schema->properties = array_merge( $schema->properties, $reference->properties );
-				} else {
-					foreach ( $one['properties'] as $key => $property ) {
-						$property['item_required']  = $property['required'] ?? null;
-						$property['required']       = in_array( $key, $required, true );
-						$property['parent']         = $schema->title;
-						$property['key']            = $key;
-						$schema->properties[ $key ] = new Property( $property );
-					}
-				}
-			}
-		}
-
-		return $schema;
-	}
-
-	/**
-	 * Assign schema directly
-	 */
-	public static function get_from_properties( string $key, ?array $properties, array $required, string $base_dir ): Schema {
-		$schema = Schema::get_instance( $key );
-
-		if ( $schema->initialized ) {
-			return $schema;
-		}
-
-		$properties       = $properties ?? array();
-		$schema->title    = $key;
-		$schema->base_dir = $base_dir;
-
-		return Schema::set_properties( $schema, $properties, $required );
-	}
-
-	private static function set_properties( Schema $schema, array $properties, array $required ): Schema {
 		foreach ( $properties as $key => $property ) {
-			/**
-			 * {
-			 *   ...,
-			 *   "properties": {
-			 *     "$ref": "#/definitions/definitions"
-			 *   },
-			 *   ...
-			 * }
-			 */
-			if ( '$ref' === $key ) {
-				$schema->properties[ $key ] = new Reference( $property, $schema );
-				return $schema;
-			}
-
-			/**
-			 * {
-			 *   ...,
-			 *   "properties": {
-			 *     "item": {
-			 *       "$ref": "#/definitions/definitions"
-			 *     }
-			 *   },
-			 *   ...
-			 * }
-			 */
-			if ( array_key_exists( '$ref', $property ) ) {
-				$schema->properties[ $key ] = new Reference( $property['$ref'], $schema, $key );
+			// If object, create a new schema
+			if ( 'object' === $property['type'] ) {
+				$this->properties[ $key ] = self::from_json( $this->multiton_id . '/properties/' . $key, $property );
 				continue;
 			}
 
-			$property['item_required'] = $property['required'] ?? null;
-			$property['required']      = in_array( $key, $required, true );
-			$property['parent']        = $schema->title;
-			$property['key']           = $key;
+			if ( '$ref' === $key ) {
+				$this->properties[ $key ] = $this->get_reference( $property );
+				continue;
+			}
 
-			$schema->properties[ $key ] = new Property( $property );
+			$this->properties[ $key ] = Property::from_json( $this, $key, $property );
 		}
 
-		return $schema;
+		foreach ( $all_of as $one_key => $one_value ) {
+			$key   = array_key_first( $one_value );
+			$value = $one_value[ $key ];
+
+			switch( $key ) {
+				case '$ref':
+					$reference        = $this->get_reference( $value );
+					$this->properties = array_merge( $this->properties, $reference->get_properties() );
+					break;
+
+				case 'properties':
+					$one_prop         = self::from_json( $this->multiton_id . '/oneof/' . $one_key, $value );
+					$this->properties = array_merge( $this->properties, $one_prop->get_properties() );
+			}
+		}
 	}
 
 	/**
-	 * Schema validation and return value
+	 * Returns a reference from $ref string
+	 *
+	 * @used-by Schema::init()
+	 * @used-by Property::init()
 	 */
-	public function process( object $object ): object {
-		// For each in schema
-		foreach ( $this->properties as $key => $property ) {
-			$property->validate( $object, $key );
+	public function get_reference( string $ref ): ?Schema {
+		if ( 0 === strpos( $ref, '#' ) ) {
+			return self::get_instance( $this->multiton_id . substr( $ref, 1 ) );
 		}
 
-		// For each property item
-		foreach ( get_object_vars( $object ) as $key => $_ ) {
-			// Unset undefined in schema
-			$properties = $this->properties;
-
-			if ( array_key_exists( '$ref', $this->properties ) ) {
-				$properties = $this->properties['$ref']->properties;
-			}
-
-			if ( ! array_key_exists( $key, $properties ) ) {
-				unset( $object->$key );
-				continue;
-			}
+		if ( '.json' === substr( $ref, -5 ) ) {
+			return self::from_file( $ref );
 		}
 
-		return $object;
+		return null;
+	}
+
+	/**
+	 * Triggered by wp_json_encode()
+	 * @return array Raw .json
+	 */
+	public function jsonSerialize(): array {
+		return $this->json;
 	}
 }

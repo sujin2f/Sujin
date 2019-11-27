@@ -15,7 +15,8 @@
     "run:stats": "NODE_ENV=production webpack --profile --json > logs/stats.json",
     "schema:build": "./scripts/build-schema.sh",
     "start": "cross-env BABEL_ENV=default webpack --watch",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "test:dev": "jest"
   },
   "author": {
     "email": "sujin.2f@google.com",

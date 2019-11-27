@@ -1,105 +1,147 @@
 <?php
 /**
- * Class : JSON Schema Valildator
+ * Unit Test of Schema Base
  *
- * @project Sujin
- * @since   9.0.0
- * @author  Sujin 수진 Choi http://www.sujinc.com/
+ * @package Sujinc.com
+ * @author  Sujin 수진 Choi <http://www.sujinc.com/>
  */
 
 namespace Sujin\Wordpress\Theme\Sujin\Helpers\Schema;
 
 use Test_Case;
-use Sujin\Wordpress\Theme\Sujin\Helpers\Schema;
+
+use Sujin\Wordpress\Theme\Sujin\{
+	Helpers\Schema,
+	Rest_Endpoints\Items\Abstract_Rest_Item,
+};
+
 use org\bovigo\vfs\vfsStream;
 use stdClass;
+use InvalidArgumentException;
 
-class Unit_Test extends Test_Case {
-	public function setUp() {
-		parent::setUp();
+class Temp_Schema extends Schema {
+	private $file_system = '';
+
+	protected function get_base_dir(): string {
+		if ( $this->file_system ) {
+			return $this->file_system->url() . '/schema';
+		}
 
 		$items       = file_get_contents( SJ_PHPUNIT__DIR . '/schema/simple.json' );
 		$reference   = file_get_contents( SJ_PHPUNIT__DIR . '/schema/reference.json' );
 		$definitions = file_get_contents( SJ_PHPUNIT__DIR . '/schema/definitions.json' );
+		$recursive   = file_get_contents( SJ_PHPUNIT__DIR . '/schema/recursive-reference.json' );
 
 		$directory = array(
 			'schema' => array(
-				'simple.json'      => $items,
-				'reference.json'   => $reference,
-				'definitions.json' => $definitions,
+				'simple.json'              => $items,
+				'reference.json'           => $reference,
+				'definitions.json'         => $definitions,
+				'recursive-reference.json' => $recursive,
 			),
 		);
 
 		// setup and cache the virtual file system
 		$this->file_system = vfsStream::setup( 'root', 444, $directory );
+		return $this->file_system->url() . '/schema';
+	}
+}
+
+class Simple extends Abstract_Rest_Item {
+	public $title  = 'Title';
+	public $url    = 'http://test.com';
+	public $number = '1';
+	public $object = array(
+		'child' => 'http://test.com',
+	);
+
+	public function jsonSerialize(): array {
+		return Temp_Schema::from_file( 'simple.json' )->filter( $this );
+	}
+}
+
+class Definitions extends Simple {
+	public function jsonSerialize(): array {
+		return Temp_Schema::from_file( 'definitions.json' )->filter( $this );
+	}
+}
+
+class Reference_Item extends Abstract_Rest_Item {
+	public $object =  array(
+		'child' => array(
+			'title'  => 'Title',
+			'url'    => 'http://test.com',
+			'number' => '1',
+			'object' => array(
+				'child' => 'http://test.com',
+			),
+		),
+	);
+
+	public function jsonSerialize(): array {
+		return Temp_Schema::from_file( 'reference.json' )->filter( $this );
+	}
+}
+
+class Recursive_Reference extends Abstract_Rest_Item {
+	public $strings  = array( 'Sujin', 'Choi' );
+	public $children = array(
+		'strings'  => array( 'Sujin', 'Choi', 'sujin.2f@gmail.com' ),
+		'children' => null,
+	);
+
+	public function jsonSerialize(): array {
+		return Temp_Schema::from_file( 'recursive-reference.json' )->filter( $this );
+	}
+}
+
+class Unit_Test extends Test_Case {
+/*
+	public function test_simple_schema() {
+		$actual = json_decode( wp_json_encode( new Simple() ), true );
+
+		$this->assertEquals( 'Title', $actual['title'] );
+		$this->assertEquals( 'http://test.com', $actual['url'] );
+		$this->assertEquals( 1, $actual['number'] );
+		$this->assertEquals( array( 'child' => 'http://test.com' ), $actual['object'] );
 	}
 
-	public function test_get_schema() {
-		$this->object = Schema::load( $this->file_system->url() . '/schema/simple.json' );
-		$this->assertEquals( 'simple', $this->object->title );
-		$this->assertEquals( array( 'title', 'url', 'number', 'object' ), array_keys( $this->object->properties ) );
+	public function test_definitions_schema() {
+		$actual = json_decode( wp_json_encode( new Definitions() ), true );
+
+		$this->assertEquals( 'Title', $actual['title'] );
+		$this->assertEquals( 'http://test.com', $actual['url'] );
+		$this->assertEquals( 1, $actual['number'] );
+		$this->assertEquals( array( 'child' => 'http://test.com' ), $actual['object'] );
 	}
 
-	public function test_process_simple_schema() {
-		$this->object = Schema::load( $this->file_system->url() . '/schema/simple.json' );
-		$object       = new stdClass();
+	public function test_reference_schema() {
+		$actual = json_decode( wp_json_encode( new Reference_Item() ), true );
 
-		$object->title  = 'Title';
-		$object->url    = 'http://test.com';
-		$object->number = '1';
-		$object->object = array(
-			'child' => 'http://test.com',
-		);
-
-		$this->object->process( $object );
-		$object = json_decode( wp_json_encode( $object ), true );
-
-		$this->assertEquals( 'Title', $object['title'] );
-		$this->assertEquals( 'http://test.com', $object['url'] );
-		$this->assertEquals( 1, $object['number'] );
-		$this->assertEquals( array( 'child' => 'http://test.com' ), $object['object'] );
+		$this->assertEquals( 'Title', $actual['object']['child']['title'] );
+		$this->assertEquals( 'http://test.com', $actual['object']['child']['url'] );
+		$this->assertEquals( 1, $actual['object']['child']['number'] );
+		$this->assertEquals( array( 'child' => 'http://test.com' ), $actual['object']['child']['object'] );
 	}
 
-	public function test_process_definitions_schema() {
-		$this->object = Schema::load( $this->file_system->url() . '/schema/definitions.json' );
-		$object       = new stdClass();
+	public function test_reference_schema_nested_item() {
+		$reference = new Reference_Item();
+		$reference->object['child']['object']['child'] = '';
 
-		$object->title  = 'Title';
-		$object->url    = 'http://test.com';
-		$object->number = '1';
-		$object->object = array(
-			'child' => 'http://test.com',
-		);
+		try {
+			json_decode( wp_json_encode( $reference ), true );
+		} catch ( InvalidArgumentException $_ ) {
+			$this->assertTrue( true );
+			return;
+		}
 
-		$this->object->process( $object );
-		$object = json_decode( wp_json_encode( $object ), true );
-
-		$this->assertEquals( 'Title', $object['title'] );
-		$this->assertEquals( 'http://test.com', $object['url'] );
-		$this->assertEquals( 1, $object['number'] );
-		$this->assertEquals( array( 'child' => 'http://test.com' ), $object['object'] );
+		$this->assertTrue( false );
 	}
+*/
 
-	public function test_process_reference_schema() {
-		$this->object = Schema::load( $this->file_system->url() . '/schema/reference.json' );
+	public function test_recursive_reference() {
+		$actual = json_decode( wp_json_encode( new Recursive_Reference() ), true );
 
-		$object                = new stdClass();
-		$object->object        = new stdClass();
-		$object->object->child = new stdClass();
-
-		$object->object->child->title  = 'Title';
-		$object->object->child->url    = 'http://test.com';
-		$object->object->child->number = '1';
-		$object->object->child->object = array(
-			'child' => 'http://test.com',
-		);
-
-		$this->object->process( $object );
-		$object = json_decode( wp_json_encode( $object ), true );
-
-		$this->assertEquals( 'Title', $object['object']['child']['title'] );
-		$this->assertEquals( 'http://test.com', $object['object']['child']['url'] );
-		$this->assertEquals( 1, $object['object']['child']['number'] );
-		$this->assertEquals( array( 'child' => 'http://test.com' ), $object['object']['child']['object'] );
+		var_dump($actual);
 	}
 }
