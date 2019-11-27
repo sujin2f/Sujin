@@ -1,32 +1,119 @@
 <?php
 /**
- * Class : JSON Schema -- Enum -- Type
+ * Enum Base
  *
- * @project Sujin
- * @since   9.0.0
- * @author  Sujin 수진 Choi http://www.sujinc.com/
+ * Minimized or improved from https://github.com/myclabs/php-enum
+ *
+ * @package    Sujinc.com
+ * @subpackage Enum
+ * @author     Sujin 수진 Choi <http://www.sujinc.com/>
+ * @see        https://github.com/myclabs/php-enum
  */
 
 namespace Sujin\Wordpress\Theme\Sujin\Helpers\Schema;
 
-use Sujin\Wordpress\Theme\Sujin\Exceptions\Not_Found_Exception;
-
 use ReflectionClass;
 
-class Enum {
-	public $keyword;
+use InvalidArgumentException;
 
-	public function __construct( string $keyword ) {
-		$ref_class = new ReflectionClass( $this );
+abstract class Enum {
+    /**
+     * Store existing constants in a static cache per object.
+     * Key is a const value, and the value is Enum instance.
+     *
+     * @var Enum[]
+     */
+    protected static $cache = array();
 
-		if ( ! in_array( $keyword, $ref_class->getConstants(), true ) ) {
-			throw new Not_Found_Exception( 'Enum ' . $keyword );
-		}
+    /**
+     * Selected const key
+     *
+     * @var string
+     */
+    protected $const_key;
 
-		$this->keyword = $keyword;
+    /**
+     * Origin value
+     *
+     * @var string
+     */
+    protected $value;
+
+	private function __construct( string $const_key, string $value ) {
+		$this->const_key = $const_key;
+		$this->value     = $value;
 	}
 
-	public function __toString() {
-		return $this->keyword;
+    /**
+     * Get the instance from a string
+     *
+     * @return Enum
+     * @throws InvalidArgumentException
+     * @uses   ReflectionClass
+     */
+	public static function __callStatic( string $value, array $_ ): Enum {
+		$class      = get_called_class();
+		$reflection = new ReflectionClass( $class );
+		$constants  = $reflection->getConstants();
+
+		// Cache exists
+		if ( isset( static::$cache[ $value ] ) ) {
+			return static::$cache[ $value ];
+		}
+
+		foreach ( $constants as $const_key => $const_value ) {
+			if (
+				// Matched!
+				$const_value === $value ||
+				// When the member is multiple values: const INT = ['number', 'int', 'integer']
+				( is_array( $const_value ) && in_array( $value, $const_value, true ) )
+			) {
+				$enum = new static( $const_key, $value );
+
+				$enum->const_key = $const_key;
+				$enum->value     = $value;
+
+				static::$cache[ $value ] = $enum;
+
+				return $enum;
+			}
+		}
+
+		throw new InvalidArgumentException( $value . ' is not valid in Enum ' . $class );
+	}
+
+    /**
+     * Get the value of the instance
+     * This will return array when the const is array
+     *
+     * <code>
+     * <?php
+     * $integer = new Number( 'int' );
+     *
+     * switch ( $integer->case() ) {
+     *     case Number::FLOAT:
+     *         do_somthing();
+     *         break;
+     *
+     *     case Number::INT:
+     *         do_somthing();
+     *         break;
+     * }
+     * ?>
+     * </code>
+     *
+     * @return string|string[]
+     */
+	public function case() {
+		return constant( get_called_class() . '::' . $this->const_key );
+	}
+
+    /**
+     * Get the original value of the instance
+     *
+     * @return string
+     */
+	public function value(): string {
+		return $this->value;
 	}
 }

@@ -1,78 +1,58 @@
 <?php
 /**
- * Class : JSON Schema Valildator
+ * JSON Schema Property Unit Test
  *
- * @project Sujin
- * @since   9.0.0
- * @author  Sujin 수진 Choi http://www.sujinc.com/
+ * @package    Sujinc.com
+ * @subpackage Schema
+ * @author     Sujin 수진 Choi <http://www.sujinc.com/>
  */
 
 namespace Sujin\Wordpress\Theme\Sujin\Helpers\Schema\Property;
 
 use Test_Case;
+use Sujin\Wordpress\Theme\Sujin\Helpers\Schema;
 use Sujin\Wordpress\Theme\Sujin\Helpers\Schema\Property;
 use Sujin\Wordpress\Theme\Sujin\Helpers\Schema\Enum\Type;
 use Sujin\Wordpress\Theme\Sujin\Helpers\Schema\Enum\Format;
 
-use OutOfBoundsException;
+use InvalidArgumentException;
 
 class Unit_Test extends Test_Case {
-	public function setUp() {
-		parent::setUp();
-	}
-
-	function provider_test_validator(): array {
+	/**
+	 * Test data
+	 */
+	function provider_test_string_validator(): array {
 		return array(
 			'Null String'                  => array(
-				'type'       => new Type( 'string' ),
-				'format'     => null,
-				'properties' => null,
-				'enum'       => null,
-				'items'      => null,
+				'type'       => Type::string(),
 				'default'    => null,
 				'required'   => false,
 				'value'      => null,
 				'expected'   => null,
 			),
 			'Null String Default'          => array(
-				'type'       => new Type( 'string' ),
-				'format'     => null,
-				'properties' => null,
-				'enum'       => null,
-				'items'      => null,
+				'type'       => Type::string(),
 				'default'    => 'Sujin',
 				'required'   => false,
 				'value'      => null,
 				'expected'   => 'Sujin',
 			),
 			'Null String Required'         => array(
-				'type'       => new Type( 'string' ),
-				'format'     => null,
-				'properties' => null,
-				'enum'       => null,
-				'items'      => null,
+				'type'       => Type::string(),
 				'default'    => null,
 				'required'   => true,
 				'value'      => null,
 				'expected'   => 'exception',
 			),
 			'Null String Default Required' => array(
-				'type'       => new Type( 'string' ),
-				'format'     => null,
-				'properties' => null,
-				'enum'       => null,
-				'items'      => null,
+				'type'       => Type::string(),
 				'default'    => 'Sujin',
 				'required'   => true,
 				'value'      => null,
 				'expected'   => 'Sujin',
 			),
 			'String Conversion'            => array(
-				'type'       => new Type( 'string' ),
-				'format'     => null,
-				'properties' => null,
-				'enum'       => null,
-				'items'      => null,
+				'type'       => Type::string(),
 				'default'    => null,
 				'required'   => true,
 				'value'      => 3000,
@@ -82,31 +62,27 @@ class Unit_Test extends Test_Case {
 	}
 
 	/**
-	 * @dataProvider provider_test_validator
+	 * Load and validate string schema
+	 *
+	 * @dataProvider provider_test_string_validator
 	 */
-	public function test_validator(
+	public function test_string_validator(
 		Type $type,
-		?Format $format,
-		?array $properties,
-		?array $enum,
-		?array $items,
-		$default,
-		$required,
+		?string $default,
+		bool $required,
 		$value,
-		$expected
+		?string $expected
 	) {
-		$object = new Property(
-			array(
-				'parent'     => 'parent',
-				'key'        => 'key',
-				'type'       => $type,
-				'format'     => $format,
-				'properties' => $properties,
-				'enum'       => $enum,
-				'items'      => $items,
-				'default'    => $default,
-				'required'   => $required,
-			)
+		$arg = array(
+			'type'     => $type->value(),
+			'default'  => $default,
+		);
+
+		$required = $required ? [ 'test' ] : [];
+		$property = Property::from_json(
+			Schema::get_from_properties( '', [], $required, '' ), // Schema
+			'test',
+			$arg,
 		);
 
 		if ( 'exception' === $expected ) {
@@ -114,8 +90,8 @@ class Unit_Test extends Test_Case {
 			$result = false;
 
 			try {
-				$object->validate( $value );
-			} catch ( OutOfBoundsException $_ ) {
+				$property->filter( $value );
+			} catch ( InvalidArgumentException $_ ) {
 				$result = true;
 			}
 
@@ -124,6 +100,6 @@ class Unit_Test extends Test_Case {
 			return;
 		}
 
-		$this->assertEquals( $expected, $object->validate( $value, null, true ) );
+		$this->assertEquals( $expected, $property->filter( $value ) );
 	}
 }

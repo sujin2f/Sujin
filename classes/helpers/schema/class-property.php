@@ -1,83 +1,176 @@
 <?php
 /**
- * Class : JSON Schema -- Property
+ * JSON Schema Property
  *
- * @project Sujin
- * @since   9.0.0
- * @author  Sujin 수진 Choi http://www.sujinc.com/
+ * @package    Sujinc.com
+ * @subpackage Schema
+ * @author     Sujin 수진 Choi <http://www.sujinc.com/>
+ * @since      9.0
+ * @todo       Array Validation
  */
 
 namespace Sujin\Wordpress\Theme\Sujin\Helpers\Schema;
 
 use Sujin\Wordpress\Theme\Sujin\Helpers\Schema;
-use Sujin\Wordpress\Theme\Sujin\Helpers\Schema\Enum\Type;
-use Sujin\Wordpress\Theme\Sujin\Helpers\Schema\Enum\Format;
+use Sujin\Wordpress\Theme\Sujin\Helpers\Schema\Enum\{
+	Type,
+	Format,
+};
 
-use OutOfBoundsException;
+use InvalidArgumentException;
 
 final class Property {
-	private $parent = '';
-	private $key    = '';
+	/**
+	 * Parent Schema
+	 *
+	 * @var Schema
+	 */
+	private $schema;
 
-	public $description   = null;
-	public $type          = null;
-	public $format        = null;
-	public $properties    = array();
-	public $enum          = array();
-	public $items         = array();
-	public $required      = false;
-	public $item_required = array();
-	public $default       = null;
+	/**
+	 * Identifier
+	 *
+	 * @var string
+	 */
+	private $id;
 
-	public function __construct( array $property ) {
-		$this->parent = $property['parent'];
-		$this->key    = $property['key'];
+	/**
+	 * @var array
+	 */
+	private $property;
 
-		$this->description   = $property['description'] ?? null;
-		$this->type          = new Type( $property['type'] );
-		$this->format        = ! empty( $property['format'] ) ? new Format( $property['format'] ) : null;
-		$this->properties    = $property['properties'] ?? null;
-		$this->enum          = $property['enum'] ?? null;
-		$this->items         = $property['items'] ?? null;
-		$this->default       = $property['default'] ?? null;
-		$this->required      = $property['required'] ?? false;
-		$this->item_required = $property['item_required'] ?? array();
+	/**
+	 * When the prop is reference
+	 *
+	 * @var Reference
+	 */
+	private $reference;
+
+	/**
+	 * Property must have type, so this can be used as an indicator of initialization.
+	 *
+	 * @var Type
+	 */
+	private $type;
+
+	/**
+	 * @var Format
+	 */
+	private $format;
+
+	/**
+	 * @var array
+	 */
+	private $enum;
+
+	/**
+	 * @var array
+	 */
+	private $items;
+
+	/**
+	 * @var bool
+	 */
+	private $required;
+
+	/**
+	 * @var mixed
+	 */
+	private $default;
+
+	/**
+	 * Required property?
+	 *
+	 * @used-by Property::filter()
+	 */
+	public function get_required(): bool {
+		return $this->required;
 	}
 
-	public function validate( $object, ?string $key = null, ?bool $return = null ) {
-		$value = $key ? $object->$key : $object;
+	/**
+	 * Get the instance from a json
+	 *
+	 * @return  Property
+	 * @used-by Schema::init
+	 */
+	public static function from_json( Schema $parent, string $id, array $property ): Property {
+		$that           = new Property();
+		$that->id       = $id;
+		$that->schema   = $parent;
+		$that->property = $property;
 
-		if ( ! $value && $this->default ) {
+		$that->init();
+
+		return $that;
+	}
+
+	/**
+	 * Prepare this instance
+	 */
+	public function init(): void {
+		$this->required = ! empty( $this->schema->get_required() ) ? in_array( $this->id, $this->schema->get_required(), true ) : false;
+
+		if ( ! empty( $this->property['$ref'] ) ) {
+			$this->reference = $this->schema->get_reference( $this->property['$ref'] );
+			return;
+		}
+
+		// Type is required
+		$type       = $this->property['type'];
+		$this->type = Type::$type();
+
+		$format       = $this->property['format'] ?? null;
+		$this->format = ! empty( $format ) ? Format::$format() : null;
+
+		$this->enum          = $this->property['enum'] ?? null;
+		$this->items         = $this->property['items'] ?? null;
+		$this->default       = $this->property['default'] ?? null;
+	}
+
+	/**
+	 * Filter a value
+	 *
+	 *
+	 *
+	 * @param  $value mixed
+	 * @return mixed
+	 * @throws InvalidArgumentException
+	 * @todo   $ref
+	 */
+	public function filter( $value ) {
+		if ( $this->reference ) {
+			return $this->reference->filter( $value );
+		}
+
+		// Set as default
+		if ( empty( $value ) && $this->default ) {
 			return $this->default;
 		}
 
-		$value = $this->filter_type_cast( $value );
+		// Filters
+		$value = $this->filter_type( $value );
 		$value = $this->filter_enum( $value );
 		$value = $this->filter_format( $value );
+		$value = $this->filter_array( $value );
 
-		if ( ! $value && $this->required ) {
-			throw new OutOfBoundsException( 'The property value is required.' );
+		// Empty value, but it's required
+		if ( empty( $value ) && $this->required ) {
+			throw new InvalidArgumentException( 'The property value is required.' );
 		}
 
-		// Case: Object
-		if ( Type::OBJECT === ( (string) $this->type ) && $value ) {
-			$parent_schema = Schema::get_instance( $this->parent );
-			$object_schema = Schema::get_from_properties(
-				$this->parent . '-' . $this->key,
-				$this->properties,
-				$this->item_required,
-				$parent_schema->base_dir
-			);
-			$value         = $object_schema->process( (object) $value );
-		}
-
-		if ( $return ) {
-			return $value;
-		}
+		return $value;
 	}
 
-	private function filter_type_cast( $value ) {
-		switch ( (string) $this->type ) {
+	/**
+	 * @return  mixed
+	 * @used-by Property::filter()
+	 */
+	private function filter_type( $value ) {
+		if ( empty( $this->type ) ) {
+			return $value;
+		}
+
+		switch ( $this->type->case() ) {
 			case Type::NUMBER:
 				return (int) $value;
 
@@ -87,7 +180,6 @@ final class Property {
 			case Type::STRING:
 				return (string) $value;
 
-			case Type::OBJECT:
 			case Type::ARRAY:
 				return (array) $value;
 		}
@@ -95,8 +187,13 @@ final class Property {
 		return $value;
 	}
 
+	/**
+	 * @return  mixed
+	 * @used-by Property::filter()
+	 * @throws  InvalidArgumentException
+	 */
 	private function filter_enum( $value ) {
-		if ( ! $this->enum ) {
+		if ( empty( $this->enum ) ) {
 			return $value;
 		}
 
@@ -104,23 +201,23 @@ final class Property {
 			return $value;
 		}
 
-		throw new OutOfBoundsException( 'Enum value ' . $value . ' does not exist in the schema.' );
+		throw new InvalidArgumentException( 'Enum value ' . $value . ' does not exist in the schema.' );
 	}
 
+	/**
+	 * @return  mixed
+	 * @used-by Property::filter()
+	 */
 	private function filter_format( $value ) {
-		if ( ! $this->format ) {
+		if ( empty( $this->format ) ) {
 			return $value;
 		}
 
-		if ( ! $value && $this->default ) {
-			$value = $this->default;
-		}
-
-		if ( ! $value ) {
+		if ( empty( $value ) ) {
 			return $value;
 		}
 
-		switch ( $this->format ) {
+		switch ( $this->format->case() ) {
 			case Format::URI:
 				$value = filter_var( $value, FILTER_VALIDATE_URL );
 				break;
@@ -130,5 +227,28 @@ final class Property {
 		}
 
 		return $value;
+	}
+
+	/**
+	 * @return  mixed
+	 * @used-by Property::filter()
+	 */
+	private function filter_array( $value ) {
+		if ( Type::ARRAY !== $this->type->case() ) {
+			return $value;
+		}
+
+		if ( empty( $value ) ) {
+			return $value;
+		}
+
+		$property = Property::from_json( $this->schema, $id . '::items', $this->items );
+		$array    = array();
+var_dump($property, $value);
+		foreach ( $value as $item ) {
+			$array[] = $property->filter( $item );
+		}
+
+		return $array;
 	}
 }

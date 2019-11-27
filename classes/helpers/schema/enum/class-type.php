@@ -1,10 +1,10 @@
 <?php
 /**
- * Class : JSON Schema -- Enum -- Type
+ * Enum JSON schema property type
  *
- * @project Sujin
- * @since   9.0.0
- * @author  Sujin 수진 Choi http://www.sujinc.com/
+ * @package    Sujinc.com
+ * @subpackage Enum
+ * @author     Sujin 수진 Choi <http://www.sujinc.com/>
  */
 
 namespace Sujin\Wordpress\Theme\Sujin\Helpers\Schema\Enum;
