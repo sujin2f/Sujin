@@ -21,17 +21,17 @@ export interface Menu {
   /**
    * Link target HTML attribute
    */
-  target: "_blank" | "_self";
+  target: '_blank' | '_self';
   /**
    * Parent ID
    */
-  parent: number;
+  parent?: number;
   /**
    * HTML class attributes
    */
-  classes: string[];
+  classes?: string[];
   /**
    * Child menu items
    */
-  children: Menu[];
+  children?: Menu[];
 }

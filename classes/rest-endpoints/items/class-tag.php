@@ -24,7 +24,7 @@ final class Tag extends Abstract_Rest_Item {
 	public function __construct( WP_Term $term ) {
 		$this->name   = $term->name;
 		$this->slug   = $term->slug;
-		$this->termId = $term->termId;
+		$this->termId = $term->term_id;
 	}
 }
 // phpcs:enable

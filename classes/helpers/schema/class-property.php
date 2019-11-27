@@ -155,7 +155,7 @@ final class Property {
 
 		// Empty value, but it's required
 		if ( empty( $value ) && $this->required ) {
-			throw new InvalidArgumentException( 'The property value is required.' );
+			throw new InvalidArgumentException( 'The property ' . $this->id . '\'s value is required.' );
 		}
 
 		return $value;

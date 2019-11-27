@@ -2,16 +2,18 @@
 
 cd schema/response
 
-json2ts background.json > ../../app/items/rest/background.d.ts
+json2ts -i archive.json -o ../../app/items/rest/archive.d.ts --style.singleQuote
 
-json2ts flickr.json > ../../app/items/rest/flickr.d.ts
+json2ts -i background.json -o ../../app/items/rest/background.d.ts --style.singleQuote
 
-json2ts image.json > ../../app/items/rest/image.d.ts
+json2ts -i flickr.json -o ../../app/items/rest/flickr.d.ts --style.singleQuote
 
-json2ts menu.json > ../../app/items/rest/menu.d.ts
+json2ts -i image.json -o ../../app/items/rest/image.d.ts --style.singleQuote
 
-json2ts post.json > ../../app/items/rest/post.d.ts
+json2ts -i menu.json -o ../../app/items/rest/menu.d.ts --style.singleQuote
 
-json2ts simple-post.json > ../../app/items/rest/simple-post.d.ts
+json2ts -i post.json -o ../../app/items/rest/post.d.ts --style.singleQuote
 
-json2ts term.json > ../../app/items/rest/term.d.ts
+json2ts -i simple-post.json -o ../../app/items/rest/simple-post.d.ts --style.singleQuote
+
+json2ts -i term.json -o ../../app/items/rest/term.d.ts --style.singleQuote

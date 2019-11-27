@@ -1,5 +1,5 @@
-import RestItem from './index.d';
-import { Background as IBackground } from './background.d';
+import RestItem from 'app/items/rest/index.d';
+import { Background as IBackground } from 'app/items/rest/background.d';
 
 export default class Background implements RestItem, IBackground {
   desktop: string;
@@ -12,7 +12,7 @@ export default class Background implements RestItem, IBackground {
     this.title = data.title;
   }
 
-  static create(data): Background {
+  static create(data): IBackground {
     return new Background(data);
   }
 }

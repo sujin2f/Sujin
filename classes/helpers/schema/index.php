@@ -220,11 +220,14 @@ class Schema implements JsonSerializable {
 				case self::REF__KEY:
 					$reference        = $this->get_reference( $value );
 					$this->properties = array_merge( $this->properties, $reference->get_properties() );
+					$this->required   = array_merge( $this->required, $reference->get_required() );
 					break;
 
 				case 'properties':
 					$one_prop         = self::from_json( $this->multiton_id . '/oneof/' . $one_key, $one_value );
 					$this->properties = array_merge( $this->properties, $one_prop->get_properties() );
+					$this->required   = array_merge( $this->required, $one_prop->get_required() );
+					break;
 			}
 		}
 	}

@@ -1,10 +1,22 @@
-export default class Term {
-  readonly id: number;
-  readonly name: string;
-  readonly slug: string;
+import RestItem from 'app/items/rest/index.d';
+import { Term as ITerm } from 'app/items/rest/term.d';
+
+export default class Term implements RestItem, ITerm {
+  /**
+   * Term name
+   */
+  name: string;
+  /**
+   * Term slug
+   */
+  slug: string;
+  /**
+   * Term ID
+   */
+  termId: number;
 
   constructor(data) {
-    this.id = data.term_id;
+    this.termId = data.termId;
     this.name = data.name;
     this.slug = data.slug;
   }

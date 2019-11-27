@@ -43,6 +43,47 @@ export type Post = SimplePost & {
   type?: 'post' | 'page';
 };
 
+export interface Archive {
+  /**
+   * Archive Name
+   */
+  name?: string;
+  /**
+   * Archive Description
+   */
+  description?: string;
+  thumbnail?: Image;
+  /**
+   * Total number of posts
+   */
+  total?: number;
+  /**
+   * Total number of page
+   */
+  totalPages?: number;
+  /**
+   * Posts
+   */
+  items?: Post[];
+}
+export interface Image {
+  /**
+   * Large size image
+   */
+  large?: string;
+  /**
+   * Medium size image
+   */
+  medium?: string;
+  /**
+   * Small size image
+   */
+  small?: string;
+  /**
+   * Tiny size image
+   */
+  tiny?: string;
+}
 export interface SimplePost {
   /**
    * Unique ID
@@ -77,24 +118,6 @@ export interface SimplePost {
     useBackgroundColor?: boolean;
   };
   thumbnail?: Image;
-}
-export interface Image {
-  /**
-   * Large size image
-   */
-  large?: string;
-  /**
-   * Medium size image
-   */
-  medium?: string;
-  /**
-   * Small size image
-   */
-  small?: string;
-  /**
-   * Tiny size image
-   */
-  tiny?: string;
 }
 export interface Term {
   /**

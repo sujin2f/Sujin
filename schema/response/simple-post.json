@@ -58,10 +58,13 @@
           "type": "boolean"
         }
       },
-      "readonly": true
+      "readonly": true,
+      "additionalProperties":false
     },
     "thumbnail": {
       "$ref": "image.json"
     }
-  }
+  },
+  "required": ["id", "slug", "date", "link", "title"],
+  "additionalProperties":false
 }

@@ -2,8 +2,17 @@ import RestItem from './index.d';
 import { Flickr as IFlickr } from './flickr.d';
 
 export default class Flickr implements RestItem, IFlickr {
+  /**
+   * The title of the photo.
+   */
   title: string;
+  /**
+   * Flickr URL for the image
+   */
   link: string;
+  /**
+   * Image URLs
+   */
   media: {
     origin: string;
     s: string;
@@ -18,7 +27,7 @@ export default class Flickr implements RestItem, IFlickr {
     this.media = data.media;
   }
 
-  static create(data): Flickr {
+  static create(data): IFlickr {
     return new Flickr(data);
   }
 }

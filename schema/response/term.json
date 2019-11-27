@@ -19,5 +19,7 @@
       "type": "number",
       "readonly": true
     }
-  }
+  },
+  "required": ["name", "slug", "termId"],
+  "additionalProperties":false
 }

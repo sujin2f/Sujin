@@ -37,7 +37,6 @@ class Unit_Test extends Test_Case {
 		return SJ_BASE__DIR;
 	}
 
-/*
 	public function test_archive_failed_request() {
 		global $wp_rest_server;
 
@@ -51,7 +50,6 @@ class Unit_Test extends Test_Case {
 			$this->get_error_response( $this->call_private_method( $this->object, 'error_not_found_term', array( 'category' ) ) )
 		);
 	}
-*/
 
 	private function register_posts(): void {
 		$this->post_01 = $this->factory->post->create_and_get( array( 'post_title' => '김조광수 감독의 교훈 없는 승리' ) );

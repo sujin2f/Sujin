@@ -50,6 +50,7 @@
               "$ref": "simple-post.json"
             }
           },
+          "additionalProperties":false,
           "readonly": true
         },
         "related": {
@@ -69,8 +70,9 @@
           ],
           "readonly": true
         }
-      }
+      },
+      "required": ["ID", "title", "url", "target", "parent"],
+      "additionalProperties":false
     }
-  ],
-  "additionalProperties":false
+  ]
 }

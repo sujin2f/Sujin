@@ -30,9 +30,10 @@
       "description": "Posts",
       "type": "array",
       "items": {
-        "$ref": "post"
+        "$ref": "post.json"
       },
       "readonly": true
     }
-  }
+  },
+  "additionalProperties":false
 }

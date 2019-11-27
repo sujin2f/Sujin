@@ -9,23 +9,23 @@ export interface SimplePost {
   /**
    * Unique ID
    */
-  id?: number;
+  id: number;
   /**
    * Post slug
    */
-  slug?: string;
+  slug: string;
   /**
    * Date
    */
-  date?: string;
+  date: string;
   /**
    * Link URL
    */
-  link?: string;
+  link: string;
   /**
    * Title
    */
-  title?: string;
+  title: string;
   /**
    * Meta data
    */
@@ -37,10 +37,8 @@ export interface SimplePost {
     thumbnail?: Image;
     backgroundColor?: string;
     useBackgroundColor?: boolean;
-    [k: string]: any;
   };
   thumbnail?: Image;
-  [k: string]: any;
 }
 export interface Image {
   /**
