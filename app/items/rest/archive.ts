@@ -38,4 +38,8 @@ export default class Archive implements IArchive {
     this.totalPages = data.totalPages;
     this.items = data.items.map((post) => new Post(post));
   }
+
+  static create(data): IArchive {
+    return new Archive(data);
+  }
 }

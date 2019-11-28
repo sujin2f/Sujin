@@ -14,6 +14,9 @@ import { IBackground } from 'app/items/rest/interface/background';
 import DEFAULT_BG from '../../../assets/images/background/backup-background.jpg';
 import DEFAULT_BG_MOBILE from '../../../assets/images/background/backup-background-mobile.jpg';
 
+/*
+ * Background Controller
+ */
 export default class BackgroundController extends RestController<IBackground> {
   public static instance: BackgroundController;
 
