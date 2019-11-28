@@ -1,13 +1,13 @@
-import RestItem from 'app/items/rest/index.d';
-import { Archive as IArchive } from 'app/items/rest/archive.d';
+/** app/items/rest/archive */
 
 import Post from 'app/items/rest/post';
-import { Post as IPost } from 'app/items/rest/post.d';
-
 import Image from 'app/items/rest/image';
-import { Image as IImage } from 'app/items/rest/image.d';
 
-export default class Archive implements RestItem, IArchive {
+import { IArchive } from 'app/items/rest/interface/archive';
+import { IPost } from 'app/items/rest/interface/post';
+import { IImage } from 'app/items/rest/interface/image';
+
+export default class Archive implements IArchive {
   /**
    * Archive Name
    */

@@ -1,14 +1,15 @@
-import RestController from 'app/controllers/rest';
+import { RestController, IRestController } from 'app/controllers/rest';
 import PostController from 'app/controllers/rest/post';
 import Post from 'app/items/rest/post';
+import { IPost } from 'app/items/rest/interface/post';
 
 /*
  * Recent Post Controller
  */
-export default class RecentPostController extends RestController<Post> {
+export default class RecentPostController extends RestController<IPost> {
   public static instance: RecentPostController;
 
-  public static getInstance(): RecentPostController {
+  public static getInstance(): IRestController {
     if (!this.instance) {
       this.instance = new RecentPostController(Post);
     }
@@ -22,6 +23,6 @@ export default class RecentPostController extends RestController<Post> {
   protected postResponse(response): void {
     this.entities = [];
     this.entities = response.data.items.map((item) => this.itemBuilder.create(item));
-    this.entities.map((entity: Post) => PostController.getInstance(entity.slug).setFromPost(entity));
+    this.entities.map((entity: IPost) => PostController.getInstance(entity.slug).setFromPost(entity));
   }
 }

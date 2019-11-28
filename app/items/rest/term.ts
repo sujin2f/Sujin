@@ -1,7 +1,8 @@
-import RestItem from 'app/items/rest/index.d';
-import { Term as ITerm } from 'app/items/rest/term.d';
+/** app/items/rest/term */
 
-export default class Term implements RestItem, ITerm {
+import { ITerm } from 'app/items/rest/interface/term';
+
+export default class Term implements ITerm {
   /**
    * Term name
    */

@@ -58,7 +58,7 @@ export const rawData = [
   rawData09,
 ];
 
-export const Backgrounds = [
+export const response = [
   new Background(rawData01),
   new Background(rawData02),
   new Background(rawData03),

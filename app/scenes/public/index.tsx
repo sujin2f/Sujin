@@ -1,17 +1,25 @@
+/** app/scenes/public */
+
+// Controllers
 import GlobalController from 'app/controllers/global';
 
+// JSX
 import Header from 'app/components/layout/Header';
 import Footer from 'app/components/layout/Footer';
 
+// Wordpress
 const { Component } = wp.element;
 const { compose } = wp.compose;
 
 interface Props {
   // props
   className: string;
-  children: Array<JSX.Element>;
+  children: Array<JSX.Element> | JSX.Element;
 }
 
+/*
+ * Wrapper for the public pages
+ */
 class Public extends Component<Props> {
   constructor(public props: Props) {
     super(props);

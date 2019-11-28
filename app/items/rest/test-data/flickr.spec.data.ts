@@ -148,7 +148,7 @@ export const rawData = [
   rawData12,
 ];
 
-export const Flickrs = [
+export const response = [
   new Flickr(rawData01),
   new Flickr(rawData02),
   new Flickr(rawData03),

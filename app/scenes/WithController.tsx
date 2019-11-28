@@ -1,17 +1,23 @@
-import { IRestController } from 'app/controllers/rest/index.d';
+/**  app/scenes/WithController */
+
+// Controllers
+import { IRestController } from 'app/controllers/rest';
 import GlobalController from 'app/controllers/global';
 
-// pendingComponents
+// JSX
 import NotFound from 'app/scenes/public/NotFound';
 import Public from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
 
-// React
+// Wordpress
 const { Component, Fragment } = wp.element;
 
 interface Props {} // eslint-disable-line @typescript-eslint/no-empty-interface
 
-abstract class BaseControllerComponent extends Component {
+/*
+ * For React components which uses Controller
+ */
+export abstract class WithController extends Component {
   constructor(public props: Props) {
     super(props);
     this.getController = this.getController.bind(this);
@@ -56,5 +62,3 @@ abstract class BaseControllerComponent extends Component {
     return this.getController().request().promise;
   }
 }
-
-export default BaseControllerComponent;

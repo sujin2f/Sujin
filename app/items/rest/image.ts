@@ -1,7 +1,8 @@
-import RestItem from 'app/items/rest/index.d';
-import { Image as IImage } from 'app/items/rest/image.d';
+/** app/items/rest/image */
 
-export default class Image implements RestItem, IImage {
+import { IImage } from 'app/items/rest/interface/image';
+
+export default class Image implements IImage {
   /**
    * Large size image
    */

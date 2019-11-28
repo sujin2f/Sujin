@@ -1,17 +1,26 @@
+/**  app/controllers/rest */
+
 import axios from 'axios';
 
 import { HTTP_RESPONSE_NO_CONTENT } from 'app/constants/common';
 
-import RestItem from 'app/items/rest/index.d';
-import { IRestItemBuilder } from './index.d';
+import { IRestItem } from 'app/items/rest/interface';
+
+export interface IRestItemBuilder<T extends IRestItem> {
+  create(data: any): T; // eslint-disable-line @typescript-eslint/no-explicit-any
+}
+
+export interface IRestController {
+  [key: string]: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+}
 
 /*
- * Magic Classe to create RestController
- * Reference URL
-   https://stackoverflow.com/questions/40171533/typescript-call-static-method-of-generic-type
+ * RestController base class
+ *
+ * @param T Rest item need to be created from the response
+ * @ref   https://stackoverflow.com/questions/40171533/typescript-call-static-method-of-generic-type
  */
-
-export default class RestController<T extends RestItem> {
+export abstract class RestController<T extends IRestItem> implements IRestController {
   public loading = false;
   public failed = false;
   public init = false;
@@ -29,7 +38,7 @@ export default class RestController<T extends RestItem> {
   /*
    * REST request
    */
-  public request(): RestController<T> {
+  public request(): IRestController {
     if (this.init) {
       return this;
     }
@@ -57,7 +66,7 @@ export default class RestController<T extends RestItem> {
     return this;
   }
 
-  public addComponent(component: ReactComponent): RestController<T> {
+  public addComponent(component: ReactComponent): IRestController {
     this.components = [component];
     return this;
   }

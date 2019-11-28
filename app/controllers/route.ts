@@ -1,8 +1,4 @@
-/*
- * Route Controller
- *
- * Matched and history controller
- */
+/** app/controllers/route */
 
 import pathToRegexp from 'path-to-regexp';
 import { createBrowserHistory, History } from 'history';
@@ -10,9 +6,14 @@ import { createBrowserHistory, History } from 'history';
 import GlobalController from 'app/controllers/global';
 import MatchedItem, { IMatchedItem, emptyMatched } from 'app/items/matched';
 
-// TODO I don't want to add any react dependant modules
+// @todo I don't want to add any react dependant modules
 import { scrollTo } from 'app/utils/common';
 
+/*
+ * Route Controller
+ *
+ * Matched and history controller
+ */
 export default class RouteController {
   private static instance: RouteController;
   private readonly history: History = createBrowserHistory();

@@ -1,7 +1,8 @@
-import RestItem from 'app/items/rest/index.d';
-import { Background as IBackground } from 'app/items/rest/background.d';
+/** app/items/rest/background */
 
-export default class Background implements RestItem, IBackground {
+import { IBackground } from 'app/items/rest/interface/background';
+
+export default class Background implements IBackground {
   desktop: string;
   mobile: string;
   title: string;

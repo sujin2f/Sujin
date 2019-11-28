@@ -54,7 +54,7 @@ export const rawData = [
   rawData04,
 ];
 
-export const Menus = [
+export const response = [
   new Menu(rawData01),
   new Menu(rawData02),
   new Menu(rawData03),

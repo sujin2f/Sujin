@@ -1,16 +1,23 @@
-import { IRestController } from 'app/controllers/rest/index.d';
+/**  app/controllers/rest/background */
+
+// Controller
+import { RestController, IRestController } from 'app/controllers/rest';
+
+// Function
 import { isMobile } from 'app/utils/common';
 
+// Item
 import Background from 'app/items/rest/background';
-import RestController from 'app/controllers/rest';
+import { IBackground } from 'app/items/rest/interface/background';
 
+// Images
 import DEFAULT_BG from '../../../assets/images/background/backup-background.jpg';
 import DEFAULT_BG_MOBILE from '../../../assets/images/background/backup-background-mobile.jpg';
 
-export default class BackgroundController extends RestController<Background> implements IRestController {
+export default class BackgroundController extends RestController<IBackground> {
   public static instance: BackgroundController;
 
-  public static getInstance(): BackgroundController {
+  public static getInstance(): IRestController {
     if (!this.instance) {
       this.instance = new BackgroundController(Background);
     }
@@ -30,12 +37,12 @@ export default class BackgroundController extends RestController<Background> imp
     return isMobile() ? this.entities[index].mobile : this.entities[index].desktop;
   }
 
-  public addComponent(component: ReactComponent): BackgroundController {
+  public addComponent(component: ReactComponent): IRestController {
     super.addComponent(component);
     return this;
   }
 
-  public request(): BackgroundController {
+  public request(): IRestController {
     super.request();
     return this;
   }

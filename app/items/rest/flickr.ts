@@ -1,7 +1,8 @@
-import RestItem from './index.d';
-import { Flickr as IFlickr } from './flickr.d';
+/** app/items/rest/flickr */
 
-export default class Flickr implements RestItem, IFlickr {
+import { IFlickr } from 'app/items/rest/interface/flickr';
+
+export default class Flickr implements IFlickr {
   /**
    * The title of the photo.
    */

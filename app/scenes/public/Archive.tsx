@@ -1,21 +1,34 @@
-import { IRestController } from 'app/controllers/rest/index.d';
-import ArchiveController from 'app/controllers/rest/archive';
-import BaseControllerComponent from 'app/scenes/public/BaseControllerComponent';
+/** app/scenes/public/Archive */
 
+import { WithController } from 'app/scenes/WithController';
+
+// Controllers
+import { IRestController } from 'app/controllers/rest';
+import ArchiveController from 'app/controllers/rest/archive';
+
+// JSX
 import Public from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
 import Item from 'app/components/archive/Item';
 import Paging from 'app/components/archive/Paging';
 
+// Functions
 import { parseExImage } from 'app/utils/common';
 
+// Images
 import DEFAULT_BACKGROUND from '../../../assets/images/background/category.jpg';
 import DEFAULT_BACKGROUND_MOBILE from '../../../assets/images/background/category-mobile.jpg';
 
+// Wordpress
 const { Fragment } = wp.element;
 const { compose } = wp.compose;
 
-class Archive extends BaseControllerComponent {
+/*
+ * //domain.com/category/blog
+ * //domain.com/tag/blog
+ * //domain.com/search/blog
+ */
+class Archive extends WithController {
   getController(): IRestController {
     return ArchiveController.getInstance().addComponent(this);
   }

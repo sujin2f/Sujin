@@ -1,19 +1,30 @@
-import { IRestController } from 'app/controllers/rest/index.d';
-import PostController from 'app/controllers/rest/post';
-import BaseControllerComponent from 'app/scenes/public/BaseControllerComponent';
+/**  app/scenes/public/Page */
 
+import { WithController } from 'app/scenes/WithController';
+
+// Controllers
+import { IRestController } from 'app/controllers/rest';
+import PostController from 'app/controllers/rest/post';
+
+// JSX
 import Public from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
 import Content from 'app/components/single/Content';
 
+// Functions
 import { parseExImage } from 'app/utils/common';
 
+// Images
 import DEFAULT_BACKGROUND from '../../../assets/images/background/category.jpg';
 import DEFAULT_BACKGROUND_MOBILE from '../../../assets/images/background/category-mobile.jpg';
 
+// Wordpress
 const { compose } = wp.compose;
 
-class Page extends BaseControllerComponent {
+/*
+ * //domain.com/page
+ */
+class Page extends WithController {
   getController(): IRestController {
     return PostController.getInstance().addComponent(this);
   }

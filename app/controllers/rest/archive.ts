@@ -1,25 +1,31 @@
-/*
- * Archive Controller
- */
+/**  app/controllers/rest/archive */
 
 import hash from 'object-hash';
 
+// Enum & Const
 import { TermTypes } from 'app/constants/enum';
-import Post from 'app/items/rest/post';
-import RestController from 'app/controllers/rest';
-import PostController from 'app/controllers/rest/post';
-import RouteController from 'app/controllers/route';
-// Utiles
-import { isMobile } from 'app/utils/common';
-
 import { PAGE_OFFSET } from 'app/constants/common';
 
-import { IRestController, IRestItemBuilder } from './index.d';
+// Item
+import Post from 'app/items/rest/post';
+import { IPost } from 'app/items/rest/interface/post';
+
+// Controller
+import {
+  RestController,
+  IRestController,
+  IRestItemBuilder,
+} from 'app/controllers/rest';
+import PostController from 'app/controllers/rest/post';
+import RouteController from 'app/controllers/route';
+
+// Function
+import { isMobile } from 'app/utils/common';
 
 /*
  * Archive Controller
  */
-export default class ArchiveController extends RestController<Post> implements IRestController {
+export default class ArchiveController extends RestController<IPost> {
   public static instance: {
     [hash: string]: ArchiveController;
   } = {};
@@ -33,7 +39,7 @@ export default class ArchiveController extends RestController<Post> implements I
   private readonly pagingOffset: number = isMobile() ? 1 : PAGE_OFFSET;
   private totalPages: number;
 
-  protected constructor(itemBuilder: IRestItemBuilder<Post>) {
+  protected constructor(itemBuilder: IRestItemBuilder<IPost>) {
     super(itemBuilder);
     const matched = RouteController.getInstance().getMatched();
     this.type = matched.type;
@@ -44,7 +50,7 @@ export default class ArchiveController extends RestController<Post> implements I
   /*
    * Get multiton object
    */
-  public static getInstance(): ArchiveController {
+  public static getInstance(): IRestController {
     const matched = RouteController.getInstance().getMatched();
     const key = hash(matched);
 
@@ -85,12 +91,12 @@ export default class ArchiveController extends RestController<Post> implements I
     return entities;
   }
 
-  public addComponent(component: ReactComponent): ArchiveController {
+  public addComponent(component: ReactComponent): IRestController {
     super.addComponent(component);
     return this;
   }
 
-  public request(): ArchiveController {
+  public request(): IRestController {
     super.request();
     return this;
   }
@@ -102,7 +108,7 @@ export default class ArchiveController extends RestController<Post> implements I
   protected postResponse(response): void {
     this.entities = [];
     this.entities = response.data.items.map((item) => this.itemBuilder.create(item));
-    this.entities.map((entity: Post) => PostController.getInstance(entity.slug).setFromPost(entity));
+    this.entities.map((entity: IPost) => PostController.getInstance(entity.slug).setFromPost(entity));
 
     this.totalPages = parseInt(response.data.totalPages, 10) || 1;
     this.background = response.data.thumbnail;

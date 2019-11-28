@@ -1,7 +1,8 @@
-import RestItem from 'app/items/rest/index.d';
-import { Menu as IMenu } from 'app/items/rest/menu.d';
+/** app/items/rest/menu */
 
-export default class Menu implements RestItem, IMenu {
+import { IMenu } from 'app/items/rest/interface/menu';
+
+export default class Menu implements IMenu {
   /**
    * Unique ID of WP Post object
    */

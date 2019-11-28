@@ -1,13 +1,13 @@
-import RestItem from 'app/items/rest/index.d';
-import { Post as IPost } from 'app/items/rest/post.d';
+/** app/items/rest/post */
 
 import SimplePost from 'app/items/rest/simple-post';
-import { SimplePost as ISimplePost } from 'app/items/rest/simple-post.d';
-
 import Term from 'app/items/rest/term';
-import { Term as ITerm } from 'app/items/rest/term.d';
 
-export default class Post extends SimplePost implements RestItem, IPost {
+import { IPost } from 'app/items/rest/interface/post';
+import { ISimplePost } from 'app/items/rest/interface/simple-post';
+import { ITerm } from 'app/items/rest/interface/term';
+
+export default class Post extends SimplePost implements IPost {
   /**
    * Content
    */

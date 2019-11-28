@@ -1,10 +1,11 @@
-import RestItem from 'app/items/rest/index.d';
-import { SimplePost as ISimplePost } from 'app/items/rest/simple-post.d';
+/** app/items/rest/simple-post */
 
 import Image from 'app/items/rest/image';
-import { Image as IImage } from 'app/items/rest/image.d';
 
-export default class SimplePost implements RestItem, ISimplePost {
+import { ISimplePost } from 'app/items/rest/interface/simple-post';
+import { IImage } from 'app/items/rest/interface/image';
+
+export default class SimplePost implements ISimplePost {
   /**
    * Unique ID
    */

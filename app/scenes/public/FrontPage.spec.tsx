@@ -3,7 +3,7 @@ import MockAdapter from 'axios-mock-adapter';
 
 import { shallow } from 'enzyme';
 
-import { rawData, Backgrounds } from 'app/items/rest/samples/background.spec.data';
+import { rawData, response } from 'app/items/rest/test-data/background.spec.data';
 
 import FrontPage from './FrontPage';
 
@@ -17,8 +17,19 @@ it('app/scenes/public/FrontPage', async () => {
 
   await instance.request();
 
-  expect(controller.entities).toEqual(Backgrounds);
+  expect(controller.entities).toEqual(response);
 
   const backgroundImage = controller.getBackgroundImage();
-  expect([rawData[0].desktop, rawData[1].desktop]).toContain(backgroundImage);
+
+  expect([
+    rawData[0].desktop,
+    rawData[1].desktop,
+    rawData[2].desktop,
+    rawData[3].desktop,
+    rawData[4].desktop,
+    rawData[5].desktop,
+    rawData[6].desktop,
+    rawData[7].desktop,
+    rawData[8].desktop,
+  ]).toContain(backgroundImage);
 });
