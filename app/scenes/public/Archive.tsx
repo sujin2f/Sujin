@@ -6,7 +6,7 @@ import { WithController } from 'app/scenes/WithController';
 import { IRestController } from 'app/controllers/rest';
 import ArchiveController from 'app/controllers/rest/archive';
 
-// JSX
+// Components
 import Public from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
 import Item from 'app/components/archive/Item';

@@ -3,7 +3,7 @@
 // Controllers
 import GlobalController from 'app/controllers/global';
 
-// JSX
+// Components
 import Public from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
 

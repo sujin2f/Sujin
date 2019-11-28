@@ -6,7 +6,7 @@ import { WithController } from 'app/scenes/WithController';
 import { IRestController } from 'app/controllers/rest';
 import PostController from 'app/controllers/rest/post';
 
-// JSX
+// Components
 import Public from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
 import Content from 'app/components/single/Content';
@@ -14,7 +14,6 @@ import RecentPosts from 'app/components/single/RecentPosts';
 import RelatedPosts from 'app/components/single/RelatedPosts';
 import PrevNext from 'app/components/single/PrevNext';
 import NotFound from 'app/scenes/public/NotFound';
-
 
 // Functions
 import { parseExImage } from 'app/utils/common';

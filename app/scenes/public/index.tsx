@@ -3,7 +3,7 @@
 // Controllers
 import GlobalController from 'app/controllers/global';
 
-// JSX
+// Components
 import Header from 'app/components/layout/Header';
 import Footer from 'app/components/layout/Footer';
 

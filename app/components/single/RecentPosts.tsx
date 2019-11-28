@@ -1,15 +1,32 @@
+/** app/components/single/RecentPosts */
+
+import { WithController } from 'app/scenes/WithController';
+
+// Controller
+import { IRestController } from 'app/controllers/rest';
 import RecentPostController from 'app/controllers/rest/recent-post';
 
+// Item
+import { ISimplePost } from 'app/items/rest/interface/simple-post';
+
+// Components
 import Item from 'app/components/archive/Item';
 
+// Wordpress
 const { Component, Fragment } = wp.element;
 const { compose } = wp.compose;
 
-class RecentPosts extends Component {
+class RecentPosts extends WithController {
+  public getController(): IRestController {
+    return RecentPostController.getInstance().addComponent(this);
+  }
+
   render(): JSX.Element {
-    const posts = RecentPostController.getInstance().addComponent(this).request();
-    if (!posts.init || posts.loading || posts.failed) {
-      return null;
+    this.request();
+    const isPending = this.isPending();
+
+    if (isPending) {
+      return (<Fragment />);
     }
 
     return (
@@ -18,7 +35,7 @@ class RecentPosts extends Component {
           <h2 className="section-header"><span>Recent Posts</span></h2>
         </header>
 
-        {posts.entities.map((entity) => (
+        {posts.entities.map((entity: ISimplePost) => (
           <Item
             key={`recent-post-id-${entity.id}`}
             id={`post-id-${entity.id}`}
