@@ -1,17 +1,26 @@
-// Replace with CSS::hover
-import MenuController from 'app/controllers/rest/menu';
-import { default as MenuItem } from 'app/items/rest/menu';
+/** app/components/layout/Menu */
 
+import { WithController } from 'app/scenes/WithController';
+
+// Controller
+import { IRestController } from 'app/controllers/rest';
+import MenuController from 'app/controllers/rest/menu';
+
+// Item
+import { IMenu } from 'app/items/rest/interface/menu';
+
+// Components
 import Link from 'app/components/router/Link';
 
-const { Component } = wp.element;
+// Wordpress
 const { compose } = wp.compose;
+const { Fragment } = wp.element;
 
 interface Props {
   id: string;
   slug: string;
   className?: string;
-  menu: Array<MenuItem>;
+  menu: Array<IMenu>;
 }
 
 interface State {
@@ -20,7 +29,12 @@ interface State {
   };
 }
 
-class Menu extends Component<Props, State> {
+/*
+ * Menu and menu items
+ *
+ * @todo Replace with CSS::hover
+ */
+class Menu extends WithController {
   constructor(props: Props) {
     super(props);
     this.showChildren = this.showChildren.bind(this);
@@ -48,23 +62,33 @@ class Menu extends Component<Props, State> {
     }));
   }
 
+  public getController(): IRestController {
+    const slug = (this.props as Props).slug;
+    return MenuController.getInstance(this.props.slug).addComponent(this);
+  }
+
   render(): JSX.Element {
-    const menu = MenuController.getInstance(this.props.slug).addComponent(this).request();
-    if (!menu.init || menu.loading || menu.failed) {
-      return null;
+    this.request();
+    const isPending = this.isPending();
+
+    if (isPending) {
+      return (<Fragment />);
     }
+
+    const menu = this.getController();
 
     return (
       <nav
         id={this.props.id}
         className={`${this.props.className} ${this.props.slug} menu`}
       >
-        {menu.entities.map((item: MenuItem) => (
+        {menu.entities.map((item: IMenu) => (
           <div
             onMouseOver={(): void => this.showChildren(item.ID)}
             onMouseLeave={(): void => this.hideChildren(item.ID)}
             onFocus={(): void => this.showChildren(item.ID)}
             onBlur={(): void => this.hideChildren(item.ID)}
+            key={`menu-${item.ID}`}
           >
             <Link
               itemType="http://schema.org/SiteNavigationElement"
@@ -79,9 +103,9 @@ class Menu extends Component<Props, State> {
             {item.children.length > 0 && (
               <nav
                 id={`nav-child-${item.ID}`}
-                className={`children ${this.state.hover[item.ID] ? '' : 'hide'}`}
+                className={`children ${(this.state as State).hover[item.ID] ? '' : 'hide'}`}
               >
-                {item.children.map((childItem: MenuItem) => (
+                {item.children.map((childItem: IMenu) => (
                   <Link
                     target={childItem.target}
                     to={childItem.url}

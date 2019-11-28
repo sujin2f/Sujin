@@ -18,6 +18,6 @@ export default class FlickrController extends RestController<IFlickr> {
   }
 
   protected getRestUrl(): string {
-    return '/wp-json/sujin/v1/flickr/';
+    return '/wp-json/sujin/v1/flickr';
   }
 }

@@ -13,6 +13,8 @@ import Content from 'app/components/single/Content';
 import RecentPosts from 'app/components/single/RecentPosts';
 import RelatedPosts from 'app/components/single/RelatedPosts';
 import PrevNext from 'app/components/single/PrevNext';
+import NotFound from 'app/scenes/public/NotFound';
+
 
 // Functions
 import { parseExImage } from 'app/utils/common';
@@ -23,6 +25,7 @@ import DEFAULT_BACKGROUND_MOBILE from '../../../assets/images/background/categor
 
 // Wordpress
 const { compose } = wp.compose;
+const { Fragment } = wp.element;
 
 /*
  * //domain.com/2020/01/01/slug
@@ -34,10 +37,23 @@ class Post extends WithController {
 
   render(): JSX.Element {
     this.request();
-    const pendingComponent = this.getPendingComponent();
+    const isPending = this.isPending();
 
-    if (pendingComponent) {
-      return pendingComponent;
+    switch (isPending) {
+      case 'init':
+        return (
+          <Fragment />
+        );
+      case 'loading':
+        return (
+          <Public className="stretched-background hide-footer">
+            <PageHeader isLoading />
+          </Public>
+        );
+      case 'failed':
+        return (
+          <NotFound />
+        );
     }
 
     const post = this.getController();

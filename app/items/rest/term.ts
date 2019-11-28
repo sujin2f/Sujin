@@ -17,8 +17,8 @@ export default class Term implements ITerm {
   termId: number;
 
   constructor(data) {
-    this.termId = data.termId;
     this.name = data.name;
     this.slug = data.slug;
+    this.termId = data.termId;
   }
 }

@@ -11,6 +11,7 @@ import Public from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
 import Item from 'app/components/archive/Item';
 import Paging from 'app/components/archive/Paging';
+import NotFound from 'app/scenes/public/NotFound';
 
 // Functions
 import { parseExImage } from 'app/utils/common';
@@ -35,10 +36,23 @@ class Archive extends WithController {
 
   render(): JSX.Element {
     this.request();
-    const pendingComponent = this.getPendingComponent();
+    const isPending = this.isPending();
 
-    if (pendingComponent) {
-      return pendingComponent;
+    switch (isPending) {
+      case 'init':
+        return (
+          <Fragment />
+        );
+      case 'loading':
+        return (
+          <Public className="stretched-background hide-footer">
+            <PageHeader isLoading />
+          </Public>
+        );
+      case 'failed':
+        return (
+          <NotFound />
+        );
     }
 
     const archive = this.getController();

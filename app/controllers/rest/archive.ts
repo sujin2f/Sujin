@@ -93,16 +93,6 @@ export default class ArchiveController extends RestController<IArchive> {
     return entities;
   }
 
-  public addComponent(component: ReactComponent): IRestController {
-    super.addComponent(component);
-    return this;
-  }
-
-  public request(): IRestController {
-    super.request();
-    return this;
-  }
-
   protected getRestUrl(): string {
     return `/wp-json/sujin/v1/archive/${this.type}/${this.slug}/${this.page}`;
   }

@@ -431,7 +431,13 @@ export const rawData = {
     },
   ],
   slug: '%ea%b2%b0%ea%b5%ad%ec%9d%80-%ec%8b%a4%ed%8c%a8%ed%95%b4%eb%b2%84%eb%a6%b0-%ec%84%b1%ea%b3%b5%ed%9a%8c',
-  tags:[],
+  tags:[
+    {
+      name: 'Tag',
+      slug: 'tag',
+      termId: 1,
+    },
+  ],
   thumbnail: {
     large: 'http:\/\/sujinc.com\/wp-content\/uploads\/2015\/02\/Eye-Covering-Cat.jpg',
     medium: 'http:\/\/sujinc.com\/wp-content\/uploads\/2015\/02\/Eye-Covering-Cat-300x230.jpg',

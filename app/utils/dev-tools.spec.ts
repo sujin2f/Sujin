@@ -8,10 +8,8 @@ import {
   pathCase,
   snakeCase,
   titleCase,
-
-  // TODO
-  // sortText,
-  // symbolAlignment,
+  sortText,
+  symbolAlignment,
 } from './dev-tools';
 
 test('Case Tool', () => {
@@ -52,4 +50,54 @@ test('Case Tool', () => {
 
   const title = titleCase(preserved);
   expect(title).toEqual('Sed Ut Perspiciatis Unde Omnis Iste Natus Error Sit Voluptatem');
+});
+
+test('Text Sort', () => {
+  const text = [
+    'Lorem ipsum dolor sit amet,',
+    'consectetur adipiscing elit,',
+    'sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    'Ut enim ad minim veniam,',
+    'quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+    'Duis aute irure dolor in reprehenderit in voluptate velit',
+    'esse cillum dolore eu fugiat nulla pariatur.',
+    'Excepteur sint occaecat cupidatat non proident,',
+    'sunt in culpa qui officia deserunt mollit anim id est laborum.',
+  ].join('\n');
+
+  const actual = sortText(text, false)
+    .split('\n')
+    .map((line) => line.charAt(0))
+    .join('');
+
+  expect(actual).toEqual('DELUceqss');
+});
+
+test('Symbol Alignment', () => {
+  const text = [
+    'Lorem => amet,',
+    'consectetur => elit,',
+    'sed => aliqua.',
+    'Ut => veniam,',
+    'quis => consequat.',
+    'Duis => velit',
+    'esse => pariatur.',
+    'Excepteur => proident,',
+    'sunt => laborum.',
+  ].join('\n');
+
+  const actual = symbolAlignment(text, '=>')
+    .split('\n');
+
+  expect(actual).toEqual([
+    'Lorem       => amet,',
+    'consectetur => elit,',
+    'sed         => aliqua.',
+    'Ut          => veniam,',
+    'quis        => consequat.',
+    'Duis        => velit',
+    'esse        => pariatur.',
+    'Excepteur   => proident,',
+    'sunt        => laborum.',
+  ]);
 });
