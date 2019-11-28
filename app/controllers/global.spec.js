@@ -1,6 +1,8 @@
-// TODO move to scene
 import GlobalController from 'app/controllers/global';
-import ComponentMock from '../__mocks__/component.mock';
+
+const ComponentMock = {
+  forceUpdate: () => {},
+};
 
 /*
  * Data Provider for GlobalController.setMobileMenu()
@@ -20,7 +22,7 @@ describe.each(dataSetMobileMenu)(
     test(`GlobalController.setMobileMenu(${input})`, () => {
       const global = GlobalController.getInstance(ComponentMock);
 
-      global.setMobileMenu(input)
+      global.setMobileMenu(input);
       expect(global.mobileMenuClass).toBe(expected);
     });
   },
@@ -42,13 +44,13 @@ test('GlobalController.setTitle("Sujin")', () => {
  * @param string  Scrolled CSS class
  */
 const dataSetScroll = [
-  [300, 'scrolled'],
-  [0, ''],
+  [300],
+  [0],
 ];
 
 describe.each(dataSetScroll)(
   'GlobalController.setScroll()',
-  (input, expected) => {
+  (input) => {
     test(`GlobalController.setScroll(): ${input}`, () => {
       // Catching events
       const events = {};

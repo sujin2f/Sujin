@@ -8,7 +8,7 @@ import GlobalController from 'app/controllers/global';
 const { Component } = wp.element;
 
 interface Props {
-  [key: string]: any;
+  [key: string]: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 /*
@@ -18,12 +18,16 @@ export abstract class WithController extends Component {
   constructor(public props: Props) {
     super(props);
     this.getController = this.getController.bind(this);
-    this.isPending = this.isPending.bind(this);
     this.setTitle = this.setTitle.bind(this);
+    this.isPending = this.isPending.bind(this);
     this.request = this.request.bind(this);
   }
 
   public abstract getController(): IRestController;
+
+  public setTitle(title: string): void {
+    GlobalController.getInstance().setTitle(title);
+  }
 
   public isPending(): string|null {
     const controller = this.getController();
@@ -41,10 +45,6 @@ export abstract class WithController extends Component {
     }
 
     return null;
-  }
-
-  public setTitle(title: string): void {
-    GlobalController.getInstance().setTitle(title);
   }
 
   public async request(): Promise<void> {
