@@ -23,7 +23,13 @@ jobs:
       with:
         php-version: '7.3'
         extension-csv: intl
-        coverage: coveralls
+        coverage: xdebug
+
+    - name: Start MySQL
+      uses: samin/mysql-action@v1.3
+      with:
+        # MYSQL_ROOT_PASSWORD - root superuser password
+       mysql root password: password
 
     - name: Validate composer.json and composer.lock
       run: composer validate
