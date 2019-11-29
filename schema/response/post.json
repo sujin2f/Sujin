@@ -13,22 +13,9 @@
           "type": "string",
           "readonly": true
         },
-        "excerpt": {
-          "description": "Excerpt",
-          "type": "string",
-          "readonly": true
-        },
         "commentStatus": {
           "description": "Comment status",
           "type": "boolean",
-          "readonly": true
-        },
-        "tags": {
-          "description": "Tags",
-          "type": "array",
-          "items": {
-            "$ref": "term.json"
-          },
           "readonly": true
         },
         "series": {

@@ -14,6 +14,16 @@
       "type": "string",
       "readonly": true
     },
+    "title": {
+      "description": "Title",
+      "type": "string",
+      "readonly": true
+    },
+    "excerpt": {
+      "description": "Excerpt",
+      "type": "string",
+      "readonly": true
+    },
     "date": {
       "description": "Date",
       "type": "string",
@@ -26,10 +36,16 @@
       "format": "uri",
       "readonly": true
     },
-    "title": {
-      "description": "Title",
-      "type": "string",
+    "tags": {
+      "description": "Tags",
+      "type": "array",
+      "items": {
+        "$ref": "term.json"
+      },
       "readonly": true
+    },
+    "thumbnail": {
+      "$ref": "image.json"
     },
     "meta": {
       "description": "Meta data",
@@ -60,9 +76,6 @@
       },
       "readonly": true,
       "additionalProperties":false
-    },
-    "thumbnail": {
-      "$ref": "image.json"
     }
   },
   "required": ["id", "slug", "date", "link", "title"],
