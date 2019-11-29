@@ -31,11 +31,12 @@ export default class Archive implements IArchive {
   items?: IPost[];
 
   constructor(data) {
-    this.name = data.name;
-    this.description = data.description;
+    this.name = decodeURIComponent(data.name) || '';
+    this.description = decodeURIComponent(data.description) || '';
     this.thumbnail = new Image(data.thumbnail);
     this.total = data.total;
-    this.totalPages = data.totalPages;
+    this.totalPages = parseInt(data.totalPages, 10) || 1;
+
     this.items = data.items.map((post) => new Post(post));
   }
 

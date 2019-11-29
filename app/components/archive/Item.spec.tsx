@@ -1,28 +1,20 @@
-/** app/components/layout/Menu.spec */
+/** app/components/archive/Item.spec */
 
-/*
 // Modules
-import axios from 'axios';
-import MockAdapter from 'axios-mock-adapter';
 import { shallow } from 'enzyme';
 
 // Component
-import Menu from 'app/components/layout/Menu';
+import Item from 'app/components/archive/Item';
 
 // Test Data
-import { rawData, response } from 'app/items/rest/test-data/menu.spec.data';
+import { response } from 'app/items/rest/test-data/post.spec.data';
 
-// Mock
-const mock = new MockAdapter(axios);
-mock.onGet('/wp-json/sujin/v1/menu/main-menu').reply(200, rawData);
+it('app/components/archive/Item', () => {
+  const wrapper = shallow(<Item item={response.related[0]} />);
 
-it('app/components/layout/Menu', async () => {
-  const wrapper = shallow(<Menu slug="main-menu" />);
-  const instance = wrapper.instance();
-  const controller = instance.getController();
+  expect(wrapper.find('.day').exists()).toEqual(true);
+  expect(wrapper.find('.month').exists()).toEqual(true);
+  expect(wrapper.find('.year').exists()).toEqual(true);
 
-  await instance.request();
-
-  expect(controller.entities).toEqual(response);
+  expect(wrapper.find('.description').exists()).toEqual(true);
 });
-*/

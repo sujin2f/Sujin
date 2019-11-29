@@ -42,6 +42,10 @@ export default class PostController extends RestController<IPost> {
    * Post can be made from archive
    */
   public setFromPost(post: IPost): void {
+    if (this.entity) {
+      return;
+    }
+
     this.init = true;
     this.entity = post;
   }

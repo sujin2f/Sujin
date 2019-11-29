@@ -18,7 +18,7 @@ if ( ! function_exists( 'register_block_type' ) ) {
 }
 
 if ( ! defined( 'SUJIN_DEV_MODE' ) ) {
-	define( 'SUJIN_DEV_MODE', true );
+	define( 'SUJIN_DEV_MODE', false );
 }
 
 include_once( get_stylesheet_directory() . '/autoload.php' );

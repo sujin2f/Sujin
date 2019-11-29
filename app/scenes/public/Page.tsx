@@ -6,6 +6,9 @@ import { WithController } from 'app/scenes/WithController';
 import { IRestController } from 'app/controllers/rest';
 import PostController from 'app/controllers/rest/post';
 
+// Items
+import { IPost } from 'app/items/rest/interface/post';
+
 // Components
 import Public from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
@@ -50,16 +53,25 @@ class Page extends WithController {
         return (
           <NotFound />
         );
+      default:
+        break;
     }
 
-    const post = this.getController();
+    const post: IPost = this.getController().entity;
 
-    this.setTitle(post.entity.title);
+    const {
+      title,
+      excerpt,
+      thumbnail,
+      meta,
+    } = post;
+
+    this.setTitle(title);
 
     const backgroundImage =
       parseExImage(
-        post.entity.meta.background,
-        post.entity.thumbnail,
+        meta.background,
+        thumbnail,
         'large',
         'medium',
         DEFAULT_BACKGROUND,
@@ -70,12 +82,12 @@ class Page extends WithController {
       <Public className="template-single">
         <PageHeader
           backgroundImage={backgroundImage}
-          title={post.entity.title}
-          description={post.entity.excerpt}
+          title={title}
+          description={excerpt}
         />
 
         <section className="row">
-          <Content post={post.entity} className="medium-12" />
+          <Content post={post} className="medium-12" />
         </section>
       </Public>
     );

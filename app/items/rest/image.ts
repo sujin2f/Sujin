@@ -21,6 +21,14 @@ export default class Image implements IImage {
   tiny?: string;
 
   constructor(data) {
+    if (!data) {
+      this.large = '';
+      this.medium = '';
+      this.small = '';
+      this.tiny = '';
+      return;
+    }
+
     this.large = data.large;
     this.medium = data.medium;
     this.small = data.small;

@@ -1,11 +1,9 @@
 /** app/items/rest/post */
 
 import SimplePost from 'app/items/rest/simple-post';
-import Term from 'app/items/rest/term';
 
 import { IPost } from 'app/items/rest/interface/post';
 import { ISimplePost } from 'app/items/rest/interface/simple-post';
-import { ITerm } from 'app/items/rest/interface/term';
 
 export default class Post extends SimplePost implements IPost {
   /**
@@ -44,8 +42,8 @@ export default class Post extends SimplePost implements IPost {
 
     this.series = data.series.map((simple) => new SimplePost(simple));
     this.prevNext = {
-      prev: new SimplePost(data.prevNext.prev),
-      next: new SimplePost(data.prevNext.next),
+      prev: data.prevNext.prev ? new SimplePost(data.prevNext.prev) : null,
+      next: data.prevNext.next ? new SimplePost(data.prevNext.next) : null,
     };
     this.related = data.related.map((simple) => new SimplePost(simple));
 

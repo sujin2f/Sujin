@@ -56,6 +56,7 @@ export default class SimplePost implements ISimplePost {
     this.link = data.link;
     this.title = decodeURIComponent(data.title);
     this.date = data.date;
+
     this.meta = {
       background: new Image(data.meta.background),
       icon: new Image(data.meta.icon),

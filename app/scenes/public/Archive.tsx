@@ -13,6 +13,9 @@ import Item from 'app/components/archive/Item';
 import Paging from 'app/components/archive/Paging';
 import NotFound from 'app/scenes/public/NotFound';
 
+// Items
+import { ISimplePost } from 'app/items/rest/interface/simple-post';
+
 // Functions
 import { parseExImage } from 'app/utils/common';
 
@@ -53,16 +56,29 @@ class Archive extends WithController {
         return (
           <NotFound />
         );
+      default:
+        break;
     }
 
     const archive = this.getController();
+    const {
+      type,
+      slug,
+      entity: {
+        title,
+        description,
+        thumbnail,
+        items,
+        page,
+      },
+    } = archive;
 
-    this.setTitle(`${archive.type}: ${archive.title}`);
+    this.setTitle(`${type}: ${title}`);
 
     const backgroundImage =
       parseExImage(
-        archive.background,
-        archive.background,
+        thumbnail,
+        thumbnail,
         'large',
         'medium',
         DEFAULT_BACKGROUND,
@@ -73,23 +89,23 @@ class Archive extends WithController {
       <Public className="template-archive">
         <PageHeader
           backgroundImage={backgroundImage}
-          prefix={archive.type}
-          title={archive.title}
-          description={archive.description.replace(/\+/g, ' ')}
+          prefix={type}
+          title={title}
+          description={description.replace(/\+/g, ' ')}
         />
 
-        {archive.entities && archive.entities.length > 0 && (
+        {items && items.length > 0 && (
           <Fragment>
             <section className="row post-grid">
-              {archive.entities.map((item) => (
-                <Item item={item} key={`${archive.type}-${archive.slug}-${archive.page}-${item.id}`} />
+              {items.map((item: ISimplePost) => (
+                <Item item={item} key={`${type}-${slug}-${page}-${item.id}`} />
               ))}
             </section>
 
             <Paging
               entities={archive.getPaging()}
-              currentPage={archive.page}
-              urlPrefix={`/${archive.type}/${archive.slug}`}
+              currentPage={page}
+              urlPrefix={`/${type}/${slug}`}
             />
           </Fragment>
         )}

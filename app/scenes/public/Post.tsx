@@ -6,6 +6,9 @@ import { WithController } from 'app/scenes/WithController';
 import { IRestController } from 'app/controllers/rest';
 import PostController from 'app/controllers/rest/post';
 
+// Items
+import { IPost } from 'app/items/rest/interface/post';
+
 // Components
 import Public from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
@@ -53,16 +56,27 @@ class Post extends WithController {
         return (
           <NotFound />
         );
+      default:
+        break;
     }
 
-    const post = this.getController();
+    const post: IPost = this.getController().entity;
 
-    this.setTitle(post.entity.title);
+    const {
+      title,
+      excerpt,
+      thumbnail,
+      meta,
+      prevNext,
+      related,
+    } = post;
+
+    this.setTitle(post.title);
 
     const backgroundImage =
       parseExImage(
-        post.entity.meta.background,
-        post.entity.thumbnail,
+        meta.background,
+        thumbnail,
         'large',
         'medium',
         DEFAULT_BACKGROUND,
@@ -73,19 +87,19 @@ class Post extends WithController {
       <Public className="template-single">
         <PageHeader
           backgroundImage={backgroundImage}
-          title={post.entity.title}
-          description={post.entity.excerpt}
-          backgroundColor={post.entity.meta.backgroundColor}
-          useBackgroundColor={post.entity.meta.useBackgroundColor}
+          title={title}
+          description={excerpt}
+          backgroundColor={meta.backgroundColor}
+          useBackgroundColor={meta.useBackgroundColor}
         />
 
         <section className="row">
-          <Content post={post.entity} className="large-9 medium-12">
+          <Content post={post} className="large-9 medium-12">
             <aside id="single-footer">
-              <PrevNext prevNext={post.entity.prevNext} />
+              <PrevNext prevNext={prevNext} />
 
               <section id="related-posts">
-                <RelatedPosts items={post.entity.related} />
+                <RelatedPosts items={related} />
               </section>
             </aside>
           </Content>

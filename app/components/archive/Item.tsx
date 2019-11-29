@@ -1,7 +1,6 @@
 /** app/components/archive/Item */
 
 // Items
-import { IImage } from 'app/items/rest/interface/image';
 import { ISimplePost } from 'app/items/rest/interface/simple-post';
 
 // Components
@@ -21,7 +20,7 @@ const { Component } = wp.element;
 interface Props {
   item: ISimplePost;
   columns?: string;
-  thumbnail?: {
+  thumbnailKey?: {
     desktop?: string;
     mobile?: string;
   };
@@ -33,19 +32,27 @@ interface Props {
  * @todo Refactor parseExImage()
  */
 class Item extends Component<Props> {
-  render() {
+  render(): JSX.Element {
     const {
-      item,
+      item: {
+        title,
+        thumbnail,
+        link,
+        date,
+        meta,
+        excerpt,
+        tags,
+      },
       columns,
-      thumbnail = {},
+      thumbnailKey = {},
     } = this.props;
 
     const backgroundImage =
       parseExImage(
-        item.meta.list,
-        item.thumbnail,
-        thumbnail.desktop || 'medium',
-        thumbnail.mobile || 'small',
+        meta.list,
+        thumbnail,
+        thumbnailKey.desktop || 'medium',
+        thumbnailKey.mobile || 'small',
         DEFAULT_BACKGROUND,
         DEFAULT_BACKGROUND,
       );
@@ -55,13 +62,13 @@ class Item extends Component<Props> {
     return (
       <div className={`columns ${className}`}>
         <figure className="thumbnail" itemType="http://schema.org/ImageObject">
-          <Link to={item.link} rel="noopener noreferrer" title={item.title}>
+          <Link to={link} rel="noopener noreferrer" title={title}>
             <div className="zoom-icon" />
             <div className="inner-shadow" />
-            <time dateTime={new Date(item.date)}>
-              <span className="day">{item.parseDate().day}</span>
-              <span className="month">{item.parseDate().month}</span>
-              <span className="year">{item.parseDate().year}</span>
+            <time dateTime={new Date(date).toString()}>
+              <span className="day">{this.props.item.parseDate().day}</span>
+              <span className="month">{this.props.item.parseDate().month}</span>
+              <span className="year">{this.props.item.parseDate().year}</span>
             </time>
             <div
               style={{ backgroundImage: `url('${backgroundImage}')` }}
@@ -72,20 +79,20 @@ class Item extends Component<Props> {
 
         <h2 itemProp="headline">
           <Link
-            to={item.link}
+            to={link}
             rel="noopener noreferrer"
-            title={item.title}
-            dangerouslySetInnerHTML={{ __html: item.title }}
+            title={title}
+            dangerouslySetInnerHTML={{ __html: title }}
           />
         </h2>
 
         <div
           itemProp="description"
           className="description"
-          dangerouslySetInnerHTML={{ __html: item.excerpt }}
+          dangerouslySetInnerHTML={{ __html: excerpt }}
         />
 
-        <Tags tags={item.tags} />
+        <Tags tags={tags} />
       </div>
     );
   }

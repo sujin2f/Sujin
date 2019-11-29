@@ -63,8 +63,8 @@ class Menu extends WithController {
   }
 
   public getController(): IRestController {
-    const slug = (this.props as Props).slug;
-    return MenuController.getInstance(this.props.slug).addComponent(this);
+    const { slug } = this.props;
+    return MenuController.getInstance(slug).addComponent(this);
   }
 
   render(): JSX.Element {

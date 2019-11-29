@@ -13,7 +13,7 @@ import { ISimplePost } from 'app/items/rest/interface/simple-post';
 import Item from 'app/components/archive/Item';
 
 // Wordpress
-const { Component, Fragment } = wp.element;
+const { Fragment } = wp.element;
 const { compose } = wp.compose;
 
 class RecentPosts extends WithController {
@@ -29,19 +29,26 @@ class RecentPosts extends WithController {
       return (<Fragment />);
     }
 
+    const archive = this.getController();
+    const {
+      entity: {
+        id,
+        items,
+      },
+    } = archive;
+
     return (
       <Fragment>
         <header>
           <h2 className="section-header"><span>Recent Posts</span></h2>
         </header>
 
-        {posts.entities.map((entity: ISimplePost) => (
+        {items.map((item: ISimplePost) => (
           <Item
-            key={`recent-post-id-${entity.id}`}
-            id={`post-id-${entity.id}`}
+            key={`recent-post-id-${id}`}
             columns="large-12 medium-12 small-12"
-            item={entity}
-            thumbnail={{ desktop: 'small', mobile: 'small' }}
+            item={item}
+            thumbnailKey={{ desktop: 'small', mobile: 'small' }}
           />
         ))}
       </Fragment>
