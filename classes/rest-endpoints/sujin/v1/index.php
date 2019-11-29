@@ -1,5 +1,5 @@
 <?php
-namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints;
+namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin;
 
 use Sujin\Wordpress\Theme\Sujin\Helpers\Schema\Response_Schema;
 

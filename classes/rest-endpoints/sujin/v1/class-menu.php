@@ -13,7 +13,7 @@ use Sujin\Wordpress\Theme\Sujin\Helpers\{
 	Transient,
 	Singleton,
 };
-use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\V1;
+use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1;
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items\Menu as Menu_Item;
 
 // phpcs:disable Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed

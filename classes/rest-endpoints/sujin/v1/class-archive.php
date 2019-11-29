@@ -6,7 +6,7 @@ use Sujin\Wordpress\Theme\Sujin\Helpers\{
 	Singleton,
 };
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\{
-	V1,
+	Sujin\V1,
 	Items\Archive as Archive_Item,
 	Items\Post as Post_Item,
 };
