@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "$id": "http://sujinc.com/simple.json",
+  "title": "simple",
+  "type": "object",
+  "properties": {
+    "title": {
+      "description": "Title.",
+      "type": "string",
+      "readonly": true
+    },
+    "url": {
+      "description": "URL",
+      "type": "string",
+      "format": "uri",
+      "readonly": true
+    },
+    "number": {
+      "description": "Number",
+      "type": "number",
+      "readonly": true
+    },
+    "object": {
+      "description": "Object",
+      "type": "object",
+      "properties": {
+        "child": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "readonly": true,
+      "additionalProperties": false,
+      "required": ["child"]
+    }
+  },
+  "additionalProperties": false,
+  "required": ["title", "url", "object"]
+}

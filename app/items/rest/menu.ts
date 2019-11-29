@@ -1,23 +1,48 @@
-import { RestItem } from 'app/types/rest/base';
+/** app/items/rest/menu */
 
-export default class Menu implements RestItem {
+import { IMenu } from 'app/items/rest/interface/menu';
+
+export default class Menu implements IMenu {
+  /**
+   * Unique ID of WP Post object
+   */
   ID: number;
-  children: Array<Menu>;
-  classes: Array<string>;
-  target: string;
+  /**
+   * The title of the menu item.
+   */
   title: string;
+  /**
+   * Link URL
+   */
   url: string;
+  /**
+   * Link target HTML attribute
+   */
+  target: '_blank' | '_self';
+  /**
+   * Parent ID
+   */
+  parent?: number;
+  /**
+   * HTML class attributes
+   */
+  classes?: string[];
+  /**
+   * Child menu items
+   */
+  children?: IMenu[];
 
   constructor(data) {
     this.ID = data.ID;
-    this.children = data.children;
-    this.classes = data.classes;
-    this.target = data.target;
     this.title = data.title;
     this.url = data.url;
+    this.target = data.target;
+    this.parent = data.parent;
+    this.children = data.children.map((child) => new Menu(child));
+    this.classes = data.classes;
   }
 
-  static create(data): Menu {
+  static create(data): IMenu {
     return new Menu(data);
   }
 }

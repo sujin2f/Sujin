@@ -13,7 +13,7 @@ use WP_Term;
 
 // phpcs:disable WordPress.NamingConventions.ValidVariableName.MemberNotSnakeCase
 // phpcs:disable WordPress.NamingConventions.ValidVariableName.NotSnakeCaseMemberVar
-final class Tag extends Abstract_Rest_Item_Base {
+final class Tag extends Abstract_Rest_Item {
 	public $name;
 	public $slug;
 	public $termId;
@@ -24,7 +24,7 @@ final class Tag extends Abstract_Rest_Item_Base {
 	public function __construct( WP_Term $term ) {
 		$this->name   = $term->name;
 		$this->slug   = $term->slug;
-		$this->termId = $term->termId;
+		$this->termId = $term->term_id;
 	}
 }
 // phpcs:enable

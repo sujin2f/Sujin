@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "$id": "http://sujinc.com/reference.json",
+  "title": "reference",
+  "type": "object",
+  "properties": {
+    "object": {
+      "description": "Object",
+      "type": "object",
+      "properties": {
+        "child" : {
+          "$ref": "simple.json"
+        }
+      },
+      "readonly": true,
+      "additionalProperties": false,
+      "required": ["child"]
+    }
+  },
+  "additionalProperties": false,
+  "required": ["object"]
+}

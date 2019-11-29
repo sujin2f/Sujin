@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "post",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "simple-post.json"
+    },
+    {
+      "properties": {
+        "content": {
+          "description": "Content",
+          "type": "string",
+          "readonly": true
+        },
+        "commentStatus": {
+          "description": "Comment status",
+          "type": "boolean",
+          "readonly": true
+        },
+        "series": {
+          "description": "Series",
+          "type": "array",
+          "items": {
+            "$ref": "simple-post.json"
+          },
+          "readonly": true
+        },
+        "prevNext": {
+          "description": "Prev / Next",
+          "type": "object",
+          "properties": {
+            "prev": {
+              "$ref": "simple-post.json"
+            },
+            "next": {
+              "$ref": "simple-post.json"
+            }
+          },
+          "additionalProperties":false,
+          "readonly": true
+        },
+        "related": {
+          "description": "Related contents",
+          "type": "array",
+          "items": {
+            "$ref": "simple-post.json"
+          },
+          "readonly": true
+        },
+        "type": {
+          "description": "Post Type",
+          "type": "string",
+          "enum": [
+            "post",
+            "page"
+          ],
+          "readonly": true
+        }
+      },
+      "required": ["ID", "title", "url", "target", "parent"],
+      "additionalProperties":false
+    }
+  ]
+}

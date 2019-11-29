@@ -30,6 +30,11 @@ $ docker build -f Dockerfile.dev -t sujin2f/wordpress:latest .
 # Activate docker containers
 $ cd ./.configs/docker/
 $ docker-compose -f ./docker-compose.infrastructure.yml -f ./docker-compose.yml up -d
+
+# Install json-schema-to-typescript globally
+$ npm i -G json-schema-to-typescript
+# Create TS interfaces from schema
+$ npm run schema:build
 ```
 
 ### NPM scripts

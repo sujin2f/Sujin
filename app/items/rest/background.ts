@@ -1,6 +1,8 @@
-import { RestItem } from 'app/types/rest/base';
+/** app/items/rest/background */
 
-export default class Background implements RestItem {
+import { IBackground } from 'app/items/rest/interface/background';
+
+export default class Background implements IBackground {
   desktop: string;
   mobile: string;
   title: string;
@@ -11,7 +13,7 @@ export default class Background implements RestItem {
     this.title = data.title;
   }
 
-  static create(data): Background {
+  static create(data): IBackground {
     return new Background(data);
   }
 }

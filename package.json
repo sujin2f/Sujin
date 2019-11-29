@@ -3,15 +3,20 @@
   "version": "9.0.0",
   "description": "Make mobile apps, web, and desktop apps with one React code",
   "scripts": {
-    "bundle-analyzer": "npm run run:stats && npm run run:bundle-analyzer",
-    "start": "cross-env BABEL_ENV=default webpack --watch",
+    "arson": "npm run test && npm run lint && npm run phpunit && npm run phpcs",
     "build": "cross-env BABEL_ENV=default webpack",
-    "test": "jest --coverage",
+    "bundle-analyzer": "npm run run:stats && npm run run:bundle-analyzer",
+    "lint": "eslint app/**/*.ts app/**/*.tsx app/**/*.js app/**/*.jsx",
+    "phpcbf": "vendor/bin/phpcbf --standard=./.configs/phpcs.xml -s && true",
+    "phpcs": "vendor/bin/phpcs --standard=./.configs/phpcs.xml -s",
+    "phpdoc": "vendor/bin/phpdoc -d ./classes -t ./logs/phpdoc",
+    "phpunit": "vendor/bin/phpunit -c ./.configs/phpunit/phpunit.xml",
     "run:bundle-analyzer": "NODE_ENV=production webpack-bundle-analyzer logs/stats.json",
     "run:stats": "NODE_ENV=production webpack --profile --json > logs/stats.json",
-    "phpunit": "vendor/bin/phpunit -c ./.configs/phptests/phpunit.xml",
-    "phpcs": "vendor/bin/phpcs --standard=./.configs/phptests/phpcs.xml -s",
-    "arson": "npm run test && npm run phpunit && npm run phpcs"
+    "schema:build": "./scripts/build-schema.sh",
+    "start": "cross-env BABEL_ENV=default webpack --watch",
+    "test": "jest --coverage",
+    "test:dev": "jest"
   },
   "author": {
     "email": "sujin.2f@google.com",
@@ -41,8 +46,6 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.6.0",
     "@babel/register": "^7.4.4",
-    "@testing-library/jest-dom": "^4.1.0",
-    "@testing-library/react": "^8.0.1",
     "@types/jest": "^24.0.18",
     "@types/react": "^16.9.5",
     "@types/react-dom": "^16.9.1",
@@ -66,11 +69,14 @@
     "compression-webpack-plugin": "^2.0.0",
     "cross-env": "^5.0.1",
     "css-loader": "^2.0.1",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.15.1",
     "eslint": "^6.5.1",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-import-resolver-webpack": "^0.11.1",
     "eslint-loader": "^2.1.2",
     "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-jest": "^23.0.4",
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.13.0",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
@@ -114,7 +120,7 @@
     "verbose": true,
     "moduleNameMapper": {
       "app/(.*)": "<rootDir>/app/$1",
-      "\\.(jpg|jpeg|png|gif|svg|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tests/jest/__mocks__/fileMock.js"
+      "\\.(jpg|jpeg|png|gif|svg|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/.configs/jest/__mocks__/fileMock.js"
     },
     "moduleFileExtensions": [
       "js",
@@ -132,7 +138,8 @@
       "wp": {}
     },
     "collectCoverageFrom": [
-      "app/**"
+      "app/**",
+      "!app/**/*.spec.*"
     ],
     "collectCoverage": true,
     "coverageDirectory": "<rootDir>/logs",
@@ -144,7 +151,7 @@
       "/vendor/"
     ],
     "setupFiles": [
-      "<rootDir>/tests/jest/global.js"
+      "<rootDir>/.configs/jest/global.js"
     ],
     "transform": {
       "^.+\\.jsx?$": "babel-jest",
@@ -160,7 +167,8 @@
     "env": {
       "browser": false,
       "es6": true,
-      "node": true
+      "node": true,
+      "jest/globals": true
     },
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -179,7 +187,8 @@
       "react",
       "jsx-a11y",
       "import",
-      "@typescript-eslint"
+      "@typescript-eslint",
+      "jest"
     ],
     "settings": {
       "import/parsers": {
@@ -256,7 +265,9 @@
       "lines-between-class-members": "off",
       "import/no-cycle": "off",
       "@typescript-eslint/no-inferrable-types": "off",
-      "import/no-named-default": "off"
+      "import/no-named-default": "off",
+      "@typescript-eslint/interface-name-prefix": "off",
+      "import/prefer-default-export": "off"
     },
     "overrides": [
       {

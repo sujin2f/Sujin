@@ -95,7 +95,7 @@ class Flickr extends Abs_Rest_Base {
 		$items = array_slice( $items, 0, 12 );
 
 		$transient = new Transient( $items, self::CACHE_TTL );
-		set_transient( $this->get_transient_key(), wp_json_encode( $transient ) );
+		$transient->set_transient( $this->get_transient_key() );
 
 		return rest_ensure_response( $items );
 	}

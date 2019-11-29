@@ -1,20 +1,28 @@
+/**  app/controllers/rest/post */
+
+// Controller
+import {
+  RestController,
+  IRestController,
+  IRestItemBuilder,
+} from 'app/controllers/rest';
+import RouteController from 'app/controllers/route';
+
+// Item
+import Post from 'app/items/rest/post';
+import { IPost } from 'app/items/rest/interface/post';
+
 /*
  * Post Controller
  */
-
-import { RestItemBuilder } from 'app/types/rest/base';
-import RestController from 'app/controllers/rest/base';
-import Post from 'app/items/rest/post';
-import RouteController from 'app/controllers/route';
-
-export default class PostController extends RestController<Post> {
+export default class PostController extends RestController<IPost> {
   public static instance: {
     [hash: string]: PostController;
   } = {};
 
   private readonly slug: string;
 
-  protected constructor(itemBuilder: RestItemBuilder<Post>, slug: string) {
+  protected constructor(itemBuilder: IRestItemBuilder<IPost>, slug: string) {
     super(itemBuilder);
     this.slug = slug;
   }
@@ -22,9 +30,8 @@ export default class PostController extends RestController<Post> {
   /*
    * Get multiton object
    */
-  public static getInstance(slug?: string): PostController {
+  public static getInstance(slug?: string): IRestController {
     const postSlug = slug || RouteController.getInstance().getMatched().slug;
-
     if (!PostController.instance[postSlug]) {
       PostController.instance[postSlug] = new PostController(Post, postSlug);
     }
@@ -34,7 +41,11 @@ export default class PostController extends RestController<Post> {
   /*
    * Post can be made from archive
    */
-  public setFromPost(post: Post): void {
+  public setFromPost(post: IPost): void {
+    if (this.entity) {
+      return;
+    }
+
     this.init = true;
     this.entity = post;
   }

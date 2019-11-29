@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "$id": "http://sujinc.com/recursive-reference.json",
+  "title": "recursive reference",
+  "type": "object",
+  "properties": {
+    "strings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "children": {
+      "type": "array",
+      "items": {
+        "$ref": "#"
+      }
+    }
+  },
+  "additionalProperties": false
+}

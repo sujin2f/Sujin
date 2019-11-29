@@ -8,7 +8,7 @@ import {
   setCSS,
   setFiles,
   setAnalyzer,
-} from './.configs/webpack/webpack.config.parts';
+} from './.configs/webpack.config.parts';
 
 const dist = path.resolve(__dirname, 'dist');
 

@@ -1,6 +1,8 @@
 <?php
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints;
 
+use Sujin\Wordpress\Theme\Sujin\Helpers\Schema\Response_Schema;
+
 // phpcs:disable Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
 use WP_REST_Controller,
     WP_REST_Response,
@@ -86,44 +88,22 @@ abstract class Abs_Rest_Base extends WP_REST_Controller {
 
 	protected function delete_transient_keys(): void {
 		delete_option( 'transient-group-' . $this->get_transient_key() );
-
-	}
-
-
-	// Response
-	public function prepare_item_for_response( $item, $request ): WP_REST_Response {
-		$this->request = $request;
-		$item          = array_filter( $item, array( $this, 'filter_schema' ), ARRAY_FILTER_USE_KEY );
-		return rest_ensure_response( $item );
-	}
-
-	public function filter_schema( string $key ): bool {
-		$fields = $this->get_fields_for_response( null );
-		return in_array( $key, $fields, true );
-	}
-
-	public function prepare_response_for_collection( $response ): array {
-		if ( ! ( $response instanceof WP_REST_Response ) ) {
-			return $response;
-		}
-
-		return (array) $response->get_data();
 	}
 
 	public function get_item_schema() {
-		$schema = '';
+		$schema_name = '';
 
 		if ( static::ITEM_NAME ) {
-			$schema = static::ITEM_NAME;
+			$schema_name = static::ITEM_NAME;
 		} else {
 			$called_class = explode( '\\', get_called_class() );
-			$schema       = strtolower( array_pop( $called_class ) );
+			$schema_name  = strtolower( array_pop( $called_class ) );
 		}
 
-		if ( ! $schema ) {
+		if ( ! $schema_name ) {
 			return parent::get_item_schema();
 		}
 
-		return Schema_Valildator::get_instance( $schema )->get_schema();
+		return Response_Schema::from_file( $schema_name . '.json' )->get_json();
 	}
 }

@@ -18,7 +18,7 @@ class Bootstrap {
 
 	private function init_classes() {
 		Theme_Supports::get_instance();
-		REST_API::get_instance();
+		Rest_Api::get_instance();
 		Theme_Customizer::get_instance();
 		Custom_Fields::get_instance();
 		Post_Series::get_instance();

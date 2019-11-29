@@ -105,7 +105,7 @@ class Menu extends Abs_Rest_Base {
 
 		// Transient
 		$transient = new Transient( $response, self::CACHE_TTL );
-		set_transient( $transient_key, wp_json_encode( $transient ) );
+		$transient->set_transient( $transient_key );
 
 		return rest_ensure_response( $response );
 	}

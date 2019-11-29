@@ -41,6 +41,7 @@ class Archive extends Abs_Rest_Base {
 		foreach ( $this->get_transient_keys() as $key ) {
 			delete_transient( $key );
 		}
+		$this->delete_transient_keys();
 	}
 
 	public function create_rest_routes() {
@@ -187,7 +188,7 @@ class Archive extends Abs_Rest_Base {
 		$response = json_decode( wp_json_encode( $response ), true );
 
 		$transient = new Transient( $response, self::CACHE_TTL );
-		set_transient( $transient_key, wp_json_encode( $transient ) );
+		$transient->set_transient( $transient_key );
 		$this->add_transient_keys( $transient_key );
 
 		return $response;

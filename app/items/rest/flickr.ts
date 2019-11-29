@@ -1,8 +1,19 @@
-import { RestItem } from 'app/types/rest/base';
+/** app/items/rest/flickr */
 
-export default class Flickr implements RestItem {
+import { IFlickr } from 'app/items/rest/interface/flickr';
+
+export default class Flickr implements IFlickr {
+  /**
+   * The title of the photo.
+   */
   title: string;
+  /**
+   * Flickr URL for the image
+   */
   link: string;
+  /**
+   * Image URLs
+   */
   media: {
     origin: string;
     s: string;
@@ -17,7 +28,7 @@ export default class Flickr implements RestItem {
     this.media = data.media;
   }
 
-  static create(data): Flickr {
+  static create(data): IFlickr {
     return new Flickr(data);
   }
 }

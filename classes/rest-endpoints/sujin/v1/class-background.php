@@ -90,7 +90,7 @@ class Background extends Abs_Rest_Base {
 		$posts = array_values( $posts );
 
 		$transient = new Transient( $posts, self::CACHE_TTL );
-		set_transient( $this->get_transient_key(), wp_json_encode( $transient ) );
+		$transient->set_transient( $this->get_transient_key() );
 
 		return rest_ensure_response( $posts );
 	}

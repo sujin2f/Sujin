@@ -1,17 +1,26 @@
-import { RestItemBuilder } from 'app/types/rest/base';
+/**  app/controllers/rest/menu */
+
+// Controller
+import {
+  RestController,
+  IRestController,
+  IRestItemBuilder,
+} from 'app/controllers/rest';
+
+// Item
 import Menu from 'app/items/rest/menu';
-import RestController from 'app/controllers/rest/base';
+import { IMenu } from 'app/items/rest/interface/menu';
 
 /*
  * Menu Controller
  */
-export default class MenuController extends RestController<Menu> {
+export default class MenuController extends RestController<IMenu> {
   public static instance: {
     [slug: string]: MenuController;
   } = {};
   private readonly slug: string;
 
-  protected constructor(itemBuilder: RestItemBuilder<Menu>, slug: string) {
+  protected constructor(itemBuilder: IRestItemBuilder<IMenu>, slug: string) {
     super(itemBuilder);
     this.slug = slug;
   }
@@ -19,14 +28,14 @@ export default class MenuController extends RestController<Menu> {
   /*
    * Get multiton object
    */
-  public static getInstance(slug: string): MenuController {
+  public static getInstance(slug: string): IRestController {
     if (!MenuController.instance[slug]) {
       MenuController.instance[slug] = new MenuController(Menu, slug);
     }
     return MenuController.instance[slug];
   }
 
-  public addComponent(component: ReactComponent): MenuController {
+  public addComponent(component: ReactComponent): IRestController {
     this.components.push(component);
     this.components = Array.from(new Set(this.components));
     return this;

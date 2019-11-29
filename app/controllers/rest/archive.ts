@@ -1,24 +1,32 @@
-/*
- * Archive Controller
- */
+/**  app/controllers/rest/archive */
 
 import hash from 'object-hash';
 
-import { RestItemBuilder } from 'app/types/rest/base';
+// Enum & Const
 import { TermTypes } from 'app/constants/enum';
-import Post from 'app/items/rest/post';
-import RestController from 'app/controllers/rest/base';
+import { PAGE_OFFSET } from 'app/constants/common';
+
+// Item
+import { IPost } from 'app/items/rest/interface/post';
+import Archive from 'app/items/rest/archive';
+import { IArchive } from 'app/items/rest/interface/archive';
+
+// Controller
+import {
+  RestController,
+  IRestController,
+  IRestItemBuilder,
+} from 'app/controllers/rest';
 import PostController from 'app/controllers/rest/post';
 import RouteController from 'app/controllers/route';
-// Utiles
-import { isMobile } from 'app/utils/common';
 
-import { PAGE_OFFSET } from 'app/constants/common';
+// Function
+import { isMobile } from 'app/utils/common';
 
 /*
  * Archive Controller
  */
-export default class ArchiveController extends RestController<Post> {
+export default class ArchiveController extends RestController<IArchive> {
   public static instance: {
     [hash: string]: ArchiveController;
   } = {};
@@ -32,7 +40,7 @@ export default class ArchiveController extends RestController<Post> {
   private readonly pagingOffset: number = isMobile() ? 1 : PAGE_OFFSET;
   private totalPages: number;
 
-  protected constructor(itemBuilder: RestItemBuilder<Post>) {
+  protected constructor(itemBuilder: IRestItemBuilder<IArchive>) {
     super(itemBuilder);
     const matched = RouteController.getInstance().getMatched();
     this.type = matched.type;
@@ -43,12 +51,12 @@ export default class ArchiveController extends RestController<Post> {
   /*
    * Get multiton object
    */
-  public static getInstance(): ArchiveController {
+  public static getInstance(): IRestController {
     const matched = RouteController.getInstance().getMatched();
     const key = hash(matched);
 
     if (!ArchiveController.instance[key]) {
-      ArchiveController.instance[key] = new ArchiveController(Post);
+      ArchiveController.instance[key] = new ArchiveController(Archive);
     }
 
     return ArchiveController.instance[key];
@@ -84,28 +92,12 @@ export default class ArchiveController extends RestController<Post> {
     return entities;
   }
 
-  public addComponent(component: ReactComponent): ArchiveController {
-    super.addComponent(component);
-    return this;
-  }
-
-  public request(): ArchiveController {
-    super.request();
-    return this;
-  }
-
   protected getRestUrl(): string {
     return `/wp-json/sujin/v1/archive/${this.type}/${this.slug}/${this.page}`;
   }
 
   protected postResponse(response): void {
-    this.entities = [];
-    this.entities = response.data.items.map((item) => this.itemBuilder.create(item));
-    this.entities.map((entity: Post) => PostController.getInstance(entity.slug).setFromPost(entity));
-
-    this.totalPages = parseInt(response.data.totalPages, 10) || 1;
-    this.background = response.data.thumbnail;
-    this.title = decodeURIComponent(response.data.name) || '';
-    this.description = decodeURIComponent(response.data.description) || '';
+    this.entity = this.itemBuilder.create(response.data);
+    this.entity.items.map((entity: IPost) => PostController.getInstance(entity.slug).setFromPost(entity));
   }
 }

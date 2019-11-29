@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "$id": "http://sujinc.com/background.json",
+  "title": "background",
+  "type": "object",
+  "properties": {
+    "desktop": {
+      "description": "Desktop size image",
+      "type": "string",
+      "format": "uri",
+      "readonly": true
+    },
+    "mobile": {
+      "description": "Mobile size image",
+      "type": "string",
+      "format": "uri",
+      "readonly": true
+    },
+    "title": {
+      "description": "Title of the image",
+      "type": "string",
+      "readonly": true
+    }
+  },
+  "additionalProperties": false,
+  "required": ["desktop", "mobile", "title"]
+}

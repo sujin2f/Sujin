@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "archive",
+  "type": "object",
+  "properties": {
+    "name": {
+      "description": "Archive Name",
+      "type": "string",
+      "readonly": true
+    },
+    "description": {
+      "description": "Archive Description",
+      "type": "string",
+      "readonly": true
+    },
+    "thumbnail": {
+      "$ref": "image.json"
+    },
+    "total": {
+      "description": "Total number of posts",
+      "type": "number",
+      "readonly": true
+    },
+    "totalPages": {
+      "description": "Total number of page",
+      "type": "number",
+      "readonly": true
+    },
+    "items": {
+      "description": "Posts",
+      "type": "array",
+      "items": {
+        "$ref": "post.json"
+      },
+      "readonly": true
+    }
+  },
+  "additionalProperties":false
+}

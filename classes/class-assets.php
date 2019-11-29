@@ -1,15 +1,15 @@
 <?php
+/**
+ * Initialize Assets
+ *
+ * @package Sujinc.com
+ * @author  Sujin 수진 Choi <http://www.sujinc.com/>
+*/
+
 namespace Sujin\Wordpress\Theme\Sujin;
 
 use Sujin\Wordpress\Theme\Sujin\Helpers\Singleton;
 use Sujin\Wordpress\WP_Express\Google_Font_Loader;
-
-/**
- * Initialize
- *
- * @project React Theme
- * @author  Sujin 수진 Choi http://www.sujinc.com/
-*/
 
 if ( ! defined( 'ABSPATH' ) ) {
 	header( 'Status: 403 Forbidden' );
@@ -29,7 +29,13 @@ final class Assets {
 		Google_Font_Loader::get_instance( 'Ubuntu:300,400,500,700' );
 	}
 
-	public function register_scripts() {
+	public function register_scripts(): void {
+		$manifest = get_stylesheet_directory() . '/dist/manifest.json';
+
+		if ( ! file_exists( $manifest ) ) {
+			return;
+		}
+
 		$manifest = file_get_contents( get_stylesheet_directory() . '/dist/manifest.json' );
 		$manifest = json_decode( $manifest, true );
 
@@ -63,7 +69,7 @@ final class Assets {
 		}
 	}
 
-	public function enqueue_scripts() {
+	public function enqueue_scripts(): void {
 		if ( is_admin() ) {
 			return;
 		}
