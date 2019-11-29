@@ -10,7 +10,7 @@
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1\Menu;
 
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1\Menu;
-use Sujin\Wordpress\Theme\Sujin\Transient;
+use Sujin\Wordpress\Theme\Sujin\Helpers\Transient;
 
 use Test_Case;
 use WP_REST_Request;

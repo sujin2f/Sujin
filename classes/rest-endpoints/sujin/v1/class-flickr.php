@@ -1,10 +1,12 @@
 <?php
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1;
 
-use Sujin\Wordpress\Theme\Sujin\Transient;
-use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Abs_Rest_Base;
-use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items\Flickr as FlickrItem;
-use Sujin\Wordpress\Theme\Sujin\Helpers\Singleton;
+use Sujin\Wordpress\Theme\Sujin\Helpers\{
+	Transient,
+	Singleton,
+};
+use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\V1;
+use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items\Flickr as Flickr_Item;
 use Sujin\Wordpress\WP_Express\Fields\Settings\Input;
 
 // phpcs:disable Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
@@ -21,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
 
-class Flickr extends Abs_Rest_Base {
+class Flickr extends V1 {
 	use Singleton;
 
 	protected const CACHE_TTL     = 12 * HOUR_IN_SECONDS;
@@ -87,7 +89,7 @@ class Flickr extends Abs_Rest_Base {
 		$items    = $items['items'] ?: array();
 
 		foreach ( array_keys( $items ) as $key ) {
-			$items[ $key ] = new FlickrItem( $items[ $key ] );
+			$items[ $key ] = new Flickr_Item( $items[ $key ] );
 			$items[ $key ] = json_decode( wp_json_encode( $items[ $key ] ), true );
 		}
 

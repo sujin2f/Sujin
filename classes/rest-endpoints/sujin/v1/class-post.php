@@ -1,13 +1,12 @@
 <?php
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1;
 
-use Sujin\Wordpress\Theme\Sujin\Transient;
-use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Abs_Rest_Base;
-use Sujin\Wordpress\Theme\Sujin\Helpers\Singleton;
-use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items\Post as PostItem;
-
-use Sujin\Wordpress\WP_Express\Fields\Term_Meta\Attachment as Term_Meta_Attachment;
-use Sujin\Wordpress\WP_Express\Fields\Post_Meta\Attachment as Post_Meta_Attachment;
+use Sujin\Wordpress\Theme\Sujin\Helpers\{
+	Transient,
+	Singleton,
+};
+use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\V1;
+use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items\Post as Post_Item;
 
 // phpcs:disable Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
 use WP_Post,
@@ -22,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
 
-class Post extends Abs_Rest_Base {
+class Post extends V1 {
 	use Singleton;
 
 	protected const CACHE_TTL     = 12 * HOUR_IN_SECONDS;
@@ -89,7 +88,7 @@ class Post extends Abs_Rest_Base {
 		}
 
 		$post = array_pop( $post );
-		$post = new PostItem( $post );
+		$post = new Post_Item( $post );
 		$post = json_decode( wp_json_encode( $post ), true );
 
 		$transient = new Transient( $post, self::CACHE_TTL );

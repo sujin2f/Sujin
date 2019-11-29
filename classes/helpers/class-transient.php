@@ -1,5 +1,5 @@
 <?php
-namespace Sujin\Wordpress\Theme\Sujin;
+namespace Sujin\Wordpress\Theme\Sujin\Helpers;
 
 use JsonSerializable;
 

@@ -9,9 +9,10 @@
 
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items;
 
+use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items;
 use WP_Post;
 
-final class Menu extends Abstract_Rest_Item {
+final class Menu extends Items {
 	public $ID;
 	public $title;
 	public $url;

@@ -9,10 +9,12 @@
 
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1;
 
-use Sujin\Wordpress\Theme\Sujin\Transient;
-use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Abs_Rest_Base;
-use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items\Menu as MenuItem;
-use Sujin\Wordpress\Theme\Sujin\Helpers\Singleton;
+use Sujin\Wordpress\Theme\Sujin\Helpers\{
+	Transient,
+	Singleton,
+};
+use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\V1;
+use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items\Menu as Menu_Item;
 
 // phpcs:disable Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
 use WP_REST_Server,
@@ -26,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
 
-class Menu extends Abs_Rest_Base {
+class Menu extends V1 {
 	use Singleton;
 
 	protected const RESOURCE_NAME = 'menu';
@@ -90,7 +92,7 @@ class Menu extends Abs_Rest_Base {
 		$menu_items = array(); // Key is post ID
 
 		foreach ( $nav_menu as $menu_item ) {
-			$menu_items[ $menu_item->ID ] = new MenuItem( $menu_item );
+			$menu_items[ $menu_item->ID ] = new Menu_Item( $menu_item );
 
 			if ( ! empty( $menu_item->menu_item_parent ) ) {
 				$menu_items[ $menu_item->menu_item_parent ]->append_children( $menu_items[ $menu_item->ID ] );

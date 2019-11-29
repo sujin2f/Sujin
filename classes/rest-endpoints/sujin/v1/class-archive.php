@@ -1,11 +1,15 @@
 <?php
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1;
 
-use Sujin\Wordpress\Theme\Sujin\Transient;
-use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Abs_Rest_Base;
-use Sujin\Wordpress\Theme\Sujin\Helpers\Singleton;
-use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items\Archive as ArchiveItem;
-use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items\Post as PostItem;
+use Sujin\Wordpress\Theme\Sujin\Helpers\{
+	Transient,
+	Singleton,
+};
+use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\{
+	V1,
+	Items\Archive as Archive_Item,
+	Items\Post as Post_Item,
+};
 
 use Sujin\Wordpress\WP_Express\Fields\Term_Meta\Attachment as Term_Meta_Attachment;
 
@@ -26,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
 
-class Archive extends Abs_Rest_Base {
+class Archive extends V1 {
 	use Singleton;
 
 	protected const CACHE_TTL     = 12 * HOUR_IN_SECONDS;
@@ -171,10 +175,10 @@ class Archive extends Abs_Rest_Base {
 				'tag'            => 'tag' === $type ? $slug : null,
 			)
 		);
-		$response = new ArchiveItem();
+		$response = new Archive_Item();
 
 		foreach ( $posts->posts as $post ) {
-			$response->append_item( new PostItem( $post ) );
+			$response->append_item( new Post_Item( $post ) );
 		}
 
 		$thumbnail = Term_Meta_Attachment::get_instance( 'Thumbnail' )->get( $term->term_id ) ?: null;

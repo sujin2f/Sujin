@@ -12,7 +12,7 @@ use Test_Case;
 
 use Sujin\Wordpress\Theme\Sujin\{
 	Helpers\Schema,
-	Rest_Endpoints\Items\Abstract_Rest_Item,
+	Rest_Endpoints\Items,
 };
 
 use org\bovigo\vfs\vfsStream;
@@ -47,7 +47,7 @@ class Temp_Schema extends Schema {
 	}
 }
 
-class Simple extends Abstract_Rest_Item {
+class Simple extends Items {
 	public $title  = 'Title';
 	public $url    = 'http://test.com';
 	public $number = '1';
@@ -66,7 +66,7 @@ class Definitions extends Simple {
 	}
 }
 
-class Reference_Item extends Abstract_Rest_Item {
+class Reference_Item extends Items {
 	public $object = array(
 		'child' => array(
 			'title'  => 'Title',
@@ -83,7 +83,7 @@ class Reference_Item extends Abstract_Rest_Item {
 	}
 }
 
-class Recursive_Reference extends Abstract_Rest_Item {
+class Recursive_Reference extends Items {
 	public $strings  = array( 'Sujin', 'Choi' );
 	public $children = array(
 		array(

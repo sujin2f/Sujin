@@ -11,9 +11,10 @@ namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items;
 
 use Sujin\Wordpress\WP_Express\Fields\Post_Meta\{Attachment, Input, Checkbox};
 
+use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items;
 use WP_Post;
 
-class Simple_Post extends Abstract_Rest_Item {
+class Simple_Post extends Items {
 	public $id;
 	public $slug;
 	public $excerpt;

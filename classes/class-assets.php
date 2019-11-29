@@ -75,7 +75,7 @@ final class Assets {
 			$front_page = new WP_Query(
 				array(
 					'post_type'      => 'post',
-					'post_statue'    => 'publish',
+					'post_status'    => 'publish',
 					'posts_per_page' => 1,
 				)
 			);
@@ -84,7 +84,7 @@ final class Assets {
 			$front_page = new WP_Query(
 				array(
 					'post_type'      => 'page',
-					'post_statue'    => 'publish',
+					'post_status'    => 'publish',
 					'posts_per_page' => 1,
 					'p'              => $page_on_front,
 				)
@@ -99,8 +99,8 @@ final class Assets {
 				'title'           => get_bloginfo( 'name' ),
 				'description'     => get_bloginfo( 'description' ),
 				'ogImage'         => Option_Attachment::get_instance( 'Open Graph (Default Image)' )->get_image(),
-				'hideFrontHeader' => Option_Checkbox::get_instance( 'Hide Header in Front Page' )->get(),
-				'hideFrontFooter' => Option_Checkbox::get_instance( 'Hide Footer in Front Page' )->get(),
+				'hideFrontHeader' => (bool) Option_Checkbox::get_instance( 'Hide Header in Front Page' )->get(),
+				'hideFrontFooter' => (bool) Option_Checkbox::get_instance( 'Hide Footer in Front Page' )->get(),
 				'frontPage'       => $front_page->post->post_name,
 				'showOnFront'     => $show_on_front,
 			)

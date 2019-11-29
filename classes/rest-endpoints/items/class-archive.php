@@ -9,9 +9,11 @@
 
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items;
 
+use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items;
+
 // phpcs:disable WordPress.NamingConventions.ValidVariableName.MemberNotSnakeCase
 // phpcs:disable WordPress.NamingConventions.ValidVariableName.NotSnakeCaseMemberVar
-final class Archive extends Abstract_Rest_Item {
+final class Archive extends Items {
 	public $name;
 	public $description;
 	public $thumbnail;

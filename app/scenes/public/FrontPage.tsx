@@ -12,53 +12,60 @@ import Post from 'app/scenes/public/Post';
 import Page from 'app/scenes/public/Page';
 import Public from 'app/scenes/public';
 
-// Constant
-import { DEFAULT_TITLE } from 'app/constants/common';
-
 // Wordpress
 const { compose } = wp.compose;
 
+/*
+ * For React components which uses Controller
+ */
 class FrontPage extends WithController {
   getController(): IRestController {
     return BackgroundController.getInstance().addComponent(this);
   }
 
   render(): JSX.Element {
-    this.request();
+    const {
+      title,
+      description,
+      frontPage,
+      hideFrontFooter,
+      hideFrontHeader,
+      showOnFront,
+    } = sujin;
 
-    if (sujin.frontPage === 'front-page') {
+    this.request();
+    this.setTitle(title);
+
+    if (frontPage === 'front-page') {
       const backgroundImage = this.getController().getBackgroundImage();
-      this.setTitle(sujin.title);
 
       return (
         <Public className="stretched-background hide-footer">
           <PageHeader
             backgroundImage={backgroundImage}
-            title={sujin.title.toUpperCase()}
-            description={sujin.description}
+            title={title.toUpperCase()}
+            description={description}
           />
         </Public>
       );
     }
 
-    this.setTitle(DEFAULT_TITLE);
-
-    if (sujin.showOnFront === 'posts') {
+    if (showOnFront === 'posts') {
       return (
         <Post
-          hideFrontFooter={sujin.hideFrontFooter}
-          hideFrontHeader={sujin.hideFrontHeader}
-          frontPage={sujin.frontPage}
+          hideFrontFooter={hideFrontFooter}
+          hideFrontHeader={hideFrontHeader}
+          frontPage={frontPage}
         />
       );
     }
 
-    if (sujin.showOnFront === 'page') {
+    if (showOnFront === 'page') {
       return (
         <Page
-          hideFrontFooter={sujin.hideFrontFooter}
-          hideFrontHeader={sujin.hideFrontHeader}
-          frontPage={sujin.frontPage}
+          hideFrontFooter={hideFrontFooter}
+          hideFrontHeader={hideFrontHeader}
+          frontPage={frontPage}
         />
       );
     }

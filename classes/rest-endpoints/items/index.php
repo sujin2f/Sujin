@@ -1,11 +1,11 @@
 <?php
-namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items;
+namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints;
 
 use Sujin\Wordpress\Theme\Sujin\Helpers\Schema\Response_Schema;
 
 use JsonSerializable;
 
-abstract class Abstract_Rest_Item implements JsonSerializable {
+abstract class Items implements JsonSerializable {
 	protected const ITEM_NAME = '';
 
 	private function get_item_name(): string {

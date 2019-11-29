@@ -31,13 +31,14 @@ const { Fragment } = wp.element;
  */
 class Page extends WithController {
   getController(): IRestController {
-    return PostController.getInstance().addComponent(this);
+    const slug = this.props.frontPage || null;
+    return PostController.getInstance(slug).addComponent(this);
   }
 
   render(): JSX.Element {
     this.request();
 
-    const { hideFrontFooter, hideFrontHeader, frontPage } = this.props;
+    const { hideFrontFooter, hideFrontHeader } = this.props;
     const isPending = this.isPending();
 
     switch (isPending) {

@@ -9,7 +9,9 @@
 
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items;
 
-final class Images extends Abstract_Rest_Item {
+use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items;
+
+final class Images extends Items {
 	public $large;
 	public $medium;
 	public $small;
