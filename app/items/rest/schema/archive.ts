@@ -11,17 +11,9 @@ export type Post = SimplePost & {
    */
   content?: string;
   /**
-   * Excerpt
-   */
-  excerpt?: string;
-  /**
    * Comment status
    */
   commentStatus?: boolean;
-  /**
-   * Tags
-   */
-  tags?: Term[];
   /**
    * Series
    */
@@ -94,6 +86,14 @@ export interface SimplePost {
    */
   slug: string;
   /**
+   * Title
+   */
+  title: string;
+  /**
+   * Excerpt
+   */
+  excerpt?: string;
+  /**
    * Date
    */
   date: string;
@@ -102,9 +102,10 @@ export interface SimplePost {
    */
   link: string;
   /**
-   * Title
+   * Tags
    */
-  title: string;
+  tags?: Term[];
+  thumbnail?: Image;
   /**
    * Meta data
    */
@@ -117,7 +118,6 @@ export interface SimplePost {
     backgroundColor?: string;
     useBackgroundColor?: boolean;
   };
-  thumbnail?: Image;
 }
 export interface Term {
   /**

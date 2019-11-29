@@ -15,6 +15,14 @@ export interface SimplePost {
    */
   slug: string;
   /**
+   * Title
+   */
+  title: string;
+  /**
+   * Excerpt
+   */
+  excerpt?: string;
+  /**
    * Date
    */
   date: string;
@@ -23,9 +31,10 @@ export interface SimplePost {
    */
   link: string;
   /**
-   * Title
+   * Tags
    */
-  title: string;
+  tags?: Term[];
+  thumbnail?: Image;
   /**
    * Meta data
    */
@@ -38,7 +47,20 @@ export interface SimplePost {
     backgroundColor?: string;
     useBackgroundColor?: boolean;
   };
-  thumbnail?: Image;
+}
+export interface Term {
+  /**
+   * Term name
+   */
+  name: string;
+  /**
+   * Term slug
+   */
+  slug: string;
+  /**
+   * Term ID
+   */
+  termId: number;
 }
 export interface Image {
   /**

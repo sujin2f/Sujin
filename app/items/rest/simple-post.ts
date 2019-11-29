@@ -1,9 +1,11 @@
 /** app/items/rest/simple-post */
 
 import Image from 'app/items/rest/image';
+import Term from 'app/items/rest/term';
 
 import { ISimplePost } from 'app/items/rest/interface/simple-post';
 import { IImage } from 'app/items/rest/interface/image';
+import { ITerm } from 'app/items/rest/interface/term';
 
 export default class SimplePost implements ISimplePost {
   /**
@@ -15,6 +17,14 @@ export default class SimplePost implements ISimplePost {
    */
   slug: string;
   /**
+   * Title
+   */
+  title: string;
+  /**
+   * Excerpt
+   */
+  excerpt?: string;
+  /**
    * Date
    */
   date: string;
@@ -23,9 +33,10 @@ export default class SimplePost implements ISimplePost {
    */
   link: string;
   /**
-   * Title
+   * Tags
    */
-  title: string;
+  tags?: ITerm[];
+  thumbnail?: IImage;
   /**
    * Meta data
    */
@@ -38,7 +49,6 @@ export default class SimplePost implements ISimplePost {
     backgroundColor?: string;
     useBackgroundColor?: boolean;
   };
-  thumbnail?: IImage;
 
   constructor(data) {
     this.id = data.id;
@@ -56,6 +66,8 @@ export default class SimplePost implements ISimplePost {
       useBackgroundColor: data.meta.useBackgroundColor,
     };
     this.thumbnail = new Image(data.thumbnail);
+    this.excerpt = decodeURIComponent(data.excerpt);
+    this.tags = data.tags.map((tag) => new Term(tag));
   }
 
   public parseDate(): { [key: string]: string | number } {

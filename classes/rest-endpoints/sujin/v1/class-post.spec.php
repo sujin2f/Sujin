@@ -1,6 +1,6 @@
 <?php
 /**
- * Menu Rest Controller
+ * Post Rest Controller Unit Test
  *
  * @project Sujinc.com
  * @since   9.0.0
@@ -9,10 +9,16 @@
 
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1\Post;
 
-use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1\Post;
-use Sujin\Wordpress\Theme\Sujin\Transient;
+use Sujin\Wordpress\Theme\Sujin\{
+	Rest_Endpoints\Sujin\V1\Post,
+	Transient,
+};
 
-use Sujin\Wordpress\WP_Express\Fields\Post_Meta\{Attachment, Input, Checkbox};
+use Sujin\Wordpress\WP_Express\Fields\Post_Meta\{
+	Attachment,
+	Input,
+	Checkbox,
+};
 use Sujin\Wordpress\WP_Express\Taxonomy;
 
 use Test_Case;
@@ -96,6 +102,44 @@ class Unit_Test extends Test_Case {
 		$this->assertTrue( ! empty( $response['series'] ) );
 		$this->assertTrue( ! empty( $response['tags'] ) );
 		$this->assertTrue( empty( $response['thumbnail'] ) );
+
+		// Simple Post
+		$this->assertTrue(
+			! is_null( $response['series'][0]['id'] ),
+			'id in Simple Post does not exist.',
+		);
+		$this->assertTrue(
+			! is_null( $response['series'][0]['slug'] ),
+			'slug in Simple Post does not exist.',
+		);
+		$this->assertTrue(
+			! is_null( $response['series'][0]['title'] ),
+			'title in Simple Post does not exist.',
+		);
+		$this->assertTrue(
+			! is_null( $response['series'][0]['excerpt'] ),
+			'excerpt in Simple Post does not exist.',
+		);
+		$this->assertTrue(
+			! is_null( $response['series'][0]['date'] ),
+			'date in Simple Post does not exist.',
+		);
+		$this->assertTrue(
+			! is_null( $response['series'][0]['link'] ),
+			'link in Simple Post does not exist.',
+		);
+		$this->assertTrue(
+			! is_null( $response['series'][0]['tags'] ),
+			'tags in Simple Post does not exist.',
+		);
+		$this->assertTrue(
+			! is_null( $response['series'][0]['thumbnail'] ),
+			'thumbnail in Simple Post does not exist.',
+		);
+		$this->assertTrue(
+			! is_null( $response['series'][0]['meta'] ),
+			'meta in Simple Post does not exist.',
+		);
 	}
 
 	public function tearDown(): void {

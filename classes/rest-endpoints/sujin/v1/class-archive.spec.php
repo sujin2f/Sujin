@@ -1,6 +1,6 @@
 <?php
 /**
- * Menu Rest Controller
+ * Archive Rest Controller Unit Test
  *
  * @project Sujinc.com
  * @since   9.0.0

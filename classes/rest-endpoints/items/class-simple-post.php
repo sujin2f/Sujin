@@ -16,12 +16,15 @@ use WP_Post;
 class Simple_Post extends Abstract_Rest_Item {
 	public $id;
 	public $slug;
+	public $excerpt;
 	public $date;
 	public $link;
 	public $title;
 	public $meta      = array();
 	public $thumbnail = array();
+	public $tags      = array();
 
+	private const BREAKS      = array( '<br />', '<br/>', '<br>', '&lt;br /&gt;', '&lt;br/&gt;', '&lt;br&gt;' );
 	protected const ITEM_NAME = 'simple-post';
 
 	/**
@@ -33,6 +36,16 @@ class Simple_Post extends Abstract_Rest_Item {
 		$this->link  = get_permalink( $post );
 		$this->title = $post->post_title;
 		$this->slug  = $post->post_name;
+
+		// Excerpt
+		$this->excerpt = str_replace( self::BREAKS, "\r\n\r\n", $post->post_excerpt );
+		$this->excerpt = wpautop( $this->excerpt );
+
+		// Tags
+		$this->tags = wp_get_post_tags( $post->ID );
+		foreach ( array_keys( $this->tags ) as $key ) {
+			$this->tags[ $key ] = new Tag( $this->tags[ $key ] );
+		}
 
 		$list       = Attachment::get_instance( 'List' )->get( $post->ID );
 		$icon       = Attachment::get_instance( 'Icon' )->get( $post->ID );

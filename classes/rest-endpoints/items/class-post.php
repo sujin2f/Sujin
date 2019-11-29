@@ -15,15 +15,12 @@ use WP_Post, WP_Query;
 // phpcs:disable WordPress.NamingConventions.ValidVariableName.NotSnakeCaseMemberVar
 final class Post extends Simple_Post {
 	public $content;
-	public $excerpt;
 	public $commentStatus;
-	public $tags     = array();
 	public $series   = array();
 	public $prevNext = array();
 	public $related  = array();
 	public $type;
 
-	private const BREAKS      = array( '<br />', '<br/>', '<br>', '&lt;br /&gt;', '&lt;br/&gt;', '&lt;br&gt;' );
 	protected const ITEM_NAME = 'post';
 
 	/**
@@ -34,16 +31,6 @@ final class Post extends Simple_Post {
 
 		$this->content = do_shortcode( wpautop( $post->post_content ) );
 		$this->type    = $post->post_type;
-
-		// Excerpt
-		$this->excerpt = str_replace( self::BREAKS, "\r\n\r\n", $post->post_excerpt );
-		$this->excerpt = wpautop( $this->excerpt );
-
-		// Tags
-		$this->tags = wp_get_post_tags( $post->ID );
-		foreach ( array_keys( $this->tags ) as $key ) {
-			$this->tags[ $key ] = new Tag( $this->tags[ $key ] );
-		}
 
 		// Series / PrevNext / Related
 		$this->series   = $this->get_series( $post );

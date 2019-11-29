@@ -13,17 +13,9 @@ export default class Post extends SimplePost implements IPost {
    */
   content?: string;
   /**
-   * Excerpt
-   */
-  excerpt?: string;
-  /**
    * Comment status
    */
   commentStatus?: boolean;
-  /**
-   * Tags
-   */
-  tags?: ITerm[];
   /**
    * Series
    */
@@ -48,10 +40,8 @@ export default class Post extends SimplePost implements IPost {
     super(data);
 
     this.content = data.content;
-    this.excerpt = decodeURIComponent(data.excerpt);
     this.commentStatus = data.commentStatus;
 
-    this.tags = data.tags.map((tag) => new Term(tag));
     this.series = data.series.map((simple) => new SimplePost(simple));
     this.prevNext = {
       prev: new SimplePost(data.prevNext.prev),
