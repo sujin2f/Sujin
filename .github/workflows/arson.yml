@@ -1,4 +1,4 @@
-name: Node CI
+name: Fire everything
 
 on: [push]
 
@@ -32,4 +32,4 @@ jobs:
         npm run arson
       env:
         CI: true
-        MYSQL_ROOT_PASSWORD: password
+        mysql root password: password
