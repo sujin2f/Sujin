@@ -6,14 +6,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: mariadb
-        env:
-          MYSQL_ROOT_PASSWORD: password
-        ports:
-        - 3306:3306
-
     steps:
     - uses: actions/checkout@v1
 
@@ -40,3 +32,4 @@ jobs:
         npm run arson
       env:
         CI: true
+        MYSQL_ROOT_PASSWORD: password
