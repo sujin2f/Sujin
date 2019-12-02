@@ -6,36 +6,33 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [12.x]
+    services:
+      postgres:
+        image: mariadb
+        env:
+          MYSQL_ROOT_PASSWORD: password
+        ports:
+        - 3306:3306
 
     steps:
     - uses: actions/checkout@v1
 
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Use Node.js
       uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: 12.x
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v1
       with:
-        php-version: '7.3'
+        php-version: 7.3
         extension-csv: intl
-        coverage: xdebug
-
-    - name: Start MySQL
-      uses: samin/mysql-action@v1.3
-      with:
-        # MYSQL_ROOT_PASSWORD - root superuser password
-       mysql root password: 'password'
 
     - name: Validate composer.json and composer.lock
       run: composer validate
 
     - name: Install dependencies
-      run: composer install --prefer-dist --no-progress --no-suggest
+      run: composer install
 
     - name: npm install and test
       run: |
