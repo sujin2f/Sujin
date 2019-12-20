@@ -1,31 +1,56 @@
-import { RestItem } from 'app/types/rest/base';
-import Term from 'app/items/rest/term';
-import PrevNext from 'app/items/rest/prevnext';
-import Related from 'app/items/rest/related';
+/** app/items/rest/post */
 
-export default class Post extends Related implements RestItem {
-  readonly content: string;
-  readonly postType: string;
-  readonly prevnext: {
-    prev?: PrevNext;
-    next?: PrevNext;
+import SimplePost from 'app/items/rest/simple-post';
+
+import { IPost } from 'app/items/rest/interface/post';
+import { ISimplePost } from 'app/items/rest/interface/simple-post';
+
+export default class Post extends SimplePost implements IPost {
+  /**
+   * Content
+   */
+  content?: string;
+  /**
+   * Comment status
+   */
+  commentStatus?: boolean;
+  /**
+   * Series
+   */
+  series?: ISimplePost[];
+  /**
+   * Prev / Next
+   */
+  prevNext?: {
+    prev?: ISimplePost;
+    next?: ISimplePost;
   };
-  readonly related: Array<Related>;
-  readonly series: Array<PrevNext>;
-  readonly tags: Array<Term>;
+  /**
+   * Related contents
+   */
+  related?: ISimplePost[];
+  /**
+   * Post Type
+   */
+  type?: 'post' | 'page';
 
   constructor(data) {
     super(data);
 
     this.content = data.content;
-    this.postType = data.type;
-    this.prevnext = data.prevnext;
-    this.related = data.related.map((rp) => new Related(rp));
-    this.series = data.series;
-    this.tags = data.tags;
+    this.commentStatus = data.commentStatus;
+
+    this.series = data.series.map((simple) => new SimplePost(simple));
+    this.prevNext = {
+      prev: data.prevNext.prev ? new SimplePost(data.prevNext.prev) : null,
+      next: data.prevNext.next ? new SimplePost(data.prevNext.next) : null,
+    };
+    this.related = data.related.map((simple) => new SimplePost(simple));
+
+    this.type = data.type;
   }
 
-  static create(data): Post {
+  static create(data): IPost {
     return new Post(data);
   }
 }

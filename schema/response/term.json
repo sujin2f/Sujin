@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "$id": "http://sujinc.com/term.json",
+  "title": "term",
+  "type": "object",
+  "properties": {
+    "name": {
+      "description": "Term name",
+      "type": "string",
+      "readonly": true
+    },
+    "slug": {
+      "description": "Term slug",
+      "type": "string",
+      "readonly": true
+    },
+    "termId": {
+      "description": "Term ID",
+      "type": "number",
+      "readonly": true
+    }
+  },
+  "required": ["name", "slug", "termId"],
+  "additionalProperties":false
+}

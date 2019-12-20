@@ -1,16 +1,26 @@
+/**  app/scenes/public/NotFound */
+
+// Controllers
 import GlobalController from 'app/controllers/global';
 
+// Components
 import Public from 'app/scenes/public';
-
 import PageHeader from 'app/components/layout/PageHeader';
+
+// Function
 import { isMobile } from 'app/utils/common';
 
+// Images
 import DEFAULT_BACKGROUND from '../../../assets/images/background/404.jpg';
 import DEFAULT_BACKGROUND_MOBILE from '../../../assets/images/background/404-mobile.jpg';
 
+// Wordpress
 const { Component } = wp.element;
 const { compose } = wp.compose;
 
+/*
+ * //domain.com/fxxk-u-very-much
+ */
 class NotFound extends Component {
   render(): JSX.Element {
     GlobalController.getInstance().setTitle('Not Found');

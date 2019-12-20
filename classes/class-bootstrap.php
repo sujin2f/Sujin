@@ -1,6 +1,6 @@
 <?php
 /**
- * Class : Rest API
+ * Entry Point
  *
  * @project Sujin
  * @since   8.0.0
@@ -9,20 +9,68 @@
 
 namespace Sujin\Wordpress\Theme\Sujin;
 
+use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1\{
+	Flickr,
+	Post as Post_Endpoint,
+	Menu,
+	Background,
+	Archive,
+};
+
+use Sujin\Wordpress\Theme\Sujin\{
+	Helpers\Singleton,
+	Shortcode\About_Item,
+};
+
+use Sujin\Wordpress\Theme\Sujin\Modifier\{
+	Option,
+	Taxonomy,
+	Post as Post_Modifier,
+	PostType\Gallery,
+};
+
 class Bootstrap {
-	use Helpers\Singleton;
+	use Singleton;
 
 	function __construct() {
-		$this->init_classes();
+		$this->init();
+		$this->register_rest_endpoints();
+
+		add_filter( 'the_excerpt', array( $this, 'the_excerpt' ) );
 	}
 
-	private function init_classes() {
-		Theme_Supports::get_instance();
-		REST_API::get_instance();
-		Theme_Customizer::get_instance();
-		Custom_Fields::get_instance();
-		Post_Series::get_instance();
+	private function init() {
 		Assets::get_instance();
-		Shortcode\About_Item::get_instance();
+		Theme_Supports::get_instance();
+
+		// Modifiers
+		Option::get_instance();
+		Taxonomy::get_instance();
+		Post_Modifier::get_instance();
+
+		// Shortcode
+		About_Item::get_instance();
+
+		// Custom Post Type
+		Gallery::get_instance();
+	}
+
+	public function the_excerpt( $excerpt ) {
+		$breaks  = array( '<br />', '<br>', '<br/>' );
+		$excerpt = str_replace( $breaks, "\r\n\r\n", $excerpt );
+		$excerpt = strip_tags( $excerpt );
+		$excerpt = wpautop( $excerpt );
+
+		return $excerpt;
+	}
+
+	private function register_rest_endpoints(): void {
+		Flickr::get_instance();
+		Post_Endpoint::get_instance();
+		Menu::get_instance();
+		Background::get_instance();
+		Archive::get_instance();
+
+		remove_filter( 'the_content', 'wpautop' );
 	}
 }

@@ -14,7 +14,7 @@ class Content extends Component {
         content,
         series,
         tags,
-        postType,
+        type,
       },
       className,
       children,
@@ -25,11 +25,11 @@ class Content extends Component {
       ...parseContent(content),
     ];
 
-    const icon = meta.icon.thumbnail;
+    const icon = meta.icon.small;
 
     return (
       <article
-        className={`columns ${className} ${postType}-${slug} post-${id}`}
+        className={`columns ${className} ${type}-${slug} post-${id}`}
         itemProp="mainEntity"
         itemType="http://schema.org/BlogPosting"
       >

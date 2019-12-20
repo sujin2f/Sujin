@@ -6,23 +6,25 @@ const { Component } = wp.element;
 
 class PrevNext extends Component {
   render() {
-    const { prevnext } = this.props;
+    const { prevNext } = this.props;
+
+    console.log(this.props);
 
     return (
       <nav id="prev-next">
-        {Object.keys(prevnext).map((key) => {
-          if (!prevnext[key]) {
+        {Object.keys(prevNext).map((key) => {
+          if (!prevNext[key]) {
             return null;
           }
 
           return (
             <Link
-              to={prevnext[key].link}
+              to={prevNext[key].link}
               className={key}
-              key={hash(key + prevnext[key].title)}
+              key={hash(key + prevNext[key].title)}
             >
               <i />
-              {prevnext[key].title}
+              {prevNext[key].title}
             </Link>
           );
         })}

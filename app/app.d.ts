@@ -5,10 +5,13 @@ declare module '*.png';
 declare const wp: any;
 declare const React: any;
 declare const sujin: {
-  title: string;
   description: string;
-  logo: string;
+  frontPage: string;
+  hideFrontFooter: boolean;
+  hideFrontHeader: boolean;
   ogImage: string;
+  showOnFront: string;
+  title: string;
 }
 
 const { Component } = wp.element;

@@ -1,21 +1,39 @@
+/** app/components/layout/Footer/Flickr */
+
+import { WithController } from 'app/scenes/WithController';
+
+// Controller
+import { IRestController } from 'app/controllers/rest';
 import FlickrController from 'app/controllers/rest/flickr';
-import { default as FlickrItem } from 'app/items/rest/flickr';
 
-const { Component } = wp.element;
+// Item
+import { IFlickr } from 'app/items/rest/interface/flickr';
 
-class Flickr extends Component {
+// Wordpress
+const { compose } = wp.compose;
+const { Fragment } = wp.element;
+
+class Flickr extends WithController {
+  public getController(): IRestController {
+    return FlickrController.getInstance().addComponent(this);
+  }
+
   render(): JSX.Element {
-    const flickr = FlickrController.getInstance().addComponent(this).request();
-    if (!flickr.init || flickr.loading || flickr.failed) {
-      return null;
+    this.request();
+    const isPending = this.isPending();
+
+    if (isPending) {
+      return (<Fragment />);
     }
+
+    const flickr = this.getController();
 
     return (
       <div id="Flickr">
         <h1><span>Photo Stream</span></h1>
 
         <div className="row">
-          {flickr.entities.map((item: FlickrItem) => (
+          {flickr.entities.map((item: IFlickr) => (
             <div className="large-3 medium-4 small-3 columns" key={`flikr-${item.link}`}>
               <figure className="thumbnail">
                 <a href={item.link} title={item.title} target="_blank" rel="noopener noreferrer">
@@ -33,4 +51,4 @@ class Flickr extends Component {
   }
 }
 
-export default Flickr;
+export default compose([])(Flickr);

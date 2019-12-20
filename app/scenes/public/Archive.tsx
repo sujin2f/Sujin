@@ -1,47 +1,111 @@
-import GlobalController from 'app/controllers/global';
+/** app/scenes/public/Archive */
+
+import { WithController } from 'app/scenes/WithController';
+
+// Controllers
+import { IRestController } from 'app/controllers/rest';
 import ArchiveController from 'app/controllers/rest/archive';
 
-import Base from 'app/scenes/public/Base';
+// Components
 import Public from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
 import Item from 'app/components/archive/Item';
 import Paging from 'app/components/archive/Paging';
+import NotFound from 'app/scenes/public/NotFound';
 
+// Items
+import { ISimplePost } from 'app/items/rest/interface/simple-post';
+
+// Functions
+import { parseExImage } from 'app/utils/common';
+
+// Images
+import DEFAULT_BACKGROUND from '../../../assets/images/background/category.jpg';
+import DEFAULT_BACKGROUND_MOBILE from '../../../assets/images/background/category-mobile.jpg';
+
+// Wordpress
 const { Fragment } = wp.element;
 const { compose } = wp.compose;
 
-class Archive extends Base {
-  render(): JSX.Element {
-    const archive = ArchiveController.getInstance().addComponent(this).request();
-    const pendingComponent = this.getPendingComponent(archive.init, archive.loading, archive.failed);
+/*
+ * //domain.com/category/blog
+ * //domain.com/tag/blog
+ * //domain.com/search/blog
+ */
+class Archive extends WithController {
+  getController(): IRestController {
+    return ArchiveController.getInstance().addComponent(this);
+  }
 
-    if (pendingComponent) {
-      return pendingComponent;
+  render(): JSX.Element {
+    this.request();
+    const isPending = this.isPending();
+
+    switch (isPending) {
+      case 'init':
+        return (
+          <Fragment />
+        );
+      case 'loading':
+        return (
+          <Public className="stretched-background hide-footer">
+            <PageHeader isLoading />
+          </Public>
+        );
+      case 'failed':
+        return (
+          <NotFound />
+        );
+      default:
+        break;
     }
 
-    GlobalController.getInstance().setTitle(`${archive.type}: ${archive.title}`);
+    const archive = this.getController();
+    const {
+      type,
+      slug,
+      entity: {
+        title,
+        description,
+        thumbnail,
+        items,
+        page,
+      },
+    } = archive;
+
+    this.setTitle(`${type}: ${title}`);
+
+    const backgroundImage =
+      parseExImage(
+        thumbnail,
+        thumbnail,
+        'large',
+        'medium',
+        DEFAULT_BACKGROUND,
+        DEFAULT_BACKGROUND_MOBILE,
+      );
 
     return (
       <Public className="template-archive">
         <PageHeader
-          backgroundImage={archive.background}
-          prefix={archive.type}
-          title={archive.title}
-          description={archive.description.replace(/\+/g, ' ')}
+          backgroundImage={backgroundImage}
+          prefix={type}
+          title={title}
+          description={description.replace(/\+/g, ' ')}
         />
 
-        {archive.entities && archive.entities.length > 0 && (
+        {items && items.length > 0 && (
           <Fragment>
             <section className="row post-grid">
-              {archive.entities.map((item) => (
-                <Item item={item} key={`${archive.type}-${archive.slug}-${archive.page}-${item.id}`} />
+              {items.map((item: ISimplePost) => (
+                <Item item={item} key={`${type}-${slug}-${page}-${item.id}`} />
               ))}
             </section>
 
             <Paging
               entities={archive.getPaging()}
-              currentPage={archive.page}
-              urlPrefix={`/${archive.type}/${archive.slug}`}
+              currentPage={page}
+              urlPrefix={`/${type}/${slug}`}
             />
           </Fragment>
         )}

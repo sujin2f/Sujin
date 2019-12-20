@@ -1,22 +1,23 @@
-/*
- * Route Controller
- *
- * Matched and history controller
- */
+/** app/controllers/route */
 
 import pathToRegexp from 'path-to-regexp';
 import { createBrowserHistory, History } from 'history';
 
 import GlobalController from 'app/controllers/global';
-import MatchedItem, { emptyMatched } from 'app/items/matched';
+import MatchedItem, { IMatchedItem, emptyMatched } from 'app/items/matched';
 
-// TODO I don't want to add any react dependant modules
+// @todo I don't want to add any react dependant modules
 import { scrollTo } from 'app/utils/common';
 
+/*
+ * Route Controller
+ *
+ * Matched and history controller
+ */
 export default class RouteController {
   private static instance: RouteController;
   private readonly history: History = createBrowserHistory();
-  private matched: MatchedItem = emptyMatched;
+  private matched: IMatchedItem = emptyMatched;
   private component: ReactComponent;
 
   /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -52,7 +53,7 @@ export default class RouteController {
     return this.history;
   }
 
-  public setMatched(matched?: MatchedItem): void {
+  public setMatched(matched?: IMatchedItem): void {
     if (matched) {
       this.matched = matched;
       return;
@@ -61,7 +62,7 @@ export default class RouteController {
     this.matched = emptyMatched;
   }
 
-  public getMatched(): MatchedItem {
+  public getMatched(): IMatchedItem {
     return this.matched || emptyMatched;
   }
 
@@ -69,7 +70,7 @@ export default class RouteController {
    * From the path, make MatchedItem.
    * TODO check the path has never changed
    */
-  public parseMatched(path: string): MatchedItem {
+  public parseMatched(path: string): IMatchedItem {
     if (!path) {
       return new MatchedItem({});
     }
@@ -106,7 +107,7 @@ export default class RouteController {
     let validChild = null;
 
     children.some((child) => {
-      const parsed: MatchedItem = this.parseMatched(child.props.path);
+      const parsed: IMatchedItem = this.parseMatched(child.props.path);
 
       // Not Matched -- maybe the next one
       if (!parsed.matched) {

@@ -1,63 +1,112 @@
-import GlobalController from 'app/controllers/global';
+/**  app/scenes/public/Post */
+
+import { WithController } from 'app/scenes/WithController';
+
+// Controllers
+import { IRestController } from 'app/controllers/rest';
 import PostController from 'app/controllers/rest/post';
 
-import Base from 'app/scenes/public/Base';
+// Items
+import { IPost } from 'app/items/rest/interface/post';
+
+// Components
 import Public from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
 import Content from 'app/components/single/Content';
 import RecentPosts from 'app/components/single/RecentPosts';
 import RelatedPosts from 'app/components/single/RelatedPosts';
 import PrevNext from 'app/components/single/PrevNext';
+import NotFound from 'app/scenes/public/NotFound';
 
+// Functions
 import { parseExImage } from 'app/utils/common';
 
+// Images
 import DEFAULT_BACKGROUND from '../../../assets/images/background/category.jpg';
 import DEFAULT_BACKGROUND_MOBILE from '../../../assets/images/background/category-mobile.jpg';
 
+// Wordpress
 const { compose } = wp.compose;
+const { Fragment } = wp.element;
 
-class Post extends Base {
+/*
+ * //domain.com/2020/01/01/slug
+ */
+class Post extends WithController {
+  getController(): IRestController {
+    const slug = this.props.frontPage || null;
+    return PostController.getInstance(slug).addComponent(this);
+  }
+
   render(): JSX.Element {
-    const { hideFrontFooter, hideFrontHeader, frontPage } = this.props;
-    const post = PostController.getInstance(frontPage).addComponent(this).request();
-    const pendingComponent = this.getPendingComponent(post.init, post.loading, post.failed);
+    this.request();
 
-    if (pendingComponent) {
-      return pendingComponent;
+    const { hideFrontFooter, hideFrontHeader } = this.props;
+    const isPending = this.isPending();
+
+    switch (isPending) {
+      case 'init':
+        return (
+          <Fragment />
+        );
+      case 'loading':
+        return (
+          <Public className="stretched-background hide-footer">
+            <PageHeader isLoading />
+          </Public>
+        );
+      case 'failed':
+        return (
+          <NotFound />
+        );
+      default:
+        break;
     }
 
-    GlobalController.getInstance().setTitle(post.entity.title);
+    const post: IPost = this.getController().entity;
+
+    const {
+      title,
+      excerpt,
+      thumbnail,
+      meta,
+      prevNext,
+      related,
+    } = post;
+
+    this.setTitle(post.title);
 
     const backgroundImage =
       parseExImage(
-        post.entity.meta.background,
-        post.entity.thumbnail,
-        'medium_large',
-        'post-thumbnail',
+        meta.background,
+        thumbnail,
+        'large',
+        'medium',
         DEFAULT_BACKGROUND,
         DEFAULT_BACKGROUND_MOBILE,
       );
 
-    const className = hideFrontFooter ? 'hide-footer template-single' : 'template-single';
+    const className = hideFrontFooter ? 'hide-footer' : '';
+
     return (
-      <Public className={className}>
+      <Public className={`template-single ${className}`}>
         {!hideFrontHeader && (
           <PageHeader
             backgroundImage={backgroundImage}
-            title={post.entity.title}
-            description={post.entity.excerpt}
-            backgroundColor={post.entity.meta['background-color']}
-            useBackgroundColor={post.entity.meta['use-background-color']}
+            title={title}
+            description={excerpt}
+            backgroundColor={meta['background-color']}
+            useBackgroundColor={meta['use-background-color']}
           />
         )}
 
         <section className="row">
-          <Content post={post.entity} className="large-9 medium-12">
+          <Content post={post} className="large-9 medium-12">
             <aside id="single-footer">
-              <PrevNext prevnext={post.entity.prevnext} />
+              <PrevNext prevNext={prevNext} />
 
               <section id="related-posts">
-                <RelatedPosts items={post.entity.related} />
+                <RelatedPosts items={related} />
               </section>
             </aside>
           </Content>

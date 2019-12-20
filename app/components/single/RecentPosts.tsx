@@ -1,16 +1,41 @@
+/** app/components/single/RecentPosts */
+
+import { WithController } from 'app/scenes/WithController';
+
+// Controller
+import { IRestController } from 'app/controllers/rest';
 import RecentPostController from 'app/controllers/rest/recent-post';
 
+// Item
+import { ISimplePost } from 'app/items/rest/interface/simple-post';
+
+// Components
 import Item from 'app/components/archive/Item';
 
-const { Component, Fragment } = wp.element;
+// Wordpress
+const { Fragment } = wp.element;
 const { compose } = wp.compose;
 
-class RecentPosts extends Component {
+class RecentPosts extends WithController {
+  public getController(): IRestController {
+    return RecentPostController.getInstance().addComponent(this);
+  }
+
   render(): JSX.Element {
-    const posts = RecentPostController.getInstance().addComponent(this).request();
-    if (!posts.init || posts.loading || posts.failed) {
-      return null;
+    this.request();
+    const isPending = this.isPending();
+
+    if (isPending) {
+      return (<Fragment />);
     }
+
+    const archive = this.getController();
+    const {
+      entity: {
+        id,
+        items,
+      },
+    } = archive;
 
     return (
       <Fragment>
@@ -18,13 +43,12 @@ class RecentPosts extends Component {
           <h2 className="section-header"><span>Recent Posts</span></h2>
         </header>
 
-        {posts.entities.map((entity) => (
+        {items.map((item: ISimplePost) => (
           <Item
-            key={`recent-post-id-${entity.id}`}
-            id={`post-id-${entity.id}`}
+            key={`recent-post-id-${id}`}
             columns="large-12 medium-12 small-12"
-            item={entity}
-            thumbnail={{ desktop: 'recent-post', mobile: 'recent-post' }}
+            item={item}
+            thumbnailKey={{ desktop: 'small', mobile: 'small' }}
           />
         ))}
       </Fragment>

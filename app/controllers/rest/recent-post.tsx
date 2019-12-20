@@ -1,27 +1,29 @@
-import RestController from 'app/controllers/rest/base';
+import { RestController, IRestController } from 'app/controllers/rest';
 import PostController from 'app/controllers/rest/post';
-import Post from 'app/items/rest/post';
+
+import Archive from 'app/items/rest/archive';
+import { IArchive } from 'app/items/rest/interface/archive';
+import { IPost } from 'app/items/rest/interface/post';
 
 /*
  * Recent Post Controller
  */
-export default class RecentPostController extends RestController<Post> {
+export default class RecentPostController extends RestController<IArchive> {
   public static instance: RecentPostController;
 
-  public static getInstance(): RecentPostController {
+  public static getInstance(): IRestController {
     if (!this.instance) {
-      this.instance = new RecentPostController(Post);
+      this.instance = new RecentPostController(Archive);
     }
     return this.instance;
   }
 
   protected getRestUrl(): string {
-    return '/wp-json/sujin/v1/posts/?per_page=4';
+    return '/wp-json/sujin/v1/archive/?per_page=4';
   }
 
   protected postResponse(response): void {
-    super.postResponse(response);
-
-    this.entities.map((entity: Post) => PostController.getInstance(entity.slug).setFromPost(entity));
+    this.entity = this.itemBuilder.create(response.data);
+    this.entity.items.map((entity: IPost) => PostController.getInstance(entity.slug).setFromPost(entity));
   }
 }
