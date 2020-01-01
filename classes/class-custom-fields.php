@@ -23,8 +23,10 @@ use Sujin\Wordpress\WP_Express\Fields\Settings\Input as Option_Input;
 use Sujin\Wordpress\WP_Express\Fields\Settings\Attachment as Option_Attachment;
 use Sujin\Wordpress\WP_Express\Fields\Settings\Checkbox as Option_Checkbox;
 
+use Sujin\Wordpress\WP_Express\Helpers\Trait_Singleton;
+
 class Custom_Fields {
-	use Helpers\Singleton;
+	use Trait_Singleton;
 
 	function __construct() {
 		$this->set_custom_fields();

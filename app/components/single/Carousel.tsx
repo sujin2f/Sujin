@@ -8,7 +8,7 @@ interface State {
   currentImage: string;
 }
 
-class Carousel extends Component<Props> {
+class Carousel extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = { currentImage: 0 };

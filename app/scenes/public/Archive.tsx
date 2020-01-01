@@ -73,7 +73,7 @@ class Archive extends WithController {
       },
     } = archive;
 
-    this.setTitle(`${type}: ${title}`);
+    this.setTitle(`${title}`);
 
     const backgroundImage =
       parseExImage(

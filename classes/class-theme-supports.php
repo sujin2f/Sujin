@@ -9,8 +9,10 @@
 
 namespace Sujin\Wordpress\Theme\Sujin;
 
+use Sujin\Wordpress\WP_Express\Helpers\Trait_Singleton;
+
 class Theme_Supports {
-	use Helpers\Singleton;
+	use Trait_Singleton;
 
 	private const POST_THUMBNAIL_WIDTH  = 370;
 	private const POST_THUMBNAIL_HEIGHT = 200;

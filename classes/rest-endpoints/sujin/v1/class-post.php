@@ -1,12 +1,11 @@
 <?php
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1;
 
-use Sujin\Wordpress\Theme\Sujin\Helpers\{
-	Transient,
-	Singleton,
-};
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1;
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items\Post as Post_Item;
+
+use Sujin\Wordpress\WP_Express\Helpers\Trait_Singleton;
+use Sujin\Wordpress\WP_Express\Helpers\Transient;
 
 // phpcs:disable Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
 use WP_Post,
@@ -15,14 +14,8 @@ use WP_Post,
     WP_Query;
 // phpcs:enable Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
 
-if ( ! defined( 'ABSPATH' ) ) {
-	header( 'Status: 404 Not Found' );
-	header( 'HTTP/1.1 404 Not Found' );
-	exit();
-}
-
 class Post extends V1 {
-	use Singleton;
+	use Trait_Singleton;
 
 	protected const CACHE_TTL     = 12 * HOUR_IN_SECONDS;
 	protected const RESOURCE_NAME = 'post';

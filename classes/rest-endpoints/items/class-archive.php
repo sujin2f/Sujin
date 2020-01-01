@@ -14,7 +14,7 @@ use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items;
 // phpcs:disable WordPress.NamingConventions.ValidVariableName.MemberNotSnakeCase
 // phpcs:disable WordPress.NamingConventions.ValidVariableName.NotSnakeCaseMemberVar
 final class Archive extends Items {
-	public $name;
+	public $title;
 	public $description;
 	public $thumbnail;
 	public $total;

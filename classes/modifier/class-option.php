@@ -9,9 +9,9 @@
 
 namespace Sujin\Wordpress\Theme\Sujin\Modifier;
 
-use Sujin\Wordpress\Theme\Sujin\Helpers\Singleton;
+use Sujin\Wordpress\WP_Express\Helpers\Trait_Singleton;
 
-use Sujin\Wordpress\WP_Express\Setting;
+use Sujin\Wordpress\WP_Express\Settings_Section;
 use Sujin\Wordpress\WP_Express\Fields\Settings\{
 	Input,
 	Attachment,
@@ -19,13 +19,13 @@ use Sujin\Wordpress\WP_Express\Fields\Settings\{
 };
 
 class Option {
-	use Singleton;
+	use Trait_Singleton;
 
 	function __construct() {
-		Setting::get_instance( 'Theme Options' )
-			->add( Input::get_instance( 'Flicker ID' ) )
-			->add( Attachment::get_instance( 'Open Graph (Default Image)' ) )
-			->add( Checkbox::get_instance( 'Hide Header in Front Page' ) )
-			->add( Checkbox::get_instance( 'Hide Footer in Front Page' ) );
+		Settings_Section::get_instance( 'Theme Options' )
+			->append( Input::get_instance( 'Flicker ID' ) )
+			->append( Attachment::get_instance( 'Open Graph (Default Image)' ) )
+			->append( Checkbox::get_instance( 'Hide Header in Front Page' ) )
+			->append( Checkbox::get_instance( 'Hide Footer in Front Page' ) );
 	}
 }

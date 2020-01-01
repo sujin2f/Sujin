@@ -12,7 +12,7 @@
 >
 	<testsuites>
 		<testsuite name="sujin">
-			<directory suffix=".spec.php">../../</directory>
+			<directory suffix=".spec.php">../../classes</directory>
 		</testsuite>
 	</testsuites>
 	<php>

@@ -14,7 +14,7 @@ class Unit_Test extends Test_Case {
 		parent::setUp();
 		$this->object = new Background();
 		do_action( 'rest_api_init' );
-		Taxonomy::get_instance( 'Category' )->attach_to( 'attachment' );
+		Taxonomy::get_instance( 'Category' )->append_to( 'attachment' );
 
 		add_filter( 'stylesheet_directory', array( $this, 'stylesheet_directory' ) );
 	}

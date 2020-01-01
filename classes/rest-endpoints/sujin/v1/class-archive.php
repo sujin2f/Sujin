@@ -1,10 +1,6 @@
 <?php
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1;
 
-use Sujin\Wordpress\Theme\Sujin\Helpers\{
-	Transient,
-	Singleton,
-};
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\{
 	Sujin\V1,
 	Items\Archive as Archive_Item,
@@ -12,6 +8,8 @@ use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\{
 };
 
 use Sujin\Wordpress\WP_Express\Fields\Term_Meta\Attachment as Term_Meta_Attachment;
+use Sujin\Wordpress\WP_Express\Helpers\Trait_Singleton;
+use Sujin\Wordpress\WP_Express\Helpers\Transient;
 
 // phpcs:disable Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
 use WP_Post,
@@ -31,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Archive extends V1 {
-	use Singleton;
+	use Trait_Singleton;
 
 	protected const CACHE_TTL     = 12 * HOUR_IN_SECONDS;
 	protected const RESOURCE_NAME = 'archive';
@@ -184,7 +182,7 @@ class Archive extends V1 {
 		$thumbnail = Term_Meta_Attachment::get_instance( 'Thumbnail' )->get( $term->term_id ) ?: null;
 		$response->set_thumbnail( $thumbnail );
 
-		$response->name        = $term->name;
+		$response->title       = $term->name;
 		$response->description = $term->description;
 		$response->total       = $posts->found_posts;
 		$response->totalPages  = $posts->max_num_pages; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.NotSnakeCaseMemberVar

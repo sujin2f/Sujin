@@ -9,12 +9,11 @@
 
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1;
 
-use Sujin\Wordpress\Theme\Sujin\Helpers\{
-	Transient,
-	Singleton,
-};
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1;
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items\Menu as Menu_Item;
+
+use Sujin\Wordpress\WP_Express\Helpers\Trait_Singleton;
+use Sujin\Wordpress\WP_Express\Helpers\Transient;
 
 // phpcs:disable Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
 use WP_REST_Server,
@@ -22,14 +21,8 @@ use WP_REST_Server,
     WP_Error;
 // phpcs:enable Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
 
-if ( ! defined( 'ABSPATH' ) ) {
-	header( 'Status: 404 Not Found' );
-	header( 'HTTP/1.1 404 Not Found' );
-	exit();
-}
-
 class Menu extends V1 {
-	use Singleton;
+	use Trait_Singleton;
 
 	protected const RESOURCE_NAME = 'menu';
 

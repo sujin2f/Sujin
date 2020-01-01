@@ -26,7 +26,7 @@ export default class RouteController {
       this.component = component;
     }
 
-    this.history.listen((location, action: string) => {
+    this.history.listen((_, action: string) => {
       if (action === 'PUSH' || action === 'POP') {
         scrollTo();
         GlobalController.getInstance().setMobileMenu(false);

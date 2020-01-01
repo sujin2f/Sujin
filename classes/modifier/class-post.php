@@ -9,8 +9,9 @@
 
 namespace Sujin\Wordpress\Theme\Sujin\Modifier;
 
-use Sujin\Wordpress\Theme\Sujin\Helpers\Singleton;
+use Sujin\Wordpress\WP_Express\Helpers\Trait_Singleton;
 
+use Sujin\Wordpress\WP_Express\Post_Type;
 use Sujin\Wordpress\WP_Express\Meta_Box;
 use Sujin\Wordpress\WP_Express\Fields\Post_Meta\{
 	Input,
@@ -19,17 +20,17 @@ use Sujin\Wordpress\WP_Express\Fields\Post_Meta\{
 };
 
 class Post {
-	use Singleton;
+	use Trait_Singleton;
 
 	function __construct() {
 		Meta_Box::get_instance( 'Images' )
-			->attach_to( 'post' )
-			->attach_to( 'page' )
-			->add( Attachment::get_instance( 'List' ) )
-			->add( Attachment::get_instance( 'Icon' ) )
-			->add( Attachment::get_instance( 'Title' ) )
-			->add( Attachment::get_instance( 'Background' ) )
-			->add( Checkbox::get_instance( 'Use Background Color' ) )
-			->add( Input::get_instance( 'Background Color' )->type( 'color' ) );
+			->append_to( Post_Type::get_instance( 'Post' ) )
+			->append_to( Post_Type::get_instance( 'Page' ) )
+			->append( Attachment::get_instance( 'List' ) )
+			->append( Attachment::get_instance( 'Icon' ) )
+			->append( Attachment::get_instance( 'Title' ) )
+			->append( Attachment::get_instance( 'Background' ) )
+			->append( Checkbox::get_instance( 'Use Background Color' ) )
+			->append( Input::get_instance( 'Background Color' )->type( 'color' ) );
 	}
 }

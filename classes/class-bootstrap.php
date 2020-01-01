@@ -17,20 +17,19 @@ use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1\{
 	Archive,
 };
 
-use Sujin\Wordpress\Theme\Sujin\{
-	Helpers\Singleton,
-	Shortcode\About_Item,
-};
+use Sujin\Wordpress\Theme\Sujin\Shortcode\About_Item;
 
 use Sujin\Wordpress\Theme\Sujin\Modifier\{
 	Option,
 	Taxonomy,
 	Post as Post_Modifier,
-	PostType\Gallery,
+	Post_Type\Gallery,
 };
 
+use Sujin\Wordpress\WP_Express\Helpers\Trait_Singleton;
+
 class Bootstrap {
-	use Singleton;
+	use Trait_Singleton;
 
 	function __construct() {
 		$this->init();

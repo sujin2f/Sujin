@@ -9,10 +9,10 @@
 
 namespace Sujin\Wordpress\Theme\Sujin\Shortcode;
 
-use Sujin\Wordpress\Theme\Sujin\Helpers\Singleton;
+use Sujin\Wordpress\WP_Express\Helpers\Trait_Singleton;
 
 final class About_Item {
-	use Singleton;
+	use Trait_Singleton;
 
 	private const SHORTCODE = 'about-item';
 

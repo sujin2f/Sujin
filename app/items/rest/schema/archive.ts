@@ -37,9 +37,9 @@ export type Post = SimplePost & {
 
 export interface Archive {
   /**
-   * Archive Name
+   * Archive Title
    */
-  name?: string;
+  title?: string;
   /**
    * Archive Description
    */
