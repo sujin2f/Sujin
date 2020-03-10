@@ -1,6 +1,5 @@
 import hash from 'object-hash';
 
-import Carousel from 'app/components/single/Carousel';
 import Gist from 'app/components/single/Gist';
 import TweetEmbed from 'app/components/single/TweetEmbed';
 
@@ -29,12 +28,6 @@ export function parseContent(content) {
   let splited = (content.split(patternShortcode) || [])
     .filter((v) => v);
 
-  matched = (string.match(regexp('carousel')) || [])
-    .reduce((acc, value) => ({
-      ...acc,
-      [value]: attrs(value),
-    }), matched);
-
   matched = (string.match(regexp('gist')) || [])
     .reduce((acc, value) => ({
       ...acc,
@@ -55,13 +48,6 @@ export function parseContent(content) {
 
   splited = splited.map((value) => {
     if (matched[value]) {
-      if (value.indexOf('[carousel') === 0 && Object.keys(matched[value].named).length > 0) {
-        const images = Object.keys(matched[value].named).map((keyCarousel) => replaceQuotes(matched[value].named, keyCarousel));
-        return (
-          <Carousel key={hash(value)} images={images} />
-        );
-      }
-
       if (value.indexOf('[gist') === 0) {
         const id = replaceQuotes(matched[value].named, 'id');
         const file = replaceQuotes(matched[value].named, 'file');

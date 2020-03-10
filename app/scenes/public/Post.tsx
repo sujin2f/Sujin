@@ -21,6 +21,10 @@ import NotFound from 'app/scenes/public/NotFound';
 // Functions
 import { parseExImage } from 'app/utils/common';
 
+// Vanilla TS
+import { Carousel } from 'app/components/single/Carousel';
+import { CLASS_NAME } from 'app/constants/dom';
+
 // Images
 import DEFAULT_BACKGROUND from '../../../assets/images/background/category.jpg';
 import DEFAULT_BACKGROUND_MOBILE from '../../../assets/images/background/category-mobile.jpg';
@@ -33,6 +37,22 @@ const { Fragment } = wp.element;
  * //domain.com/2020/01/01/slug
  */
 class Post extends WithController {
+  private carousels: Array<Carousel> = [];
+
+  componentDidUpdate(): void {
+    const carousels = document.getElementsByClassName(CLASS_NAME.carousel.CAROUSEL);
+
+    if (carousels.length === 0) {
+      return;
+    }
+
+    this.carousels = [];
+
+    Array.from(carousels).forEach((element: HTMLElement): void => {
+      this.carousels.push(new Carousel(element));
+    });
+  }
+
   getController(): IRestController {
     const slug = this.props.frontPage || null;
     return PostController.getInstance(slug).addComponent(this);

@@ -18,6 +18,7 @@ use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1\{
 };
 
 use Sujin\Wordpress\Theme\Sujin\Shortcode\About_Item;
+use Sujin\Wordpress\Theme\Sujin\Shortcode\Gallery as Shortcode_Gallery;
 
 use Sujin\Wordpress\Theme\Sujin\Modifier\{
 	Option,
@@ -49,6 +50,7 @@ class Bootstrap {
 
 		// Shortcode
 		About_Item::get_instance();
+		Shortcode_Gallery::get_instance();
 
 		// Custom Post Type
 		Gallery::get_instance();

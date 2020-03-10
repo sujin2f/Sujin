@@ -98,6 +98,8 @@ export default class RouteController {
       return;
     }
 
+    console.log(this.history);
+
     // Go!
     this.history.push(href.replace(window.location.origin, ''));
     e.preventDefault();

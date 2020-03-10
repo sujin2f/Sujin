@@ -1,17 +1,17 @@
 <?php
 /**
- * Class : Shortcode -- [about-item /]
+ * Shortcode -- [about-item from="" to="" /]
  *
- * @project Sujin
+ * @author  Sujin 수진 Choi <http://www.sujinc.com/>
+ * @package Sujin
  * @since   8.0.0
- * @author  Sujin 수진 Choi http://www.sujinc.com/
  */
 
 namespace Sujin\Wordpress\Theme\Sujin\Shortcode;
 
 use Sujin\Wordpress\WP_Express\Helpers\Trait_Singleton;
 
-final class About_Item {
+class About_Item {
 	use Trait_Singleton;
 
 	private const SHORTCODE = 'about-item';
