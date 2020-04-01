@@ -18,10 +18,15 @@ if ( ! function_exists( 'register_block_type' ) ) {
 }
 
 if ( ! defined( 'SUJIN_DEV_MODE' ) ) {
-	define( 'SUJIN_DEV_MODE', false );
+	define( 'SUJIN_DEV_MODE', true );
 }
 
-include_once( get_stylesheet_directory() . '/autoload.php' );
 include_once( get_stylesheet_directory() . '/vendor/sujin/wp-express/autoload.php' );
+
+$class_loader = new Sujin\Wordpress\WP_Express\Autoloader(
+	'Sujin\\Wordpress\\Theme\\Sujin',
+	dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'classes',
+);
+$class_loader->register();
 
 Sujin\Wordpress\Theme\Sujin\Bootstrap::get_instance();

@@ -9,11 +9,12 @@
 
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items;
 
+use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items;
 use WP_Term;
 
 // phpcs:disable WordPress.NamingConventions.ValidVariableName.MemberNotSnakeCase
 // phpcs:disable WordPress.NamingConventions.ValidVariableName.NotSnakeCaseMemberVar
-final class Tag extends Abstract_Rest_Item {
+final class Tag extends Items {
 	public $name;
 	public $slug;
 	public $termId;

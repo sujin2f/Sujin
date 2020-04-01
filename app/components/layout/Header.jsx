@@ -47,7 +47,12 @@ class Header extends Component {
         </section>
 
         <section className="logo-container">
-          <Link to="/" className="icon logo reverse">Sujin</Link>
+          <Link
+            to="/"
+            className="icon logo reverse"
+          >
+            Sujin
+          </Link>
         </section>
 
         <Menu

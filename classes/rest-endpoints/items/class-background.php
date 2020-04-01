@@ -9,9 +9,10 @@
 
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items;
 
+use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items;
 use WP_Post;
 
-final class Background extends Abstract_Rest_Item {
+final class Background extends Items {
 	public $title;
 	public $desktop;
 	public $mobile;

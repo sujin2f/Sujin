@@ -135,7 +135,8 @@
       "app"
     ],
     "globals": {
-      "wp": {}
+      "wp": {},
+      "sujin": {}
     },
     "collectCoverageFrom": [
       "app/**",
@@ -179,6 +180,7 @@
       }
     },
     "globals": {
+      "sujin": true,
       "wp": true,
       "window": true,
       "document": true

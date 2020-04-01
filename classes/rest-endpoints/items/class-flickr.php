@@ -1,7 +1,9 @@
 <?php
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items;
 
-class Flickr extends Abstract_Rest_Item {
+use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items;
+
+class Flickr extends Items {
 	public $title = '';
 	public $link  = '';
 	public $media = array(

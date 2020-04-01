@@ -1,16 +1,17 @@
 <?php
 use Sujin\Wordpress\WP_Express\Fields\Post_Meta\Attachment as Meta_Attachment;
 use Sujin\Wordpress\WP_Express\Fields\Term_Meta\Attachment as Term_Meta_Attachment;
+use Sujin\Wordpress\WP_Express\Fields\Settings\Attachment as Option_Attachment;
 
 global $wp;
 
 $title       = '';
 $description = '';
 $url         = home_url( $wp->request );
-$image       = get_stylesheet_directory_uri() . '/assets/images/open-graph.png';
+$image       = Option_Attachment::get_instance( 'Open Graph (Default Image)' )->get();
 
 if ( is_home() ) {
-	$title       = 'Sujin | WordPress Full Stack Developer';
+	$title       = get_bloginfo( 'name' );
 	$description = get_bloginfo( 'description' );
 } elseif ( is_single() ) {
 	$title       = get_the_title();
@@ -35,6 +36,8 @@ if ( is_home() ) {
 		<link rel="profile" href="http://gmpg.org/xfn/11" />
 		<base href="/" />
 
+		<?php wp_head(); ?>
+
 		<link rel="icon" type="image/png" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/favicon-32x32.png" sizes="32x32" />
 		<link rel="icon" type="image/png" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/favicon-32x32.png" sizes="16x16" />
 		<link rel="shortcut icon" type="image/png" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/favicon.png" />
@@ -44,8 +47,6 @@ if ( is_home() ) {
 		<meta property="article:author" content="Sujin" />
 
 		<meta name="twitter:creator" content="@sujin2f" />
-
-		<?php wp_head(); ?>
 
 		<title><?php echo esc_html( $title ); ?></title>
 		<meta name="description" content="<?php echo esc_html( $description ); ?>" />
@@ -59,6 +60,11 @@ if ( is_home() ) {
 		<meta name="twitter:title" content="<?php echo esc_html( $title ); ?>" />
 		<meta name="twitter:description" content="<?php echo esc_html( $description ); ?>" />
 		<meta name="twitter:image" content="<?php echo esc_url( $image ); ?>" />
+
+		<script
+			async
+			src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+		></script>
 	</head>
 
 	<body class="<?php echo implode( ' ', get_body_class() ); ?>">

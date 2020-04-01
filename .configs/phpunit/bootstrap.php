@@ -32,7 +32,11 @@ tests_add_filter(
 // Start up the WP testing environment.
 require getenv( 'WP_PHPUNIT__DIR' ) . '/includes/bootstrap.php';
 
-include_once( SJ_BASE__DIR . '/autoload.php' );
 include_once( SJ_BASE__DIR . '/vendor/sujin/wp-express/autoload.php' );
+$class_loader = new Sujin\Wordpress\WP_Express\Autoloader(
+	'Sujin\\Wordpress\\Theme\\Sujin',
+	SJ_BASE__DIR . DIRECTORY_SEPARATOR . 'classes',
+);
+$class_loader->register();
 
 include_once( SJ_PHPUNIT__DIR . '/class-test-case.php' );

@@ -11,7 +11,7 @@ namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1\Post;
 
 use Sujin\Wordpress\Theme\Sujin\{
 	Rest_Endpoints\Sujin\V1\Post,
-	Transient,
+	Helpers\Transient,
 };
 
 use Sujin\Wordpress\WP_Express\Fields\Post_Meta\{

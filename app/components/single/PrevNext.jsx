@@ -8,8 +8,6 @@ class PrevNext extends Component {
   render() {
     const { prevNext } = this.props;
 
-    console.log(this.props);
-
     return (
       <nav id="prev-next">
         {Object.keys(prevNext).map((key) => {

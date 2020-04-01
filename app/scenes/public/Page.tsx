@@ -31,11 +31,14 @@ const { Fragment } = wp.element;
  */
 class Page extends WithController {
   getController(): IRestController {
-    return PostController.getInstance().addComponent(this);
+    const slug = this.props.frontPage || null;
+    return PostController.getInstance(slug).addComponent(this);
   }
 
   render(): JSX.Element {
     this.request();
+
+    const { hideFrontFooter, hideFrontHeader } = this.props;
     const isPending = this.isPending();
 
     switch (isPending) {
@@ -78,13 +81,20 @@ class Page extends WithController {
         DEFAULT_BACKGROUND_MOBILE,
       );
 
+    // @todo 'stretched-background'
+    // @ref  https://css-tricks.com/the-trick-to-viewport-units-on-mobile/
+
+    const className = hideFrontFooter ? 'hide-footer' : '';
+
     return (
-      <Public className="template-single">
-        <PageHeader
-          backgroundImage={backgroundImage}
-          title={title}
-          description={excerpt}
-        />
+      <Public className={`template-single ${className}`}>
+        {!hideFrontHeader && (
+          <PageHeader
+            backgroundImage={backgroundImage}
+            title={title}
+            description={excerpt}
+          />
+        )}
 
         <section className="row">
           <Content post={post} className="medium-12" />

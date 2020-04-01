@@ -15,3 +15,11 @@ stat.json
 # Composer
 vendor/
 wordpress/
+
+# Environments
+**/.env
+**/docker-compose.yml
+
+# Site Specified Assets
+assets/styles/site-specific
+assets/images/site-specific

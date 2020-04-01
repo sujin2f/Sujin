@@ -20,6 +20,13 @@ jobs:
         php-version: 7.3
         extension-csv: intl
 
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v1
+      with:
+        php-version: '7.3'
+        extension-csv: intl
+        coverage: coveralls
+
     - name: Validate composer.json and composer.lock
       run: composer validate
 

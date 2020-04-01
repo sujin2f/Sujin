@@ -11,7 +11,7 @@ export default class Archive implements IArchive {
   /**
    * Archive Name
    */
-  name?: string;
+  title?: string;
   /**
    * Archive Description
    */
@@ -31,7 +31,7 @@ export default class Archive implements IArchive {
   items?: IPost[];
 
   constructor(data) {
-    this.name = decodeURIComponent(data.name) || '';
+    this.title = decodeURIComponent(data.title) || '';
     this.description = decodeURIComponent(data.description) || '';
     this.thumbnail = new Image(data.thumbnail);
     this.total = data.total;

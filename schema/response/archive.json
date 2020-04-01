@@ -3,8 +3,8 @@
   "title": "archive",
   "type": "object",
   "properties": {
-    "name": {
-      "description": "Archive Name",
+    "title": {
+      "description": "Archive Title",
       "type": "string",
       "readonly": true
     },

@@ -1,0 +1,79 @@
+body {
+	#app {
+		.tag_cloud--container {
+			.tag_cloud {
+				display: flex;
+				flex-wrap: wrap;
+				align-items: center;
+
+				a {
+					line-height: inherit !important;
+					border-radius: 5px !important;
+					color: white !important;
+					background-color: transparent !important;
+					padding: 0px !important;
+					display: block !important;
+					margin-right: 7px !important;
+				}
+
+				a.size_1 {
+					font-size: 1em !important;
+					padding: 0 0.3em 0.2em !important;
+				}
+
+				a.size_2 {
+					font-size: 1.2em !important;
+					padding: 0 0.3em 0.2em !important;
+				}
+
+				a.size_3 {
+					font-size: 1.4em !important;
+					padding: 0 0.2em 0.2em !important
+				}
+
+				a.size_4 {
+					font-size: 1.6em !important;
+					padding: 0em 0.3em !important;
+				}
+
+				a.color_1 {
+					color: rgba(white, .7) !important;
+
+					&:hover {
+						color: black !important;
+						background-color: white !important;
+					}
+				}
+
+				a.color_2 {
+					color: white !important;
+
+					&:hover {
+						color: black !important;
+						background-color: white !important;
+					}
+				}
+
+				a.color_3 {
+					background-color: rgba(map-get($foundation-palette, 'primary'), .7) !important;
+					color: white !important;
+
+					&:hover {
+						color: black !important;
+						background-color: white !important;
+					}
+				}
+
+				a.color_4 {
+					background-color: map-get($foundation-palette, 'primary') !important;
+					color: white !important;
+
+					&:hover {
+						color: black !important;
+						background-color: white !important;
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,17 +1,22 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/",
     "baseUrl": ".",
     "esModuleInterop": true,
-    "sourceMap": true,
-    "noImplicitAny": false,
-    "module": "commonjs",
-    "target": "es6",
     "jsx": "react",
+    "lib": [ "dom", "dom.iterable", "es2015.promise", "es5" ],
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": false,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "module": "esnext",
+    "outDir": "./dist/",
     "paths": {
       "app/*": ["app/*"]
-    }
+    },
+    "sourceMap": true,
+    "target": "es5"
   },
-  "include": ["./app/app.d.ts"],
-  "exclude": ["node_modues"]
+  "exclude": ["node_modues"],
+  "include": ["./app/app.d.ts"]
 }

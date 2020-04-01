@@ -10,7 +10,7 @@
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1\Archive;
 
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1\Archive;
-use Sujin\Wordpress\Theme\Sujin\Transient;
+use Sujin\Wordpress\Theme\Sujin\Helpers\Transient;
 
 use Sujin\Wordpress\WP_Express\Fields\Post_Meta\{Attachment, Input, Checkbox};
 use Sujin\Wordpress\WP_Express\Taxonomy;

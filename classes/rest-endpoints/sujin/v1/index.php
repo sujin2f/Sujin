@@ -1,5 +1,5 @@
 <?php
-namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints;
+namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin;
 
 use Sujin\Wordpress\Theme\Sujin\Helpers\Schema\Response_Schema;
 
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
 
-abstract class Abs_Rest_Base extends WP_REST_Controller {
+abstract class V1 extends WP_REST_Controller {
 	protected const NAMESPACE = 'sujin/v1';
 
 	protected const STATUS_CODE_NO_CONTENT      = 204;

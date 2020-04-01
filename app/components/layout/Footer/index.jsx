@@ -1,30 +1,37 @@
 import Copywrite from 'app/components/layout/Footer/Copywrite';
+import Advert from 'app/components/layout/Footer/Advert';
 import Flickr from 'app/components/layout/Footer/Flickr';
+import Tags from 'app/components/layout/Footer/Tags';
 
 const { Fragment, Component } = wp.element;
 
 class GlobalFooter extends Component {
-  componentDidMount() {
-    (window.adsbygoogle = window.adsbygoogle || []).push({});
-  }
-
   render() {
     return (
       <Fragment>
         <div className="row widget-area">
-          <div className="small-12 medium-4 large-4 columns">
-            <ins
-              className="adsbygoogle"
-              style={{ display: 'block' }}
-              data-ad-client="ca-pub-6757157308071440"
-              data-ad-slot="6638219649"
-              data-ad-format="auto"
-            />
-          </div>
-          <div className="small-12 medium-4 large-4 columns">
-            <Flickr />
-          </div>
-          <div className="small-12 medium-4 large-4 columns" />
+          {sujin.widgets.footer && sujin.widgets.footer.map((widget) => (
+            <div className="small-12 medium-4 large-4 columns">
+              {widget.title && (
+                <h1><span>{widget.title}</span></h1>
+              )}
+              {widget.widget === 'flickr' && (
+                <Flickr items={widget.items} />
+              )}
+              {widget.widget === 'advert' && (
+                <Advert
+                  client={widget.client}
+                  slot={widget.slot}
+                  responsive={widget.responsive}
+                />
+              )}
+              {widget.widget === 'tags' && (
+                <Tags
+                  html={widget.html}
+                />
+              )}
+            </div>
+          ))}
         </div>
         <Copywrite />
       </Fragment>

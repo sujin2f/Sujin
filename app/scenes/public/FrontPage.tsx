@@ -8,33 +8,69 @@ import BackgroundController from 'app/controllers/rest/background';
 
 // Components
 import PageHeader from 'app/components/layout/PageHeader';
+import Post from 'app/scenes/public/Post';
+import Page from 'app/scenes/public/Page';
 import Public from 'app/scenes/public';
-
-// Constant
-import { DEFAULT_TITLE } from 'app/constants/common';
 
 // Wordpress
 const { compose } = wp.compose;
 
+/*
+ * For React components which uses Controller
+ */
 class FrontPage extends WithController {
   getController(): IRestController {
     return BackgroundController.getInstance().addComponent(this);
   }
 
   render(): JSX.Element {
-    this.request();
-    const backgroundImage = this.getController().getBackgroundImage();
-    this.setTitle(DEFAULT_TITLE);
+    const {
+      title,
+      description,
+      frontPage,
+      hideFrontFooter,
+      hideFrontHeader,
+      showOnFront,
+    } = sujin;
 
-    return (
-      <Public className="stretched-background hide-footer">
-        <PageHeader
-          backgroundImage={backgroundImage}
-          title="SUJIN"
-          description="<p>Wordpress/React Developer</p>"
+    this.request();
+    this.setTitle(title);
+
+    if (frontPage === 'front-page') {
+      const backgroundImage = this.getController().getBackgroundImage();
+
+      return (
+        <Public className="stretched-background hide-footer">
+          <PageHeader
+            backgroundImage={backgroundImage}
+            title={title.toUpperCase()}
+            description={description}
+          />
+        </Public>
+      );
+    }
+
+    if (showOnFront === 'posts') {
+      return (
+        <Post
+          hideFrontFooter={hideFrontFooter}
+          hideFrontHeader={hideFrontHeader}
+          frontPage={frontPage}
         />
-      </Public>
-    );
+      );
+    }
+
+    if (showOnFront === 'page') {
+      return (
+        <Page
+          hideFrontFooter={hideFrontFooter}
+          hideFrontHeader={hideFrontHeader}
+          frontPage={frontPage}
+        />
+      );
+    }
+
+    return null;
   }
 }
 

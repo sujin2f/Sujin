@@ -1,14 +1,13 @@
 <?php
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1;
 
-use Sujin\Wordpress\Theme\Sujin\Transient;
-use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Abs_Rest_Base;
-use Sujin\Wordpress\Theme\Sujin\Helpers\Singleton;
-use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items\Background as BackgroundItem;
+use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\{
+	Sujin\V1,
+	Items\Background as Background_Item,
+};
 
-use Sujin\Wordpress\WP_Express\Fields\Post_Meta\Attachment as Post_Meta_Attachment;
-use Sujin\Wordpress\WP_Express\Fields\Term_Meta\Attachment as Term_Meta_Attachment;
-use Sujin\Wordpress\WP_Express\Meta_Box;
+use Sujin\Wordpress\WP_Express\Helpers\Trait_Singleton;
+use Sujin\Wordpress\WP_Express\Helpers\Transient;
 
 // phpcs:disable Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
 use WP_REST_Controller,
@@ -18,14 +17,8 @@ use WP_REST_Controller,
     WP_Query;
 // phpcs:enable Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
 
-if ( ! defined( 'ABSPATH' ) ) {
-	header( 'Status: 404 Not Found' );
-	header( 'HTTP/1.1 404 Not Found' );
-	exit();
-}
-
-class Background extends Abs_Rest_Base {
-	use Singleton;
+class Background extends V1 {
+	use Trait_Singleton;
 
 	protected const RESOURCE_NAME = 'background';
 
@@ -83,7 +76,7 @@ class Background extends Abs_Rest_Base {
 		}
 
 		foreach ( array_keys( $posts ) as $arr_key ) {
-			$posts[ $arr_key ] = new BackgroundItem( $posts[ $arr_key ] );
+			$posts[ $arr_key ] = new Background_Item( $posts[ $arr_key ] );
 		}
 
 		$posts = json_decode( wp_json_encode( $posts ), true );

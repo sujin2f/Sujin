@@ -1,13 +1,15 @@
 <?php
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1;
 
-use Sujin\Wordpress\Theme\Sujin\Transient;
-use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Abs_Rest_Base;
-use Sujin\Wordpress\Theme\Sujin\Helpers\Singleton;
-use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items\Archive as ArchiveItem;
-use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items\Post as PostItem;
+use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\{
+	Sujin\V1,
+	Items\Archive as Archive_Item,
+	Items\Post as Post_Item,
+};
 
 use Sujin\Wordpress\WP_Express\Fields\Term_Meta\Attachment as Term_Meta_Attachment;
+use Sujin\Wordpress\WP_Express\Helpers\Trait_Singleton;
+use Sujin\Wordpress\WP_Express\Helpers\Transient;
 
 // phpcs:disable Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
 use WP_Post,
@@ -26,8 +28,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
 
-class Archive extends Abs_Rest_Base {
-	use Singleton;
+class Archive extends V1 {
+	use Trait_Singleton;
 
 	protected const CACHE_TTL     = 12 * HOUR_IN_SECONDS;
 	protected const RESOURCE_NAME = 'archive';
@@ -159,28 +161,37 @@ class Archive extends Abs_Rest_Base {
 			return rest_ensure_response( $this->error_not_found_term( $type ) );
 		}
 
-		// Query posts
-		$posts    = new WP_Query(
-			array(
-				'post_type'      => 'post',
-				'post_status'    => 'publish',
-				'posts_per_page' => $per_page,
-				'paged'          => $page,
-				's'              => 'search' === $type ? $slug : null,
-				'category_name'  => 'category' === $type ? $slug : null,
-				'tag'            => 'tag' === $type ? $slug : null,
-			)
+		$args = array(
+			'post_type'      => 'post',
+			'post_status'    => 'publish',
+			'posts_per_page' => $per_page,
+			'paged'          => $page,
 		);
-		$response = new ArchiveItem();
+
+		if ( 'search' === $type ) {
+			$args['s'] = $slug;
+		}
+
+		if ( 'category' === $type ) {
+			$args['category_name'] = $slug;
+		}
+
+		if ( 'tag' === $type ) {
+			$args['tag_slug__and'] = $slug;
+		}
+
+		// Query posts
+		$posts    = new WP_Query( $args );
+		$response = new Archive_Item();
 
 		foreach ( $posts->posts as $post ) {
-			$response->append_item( new PostItem( $post ) );
+			$response->append_item( new Post_Item( $post ) );
 		}
 
 		$thumbnail = Term_Meta_Attachment::get_instance( 'Thumbnail' )->get( $term->term_id ) ?: null;
 		$response->set_thumbnail( $thumbnail );
 
-		$response->name        = $term->name;
+		$response->title       = $term->name;
 		$response->description = $term->description;
 		$response->total       = $posts->found_posts;
 		$response->totalPages  = $posts->max_num_pages; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.NotSnakeCaseMemberVar
