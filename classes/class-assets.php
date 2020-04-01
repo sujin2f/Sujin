@@ -16,6 +16,7 @@ use Sujin\Wordpress\WP_Express\Fields\Settings\Checkbox as Option_Checkbox;
 use Sujin\Wordpress\Theme\Sujin\Widgets\{
 	Flickr as Flickr_Widget,
 	Advert as Advert_Widget,
+	Recent_Post as Recent_Post_Widget,
 };
 
 use SJ2DTAG_widget;
@@ -159,6 +160,13 @@ final class Assets {
 							'html'   => ob_get_clean(),
 						);
 						break;
+
+					case 'recent-post':
+						$sidebar[ $key ][] = array(
+							'widget' => 'recent-post',
+							'title'  => null,
+						);
+						break;
 				}
 			}
 		}
@@ -183,23 +191,7 @@ final class Assets {
 			return;
 		}
 
-		wp_enqueue_script( 'wp-shortcode' );
-		wp_enqueue_script( 'wp-components' );
-
+		wp_enqueue_script( 'wp-block-library' );
 		wp_dequeue_style( 'wp-block-library' );
-
-		// Remove dependancies to minimize script load
-		$scripts = wp_scripts();
-
-		$scripts->registered['wp-shortcode']->deps  = array( 'lodash' );
-		$scripts->registered['wp-components']->deps = array(
-			'lodash',
-			'wp-compose',
-			'wp-dom',
-			'wp-element',
-			'wp-url',
-			'wp-i18n',
-			'moment',
-		);
 	}
 }

@@ -25,6 +25,7 @@ use Sujin\Wordpress\Theme\Sujin\Shortcode\Gallery as Shortcode_Gallery;
 use Sujin\Wordpress\Theme\Sujin\Widgets\{
 	Flickr as Flickr_Widget,
 	Advert as Advert_Widget,
+	Recent_Post as Recent_Post_Widget,
 };
 
 // Modifiers
@@ -103,5 +104,6 @@ class Bootstrap {
 	public function register_widgets(): void {
 		register_widget( Flickr_Widget::get_instance() );
 		register_widget( Advert_Widget::get_instance() );
+		register_widget( Recent_Post_Widget::get_instance() );
 	}
 }
