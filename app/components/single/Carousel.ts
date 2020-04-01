@@ -38,7 +38,7 @@ export class Carousel {
       if (!prev) {
         prev = this.navItems[this.navItems.length - 1];
       }
-      this.setCurrentImage(prev);
+      this.setCurrentImage(prev as HTMLImageElement);
     });
 
     this.next.addEventListener('click', (e: MouseEvent): void => {
@@ -47,7 +47,7 @@ export class Carousel {
       if (!next) {
         next = this.navItems[0]; // eslint-disable-line prefer-destructuring
       }
-      this.setCurrentImage(next);
+      this.setCurrentImage(next as HTMLImageElement);
     });
   }
 
@@ -55,7 +55,7 @@ export class Carousel {
     const images = Array.from(this.navItems).filter(
       (element: HTMLImageElement) => element.classList.contains(CLASS_NAME.carousel.CURRENT)
     );
-    return images.pop();
+    return images.pop() as HTMLImageElement;
   }
 
   private setCurrentImage(image: HTMLImageElement): void {
