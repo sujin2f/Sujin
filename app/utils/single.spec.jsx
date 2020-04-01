@@ -24,8 +24,6 @@ test('[gist /], [carousel /], [tweet /] Content Parse Test', () => {
   let content = 'Lorem ipsum dolor sit amet';
   content += '[gist id="d6ff10312084824d2a2058a70dbdb961" file="docker-compose.yml" /]';
   content += 'Lorem ipsum dolor sit amet';
-  content += '[carousel sc1="http://sujinc.test/wp-content/uploads/2018/05/myjf-sc1.jpg" sc2="http://sujinc.test/wp-content/uploads/2018/05/myjf-sc2.jpg" /]';
-  content += 'Lorem ipsum dolor sit amet';
   content += '[tweet id="476962421873975296" /]';
   content += 'Lorem ipsum dolor sit amet';
   content += '[tweet id="476962421873975298" /]';
@@ -40,21 +38,19 @@ test('[gist /], [carousel /], [tweet /] Content Parse Test', () => {
   const parsed = parseContent(content);
 
   expect(typeof parsed).toEqual('object');
-  expect(parsed.length).toEqual(14);
+  expect(parsed.length).toEqual(12);
   expect(parsed[0].type).toEqual('section');
   expect(parsed[1].type.name).toEqual('Gist');
   expect(parsed[2].type).toEqual('section');
-  expect(parsed[3].type.name).toEqual('Carousel');
+  expect(parsed[3].type.name).toEqual('TweetEmbed');
   expect(parsed[4].type).toEqual('section');
   expect(parsed[5].type.name).toEqual('TweetEmbed');
   expect(parsed[6].type).toEqual('section');
-  expect(parsed[7].type.name).toEqual('TweetEmbed');
+  expect(parsed[7].type.name).toEqual('CaseTool');
   expect(parsed[8].type).toEqual('section');
-  expect(parsed[9].type.name).toEqual('CaseTool');
+  expect(parsed[9].type.name).toEqual('TextSort');
   expect(parsed[10].type).toEqual('section');
-  expect(parsed[11].type.name).toEqual('TextSort');
-  expect(parsed[12].type).toEqual('section');
-  expect(parsed[13].type.name).toEqual('SymbolAlignment');
+  expect(parsed[11].type.name).toEqual('SymbolAlignment');
 });
 
 test('Series', () => {

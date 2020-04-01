@@ -36,6 +36,8 @@ if ( is_home() ) {
 		<link rel="profile" href="http://gmpg.org/xfn/11" />
 		<base href="/" />
 
+		<?php wp_head(); ?>
+
 		<link rel="icon" type="image/png" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/favicon-32x32.png" sizes="32x32" />
 		<link rel="icon" type="image/png" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/favicon-32x32.png" sizes="16x16" />
 		<link rel="shortcut icon" type="image/png" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/favicon.png" />
@@ -45,8 +47,6 @@ if ( is_home() ) {
 		<meta property="article:author" content="Sujin" />
 
 		<meta name="twitter:creator" content="@sujin2f" />
-
-		<?php wp_head(); ?>
 
 		<title><?php echo esc_html( $title ); ?></title>
 		<meta name="description" content="<?php echo esc_html( $description ); ?>" />
@@ -60,6 +60,11 @@ if ( is_home() ) {
 		<meta name="twitter:title" content="<?php echo esc_html( $title ); ?>" />
 		<meta name="twitter:description" content="<?php echo esc_html( $description ); ?>" />
 		<meta name="twitter:image" content="<?php echo esc_url( $image ); ?>" />
+
+		<script
+			async
+			src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+		></script>
 	</head>
 
 	<body class="<?php echo implode( ' ', get_body_class() ); ?>">

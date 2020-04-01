@@ -66,7 +66,7 @@ class Gallery {
 			return '';
 		}
 
-		return $this->get_html( array_values( $atts) );
+		return $this->get_html( array_values( $atts ) );
 	}
 
 	private function get_html( array $attachments ): string {
@@ -77,7 +77,7 @@ class Gallery {
 				<button class="prev" type="button">
 					<i></i>
 				</button>
-				<div>1/1</div>
+				<div class="indicator">1/<?php echo esc_html( count( $attachments ) ); ?></div>
 				<button class="next" type="button">
 					<i></i>
 				</button>

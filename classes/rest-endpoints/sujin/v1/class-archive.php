@@ -161,18 +161,27 @@ class Archive extends V1 {
 			return rest_ensure_response( $this->error_not_found_term( $type ) );
 		}
 
-		// Query posts
-		$posts    = new WP_Query(
-			array(
-				'post_type'      => 'post',
-				'post_status'    => 'publish',
-				'posts_per_page' => $per_page,
-				'paged'          => $page,
-				's'              => 'search' === $type ? $slug : null,
-				'category_name'  => 'category' === $type ? $slug : null,
-				'tag'            => 'tag' === $type ? $slug : null,
-			)
+		$args = array(
+			'post_type'      => 'post',
+			'post_status'    => 'publish',
+			'posts_per_page' => $per_page,
+			'paged'          => $page,
 		);
+
+		if ( 'search' === $type ) {
+			$args['s'] = $slug;
+		}
+
+		if ( 'category' === $type ) {
+			$args['category_name'] = $slug;
+		}
+
+		if ( 'tag' === $type ) {
+			$args['tag_slug__and'] = $slug;
+		}
+
+		// Query posts
+		$posts    = new WP_Query( $args );
 		$response = new Archive_Item();
 
 		foreach ( $posts->posts as $post ) {

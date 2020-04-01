@@ -22,9 +22,11 @@ class Option {
 	use Trait_Singleton;
 
 	function __construct() {
+		Settings_Section::get_instance( 'Facebook Open Graph' )
+			->append( Attachment::get_instance( 'Default Image' ) )
+			->append( Input::get_instance( 'App ID' ) );
+
 		Settings_Section::get_instance( 'Theme Options' )
-			->append( Input::get_instance( 'Flicker ID' ) )
-			->append( Attachment::get_instance( 'Open Graph (Default Image)' ) )
 			->append( Checkbox::get_instance( 'Hide Header in Front Page' ) )
 			->append( Checkbox::get_instance( 'Hide Footer in Front Page' ) );
 	}

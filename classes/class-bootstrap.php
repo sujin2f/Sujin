@@ -9,17 +9,25 @@
 
 namespace Sujin\Wordpress\Theme\Sujin;
 
+// REST API Endpoints
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1\{
-	Flickr,
 	Post as Post_Endpoint,
 	Menu,
 	Background,
 	Archive,
 };
 
+// Shortcodes
 use Sujin\Wordpress\Theme\Sujin\Shortcode\About_Item;
 use Sujin\Wordpress\Theme\Sujin\Shortcode\Gallery as Shortcode_Gallery;
 
+// Widgets
+use Sujin\Wordpress\Theme\Sujin\Widgets\{
+	Flickr as Flickr_Widget,
+	Advert as Advert_Widget,
+};
+
+// Modifiers
 use Sujin\Wordpress\Theme\Sujin\Modifier\{
 	Option,
 	Taxonomy,
@@ -37,9 +45,11 @@ class Bootstrap {
 		$this->register_rest_endpoints();
 
 		add_filter( 'the_excerpt', array( $this, 'the_excerpt' ) );
+		add_action( 'widgets_init', array( $this, 'register_sidebars' ) );
+		add_action( 'widgets_init', array( $this, 'register_widgets' ) );
 	}
 
-	private function init() {
+	private function init(): void {
 		Assets::get_instance();
 		Theme_Supports::get_instance();
 
@@ -56,7 +66,7 @@ class Bootstrap {
 		Gallery::get_instance();
 	}
 
-	public function the_excerpt( $excerpt ) {
+	public function the_excerpt( string $excerpt ): string {
 		$breaks  = array( '<br />', '<br>', '<br/>' );
 		$excerpt = str_replace( $breaks, "\r\n\r\n", $excerpt );
 		$excerpt = strip_tags( $excerpt );
@@ -66,12 +76,32 @@ class Bootstrap {
 	}
 
 	private function register_rest_endpoints(): void {
-		Flickr::get_instance();
 		Post_Endpoint::get_instance();
 		Menu::get_instance();
 		Background::get_instance();
 		Archive::get_instance();
 
 		remove_filter( 'the_content', 'wpautop' );
+	}
+
+	public function register_sidebars(): void {
+		register_sidebar(
+			array(
+				'name' => 'Side Rail',
+				'id'   => 'side-rail',
+			)
+		);
+
+		register_sidebar(
+			array(
+				'name' => 'Footer',
+				'id'   => 'footer',
+			)
+		);
+	}
+
+	public function register_widgets(): void {
+		register_widget( Flickr_Widget::get_instance() );
+		register_widget( Advert_Widget::get_instance() );
 	}
 }

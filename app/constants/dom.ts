@@ -16,5 +16,6 @@ export const CLASS_NAME = {
     PREV: 'prev',
     NEXT: 'next',
     CURRENT: 'current',
+    INDICATOR: 'indicator',
   },
 };

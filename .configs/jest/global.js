@@ -14,3 +14,4 @@ global.wp = {
 Enzyme.configure({ adapter: new Adapter() });
 
 global.sujin = {};
+global.adsbygoogle = [];

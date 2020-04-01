@@ -13,6 +13,7 @@ declare const sujin: {
   showOnFront: string;
   title: string;
 }
+declare const adsbygoogle: any;
 
 const { Component } = wp.element;
 declare type ReactComponent = typeof Component;
