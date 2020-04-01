@@ -56,7 +56,8 @@ export abstract class RestController<T extends IRestItem> implements IRestContro
         }
 
         this.postResponse(response);
-      }).catch(() => {
+      }).catch((e) => {
+        console.error(e);
         this.failed = true;
       }).finally(() => {
         this.loading = false;

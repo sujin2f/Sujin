@@ -68,7 +68,7 @@ export default class SimplePost implements ISimplePost {
     };
     this.thumbnail = new Image(data.thumbnail);
     this.excerpt = decodeURIComponent(data.excerpt);
-    this.tags = data.tags.map((tag) => new Term(tag));
+    this.tags = (data.tags && data.tags.map((tag) => new Term(tag))) || [];
   }
 
   public parseDate(): { [key: string]: string | number } {
