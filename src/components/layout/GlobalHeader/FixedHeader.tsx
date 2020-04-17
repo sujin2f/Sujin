@@ -1,0 +1,70 @@
+/*
+ * Global Header > Fixed Header Component
+ * components/layout/GlobalHeader/FixedHeader
+ */
+
+import React, { useContext } from 'react';
+
+
+import { Link } from "components/common/Link";
+import { Search } from 'components/layout/Search';
+import { Menu } from 'components/layout/Menu';
+import { CLASS_NAME } from 'constants/dom';
+import { Context } from 'store';
+import { setPublicClass } from 'store/actions';
+
+export const FixedHeader = (): JSX.Element => {
+  const {
+    publicScene: {
+      MOBILE_MENU,
+    },
+  } = CLASS_NAME;
+  const [{ publicClass }, dispatch] = useContext(Context);
+
+  return (
+    <section className="layout__header__fixed">
+      {/* For Transparent Logo */}
+      <section className="flex-row fixed-nav">
+        <div className="section" />
+        <div className="section center" />
+        <div className="section" />
+      </section>
+
+      <section className="fixed-nav">
+        <div className="row">
+          <section className="columns small-6">
+            <button
+              className="hide-for-large icon hamburger"
+              data-testid="hamburger"
+              type="button"
+              label="Toggle Menu"
+              onClick={() => dispatch(setPublicClass({[MOBILE_MENU]: !publicClass[MOBILE_MENU]}))}
+            />
+            <Menu
+              className="show-for-large menu__fixed__primary"
+              slug="main-menu"
+            />
+          </section>
+          <section className="columns small-6 hide-for-small-only">
+            <Search />
+            <Menu
+              className="show-for-large menu__fixed__social-media"
+              slug="social-media"
+            />
+          </section>
+        </div>
+      </section>
+
+      <section className="logo-container">
+        <Link to="/" className="icon logo reverse">
+          Sujin
+        </Link>
+      </section>
+
+      <Menu
+        className="hide-for-large menu__fixed__primary-mobile"
+        slug="main-menu"
+      />
+    </section>
+  );
+};

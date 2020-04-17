@@ -1,0 +1,109 @@
+@import '~foundation-sites/scss/foundation';
+
+@include foundation-global-styles;
+@include foundation-forms;
+@include foundation-typography;
+@include foundation-flex-grid;
+@include foundation-visibility-classes;
+
+@import 'patials/settings.scss';
+
+@import 'patials/carousel.scss';
+@import 'patials/404.scss';
+
+@import 'patials/elements/global.scss';
+@import 'patials/elements/widgets.scss';
+
+#app {
+	min-height: 100%;
+	background-color: white;
+
+	@import 'patials/elements/icon.scss';
+	@import 'patials/elements/thumbnail.scss';
+	@import 'patials/elements/menu.scss';
+	@import 'patials/elements/simple-post.scss';
+	@import 'patials/elements/tag.scss';
+
+	.section-header {
+		@include section-header;
+	}
+
+	.layout__wrapper {
+		> header {
+			.layout__header__fixed {
+				@import 'patials/layout/header/fixed.scss';
+			}
+
+			.layout__header__top {
+				@import 'patials/layout/header/top.scss';
+
+				&.loading {
+					margin-bottom: 0;
+				}
+			}
+
+			.layout__header__thumb {
+				border-radius: 100px;
+				margin: -7.5em auto 2em;
+				display: block;
+				width: 9em;
+				height: 9em;
+			}
+		}
+
+		> main {
+			/*
+			 * Single
+			 */
+			.layout__main__content {
+				@import 'patials/layout/single/content.scss';
+			}
+
+			.layout__article__right {
+				@import 'patials/layout/single/right.scss';
+			}
+
+			.layout__main__content__footer {
+				@import 'patials/layout/single/footer.scss';
+			}
+
+			/*
+			 * Archive
+			 */
+			.archive__item {
+				figure {
+					height: 220px;
+				}
+			}
+
+			> .paging {
+				@import 'patials/elements/paging.scss';
+			}
+		}
+
+		> footer {
+			@import 'patials/layout/footer.scss';
+		}
+
+		/*
+		 * Status
+		*/
+		&.mobile-menu {
+			@import 'patials/status/mobile-menu.scss';
+		}
+
+		&.hide-footer {
+			@import 'patials/status/hide-footer.scss';
+		}
+
+		&.stretched-background {
+			@import 'patials/status/stretched-background.scss';
+		}
+
+		&.scrolled {
+			@import 'patials/status/scrolled.scss';
+		}
+	}
+}
+
+@import 'site-specific/style.scss';

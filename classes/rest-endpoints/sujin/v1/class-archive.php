@@ -49,29 +49,7 @@ class Archive extends V1 {
 	public function create_rest_routes() {
 		register_rest_route(
 			self::NAMESPACE,
-			'/' . self::RESOURCE_NAME,
-			array(
-				array(
-					'methods'             => WP_REST_Server::READABLE,
-					'callback'            => array( $this, 'get_items' ),
-					'permission_callback' => array( $this, 'permissions_check' ),
-					'args'                => array(
-						'per_page' => array(
-							'description'       => 'Posts per page',
-							'type'              => 'integer',
-							'required'          => false,
-							'sanitize_callback' => 'absint',
-							'default'           => 12,
-						),
-					),
-				),
-				'schema' => array( $this, 'get_item_schema' ),
-			)
-		);
-
-		register_rest_route(
-			self::NAMESPACE,
-			'/' . self::RESOURCE_NAME . '/(?P<type>(category|tag|search))/(?P<slug>[\w]+)',
+			'/' . self::RESOURCE_NAME . '/(?P<type>(category|tag|search|recentPosts))/(?P<slug>[\w]+)/(?P<page>[\d]+)',
 			array(
 				array(
 					'methods'             => WP_REST_Server::READABLE,
@@ -81,33 +59,7 @@ class Archive extends V1 {
 						'type' => array(
 							'description'       => 'List Type',
 							'type'              => 'string',
-							'enum'              => array( 'category', 'tag', 'search' ),
-							'sanitize_callback' => 'sanitize_text_field',
-						),
-						'slug' => array(
-							'description'       => 'Slug',
-							'type'              => 'string',
-							'sanitize_callback' => 'sanitize_text_field',
-						),
-					),
-				),
-				'schema' => array( $this, 'get_item_schema' ),
-			)
-		);
-
-		register_rest_route(
-			self::NAMESPACE,
-			'/' . self::RESOURCE_NAME . '/(?P<type>(category|tag|search))/(?P<slug>[\w]+)/(?P<page>[\d]+)',
-			array(
-				array(
-					'methods'             => WP_REST_Server::READABLE,
-					'callback'            => array( $this, 'get_items' ),
-					'permission_callback' => array( $this, 'permissions_check' ),
-					'args'                => array(
-						'type' => array(
-							'description'       => 'List Type',
-							'type'              => 'string',
-							'enum'              => array( 'category', 'tag', 'search' ),
+							'enum'              => array( 'category', 'tag', 'search', 'recentPosts' ),
 							'sanitize_callback' => 'sanitize_text_field',
 						),
 						'slug' => array(
@@ -128,17 +80,23 @@ class Archive extends V1 {
 		);
 	}
 
+	// @todo per_page to option value
 	public function get_items( $request ) {
 		$type     = $request->get_param( 'type' );
 		$slug     = $request->get_param( 'slug' );
 		$page     = $request->get_param( 'page' ) ?? 1;
-		$per_page = $request->get_param( 'per_page' ) ?? 12;
+		$per_page = 12;
 
 		$transient_key = $this->get_transient_key() . '-archive-' . $type . '-' . $slug . '-' . $page . '-' . $per_page;
 		$transient     = Transient::get_transient( $transient_key );
 
 		if ( $transient && ! $transient->is_expired() && ! SUJIN_DEV_MODE ) {
 			return rest_ensure_response( $transient->items );
+		}
+
+		if ( 'recentPosts' === $type ) {
+			$slug     = null;
+			$per_page = 4;
 		}
 
 		switch ( $type ) {

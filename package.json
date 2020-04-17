@@ -1,312 +1,54 @@
 {
-  "name": "sujin",
-  "version": "9.0.0",
-  "description": "Make mobile apps, web, and desktop apps with one React code",
-  "scripts": {
-    "arson": "npm run test && npm run lint && npm run phpunit && npm run phpcs",
-    "build": "cross-env BABEL_ENV=default webpack",
-    "bundle-analyzer": "npm run run:stats && npm run run:bundle-analyzer",
-    "lint": "eslint app/**/*.ts app/**/*.tsx app/**/*.js app/**/*.jsx",
-    "phpcbf": "vendor/bin/phpcbf --standard=./.configs/phpcs.xml -s && true",
-    "phpcs": "vendor/bin/phpcs --standard=./.configs/phpcs.xml -s",
-    "phpdoc": "vendor/bin/phpdoc -d ./classes -t ./logs/phpdoc",
-    "phpunit": "vendor/bin/phpunit -c ./.configs/phpunit/phpunit.xml",
-    "run:bundle-analyzer": "NODE_ENV=production webpack-bundle-analyzer logs/stats.json",
-    "run:stats": "NODE_ENV=production webpack --profile --json > logs/stats.json",
-    "schema:build": "./scripts/build-schema.sh",
-    "start": "cross-env BABEL_ENV=default webpack --watch",
-    "test": "jest --coverage",
-    "test:dev": "jest"
-  },
-  "author": {
-    "email": "sujin.2f@google.com",
-    "name": "Sujin 수진 Choi",
-    "url": "http://sujinc.com"
-  },
-  "bugs": {
-    "url": "https://github.com/sujin2f/SUjin/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/sujin2f/SUjin.git"
-  },
-  "private": false,
-  "license": "Apache-2.0",
+  "name": "new",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
     "axios": "^0.19.2",
-    "foundation-sites": "^6.6.2",
-    "history": "^4.9.0",
-    "object-hash": "^1.3.1",
-    "path-to-regexp": "^3.2.0"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.9.0",
-    "@babel/plugin-proposal-class-properties": "^7.8.3",
-    "@babel/preset-env": "^7.9.0",
-    "@babel/preset-react": "^7.9.4",
-    "@babel/preset-typescript": "^7.9.0",
-    "@babel/register": "^7.9.0",
-    "@types/jest": "^24.9.1",
-    "@types/react": "^16.9.31",
-    "@types/react-dom": "^16.9.6",
-    "@typescript-eslint/eslint-plugin": "^2.26.0",
-    "@typescript-eslint/parser": "^2.26.0",
-    "@wordpress/compose": "^3.12.0",
-    "@wordpress/data": "^4.15.0",
-    "@wordpress/element": "^2.12.0",
-    "@wordpress/eslint-plugin": "^3.4.1",
-    "@wordpress/shortcode": "^2.6.0",
-    "@wordpress/url": "^2.12.0",
-    "ansi-colors": "^2.0.1",
-    "autoprefixer": "^9.7.5",
-    "axios-mock-adapter": "^1.18.1",
-    "babel-eslint": "^10.1.0",
-    "babel-jest": "^25.2.4",
-    "babel-loader": "^8.1.0",
-    "babel-plugin-rewire": "^1.2.0",
-    "babel-plugin-transform-react-jsx": "^6.24.1",
-    "clean-webpack-plugin": "^2.0.2",
-    "compression-webpack-plugin": "^3.1.0",
-    "cross-env": "^5.0.1",
-    "css-loader": "^2.0.1",
-    "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.2",
-    "eslint": "^6.8.0",
-    "eslint-config-airbnb": "^18.1.0",
-    "eslint-import-resolver-webpack": "^0.11.1",
-    "eslint-loader": "^2.1.2",
-    "eslint-plugin-import": "^2.20.2",
-    "eslint-plugin-jest": "^23.8.2",
-    "eslint-plugin-jsx-a11y": "^6.2.1",
-    "eslint-plugin-react": "^7.19.0",
-    "extract-text-webpack-plugin": "^4.0.0-beta.0",
-    "fancy-log": "^1.3.2",
-    "file-loader": "^3.0.1",
-    "friendly-errors-webpack-plugin": "^1.7.0",
-    "image-webpack-loader": "^4.6.0",
-    "jest": "^25.2.4",
-    "mini-css-extract-plugin": "^0.6.0",
+    "foundation-sites": "^6.6.3",
     "node-sass": "^4.13.1",
-    "optimize-css-assets-webpack-plugin": "^5.0.1",
-    "path": "^0.12.7",
-    "postcss-loader": "^3.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "rememo": "^3.0.0",
-    "sass-loader": "^7.1.0",
-    "source-map-loader": "^0.2.4",
-    "style-loader": "^0.23.1",
-    "tar": "^6.0.1",
-    "ts-jest": "^25.3.0",
-    "ts-loader": "^6.2.2",
-    "typescript": "^3.8.3",
-    "uglifyjs-webpack-plugin": "^2.1.3",
-    "webpack": "^4.42.1",
-    "webpack-bundle-analyzer": "^3.6.1",
-    "webpack-clean": "^1.2.3",
-    "webpack-cli": "^3.3.11",
-    "webpack-manifest-plugin": "^2.2.0",
-    "webpack-merge": "^4.2.1"
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.4.1",
+    "typescript": "~3.7.2",
+    "webpack": "^4.42.0"
   },
-  "browserslist": [
-    "defaults",
-    "not ie < 11",
-    "last 2 versions",
-    "> 1%",
-    "iOS 7",
-    "last 3 iOS versions"
-  ],
-  "jest": {
-    "verbose": true,
-    "moduleNameMapper": {
-      "app/(.*)": "<rootDir>/app/$1",
-      "\\.(jpg|jpeg|png|gif|svg|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/.configs/jest/__mocks__/fileMock.js"
-    },
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "jsx",
-      "ts",
-      "tsx",
-      "node"
-    ],
-    "moduleDirectories": [
-      "node_modules",
-      "app"
-    ],
-    "globals": {
-      "wp": {},
-      "sujin": {}
-    },
-    "collectCoverageFrom": [
-      "app/**",
-      "!app/**/*.spec.*"
-    ],
-    "collectCoverage": true,
-    "coverageDirectory": "<rootDir>/logs",
-    "coverageReporters": [
-      "clover"
-    ],
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/vendor/"
-    ],
-    "setupFiles": [
-      "<rootDir>/.configs/jest/global.js"
-    ],
-    "transform": {
-      "^.+\\.jsx?$": "babel-jest",
-      "^.+\\.tsx?$": "ts-jest"
-    }
+  "scripts": {
+    "build": "react-scripts build",
+    "eject": "react-scripts eject",
+    "lint": "tslint 'src/**/*.{ts,tsx,js}'",
+    "start": "NODE_ENV=development webpack --watch",
+    "test": "react-scripts test --coverage"
   },
   "eslintConfig": {
-    "extends": [
-      "airbnb",
-      "plugin:@wordpress/eslint-plugin/esnext",
-      "plugin:@typescript-eslint/recommended"
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
     ],
-    "env": {
-      "browser": false,
-      "es6": true,
-      "node": true,
-      "jest/globals": true
-    },
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-      "sourceType": "module",
-      "ecmaFeatures": {
-        "jsx": true,
-        "modules": true
-      }
-    },
-    "globals": {
-      "sujin": true,
-      "wp": true,
-      "window": true,
-      "document": true
-    },
-    "plugins": [
-      "react",
-      "jsx-a11y",
-      "import",
-      "@typescript-eslint",
-      "jest"
-    ],
-    "settings": {
-      "import/parsers": {
-        "@typescript-eslint/parser": [
-          ".ts",
-          ".tsx"
-        ]
-      },
-      "import/resolver": {
-        "webpack": {
-          "config": "webpack.config.babel.js"
-        }
-      }
-    },
-    "rules": {
-      "template-curly-spacing": [
-        "error",
-        "never"
-      ],
-      "no-console": "off",
-      "react/react-in-jsx-scope": "off",
-      "operator-linebreak": [
-        "error",
-        "after"
-      ],
-      "max-len": [
-        "error",
-        150,
-        2
-      ],
-      "click-events-have-key-events": "off",
-      "react/prop-types": "off",
-      "react/prefer-stateless-function": "off",
-      "import/no-extraneous-dependencies": "off",
-      "class-methods-use-this": "off",
-      "react/destructuring-assignment": "off",
-      "react/no-danger": "off",
-      "indent": [
-        "error",
-        2,
-        {
-          "SwitchCase": 1
-        }
-      ],
-      "space-in-parens": [
-        "error",
-        "never"
-      ],
-      "computed-property-spacing": [
-        "error",
-        "never"
-      ],
-      "space-unary-ops": [
-        "error",
-        {
-          "words": true
-        }
-      ],
-      "nonwords": 0,
-      "array-bracket-spacing": [
-        "error",
-        "never"
-      ],
-      "react/jsx-filename-extension": [
-        2,
-        {
-          "extensions": [
-            ".jsx",
-            ".tsx"
-          ]
-        }
-      ],
-      "react/no-string-refs": "off",
-      "lines-between-class-members": "off",
-      "import/no-cycle": "off",
-      "@typescript-eslint/no-inferrable-types": "off",
-      "import/no-named-default": "off",
-      "@typescript-eslint/interface-name-prefix": "off",
-      "import/prefer-default-export": "off"
-    },
-    "overrides": [
-      {
-        "files": [
-          "*.js",
-          "*.jsx"
-        ],
-        "rules": {
-          "@typescript-eslint/explicit-function-return-type": "off"
-        }
-      },
-      {
-        "files": [
-          "*.ts",
-          "*.tsx"
-        ],
-        "rules": {
-          "jsx-a11y/control-has-associated-label": "off",
-          "@typescript-eslint/ban-ts-ignore": "off"
-        }
-      }
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
     ]
   },
-  "babel": {
-    "presets": [
-      "@babel/preset-env",
-      "@babel/preset-react",
-      "@babel/preset-typescript"
-    ],
-    "plugins": [
-      [
-        "transform-react-jsx",
-        {
-          "pragma": "wp.element.createElement"
-        }
-      ],
-      "@babel/plugin-proposal-class-properties"
-    ]
+  "devDependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "@types/jest": "^24.0.0",
+    "@types/node": "^12.0.0",
+    "@types/react": "^16.9.0",
+    "@types/react-dom": "^16.9.0",
+    "axios-mock-adapter": "^1.18.1",
+    "css-loader": "^3.5.2",
+    "react-app-rewired": "^2.1.5",
+    "sass-loader": "^8.0.2",
+    "tslint": "^6.1.1",
+    "tslint-react": "^4.2.0",
+    "webpack-cli": "^3.3.11"
   }
 }

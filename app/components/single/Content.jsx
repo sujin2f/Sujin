@@ -1,5 +1,3 @@
-import SocialShare from 'app/components/single/SocialShare';
-import Tags from 'app/components/Tags';
 import { parseContent, parseSeries } from 'app/utils/single';
 
 const { Component } = wp.element;
@@ -13,7 +11,6 @@ class Content extends Component {
         meta,
         content,
         series,
-        tags,
         type,
       },
       className,
@@ -38,10 +35,6 @@ class Content extends Component {
         <section className={icon ? 'more-margin' : ''}>
           {contents}
         </section>
-
-        <Tags tags={tags} />
-
-        <SocialShare />
 
         {children}
       </article>

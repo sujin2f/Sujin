@@ -1,7 +1,10 @@
 import Copywrite from 'app/components/layout/Footer/Copywrite';
-import Advert from 'app/components/layout/Footer/Advert';
-import Flickr from 'app/components/layout/Footer/Flickr';
-import Tags from 'app/components/layout/Footer/Tags';
+
+// Widgets
+import RecentPosts from 'app/components/widgets/RecentPosts';
+import Advert from 'app/components/widgets/Advert';
+import Flickr from 'app/components/widgets/Flickr';
+import WidgetTags from 'app/components/widgets/Tags';
 
 const { Fragment, Component } = wp.element;
 
@@ -9,9 +12,12 @@ class GlobalFooter extends Component {
   render() {
     return (
       <Fragment>
-        <div className="row widget-area">
+        <aside className="row widget-area">
           {sujin.widgets.footer && sujin.widgets.footer.map((widget) => (
-            <div className="small-12 medium-4 large-4 columns">
+            <div
+              className="small-12 medium-4 large-4 columns"
+              key={`footer-widget-${widget.widget}-${widget.key}`}
+            >
               {widget.title && (
                 <h1><span>{widget.title}</span></h1>
               )}
@@ -26,13 +32,16 @@ class GlobalFooter extends Component {
                 />
               )}
               {widget.widget === 'tags' && (
-                <Tags
+                <WidgetTags
                   html={widget.html}
                 />
               )}
+              {widget.widget === 'recent-post' && (
+                <RecentPosts />
+              )}
             </div>
           ))}
-        </div>
+        </aside>
         <Copywrite />
       </Fragment>
     );

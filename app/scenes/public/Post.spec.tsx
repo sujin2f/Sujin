@@ -5,7 +5,7 @@ import { shallow } from 'enzyme';
 
 import { rawData, response } from 'app/items/rest/test-data/post.spec.data';
 
-import Post from 'app/scenes/public/Post';
+import { Post } from 'app/scenes/public/Post';
 import RouteController from 'app/controllers/route';
 
 const mock = new MockAdapter(axios);

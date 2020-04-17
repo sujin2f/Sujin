@@ -7,7 +7,7 @@ import { IRestController } from 'app/controllers/rest';
 import ArchiveController from 'app/controllers/rest/archive';
 
 // Components
-import Public from 'app/scenes/public';
+import { Public } from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
 import Item from 'app/components/archive/Item';
 import Paging from 'app/components/archive/Paging';

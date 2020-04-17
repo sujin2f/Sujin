@@ -126,10 +126,6 @@ export default class RouteController {
       }
 
       validChild = child;
-      validChild.props = {
-        ...validChild.props,
-        componentHash: this.history.location.key,
-      };
       return true;
     });
 

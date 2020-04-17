@@ -60,7 +60,7 @@ class Item extends Component<Props> {
     const className = columns || 'large-4 medium-6 small-12';
 
     return (
-      <div className={`columns ${className}`}>
+      <div className={`columns list-item ${className}`}>
         <figure className="thumbnail" itemType="http://schema.org/ImageObject">
           <Link to={link} rel="noopener noreferrer" title={title}>
             <div className="zoom-icon" />
@@ -92,7 +92,7 @@ class Item extends Component<Props> {
           dangerouslySetInnerHTML={{ __html: excerpt }}
         />
 
-        <Tags tags={tags} />
+        <Tags tags={tags} from={`archive-item-${title}`} />
       </div>
     );
   }

@@ -36,7 +36,7 @@ class About_Item {
 
 		ob_start();
 		?>
-		<div class="flex-container-row">
+		<div class="about-item flex-container-row">
 			<div class="year">
 				<div><?php echo esc_html( $atts['from'] ); ?></div>
 				<?php if ( $atts['to'] ) { ?>
@@ -48,6 +48,6 @@ class About_Item {
 		</div>
 		<?php
 
-		return ob_get_clean();
+		return trim(ob_get_clean());
 	}
 }

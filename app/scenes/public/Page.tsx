@@ -10,10 +10,13 @@ import PostController from 'app/controllers/rest/post';
 import { IPost } from 'app/items/rest/interface/post';
 
 // Components
-import Public from 'app/scenes/public';
+import { Public } from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
 import Content from 'app/components/single/Content';
 import NotFound from 'app/scenes/public/NotFound';
+
+import SocialShare from 'app/components/single/SocialShare';
+import Tags from 'app/components/Tags';
 
 // Functions
 import { parseExImage } from 'app/utils/common';
@@ -23,13 +26,12 @@ import DEFAULT_BACKGROUND from '../../../assets/images/background/category.jpg';
 import DEFAULT_BACKGROUND_MOBILE from '../../../assets/images/background/category-mobile.jpg';
 
 // Wordpress
-const { compose } = wp.compose;
 const { Fragment } = wp.element;
 
 /*
  * //domain.com/page
  */
-class Page extends WithController {
+export class Page extends WithController {
   getController(): IRestController {
     const slug = this.props.frontPage || null;
     return PostController.getInstance(slug).addComponent(this);
@@ -67,6 +69,8 @@ class Page extends WithController {
       excerpt,
       thumbnail,
       meta,
+      tags,
+      slug,
     } = post;
 
     this.setTitle(title);
@@ -97,11 +101,14 @@ class Page extends WithController {
         )}
 
         <section className="row">
-          <Content post={post} className="medium-12" />
+          <Content post={post} className="medium-12">
+            <aside id="single-footer">
+              <Tags tags={tags} from={`single-${slug}`} />
+              <SocialShare />
+            </aside>
+          </Content>
         </section>
       </Public>
     );
   }
 }
-
-export default compose([])(Page);

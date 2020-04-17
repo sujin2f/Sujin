@@ -25,6 +25,7 @@ final class Menu extends Items {
 	 * Create MenuItem from WP_Post
 	*/
 	public function __construct( WP_Post $post ) {
+
 		$this->ID      = $post->ID;
 		$this->title   = $post->title;
 		$this->url     = $post->url;

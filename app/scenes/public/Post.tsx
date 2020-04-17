@@ -1,22 +1,19 @@
 /**  app/scenes/public/Post */
 
-import { WithController } from 'app/scenes/WithController';
-
-// Controllers
-import { IRestController } from 'app/controllers/rest';
-import PostController from 'app/controllers/rest/post';
-
 // Items
 import { IPost } from 'app/items/rest/interface/post';
 
 // Components
-import Public from 'app/scenes/public';
+import { Public } from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
 import Content from 'app/components/single/Content';
-import RecentPosts from 'app/components/single/RecentPosts';
 import RelatedPosts from 'app/components/single/RelatedPosts';
 import PrevNext from 'app/components/single/PrevNext';
 import NotFound from 'app/scenes/public/NotFound';
+import SingleAside from 'app/components/single/SingleAside';
+
+import SocialShare from 'app/components/single/SocialShare';
+import Tags from 'app/components/Tags';
 
 // Functions
 import { parseExImage } from 'app/utils/common';
@@ -25,18 +22,29 @@ import { parseExImage } from 'app/utils/common';
 import { Carousel } from 'app/components/single/Carousel';
 import { CLASS_NAME } from 'app/constants/dom';
 
+import RouteController from 'app/controllers/route';
+import { usePost } from 'app/hooks/usePost';
+import { HTTP_RESPONSE_NO_CONTENT } from 'app/constants/common';
+
 // Images
 import DEFAULT_BACKGROUND from '../../../assets/images/background/category.jpg';
 import DEFAULT_BACKGROUND_MOBILE from '../../../assets/images/background/category-mobile.jpg';
 
 // Wordpress
-const { compose } = wp.compose;
-const { Fragment } = wp.element;
+const { Component } = wp.element;
+
+interface Props {
+  backgroundImage: string;
+  hideFrontFooter: bool;
+  hideFrontHeader: bool;
+  isPending: string;
+  post: IPost;
+}
 
 /*
  * //domain.com/2020/01/01/slug
  */
-class Post extends WithController {
+export class Post extends Component<Props> {
   private carousels: Array<Carousel> = [];
 
   componentDidUpdate(): void {
@@ -53,37 +61,30 @@ class Post extends WithController {
     });
   }
 
-  getController(): IRestController {
-    const slug = this.props.frontPage || null;
-    return PostController.getInstance(slug).addComponent(this);
-  }
-
   render(): JSX.Element {
-    this.request();
+    const {
+      hideFrontFooter,
+      hideFrontHeader,
+      frontPage,
+    } = this.props;
 
-    const { hideFrontFooter, hideFrontHeader } = this.props;
-    const isPending = this.isPending();
+    const { post, loading } = usePost(frontPage || RouteController.getInstance().getMatched().slug);
 
-    switch (isPending) {
-      case 'init':
-        return (
-          <Fragment />
-        );
-      case 'loading':
-        return (
-          <Public className="stretched-background hide-footer">
-            <PageHeader isLoading />
-          </Public>
-        );
-      case 'failed':
-        return (
-          <NotFound />
-        );
-      default:
-        break;
+    if (loading) {
+      return (
+        <Public className="stretched-background hide-footer">
+          <PageHeader isLoading />
+        </Public>
+      );
     }
 
-    const post: IPost = this.getController().entity;
+    if (post === HTTP_RESPONSE_NO_CONTENT) {
+      return (
+        <NotFound />
+      );
+    }
+
+    console.log(post);
 
     const {
       title,
@@ -92,9 +93,11 @@ class Post extends WithController {
       meta,
       prevNext,
       related,
+      tags,
+      slug,
     } = post;
 
-    this.setTitle(post.title);
+    // this.setTitle(post.title);
 
     const backgroundImage =
       parseExImage(
@@ -123,21 +126,21 @@ class Post extends WithController {
         <section className="row">
           <Content post={post} className="large-9 medium-12">
             <aside id="single-footer">
+              <Tags tags={tags} from={`single-${slug}`} />
+              <SocialShare />
               <PrevNext prevNext={prevNext} />
-
-              <section id="related-posts">
-                <RelatedPosts items={related} />
-              </section>
             </aside>
           </Content>
 
-          <aside id="recent-posts" className="columns large-3 show-for-large">
-            <RecentPosts />
+          <SingleAside />
+        </section>
+
+        <section className="row">
+          <aside className="columns large-12">
+            <RelatedPosts items={related} />
           </aside>
         </section>
       </Public>
     );
   }
 }
-
-export default compose([])(Post);

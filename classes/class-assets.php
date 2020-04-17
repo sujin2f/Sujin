@@ -41,6 +41,47 @@ final class Assets {
 	}
 
 	public function register_scripts(): void {
+		$asset    = Ex_Assets::get_instance( null, get_stylesheet_directory_uri() );
+		$manifest = get_stylesheet_directory() . '/dist/asset-manifest.json';
+
+		if ( ! file_exists( $manifest ) ) {
+			return;
+		}
+
+		$manifest = file_get_contents( $manifest );
+		$manifest = json_decode( $manifest, true );
+
+		foreach ( $manifest['entrypoints'] as $key => $entrypoint ) {
+			$asset
+				->append( 'dist/' . $entrypoint )
+				->is_footer( true );
+
+			if ( 0 === $key ) {
+				$asset
+					->translation_key( 'sujin' )
+					->translation( $this->get_translation() );
+			}
+		}
+
+// 		die;
+
+		if ( $this->is_dev() ) {
+/*
+			$asset
+				->append( 'http://localhost:3000/static/js/bundle.js' )
+				->is_footer( true )
+				->translation_key( 'sujin' )
+				->translation( $this->get_translation() );
+			$asset
+				->append( 'http://localhost:3000/static/js/1.chunk.js' )
+				->is_footer( true );
+			$asset
+				->append( 'http://localhost:3000/static/js/main.chunk.js' )
+				->is_footer( true );
+*/
+		}
+
+/*
 		$manifest = get_stylesheet_directory() . '/dist/manifest.json';
 
 		if ( ! file_exists( $manifest ) ) {
@@ -64,6 +105,12 @@ final class Assets {
 			->translation_key( 'sujin' )
 			->translation( $this->get_translation() );
 		$asset->append( 'style.css' );
+*/
+	}
+
+	private function is_dev() {
+		$parsed_url = parse_url( get_site_url() );
+		return 'sujinc.test' === $parsed_url['host'];
 	}
 
 	private function get_translation(): array {
@@ -94,6 +141,7 @@ final class Assets {
 		return array(
 			'title'           => get_bloginfo( 'name' ),
 			'description'     => get_bloginfo( 'description' ),
+			'homeUrl'         => get_bloginfo( 'url' ),
 			'ogImage'         => Option_Attachment::get_instance( 'Default Image' )->get(),
 			'hideFrontHeader' => (bool) Option_Checkbox::get_instance( 'Hide Header in Front Page' )->get(),
 			'hideFrontFooter' => (bool) Option_Checkbox::get_instance( 'Hide Footer in Front Page' )->get(),
@@ -130,12 +178,18 @@ final class Assets {
 				switch ( $basename ) {
 					case 'flickr':
 						$flickr->id        = $basename . '-' . $widget_number;
-						$sidebar[ $key ][] = $flickr->widget( $widget_setting[ $widget_number ], null );
+						$sidebar[ $key ][] = array_merge(
+							$flickr->widget( $widget_setting[ $widget_number ], null ),
+							array( 'key' => $widget_number ),
+						);
 						break;
 
 					case 'advert':
 						$advert->id        = $basename . '-' . $widget_number;
-						$sidebar[ $key ][] = $advert->widget( $widget_setting[ $widget_number ], null );
+						$sidebar[ $key ][] = array_merge(
+							$advert->widget( $widget_setting[ $widget_number ], null ),
+							array( 'key' => $widget_number ),
+						);
 						break;
 
 					case 'tag_cloud_widget_sujin':
@@ -158,13 +212,15 @@ final class Assets {
 							'widget' => 'tags',
 							'title'  => 'Popular Tags',
 							'html'   => ob_get_clean(),
+							'key'    => $widget_number,
 						);
 						break;
 
 					case 'recent-post':
 						$sidebar[ $key ][] = array(
 							'widget' => 'recent-post',
-							'title'  => null,
+							'title'  => 'Recent Post',
+							'key'    => $widget_number,
 						);
 						break;
 				}
@@ -191,7 +247,7 @@ final class Assets {
 			return;
 		}
 
-		wp_enqueue_script( 'wp-block-library' );
+		wp_dequeue_style( 'wp-block-library' );
 		wp_dequeue_style( 'wp-block-library' );
 	}
 }

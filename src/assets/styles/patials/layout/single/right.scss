@@ -1,0 +1,60 @@
+> section {
+	margin-bottom: 2em;
+}
+
+.widget.google-advert {
+	height: 270px;
+	background-color: $light-gray;
+}
+
+.widget.recent-posts {
+	margin: 0;
+
+	.loading {
+		img {
+			display: none;
+		}
+	}
+
+	.simple-post {
+		display: flex;
+		justify-content: space-between;
+
+		figure {
+			width: 70px;
+			height: 70px;
+			margin-right: 10px;
+		}
+
+		time {
+			display: none;
+		}
+
+		> div {
+			width: 190px;
+
+			h2 {
+				font-size: 1em;
+				margin-top: 0;
+			}
+
+			p {
+				font-size: 0.9em;
+				margin: 0;
+				line-height: inherit;
+			}
+
+			.tags {
+				display: none;
+			}
+		}
+
+		&:last-child {
+			margin-bottom: 0;
+
+			p {
+				margin-bottom: 0;
+			}
+		}
+	}
+}

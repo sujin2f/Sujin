@@ -12,8 +12,7 @@ class Tags extends Component {
       <ul className="tags">
         {Object.keys(tags).map((index) => (
           <li
-            key={hash(`tag-id-${tags[index].term_id}`)}
-            id={`tag-id-${tags[index].term_id}`}
+            key={hash(`tag-id-${tags[index].slug}-${this.props.from}`)}
           >
             <Link to={`/tag/${tags[index].slug}/page/1`}>
               {tags[index].name}

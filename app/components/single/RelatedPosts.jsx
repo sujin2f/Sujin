@@ -1,13 +1,13 @@
 import Item from 'app/components/archive/Item';
 
-const { Component, Fragment } = wp.element;
+const { Component } = wp.element;
 
 class RelatedPosts extends Component {
   render() {
     const { items } = this.props;
 
     return (
-      <Fragment>
+      <section id="related-posts">
         <header className="row">
           <div className="columns small-12">
             <h2 className="section-header"><span>Related Posts</span></h2>
@@ -25,7 +25,7 @@ class RelatedPosts extends Component {
             ))}
           </section>
         )}
-      </Fragment>
+      </section>
     );
   }
 }

@@ -36,7 +36,7 @@ class Link extends Component<Props> {
 
     return (
       <a
-        href={to}
+        href={to || '#'}
         onClick={onClick}
         target={target}
         id={id}

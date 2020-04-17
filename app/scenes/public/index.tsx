@@ -9,7 +9,6 @@ import Footer from 'app/components/layout/Footer';
 
 // Wordpress
 const { Component } = wp.element;
-const { compose } = wp.compose;
 
 interface Props {
   // props
@@ -20,7 +19,7 @@ interface Props {
 /*
  * Wrapper for the public pages
  */
-class Public extends Component<Props> {
+export class Public extends Component<Props> {
   constructor(public props: Props) {
     super(props);
     GlobalController.getInstance(this).setScroll();
@@ -34,9 +33,11 @@ class Public extends Component<Props> {
     const { scrollClass, mobileMenuClass } = GlobalController.getInstance(this);
 
     return (
-      <div id="wrapper" className={`${className} ${scrollClass} ${mobileMenuClass}`}>
+      <div className={`layout__wrapper ${className} ${scrollClass} ${mobileMenuClass}`}>
         <header itemType="http://schema.org/WPHeader">
-          <Header />
+          <section className="layout__fixed-header">
+            <Header />
+          </section>
         </header>
 
         <main>
@@ -50,5 +51,3 @@ class Public extends Component<Props> {
     );
   }
 }
-
-export default compose([])(Public);

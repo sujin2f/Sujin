@@ -53,7 +53,7 @@ export class Carousel {
 
   private getCurrentImage(): HTMLImageElement {
     const images = Array.from(this.navItems).filter(
-      (element: HTMLImageElement) => element.classList.contains(CLASS_NAME.carousel.CURRENT)
+      (element: HTMLImageElement) => element.classList.contains(CLASS_NAME.carousel.CURRENT),
     );
     return images.pop() as HTMLImageElement;
   }

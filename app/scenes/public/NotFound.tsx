@@ -4,7 +4,7 @@
 import GlobalController from 'app/controllers/global';
 
 // Components
-import Public from 'app/scenes/public';
+import { Public } from 'app/scenes/public';
 import PageHeader from 'app/components/layout/PageHeader';
 
 // Function
