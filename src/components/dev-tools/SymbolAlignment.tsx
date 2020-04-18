@@ -13,17 +13,17 @@ export const SymbolAlignment = (): JSX.Element => {
   const [text, setText] = useState('');
   const convertedText = text ? symbolAlignment(text, symbol) : (<Fragment />);
 
-  const handleChangeText = (event): never => {
+  const handleChangeText = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setText(event.target.value);
   }
 
-  const handleChangeSymbol = (event): never => {
+  const handleChangeSymbol = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setSymbol(event.target.value);
   }
 
   return (
     <Fragment>
-      <aside className="columns large-3 medium-12">
+      <aside>
         <ul>
           <li>
             <Link to="/dev-tools" rel="noopener noreferrer">
@@ -43,7 +43,7 @@ export const SymbolAlignment = (): JSX.Element => {
         </ul>
       </aside>
 
-      <article className="columns large-9 medium-12">
+      <article>
         <section className="input-group">
           <span className="input-group-label">Symbol</span>
           <input

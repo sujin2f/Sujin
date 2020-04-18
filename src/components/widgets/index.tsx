@@ -39,7 +39,11 @@ export const WidgetContainer = (props: Props): JSX.Element => {
             />
           )}
           {widget.widget === 'recent-post' && (
-            <RecentPosts />
+            <RecentPosts
+              small={widget.small}
+              medium={widget.medium}
+              large={widget.large}
+            />
           )}
         </section>
       ))}

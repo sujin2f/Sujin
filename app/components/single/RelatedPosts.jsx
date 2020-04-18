@@ -20,7 +20,7 @@ class RelatedPosts extends Component {
               <Item
                 item={related}
                 key={`related--${related.id}`}
-                columns="large-3 medium-6 small-12"
+                className="large-3 medium-6 small-12"
               />
             ))}
           </section>

@@ -4,22 +4,19 @@ import { Link } from "components/common/Link";
 import { PAGE_OFFSET } from 'constants/common';
 
 interface Props {
-  item: ISimplePost;
-  columns?: string;
-  thumbnailKey?: {
-    desktop?: string;
-    mobile?: string;
-  };
+  totalPages: number;
+  urlPrefix: string;
+  currentPage: number;
 }
 
 export const Paging = (props: Props): JSX.Element => {
   const {
-    totalPages = 1,
+    totalPages,
     urlPrefix,
     currentPage,
   } = props;
 
-  let entities = [];
+  let entities: number[] = [];
 
   if (totalPages !== 1) {
     const start = (currentPage - PAGE_OFFSET) > 2 ? currentPage - PAGE_OFFSET : 1;
@@ -47,7 +44,7 @@ export const Paging = (props: Props): JSX.Element => {
     <nav className="columns small-12 paging" role="navigation" aria-label="Paging">
       {entities.map((entity) => {
         const url = `${urlPrefix}/page/${entity}`;
-        const isCurrnet = parseInt(currentPage, 10) === entity;
+        const isCurrnet = currentPage === entity;
         return (
           <Fragment key={`paging-${entity}`}>
             {isCurrnet && (
@@ -56,7 +53,7 @@ export const Paging = (props: Props): JSX.Element => {
 
             {entity !== -1 && !isCurrnet && (
               <Link to={url}>
-                {entity}
+                {entity.toString()}
               </Link>
             )}
 

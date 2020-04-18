@@ -53,16 +53,16 @@ export const Post = (): JSX.Element => {
 
   return (
     <Fragment>
-      <div className="columns medium-2 layout__article__left" />
+      <div className="columns small-12 medium-2 layout__article__left" />
 
-      <Content post={post} className="columns large-7 medium-12">
+      <Content post={post} className="columns small-12 large-7">
         <Tags tags={tags} from={`single-${slug}`} />
         <SocialShare />
         <PrevNext prevNext={prevNext} />
         <RelatedPosts items={related} />
       </Content>
 
-      <aside className="columns large-3 layout__article__right">
+      <aside className="columns small-12 large-3 layout__article__right">
         <SingleAside />
       </aside>
     </Fragment>

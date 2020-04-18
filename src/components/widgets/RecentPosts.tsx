@@ -6,6 +6,12 @@ import { isAvailablle } from 'constants/enum';
 import { useArchive } from 'store/hooks/archive';
 import { ISimplePost } from 'store/items/rest/interface/simple-post';
 
+interface Props {
+  small: string;
+  medium: string;
+  large: string;
+}
+
 export const RecentPosts = (props: Props): JSX.Element => {
   const archive = useArchive('recentPosts', 'recentPosts', 1, false);
 
@@ -20,7 +26,7 @@ export const RecentPosts = (props: Props): JSX.Element => {
       {archive.items.map((item: ISimplePost) => (
         <SimplePost
           key={`recent-post-id-${item.slug}`}
-          columns="large-12 medium-6 small-6"
+          className={`column small-${props.small} medium-${props.medium} large-${props.large}`}
           item={item}
           thumbnailKey={{ desktop: 'small', mobile: 'small' }}
         />

@@ -8,12 +8,12 @@ import { Link as ReactLink } from "react-router-dom";
 
 
 interface Props {
-  children: string|JSX.Element|JSX.Element[];
-  className: string;
-  dangerouslySetInnerHTML: object;
-  itemType: string;
-  rel: string;
-  title: string;
+  children?: string|JSX.Element|JSX.Element[];
+  className?: string;
+  dangerouslySetInnerHTML?: object;
+  itemType?: string;
+  rel?: string;
+  title?: string;
   to: string;
 }
 

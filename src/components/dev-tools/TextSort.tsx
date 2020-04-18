@@ -13,17 +13,17 @@ export const TextSort = (): JSX.Element => {
   const [checked, setChecked] = useState(false);
   const convertedText = text ? sortText(text, checked) : (<Fragment />);
 
-  const handleChangeText = (event): never => {
+  const handleChangeText = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
     setText(event.target.value);
   }
 
-  const handleChangeChecked = (event): never => {
+  const handleChangeChecked = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setChecked(event.target.checked);
   }
 
   return (
     <Fragment>
-      <aside className="columns large-3 medium-12">
+      <aside>
         <ul>
           <li>
             <Link to="/dev-tools" rel="noopener noreferrer">
@@ -43,7 +43,7 @@ export const TextSort = (): JSX.Element => {
         </ul>
       </aside>
 
-      <article className="columns large-9 medium-12">
+      <article>
         <label htmlFor="remove-empty">
           <input
             id="remove-empty"

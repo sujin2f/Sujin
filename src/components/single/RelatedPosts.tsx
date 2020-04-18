@@ -14,7 +14,7 @@ interface Props {
 
 export const RelatedPosts = (props: Props): JSX.Element => {
   return (
-    <section class="related-posts">
+    <section className="related-posts">
       <h2 className="section-header"><span>Related Posts</span></h2>
 
       {props.items && (

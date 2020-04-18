@@ -11,14 +11,6 @@ figure.thumbnail {
 	border-radius: none;
 	box-shadow: none !important;
 
-	@include breakpoint(medium only) {
-		height: 220px;
-	}
-
-	@include breakpoint(small only) {
-		height: 350px;
-	}
-
 	.zoom-icon {
 		position: absolute;
 		z-index: 2;

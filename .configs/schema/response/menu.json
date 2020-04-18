@@ -21,6 +21,7 @@
       "url": {
         "description": "Link URL",
         "type": "string",
+        "format": "uri",
         "readonly": true
       },
       "target": {

@@ -19,23 +19,28 @@ import {
 } from 'utils/dev-tools';
 
 export const CaseTool = (): JSX.Element => {
-  const [converted, setConverted] = useState([]);
-  const refKeyword = useRef(null);
+  const [converted, setConverted] = useState<string[]>([]);
+  const refKeyword = useRef<HTMLInputElement>(null);
 
-  const reset = (event) => {
+  const reset = (event: React.MouseEvent): void => {
     event.preventDefault();
     setConverted([]);
+
+    if (!refKeyword || !refKeyword.current) {
+      return;
+    }
+
     refKeyword.current.value = '';
     refKeyword.current.focus();
-  };
+};
 
-  const change = (event) => {
+  const change = (event: React.ChangeEvent<HTMLInputElement>) => {
     setConverted(preserveCase(event.target.value));
   };
 
   return (
     <Fragment>
-      <aside className="columns large-3 medium-12">
+      <aside>
         <ul>
           <li>
             <Link to="/dev-tools" rel="noopener noreferrer">
@@ -55,7 +60,7 @@ export const CaseTool = (): JSX.Element => {
         </ul>
       </aside>
 
-      <article className="columns large-9 medium-12">
+      <article>
         <p className="description">Convert keyword into many cases.</p>
 
         <section className="input-group">

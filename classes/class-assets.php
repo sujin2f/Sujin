@@ -152,11 +152,12 @@ final class Assets {
 	}
 
 	private function get_widgets(): array {
-		$sidebar    = array();
-		$wp_sidebar = wp_get_sidebars_widgets();
-		$flickr     = Flickr_Widget::get_instance();
-		$advert     = Advert_Widget::get_instance();
-		$tags       = class_exists( 'SJ2DTAG_widget' ) ? new SJ2DTAG_widget() : null;
+		$sidebar     = array();
+		$wp_sidebar  = wp_get_sidebars_widgets();
+		$flickr      = Flickr_Widget::get_instance();
+		$advert      = Advert_Widget::get_instance();
+		$recent_post = Recent_Post_Widget::get_instance();
+		$tags        = class_exists( 'SJ2DTAG_widget' ) ? new SJ2DTAG_widget() : null;
 
 		add_filter( 'tag_link', array( $this, 'tag_link' ), 15, 2 );
 
@@ -217,10 +218,10 @@ final class Assets {
 						break;
 
 					case 'recent-post':
-						$sidebar[ $key ][] = array(
-							'widget' => 'recent-post',
-							'title'  => 'Recent Post',
-							'key'    => $widget_number,
+						$recent_post->id   = $basename . '-' . $widget_number;
+						$sidebar[ $key ][] = array_merge(
+							$recent_post->widget( $widget_setting[ $widget_number ], null ),
+							array( 'key' => $widget_number ),
 						);
 						break;
 				}

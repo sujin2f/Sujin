@@ -1,6 +1,7 @@
 # Log Files
 **/*.log
 .configs/logs/**/*
+/coverage
 
 # dependencies
 **/node_modules
@@ -11,6 +12,7 @@
 # Build
 /dist
 /logs
+/build
 stat.json
 
 # Composer

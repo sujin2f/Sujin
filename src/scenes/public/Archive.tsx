@@ -18,7 +18,7 @@ import {
 } from 'constants/enum';
 import { NotFound } from 'scenes/public/NotFound';
 import { useArchive } from 'store/hooks/archive';
-import { ISimplePost } from 'store/items/rest/interface/simple-post';
+import { ISimplePost } from 'store/items/interface/simple-post';
 
 export const Archive = (): JSX.Element => {
   const { type, slug, page } = useParams();
@@ -50,7 +50,7 @@ export const Archive = (): JSX.Element => {
 
           <Paging
             totalPages={archive.totalPages}
-            currentPage={page || 1}
+            currentPage={parseInt(page, 10) || 1}
             urlPrefix={`/${type}/${slug}`}
           />
         </Fragment>
