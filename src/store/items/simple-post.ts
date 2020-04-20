@@ -9,44 +9,44 @@ export class SimplePost implements TypeSimplePost {
   /**
    * Unique ID
    */
-  id: number;
+  id: number
   /**
    * Post slug
    */
-  slug: string;
+  slug: string
   /**
    * Title
    */
-  title: string;
+  title: string
   /**
    * Excerpt
    */
-  excerpt?: string;
+  excerpt: string
   /**
    * Date
    */
-  date: string;
+  date: string
   /**
    * Link URL
    */
-  link: string;
+  link: string
   /**
    * Tags
    */
-  tags?: Term[];
-  thumbnail?: Image;
+  tags: Term[]
+  thumbnail: Image
   /**
    * Meta data
    */
   meta: {
-    background?: Image;
-    icon?: Image;
-    list?: Image;
-    title?: Image;
-    thumbnail?: Image;
-    backgroundColor?: string;
-    useBackgroundColor?: boolean;
-  };
+    background: Image
+    icon: Image
+    list: Image
+    title: Image
+    thumbnail: Image
+    backgroundColor: string
+    useBackgroundColor: boolean
+  }
 
   constructor(data: any) {
     this.id = data.id;

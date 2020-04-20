@@ -9,24 +9,24 @@ export class Archive implements TypeArchive {
   /**
    * Archive Title
    */
-  title?: string;
+  title: string
   /**
    * Archive Description
    */
-  description?: string;
-  thumbnail?: Image;
+  description: string
+  thumbnail: Image
   /**
    * Total number of posts
    */
-  total?: number;
+  total: number
   /**
    * Total number of page
    */
-  totalPages?: number;
+  totalPages: number
   /**
    * Posts
    */
-  items?: Post[];
+  items: Post[]
 
   constructor(data: any) {
     this.title = decodeURIComponent(data.title) || '';

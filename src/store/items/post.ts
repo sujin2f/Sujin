@@ -8,30 +8,30 @@ export class Post extends SimplePost implements TypePost {
   /**
    * Content
    */
-  content?: string;
+  content: string
   /**
    * Comment status
    */
-  commentStatus?: boolean;
+  commentStatus?: boolean
   /**
    * Series
    */
-  series?: SimplePost[];
+  series: SimplePost[]
   /**
    * Prev / Next
    */
-  prevNext?: {
-    prev?: SimplePost;
-    next?: SimplePost;
-  };
+  prevNext: {
+    prev?: SimplePost
+    next?: SimplePost
+  }
   /**
    * Related contents
    */
-  related?: SimplePost[];
+  related: SimplePost[]
   /**
    * Post Type
    */
-  type?: 'post'|'page';
+  type: 'post' | 'page'
 
   constructor(data: any) {
     super(data);

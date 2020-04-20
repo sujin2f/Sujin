@@ -9,31 +9,31 @@ export class Menu implements MenuType {
   /**
    * Unique ID of WP Post object
    */
-  ID: number;
+  ID: number
   /**
    * The title of the menu item.
    */
-  title: string;
+  title: string
   /**
    * Link URL
    */
-  url: string;
+  url: string
   /**
    * Link target HTML attribute
    */
-  target: '_blank'|'_self';
+  target: '_blank' | '_self'
   /**
    * Parent ID
    */
-  parent?: number;
+  parent: number
   /**
    * HTML class attributes
    */
-  classes?: string[];
+  classes: string[]
   /**
    * Child menu items
    */
-  children?: MenuType[];
+  children: Menu[]
 
   constructor(data: any) {
     this.ID = data.ID;

@@ -6,19 +6,19 @@ export class Image implements ImageType {
   /**
    * Large size image
    */
-  large?: string;
+  large: string
   /**
    * Medium size image
    */
-  medium?: string;
+  medium: string
   /**
    * Small size image
    */
-  small?: string;
+  small: string
   /**
    * Tiny size image
    */
-  tiny?: string;
+  tiny: string
 
   constructor(data: any) {
     if (!data) {
