@@ -3,11 +3,11 @@
  * components/layout/GlobalHeader/TopHeader
  */
 
-import React, { useContext, Fragment } from 'react';
+import React, { useContext, Fragment } from 'react'
 
-import { Loading } from 'components/common/Loading';
-import { Menu } from 'components/layout/Menu';
-import { Context } from 'store';
+import { Loading } from 'components/common/Loading'
+import { Menu } from 'components/layout/Menu'
+import { Context } from 'store'
 
 export const TopHeader = (): JSX.Element => {
   const [{
@@ -21,7 +21,7 @@ export const TopHeader = (): JSX.Element => {
       backgroundColor,
       useBackgroundColor,
     },
-  }] = useContext(Context);
+  }] = useContext(Context) as Context
 
   if (isLoading) {
     return (
@@ -39,17 +39,18 @@ export const TopHeader = (): JSX.Element => {
           </div>
         </div>
       </section>
-    );
+    )
   }
 
+  // @todo
   const style = {
     backgroundImage:
-      typeof background !== 'string' && !(background instanceof String) ?
-        null :
+      typeof background !== 'string' ?
+        '' :
         `url(${background})`,
     backgroundSize: useBackgroundColor ? 'contain' : 'cover',
-    backgroundColor: backgroundColor || null,
-  };
+    backgroundColor: backgroundColor || '',
+  }
 
   return (
     <Fragment>
@@ -77,5 +78,5 @@ export const TopHeader = (): JSX.Element => {
       </section>
       {icon && (<img src={icon} alt="Thumbnail" className="layout__header__thumb" />)}
     </Fragment>
-  );
-};
+  )
+}

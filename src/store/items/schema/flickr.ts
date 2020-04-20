@@ -9,19 +9,19 @@ export interface Flickr {
   /**
    * The title of the photo.
    */
-  title: string;
+  title: string
   /**
    * Flickr URL for the image
    */
-  link: string;
+  link: string
   /**
    * Image URLs
    */
   media: {
-    origin: string;
-    s: string;
-    t: string;
-    b: string;
-    m: string;
-  };
+    origin: string
+    s: string
+    t: string
+    b: string
+    m: string
+  }
 }

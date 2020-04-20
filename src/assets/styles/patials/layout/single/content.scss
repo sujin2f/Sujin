@@ -23,15 +23,11 @@
 		background-color: $light-gray;
 		display: inline-block;
 		color: $black;
-		margin: 0px 60px 20px;
+		margin: 0 0 20px;
 
 		p {
 			line-height: 2;
 			color: $black;
-		}
-
-		@include breakpoint(small only) {
-			margin: 0 0 20px;
 		}
 	}
 

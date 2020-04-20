@@ -9,13 +9,13 @@ export interface Term {
   /**
    * Term name
    */
-  name: string;
+  name: string
   /**
    * Term slug
    */
-  slug: string;
+  slug: string
   /**
    * Term ID
    */
-  termId: number;
+  termId: number
 }

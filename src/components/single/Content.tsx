@@ -3,17 +3,19 @@
  * components/single/Content
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react'
 
-import { CLASS_NAME } from 'constants/dom';
-import { Post } from 'store/items/post';
-import { parseContent, parseSeries } from 'utils/single';
-import { Carousel } from 'components/single/Carousel';
+import { Carousel } from 'components/single/Carousel'
+import { CLASS_NAME } from 'constants/dom'
+import { Context } from 'store'
+import { setLeftRail } from 'store/actions'
+import { Post } from 'store/items/post'
+import { parseContent, parseSeries } from 'utils/single'
 
 interface Props {
-  post: Post;
-  className?: string;
-  children?: JSX.Element|JSX.Element[]|undefined;
+  post: Post
+  className?: string
+  children?: JSX.Element|JSX.Element[]|undefined
 }
 
 export const Content = (props: Props): JSX.Element => {
@@ -27,29 +29,31 @@ export const Content = (props: Props): JSX.Element => {
     },
     className,
     children,
-  } = props;
+  } = props
 
+  const [, dispatch] = useContext(Context) as Context
   const contents = [
-    ...parseSeries(id, series),
     ...parseContent(content),
-  ];
+  ]
 
   useEffect((): void => {
-    const carousels = document.getElementsByClassName(CLASS_NAME.carousel.CAROUSEL);
+    dispatch(setLeftRail(parseSeries(id, series)))
+
+    const carousels = document.getElementsByClassName(CLASS_NAME.carousel.CAROUSEL)
 
     if (carousels.length === 0) {
-      return;
+      return
     }
 
     Array.from(carousels).forEach((element: Element): void => {
       if (element.getAttribute('data-loaded')) {
-        return;
+        return
       }
       // tslint:disable-next-line: no-unused-expression
-      new Carousel(element);
-      element.setAttribute('data-loaded', 'loaded');
-    });
-  }, [contents]);
+      new Carousel(element)
+      element.setAttribute('data-loaded', 'loaded')
+    })
+  }, [dispatch, id, series])
 
   return (
     <article
@@ -63,5 +67,5 @@ export const Content = (props: Props): JSX.Element => {
         {children}
       </footer>
     </article>
-  );
-};
+  )
+}

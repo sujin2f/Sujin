@@ -3,12 +3,12 @@
  * components/single/SingleAside
  */
 
-import React from 'react';
+import React from 'react'
 
-import { WidgetContainer } from 'components/widgets';
+import { WidgetContainer } from 'components/widgets'
 
 export const SingleAside = (): JSX.Element => {
   return (
-    <WidgetContainer items={sujin.widgets.siderail} />
-  );
-};
+    <WidgetContainer items={window.sujin.widgets.siderail} />
+  )
+}

@@ -1,71 +1,59 @@
-import React from 'react';
-import { useHistory } from "react-router-dom";
+import React, {
+  useState,
+  useRef,
+  ChangeEvent,
+  KeyboardEvent,
+} from 'react'
+import { useHistory } from 'react-router-dom'
 
-export class Search extends React.Component {
-  constructor(props) {
-    super(props);
+export const Search = (): JSX.Element => {
+  const [opened, setOpened] = useState<boolean>(false)
+  const [keyword, setKeyword] = useState<string>('')
+  const refTextInput = useRef<HTMLInputElement>(null)
+  const history = useHistory()
 
-    this.state = {
-      searchOpened: false,
-      searchString: '',
-    };
+  const handleSubmitSearch = (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    if (e) {
+      e.preventDefault()
+    }
 
-    this.handleChangeSearch = this.handleChangeSearch.bind(this);
-    this.handleKeyDownSearch = this.handleKeyDownSearch.bind(this);
-    this.handleSubmitSearch = this.handleSubmitSearch.bind(this);
+    if (!opened || !keyword) {
+      setOpened(true)
+      setTimeout(() => refTextInput.current && refTextInput.current.focus(), 300)
+      return
+    }
+
+    if (keyword) {
+      const to = `/search/${keyword}`
+      history.push(to)
+      setKeyword('')
+    }
   }
-
-  handleChangeSearch(event): void {
-    this.setState({ searchString: event.target.value });
+  const handleChangeSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    setKeyword(e.target.value)
   }
-
-  handleKeyDownSearch(e): void {
+  const handleKeyDownSearch = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.keyCode === 13) {
-      this.handleSubmitSearch(e);
+      handleSubmitSearch()
     }
   }
 
-  handleSubmitSearch(e): void {
-    const { searchOpened, searchString } = this.state;
-
-    if (!searchOpened || !searchString) {
-      this.setState({
-        searchOpened: !searchOpened,
-      });
-
-      setTimeout(() => document.getElementById('search-string').focus(), 300);
-    } else if (searchString) {
-      const to = `/search/${searchString}`;
-      const history = useHistory();
-      history.push(to);
-      this.setState({
-        searchString: '',
-      });
-    }
-
-    e.preventDefault();
-  }
-
-  render(): JSX.Element {
-    const { searchOpened, searchString } = this.state;
-    const wrapperClass = searchOpened ? 'open' : '';
-
-    return (
-      <section id="search-container" className={`${wrapperClass}`}>
-        <input
-          type="text"
-          id="search-string"
-          value={searchString}
-          onChange={this.handleChangeSearch}
-          onKeyDown={this.handleKeyDownSearch}
-        />
-        <button
-          id="search-button"
-          className="icon magnify"
-          onClick={this.handleSubmitSearch}
-          type="submit"
-        />
-      </section>
-    );
-  }
+  const wrapperClass = opened ? 'open' : ''
+  return (
+    <section id="search-container" className={wrapperClass}>
+      <input
+        type="text"
+        ref={refTextInput}
+        value={keyword}
+        onChange={handleChangeSearch}
+        onKeyDown={handleKeyDownSearch}
+      />
+      <button
+        id="search-button"
+        className="icon magnify"
+        onClick={handleSubmitSearch}
+        type="submit"
+      />
+    </section>
+  )
 }

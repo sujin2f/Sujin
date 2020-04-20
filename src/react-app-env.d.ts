@@ -1,4 +1,3 @@
 /// <reference types="react-scripts" />
 
-declare module 'react-router-dom';
-declare const sujin;
+declare module 'react-router-dom'

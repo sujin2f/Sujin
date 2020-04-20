@@ -13,13 +13,13 @@ use Sujin\Wordpress\WP_Express\Helpers\Transient;
 
 // phpcs:disable Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
 use WP_Post,
-    WP_REST_Controller,
-    WP_REST_Server,
-    WP_REST_Response,
-    WP_REST_Request,
-    WP_Error,
-    WP_Query,
-    stdClass;
+	WP_REST_Controller,
+	WP_REST_Server,
+	WP_REST_Response,
+	WP_REST_Request,
+	WP_Error,
+	WP_Query,
+	stdClass;
 // phpcs:enable Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -146,7 +146,7 @@ class Archive extends V1 {
 			$response->append_item( new Post_Item( $post ) );
 		}
 
-		$thumbnail = Term_Meta_Attachment::get_instance( 'Thumbnail' )->get( $term->term_id ) ?: null;
+		$thumbnail = Term_Meta_Attachment::get_instance( 'Thumbnail' )->get( $term->term_id ) ?: -1;
 		$response->set_thumbnail( $thumbnail );
 
 		$response->title       = $term->name;

@@ -5,110 +5,108 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-import { Post } from "scenes/public/Post";
-
 export type Post = SimplePost & {
   /**
    * Content
    */
-  content?: string;
+  content: string
   /**
    * Comment status
    */
-  commentStatus?: boolean;
+  commentStatus?: boolean
   /**
    * Series
    */
-  series?: SimplePost[];
+  series: SimplePost[]
   /**
    * Prev / Next
    */
-  prevNext?: {
-    prev?: SimplePost;
-    next?: SimplePost;
-  };
+  prevNext: {
+    prev?: SimplePost
+    next?: SimplePost
+  }
   /**
    * Related contents
    */
-  related?: SimplePost[];
+  related: SimplePost[]
   /**
    * Post Type
    */
-  type?: 'post' | 'page';
-};
+  type: 'post' | 'page'
+}
 
 export interface SimplePost {
   /**
    * Unique ID
    */
-  id: number;
+  id: number
   /**
    * Post slug
    */
-  slug: string;
+  slug: string
   /**
    * Title
    */
-  title: string;
+  title: string
   /**
    * Excerpt
    */
-  excerpt?: string;
+  excerpt: string
   /**
    * Date
    */
-  date: string;
+  date: string
   /**
    * Link URL
    */
-  link: string;
+  link: string
   /**
    * Tags
    */
-  tags?: Term[];
-  thumbnail?: Image;
+  tags: Term[]
+  thumbnail: Image
   /**
    * Meta data
    */
   meta: {
-    background?: Image;
-    icon?: Image;
-    list?: Image;
-    title?: Image;
-    thumbnail?: Image;
-    backgroundColor?: string;
-    useBackgroundColor?: boolean;
-  };
+    background: Image
+    icon: Image
+    list: Image
+    title: Image
+    thumbnail: Image
+    backgroundColor: string
+    useBackgroundColor: boolean
+  }
 }
 export interface Term {
   /**
    * Term name
    */
-  name: string;
+  name: string
   /**
    * Term slug
    */
-  slug: string;
+  slug: string
   /**
    * Term ID
    */
-  termId: number;
+  termId: number
 }
 export interface Image {
   /**
    * Large size image
    */
-  large?: string;
+  large: string
   /**
    * Medium size image
    */
-  medium?: string;
+  medium: string
   /**
    * Small size image
    */
-  small?: string;
+  small: string
   /**
    * Tiny size image
    */
-  tiny?: string;
+  tiny: string
 }

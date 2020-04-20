@@ -9,13 +9,13 @@ export interface Background {
   /**
    * Desktop size image
    */
-  desktop: string;
+  desktop: string
   /**
    * Mobile size image
    */
-  mobile: string;
+  mobile: string
   /**
    * Title of the image
    */
-  title: string;
+  title: string
 }

@@ -3,17 +3,17 @@
  * components/layout/GlobalHeader/FixedHeader
  */
 
-import React, { useContext } from 'react';
+import React, { useContext } from 'react'
 
 
-import { Link } from "components/common/Link";
-import { Search } from 'components/layout/Search';
-import { Menu } from 'components/layout/Menu';
-import { Context } from 'store';
-import { setPublicClass } from 'store/actions';
+import { Link } from 'components/common/Link'
+import { Search } from 'components/layout/Search'
+import { Menu } from 'components/layout/Menu'
+import { Context } from 'store'
+import { setPublicClass } from 'store/actions'
 
 export const FixedHeader = (): JSX.Element => {
-  const [{ publicClass }, dispatch] = useContext(Context) as Context;
+  const [{ publicClass }, dispatch] = useContext(Context) as Context
 
   return (
     <section className="layout__header__fixed">
@@ -59,5 +59,5 @@ export const FixedHeader = (): JSX.Element => {
         slug="main-menu"
       />
     </section>
-  );
-};
+  )
+}

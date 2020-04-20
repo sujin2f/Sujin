@@ -100,9 +100,9 @@ const usePostInit = (slug: string): StatePost => {
   return post;
 };
 
-export const useLeftRail = (leftRail: StateLeftRail): void => {
-  const [, dispatch] = useContext(Context) as Context;
-  dispatch(setLeftRail(leftRail));
+export const useLeftRail = (): StateLeftRail => {
+  const [{ leftRail }] = useContext(Context) as Context;
+  return leftRail;
 };
 
 export const usePost = (slug: string): StatePost => {

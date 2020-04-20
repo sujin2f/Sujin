@@ -1,11 +1,11 @@
 /*
  * Dev Tool / Case Tool Component
- * components/dev-tools/CaseTool
+ * import { CaseTool } from 'components/dev-tools/CaseTool'
  */
 
-import React, { Fragment, useState, useRef } from 'react';
+import React, { Fragment, useState, useRef } from 'react'
 
-import { Link } from "components/common/Link";
+import { Link } from 'components/common/Link'
 import {
   preserveCase,
   camelCase,
@@ -16,27 +16,27 @@ import {
   titleCase,
   pathCase,
   dotCase,
-} from 'utils/dev-tools';
+} from 'utils/dev-tools'
 
 export const CaseTool = (): JSX.Element => {
-  const [converted, setConverted] = useState<string[]>([]);
-  const refKeyword = useRef<HTMLInputElement>(null);
+  const [converted, setConverted] = useState<string[]>([])
+  const refKeyword = useRef<HTMLInputElement>(null)
 
   const reset = (event: React.MouseEvent): void => {
-    event.preventDefault();
-    setConverted([]);
+    event.preventDefault()
+    setConverted([])
 
     if (!refKeyword || !refKeyword.current) {
-      return;
+      return
     }
 
-    refKeyword.current.value = '';
-    refKeyword.current.focus();
-};
+    refKeyword.current.value = ''
+    refKeyword.current.focus()
+  }
 
   const change = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setConverted(preserveCase(event.target.value));
-  };
+    setConverted(preserveCase(event.target.value))
+  }
 
   return (
     <Fragment>
@@ -128,5 +128,5 @@ export const CaseTool = (): JSX.Element => {
         )}
       </article>
     </Fragment>
-  );
-};
+  )
+}

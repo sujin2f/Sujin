@@ -3,18 +3,18 @@
  * components/common/Link
  */
 
-import React from 'react';
-import { Link as ReactLink } from "react-router-dom";
+import React from 'react'
+import { Link as ReactLink } from 'react-router-dom'
 
 
 interface Props {
-  children?: string|JSX.Element|JSX.Element[];
-  className?: string;
-  dangerouslySetInnerHTML?: object;
-  itemType?: string;
-  rel?: string;
-  title?: string;
-  to: string;
+  children?: string|JSX.Element|JSX.Element[]
+  className?: string
+  dangerouslySetInnerHTML?: object
+  itemType?: string
+  rel?: string
+  title?: string
+  to: string
 }
 
 export const Link = (props: Props): JSX.Element => {
@@ -25,9 +25,9 @@ export const Link = (props: Props): JSX.Element => {
     itemType,
     rel,
     title,
-  } = props;
+  } = props
 
-  const to = props.to.replace(sujin.homeUrl, '');
+  const to = props.to.replace(window.sujin.homeUrl, '')
 
   return (
     <ReactLink
@@ -40,5 +40,5 @@ export const Link = (props: Props): JSX.Element => {
     >
       {children}
     </ ReactLink>
-  );
-};
+  )
+}

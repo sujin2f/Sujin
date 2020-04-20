@@ -8,7 +8,7 @@ import { RecentPosts } from 'components/widgets/RecentPosts';
 import { TagCloud } from 'components/widgets/TagCloud';
 
 interface Props {
-  items: object[];
+  items: any[];
   itemClass?: string;
 }
 

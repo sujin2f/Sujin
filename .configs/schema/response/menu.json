@@ -56,5 +56,5 @@
     }
   },
   "additionalProperties": false,
-  "required": ["ID", "title", "url", "target"]
+  "required": ["ID", "title", "url", "target", "parent", "classes", "children"]
 }

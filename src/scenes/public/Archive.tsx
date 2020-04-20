@@ -7,29 +7,29 @@
  * //domain.com/search/blog
  */
 
-import React, { Fragment } from 'react';
-import { useParams } from "react-router-dom";
+import React, { Fragment } from 'react'
+import { useParams } from 'react-router-dom'
 
-import { Paging } from 'components/common/Paging';
-import { SimplePost } from 'components/common/SimplePost';
-import { NotFound } from 'scenes/public/NotFound';
-import { useArchive } from 'store/hooks/archive';
-import { SimplePost as SimplePostType } from 'store/items/simple-post';
+import { Paging } from 'components/common/Paging'
+import { SimplePost } from 'components/common/SimplePost'
+import { NotFound } from 'scenes/public/NotFound'
+import { useArchive } from 'store/hooks/archive'
+import { SimplePost as SimplePostType } from 'store/items/simple-post'
 
 export const Archive = (): JSX.Element => {
-  const { type, slug, page } = useParams();
-  const archive = useArchive(type, slug, (page || 1));
+  const { type, slug, page } = useParams()
+  const archive = useArchive(type, slug, (page || 1))
 
   if (archive && 'Failed' === archive.state) {
     return (
       <NotFound />
-    );
+    )
   }
 
   if (!archive || 'Loading' === archive.state) {
     return (
       <Fragment />
-    );
+    )
   }
 
   return (
@@ -52,5 +52,5 @@ export const Archive = (): JSX.Element => {
         </Fragment>
       )}
     </Fragment>
-    );
-};
+    )
+}

@@ -1,10 +1,10 @@
 <?php
 /**
- * Post Item
- *
- * @project Sujinc.com
- * @since   9.0.0
- * @author  Sujin 수진 Choi http://www.sujinc.com/
+	* Post Item
+	*
+	* @project Sujinc.com
+	* @since   9.0.0
+	* @author  Sujin 수진 Choi http://www.sujinc.com/
 */
 
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items;
@@ -48,22 +48,22 @@ class Simple_Post extends Items {
 			$this->tags[ $key ] = new Tag( $this->tags[ $key ] );
 		}
 
-		$list       = Attachment::get_instance( 'List' )->get( $post->ID );
-		$icon       = Attachment::get_instance( 'Icon' )->get( $post->ID );
-		$title      = Attachment::get_instance( 'Title' )->get( $post->ID );
-		$background = Attachment::get_instance( 'Background' )->get( $post->ID );
-		$thumbnail  = Attachment::get_instance( 'Thumbnail' )->get( $post->ID );
+		$list       = Attachment::get_instance( 'List' )->get( $post->ID ) ?? -1;
+		$icon       = Attachment::get_instance( 'Icon' )->get( $post->ID ) ?? -1;
+		$title      = Attachment::get_instance( 'Title' )->get( $post->ID ) ?? -1;
+		$background = Attachment::get_instance( 'Background' )->get( $post->ID ) ?? -1;
+		$thumbnail  = Attachment::get_instance( 'Thumbnail' )->get( $post->ID ) ?? -1;
 
 		$this->meta = array(
-			'list'               => $list ? new Images( $list ) : array(),
-			'icon'               => $icon ? new Images( $icon ) : array(),
-			'title'              => $title ? new Images( $title ) : array(),
-			'background'         => $background ? new Images( $background ) : array(),
-			'thumbnail'          => $thumbnail ? new Images( $thumbnail ) : array(),
-			'useBackgroundColor' => Checkbox::get_instance( 'Use Background Color' )->get( $post->ID ),
-			'backgroundColor'    => Input::get_instance( 'Background Color' )->get( $post->ID ),
+			'list'               => new Images( $list ),
+			'icon'               => new Images( $icon ),
+			'title'              => new Images( $title ),
+			'background'         => new Images( $background ),
+			'thumbnail'          => new Images( $thumbnail ),
+			'useBackgroundColor' => Checkbox::get_instance( 'Use Background Color' )->get( $post->ID ) ?? false,
+			'backgroundColor'    => Input::get_instance( 'Background Color' )->get( $post->ID ) ?? '',
 		);
 
-		$this->thumbnail = get_post_thumbnail_id( $post->ID ) ? new Images( get_post_thumbnail_id( $post->ID ) ) : array();
+		$this->thumbnail = new Images( get_post_thumbnail_id( $post->ID ) ?? -1 );
 	}
 }

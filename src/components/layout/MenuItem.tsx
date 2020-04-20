@@ -3,13 +3,13 @@
  * components/layout/MenuItem
  */
 
-import React, { Fragment } from 'react';
+import React, { Fragment } from 'react'
 
-import { Link }  from "components/common/Link";
-import { Menu } from 'store/items/menu';
+import { Link }  from 'components/common/Link'
+import { Menu } from 'store/items/menu'
 
 interface Props {
-  menuItem: Menu;
+  menuItem: Menu
 }
 
 export const MenuItem = (props: Props): JSX.Element => {
@@ -20,7 +20,7 @@ export const MenuItem = (props: Props): JSX.Element => {
       classes,
       title,
     },
-  } = props;
+  } = props
 
   return (
     <Fragment>
@@ -45,5 +45,5 @@ export const MenuItem = (props: Props): JSX.Element => {
         </Link>
       )}
     </Fragment>
-  );
-};
+  )
+}

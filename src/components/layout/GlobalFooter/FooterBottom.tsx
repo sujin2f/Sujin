@@ -3,10 +3,10 @@
  * components/layout/GlobalFooter/FooterBottom
  */
 
-import React from 'react';
+import React from 'react'
 
-import { Link } from "components/common/Link";
-import { Menu } from 'components/layout/Menu';
+import { Link } from 'components/common/Link'
+import { Menu } from 'components/layout/Menu'
 
 export const FooterBottom = (): JSX.Element => {
   return (
@@ -21,5 +21,5 @@ export const FooterBottom = (): JSX.Element => {
         slug="social-media"
       />
     </div>
-  );
-};
+  )
+}

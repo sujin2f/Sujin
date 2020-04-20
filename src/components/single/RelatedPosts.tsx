@@ -3,13 +3,13 @@
  * components/single/RelatedPosts
  */
 
-import React from 'react';
+import React from 'react'
 
-import { SimplePost } from 'components/common/SimplePost';
-import { SimplePost as SimplePostType } from 'store/items/simple-post';
+import { SimplePost } from 'components/common/SimplePost'
+import { SimplePost as SimplePostType } from 'store/items/simple-post'
 
 interface Props {
-  items?: SimplePostType[];
+  items?: SimplePostType[]
 }
 
 export const RelatedPosts = (props: Props): JSX.Element => {
@@ -29,5 +29,5 @@ export const RelatedPosts = (props: Props): JSX.Element => {
         </section>
       )}
     </section>
-  );
-};
+  )
+}

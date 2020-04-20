@@ -12,7 +12,7 @@ export const GlobalFooter = (): JSX.Element => {
   return (
     <Fragment>
       <aside className="row layout__footer__top">
-        <WidgetContainer items={sujin.widgets.footer} itemClass="columns small-12 medium-4" />
+        <WidgetContainer items={window.sujin.widgets.footer} itemClass="columns small-12 medium-4" />
       </aside>
       <section className="layout__footer__bottom">
         <FooterBottom />

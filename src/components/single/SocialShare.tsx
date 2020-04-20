@@ -3,27 +3,32 @@
  * components/single/SocialShare
  */
 
-import React from 'react';
+import React from 'react'
 
-import { shareTwitter, shareFacebook } from 'utils/single';
+import { Image } from 'store/items/image'
+import { shareTwitter, shareFacebook } from 'utils/single'
 
-export class SocialShare extends React.Component {
-  render() {
-    const { title, excerpt, thumbnail } = this.props;
+interface Props {
+  title: string
+  excerpt: string
+  thumbnail: Image
+}
 
-    return (
-      <nav className="social-share">
-        <button
-          className="twitter"
-          onClick={() => shareTwitter(title)}
-          type="button"
-        />
-        <button
-          className="facebook"
-          onClick={() => shareFacebook(title, excerpt, thumbnail)}
-          type="button"
-        />
-      </nav>
-    );
-  }
+export const SocialShare = (props: Props): JSX.Element => {
+  const { title, excerpt, thumbnail } = props
+
+  return (
+    <nav className="social-share">
+      <button
+        className="twitter"
+        onClick={() => shareTwitter(title)}
+        type="button"
+      />
+      <button
+        className="facebook"
+        onClick={() => shareFacebook(title, excerpt, thumbnail.medium)}
+        type="button"
+      />
+    </nav>
+  )
 }

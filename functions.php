@@ -5,6 +5,8 @@
 	* @project Sujin
 	* @since   8.0.0
 	* @author  Sujin 수진 Choi http://www.sujinc.com/
+	*
+	* @todo    schema required fields
 	*/
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -14,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! defined( 'SUJIN_DEV_MODE' ) ) {
-	define( 'SUJIN_DEV_MODE', false );
+	define( 'SUJIN_DEV_MODE', true );
 }
 
 include_once( get_stylesheet_directory() . '/vendor/sujin/wp-express/autoload.php' );

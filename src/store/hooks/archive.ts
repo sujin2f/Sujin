@@ -54,6 +54,7 @@ const useArchiveRequest = (type: TermTypes, slug: string, page: number, udpateHe
           response.data.items = response.data.items.map((entity: any) => {
             const post = new Post(entity);
             dispatch(loadPostSuccess(
+              slug,
               post,
             ));
 

@@ -1,10 +1,10 @@
 <?php
 /**
- * Menu Item
- *
- * @project Sujinc.com
- * @since   9.0.0
- * @author  Sujin 수진 Choi http://www.sujinc.com/
+	* Menu Item
+	*
+	* @project Sujinc.com
+	* @since   9.0.0
+	* @author  Sujin 수진 Choi http://www.sujinc.com/
 */
 
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items;
@@ -25,7 +25,6 @@ final class Menu extends Items {
 	 * Create MenuItem from WP_Post
 	*/
 	public function __construct( WP_Post $post ) {
-
 		$this->ID      = $post->ID;
 		$this->title   = $post->title;
 		$this->url     = $post->url;

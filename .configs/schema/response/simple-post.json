@@ -74,9 +74,28 @@
         }
       },
       "readonly": true,
-      "additionalProperties":false
+      "required": [
+        "background",
+        "icon",
+        "list",
+        "title",
+        "thumbnail",
+        "backgroundColor",
+        "useBackgroundColor"
+      ],
+          "additionalProperties":false
     }
   },
-  "required": ["id", "slug", "date", "link", "title", "meta"],
+  "required": [
+    "id",
+    "slug",
+    "title",
+    "excerpt",
+    "date",
+    "link",
+    "tags",
+    "thumbnail",
+    "meta"
+  ],
   "additionalProperties":false
 }

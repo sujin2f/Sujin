@@ -58,7 +58,13 @@
           "readonly": true
         }
       },
-      "required": ["ID", "title", "url", "target", "parent"],
+      "required": [
+        "content",
+        "series",
+        "prevNext",
+        "related",
+        "type"
+      ],
       "additionalProperties":false
     }
   ]

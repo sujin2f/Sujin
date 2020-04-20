@@ -1,20 +1,20 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'
+import ReactDOM from 'react-dom'
 import {
   BrowserRouter as Router,
   Switch,
   Route
-} from "react-router-dom";
+} from 'react-router-dom'
 
-import { Public } from 'scenes/public';
-import { Archive } from 'scenes/public/Archive';
-import { FrontPage } from 'scenes/public/FrontPage';
-import { NotFound } from 'scenes/public/NotFound';
-import { Page } from 'scenes/public/Page';
-import { Post } from 'scenes/public/Post';
-import { Store } from 'store';
+import { Public } from 'scenes/public'
+import { Archive } from 'scenes/public/Archive'
+import { FrontPage } from 'scenes/public/FrontPage'
+import { NotFound } from 'scenes/public/NotFound'
+import { Page } from 'scenes/public/Page'
+import { Post } from 'scenes/public/Post'
+import { Store } from 'store'
 
-import * as serviceWorker from './serviceWorker';
+import * as serviceWorker from './serviceWorker'
 
 /* tslint:disable:jsx-wrap-multiline */
 ReactDOM.render(
@@ -52,10 +52,10 @@ ReactDOM.render(
     </Router>
   </React.StrictMode>,
   document.getElementById('app')
-);
+)
 /* tslint:enable:jsx-wrap-multiline */
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+serviceWorker.unregister()

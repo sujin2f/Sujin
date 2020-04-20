@@ -14,9 +14,15 @@
     "webpack": "^4.42.0"
   },
   "scripts": {
+    "arson": "yarn test && yarn lint && yarn phpunit && yarn phpcs",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "lint": "tslint 'src/**/*.{ts,tsx,js}'",
+    "phpcs": "vendor/bin/phpcs --standard=./.configs/phpcs.xml -s",
+    "phpdoc": "vendor/bin/phpdoc -d ./classes -t ./logs/phpdoc",
+    "phpunit": "vendor/bin/phpunit -c ./.configs/phpunit/phpunit.xml",
+    "run:bundle-analyzer": "NODE_ENV=production webpack-bundle-analyzer logs/stats.json",
+    "run:stats": "NODE_ENV=production webpack --profile --json > logs/stats.json",
     "schema:build": "node .configs/scripts/build-schema.js",
     "start": "NODE_ENV=development webpack --watch",
     "test": "react-scripts test --coverage"
@@ -51,6 +57,7 @@
     "sass-loader": "^8.0.2",
     "tslint": "^6.1.1",
     "tslint-react": "^4.2.0",
+    "webpack-bundle-analyzer": "^3.7.0",
     "webpack-cli": "^3.3.11"
   }
 }

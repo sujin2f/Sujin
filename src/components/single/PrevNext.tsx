@@ -3,32 +3,32 @@
  * components/single/PrevNext
  */
 
-import React, { Fragment} from 'react';
+import React, { Fragment} from 'react'
 
-import { Link } from "components/common/Link";
-import { SimplePost } from 'store/items/simple-post';
+import { Link } from 'components/common/Link'
+import { SimplePost } from 'store/items/simple-post'
 
 interface Props {
   prevNext?: {
-    prev?: SimplePost;
-    next?: SimplePost;
-  };
+    prev?: SimplePost
+    next?: SimplePost
+  }
 }
 
-type keys = Props['prevNext'];
+type keys = Props['prevNext']
 
 export const PrevNext = (props: Props): JSX.Element => {
   if (!props.prevNext) {
-    return <Fragment />;
+    return <Fragment />
   }
 
-  const prevNext = props.prevNext as { [key: string]: SimplePost };
+  const prevNext = props.prevNext as { [key: string]: SimplePost }
 
   return (
     <nav className="prev-next">
       {Object.keys(prevNext).map((key) => {
         if (!prevNext[key]) {
-          return null;
+          return null
         }
 
         return (
@@ -40,8 +40,8 @@ export const PrevNext = (props: Props): JSX.Element => {
             <i />
             <Fragment>{prevNext[key].title}</Fragment>
           </Link>
-        );
+        )
       })}
     </nav>
-  );
-};
+  )
+}

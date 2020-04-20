@@ -3,21 +3,26 @@
  * components/common/Tags
  */
 
-import React from 'react';
+import React from 'react'
 
-import { Link } from "components/common/Link";
+import { Link } from 'components/common/Link'
+import { Term } from 'store/items/term'
 
-export const Tags = (props): JSX.Element => {
-  const tags = props.tags || {};
+interface Props {
+  items?: Term[]
+  prefix: string
+}
+
+export const Tags = (props: Props): JSX.Element => {
   return (
     <ul className="tags">
-      {Object.keys(tags).map((index) => (
-        <li key={`tag-id-${tags[index].slug}-${props.from}`}>
-          <Link to={`/tag/${tags[index].slug}/page/1`}>
-            {tags[index].name}
+      {props.items && props.items.map((tag: Term) => (
+        <li key={`tag-${props.prefix}-${tag.slug}`}>
+          <Link to={`/tag/${tag.slug}/page/1`}>
+            {tag.name}
           </Link>
         </li>
       ))}
     </ul>
-  );
-};
+  )
+}

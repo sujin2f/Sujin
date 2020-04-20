@@ -28,5 +28,6 @@
       "readonly": true
     }
   },
+  "required": ["large", "medium", "small", "tiny"],
   "additionalProperties": false
 }

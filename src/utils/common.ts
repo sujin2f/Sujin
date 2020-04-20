@@ -1,9 +1,4 @@
 /** utils/common */
-declare global {
-    interface Window {
-      opera;
-    }
-}
 
 export const isMobile = (): boolean => {
   const userAgent = window.navigator.userAgent || window.navigator.vendor || window.opera;
@@ -55,7 +50,7 @@ export const backgroundImageStyle = (image): { [key: string]: string } => {
 export const log = (message: any, level = 'log'): void => {
   switch(level) {
     case 'log':
-      if ('http://sujinc.test' !== sujin.homeUrl) {
+      if ('http://sujinc.test' !== window.sujin.homeUrl) {
         return;
       }
 

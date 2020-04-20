@@ -3,22 +3,22 @@
  * components/dev-tools/CaseTool
  */
 
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState } from 'react'
 
-import { Link } from "components/common/Link";
-import { symbolAlignment } from 'utils/dev-tools';
+import { Link } from 'components/common/Link'
+import { symbolAlignment } from 'utils/dev-tools'
 
 export const SymbolAlignment = (): JSX.Element => {
-  const [symbol, setSymbol] = useState('=');
-  const [text, setText] = useState('');
-  const convertedText = text ? symbolAlignment(text, symbol) : (<Fragment />);
+  const [symbol, setSymbol] = useState('=')
+  const [text, setText] = useState('')
+  const convertedText = text ? symbolAlignment(text, symbol) : (<Fragment />)
 
-  const handleChangeText = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    setText(event.target.value);
+  const handleChangeText = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
+    setText(event.target.value)
   }
 
   const handleChangeSymbol = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    setSymbol(event.target.value);
+    setSymbol(event.target.value)
   }
 
   return (
@@ -61,5 +61,5 @@ export const SymbolAlignment = (): JSX.Element => {
         </pre>
       </article>
     </Fragment>
-  );
-};
+  )
+}

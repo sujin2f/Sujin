@@ -3,22 +3,22 @@
  * components/dev-tools/TextSort
  */
 
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState } from 'react'
 
-import { Link }     from "components/common/Link";
-import { sortText } from 'utils/dev-tools';
+import { Link } from 'components/common/Link'
+import { sortText } from 'utils/dev-tools'
 
 export const TextSort = (): JSX.Element => {
-  const [text, setText] = useState('');
-  const [checked, setChecked] = useState(false);
-  const convertedText = text ? sortText(text, checked) : (<Fragment />);
+  const [text, setText] = useState('')
+  const [checked, setChecked] = useState(false)
+  const convertedText = text ? sortText(text, checked) : (<Fragment />)
 
   const handleChangeText = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
-    setText(event.target.value);
+    setText(event.target.value)
   }
 
   const handleChangeChecked = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    setChecked(event.target.checked);
+    setChecked(event.target.checked)
   }
 
   return (
@@ -60,5 +60,5 @@ export const TextSort = (): JSX.Element => {
         </pre>
       </article>
     </Fragment>
-  );
-};
+  )
+}

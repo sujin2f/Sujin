@@ -1,11 +1,11 @@
 <?php
 /**
- * Flickr Widget
- *
- * @project Sujin
- * @since   9.0.0
- * @author  Sujin 수진 Choi http://www.sujinc.com/
- */
+	* Flickr Widget
+	*
+	* @project Sujin
+	* @since   9.0.0
+	* @author  Sujin 수진 Choi http://www.sujinc.com/
+	*/
 
 namespace Sujin\Wordpress\Theme\Sujin\Widgets;
 
@@ -18,6 +18,7 @@ class Flickr extends WP_Widget {
 	use Trait_Singleton;
 
 	protected const CACHE_TTL = 12 * HOUR_IN_SECONDS;
+	private const DEV_MODE    = false;
 
 	protected function __construct() {
 		parent::__construct(
@@ -30,7 +31,7 @@ class Flickr extends WP_Widget {
 		$transient_key = $this->get_transient_key();
 		$transient     = Transient::get_transient( $transient_key );
 
-		if ( $transient && ! $transient->is_expired() && ! SUJIN_DEV_MODE ) {
+		if ( $transient && ! $transient->is_expired() && ! SUJIN_DEV_MODE && ! self::DEV_MODE ) {
 			return $transient->items;
 		}
 

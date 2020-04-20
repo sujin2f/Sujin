@@ -35,5 +35,13 @@
       "readonly": true
     }
   },
+  "required": [
+    "title",
+    "description",
+    "thumbnail",
+    "total",
+    "totalPages",
+    "items"
+  ],
   "additionalProperties":false
 }

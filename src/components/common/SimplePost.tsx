@@ -3,21 +3,21 @@
  * components/common/SimplePost
  */
 
-import React from 'react';
+import React from 'react'
 
-import DEFAULT_BG from 'assets/images/thumbnail.svg';
-import { Link } from "components/common/Link";
-import { Tags } from 'components/common/Tags';
-import { SimplePost as SimplePostType } from 'store/items/schema/simple-post';
-import { parseExImage } from 'utils/common';
+import DEFAULT_BG from 'assets/images/thumbnail.svg'
+import { Link } from 'components/common/Link'
+import { Tags } from 'components/common/Tags'
+import { SimplePost as SimplePostType } from 'store/items/simple-post'
+import { parseExImage } from 'utils/common'
 
 interface Props {
-  item: SimplePostType;
-  className?: string;
+  item: SimplePostType
+  className?: string
   thumbnailKey?: {
-    desktop?: string;
-    mobile?: string;
-  };
+    desktop?: string
+    mobile?: string
+  }
 }
 
 export const SimplePost = (props: Props): JSX.Element => {
@@ -33,7 +33,7 @@ export const SimplePost = (props: Props): JSX.Element => {
     },
     className,
     thumbnailKey = {},
-  } = props;
+  } = props
 
   const backgroundImage =
     parseExImage(
@@ -43,7 +43,7 @@ export const SimplePost = (props: Props): JSX.Element => {
       thumbnailKey.mobile || 'small',
       DEFAULT_BG,
       DEFAULT_BG,
-    );
+    )
 
   return (
     <div className={`simple-post ${className}`}>
@@ -76,11 +76,11 @@ export const SimplePost = (props: Props): JSX.Element => {
         <div
           itemProp="description"
           className="description"
-          dangerouslySetInnerHTML={{ __html: excerpt }}
+          dangerouslySetInnerHTML={{ __html: excerpt! }}
         />
 
-        <Tags tags={tags} from={`archive-item-${title}`} />
+        <Tags items={tags} prefix={`archive-item-${title}`} />
       </div>
     </div>
-  );
-};
+  )
+}
