@@ -1,8 +1,8 @@
 /** store/items/image */
 
-import { IImage } from 'store/items/interface/image';
+import { Image as ImageType } from 'store/items/schema/image';
 
-export default class Image implements IImage {
+export class Image implements ImageType {
   /**
    * Large size image
    */
@@ -20,7 +20,7 @@ export default class Image implements IImage {
    */
   tiny?: string;
 
-  constructor(data) {
+  constructor(data: any) {
     if (!data) {
       this.large = '';
       this.medium = '';

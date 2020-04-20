@@ -1,11 +1,10 @@
 /** store/items/post */
 
-import SimplePost from 'store/items/simple-post';
+import { SimplePost } from 'store/items/simple-post';
 
-import { IPost } from 'store/items/interface/post';
-import { ISimplePost } from 'store/items/interface/simple-post';
+import { Post as TypePost } from 'store/items/schema/post';
 
-export class Post extends SimplePost implements IPost {
+export class Post extends SimplePost implements TypePost {
   /**
    * Content
    */
@@ -17,35 +16,35 @@ export class Post extends SimplePost implements IPost {
   /**
    * Series
    */
-  series?: ISimplePost[];
+  series?: SimplePost[];
   /**
    * Prev / Next
    */
   prevNext?: {
-    prev?: ISimplePost;
-    next?: ISimplePost;
+    prev?: SimplePost;
+    next?: SimplePost;
   };
   /**
    * Related contents
    */
-  related?: ISimplePost[];
+  related?: SimplePost[];
   /**
    * Post Type
    */
   type?: 'post'|'page';
 
-  constructor(data) {
+  constructor(data: any) {
     super(data);
 
     this.content = data.content;
     this.commentStatus = data.commentStatus;
 
-    this.series = data.series.map((simple) => new SimplePost(simple));
+    this.series = data.series.map((simple: SimplePost) => new SimplePost(simple));
     this.prevNext = {
-      prev: data.prevNext.prev ? new SimplePost(data.prevNext.prev) : null,
-      next: data.prevNext.next ? new SimplePost(data.prevNext.next) : null,
+      prev: data.prevNext.prev ? new SimplePost(data.prevNext.prev) : undefined,
+      next: data.prevNext.next ? new SimplePost(data.prevNext.next) : undefined,
     };
-    this.related = data.related.map((simple) => new SimplePost(simple));
+    this.related = data.related.map((simple: SimplePost) => new SimplePost(simple));
 
     this.type = data.type;
   }

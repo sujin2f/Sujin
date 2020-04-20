@@ -1,9 +1,18 @@
-import { IBackground } from 'store/items/interface/background';
-import { IPost } from 'store/items/interface/post';
+import { TermTypes } from 'constants/enum';
+
+import { ActionPageHeader } from 'store/reducer';
+import { ActionPublicClass } from 'store/reducer';
+import { StateLeftRail } from 'store/reducer';
+
+import { Archive } from 'store/items/archive';
+import { Background } from 'store/items/background';
+import { Menu } from 'store/items/menu';
+import { Post } from 'store/items/post';
 import { log } from 'utils/common';
 
 export const SET_PUBLIC_CLASS = 'sujin/v1/SET_PUBLIC_CLASS';
 export const SET_PAGE_HEADER = 'sujin/v1/SET_PAGE_HEADER';
+export const SET_LEFT_RAIL = 'sujin/v1/SET_LEFT_RAIL';
 export const LOAD_MENU_INIT = 'sujin/v1/LOAD_MENU_INIT';
 export const LOAD_MENU_SUCCESS = 'sujin/v1/LOAD_MENU_SUCCESS';
 export const LOAD_POST_INIT = 'sujin/v1/LOAD_POST_INIT';
@@ -16,7 +25,7 @@ export const LOAD_ARCHIVE_INIT = 'sujin/v1/LOAD_ARCHIVE_INIT';
 export const LOAD_ARCHIVE_SUCCESS = 'sujin/v1/LOAD_ARCHIVE_SUCCESS';
 export const LOAD_ARCHIVE_FAIL = 'sujin/v1/LOAD_ARCHIVE_FAIL';
 
-export const setPublicClass = (publicClass) => {
+export const setPublicClass = (publicClass: ActionPublicClass) => {
   log(SET_PUBLIC_CLASS);
   return {
     type: SET_PUBLIC_CLASS,
@@ -24,11 +33,19 @@ export const setPublicClass = (publicClass) => {
   };
 }
 
-export const setPageHeader = (pageHeader) => {
+export const setPageHeader = (pageHeader: ActionPageHeader) => {
   log(SET_PAGE_HEADER);
   return {
     type: SET_PAGE_HEADER,
     pageHeader,
+  };
+}
+
+export const setLeftRail = (leftRail: StateLeftRail) => {
+  log(SET_PAGE_HEADER);
+  return {
+    type: SET_PAGE_HEADER,
+    leftRail,
   };
 }
 
@@ -40,7 +57,7 @@ export const loadMenuInit = (slug: string) => {
   };
 }
 
-export const loadMenuSuccess = (slug: string, menuItems) => {
+export const loadMenuSuccess = (slug: string, menuItems: Menu[]) => {
   log(LOAD_MENU_SUCCESS);
   return {
     type: LOAD_MENU_SUCCESS,
@@ -57,8 +74,7 @@ export const loadPostInit = (slug: string) => {
   };
 }
 
-// @todo slug is not neccessary
-export const loadPostSuccess = (slug: string, post: IPost) => {
+export const loadPostSuccess = (slug: string, post: Post) => {
   log(LOAD_POST_SUCCESS);
   return {
     type: LOAD_POST_SUCCESS,
@@ -82,7 +98,7 @@ export const loadBackgroundInit = () => {
   };
 }
 
-export const loadBackgroundSuccess = (background: IBackground[]) => {
+export const loadBackgroundSuccess = (background: Background[]) => {
   log(LOAD_BACKGROUND_SUCCESS);
   return {
     type: LOAD_BACKGROUND_SUCCESS,
@@ -97,32 +113,32 @@ export const loadBackgroundFail = () => {
   };
 };
 
-export const loadArchiveInit = (archiveType: string, slug: string, page: number) => {
+export const loadArchiveInit = (termType: TermTypes, slug: string, page: number) => {
   log(LOAD_ARCHIVE_INIT);
   return {
     type: LOAD_ARCHIVE_INIT,
-    archiveType,
+    termType,
     slug,
     page,
   };
 }
 
-export const loadArchiveSuccess = (archiveType: string, slug: string, page: number, archive: IArchive) => {
+export const loadArchiveSuccess = (termType: TermTypes, slug: string, page: number, archive: Archive) => {
   log(LOAD_ARCHIVE_SUCCESS);
   return {
     type: LOAD_ARCHIVE_SUCCESS,
-    archiveType,
+    termType,
     slug,
     page,
     archive,
   };
 };
 
-export const loadArchiveFail = (archiveType: string, slug: string, page: number) => {
+export const loadArchiveFail = (termType: TermTypes, slug: string, page: number) => {
   log(LOAD_ARCHIVE_FAIL);
   return {
     type: LOAD_ARCHIVE_FAIL,
-    archiveType,
+    termType,
     slug,
     page,
   };

@@ -1,6 +1,5 @@
 {
   "$schema": "http://json-schema.org/schema#",
-  "$id": "http://sujinc.com/term.json",
   "title": "term",
   "type": "object",
   "properties": {

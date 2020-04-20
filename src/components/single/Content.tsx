@@ -6,12 +6,12 @@
 import React, { useEffect } from 'react';
 
 import { CLASS_NAME } from 'constants/dom';
-import { IPost } from 'items/interface/post';
+import { Post } from 'store/items/post';
 import { parseContent, parseSeries } from 'utils/single';
 import { Carousel } from 'components/single/Carousel';
 
 interface Props {
-  post: IPost;
+  post: Post;
   className?: string;
   children?: JSX.Element|JSX.Element[]|undefined;
 }
@@ -34,21 +34,22 @@ export const Content = (props: Props): JSX.Element => {
     ...parseContent(content),
   ];
 
-  useEffect((): never => {
+  useEffect((): void => {
     const carousels = document.getElementsByClassName(CLASS_NAME.carousel.CAROUSEL);
 
     if (carousels.length === 0) {
       return;
     }
 
-    Array.from(carousels).forEach((element: HTMLElement): never => {
+    Array.from(carousels).forEach((element: Element): void => {
       if (element.getAttribute('data-loaded')) {
         return;
       }
+      // tslint:disable-next-line: no-unused-expression
       new Carousel(element);
-      element.setAttribute('data-loaded', true);
+      element.setAttribute('data-loaded', 'loaded');
     });
-  }, []);
+  }, [contents]);
 
   return (
     <article

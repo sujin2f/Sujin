@@ -1,13 +1,11 @@
 /** store/items/simple-post */
 
-import Image from 'store/items/image';
-import Term from 'store/items/term';
+import { Image } from 'store/items/image';
+import { Term } from 'store/items/term';
 
-import { ISimplePost } from 'store/items/interface/simple-post';
-import { IImage } from 'store/items/interface/image';
-import { ITerm } from 'store/items/interface/term';
+import { SimplePost as TypeSimplePost } from 'store/items/schema/simple-post';
 
-export default class SimplePost implements ISimplePost {
+export class SimplePost implements TypeSimplePost {
   /**
    * Unique ID
    */
@@ -35,22 +33,22 @@ export default class SimplePost implements ISimplePost {
   /**
    * Tags
    */
-  tags?: ITerm[];
-  thumbnail?: IImage;
+  tags?: Term[];
+  thumbnail?: Image;
   /**
    * Meta data
    */
-  meta?: {
-    background?: IImage;
-    icon?: IImage;
-    list?: IImage;
-    title?: IImage;
-    thumbnail?: IImage;
+  meta: {
+    background?: Image;
+    icon?: Image;
+    list?: Image;
+    title?: Image;
+    thumbnail?: Image;
     backgroundColor?: string;
     useBackgroundColor?: boolean;
   };
 
-  constructor(data) {
+  constructor(data: any) {
     this.id = data.id;
     this.slug = data.slug;
     this.link = data.link;
@@ -68,7 +66,7 @@ export default class SimplePost implements ISimplePost {
     };
     this.thumbnail = new Image(data.thumbnail);
     this.excerpt = decodeURIComponent(data.excerpt);
-    this.tags = (data.tags && data.tags.map((tag) => new Term(tag))) || [];
+    this.tags = (data.tags && data.tags.map((tag: Term) => new Term(tag))) || [];
   }
 
   public parseDate(): { [key: string]: string|number } {

@@ -13,33 +13,29 @@ import { PrevNext } from 'components/single/PrevNext';
 import { RelatedPosts } from 'components/single/RelatedPosts';
 import { SingleAside } from 'components/single/SingleAside';
 import { SocialShare } from 'components/single/SocialShare';
-import {
-  RequestState,
-  isAvailablle,
-} from 'constants/enum';
 import { NotFound } from 'scenes/public/NotFound';
 import { usePost } from 'store/hooks/single';
-import { IPost } from 'store/items/rest/interface/post';
+import { Post as TypePost } from 'store/items/post';
 
 interface Props {
   backgroundImage: string;
-  hideFrontFooter: bool;
-  hideFrontHeader: bool;
+  hideFrontFooter: boolean;
+  hideFrontHeader: boolean;
   isPending: string;
-  post: IPost;
+  post: TypePost;
 }
 
 export const Post = (): JSX.Element => {
   const { slug } = useParams();
   const post = usePost(slug);
 
-  if (RequestState.Failed === post) {
+  if (post && 'Failed' === post.state) {
     return (
       <NotFound />
     );
   }
 
-  if (!isAvailablle(post)) {
+  if (!post || 'Loading' === post.state) {
     return (
       <Fragment />
     );
@@ -49,13 +45,13 @@ export const Post = (): JSX.Element => {
     prevNext,
     related,
     tags,
-  } = post;
+  } = post.item!;
 
   return (
     <Fragment>
       <div className="columns small-12 medium-2 layout__article__left" />
 
-      <Content post={post} className="columns small-12 large-7">
+      <Content post={post.item!} className="columns small-12 large-7">
         <Tags tags={tags} from={`single-${slug}`} />
         <SocialShare />
         <PrevNext prevNext={prevNext} />

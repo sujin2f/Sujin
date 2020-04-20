@@ -1,6 +1,6 @@
 /*
  * Menu Hooks
- * store/hooks/menu
+ * import {} from 'store/hooks/menu';
  */
 
 import {
@@ -9,20 +9,20 @@ import {
 } from 'react';
 import axios from 'axios';
 
-import { ResponseCode, RequestState } from 'constants/enum';
+import { ResponseCode } from 'constants/enum';
 import { Context } from 'store';
 import { loadMenuInit, loadMenuSuccess } from 'store/actions';
-import { IMenu } from 'store/items/interface/menu';
 import { Menu } from 'store/items/menu';
+import { StateMenu } from 'store/reducer';
 import { log } from 'utils/common';
 
-const loaded = [];
+const loaded: string[] = [];
 
-export const useMenu = (slug: string): IMenu|RequestState => {
-  const [{ menu }, dispatch] = useContext(Context);
+export const useMenu = (slug: string): StateMenu => {
+  const [{ menu }, dispatch] = useContext(Context) as Context;
 
   useEffect(() => {
-    if (loaded.includes(slug)) {
+    if (loaded.includes(slug) || menu[slug]) {
       return;
     }
 
@@ -33,7 +33,7 @@ export const useMenu = (slug: string): IMenu|RequestState => {
         if (response.status === ResponseCode.Success) {
           dispatch(loadMenuSuccess(
             slug,
-            response.data.map((item) => new Menu(item)),
+            response.data.map((item: any) => new Menu(item)),
           ));
           return;
         }
@@ -42,7 +42,7 @@ export const useMenu = (slug: string): IMenu|RequestState => {
       });
 
     loaded.push(slug);
-  }, [dispatch, slug]);
+  }, [dispatch, slug, menu]);
 
   return menu[slug];
 };

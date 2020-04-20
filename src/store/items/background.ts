@@ -1,19 +1,15 @@
 /** store/items/background */
 
-import { IBackground } from 'store/items/interface/background';
+import { Background as BackgroundType } from 'store/items/schema/background';
 
-export class Background implements IBackground {
+export class Background implements BackgroundType {
   desktop: string;
   mobile: string;
   title: string;
 
-  constructor(data) {
+  constructor(data: any) {
     this.desktop = data.desktop;
     this.mobile = data.mobile;
     this.title = data.title;
-  }
-
-  static create(data): IBackground {
-    return new Background(data);
   }
 }

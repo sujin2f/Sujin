@@ -17,6 +17,7 @@
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "lint": "tslint 'src/**/*.{ts,tsx,js}'",
+    "schema:build": "node .configs/scripts/build-schema.js",
     "start": "NODE_ENV=development webpack --watch",
     "test": "react-scripts test --coverage"
   },
@@ -45,6 +46,7 @@
     "@types/react-dom": "^16.9.0",
     "axios-mock-adapter": "^1.18.1",
     "css-loader": "^3.5.2",
+    "json-schema-to-typescript": "^8.2.0",
     "react-app-rewired": "^2.1.5",
     "sass-loader": "^8.0.2",
     "tslint": "^6.1.1",

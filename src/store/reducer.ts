@@ -1,7 +1,12 @@
 import DEFAULT_BACKGROUND from 'assets/images/background/category.jpg';
 import DEFAULT_BACKGROUND_MOBILE from 'assets/images/background/category-mobile.jpg';
-import { RequestState, TermTypes } from 'constants/enum';
-import { CLASS_NAME } from 'constants/dom';
+import {
+  RequestState,
+  TermTypes,
+  PublicClasses,
+  PageHeaderString,
+  PageHeaderBoolean,
+} from 'constants/enum';
 import {
   SET_PUBLIC_CLASS,
   SET_PAGE_HEADER,
@@ -16,59 +21,92 @@ import {
   LOAD_ARCHIVE_INIT,
   LOAD_ARCHIVE_SUCCESS,
   LOAD_ARCHIVE_FAIL,
+  SET_LEFT_RAIL,
 } from 'store/actions';
-import { IArchive } from 'store/items/interface/archive';
-import { IMenu } from 'store/items/interface/menu';
-import { IPost } from 'store/items/interface/post';
+import { Archive } from 'store/items/archive';
+import { Background } from 'store/items/background';
+import { Menu } from 'store/items/menu';
+import { Post } from 'store/items/post';
 import { isMobile } from 'utils/common';
 
-interface StateMenu {
-  [slug: string]: IMenu|RequestState;
-}
+/*
+ * REST items
+ * @todo background
+ */
+export type ResponseItem<T extends Archive | Post | Menu[]> = {
+  state: RequestState;
+  item?: T;
+};
+export type StatePost = ResponseItem<Post>;
+export type StateMenu = ResponseItem<Menu[]>;
+export type StateArchive = ResponseItem<Archive>;
 
-interface StatePageHeader {
-  background: string;
-  backgroundColor: string;
-  description: string;
-  icon: string;
-  isLoading: boolean;
-  prefix: string;
-  title: string;
-  useBackgroundColor: boolean;
-}
+/*
+ * Page Header
+ */
+type StatePageHeaderString = {
+  [optionKey1 in PageHeaderString]: string;
+};
+type StatePageHeaderBoolean = {
+  [optionKey1 in PageHeaderBoolean]: boolean;
+};
+export type StatePageHeader = StatePageHeaderString & StatePageHeaderBoolean;
 
-interface StatePosts {
-  [slug: string]: IPost|RequestState;
-}
+type ActionPageHeaderString = {
+  [optionKey1 in PageHeaderString]?: string;
+};
+type ActionPageHeaderBoolean = {
+  [optionKey1 in PageHeaderBoolean]?: boolean;
+};
+export type ActionPageHeader = ActionPageHeaderString & ActionPageHeaderBoolean;
 
-interface StatePublicClass {
-  [className: string]: boolean;
-}
+/*
+ * Public Class
+ */
+type StatePublicClassBase = {
+  [className in PublicClasses]: boolean;
+};
+type StatePublicClassWrapper = {
+  'layout__wrapper': boolean;
+};
+export type StatePublicClass = StatePublicClassBase & StatePublicClassWrapper;
+export type ActionPublicClass = {
+  [className in PublicClasses]?: boolean;
+};
 
-interface InitialState {
+/*
+ * misc
+ */
+export type StateLeftRail = {
+  [title: string]: {
+    [menuTitle: string]: string;
+  };
+};
+
+export type State = {
   archive: {
-    [termTypes: TermTypes]: {
-      [slug: string]: IArchive[];
+    [termTypes in TermTypes]: {
+      [slug: string]: StateArchive[];
     };
   };
   background: string;
-  menu: StatePublicClass;
-  pageHeader: StatePublicClass;
-  posts: StatePublicClass;
+  leftRail: StateLeftRail;
+  menu: {
+    [slug: string]: StateMenu;
+  };
+  pageHeader: StatePageHeader;
+  posts: {
+    [slug: string]: StatePost;
+  };
   publicClass: StatePublicClass;
-}
+};
 
-export const initialState: InitialState = {
-  // @todo recent post
+export const initialState: State = {
   archive: {
-    ...Object
-      .keys(TermTypes)
-      .reduce((acc, key) => {
-        return {
-          ...acc,
-          [TermTypes[key]]: {},
-        };
-      }, {}),
+    category: {},
+    tag: {},
+    search: {},
+    recentPosts: {},
   },
   background: '',
   menu: {},
@@ -84,21 +122,33 @@ export const initialState: InitialState = {
   },
   posts: {},
   publicClass: {
-    layout__wrapper: true,
-    ...Object
-      .keys(CLASS_NAME.publicScene)
-      .reduce((acc, key) => {
-        return {
-          ...acc,
-          [CLASS_NAME.publicScene[key]]: false,
-        };
-      }, {}),
+    scrolled: false,
+    'mobile-menu': false,
+    'stretched-background': false,
+    'hide-footer': false,
+    'hide-header': false,
+    'layout__wrapper': true,
   },
+  leftRail: {},
 };
 
-export const reducer = (state = initialState, action: object): InitialState => {
+type Action = {
+  archive: Archive;
+  background: Background[];
+  leftRail: StateLeftRail;
+  menuItems: Menu[];
+  page: number;
+  pageHeader: ActionPageHeader;
+  post: Post;
+  publicClass: ActionPublicClass;
+  slug: string;
+  termType: TermTypes;
+  type: string;
+};
+
+export const reducer = (state: State = initialState, action: Action): State => {
   switch (action.type) {
-    case SET_PUBLIC_CLASS:
+    case SET_PUBLIC_CLASS: {
       return {
         ...state,
         publicClass: {
@@ -106,8 +156,9 @@ export const reducer = (state = initialState, action: object): InitialState => {
           ...action.publicClass,
         },
       };
+    }
 
-    case SET_PAGE_HEADER:
+    case SET_PAGE_HEADER: {
       return {
         ...state,
         pageHeader: {
@@ -115,85 +166,120 @@ export const reducer = (state = initialState, action: object): InitialState => {
           ...action.pageHeader,
         },
       };
+    }
 
-    case LOAD_MENU_INIT:
+    case SET_LEFT_RAIL: {
+      return {
+        ...state,
+        leftRail: action.leftRail,
+      };
+    }
+
+    case LOAD_MENU_INIT: {
       return {
         ...state,
         menu: {
           ...state.menu,
-          [action.slug]: RequestState.Loading,
+          [action.slug]: {
+            state: 'Loading',
+          },
         },
       };
+    }
 
-    case LOAD_MENU_SUCCESS:
+    case LOAD_MENU_SUCCESS: {
       return {
         ...state,
         menu: {
           ...state.menu,
-          [action.slug]: action.menuItems,
+          [action.slug]: {
+            state: 'Success',
+            item: action.menuItems,
+          },
         },
       };
+    }
 
-    case LOAD_POST_INIT:
+    case LOAD_POST_INIT: {
       return {
         ...state,
         posts: {
           ...state.posts,
-          [action.slug]: RequestState.Loading,
+          [action.slug]: {
+            state: 'Loading',
+          },
         },
       };
+    }
 
-    case LOAD_POST_SUCCESS:
+    case LOAD_POST_SUCCESS: {
       return {
         ...state,
         posts: {
           ...state.posts,
-          [action.slug]: action.post,
+          [action.slug]: {
+            state: 'Success',
+            item: action.post,
+          },
         },
       };
+    }
 
-    case LOAD_POST_FAIL:
+    case LOAD_POST_FAIL: {
       return {
         ...state,
         posts: {
           ...state.posts,
-          [action.slug]: RequestState.Failed,
+          [action.slug]: {
+            state: 'Failed',
+          },
         },
       };
+    }
 
-    case LOAD_BACKGROUND_INIT:
+    case LOAD_BACKGROUND_INIT: {
       return {
         ...state,
         background: '',
       };
+    }
 
-    case LOAD_BACKGROUND_SUCCESS:
+    case LOAD_BACKGROUND_SUCCESS: {
       const background = action.background[Math.floor(Math.random() * action.background.length)];
       return {
         ...state,
         background: isMobile() ? background.mobile : background.desktop,
       };
+    }
 
-    case LOAD_BACKGROUND_FAIL:
+    case LOAD_BACKGROUND_FAIL: {
       return {
         ...state,
         background: isMobile() ? DEFAULT_BACKGROUND_MOBILE : DEFAULT_BACKGROUND,
       };
+    }
 
     case LOAD_ARCHIVE_INIT:
     case LOAD_ARCHIVE_SUCCESS:
-    case LOAD_ARCHIVE_FAIL:
-      const slug = state.archive[action.archiveType][action.slug] || [];
+    case LOAD_ARCHIVE_FAIL: {
+      const slugNode = state.archive[action.termType][action.slug] || [];
 
       switch (action.type) {
         case LOAD_ARCHIVE_INIT:
-          slug[action.page] = RequestState.Loading;
+          slugNode[action.page] = {
+            state: 'Loading',
+          };
           break;
         case LOAD_ARCHIVE_SUCCESS:
-          slug[action.page] = action.archive;
+          slugNode[action.page] = {
+            state: 'Success',
+            item: action.archive,
+          };
           break;
         case LOAD_ARCHIVE_FAIL:
-          slug[action.page] = RequestState.Failed;
+          slugNode[action.page] = {
+            state: 'Failed',
+          };
           break;
       }
 
@@ -201,14 +287,16 @@ export const reducer = (state = initialState, action: object): InitialState => {
         ...state,
         archive: {
           ...state.archive,
-          [action.archiveType]: {
-            ...state.archive[action.archiveType],
-            [action.slug]: slug,
+          [action.termType]: {
+            ...state.archive[action.termType],
+            [action.slug]: slugNode,
           },
         },
       };
+    }
 
-    default:
+    default: {
       return state;
+    }
   }
 };

@@ -1,8 +1,8 @@
 /** store/items/term */
 
-import { ITerm } from 'store/items/interface/term';
+import { Term as TermType } from 'store/items/schema/term';
 
-export default class Term implements ITerm {
+export class Term implements TermType {
   /**
    * Term name
    */
@@ -16,7 +16,7 @@ export default class Term implements ITerm {
    */
   termId: number;
 
-  constructor(data) {
+  constructor(data: any) {
     this.name = data.name;
     this.slug = data.slug;
     this.termId = data.termId;

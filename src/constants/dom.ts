@@ -18,11 +18,4 @@ export const CLASS_NAME = {
     CURRENT: 'current',
     INDICATOR: 'indicator',
   },
-  publicScene: {
-    SCROLLED: 'scrolled',
-    MOBILE_MENU: 'mobile-menu',
-    STRETCHED_BACKGROUND: 'stretched-background',
-    HIDE_FOOTER: 'hide-footer',
-    HIDE_HEADER: 'hide-header',
-  },
 };

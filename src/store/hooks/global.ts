@@ -4,10 +4,10 @@ import {
   useContext,
   useEffect,
   useRef,
+  RefObject,
 } from 'react';
 
-import { CLASS_NAME } from 'constants/dom';
-import { ResponseCode } from 'constants/enum';
+import { ResponseCode, PublicClasses } from 'constants/enum';
 import { TOP_MENU_SCROLLED_POSITION } from 'constants/common';
 import { Context } from 'store';
 import {
@@ -20,32 +20,27 @@ import {
 import { Background } from 'store/items/background';
 import { log } from 'utils/common';
 
-const {
-  publicScene: {
-    SCROLLED,
-    STRETCHED_BACKGROUND,
-    HIDE_FOOTER,
-    HIDE_HEADER,
-  },
-} = CLASS_NAME;
-
-export const usePublicClassName = (): [string, object] => {
-  const [{ publicClass }, dispatch] = useContext(Context);
-  const wrapperElement = useRef(null)
+export const usePublicClassName = (): [string, RefObject<HTMLDivElement>] => {
+  const [{ publicClass }, dispatch] = useContext(Context) as Context;
+  const wrapperElement = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     function handleScrollChange() {
+      if (!wrapperElement.current) {
+        return;
+      }
+
       const scrolled = wrapperElement.current.classList.contains('scrolled');
 
       if (window.scrollY > TOP_MENU_SCROLLED_POSITION && !scrolled) {
         dispatch(setPublicClass({
-          [SCROLLED]: true,
+          'scrolled': true,
         }));
       }
 
       if (window.scrollY <= TOP_MENU_SCROLLED_POSITION && scrolled) {
         dispatch(setPublicClass({
-          [SCROLLED]: false,
+          'scrolled': false,
         }));
       }
     }
@@ -55,14 +50,14 @@ export const usePublicClassName = (): [string, object] => {
 
   return [
     Object.keys(publicClass)
-      .filter(key => publicClass[key])
+      .filter((key) => publicClass[key as PublicClasses])
       .join(' '),
     wrapperElement,
   ];
 };
 
 export const useBackground = (): void => {
-  const [{ background }, dispatch] = useContext(Context);
+  const [{ background }, dispatch] = useContext(Context) as Context;
 
   useEffect(() => {
     if (background) {
@@ -75,7 +70,7 @@ export const useBackground = (): void => {
       .then((response) => {
         if (response.status === ResponseCode.Success) {
           dispatch(loadBackgroundSuccess(
-            response.data.map((item) => new Background(item)),
+            response.data.map((item: Background) => new Background(item)),
           ));
           return;
         }
@@ -88,7 +83,7 @@ export const useBackground = (): void => {
 };
 
 export const useFrontPage = (): void => {
-  const [{ background }, dispatch] = useContext(Context);
+  const [{ background }, dispatch] = useContext(Context) as Context;
 
   useEffect(() => {
     const {
@@ -101,9 +96,9 @@ export const useFrontPage = (): void => {
 
     if (frontPage === 'front-page') {
       dispatch(setPublicClass({
-        [STRETCHED_BACKGROUND]: true,
-        [HIDE_FOOTER]: true,
-        [HIDE_HEADER]: false,
+        'stretched-background': true,
+        'hide-footer': true,
+        'hide-header': false,
       }));
 
       dispatch(setPageHeader({
@@ -119,13 +114,13 @@ export const useFrontPage = (): void => {
     } else {
       if (hideFrontFooter) {
         dispatch(setPublicClass({
-          [HIDE_FOOTER]: true,
+          'hide-footer': true,
         }));
       }
 
       if (hideFrontHeader) {
         dispatch(setPublicClass({
-          [HIDE_HEADER]: true,
+          'hide-header': true,
         }));
       }
     }

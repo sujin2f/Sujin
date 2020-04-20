@@ -14,10 +14,10 @@ export const GoogleAdvert = (props: Props): JSX.Element => {
     slot,
   } = props;
 
-  const adRef = useRef(null);
+  const adRef = useRef<HTMLModElement>(null);
 
-  useEffect((): never => {
-    if (adRef.current.classList.contains('loaded')) {
+  useEffect((): void => {
+    if (!adRef.current || (adRef.current && adRef.current.classList.contains('loaded'))) {
       return;
     }
 

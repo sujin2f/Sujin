@@ -5,9 +5,9 @@
 
 import React, { Fragment } from 'react';
 
-import { isAvailablle } from 'constants/enum';
 import { MenuItem } from 'components/layout/MenuItem';
 import { useMenu } from 'store/hooks/menu';
+import { Menu as TypeMenu } from 'store/items/menu';
 
 interface Props {
   slug: string;
@@ -18,7 +18,7 @@ export const Menu = (props: Props): JSX.Element => {
   const { slug, className } = props;
   const menu = useMenu(slug);
 
-  if (!isAvailablle(menu)) {
+  if (!menu || 'Success' !== menu.state) {
     return (
       <Fragment />
     );
@@ -26,13 +26,13 @@ export const Menu = (props: Props): JSX.Element => {
 
   return (
     <nav className={`${className} ${slug} menu`}>
-      {menu.map((menuItem: IMenu) => (
+      {menu.item!.map((menuItem: TypeMenu) => (
         <div key={`menu-${menuItem.ID}`} className="menu__item">
           <MenuItem menuItem={menuItem} />
 
-          {menuItem.children.length > 0 && (
+          {menuItem.children && menuItem.children.length > 0 && (
             <nav className="children">
-              {menuItem.children.map((childItem: IMenu) => (
+              {menuItem.children.map((childItem: TypeMenu) => (
                 <MenuItem
                   menuItem={childItem}
                   key={`menu-${childItem.ID}`}

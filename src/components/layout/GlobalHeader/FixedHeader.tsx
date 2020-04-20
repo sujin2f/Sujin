@@ -9,17 +9,11 @@ import React, { useContext } from 'react';
 import { Link } from "components/common/Link";
 import { Search } from 'components/layout/Search';
 import { Menu } from 'components/layout/Menu';
-import { CLASS_NAME } from 'constants/dom';
 import { Context } from 'store';
 import { setPublicClass } from 'store/actions';
 
 export const FixedHeader = (): JSX.Element => {
-  const {
-    publicScene: {
-      MOBILE_MENU,
-    },
-  } = CLASS_NAME;
-  const [{ publicClass }, dispatch] = useContext(Context);
+  const [{ publicClass }, dispatch] = useContext(Context) as Context;
 
   return (
     <section className="layout__header__fixed">
@@ -37,8 +31,7 @@ export const FixedHeader = (): JSX.Element => {
               className="hide-for-large icon hamburger"
               data-testid="hamburger"
               type="button"
-              label="Toggle Menu"
-              onClick={() => dispatch(setPublicClass({[MOBILE_MENU]: !publicClass[MOBILE_MENU]}))}
+              onClick={() => dispatch(setPublicClass({'mobile-menu': !publicClass['mobile-menu']}))}
             />
             <Menu
               className="show-for-large menu__fixed__primary"

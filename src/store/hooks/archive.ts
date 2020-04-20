@@ -11,8 +11,7 @@ import {
 
 import DEFAULT_BACKGROUND from 'assets/images/background/category.jpg';
 import DEFAULT_BACKGROUND_MOBILE from 'assets/images/background/category-mobile.jpg';
-import { CLASS_NAME } from 'constants/dom';
-import { RequestState, ResponseCode, isAvailablle } from 'constants/enum';
+import { ResponseCode, TermTypes } from 'constants/enum';
 import { Context } from 'store';
 import {
   setPageHeader,
@@ -22,31 +21,22 @@ import {
   loadArchiveFail,
   loadPostSuccess,
 } from 'store/actions';
-import { IArchive } from 'store/items/interface/archive';
-import { IPost } from 'store/items/interface/post';
 import { Archive } from 'store/items/archive';
+import { StateArchive } from 'store/reducer';
 import { Post } from 'store/items/post';
 import { parseExImage } from 'utils/common';
 
-const {
-  publicScene: {
-    STRETCHED_BACKGROUND,
-    HIDE_FOOTER,
-    HIDE_HEADER,
-  },
-} = CLASS_NAME;
-
-const loaded = [];
+const loaded: string[] = [];
 
 // @todo not to load again and again
-const useArchiveRequest = (type: string, slug: string, page: number, udpateHeader: boolean): never => {
-  const [{ archive }, dispatch] = useContext(Context);
+const useArchiveRequest = (type: TermTypes, slug: string, page: number, udpateHeader: boolean): void => {
+  const [{ archive }, dispatch] = useContext(Context) as Context;
   const currentArchive = archive[type][slug] && archive[type][slug][page];
   const loadedKey = `{${type}-${slug}-${page}}`;
 
   // Request
   useEffect(() => {
-    if (loaded.includes(loadedKey) || isAvailablle(currentArchive)) {
+    if (loaded.includes(loadedKey) || currentArchive) {
       return;
     }
 
@@ -61,10 +51,9 @@ const useArchiveRequest = (type: string, slug: string, page: number, udpateHeade
     axios.get(`/wp-json/sujin/v1/archive/${type}/${slug}/${page}`)
       .then((response) => {
         if (response.status === ResponseCode.Success) {
-          response.data.items = response.data.items.map((entity: IPost) => {
+          response.data.items = response.data.items.map((entity: any) => {
             const post = new Post(entity);
             dispatch(loadPostSuccess(
-              post.slug,
               post,
             ));
 
@@ -88,19 +77,19 @@ const useArchiveRequest = (type: string, slug: string, page: number, udpateHeade
   }, [dispatch, loadedKey, page, slug, type, currentArchive, udpateHeader]);
 };
 
-const useArchiveInit = (type: string, slug: string, page: number, udpateHeader: boolean): IArchive|RequestState => {
-  const [{ archive }, dispatch] = useContext(Context);
-  const currentList = (archive[type][slug] && archive[type][slug][page]) || RequestState.Loading;
+const useArchiveInit = (type: TermTypes, slug: string, page: number, udpateHeader: boolean): StateArchive => {
+  const [{ archive }, dispatch] = useContext(Context) as Context;
+  const currentList = (archive[type][slug] && archive[type][slug][page]);
 
   useEffect(() => {
-    if (!isAvailablle(currentList) || !udpateHeader) {
+    if (!currentList || !currentList.item || !udpateHeader) {
       return;
     }
 
     const backgroundImage =
       parseExImage(
-        currentList.thumbnail,
-        currentList.thumbnail,
+        currentList.item.thumbnail,
+        currentList.item.thumbnail,
         'large',
         'medium',
         DEFAULT_BACKGROUND,
@@ -108,19 +97,19 @@ const useArchiveInit = (type: string, slug: string, page: number, udpateHeader: 
       );
 
     dispatch(setPublicClass({
-      [STRETCHED_BACKGROUND]: false,
-      [HIDE_FOOTER]: false,
-      [HIDE_HEADER]: false,
+      'stretched-background': false,
+      'hide-footer': false,
+      'hide-header': false,
     }));
 
     dispatch(setPageHeader({
       background: backgroundImage,
       backgroundColor: '',
-      description: currentList.description,
+      description: currentList.item.description,
       icon: '',
       isLoading: false,
       prefix: type,
-      title: currentList.title,
+      title: currentList.item.title,
       useBackgroundColor: false,
     }));
   }, [currentList, dispatch, type, udpateHeader]);
@@ -128,7 +117,7 @@ const useArchiveInit = (type: string, slug: string, page: number, udpateHeader: 
   return currentList;
 };
 
-export const useArchive = (type: string, slug: string, page = 1, udpateHeader = true): IArchive|RequestState => {
+export const useArchive = (type: TermTypes, slug: string, page: number, udpateHeader = true): StateArchive => {
   useArchiveRequest(type, slug, page, udpateHeader);
   return useArchiveInit(type, slug, page, udpateHeader);
 };

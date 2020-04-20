@@ -28,8 +28,6 @@ interface Props {
 
 /*
  * List Item
- *
- * @todo Refactor parseExImage()
  */
 class Item extends Component<Props> {
   render(): JSX.Element {

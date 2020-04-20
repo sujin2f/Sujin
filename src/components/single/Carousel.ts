@@ -1,31 +1,60 @@
 import { ATTR, CLASS_NAME, TAG_NAME } from 'constants/dom';
 
 export class Carousel {
-  private frame: HTMLImageElement;
-  private navItems: HTMLCollection;
-  private next: HTMLButtonElement;
-  private prev: HTMLButtonElement;
-  private indicator: HTMLElement;
+  private available = false;
 
-  public constructor(element: HTMLElement) {
+  private _frame?: HTMLImageElement;
+  private _navItems?: HTMLImageElement[];
+
+  private _next?: HTMLButtonElement;
+  private _prev?: HTMLButtonElement;
+  private _indicator?: HTMLElement;
+
+  public constructor(element: Element) {
     // Nav Images
-    const nav = element.getElementsByTagName(TAG_NAME.NAV);
-    this.navItems = nav.item(0).getElementsByTagName(TAG_NAME.IMAGE);
+    const nav: HTMLCollectionOf<Element> = element.getElementsByTagName(TAG_NAME.NAV);
+    if (nav.length === 0) {
+      return;
+    }
+    this.available = true;
+
+    const navItems = (nav.item(0) as Element).getElementsByTagName(TAG_NAME.IMAGE);
+    this._navItems = Array.from(navItems).map((navItem) => navItem as HTMLImageElement);
 
     // Frame
-    this.frame = element.querySelector(`.${CLASS_NAME.carousel.PICTURE_FRAME} ${TAG_NAME.IMAGE}`) as HTMLImageElement;
+    this._frame = element.querySelector(`.${CLASS_NAME.carousel.PICTURE_FRAME} ${TAG_NAME.IMAGE}`) as HTMLImageElement;
 
     // Buttons
-    this.prev = element.getElementsByClassName(CLASS_NAME.carousel.PREV).item(0) as HTMLButtonElement;
-    this.next = element.getElementsByClassName(CLASS_NAME.carousel.NEXT).item(0) as HTMLButtonElement;
+    this._prev = element.getElementsByClassName(CLASS_NAME.carousel.PREV).item(0) as HTMLButtonElement;
+    this._next = element.getElementsByClassName(CLASS_NAME.carousel.NEXT).item(0) as HTMLButtonElement;
 
-    this.indicator = element.getElementsByClassName(CLASS_NAME.carousel.INDICATOR).item(0) as HTMLElement;
+    this._indicator = element.getElementsByClassName(CLASS_NAME.carousel.INDICATOR).item(0) as HTMLElement;
 
     this.bindEvents();
   }
 
+  get frame(): HTMLImageElement {
+    return this._frame as HTMLImageElement;
+  }
+
+  get navItems(): HTMLImageElement[] {
+    return this._navItems || [];
+  }
+
+  get prev(): HTMLButtonElement {
+    return this._prev as HTMLButtonElement;
+  }
+
+  get next(): HTMLButtonElement {
+    return this._next as HTMLButtonElement;
+  }
+
+  get indicator(): HTMLElement {
+    return this._indicator as HTMLElement;
+  }
+
   private bindEvents(): void {
-    Array.from(this.navItems).forEach((element: HTMLImageElement) => {
+    this.navItems.forEach((element: HTMLImageElement) => {
       element.addEventListener('click', (e: MouseEvent): void => {
         const current = e.target as HTMLImageElement;
         this.setCurrentImage(current);
@@ -64,7 +93,7 @@ export class Carousel {
     });
 
     image.classList.add(CLASS_NAME.carousel.CURRENT);
-    this.frame.setAttribute(ATTR.carousel.SRC, image.getAttribute(ATTR.carousel.SRC));
+    this.frame.setAttribute(ATTR.carousel.SRC, image.getAttribute(ATTR.carousel.SRC) || '');
 
     const currentId = Array.from(this.navItems).indexOf(image) + 1;
     this.indicator.innerHTML = `${currentId}/${this.navItems.length}`;

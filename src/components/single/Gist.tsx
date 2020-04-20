@@ -3,7 +3,7 @@
  * components/single/Gist
  */
 
-import React, { useRef } from 'react';
+import React, { useRef, Fragment } from 'react';
 
 interface Props {
   id: string;
@@ -11,7 +11,7 @@ interface Props {
 }
 
 export const Gist = (props: Props): JSX.Element => {
-  const refIframe = useRef(null);
+  const refIframe = useRef<HTMLIFrameElement>(null);
   const { id, file } = props;
   const iFrameId = file ? `gist-${id}-${file}` : `gist-${id}`;
 
@@ -23,11 +23,14 @@ export const Gist = (props: Props): JSX.Element => {
     const gistScript = `<script type="text/javascript" src="${gistLink}"></script>`;
     const iframeHtml = `<html><head><base target="_parent">${styles}</head><body ${resizeScript}>${gistScript}</body></html>`;
 
+    if (!refIframe.current.contentDocument) {
+      return (<Fragment />);
+    }
     refIframe.current.contentDocument.open();
     refIframe.current.contentDocument.write(iframeHtml);
     refIframe.current.contentDocument.close();
 
-    refIframe.current.setAttribute('data-loaded', true);
+    refIframe.current.setAttribute('data-loaded', 'true');
   }
 
   return (

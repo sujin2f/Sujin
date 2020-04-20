@@ -1,6 +1,5 @@
 {
   "$schema": "http://json-schema.org/schema#",
-  "$id": "http://sujinc.com/simple-post.json",
   "title": "simple post",
   "type": "object",
   "properties": {
@@ -78,6 +77,6 @@
       "additionalProperties":false
     }
   },
-  "required": ["id", "slug", "date", "link", "title"],
+  "required": ["id", "slug", "date", "link", "title", "meta"],
   "additionalProperties":false
 }

@@ -6,10 +6,10 @@
 import React from 'react';
 
 import { SimplePost } from 'components/common/SimplePost';
-import { ISimplePost } from 'store/items/interface/simple-post';
+import { SimplePost as SimplePostType } from 'store/items/simple-post';
 
 interface Props {
-  items: ISimplePost[];
+  items?: SimplePostType[];
 }
 
 export const RelatedPosts = (props: Props): JSX.Element => {

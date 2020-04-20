@@ -20,8 +20,8 @@ vendor/
 wordpress/
 
 # Environments
-**/.env
-**/docker-compose.yml
+.env
+docker-compose.yml
 
 # Site Specified Assets
 assets/styles/site-specific

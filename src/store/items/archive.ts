@@ -1,22 +1,20 @@
 /** store/items/archive */
 
 import { Post } from 'store/items/post';
-import Image from 'store/items/image';
+import { Image } from 'store/items/image';
 
-import { IArchive } from 'store/items/interface/archive';
-import { IPost } from 'store/items/interface/post';
-import { IImage } from 'store/items/interface/image';
+import { Archive as TypeArchive } from 'store/items/schema/archive';
 
-export class Archive implements IArchive {
+export class Archive implements TypeArchive {
   /**
-   * Archive Name
+   * Archive Title
    */
   title?: string;
   /**
    * Archive Description
    */
   description?: string;
-  thumbnail?: IImage;
+  thumbnail?: Image;
   /**
    * Total number of posts
    */
@@ -28,15 +26,15 @@ export class Archive implements IArchive {
   /**
    * Posts
    */
-  items?: IPost[];
+  items?: Post[];
 
-  constructor(data) {
+  constructor(data: any) {
     this.title = decodeURIComponent(data.title) || '';
     this.description = decodeURIComponent(data.description) || '';
     this.thumbnail = new Image(data.thumbnail);
     this.total = data.total;
     this.totalPages = parseInt(data.totalPages, 10) || 1;
 
-    this.items = data.items.map((post) => new Post(post));
+    this.items = data.items.map((post: Post) => new Post(post));
   }
 }

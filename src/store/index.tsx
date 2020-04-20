@@ -1,14 +1,20 @@
 /** store */
-import React, {createContext, useReducer} from "react";
-import { reducer, initialState } from './reducer'
+import React, { createContext, useReducer } from "react";
+import { reducer, initialState, State } from './reducer'
 
-export const Store = ({children}) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+// Dispatch
+interface Props {
+  children: JSX.Element|JSX.Element[];
+}
+
+export const Context = createContext([initialState, null]);
+export type Context = [State, any];
+
+export const Store = ({ children }: Props) => {
+  const [state, dispatch]: Context = useReducer(reducer, initialState);
   return (
     <Context.Provider value={[state, dispatch]}>
       {children}
     </Context.Provider>
   )
 };
-
-export const Context = createContext(initialState);

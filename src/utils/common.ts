@@ -14,13 +14,14 @@ export const isMobile = (): boolean => {
   return regex1.test(userAgent) || regex2.test(userAgent.substr(0, 4));
 };
 
+// @todo refactor
 export const parseExImage = (
   meta,
   thumbnail,
-  desktop,
-  mobile,
-  defaultDesktop = null,
-  defaultMobile = null,
+  desktop: string,
+  mobile: string,
+  defaultDesktop: string,
+  defaultMobile: string,
 ): string => {
   if (isMobile()) {
     return meta[mobile] || thumbnail[mobile] || defaultMobile || '';
@@ -51,7 +52,7 @@ export const backgroundImageStyle = (image): { [key: string]: string } => {
   return (image && { backgroundImage: `url(${image})` }) || {};
 };
 
-export const log = (message: any, level = 'log'): never => {
+export const log = (message: any, level = 'log'): void => {
   switch(level) {
     case 'log':
       if ('http://sujinc.test' !== sujin.homeUrl) {

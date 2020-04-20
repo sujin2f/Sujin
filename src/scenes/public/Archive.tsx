@@ -12,25 +12,21 @@ import { useParams } from "react-router-dom";
 
 import { Paging } from 'components/common/Paging';
 import { SimplePost } from 'components/common/SimplePost';
-import {
-  RequestState,
-  isAvailablle,
-} from 'constants/enum';
 import { NotFound } from 'scenes/public/NotFound';
 import { useArchive } from 'store/hooks/archive';
-import { ISimplePost } from 'store/items/interface/simple-post';
+import { SimplePost as SimplePostType } from 'store/items/simple-post';
 
 export const Archive = (): JSX.Element => {
   const { type, slug, page } = useParams();
-  const archive = useArchive(type, slug, page);
+  const archive = useArchive(type, slug, (page || 1));
 
-  if (RequestState.Failed === archive) {
+  if (archive && 'Failed' === archive.state) {
     return (
       <NotFound />
     );
   }
 
-  if (!isAvailablle(archive)) {
+  if (!archive || 'Loading' === archive.state) {
     return (
       <Fragment />
     );
@@ -38,9 +34,9 @@ export const Archive = (): JSX.Element => {
 
   return (
     <Fragment>
-      {archive.items && archive.items.length > 0 && (
+      {archive.item && archive.item.items && archive.item.items.length > 0 && (
         <Fragment>
-          {archive.items.map((item: ISimplePost) => (
+          {archive.item.items.map((item: SimplePostType) => (
             <SimplePost
               className="columns large-4 medium-6 small-12 archive__item"
               key={`${type}-${slug}-${page}-${item.id}`}
@@ -49,7 +45,7 @@ export const Archive = (): JSX.Element => {
           ))}
 
           <Paging
-            totalPages={archive.totalPages}
+            totalPages={archive.item.totalPages ? archive.item.totalPages : 0}
             currentPage={parseInt(page, 10) || 1}
             urlPrefix={`/${type}/${slug}`}
           />

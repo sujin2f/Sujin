@@ -1,20 +1,16 @@
 <?php
 /**
- * Functions
- *
- * @project Sujin
- * @since   8.0.0
- * @author  Sujin 수진 Choi http://www.sujinc.com/
- */
+	* Functions
+	*
+	* @project Sujin
+	* @since   8.0.0
+	* @author  Sujin 수진 Choi http://www.sujinc.com/
+	*/
 
 if ( ! defined( 'ABSPATH' ) ) {
 	header( 'Status: 404 Not Found' );
 	header( 'HTTP/1.1 404 Not Found' );
 	exit();
-}
-
-if ( ! function_exists( 'register_block_type' ) ) {
-	return;
 }
 
 if ( ! defined( 'SUJIN_DEV_MODE' ) ) {

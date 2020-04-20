@@ -32,7 +32,7 @@ export type Post = SimplePost & {
   /**
    * Post Type
    */
-  type?: 'post'|'page';
+  type?: 'post' | 'page';
 };
 
 export interface Archive {
@@ -109,7 +109,7 @@ export interface SimplePost {
   /**
    * Meta data
    */
-  meta?: {
+  meta: {
     background?: Image;
     icon?: Image;
     list?: Image;

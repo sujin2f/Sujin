@@ -1,8 +1,6 @@
 /*
  * Simple Post Component
  * components/common/SimplePost
- *
- * @todo Refactor parseExImage()
  */
 
 import React from 'react';
@@ -10,11 +8,11 @@ import React from 'react';
 import DEFAULT_BG from 'assets/images/thumbnail.svg';
 import { Link } from "components/common/Link";
 import { Tags } from 'components/common/Tags';
-import { ISimplePost } from 'store/items/interface/simple-post';
+import { SimplePost as SimplePostType } from 'store/items/schema/simple-post';
 import { parseExImage } from 'utils/common';
 
 interface Props {
-  item: ISimplePost;
+  item: SimplePostType;
   className?: string;
   thumbnailKey?: {
     desktop?: string;

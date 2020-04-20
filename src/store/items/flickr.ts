@@ -1,8 +1,8 @@
 /** store/items/flickr */
 
-import { IFlickr } from 'store/items/interface/flickr';
+import { Flickr as FlickrType } from 'store/items/schema/flickr';
 
-export default class Flickr implements IFlickr {
+export class Flickr implements FlickrType {
   /**
    * The title of the photo.
    */
@@ -22,13 +22,9 @@ export default class Flickr implements IFlickr {
     m: string;
   };
 
-  constructor(data) {
+  constructor(data: any) {
     this.title = data.title;
     this.link = data.link;
     this.media = data.media;
-  }
-
-  static create(data): IFlickr {
-    return new Flickr(data);
   }
 }

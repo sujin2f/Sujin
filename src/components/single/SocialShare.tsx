@@ -17,13 +17,11 @@ export class SocialShare extends React.Component {
           className="twitter"
           onClick={() => shareTwitter(title)}
           type="button"
-          label="Share Twitter"
         />
         <button
           className="facebook"
           onClick={() => shareFacebook(title, excerpt, thumbnail)}
           type="button"
-          label="Share Facebook"
         />
       </nav>
     );

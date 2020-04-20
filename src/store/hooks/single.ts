@@ -1,6 +1,6 @@
 /*
  * Single Hooks
- * store/hooks/single
+ * import {} from 'store/hooks/single';
  */
 
 import axios from 'axios';
@@ -11,36 +11,29 @@ import {
 
 import DEFAULT_BACKGROUND from 'assets/images/background/category.jpg';
 import DEFAULT_BACKGROUND_MOBILE from 'assets/images/background/category-mobile.jpg';
-import { ResponseCode, isAvailablle } from 'constants/enum';
-import { CLASS_NAME } from 'constants/dom';
+import { ResponseCode } from 'constants/enum';
 import { Context } from 'store';
 import {
+  setPageHeader,
+  setPublicClass,
+  setLeftRail,
   loadPostInit,
   loadPostSuccess,
   loadPostFail,
-  setPageHeader,
-  setPublicClass,
 } from 'store/actions';
-import { IPost } from 'store/items/interface/post';
+import { StatePost, StateLeftRail } from 'store/reducer';
 import { Post } from 'store/items/post';
 import { parseExImage } from 'utils/common';
 
-const loaded = [];
-const {
-  publicScene: {
-    STRETCHED_BACKGROUND,
-    HIDE_FOOTER,
-    HIDE_HEADER,
-  },
-} = CLASS_NAME;
+const loaded: string[] = [];
 
-const usePostRequest = (slug: string): never => {
-  const [{ posts }, dispatch] = useContext(Context);
-  const currentPost = posts[slug];
+const usePostRequest = (slug: string): void => {
+  const [{ posts }, dispatch] = useContext(Context) as Context;
+  const post = posts[slug];
 
   // Request
   useEffect(() => {
-    if (loaded.includes(slug) || isAvailablle(currentPost)) {
+    if (loaded.includes(slug) || post) {
       return;
     }
 
@@ -48,15 +41,14 @@ const usePostRequest = (slug: string): never => {
       isLoading: true,
     }));
 
+    dispatch(setLeftRail({}));
+
     dispatch(loadPostInit(slug));
 
     axios.get(`/wp-json/sujin/v1/post/${slug}`)
       .then((response) => {
         if (response.status === ResponseCode.Success) {
-          dispatch(loadPostSuccess(
-            slug,
-            new Post(response.data),
-          ));
+          dispatch(loadPostSuccess(slug, new Post(response.data)));
           return;
         }
         dispatch(loadPostFail(slug));
@@ -65,22 +57,22 @@ const usePostRequest = (slug: string): never => {
       });
 
     loaded.push(slug);
-  }, [dispatch, slug, currentPost]);
-}
+  }, [post, dispatch, slug]);
+};
 
-const usePostInit = (slug: string): IPost|RequestState => {
-  const [{ posts }, dispatch] = useContext(Context);
-  const currentPost = posts[slug];
+const usePostInit = (slug: string): StatePost => {
+  const [{ posts }, dispatch] = useContext(Context) as Context;
+  const post = posts[slug];
 
   useEffect(() => {
-    if (!isAvailablle(currentPost)) {
+    if (!post || !post.item) {
       return;
     }
 
     const backgroundImage =
       parseExImage(
-        currentPost.meta.background,
-        currentPost.thumbnail,
+        post.item!.meta.background,
+        post.item!.thumbnail,
         'large',
         'medium',
         DEFAULT_BACKGROUND,
@@ -88,27 +80,32 @@ const usePostInit = (slug: string): IPost|RequestState => {
       );
 
     dispatch(setPublicClass({
-      [STRETCHED_BACKGROUND]: false,
-      [HIDE_FOOTER]: false,
-      [HIDE_HEADER]: false,
+      'stretched-background': false,
+      'hide-footer': false,
+      'hide-header': false,
     }));
 
     dispatch(setPageHeader({
       background: backgroundImage,
-      backgroundColor: currentPost.meta.backgroundColor || '',
-      description: currentPost.excerpt,
-      icon: currentPost.meta.icon.small || '',
+      backgroundColor: post.item!.meta.backgroundColor || '',
+      description: post.item!.excerpt,
+      icon: (post.item!.meta.icon && post.item!.meta.icon.small) || '',
       isLoading: false,
       prefix: '',
-      title: currentPost.title,
-      useBackgroundColor: currentPost.meta.useBackgroundColor || false,
+      title: post.item!.title,
+      useBackgroundColor: post.item!.meta.useBackgroundColor || false,
     }));
-  }, [currentPost, dispatch]);
+  }, [post, dispatch]);
 
-  return currentPost;
+  return post;
 };
 
-export const usePost = (slug: string): IPost|RequestState => {
+export const useLeftRail = (leftRail: StateLeftRail): void => {
+  const [, dispatch] = useContext(Context) as Context;
+  dispatch(setLeftRail(leftRail));
+};
+
+export const usePost = (slug: string): StatePost => {
   usePostRequest(slug);
   return usePostInit(slug);
 };

@@ -21,7 +21,7 @@ export interface Menu {
   /**
    * Link target HTML attribute
    */
-  target: '_blank'|'_self';
+  target: '_blank' | '_self';
   /**
    * Parent ID
    */

@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-const callbacks = [];
+const callbacks: { (): void; (): void; }[] = [];
 
 interface Props {
   id: string;

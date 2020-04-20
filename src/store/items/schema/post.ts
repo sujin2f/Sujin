@@ -5,6 +5,8 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
+import { Post } from "scenes/public/Post";
+
 export type Post = SimplePost & {
   /**
    * Content
@@ -32,7 +34,7 @@ export type Post = SimplePost & {
   /**
    * Post Type
    */
-  type?: 'post'|'page';
+  type?: 'post' | 'page';
 };
 
 export interface SimplePost {
@@ -68,7 +70,7 @@ export interface SimplePost {
   /**
    * Meta data
    */
-  meta?: {
+  meta: {
     background?: Image;
     icon?: Image;
     list?: Image;

@@ -6,10 +6,10 @@
 import React, { Fragment } from 'react';
 
 import { Link }  from "components/common/Link";
-import { IMenu } from 'store/items/interface/menu';
+import { Menu } from 'store/items/menu';
 
 interface Props {
-  menuItem: IMenu;
+  menuItem: Menu;
 }
 
 export const MenuItem = (props: Props): JSX.Element => {
@@ -28,7 +28,7 @@ export const MenuItem = (props: Props): JSX.Element => {
         <a
           itemType="http://schema.org/SiteNavigationElement"
           href={url || '#'}
-          className={classes.join(' ')}
+          className={classes ? classes.join(' '): ''}
           target={target}
         >
           {title}
@@ -39,7 +39,7 @@ export const MenuItem = (props: Props): JSX.Element => {
         <Link
           itemType="http://schema.org/SiteNavigationElement"
           to={url || '#'}
-          className={classes.join(' ')}
+          className={classes ? classes.join(' '): ''}
         >
           {title}
         </Link>

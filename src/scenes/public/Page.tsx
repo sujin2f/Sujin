@@ -10,7 +10,6 @@ import { useParams } from "react-router-dom";
 import { Tags } from 'components/common/Tags';
 import { Content } from 'components/single/Content';
 import { SocialShare } from 'components/single/SocialShare';
-import { RequestState, isAvailablle } from 'constants/enum';
 import { NotFound } from 'scenes/public/NotFound';
 import { usePost } from 'store/hooks/single';
 
@@ -18,13 +17,13 @@ export const Page = (): JSX.Element => {
   const { slug } = useParams();
   const post = usePost(slug);
 
-  if (RequestState.Failed === post) {
+  if (post && 'Failed' === post.state) {
     return (
       <NotFound />
     );
   }
 
-  if (!isAvailablle(post)) {
+  if (!post || 'Loading' === post.state) {
     return (
       <Fragment />
     );
@@ -33,8 +32,8 @@ export const Page = (): JSX.Element => {
   return (
     <Fragment>
       <div className="columns medium-12 large-2" />
-      <Content post={post} className="columns large-8 medium-12">
-        <Tags tags={post.tags} from={`single-${slug}`} />
+      <Content post={post.item} className="columns large-8 medium-12">
+        <Tags tags={post.item!.tags} from={`single-${slug}`} />
         <SocialShare />
       </Content>
     </Fragment>

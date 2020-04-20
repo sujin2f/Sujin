@@ -38,7 +38,7 @@ export interface SimplePost {
   /**
    * Meta data
    */
-  meta?: {
+  meta: {
     background?: Image;
     icon?: Image;
     list?: Image;

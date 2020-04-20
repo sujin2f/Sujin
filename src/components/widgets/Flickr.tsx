@@ -1,10 +1,10 @@
 /** components/widgets/Flickr */
 import React from 'react';
 
-import { IFlickr } from 'store/items/interface/flickr';
+import { Flickr as FlickrType } from 'store/items/flickr';
 
 interface Props {
-  items: IFlickr[];
+  items: FlickrType[];
 }
 
 export const Flickr = (props: Props): JSX.Element => {
