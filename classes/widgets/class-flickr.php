@@ -1,11 +1,11 @@
 <?php
 /**
-	* Flickr Widget
-	*
-	* @project Sujin
-	* @since   9.0.0
-	* @author  Sujin 수진 Choi http://www.sujinc.com/
-	*/
+ * Flickr Widget
+ *
+ * @package sujinc.com
+ * @since   9.0.0
+ * @author  Sujin 수진 Choi http://www.sujinc.com/
+ */
 
 namespace Sujin\Wordpress\Theme\Sujin\Widgets;
 
@@ -14,19 +14,33 @@ use Sujin\Wordpress\WP_Express\Helpers\Trait_Singleton;
 use Sujin\Wordpress\WP_Express\Helpers\Transient;
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items\Flickr as Flickr_Item;
 
+/**
+ * Flickr Widget
+ */
 class Flickr extends WP_Widget {
 	use Trait_Singleton;
 
 	protected const CACHE_TTL = 12 * HOUR_IN_SECONDS;
 	private const DEV_MODE    = false;
 
+	/**
+	 * Constructor
+	 *
+	 * @visibility protected
+	 */
 	protected function __construct() {
 		parent::__construct(
-			'flickr',  // Base ID
-			'Flickr'   // Name
+			'flickr',  // Base ID.
+			'Flickr'   // Name.
 		);
 	}
 
+	/**
+	 * Frontend
+	 *
+	 * @param array $args Arguments.
+	 * @param array $_    Instance.
+	 */
 	public function widget( $args, $_ ) {
 		$transient_key = $this->get_transient_key();
 		$transient     = Transient::get_transient( $transient_key );
@@ -35,17 +49,17 @@ class Flickr extends WP_Widget {
 			return $transient->items;
 		}
 
-		// Get URL
+		// Get URL.
 		$url = $this->get_request_url( $args['id'] );
 
 		if ( is_null( $url ) ) {
 			return null;
 		}
 
-		// Request
+		// Request.
 		$response = wp_remote_get( $url );
 
-		// Request fails
+		// Request fails.
 		if ( 200 !== $response['response']['code'] ) {
 			if ( $transient && $transient->items ) {
 				return $transient->items;
@@ -59,7 +73,8 @@ class Flickr extends WP_Widget {
 		$items    = $items['items'] ?: array();
 
 		foreach ( array_keys( $items ) as $key ) {
-			$items[ $key ] = new Flickr_Item( $items[ $key ] );
+			$value         = $items[ $key ];
+			$items[ $key ] = Flickr_Item::get_instance( 'flickr item' . $key, $value );
 			$items[ $key ] = json_decode( wp_json_encode( $items[ $key ] ), true );
 		}
 
@@ -77,17 +92,11 @@ class Flickr extends WP_Widget {
 		return $items;
 	}
 
-	private function get_request_url( ?string $flickr_id ): ?string {
-		if ( ! $flickr_id ) {
-			return null;
-		}
-
-		return sprintf(
-			'http://api.flickr.com/services/feeds/photos_public.gne?id=%s&format=json&nojsoncallback=1',
-			$flickr_id
-		);
-	}
-
+	/**
+	 * Backend
+	 *
+	 * @param array $instance Instance.
+	 */
 	public function form( $instance ) {
 		$title = $instance['title'] ?? '';
 		$id    = $instance['id'] ?? '';
@@ -119,16 +128,44 @@ class Flickr extends WP_Widget {
 		<?php
 	}
 
+	/**
+	 * Backend -- update
+	 *
+	 * @param array $new_instance instance.
+	 * @param array $old_instance instance.
+	 */
 	public function update( $new_instance, $old_instance ) {
 		delete_transient( $this->get_transient_key() );
 
 		return array(
-			'title' => strip_tags( $new_instance['title'] ) ?? '',
-			'id'    => strip_tags( $new_instance['id'] ) ?? '',
+			'title' => wp_strip_all_tags( $new_instance['title'] ) ?? '',
+			'id'    => wp_strip_all_tags( $new_instance['id'] ) ?? '',
 		);
 	}
 
+	/**
+	 * Returns the transient key
+	 *
+	 * @return string
+	 */
 	private function get_transient_key(): string {
 		return 'widget-' . $this->id;
+	}
+
+	/**
+	 * Returns the Flickr URL
+	 *
+	 * @param  ?string $flickr_id Flickr ID.
+	 * @return ?string
+	 */
+	private function get_request_url( ?string $flickr_id ): ?string {
+		if ( ! $flickr_id ) {
+			return null;
+		}
+
+		return sprintf(
+			'http://api.flickr.com/services/feeds/photos_public.gne?id=%s&format=json&nojsoncallback=1',
+			$flickr_id
+		);
 	}
 }

@@ -6,7 +6,7 @@ import { StateLeftRail } from 'store/reducer'
 
 import { Archive } from 'store/items/archive'
 import { Background } from 'store/items/background'
-import { Menu } from 'store/items/menu'
+import { MenuItem } from 'store/items/menu-item'
 import { Post } from 'store/items/post'
 import { log } from 'utils/common'
 
@@ -57,7 +57,7 @@ export const loadMenuInit = (slug: string) => {
   }
 }
 
-export const loadMenuSuccess = (slug: string, menuItems: Menu[]) => {
+export const loadMenuSuccess = (slug: string, menuItems: MenuItem[]) => {
   log(LOAD_MENU_SUCCESS)
   return {
     type: LOAD_MENU_SUCCESS,

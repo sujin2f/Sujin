@@ -1,8 +1,8 @@
 <?php
 /**
- * Post Modifier
+ * Modifying Post Type
  *
- * @project Sujin
+ * @package sujinc.com
  * @since   9.0.0
  * @author  Sujin 수진 Choi http://www.sujinc.com/
  */
@@ -19,10 +19,19 @@ use Sujin\Wordpress\WP_Express\Fields\Post_Meta\{
 	Checkbox,
 };
 
+/**
+ * Modifying Post Type
+ */
 class Post {
 	use Trait_Singleton;
 
-	function __construct() {
+	/**
+	 * Constructor
+	 * - Image metabox
+	 *
+	 * @visibility protected
+	 */
+	protected function __construct() {
 		Meta_Box::get_instance( 'Images' )
 			->append_to( Post_Type::get_instance( 'Post' ) )
 			->append_to( Post_Type::get_instance( 'Page' ) )

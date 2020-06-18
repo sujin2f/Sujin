@@ -2,55 +2,68 @@
 /**
  * Menu Rest Controller
  *
- * @project Sujinc.com
- * @since   9.0.0
+ * @package sujinc.com
+ * @since   8.0.0
  * @author  Sujin 수진 Choi http://www.sujinc.com/
-*/
+ */
 
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1;
 
-use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1;
-use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items\Menu as Menu_Item;
+use Sujin\Wordpress\Theme\Sujin\{
+	Rest_Endpoints\Sujin\V1,
+	Rest_Endpoints\Items\Menu_Item,
+};
 
-use Sujin\Wordpress\WP_Express\Helpers\Trait_Singleton;
-use Sujin\Wordpress\WP_Express\Helpers\Transient;
+use Sujin\Wordpress\WP_Express\{
+	Helpers\Trait_Singleton,
+	Helpers\Transient,
+};
 
 // phpcs:disable Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
 use WP_REST_Server,
-    WP_REST_Response,
     WP_Error;
 // phpcs:enable Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
 
-class Menu extends V1 {
+/**
+ * Menu Rest Controller
+ */
+class Menu_Endpoint extends V1 {
 	use Trait_Singleton;
 
-	protected const RESOURCE_NAME = 'menu';
+	/**
+	 * The namespace of this controller's route.
+	 *
+	 * @var string
+	 */
+	protected $namespace = 'menu';
 
-	public function __construct() {
+	protected const ITEM_NAME = 'Menu_Item';
+
+	/**
+	 * Constructor
+	 *
+	 * @visibility protected
+	 */
+	protected function __construct() {
 		parent::__construct();
-		add_action( 'wp_update_nav_menu', array( $this, 'delete_transient' ) );
+		add_action( 'wp_update_nav_menu', array( $this, 'remove_all_transients' ) );
 	}
 
-	public function delete_transient( int $menu_id ): void {
-		$locations = get_terms( 'nav_menu', array( 'hide_empty' => true ) );
-		foreach ( $locations as $location ) {
-			if ( $menu_id === $location->term_id ) {
-				delete_transient( $this->get_transient_key( $location->slug ) );
-			}
-		}
-	}
-
-	public function create_rest_routes() {
+	/**
+	 * Registers the routes for the objects of the controller.
+	 * /wp-json/sujin/v1/archive/menu/slug
+	 */
+	public function register_routes() {
 		register_rest_route(
-			self::NAMESPACE,
-			'/' . self::RESOURCE_NAME . '/(?P<menu>[\w-]+)',
+			$this->rest_base,
+			'/' . $this->namespace . '/(?P<slug>[\w-]+)',
 			array(
 				array(
 					'methods'             => WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'get_items' ),
-					'permission_callback' => array( $this, 'permissions_check' ),
+					'permission_callback' => array( $this, 'get_items_permissions_check' ),
 					'args'                => array(
-						'menu' => array(
+						'slug' => array(
 							'description'       => 'Menu Slug',
 							'type'              => 'string',
 							'required'          => true,
@@ -63,10 +76,15 @@ class Menu extends V1 {
 		);
 	}
 
+	/**
+	 * Get items
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 */
 	public function get_items( $request ) {
-		$slug = $request->get_param( 'menu' );
+		$slug = $request->get_param( 'slug' );
 
-		$transient_key = $this->get_transient_key( $slug );
+		$transient_key = $this->get_transient_key() . '-' . $slug;
 		$transient     = Transient::get_transient( $transient_key );
 
 		if ( $transient && ! $transient->is_expired() && ! SUJIN_DEV_MODE ) {
@@ -81,34 +99,36 @@ class Menu extends V1 {
 		}
 
 		$nav_menu   = wp_get_nav_menu_items( $menu_id );
-		$response   = array(); // Key is term ID
-		$menu_items = array(); // Key is post ID
+		$response   = array(); // Key is term ID.
+		$menu_items = array(); // Key is post ID.
 
-		foreach ( $nav_menu as $menu_item ) {
-			$menu_items[ $menu_item->ID ] = new Menu_Item( $menu_item );
+		foreach ( $nav_menu as $wp_menu_item ) {
+			$menu_items[ $wp_menu_item->ID ] = Menu_Item::get_instance( 'menu item - ' . $wp_menu_item->ID, $wp_menu_item );
 
-			if ( ! empty( $menu_item->menu_item_parent ) ) {
-				$menu_items[ $menu_item->menu_item_parent ]->append_children( $menu_items[ $menu_item->ID ] );
+			if ( ! empty( $wp_menu_item->menu_item_parent ) ) {
+				$menu_items[ $wp_menu_item->menu_item_parent ]->append_children( $menu_items[ $wp_menu_item->ID ] );
 			} else {
-				$response[] = $menu_items[ $menu_item->ID ];
+				$response[] = $menu_items[ $wp_menu_item->ID ];
 			}
 		}
 
-		// Object to Array
+		// Object to Array.
 		$response = json_decode( wp_json_encode( $response ), true );
 		$response = array_values( $response );
 
-		// Transient
+		// Transient.
 		$transient = new Transient( $response, self::CACHE_TTL );
 		$transient->set_transient( $transient_key );
+		$this->add_transient_key_to_group( $transient_key );
 
 		return rest_ensure_response( $response );
 	}
 
-	protected function get_transient_key( string $slug = '' ): string {
-		return parent::get_transient_key() . '-' . $slug;
-	}
-
+	/**
+	 * Returns an error when menu doesn't exist
+	 *
+	 * @return WP_Error
+	 */
 	private function error_no_menu(): WP_Error {
 		return new WP_Error(
 			'NO_MENU',

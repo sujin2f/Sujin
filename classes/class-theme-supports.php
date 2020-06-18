@@ -2,7 +2,7 @@
 /**
  * Class : Theme_Supports API
  *
- * @project Sujin
+ * @package sujinc.com
  * @since   8.0.0
  * @author  Sujin 수진 Choi http://www.sujinc.com/
  */
@@ -11,6 +11,9 @@ namespace Sujin\Wordpress\Theme\Sujin;
 
 use Sujin\Wordpress\WP_Express\Helpers\Trait_Singleton;
 
+/**
+ * Class : Theme_Supports API
+ */
 class Theme_Supports {
 	use Trait_Singleton;
 
@@ -27,21 +30,38 @@ class Theme_Supports {
 	private const IMAGE_SIZE_RELATED = 'related-post';
 	private const IMAGE_SIZE_RECENT  = 'recent-post';
 
-	function __construct() {
+	/**
+	 * Constructor
+	 *
+	 * @visibility protected
+	 */
+	protected function __construct() {
 		add_action( 'after_setup_theme', array( $this, 'after_setup_theme' ) );
 		add_action( 'init', array( $this, 'register_nav_menu' ) );
 	}
 
+	/**
+	 * Register navigation menu
+	 */
 	public function register_nav_menu(): void {
 		register_nav_menu( 'main-menu', 'Main Menu' );
 		register_nav_menu( 'social-media', 'Social Media' );
 	}
 
+	/**
+	 * Init
+	 */
 	public function after_setup_theme(): void {
 		$this->add_theme_support();
 		$this->set_post_thumbnail();
 	}
 
+	/**
+	 * Theme supports
+	 * Post thumbnail, HTML5, Widgets, Feeds, Title, and Excerpt for page type.
+	 *
+	 * @visibility private
+	 */
 	private function add_theme_support(): void {
 		add_theme_support( 'post-thumbnails' );
 		add_theme_support( 'html5' );
@@ -52,6 +72,11 @@ class Theme_Supports {
 		add_post_type_support( 'page', 'excerpt' );
 	}
 
+	/**
+	 * Register Thumbnail sizes
+	 *
+	 * @visibility private
+	 */
 	private function set_post_thumbnail(): void {
 		add_image_size(
 			'post-thumbnail',

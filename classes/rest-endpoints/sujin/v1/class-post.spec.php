@@ -2,7 +2,7 @@
 /**
  * Post Rest Controller Unit Test
  *
- * @project Sujinc.com
+ * @package sujinc.com
  * @since   9.0.0
  * @author  Sujin 수진 Choi http://www.sujinc.com/
 */

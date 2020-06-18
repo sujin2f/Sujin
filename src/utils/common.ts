@@ -1,5 +1,7 @@
 /** utils/common */
 
+import { GlobalVariable } from 'store/items/global-variable'
+
 export const isMobile = (): boolean => {
   const userAgent = window.navigator.userAgent || window.navigator.vendor || window.opera;
   /* eslint-disable max-len,no-useless-escape */
@@ -48,9 +50,11 @@ export const backgroundImageStyle = (image): { [key: string]: string } => {
 };
 
 export const log = (message: any, level = 'log'): void => {
+  const globalVars = GlobalVariable.getInstance(window.sujin)
+
   switch(level) {
     case 'log':
-      if ('http://sujinc.test' !== window.sujin.homeUrl) {
+      if ('http://sujinc.test' !== globalVars.url) {
         return;
       }
 

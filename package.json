@@ -14,8 +14,8 @@
     "webpack": "^4.42.0"
   },
   "scripts": {
-    "arson": "yarn test && yarn lint && yarn phpunit && yarn phpcs",
-    "build": "react-scripts build",
+    "arson": "yarn test:once && yarn lint && yarn phpunit && yarn phpcs",
+    "build": "NODE_ENV=production react-scripts build & node .configs/scripts/php-env.js production",
     "eject": "react-scripts eject",
     "lint": "tslint 'src/**/*.{ts,tsx,js}'",
     "phpcs": "vendor/bin/phpcs --standard=./.configs/phpcs.xml -s",
@@ -24,8 +24,9 @@
     "run:bundle-analyzer": "NODE_ENV=production webpack-bundle-analyzer logs/stats.json",
     "run:stats": "NODE_ENV=production webpack --profile --json > logs/stats.json",
     "schema:build": "node .configs/scripts/build-schema.js",
-    "start": "NODE_ENV=development webpack --watch",
-    "test": "react-scripts test --coverage"
+    "start": "NODE_ENV=development webpack --watch & node .configs/scripts/php-env.js development",
+    "test": "react-scripts test --coverage",
+    "test:once": "react-scripts test --coverage --watchAll=false"
   },
   "eslintConfig": {
     "extends": "react-app"

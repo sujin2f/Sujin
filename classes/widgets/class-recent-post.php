@@ -1,8 +1,8 @@
 <?php
 /**
- * Flickr Widget
+ * Recent Post Widget
  *
- * @project Sujin
+ * @package sujinc.com
  * @since   9.0.0
  * @author  Sujin 수진 Choi http://www.sujinc.com/
  */
@@ -11,18 +11,31 @@ namespace Sujin\Wordpress\Theme\Sujin\Widgets;
 
 use WP_Widget;
 use Sujin\Wordpress\WP_Express\Helpers\Trait_Singleton;
-use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items\Simple_Post;
 
+/**
+ * Recent Post Widget
+ */
 class Recent_Post extends WP_Widget {
 	use Trait_Singleton;
 
+	/**
+	 * Constructor
+	 *
+	 * @visibility protected
+	 */
 	protected function __construct() {
 		parent::__construct(
-			'recent-post',  // Base ID
-			'Recent Post'   // Name
+			'recent-post',  // Base ID.
+			'Recent Post'   // Name.
 		);
 	}
 
+	/**
+	 * Frontend
+	 *
+	 * @param array $args Arguments.
+	 * @param array $_    Instance.
+	 */
 	public function widget( $args, $_ ) {
 		return array(
 			'title'  => $args['title'],
@@ -33,6 +46,11 @@ class Recent_Post extends WP_Widget {
 		);
 	}
 
+	/**
+	 * Backend
+	 *
+	 * @param array $instance instance.
+	 */
 	public function form( $instance ) {
 		$title  = $instance['title'] ?? '';
 		$small  = $instance['small'] ?? '';
@@ -90,6 +108,12 @@ class Recent_Post extends WP_Widget {
 		<?php
 	}
 
+	/**
+	 * Backend -- update
+	 *
+	 * @param array $new_instance instance.
+	 * @param array $old_instance instance.
+	 */
 	public function update( $new_instance, $old_instance ) {
 		return array(
 			'title'  => $new_instance['title'],

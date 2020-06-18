@@ -18,6 +18,7 @@ import {
   loadBackgroundFail,
 } from 'store/actions';
 import { Background } from 'store/items/background';
+import { GlobalVariable } from 'store/items/global-variable'
 import { log } from 'utils/common';
 
 export const usePublicClassName = (): [string, RefObject<HTMLDivElement>] => {
@@ -86,13 +87,14 @@ export const useFrontPage = (): void => {
   const [{ background }, dispatch] = useContext(Context) as Context;
 
   useEffect(() => {
+    const globalVars = GlobalVariable.getInstance(window.sujin)
     const {
       title,
       description,
       frontPage,
       hideFrontFooter,
       hideFrontHeader,
-    } = window.sujin;
+    } = globalVars;
 
     if (frontPage === 'front-page') {
       dispatch(setPublicClass({

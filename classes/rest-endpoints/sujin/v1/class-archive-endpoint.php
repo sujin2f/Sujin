@@ -1,21 +1,29 @@
 <?php
+/**
+ * Archive RESTful Endpoint
+ * Class for archive -- category, tag, and search
+ *
+ * @package sujinc.com
+ * @since   8.0.0
+ * @author  Sujin 수진 Choi http://www.sujinc.com/
+ */
+
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1;
 
-use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\{
-	Sujin\V1,
-	Items\Archive as Archive_Item,
-	Items\Post as Post_Item,
+use Sujin\Wordpress\Theme\Sujin\{
+	Rest_Endpoints\Sujin\V1,
+	Rest_Endpoints\Items\Archive,
+	Rest_Endpoints\Items\Post,
 };
 
-use Sujin\Wordpress\WP_Express\Fields\Term_Meta\Attachment as Term_Meta_Attachment;
-use Sujin\Wordpress\WP_Express\Helpers\Trait_Singleton;
-use Sujin\Wordpress\WP_Express\Helpers\Transient;
+use Sujin\Wordpress\WP_Express\{
+	Fields\Term_Meta\Attachment as Term_Meta_Attachment,
+	Helpers\Trait_Singleton,
+	Helpers\Transient,
+};
 
 // phpcs:disable Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
-use WP_Post,
-	WP_REST_Controller,
-	WP_REST_Server,
-	WP_REST_Response,
+use WP_REST_Server,
 	WP_REST_Request,
 	WP_Error,
 	WP_Query,
@@ -28,33 +36,43 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
 
-class Archive extends V1 {
+/**
+ * Archive RESTful Endpoint
+ * Class for archive -- category, tag, and search
+ */
+class Archive_Endpoint extends V1 {
 	use Trait_Singleton;
 
-	protected const CACHE_TTL     = 12 * HOUR_IN_SECONDS;
-	protected const RESOURCE_NAME = 'archive';
+	/**
+	 * The namespace of this controller's route.
+	 *
+	 * @var string
+	 */
+	protected $namespace = 'archive';
 
-	public function __construct() {
+	/**
+	 * Constructor
+	 *
+	 * @visibility protected
+	 */
+	protected function __construct() {
 		parent::__construct();
-		add_action( 'save_post', array( $this, 'delete_transient' ) );
+		add_action( 'save_post', array( $this, 'remove_all_transients' ) );
 	}
 
-	public function delete_transient(): void {
-		foreach ( $this->get_transient_keys() as $key ) {
-			delete_transient( $key );
-		}
-		$this->delete_transient_keys();
-	}
-
-	public function create_rest_routes() {
+	/**
+	 * Registers the routes for the objects of the controller.
+	 * /wp-json/sujin/v1/archive/category|tag|search|recentPosts/slug/page
+	 */
+	public function register_routes() {
 		register_rest_route(
-			self::NAMESPACE,
-			'/' . self::RESOURCE_NAME . '/(?P<type>(category|tag|search|recentPosts))/(?P<slug>[\w]+)/(?P<page>[\d]+)',
+			$this->rest_base,
+			'/' . $this->namespace . '/(?P<type>(category|tag|search|recentPosts))/(?P<slug>([^\/]*))/(?P<page>[\d]+)',
 			array(
 				array(
 					'methods'             => WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'get_items' ),
-					'permission_callback' => array( $this, 'permissions_check' ),
+					'permission_callback' => array( $this, 'get_items_permissions_check' ),
 					'args'                => array(
 						'type' => array(
 							'description'       => 'List Type',
@@ -63,9 +81,8 @@ class Archive extends V1 {
 							'sanitize_callback' => 'sanitize_text_field',
 						),
 						'slug' => array(
-							'description'       => 'Slug',
-							'type'              => 'string',
-							'sanitize_callback' => 'sanitize_text_field',
+							'description' => 'Slug',
+							'type'        => 'string',
 						),
 						'page' => array(
 							'description'       => 'Page Number',
@@ -80,7 +97,12 @@ class Archive extends V1 {
 		);
 	}
 
-	// @todo per_page to option value
+	/**
+	 * Get items
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 * @todo per_page to option value
+	 */
 	public function get_items( $request ) {
 		$type     = $request->get_param( 'type' );
 		$slug     = $request->get_param( 'slug' );
@@ -114,7 +136,7 @@ class Archive extends V1 {
 				break;
 		}
 
-		// The term is not exist
+		// The term is not exist.
 		if ( false === $term ) {
 			return rest_ensure_response( $this->error_not_found_term( $type ) );
 		}
@@ -138,19 +160,20 @@ class Archive extends V1 {
 			$args['tag_slug__and'] = $slug;
 		}
 
-		// Query posts
+		// Query posts.
 		$posts    = new WP_Query( $args );
-		$response = new Archive_Item();
+		$response = Archive::get_instance( 'Archive' );
 
 		foreach ( $posts->posts as $post ) {
-			$response->append_item( new Post_Item( $post ) );
+			$post_item = Post::get_instance( 'post-' . $post->ID, $post );
+			$response->append_item( $post_item );
 		}
 
 		$thumbnail = Term_Meta_Attachment::get_instance( 'Thumbnail' )->get( $term->term_id ) ?: -1;
 		$response->set_thumbnail( $thumbnail );
 
-		$response->title       = $term->name;
-		$response->description = $term->description;
+		$response->title       = $term->name ?: '';
+		$response->description = $term->description ?: '';
 		$response->total       = $posts->found_posts;
 		$response->totalPages  = $posts->max_num_pages; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.NotSnakeCaseMemberVar
 
@@ -158,11 +181,17 @@ class Archive extends V1 {
 
 		$transient = new Transient( $response, self::CACHE_TTL );
 		$transient->set_transient( $transient_key );
-		$this->add_transient_keys( $transient_key );
+		$this->add_transient_key_to_group( $transient_key );
 
 		return $response;
 	}
 
+	/**
+	 * Returns an error when term doesn't exist
+	 *
+	 * @param  string $list_type List type (category, tag, search).
+	 * @return WP_Error
+	 */
 	private function error_not_found_term( string $list_type ): WP_Error {
 		return new WP_Error(
 			'NOT_FOUND',

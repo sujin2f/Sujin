@@ -1,5 +1,3 @@
-import { Menu } from '../menu';
-
 const rawData01 = {
   ID: 14995,
   children: [],

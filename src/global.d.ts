@@ -1,6 +1,8 @@
+import { GlobalVariable } from 'store/items/schema/global-variable'
+
 declare global {
   interface Window {
-    sujin: any
+    sujin: GlobalVariable
     twttr: any
     adsbygoogle: any
     opera: any

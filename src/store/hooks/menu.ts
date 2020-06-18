@@ -12,7 +12,7 @@ import axios from 'axios';
 import { ResponseCode } from 'constants/enum';
 import { Context } from 'store';
 import { loadMenuInit, loadMenuSuccess } from 'store/actions';
-import { Menu } from 'store/items/menu';
+import { MenuItem } from 'store/items/menu-item';
 import { StateMenu } from 'store/reducer';
 import { log } from 'utils/common';
 
@@ -33,7 +33,7 @@ export const useMenu = (slug: string): StateMenu => {
         if (response.status === ResponseCode.Success) {
           dispatch(loadMenuSuccess(
             slug,
-            response.data.map((item: any) => new Menu(item)),
+            response.data.map((item: any) => new MenuItem(item)),
           ));
           return;
         }

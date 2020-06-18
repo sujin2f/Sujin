@@ -1,4 +1,12 @@
 <?php
+/**
+ * Post RESTful Endpoint
+ *
+ * @package sujinc.com
+ * @since   8.0.0
+ * @author  Sujin 수진 Choi http://www.sujinc.com/
+ */
+
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1;
 
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1;
@@ -14,32 +22,53 @@ use WP_Post,
     WP_Query;
 // phpcs:enable Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
 
-class Post extends V1 {
+/**
+ * Post Rest Controller
+ */
+class Post_Endpoint extends V1 {
 	use Trait_Singleton;
 
-	protected const CACHE_TTL     = 12 * HOUR_IN_SECONDS;
-	protected const RESOURCE_NAME = 'post';
+	/**
+	 * The namespace of this controller's route.
+	 *
+	 * @var string
+	 */
+	protected $namespace = 'post';
 
-	public function __construct() {
+	/**
+	 * Constructor
+	 *
+	 * @visibility protected
+	 */
+	protected function __construct() {
 		parent::__construct();
-		add_action( 'save_post', array( $this, 'delete_transient' ), 15, 2 );
+		add_action( 'save_post', array( $this, 'remove_transient' ), 15, 2 );
 	}
 
-	public function delete_transient( int $_, WP_Post $post ): void {
-		$transient_key = $this->get_transient_key() . '-' . $post->post_name;
-		delete_transient( $transient_key );
-		Archive::get_instance()->delete_transient();
+	/**
+	 * Remove transients
+	 *
+	 * @param int     $_    Post ID.
+	 * @param WP_Post $post Post Object.
+	 */
+	public function remove_transient( int $_, WP_Post $post ): void {
+		$this->remove_single_transient( $this->get_transient_key() . '-' . $post->post_name );
+		Archive_Endpoint::get_instance()->remove_all_transients();
 	}
 
-	public function create_rest_routes() {
+	/**
+	 * Registers the routes for the objects of the controller.
+	 * /wp-json/sujin/v1/archive/post/slug
+	 */
+	public function register_routes() {
 		register_rest_route(
-			self::NAMESPACE,
-			'/' . self::RESOURCE_NAME . '/(?P<slug>[^/]+)',
+			$this->rest_base,
+			'/' . $this->namespace . '/(?P<slug>[^/]+)',
 			array(
 				array(
 					'methods'             => WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'get_item' ),
-					'permission_callback' => array( $this, 'permissions_check' ),
+					'permission_callback' => array( $this, 'get_item_permissions_check' ),
 					'args'                => array(
 						'slug' => array(
 							'description' => 'Post Slug',
@@ -53,6 +82,11 @@ class Post extends V1 {
 		);
 	}
 
+	/**
+	 * Get items
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 */
 	public function get_item( $request ) {
 		$slug = $request->get_param( 'slug' );
 
@@ -80,16 +114,22 @@ class Post extends V1 {
 			return $this->error_not_found_post();
 		}
 
-		$post = array_pop( $post );
-		$post = new Post_Item( $post );
-		$post = json_decode( wp_json_encode( $post ), true );
+		$post      = array_pop( $post );
+		$post_item = Post_Item::get_instance( 'post-' . $post->ID, $post );
+		$post_item = json_decode( wp_json_encode( $post_item ), true );
 
-		$transient = new Transient( $post, self::CACHE_TTL );
+		$transient = new Transient( $post_item, self::CACHE_TTL );
 		$transient->set_transient( $transient_key );
+		$this->add_transient_key_to_group( $transient_key );
 
-		return rest_ensure_response( $post );
+		return rest_ensure_response( $post_item );
 	}
 
+	/**
+	 * Returns an error when post doesn't exist
+	 *
+	 * @return WP_Error
+	 */
 	private function error_not_found_post(): WP_Error {
 		return new WP_Error(
 			'NOT_FOUND',

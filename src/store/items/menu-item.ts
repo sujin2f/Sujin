@@ -1,11 +1,11 @@
 /*
  * Menu Item
- * store/items/menu
+ * store/items/menu-item
  */
 
-import { Menu as MenuType } from 'store/items/schema/menu';
+import { MenuItem as MenuItemType } from 'store/items/schema/menu-item';
 
-export class Menu implements MenuType {
+export class MenuItem implements MenuItemType {
   /**
    * Unique ID of WP Post object
    */
@@ -33,7 +33,7 @@ export class Menu implements MenuType {
   /**
    * Child menu items
    */
-  children: Menu[]
+  children: MenuItem[]
 
   constructor(data: any) {
     this.ID = data.ID;
@@ -41,7 +41,7 @@ export class Menu implements MenuType {
     this.url = data.url;
     this.target = data.target;
     this.parent = data.parent;
-    this.children = data.children.map((child: MenuType) => new Menu(child));
+    this.children = data.children.map((child: MenuItemType) => new MenuItem(child));
     this.classes = data.classes;
   }
 }

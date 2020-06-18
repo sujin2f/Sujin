@@ -1,37 +1,62 @@
 <?php
 /**
-	* Post Item
-	*
-	* @project Sujinc.com
-	* @since   9.0.0
-	* @author  Sujin 수진 Choi http://www.sujinc.com/
-*/
+ * Image RESTful API Item
+ *
+ * @package sujinc.com
+ * @since   9.0.0
+ * @author  Sujin 수진 Choi http://www.sujinc.com/
+ */
 
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items;
 
-use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items;
-
-final class Images extends Items {
-	public $large;
-	public $medium;
-	public $small;
-	public $tiny;
+/**
+ * Image RESTful API Item
+ */
+class Images {
+	/**
+	 * Large size
+	 *
+	 * @var string
+	 */
+	public $large = '';
 
 	/**
-	 * Create MenuItem from WP_Post
-	*/
-	public function __construct( int $image_id ) {
-		if ( -1 === $image_id ) {
-			$this->large  = '';
-			$this->medium = '';
-			$this->small  = '';
-			$this->tiny   = '';
+	 * Medium size
+	 *
+	 * @var string
+	 */
+	public $medium = '';
+
+	/**
+	 * Small size
+	 *
+	 * @var string
+	 */
+	public $small = '';
+
+	/**
+	 * Tiny size
+	 *
+	 * @var string
+	 */
+	public $tiny = '';
+
+	const ITEM_NAME = 'image';
+
+	/**
+	 * Create Image from attachment id
+	 *
+	 * @param      int $attachment_id Attachment ID.
+	 * @visibility protected
+	 */
+	public function __construct( int $attachment_id ) {
+		if ( -1 === $attachment_id ) {
 			return;
 		}
 
-		$this->large  = wp_get_attachment_image_src( $image_id, 'large' )[0] ?? '';
-		$this->medium = wp_get_attachment_image_src( $image_id, 'medium' )[0] ?? '';
-		$this->small  = wp_get_attachment_image_src( $image_id, 'thumbnail' )[0] ?? '';
-		$this->tiny   = wp_get_attachment_image_src( $image_id, 'recent-post' )[0] ?? '';
+		$this->large  = wp_get_attachment_image_src( $attachment_id, 'large' )[0] ?? '';
+		$this->medium = wp_get_attachment_image_src( $attachment_id, 'medium' )[0] ?? '';
+		$this->small  = wp_get_attachment_image_src( $attachment_id, 'thumbnail' )[0] ?? '';
+		$this->tiny   = wp_get_attachment_image_src( $attachment_id, 'recent-post' )[0] ?? '';
 	}
 }

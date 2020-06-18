@@ -6,10 +6,10 @@
 import React, { Fragment } from 'react'
 
 import { Link }  from 'components/common/Link'
-import { Menu } from 'store/items/menu'
+import { MenuItem as MenuItemType } from 'store/items/menu-item'
 
 interface Props {
-  menuItem: Menu
+  menuItem: MenuItemType
 }
 
 export const MenuItem = (props: Props): JSX.Element => {

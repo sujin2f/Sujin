@@ -1,13 +1,11 @@
 <?php
 /**
-	* Functions
-	*
-	* @project Sujin
-	* @since   8.0.0
-	* @author  Sujin 수진 Choi http://www.sujinc.com/
-	*
-	* @todo    schema required fields
-	*/
+ * Functions
+ *
+ * @package sujinc.com
+ * @since   8.0.0
+ * @author  Sujin 수진 Choi http://www.sujinc.com/
+ */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	header( 'Status: 404 Not Found' );
@@ -19,7 +17,7 @@ if ( ! defined( 'SUJIN_DEV_MODE' ) ) {
 	define( 'SUJIN_DEV_MODE', true );
 }
 
-include_once( get_stylesheet_directory() . '/vendor/sujin/wp-express/autoload.php' );
+require_once get_stylesheet_directory() . '/vendor/sujin/wp-express/autoload.php';
 
 $class_loader = new Sujin\Wordpress\WP_Express\Autoloader(
 	'Sujin\\Wordpress\\Theme\\Sujin',

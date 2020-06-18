@@ -2,9 +2,10 @@
 /**
  * Initialize Assets
  *
- * @package Sujinc.com
- * @author  Sujin 수진 Choi <http://www.sujinc.com/>
-*/
+ * @package sujinc.com
+ * @since   9.0.0
+ * @author  Sujin 수진 Choi http://www.sujinc.com/
+ */
 
 namespace Sujin\Wordpress\Theme\Sujin;
 
@@ -15,24 +16,36 @@ use Sujin\Wordpress\WP_Express\Fields\Settings\Attachment as Option_Attachment;
 use Sujin\Wordpress\WP_Express\Fields\Settings\Checkbox as Option_Checkbox;
 use Sujin\Wordpress\Theme\Sujin\Widgets\{
 	Flickr as Flickr_Widget,
-	Advert as Advert_Widget,
+	Google_Advert as Advert_Widget,
 	Recent_Post as Recent_Post_Widget,
 };
+use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items\Images;
 
 use SJ2DTAG_widget;
 use WP_Query;
 
-final class Assets {
+/**
+ * Initialize Assets
+ */
+class Assets {
 	use Trait_Singleton;
 
 	private const JQUERY_CDN = 'http://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js';
 
-	public function __construct() {
+	/**
+	 * Constructor
+	 *
+	 * @visibility protected
+	 */
+	protected function __construct() {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_filter( 'upload_mimes', array( $this, 'upload_mimes' ) );
-		Google_Font_Loader::get_instance()
-			->append( 'Ubuntu:300,400,500,700' );
-		$this->register_scripts();
+
+		if ( ! is_admin() && false === strpos( $_SERVER['REQUEST_URI'], '/wp-json/' ) ) {
+			Google_Font_Loader::get_instance()
+				->append( 'Ubuntu:300,400,500,700' );
+			$this->register_scripts();
+		}
 	}
 
 	public function upload_mimes( array $mime_types ): array {
@@ -42,14 +55,14 @@ final class Assets {
 
 	public function register_scripts(): void {
 		$asset    = Ex_Assets::get_instance( null, get_stylesheet_directory_uri() );
-		$manifest = get_stylesheet_directory() . '/dist/asset-manifest.json';
+		$manifest = get_stylesheet_directory_uri() . '/dist/asset-manifest.json';
 
-		if ( ! file_exists( $manifest ) ) {
+		if ( ! file_exists( get_stylesheet_directory() . '/dist/asset-manifest.json' ) ) {
 			return;
 		}
 
-		$manifest = file_get_contents( $manifest );
-		$manifest = json_decode( $manifest, true );
+		$manifest = wp_remote_get( $manifest );
+		$manifest = json_decode( $manifest['body'], true );
 
 		foreach ( $manifest['entrypoints'] as $key => $entrypoint ) {
 			$asset
@@ -63,9 +76,9 @@ final class Assets {
 			}
 		}
 
-// 		die;
+		return;
 
-		if ( $this->is_dev() ) {
+		if ( $this->is_prod() ) {
 /*
 			$asset
 				->append( 'http://localhost:3000/static/js/bundle.js' )
@@ -108,7 +121,7 @@ final class Assets {
 */
 	}
 
-	private function is_dev() {
+	private function is_prod() {
 		$parsed_url = parse_url( get_site_url() );
 		return 'sujinc.test' === $parsed_url['host'];
 	}
@@ -138,14 +151,18 @@ final class Assets {
 			);
 		}
 
+		$thumbnail = Option_Attachment::get_instance( 'Default Image' )->get() ?: -1;
+		$thumbnail = new Images( $thumbnail );
+		$thumbnail = $thumbnail->medium;
+
 		return array(
 			'title'           => get_bloginfo( 'name' ),
 			'description'     => get_bloginfo( 'description' ),
-			'homeUrl'         => get_bloginfo( 'url' ),
-			'ogImage'         => Option_Attachment::get_instance( 'Default Image' )->get(),
+			'url'             => get_bloginfo( 'url' ),
+			'thumbnail'       => $thumbnail,
 			'hideFrontHeader' => (bool) Option_Checkbox::get_instance( 'Hide Header in Front Page' )->get(),
 			'hideFrontFooter' => (bool) Option_Checkbox::get_instance( 'Hide Footer in Front Page' )->get(),
-			'frontPage'       => $front_page->post->post_name ?? null,
+			'frontPage'       => $front_page->post->post_name ?? '',
 			'showOnFront'     => $show_on_front,
 			'widgets'         => $this->get_widgets(),
 		);
@@ -175,7 +192,6 @@ final class Assets {
 				$basename      = implode( '-', $basename );
 
 				$widget_setting = get_option( 'widget_' . $basename );
-
 				switch ( $basename ) {
 					case 'flickr':
 						$flickr->id        = $basename . '-' . $widget_number;
@@ -185,6 +201,7 @@ final class Assets {
 						);
 						break;
 
+					case 'google-advert':
 					case 'advert':
 						$advert->id        = $basename . '-' . $widget_number;
 						$sidebar[ $key ][] = array_merge(
@@ -200,7 +217,7 @@ final class Assets {
 
 						$tags->id = $basename . '-' . $widget_number;
 						ob_start();
-						$widget_info       = $tags->widget(
+						$tags->widget(
 							array(
 								'before_widget' => '',
 								'before_title'  => '',
@@ -210,7 +227,7 @@ final class Assets {
 							$widget_setting[ $widget_number ]
 						);
 						$sidebar[ $key ][] = array(
-							'widget' => 'tags',
+							'widget' => 'tag-cloud',
 							'title'  => 'Popular Tags',
 							'html'   => ob_get_clean(),
 							'key'    => $widget_number,
@@ -241,7 +258,6 @@ final class Assets {
 	public function enqueue_scripts(): void {
 		if ( ! is_admin() && 'wp-login.php' !== $GLOBALS['pagenow'] ) {
 			wp_deregister_script( 'jquery' );
-			wp_register_script( 'jquery', self::JQUERY_CDN, false, '1.12.4' );
 		}
 
 		if ( is_admin() ) {

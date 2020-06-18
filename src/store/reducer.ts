@@ -25,7 +25,7 @@ import {
 } from 'store/actions';
 import { Archive } from 'store/items/archive';
 import { Background } from 'store/items/background';
-import { Menu } from 'store/items/menu';
+import { MenuItem } from 'store/items/menu-item';
 import { Post } from 'store/items/post';
 import { isMobile } from 'utils/common';
 
@@ -33,12 +33,12 @@ import { isMobile } from 'utils/common';
  * REST items
  * @todo background
  */
-export type ResponseItem<T extends Archive | Post | Menu[]> = {
+export type ResponseItem<T extends Archive | Post | MenuItem[]> = {
   state: RequestState;
   item?: T;
 };
 export type StatePost = ResponseItem<Post>;
-export type StateMenu = ResponseItem<Menu[]>;
+export type StateMenu = ResponseItem<MenuItem[]>;
 export type StateArchive = ResponseItem<Archive>;
 
 /*
@@ -136,7 +136,7 @@ type Action = {
   archive: Archive;
   background: Background[];
   leftRail: StateLeftRail;
-  menuItems: Menu[];
+  menuItems: MenuItem[];
   page: number;
   pageHeader: ActionPageHeader;
   post: Post;

@@ -56,6 +56,30 @@
             "page"
           ],
           "readonly": true
+        },
+        "toc": {
+          "description": "Table of content",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "tag": {
+                "description": "Tag name",
+                "type": "string",
+                "enum": ["h1", "h2", "h3", "h4"],
+                "readonly": true
+              },
+              "text": {
+                "description": "Heading text",
+                "type": "string",
+                "readonly": true
+              }
+            },
+            "required": ["tag", "text"],
+            "additionalProperties":false,
+            "readonly": true
+          },
+          "readonly": true
         }
       },
       "required": [
@@ -63,7 +87,8 @@
         "series",
         "prevNext",
         "related",
-        "type"
+        "type",
+        "toc"
       ],
       "additionalProperties":false
     }

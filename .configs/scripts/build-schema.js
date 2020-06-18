@@ -31,3 +31,33 @@ fs.readdir(
     })
   },
 )
+
+fs.readdir(
+  path.resolve(__dirname, '../', 'schema', 'global'),
+  (_, files) => {
+    // Per json
+    files.forEach((file) => {
+      const fileJson = path.resolve(__dirname, '../', 'schema', 'global', file)
+      const fileTs = path.resolve(
+        __dirname,
+        '../',
+        '../',
+        'src',
+        'store',
+        'items',
+        'schema',
+        file.replace('.json', '.ts'),
+      )
+      compileFromFile(
+        fileJson,
+        {
+          style: {
+            singleQuote: true,
+            semi: false,
+          },
+        }
+      )
+      .then((ts) => fs.writeFileSync(fileTs, ts))
+    })
+  },
+)

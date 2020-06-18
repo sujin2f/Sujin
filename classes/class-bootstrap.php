@@ -2,46 +2,54 @@
 /**
  * Entry Point
  *
- * @project Sujin
+ * @package sujinc.com
  * @since   8.0.0
  * @author  Sujin 수진 Choi http://www.sujinc.com/
  */
 
 namespace Sujin\Wordpress\Theme\Sujin;
 
-// REST API Endpoints
+// REST API Endpoints.
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1\{
-	Post as Post_Endpoint,
-	Menu,
-	Background,
-	Archive,
+	Post_Endpoint,
+	Menu_Endpoint,
+	Background_Endpoint,
+	Archive_Endpoint,
 };
 
-// Shortcodes
+// Shortcodes.
 use Sujin\Wordpress\Theme\Sujin\Shortcode\About_Item;
 use Sujin\Wordpress\Theme\Sujin\Shortcode\Gallery as Shortcode_Gallery;
 
-// Widgets
+// Widgets.
 use Sujin\Wordpress\Theme\Sujin\Widgets\{
 	Flickr as Flickr_Widget,
-	Advert as Advert_Widget,
+	Google_Advert as Advert_Widget,
 	Recent_Post as Recent_Post_Widget,
 };
 
-// Modifiers
+// Modifiers.
 use Sujin\Wordpress\Theme\Sujin\Modifier\{
-	Option,
-	Taxonomy,
+	Options,
+	Taxonomies,
 	Post as Post_Modifier,
 	Post_Type\Gallery,
 };
 
 use Sujin\Wordpress\WP_Express\Helpers\Trait_Singleton;
 
+/**
+ * Entry Point
+ */
 class Bootstrap {
 	use Trait_Singleton;
 
-	function __construct() {
+	/**
+	 * Constructor
+	 *
+	 * @visibility protected
+	 */
+	protected function __construct() {
 		$this->init();
 		$this->register_rest_endpoints();
 
@@ -50,41 +58,59 @@ class Bootstrap {
 		add_action( 'widgets_init', array( $this, 'register_widgets' ) );
 	}
 
+	/**
+	 * Initialized
+	 *
+	 * @todo separate admin
+	 */
 	private function init(): void {
 		Assets::get_instance();
 		Theme_Supports::get_instance();
 
-		// Modifiers
-		Option::get_instance();
-		Taxonomy::get_instance();
+		// Modifiers.
+		Options::get_instance();
+		Taxonomies::get_instance();
 		Post_Modifier::get_instance();
 
-		// Shortcode
+		// Shortcode.
 		About_Item::get_instance();
 		Shortcode_Gallery::get_instance();
 
-		// Custom Post Type
+		// Custom Post Type.
 		Gallery::get_instance();
 	}
 
+	/**
+	 * Excerpt
+	 *
+	 * @param  string $excerpt Excerpt.
+	 * @return string
+	 * @see https://developer.wordpress.org/reference/functions/the_excerpt/
+	 */
 	public function the_excerpt( string $excerpt ): string {
 		$breaks  = array( '<br />', '<br>', '<br/>' );
 		$excerpt = str_replace( $breaks, "\r\n\r\n", $excerpt );
-		$excerpt = strip_tags( $excerpt );
+		$excerpt = wp_strip_all_tags( $excerpt );
 		$excerpt = wpautop( $excerpt );
 
 		return $excerpt;
 	}
 
+	/**
+	 * RESTful API
+	 */
 	private function register_rest_endpoints(): void {
 		Post_Endpoint::get_instance();
-		Menu::get_instance();
-		Background::get_instance();
-		Archive::get_instance();
+		Menu_Endpoint::get_instance();
+		Background_Endpoint::get_instance();
+		Archive_Endpoint::get_instance();
 
 		remove_filter( 'the_content', 'wpautop' );
 	}
 
+	/**
+	 * Sidebars
+	 */
 	public function register_sidebars(): void {
 		register_sidebar(
 			array(
@@ -101,6 +127,9 @@ class Bootstrap {
 		);
 	}
 
+	/**
+	 * Widgets
+	 */
 	public function register_widgets(): void {
 		register_widget( Flickr_Widget::get_instance() );
 		register_widget( Advert_Widget::get_instance() );

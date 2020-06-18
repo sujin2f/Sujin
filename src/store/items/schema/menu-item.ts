@@ -5,7 +5,7 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export interface Menu {
+export interface MenuItem {
   /**
    * Unique ID of WP Post object
    */
@@ -33,5 +33,5 @@ export interface Menu {
   /**
    * Child menu items
    */
-  children: Menu[]
+  children: MenuItem[]
 }

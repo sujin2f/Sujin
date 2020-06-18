@@ -33,6 +33,19 @@ export type Post = SimplePost & {
    * Post Type
    */
   type: 'post' | 'page'
+  /**
+   * Table of content
+   */
+  toc: {
+    /**
+     * Tag name
+     */
+    tag: 'h1' | 'h2' | 'h3' | 'h4'
+    /**
+     * Heading text
+     */
+    text: string
+  }[]
 }
 
 export interface SimplePost {

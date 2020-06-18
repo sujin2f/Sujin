@@ -1,11 +1,18 @@
-<?php
-namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin;
+<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
+/**
+ * Endpoints of sujin/v1 abstraction
+ *
+ * @package sujinc.com
+ * @since   8.0.0
+ * @author  Sujin 수진 Choi http://www.sujinc.com/
+ */
 
-use Sujin\Wordpress\Theme\Sujin\Helpers\Schema\Response_Schema;
+namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin;
 
 // phpcs:disable Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
 use WP_REST_Controller,
-    WP_REST_Response,
+	WP_REST_Response,
+	WP_REST_Request,
     WP_HTTP_Requests_Response;
 // phpcs:enable Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
 
@@ -15,25 +22,63 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
 
+/**
+ * Endpoints of sujin/v1 abstraction
+ */
 abstract class V1 extends WP_REST_Controller {
-	protected const NAMESPACE = 'sujin/v1';
+	/**
+	 * The base of this controller's route.
+	 *
+	 * @var string
+	 */
+	protected $rest_base = 'sujin/v1';
 
 	protected const STATUS_CODE_NO_CONTENT      = 204;
 	protected const STATUS_CODE_NOT_IMPLEMENTED = 501;
 	protected const STATUS_CODE_NOT_FOUND       = 404;
 
-	// Transient and schema
-	protected const CACHE_TTL     = HOUR_IN_SECONDS;
-	protected const RESOURCE_NAME = '';
-	protected const ITEM_NAME     = '';
+	// Transient and schema.
+	protected const CACHE_TTL = 12 * HOUR_IN_SECONDS;
+	protected const ITEM_NAME = '';
 
-	public function __construct() {
-		add_action( 'rest_api_init', array( $this, 'create_rest_routes' ), 10, 0 );
+	/**
+	 * Constructor
+	 *
+	 * @visibility protected
+	 */
+	protected function __construct() {
+		add_action( 'rest_api_init', array( $this, 'register_routes' ), 10, 0 );
 	}
 
-	abstract public function create_rest_routes();
+	/**
+	 * Checks if a given request has access to get items.
+	 *
+	 * @param  WP_REST_Request $request Full data about the request.
+	 * @return WP_Error|bool   True if the request has read access, WP_Error object otherwise.
+	 */
+	public function get_items_permissions_check( $request ) {
+		return $this->get_permissions_check( $request );
+	}
 
-	public function permissions_check( $request ): bool {
+	/**
+	 * Checks if a given request has access to get a specific item.
+	 *
+	 * @param  WP_REST_Request $request Full data about the request.
+	 * @return WP_Error|bool   True if the request has read access for the item, WP_Error object otherwise.
+	 */
+	public function get_item_permissions_check( $request ) {
+		return $this->get_permissions_check( $request );
+	}
+
+	/**
+	 * Checks if a given request has access to get.
+	 *
+	 * @param  WP_REST_Request $request Full data about the request.
+	 * @return WP_Error|bool   True if the request has read access for the item, WP_Error object otherwise.
+	 *
+	 * @visibility protected
+	 */
+	private function get_permissions_check( WP_REST_Request $request ): bool {
 		if ( SUJIN_DEV_MODE ) {
 			return true;
 		}
@@ -49,7 +94,14 @@ abstract class V1 extends WP_REST_Controller {
 		return ( $referer['host'] ?? null ) === $home_url['host'];
 	}
 
-	// Request
+	/**
+	 * Checks if a given response has access to get.
+	 *
+	 * @param  WP_Error|WP_HTTP_Requests_Response|WP_REST_Response|array $response Response to be checkd.
+	 * @return bool
+	 *
+	 * @visibility protected
+	 */
 	protected function is_success( $response ): bool {
 		if ( is_wp_error( $response ) ) {
 			return false;
@@ -68,28 +120,87 @@ abstract class V1 extends WP_REST_Controller {
 		return $response['response'] && $response['response']['code'] && 200 === $response['response']['code'];
 	}
 
-	// Transient
-	protected function get_transient_key( string $_ = '' ): string {
-		return 'rest-sujin-v1-' . static::RESOURCE_NAME;
+	/**
+	 * Returns a single transient key
+	 *
+	 * @return string
+	 *
+	 * @visibility protected
+	 */
+	protected function get_transient_key(): string {
+		return 'rest-' . $this->rest_base . '-' . $this->namespace;
 	}
 
+	/**
+	 * Returns transient key array
+	 *
+	 * @return array
+	 *
+	 * @visibility protected
+	 */
 	protected function get_transient_keys(): array {
-		return get_option( 'transient-group-' . $this->get_transient_key(), array() );
+		return get_option( $this->get_transient_group_key(), array() );
 	}
 
-	protected function add_transient_keys( string $key ): void {
+	/**
+	 * Returns a transient group key
+	 *
+	 * @return string
+	 *
+	 * @visibility private
+	 */
+	private function get_transient_group_key(): string {
+		return 'transient-group-' . $this->get_transient_key();
+	}
+
+	/**
+	 * Add a single transient key to transient group
+	 *
+	 * @param string $key The key to add.
+	 *
+	 * @visibility protected
+	 */
+	protected function add_transient_key_to_group( string $key ): void {
 		$keys   = $this->get_transient_keys();
 		$keys[] = $key;
 		$keys   = array_unique( $keys );
 
-		update_option( 'transient-group-' . $this->get_transient_key(), $keys );
-
+		update_option( $this->get_transient_group_key(), $keys );
 	}
 
-	protected function delete_transient_keys(): void {
-		delete_option( 'transient-group-' . $this->get_transient_key() );
+	/**
+	 * Remove a single transient
+	 *
+	 * @param string $key The key to remove.
+	 *
+	 * @visibility protected
+	 */
+	protected function remove_single_transient( string $key ): void {
+		$keys = $this->get_transient_keys();
+		$keys = array_flip( $keys );
+		unset( $keys[ $key ] );
+		$keys = array_keys( $keys );
+
+		delete_transient( $key );
+		update_option( $this->get_transient_group_key(), $keys );
 	}
 
+	/**
+	 * Remove all transient
+	 */
+	public function remove_all_transients(): void {
+		foreach ( $this->get_transient_keys() as $key ) {
+			delete_transient( $key );
+		}
+
+		delete_option( $this->get_transient_group_key() );
+	}
+
+	/**
+	 * Retrieves the item's schema, conforming to JSON Schema.
+	 *
+	 * @return array Item schema data.
+	 */
 	public function get_item_schema() {
 		$schema_name = '';
 
@@ -98,12 +209,17 @@ abstract class V1 extends WP_REST_Controller {
 		} else {
 			$called_class = explode( '\\', get_called_class() );
 			$schema_name  = strtolower( array_pop( $called_class ) );
+			$schema_name  = str_replace( '_endpoint', '', $schema_name );
 		}
 
 		if ( ! $schema_name ) {
 			return parent::get_item_schema();
 		}
 
-		return Response_Schema::from_file( $schema_name . '.json' )->get_json();
+		$class_name = '\\Sujin\\Wordpress\\Theme\\Sujin\\Rest_Endpoints\\Items\\' . $schema_name;
+		$json_path  = call_user_func( $class_name . '::get_item_json_path' );
+		$json       = call_user_func( $class_name . '::from_file', $json_path );
+
+		return $json->get_json();
 	}
 }

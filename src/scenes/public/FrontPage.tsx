@@ -11,21 +11,24 @@ import Page from 'scenes/public/Page';
 */
 
 import { useBackground, useFrontPage } from 'store/hooks/global';
+import { GlobalVariable } from 'store/items/global-variable'
 
 export const FrontPage = (): JSX.Element => {
   useBackground();
   useFrontPage();
 
+  const globalVars = GlobalVariable.getInstance(window.sujin)
+
   const {
     frontPage,
     showOnFront,
-  } = window.sujin;
+  } = globalVars;
 
   if (frontPage === 'front-page') {
     return (<Fragment />);
   }
 
-  if (showOnFront === 'posts') {
+  if (showOnFront === 'post') {
     return (
       <div className="stretched-background hide-footer">
         posts

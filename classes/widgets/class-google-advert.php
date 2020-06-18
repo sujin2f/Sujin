@@ -1,8 +1,8 @@
 <?php
 /**
- * Flickr Widget
+ * Google Advert Widget
  *
- * @project Sujin
+ * @package sujinc.com
  * @since   9.0.0
  * @author  Sujin 수진 Choi http://www.sujinc.com/
  */
@@ -11,30 +11,45 @@ namespace Sujin\Wordpress\Theme\Sujin\Widgets;
 
 use WP_Widget;
 use Sujin\Wordpress\WP_Express\Helpers\Trait_Singleton;
-use Sujin\Wordpress\WP_Express\Helpers\Transient;
-use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items\Flickr as Flickr_Item;
 
-class Advert extends WP_Widget {
+/**
+ * Google Advert Widget
+ */
+class Google_Advert extends WP_Widget {
 	use Trait_Singleton;
 
-	protected const CACHE_TTL = 12 * HOUR_IN_SECONDS;
-
+	/**
+	 * Constructor
+	 *
+	 * @visibility protected
+	 */
 	protected function __construct() {
 		parent::__construct(
-			'advert',  // Base ID
-			'Advert'   // Name
+			'google-advert',  // Base ID.
+			'Google Advert'   // Name.
 		);
 	}
 
+	/**
+	 * Frontend
+	 *
+	 * @param array $args Arguments.
+	 * @param array $_    Instance.
+	 */
 	public function widget( $args, $_ ) {
 		return array(
 			'client'     => $args['client'],
 			'slot'       => $args['slot'],
 			'responsive' => $args['responsive'],
-			'widget'     => 'advert',
+			'widget'     => 'google-advert',
 		);
 	}
 
+	/**
+	 * Backend
+	 *
+	 * @param array $instance instance.
+	 */
 	public function form( $instance ) {
 		$client     = $instance['client'] ?? '';
 		$slot       = $instance['slot'] ?? '';
@@ -78,6 +93,12 @@ class Advert extends WP_Widget {
 		<?php
 	}
 
+	/**
+	 * Backend -- update
+	 *
+	 * @param array $new_instance instance.
+	 * @param array $old_instance instance.
+	 */
 	public function update( $new_instance, $old_instance ) {
 		return array(
 			'client'     => $new_instance['client'],

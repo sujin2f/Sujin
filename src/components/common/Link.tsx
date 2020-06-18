@@ -6,6 +6,7 @@
 import React from 'react'
 import { Link as ReactLink } from 'react-router-dom'
 
+import { GlobalVariable } from 'store/items/global-variable'
 
 interface Props {
   children?: string|JSX.Element|JSX.Element[]
@@ -27,7 +28,8 @@ export const Link = (props: Props): JSX.Element => {
     title,
   } = props
 
-  const to = props.to.replace(window.sujin.homeUrl, '')
+  const globalVars = GlobalVariable.getInstance(window.sujin)
+  const to = props.to.replace(globalVars.url, '')
 
   return (
     <ReactLink

@@ -1,8 +1,8 @@
 <?php
 /**
- * Option Modifier
+ * Theme Options
  *
- * @project Sujin
+ * @package sujinc.com
  * @since   9.0.0
  * @author  Sujin 수진 Choi http://www.sujinc.com/
  */
@@ -18,10 +18,20 @@ use Sujin\Wordpress\WP_Express\Fields\Settings\{
 	Checkbox,
 };
 
-class Option {
+/**
+ * Theme Options
+ */
+class Options {
 	use Trait_Singleton;
 
-	function __construct() {
+	/**
+	 * Constructor
+	 * - Facebook OG
+	 * - Frontpage header and footer visibility
+	 *
+	 * @visibility protected
+	 */
+	protected function __construct() {
 		Settings_Section::get_instance( 'Facebook Open Graph' )
 			->append( Attachment::get_instance( 'Default Image' ) )
 			->append( Input::get_instance( 'App ID' ) );
