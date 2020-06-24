@@ -38,7 +38,7 @@ class Recent_Post extends WP_Widget {
 	 */
 	public function widget( $args, $_ ) {
 		return array(
-			'title'  => $args['title'],
+			'title'  => $args['title'] ?? null,
 			'small'  => $args['small'] ?? '12',
 			'medium' => $args['medium'] ?? '6',
 			'large'  => $args['large'] ?? '4',
@@ -50,6 +50,7 @@ class Recent_Post extends WP_Widget {
 	 * Backend
 	 *
 	 * @param array $instance instance.
+	 * @codeCoverageIgnore
 	 */
 	public function form( $instance ) {
 		$title  = $instance['title'] ?? '';
@@ -113,6 +114,7 @@ class Recent_Post extends WP_Widget {
 	 *
 	 * @param array $new_instance instance.
 	 * @param array $old_instance instance.
+	 * @codeCoverageIgnore
 	 */
 	public function update( $new_instance, $old_instance ) {
 		return array(

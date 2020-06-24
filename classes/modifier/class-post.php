@@ -21,6 +21,8 @@ use Sujin\Wordpress\WP_Express\Fields\Post_Meta\{
 
 /**
  * Modifying Post Type
+ *
+ * @codeCoverageIgnore
  */
 class Post {
 	use Trait_Singleton;

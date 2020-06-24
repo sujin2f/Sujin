@@ -16,6 +16,8 @@ use Sujin\Wordpress\WP_Express\Fields\Post_Meta\Attachment;
 
 /**
  * Gallery Post Type
+ *
+ * @codeCoverageIgnore
  */
 class Gallery {
 	use Trait_Singleton;

@@ -17,6 +17,8 @@ use Sujin\Wordpress\WP_Express\Fields\Term_Meta\Attachment;
 
 /**
  * Modifying Taxonomies
+ *
+ * @codeCoverageIgnore
  */
 class Taxonomies {
 	use Trait_Singleton;

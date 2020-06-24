@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! defined( 'SUJIN_DEV_MODE' ) ) {
-	define( 'SUJIN_DEV_MODE', true );
+	define( 'SUJIN_DEV_MODE', false );
 }
 
 require_once get_stylesheet_directory() . '/vendor/sujin/wp-express/autoload.php';

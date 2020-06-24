@@ -31,7 +31,7 @@ class Http_Request {
 		}
 
 		$file = self::JSON_LOCATION[ $url ];
-		$path = dirname( __FILE__ ) . '/data/' . $file;
+		$path = dirname( __FILE__ ) . '/data/json/' . $file;
 
 		if ( ! file_exists( $path ) ) {
 			return $this->get_error( 404 );

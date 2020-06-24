@@ -6,7 +6,7 @@
 # dependencies
 **/node_modules
 
-# Mac
+# MacOS
 **/.DS_Store
 
 # Build

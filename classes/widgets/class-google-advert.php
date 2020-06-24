@@ -38,9 +38,9 @@ class Google_Advert extends WP_Widget {
 	 */
 	public function widget( $args, $_ ) {
 		return array(
-			'client'     => $args['client'],
-			'slot'       => $args['slot'],
-			'responsive' => $args['responsive'],
+			'client'     => $args['client'] ?? null,
+			'slot'       => $args['slot'] ?? null,
+			'responsive' => $args['responsive'] ?? null,
 			'widget'     => 'google-advert',
 		);
 	}
@@ -49,6 +49,7 @@ class Google_Advert extends WP_Widget {
 	 * Backend
 	 *
 	 * @param array $instance instance.
+	 * @codeCoverageIgnore
 	 */
 	public function form( $instance ) {
 		$client     = $instance['client'] ?? '';
@@ -98,6 +99,7 @@ class Google_Advert extends WP_Widget {
 	 *
 	 * @param array $new_instance instance.
 	 * @param array $old_instance instance.
+	 * @codeCoverageIgnore
 	 */
 	public function update( $new_instance, $old_instance ) {
 		return array(

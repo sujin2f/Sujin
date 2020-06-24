@@ -95,32 +95,6 @@ abstract class V1 extends WP_REST_Controller {
 	}
 
 	/**
-	 * Checks if a given response has access to get.
-	 *
-	 * @param  WP_Error|WP_HTTP_Requests_Response|WP_REST_Response|array $response Response to be checkd.
-	 * @return bool
-	 *
-	 * @visibility protected
-	 */
-	protected function is_success( $response ): bool {
-		if ( is_wp_error( $response ) ) {
-			return false;
-		}
-
-		if ( $response instanceof WP_HTTP_Requests_Response ) {
-			return 400 <= $response->get_status();
-		}
-
-		if ( $response instanceof WP_REST_Response ) {
-			return ! $response->is_error();
-		}
-
-		$response = json_decode( wp_json_encode( $response ), true );
-
-		return $response['response'] && $response['response']['code'] && 200 === $response['response']['code'];
-	}
-
-	/**
 	 * Returns a single transient key
 	 *
 	 * @return string

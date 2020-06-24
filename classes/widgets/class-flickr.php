@@ -49,8 +49,12 @@ class Flickr extends WP_Widget {
 			return $transient->items;
 		}
 
+		if ( ! is_array( $args ) ) {
+			return null;
+		}
+
 		// Get URL.
-		$url = $this->get_request_url( $args['id'] );
+		$url = $this->get_request_url( $args['id'] ?? null );
 
 		if ( is_null( $url ) ) {
 			return null;
@@ -82,7 +86,7 @@ class Flickr extends WP_Widget {
 		$items = array_slice( $items, 0, 12 );
 		$items = array(
 			'widget' => 'flickr',
-			'title'  => $args['title'],
+			'title'  => $args['title'] ?? null,
 			'items'  => $items,
 		);
 
@@ -96,6 +100,7 @@ class Flickr extends WP_Widget {
 	 * Backend
 	 *
 	 * @param array $instance Instance.
+	 * @codeCoverageIgnore
 	 */
 	public function form( $instance ) {
 		$title = $instance['title'] ?? '';
@@ -133,6 +138,7 @@ class Flickr extends WP_Widget {
 	 *
 	 * @param array $new_instance instance.
 	 * @param array $old_instance instance.
+	 * @codeCoverageIgnore
 	 */
 	public function update( $new_instance, $old_instance ) {
 		delete_transient( $this->get_transient_key() );

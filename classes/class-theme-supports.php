@@ -13,6 +13,8 @@ use Sujin\Wordpress\WP_Express\Helpers\Trait_Singleton;
 
 /**
  * Class : Theme_Supports API
+ *
+ * @codeCoverageIgnore
  */
 class Theme_Supports {
 	use Trait_Singleton;

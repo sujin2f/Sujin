@@ -40,6 +40,8 @@ use Sujin\Wordpress\WP_Express\Helpers\Trait_Singleton;
 
 /**
  * Entry Point
+ *
+ * @codeCoverageIgnore
  */
 class Bootstrap {
 	use Trait_Singleton;

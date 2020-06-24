@@ -20,6 +20,8 @@ use Sujin\Wordpress\WP_Express\Fields\Settings\{
 
 /**
  * Theme Options
+ *
+ * @codeCoverageIgnore
  */
 class Options {
 	use Trait_Singleton;

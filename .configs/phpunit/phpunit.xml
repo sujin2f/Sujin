@@ -16,11 +16,11 @@
 		</testsuite>
 	</testsuites>
 	<php>
-		<env name="WP_PHPUNIT__TESTS_CONFIG" value=".configs/phpunit/wp-config.php"/>
+		<env name="WP_PHPUNIT__TESTS_CONFIG" value=".configs/phpunit/wp-config.php" />
 		<ini name="error_reporting" value="E_ALL" />
 	</php>
 	<logging>
-		<log type="coverage-clover" target="../../logs/clover-phpunit.xml"/>
+		<log type="coverage-html" target="../../coverage/phpunit" lowUpperBound="35" highLowerBound="80" />
 	</logging>
 
 	<filter>

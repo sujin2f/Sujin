@@ -84,6 +84,8 @@ class Gallery {
 	 * @return string
 	 */
 	public function do_shortcode_carousel( $atts ): string {
+		_deprecated_function( __FUNCTION__, '9.0.0', '[gallery id="" /]' );
+
 		if ( ! is_array( $atts ) || empty( $atts ) ) {
 			return '';
 		}

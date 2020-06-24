@@ -1,13 +1,31 @@
 <?php
-abstract class Test_Case extends WP_UnitTestCase {
-	protected static $home_dir = '';
-	protected static $test_dir = '';
-
+abstract class Test_Case_Theme_Sujin extends WP_UnitTestCase {
 	/**
-	 * Register the base theme and classes from the library
+	 * Register the base data
 	 */
-	public function setUp() {
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
+		require_once( SJ_PHPUNIT__DIR . '/data-storage/data/php/class-data-attachment.php' );
+		require_once( SJ_PHPUNIT__DIR . '/data-storage/data/php/class-data-flickr.php' );
+		require_once( SJ_PHPUNIT__DIR . '/data-storage/data/php/class-data-gallery.php' );
+		require_once( SJ_PHPUNIT__DIR . '/data-storage/data/php/class-data-nav-menu.php' );
+		require_once( SJ_PHPUNIT__DIR . '/data-storage/data/php/class-data-post.php' );
+		require_once( SJ_PHPUNIT__DIR . '/data-storage/data/php/class-data-taxonomy.php' );
+	}
+
+	public function setUp(): void {
 		parent::setUp();
+		add_filter( 'stylesheet_directory', array( $this, 'stylesheet_directory' ) );
+	}
+
+	public function tearDown(): void {
+		parent::tearDown();
+		remove_filter( 'stylesheet_directory', array( $this, 'stylesheet_directory' ) );
+	}
+
+	public function stylesheet_directory(): string {
+		return SJ_BASE__DIR;
 	}
 
 	protected function call_private_method( $obj, string $name, array $args = array() ) {
@@ -54,7 +72,7 @@ abstract class Test_Case extends WP_UnitTestCase {
 		return get_theme_root_uri( 'twentynineteen' ) . '/twentynineteen';
 	}
 
-	protected function mock_request() {
+	public function mock_request() {
 		require_once( SJ_PHPUNIT__DIR . '/data-storage/class-http-request.php' );
 		Http_Request::get_instance();
 	}
