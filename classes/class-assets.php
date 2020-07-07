@@ -30,30 +30,36 @@ use WP_Query;
 class Assets {
 	use Trait_Singleton;
 
-	private const JQUERY_CDN = 'http://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js';
-
 	/**
 	 * Constructor
 	 *
 	 * @visibility protected
 	 */
 	protected function __construct() {
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-		add_filter( 'upload_mimes', array( $this, 'upload_mimes' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'dequeue_scripts' ) );
+		add_filter( 'upload_mimes', array( $this, 'allow_svg_to_upload_mimes' ) );
 
-		if ( ! is_admin() && false === strpos( $_SERVER['REQUEST_URI'], '/wp-json/' ) ) {
-			Google_Font_Loader::get_instance()
-				->append( 'Ubuntu:300,400,500,700' );
-			$this->register_scripts();
+		if ( ! $this->is_frontend() ) {
+			return;
 		}
+
+		Google_Font_Loader::get_instance()
+			->append( 'Ubuntu:300,400,500,700' );
+		$this->enqueue_scripts();
 	}
 
-	public function upload_mimes( array $mime_types ): array {
+	/**
+	 * Allow SVG format to the WP attachement
+	 *
+	 * @param  array $mime_types Mime Types.
+	 * @return array
+	 */
+	public function allow_svg_to_upload_mimes( array $mime_types ): array {
 		$mime_types['svg'] = 'image/svg+xml';
 		return $mime_types;
 	}
 
-	public function register_scripts(): void {
+	public function enqueue_scripts(): void {
 		$asset    = Ex_Assets::get_instance( null, get_stylesheet_directory_uri() );
 		$manifest = get_stylesheet_directory_uri() . '/dist/asset-manifest.json';
 
@@ -255,16 +261,40 @@ class Assets {
 		return '/tag/' . $term->slug;
 	}
 
-	public function enqueue_scripts(): void {
-		if ( ! is_admin() && 'wp-login.php' !== $GLOBALS['pagenow'] ) {
-			wp_deregister_script( 'jquery' );
-		}
-
-		if ( is_admin() ) {
+	/**
+	 * Remove unnecessary scripts
+	 */
+	public function dequeue_scripts(): void {
+		if ( ! $this->is_frontend() ) {
 			return;
 		}
 
-		wp_dequeue_style( 'wp-block-library' );
-		wp_dequeue_style( 'wp-block-library' );
+		wp_deregister_script( 'jquery' );
+		wp_deregister_script( 'wp-embed' );
+	}
+
+	/**
+	 * Check the current page is Frontend
+	 *
+	 * @return bool
+	 */
+	private function is_frontend(): bool {
+		if ( is_admin() ) {
+			return false;
+		}
+
+		$request_uri = isset( $_SERVER['REQUEST_URI'] )
+			? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) )
+			: '';
+
+		if ( false !== strpos( wp_unslash( $request_uri ), '/wp-json/' ) ) {
+			return false;
+		}
+
+		if ( false !== strpos( wp_unslash( $request_uri ), 'wp-login.php' ) ) {
+			return false;
+		}
+
+		return true;
 	}
 }
