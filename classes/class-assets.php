@@ -263,7 +263,7 @@ class Assets {
 
 		wp_deregister_script( 'jquery' );
 		wp_deregister_script( 'wp-embed' );
-		wp_deregister_style( 'block-library' );
+		wp_deregister_style( 'wp-block-library' );
 	}
 
 	/**
