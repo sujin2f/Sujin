@@ -20,19 +20,25 @@
   },
   "require": {
     "php": ">=7.1",
-    "sujin/wp-express": "4.0.3"
+    "sujin/wp-express": "dev-master"
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "~3",
     "wp-coding-standards/wpcs": "^1.2",
     "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
     "phpunit/phpunit": "^7",
-    "johnpbloch/wordpress": "5.1.0",
+    "johnpbloch/wordpress": "5.4.0",
     "wp-phpunit/wp-phpunit": "5.1",
     "phpcompatibility/phpcompatibility-wp": "*",
     "phpcompatibility/php-compatibility": "^9.1",
     "php-coveralls/php-coveralls": "^2.1",
     "phpdocumentor/phpdocumentor": "2.*",
     "mikey179/vfsstream": "^1.6"
-  }
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/sujin2f/wp_express/"
+    }
+  ]
 }

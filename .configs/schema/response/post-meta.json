@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "post meta",
+  "type": "object",
+  "properties": {
+    "background": {
+      "$ref": "image.json"
+    },
+    "icon": {
+      "$ref": "image.json"
+    },
+    "list": {
+      "$ref": "image.json"
+    },
+    "title": {
+      "$ref": "image.json"
+    },
+    "thumbnail": {
+      "$ref": "image.json"
+    },
+    "backgroundColor": {
+      "type": "string",
+      "pattern": "^#[0-9A-Z]{6}$"
+    },
+    "useBackgroundColor": {
+      "type": "boolean"
+    }
+  },
+  "readonly": true,
+  "required": [
+    "background",
+    "icon",
+    "list",
+    "title",
+    "thumbnail",
+    "backgroundColor",
+    "useBackgroundColor"
+  ],
+  "additionalProperties": false
+}

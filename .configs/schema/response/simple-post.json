@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "simple post",
+  "type": "object",
+  "properties": {
+    "id": {
+      "description": "Unique ID",
+      "type": "number",
+      "readonly": true
+    },
+    "slug": {
+      "description": "Post slug",
+      "type": "string",
+      "readonly": true
+    },
+    "title": {
+      "description": "Title",
+      "type": "string",
+      "readonly": true
+    },
+    "excerpt": {
+      "description": "Excerpt",
+      "type": "string",
+      "readonly": true
+    },
+    "date": {
+      "description": "Date",
+      "type": "string",
+      "format": "date",
+      "readonly": true
+    },
+    "link": {
+      "description": "Link URL",
+      "type": "string",
+      "format": "uri",
+      "readonly": true
+    },
+    "tags": {
+      "description": "Tags",
+      "type": "array",
+      "items": {
+        "$ref": "term.json"
+      },
+      "readonly": true
+    },
+    "thumbnail": {
+      "$ref": "image.json"
+    },
+    "meta": {
+      "$ref": "post-meta.json"
+    }
+  },
+  "required": [
+    "id",
+    "slug",
+    "title",
+    "excerpt",
+    "date",
+    "link",
+    "tags",
+    "thumbnail",
+    "meta"
+  ],
+  "additionalProperties":false
+}

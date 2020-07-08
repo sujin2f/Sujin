@@ -1,0 +1,306 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "Global Variable",
+  "type": "object",
+  "properties": {
+    "title": {
+      "description": "Site Title",
+      "type": "string",
+      "readonly": true
+    },
+    "description": {
+      "description": "Site Description",
+      "type": "string",
+      "readonly": true
+    },
+    "url": {
+      "description": "Site main page URL",
+      "type": "string",
+      "format": "uri",
+      "readonly": true
+    },
+    "thumbnail": {
+      "description": "Default thumbnail",
+      "type": "string",
+      "format": "uri",
+      "readonly": true
+    },
+    "hideFrontHeader": {
+      "description": "Indicator whether header hidden on front page",
+      "type": "boolean",
+      "readonly": true
+    },
+    "hideFrontFooter": {
+      "description": "Indicator whether footer hidden on front page",
+      "type": "boolean",
+      "readonly": true
+    },
+    "frontPage": {
+      "description": "Frontpage post or page slug",
+      "type": "string",
+      "readonly": true
+    },
+    "showOnFront": {
+      "description": "What shows on front page",
+      "type": "string",
+      "enum": [
+        "post",
+        "page"
+      ],
+      "readonly": true
+    },
+    "widgets": {
+      "description": "Sidebars",
+      "type": "object",
+      "properties": {
+        "siderail": {
+          "description": "Siderail Widgets",
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "#/definitions/recent-post"
+              },
+              {
+                "$ref": "#/definitions/google-advert"
+              },
+              {
+                "$ref": "#/definitions/flickr"
+              },
+              {
+                "$ref": "#/definitions/tag-cloud"
+              }
+            ]
+          }
+        },
+        "footer": {
+          "description": "Footer Widgets",
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "#/definitions/recent-post"
+              },
+              {
+                "$ref": "#/definitions/google-advert"
+              },
+              {
+                "$ref": "#/definitions/flickr"
+              },
+              {
+                "$ref": "#/definitions/tag-cloud"
+              }
+            ]
+          }
+        }
+      },
+      "required": ["siderail", "footer"],
+      "additionalProperties":false
+    },
+    "isProd": {
+      "description": "Production indicator",
+      "type": "boolean",
+      "readonly": true
+    }
+  },
+  "definitions": {
+    "recent-post": {
+      "title": "Recent Post Widget",
+      "type": "object",
+      "properties": {
+        "title": {
+          "$ref": "#/definitions/widgetTitle"
+        },
+        "widget": {
+          "$ref": "#/definitions/widgetType"
+        },
+        "key": {
+          "$ref": "#/definitions/widgetKey"
+        },
+        "small": {
+          "description": "Small size column key",
+          "type": "number",
+          "readonly": true
+        },
+        "medium": {
+          "description": "Medium size column key",
+          "type": "number",
+          "readonly": true
+        },
+        "large": {
+          "description": "Large size column key",
+          "type": "number",
+          "readonly": true
+        }
+      },
+      "required": ["title", "widget", "key", "small", "medium", "large"],
+      "additionalProperties":false
+    },
+    "google-advert": {
+      "title": "Google Advert Widget",
+      "type": "object",
+      "properties": {
+        "title": {
+          "$ref": "#/definitions/widgetTitle"
+        },
+        "widget": {
+          "$ref": "#/definitions/widgetType"
+        },
+        "key": {
+          "$ref": "#/definitions/widgetKey"
+        },
+        "client": {
+          "description": "Client value",
+          "type": "string",
+          "readonly": true
+        },
+        "slot": {
+          "description": "Slot value",
+          "type": "string",
+          "readonly": true
+        },
+        "responsive": {
+          "description": "Responsive Mode",
+          "type": "boolean",
+          "readonly": true
+        }
+      },
+      "required": ["title", "widget", "key", "client", "slot", "responsive"],
+      "additionalProperties":false
+    },
+    "flickr": {
+      "title": "Flickr Widget",
+      "type": "object",
+      "properties": {
+        "title": {
+          "$ref": "#/definitions/widgetTitle"
+        },
+        "widget": {
+          "$ref": "#/definitions/widgetType"
+        },
+        "key": {
+          "$ref": "#/definitions/widgetKey"
+        },
+        "items": {
+          "description": "Flickr Items",
+          "type": "array",
+          "items": {
+            "title": "Flickr Items",
+            "type": "object",
+            "properties": {
+              "title": {
+                "description": "Image title",
+                "type": "string",
+                "readonly": true
+              },
+              "link": {
+                "description": "Link destination",
+                "type": "string",
+                "format": "uri",
+                "readonly": true
+              },
+              "media": {
+                "title": "Images by sizes",
+                "type": "object",
+                "properties": {
+                  "origin": {
+                    "description": "Full size image",
+                    "type": "string",
+                    "format": "uri",
+                    "readonly": true
+                  },
+                  "s": {
+                    "description": "Small size, trimmed image",
+                    "type": "string",
+                    "format": "uri",
+                    "readonly": true
+                  },
+                  "t": {
+                    "description": "Small size, untrimmed image",
+                    "type": "string",
+                    "format": "uri",
+                    "readonly": true
+                  },
+                  "m": {
+                    "description": "Medium size, untrimmed image",
+                    "type": "string",
+                    "format": "uri",
+                    "readonly": true
+                  },
+                  "b": {
+                    "description": "Big size, untrimmed image",
+                    "type": "string",
+                    "format": "uri",
+                    "readonly": true
+                  }
+                },
+                "required": ["origin", "s", "t", "m", "b"],
+                "additionalProperties":false
+              }
+            },
+            "required": ["title", "link", "media"],
+            "additionalProperties":false
+          },
+          "readonly": true
+        }
+      },
+      "required": ["title", "widget", "key", "items"],
+      "additionalProperties":false
+    },
+    "tag-cloud": {
+      "title": "Tag Cloud Widget",
+      "type": "object",
+      "properties": {
+        "title": {
+          "$ref": "#/definitions/widgetTitle"
+        },
+        "widget": {
+          "$ref": "#/definitions/widgetType"
+        },
+        "key": {
+          "$ref": "#/definitions/widgetKey"
+        },
+        "html": {
+          "description": "Tag cloud HTML",
+          "type": "string",
+          "readonly": true
+        }
+      },
+      "required": ["title", "widget", "key", "html"],
+      "additionalProperties":false
+    },
+    "widgetType": {
+      "description": "Widget Type",
+      "type": "string",
+      "enum": [
+        "recent-post",
+        "google-advert",
+        "flickr",
+        "tag-cloud"
+      ],
+      "readonly": true
+    },
+    "widgetTitle": {
+      "description": "Widget Title",
+      "type": "string",
+      "readonly": true
+    },
+    "widgetKey": {
+      "description": "Large size column key",
+      "type": "number",
+      "readonly": true
+    }
+  },
+  "required": [
+    "title",
+    "description",
+    "url",
+    "thumbnail",
+    "hideFrontHeader",
+    "hideFrontFooter",
+    "frontPage",
+    "showOnFront",
+    "widgets"
+  ],
+  "additionalProperties":false
+}

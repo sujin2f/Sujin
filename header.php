@@ -1,31 +1,39 @@
 <?php
+/**
+ * WordPress header template.
+ *
+ * @package sujinc.com
+ * @since   1.0.0
+ * @author  Sujin 수진 Choi http://www.sujinc.com/
+ */
+
 use Sujin\Wordpress\WP_Express\Fields\Post_Meta\Attachment as Meta_Attachment;
 use Sujin\Wordpress\WP_Express\Fields\Term_Meta\Attachment as Term_Meta_Attachment;
 use Sujin\Wordpress\WP_Express\Fields\Settings\Attachment as Option_Attachment;
 
 global $wp;
 
-$title       = '';
+$html_title  = '';
 $description = '';
 $url         = home_url( $wp->request );
 $image       = Option_Attachment::get_instance( 'Open Graph (Default Image)' )->get();
 
 if ( is_home() ) {
-	$title       = get_bloginfo( 'name' );
+	$html_title  = get_bloginfo( 'name' );
 	$description = get_bloginfo( 'description' );
 } elseif ( is_single() ) {
-	$title       = get_the_title();
+	$html_title  = get_the_title();
 	$description = get_the_excerpt();
 	$image       = get_the_post_thumbnail_url() ?: $image;
 	$image       = Meta_Attachment::get_instance( 'List' )->get() ?: $image;
 } elseif ( is_archive() ) {
-	$title       = 'Archive: ' . single_term_title( '', false );
+	$html_title  = 'Archive: ' . single_term_title( '', false );
 	$description = get_the_archive_description();
 	$image       = Term_Meta_Attachment::get_instance( 'Thumbnail' )->get() ?: $image;
 } elseif ( is_search() ) {
-	$title = 'Search Results: ' . get_query_var( 's' );
+	$html_title = 'Search Results: ' . get_query_var( 's' );
 } elseif ( is_404() ) {
-	$title = 'Not Found';
+	$html_title = 'Not Found';
 }
 ?>
 <!DOCTYPE html>
@@ -38,9 +46,9 @@ if ( is_home() ) {
 
 		<?php wp_head(); ?>
 
-		<link rel="icon" type="image/png" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/favicon-32x32.png" sizes="32x32" />
-		<link rel="icon" type="image/png" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/favicon-32x32.png" sizes="16x16" />
-		<link rel="shortcut icon" type="image/png" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/favicon.png" />
+		<link rel="icon" type="image/png" href="<?php echo esc_url( get_stylesheet_directory_uri() ); ?>/assets/images/favicon-32x32.png" sizes="32x32" />
+		<link rel="icon" type="image/png" href="<?php echo esc_url( get_stylesheet_directory_uri() ); ?>/assets/images/favicon-32x32.png" sizes="16x16" />
+		<link rel="shortcut icon" type="image/png" href="<?php echo esc_url( get_stylesheet_directory_uri() ); ?>/assets/images/favicon.png" />
 
 		<meta property="og:type" content="website" />
 		<meta property="og:site_name" content="Sujin" />
@@ -67,4 +75,4 @@ if ( is_home() ) {
 		></script>
 	</head>
 
-	<body class="<?php echo implode( ' ', get_body_class() ); ?>">
+	<body class="<?php echo esc_attr( implode( ' ', get_body_class() ) ); ?>">

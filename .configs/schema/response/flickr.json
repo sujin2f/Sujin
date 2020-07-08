@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "flickr",
+  "type": "object",
+  "properties": {
+    "title": {
+      "description": "The title of the photo.",
+      "type": "string",
+      "readonly": true
+    },
+    "link": {
+      "description": "Flickr URL for the image",
+      "type": "string",
+      "format": "uri",
+      "readonly": true
+    },
+    "media": {
+      "description": "Image URLs",
+      "type": "object",
+      "properties": {
+        "origin": {
+          "type": "string",
+          "format": "uri"
+        },
+        "s": {
+          "type": "string",
+          "format": "uri"
+        },
+        "t": {
+          "type": "string",
+          "format": "uri"
+        },
+        "b": {
+          "type": "string",
+          "format": "uri"
+        },
+        "m": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "readonly": true,
+      "additionalProperties": false,
+      "required": ["origin", "s", "t", "b", "m"]
+    }
+  },
+  "additionalProperties": false,
+  "required": ["title", "link", "media"]
+}
