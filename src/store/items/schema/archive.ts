@@ -119,18 +119,7 @@ export interface SimplePost {
    */
   tags: Term[]
   thumbnail: Image
-  /**
-   * Meta data
-   */
-  meta: {
-    background: Image
-    icon: Image
-    list: Image
-    title: Image
-    thumbnail: Image
-    backgroundColor: string
-    useBackgroundColor: boolean
-  }
+  meta: PostMeta
 }
 export interface Term {
   /**
@@ -145,4 +134,13 @@ export interface Term {
    * Term ID
    */
   termId: number
+}
+export interface PostMeta {
+  background: Image
+  icon: Image
+  list: Image
+  title: Image
+  thumbnail: Image
+  backgroundColor: string
+  useBackgroundColor: boolean
 }

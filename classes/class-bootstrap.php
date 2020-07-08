@@ -58,6 +58,7 @@ class Bootstrap {
 		add_filter( 'the_excerpt', array( $this, 'the_excerpt' ) );
 		add_action( 'widgets_init', array( $this, 'register_sidebars' ) );
 		add_action( 'widgets_init', array( $this, 'register_widgets' ) );
+		add_filter( 'xmlrpc_enabled', '__return_false' );
 	}
 
 	/**

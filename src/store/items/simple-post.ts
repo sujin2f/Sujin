@@ -2,6 +2,7 @@
 
 import { Image } from 'store/items/image';
 import { Term } from 'store/items/term';
+import { PostMeta } from 'store/items/schema/post-meta';
 
 import { SimplePost as TypeSimplePost } from 'store/items/schema/simple-post';
 
@@ -35,18 +36,7 @@ export class SimplePost implements TypeSimplePost {
    */
   tags: Term[]
   thumbnail: Image
-  /**
-   * Meta data
-   */
-  meta: {
-    background: Image
-    icon: Image
-    list: Image
-    title: Image
-    thumbnail: Image
-    backgroundColor: string
-    useBackgroundColor: boolean
-  }
+  meta: PostMeta
 
   constructor(data: any) {
     this.id = data.id;

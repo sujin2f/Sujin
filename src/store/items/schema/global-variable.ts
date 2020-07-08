@@ -64,6 +64,10 @@ export interface GlobalVariable {
      */
     footer: (RecentPostWidget | GoogleAdvertWidget | FlickrWidget | TagCloudWidget)[]
   }
+  /**
+   * Production indicator
+   */
+  isProd?: boolean
 }
 export interface RecentPostWidget {
   title: WidgetTitle

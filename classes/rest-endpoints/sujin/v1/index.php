@@ -11,9 +11,7 @@ namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin;
 
 // phpcs:disable Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
 use WP_REST_Controller,
-	WP_REST_Response,
-	WP_REST_Request,
-    WP_HTTP_Requests_Response;
+	WP_REST_Request;
 // phpcs:enable Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed
 
 if ( ! defined( 'ABSPATH' ) ) {

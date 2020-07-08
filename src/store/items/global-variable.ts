@@ -141,6 +141,10 @@ export class GlobalVariable implements GlobalVariableType {
      */
     footer: (RecentPostWidget | GoogleAdvertWidget | FlickrWidget | TagCloudWidget)[]
   }
+  /**
+   * Production indicator
+   */
+  isProd?: boolean
 
   private static instance: GlobalVariable;
   private constructor(data: any) {
@@ -152,6 +156,7 @@ export class GlobalVariable implements GlobalVariableType {
     this.hideFrontFooter = !!data.hideFrontFooter
     this.frontPage = data.frontPage
     this.showOnFront = data.showOnFront
+    this.isProd = data.isProd
 
     const siderail = data.widgets && data.widgets.siderail
       ? this.getWidgetsArray(data.widgets.siderail)

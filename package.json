@@ -5,17 +5,21 @@
   "dependencies": {
     "axios": "^0.19.2",
     "foundation-sites": "^6.6.3",
+    "generate-password": "^1.5.1",
     "node-sass": "^4.13.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
+    "readline-sync": "^1.4.10",
     "typescript": "~3.7.2",
     "webpack": "^4.42.0"
   },
   "scripts": {
     "arson": "yarn test:once && yarn lint && yarn phpunit && yarn phpcs",
-    "build": "NODE_ENV=production react-scripts build & node .configs/scripts/php-env.js production",
+    "build": "node .configs/scripts/env.js prod & NODE_ENV=production webpack",
+    "docker:dev": "node .configs/scripts/docker-init.js dev",
+    "docker:prod": "node .configs/scripts/docker-init.js prod",
     "eject": "react-scripts eject",
     "lint": "tslint 'src/**/*.{ts,tsx,js}'",
     "phpcs": "vendor/bin/phpcs --standard=./.configs/phpcs.xml -s",
@@ -24,7 +28,7 @@
     "run:bundle-analyzer": "NODE_ENV=production webpack-bundle-analyzer coverage/stats.json",
     "run:stats": "NODE_ENV=production webpack --profile --json > coverage/stats.json",
     "schema:build": "node .configs/scripts/build-schema.js",
-    "start": "NODE_ENV=development webpack --watch & node .configs/scripts/php-env.js development",
+    "start": "node .configs/scripts/env.js dev & NODE_ENV=development webpack --watch",
     "test": "react-scripts test --coverage",
     "test:once": "react-scripts test --coverage --watchAll=false"
   },

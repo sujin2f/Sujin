@@ -82,8 +82,11 @@ export const sortText = (text: string, removeEmpty: boolean): string => text
   .join('\n');
 
 export const symbolAlignment = (text: string, symbol: string): string => {
-  const lineInfo = [];
-  const maxPosition = []; // this key is indent
+  const lineInfo: {
+    indent: number,
+    symbol: null|number,
+  }[] = [];
+  const maxPosition: number[] = []; // this key is indent
 
   return text
     .split('\n')
@@ -125,10 +128,11 @@ export const symbolAlignment = (text: string, symbol: string): string => {
         return line;
       }
 
-      const numSpaces = maxPosition[lineInfo[lineNumber].indent] - lineInfo[lineNumber].symbol;
+      const offset = lineInfo[lineNumber].symbol || 0
+      const numSpaces = maxPosition[lineInfo[lineNumber].indent] - offset;
       const spaces = Array(numSpaces).fill(' ').join('');
-      const before = line.substring(0, lineInfo[lineNumber].symbol);
-      const after = line.substring(lineInfo[lineNumber].symbol);
+      const before = line.substring(0, offset);
+      const after = line.substring(offset);
       return `${before}${spaces}${after}`;
     })
     .join('\n');

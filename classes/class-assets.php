@@ -9,26 +9,38 @@
 
 namespace Sujin\Wordpress\Theme\Sujin;
 
-use Sujin\Wordpress\WP_Express\Helpers\Trait_Singleton;
-use Sujin\Wordpress\WP_Express\Google_Font_Loader;
-use Sujin\Wordpress\WP_Express\Helpers\Assets as Ex_Assets;
-use Sujin\Wordpress\WP_Express\Fields\Settings\Attachment as Option_Attachment;
-use Sujin\Wordpress\WP_Express\Fields\Settings\Checkbox as Option_Checkbox;
-use Sujin\Wordpress\Theme\Sujin\Widgets\{
-	Flickr as Flickr_Widget,
-	Google_Advert as Advert_Widget,
-	Recent_Post as Recent_Post_Widget,
+use Sujin\Wordpress\WP_Express\{
+	Fields\Settings\Attachment as Option_Attachment,
+	Fields\Settings\Checkbox as Option_Checkbox,
+	Google_Font_Loader,
+	Helpers\Assets as Ex_Assets,
+	Helpers\Trait_Singleton,
+	Helpers\Transient,
 };
-use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items\Images;
+
+use Sujin\Wordpress\Theme\Sujin\{
+	Rest_Endpoints\Items\Images,
+	Widgets\Flickr as Flickr_Widget,
+	Widgets\Google_Advert as Advert_Widget,
+	Widgets\Recent_Post as Recent_Post_Widget,
+};
 
 use SJ2DTAG_widget;
 use WP_Query;
+use Env_PHP;
 
 /**
  * Initialize Assets
  */
 class Assets {
 	use Trait_Singleton;
+
+	/**
+	 * If the environment is production
+	 *
+	 * @var bool
+	 */
+	private $is_prod = null;
 
 	/**
 	 * Constructor
@@ -45,6 +57,7 @@ class Assets {
 
 		Google_Font_Loader::get_instance()
 			->append( 'Ubuntu:300,400,500,700' );
+
 		$this->enqueue_scripts();
 	}
 
@@ -61,9 +74,10 @@ class Assets {
 
 	public function enqueue_scripts(): void {
 		$asset    = Ex_Assets::get_instance( null, get_stylesheet_directory_uri() );
-		$manifest = get_stylesheet_directory_uri() . '/dist/asset-manifest.json';
+		$location = $this->is_prod() ? 'build' : 'dist';
+		$manifest = get_stylesheet_directory_uri() . '/' . $location . '/asset-manifest.json';
 
-		if ( ! file_exists( get_stylesheet_directory() . '/dist/asset-manifest.json' ) ) {
+		if ( ! file_exists( get_stylesheet_directory() . '/' . $location . '/asset-manifest.json' ) ) {
 			return;
 		}
 
@@ -72,7 +86,7 @@ class Assets {
 
 		foreach ( $manifest['entrypoints'] as $key => $entrypoint ) {
 			$asset
-				->append( 'dist/' . $entrypoint )
+				->append( $location . '/' . $entrypoint )
 				->is_footer( true );
 
 			if ( 0 === $key ) {
@@ -81,55 +95,32 @@ class Assets {
 					->translation( $this->get_translation() );
 			}
 		}
-
-		return;
-
-		if ( $this->is_prod() ) {
-/*
-			$asset
-				->append( 'http://localhost:3000/static/js/bundle.js' )
-				->is_footer( true )
-				->translation_key( 'sujin' )
-				->translation( $this->get_translation() );
-			$asset
-				->append( 'http://localhost:3000/static/js/1.chunk.js' )
-				->is_footer( true );
-			$asset
-				->append( 'http://localhost:3000/static/js/main.chunk.js' )
-				->is_footer( true );
-*/
-		}
-
-/*
-		$manifest = get_stylesheet_directory() . '/dist/manifest.json';
-
-		if ( ! file_exists( $manifest ) ) {
-			return;
-		}
-
-		$manifest = file_get_contents( get_stylesheet_directory() . '/dist/manifest.json' );
-		$manifest = json_decode( $manifest, true );
-
-		$asset = Ex_Assets::get_instance( $manifest );
-
-		if ( $manifest['vendors~app.js'] ?? null ) {
-			$asset
-				->append( 'vendors~app.js' )
-				->is_footer( true );
-		}
-
-		$asset
-			->append( 'app.js' )
-			->is_footer( true )
-			->translation_key( 'sujin' )
-			->translation( $this->get_translation() );
-		$asset->append( 'style.css' );
-*/
 	}
 
-	private function is_prod() {
-		$parsed_url = parse_url( get_site_url() );
-		return 'sujinc.test' === $parsed_url['host'];
+	/**
+	 * Check the environment is production
+	 *
+	 * @return bool
+	 */
+	private function is_prod(): bool {
+		if ( ! is_null( $this->is_prod ) ) {
+			return $this->is_prod;
+		}
+
+		$transient = Transient::get_transient( 'sujin-environment-variables' );
+
+		if ( $transient && ! $transient->is_expired() ) {
+			return $transient->items;
+		}
+
+		require_once dirname( __DIR__ ) . '/.configs/env.php';
+		$env           = new Env_PHP();
+		$this->is_prod = 'production' === $env->data['ENV'];
+
+		$transient = new Transient( $this->is_prod, 12 * HOUR_IN_SECONDS );
+		$transient->set_transient( 'sujin-environment-variables' );
+
+		return $this->is_prod;
 	}
 
 	private function get_translation(): array {
@@ -171,6 +162,7 @@ class Assets {
 			'frontPage'       => $front_page->post->post_name ?? '',
 			'showOnFront'     => $show_on_front,
 			'widgets'         => $this->get_widgets(),
+			'isProd'          => $this->is_prod(),
 		);
 	}
 
@@ -271,6 +263,7 @@ class Assets {
 
 		wp_deregister_script( 'jquery' );
 		wp_deregister_script( 'wp-embed' );
+		wp_deregister_style( 'block-library' );
 	}
 
 	/**

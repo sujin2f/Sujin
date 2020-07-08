@@ -1,6 +1,7 @@
 /** utils/common */
 
 import { GlobalVariable } from 'store/items/global-variable'
+import { Image } from 'store/items/image';
 
 export const isMobile = (): boolean => {
   const userAgent = window.navigator.userAgent || window.navigator.vendor || window.opera;
@@ -13,10 +14,10 @@ export const isMobile = (): boolean => {
 
 // @todo refactor
 export const parseExImage = (
-  meta,
-  thumbnail,
-  desktop: string,
-  mobile: string,
+  meta: Image,
+  thumbnail: Image,
+  desktop: 'large' | 'medium' | 'small' |'tiny',
+  mobile: 'large' | 'medium' | 'small' | 'tiny',
   defaultDesktop: string,
   defaultMobile: string,
 ): string => {
@@ -33,7 +34,12 @@ export const scrollTo = (id = null): void => {
     return;
   }
 
-  const box = document.getElementById(id).getBoundingClientRect();
+  const element = document.getElementById(id || '')
+  if (!element) {
+    return
+  }
+
+  const box = element.getBoundingClientRect();
   const docElem = document.documentElement;
   const { body } = document;
   const clientTop = docElem.clientTop || body.clientTop || 0;
@@ -42,8 +48,8 @@ export const scrollTo = (id = null): void => {
   window.scrollTo(0, (box.top + scrollTop) - clientTop);
 };
 
-export const backgroundImageStyle = (image): { [key: string]: string } => {
-  if (typeof image !== 'string' && !(image instanceof String)) {
+export const backgroundImageStyle = (image: string): { [key: string]: string } => {
+  if (typeof image !== 'string') {
     return {};
   }
   return (image && { backgroundImage: `url(${image})` }) || {};
@@ -51,6 +57,10 @@ export const backgroundImageStyle = (image): { [key: string]: string } => {
 
 export const log = (message: any, level = 'log'): void => {
   const globalVars = GlobalVariable.getInstance(window.sujin)
+
+  if (globalVars.isProd) {
+    return
+  }
 
   switch(level) {
     case 'log':

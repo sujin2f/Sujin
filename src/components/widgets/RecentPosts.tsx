@@ -6,9 +6,9 @@ import { useArchive } from 'store/hooks/archive';
 import { SimplePost as SimplePostType } from 'store/items/simple-post';
 
 interface Props {
-  small: string;
-  medium: string;
-  large: string;
+  small: number;
+  medium: number;
+  large: number;
 }
 
 export const RecentPosts = (props: Props): JSX.Element => {

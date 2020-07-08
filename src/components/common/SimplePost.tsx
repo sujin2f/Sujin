@@ -15,8 +15,8 @@ interface Props {
   item: SimplePostType
   className?: string
   thumbnailKey?: {
-    desktop?: string
-    mobile?: string
+    desktop?: 'large' | 'medium' | 'small' | 'tiny',
+    mobile?: 'large' | 'medium' | 'small' | 'tiny',
   }
 }
 

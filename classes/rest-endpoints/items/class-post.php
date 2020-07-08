@@ -101,8 +101,10 @@ class Post extends Simple_Post {
 	 * @uses   DOMElement
 	 */
 	private function get_toc( string $content ): array {
+		libxml_use_internal_errors( true );
 		$doc = new DOMDocument();
 		$doc->loadHTML( mb_convert_encoding( '<html>' . $content . '</html>', 'HTML-ENTITIES', 'UTF-8' ) );
+		libxml_clear_errors();
 
 		$toc = array();
 		foreach ( $doc->getElementsByTagName( 'body' )->item( 0 )->childNodes as $child ) {

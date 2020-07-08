@@ -35,8 +35,8 @@ const regexp = (tag: string): RegExp => {
  *
  * @return {any} Parsed shortcode attributes.
  */
-const attrs = (text) => {
-  const named = {};
+const attrs = (text: string) => {
+  const named: any = {};
   const numeric = [];
 
   // This regular expression is reused from `shortcode_parse_atts()` in
@@ -65,7 +65,7 @@ const attrs = (text) => {
   /* eslint-disable no-cond-assign */
   while (match = pattern.exec(text)) {
     if (match[1]) {
-      named[match[1].toLowerCase() ] = match[2];
+      named[match[1].toLowerCase()] = match[2];
     } else if (match[3]) {
       named[match[3].toLowerCase()] = match[4];
     } else if (match[5]) {
@@ -90,17 +90,17 @@ const addQueryArgs = (url: string, args: UrlArgs) => {
   return `${parsed.protocol}//${parsed.host}${parsed.pathname}${parsed.search}${parsed.hash}`;
 };
 
-const replaceQuotes = (matched, key) => {
+const replaceQuotes = (matched: any, key: string) => {
   const regex = /(&#8221;|&#8243;|\/\])/g;
   return (matched[key] && matched[key].replace(regex, '')) || '';
 };
 
-export function parseContent(content) {
+export function parseContent(content: string) {
   const patternShortcode = /(\[([\w-]+)[^\]]*?\][^\2]*?\[\/[^\]]*\2\]|\[[\w-]+[^\]]*?\/\])/ig;
   const str = content;
 
-  let matched = {};
-  let splited = (content.split(patternShortcode) || [])
+  let matched: any = {};
+  const splited = (content.split(patternShortcode) || [])
     .filter((v) => v);
 
   matched = (str.match(regexp('gist')) || [])
@@ -121,7 +121,7 @@ export function parseContent(content) {
       [value]: attrs(value),
     }), matched);
 
-  splited = splited.map((value, index) => {
+  const elements = splited.map((value, index) => {
     if (matched[value]) {
       if (value.indexOf('[gist') === 0) {
         const id = replaceQuotes(matched[value].named, 'id');
@@ -175,7 +175,7 @@ export function parseContent(content) {
     );
   });
 
-  return splited;
+  return elements;
 }
 
 export function parseSeries(id: number, seriesPosts?: SimplePost[]): StateLeftRail {
@@ -201,7 +201,7 @@ const getNewWindowFeatures = () => {
   return `toolbar=0,status=0,resizable=yes,width=500,height=600,top=${top},left=${left}`;
 };
 
-export const shareTwitter = (title) => {
+export const shareTwitter = (title: string) => {
   const url = addQueryArgs(
     'https://www.twitter.com:8800/intent/tweet',
     {
@@ -213,7 +213,7 @@ export const shareTwitter = (title) => {
   window.open(url, 'Twitter', getNewWindowFeatures());
 };
 
-export const shareFacebook = (title, excerpt, thumbnail) => {
+export const shareFacebook = (title: string, excerpt: string, thumbnail: string) => {
   const url = addQueryArgs(
     'https://www.facebook.com/sharer/sharer.php',
     {

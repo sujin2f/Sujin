@@ -96,6 +96,11 @@
       },
       "required": ["siderail", "footer"],
       "additionalProperties":false
+    },
+    "isProd": {
+      "description": "Production indicator",
+      "type": "boolean",
+      "readonly": true
     }
   },
   "definitions": {

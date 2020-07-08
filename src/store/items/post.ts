@@ -32,6 +32,19 @@ export class Post extends SimplePost implements TypePost {
    * Post Type
    */
   type: 'post' | 'page'
+  /**
+   * Table of content
+   */
+  toc: {
+    /**
+     * Tag name
+     */
+    tag: 'h1' | 'h2' | 'h3' | 'h4'
+    /**
+     * Heading text
+     */
+    text: string
+  }[]
 
   constructor(data: any) {
     super(data);
@@ -47,5 +60,6 @@ export class Post extends SimplePost implements TypePost {
     this.related = data.related.map((simple: SimplePost) => new SimplePost(simple));
 
     this.type = data.type;
+    this.toc = data.toc;
   }
 }
