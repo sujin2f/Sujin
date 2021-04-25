@@ -36,6 +36,10 @@ class Env {
     return this.data.ENV === 'development'
   }
 
+  getEmail() {
+    return this.data.ENV === 'development'
+  }
+
   save() {
     const text = Object.keys(this.data)
       .reduce((prev, current) => {

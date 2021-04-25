@@ -19,8 +19,8 @@ class Wordpress {
       return
     }
 
-    this.virtualHost = env.isDev() ? 'sujinc.test' : 'sujinc.com'
-    this.wordpressDbName = env.isDev() ? 'sujinc.test' : 'sujinc.com'
+    this.virtualHost = env.isDev() ? 'test.sujinc.com' : 'sujinc.com'
+    this.wordpressDbName = env.isDev() ? 'test.sujinc.com' : 'sujinc.com'
     this.wordpressDebug = env.isDev() ? '1' : '0'
 
     this.createContainer()
@@ -39,6 +39,7 @@ class Wordpress {
   createContainer() {
     const envs = [
       `-e VIRTUAL_HOST="${this.virtualHost}"`,
+      `-e LETSENCRYPT_HOST="${this.virtualHost}"`,
       `-e WORDPRESS_DB_NAME="${this.wordpressDbName}"`,
       `-e WORDPRESS_DB_USER="root"`,
       `-e WORDPRESS_DB_PASSWORD="${env.data.DB_PASSWORD}"`,
@@ -49,7 +50,7 @@ class Wordpress {
     const root = path.resolve(__dirname, '../', '../', '../')
 
     const volumes = [
-      this.getDataStorageFromUser(),
+      ...this.getDataStorageFromUser(),
       `-v ${root}:/var/www/html/wp-content/themes/sujin`,
     ]
 
@@ -69,12 +70,15 @@ class Wordpress {
   }
 
   getDataStorageFromUser() {
-    const dir = reader.question('Enter the absolute path of local wp-content. If you don\'t need it, just leave it blank: ')
+    const dir = reader.question('Enter the absolute path of local wp-content without ending slash. If you don\'t need it, just leave it blank: ')
     if (!dir) {
       return ''
     }
 
-    return `-v ${dir}:/var/www/html/wp-content`
+    return [
+      `-v ${dir}/plugins:/var/www/html/wp-content/plugins`,
+      `-v ${dir}/uploads:/var/www/html/wp-content/uploads`,
+    ]
   }
 
   installZipArchive() {
