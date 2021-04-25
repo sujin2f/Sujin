@@ -46,9 +46,9 @@ if ( is_home() ) {
 
 		<?php wp_head(); ?>
 
-		<link rel="icon" type="image/png" href="<?php echo esc_url( get_stylesheet_directory_uri() ); ?>/assets/images/favicon-32x32.png" sizes="32x32" />
-		<link rel="icon" type="image/png" href="<?php echo esc_url( get_stylesheet_directory_uri() ); ?>/assets/images/favicon-32x32.png" sizes="16x16" />
-		<link rel="shortcut icon" type="image/png" href="<?php echo esc_url( get_stylesheet_directory_uri() ); ?>/assets/images/favicon.png" />
+		<link rel="icon" type="image/png" href="<?php echo esc_url( get_stylesheet_directory_uri() ); ?>/src/assets/images/favicon-32x32.png" sizes="32x32" />
+		<link rel="icon" type="image/png" href="<?php echo esc_url( get_stylesheet_directory_uri() ); ?>/src/assets/images/favicon-32x32.png" sizes="16x16" />
+		<link rel="shortcut icon" type="image/png" href="<?php echo esc_url( get_stylesheet_directory_uri() ); ?>/src/assets/images/favicon.png" />
 
 		<meta property="og:type" content="website" />
 		<meta property="og:site_name" content="Sujin" />
