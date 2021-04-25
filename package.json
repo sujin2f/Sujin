@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "foundation-sites": "^6.6.3",
     "node-sass": "^4.13.1",
     "react": "^16.13.1",
