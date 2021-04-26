@@ -18,8 +18,6 @@ const runDocker = () => {
     process.exit()
   }
 }
-
-env.data.ENV = (process.argv[2] === 'dev') ? 'development' : 'production'
 env.data.SKIP_PREFLIGHT_CHECK = 'true'
 
 runDocker();

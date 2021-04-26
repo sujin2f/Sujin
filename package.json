@@ -16,8 +16,7 @@
   "scripts": {
     "arson": "yarn test:once && yarn lint && yarn phpunit && yarn phpcs",
     "build": "node .configs/scripts/env.js prod & NODE_ENV=production webpack",
-    "docker:dev": "node .configs/scripts/docker-init.js dev",
-    "docker:prod": "node .configs/scripts/docker-init.js prod",
+    "docker:init": "node .configs/scripts/docker-init.js",
     "eject": "react-scripts eject",
     "lint": "tslint 'src/**/*.{ts,tsx,js}'",
     "phpcs": "vendor/bin/phpcs --standard=./.configs/phpcs.xml -s",

@@ -34,9 +34,10 @@ class Proxy {
       docker run -d
         --name ${this.CONTAINER_NAME}
         --restart=always
-        -v ~/.nginx-proxy/certs:/etc/nginx/certs
-        -v ~/.nginx-proxy/vhost:/etc/nginx/vhost.d
-        -v ~/.nginx-proxy/html:/usr/share/nginx/html
+        -v ~/.config/nginx-proxy/certs:/etc/nginx/certs
+        -v ~/.config/nginx-proxy/vhost:/etc/nginx/vhost.d
+        -v ~/.config/nginx-proxy/html:/usr/share/nginx/html
+        -v ~/.config/nginx-proxy/conf.d:/etc/nginx/conf.d
         -v /var/run/docker.sock:/tmp/docker.sock:ro
         -p 80:80
         -p 443:443
@@ -58,7 +59,7 @@ class Proxy {
         --restart=always
         --volumes-from ${this.CONTAINER_NAME}
         -v /var/run/docker.sock:/var/run/docker.sock:ro
-        -v ~/.nginx-proxy/acme:/etc/acme.sh
+        -v ~/.config/nginx-proxy/acme:/etc/acme.sh
         --env "DEFAULT_EMAIL=${env.data.EMAIL}"
         nginxproxy/acme-companion
     `.replace(/\r?\n|\r/g, ' ')
