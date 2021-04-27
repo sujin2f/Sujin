@@ -1,0 +1,31 @@
+.table {
+    width: 100%;
+    margin-bottom: $margin;
+
+    tr {
+        border-top: $border;
+    }
+
+    td, th {
+        padding: $padding;
+    }
+
+    thead {
+        tr {
+            border-bottom: ($border-thickness * 2) solid $light-grey;
+
+            td, th {
+                text-align: left;
+            }
+        }
+    }
+}
+
+.table--bordered {
+    border-bottom: $border;
+    border-left: $border;
+
+    td, th {
+        border-right: $border;
+    }
+}

@@ -1,0 +1,19 @@
+$black: #212529;
+$white: #FFFFFF;
+$red: #970000;
+$green: #4ABf9C;
+$skyblue: #32AED9;
+$pink: #D964B2;
+$blue: #394565;
+$puple: #56397B;
+
+$colour-primary: $red;
+$colour-accent: $skyblue;
+
+$grey: lighten($black, 40%);
+$lighter-grey: lighten($black, 80%);
+$light-grey: lighten($black, 70%);
+$dark-grey: lighten($black, 20%);
+$colour-border: lighten($black, 70%);
+
+$dashboard: $blue;

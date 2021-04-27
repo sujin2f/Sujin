@@ -1,0 +1,209 @@
+.card.countre {
+    .countre-button__wrapper {
+        position: relative;
+
+        .countre-button {
+            width: 100%;
+            border: none;
+            border-radius: 0;
+            padding: 0;
+            background-color: transparent;
+        }
+
+        .countre-button--dummy {
+            margin-top: -100%;
+
+            button {
+                width: 100%;
+                opacity: 0;
+            }
+        }
+    }
+
+    .countre-button__svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+
+        &.countre-button__pie {
+            cursor: pointer;
+        }
+
+        .countre-button__circle {
+            fill: none;
+            stroke-width: 25;
+        }
+
+        .countre-button__arc__shadow {
+            fill: $white;
+        }
+
+        .countre-button__arc__circle {
+            fill: none;
+            stroke-width: 25;
+        }
+
+        .countre-button__arc__semicircle {
+            fill: none;
+            stroke-width: 25;
+            stroke-linecap: round;
+        }
+
+        .countre-button__arc__indicator {
+            fill: $white;
+        }
+
+        .countre-button__arc__path {
+            fill: none;
+            stroke-width: 25;
+            stroke-linecap: round;
+        }
+    }
+
+    .countre__trend {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 200;
+        margin-top: 1rem;
+    }
+
+    .amount__input {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        background-color: $pink;
+
+        input {
+            margin-bottom: 0;
+            border-color: $pink;
+        }
+
+        .button {
+            opacity: 1;
+            padding-left: 1.1rem;
+            background-color: $white;
+            mask-size: 80%;
+        }
+    }
+}
+
+// .countre {
+//     .countre-button__pie {
+//         display: block;
+//         width: 100%;
+//         height: 100%;
+//         cursor: pointer;
+
+//         text {
+//             font-weight: 400;
+//             font-family: 'Ubuntu', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+//         }
+
+//         path.pink {
+//             stroke: $pink;
+
+//             &.hover {
+//                 stroke: lighten($pink, 20);
+//             }
+//         }
+
+//         path.skyblue {
+//             stroke: $skyblue;
+
+//             &.hover {
+//                 stroke: lighten($skyblue, 20);
+//             }
+//         }
+
+//         rect.grey {
+//             fill: $grey;
+//         }
+
+//         rect.pink {
+//             fill: $pink;
+//         }
+
+//         rect.skyblue {
+//             fill: $skyblue;
+//         }
+//     }
+
+//     .countre-button__svg {
+//         display: block;
+//         width: 100%;
+//         height: 100%;
+//     }
+
+//     .countre__count {
+//         height: 5rem;
+//         font-size: 4rem;
+//         display: flex;
+//         align-items: center;
+//         justify-content: center;
+//     }
+
+//     .countre__trend, .countre__goal {
+//         display: flex;
+//         justify-content: center;
+//         align-items: center;
+//         font-weight: 400;
+//         margin-bottom: .5rem;
+//         min-height: 2rem;
+
+//         .countre__trend__icon {
+//             margin-right: $margin / 2;
+//         }
+//     }
+
+//     .countre-button__wrapper {
+//         .countre-button__wrapper__button {
+//             width: 100%;
+//             border: none;
+//             border-radius: 0;
+//             padding: 0;
+//             background-color: transparent;
+//         }
+//     }
+// }
+
+// .countre-button__wrapper--plusminus {
+//     .countre-button__wrapper {
+//         margin-top: -100%;
+
+//         .countre-button__wrapper__button {
+//             opacity: 0;
+//         }
+//     }
+// }
+
+// .countre-button__wrapper--amount {
+//     input {
+//         width: 100%;
+//     }
+
+//     button {
+//         width: 100%;
+//         border: none;
+//         border-radius: 0;
+//         background-color: $colour-primary;
+//         color: $white;
+//         font-weight: bold;
+//         font-size: 6rem;
+//         height: ($column-unit * 2) - ($padding * 3)
+//     }
+// }
+
+// .buttons--startstop {
+//     button {
+//         width: 100%;
+//         border: none;
+//         border-radius: 0;
+//         background-color: $colour-primary;
+//         color: $white;
+//         font-weight: bold;
+//         font-size: 5rem;
+//     }
+// }

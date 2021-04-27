@@ -6,7 +6,7 @@
         "outDir": "./build",
         "removeComments": true,
         "strict": true,
-        "rootDirs": ["src"],
+        "rootDirs": ["src/server"],
         "baseUrl": "./",
         "paths": {
             "src/*": ["src/*"]
@@ -21,6 +21,6 @@
         "forceConsistentCasingInFileNames": true,
         "lib": ["dom", "dom.iterable", "esnext"]
     },
-    "include": ["src/**/*"],
-    "exclude": ["node_modules"]
+    "include": ["src/server/**/*"],
+    "exclude": ["node_modules", "**/*.spec.ts"]
 }

@@ -1,0 +1,5 @@
+$dashboard__header-width: 15rem;
+$dashboard__header-width--tablet: 10rem;
+
+$dashboard__profile-width: $dashboard__header-width - $padding * 7;
+$dashboard__profile-width--tablet: $dashboard__header-width--tablet - $padding * 5;

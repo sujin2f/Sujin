@@ -1,0 +1,47 @@
+{
+    "name": "sujin2f/sujin",
+    "description": "WordPress theme for sujinc.com",
+    "keywords": [
+        "wordpress",
+        "development"
+    ],
+    "homepage": "https://github.com/sujin2f/sujin",
+    "type": "theme",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Sujin 수진 Choi",
+            "email": "sujin.2f@gmail.com",
+            "homepage": "https://sujinc.com",
+            "role": "Developer"
+        }
+    ],
+    "config": {
+        "platform": {
+            "php": "7.1"
+        }
+    },
+    "require": {
+        "php": ">=7.1",
+        "sujin/wp-express": "dev-master"
+    },
+    "require-dev": {
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
+        "johnpbloch/wordpress": "5.4.0",
+        "mikey179/vfsstream": "^1.6",
+        "php-coveralls/php-coveralls": "^2.1",
+        "phpcompatibility/php-compatibility": "^9.1",
+        "phpcompatibility/phpcompatibility-wp": "*",
+        "phpdocumentor/phpdocumentor": "2.*",
+        "phpunit/phpunit": "^7",
+        "squizlabs/php_codesniffer": "~3",
+        "wp-coding-standards/wpcs": "^1.2",
+        "wp-phpunit/wp-phpunit": "5.1"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/sujin2f/wp_express/"
+        }
+    ]
+}
