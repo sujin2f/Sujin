@@ -4,7 +4,11 @@
 
 /* istanbul ignore file */
 import express from 'express'
+import { config } from 'dotenv'
+
 import { staticRouter } from 'src/server/components/static/route'
+
+config()
 
 // Create a new express application instance
 const app: express.Application = express()

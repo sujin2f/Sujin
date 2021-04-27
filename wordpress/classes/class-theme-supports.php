@@ -43,8 +43,16 @@ class Theme_Supports {
 		add_filter( 'option_home', array( $this, 'home_url' ) );
 	}
 
-	public function home_url() {
-		return 'https://devfront.sujinc.com';
+	/**
+	 * Change the home URL.
+	 *
+	 * @@param  string $home_url Current value.
+	 * @@return string A new value.
+	 *
+	 * @@see https://developer.wordpress.org/reference/hooks/option_option/
+	 */
+	public function home_url( string $home_url ): string {
+		return Environment::get_instance()->frontend ?: $home_url;
 	}
 
 	/**

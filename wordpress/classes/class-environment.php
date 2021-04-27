@@ -1,19 +1,24 @@
 <?php
 /**
- * Initialize Assets
+ * Read data from .env
  *
  * @package sujinc.com
- * @since   9.0.0
+ * @since   10.0.0
  * @author  Sujin 수진 Choi http://www.sujinc.com/
  */
 
 namespace Sujin\Wordpress\Theme\Sujin;
 
-class Environment {
-	public $data = array(
-		'ENV' => 'development',
-	);
+use Sujin\Wordpress\WP_Express\Helpers\Trait_Singleton;
 
+class Environment {
+	use Trait_Singleton;
+
+	public $data = array();
+
+	/**
+	 * Read data from .env
+	 */
 	public function __construct() {
 		$filename = dirname( __DIR__ ) . '/.env';
 		$handle   = fopen( $filename, 'r' );
@@ -33,7 +38,16 @@ class Environment {
 
 			$line = explode( '=', $line, 2 );
 
-			$this->data[ $line[0] ] = $line[1];
+			$this->data[ strtolower( $line[0] ) ] = $line[1];
 		}
 	}
+
+	public function __get( string $key ): string {
+		if ( array_key_exists( $key, $this->data ) ) {
+			return $this->data[ $key ];
+		}
+
+		return '';
+	}
+
 }

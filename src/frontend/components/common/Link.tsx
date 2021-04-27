@@ -6,8 +6,6 @@
 import React from 'react'
 import { Link as ReactLink } from 'react-router-dom'
 
-import { GlobalVariable } from 'src/frontend/store/items/global-variable'
-
 interface Props {
     children?: string | JSX.Element | JSX.Element[]
     className?: string
@@ -28,8 +26,7 @@ export const Link = (props: Props): JSX.Element => {
         title,
     } = props
 
-    const globalVars = GlobalVariable.getInstance(window.sujin)
-    const to = props.to.replace(globalVars.url, '')
+    const to = props.to.replace(window.globalVariable.frontend, '')
 
     return (
         <ReactLink

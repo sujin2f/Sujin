@@ -26,7 +26,9 @@ export const useMenu = (slug: string): StateMenu => {
         dispatch(loadMenuInit(slug))
 
         axios
-            .get(`https://devbackend.sujinc.com/wp-json/sujin/v1/menu/${slug}`)
+            .get(
+                `${window.globalVariable.backend}/wp-json/sujin/v1/menu/${slug}`,
+            )
             .then((response) => {
                 if (response.status === ResponseCode.Success) {
                     dispatch(

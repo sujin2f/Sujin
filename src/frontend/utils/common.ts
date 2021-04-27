@@ -1,6 +1,5 @@
 /** utils/common */
 
-import { GlobalVariable } from 'src/frontend/store/items/global-variable'
 import { Image } from 'src/frontend/store/items/image'
 
 export const isMobile = (): boolean => {
@@ -58,16 +57,15 @@ export const backgroundImageStyle = (
     return (image && { backgroundImage: `url(${image})` }) || {}
 }
 
-export const log = (message: any, level = 'log'): void => {
-    const globalVars = GlobalVariable.getInstance(window.sujin)
-
-    if (globalVars.isProd) {
+export const log = (message: string, level = 'log'): void => {
+    if (window.globalVariable.prod) {
         return
     }
 
     switch (level) {
         case 'log':
-            if ('http://sujinc.test' !== globalVars.url) {
+            // TODO
+            if ('http://sujinc.test' !== window.globalVariable.frontend) {
                 return
             }
 

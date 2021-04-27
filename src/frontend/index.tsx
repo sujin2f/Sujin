@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import * as serviceWorker from 'src/frontend/serviceWorker'
-
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 import { Public } from 'src/frontend/scenes/public'
