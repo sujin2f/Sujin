@@ -1,0 +1,122 @@
+.hover-show__container {
+    .hover-show__item {
+        display: none;
+    }
+
+    &:hover {
+        .hover-show__item {
+            display: block;
+        }
+    }
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.red, .warning {
+    color: $red;
+}
+
+.description {
+    font-style: italic;
+    opacity: .5;
+}
+
+.notice {
+    color: $green;
+}
+
+.bg-white {
+    background-color: $white !important;
+}
+
+.no-margin {
+    margin: 0;
+    padding: 0;
+}
+
+.gap {
+    margin: $margin / 2;
+    height: 1px;
+}
+
+.paddings {
+    padding: $padding !important;
+}
+
+.hidden {
+    display: none;
+}
+
+.flex {
+    display: flex;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.lightgrey__stroke {
+    stroke: $light-grey;
+
+    &.lighten {
+        stroke: lighten($light-grey, 10);
+    }
+}
+
+.lightgrey__fill {
+    fill: $light-grey;
+
+    &.lighten {
+        fill: lighten($light-grey, 10);
+    }
+}
+
+.grey__stroke {
+    stroke: $grey;
+
+    &.lighten {
+        stroke: lighten($grey, 20);
+    }
+}
+
+.grey__fill {
+    fill: $grey;
+
+    &.lighten {
+        fill: lighten($grey, 20);
+    }
+}
+
+.pink__stroke {
+    stroke: $pink;
+
+    &.lighten {
+        stroke: lighten($pink, 20);
+    }
+}
+
+.pink__fill {
+    fill: $pink;
+
+    &.lighten {
+        fill: lighten($pink, 20);
+    }
+}
+
+.skyblue__stroke {
+    stroke: $skyblue;
+
+    &.lighten {
+        stroke: lighten($skyblue, 20);
+    }
+}
+
+.skyblue__fill {
+    fill: $skyblue;
+
+    &.lighten {
+        fill: lighten($skyblue, 20);
+    }
+}

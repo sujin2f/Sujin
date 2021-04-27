@@ -1,27 +1,26 @@
-# Log Files
-**/*.log
-.configs/logs/**/*
-/coverage
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-**/node_modules
+/node_modules
+/.pnp
+.pnp.js
 
-# MacOS
-**/.DS_Store
+# testing
+/coverage
 
-# Build
-/dist
-/logs
+# production
 /build
-stat.json
+/dist
 
-# Composer
-vendor/
-wordpress/
-
-# Environments
+# misc
+.DS_Store
 .env
 
-# Site Specified Assets
-assets/styles/site-specific
-assets/images/site-specific
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dev mode
+.backup
+/wordpress/vendor
+/wordpress/wordpress

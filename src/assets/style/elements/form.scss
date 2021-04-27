@@ -1,0 +1,64 @@
+label {
+    text-transform: capitalize;
+    margin-bottom: $margin / 4;
+    font-size: 1rem;
+    color: $grey;
+
+    &.required::after {
+        content: '*';
+        color: $red;
+        margin-left: $margin / 2;
+    }
+}
+
+input, select, textarea {
+    margin-bottom: $margin;
+    font-size: 1.2rem;
+    padding: ($margin / 3) ($margin / 2);
+    min-width: 14rem;
+    max-width: 100%;
+    border: 1px solid $grey;
+    outline: none;
+
+    &.wide {
+        width: 100%;
+    }
+}
+
+textarea {
+    width: 100%;
+    height: 15rem;
+}
+
+.form__select--enumeration__items {
+    display: flex;
+    margin-bottom: $margin;
+    font-size: 1.2rem;
+
+    > div {
+        cursor: pointer;
+        color: $grey;
+
+        &::after {
+            content: '|';
+            font-weight: 100;
+            color: $black;
+            margin: 0 ($padding / 2);
+        }
+
+        &:last-child::after {
+            content: '';
+        }
+
+        &.current {
+            font-weight: 400;
+            color: $red;
+        }
+    }
+}
+
+form {
+    > :last-child {
+        margin-bottom: 0;
+    }
+}

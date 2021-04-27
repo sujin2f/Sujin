@@ -1,0 +1,85 @@
+.icon__circle {
+    background-image: url('/assets/images/icons/circle.svg');
+}
+
+.icon__circle--mask {
+    mask-image: url('/assets/images/icons/circle.svg');
+    mask-repeat: no-repeat;
+    mask-position: center;
+}
+
+.icon__plus {
+    background-image: url('/assets/images/icons/plus.svg');
+}
+
+.icon__plus--mask {
+    mask-image: url('/assets/images/icons/plus.svg');
+    mask-repeat: no-repeat;
+    mask-position: center;
+}
+
+.icon__plus--round {
+    background-image: url('/assets/images/icons/plus--round.svg');
+}
+
+.icon__plus--round--mask {
+    mask-image: url('/assets/images/icons/plus--round.svg');
+    mask-repeat: no-repeat;
+    mask-position: center;
+}
+
+.icon__minus {
+    background-image: url('/assets/images/icons/minus.svg');
+}
+
+.icon__minus--mask {
+    mask-image: url('/assets/images/icons/minus.svg');
+    mask-repeat: no-repeat;
+    mask-position: center;
+}
+
+.icon__minus--round {
+    background-image: url('/assets/images/icons/minus--round.svg');
+}
+
+.icon__minus--round--mask {
+    mask-image: url('/assets/images/icons/minus--round.svg');
+    mask-repeat: no-repeat;
+    mask-position: center;
+}
+
+.icon__x {
+    background-image: url('/assets/images/icons/x.svg');
+}
+
+.icon__x--mask {
+    mask-image: url('/assets/images/icons/x.svg');
+    mask-repeat: no-repeat;
+    mask-position: center;
+}
+
+.icon__x--round {
+    background-image: url('/assets/images/icons/x--round.svg');
+}
+
+.icon__x--round--mask {
+    mask-image: url('/assets/images/icons/x--round.svg');
+    mask-repeat: no-repeat;
+    mask-position: center;
+}
+
+figure.icon {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+button.icon {
+    background-repeat: no-repeat;
+    background-position: 5px center;
+    padding-left: 2.2rem;
+    background-size: 1.4rem;
+}
