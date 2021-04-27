@@ -67,7 +67,6 @@ class Bootstrap {
 	 * @todo separate admin
 	 */
 	private function init(): void {
-		Assets::get_instance();
 		Theme_Supports::get_instance();
 
 		// Modifiers.

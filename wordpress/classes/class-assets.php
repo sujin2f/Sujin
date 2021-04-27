@@ -19,6 +19,7 @@ use Sujin\Wordpress\WP_Express\{
 };
 
 use Sujin\Wordpress\Theme\Sujin\{
+	Environment,
 	Rest_Endpoints\Items\Images,
 	Widgets\Flickr as Flickr_Widget,
 	Widgets\Google_Advert as Advert_Widget,
@@ -27,7 +28,6 @@ use Sujin\Wordpress\Theme\Sujin\{
 
 use SJ2DTAG_widget;
 use WP_Query;
-use Env_PHP;
 
 /**
  * Initialize Assets
@@ -113,8 +113,7 @@ class Assets {
 			return $transient->items;
 		}
 
-		require_once dirname( __DIR__ ) . '/.configs/env.php';
-		$env           = new Env_PHP();
+		$env           = new Environment();
 		$this->is_prod = 'production' === $env->data['ENV'];
 
 		$transient = new Transient( $this->is_prod, 12 * HOUR_IN_SECONDS );

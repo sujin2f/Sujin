@@ -40,6 +40,11 @@ class Theme_Supports {
 	protected function __construct() {
 		add_action( 'after_setup_theme', array( $this, 'after_setup_theme' ) );
 		add_action( 'init', array( $this, 'register_nav_menu' ) );
+		add_filter( 'option_home', array( $this, 'home_url' ) );
+	}
+
+	public function home_url() {
+		return 'https://devfront.sujinc.com';
 	}
 
 	/**

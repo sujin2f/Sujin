@@ -23,6 +23,7 @@
         "cookie-parser": "^1.4.5",
         "express": "^4.17.1",
         "express-session": "^1.17.1",
+        "foundation-sites": "^6.6.3",
         "googleapis": "^52.1.0",
         "mongoose": "^5.9.22",
         "path": "^0.12.7",
