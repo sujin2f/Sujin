@@ -40,6 +40,19 @@ class Theme_Supports {
 	protected function __construct() {
 		add_action( 'after_setup_theme', array( $this, 'after_setup_theme' ) );
 		add_action( 'init', array( $this, 'register_nav_menu' ) );
+		add_filter( 'option_home', array( $this, 'home_url' ) );
+	}
+
+	/**
+	 * Change the home URL.
+	 *
+	 * @@param  string $home_url Current value.
+	 * @@return string A new value.
+	 *
+	 * @@see https://developer.wordpress.org/reference/hooks/option_option/
+	 */
+	public function home_url( string $home_url ): string {
+		return Environment::get_instance()->frontend ?: $home_url;
 	}
 
 	/**

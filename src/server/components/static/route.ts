@@ -3,38 +3,41 @@
  */
 
 /* istanbul ignore file */
-import express from 'express'
+import express, { Response } from 'express'
 import path from 'path'
-import { Response } from 'express'
+import ejs from 'ejs'
 
-import { isDev } from 'src/server/utils/environment'
+import {
+    bundles,
+    isDev,
+    publicDir,
+    baseDirDev,
+    baseDirProd,
+} from 'src/server/utils/environment'
+import { TGlobalVariable } from 'src/types/common'
 
 const staticRouter = express.Router()
-const publicDir = path.resolve(__dirname, '../', '../', '../', '../', 'public')
-const baseDirDev = path.resolve(__dirname, '../', '../', '../', '../', 'dist')
-const baseDirProd = path.resolve(
-    __dirname,
-    '../',
-    '../',
-    '../',
-    '../',
-    'build',
-    'frontend',
-)
 
 /**
  * Show react frontend
  * @param {Response} res
  * @return {void}
  */
-export const showReact = (res: Response): void => {
-    if (isDev()) {
-        const html = `${baseDirDev}/index.html`
-        res.sendFile(html)
-    } else {
-        const html = `${baseDirProd}/index.html`
-        res.sendFile(html)
+export const showReact = async (res: Response): Promise<void> => {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const filePath = path.resolve(publicDir, 'frontend.html')
+
+    const globalVariable: TGlobalVariable = {
+        frontend: process.env.FRONTEND || '',
+        backend: process.env.BACKEND || '',
+        prod: !isDev(),
     }
+    const html = await ejs.renderFile(filePath, {
+        globalVariable,
+        bundles: [...bundles()],
+    })
+
+    res.send(html)
 }
 
 /**
