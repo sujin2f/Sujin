@@ -7,6 +7,7 @@ import express from 'express'
 import { graphqlHTTP } from 'express-graphql'
 import { buildSchema } from 'graphql'
 import { getMenu } from 'src/server/utils/mysql'
+import { MenuItemGraphQLType } from 'src/types/wp'
 
 const apiRouter = express.Router()
 
@@ -14,21 +15,7 @@ const schema = buildSchema(`
     type Query {
         getMenu(menuName: String!): [MenuItem]
     },
-    type MenuItem {
-        id: Int
-        date: String
-        content: String
-        title: String
-        excerpt: String
-        parent: Int
-        guid: String
-        menuOrder: Int
-        target: String
-        url: String
-        type: String
-        htmlClass: [String]
-        children: [MenuItem]
-    }
+    ${MenuItemGraphQLType}
 `)
 
 /**

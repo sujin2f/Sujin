@@ -35,7 +35,7 @@ export const TopHeader = (): JSX.Element => {
                         <section className="columns small-12">
                             <Menu
                                 className="show-for-large flex-row menu__top__primary"
-                                slug="main-menu"
+                                slug="main"
                             />
                         </section>
                     </div>
@@ -74,7 +74,7 @@ export const TopHeader = (): JSX.Element => {
                         <section className="columns small-12">
                             <Menu
                                 className="show-for-large flex-row menu__top__primary"
-                                slug="main-menu"
+                                slug="main"
                             />
                         </section>
                     </div>

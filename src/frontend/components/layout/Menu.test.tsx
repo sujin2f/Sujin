@@ -18,7 +18,7 @@ mock.onGet(
 test('components/layout/Menu', async () => {
     const { container, getByText } = render(
         <Store>
-            <Menu slug="main-menu" />
+            <Menu slug="main" />
         </Store>,
     )
 

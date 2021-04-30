@@ -1,11 +1,11 @@
 const POST_FIELDS = `
-    \`ID\` AS id,
-    post_date AS date,
-    post_content AS content,
-    post_title AS title,
-    post_excerpt AS excerpt,
-    post_parent AS parent,
-    \`guid\`
+    post.ID AS id,
+    post.post_date AS date,
+    post.post_content AS content,
+    post.post_title AS title,
+    post.post_excerpt AS excerpt,
+    post.post_parent AS parent,
+    post.guid
 `
 export const SQL_GET_OPTION = `
     SELECT option_value
@@ -21,7 +21,7 @@ export const SQL_GET_TERM_RELATION = `
 export const SQL_GET_POST_BY = `
     SELECT 
         ${POST_FIELDS}
-    FROM wp_posts
+    FROM wp_posts AS post
     WHERE \`{0}\`="{1}"
 `
 export const SQL_GET_POST_META = `
@@ -44,17 +44,12 @@ export const SQL_GET_TERM = `
 `
 export const SQL_GET_TERM_ITEMS = `
 SELECT
-    post.\`ID\` AS id,
-    post.post_date AS date,
-    post.post_content AS content,
-    post.post_title AS title,
-    post.post_excerpt AS excerpt,
-    post.post_parent AS parent,
-    post.guid
+    ${POST_FIELDS}
 FROM
-    wp_term_relationships AS term
-INNER JOIN
-    wp_posts as post
-ON post.ID = term.object_id
-Where term.term_taxonomy_id={0}
+    wp_term_relationships AS term_relationship
+INNER JOIN wp_posts as post
+    ON post.ID = term_relationship.object_id
+INNER JOIN wp_terms as term
+    ON term.term_id = term_relationship.term_taxonomy_id
+Where term.slug="{0}"
 `

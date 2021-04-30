@@ -42,7 +42,7 @@ export const FixedHeader = (): JSX.Element => {
                         />
                         <Menu
                             className="show-for-large menu__fixed__primary"
-                            slug="main-menu"
+                            slug="main"
                         />
                     </section>
                     <section className="columns small-6 hide-for-small-only">
@@ -63,7 +63,7 @@ export const FixedHeader = (): JSX.Element => {
 
             <Menu
                 className="hide-for-large menu__fixed__primary-mobile"
-                slug="main-menu"
+                slug="main"
             />
         </section>
     )

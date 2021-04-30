@@ -1,3 +1,5 @@
+import { MenuItem } from 'src/frontend/components/layout/MenuItem'
+
 export type Post = {
     id: number
     date: string
@@ -17,6 +19,24 @@ export type MenuItem = {
     htmlClass: string[]
     children: MenuItem[]
 } & Post
+
+export const MenuItemGraphQLType = `
+type MenuItem {
+    id: Int
+    date: String
+    content: String
+    title: String
+    excerpt: String
+    parent: Int
+    guid: String
+    menuOrder: Int
+    target: String
+    url: String
+    type: String
+    htmlClass: [String]
+    children: [MenuItem]
+}
+`
 
 export type Term = {
     id: number
