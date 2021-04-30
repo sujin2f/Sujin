@@ -5,6 +5,7 @@ import { format } from 'src/utils/common'
 import { mysql } from './mysqld'
 import { getAllPostMeta } from './get-all-post-meta'
 import { getTerm } from './get-term'
+import { getPostsBy } from './get-posts-by'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const PHPUnserialize = require('php-unserialize')
@@ -14,11 +15,11 @@ type NavTerm = Record<string, number>
 /**
  * Convert Post to MenuItem
  *
- * @param {Post} post
+ * @param {Post} menu
  * @return {Promise<MenuItem>}
  */
-const getMenuItemFromPost = async (post: Post): Promise<MenuItem> => {
-    const postMetas = await getAllPostMeta(post.id)
+const getMenuItemFromPost = async (menu: Post): Promise<MenuItem> => {
+    const postMetas = await getAllPostMeta(menu.id)
     const htmlClass = Object.values(
         PHPUnserialize.unserialize(postMetas['_menu_item_classes']) || {},
     )
@@ -27,10 +28,14 @@ const getMenuItemFromPost = async (post: Post): Promise<MenuItem> => {
     const target = postMetas['_menu_item_target'] || ''
     const type = postMetas['_menu_item_type'] || ''
     let url = postMetas['_menu_item_url']
-    let title = post.title
+    let title = menu.title
 
     switch (type) {
         case 'post_type':
+            const post =
+                !title || !url
+                    ? (await getPostsBy('id', objectId))[0]
+                    : { title: '', guid: '' }
             title = title || post.title || ''
             // TODO To pretty URL
             url = url || post.guid || ''
@@ -46,7 +51,7 @@ const getMenuItemFromPost = async (post: Post): Promise<MenuItem> => {
     }
 
     return {
-        ...post,
+        ...menu,
         target,
         url,
         type,

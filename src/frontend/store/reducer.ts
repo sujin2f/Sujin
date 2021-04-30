@@ -134,7 +134,7 @@ export const initialState: State = {
 
 type Action = {
     archive: Archive
-    background: Background[]
+    backgrounds: Background[]
     leftRail: StateLeftRail
     menuItems: MenuItem[]
     page: number
@@ -245,13 +245,15 @@ export const reducer = (state: State = initialState, action: Action): State => {
         }
 
         case LOAD_BACKGROUND_SUCCESS: {
-            const background =
-                action.background[
-                    Math.floor(Math.random() * action.background.length)
+            const backgrounds =
+                action.backgrounds[
+                    Math.floor(Math.random() * action.backgrounds.length)
                 ]
             return {
                 ...state,
-                background: isMobile() ? background.mobile : background.desktop,
+                background: isMobile()
+                    ? backgrounds.mobile
+                    : backgrounds.desktop,
             }
         }
 

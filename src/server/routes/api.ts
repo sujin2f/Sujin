@@ -2,20 +2,33 @@
  * API endpoint
  */
 
-// TODO https://typegraphql.com/
 import express from 'express'
 import { graphqlHTTP } from 'express-graphql'
 import { buildSchema } from 'graphql'
-import { getMenu } from 'src/server/utils/mysql'
-import { MenuItemGraphQLType } from 'src/types/wp'
+import { getMenu, getPostsBy, getBackground } from 'src/server/utils/mysql'
+import {
+    MenuItemGraphQLType,
+    PostGraphQLType,
+    BackgroundGraphQLType,
+} from 'src/types'
 
 const apiRouter = express.Router()
 
 const schema = buildSchema(`
     type Query {
         getMenu(menuName: String!): [MenuItem]
+        getPostsBy(key: String!, value: String!): [Post]
+        getBackground: [Background]
     },
-    ${MenuItemGraphQLType}
+    type MenuItem {
+        ${MenuItemGraphQLType}
+    },
+    type Post {
+        ${PostGraphQLType}
+    },
+    type Background {
+        ${BackgroundGraphQLType}
+    }
 `)
 
 /**
@@ -30,6 +43,8 @@ apiRouter.use(
         schema: schema,
         rootValue: {
             getMenu,
+            getPostsBy,
+            getBackground,
         },
         graphiql: true,
     }),

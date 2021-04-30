@@ -5,11 +5,10 @@ import { ActionPublicClass } from 'src/frontend/store/reducer'
 import { StateLeftRail } from 'src/frontend/store/reducer'
 
 import { Archive } from 'src/frontend/store/items/archive'
-import { Background } from 'src/frontend/store/items/background'
-import { MenuItem } from 'src/types'
+import { Background, MenuItem } from 'src/types'
 import { Post } from 'src/frontend/store/items/post'
 import { log } from 'src/frontend/utils/common'
-import { ActionLoadMenuSuccess } from 'src/types/store'
+import { LoadMenuSuccess, LoadBGSuccess } from 'src/types'
 
 export const SET_PUBLIC_CLASS = 'sujin/v1/SET_PUBLIC_CLASS'
 export const SET_PAGE_HEADER = 'sujin/v1/SET_PAGE_HEADER'
@@ -61,7 +60,7 @@ export const loadMenuInit = (slug: string) => {
 export const loadMenuSuccess = (
     slug: string,
     menuItems: MenuItem[],
-): ActionLoadMenuSuccess => {
+): LoadMenuSuccess => {
     return {
         type: LOAD_MENU_SUCCESS,
         slug,
@@ -101,11 +100,12 @@ export const loadBackgroundInit = () => {
     }
 }
 
-export const loadBackgroundSuccess = (background: Background[]) => {
-    log(LOAD_BACKGROUND_SUCCESS)
+export const loadBackgroundSuccess = (
+    backgrounds: Background[],
+): LoadBGSuccess => {
     return {
         type: LOAD_BACKGROUND_SUCCESS,
-        background,
+        backgrounds,
     }
 }
 

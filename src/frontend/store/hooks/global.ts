@@ -1,8 +1,8 @@
 /** store/hooks/global */
-import axios from 'axios'
+import { gql } from '@apollo/client'
 import { useContext, useEffect, useRef, RefObject } from 'react'
 
-import { ResponseCode, PublicClasses } from 'src/frontend/constants/enum'
+import { PublicClasses } from 'src/frontend/constants/enum'
 import { TOP_MENU_SCROLLED_POSITION } from 'src/frontend/constants/common'
 import { Context } from 'src/frontend/store'
 import {
@@ -10,11 +10,10 @@ import {
     setPublicClass,
     loadBackgroundInit,
     loadBackgroundSuccess,
-    loadBackgroundFail,
 } from 'src/frontend/store/actions'
-import { Background } from 'src/frontend/store/items/background'
+import { Background } from 'src/types'
 // import { GlobalVariable } from 'src/frontend/store/items/global-variable'
-import { log } from 'src/frontend/utils/common'
+import { graphqlClient } from 'src/frontend/utils'
 
 export const usePublicClassName = (): [string, RefObject<HTMLDivElement>] => {
     const [{ publicClass }, dispatch] = useContext(Context) as Context
@@ -58,6 +57,10 @@ export const usePublicClassName = (): [string, RefObject<HTMLDivElement>] => {
     ]
 }
 
+type Response = {
+    getBackground: Background[]
+}
+
 export const useBackground = (): void => {
     const [{ background }, dispatch] = useContext(Context) as Context
 
@@ -68,29 +71,19 @@ export const useBackground = (): void => {
 
         dispatch(loadBackgroundInit())
 
-        axios
-            .get(
-                'https://devbackend.sujinc.com/wp-json/sujin/v1/background/random/',
-            )
-            .then((response) => {
-                if (response.status === ResponseCode.Success) {
-                    dispatch(
-                        loadBackgroundSuccess(
-                            response.data.map(
-                                (item: Background) => new Background(item),
-                            ),
-                        ),
-                    )
-                    return
-                }
-                dispatch(loadBackgroundFail())
+        graphqlClient
+            .query<Response>({
+                query: gql`
+                    query {
+                        getBackground {
+                            desktop
+                            mobile
+                        }
+                    }
+                `,
             })
-            .catch((e) => {
-                log(
-                    ['axios.get has been failed on background/random', e],
-                    'error',
-                )
-                dispatch(loadBackgroundFail())
+            .then((response) => {
+                dispatch(loadBackgroundSuccess(response.data.getBackground))
             })
     }, [dispatch, background])
 }

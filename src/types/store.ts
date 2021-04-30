@@ -1,7 +1,20 @@
-import { MenuItem } from './wp'
+import { Background, MenuItem } from './wp'
 
-export type ActionLoadMenuSuccess = {
-    type: string
+type Slug = {
     slug: string
+}
+
+type Backgrounds = {
+    backgrounds: Background[]
+}
+
+type MenuItems = {
     menuItems: MenuItem[]
 }
+
+type Action = {
+    type: string
+}
+
+export type LoadMenuSuccess = Action & Slug & MenuItems
+export type LoadBGSuccess = Action & Backgrounds

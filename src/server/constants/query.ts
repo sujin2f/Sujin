@@ -22,7 +22,7 @@ export const SQL_GET_POST_BY = `
     SELECT 
         ${POST_FIELDS}
     FROM wp_posts AS post
-    WHERE \`{0}\`="{1}"
+    WHERE {0}="{1}"
 `
 export const SQL_GET_POST_META = `
     SELECT meta_value

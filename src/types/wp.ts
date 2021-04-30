@@ -20,26 +20,35 @@ export type MenuItem = {
     children: MenuItem[]
 } & Post
 
-export const MenuItemGraphQLType = `
-type MenuItem {
+export type Term = {
+    id: number
+    name: string
+    slug: string
+}
+
+export type Background = {
+    desktop: string
+    mobile: string
+}
+
+export const PostGraphQLType = `
     id: Int
     date: String
     content: String
     title: String
     excerpt: String
     parent: Int
-    guid: String
+    guid: String`
+
+export const MenuItemGraphQLType = `
+    ${PostGraphQLType}
     menuOrder: Int
     target: String
     url: String
     type: String
     htmlClass: [String]
-    children: [MenuItem]
-}
-`
+    children: [MenuItem]`
 
-export type Term = {
-    id: number
-    name: string
-    slug: string
-}
+export const BackgroundGraphQLType = `
+    desktop: String
+    mobile: String`
