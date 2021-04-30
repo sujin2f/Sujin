@@ -16,8 +16,27 @@ import {
 } from 'src/server/utils/environment'
 import { GlobalVariable } from 'src/types/common'
 import { getOption } from 'src/server/utils/mysql'
+import { cached } from '../utils/node-cache'
 
 const staticRouter = express.Router()
+
+const getGlobalVariable = async (): Promise<GlobalVariable> => {
+    const cache = cached.get<GlobalVariable>('global-variable')
+    if (cache) {
+        return cache
+    }
+
+    const globalVariable: GlobalVariable = {
+        title: (await getOption('blogname')) || '',
+        description: (await getOption('blogdescription')) || '',
+        frontend: (await getOption('home')) || '',
+        backend: (await getOption('siteurl')) || '',
+        prod: !isDev(),
+    }
+
+    cached.set<GlobalVariable>('global-variable', globalVariable)
+    return globalVariable
+}
 
 /**
  * Show react frontend
@@ -29,13 +48,7 @@ export const showReact = async (res: Response): Promise<void> => {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const filePath = path.resolve(publicDir, 'frontend.html')
 
-    const globalVariable: GlobalVariable = {
-        title: (await getOption('blogname')) || '',
-        description: (await getOption('blogdescription')) || '',
-        frontend: (await getOption('home')) || '',
-        backend: (await getOption('siteurl')) || '',
-        prod: !isDev(),
-    }
+    const globalVariable = await getGlobalVariable()
     const html = await ejs.renderFile(filePath, {
         globalVariable,
         bundles: [...bundles()],

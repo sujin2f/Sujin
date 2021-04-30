@@ -1,11 +1,22 @@
-import { SQL_GET_TERM_ITEMS } from 'src/server/constants/query'
-import { WP_KEYS } from 'src/server/constants/wp'
+import { SQL_GET_TERM_ITEMS } from 'src/constants/query'
+import { WP_KEYS } from 'src/constants/query'
 import { Background, Post } from 'src/types'
 import { format } from 'src/utils/common'
+import { cached } from '../node-cache'
 import { getPostMeta } from './get-post-meta'
 import { mysql } from './mysqld'
 
-export const getBackground = async (): Promise<Background[]> => {
+/**
+ * Get random backgrounds
+ *
+ * @return {Promise<Background[]>}
+ */
+export const getBackgrounds = async (): Promise<Background[]> => {
+    const cache = cached.get<Background[]>('mysql-get-backgrounds')
+    if (cache) {
+        return cache
+    }
+
     const connection = await mysql()
     const query = `${SQL_GET_TERM_ITEMS} ORDER BY RAND() LIMIT 10`
     const posts = await connection.query(format(query, 'background'))
@@ -27,5 +38,6 @@ export const getBackground = async (): Promise<Background[]> => {
             mobile: post.guid.replace(/\/([0-9a-zA-Z-_\.]+)$/, `/${mobile}`),
         })
     }
+    cached.set<Background[]>('mysql-get-backgrounds', backgrounds)
     return backgrounds
 }

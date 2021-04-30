@@ -53,3 +53,7 @@ INNER JOIN wp_terms as term
     ON term.term_id = term_relationship.term_taxonomy_id
 Where term.slug="{0}"
 `
+
+export enum WP_KEYS {
+    ATTACHMENT_META = '_wp_attachment_metadata',
+}

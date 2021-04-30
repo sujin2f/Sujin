@@ -3,7 +3,6 @@
  * store/hooks/archive
  */
 
-import axios from 'axios'
 import { useContext, useEffect } from 'react'
 
 import DEFAULT_BACKGROUND from 'src/assets/images/background/category.jpg'
@@ -20,7 +19,7 @@ import {
 } from 'src/frontend/store/actions'
 import { Archive } from 'src/frontend/store/items/archive'
 import { StateArchive } from 'src/frontend/store/reducer'
-import { Post } from 'src/frontend/store/items/post'
+import { Post } from 'src/types'
 import { parseExImage } from 'src/frontend/utils/common'
 
 const loaded: string[] = []
@@ -52,36 +51,36 @@ const useArchiveRequest = (
 
         dispatch(loadArchiveInit(type, slug, page))
 
-        axios
-            .get(
-                `https://devbackend.sujinc.com/wp-json/sujin/v1/archive/${type}/${slug}/${page}`,
-            )
-            .then((response) => {
-                if (response.status === ResponseCode.Success) {
-                    response.data.items = response.data.items.map(
-                        (entity: any) => {
-                            const post = new Post(entity)
-                            dispatch(loadPostSuccess(slug, post))
+        // axios
+        //     .get(
+        //         `https://devbackend.sujinc.com/wp-json/sujin/v1/archive/${type}/${slug}/${page}`,
+        //     )
+        //     .then((response) => {
+        //         if (response.status === ResponseCode.Success) {
+        //             response.data.items = response.data.items.map(
+        //                 (entity: any) => {
+        //                     const post = new Post(entity)
+        //                     dispatch(loadPostSuccess(slug, post))
 
-                            return post
-                        },
-                    )
+        //                     return post
+        //                 },
+        //             )
 
-                    dispatch(
-                        loadArchiveSuccess(
-                            type,
-                            slug,
-                            page,
-                            new Archive(response.data),
-                        ),
-                    )
-                    return
-                }
-                dispatch(loadArchiveFail(type, slug, page))
-            })
-            .catch((e) => {
-                dispatch(loadArchiveFail(type, slug, page))
-            })
+        //             dispatch(
+        //                 loadArchiveSuccess(
+        //                     type,
+        //                     slug,
+        //                     page,
+        //                     new Archive(response.data),
+        //                 ),
+        //             )
+        //             return
+        //         }
+        //         dispatch(loadArchiveFail(type, slug, page))
+        //     })
+        //     .catch((e) => {
+        //         dispatch(loadArchiveFail(type, slug, page))
+        //     })
 
         loaded.push(slug)
     }, [dispatch, loadedKey, page, slug, type, currentArchive, udpateHeader])

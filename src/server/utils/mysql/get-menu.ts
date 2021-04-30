@@ -1,4 +1,4 @@
-import { SQL_GET_TERM_ITEMS } from 'src/server/constants/query'
+import { SQL_GET_TERM_ITEMS } from 'src/constants/query'
 import { MenuItem, Post } from 'src/types'
 import { format } from 'src/utils/common'
 
@@ -6,11 +6,10 @@ import { mysql } from './mysqld'
 import { getAllPostMeta } from './get-all-post-meta'
 import { getTerm } from './get-term'
 import { getPostsBy } from './get-posts-by'
+import { cached } from '../node-cache'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const PHPUnserialize = require('php-unserialize')
-
-type NavTerm = Record<string, number>
 
 /**
  * Convert Post to MenuItem
@@ -65,14 +64,19 @@ const getMenuItemFromPost = async (menu: Post): Promise<MenuItem> => {
 /**
  * Get menu items from the given menu name
  *
- * @param {{ menuName: string }} { menuName }
- * @return {Promise<MenuGroup>}
+ * @param {string} menuName
+ * @return {Promise<MenuItem[]>}
  */
 export const getMenu = async ({
     menuName,
 }: {
     menuName: string
 }): Promise<MenuItem[]> => {
+    const cache = cached.get<MenuItem[]>(`mysql-get-menu-${menuName}`)
+    if (cache) {
+        return cache
+    }
+
     const connection = await mysql()
     const query = format(SQL_GET_TERM_ITEMS, menuName)
     const posts = await connection.query(query)
@@ -95,5 +99,7 @@ export const getMenu = async ({
         }
     })
 
-    return Object.values(menus)
+    const result = Object.values(menus)
+    cached.set<MenuItem[]>(`mysql-get-menu-${menuName}`, result)
+    return Object.values(result)
 }

@@ -58,7 +58,7 @@ export const usePublicClassName = (): [string, RefObject<HTMLDivElement>] => {
 }
 
 type Response = {
-    getBackground: Background[]
+    getBackgrounds: Background[]
 }
 
 export const useBackground = (): void => {
@@ -75,7 +75,7 @@ export const useBackground = (): void => {
             .query<Response>({
                 query: gql`
                     query {
-                        getBackground {
+                        getBackgrounds {
                             desktop
                             mobile
                         }
@@ -83,7 +83,7 @@ export const useBackground = (): void => {
                 `,
             })
             .then((response) => {
-                dispatch(loadBackgroundSuccess(response.data.getBackground))
+                dispatch(loadBackgroundSuccess(response.data.getBackgrounds))
             })
     }, [dispatch, background])
 }
@@ -94,8 +94,8 @@ export const useFrontPage = (): void => {
     useEffect(() => {
         // const globalVars = GlobalVariable.getInstance(window.sujin)
         // TODO
-        const title = 'Sujin'
-        const description = 'Sujin'
+        const title = window.globalVariable.title
+        const description = window.globalVariable.description
         const frontPage = 'front-page'
         const hideFrontFooter = true
         const hideFrontHeader = true

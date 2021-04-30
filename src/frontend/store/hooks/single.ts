@@ -3,7 +3,6 @@
  * import {} from 'store/hooks/single';
  */
 
-import axios from 'axios'
 import { useContext, useEffect } from 'react'
 
 import DEFAULT_BACKGROUND from 'src/assets/images/background/category.jpg'
@@ -19,7 +18,7 @@ import {
     loadPostFail,
 } from 'src/frontend/store/actions'
 import { StatePost, StateLeftRail } from 'src/frontend/store/reducer'
-import { Post } from 'src/frontend/store/items/post'
+import { Post } from 'src/types'
 import { parseExImage } from 'src/frontend/utils/common'
 
 const loaded: string[] = []
@@ -44,18 +43,18 @@ const usePostRequest = (slug: string): void => {
 
         dispatch(loadPostInit(slug))
 
-        axios
-            .get(`https://devbackend.sujinc.com/wp-json/sujin/v1/post/${slug}`)
-            .then((response) => {
-                if (response.status === ResponseCode.Success) {
-                    dispatch(loadPostSuccess(slug, new Post(response.data)))
-                    return
-                }
-                dispatch(loadPostFail(slug))
-            })
-            .catch((e) => {
-                dispatch(loadPostFail(slug))
-            })
+        // axios
+        //     .get(`https://devbackend.sujinc.com/wp-json/sujin/v1/post/${slug}`)
+        //     .then((response) => {
+        //         if (response.status === ResponseCode.Success) {
+        //             dispatch(loadPostSuccess(slug, new Post(response.data)))
+        //             return
+        //         }
+        //         dispatch(loadPostFail(slug))
+        //     })
+        //     .catch((e) => {
+        //         dispatch(loadPostFail(slug))
+        //     })
 
         loaded.push(slug)
     }, [post, dispatch, slug])

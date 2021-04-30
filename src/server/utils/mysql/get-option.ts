@@ -1,6 +1,7 @@
-import { SQL_GET_OPTION } from 'src/server/constants/query'
+import { SQL_GET_OPTION } from 'src/constants/query'
 import { Nullable } from 'src/types'
 import { format } from 'src/utils/common'
+import { cached } from '../node-cache'
 import { mysql } from './mysqld'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -11,13 +12,20 @@ const PHPUnserialize = require('php-unserialize')
  *
  * @template T Unknown. Default is string
  * @param {string} optionName
- * @param {false} unserialize If true, unserialize (PHP) the value
+ * @param {Nullable<string>} key
  * @return {Promise<Nullable<T>>}
  */
 export const getOption = async <T>(
     optionName: string,
-    key: Nullable<string> = undefined,
+    key?: Nullable<string>,
 ): Promise<Nullable<T>> => {
+    const cache = cached.get<Nullable<T>>(
+        `mysql-get-option-${optionName}-${key}`,
+    )
+    if (cache) {
+        return cache
+    }
+
     const connection = await mysql()
     const result = await connection
         .query(format(SQL_GET_OPTION, optionName))
@@ -38,5 +46,9 @@ export const getOption = async <T>(
         return serialized
     }
 
+    cached.set<Nullable<T>>(
+        `mysql-get-option-${optionName}-${key}`,
+        (value as unknown) as T,
+    )
     return (value as unknown) as T
 }

@@ -5,12 +5,13 @@
 import express from 'express'
 import { graphqlHTTP } from 'express-graphql'
 import { buildSchema } from 'graphql'
-import { getMenu, getPostsBy, getBackground } from 'src/server/utils/mysql'
+
+import { getMenu, getPostsBy, getBackgrounds } from 'src/server/utils/mysql'
 import {
     MenuItemGraphQLType,
     PostGraphQLType,
     BackgroundGraphQLType,
-} from 'src/types'
+} from 'src/constants/graphql'
 
 const apiRouter = express.Router()
 
@@ -18,7 +19,7 @@ const schema = buildSchema(`
     type Query {
         getMenu(menuName: String!): [MenuItem]
         getPostsBy(key: String!, value: String!): [Post]
-        getBackground: [Background]
+        getBackgrounds: [Background]
     },
     type MenuItem {
         ${MenuItemGraphQLType}
@@ -44,7 +45,7 @@ apiRouter.use(
         rootValue: {
             getMenu,
             getPostsBy,
-            getBackground,
+            getBackgrounds,
         },
         graphiql: true,
     }),

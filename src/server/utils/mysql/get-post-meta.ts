@@ -1,5 +1,6 @@
-import { SQL_GET_POST_META } from 'src/server/constants/query'
+import { SQL_GET_POST_META } from 'src/constants/query'
 import { format } from 'src/utils/common'
+import { cached } from '../node-cache'
 import { mysql } from './mysqld'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -16,6 +17,11 @@ export const getPostMeta = async (
     postId: number,
     metaKey: string,
 ): Promise<string> => {
+    const cache = cached.get<string>(`mysql-get-post-meta-${postId}-${metaKey}`)
+    if (cache) {
+        return cache
+    }
+
     const connection = await mysql()
     const result = await connection.query(
         format(SQL_GET_POST_META, postId, metaKey),
@@ -32,5 +38,6 @@ export const getPostMeta = async (
         return PHPUnserialize.unserialize(result[0].meta_value)
     }
 
+    cached.set<string>(`mysql-get-post-meta-${postId}-${metaKey}`, value)
     return value
 }
