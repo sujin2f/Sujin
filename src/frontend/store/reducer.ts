@@ -25,7 +25,7 @@ import {
 } from 'src/frontend/store/actions'
 import { Archive } from 'src/frontend/store/items/archive'
 import { Background } from 'src/frontend/store/items/background'
-import { MenuItem } from 'src/frontend/store/items/menu-item'
+import { MenuItem } from 'src/types'
 import { Post } from 'src/frontend/store/items/post'
 import { isMobile } from 'src/frontend/utils/common'
 

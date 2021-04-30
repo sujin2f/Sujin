@@ -4,14 +4,17 @@
  */
 
 import { useContext, useEffect } from 'react'
-import axios from 'axios'
+import { gql } from '@apollo/client'
 
-import { ResponseCode } from 'src/frontend/constants/enum'
 import { Context } from 'src/frontend/store'
 import { loadMenuInit, loadMenuSuccess } from 'src/frontend/store/actions'
-import { MenuItem } from 'src/frontend/store/items/menu-item'
 import { StateMenu } from 'src/frontend/store/reducer'
-import { log } from 'src/frontend/utils/common'
+import { graphqlClient } from 'src/frontend/utils'
+import { MenuItem } from 'src/types'
+
+type Response = {
+    getMenu: MenuItem[]
+}
 
 const loaded: string[] = []
 
@@ -25,25 +28,33 @@ export const useMenu = (slug: string): StateMenu => {
 
         dispatch(loadMenuInit(slug))
 
-        axios
-            .get(
-                `${window.globalVariable.backend}/wp-json/sujin/v1/menu/${slug}`,
-            )
-            .then((response) => {
-                if (response.status === ResponseCode.Success) {
-                    dispatch(
-                        loadMenuSuccess(
-                            slug,
-                            response.data.map(
-                                (item: any) => new MenuItem(item),
-                            ),
-                        ),
-                    )
-                    return
-                }
+        graphqlClient
+            .query<Response>({
+                query: gql`
+                    query {
+                        getMenu(menuName: "${slug}") {
+                            id
+                            title
+                            guid
+                            target
+                            url
+                            type
+                            htmlClass
+                            children {
+                                id
+                                title
+                                guid
+                                target
+                                url
+                                type
+                                htmlClass
+                            }
+                        }
+                    }
+                `,
             })
-            .catch((e) => {
-                log([`axios.get has been failed on menu/${slug}`, e], 'error')
+            .then((response) => {
+                dispatch(loadMenuSuccess(slug, response.data.getMenu))
             })
 
         loaded.push(slug)

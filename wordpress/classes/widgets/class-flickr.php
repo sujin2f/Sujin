@@ -13,6 +13,7 @@ use WP_Widget;
 use Sujin\Wordpress\WP_Express\Helpers\Trait_Singleton;
 use Sujin\Wordpress\WP_Express\Helpers\Transient;
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Items\Flickr as Flickr_Item;
+use Sujin\Wordpress\Theme\Sujin\Environment;
 
 /**
  * Flickr Widget
@@ -45,7 +46,7 @@ class Flickr extends WP_Widget {
 		$transient_key = $this->get_transient_key();
 		$transient     = Transient::get_transient( $transient_key );
 
-		if ( $transient && ! $transient->is_expired() && ! SUJIN_DEV_MODE && ! self::DEV_MODE ) {
+		if ( $transient && ! $transient->is_expired() && ! Environment::get_instance()->env !== 'development' && ! self::DEV_MODE ) {
 			return $transient->items;
 		}
 

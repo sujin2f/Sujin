@@ -14,12 +14,14 @@ import {
     baseDirDev,
     baseDirProd,
 } from 'src/server/utils/environment'
-import { TGlobalVariable } from 'src/types/common'
+import { GlobalVariable } from 'src/types/common'
+import { getOption } from 'src/server/utils/mysql'
 
 const staticRouter = express.Router()
 
 /**
  * Show react frontend
+ *
  * @param {Response} res
  * @return {void}
  */
@@ -27,9 +29,11 @@ export const showReact = async (res: Response): Promise<void> => {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const filePath = path.resolve(publicDir, 'frontend.html')
 
-    const globalVariable: TGlobalVariable = {
-        frontend: process.env.FRONTEND || '',
-        backend: process.env.BACKEND || '',
+    const globalVariable: GlobalVariable = {
+        title: (await getOption('blogname')) || '',
+        description: (await getOption('blogdescription')) || '',
+        frontend: (await getOption('home')) || '',
+        backend: (await getOption('siteurl')) || '',
         prod: !isDev(),
     }
     const html = await ejs.renderFile(filePath, {
@@ -39,13 +43,6 @@ export const showReact = async (res: Response): Promise<void> => {
 
     res.send(html)
 }
-
-/**
- * React frontend
- */
-staticRouter.get('/', (_, res) => {
-    showReact(res)
-})
 
 /**
  * Assets
@@ -70,11 +67,16 @@ staticRouter.get('/static(/*)', (req, res) => {
     }
 })
 
-/**
- * Not found
- */
-staticRouter.use(function (_, res) {
+staticRouter.get('/', (_, res) => {
     showReact(res)
 })
+
+/**
+ * React frontend
+ */
+// staticRouter.use(function (_, res) {
+//     console.log('showReact')
+//     showReact(res)
+// })
 
 export { staticRouter }

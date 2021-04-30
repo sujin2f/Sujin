@@ -6,9 +6,10 @@ import { StateLeftRail } from 'src/frontend/store/reducer'
 
 import { Archive } from 'src/frontend/store/items/archive'
 import { Background } from 'src/frontend/store/items/background'
-import { MenuItem } from 'src/frontend/store/items/menu-item'
+import { MenuItem } from 'src/types'
 import { Post } from 'src/frontend/store/items/post'
 import { log } from 'src/frontend/utils/common'
+import { ActionLoadMenuSuccess } from 'src/types/store'
 
 export const SET_PUBLIC_CLASS = 'sujin/v1/SET_PUBLIC_CLASS'
 export const SET_PAGE_HEADER = 'sujin/v1/SET_PAGE_HEADER'
@@ -57,8 +58,10 @@ export const loadMenuInit = (slug: string) => {
     }
 }
 
-export const loadMenuSuccess = (slug: string, menuItems: MenuItem[]) => {
-    log(LOAD_MENU_SUCCESS)
+export const loadMenuSuccess = (
+    slug: string,
+    menuItems: MenuItem[],
+): ActionLoadMenuSuccess => {
     return {
         type: LOAD_MENU_SUCCESS,
         slug,

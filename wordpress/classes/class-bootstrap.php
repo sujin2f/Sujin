@@ -12,7 +12,6 @@ namespace Sujin\Wordpress\Theme\Sujin;
 // REST API Endpoints.
 use Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1\{
 	Post_Endpoint,
-	Menu_Endpoint,
 	Background_Endpoint,
 	Archive_Endpoint,
 };
@@ -103,7 +102,6 @@ class Bootstrap {
 	 */
 	private function register_rest_endpoints(): void {
 		Post_Endpoint::get_instance();
-		Menu_Endpoint::get_instance();
 		Background_Endpoint::get_instance();
 		Archive_Endpoint::get_instance();
 

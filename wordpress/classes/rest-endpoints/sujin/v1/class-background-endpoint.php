@@ -10,6 +10,7 @@
 namespace Sujin\Wordpress\Theme\Sujin\Rest_Endpoints\Sujin\V1;
 
 use Sujin\Wordpress\Theme\Sujin\{
+	Environment,
 	Rest_Endpoints\Sujin\V1,
 	Rest_Endpoints\Items\Background,
 };
@@ -77,7 +78,7 @@ class Background_Endpoint extends V1 {
 		// Get transient.
 		$transient = Transient::get_transient( $this->get_transient_key() );
 
-		if ( $transient && ! $transient->is_expired() && ! SUJIN_DEV_MODE ) {
+		if ( $transient && ! $transient->is_expired() && ! Environment::get_instance()->env !== 'development' ) {
 			return rest_ensure_response( $transient->items );
 		}
 

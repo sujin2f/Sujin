@@ -7,7 +7,7 @@ import React, { Fragment } from 'react'
 
 import { MenuItem } from 'src/frontend/components/layout/MenuItem'
 import { useMenu } from 'src/frontend/store/hooks/menu'
-import { MenuItem as MenuItemType } from 'src/frontend/store/items/menu-item'
+import { MenuItem as MenuItemType } from 'src/types'
 
 interface Props {
     slug: string
@@ -25,7 +25,7 @@ export const Menu = (props: Props): JSX.Element => {
     return (
         <nav className={`${className} ${slug} menu`}>
             {menu.item!.map((menuItem: MenuItemType) => (
-                <div key={`menu-${menuItem.ID}`} className="menu__item">
+                <div key={`menu-${menuItem.id}`} className="menu__item">
                     <MenuItem menuItem={menuItem} />
 
                     {menuItem.children && menuItem.children.length > 0 && (
@@ -34,7 +34,7 @@ export const Menu = (props: Props): JSX.Element => {
                                 (childItem: MenuItemType) => (
                                     <MenuItem
                                         menuItem={childItem}
-                                        key={`menu-${childItem.ID}`}
+                                        key={`menu-${childItem.id}`}
                                     />
                                 ),
                             )}

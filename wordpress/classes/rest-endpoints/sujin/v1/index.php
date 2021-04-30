@@ -77,14 +77,7 @@ abstract class V1 extends WP_REST_Controller {
 	 * @visibility protected
 	 */
 	private function get_permissions_check( WP_REST_Request $request ): bool {
-		if ( SUJIN_DEV_MODE ) {
-			return true;
-		}
-
-		if ( defined( 'DIR_TESTDATA' ) && ! empty( DIR_TESTDATA ) ) {
-			return true;
-		}
-
+		return true;
 		$referer  = $request->get_header( 'referer' );
 		$referer  = wp_parse_url( $referer );
 		$home_url = wp_parse_url( get_home_url() );

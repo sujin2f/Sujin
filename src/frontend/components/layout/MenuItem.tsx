@@ -6,7 +6,7 @@
 import React, { Fragment } from 'react'
 
 import { Link } from 'src/frontend/components/common/Link'
-import { MenuItem as MenuItemType } from 'src/frontend/store/items/menu-item'
+import { MenuItem as MenuItemType } from 'src/types'
 
 interface Props {
     menuItem: MenuItemType
@@ -14,7 +14,7 @@ interface Props {
 
 export const MenuItem = (props: Props): JSX.Element => {
     const {
-        menuItem: { target, url, classes, title },
+        menuItem: { target, url, htmlClass, title },
     } = props
 
     return (
@@ -23,7 +23,7 @@ export const MenuItem = (props: Props): JSX.Element => {
                 <a
                     itemType="http://schema.org/SiteNavigationElement"
                     href={url || '#'}
-                    className={classes ? classes.join(' ') : ''}
+                    className={htmlClass ? htmlClass.join(' ') : ''}
                     target={target}
                 >
                     {title}
@@ -34,7 +34,7 @@ export const MenuItem = (props: Props): JSX.Element => {
                 <Link
                     itemType="http://schema.org/SiteNavigationElement"
                     to={url || '#'}
-                    className={classes ? classes.join(' ') : ''}
+                    className={htmlClass ? htmlClass.join(' ') : ''}
                 >
                     {title}
                 </Link>
