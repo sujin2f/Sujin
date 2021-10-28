@@ -1,5 +1,5 @@
 import { SQL_GET_POST_META } from 'src/constants/query'
-import { format } from 'src/utils/common'
+import { format } from 'src/utils'
 import { cached } from '../node-cache'
 import { mysql } from './mysqld'
 

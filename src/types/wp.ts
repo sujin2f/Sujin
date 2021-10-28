@@ -2,19 +2,20 @@ import { MenuItem } from 'src/frontend/components/layout/MenuItem'
 
 export type Post = {
     id: number
-    date: string
+    slug: string
+    date: Date
     content: string
     title: string
     excerpt: string
     parent: number
     guid: string
+    type: string
     menuOrder: number
 }
 
 export type MenuItem = {
     target: string
     url: string
-    type: string
     objectId: number
     htmlClass: string[]
     children: MenuItem[]

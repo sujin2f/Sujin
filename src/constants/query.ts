@@ -5,6 +5,9 @@ const POST_FIELDS = `
     post.post_title AS title,
     post.post_excerpt AS excerpt,
     post.post_parent AS parent,
+    post.post_type AS type,
+    post.menu_order AS menuOrder,
+    post.post_name AS slug,
     post.guid
 `
 export const SQL_GET_OPTION = `

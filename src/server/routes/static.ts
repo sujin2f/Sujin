@@ -26,11 +26,14 @@ const getGlobalVariable = async (): Promise<GlobalVariable> => {
         return cache
     }
 
+    const frontend = new URL((await getOption<string>('home')) || '')
+    const backend = new URL((await getOption<string>('siteurl')) || '')
+
     const globalVariable: GlobalVariable = {
         title: (await getOption('blogname')) || '',
         description: (await getOption('blogdescription')) || '',
-        frontend: (await getOption('home')) || '',
-        backend: (await getOption('siteurl')) || '',
+        frontend: frontend.origin,
+        backend: backend.origin,
         prod: !isDev(),
     }
 

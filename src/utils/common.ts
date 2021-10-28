@@ -17,3 +17,26 @@ export const format = (str: string, ...args: (string | number)[]): string => {
     })
     return result
 }
+
+/**
+ * Adding zero to a single string
+ * 1 => 01
+ * @param {string} number
+ * @return {string}
+ */
+const addZero = (number: string | number): string => {
+    const num = typeof number === 'string' ? number : number.toString()
+
+    if (num.length >= 2) {
+        return num
+    }
+
+    return `0${num}`
+}
+
+export const dateToPrettyUrl = (timestamp: Date): string => {
+    const date = new Date(timestamp)
+    return `${date.getFullYear()}/${addZero(date.getMonth() + 1)}/${addZero(
+        date.getDate(),
+    )}`
+}

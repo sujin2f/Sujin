@@ -1,6 +1,6 @@
 import { SQL_GET_OPTION } from 'src/constants/query'
 import { Nullable } from 'src/types'
-import { format } from 'src/utils/common'
+import { format } from 'src/utils'
 import { cached } from '../node-cache'
 import { mysql } from './mysqld'
 

@@ -20,26 +20,28 @@ class Environment {
 	 * Read data from .env
 	 */
 	public function __construct() {
-		$filename = dirname( __DIR__ ) . '/.env';
-		$handle   = fopen( $filename, 'r' );
+		// $filename = dirname( __DIR__ ) . '/.env';
+		// $handle   = fopen( $filename, 'r' );
 
-		if ( ! $handle ) {
-			return;
-		}
+		// if ( ! $handle ) {
+		// 	return;
+		// }
 
-		$text = fread( $handle, filesize( $filename ) );
-		fclose( $handle );
-		$text = explode( "\n", $text );
+		// echo $filename;
 
-		foreach ( $text as $line ) {
-			if ( ! $line ) {
-				continue;
-			}
+		// $text = fread( $handle, filesize( $filename ) );
+		// fclose( $handle );
+		// $text = explode( "\n", $text );
 
-			$line = explode( '=', $line, 2 );
+		// foreach ( $text as $line ) {
+		// 	if ( ! $line ) {
+		// 		continue;
+		// 	}
 
-			$this->data[ strtolower( $line[0] ) ] = $line[1];
-		}
+		// 	$line = explode( '=', $line, 2 );
+
+		// 	$this->data[ strtolower( $line[0] ) ] = $line[1];
+		// }
 	}
 
 	public function __get( string $key ): string {

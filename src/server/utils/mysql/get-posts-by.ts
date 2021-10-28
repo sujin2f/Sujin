@@ -1,6 +1,6 @@
 import { SQL_GET_POST_BY, SQL_GET_TERM_ITEMS } from 'src/constants/query'
 import { Post } from 'src/types'
-import { format } from 'src/utils/common'
+import { format } from 'src/utils'
 import { cached } from '../node-cache'
 import { mysql } from './mysqld'
 

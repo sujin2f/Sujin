@@ -1,7 +1,7 @@
 import { SQL_GET_TERM_ITEMS } from 'src/constants/query'
 import { WP_KEYS } from 'src/constants/query'
 import { Background, Post } from 'src/types'
-import { format } from 'src/utils/common'
+import { format } from 'src/utils'
 import { cached } from '../node-cache'
 import { getPostMeta } from './get-post-meta'
 import { mysql } from './mysqld'

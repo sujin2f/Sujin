@@ -1,7 +1,7 @@
 import { SQL_GET_TERM } from 'src/constants/query'
 import { Nullable } from 'src/types'
 import { Term } from 'src/types/wp'
-import { format } from 'src/utils/common'
+import { format } from 'src/utils'
 import { cached } from '../node-cache'
 import { mysql } from './mysqld'
 

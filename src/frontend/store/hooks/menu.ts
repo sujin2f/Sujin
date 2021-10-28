@@ -35,18 +35,14 @@ export const useMenu = (slug: string): StateMenu => {
                         getMenu(menuName: "${slug}") {
                             id
                             title
-                            guid
                             target
                             url
-                            type
                             htmlClass
                             children {
                                 id
                                 title
-                                guid
                                 target
                                 url
-                                type
                                 htmlClass
                             }
                         }

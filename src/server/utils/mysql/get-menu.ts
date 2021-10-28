@@ -1,12 +1,13 @@
 import { SQL_GET_TERM_ITEMS } from 'src/constants/query'
 import { MenuItem, Post } from 'src/types'
-import { format } from 'src/utils/common'
+import { format } from 'src/utils'
 
 import { mysql } from './mysqld'
 import { getAllPostMeta } from './get-all-post-meta'
 import { getTerm } from './get-term'
 import { getPostsBy } from './get-posts-by'
 import { cached } from '../node-cache'
+import { dateToPrettyUrl } from 'src/utils/common'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const PHPUnserialize = require('php-unserialize')
@@ -31,13 +32,12 @@ const getMenuItemFromPost = async (menu: Post): Promise<MenuItem> => {
 
     switch (type) {
         case 'post_type':
-            const post =
-                !title || !url
-                    ? (await getPostsBy('id', objectId))[0]
-                    : { title: '', guid: '' }
+            const post = (await getPostsBy('id', objectId))[0]
             title = title || post.title || ''
-            // TODO To pretty URL
-            url = url || post.guid || ''
+            url =
+                post.type === 'page'
+                    ? `/${post.slug}`
+                    : `/${dateToPrettyUrl(post.date)}/${post.slug}`
             break
         case 'taxonomy':
             const term =
