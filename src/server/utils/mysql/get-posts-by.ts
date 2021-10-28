@@ -15,6 +15,7 @@ import { mysql } from './mysqld'
 export const getPostsBy = async ({
     key,
     value,
+    page = 1,
 }: GetPostsByArgs): Promise<Post[]> => {
     const cache = cached.get<Post[]>(`mysql-get-posts-by-${key}-${value}`)
     if (cache) {

@@ -32,8 +32,8 @@ const getGlobalVariable = async (): Promise<GlobalVariable> => {
     const globalVariable: GlobalVariable = {
         title: (await getOption('blogname')) || '',
         description: (await getOption('blogdescription')) || '',
-        frontend: frontend.origin,
-        backend: backend.origin,
+        frontend: 'https://devfront.sujinc.com' || frontend.origin,
+        backend: '' || backend.origin,
     }
 
     cached.set<GlobalVariable>('global-variable', globalVariable)
@@ -82,7 +82,10 @@ staticRouter.get('/static(/*)', (req, res) => {
     }
 })
 
-staticRouter.get('/', (_, res) => {
+/**
+ * React frontend
+ */
+staticRouter.use(function (_, res) {
     showReact(res)
 })
 

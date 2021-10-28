@@ -6,8 +6,8 @@ import { TextSort } from 'src/frontend/components/dev-tools/TextSort'
 import { SymbolAlignment } from 'src/frontend/components/dev-tools/SymbolAlignment'
 import { Gist } from 'src/frontend/components/single/Gist'
 import { TweetEmbed } from 'src/frontend/components/single/TweetEmbed'
-import { SimplePost } from 'src/frontend/store/items/simple-post'
-import { StateLeftRail } from 'src/frontend/store/reducer'
+// import { Post } from 'src/types'
+// import { StateLeftRail } from 'src/frontend/store/reducer'
 
 interface UrlArgs {
     [key: string]: string
@@ -95,7 +95,7 @@ const replaceQuotes = (matched: any, key: string) => {
     return (matched[key] && matched[key].replace(regex, '')) || ''
 }
 
-export function parseContent(content: string) {
+export function parseContent(content: string): JSX.Element[] {
     const patternShortcode = /(\[([\w-]+)[^\]]*?\][^\2]*?\[\/[^\]]*\2\]|\[[\w-]+[^\]]*?\/\])/gi
     const str = content
 
@@ -189,25 +189,25 @@ export function parseContent(content: string) {
     return elements
 }
 
-export function parseSeries(
-    id: number,
-    seriesPosts?: SimplePost[],
-): StateLeftRail {
-    if (!seriesPosts || seriesPosts.length === 0) {
-        return {}
-    }
+// export function parseSeries(
+//     id: number,
+//     seriesPosts?: SimplePost[],
+// ): StateLeftRail {
+//     if (!seriesPosts || seriesPosts.length === 0) {
+//         return {}
+//     }
 
-    return {
-        Series: {
-            ...seriesPosts.reduce((acc, series: SimplePost) => {
-                return {
-                    ...acc,
-                    [series.title]: series.link,
-                }
-            }, {}),
-        },
-    }
-}
+//     return {
+//         Series: {
+//             ...seriesPosts.reduce((acc, series: SimplePost) => {
+//                 return {
+//                     ...acc,
+//                     [series.title]: series.link,
+//                 }
+//             }, {}),
+//         },
+//     }
+// }
 
 const getNewWindowFeatures = () => {
     const top = (window.innerHeight - 600) / 2

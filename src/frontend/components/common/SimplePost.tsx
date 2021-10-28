@@ -8,11 +8,11 @@ import React from 'react'
 import DEFAULT_BG from 'src/assets/images/thumbnail.svg'
 import { Link } from 'src/frontend/components/common/Link'
 import { Tags } from 'src/frontend/components/common/Tags'
-import { SimplePost as SimplePostType } from 'src/frontend/store/items/simple-post'
+import { Post } from 'src/types'
 import { parseExImage } from 'src/frontend/utils/common'
 
 interface Props {
-    item: SimplePostType
+    item: Post
     className?: string
     thumbnailKey?: {
         desktop?: 'large' | 'medium' | 'small' | 'tiny'
@@ -22,19 +22,22 @@ interface Props {
 
 export const SimplePost = (props: Props): JSX.Element => {
     const {
-        item: { title, thumbnail, link, date, meta, excerpt, tags },
+        // item: { title, thumbnail, link, date, meta, excerpt, tags },
+        item: { title, link, date, excerpt, tags },
         className,
-        thumbnailKey = {},
+        // thumbnailKey = {},
     } = props
 
-    const backgroundImage = parseExImage(
-        meta.list,
-        thumbnail,
-        thumbnailKey.desktop || 'medium',
-        thumbnailKey.mobile || 'small',
-        DEFAULT_BG,
-        DEFAULT_BG,
-    )
+    // const backgroundImage = parseExImage(
+    //     meta.list,
+    //     thumbnail,
+    //     thumbnailKey.desktop || 'medium',
+    //     thumbnailKey.mobile || 'small',
+    //     DEFAULT_BG,
+    //     DEFAULT_BG,
+    // )
+
+    const jsDate = new Date(date)
 
     return (
         <div className={`simple-post ${className}`}>
@@ -46,20 +49,14 @@ export const SimplePost = (props: Props): JSX.Element => {
                     <div className="zoom-icon" />
                     <div className="inner-shadow" />
                     <time dateTime={new Date(date).toString()}>
-                        <span className="day">
-                            {props.item.parseDate().day}
-                        </span>
-                        <span className="month">
-                            {props.item.parseDate().month}
-                        </span>
-                        <span className="year">
-                            {props.item.parseDate().year}
-                        </span>
+                        <span className="day">{jsDate.getDate()}</span>
+                        <span className="month">{jsDate.getMonth() + 1}</span>
+                        <span className="year">{jsDate.getFullYear()}</span>
                     </time>
-                    <div
+                    {/* <div
                         style={{ backgroundImage: `url('${backgroundImage}')` }}
                         className="attachment-post-thumbnail size-post-thumbnail wp-post-image"
-                    />
+                    /> */}
                 </Link>
             </figure>
 
@@ -76,10 +73,10 @@ export const SimplePost = (props: Props): JSX.Element => {
                 <div
                     itemProp="description"
                     className="description"
-                    dangerouslySetInnerHTML={{ __html: excerpt! }}
+                    dangerouslySetInnerHTML={{ __html: excerpt }}
                 />
 
-                <Tags items={tags} prefix={`archive-item-${title}`} />
+                {/* <Tags items={tags} prefix={`archive-item-${title}`} /> */}
             </div>
         </div>
     )

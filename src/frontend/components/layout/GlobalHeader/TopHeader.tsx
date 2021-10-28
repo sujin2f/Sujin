@@ -4,6 +4,7 @@
  */
 
 import React, { useContext, Fragment } from 'react'
+import { MenuName } from 'src/constants/query'
 
 import { Loading } from 'src/frontend/components/common/Loading'
 import { Menu } from 'src/frontend/components/layout/Menu'
@@ -35,7 +36,7 @@ export const TopHeader = (): JSX.Element => {
                         <section className="columns small-12">
                             <Menu
                                 className="show-for-large flex-row menu__top__primary"
-                                slug="main"
+                                slug={MenuName.MAIN}
                             />
                         </section>
                     </div>
@@ -74,7 +75,7 @@ export const TopHeader = (): JSX.Element => {
                         <section className="columns small-12">
                             <Menu
                                 className="show-for-large flex-row menu__top__primary"
-                                slug="main"
+                                slug={MenuName.MAIN}
                             />
                         </section>
                     </div>

@@ -10,6 +10,7 @@ import { Search } from 'src/frontend/components/layout/Search'
 import { Menu } from 'src/frontend/components/layout/Menu'
 import { Context } from 'src/frontend/store'
 import { setPageInfo } from 'src/frontend/store/actions'
+import { MenuName } from 'src/constants/query'
 
 export const FixedHeader = (): JSX.Element => {
     const [
@@ -49,14 +50,14 @@ export const FixedHeader = (): JSX.Element => {
                         />
                         <Menu
                             className="show-for-large menu__fixed__primary"
-                            slug="main"
+                            slug={MenuName.MAIN}
                         />
                     </section>
                     <section className="columns small-6 hide-for-small-only">
                         <Search />
                         <Menu
                             className="show-for-large menu__fixed__social-media"
-                            slug="social-media"
+                            slug={MenuName.SOCIAL}
                         />
                     </section>
                 </div>
@@ -70,7 +71,7 @@ export const FixedHeader = (): JSX.Element => {
 
             <Menu
                 className="hide-for-large menu__fixed__primary-mobile"
-                slug="main"
+                slug={MenuName.MAIN}
             />
         </section>
     )

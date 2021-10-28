@@ -12,18 +12,20 @@ import {
     LOAD_MENU_INIT,
     LOAD_MENU_SUCCESS,
     LOAD_MENU_FAIL,
-    // LOAD_POST_INIT,
-    // LOAD_POST_SUCCESS,
-    // LOAD_POST_FAIL,
+    LOAD_POST_INIT,
+    LOAD_POST_SUCCESS,
+    LOAD_POST_FAIL,
     LOAD_BACKGROUND_INIT,
     LOAD_BACKGROUND_SUCCESS,
     LOAD_BACKGROUND_FAIL,
-    // LOAD_ARCHIVE_INIT,
-    // LOAD_ARCHIVE_SUCCESS,
-    // LOAD_ARCHIVE_FAIL,
+    LOAD_ARCHIVE_INIT,
+    LOAD_ARCHIVE_SUCCESS,
+    LOAD_ARCHIVE_FAIL,
     // SET_LEFT_RAIL,
 } from 'src/frontend/store/actions'
 import { Action, State } from 'src/types/store'
+import { dummyPost } from 'src/constants/errors'
+
 // import { Archive } from 'src/frontend/store/items/archive'
 // import { Background, MenuItem } from 'src/types'
 // import { StoreBackgrounds } from 'src/types/store'
@@ -73,12 +75,7 @@ import { Action, State } from 'src/types/store'
 // }
 
 export const initialState: State = {
-    // archive: {
-    //     category: {},
-    //     tag: {},
-    //     search: {},
-    //     recentPosts: {},
-    // },
+    archive: {},
     backgrounds: undefined,
     menus: {},
     pageInfo: {
@@ -98,11 +95,12 @@ export const initialState: State = {
             layout__wrapper: true,
         },
     },
-    // posts: {},
+    posts: {},
     // leftRail: {},
 }
 
 export const reducer = (state: State = initialState, action: Action): State => {
+    const archiveKey = `${action.termType}__${action.slug}`
     switch (action.type) {
         case SET_PAGE_INFO: {
             return {
@@ -155,42 +153,41 @@ export const reducer = (state: State = initialState, action: Action): State => {
             }
         }
 
-        // case LOAD_POST_INIT: {
-        //     return {
-        //         ...state,
-        //         posts: {
-        //             ...state.posts,
-        //             [action.slug]: {
-        //                 state: 'Loading',
-        //             },
-        //         },
-        //     }
-        // }
+        case LOAD_POST_INIT: {
+            return {
+                ...state,
+                posts: {
+                    ...state.posts,
+                    [action.slug]: {
+                        ...dummyPost,
+                        date: 'Loading',
+                    },
+                },
+            }
+        }
 
-        // case LOAD_POST_SUCCESS: {
-        //     return {
-        //         ...state,
-        //         posts: {
-        //             ...state.posts,
-        //             [action.slug]: {
-        //                 state: 'Success',
-        //                 item: action.post,
-        //             },
-        //         },
-        //     }
-        // }
+        case LOAD_POST_SUCCESS: {
+            return {
+                ...state,
+                posts: {
+                    ...state.posts,
+                    [action.slug]: action.post,
+                },
+            }
+        }
 
-        // case LOAD_POST_FAIL: {
-        //     return {
-        //         ...state,
-        //         posts: {
-        //             ...state.posts,
-        //             [action.slug]: {
-        //                 state: 'Failed',
-        //             },
-        //         },
-        //     }
-        // }
+        case LOAD_POST_FAIL: {
+            return {
+                ...state,
+                posts: {
+                    ...state.posts,
+                    [action.slug]: {
+                        ...dummyPost,
+                        date: 'Failed',
+                    },
+                },
+            }
+        }
 
         case LOAD_BACKGROUND_INIT: {
             return {
@@ -218,41 +215,52 @@ export const reducer = (state: State = initialState, action: Action): State => {
             }
         }
 
-        // case LOAD_ARCHIVE_INIT:
-        // case LOAD_ARCHIVE_SUCCESS:
-        // case LOAD_ARCHIVE_FAIL: {
-        //     const slugNode = state.archive[action.termType][action.slug] || []
+        case LOAD_ARCHIVE_INIT:
+            return {
+                ...state,
+                archive: {
+                    ...state.archive,
+                    [archiveKey]: {
+                        ...state.archive[archiveKey],
+                        [action.page]: 'Loading',
+                    },
+                },
+            }
 
-        //     switch (action.type) {
-        //         case LOAD_ARCHIVE_INIT:
-        //             slugNode[action.page] = {
-        //                 state: 'Loading',
-        //             }
-        //             break
-        //         case LOAD_ARCHIVE_SUCCESS:
-        //             slugNode[action.page] = {
-        //                 state: 'Success',
-        //                 item: action.archive,
-        //             }
-        //             break
-        //         case LOAD_ARCHIVE_FAIL:
-        //             slugNode[action.page] = {
-        //                 state: 'Failed',
-        //             }
-        //             break
-        //     }
+        case LOAD_ARCHIVE_SUCCESS:
+            const posts = action.posts.reduce((prev, post) => {
+                return {
+                    ...prev,
+                    [post.slug]: post,
+                }
+            }, {})
 
-        //     return {
-        //         ...state,
-        //         archive: {
-        //             ...state.archive,
-        //             [action.termType]: {
-        //                 ...state.archive[action.termType],
-        //                 [action.slug]: slugNode,
-        //             },
-        //         },
-        //     }
-        // }
+            return {
+                ...state,
+                posts: {
+                    ...state.posts,
+                    ...posts,
+                },
+                archive: {
+                    ...state.archive,
+                    [archiveKey]: {
+                        ...state.archive[archiveKey],
+                        [action.page]: action.posts.map((post) => post.slug),
+                    },
+                },
+            }
+        case LOAD_ARCHIVE_FAIL: {
+            return {
+                ...state,
+                archive: {
+                    ...state.archive,
+                    [archiveKey]: {
+                        ...state.archive[archiveKey],
+                        [action.page]: 'Failed',
+                    },
+                },
+            }
+        }
 
         default: {
             return state

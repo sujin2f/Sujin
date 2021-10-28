@@ -1,6 +1,6 @@
 import { MenuItem } from 'src/frontend/components/layout/MenuItem'
 
-export type SimplePost = {
+export type Post = {
     id: number
     slug: string
     title: string
@@ -12,11 +12,6 @@ export type SimplePost = {
     type: string
     menuOrder: number
     tags: Term[]
-    // thumbnail: Image
-    // meta: PostMeta
-}
-
-export type Post = SimplePost & {
     // thumbnail: Image
     // meta: PostMeta
 }

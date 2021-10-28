@@ -8,9 +8,9 @@ import React, { useEffect, useContext } from 'react'
 import { Carousel } from 'src/frontend/components/single/Carousel'
 import { CLASS_NAME } from 'src/frontend/constants/dom'
 import { Context } from 'src/frontend/store'
-import { setLeftRail } from 'src/frontend/store/actions'
-import { Post } from 'src/frontend/store/items/post'
-import { parseContent, parseSeries } from 'src/frontend/utils/single'
+// import { setLeftRail } from 'src/frontend/store/actions'
+import { Post } from 'src/types'
+import { parseContent } from 'src/frontend/utils/single'
 import { ReactChildrenProps } from 'src/types/common'
 
 interface Props extends ReactChildrenProps {
@@ -20,34 +20,35 @@ interface Props extends ReactChildrenProps {
 
 export const Content = (props: Props): JSX.Element => {
     const {
-        post: { id, slug, content, series, type },
+        // post: { id, slug, content, series, type },
+        post: { id, slug, content, type },
         className,
         children,
     } = props
 
-    const [, dispatch] = useContext(Context) as Context
+    // const [, dispatch] = useContext(Context) as Context
     const contents = [...parseContent(content)]
 
-    useEffect((): void => {
-        dispatch(setLeftRail(parseSeries(id, series)))
+    // useEffect((): void => {
+    //     dispatch(setLeftRail(parseSeries(id, series)))
 
-        const carousels = document.getElementsByClassName(
-            CLASS_NAME.carousel.CAROUSEL,
-        )
+    //     const carousels = document.getElementsByClassName(
+    //         CLASS_NAME.carousel.CAROUSEL,
+    //     )
 
-        if (carousels.length === 0) {
-            return
-        }
+    //     if (carousels.length === 0) {
+    //         return
+    //     }
 
-        Array.from(carousels).forEach((element: Element): void => {
-            if (element.getAttribute('data-loaded')) {
-                return
-            }
-            // tslint:disable-next-line: no-unused-expression
-            new Carousel(element)
-            element.setAttribute('data-loaded', 'loaded')
-        })
-    }, [dispatch, id, series])
+    //     Array.from(carousels).forEach((element: Element): void => {
+    //         if (element.getAttribute('data-loaded')) {
+    //             return
+    //         }
+    //         // tslint:disable-next-line: no-unused-expression
+    //         new Carousel(element)
+    //         element.setAttribute('data-loaded', 'loaded')
+    //     })
+    // }, [dispatch, id, series])
 
     return (
         <article

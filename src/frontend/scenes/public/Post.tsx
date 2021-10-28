@@ -7,16 +7,10 @@
 import React, { Fragment } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { Link } from 'src/frontend/components/common/Link'
-import { Tags } from 'src/frontend/components/common/Tags'
 import { Content } from 'src/frontend/components/single/Content'
-import { PrevNext } from 'src/frontend/components/single/PrevNext'
-import { RelatedPosts } from 'src/frontend/components/single/RelatedPosts'
-import { SingleAside } from 'src/frontend/components/single/SingleAside'
-import { SocialShare } from 'src/frontend/components/single/SocialShare'
 import { NotFound } from 'src/frontend/scenes/public/NotFound'
-import { usePost, useLeftRail } from 'src/frontend/store/hooks/single'
-import { Post as TypePost } from 'src/frontend/store/items/post'
+import { usePost } from 'src/frontend/store/hooks/single'
+import { Post as TypePost } from 'src/types'
 
 interface Props {
     backgroundImage: string
@@ -27,23 +21,23 @@ interface Props {
 }
 
 export const Post = (): JSX.Element => {
-    const { slug } = useParams()
+    const { slug } = useParams<{ slug: string }>()
     const post = usePost(slug)
-    const leftRail = useLeftRail()
+    // const leftRail = useLeftRail()
 
-    if (post && 'Failed' === post.state) {
+    if (post && 'Failed' === post.date) {
         return <NotFound />
     }
 
-    if (!post || 'Loading' === post.state) {
+    if (!post || 'Loading' === post.date) {
         return <Fragment />
     }
 
-    const { prevNext, related, tags, title, excerpt, thumbnail } = post.item!
+    // const { prevNext, related, tags, title, excerpt, thumbnail } = post
 
     return (
         <Fragment>
-            <div className="columns small-12 medium-3 layout__article__left">
+            {/* <div className="columns small-12 medium-3 layout__article__left">
                 {Object.keys(leftRail).map((leftRailTitle: string) => (
                     <Fragment key={`leftrail-${leftRailTitle}`}>
                         <h2 className="section-header">
@@ -71,20 +65,21 @@ export const Post = (): JSX.Element => {
                     </Fragment>
                 ))}
             </div>
+            */}
 
-            <Content post={post.item!} className="columns small-12 large-6">
-                <Tags items={tags} prefix={`single-${slug}`} />
-                <SocialShare
+            <Content post={post} className="columns small-12 large-6">
+                {/* <Tags items={tags} prefix={`single-${slug}`} /> */}
+                {/* <SocialShare
                     title={title}
-                    excerpt={excerpt!}
+                    excerpt={excerpt}
                     thumbnail={thumbnail!}
-                />
-                <PrevNext prevNext={prevNext} />
-                <RelatedPosts items={related} />
+                /> */}
+                {/* <PrevNext prevNext={prevNext} />
+                <RelatedPosts items={related} /> */}
             </Content>
 
             <aside className="columns small-12 large-3 layout__article__right">
-                <SingleAside />
+                {/* <SingleAside /> */}
             </aside>
         </Fragment>
     )

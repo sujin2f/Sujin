@@ -71,7 +71,7 @@ export const getMenu = async ({
 }): Promise<MenuItem[]> => {
     const cache = cached.get<MenuItem[]>(`mysql-get-menu-${menuName}`)
     if (cache) {
-        return cache
+        // return cache
     }
 
     const connection = await mysql()

@@ -54,15 +54,21 @@ export const SQL_GET_TERM = `
 export const SQL_GET_TERM_ITEMS = `
 SELECT
     ${POST_FIELDS}
-FROM
-    wp_term_relationships AS term_relationship
-INNER JOIN wp_posts as post
-    ON post.ID = term_relationship.object_id
-INNER JOIN wp_terms as term
-    ON term.term_id = term_relationship.term_taxonomy_id
-Where term.slug="{0}"
+    FROM wp_posts AS post
+    INNER JOIN wp_term_relationships as term_relationship
+        ON post.ID = term_relationship.object_id
+    INNER JOIN wp_term_taxonomy as term_taxonomy
+        ON term_taxonomy.term_taxonomy_id = term_relationship.term_taxonomy_id
+    INNER JOIN wp_terms as term
+        ON term.term_id = term_taxonomy.term_id
+    WHERE term.slug="{0}"
 `
 
-export enum WP_KEYS {
+export enum WPKeys {
     ATTACHMENT_META = '_wp_attachment_metadata',
+}
+
+export enum MenuName {
+    MAIN = 'hercules',
+    SOCIAL = 'social-media',
 }

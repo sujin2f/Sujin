@@ -2,39 +2,28 @@
  * Store actions
  * @module frontend
  */
-// import { TermTypes } from 'src/frontend/constants/enum'
 
-// import { StatePageInfo } from 'src/frontend/store/reducer'
-// import { StateLeftRail } from 'src/frontend/store/reducer'
-
-// import { Archive } from 'src/frontend/store/items/archive'
-import { Background, MenuItem } from 'src/types'
-// import { Post } from 'src/frontend/store/items/post'
+import { Background, MenuItem, Post } from 'src/types'
 import { Action, PageInfo } from 'src/types/store'
+import { TermTypes } from '../constants/enum'
 
-// export const SET_PUBLIC_CLASS = 'sujin/v1/SET_PUBLIC_CLASS'
 export const SET_PAGE_INFO = 'sujin/v1/SET_PAGE_HEADER'
 // export const SET_LEFT_RAIL = 'sujin/v1/SET_LEFT_RAIL'
 export const LOAD_MENU_INIT = 'sujin/v1/LOAD_MENU_INIT'
 export const LOAD_MENU_SUCCESS = 'sujin/v1/LOAD_MENU_SUCCESS'
 export const LOAD_MENU_FAIL = 'sujin/v1/LOAD_MENU_FAIL'
 
-// export const LOAD_POST_INIT = 'sujin/v1/LOAD_POST_INIT'
-// export const LOAD_POST_SUCCESS = 'sujin/v1/LOAD_POST_SUCCESS'
-// export const LOAD_POST_FAIL = 'sujin/v1/LOAD_POST_FAIL'
+export const LOAD_POST_INIT = 'sujin/v1/LOAD_POST_INIT'
+export const LOAD_POST_SUCCESS = 'sujin/v1/LOAD_POST_SUCCESS'
+export const LOAD_POST_FAIL = 'sujin/v1/LOAD_POST_FAIL'
+
 export const LOAD_BACKGROUND_INIT = 'sujin/v1/LOAD_BACKGROUND_INIT'
 export const LOAD_BACKGROUND_SUCCESS = 'sujin/v1/LOAD_BACKGROUND_SUCCESS'
 export const LOAD_BACKGROUND_FAIL = 'sujin/v1/LOAD_BACKGROUND_FAIL'
-// export const LOAD_ARCHIVE_INIT = 'sujin/v1/LOAD_ARCHIVE_INIT'
-// export const LOAD_ARCHIVE_SUCCESS = 'sujin/v1/LOAD_ARCHIVE_SUCCESS'
-// export const LOAD_ARCHIVE_FAIL = 'sujin/v1/LOAD_ARCHIVE_FAIL'
 
-// export const setPublicClass = (publicClass: ActionPublicClass) => {
-//     return {
-//         type: SET_PUBLIC_CLASS,
-//         publicClass,
-//     }
-// }
+export const LOAD_ARCHIVE_INIT = 'sujin/v1/LOAD_ARCHIVE_INIT'
+export const LOAD_ARCHIVE_SUCCESS = 'sujin/v1/LOAD_ARCHIVE_SUCCESS'
+export const LOAD_ARCHIVE_FAIL = 'sujin/v1/LOAD_ARCHIVE_FAIL'
 
 /**
  * To set pageInfo
@@ -107,65 +96,65 @@ export const loadMenuSuccess = (
     }
 }
 
-// export const loadPostInit = (slug: string) => {
-//     return {
-//         type: LOAD_POST_INIT,
-//         slug,
-//     }
-// }
+export const loadPostInit = (slug: string): Partial<Action> => {
+    return {
+        type: LOAD_POST_INIT,
+        slug,
+    }
+}
 
-// export const loadPostSuccess = (slug: string, post: Post) => {
-//     return {
-//         type: LOAD_POST_SUCCESS,
-//         slug,
-//         post,
-//     }
-// }
+export const loadPostSuccess = (slug: string, post: Post): Partial<Action> => {
+    return {
+        type: LOAD_POST_SUCCESS,
+        slug,
+        post,
+    }
+}
 
-// export const loadPostFail = (slug: string) => {
-//     return {
-//         type: LOAD_POST_FAIL,
-//         slug,
-//     }
-// }
+export const loadPostFail = (slug: string): Partial<Action> => {
+    return {
+        type: LOAD_POST_FAIL,
+        slug,
+    }
+}
 
-// export const loadArchiveInit = (
-//     termType: TermTypes,
-//     slug: string,
-//     page: number,
-// ) => {
-//     return {
-//         type: LOAD_ARCHIVE_INIT,
-//         termType,
-//         slug,
-//         page,
-//     }
-// }
+export const loadArchiveInit = (
+    termType: TermTypes,
+    slug: string,
+    page: number,
+): Partial<Action> => {
+    return {
+        type: LOAD_ARCHIVE_INIT,
+        termType,
+        slug,
+        page,
+    }
+}
 
-// export const loadArchiveSuccess = (
-//     termType: TermTypes,
-//     slug: string,
-//     page: number,
-//     archive: Archive,
-// ) => {
-//     return {
-//         type: LOAD_ARCHIVE_SUCCESS,
-//         termType,
-//         slug,
-//         page,
-//         archive,
-//     }
-// }
+export const loadArchiveSuccess = (
+    termType: TermTypes,
+    slug: string,
+    page: number,
+    posts: Post[],
+): Partial<Action> => {
+    return {
+        type: LOAD_ARCHIVE_SUCCESS,
+        termType,
+        slug,
+        page,
+        posts,
+    }
+}
 
-// export const loadArchiveFail = (
-//     termType: TermTypes,
-//     slug: string,
-//     page: number,
-// ) => {
-//     return {
-//         type: LOAD_ARCHIVE_FAIL,
-//         termType,
-//         slug,
-//         page,
-//     }
-// }
+export const loadArchiveFail = (
+    termType: TermTypes,
+    slug: string,
+    page: number,
+): Partial<Action> => {
+    return {
+        type: LOAD_ARCHIVE_FAIL,
+        termType,
+        slug,
+        page,
+    }
+}

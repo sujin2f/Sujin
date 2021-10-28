@@ -19,7 +19,7 @@ const schema = buildSchema(`
     scalar Date
     type Query {
         getMenu(menuName: String!): [MenuItem]
-        getPostsBy(key: String!, value: String!): [Post]
+        getPostsBy(key: String!, value: String!, page: Int): [Post]
         getBackgrounds: [Background]
     },
     type MenuItem {

@@ -1,4 +1,5 @@
-import { Background, MenuItem } from './wp'
+import { TermTypes } from 'src/frontend/constants/enum'
+import { Background, MenuItem, Post } from './wp'
 
 type Type = {
     type: string
@@ -40,35 +41,28 @@ export type PageInfo = PageInfoString &
         wrapperClasses: Partial<WrapperClasses>
     }
 
-// export type PartialPageInfo = Partial<PageInfoString> &
-//     Partial<PageInfoBoolean> & {
-//         wrapperClasses?: Partial<WrapperClasses>
-//     }
-// export type PageInfoOfAction = {
-//     pageInfo: PartialPageInfo
-// }
 export type State = Menus & {
     backgrounds?: Background[]
     pageInfo: PageInfo
-    // archive: {
-    //     [termTypes in TermTypes]: {
-    //         [slug: string]: StateArchive[]
-    //     }
-    // }
+    posts: {
+        [slug: string]: Post
+    }
+    archive: {
+        [slug: string]: {
+            [page: number]: string[] | 'Loading' | 'Failed'
+        }
+    }
     // leftRail: StateLeftRail
-    // posts: {
-    //     [slug: string]: StatePost
-    // }
 }
 
 export type Action = Type &
     Slug & {
-        // archive: Archive
+        posts: Post[]
         // leftRail: StateLeftRail
         menuItems: MenuItem[]
         backgrounds: Background[]
         pageInfo: Partial<PageInfo>
-        // page: number
-        // post: Post
-        // termType: TermTypes
+        page: number
+        post: Post
+        termType: TermTypes
     }
