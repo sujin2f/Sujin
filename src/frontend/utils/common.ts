@@ -56,24 +56,3 @@ export const backgroundImageStyle = (
     }
     return (image && { backgroundImage: `url(${image})` }) || {}
 }
-
-export const log = (message: string, level = 'log'): void => {
-    if (window.globalVariable.prod) {
-        return
-    }
-
-    switch (level) {
-        case 'log':
-            // TODO
-            if ('http://sujinc.test' !== window.globalVariable.frontend) {
-                return
-            }
-
-            // tslint:disable-next-line:no-console
-            console.log(message)
-            return
-    }
-
-    // tslint:disable-next-line:no-console
-    console.error(message)
-}

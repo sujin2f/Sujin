@@ -16,6 +16,7 @@ import {
 const apiRouter = express.Router()
 
 const schema = buildSchema(`
+    scalar Date
     type Query {
         getMenu(menuName: String!): [MenuItem]
         getPostsBy(key: String!, value: String!): [Post]
@@ -41,7 +42,7 @@ const schema = buildSchema(`
 apiRouter.use(
     '/',
     graphqlHTTP({
-        schema: schema,
+        schema,
         rootValue: {
             getMenu,
             getPostsBy,

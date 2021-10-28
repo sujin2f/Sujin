@@ -12,7 +12,7 @@ import { Context } from 'src/frontend/store'
 export const TopHeader = (): JSX.Element => {
     const [
         {
-            pageHeader: {
+            pageInfo: {
                 background,
                 title,
                 description,

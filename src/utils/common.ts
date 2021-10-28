@@ -34,8 +34,7 @@ const addZero = (number: string | number): string => {
     return `0${num}`
 }
 
-export const dateToPrettyUrl = (timestamp: Date): string => {
-    const date = new Date(timestamp)
+export const dateToPrettyUrl = (date: Date): string => {
     return `${date.getFullYear()}/${addZero(date.getMonth() + 1)}/${addZero(
         date.getDate(),
     )}`

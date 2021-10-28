@@ -1,22 +1,26 @@
 export const PostGraphQLType = `
     id: Int
     slug: String
-    date: String
-    content: String
     title: String
     excerpt: String
+    content: String
+    date: Date
+    link: String
     parent: Int
     type: String
     menuOrder: Int
-    guid: String`
+`
 
 export const MenuItemGraphQLType = `
-    ${PostGraphQLType}
+    id: Int
+    title: String
     target: String
-    url: String
+    link: String
     htmlClass: [String]
-    children: [MenuItem]`
+    children: [MenuItem]
+`
 
 export const BackgroundGraphQLType = `
     desktop: String
-    mobile: String`
+    mobile: String
+`

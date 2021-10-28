@@ -1,25 +1,35 @@
 import { MenuItem } from 'src/frontend/components/layout/MenuItem'
 
-export type Post = {
+export type SimplePost = {
     id: number
     slug: string
-    date: Date
-    content: string
     title: string
     excerpt: string
+    content: string
+    date: string
+    link: string
     parent: number
-    guid: string
     type: string
     menuOrder: number
+    tags: Term[]
+    // thumbnail: Image
+    // meta: PostMeta
+}
+
+export type Post = SimplePost & {
+    // thumbnail: Image
+    // meta: PostMeta
 }
 
 export type MenuItem = {
+    id: number
+    title: string
     target: string
-    url: string
-    objectId: number
+    link: string
     htmlClass: string[]
     children: MenuItem[]
-} & Post
+    parent: number
+}
 
 export type Term = {
     id: number

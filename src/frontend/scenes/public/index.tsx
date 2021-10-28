@@ -8,16 +8,13 @@ import React from 'react'
 import { GlobalFooter } from 'src/frontend/components/layout/GlobalFooter'
 import { FixedHeader } from 'src/frontend/components/layout/GlobalHeader/FixedHeader'
 import { TopHeader } from 'src/frontend/components/layout/GlobalHeader/TopHeader'
-import { usePublicClassName } from 'src/frontend/store/hooks/global'
+import { useGlobalWrapper } from 'src/frontend/store/hooks/global'
+import { ReactChildrenProps } from 'src/types/common'
 
 import 'src/assets/styles/style.scss'
 
-interface Props {
-    children?: JSX.Element[] | JSX.Element
-}
-
-export const Public = (props: Props): JSX.Element => {
-    const [className, wrapperElement] = usePublicClassName()
+export const Public = (props: ReactChildrenProps): JSX.Element => {
+    const [className, wrapperElement] = useGlobalWrapper()
 
     return (
         <div ref={wrapperElement} className={className}>

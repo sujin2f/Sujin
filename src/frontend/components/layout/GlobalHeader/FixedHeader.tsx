@@ -9,10 +9,15 @@ import { Link } from 'src/frontend/components/common/Link'
 import { Search } from 'src/frontend/components/layout/Search'
 import { Menu } from 'src/frontend/components/layout/Menu'
 import { Context } from 'src/frontend/store'
-import { setPublicClass } from 'src/frontend/store/actions'
+import { setPageInfo } from 'src/frontend/store/actions'
 
 export const FixedHeader = (): JSX.Element => {
-    const [{ publicClass }, dispatch] = useContext(Context) as Context
+    const [
+        {
+            pageInfo: { wrapperClasses },
+        },
+        dispatch,
+    ] = useContext(Context) as Context
 
     return (
         <section className="layout__header__fixed">
@@ -32,10 +37,12 @@ export const FixedHeader = (): JSX.Element => {
                             type="button"
                             onClick={() =>
                                 dispatch(
-                                    setPublicClass({
-                                        'mobile-menu': !publicClass[
-                                            'mobile-menu'
-                                        ],
+                                    setPageInfo({
+                                        wrapperClasses: {
+                                            'mobile-menu': !wrapperClasses[
+                                                'mobile-menu'
+                                            ],
+                                        },
                                     }),
                                 )
                             }

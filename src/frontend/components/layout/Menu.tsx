@@ -18,13 +18,13 @@ export const Menu = (props: Props): JSX.Element => {
     const { slug, className } = props
     const menu = useMenu(slug)
 
-    if (!menu || 'Success' !== menu.state) {
+    if (!menu || !menu.length) {
         return <Fragment />
     }
 
     return (
         <nav className={`${className} ${slug} menu`}>
-            {menu.item!.map((menuItem: MenuItemType) => (
+            {menu.map((menuItem: MenuItemType) => (
                 <div key={`menu-${menuItem.id}`} className="menu__item">
                     <MenuItem menuItem={menuItem} />
 

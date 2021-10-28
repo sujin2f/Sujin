@@ -12,10 +12,10 @@ import { Context } from 'src/frontend/store'
 import {
     setPageHeader,
     setPublicClass,
-    loadArchiveInit,
-    loadArchiveSuccess,
-    loadArchiveFail,
-    loadPostSuccess,
+    // loadArchiveInit,
+    // loadArchiveSuccess,
+    // loadArchiveFail,
+    // loadPostSuccess,
 } from 'src/frontend/store/actions'
 import { Archive } from 'src/frontend/store/items/archive'
 import { StateArchive } from 'src/frontend/store/reducer'
@@ -113,7 +113,6 @@ const useArchiveInit = (
             setPublicClass({
                 'stretched-background': false,
                 'hide-footer': false,
-                'hide-header': false,
             }),
         )
 

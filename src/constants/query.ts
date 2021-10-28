@@ -1,14 +1,14 @@
 const POST_FIELDS = `
     post.ID AS id,
-    post.post_date AS date,
-    post.post_content AS content,
+    post.post_name AS slug,
     post.post_title AS title,
     post.post_excerpt AS excerpt,
+    post.post_date AS date,
+    post.post_content AS content,
     post.post_parent AS parent,
     post.post_type AS type,
     post.menu_order AS menuOrder,
-    post.post_name AS slug,
-    post.guid
+    post.guid AS link
 `
 export const SQL_GET_OPTION = `
     SELECT option_value
@@ -22,6 +22,12 @@ export const SQL_GET_TERM_RELATION = `
     WHERE term_taxonomy_id="{0}"
 `
 export const SQL_GET_POST_BY = `
+    SELECT 
+        ${POST_FIELDS}
+    FROM wp_posts AS post
+    WHERE {0}="{1}"
+`
+export const SQL_GET_SIMPLE_POST_BY = `
     SELECT 
         ${POST_FIELDS}
     FROM wp_posts AS post

@@ -7,7 +7,6 @@ import { getAllPostMeta } from './get-all-post-meta'
 import { getTerm } from './get-term'
 import { getPostsBy } from './get-posts-by'
 import { cached } from '../node-cache'
-import { dateToPrettyUrl } from 'src/utils/common'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const PHPUnserialize = require('php-unserialize')
@@ -20,44 +19,42 @@ const PHPUnserialize = require('php-unserialize')
  */
 const getMenuItemFromPost = async (menu: Post): Promise<MenuItem> => {
     const postMetas = await getAllPostMeta(menu.id)
-    const htmlClass = Object.values(
+    const htmlClass = Object.values<string>(
         PHPUnserialize.unserialize(postMetas['_menu_item_classes']) || {},
     )
 
     const objectId = parseInt(postMetas['_menu_item_object_id'])
     const target = postMetas['_menu_item_target'] || ''
     const type = postMetas['_menu_item_type'] || ''
-    let url = postMetas['_menu_item_url']
+    let link = postMetas['_menu_item_url']
     let title = menu.title
 
     switch (type) {
         case 'post_type':
-            const post = (await getPostsBy('id', objectId))[0]
+            const post = (
+                await getPostsBy({ key: 'id', value: objectId.toString() })
+            )[0]
             title = title || post.title || ''
-            url =
-                post.type === 'page'
-                    ? `/${post.slug}`
-                    : `/${dateToPrettyUrl(post.date)}/${post.slug}`
+            link = post.link
             break
         case 'taxonomy':
             const term =
-                !title || !url
+                !title || !link
                     ? await getTerm(objectId)
                     : { name: '', slug: '' }
             title = title || term?.name || ''
-            url = url || `/category/${term?.slug}` || ''
+            link = link || `/category/${term?.slug}` || ''
             break
     }
 
     return {
-        ...menu,
+        id: menu.id,
         target,
-        url,
-        type,
+        link,
         htmlClass,
-        objectId,
         children: [],
         title,
+        parent: menu.parent,
     } as MenuItem
 }
 

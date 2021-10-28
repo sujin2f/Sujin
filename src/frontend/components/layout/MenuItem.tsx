@@ -14,7 +14,7 @@ interface Props {
 
 export const MenuItem = (props: Props): JSX.Element => {
     const {
-        menuItem: { target, url, htmlClass, title },
+        menuItem: { target, link, htmlClass, title },
     } = props
 
     return (
@@ -22,7 +22,7 @@ export const MenuItem = (props: Props): JSX.Element => {
             {target && (
                 <a
                     itemType="http://schema.org/SiteNavigationElement"
-                    href={url || '#'}
+                    href={link || '#'}
                     className={htmlClass ? htmlClass.join(' ') : ''}
                     target={target}
                 >
@@ -33,7 +33,7 @@ export const MenuItem = (props: Props): JSX.Element => {
             {!target && (
                 <Link
                     itemType="http://schema.org/SiteNavigationElement"
-                    to={url || '#'}
+                    to={link || '#'}
                     className={htmlClass ? htmlClass.join(' ') : ''}
                 >
                     {title}

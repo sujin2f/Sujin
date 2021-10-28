@@ -11,11 +11,11 @@ import { Context } from 'src/frontend/store'
 import { setLeftRail } from 'src/frontend/store/actions'
 import { Post } from 'src/frontend/store/items/post'
 import { parseContent, parseSeries } from 'src/frontend/utils/single'
+import { ReactChildrenProps } from 'src/types/common'
 
-interface Props {
+interface Props extends ReactChildrenProps {
     post: Post
     className?: string
-    children?: JSX.Element | JSX.Element[] | undefined
 }
 
 export const Content = (props: Props): JSX.Element => {

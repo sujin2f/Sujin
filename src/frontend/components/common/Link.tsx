@@ -5,11 +5,11 @@
 
 import React from 'react'
 import { Link as ReactLink } from 'react-router-dom'
+import { ReactChildrenProps } from 'src/types/common'
 
-interface Props {
-    children?: string | JSX.Element | JSX.Element[]
+interface Props extends ReactChildrenProps {
     className?: string
-    dangerouslySetInnerHTML?: object
+    dangerouslySetInnerHTML?: { __html: string }
     itemType?: string
     rel?: string
     title?: string

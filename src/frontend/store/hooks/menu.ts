@@ -8,41 +8,39 @@ import { gql } from '@apollo/client'
 
 import { Context } from 'src/frontend/store'
 import { loadMenuInit, loadMenuSuccess } from 'src/frontend/store/actions'
-import { StateMenu } from 'src/frontend/store/reducer'
 import { graphqlClient } from 'src/frontend/utils'
 import { MenuItem } from 'src/types'
 
-type Response = {
-    getMenu: MenuItem[]
-}
-
-const loaded: string[] = []
-
-export const useMenu = (slug: string): StateMenu => {
-    const [{ menu }, dispatch] = useContext(Context) as Context
+export const useMenu = (slug: string): MenuItem[] => {
+    const [
+        {
+            menus: { [slug]: menu },
+        },
+        dispatch,
+    ] = useContext(Context) as Context
 
     useEffect(() => {
-        if (loaded.includes(slug) || menu[slug]) {
+        if (menu) {
             return
         }
 
         dispatch(loadMenuInit(slug))
 
         graphqlClient
-            .query<Response>({
+            .query<{ getMenu: MenuItem[] }>({
                 query: gql`
                     query {
                         getMenu(menuName: "${slug}") {
                             id
                             title
                             target
-                            url
+                            link
                             htmlClass
                             children {
                                 id
                                 title
                                 target
-                                url
+                                link
                                 htmlClass
                             }
                         }
@@ -52,9 +50,7 @@ export const useMenu = (slug: string): StateMenu => {
             .then((response) => {
                 dispatch(loadMenuSuccess(slug, response.data.getMenu))
             })
-
-        loaded.push(slug)
     }, [dispatch, slug, menu])
 
-    return menu[slug]
+    return menu
 }

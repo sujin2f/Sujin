@@ -34,8 +34,8 @@ export const getBackgrounds = async (): Promise<Background[]> => {
         }
         const mobile = meta.sizes.medium_large.file
         backgrounds.push({
-            desktop: post.guid,
-            mobile: post.guid.replace(/\/([0-9a-zA-Z-_\.]+)$/, `/${mobile}`),
+            desktop: post.link,
+            mobile: post.link.replace(/\/([0-9a-zA-Z-_\.]+)$/, `/${mobile}`),
         })
     }
     cached.set<Background[]>('mysql-get-backgrounds', backgrounds)

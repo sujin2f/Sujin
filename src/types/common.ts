@@ -7,5 +7,8 @@ export type GlobalVariable = {
     description: string
     backend: string
     frontend: string
-    prod: boolean
+}
+
+export interface ReactChildrenProps {
+    children?: string | JSX.Element[] | JSX.Element
 }
