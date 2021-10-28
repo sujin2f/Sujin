@@ -50,7 +50,7 @@ export const getPostsBy = async ({
         let link = post.link
         switch (post.type) {
             case 'post':
-                link = dateToPrettyUrl(new Date(post.date)) + `/${post.slug}`
+                link = `/${dateToPrettyUrl(new Date(post.date))}/${post.slug}`
                 break
             case 'page':
                 link = `/${post.slug}`
