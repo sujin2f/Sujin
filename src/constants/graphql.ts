@@ -30,6 +30,15 @@ export const schema = `
         parent: Int
         type: String
         menuOrder: Int
+        tags: [Term]
+        categories: [Term]
+        series: [Term]
+    },
+    type Term {
+        id: Int
+        name: String
+        slug: String
+        type: String
     },
     type Background {
         desktop: String

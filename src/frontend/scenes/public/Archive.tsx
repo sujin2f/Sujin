@@ -11,18 +11,17 @@ import { useParams } from 'react-router-dom'
 
 // import { Paging } from 'src/frontend/components/common/Paging'
 import { SimplePost } from 'src/frontend/components/common/SimplePost'
-import { TermTypes } from 'src/constants'
 import { NotFound } from 'src/frontend/scenes/public/NotFound'
 import { useArchive } from 'src/frontend/hooks/archive'
-import { Post as PostType } from 'src/types'
+import { Post as PostType, TermTypes } from 'src/types'
 
 export const Archive = (): JSX.Element => {
     const { type, slug, page } = useParams<{
-        type: string
+        type: keyof typeof TermTypes
         slug: string
         page: string
     }>()
-    const posts = useArchive(type as TermTypes, slug, parseInt(page || '1'))
+    const posts = useArchive(TermTypes[type], slug, parseInt(page || '1'))
 
     if ('Failed' === posts) {
         return <NotFound />

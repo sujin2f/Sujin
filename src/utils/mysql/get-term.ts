@@ -1,5 +1,5 @@
 import { CacheKeys, MySQLQuery } from 'src/constants'
-import { Nullable, Term } from 'src/types'
+import { Nullable, Term, TermTypes } from 'src/types'
 import { isDev, cached, mysql } from 'src/utils'
 
 /**
@@ -20,6 +20,10 @@ export const getTerm = async (termId: number): Promise<Nullable<Term>> => {
     if (!result.length) {
         return
     }
-    cached.set<Term>(`${CacheKeys.TERM}-${termId}`, result[0])
-    return result[0]
+    const term: Term = {
+        ...result[0],
+        type: TermTypes[result[0].type as keyof typeof TermTypes],
+    }
+    cached.set<Term>(`${CacheKeys.TERM}-${termId}`, term)
+    return term
 }

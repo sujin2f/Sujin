@@ -1,12 +1,6 @@
 import DEFAULT_BACKGROUND from 'src/assets/images/background/category.jpg'
 import DEFAULT_BACKGROUND_MOBILE from 'src/assets/images/background/category-mobile.jpg'
-// import {
-//     RequestState,
-//     // TermTypes,
-//     WrapperClasses,
-//     PageInfoBoolean,
-//     PageInfoString,
-// } from 'src/types/store'
+
 import {
     SET_PAGE_INFO,
     LOAD_MENU_INIT,
@@ -25,54 +19,6 @@ import {
 } from 'src/frontend/store/actions'
 import { Action, State } from 'src/types'
 import { dummyPost } from 'src/constants'
-
-// import { Archive } from 'src/frontend/store/items/archive'
-// import { Background, MenuItem } from 'src/types'
-// import { StoreBackgrounds } from 'src/types/store'
-// import { Post } from 'src/frontend/store/items/post'
-// import { isMobile } from 'src/frontend/utils/common'
-
-/*
- * Response items
- */
-// export type ResponseItem<T extends Archive | MenuItem[]> = {
-//     state: RequestState
-//     item?: T
-// }
-// export type StatePost = ResponseItem<Post>
-// export type StateMenu = ResponseItem<MenuItem[]>
-// export type StateArchive = ResponseItem<Archive>
-
-// type ActionPageHeaderString = {
-//     [keys in PageHeaderString]?: string
-// }
-// type ActionPageHeaderBoolean = {
-//     [keys in PageHeaderBoolean]?: boolean
-// }
-// export type ActionPageHeader = ActionPageHeaderString & ActionPageHeaderBoolean
-
-/*
- * Public Class
- */
-// type StatePublicClassBase = {
-//     [className in WrapperClasses]: boolean
-// }
-// type StatePublicClassWrapper = {
-//     layout__wrapper: boolean
-// }
-// export type StatePublicClass = StatePublicClassBase & StatePublicClassWrapper
-// export type ActionPublicClass = {
-//     [className in WrapperClasses]?: boolean
-// }
-
-/*
- * misc
- */
-// export type StateLeftRail = {
-//     [title: string]: {
-//         [menuTitle: string]: string
-//     }
-// }
 
 export const initialState: State = {
     archive: {},

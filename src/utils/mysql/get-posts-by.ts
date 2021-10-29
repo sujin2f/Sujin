@@ -1,6 +1,6 @@
 import { MySQLQuery, CacheKeys, PostType } from 'src/constants'
-import { Post, GetPostsByArgs } from 'src/types'
-import { dateToPrettyUrl, isDev, cached, mysql } from 'src/utils'
+import { Post, GetPostsByArgs, TermTypes } from 'src/types'
+import { dateToPrettyUrl, isDev, cached, mysql, getTaxonomies } from 'src/utils'
 
 /**
  * Get posts
@@ -24,13 +24,13 @@ export const getPostsBy = async ({
     switch (key) {
         case 'id':
             result = await connection.query(
-                MySQLQuery.getPostBy('post.ID', value),
+                MySQLQuery.getPostBy('posts.ID', value),
             )
             break
 
         case 'slug':
             result = await connection.query(
-                MySQLQuery.getPostBy('post.post_name', value),
+                MySQLQuery.getPostBy('posts.post_name', value),
             )
             break
 
@@ -43,8 +43,7 @@ export const getPostsBy = async ({
         return []
     }
 
-    // const baseUrl = new URL((await getOption<string>('home')) || '')
-    const posts: Post[] = result.map((post: Record<string, string>) => {
+    const posts: Post[] = result.map(async (post: Record<string, string>) => {
         let link = post.link
         switch (post.type) {
             case PostType.POST:
@@ -55,6 +54,8 @@ export const getPostsBy = async ({
                 link = `/${post.slug}`
                 break
         }
+
+        const taxonomies = await getTaxonomies(parseInt(post.id))
 
         return {
             id: parseInt(post.id),
@@ -67,7 +68,11 @@ export const getPostsBy = async ({
             parent: parseInt(post.parent),
             type: post.type,
             menuOrder: parseInt(post.menuOrder),
-            tags: [],
+            tags: taxonomies.filter((term) => term.type === TermTypes.post_tag),
+            categories: taxonomies.filter(
+                (term) => term.type === TermTypes.category,
+            ),
+            series: taxonomies.filter((term) => term.type === TermTypes.series),
         } as Post
     })
 

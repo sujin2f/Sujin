@@ -3,9 +3,14 @@
  * @module frontend
  */
 
-import { Background, MenuItem, Post } from 'src/types'
-import { Action, PageInfo } from 'src/types/store'
-import { TermTypes } from '../constants/enum'
+import {
+    Background,
+    MenuItem,
+    Post,
+    Action,
+    PageInfo,
+    TermTypes,
+} from 'src/types'
 
 export const SET_PAGE_INFO = 'sujin/v1/SET_PAGE_HEADER'
 // export const SET_LEFT_RAIL = 'sujin/v1/SET_LEFT_RAIL'

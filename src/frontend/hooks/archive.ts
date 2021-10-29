@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react'
 import { gql } from '@apollo/client'
 
-import { TermTypes } from 'src/constants'
+import { TermTypes } from 'src/types'
 import { Post } from 'src/types'
 import { Context } from 'src/frontend/store'
 import {
@@ -49,6 +49,21 @@ export const useArchive = (
                             parent
                             type
                             menuOrder
+                            tags {
+                                id
+                                name
+                                slug
+                            }
+                            categories {
+                                id
+                                name
+                                slug
+                            }
+                            series {
+                                id
+                                name
+                                slug
+                            }
                         }
                     }
                 `,

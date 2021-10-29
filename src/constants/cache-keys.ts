@@ -6,4 +6,5 @@ export enum CacheKeys {
     OPTION = 'mysql-get-option',
     POST = 'mysql-get-post',
     TERM = 'mysql-get-term',
+    TAXONOMY = 'mysql-get-taxonomy',
 }

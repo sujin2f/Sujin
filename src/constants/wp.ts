@@ -1,6 +1,5 @@
 import { Post } from 'src/types'
 
-export type TermTypes = 'category' | 'tag' | 'search' | 'recent-posts'
 export const dummyPost: Post = {
     id: 0,
     slug: '',

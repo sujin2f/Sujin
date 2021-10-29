@@ -40,6 +40,21 @@ export const usePost = (slug: string): Post => {
                             parent
                             type
                             menuOrder
+                            tags {
+                                id
+                                name
+                                slug
+                            }
+                            categories {
+                                id
+                                name
+                                slug
+                            }
+                            series {
+                                id
+                                name
+                                slug
+                            }
                         }
                     }
                 `,
