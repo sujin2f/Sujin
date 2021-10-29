@@ -5,7 +5,7 @@
 
 import React, { Fragment } from 'react'
 
-import { FooterBottom } from 'src/frontend/components/layout/GlobalFooter/FooterBottom'
+import { FooterBottom } from 'src/frontend/components'
 // import { WidgetContainer } from 'src/frontend/components/widgets'
 
 export const GlobalFooter = (): JSX.Element => {

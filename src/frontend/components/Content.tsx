@@ -5,10 +5,9 @@
 
 import React, { useEffect, useContext } from 'react'
 
-import { Carousel } from 'src/frontend/components/single/Carousel'
+import { Carousel } from 'src/frontend/components'
 import { CLASS_NAME } from 'src/frontend/constants/dom'
 import { Context } from 'src/frontend/store'
-// import { setLeftRail } from 'src/frontend/store/actions'
 import { Post, ReactChildrenProps } from 'src/types'
 import { parseContent } from 'src/frontend/utils/single'
 

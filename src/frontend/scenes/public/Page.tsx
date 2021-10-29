@@ -7,12 +7,10 @@
 import React, { Fragment } from 'react'
 import { useParams } from 'react-router-dom'
 
-// import { Tags } from 'src/frontend/components/common/Tags'
-import { Content } from 'src/frontend/components/single/Content'
+import { Tags, Content, Loading } from 'src/frontend/components'
 // import { SocialShare } from 'src/frontend/components/single/SocialShare'
+import { usePost } from 'src/frontend/hooks'
 import { NotFound } from 'src/frontend/scenes/public'
-import { usePost } from 'src/frontend/hooks/single'
-import { Loading } from 'src/frontend/components/common/Loading'
 
 export const Page = (): JSX.Element => {
     const { slug } = useParams<{ slug: string }>()
@@ -33,7 +31,8 @@ export const Page = (): JSX.Element => {
         <Fragment>
             <div className="columns medium-12 large-2" />
             <Content post={post} className="columns large-8 medium-12">
-                {/* <Tags items={tags} prefix={`single-${slug}`} />
+                <Tags items={post.tags} prefix={`single-${slug}`} />
+                {/* 
                 <SocialShare
                     title={title}
                     excerpt={excerpt!}

@@ -6,10 +6,9 @@
 import { useContext, useEffect } from 'react'
 import { gql } from '@apollo/client'
 
-import { Context } from 'src/frontend/store'
-import { loadMenuInit, loadMenuSuccess } from 'src/frontend/store/actions'
-import { graphqlClient } from 'src/frontend/utils'
+import { graphqlClient } from 'src/utils'
 import { MenuItem } from 'src/types'
+import { Context, loadMenuInit, loadMenuSuccess } from 'src/frontend/store'
 
 export const useMenu = (slug: string): MenuItem[] => {
     const [

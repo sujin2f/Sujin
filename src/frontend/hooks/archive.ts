@@ -1,15 +1,14 @@
 import { useContext, useEffect } from 'react'
 import { gql } from '@apollo/client'
 
-import { TermTypes } from 'src/types'
-import { Post } from 'src/types'
-import { Context } from 'src/frontend/store'
+import { TermTypes, Post } from 'src/types'
+import { graphqlClient } from 'src/utils'
 import {
+    Context,
     loadArchiveInit,
     loadArchiveSuccess,
     setPageInfo,
-} from '../store/actions'
-import { graphqlClient } from 'src/frontend/utils'
+} from 'src/frontend/store'
 
 export const useArchive = (
     type: TermTypes,

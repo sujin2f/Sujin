@@ -43,7 +43,8 @@ export const getPostsBy = async ({
         return []
     }
 
-    const posts: Post[] = result.map(async (post: Record<string, string>) => {
+    const posts: Post[] = []
+    for await (const post of result) {
         let link = post.link
         switch (post.type) {
             case PostType.POST:
@@ -57,7 +58,7 @@ export const getPostsBy = async ({
 
         const taxonomies = await getTaxonomies(parseInt(post.id))
 
-        return {
+        posts.push({
             id: parseInt(post.id),
             slug: post.slug,
             title: post.title,
@@ -73,8 +74,8 @@ export const getPostsBy = async ({
                 (term) => term.type === TermTypes.category,
             ),
             series: taxonomies.filter((term) => term.type === TermTypes.series),
-        } as Post
-    })
+        })
+    }
 
     cached.set<Post[]>(`${CacheKeys.POST}-${key}-${value}`, posts)
     return posts

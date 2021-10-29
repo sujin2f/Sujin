@@ -1,17 +1,17 @@
 /*
- * Dev Tool / Text Sort Component
- * components/dev-tools/TextSort
+ * Dev Tool / Symbol Alignment Component
+ * components/dev-tools/CaseTool
  */
 
 import React, { Fragment, useState } from 'react'
 
-import { Link } from 'src/frontend/components/common/Link'
-import { sortText } from 'src/frontend/utils/dev-tools'
+import { Link } from 'src/frontend/components'
+import { symbolAlignment } from 'src/frontend/utils/dev-tools'
 
-export const TextSort = (): JSX.Element => {
+export const SymbolAlignment = (): JSX.Element => {
+    const [symbol, setSymbol] = useState('=')
     const [text, setText] = useState('')
-    const [checked, setChecked] = useState(false)
-    const convertedText = text ? sortText(text, checked) : <Fragment />
+    const convertedText = text ? symbolAlignment(text, symbol) : <Fragment />
 
     const handleChangeText = (
         event: React.ChangeEvent<HTMLTextAreaElement>,
@@ -19,10 +19,10 @@ export const TextSort = (): JSX.Element => {
         setText(event.target.value)
     }
 
-    const handleChangeChecked = (
+    const handleChangeSymbol = (
         event: React.ChangeEvent<HTMLInputElement>,
     ): void => {
-        setChecked(event.target.checked)
+        setSymbol(event.target.value)
     }
 
     return (
@@ -48,15 +48,16 @@ export const TextSort = (): JSX.Element => {
             </aside>
 
             <article>
-                <label htmlFor="remove-empty">
+                <section className="input-group">
+                    <span className="input-group-label">Symbol</span>
                     <input
-                        id="remove-empty"
-                        type="checkbox"
-                        onChange={handleChangeChecked}
-                        checked={checked}
+                        id="convert-keyword"
+                        className="input-group-field"
+                        type="text"
+                        onChange={handleChangeSymbol}
+                        value={symbol}
                     />
-                    Remove Empty Lines
-                </label>
+                </section>
                 <textarea
                     id="sort-text"
                     onChange={handleChangeText}

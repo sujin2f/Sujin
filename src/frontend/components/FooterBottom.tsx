@@ -6,8 +6,7 @@
 import React from 'react'
 import { MenuNames } from 'src/constants'
 
-import { Link } from 'src/frontend/components/common/Link'
-import { Menu } from 'src/frontend/components/layout/Menu'
+import { Link, Menu } from 'src/frontend/components'
 
 export const FooterBottom = (): JSX.Element => {
     return (

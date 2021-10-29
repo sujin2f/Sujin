@@ -5,9 +5,7 @@
 
 import React, { useContext } from 'react'
 
-import { Link } from 'src/frontend/components/common/Link'
-import { Search } from 'src/frontend/components/layout/Search'
-import { Menu } from 'src/frontend/components/layout/Menu'
+import { Link, Search, Menu } from 'src/frontend/components'
 import { Context } from 'src/frontend/store'
 import { setPageInfo } from 'src/frontend/store/actions'
 import { MenuNames } from 'src/constants'

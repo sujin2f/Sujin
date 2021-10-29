@@ -13,7 +13,7 @@ import {
 } from 'src/types'
 
 export const SET_PAGE_INFO = 'sujin/v1/SET_PAGE_HEADER'
-// export const SET_LEFT_RAIL = 'sujin/v1/SET_LEFT_RAIL'
+
 export const LOAD_MENU_INIT = 'sujin/v1/LOAD_MENU_INIT'
 export const LOAD_MENU_SUCCESS = 'sujin/v1/LOAD_MENU_SUCCESS'
 export const LOAD_MENU_FAIL = 'sujin/v1/LOAD_MENU_FAIL'
@@ -69,13 +69,6 @@ export const loadBackgroundFail = (): Partial<Action> => {
         type: LOAD_BACKGROUND_FAIL,
     }
 }
-
-// export const setLeftRail = (leftRail: StateLeftRail) => {
-//     return {
-//         type: SET_LEFT_RAIL,
-//         leftRail,
-//     }
-// }
 
 /**
  * To initialize one menu

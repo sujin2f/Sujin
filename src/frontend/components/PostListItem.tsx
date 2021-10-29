@@ -6,8 +6,7 @@
 import React from 'react'
 
 // import DEFAULT_BG from 'src/assets/images/thumbnail.svg'
-import { Link } from 'src/frontend/components/common/Link'
-// import { Tags } from 'src/frontend/components/common/Tags'
+import { Link, Tags } from 'src/frontend/components'
 import { Post } from 'src/types'
 // import { parseExImage } from 'src/frontend/utils/common'
 
@@ -20,7 +19,7 @@ interface Props {
     }
 }
 
-export const SimplePost = (props: Props): JSX.Element => {
+export const PostListItem = (props: Props): JSX.Element => {
     const {
         // item: { title, thumbnail, link, date, meta, excerpt, tags },
         item: { title, link, date, excerpt, tags },
@@ -76,7 +75,7 @@ export const SimplePost = (props: Props): JSX.Element => {
                     dangerouslySetInnerHTML={{ __html: excerpt }}
                 />
 
-                {/* <Tags items={tags} prefix={`archive-item-${title}`} /> */}
+                <Tags items={tags} prefix={`archive-item-${title}`} />
             </div>
         </div>
     )

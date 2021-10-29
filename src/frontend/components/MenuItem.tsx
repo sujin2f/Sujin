@@ -5,7 +5,7 @@
 
 import React, { Fragment } from 'react'
 
-import { Link } from 'src/frontend/components/common/Link'
+import { Link } from 'src/frontend/components'
 import { MenuItem as MenuItemType } from 'src/types'
 
 interface Props {

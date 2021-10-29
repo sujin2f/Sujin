@@ -5,11 +5,11 @@
 
 import React from 'react'
 
-import { Link } from 'src/frontend/components/common/Link'
+import { Link } from 'src/frontend/components'
 import { Term } from 'src/types'
 
 interface Props {
-    items?: Term[]
+    items: Term[]
     prefix: string
 }
 

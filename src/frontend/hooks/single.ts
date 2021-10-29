@@ -1,14 +1,20 @@
-/*
+/**
  * Single Hooks
- * import {} from 'store/hooks/single';
+ * @module frontend
  */
 
 import { gql } from '@apollo/client'
 import { useContext, useEffect } from 'react'
+
 import { Post } from 'src/types'
-import { Context } from '../store'
-import { loadPostInit, loadPostSuccess, setPageInfo } from '../store/actions'
-import { graphqlClient } from 'src/frontend/utils'
+import { graphqlClient } from 'src/utils'
+
+import {
+    Context,
+    loadPostInit,
+    loadPostSuccess,
+    setPageInfo,
+} from 'src/frontend/store'
 
 export const usePost = (slug: string): Post => {
     const [
@@ -29,7 +35,9 @@ export const usePost = (slug: string): Post => {
             .query<{ getPostsBy: Post[] }>({
                 query: gql`
                     query {
-                        getPostsBy(key: "slug", value: "${slug}") {
+                        getPostsBy(key: "slug", value: "${encodeURIComponent(
+                            slug,
+                        )}") {
                             id
                             slug
                             title

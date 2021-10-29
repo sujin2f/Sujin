@@ -1,4 +1,4 @@
-export { format, dateToPrettyUrl } from './common'
+export { format, dateToPrettyUrl, isMobile } from './common'
 export {
     bundles,
     isDev,
@@ -8,6 +8,7 @@ export {
 } from './environment'
 export { cached } from './node-cache'
 export { mysql } from './mysql/mysqld'
+export { graphqlClient } from './graphql'
 
 export { getOption } from './mysql/get-option'
 export { getMenu } from './mysql/get-menu'

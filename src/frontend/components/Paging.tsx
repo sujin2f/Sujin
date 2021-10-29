@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 
-import { Link } from 'src/frontend/components/common/Link'
+import { Link } from 'src/frontend/components'
 import { PAGE_OFFSET } from 'src/frontend/constants/common'
 
 interface Props {

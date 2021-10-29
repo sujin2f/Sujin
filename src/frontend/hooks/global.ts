@@ -2,8 +2,7 @@ import { useContext, useEffect, useRef, RefObject } from 'react'
 
 import { WrapperClasses } from 'src/types'
 import { TOP_MENU_SCROLLED_POSITION } from 'src/frontend/constants/common'
-import { Context } from 'src/frontend/store'
-import { setPageInfo } from '../store/actions'
+import { Context, setPageInfo } from 'src/frontend/store'
 
 type ReturnType = [string, RefObject<HTMLDivElement>]
 

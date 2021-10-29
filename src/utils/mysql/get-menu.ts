@@ -32,11 +32,12 @@ const getMenuItemFromPost = async (menu: Post): Promise<MenuItem> => {
 
     switch (type) {
         case MenuItemTypes.POST_TYPE:
-            const post = (
-                await getPostsBy({ key: 'id', value: objectId.toString() })
-            )[0]
-            title = title || post.title || ''
-            link = post.link
+            const post = await getPostsBy({
+                key: 'id',
+                value: objectId.toString(),
+            })
+            title = title || post[0].title || ''
+            link = post[0].link
             break
         case MenuItemTypes.TAXONOMY:
             const term =

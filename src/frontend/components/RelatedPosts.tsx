@@ -5,7 +5,7 @@
 
 import React from 'react'
 
-import { SimplePost } from 'src/frontend/components/common/SimplePost'
+import { PostListItem } from 'src/frontend/components'
 import { Post } from 'src/types'
 
 interface Props {
@@ -22,7 +22,7 @@ export const RelatedPosts = (props: Props): JSX.Element => {
             {props.items && (
                 <section className="row">
                     {props.items.map((related) => (
-                        <SimplePost
+                        <PostListItem
                             item={related}
                             key={`related--${related.id}`}
                             className="column medium-6 small-12"

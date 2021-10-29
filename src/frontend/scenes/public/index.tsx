@@ -5,10 +5,8 @@
 
 import React from 'react'
 
-import { GlobalFooter } from 'src/frontend/components/layout/GlobalFooter'
-import { FixedHeader } from 'src/frontend/components/layout/GlobalHeader/FixedHeader'
-import { TopHeader } from 'src/frontend/components/layout/GlobalHeader/TopHeader'
-import { useGlobalWrapper } from 'src/frontend/hooks/global'
+import { GlobalFooter, FixedHeader, TopHeader } from 'src/frontend/components'
+import { useGlobalWrapper } from 'src/frontend/hooks'
 import { ReactChildrenProps } from 'src/types'
 
 import 'src/assets/styles/style.scss'

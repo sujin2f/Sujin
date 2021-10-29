@@ -7,9 +7,9 @@
 import React, { Fragment } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { Content } from 'src/frontend/components/single/Content'
-import { NotFound } from 'src/frontend/scenes/public/NotFound'
-import { usePost } from 'src/frontend/hooks/single'
+import { Content, Tags } from 'src/frontend/components'
+import { NotFound } from 'src/frontend/scenes/public'
+import { usePost } from 'src/frontend/hooks'
 import { Post as TypePost } from 'src/types'
 
 interface Props {
@@ -32,8 +32,6 @@ export const Post = (): JSX.Element => {
     if (!post || 'Loading' === post.date) {
         return <Fragment />
     }
-
-    // const { prevNext, related, tags, title, excerpt, thumbnail } = post
 
     return (
         <Fragment>
@@ -68,7 +66,7 @@ export const Post = (): JSX.Element => {
             */}
 
             <Content post={post} className="columns small-12 large-6">
-                {/* <Tags items={tags} prefix={`single-${slug}`} /> */}
+                <Tags items={post.tags} prefix={`single-${slug}`} />
                 {/* <SocialShare
                     title={title}
                     excerpt={excerpt}

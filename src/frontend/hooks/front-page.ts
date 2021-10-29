@@ -4,15 +4,14 @@
 import { gql } from '@apollo/client'
 import { useContext, useEffect } from 'react'
 
-import { Context } from 'src/frontend/store'
+import { graphqlClient, isMobile } from 'src/utils'
+import { Background } from 'src/types'
 import {
+    Context,
     loadBackgroundInit,
     loadBackgroundSuccess,
     setPageInfo,
-} from 'src/frontend/store/actions'
-import { graphqlClient } from 'src/frontend/utils'
-import { isMobile } from 'src/frontend/utils/common'
-import { Background } from 'src/types'
+} from 'src/frontend/store'
 
 export const useBackground = (): void => {
     const [{ backgrounds }, dispatch] = useContext(Context) as Context

@@ -2,10 +2,12 @@
 
 import React, { Fragment } from 'react'
 
-import { Flickr } from 'src/frontend/components/widgets/Flickr'
-import { GoogleAdvert } from 'src/frontend/components/widgets/GoogleAdvert'
-import { RecentPosts } from 'src/frontend/components/widgets/RecentPosts'
-import { TagCloud } from 'src/frontend/components/widgets/TagCloud'
+import {
+    Flickr,
+    GoogleAdvert,
+    RecentPosts,
+    TagCloud,
+} from 'src/frontend/components'
 // import { Widgets } from 'src/frontend/store/items/global-variable'
 // import {
 //     RecentPostWidget,

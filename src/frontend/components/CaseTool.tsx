@@ -5,7 +5,7 @@
 
 import React, { Fragment, useState, useRef } from 'react'
 
-import { Link } from 'src/frontend/components/common/Link'
+import { Link } from 'src/frontend/components'
 import {
     preserveCase,
     camelCase,

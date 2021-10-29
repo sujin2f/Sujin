@@ -6,8 +6,7 @@
 import React, { useContext, Fragment } from 'react'
 import { MenuNames } from 'src/constants/mysql-query'
 
-import { Loading } from 'src/frontend/components/common/Loading'
-import { Menu } from 'src/frontend/components/layout/Menu'
+import { Loading, Menu } from 'src/frontend/components'
 import { Context } from 'src/frontend/store'
 
 export const TopHeader = (): JSX.Element => {

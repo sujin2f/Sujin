@@ -15,7 +15,6 @@ import {
     LOAD_ARCHIVE_INIT,
     LOAD_ARCHIVE_SUCCESS,
     LOAD_ARCHIVE_FAIL,
-    // SET_LEFT_RAIL,
 } from 'src/frontend/store/actions'
 import { Action, State } from 'src/types'
 import { dummyPost } from 'src/constants'
@@ -42,7 +41,6 @@ export const initialState: State = {
         },
     },
     posts: {},
-    // leftRail: {},
 }
 
 export const reducer = (state: State = initialState, action: Action): State => {
@@ -61,13 +59,6 @@ export const reducer = (state: State = initialState, action: Action): State => {
                 },
             }
         }
-
-        // case SET_LEFT_RAIL: {
-        //     return {
-        //         ...state,
-        //         leftRail: action.leftRail,
-        //     }
-        // }
 
         case LOAD_MENU_INIT: {
             return {

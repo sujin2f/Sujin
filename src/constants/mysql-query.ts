@@ -31,6 +31,7 @@ const GET_POST_BY = `
     SELECT ${POST_FIELDS}
     FROM wp_posts AS posts
     WHERE {0}="{1}"
+    ORDER BY posts.ID DESC
     LIMIT ${PER_PAGE}
 `
 
@@ -97,7 +98,7 @@ export const MySQLQuery = {
     getRandomBackgrounds: (): string =>
         format(GET_TERM_ITEMS, 'background', 'ORDER BY RAND()'),
     getTermItems: (menuName: string): string =>
-        format(GET_TERM_ITEMS, menuName, ''),
+        format(GET_TERM_ITEMS, menuName, 'ORDER BY posts.ID DESC'),
     getOption: (optionName: string): string => format(GET_OPTION, optionName),
     getPostMeta: (postId: number, metaKey: string): string =>
         format(GET_POST_META, postId, metaKey),

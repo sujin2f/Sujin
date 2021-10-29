@@ -1,13 +1,14 @@
 import React from 'react'
 
 import DEFAULT_BACKGROUND from 'src/assets/images/thumbnail.svg'
-import { CaseTool } from 'src/frontend/components/dev-tools/CaseTool'
-import { TextSort } from 'src/frontend/components/dev-tools/TextSort'
-import { SymbolAlignment } from 'src/frontend/components/dev-tools/SymbolAlignment'
-import { Gist } from 'src/frontend/components/single/Gist'
-import { TweetEmbed } from 'src/frontend/components/single/TweetEmbed'
+import {
+    CaseTool,
+    TextSort,
+    SymbolAlignment,
+    Gist,
+    TweetEmbed,
+} from 'src/frontend/components'
 // import { Post } from 'src/types'
-// import { StateLeftRail } from 'src/frontend/store/reducer'
 
 interface UrlArgs {
     [key: string]: string
