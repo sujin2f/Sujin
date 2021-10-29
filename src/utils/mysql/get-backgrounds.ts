@@ -1,10 +1,6 @@
-import { SQL_GET_TERM_ITEMS } from 'src/constants/query'
-import { WPKeys } from 'src/constants/query'
+import { MySQLQuery, MetaKeys, CacheKeys } from 'src/constants'
 import { Background, Post } from 'src/types'
-import { format } from 'src/utils'
-import { cached } from '../node-cache'
-import { getPostMeta } from './get-post-meta'
-import { mysql } from './mysqld'
+import { isDev, cached, getPostMeta, mysql } from 'src/utils'
 
 /**
  * Get random backgrounds
@@ -12,14 +8,14 @@ import { mysql } from './mysqld'
  * @return {Promise<Background[]>}
  */
 export const getBackgrounds = async (): Promise<Background[]> => {
-    const cache = cached.get<Background[]>('mysql-get-backgrounds')
-    if (cache) {
-        // return cache
+    const cache = cached.get<Background[]>(CacheKeys.BACKGROUND)
+    if (cache && !isDev()) {
+        return cache
     }
 
     const connection = await mysql()
-    const query = `${SQL_GET_TERM_ITEMS} ORDER BY RAND() LIMIT 10`
-    const posts = await connection.query(format(query, 'background'))
+    const query = MySQLQuery.getRandomBackgrounds()
+    const posts = await connection.query(query)
 
     if (!posts.length) {
         return []
@@ -29,7 +25,7 @@ export const getBackgrounds = async (): Promise<Background[]> => {
 
     for (const item of posts) {
         const post = (item as unknown) as Post
-        const result = await getPostMeta(post.id, WPKeys.ATTACHMENT_META)
+        const result = await getPostMeta(post.id, MetaKeys.ATTACHMENT_META)
         const meta = (result as unknown) as {
             sizes: { [size: string]: { file: string } }
         }
@@ -41,12 +37,13 @@ export const getBackgrounds = async (): Promise<Background[]> => {
             backgrounds.push({
                 desktop: post.link,
                 mobile: post.link.replace(
+                    // @todo
                     /\/([0-9a-zA-Z-_\.]+)$/,
                     `/${mobile}`,
                 ),
             })
         }
     }
-    cached.set<Background[]>('mysql-get-backgrounds', backgrounds)
+    cached.set<Background[]>(CacheKeys.BACKGROUND, backgrounds)
     return backgrounds
 }

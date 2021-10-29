@@ -1,2 +1,11 @@
-export const ENTER = 13
-export const ESC = 27
+/**
+ * KeyCodes
+ *
+ * @module constants
+ * @todo Are they used?
+ */
+
+export enum KeyCodes {
+    ENTER = 13,
+    ESC = 27,
+}

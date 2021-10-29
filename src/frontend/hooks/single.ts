@@ -3,12 +3,12 @@
  * import {} from 'store/hooks/single';
  */
 
+import { gql } from '@apollo/client'
 import { useContext, useEffect } from 'react'
 import { Post } from 'src/types'
-import { Context } from '..'
-import { loadPostInit, loadPostSuccess } from '../actions'
+import { Context } from '../store'
+import { loadPostInit, loadPostSuccess } from '../store/actions'
 import { graphqlClient } from 'src/frontend/utils'
-import { gql } from '@apollo/client'
 
 export const usePost = (slug: string): Post => {
     const [

@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { Link as ReactLink } from 'react-router-dom'
-import { ReactChildrenProps } from 'src/types/common'
+import { ReactChildrenProps } from 'src/types'
 
 interface Props extends ReactChildrenProps {
     className?: string

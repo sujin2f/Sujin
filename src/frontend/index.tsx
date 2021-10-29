@@ -3,12 +3,14 @@ import ReactDOM from 'react-dom'
 import * as serviceWorker from 'src/frontend/serviceWorker'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
-import { Public } from 'src/frontend/scenes/public'
-import { Archive } from 'src/frontend/scenes/public/Archive'
-import { FrontPage } from 'src/frontend/scenes/public/FrontPage'
-import { NotFound } from 'src/frontend/scenes/public/NotFound'
-import { Page } from 'src/frontend/scenes/public/Page'
-import { Post } from 'src/frontend/scenes/public/Post'
+import {
+    Public,
+    Archive,
+    FrontPage,
+    NotFound,
+    Page,
+    Post,
+} from 'src/frontend/scenes/public'
 import { Store } from 'src/frontend/store'
 
 import 'src/assets/styles/style.scss'

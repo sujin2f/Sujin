@@ -9,9 +9,8 @@ import { Carousel } from 'src/frontend/components/single/Carousel'
 import { CLASS_NAME } from 'src/frontend/constants/dom'
 import { Context } from 'src/frontend/store'
 // import { setLeftRail } from 'src/frontend/store/actions'
-import { Post } from 'src/types'
+import { Post, ReactChildrenProps } from 'src/types'
 import { parseContent } from 'src/frontend/utils/single'
-import { ReactChildrenProps } from 'src/types/common'
 
 interface Props extends ReactChildrenProps {
     post: Post

@@ -10,8 +10,8 @@ import { useParams } from 'react-router-dom'
 // import { Tags } from 'src/frontend/components/common/Tags'
 import { Content } from 'src/frontend/components/single/Content'
 // import { SocialShare } from 'src/frontend/components/single/SocialShare'
-import { NotFound } from 'src/frontend/scenes/public/NotFound'
-import { usePost } from 'src/frontend/store/hooks/single'
+import { NotFound } from 'src/frontend/scenes/public'
+import { usePost } from 'src/frontend/hooks/single'
 
 export const Page = (): JSX.Element => {
     const { slug } = useParams<{ slug: string }>()

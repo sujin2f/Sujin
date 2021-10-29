@@ -23,8 +23,8 @@ import {
     LOAD_ARCHIVE_FAIL,
     // SET_LEFT_RAIL,
 } from 'src/frontend/store/actions'
-import { Action, State } from 'src/types/store'
-import { dummyPost } from 'src/constants/errors'
+import { Action, State } from 'src/types'
+import { dummyPost } from 'src/constants'
 
 // import { Archive } from 'src/frontend/store/items/archive'
 // import { Background, MenuItem } from 'src/types'

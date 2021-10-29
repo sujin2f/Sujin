@@ -6,12 +6,12 @@
 import React, { Fragment } from 'react'
 
 import { Link } from 'src/frontend/components/common/Link'
-import { SimplePost } from 'src/frontend/store/items/simple-post'
+import { Post } from 'src/types'
 
 interface Props {
     prevNext?: {
-        prev?: SimplePost
-        next?: SimplePost
+        prev?: Post
+        next?: Post
     }
 }
 
@@ -22,7 +22,7 @@ export const PrevNext = (props: Props): JSX.Element => {
         return <Fragment />
     }
 
-    const prevNext = props.prevNext as { [key: string]: SimplePost }
+    const prevNext = props.prevNext as { [key: string]: Post }
 
     return (
         <nav className="prev-next">

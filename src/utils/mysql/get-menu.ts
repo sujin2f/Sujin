@@ -1,12 +1,13 @@
-import { SQL_GET_TERM_ITEMS } from 'src/constants/query'
+import { MySQLQuery, CacheKeys, MetaKeys, MenuItemTypes } from 'src/constants'
 import { MenuItem, Post } from 'src/types'
-import { format } from 'src/utils'
-
-import { mysql } from './mysqld'
-import { getAllPostMeta } from './get-all-post-meta'
-import { getTerm } from './get-term'
-import { getPostsBy } from './get-posts-by'
-import { cached } from '../node-cache'
+import {
+    mysql,
+    cached,
+    isDev,
+    getAllPostMeta,
+    getTerm,
+    getPostsBy,
+} from 'src/utils'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const PHPUnserialize = require('php-unserialize')
@@ -20,24 +21,24 @@ const PHPUnserialize = require('php-unserialize')
 const getMenuItemFromPost = async (menu: Post): Promise<MenuItem> => {
     const postMetas = await getAllPostMeta(menu.id)
     const htmlClass = Object.values<string>(
-        PHPUnserialize.unserialize(postMetas['_menu_item_classes']) || {},
+        PHPUnserialize.unserialize(postMetas[MetaKeys.MENU_ITEM_CLASSES]) || {},
     )
 
-    const objectId = parseInt(postMetas['_menu_item_object_id'])
-    const target = postMetas['_menu_item_target'] || ''
-    const type = postMetas['_menu_item_type'] || ''
-    let link = postMetas['_menu_item_url']
+    const objectId = parseInt(postMetas[MetaKeys.MENU_ITEM_OBJECT_ID])
+    const target = postMetas[MetaKeys.MENU_ITEM_TARGET] || ''
+    const type = postMetas[MetaKeys.MENU_ITEM_TYPE] || ''
+    let link = postMetas[MetaKeys.MENU_ITEM_URL]
     let title = menu.title
 
     switch (type) {
-        case 'post_type':
+        case MenuItemTypes.POST_TYPE:
             const post = (
                 await getPostsBy({ key: 'id', value: objectId.toString() })
             )[0]
             title = title || post.title || ''
             link = post.link
             break
-        case 'taxonomy':
+        case MenuItemTypes.TAXONOMY:
             const term =
                 !title || !link
                     ? await getTerm(objectId)
@@ -69,13 +70,13 @@ export const getMenu = async ({
 }: {
     menuName: string
 }): Promise<MenuItem[]> => {
-    const cache = cached.get<MenuItem[]>(`mysql-get-menu-${menuName}`)
-    if (cache) {
-        // return cache
+    const cache = cached.get<MenuItem[]>(`${CacheKeys.MENU}-${menuName}`)
+    if (cache && !isDev()) {
+        return cache
     }
 
     const connection = await mysql()
-    const query = format(SQL_GET_TERM_ITEMS, menuName)
+    const query = MySQLQuery.getTermItems(menuName)
     const posts = await connection.query(query)
 
     if (!posts) {
@@ -97,6 +98,6 @@ export const getMenu = async ({
     })
 
     const result = Object.values(menus)
-    cached.set<MenuItem[]>(`mysql-get-menu-${menuName}`, result)
+    cached.set<MenuItem[]>(`${CacheKeys.MENU}-${menuName}`, result)
     return Object.values(result)
 }

@@ -1,9 +1,10 @@
+import { useContext, useEffect } from 'react'
 import { gql } from '@apollo/client'
-import { TermTypes } from 'src/frontend/constants/enum'
+
+import { TermTypes } from 'src/constants'
 import { Post } from 'src/types'
 import { Context } from 'src/frontend/store'
-import { useContext, useEffect } from 'react'
-import { loadArchiveInit, loadArchiveSuccess } from '../actions'
+import { loadArchiveInit, loadArchiveSuccess } from '../store/actions'
 import { graphqlClient } from 'src/frontend/utils'
 
 export const useArchive = (

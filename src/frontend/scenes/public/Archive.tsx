@@ -1,6 +1,5 @@
 /*
  * Archive Component
- * scenes/public/Archive
  *
  * //domain.com/category/blog
  * //domain.com/tag/blog
@@ -10,11 +9,11 @@
 import React, { Fragment } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { Paging } from 'src/frontend/components/common/Paging'
+// import { Paging } from 'src/frontend/components/common/Paging'
 import { SimplePost } from 'src/frontend/components/common/SimplePost'
-import { TermTypes } from 'src/frontend/constants/enum'
+import { TermTypes } from 'src/constants'
 import { NotFound } from 'src/frontend/scenes/public/NotFound'
-import { useArchive } from 'src/frontend/store/hooks/archive'
+import { useArchive } from 'src/frontend/hooks/archive'
 import { Post as PostType } from 'src/types'
 
 export const Archive = (): JSX.Element => {

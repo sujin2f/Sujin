@@ -1,4 +1,4 @@
-import { TermTypes } from 'src/frontend/constants/enum'
+import { TermTypes } from 'src/constants'
 import { Background, MenuItem, Post } from './wp'
 
 type Type = {

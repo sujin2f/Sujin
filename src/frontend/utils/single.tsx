@@ -209,13 +209,13 @@ export function parseContent(content: string): JSX.Element[] {
 //     }
 // }
 
-const getNewWindowFeatures = () => {
+const getNewWindowFeatures = (): string => {
     const top = (window.innerHeight - 600) / 2
     const left = (window.innerWidth - 500) / 2
     return `toolbar=0,status=0,resizable=yes,width=500,height=600,top=${top},left=${left}`
 }
 
-export const shareTwitter = (title: string) => {
+export const shareTwitter = (title: string): void => {
     const url = addQueryArgs('https://www.twitter.com:8800/intent/tweet', {
         text: (title && encodeURIComponent(title)) || '',
         url: window.location.href,
@@ -228,7 +228,7 @@ export const shareFacebook = (
     title: string,
     excerpt: string,
     thumbnail: string,
-) => {
+): void => {
     const url = addQueryArgs('https://www.facebook.com/sharer/sharer.php', {
         u: window.location.href,
         picture: thumbnail || DEFAULT_BACKGROUND,

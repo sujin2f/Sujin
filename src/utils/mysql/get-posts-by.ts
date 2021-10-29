@@ -1,10 +1,6 @@
-import { SQL_GET_POST_BY, SQL_GET_TERM_ITEMS } from 'src/constants/query'
-import { Post } from 'src/types'
-import { GetPostsByArgs } from 'src/types/graphql'
-import { format } from 'src/utils'
-import { dateToPrettyUrl } from 'src/utils/common'
-import { cached } from '../node-cache'
-import { mysql } from './mysqld'
+import { MySQLQuery, CacheKeys, PostType } from 'src/constants'
+import { Post, GetPostsByArgs } from 'src/types'
+import { dateToPrettyUrl, isDev, cached, mysql } from 'src/utils'
 
 /**
  * Get posts
@@ -17,8 +13,9 @@ export const getPostsBy = async ({
     value,
     page = 1,
 }: GetPostsByArgs): Promise<Post[]> => {
-    const cache = cached.get<Post[]>(`mysql-get-posts-by-${key}-${value}`)
-    if (cache) {
+    const cache = cached.get<Post[]>(`${CacheKeys.POST}-${key}-${value}`)
+
+    if (cache && !isDev()) {
         return cache
     }
 
@@ -27,18 +24,18 @@ export const getPostsBy = async ({
     switch (key) {
         case 'id':
             result = await connection.query(
-                format(SQL_GET_POST_BY, 'post.ID', value),
+                MySQLQuery.getPostBy('post.ID', value),
             )
             break
 
         case 'slug':
             result = await connection.query(
-                format(SQL_GET_POST_BY, 'post.post_name', value),
+                MySQLQuery.getPostBy('post.post_name', value),
             )
             break
 
         case 'category':
-            result = await connection.query(format(SQL_GET_TERM_ITEMS, value))
+            result = await connection.query(MySQLQuery.getTermItems(value))
             break
     }
 
@@ -50,10 +47,11 @@ export const getPostsBy = async ({
     const posts: Post[] = result.map((post: Record<string, string>) => {
         let link = post.link
         switch (post.type) {
-            case 'post':
+            case PostType.POST:
                 link = `/${dateToPrettyUrl(new Date(post.date))}/${post.slug}`
                 break
-            case 'page':
+
+            case PostType.PAGE:
                 link = `/${post.slug}`
                 break
         }
@@ -73,6 +71,6 @@ export const getPostsBy = async ({
         } as Post
     })
 
-    cached.set<Post[]>(`mysql-get-posts-by-${key}-${value}`, posts)
+    cached.set<Post[]>(`${CacheKeys.POST}-${key}-${value}`, posts)
     return posts
 }

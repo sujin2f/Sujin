@@ -1,8 +1,6 @@
-import { SQL_GET_OPTION } from 'src/constants/query'
+import { MySQLQuery, CacheKeys } from 'src/constants'
 import { Nullable } from 'src/types'
-import { format } from 'src/utils'
-import { cached } from '../node-cache'
-import { mysql } from './mysqld'
+import { isDev, cached, mysql } from 'src/utils'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const PHPUnserialize = require('php-unserialize')
@@ -20,15 +18,15 @@ export const getOption = async <T>(
     key?: Nullable<string>,
 ): Promise<Nullable<T>> => {
     const cache = cached.get<Nullable<T>>(
-        `mysql-get-option-${optionName}-${key}`,
+        `${CacheKeys.OPTION}-${optionName}-${key}`,
     )
-    if (cache) {
+    if (cache && !isDev()) {
         return cache
     }
 
     const connection = await mysql()
     const result = await connection
-        .query(format(SQL_GET_OPTION, optionName))
+        .query(MySQLQuery.getOption(optionName))
         .catch((e) => console.error(e))
 
     if (!result.length) {
@@ -47,7 +45,7 @@ export const getOption = async <T>(
     }
 
     cached.set<Nullable<T>>(
-        `mysql-get-option-${optionName}-${key}`,
+        `${CacheKeys.OPTION}-${optionName}-${key}`,
         (value as unknown) as T,
     )
     return (value as unknown) as T

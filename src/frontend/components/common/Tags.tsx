@@ -6,7 +6,7 @@
 import React from 'react'
 
 import { Link } from 'src/frontend/components/common/Link'
-import { Term } from 'src/frontend/store/items/term'
+import { Term } from 'src/types'
 
 interface Props {
     items?: Term[]

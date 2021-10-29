@@ -5,11 +5,11 @@
 
 import React from 'react'
 
-import DEFAULT_BG from 'src/assets/images/thumbnail.svg'
+// import DEFAULT_BG from 'src/assets/images/thumbnail.svg'
 import { Link } from 'src/frontend/components/common/Link'
-import { Tags } from 'src/frontend/components/common/Tags'
+// import { Tags } from 'src/frontend/components/common/Tags'
 import { Post } from 'src/types'
-import { parseExImage } from 'src/frontend/utils/common'
+// import { parseExImage } from 'src/frontend/utils/common'
 
 interface Props {
     item: Post

@@ -1,7 +1,5 @@
-import { SQL_GET_ALL_POST_META } from 'src/constants/query'
-import { format } from 'src/utils'
-import { cached } from 'src/server/utils/node-cache'
-import { mysql } from './mysqld'
+import { MySQLQuery, CacheKeys } from 'src/constants'
+import { cached, mysql, isDev } from 'src/utils'
 
 type PostMeta = {
     meta_key: string
@@ -16,12 +14,12 @@ type PostMetas = Record<string, string>
  * @return {Promise<PostMetas>}
  */
 export const getAllPostMeta = async (postId: number): Promise<PostMetas> => {
-    const cache = cached.get<PostMetas>(`mysql-get-all-post-meta-${postId}`)
-    if (cache) {
+    const cache = cached.get<PostMetas>(`${CacheKeys.POST_META}-${postId}`)
+    if (cache && !isDev()) {
         return cache
     }
     const connection = await mysql()
-    const query = format(SQL_GET_ALL_POST_META, postId)
+    const query = MySQLQuery.getAllPostMeta(postId)
     const result = (await connection.query(query)).reduce(
         (acc: PostMetas, member: PostMeta) => {
             acc[member.meta_key] = member.meta_value
@@ -29,6 +27,6 @@ export const getAllPostMeta = async (postId: number): Promise<PostMetas> => {
         },
         {},
     )
-    cached.set<PostMetas>(`mysql-get-all-post-meta-${postId}`, result)
+    cached.set<PostMetas>(`${CacheKeys.POST_META}-${postId}`, result)
     return result
 }

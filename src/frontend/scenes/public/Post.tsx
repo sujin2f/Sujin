@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom'
 
 import { Content } from 'src/frontend/components/single/Content'
 import { NotFound } from 'src/frontend/scenes/public/NotFound'
-import { usePost } from 'src/frontend/store/hooks/single'
+import { usePost } from 'src/frontend/hooks/single'
 import { Post as TypePost } from 'src/types'
 
 interface Props {

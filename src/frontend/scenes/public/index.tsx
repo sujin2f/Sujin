@@ -8,8 +8,8 @@ import React from 'react'
 import { GlobalFooter } from 'src/frontend/components/layout/GlobalFooter'
 import { FixedHeader } from 'src/frontend/components/layout/GlobalHeader/FixedHeader'
 import { TopHeader } from 'src/frontend/components/layout/GlobalHeader/TopHeader'
-import { useGlobalWrapper } from 'src/frontend/store/hooks/global'
-import { ReactChildrenProps } from 'src/types/common'
+import { useGlobalWrapper } from 'src/frontend/hooks/global'
+import { ReactChildrenProps } from 'src/types'
 
 import 'src/assets/styles/style.scss'
 
@@ -31,3 +31,9 @@ export const Public = (props: ReactChildrenProps): JSX.Element => {
         </div>
     )
 }
+
+export { Archive } from './Archive'
+export { FrontPage } from './FrontPage'
+export { NotFound } from './NotFound'
+export { Page } from './Page'
+export { Post } from './Post'

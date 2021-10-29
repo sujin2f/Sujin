@@ -1,26 +1,38 @@
-export const PostGraphQLType = `
-    id: Int
-    slug: String
-    title: String
-    excerpt: String
-    content: String
-    date: Date
-    link: String
-    parent: Int
-    type: String
-    menuOrder: Int
-`
+/**
+ * Constants for GraphQL
+ *
+ * @module constants
+ */
 
-export const MenuItemGraphQLType = `
-    id: Int
-    title: String
-    target: String
-    link: String
-    htmlClass: [String]
-    children: [MenuItem]
-`
-
-export const BackgroundGraphQLType = `
-    desktop: String
-    mobile: String
+export const schema = `
+    scalar Date
+    type Query {
+        getMenu(menuName: String!): [MenuItem]
+        getPostsBy(key: String!, value: String!, page: Int): [Post]
+        getBackgrounds: [Background]
+    },
+    type MenuItem {
+        id: Int
+        title: String
+        target: String
+        link: String
+        htmlClass: [String]
+        children: [MenuItem]
+    },
+    type Post {
+        id: Int
+        slug: String
+        title: String
+        excerpt: String
+        content: String
+        date: Date
+        link: String
+        parent: Int
+        type: String
+        menuOrder: Int
+    },
+    type Background {
+        desktop: String
+        mobile: String
+    }
 `

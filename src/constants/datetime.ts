@@ -1,13 +1,30 @@
 /**
- * Datetime variables
+ * Datetime Constants
+ *
+ * @module constants
+ * @todo Are they used?
  */
 
-export const SECOND = 1000
-export const MINUTE = SECOND * 60
-export const HOUR = MINUTE * 60
-export const DAY = HOUR * 24
-export const WEEK = DAY * 7
+const second = 1000
+const minute = second * 60
+const hour = minute * 60
+const day = hour * 24
+const week = day * 7
 
-export const MINUTE_IN_SECONDS = 60
-export const HOUR_IN_SECONDS = MINUTE_IN_SECONDS * 60
-export const DAY_IN_SECONDS = HOUR_IN_SECONDS * 24
+export enum MiliSeconds {
+    SECOND = second,
+    MINUTE = minute,
+    HOUR = hour,
+    DAY = day,
+    WEEK = week,
+}
+
+const minuteInSeconds = 60
+const hourInSeconds = minuteInSeconds * 60
+const dayInSeconds = hourInSeconds * 24
+
+export enum Seconds {
+    MINUTE = minuteInSeconds,
+    HOUR = hourInSeconds,
+    DAY = dayInSeconds,
+}

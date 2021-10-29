@@ -7,22 +7,23 @@ import express, { Response } from 'express'
 import path from 'path'
 import ejs from 'ejs'
 
+import { GlobalVariable } from 'src/types'
+import { CacheKeys } from 'src/constants'
 import {
     bundles,
     isDev,
     publicDir,
     baseDirDev,
     baseDirProd,
-} from 'src/server/utils/environment'
-import { GlobalVariable } from 'src/types/common'
-import { getOption } from 'src/server/utils/mysql'
-import { cached } from '../utils/node-cache'
+    cached,
+    getOption,
+} from 'src/utils'
 
 const staticRouter = express.Router()
 
 const getGlobalVariable = async (): Promise<GlobalVariable> => {
-    const cache = cached.get<GlobalVariable>('global-variable')
-    if (cache) {
+    const cache = cached.get<GlobalVariable>(CacheKeys.GLOBAL_VARS)
+    if (cache && !isDev()) {
         return cache
     }
 
@@ -32,11 +33,11 @@ const getGlobalVariable = async (): Promise<GlobalVariable> => {
     const globalVariable: GlobalVariable = {
         title: (await getOption('blogname')) || '',
         description: (await getOption('blogdescription')) || '',
-        frontend: 'https://devfront.sujinc.com' || frontend.origin,
-        backend: '' || backend.origin,
+        frontend: isDev() ? 'https://devfront.sujinc.com' : frontend.origin,
+        backend: backend.origin,
     }
 
-    cached.set<GlobalVariable>('global-variable', globalVariable)
+    cached.set<GlobalVariable>(CacheKeys.GLOBAL_VARS, globalVariable)
     return globalVariable
 }
 

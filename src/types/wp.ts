@@ -1,5 +1,3 @@
-import { MenuItem } from 'src/frontend/components/layout/MenuItem'
-
 export type Post = {
     id: number
     slug: string

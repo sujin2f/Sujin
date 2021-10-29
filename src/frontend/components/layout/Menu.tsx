@@ -6,7 +6,7 @@
 import React, { Fragment } from 'react'
 
 import { MenuItem } from 'src/frontend/components/layout/MenuItem'
-import { useMenu } from 'src/frontend/store/hooks/menu'
+import { useMenu } from 'src/frontend/hooks/menu'
 import { MenuItem as MenuItemType } from 'src/types'
 
 interface Props {

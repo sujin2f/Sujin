@@ -6,10 +6,10 @@
 import React from 'react'
 
 import { SimplePost } from 'src/frontend/components/common/SimplePost'
-import { SimplePost as SimplePostType } from 'src/frontend/store/items/simple-post'
+import { Post } from 'src/types'
 
 interface Props {
-    items?: SimplePostType[]
+    items?: Post[]
 }
 
 export const RelatedPosts = (props: Props): JSX.Element => {
