@@ -2,7 +2,7 @@ import { useContext, useEffect } from 'react'
 import { gql } from '@apollo/client'
 
 import { TermTypes, Post } from 'src/types'
-import { graphqlClient } from 'src/utils'
+import { graphqlClient } from 'src/frontend/utils'
 import {
     Context,
     loadArchiveInit,

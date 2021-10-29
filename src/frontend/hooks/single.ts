@@ -7,7 +7,7 @@ import { gql } from '@apollo/client'
 import { useContext, useEffect } from 'react'
 
 import { Post } from 'src/types'
-import { graphqlClient } from 'src/utils'
+import { graphqlClient } from 'src/frontend/utils'
 
 import {
     Context,

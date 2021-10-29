@@ -38,7 +38,7 @@ export const getBackgrounds = async (): Promise<Background[]> => {
                 desktop: post.link,
                 mobile: post.link.replace(
                     // @todo
-                    /\/([0-9a-zA-Z-_\.]+)$/,
+                    /\/([0-9a-zA-Z-_]+)$/,
                     `/${mobile}`,
                 ),
             })

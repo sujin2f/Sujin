@@ -12,6 +12,8 @@ export const dummyPost: Post = {
     type: '',
     menuOrder: 0,
     tags: [],
+    categories: [],
+    series: [],
 }
 export enum PostType {
     POST = 'post',

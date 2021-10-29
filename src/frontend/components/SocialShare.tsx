@@ -3,8 +3,7 @@
  * components/single/SocialShare
  */
 
-import React from 'react'
-import { Fragment } from 'react-router/node_modules/@types/react'
+import React, { Fragment } from 'react'
 
 // import { Image } from 'src/frontend/store/items/image'
 import { shareTwitter, shareFacebook } from 'src/frontend/utils/single'

@@ -4,8 +4,8 @@
 import { gql } from '@apollo/client'
 import { useContext, useEffect } from 'react'
 
-import { graphqlClient, isMobile } from 'src/utils'
 import { Background } from 'src/types'
+import { graphqlClient, isMobile } from 'src/frontend/utils'
 import {
     Context,
     loadBackgroundInit,

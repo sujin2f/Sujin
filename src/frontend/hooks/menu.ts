@@ -6,7 +6,7 @@
 import { useContext, useEffect } from 'react'
 import { gql } from '@apollo/client'
 
-import { graphqlClient } from 'src/utils'
+import { graphqlClient } from 'src/frontend/utils'
 import { MenuItem } from 'src/types'
 import { Context, loadMenuInit, loadMenuSuccess } from 'src/frontend/store'
 

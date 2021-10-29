@@ -1,6 +1,5 @@
 /** components/widgets/Flickr */
-import React from 'react'
-import { Fragment } from 'react-router/node_modules/@types/react'
+import React, { Fragment } from 'react'
 
 // import { Flickr as FlickrType } from 'src/frontend/store/items/flickr'
 
