@@ -26,7 +26,7 @@ export const initialState: State = {
     pageInfo: {
         background: '',
         backgroundColor: '',
-        description: '',
+        excerpt: '',
         icon: '',
         isLoading: false,
         prefix: '',
@@ -181,8 +181,13 @@ export const reducer = (state: State = initialState, action: Action): State => {
                 archive: {
                     ...state.archive,
                     [archiveKey]: {
-                        ...state.archive[archiveKey],
-                        [action.page]: action.posts.map((post) => post.slug),
+                        term: action.term,
+                        items: {
+                            ...state.archive[archiveKey],
+                            [action.page]: action.posts.map(
+                                (post) => post.slug,
+                            ),
+                        },
                     },
                 },
             }

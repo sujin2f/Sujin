@@ -5,7 +5,7 @@ import {
     cached,
     isDev,
     getAllPostMeta,
-    getTerm,
+    getTermBy,
     getPostsBy,
 } from 'src/utils'
 
@@ -42,9 +42,9 @@ const getMenuItemFromPost = async (menu: Post): Promise<MenuItem> => {
         case MenuItemTypes.TAXONOMY:
             const term =
                 !title || !link
-                    ? await getTerm(objectId)
-                    : { name: '', slug: '' }
-            title = title || term?.name || ''
+                    ? await getTermBy({ key: 'id', value: objectId })
+                    : { title: '', slug: '' }
+            title = title || term?.title || ''
             link = link || `/category/${term?.slug}` || ''
             break
     }
@@ -77,7 +77,7 @@ export const getMenu = async ({
     }
 
     const connection = await mysql()
-    const query = MySQLQuery.getTermItems(menuName)
+    const query = MySQLQuery.getTermItems(menuName, 0)
     const posts = await connection.query(query)
 
     if (!posts) {

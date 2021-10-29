@@ -37,9 +37,13 @@ export type MenuItem = {
 
 export type Term = {
     id: number
-    name: string
+    title: string
     slug: string
     type: TermTypes
+    total: number
+    limit: number
+    pages: number
+    excerpt: string
 }
 
 export type Background = {

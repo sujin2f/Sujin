@@ -19,7 +19,7 @@ export const Tags = (props: Props): JSX.Element => {
             {props.items &&
                 props.items.map((tag: Term) => (
                     <li key={`tag-${props.prefix}-${tag.slug}`}>
-                        <Link to={`/tag/${tag.slug}/page/1`}>{tag.name}</Link>
+                        <Link to={`/tag/${tag.slug}/page/1`}>{tag.title}</Link>
                     </li>
                 ))}
         </ul>

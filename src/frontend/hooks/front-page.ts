@@ -45,7 +45,7 @@ export const useFrontPage = (): void => {
 
     useEffect(() => {
         const title = window.globalVariable.title
-        const description = window.globalVariable.description
+        const excerpt = window.globalVariable.excerpt
         const randomBackground =
             backgrounds && backgrounds.length
                 ? (backgrounds[
@@ -59,7 +59,7 @@ export const useFrontPage = (): void => {
                     ? randomBackground.mobile
                     : randomBackground.desktop,
                 backgroundColor: '',
-                description,
+                excerpt,
                 icon: '',
                 isLoading: false,
                 prefix: '',

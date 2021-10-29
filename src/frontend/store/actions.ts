@@ -10,6 +10,7 @@ import {
     Action,
     PageInfo,
     TermTypes,
+    Term,
 } from 'src/types'
 
 export const SET_PAGE_INFO = 'sujin/v1/SET_PAGE_HEADER'
@@ -134,12 +135,14 @@ export const loadArchiveSuccess = (
     slug: string,
     page: number,
     posts: Post[],
+    term?: Term,
 ): Partial<Action> => {
     return {
         type: LOAD_ARCHIVE_SUCCESS,
         termType,
         slug,
         page,
+        term,
         posts,
     }
 }

@@ -1,4 +1,5 @@
 import { MySQLQuery, CacheKeys, PostType } from 'src/constants'
+import { PER_PAGE } from 'src/constants'
 import { Post, GetPostsByArgs, TermTypes } from 'src/types'
 import { dateToPrettyUrl, isDev, cached, mysql, getTaxonomies } from 'src/utils'
 
@@ -19,23 +20,26 @@ export const getPostsBy = async ({
         return cache
     }
 
+    const offset = (page - 1) * PER_PAGE
     const connection = await mysql()
     let result = []
     switch (key) {
         case 'id':
             result = await connection.query(
-                MySQLQuery.getPostBy('posts.ID', value),
+                MySQLQuery.getPostBy('posts.ID', value, offset),
             )
             break
 
         case 'slug':
             result = await connection.query(
-                MySQLQuery.getPostBy('posts.post_name', value),
+                MySQLQuery.getPostBy('posts.post_name', value, offset),
             )
             break
 
         case 'category':
-            result = await connection.query(MySQLQuery.getTermItems(value))
+            result = await connection.query(
+                MySQLQuery.getTermItems(value, offset),
+            )
             break
     }
 

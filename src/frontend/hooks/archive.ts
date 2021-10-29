@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react'
 import { gql } from '@apollo/client'
 
-import { TermTypes, Post } from 'src/types'
+import { TermTypes, Post, Term } from 'src/types'
 import { graphqlClient } from 'src/frontend/utils'
 import {
     Context,
@@ -9,13 +9,14 @@ import {
     loadArchiveSuccess,
     setPageInfo,
 } from 'src/frontend/store'
+import { baseQueryNodes } from 'src/constants'
 
 export const useArchive = (
     type: TermTypes,
     slug: string,
     page: number,
     udpateHeader = true,
-): Post[] | 'Loading' | 'Failed' => {
+): [Post[] | 'Loading' | 'Failed', Term?] => {
     const [
         {
             archive: { [`${type}__${slug}`]: archives },
@@ -24,7 +25,8 @@ export const useArchive = (
         dispatch,
     ] = useContext(Context) as Context
 
-    const value = archives && archives[page]
+    const value = archives && archives.items && archives.items[page]
+    const term = archives && archives.term
 
     useEffect(() => {
         if (value) {
@@ -33,15 +35,29 @@ export const useArchive = (
 
         dispatch(loadArchiveInit(type, slug, page))
 
+        let archiveMetaQuery = ''
+        switch (type) {
+            case TermTypes.category:
+            case TermTypes.post_tag:
+            case TermTypes.series:
+            case TermTypes.tag:
+                archiveMetaQuery = `
+                    getTermBy(key: "${type}", value: "${slug}") {
+                        ${baseQueryNodes}
+                        total
+                        limit
+                        pages
+                    }
+                `
+                break
+        }
+
         graphqlClient
-            .query<{ getPostsBy: Post[] }>({
+            .query<{ getPostsBy: Post[]; getTermBy?: Term }>({
                 query: gql`
                     query {
                         getPostsBy(key: "${type}", value: "${slug}", page: ${page}) {
-                            id
-                            slug
-                            title
-                            excerpt
+                            ${baseQueryNodes}
                             content
                             date
                             link
@@ -49,21 +65,16 @@ export const useArchive = (
                             type
                             menuOrder
                             tags {
-                                id
-                                name
-                                slug
+                                ${baseQueryNodes}
                             }
                             categories {
-                                id
-                                name
-                                slug
+                                ${baseQueryNodes}
                             }
                             series {
-                                id
-                                name
-                                slug
+                                ${baseQueryNodes}
                             }
                         }
+                        ${archiveMetaQuery}
                     }
                 `,
             })
@@ -74,10 +85,11 @@ export const useArchive = (
                         slug,
                         page,
                         response.data.getPostsBy,
+                        response.data.getTermBy,
                     ),
                 )
             })
-    }, [dispatch, archives])
+    }, [dispatch, archives, page, slug, type, value])
 
     useEffect(() => {
         if (!udpateHeader || !archives) {
@@ -86,11 +98,11 @@ export const useArchive = (
         dispatch(
             setPageInfo({
                 backgroundColor: '',
-                description: '',
+                excerpt: term?.excerpt,
                 icon: '',
                 isLoading: false,
-                prefix: '',
-                title: '',
+                prefix: type,
+                title: term?.title,
                 useBackgroundColor: false,
                 wrapperClasses: {
                     'stretched-background': false,
@@ -98,13 +110,13 @@ export const useArchive = (
                 },
             }),
         )
-    }, [dispatch, slug, archives])
+    }, [dispatch, slug, archives, term, type, udpateHeader])
 
     if (value === 'Failed' || value === 'Loading') {
-        return value
+        return [value, term]
     }
     if (!value) {
-        return 'Loading'
+        return ['Loading', term]
     }
-    return value.map((slug) => posts[slug])
+    return [value.map((slug) => posts[slug]), term]
 }

@@ -15,7 +15,7 @@ export const TopHeader = (): JSX.Element => {
             pageInfo: {
                 background,
                 title,
-                description,
+                excerpt,
                 isLoading,
                 icon,
                 prefix,
@@ -64,7 +64,7 @@ export const TopHeader = (): JSX.Element => {
                             </h1>
                             <p
                                 dangerouslySetInnerHTML={{
-                                    __html: description,
+                                    __html: excerpt,
                                 }}
                             />
                         </div>

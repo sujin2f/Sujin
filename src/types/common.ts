@@ -4,7 +4,7 @@ export type Nullable<T> = T | null | undefined
 
 export type GlobalVariable = {
     title: string
-    description: string
+    excerpt: string
     backend: string
     frontend: string
 }

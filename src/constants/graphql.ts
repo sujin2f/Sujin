@@ -4,11 +4,12 @@
  * @module constants
  */
 
-export const schema = `
+export const graphqlSchema = `
     scalar Date
     type Query {
         getMenu(menuName: String!): [MenuItem]
         getPostsBy(key: String!, value: String!, page: Int): [Post]
+        getTermBy(key: String!, value: String!): Term
         getBackgrounds: [Background]
     },
     type MenuItem {
@@ -36,12 +37,23 @@ export const schema = `
     },
     type Term {
         id: Int
-        name: String
+        title: String
         slug: String
         type: String
+        total: Int
+        limit: Int
+        pages: Int
+        excerpt: String
     },
     type Background {
         desktop: String
         mobile: String
     }
+`
+
+export const baseQueryNodes = `
+    id
+    slug
+    title
+    excerpt
 `

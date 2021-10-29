@@ -1,4 +1,4 @@
-import { TermTypes } from 'src/types'
+import { Term, TermTypes } from 'src/types'
 import { Background, MenuItem, Post } from './wp'
 
 type Type = {
@@ -20,7 +20,7 @@ type Menus = {
 type PageInfoString = {
     background: string
     backgroundColor: string
-    description: string
+    excerpt: string
     prefix: string
     title: string
     icon: string
@@ -49,10 +49,12 @@ export type State = Menus & {
     }
     archive: {
         [slug: string]: {
-            [page: number]: string[] | 'Loading' | 'Failed'
+            term?: Term
+            items: {
+                [page: number]: string[] | 'Loading' | 'Failed'
+            }
         }
     }
-    // leftRail: StateLeftRail
 }
 
 export type Action = Type &
@@ -65,4 +67,5 @@ export type Action = Type &
         page: number
         post: Post
         termType: TermTypes
+        term: Term
     }

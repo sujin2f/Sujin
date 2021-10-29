@@ -32,7 +32,7 @@ const getGlobalVariable = async (): Promise<GlobalVariable> => {
 
     const globalVariable: GlobalVariable = {
         title: (await getOption('blogname')) || '',
-        description: (await getOption('blogdescription')) || '',
+        excerpt: (await getOption('blogdescription')) || '',
         frontend: isDev() ? 'https://devfront.sujinc.com' : frontend.origin,
         backend: backend.origin,
     }

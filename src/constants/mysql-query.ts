@@ -30,9 +30,9 @@ const GET_OPTION = `
 const GET_POST_BY = `
     SELECT ${POST_FIELDS}
     FROM wp_posts AS posts
-    WHERE {0}="{1}"
+    WHERE {0}="{1}" AND posts.post_status="publish"
     ORDER BY posts.ID DESC
-    LIMIT ${PER_PAGE}
+    LIMIT ${PER_PAGE} OFFSET {2}
 `
 
 const GET_POST_META = `
@@ -50,16 +50,22 @@ const GET_ALL_POST_META = `
     WHERE post_id="{0}"
 `
 
-const GET_TERM = `
+const GET_TERM_BY = `
     SELECT
         terms.term_id AS id,
-        terms.name AS name,
+        terms.name AS title,
         terms.slug AS slug,
-        taxonomy.taxonomy AS type
-    FROM wp_terms AS terms
-    INNER JOIN wp_term_taxonomy as taxonomy
-        ON taxonomy.term_id = terms.term_id
-    WHERE terms.term_id="{0}"
+        taxonomy.taxonomy AS type,
+        taxonomy.description AS excerpt,
+        COUNT(posts.ID) as total
+    FROM wp_posts AS posts
+    INNER JOIN wp_term_relationships AS relationships
+        ON posts.ID = relationships.object_id
+    INNER JOIN wp_term_taxonomy AS taxonomy
+        ON taxonomy.term_taxonomy_id = relationships.term_taxonomy_id
+    INNER JOIN wp_terms AS terms
+        ON terms.term_id = taxonomy.term_id
+    WHERE {0}="{1}" AND posts.post_status="publish"
 `
 
 const GET_TERM_ITEMS = `
@@ -71,15 +77,16 @@ const GET_TERM_ITEMS = `
         ON taxonomy.term_taxonomy_id = relationships.term_taxonomy_id
     INNER JOIN wp_terms AS terms
         ON terms.term_id = taxonomy.term_id
-    WHERE terms.slug="{0}"
-    {1}
+    WHERE terms.slug="{0}" AND posts.post_status="{1}"
+    {2}
     LIMIT ${PER_PAGE}
+    OFFSET {3}
 `
 
 const GET_TAXONOMIES = `
     SELECT
         terms.term_id AS id,
-        terms.name AS name,
+        terms.name AS title,
         terms.slug AS slug,
         taxonomy.taxonomy AS type
     FROM wp_terms AS terms
@@ -90,22 +97,40 @@ const GET_TAXONOMIES = `
     INNER JOIN wp_posts as posts
         ON posts.ID = relationships.object_id
     WHERE posts.ID={0}
+    ORDER BY terms.name ASC
+`
+
+const GET_TERM_META = `
+    SELECT meta_value as value
+    FROM wp_termmeta
+    WHERE term_id={0} AND meta_key="{1}"
 `
 
 export const MySQLQuery = {
     getAllPostMeta: (postId: number): string =>
         format(GET_ALL_POST_META, postId),
     getRandomBackgrounds: (): string =>
-        format(GET_TERM_ITEMS, 'background', 'ORDER BY RAND()'),
-    getTermItems: (menuName: string): string =>
-        format(GET_TERM_ITEMS, menuName, 'ORDER BY posts.ID DESC'),
+        format(GET_TERM_ITEMS, 'background', 'inherit', 'ORDER BY RAND()', 0),
+    getTermItems: (termSlug: string, offset: number): string =>
+        format(
+            GET_TERM_ITEMS,
+            termSlug,
+            'publish',
+            'ORDER BY posts.ID DESC',
+            offset,
+        ),
     getOption: (optionName: string): string => format(GET_OPTION, optionName),
     getPostMeta: (postId: number, metaKey: string): string =>
         format(GET_POST_META, postId, metaKey),
-    getPostBy: (key: string, value: string): string =>
-        format(GET_POST_BY, key, value),
-    getTerm: (termId: number): string => format(GET_TERM, termId),
+    getPostBy: (key: string, value: string, offset: number): string =>
+        format(GET_POST_BY, key, value, offset),
+    getTermBy: (key: string, value: string): string => {
+        const newKey = key === 'id' ? 'terms.term_id' : 'terms.slug'
+        return format(GET_TERM_BY, newKey, value)
+    },
     getTaxonomies: (postId: number): string => format(GET_TAXONOMIES, postId),
+    getTermMeta: (id: number, metaKey: string): string =>
+        format(GET_TERM_META, id, metaKey),
 }
 
 export enum MetaKeys {

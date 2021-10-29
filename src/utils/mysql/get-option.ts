@@ -29,7 +29,7 @@ export const getOption = async <T>(
         .query(MySQLQuery.getOption(optionName))
         .catch((e) => console.error(e))
 
-    if (!result.length) {
+    if (!result || !result.length) {
         return
     }
 

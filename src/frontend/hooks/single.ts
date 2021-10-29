@@ -15,6 +15,7 @@ import {
     loadPostSuccess,
     setPageInfo,
 } from 'src/frontend/store'
+import { baseQueryNodes } from 'src/constants'
 
 export const usePost = (slug: string): Post => {
     const [
@@ -38,10 +39,7 @@ export const usePost = (slug: string): Post => {
                         getPostsBy(key: "slug", value: "${encodeURIComponent(
                             slug,
                         )}") {
-                            id
-                            slug
-                            title
-                            excerpt
+                            ${baseQueryNodes}
                             content
                             date
                             link
@@ -49,19 +47,13 @@ export const usePost = (slug: string): Post => {
                             type
                             menuOrder
                             tags {
-                                id
-                                name
-                                slug
+                                ${baseQueryNodes}
                             }
                             categories {
-                                id
-                                name
-                                slug
+                                ${baseQueryNodes}
                             }
                             series {
-                                id
-                                name
-                                slug
+                                ${baseQueryNodes}
                             }
                         }
                     }
@@ -82,7 +74,7 @@ export const usePost = (slug: string): Post => {
         dispatch(
             setPageInfo({
                 backgroundColor: '',
-                description: post.excerpt,
+                excerpt: post.excerpt,
                 icon: '',
                 isLoading: false,
                 prefix: '',
