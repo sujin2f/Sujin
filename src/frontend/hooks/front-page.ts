@@ -1,3 +1,6 @@
+/**
+ * @todo make them one
+ */
 import { gql } from '@apollo/client'
 import { useContext, useEffect } from 'react'
 
@@ -53,15 +56,6 @@ export const useFrontPage = (): void => {
 
         dispatch(
             setPageInfo({
-                wrapperClasses: {
-                    'stretched-background': true,
-                    'hide-footer': true,
-                },
-            }),
-        )
-
-        dispatch(
-            setPageInfo({
                 background: isMobile()
                     ? randomBackground.mobile
                     : randomBackground.desktop,
@@ -72,6 +66,10 @@ export const useFrontPage = (): void => {
                 prefix: '',
                 title: title.toUpperCase(),
                 useBackgroundColor: false,
+                wrapperClasses: {
+                    'stretched-background': true,
+                    'hide-footer': true,
+                },
             }),
         )
     }, [dispatch, backgrounds])

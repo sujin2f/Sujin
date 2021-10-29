@@ -12,6 +12,7 @@ import { Content } from 'src/frontend/components/single/Content'
 // import { SocialShare } from 'src/frontend/components/single/SocialShare'
 import { NotFound } from 'src/frontend/scenes/public'
 import { usePost } from 'src/frontend/hooks/single'
+import { Loading } from 'src/frontend/components/common/Loading'
 
 export const Page = (): JSX.Element => {
     const { slug } = useParams<{ slug: string }>()
@@ -22,7 +23,7 @@ export const Page = (): JSX.Element => {
     }
 
     if (!post || 'Loading' === post.date) {
-        return <Fragment />
+        return <Loading />
     }
 
     // const { tags, title, excerpt, thumbnail } = post
