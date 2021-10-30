@@ -42,7 +42,9 @@ export const useArchive = (
             case TermTypes.series:
             case TermTypes.tag:
                 archiveMetaQuery = `
-                    getTermBy(key: "${type}", value: "${slug}") {
+                    getTermBy(key: "${type}", value: "${encodeURIComponent(
+                    slug,
+                )}") {
                         ${baseQueryNodes}
                         total
                         limit
@@ -56,7 +58,9 @@ export const useArchive = (
             .query<{ getPostsBy: Post[]; getTermBy?: Term }>({
                 query: gql`
                     query {
-                        getPostsBy(key: "${type}", value: "${slug}", page: ${page}) {
+                        getPostsBy(key: "${type}", value: "${encodeURIComponent(
+                    slug,
+                )}", page: ${page}) {
                             ${baseQueryNodes}
                             content
                             date

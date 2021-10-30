@@ -37,6 +37,7 @@ export const getPostsBy = async ({
             break
 
         case 'category':
+        case 'tag':
             result = await connection.query(
                 MySQLQuery.getTermItems(value, offset),
             )
