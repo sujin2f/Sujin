@@ -1,72 +1,78 @@
-& {
-	background-color: $dark-gray;
+.wrapper--front-page {
+    .footer {
+        display: none;
+    }
 }
 
-.layout__footer__top {
-	margin-top: 2em;
-	margin-bottom: 1em;
+// & {
+// 	background-color: $dark-gray;
+// }
 
-	.widget__container {
-		h2 {
-			@include section-header-footer;
-		}
-	}
+// .layout__footer__top {
+// 	margin-top: 2em;
+// 	margin-bottom: 1em;
 
-	@include breakpoint(small only) {
-		.widget__container {
-			margin-bottom: 2em;
+// 	.widget__container {
+// 		h2 {
+// 			@include section-header-footer;
+// 		}
+// 	}
 
-			&:last-child {
-				margin-bottom: 0;
-			}
-		}
-	}
-}
+// 	@include breakpoint(small only) {
+// 		.widget__container {
+// 			margin-bottom: 2em;
 
-// @todo
-.layout__footer__bottom {
-	background-color: $black;
-	padding: 12px;
-	line-height: 1;
+// 			&:last-child {
+// 				margin-bottom: 0;
+// 			}
+// 		}
+// 	}
+// }
 
-	.row {
-		.flex-row {
-			align-items: center;
-		}
-		.logo {
-			width: 62px;
-			height: 32px;
-			margin-right: 0.8em;
-			mask-image: url('../../../images/logo.svg');
-			background: $medium-gray;
-			mask-position-y: top;
-		}
+// // @todo
+// .layout__footer__bottom {
+// 	background-color: $black;
+// 	padding: 12px;
+// 	line-height: 1;
 
-		p {
-			margin: 0;
-			color: $medium-gray;
-			font-size: 13px;
-			height: 15px;
-		}
-	}
-}
+// 	.row {
+// 		.flex-row {
+// 			align-items: center;
+// 		}
+// 		.logo {
+// 			width: 62px;
+// 			height: 32px;
+// 			margin-right: 0.8em;
+// 			mask-image: url('../../../images/logo.svg');
+// 			background: $medium-gray;
+// 			mask-position-y: top;
+// 		}
 
-.menu.menu__footer__social-media {
-	justify-content: flex-end;
+// 		p {
+// 			margin: 0;
+// 			color: $medium-gray;
+// 			font-size: 13px;
+// 			height: 15px;
+// 		}
+// 	}
+// }
 
-	a {
-		background-color: $white;
-		margin-left: 0.2em;
+// .menu.menu__footer__social-media {
+// 	justify-content: flex-end;
 
-		&:hover {
-			background-color: map-get($foundation-palette, 'secondary');
-		}
-	}
+// 	a {
+// 		background-color: $white;
+// 		margin-left: 0.2em;
 
-	@include breakpoint(small only) {
-		.social-media-RSS {
-			display: none;
-		}
-	}
+// 		&:hover {
+// 			background-color: map-get($foundation-palette, 'secondary');
+// 		}
+// 	}
 
-}
+// 	@include breakpoint(small only) {
+// 		.social-media-RSS {
+// 			display: none;
+// 		}
+// 	}
+
+// }
