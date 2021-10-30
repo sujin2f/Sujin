@@ -1,54 +1,40 @@
-import { MySQLQuery, MetaKeys, CacheKeys } from 'src/constants'
-import { Image, ImageSizes } from 'src/types'
-import { isDev, cached, getPostMeta, mysql } from 'src/utils'
+import { MySQLQuery, CacheKeys, ErrorMessage } from 'src/constants'
+import { Image, Post } from 'src/types'
+import { cached, getAttachment, mysql } from 'src/utils'
 
 /**
  * Get random backgrounds
  *
- * @return {Promise<Background[]>}
+ * @return {Promise<Image[]>}
+ * @throws
  */
 export const getBackgrounds = async (): Promise<Image[]> => {
     const cache = cached.get<Image[]>(CacheKeys.BACKGROUND)
-    if (cache && !isDev()) {
+    if (cache && process.env.USE_CACHE) {
         return cache
     }
 
-    const connection = await mysql()
-    const query = MySQLQuery.getRandomBackgrounds()
-    const posts = await connection.query(query)
+    // MySQL connection
+    const connection = await mysql().catch(() => {
+        throw new Error(ErrorMessage.MYSQL_CONNECTION)
+    })
+    const posts: Post[] = await connection
+        .query(MySQLQuery.getRandomBackgrounds())
+        .catch(() => [])
 
     if (!posts.length) {
+        cached.set<Image[]>(CacheKeys.BACKGROUND, [])
         return []
     }
 
     const backgrounds: Image[] = []
 
     for (const post of posts) {
-        const sizes: ImageSizes = []
-        // eslint-disable-next-line @typescript-eslint/ban-types
-        const attachmentMeta = await getPostMeta<
-            Record<string, Record<string, Record<string, string>>>
-        >(post.id, MetaKeys.ATTACHMENT_META)
-        if (attachmentMeta.sizes) {
-            Object.keys(attachmentMeta.sizes).forEach((sizeKey) => {
-                const url = new URL(post.link)
-                const path = url.pathname.split('/')
-                path.pop()
+        const image = await getAttachment(post.id).catch(() => undefined)
 
-                sizes.push({
-                    key: sizeKey,
-                    file: `${url.origin}/${path.join('/')}/${
-                        attachmentMeta.sizes[sizeKey].file
-                    }`,
-                })
-            })
+        if (image) {
+            backgrounds.push(image)
         }
-
-        backgrounds.push({
-            url: post.link,
-            mimeType: post.mimeType,
-            sizes,
-        })
     }
     cached.set<Image[]>(CacheKeys.BACKGROUND, backgrounds)
     return backgrounds

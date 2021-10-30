@@ -1,5 +1,5 @@
-import { MySQLQuery, CacheKeys } from 'src/constants'
-import { cached, isDev, mysql } from 'src/utils'
+import { MySQLQuery, CacheKeys, ErrorMessage } from 'src/constants'
+import { cached, mysql } from 'src/utils'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const PHPUnserialize = require('php-unserialize')
@@ -15,33 +15,37 @@ export const getPostMeta = async <T = string>(
     postId: number,
     metaKey: string,
 ): Promise<T> => {
-    const cache = cached.get<T>(`${CacheKeys.POST_META}-${postId}-${metaKey}`)
-    if (cache && !isDev()) {
-        return cache
+    const cacheKey = `${CacheKeys.POST_META}-${postId}-${metaKey}`
+    const cache = cached.get<T | string>(cacheKey)
+    if (cache && process.env.USE_CACHE) {
+        if (cache === 'NOT_FOUND') {
+            throw new Error(ErrorMessage.POST_META_NOT_FOUND)
+        }
+        return cache as T
     }
 
-    const connection = await mysql()
-    const result = await connection.query(
-        MySQLQuery.getPostMeta(postId, metaKey),
-    )
+    // MySQL connection
+    const connection = await mysql().catch(() => {
+        throw new Error(ErrorMessage.MYSQL_CONNECTION)
+    })
+    const dbResult = await connection
+        .query(MySQLQuery.getPostMeta(postId, metaKey))
+        .catch((e) => console.log(e))
 
-    if (!result.length) {
-        cached.set<T>(
-            `${CacheKeys.POST_META}-${postId}-${metaKey}`,
-            ('' as unknown) as T,
-        )
-        return ('' as unknown) as T
+    if (!dbResult.length) {
+        cached.set<T>(cacheKey, ('NOT_FOUNT' as unknown) as T)
+        throw new Error(ErrorMessage.POST_META_NOT_FOUND)
     }
 
-    const value = result[0].meta_value
+    const value = dbResult[0].meta_value
 
     // Serialize
     if (value.startsWith('a:') && value.endsWith('}')) {
-        const object = PHPUnserialize.unserialize(result[0].meta_value)
-        cached.set<T>(`${CacheKeys.POST_META}-${postId}-${metaKey}`, object)
+        const object = PHPUnserialize.unserialize(dbResult[0].meta_value)
+        cached.set<T>(cacheKey, object)
         return object
     }
 
-    cached.set<T>(`${CacheKeys.POST_META}-${postId}-${metaKey}`, value)
+    cached.set<T>(cacheKey, value)
     return value
 }

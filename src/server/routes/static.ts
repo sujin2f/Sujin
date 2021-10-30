@@ -23,18 +23,26 @@ const staticRouter = express.Router()
 
 const getGlobalVariable = async (): Promise<GlobalVariable> => {
     const cache = cached.get<GlobalVariable>(CacheKeys.GLOBAL_VARS)
-    if (cache && !isDev()) {
+    if (cache && process.env.USE_CACHE) {
         return cache
     }
 
-    const home = await getOption<string>('home')
-    const siteurl = await getOption<string>('siteurl')
+    const home = await getOption<string>('home').catch((e) => console.error(e))
+    const siteurl = await getOption<string>('siteurl').catch((e) =>
+        console.error(e),
+    )
     const frontend = home ? new URL(home).origin : ''
     const backend = siteurl ? new URL(siteurl).origin : ''
+    const title = await getOption<string>('blogname').catch((e) =>
+        console.error(e),
+    )
+    const excerpt = await getOption<string>('blogdescription').catch((e) =>
+        console.error(e),
+    )
 
     const globalVariable: GlobalVariable = {
-        title: (await getOption('blogname')) || '',
-        excerpt: (await getOption('blogdescription')) || '',
+        title: title || '',
+        excerpt: excerpt || '',
         frontend: isDev() ? 'https://devfront.sujinc.com' : frontend,
         backend: backend,
     }
@@ -53,11 +61,15 @@ export const showReact = async (res: Response): Promise<void> => {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const filePath = path.resolve(publicDir, 'frontend.html')
 
-    const globalVariable = await getGlobalVariable()
-    const html = await ejs.renderFile(filePath, {
-        globalVariable,
-        bundles: [...bundles()],
-    })
+    const globalVariable = await getGlobalVariable().catch((e) =>
+        console.error(e),
+    )
+    const html = await ejs
+        .renderFile(filePath, {
+            globalVariable,
+            bundles: [...bundles()],
+        })
+        .catch((e) => console.error(e))
 
     res.send(html)
 }

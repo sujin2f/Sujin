@@ -1,6 +1,6 @@
 import { CacheKeys, MySQLQuery } from 'src/constants'
 import { Term, TermTypes } from 'src/types'
-import { isDev, cached, mysql } from 'src/utils'
+import { cached, mysql } from 'src/utils'
 
 /**
  * Get Taxonomies from the post
@@ -10,7 +10,7 @@ import { isDev, cached, mysql } from 'src/utils'
  */
 export const getTaxonomies = async (postId: number): Promise<Term[]> => {
     const cache = cached.get<Term[]>(`${CacheKeys.TAXONOMY}-${postId}`)
-    if (cache && !isDev()) {
+    if (cache && process.env.USE_CACHE) {
         return cache
     }
 

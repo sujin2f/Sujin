@@ -1,6 +1,6 @@
 import { CacheKeys, MySQLQuery, PER_PAGE } from 'src/constants'
 import { GetTermByArgs, Nullable, Term, TermTypes } from 'src/types'
-import { isDev, cached, mysql } from 'src/utils'
+import { cached, mysql } from 'src/utils'
 
 /**
  * Get Term from ID
@@ -13,7 +13,7 @@ export const getTermBy = async ({
     value,
 }: GetTermByArgs): Promise<Nullable<Term>> => {
     const cache = cached.get<Term>(`${CacheKeys.TERM}-${key}-${value}`)
-    if (cache && !isDev()) {
+    if (cache && process.env.USE_CACHE) {
         return cache
     }
 

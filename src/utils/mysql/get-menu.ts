@@ -1,13 +1,6 @@
 import { MySQLQuery, CacheKeys, MetaKeys, MenuItemTypes } from 'src/constants'
 import { MenuItem, Post } from 'src/types'
-import {
-    mysql,
-    cached,
-    isDev,
-    getAllPostMeta,
-    getTermBy,
-    getPostsBy,
-} from 'src/utils'
+import { mysql, cached, getAllPostMeta, getTermBy, getPostsBy } from 'src/utils'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const PHPUnserialize = require('php-unserialize')
@@ -35,9 +28,11 @@ const getMenuItemFromPost = async (menu: Post): Promise<MenuItem> => {
             const post = await getPostsBy({
                 key: 'id',
                 value: objectId.toString(),
-            })
-            title = title || post[0].title || ''
-            link = post[0].link
+            }).catch(() => undefined)
+            if (post) {
+                title = title || post[0].title || ''
+                link = post[0].link
+            }
             break
         case MenuItemTypes.TAXONOMY:
             const term =
@@ -72,7 +67,7 @@ export const getMenu = async ({
     menuName: string
 }): Promise<MenuItem[]> => {
     const cache = cached.get<MenuItem[]>(`${CacheKeys.MENU}-${menuName}`)
-    if (cache && !isDev()) {
+    if (cache && process.env.USE_CACHE) {
         return cache
     }
 

@@ -1,5 +1,5 @@
 import { CacheKeys, MySQLQuery } from 'src/constants'
-import { isDev, cached, mysql } from 'src/utils'
+import { cached, mysql } from 'src/utils'
 
 /**
  * Get Term from ID
@@ -12,7 +12,7 @@ export const getTermMeta = async (
     metaKey: string,
 ): Promise<string> => {
     const cache = cached.get<string>(`${CacheKeys.TERM}-meta-${id}-${metaKey}`)
-    if (cache && !isDev()) {
+    if (cache && process.env.USE_CACHE) {
         return cache
     }
 

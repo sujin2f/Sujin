@@ -41,14 +41,14 @@
     object-fit: cover;
     object-position: center center;
     width: 100%;
-    min-height: $page-header-height;
+    max-height: $page-header-height;
 
     @include breakpoint(medium only) {
-        min-height: $page-header-height-medium;
+        max-height: $page-header-height-medium;
     }
 
     @include breakpoint(small only) {
-        min-height: $page-header-height-small;
+        max-height: $page-header-height-small;
     }
 }
 
@@ -66,7 +66,7 @@
 
     .layout__header__image {
         height: 100vh;
-        min-height: inherit;
+        max-height: inherit;
     }
 }
 

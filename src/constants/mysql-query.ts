@@ -31,7 +31,7 @@ const GET_OPTION = `
 const GET_POST_BY = `
     SELECT ${POST_FIELDS}
     FROM wp_posts AS posts
-    WHERE {0}="{1}" AND posts.post_status="publish"
+    WHERE {0}="{1}" {3}
     ORDER BY posts.ID DESC
     LIMIT ${PER_PAGE} OFFSET {2}
 `
@@ -39,9 +39,7 @@ const GET_POST_BY = `
 const GET_POST_META = `
     SELECT meta_value
     FROM wp_postmeta
-    WHERE
-        post_id="{0}" AND
-        meta_key="{1}"
+    WHERE post_id="{0}" AND meta_key="{1}"
     LIMIT 1
 `
 
@@ -123,8 +121,19 @@ export const MySQLQuery = {
     getOption: (optionName: string): string => format(GET_OPTION, optionName),
     getPostMeta: (postId: number, metaKey: string): string =>
         format(GET_POST_META, postId, metaKey),
-    getPostBy: (key: string, value: string, offset: number): string =>
-        format(GET_POST_BY, key, value, offset),
+    getPostBy: (
+        key: string,
+        value: string,
+        offset: number,
+        ignoreStatus: boolean,
+    ): string =>
+        format(
+            GET_POST_BY,
+            key,
+            value,
+            offset,
+            ignoreStatus ? '' : 'AND posts.post_status="publish"',
+        ),
     getTermBy: (key: string, value: string): string => {
         const newKey = key === 'id' ? 'terms.term_id' : 'terms.slug'
         return format(GET_TERM_BY, newKey, value)

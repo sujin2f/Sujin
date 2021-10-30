@@ -65,6 +65,8 @@ export const usePost = (slug: string): Post => {
                     return
                 }
             })
+            // @todo per error code
+            .catch((e) => console.error(e.message))
     }, [dispatch, slug, post])
 
     useEffect(() => {

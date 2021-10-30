@@ -7,6 +7,8 @@ export enum TermTypes {
     series = 'series',
 }
 
+export type ImageKeys = 'list' | 'icon' | 'title' | 'background' | 'thumbnail'
+
 export type Post = {
     id: number
     slug: string
@@ -21,8 +23,14 @@ export type Post = {
     tags: Term[]
     categories: Term[]
     series: Term[]
-    // thumbnail: Image
-    // meta: PostMeta
+    mimeType: string
+    images: {
+        [key in ImageKeys]?: Image
+    }
+    meta: {
+        useBackgroundColor: boolean
+        backgroundColor: string
+    }
 }
 
 export type MenuItem = {

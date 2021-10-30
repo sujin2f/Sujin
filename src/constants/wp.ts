@@ -14,6 +14,12 @@ export const dummyPost: Post = {
     tags: [],
     categories: [],
     series: [],
+    mimeType: '',
+    images: {},
+    meta: {
+        backgroundColor: '',
+        useBackgroundColor: false,
+    },
 }
 
 export enum PostType {

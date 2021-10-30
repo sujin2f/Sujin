@@ -34,7 +34,20 @@ export const graphqlSchema = `
         tags: [Term]
         categories: [Term]
         series: [Term]
+        images: Images
+        meta: PostMeta
     },
+    type Images {
+        list: Image
+        icon: Image
+        title: Image
+        background: Image
+        thumbnail: Image
+    }
+    type PostMeta {
+        useBackgroundColor: Boolean
+        backgroundColor: String
+    }
     type Term {
         id: Int
         title: String
