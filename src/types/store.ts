@@ -1,5 +1,5 @@
 import { Term, TermTypes } from 'src/types'
-import { Background, MenuItem, Post } from './wp'
+import { Image, MenuItem, Post } from './wp'
 
 type Type = {
     type: string
@@ -17,32 +17,25 @@ type Menus = {
 /**
  * Page Info
  */
-type PageInfoString = {
-    background: string
+export type WrapperClasses = {
+    'wrapper--scrolled': boolean
+    'wrapper--mobile-menu': boolean
+    'wrapper--headline': boolean
+}
+export type PageInfo = {
+    background?: Image
     backgroundColor: string
     excerpt: string
     prefix: string
     title: string
     icon: string
-}
-type PageInfoBoolean = {
     isLoading: boolean
-    useBackgroundColor: boolean
+    currentPage: string
+    wrapperClasses: Partial<WrapperClasses>
 }
-export type WrapperClasses = {
-    scrolled: boolean
-    'mobile-menu': boolean
-    'stretched-background': boolean
-    'hide-footer': boolean
-    layout__wrapper: boolean
-}
-export type PageInfo = PageInfoString &
-    PageInfoBoolean & {
-        wrapperClasses: Partial<WrapperClasses>
-    }
 
-export type State = Menus & {
-    backgrounds?: Background[]
+export type State = {
+    backgrounds?: Image[]
     pageInfo: PageInfo
     posts: {
         [slug: string]: Post
@@ -55,17 +48,17 @@ export type State = Menus & {
             }
         }
     }
-}
+} & Menus
 
-export type Action = Type &
-    Slug & {
-        posts: Post[]
-        // leftRail: StateLeftRail
-        menuItems: MenuItem[]
-        backgrounds: Background[]
-        pageInfo: Partial<PageInfo>
-        page: number
-        post: Post
-        termType: TermTypes
-        term: Term
-    }
+export type Action = {
+    posts: Post[]
+    // leftRail: StateLeftRail
+    menuItems: MenuItem[]
+    backgrounds: Image[]
+    pageInfo: Partial<PageInfo>
+    page: number
+    post: Post
+    termType: TermTypes
+    term: Term
+} & Type &
+    Slug

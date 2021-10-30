@@ -1,5 +1,5 @@
 import { MySQLQuery, MetaKeys, CacheKeys } from 'src/constants'
-import { Background, Post } from 'src/types'
+import { Image, ImageSizes } from 'src/types'
 import { isDev, cached, getPostMeta, mysql } from 'src/utils'
 
 /**
@@ -7,8 +7,8 @@ import { isDev, cached, getPostMeta, mysql } from 'src/utils'
  *
  * @return {Promise<Background[]>}
  */
-export const getBackgrounds = async (): Promise<Background[]> => {
-    const cache = cached.get<Background[]>(CacheKeys.BACKGROUND)
+export const getBackgrounds = async (): Promise<Image[]> => {
+    const cache = cached.get<Image[]>(CacheKeys.BACKGROUND)
     if (cache && !isDev()) {
         return cache
     }
@@ -21,29 +21,35 @@ export const getBackgrounds = async (): Promise<Background[]> => {
         return []
     }
 
-    const backgrounds = []
+    const backgrounds: Image[] = []
 
-    for (const item of posts) {
-        const post = (item as unknown) as Post
-        const result = await getPostMeta(post.id, MetaKeys.ATTACHMENT_META)
-        const meta = (result as unknown) as {
-            sizes: { [size: string]: { file: string } }
-        }
-        const mobile =
-            (meta.sizes.medium_large && meta.sizes.medium_large.file) ||
-            (meta.sizes.medium && meta.sizes.medium.file) ||
-            undefined
-        if (mobile) {
-            backgrounds.push({
-                desktop: post.link,
-                mobile: post.link.replace(
-                    // @todo
-                    /\/([0-9a-zA-Z-_]+)$/,
-                    `/${mobile}`,
-                ),
+    for (const post of posts) {
+        const sizes: ImageSizes = []
+        // eslint-disable-next-line @typescript-eslint/ban-types
+        const attachmentMeta = await getPostMeta<
+            Record<string, Record<string, Record<string, string>>>
+        >(post.id, MetaKeys.ATTACHMENT_META)
+        if (attachmentMeta.sizes) {
+            Object.keys(attachmentMeta.sizes).forEach((sizeKey) => {
+                const url = new URL(post.link)
+                const path = url.pathname.split('/')
+                path.pop()
+
+                sizes.push({
+                    key: sizeKey,
+                    file: `${url.origin}/${path.join('/')}/${
+                        attachmentMeta.sizes[sizeKey].file
+                    }`,
+                })
             })
         }
+
+        backgrounds.push({
+            url: post.link,
+            mimeType: post.mimeType,
+            sizes,
+        })
     }
-    cached.set<Background[]>(CacheKeys.BACKGROUND, backgrounds)
+    cached.set<Image[]>(CacheKeys.BACKGROUND, backgrounds)
     return backgrounds
 }

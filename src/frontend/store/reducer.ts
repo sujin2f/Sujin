@@ -24,20 +24,18 @@ export const initialState: State = {
     backgrounds: undefined,
     menus: {},
     pageInfo: {
-        background: '',
+        background: undefined,
         backgroundColor: '',
         excerpt: '',
         icon: '',
         isLoading: false,
         prefix: '',
         title: '',
-        useBackgroundColor: false,
+        currentPage: '',
         wrapperClasses: {
-            scrolled: false,
-            'mobile-menu': false,
-            'stretched-background': false,
-            'hide-footer': false,
-            layout__wrapper: true,
+            'wrapper--scrolled': false,
+            'wrapper--mobile-menu': false,
+            'wrapper--headline': false,
         },
     },
     posts: {},
@@ -145,8 +143,14 @@ export const reducer = (state: State = initialState, action: Action): State => {
                 ...state,
                 backgrounds: [
                     {
-                        desktop: DEFAULT_BACKGROUND,
-                        mobile: DEFAULT_BACKGROUND_MOBILE,
+                        url: DEFAULT_BACKGROUND,
+                        mimeType: 'image/jpeg',
+                        sizes: [
+                            {
+                                key: 'medium',
+                                file: DEFAULT_BACKGROUND_MOBILE,
+                            },
+                        ],
                     },
                 ],
             }

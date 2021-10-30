@@ -22,7 +22,9 @@ export const MenuItem = (props: Props): JSX.Element => {
             {target && (
                 <a
                     href={link || '#'}
-                    className={htmlClass ? htmlClass.join(' ') : ''}
+                    className={`${
+                        htmlClass ? htmlClass.join(' ') : ''
+                    } menu__item__link`}
                     target={target}
                 >
                     {title}
@@ -32,7 +34,9 @@ export const MenuItem = (props: Props): JSX.Element => {
             {!target && (
                 <Link
                     to={link || '#'}
-                    className={htmlClass ? htmlClass.join(' ') : ''}
+                    className={`${
+                        htmlClass ? htmlClass.join(' ') : ''
+                    } menu__item__link`}
                 >
                     {title}
                 </Link>

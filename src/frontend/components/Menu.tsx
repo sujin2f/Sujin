@@ -28,7 +28,7 @@ export const Menu = (props: Props): JSX.Element => {
                     <MenuItem menuItem={menuItem} />
 
                     {menuItem.children && menuItem.children.length > 0 && (
-                        <nav className="children">
+                        <nav className="menu--children">
                             {menuItem.children.map((childItem) => (
                                 <MenuItem
                                     menuItem={childItem}

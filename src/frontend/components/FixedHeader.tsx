@@ -19,27 +19,26 @@ export const FixedHeader = (): JSX.Element => {
     ] = useContext(Context) as Context
 
     return (
-        <section className="layout__header__fixed">
+        <section>
             {/* For Transparent Logo */}
-            <section className="flex-row fixed-nav">
-                <div className="section" />
-                <div className="section center" />
-                <div className="section" />
+            <section className="fixed-header__background">
+                <div className="fixed-header__background--white" />
+                <div className="fixed-header__background--transparent" />
+                <div className="fixed-header__background--white" />
             </section>
 
-            <section className="fixed-nav">
+            <section className="fixed-header">
                 <div className="row">
-                    <section className="columns small-6">
+                    <section className="columns small-6 fixed-header__section">
                         <button
-                            className="hide-for-large icon hamburger"
-                            data-testid="hamburger"
+                            className="hide-for-large fixed-header__hamburger"
                             type="button"
                             onClick={() =>
                                 dispatch(
                                     setPageInfo({
                                         wrapperClasses: {
-                                            'mobile-menu': !wrapperClasses[
-                                                'mobile-menu'
+                                            'wrapper--mobile-menu': !wrapperClasses[
+                                                'wrapper--mobile-menu'
                                             ],
                                         },
                                     }),
@@ -47,28 +46,28 @@ export const FixedHeader = (): JSX.Element => {
                             }
                         />
                         <Menu
-                            className="show-for-large menu__fixed__primary"
+                            className="show-for-large menu--fixed-header"
                             slug={MenuNames.MAIN}
                         />
                     </section>
-                    <section className="columns small-6 hide-for-small-only">
+                    <section className="columns small-6 hide-for-small-only fixed-header__section">
                         <Search />
                         <Menu
-                            className="show-for-large menu__fixed__social-media"
+                            className="show-for-large fixed-header__social-media"
                             slug={MenuNames.SOCIAL}
                         />
                     </section>
                 </div>
             </section>
 
-            <section className="logo-container">
-                <Link to="/" className="icon logo reverse">
+            <section className="fixed-header__logo__container">
+                <Link to="/" className="fixed-header__logo">
                     Sujin
                 </Link>
             </section>
 
             <Menu
-                className="hide-for-large menu__fixed__primary-mobile"
+                className="hide-for-large menu--fixed-header--mobile"
                 slug={MenuNames.MAIN}
             />
         </section>

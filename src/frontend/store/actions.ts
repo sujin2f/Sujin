@@ -4,7 +4,7 @@
  */
 
 import {
-    Background,
+    Image,
     MenuItem,
     Post,
     Action,
@@ -57,7 +57,7 @@ export const loadBackgroundInit = (): Partial<Action> => {
  * @returns {LoadBackgroundSuccess}
  */
 export const loadBackgroundSuccess = (
-    backgrounds: Background[],
+    backgrounds: Image[],
 ): Partial<Action> => {
     return {
         type: LOAD_BACKGROUND_SUCCESS,

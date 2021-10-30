@@ -2,6 +2,9 @@
  * Common helpers
  */
 
+import { imageSizeMap, ImageType } from 'src/constants'
+import { ImageSizes } from 'src/types'
+
 /**
  * Making a formatted string
  * Replace {n} to args
@@ -38,4 +41,13 @@ export const dateToPrettyUrl = (date: Date): string => {
     return `${date.getFullYear()}/${addZero(date.getMonth() + 1)}/${addZero(
         date.getDate(),
     )}`
+}
+
+export const getImageMap = (type: ImageType, sizes: ImageSizes): ImageSizes => {
+    return sizes
+        .filter((size) => Object.keys(imageSizeMap[type]).includes(size.key))
+        .map((size) => ({
+            key: (imageSizeMap[type] as Record<string, string>)[size.key],
+            file: size.file,
+        }))
 }

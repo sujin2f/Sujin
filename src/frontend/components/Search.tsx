@@ -40,8 +40,9 @@ export const Search = (): JSX.Element => {
 
     const wrapperClass = opened ? 'open' : ''
     return (
-        <section id="search-container" className={wrapperClass}>
+        <section className={`${wrapperClass} search`}>
             <input
+                className="search__input"
                 type="text"
                 ref={refTextInput}
                 value={keyword}
@@ -49,8 +50,7 @@ export const Search = (): JSX.Element => {
                 onKeyDown={handleKeyDownSearch}
             />
             <button
-                id="search-button"
-                className="icon magnify"
+                className="icon magnify search__button"
                 onClick={handleSubmitSearch}
                 type="submit"
             />

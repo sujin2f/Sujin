@@ -1,15 +1,15 @@
 > header {
-	.layout__header__fixed {
-		.fixed-nav {
-			.columns {
-				nav {
-					> div {
-						a {
-							margin-top: 0;
-						}
-					}
-				}
-			}
-		}
-	}
+    .fixed-header {
+        .fixed-nav {
+            .columns {
+                nav {
+                    > div {
+                        a {
+                            margin-top: 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

@@ -1,68 +1,54 @@
 .icon {
-	text-indent: -9999px;
-	mask-position: center;
-	mask-repeat: no-repeat;
-	mask-size: contain;
+    &.logo {
+        background-image: url('../../../images/logo.svg');
+    }
 
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: cover;
+    &.logo.reverse {
+        background-image: url('../../../images/logo-background.svg');
+    }
 
-	&.hamburger {
-		mask-image: url('../../../images/icons/hamburger.svg');
-	}
-
-	&.logo {
-		background-image: url('../../../images/logo.svg');
-	}
-
-	&.logo.reverse {
-		background-image: url('../../../images/logo-background.svg');
-	}
-
-	&.magnify {
-		mask-image: url('../../../images/icons/magnify.svg');
-	}
+    &.magnify {
+        mask-image: url('../../../images/icons/magnify.svg');
+    }
 }
 
 .social-media {
-	a {
-		text-indent: -2000px;
-		overflow: hidden;
-		width: 26px;
-		height: 26px;
-		padding: 0;
-		transition: ease-out background-color 0.3s;
-		margin-right: .2em;
-		border-radius: 6px;
+    a {
+        text-indent: -2000px;
+        overflow: hidden;
+        width: 26px;
+        height: 26px;
+        padding: 0;
+        transition: ease-out background-color 0.3s;
+        margin-right: 0.2em;
+        border-radius: 6px;
 
-		mask-position: center;
-		mask-repeat: no-repeat;
-		mask-size: contain;
+        mask-position: center;
+        mask-repeat: no-repeat;
+        mask-size: contain;
 
-		&.github {
-			mask-image: url('../../../images/icons/github.svg');
-		}
+        &.github {
+            mask-image: url('../../../images/icons/github.svg');
+        }
 
-		&.facebook {
-			mask-image: url('../../../images/icons/facebook.svg');
-		}
+        &.facebook {
+            mask-image: url('../../../images/icons/facebook.svg');
+        }
 
-		&.twitter {
-			mask-image: url('../../../images/icons/twitter.svg');
-		}
+        &.twitter {
+            mask-image: url('../../../images/icons/twitter.svg');
+        }
 
-		&.flickr {
-			mask-image: url('../../../images/icons/flickr.svg');
-		}
+        &.flickr {
+            mask-image: url('../../../images/icons/flickr.svg');
+        }
 
-		&.linkedin {
-			mask-image: url('../../../images/icons/linkedin.svg');
-		}
+        &.linkedin {
+            mask-image: url('../../../images/icons/linkedin.svg');
+        }
 
-		&.rss {
-			mask-image: url('../../../images/icons/rss.svg');
-		}
-	}
+        &.rss {
+            mask-image: url('../../../images/icons/rss.svg');
+        }
+    }
 }
-

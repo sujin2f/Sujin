@@ -1,0 +1,20 @@
+@mixin icon {
+    text-indent: -9999px;
+    mask-position: center;
+    mask-repeat: no-repeat;
+    mask-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+@mixin icon--social {
+    @include icon;
+    overflow: hidden;
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    transition: ease-out background-color 0.3s;
+    margin-right: 0.2em;
+    border-radius: 6px;
+}

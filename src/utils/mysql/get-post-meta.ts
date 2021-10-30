@@ -1,5 +1,5 @@
 import { MySQLQuery, CacheKeys } from 'src/constants'
-import { cached, mysql } from 'src/utils'
+import { cached, isDev, mysql } from 'src/utils'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const PHPUnserialize = require('php-unserialize')
@@ -11,14 +11,12 @@ const PHPUnserialize = require('php-unserialize')
  * @param {string} metaKey
  * @return {Promise<string>}
  */
-export const getPostMeta = async (
+export const getPostMeta = async <T = string>(
     postId: number,
     metaKey: string,
-): Promise<string> => {
-    const cache = cached.get<string>(
-        `${CacheKeys.POST_META}-${postId}-${metaKey}`,
-    )
-    if (cache) {
+): Promise<T> => {
+    const cache = cached.get<T>(`${CacheKeys.POST_META}-${postId}-${metaKey}`)
+    if (cache && !isDev()) {
         return cache
     }
 
@@ -28,16 +26,22 @@ export const getPostMeta = async (
     )
 
     if (!result.length) {
-        return ''
+        cached.set<T>(
+            `${CacheKeys.POST_META}-${postId}-${metaKey}`,
+            ('' as unknown) as T,
+        )
+        return ('' as unknown) as T
     }
 
     const value = result[0].meta_value
 
     // Serialize
     if (value.startsWith('a:') && value.endsWith('}')) {
-        return PHPUnserialize.unserialize(result[0].meta_value)
+        const object = PHPUnserialize.unserialize(result[0].meta_value)
+        cached.set<T>(`${CacheKeys.POST_META}-${postId}-${metaKey}`, object)
+        return object
     }
 
-    cached.set<string>(`${CacheKeys.POST_META}-${postId}-${metaKey}`, value)
+    cached.set<T>(`${CacheKeys.POST_META}-${postId}-${metaKey}`, value)
     return value
 }

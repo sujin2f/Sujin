@@ -79,10 +79,9 @@ export const usePost = (slug: string): Post => {
                 isLoading: false,
                 prefix: '',
                 title: post.title,
-                useBackgroundColor: false,
+                currentPage: 'single',
                 wrapperClasses: {
-                    'stretched-background': false,
-                    'hide-footer': false,
+                    'wrapper--headline': false,
                 },
             }),
         )

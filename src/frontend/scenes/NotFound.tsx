@@ -17,7 +17,7 @@ export const NotFound = (): JSX.Element => {
 }
 
 /*
-      <Public className="stretched-background hide-footer template-404">
+      <Public className="wrapper--headline template-404">
         <PageHeader backgroundImage={isMobile() ? DEFAULT_BACKGROUND : DEFAULT_BACKGROUND_MOBILE}>
           <h1>SUJIN</h1>
           <p>Not Found</p>

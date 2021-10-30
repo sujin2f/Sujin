@@ -14,7 +14,7 @@ type ReturnType = [string, RefObject<HTMLDivElement>]
 export const useGlobalWrapper = (): ReturnType => {
     const [
         {
-            pageInfo: { wrapperClasses },
+            pageInfo: { wrapperClasses, currentPage },
         },
         dispatch,
     ] = useContext(Context) as Context
@@ -27,14 +27,14 @@ export const useGlobalWrapper = (): ReturnType => {
             }
 
             const scrolled = wrapperElement.current.classList.contains(
-                'scrolled',
+                'wrapper--scrolled',
             )
 
             if (window.scrollY > TOP_MENU_SCROLLED_POSITION && !scrolled) {
                 dispatch(
                     setPageInfo({
                         wrapperClasses: {
-                            scrolled: true,
+                            'wrapper--scrolled': true,
                         },
                     }),
                 )
@@ -44,7 +44,7 @@ export const useGlobalWrapper = (): ReturnType => {
                 dispatch(
                     setPageInfo({
                         wrapperClasses: {
-                            scrolled: false,
+                            'wrapper--scrolled': false,
                         },
                     }),
                 )
@@ -54,10 +54,13 @@ export const useGlobalWrapper = (): ReturnType => {
         window.addEventListener('scroll', (): void => handleScrollChange())
     }, [dispatch])
 
-    return [
-        Object.keys(wrapperClasses)
-            .filter((key) => wrapperClasses[key as keyof WrapperClasses])
-            .join(' '),
-        wrapperElement,
-    ]
+    const returnClasses = Object.keys(wrapperClasses).filter(
+        (key) => wrapperClasses[key as keyof WrapperClasses],
+    )
+
+    if (currentPage) {
+        returnClasses.push(`wrapper--${currentPage}`)
+    }
+
+    return [returnClasses.join(' '), wrapperElement]
 }

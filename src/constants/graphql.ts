@@ -10,7 +10,7 @@ export const graphqlSchema = `
         getMenu(menuName: String!): [MenuItem]
         getPostsBy(key: String!, value: String!, page: Int): [Post]
         getTermBy(key: String!, value: String!): Term
-        getBackgrounds: [Background]
+        getBackgrounds: [Image]
     },
     type MenuItem {
         id: Int
@@ -45,9 +45,14 @@ export const graphqlSchema = `
         pages: Int
         excerpt: String
     },
-    type Background {
-        desktop: String
-        mobile: String
+    type Image {
+        url: String
+        mimeType: String
+        sizes: [ImageSize]
+    }
+    type ImageSize {
+        key: String
+        file: String
     }
 `
 

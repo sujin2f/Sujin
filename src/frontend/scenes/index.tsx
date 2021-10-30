@@ -5,25 +5,23 @@
 
 import React from 'react'
 
-import { GlobalFooter, FixedHeader, TopHeader } from 'src/frontend/components'
+import { GlobalFooter, FixedHeader, Banner } from 'src/frontend/components'
 import { useGlobalWrapper } from 'src/frontend/hooks'
 import { ReactChildrenProps } from 'src/types'
-
-import 'src/assets/styles/style.scss'
 
 export const Public = (props: ReactChildrenProps): JSX.Element => {
     const [className, wrapperElement] = useGlobalWrapper()
 
     return (
-        <div ref={wrapperElement} className={className}>
+        <div ref={wrapperElement} className={`${className} wrapper`}>
             <header>
                 <FixedHeader />
-                <TopHeader />
+                <Banner />
             </header>
 
             <main className="row">{props.children}</main>
 
-            <footer>
+            <footer className="footer">
                 <GlobalFooter />
             </footer>
         </div>

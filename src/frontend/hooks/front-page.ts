@@ -4,8 +4,8 @@
 import { gql } from '@apollo/client'
 import { useContext, useEffect } from 'react'
 
-import { Background } from 'src/types'
-import { graphqlClient, isMobile } from 'src/frontend/utils'
+import { Image } from 'src/types'
+import { graphqlClient } from 'src/frontend/utils'
 import {
     Context,
     loadBackgroundInit,
@@ -24,12 +24,16 @@ export const useBackground = (): void => {
         dispatch(loadBackgroundInit())
 
         graphqlClient
-            .query<{ getBackgrounds: Background[] }>({
+            .query<{ getBackgrounds: Image[] }>({
                 query: gql`
                     query {
                         getBackgrounds {
-                            desktop
-                            mobile
+                            url
+                            mimeType
+                            sizes {
+                                key
+                                file
+                            }
                         }
                     }
                 `,
@@ -48,26 +52,21 @@ export const useFrontPage = (): void => {
         const excerpt = window.globalVariable.excerpt
         const randomBackground =
             backgrounds && backgrounds.length
-                ? (backgrounds[
-                      Math.floor(Math.random() * backgrounds.length)
-                  ] as Background)
-                : { desktop: '', mobile: '' }
+                ? backgrounds[Math.floor(Math.random() * backgrounds.length)]
+                : undefined
 
         dispatch(
             setPageInfo({
-                background: isMobile()
-                    ? randomBackground.mobile
-                    : randomBackground.desktop,
+                background: randomBackground,
                 backgroundColor: '',
                 excerpt,
                 icon: '',
                 isLoading: false,
                 prefix: '',
                 title: title.toUpperCase(),
-                useBackgroundColor: false,
+                currentPage: 'front-page',
                 wrapperClasses: {
-                    'stretched-background': true,
-                    'hide-footer': true,
+                    'wrapper--headline': true,
                 },
             }),
         )

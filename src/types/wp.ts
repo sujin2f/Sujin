@@ -46,7 +46,13 @@ export type Term = {
     excerpt: string
 }
 
-export type Background = {
-    desktop: string
-    mobile: string
+export type ImageSizes = {
+    key: string
+    file: string
+}[]
+
+export type Image = {
+    url: string
+    mimeType: string
+    sizes: ImageSizes
 }

@@ -107,10 +107,9 @@ export const useArchive = (
                 isLoading: false,
                 prefix: type,
                 title: term?.title,
-                useBackgroundColor: false,
+                currentPage: 'archive',
                 wrapperClasses: {
-                    'stretched-background': false,
-                    'hide-footer': false,
+                    'wrapper--headline': false,
                 },
             }),
         )

@@ -16,7 +16,8 @@ const POST_FIELDS = `
     posts.post_parent AS parent,
     posts.post_type AS type,
     posts.menu_order AS menuOrder,
-    posts.guid AS link
+    posts.guid AS link,
+    posts.post_mime_type AS mimeType
 `
 export const PER_PAGE = 12
 

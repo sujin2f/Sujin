@@ -1,4 +1,4 @@
-export { format, dateToPrettyUrl } from './common'
+export { format, dateToPrettyUrl, getImageMap } from './common'
 export {
     bundles,
     isDev,
