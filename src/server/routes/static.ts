@@ -27,14 +27,16 @@ const getGlobalVariable = async (): Promise<GlobalVariable> => {
         return cache
     }
 
-    const frontend = new URL((await getOption<string>('home')) || '')
-    const backend = new URL((await getOption<string>('siteurl')) || '')
+    const home = await getOption<string>('home')
+    const siteurl = await getOption<string>('siteurl')
+    const frontend = home ? new URL(home).origin : ''
+    const backend = siteurl ? new URL(siteurl).origin : ''
 
     const globalVariable: GlobalVariable = {
         title: (await getOption('blogname')) || '',
         excerpt: (await getOption('blogdescription')) || '',
-        frontend: isDev() ? 'https://devfront.sujinc.com' : frontend.origin,
-        backend: backend.origin,
+        frontend: isDev() ? 'https://devfront.sujinc.com' : frontend,
+        backend: backend,
     }
 
     cached.set<GlobalVariable>(CacheKeys.GLOBAL_VARS, globalVariable)

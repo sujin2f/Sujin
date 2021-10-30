@@ -21,7 +21,6 @@ export const MenuItem = (props: Props): JSX.Element => {
         <Fragment>
             {target && (
                 <a
-                    itemType="http://schema.org/SiteNavigationElement"
                     href={link || '#'}
                     className={htmlClass ? htmlClass.join(' ') : ''}
                     target={target}
@@ -32,7 +31,6 @@ export const MenuItem = (props: Props): JSX.Element => {
 
             {!target && (
                 <Link
-                    itemType="http://schema.org/SiteNavigationElement"
                     to={link || '#'}
                     className={htmlClass ? htmlClass.join(' ') : ''}
                 >

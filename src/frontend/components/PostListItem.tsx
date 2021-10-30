@@ -40,10 +40,7 @@ export const PostListItem = (props: Props): JSX.Element => {
 
     return (
         <div className={`simple-post ${className}`}>
-            <figure
-                className="thumbnail"
-                itemType="http://schema.org/ImageObject"
-            >
+            <figure className="thumbnail">
                 <Link to={link} rel="noopener noreferrer" title={title}>
                     <div className="zoom-icon" />
                     <div className="inner-shadow" />

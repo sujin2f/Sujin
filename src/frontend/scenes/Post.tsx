@@ -8,7 +8,7 @@ import React, { Fragment } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { Content, Tags } from 'src/frontend/components'
-import { NotFound } from 'src/frontend/scenes/public'
+import { NotFound } from 'src/frontend/scenes'
 import { usePost } from 'src/frontend/hooks'
 import { Post as TypePost } from 'src/types'
 

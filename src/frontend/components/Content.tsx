@@ -52,7 +52,6 @@ export const Content = (props: Props): JSX.Element => {
         <article
             className={`${className} ${type}-${slug} post-${id}`}
             itemProp="mainEntity"
-            itemType="http://schema.org/BlogPosting"
         >
             {contents}
 

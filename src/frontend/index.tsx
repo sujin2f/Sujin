@@ -10,7 +10,7 @@ import {
     NotFound,
     Page,
     Post,
-} from 'src/frontend/scenes/public'
+} from 'src/frontend/scenes'
 import { Store } from 'src/frontend/store'
 
 import 'src/assets/styles/style.scss'

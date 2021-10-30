@@ -10,8 +10,8 @@ import React, { Fragment } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { PostListItem, Paging } from 'src/frontend/components'
-import { NotFound } from 'src/frontend/scenes/public/NotFound'
-import { useArchive } from 'src/frontend/hooks/archive'
+import { NotFound } from 'src/frontend/scenes'
+import { useArchive } from 'src/frontend/hooks'
 import { Post as PostType, TermTypes } from 'src/types'
 
 export const Archive = (): JSX.Element => {

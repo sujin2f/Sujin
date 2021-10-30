@@ -16,14 +16,14 @@ export const Public = (props: ReactChildrenProps): JSX.Element => {
 
     return (
         <div ref={wrapperElement} className={className}>
-            <header itemType="http://schema.org/WPHeader">
+            <header>
                 <FixedHeader />
                 <TopHeader />
             </header>
 
             <main className="row">{props.children}</main>
 
-            <footer itemType="https://schema.org/WPFooter">
+            <footer>
                 <GlobalFooter />
             </footer>
         </div>
