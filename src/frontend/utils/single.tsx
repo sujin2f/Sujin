@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 
 import DEFAULT_BACKGROUND from 'src/assets/images/thumbnail.svg'
 import {
@@ -7,6 +7,7 @@ import {
     SymbolAlignment,
     Gist,
     TweetEmbed,
+    AboutItem,
 } from 'src/frontend/components'
 // import { Post } from 'src/types'
 
@@ -57,14 +58,16 @@ const attrs = (text: string) => {
     const pattern = /([\w-]+)\s*=\s*"([^"]*)"(?:\s|$)|([\w-]+)\s*=\s*'([^']*)'(?:\s|$)|([\w-]+)\s*=\s*([^\s'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|'([^']*)'(?:\s|$)|(\S+)(?:\s|$)/g
 
     // Map zero-width spaces to actual spaces.
-    text = text.replace(/[\u00a0\u200b]/g, ' ')
+    text = text.replace(/[\u00a0\u200b]/g, ' ').replace(/(\r\n|\n|\r)/gm, ' ')
 
     let match
+    let innerContent = ''
 
     // Match and normalize attributes.
     // tslint:disable:no-conditional-assignment
     /* eslint-disable no-cond-assign */
     while ((match = pattern.exec(text))) {
+        const baseMatch = match[0].trim()
         if (match[1]) {
             named[match[1].toLowerCase()] = match[2]
         } else if (match[3]) {
@@ -75,8 +78,27 @@ const attrs = (text: string) => {
             numeric.push(match[7])
         } else if (match[8]) {
             numeric.push(match[8])
+        } else if (
+            baseMatch.length > 3 &&
+            baseMatch === match[9] &&
+            (baseMatch.endsWith(`"/]`) || baseMatch.endsWith(`"]`))
+        ) {
+            const newMatch =
+                /([\w-]+)\s*=\s*"([^"]*)"\/*\]$/g.exec(baseMatch) || []
+            if (newMatch[1]) {
+                named[newMatch[1].toLowerCase()] = newMatch[2]
+            }
         } else if (match[9]) {
             numeric.push(match[9])
+        }
+
+        if (!innerContent && baseMatch.endsWith(`"]`)) {
+            innerContent = ' '
+        } else if (innerContent && !baseMatch.startsWith(`[/`)) {
+            innerContent += match[0]
+        } else if (innerContent && baseMatch.startsWith(`[/`)) {
+            named['innerContent'] = innerContent
+            innerContent = ''
         }
     }
     // tslint:enable:no-conditional-assignment
@@ -98,10 +120,19 @@ const replaceQuotes = (matched: any, key: string) => {
 
 export function parseContent(content: string): JSX.Element[] {
     const patternShortcode = /(\[([\w-]+)[^\]]*?\][^\2]*?\[\/[^\]]*\2\]|\[[\w-]+[^\]]*?\/\])/gi
+    // const str = `
+    // <p>[about-item from="2016" to="2018"]</p>
+    // test
+    // <p>[/about-item]</p>
+    // <p>[dev-tools id="text-sort" /]</p>
+    // <p>[dev-tools id="text-sort"/]</p>
+    // `
     const str = content
 
     let matched: any = {}
-    const splited = (content.split(patternShortcode) || []).filter((v) => v)
+    const splited = (str.split(patternShortcode) || [])
+        .filter((v) => v)
+        .filter((v) => v !== 'about-item')
 
     matched = (str.match(regexp('gist')) || []).reduce(
         (acc, value) => ({
@@ -120,6 +151,14 @@ export function parseContent(content: string): JSX.Element[] {
     )
 
     matched = (str.match(regexp('dev-tools')) || []).reduce(
+        (acc, value) => ({
+            ...acc,
+            [value]: attrs(value),
+        }),
+        matched,
+    )
+
+    matched = (str.match(regexp('about-item')) || []).reduce(
         (acc, value) => ({
             ...acc,
             [value]: attrs(value),
@@ -176,11 +215,28 @@ export function parseContent(content: string): JSX.Element[] {
                         )
                 }
             }
+
+            if (value.indexOf('[about-item') === 0) {
+                const from = replaceQuotes(matched[value].named, 'from')
+                const to = replaceQuotes(matched[value].named, 'to')
+                const innerContent = replaceQuotes(
+                    matched[value].named,
+                    'innerContent',
+                )
+
+                return (
+                    <AboutItem
+                        key={`content-element__about-item__${index}`}
+                        from={from}
+                        to={to}
+                        content={innerContent}
+                    />
+                )
+            }
         }
 
         return (
-            <section
-                className="layout__main__content"
+            <div
                 dangerouslySetInnerHTML={{ __html: value }}
                 key={`content-element__section__${index}`}
             />
@@ -216,9 +272,9 @@ const getNewWindowFeatures = (): string => {
     return `toolbar=0,status=0,resizable=yes,width=500,height=600,top=${top},left=${left}`
 }
 
-export const shareTwitter = (title: string): void => {
-    const url = addQueryArgs('https://www.twitter.com:8800/intent/tweet', {
-        text: (title && encodeURIComponent(title)) || '',
+export const shareTwitter = (text: string): void => {
+    const url = addQueryArgs('https://www.twitter.com/intent/tweet', {
+        text,
         url: window.location.href,
     })
 

@@ -31,7 +31,7 @@ const GET_OPTION = `
 const GET_POST_BY = `
     SELECT ${POST_FIELDS}
     FROM wp_posts AS posts
-    WHERE {0}="{1}" {3}
+    WHERE {0}="{1}" AND (posts.post_type="post" OR posts.post_type="page" OR posts.post_type="attachment") {3}
     ORDER BY posts.ID DESC
     LIMIT ${PER_PAGE} OFFSET {2}
 `

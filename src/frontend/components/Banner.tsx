@@ -50,10 +50,11 @@ export const Banner = (): JSX.Element => {
         backgroundColor: backgroundColor || '',
     }
 
-    const imageMap = background
+    const imageMapBackground = background
         ? getImageMap(ImageType.HEADER, background.sizes)
         : []
 
+    const imageMapIcon = icon ? getImageMap(ImageType.ICON, icon.sizes) : []
     return (
         <Fragment>
             <section className="banner" style={style}>
@@ -81,7 +82,7 @@ export const Banner = (): JSX.Element => {
                     />
                 </div>
                 <picture>
-                    {imageMap.map((map) => (
+                    {imageMapBackground.map((map) => (
                         <source
                             key={`header-${map.file}`}
                             media={map.key}
@@ -98,11 +99,22 @@ export const Banner = (): JSX.Element => {
                 </picture>
             </section>
             {icon && (
-                <img
-                    src={icon}
-                    alt="Thumbnail"
-                    className="layout__header__thumb"
-                />
+                <picture>
+                    {imageMapIcon.map((map) => (
+                        <source
+                            key={`icon-${map.file}`}
+                            media={map.key}
+                            srcSet={map.file}
+                            type={icon?.mimeType}
+                        />
+                    ))}
+                    <img
+                        src={icon?.url}
+                        role="presentation"
+                        alt=""
+                        className="layout__header__icon"
+                    />
+                </picture>
             )}
         </Fragment>
     )

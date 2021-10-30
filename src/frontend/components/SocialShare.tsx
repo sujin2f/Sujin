@@ -3,33 +3,31 @@
  * components/single/SocialShare
  */
 
-import React, { Fragment } from 'react'
+import React from 'react'
 
-// import { Image } from 'src/frontend/store/items/image'
 import { shareTwitter, shareFacebook } from 'src/frontend/utils/single'
 
 interface Props {
     title: string
     excerpt: string
-    // thumbnail: Image
+    thumbnail: string
 }
 
 export const SocialShare = (props: Props): JSX.Element => {
-    return <Fragment />
-    // const { title, excerpt, thumbnail } = props
+    const { title, excerpt, thumbnail } = props
 
-    // return (
-    //     <nav className="social-share">
-    //         <button
-    //             className="twitter"
-    //             onClick={() => shareTwitter(title)}
-    //             type="button"
-    //         />
-    //         <button
-    //             className="facebook"
-    //             onClick={() => shareFacebook(title, excerpt, thumbnail.medium)}
-    //             type="button"
-    //         />
-    //     </nav>
-    // )
+    return (
+        <nav className="content__social-share">
+            <button
+                className="content__social-share__button content__social-share__twitter"
+                onClick={() => shareTwitter(title)}
+                type="button"
+            />
+            <button
+                className="content__social-share__button content__social-share__facebook"
+                onClick={() => shareFacebook(title, excerpt, thumbnail)}
+                type="button"
+            />
+        </nav>
+    )
 }

@@ -28,7 +28,7 @@ export type PageInfo = {
     excerpt: string
     prefix: string
     title: string
-    icon: string
+    icon?: Image
     isLoading: boolean
     currentPage: string
     wrapperClasses: Partial<WrapperClasses>

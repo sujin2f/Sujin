@@ -11,15 +11,17 @@ import { Link, Menu } from 'src/frontend/components'
 export const FooterBottom = (): JSX.Element => {
     return (
         <div className="row">
-            <div className="flex-row columns medium-6 small-12">
-                <Link to="/" className="icon logo hide-for-small-only">
+            <div className="columns medium-6 small-12 footer__bottom__left">
+                <Link to="/" className="footer__logo hide-for-small-only">
                     Sujin
                 </Link>
-                <p>Copyright &copy; 2017 sujinc.com</p>
+                <p className="footer__copyright">
+                    Copyright &copy; 2017 sujinc.com
+                </p>
             </div>
 
             <Menu
-                className="hide-for-small-only columns medium-6 small-12 menu__footer__social-media"
+                className="hide-for-small-only columns medium-6 small-12 menu--footer__social-media"
                 slug={MenuNames.SOCIAL}
             />
         </div>

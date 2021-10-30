@@ -4,13 +4,14 @@
     background-position: center;
     margin-bottom: 3em;
     position: relative;
+    height: $page-header-height;
 
     @include breakpoint(medium only) {
-        min-height: $page-header-height-medium;
+        height: $page-header-height-medium;
     }
 
     @include breakpoint(small only) {
-        min-height: $page-header-height-small;
+        height: $page-header-height-small;
     }
 }
 
@@ -21,7 +22,7 @@
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
-    min-height: $page-header-height;
+    height: $page-header-height;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -29,11 +30,11 @@
     flex-direction: column;
 
     @include breakpoint(medium only) {
-        min-height: $page-header-height-medium;
+        height: $page-header-height-medium;
     }
 
     @include breakpoint(small only) {
-        min-height: $page-header-height-small;
+        height: $page-header-height-small;
     }
 }
 
@@ -41,32 +42,29 @@
     object-fit: cover;
     object-position: center center;
     width: 100%;
-    max-height: $page-header-height;
+    height: $page-header-height;
 
     @include breakpoint(medium only) {
-        max-height: $page-header-height-medium;
+        height: $page-header-height-medium;
     }
 
     @include breakpoint(small only) {
-        max-height: $page-header-height-small;
+        height: $page-header-height-small;
     }
 }
 
 .wrapper--headline {
     .banner {
         height: 100vh;
-        min-height: inherit;
         margin-bottom: 0;
     }
 
     .banner__overlay {
         height: 100vh;
-        min-height: inherit;
     }
 
     .layout__header__image {
         height: 100vh;
-        max-height: inherit;
     }
 }
 
@@ -185,4 +183,13 @@
             font-size: 1.2em;
         }
     }
+}
+
+.layout__header__icon {
+    position: relative;
+    border-radius: 100px;
+    margin: -7.5em auto 2em;
+    display: block;
+    width: 9em;
+    height: 9em;
 }

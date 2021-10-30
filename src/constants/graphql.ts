@@ -75,3 +75,12 @@ export const baseQueryNodes = `
     title
     excerpt
 `
+
+export const imageQueryNodes = `
+    url
+    mimeType
+    sizes {
+        key
+        file
+    }
+`

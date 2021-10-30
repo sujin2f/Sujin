@@ -12,6 +12,7 @@ import {
     loadBackgroundSuccess,
     setPageInfo,
 } from 'src/frontend/store'
+import { imageQueryNodes } from 'src/constants'
 
 export const useBackground = (): void => {
     const [{ backgrounds }, dispatch] = useContext(Context) as Context
@@ -28,12 +29,7 @@ export const useBackground = (): void => {
                 query: gql`
                     query {
                         getBackgrounds {
-                            url
-                            mimeType
-                            sizes {
-                                key
-                                file
-                            }
+                            ${imageQueryNodes}
                         }
                     }
                 `,
@@ -60,7 +56,7 @@ export const useFrontPage = (): void => {
                 background: randomBackground,
                 backgroundColor: '',
                 excerpt,
-                icon: '',
+                icon: undefined,
                 isLoading: false,
                 prefix: '',
                 title: title.toUpperCase(),

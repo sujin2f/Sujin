@@ -9,7 +9,7 @@ import {
     loadArchiveSuccess,
     setPageInfo,
 } from 'src/frontend/store'
-import { baseQueryNodes } from 'src/constants'
+import { baseQueryNodes, imageQueryNodes } from 'src/constants'
 
 export const useArchive = (
     type: TermTypes,
@@ -77,6 +77,27 @@ export const useArchive = (
                             series {
                                 ${baseQueryNodes}
                             }
+                            meta {
+                                useBackgroundColor
+                                backgroundColor
+                            }
+                            images {
+                                list {
+                                    ${imageQueryNodes}
+                                }
+                                icon {
+                                    ${imageQueryNodes}
+                                }
+                                title {
+                                    ${imageQueryNodes}
+                                }
+                                background {
+                                    ${imageQueryNodes}
+                                }
+                                thumbnail {
+                                    ${imageQueryNodes}
+                                }
+                            }
                         }
                         ${archiveMetaQuery}
                     }
@@ -103,7 +124,7 @@ export const useArchive = (
             setPageInfo({
                 backgroundColor: '',
                 excerpt: term?.excerpt,
-                icon: '',
+                icon: undefined,
                 isLoading: false,
                 prefix: type,
                 title: term?.title,

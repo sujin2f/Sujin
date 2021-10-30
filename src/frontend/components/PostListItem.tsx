@@ -5,7 +5,6 @@
 
 import React from 'react'
 
-// import DEFAULT_BG from 'src/assets/images/thumbnail.svg'
 import { Link, Tags } from 'src/frontend/components'
 import { Post } from 'src/types'
 // import { parseExImage } from 'src/frontend/utils/common'

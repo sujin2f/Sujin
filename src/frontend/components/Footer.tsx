@@ -8,16 +8,16 @@ import React, { Fragment } from 'react'
 import { FooterBottom } from 'src/frontend/components'
 // import { WidgetContainer } from 'src/frontend/components/widgets'
 
-export const GlobalFooter = (): JSX.Element => {
+export const Footer = (): JSX.Element => {
     return (
         <Fragment>
-            <aside className="row layout__footer__top">
+            <aside className="row footer__top">
                 {/* <WidgetContainer
                     items={globalVars.widgets.footer}
                     itemClass="columns small-12 medium-4"
                 /> */}
             </aside>
-            <section className="layout__footer__bottom">
+            <section className="footer__bottom">
                 <FooterBottom />
             </section>
         </Fragment>

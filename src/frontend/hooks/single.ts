@@ -15,7 +15,7 @@ import {
     loadPostSuccess,
     setPageInfo,
 } from 'src/frontend/store'
-import { baseQueryNodes } from 'src/constants'
+import { baseQueryNodes, imageQueryNodes } from 'src/constants'
 
 export const usePost = (slug: string): Post => {
     const [
@@ -55,6 +55,27 @@ export const usePost = (slug: string): Post => {
                             series {
                                 ${baseQueryNodes}
                             }
+                            meta {
+                                useBackgroundColor
+                                backgroundColor
+                            }
+                            images {
+                                list {
+                                    ${imageQueryNodes}
+                                }
+                                icon {
+                                    ${imageQueryNodes}
+                                }
+                                title {
+                                    ${imageQueryNodes}
+                                }
+                                background {
+                                    ${imageQueryNodes}
+                                }
+                                thumbnail {
+                                    ${imageQueryNodes}
+                                }
+                            }
                         }
                     }
                 `,
@@ -75,9 +96,10 @@ export const usePost = (slug: string): Post => {
         }
         dispatch(
             setPageInfo({
-                backgroundColor: '',
+                background: post.images.background || post.images.thumbnail,
+                backgroundColor: post.meta.backgroundColor,
                 excerpt: post.excerpt,
-                icon: '',
+                icon: post.images.icon,
                 isLoading: false,
                 prefix: '',
                 title: post.title,

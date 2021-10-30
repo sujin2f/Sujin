@@ -5,7 +5,7 @@
 
 import React from 'react'
 
-import { GlobalFooter, FixedHeader, Banner } from 'src/frontend/components'
+import { Footer, FixedHeader, Banner } from 'src/frontend/components'
 import { useGlobalWrapper } from 'src/frontend/hooks'
 import { ReactChildrenProps } from 'src/types'
 
@@ -22,7 +22,7 @@ export const Public = (props: ReactChildrenProps): JSX.Element => {
             <main className="row">{props.children}</main>
 
             <footer className="footer">
-                <GlobalFooter />
+                <Footer />
             </footer>
         </div>
     )

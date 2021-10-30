@@ -1,4 +1,4 @@
-export { graphqlSchema, baseQueryNodes } from './graphql'
+export { graphqlSchema, baseQueryNodes, imageQueryNodes } from './graphql'
 export { CacheKeys } from './cache-keys'
 export { MiliSeconds, Seconds } from './datetime'
 export {

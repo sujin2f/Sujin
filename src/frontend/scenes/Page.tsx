@@ -6,9 +6,9 @@
 
 import React, { Fragment } from 'react'
 import { useParams } from 'react-router-dom'
+import DEFAULT_BG from 'src/assets/images/thumbnail.svg'
 
-import { Tags, Content, Loading } from 'src/frontend/components'
-// import { SocialShare } from 'src/frontend/components/single/SocialShare'
+import { Tags, Content, Loading, SocialShare } from 'src/frontend/components'
 import { usePost } from 'src/frontend/hooks'
 import { NotFound } from 'src/frontend/scenes'
 
@@ -24,20 +24,23 @@ export const Page = (): JSX.Element => {
         return <Loading />
     }
 
-    // const { tags, title, excerpt, thumbnail } = post
-    // const { tags, title, excerpt } = post
+    const thumbnail =
+        post.images.list?.url ||
+        post.images.thumbnail?.url ||
+        post.images.background?.url ||
+        DEFAULT_BG
 
     return (
         <Fragment>
             <div className="columns medium-12 large-2" />
             <Content post={post} className="columns large-8 medium-12">
                 <Tags items={post.tags} prefix={`single-${slug}`} />
-                {/* 
+
                 <SocialShare
-                    title={title}
-                    excerpt={excerpt!}
-                    thumbnail={thumbnail!}
-                /> */}
+                    title={post.title}
+                    excerpt={post.excerpt}
+                    thumbnail={thumbnail}
+                />
             </Content>
         </Fragment>
     )
