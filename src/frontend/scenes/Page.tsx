@@ -8,7 +8,7 @@ import React, { Fragment } from 'react'
 import { useParams } from 'react-router-dom'
 import DEFAULT_BG from 'src/assets/images/thumbnail.svg'
 
-import { Tags, Content, Loading, SocialShare } from 'src/frontend/components'
+import { Tags, Content, SocialShare } from 'src/frontend/components'
 import { usePost } from 'src/frontend/hooks'
 import { NotFound } from 'src/frontend/scenes'
 
@@ -21,7 +21,7 @@ export const Page = (): JSX.Element => {
     }
 
     if (!post || 'Loading' === post.date) {
-        return <Loading />
+        return <Fragment />
     }
 
     const thumbnail =

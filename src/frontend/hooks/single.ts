@@ -30,6 +30,21 @@ export const usePost = (slug: string): Post => {
             return
         }
 
+        dispatch(
+            setPageInfo({
+                background: undefined,
+                backgroundColor: undefined,
+                excerpt: undefined,
+                icon: undefined,
+                isLoading: true,
+                prefix: undefined,
+                title: undefined,
+                currentPage: 'single',
+                wrapperClasses: {
+                    'wrapper--headline': true,
+                },
+            }),
+        )
         dispatch(loadPostInit(slug))
 
         graphqlClient

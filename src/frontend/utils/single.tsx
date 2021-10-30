@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 
 import DEFAULT_BACKGROUND from 'src/assets/images/thumbnail.svg'
 import {

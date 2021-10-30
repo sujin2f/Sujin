@@ -28,18 +28,14 @@ export const Banner = (): JSX.Element => {
 
     if (isLoading) {
         return (
-            <section className="layout__header__top loading">
-                <div className="overlay">
+            <section className="banner loading">
+                <div className="banner__overlay">
                     <Loading />
 
-                    <div className="row menu-container">
-                        <section className="columns small-12">
-                            <Menu
-                                className="show-for-large flex-row menu__top__primary"
-                                slug={MenuNames.MAIN}
-                            />
-                        </section>
-                    </div>
+                    <Menu
+                        className="show-for-large row menu--banner"
+                        slug={MenuNames.MAIN}
+                    />
                 </div>
             </section>
         )
