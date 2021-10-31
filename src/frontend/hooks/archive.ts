@@ -33,6 +33,22 @@ export const useArchive = (
             return
         }
 
+        dispatch(
+            setPageInfo({
+                background: undefined,
+                backgroundColor: undefined,
+                excerpt: undefined,
+                icon: undefined,
+                isLoading: true,
+                prefix: undefined,
+                title: undefined,
+                currentPage: 'archive',
+                wrapperClasses: {
+                    'wrapper--headline': true,
+                },
+            }),
+        )
+
         dispatch(loadArchiveInit(type, slug, page))
 
         let archiveMetaQuery = ''
@@ -49,6 +65,9 @@ export const useArchive = (
                         total
                         limit
                         pages
+                        image {
+                            ${imageQueryNodes}
+                        }
                     }
                 `
                 break
@@ -117,11 +136,12 @@ export const useArchive = (
     }, [dispatch, archives, page, slug, type, value])
 
     useEffect(() => {
-        if (!udpateHeader || !archives) {
+        if (!udpateHeader || !archives || !term) {
             return
         }
         dispatch(
             setPageInfo({
+                background: term?.image,
                 backgroundColor: '',
                 excerpt: term?.excerpt,
                 icon: undefined,

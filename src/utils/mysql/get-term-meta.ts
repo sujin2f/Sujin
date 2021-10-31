@@ -1,4 +1,4 @@
-import { CacheKeys, MySQLQuery } from 'src/constants'
+import { CacheKeys, ErrorMessage, MySQLQuery } from 'src/constants'
 import { cached, mysql } from 'src/utils'
 
 /**
@@ -7,22 +7,31 @@ import { cached, mysql } from 'src/utils'
  * @param {number} termId
  * @return {Promise<Nullable<Term>}
  */
-export const getTermMeta = async (
+export const getTermMeta = async <T = string>(
     id: number,
     metaKey: string,
-): Promise<string> => {
-    const cache = cached.get<string>(`${CacheKeys.TERM}-meta-${id}-${metaKey}`)
+): Promise<T> => {
+    const cacheKey = `${CacheKeys.TERM}-meta-${id}-${metaKey}`
+    const cache = cached.get<T | string>(cacheKey)
     if (cache && process.env.USE_CACHE) {
-        return cache
+        if (cache === 'NOT_FOUND') {
+            throw new Error(ErrorMessage.TERM_META_NOT_FOUND)
+        }
+        return cache as T
     }
 
-    const connection = await mysql()
-    const result = await connection.query(MySQLQuery.getTermMeta(id, metaKey))
+    const connection = await mysql().catch(() => {
+        throw new Error(ErrorMessage.MYSQL_CONNECTION)
+    })
+    const result = await connection
+        .query(MySQLQuery.getTermMeta(id, metaKey))
+        .catch(() => [])
 
     if (!result.length) {
-        return ''
+        cached.set<string>(cacheKey, 'NOT_FOUND')
+        throw new Error(ErrorMessage.TERM_META_NOT_FOUND)
     }
 
-    cached.set<string>(`${CacheKeys.TERM}-meta-${id}-${metaKey}`, result[0])
+    cached.set<T>(cacheKey, result[0])
     return result[0]
 }

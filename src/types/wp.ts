@@ -52,6 +52,7 @@ export type Term = {
     limit: number
     pages: number
     excerpt: string
+    image?: Image
 }
 
 export type ImageSizes = {

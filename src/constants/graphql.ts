@@ -57,6 +57,7 @@ export const graphqlSchema = `
         limit: Int
         pages: Int
         excerpt: String
+        image: Image
     },
     type Image {
         url: String
