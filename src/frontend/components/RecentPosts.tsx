@@ -1,7 +1,7 @@
 /** components/widgets/RecentPosts */
 import React, { Fragment } from 'react'
 
-import { PostListItem } from 'src/frontend/components'
+import { ListItem } from 'src/frontend/components'
 import { useArchive } from 'src/frontend/hooks'
 import { Post } from 'src/types'
 

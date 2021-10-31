@@ -9,7 +9,7 @@
 import React, { Fragment } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { PostListItem, Paging } from 'src/frontend/components'
+import { ListItem, Paging } from 'src/frontend/components'
 import { NotFound } from 'src/frontend/scenes'
 import { useArchive } from 'src/frontend/hooks'
 import { Post as PostType, TermTypes } from 'src/types'
@@ -39,7 +39,7 @@ export const Archive = (): JSX.Element => {
             {posts.length > 0 && (
                 <Fragment>
                     {posts.map((post: PostType) => (
-                        <PostListItem
+                        <ListItem
                             className="columns large-4 medium-6 small-12 archive__item"
                             key={`${type}-${slug}-${page}-${post.id}`}
                             item={post}

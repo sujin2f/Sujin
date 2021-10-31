@@ -40,23 +40,29 @@ export const Paging = (props: Props): JSX.Element => {
 
     return (
         <nav
-            className="columns small-12 paging"
+            className="columns small-12 paging__container"
             role="navigation"
-            aria-label="Paging"
+            aria-label="Navigate to another page"
         >
             {entities.map((entity) => {
                 const url = `${urlPrefix}/page/${entity}`
                 const isCurrnet = currentPage === entity
                 return (
                     <Fragment key={`paging-${entity}`}>
-                        {isCurrnet && <span className="active">{entity}</span>}
+                        {isCurrnet && (
+                            <span className="paging paging--active">
+                                {entity}
+                            </span>
+                        )}
 
                         {entity !== -1 && !isCurrnet && (
-                            <Link to={url}>{entity.toString()}</Link>
+                            <Link to={url} className="paging">
+                                {entity.toString()}
+                            </Link>
                         )}
 
                         {entity === -1 && (
-                            <div className="hellip">
+                            <div className="paging paging--hellip">
                                 <span />
                                 <span />
                                 <span />

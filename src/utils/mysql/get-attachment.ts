@@ -42,23 +42,28 @@ export const getAttachment = async (postId: number): Promise<Image> => {
 
     // Map sizes
     const sizes: ImageSizes = []
+    const url = post[0].link.replace(
+        /[0-9]+\/[0-9]+\/.+$/,
+        (meta.file as unknown) as string,
+    )
     if (meta.sizes) {
         Object.keys(meta.sizes).forEach((sizeKey) => {
             const url = new URL(post[0].link)
             const path = url.pathname.split('/')
             path.pop()
 
+            const file = `${url.origin}/${path.join('/')}/${
+                meta.sizes[sizeKey].file
+            }`
             sizes.push({
                 key: sizeKey,
-                file: `${url.origin}/${path.join('/')}/${
-                    meta.sizes[sizeKey].file
-                }`,
+                file,
             })
         })
     }
 
     const attachement: Image = {
-        url: post[0].link,
+        url,
         mimeType: post[0].mimeType,
         sizes,
     }

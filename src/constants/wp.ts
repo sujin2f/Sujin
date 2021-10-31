@@ -28,6 +28,7 @@ export enum PostType {
 }
 
 export enum ImageType {
+    LIST = 'list',
     HEADER = 'header',
     ICON = 'icon',
 }
@@ -49,6 +50,11 @@ export const imageSizeMap: {
     },
     [ImageType.ICON]: {
         'recent-post': '(max-width: 480px)',
+        'post-thumbnail': '(max-width: 768px)',
+        large: '(max-width: 1024px)',
+    },
+    [ImageType.LIST]: {
+        medium: '(max-width: 480px)',
         'post-thumbnail': '(max-width: 768px)',
         large: '(max-width: 1024px)',
     },

@@ -1,23 +1,3 @@
-/** utils/common */
-
-// import { Image } from 'src/frontend/store/items/image'
-
-// @todo refactor
-// export const parseExImage = (
-//     meta: Image,
-//     thumbnail: Image,
-//     desktop: 'large' | 'medium' | 'small' | 'tiny',
-//     mobile: 'large' | 'medium' | 'small' | 'tiny',
-//     defaultDesktop: string,
-//     defaultMobile: string,
-// ): string => {
-//     if (isMobile()) {
-//         return meta[mobile] || thumbnail[mobile] || defaultMobile || ''
-//     }
-
-//     return meta[desktop] || thumbnail[desktop] || defaultDesktop || ''
-// }
-
 export const scrollTo = (id = null): void => {
     if (!id) {
         window.scrollTo(0, 0)

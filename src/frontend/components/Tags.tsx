@@ -15,11 +15,13 @@ interface Props {
 
 export const Tags = (props: Props): JSX.Element => {
     return (
-        <ul className="tags">
+        <ul className="tag__container">
             {props.items &&
                 props.items.map((tag: Term) => (
                     <li key={`tag-${props.prefix}-${tag.slug}`}>
-                        <Link to={`/tag/${tag.slug}/page/1`}>{tag.title}</Link>
+                        <Link to={`/tag/${tag.slug}/page/1`} className="tag">
+                            {tag.title}
+                        </Link>
                     </li>
                 ))}
         </ul>
