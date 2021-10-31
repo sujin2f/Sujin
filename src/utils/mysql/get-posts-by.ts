@@ -80,7 +80,7 @@ export const getPostsBy = async (
         case 'category':
         case 'tag':
             dbResult = await connection
-                .query(MySQLQuery.getTermItems(value, offset))
+                .query(MySQLQuery.getTermItems(value.toString(), offset))
                 .catch(() => {
                     throw new Error(ErrorMessage.POST_NOT_FOUND)
                 })

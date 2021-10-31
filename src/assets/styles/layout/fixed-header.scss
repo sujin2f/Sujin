@@ -65,10 +65,6 @@
         }
     }
 
-    .menu__item {
-        position: relative;
-    }
-
     .menu__item__link {
         height: $header-height;
         background: transparent;
@@ -90,8 +86,21 @@
         }
     }
 
-    .menu__children {
+    .menu--children {
         top: 48px;
+        display: none;
+        position: absolute;
+        width: max-content;
+    }
+
+    .menu__item {
+        position: relative;
+
+        &:hover {
+            .menu--children {
+                display: inherit;
+            }
+        }
     }
 }
 

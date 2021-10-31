@@ -132,10 +132,6 @@
     justify-content: flex-end;
     overflow: visible;
 
-    .menu__item {
-        position: relative;
-    }
-
     .menu__item__link {
         color: $white;
         font-weight: 500;
@@ -155,6 +151,17 @@
 
     .menu--children {
         top: 69px;
+        display: none;
+        position: absolute;
+        width: max-content;
+    }
+
+    .menu__item {
+        &:hover {
+            .menu--children {
+                display: inherit;
+            }
+        }
     }
 }
 

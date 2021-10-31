@@ -123,7 +123,7 @@ export const MySQLQuery = {
         format(GET_POST_META, postId, metaKey),
     getPostBy: (
         key: string,
-        value: string,
+        value: string | number,
         offset: number,
         ignoreStatus: boolean,
     ): string =>
@@ -150,6 +150,7 @@ export enum MetaKeys {
     MENU_ITEM_TARGET = '_menu_item_target',
     MENU_ITEM_TYPE = '_menu_item_type',
     MENU_ITEM_URL = '_menu_item_url',
+    MENU_ITEM_PARENT = '_menu_item_menu_item_parent',
 }
 
 export enum MenuNames {

@@ -1,6 +1,6 @@
 export type GetPostsByArgs = {
     key: 'id' | 'slug' | 'category' | 'tag'
-    value: string
+    value: string | number
     page?: number
 }
 

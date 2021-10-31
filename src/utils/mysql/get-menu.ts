@@ -1,4 +1,10 @@
-import { MySQLQuery, CacheKeys, MetaKeys, MenuItemTypes } from 'src/constants'
+import {
+    MySQLQuery,
+    CacheKeys,
+    MetaKeys,
+    MenuItemTypes,
+    ErrorMessage,
+} from 'src/constants'
 import { MenuItem, Post } from 'src/types'
 import { mysql, cached, getAllPostMeta, getTermBy, getPostsBy } from 'src/utils'
 
@@ -10,16 +16,29 @@ const PHPUnserialize = require('php-unserialize')
  *
  * @param {Post} menu
  * @return {Promise<MenuItem>}
+ * @throws
  */
 const getMenuItemFromPost = async (menu: Post): Promise<MenuItem> => {
-    const postMetas = await getAllPostMeta(menu.id)
-    const htmlClass = Object.values<string>(
-        PHPUnserialize.unserialize(postMetas[MetaKeys.MENU_ITEM_CLASSES]) || {},
-    )
+    const postMetas = await getAllPostMeta(menu.id).catch(() => undefined)
+    if (!postMetas) {
+        return {
+            id: menu.id,
+            title: menu.title,
+            target: '',
+            link: menu.link,
+            htmlClass: [],
+            children: [],
+            parent: 0,
+        }
+    }
 
-    const objectId = parseInt(postMetas[MetaKeys.MENU_ITEM_OBJECT_ID])
-    const target = postMetas[MetaKeys.MENU_ITEM_TARGET] || ''
-    const type = postMetas[MetaKeys.MENU_ITEM_TYPE] || ''
+    const htmlClass = Object.values<string>(
+        PHPUnserialize.unserialize(postMetas[MetaKeys.MENU_ITEM_CLASSES]),
+    )
+    const objectId = postMetas[MetaKeys.MENU_ITEM_OBJECT_ID]
+    const target = postMetas[MetaKeys.MENU_ITEM_TARGET]
+    const type = postMetas[MetaKeys.MENU_ITEM_TYPE]
+    const parent = postMetas[MetaKeys.MENU_ITEM_PARENT]
     let link = postMetas[MetaKeys.MENU_ITEM_URL]
     let title = menu.title
 
@@ -27,31 +46,36 @@ const getMenuItemFromPost = async (menu: Post): Promise<MenuItem> => {
         case MenuItemTypes.POST_TYPE:
             const post = await getPostsBy({
                 key: 'id',
-                value: objectId.toString(),
+                value: objectId,
             }).catch(() => undefined)
+
             if (post) {
                 title = title || post[0].title || ''
                 link = post[0].link
             }
             break
+
         case MenuItemTypes.TAXONOMY:
-            const term =
-                !title || !link
-                    ? await getTermBy({ key: 'id', value: objectId })
-                    : { title: '', slug: '' }
-            title = title || term?.title || ''
-            link = link || `/category/${term?.slug}` || ''
+            const term = (await getTermBy({
+                key: 'id',
+                value: objectId,
+            }).catch(() => ({ title: '', slug: '' }))) || {
+                title: '',
+                slug: '',
+            }
+            title = title || term.title
+            link = link || `/category/${term.slug}`
             break
     }
 
     return {
         id: menu.id,
-        target,
-        link,
-        htmlClass,
+        target: target || '',
+        link: link || '',
+        htmlClass: htmlClass || [],
         children: [],
-        title,
-        parent: menu.parent,
+        title: title || '',
+        parent: parseInt(parent || ''),
     } as MenuItem
 }
 
@@ -60,40 +84,55 @@ const getMenuItemFromPost = async (menu: Post): Promise<MenuItem> => {
  *
  * @param {string} menuName
  * @return {Promise<MenuItem[]>}
+ * @throws
  */
 export const getMenu = async ({
     menuName,
 }: {
     menuName: string
 }): Promise<MenuItem[]> => {
-    const cache = cached.get<MenuItem[]>(`${CacheKeys.MENU}-${menuName}`)
+    // Caching
+    const cacheKey = `${CacheKeys.MENU}-${menuName}`
+    const cache = cached.get<MenuItem[]>(cacheKey)
     if (cache && process.env.USE_CACHE) {
+        if (cache === []) {
+            throw new Error(ErrorMessage.MENU_EMPTY)
+        }
         return cache
     }
 
-    const connection = await mysql()
-    const query = MySQLQuery.getTermItems(menuName, 0)
-    const posts = await connection.query(query)
+    // MySQL connection
+    const connection = await mysql().catch(() => {
+        throw new Error(ErrorMessage.MYSQL_CONNECTION)
+    })
+    const posts: Post[] = await connection
+        .query(MySQLQuery.getTermItems(menuName, 0))
+        .catch(() => [])
 
-    if (!posts) {
+    if (!posts || !posts.length) {
+        cached.set<MenuItem[]>(cacheKey, [])
         return []
     }
 
     // Convert post to menu item
-    const menus: Record<string, MenuItem> = {}
+    const menus: Record<number, MenuItem> = {}
     for (const post of posts) {
-        menus[post.id] = await getMenuItemFromPost(post)
+        const menu = await getMenuItemFromPost(post).catch(() => undefined)
+        if (menu) {
+            menus[post.id] = menu
+        }
     }
 
     // Parent-children relationship
-    Object.keys(menus).forEach((menuId: string) => {
-        if (menus[menuId].parent) {
-            menus[menus[menuId].parent].children.push(menus[menuId])
-            delete menus[menuId]
+    Object.keys(menus).forEach((menuId) => {
+        const menu = menus[parseInt(menuId)]
+        if (menu.parent) {
+            menus[menu.parent].children.push(menu)
+            delete menus[parseInt(menuId)]
         }
     })
 
     const result = Object.values(menus)
-    cached.set<MenuItem[]>(`${CacheKeys.MENU}-${menuName}`, result)
+    cached.set<MenuItem[]>(cacheKey, result)
     return Object.values(result)
 }
