@@ -8,6 +8,7 @@ export {
 } from './environment'
 export { cached } from './node-cache'
 export { mysql } from './mysql/mysqld'
+export { autop } from './wp-content'
 
 export { getOption } from './mysql/get-option'
 export { getMenu } from './mysql/get-menu'

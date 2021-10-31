@@ -6,24 +6,15 @@
 
 import React, { Fragment } from 'react'
 import { useParams } from 'react-router-dom'
+import DEFAULT_BG from 'src/assets/images/thumbnail.svg'
 
-import { Content, Tags } from 'src/frontend/components'
+import { Content, SocialShare, Tags } from 'src/frontend/components'
 import { NotFound } from 'src/frontend/scenes'
 import { usePost } from 'src/frontend/hooks'
-import { Post as TypePost } from 'src/types'
-
-interface Props {
-    backgroundImage: string
-    hideFrontFooter: boolean
-    hideFrontHeader: boolean
-    isPending: string
-    post: TypePost
-}
 
 export const Post = (): JSX.Element => {
     const { slug } = useParams<{ slug: string }>()
     const post = usePost(slug)
-    // const leftRail = useLeftRail()
 
     if (post && 'Failed' === post.date) {
         return <NotFound />
@@ -33,45 +24,21 @@ export const Post = (): JSX.Element => {
         return <Fragment />
     }
 
+    const thumbnail =
+        post.images.list?.url ||
+        post.images.thumbnail?.url ||
+        post.images.background?.url ||
+        DEFAULT_BG
+
     return (
         <Fragment>
-            {/* <div className="columns small-12 medium-3 layout__article__left">
-                {Object.keys(leftRail).map((leftRailTitle: string) => (
-                    <Fragment key={`leftrail-${leftRailTitle}`}>
-                        <h2 className="section-header">
-                            <span>{leftRailTitle}</span>
-                        </h2>
-                        <ul className="layout__article__left__widget">
-                            {Object.keys(leftRail[leftRailTitle]).map(
-                                (itemTitle: string) => (
-                                    <li
-                                        key={`leftrail-${leftRailTitle}-${itemTitle}`}
-                                    >
-                                        <Link
-                                            to={
-                                                leftRail[leftRailTitle][
-                                                    itemTitle
-                                                ]
-                                            }
-                                        >
-                                            {itemTitle}
-                                        </Link>
-                                    </li>
-                                ),
-                            )}
-                        </ul>
-                    </Fragment>
-                ))}
-            </div>
-            */}
-
             <Content post={post} className="columns small-12 large-6">
                 <Tags items={post.tags} prefix={`single-${slug}`} />
-                {/* <SocialShare
-                    title={title}
-                    excerpt={excerpt}
-                    thumbnail={thumbnail!}
-                /> */}
+                <SocialShare
+                    title={post.title}
+                    excerpt={post.excerpt}
+                    thumbnail={thumbnail}
+                />
                 {/* <PrevNext prevNext={prevNext} />
                 <RelatedPosts items={related} /> */}
             </Content>

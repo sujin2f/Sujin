@@ -16,6 +16,7 @@ import {
     getTaxonomies,
     getPostMeta,
     getAttachment,
+    autop,
 } from 'src/utils'
 
 /**
@@ -158,7 +159,7 @@ export const getPostsBy = async (
             slug: post.slug,
             title: post.title,
             excerpt: post.excerpt,
-            content: post.content,
+            content: autop(post.content),
             date: post.date,
             link,
             parent: post.parent,

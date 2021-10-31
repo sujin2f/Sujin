@@ -27,7 +27,7 @@ export const initialState: State = {
         background: undefined,
         backgroundColor: '',
         excerpt: '',
-        icon: '',
+        icon: undefined,
         isLoading: false,
         prefix: '',
         title: '',
@@ -172,7 +172,7 @@ export const reducer = (state: State = initialState, action: Action): State => {
             const posts = action.posts.reduce((prev, post) => {
                 return {
                     ...prev,
-                    [post.slug]: post,
+                    [decodeURIComponent(post.slug)]: post,
                 }
             }, {})
 
@@ -188,13 +188,14 @@ export const reducer = (state: State = initialState, action: Action): State => {
                         term: action.term,
                         items: {
                             ...state.archive[archiveKey],
-                            [action.page]: action.posts.map(
-                                (post) => post.slug,
+                            [action.page]: action.posts.map((post) =>
+                                decodeURIComponent(post.slug),
                             ),
                         },
                     },
                 },
             }
+
         case LOAD_ARCHIVE_FAIL: {
             return {
                 ...state,

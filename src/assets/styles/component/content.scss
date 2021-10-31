@@ -1,4 +1,6 @@
 .content {
+    line-height: 1.9em;
+
     h1,
     h2,
     h3,
@@ -61,37 +63,24 @@
         }
     }
 
+    twitterwidget {
+        margin: 0 auto !important;
+    }
+
     .aligncenter {
         text-align: center;
         width: inherit !important;
     }
 
-    img.aligncenter {
-        display: block;
-        margin: 0 auto;
-    }
+    .caption {
+        width: 100%;
+        font-style: italic;
+        text-align: center;
+        font-size: small;
+        margin-bottom: 0.5em;
 
-    twitterwidget {
-        margin: 0 auto !important;
-    }
-
-    .wp-caption {
-        max-width: 100% !important;
-
-        .wp-caption-text {
-            font-style: italic;
-            text-align: center;
-            font-size: small;
-        }
-
-        &.alignright {
-            float: right;
-            margin-left: 10px;
-        }
-
-        &.alignleft {
-            float: left;
-            margin-right: 10px;
+        img {
+            width: 100%;
         }
     }
 

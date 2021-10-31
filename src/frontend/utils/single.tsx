@@ -31,14 +31,16 @@ const regexp = (tag: string): RegExp => {
     )
 }
 
+type Named = Record<string, string>
+type AttrMatch = { named: Named; numeric: string[] }
 /**
  * Parse shortcode attributes.
  * @param {string} text Serialised shortcode attributes.
  *
  * @return {any} Parsed shortcode attributes.
  */
-const attrs = (text: string) => {
-    const named: any = {}
+const attrs = (text: string): AttrMatch => {
+    const named: Record<string, string> = {}
     const numeric = []
 
     // This regular expression is reused from `shortcode_parse_atts()` in
@@ -55,19 +57,25 @@ const attrs = (text: string) => {
     // 7. A numeric attribute in double quotes.
     // 8. A numeric attribute in single quotes.
     // 9. An unquoted numeric attribute.
-    const pattern = /([\w-]+)\s*=\s*"([^"]*)"(?:\s|$)|([\w-]+)\s*=\s*'([^']*)'(?:\s|$)|([\w-]+)\s*=\s*([^\s'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|'([^']*)'(?:\s|$)|(\S+)(?:\s|$)/g
+    const patterns = [
+        /([\w-]+)\s*=\s*"([^"]*)"(?:\s|]|$)/, // name="value"
+        /([\w-]+)\s*=\s*'([^']*)'(?:\s|]|$)/, // name='value'
+        /([\w-]+)\s*=\s*([^\s'"]+)(?:\s|]|$)/, // name=value
+        /"([^"]*)"(?:\s|]|$)/, // ""
+        /'([^']*)'(?:\s|]|$)/, // ''
+        /(\S+)(?:\s|]|$)/,
+    ]
+    const pattern = new RegExp(patterns.map((reg) => reg.source).join('|'), 'g')
 
     // Map zero-width spaces to actual spaces.
-    text = text.replace(/[\u00a0\u200b]/g, ' ').replace(/(\r\n|\n|\r)/gm, ' ')
+    text = text.replace(/[\u00a0\u200b]/g, ' ')
 
     let match
-    let innerContent = ''
 
     // Match and normalize attributes.
     // tslint:disable:no-conditional-assignment
     /* eslint-disable no-cond-assign */
     while ((match = pattern.exec(text))) {
-        const baseMatch = match[0].trim()
         if (match[1]) {
             named[match[1].toLowerCase()] = match[2]
         } else if (match[3]) {
@@ -78,32 +86,18 @@ const attrs = (text: string) => {
             numeric.push(match[7])
         } else if (match[8]) {
             numeric.push(match[8])
-        } else if (
-            baseMatch.length > 3 &&
-            baseMatch === match[9] &&
-            (baseMatch.endsWith(`"/]`) || baseMatch.endsWith(`"]`))
-        ) {
-            const newMatch =
-                /([\w-]+)\s*=\s*"([^"]*)"\/*\]$/g.exec(baseMatch) || []
-            if (newMatch[1]) {
-                named[newMatch[1].toLowerCase()] = newMatch[2]
-            }
         } else if (match[9]) {
             numeric.push(match[9])
-        }
-
-        if (!innerContent && baseMatch.endsWith(`"]`)) {
-            innerContent = ' '
-        } else if (innerContent && !baseMatch.startsWith(`[/`)) {
-            innerContent += match[0]
-        } else if (innerContent && baseMatch.startsWith(`[/`)) {
-            named['innerContent'] = innerContent
-            innerContent = ''
         }
     }
     // tslint:enable:no-conditional-assignment
     /* eslint-enable no-cond-assign */
 
+    const patternShortcode = /(\[([\w-]+)[^\]]*?\]([^\2]*)?\[\/[^\]]*\2\]|\[[\w-]+[^\]]*?\/\])/gi
+    const shortcodeMatch = patternShortcode.exec(text)
+    if (shortcodeMatch && shortcodeMatch[3]) {
+        named.innerContent = shortcodeMatch[3]
+    }
     return { named, numeric }
 }
 
@@ -113,26 +107,21 @@ const addQueryArgs = (url: string, args: UrlArgs) => {
     return `${parsed.protocol}//${parsed.host}${parsed.pathname}${parsed.search}${parsed.hash}`
 }
 
-const replaceQuotes = (matched: any, key: string) => {
+const replaceQuotes = (matched: Named, key: string) => {
     const regex = /(&#8221;|&#8243;|\/\])/g
     return (matched[key] && matched[key].replace(regex, '')) || ''
 }
 
 export function parseContent(content: string): JSX.Element[] {
     const patternShortcode = /(\[([\w-]+)[^\]]*?\][^\2]*?\[\/[^\]]*\2\]|\[[\w-]+[^\]]*?\/\])/gi
-    // const str = `
-    // <p>[about-item from="2016" to="2018"]</p>
-    // test
-    // <p>[/about-item]</p>
-    // <p>[dev-tools id="text-sort" /]</p>
-    // <p>[dev-tools id="text-sort"/]</p>
-    // `
     const str = content
 
-    let matched: any = {}
+    let matched: {
+        [key: string]: AttrMatch
+    } = {}
     const splited = (str.split(patternShortcode) || [])
         .filter((v) => v)
-        .filter((v) => v !== 'about-item')
+        .filter((v) => v !== 'about-item' && v !== 'caption')
 
     matched = (str.match(regexp('gist')) || []).reduce(
         (acc, value) => ({
@@ -166,6 +155,14 @@ export function parseContent(content: string): JSX.Element[] {
         matched,
     )
 
+    matched = (str.match(regexp('caption')) || []).reduce(
+        (acc, value) => ({
+            ...acc,
+            [value]: attrs(value),
+        }),
+        matched,
+    )
+
     const elements = splited.map((value, index) => {
         if (matched[value]) {
             if (value.indexOf('[gist') === 0) {
@@ -188,6 +185,25 @@ export function parseContent(content: string): JSX.Element[] {
                         id={id}
                         key={`content-element__tweet__${id}__${index}`}
                     />
+                )
+            }
+
+            if (value.indexOf('[caption') === 0) {
+                const align = replaceQuotes(matched[value].named, 'align')
+                const innerContent = replaceQuotes(
+                    matched[value].named,
+                    'innerContent',
+                )
+                const alignClass =
+                    align === 'aligncenter' ? 'caption--align-center' : ''
+
+                return (
+                    <div
+                        id="attachment_14308"
+                        className={`caption ${alignClass}`}
+                        key={`content-element__caption__${index}`}
+                        dangerouslySetInnerHTML={{ __html: innerContent }}
+                    ></div>
                 )
             }
 

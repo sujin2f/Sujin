@@ -192,6 +192,22 @@
     }
 }
 
+.wrapper--single {
+    .banner__title__excerpt {
+        padding: 0 0.2em;
+        line-height: inherit;
+        background-color: $white;
+        color: $black;
+        font-size: 1.3em;
+        font-weight: 400;
+        margin-bottom: 0;
+
+        @include breakpoint(small only) {
+            font-size: 1.2em;
+        }
+    }
+}
+
 .layout__header__icon {
     position: relative;
     border-radius: 100px;
