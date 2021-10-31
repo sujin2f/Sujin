@@ -1,5 +1,5 @@
 import { Term, TermTypes } from 'src/types'
-import { Image, MenuItem, Post } from './wp'
+import { Image, MenuItem, Post } from './wordpress'
 
 type Type = {
     type: string

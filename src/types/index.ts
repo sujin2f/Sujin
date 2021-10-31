@@ -7,6 +7,6 @@ export {
     TermTypes,
     ImageSizes,
     ImageKeys,
-} from './wp'
+} from './wordpress'
 export { GetPostsByArgs, GetTermByArgs } from './graphql'
 export { WrapperClasses, Action, State, PageInfo } from './store'

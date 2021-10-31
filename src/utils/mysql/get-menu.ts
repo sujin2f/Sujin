@@ -95,9 +95,6 @@ export const getMenu = async ({
     const cacheKey = `${CacheKeys.MENU}-${menuName}`
     const cache = cached.get<MenuItem[]>(cacheKey)
     if (cache && process.env.USE_CACHE) {
-        if (cache === []) {
-            throw new Error(ErrorMessage.MENU_EMPTY)
-        }
         return cache
     }
 
@@ -110,7 +107,6 @@ export const getMenu = async ({
         .catch(() => [])
 
     if (!posts || !posts.length) {
-        cached.set<MenuItem[]>(cacheKey, [])
         return []
     }
 
