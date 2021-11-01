@@ -1,5 +1,6 @@
 import { CacheKeys, ErrorMessage, MySQLQuery, PER_PAGE } from 'src/constants'
-import { GetTermByArgs, Image, Nullable, Term, TermTypes } from 'src/types'
+import type { GetTermByArgs, Image, Nullable, Term } from 'src/types'
+import { TermTypes } from 'src/types'
 import { cached, getAttachment, getTermMeta, mysql } from 'src/utils'
 
 /**

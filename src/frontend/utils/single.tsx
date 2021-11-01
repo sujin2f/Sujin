@@ -93,7 +93,8 @@ const attrs = (text: string): AttrMatch => {
     // tslint:enable:no-conditional-assignment
     /* eslint-enable no-cond-assign */
 
-    const patternShortcode = /(\[([\w-]+)[^\]]*?\]([^\2]*)?\[\/[^\]]*\2\]|\[[\w-]+[^\]]*?\/\])/gi
+    const patternShortcode =
+        /(\[([\w-]+)[^\]]*?\]([^\2]*)?\[\/[^\]]*\2\]|\[[\w-]+[^\]]*?\/\])/gi
     const shortcodeMatch = patternShortcode.exec(text)
     if (shortcodeMatch && shortcodeMatch[3]) {
         named.innerContent = shortcodeMatch[3]
@@ -113,7 +114,8 @@ const replaceQuotes = (matched: Named, key: string) => {
 }
 
 export function parseContent(content: string): JSX.Element[] {
-    const patternShortcode = /(\[([\w-]+)[^\]]*?\][^\2]*?\[\/[^\]]*\2\]|\[[\w-]+[^\]]*?\/\])/gi
+    const patternShortcode =
+        /(\[([\w-]+)[^\]]*?\][^\2]*?\[\/[^\]]*\2\]|\[[\w-]+[^\]]*?\/\])/gi
     const str = content
 
     let matched: {

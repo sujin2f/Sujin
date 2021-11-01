@@ -1,5 +1,5 @@
 import { default as mysqld } from 'promise-mysql'
-import { Nullable } from 'src/types'
+import type { Nullable } from 'src/types'
 
 let _mysql: Nullable<mysqld.Connection>
 

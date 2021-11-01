@@ -33,7 +33,7 @@ export const getPostMeta = async <T = string>(
         .catch((e) => console.log(e))
 
     if (!dbResult.length) {
-        cached.set<T>(cacheKey, ('NOT_FOUNT' as unknown) as T)
+        cached.set<T>(cacheKey, 'NOT_FOUNT' as unknown as T)
         throw new Error(ErrorMessage.POST_META_NOT_FOUND)
     }
 

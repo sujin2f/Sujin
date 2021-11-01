@@ -46,7 +46,7 @@ export const getOption = async <T>(
 
     cached.set<Nullable<T>>(
         `${CacheKeys.OPTION}-${optionName}-${key}`,
-        (value as unknown) as T,
+        value as unknown as T,
     )
-    return (value as unknown) as T
+    return value as unknown as T
 }

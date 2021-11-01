@@ -7,6 +7,9 @@ export type GlobalVariable = {
     excerpt: string
     backend: string
     frontend: string
+    flickrId?: string
+    adClient?: string
+    adSlot?: string
 }
 
 export interface ReactChildrenProps {

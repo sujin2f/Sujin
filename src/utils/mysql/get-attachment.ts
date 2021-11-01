@@ -23,13 +23,7 @@ export const getAttachment = async (postId: number): Promise<Image> => {
     }
 
     // MySQL query
-    const post = await getPostsBy(
-        {
-            key: 'id',
-            value: postId.toString(),
-        },
-        true,
-    ).catch(() => undefined)
+    const post = await getPostsBy('id', postId, 1, true).catch(() => undefined)
     const meta = await getPostMeta<AttachmentRawData>(
         postId,
         MetaKeys.ATTACHMENT_META,
@@ -44,7 +38,7 @@ export const getAttachment = async (postId: number): Promise<Image> => {
     const sizes: ImageSizes = []
     const url = post[0].link.replace(
         /[0-9]+\/[0-9]+\/.+$/,
-        (meta.file as unknown) as string,
+        meta.file as unknown as string,
     )
     if (meta.sizes) {
         Object.keys(meta.sizes).forEach((sizeKey) => {
@@ -65,6 +59,7 @@ export const getAttachment = async (postId: number): Promise<Image> => {
     const attachement: Image = {
         url,
         mimeType: post[0].mimeType,
+        title: post[0].title,
         sizes,
     }
 

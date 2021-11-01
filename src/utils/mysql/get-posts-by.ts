@@ -2,7 +2,7 @@ import { MySQLQuery, CacheKeys, PostType, ErrorMessage } from 'src/constants'
 import { PER_PAGE } from 'src/constants'
 import {
     Post,
-    GetPostsByArgs,
+    GetPostsByKeys,
     TermTypes,
     Nullable,
     Term,
@@ -19,6 +19,22 @@ import {
     autop,
 } from 'src/utils'
 
+type GetGraphPostsByArgs = {
+    key: GetPostsByKeys
+    value: string
+    page: number
+}
+
+export const getGraphPostsBy = async ({
+    key,
+    value,
+    page = 1,
+}: GetGraphPostsByArgs): Promise<Nullable<Post[]>> => {
+    return await getPostsBy(key, value, page).catch(() => {
+        throw new Error()
+    })
+}
+
 /**
  * Get posts by id/slug/category/tag
  *
@@ -27,11 +43,14 @@ import {
  * @throws
  */
 export const getPostsBy = async (
-    { key, value, page = 1 }: GetPostsByArgs,
+    key: GetPostsByKeys,
+    value: string | number,
+    page = 1,
     ignoreStatus = false,
 ): Promise<Nullable<Post[]>> => {
     // Caching
-    const cache = cached.get<Post[]>(`${CacheKeys.POST}-${key}-${value}`)
+    const cacheKey = `${CacheKeys.POST}-${key}-${value}-${page}-${ignoreStatus}`
+    const cache = cached.get<Post[]>(cacheKey)
     if (cache && process.env.USE_CACHE) {
         if (cache === []) {
             throw new Error(ErrorMessage.POST_NOT_FOUND)
@@ -45,19 +64,11 @@ export const getPostsBy = async (
     })
 
     // MySQL query
-    const offset = (page - 1) * PER_PAGE
     let dbResult: Post[] = []
     switch (key) {
         case 'id':
             dbResult = await connection
-                .query(
-                    MySQLQuery.getPostBy(
-                        'posts.ID',
-                        value,
-                        offset,
-                        ignoreStatus,
-                    ),
-                )
+                .query(MySQLQuery.getPostBy('posts.ID', value, 0, ignoreStatus))
                 .catch(() => {
                     throw new Error(ErrorMessage.POST_NOT_FOUND)
                 })
@@ -69,7 +80,7 @@ export const getPostsBy = async (
                     MySQLQuery.getPostBy(
                         'posts.post_name',
                         value,
-                        offset,
+                        0,
                         ignoreStatus,
                     ),
                 )
@@ -80,6 +91,8 @@ export const getPostsBy = async (
 
         case 'category':
         case 'tag':
+            const offset = (page - 1) * PER_PAGE
+            console.log(MySQLQuery.getTermItems(value.toString(), offset))
             dbResult = await connection
                 .query(MySQLQuery.getTermItems(value.toString(), offset))
                 .catch(() => {
@@ -89,7 +102,7 @@ export const getPostsBy = async (
     }
 
     if (!dbResult.length) {
-        cached.set<Post[]>(`${CacheKeys.POST}-${key}-${value}`, [])
+        cached.set<Post[]>(cacheKey, [])
         throw new Error(ErrorMessage.POST_NOT_FOUND)
     }
 
@@ -176,6 +189,6 @@ export const getPostsBy = async (
         })
     }
 
-    cached.set<Post[]>(`${CacheKeys.POST}-${key}-${value}`, posts)
+    cached.set<Post[]>(cacheKey, posts)
     return posts
 }

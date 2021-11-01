@@ -5,17 +5,18 @@
 
 import React, { Fragment } from 'react'
 
-import { FooterBottom } from 'src/frontend/components'
-// import { WidgetContainer } from 'src/frontend/components/widgets'
+import { FooterBottom, GoogleAdvert } from 'src/frontend/components'
 
 export const Footer = (): JSX.Element => {
     return (
         <Fragment>
             <aside className="row footer__top">
-                {/* <WidgetContainer
-                    items={globalVars.widgets.footer}
-                    itemClass="columns small-12 medium-4"
-                /> */}
+                <section className="widget__container columns small-12 medium-4">
+                    <GoogleAdvert
+                        client={window.globalVariable.adClient}
+                        slot={window.globalVariable.adSlot}
+                    />
+                </section>
             </aside>
             <section className="footer__bottom">
                 <FooterBottom />

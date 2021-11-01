@@ -11,6 +11,7 @@ export const graphqlSchema = `
         getPostsBy(key: String!, value: String!, page: Int): [Post]
         getTermBy(key: String!, value: String!): Term
         getBackgrounds: [Image]
+        getFlickr: [FlickrImage]
     },
     type MenuItem {
         id: Int
@@ -67,6 +68,11 @@ export const graphqlSchema = `
     type ImageSize {
         key: String
         file: String
+    }
+    type FlickrImage {
+        title: String
+        link: String
+        media: String
     }
 `
 

@@ -63,5 +63,6 @@ export type ImageSizes = {
 export type Image = {
     url: string
     mimeType: string
+    title: string
     sizes: ImageSizes
 }

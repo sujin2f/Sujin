@@ -44,10 +44,7 @@ const getMenuItemFromPost = async (menu: Post): Promise<MenuItem> => {
 
     switch (type) {
         case MenuItemTypes.POST_TYPE:
-            const post = await getPostsBy({
-                key: 'id',
-                value: objectId,
-            }).catch(() => undefined)
+            const post = await getPostsBy('id', objectId).catch(() => undefined)
 
             if (post) {
                 title = title || post[0].title || ''

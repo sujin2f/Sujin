@@ -37,9 +37,10 @@ export const FixedHeader = (): JSX.Element => {
                                 dispatch(
                                     setPageInfo({
                                         wrapperClasses: {
-                                            'wrapper--mobile-menu': !wrapperClasses[
-                                                'wrapper--mobile-menu'
-                                            ],
+                                            'wrapper--mobile-menu':
+                                                !wrapperClasses[
+                                                    'wrapper--mobile-menu'
+                                                ],
                                         },
                                     }),
                                 )

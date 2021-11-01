@@ -7,7 +7,13 @@ import { graphqlHTTP } from 'express-graphql'
 import { buildSchema } from 'graphql'
 
 import { graphqlSchema } from 'src/constants'
-import { getMenu, getPostsBy, getBackgrounds, getTermBy } from 'src/utils/'
+import {
+    getMenu,
+    getGraphPostsBy,
+    getBackgrounds,
+    getTermBy,
+    getFlickr,
+} from 'src/utils/'
 
 const apiRouter = express.Router()
 const schema = buildSchema(graphqlSchema)
@@ -18,9 +24,10 @@ apiRouter.use(
         schema,
         rootValue: {
             getMenu,
-            getPostsBy,
+            getPostsBy: getGraphPostsBy,
             getBackgrounds,
             getTermBy,
+            getFlickr,
         },
         graphiql: true,
     }),

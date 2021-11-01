@@ -1,12 +1,13 @@
-export { Fn, Nullable, GlobalVariable, ReactChildrenProps } from './common'
-export {
+export type { Fn, Nullable, GlobalVariable, ReactChildrenProps } from './common'
+export { TermTypes } from './wordpress'
+export type {
     Post,
     MenuItem,
     Image,
     Term,
-    TermTypes,
     ImageSizes,
     ImageKeys,
 } from './wordpress'
-export { GetPostsByArgs, GetTermByArgs } from './graphql'
-export { WrapperClasses, Action, State, PageInfo } from './store'
+export type { GetPostsByKeys, GetTermByArgs } from './graphql'
+export type { WrapperClasses, Action, State, PageInfo } from './store'
+export type { FlickrImage, FlickrResponse, FlickrResponseImage } from './flickr'

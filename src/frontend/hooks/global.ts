@@ -26,9 +26,8 @@ export const useGlobalWrapper = (): ReturnType => {
                 return
             }
 
-            const scrolled = wrapperElement.current.classList.contains(
-                'wrapper--scrolled',
-            )
+            const scrolled =
+                wrapperElement.current.classList.contains('wrapper--scrolled')
 
             if (window.scrollY > TOP_MENU_SCROLLED_POSITION && !scrolled) {
                 dispatch(

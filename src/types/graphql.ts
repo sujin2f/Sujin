@@ -1,8 +1,4 @@
-export type GetPostsByArgs = {
-    key: 'id' | 'slug' | 'category' | 'tag'
-    value: string | number
-    page?: number
-}
+export type GetPostsByKeys = 'id' | 'slug' | 'category' | 'tag'
 
 export type GetTermByArgs = {
     key: 'id' | 'slug'

@@ -43,8 +43,11 @@ const getGlobalVariable = async (): Promise<GlobalVariable> => {
     const globalVariable: GlobalVariable = {
         title: title || '',
         excerpt: excerpt || '',
-        frontend: isDev() ? 'https://devfront.sujinc.com' : frontend,
+        frontend: isDev() ? 'http://localhost:3000' : frontend,
         backend: backend,
+        flickrId: process.env.FLICKR_ID,
+        adClient: process.env.GOOGLE_AD_CLIENT,
+        adSlot: process.env.GOOGLE_AD_SLOT,
     }
 
     cached.set<GlobalVariable>(CacheKeys.GLOBAL_VARS, globalVariable)

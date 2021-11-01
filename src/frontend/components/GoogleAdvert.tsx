@@ -2,9 +2,9 @@
 import React, { useRef, useEffect, Fragment } from 'react'
 
 interface Props {
-    client: string
+    client?: string
     responsive?: boolean
-    slot: string
+    slot?: string
 }
 
 export const GoogleAdvert = (props: Props): JSX.Element => {
