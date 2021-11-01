@@ -6,6 +6,7 @@
 import { gql } from '@apollo/client'
 import { useContext, useEffect } from 'react'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Post } from 'src/types'
 import { graphqlClient } from 'src/frontend/utils'
 

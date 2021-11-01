@@ -7,6 +7,7 @@ import { useContext, useEffect } from 'react'
 import { gql } from '@apollo/client'
 
 import { graphqlClient } from 'src/frontend/utils'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { MenuItem } from 'src/types'
 import { Context, loadMenuInit, loadMenuSuccess } from 'src/frontend/store'
 

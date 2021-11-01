@@ -2,8 +2,10 @@
  * Common helpers
  */
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { imageSizeMap, ImageType } from 'src/constants'
-import { ImageSizes } from 'src/types'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { ImageSizes } from 'src/types'
 
 /**
  * Making a formatted string

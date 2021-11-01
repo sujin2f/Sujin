@@ -6,7 +6,8 @@
 import React, { Fragment } from 'react'
 
 import { Link } from 'src/frontend/components'
-import { MenuItem as MenuItemType } from 'src/types'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { MenuItem as MenuItemType } from 'src/types'
 
 interface Props {
     menuItem: MenuItemType

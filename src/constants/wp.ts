@@ -1,4 +1,5 @@
-import { Post } from 'src/types'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { Post } from 'src/types'
 
 export const dummyPost: Post = {
     id: 0,

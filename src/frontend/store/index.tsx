@@ -1,7 +1,8 @@
 /** store */
 import React, { createContext, useReducer } from 'react'
 import { reducer, initialState } from 'src/frontend/store/reducer'
-import { ReactChildrenProps, State } from 'src/types'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { ReactChildrenProps, State } from 'src/types'
 
 export const Context = createContext([initialState, null])
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -29,4 +30,7 @@ export {
     loadArchiveInit,
     loadArchiveSuccess,
     loadArchiveFail,
+    loadFlickrInit,
+    loadFlickrSuccess,
+    loadFlickrFail,
 } from 'src/frontend/store/actions'

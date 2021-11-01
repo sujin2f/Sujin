@@ -1,4 +1,5 @@
 import { default as mysqld } from 'promise-mysql'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { Nullable } from 'src/types'
 
 let _mysql: Nullable<mysqld.Connection>

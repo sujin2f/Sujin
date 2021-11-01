@@ -1,14 +1,16 @@
 import { MySQLQuery, CacheKeys, PostType, ErrorMessage } from 'src/constants'
 import { PER_PAGE } from 'src/constants'
-import {
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import type {
     Post,
     GetPostsByKeys,
-    TermTypes,
     Nullable,
     Term,
     ImageKeys,
     Image,
 } from 'src/types'
+/* eslint-enable @typescript-eslint/no-unused-vars */
+import { TermTypes } from 'src/types'
 import {
     dateToPrettyUrl,
     cached,
@@ -92,7 +94,6 @@ export const getPostsBy = async (
         case 'category':
         case 'tag':
             const offset = (page - 1) * PER_PAGE
-            console.log(MySQLQuery.getTermItems(value.toString(), offset))
             dbResult = await connection
                 .query(MySQLQuery.getTermItems(value.toString(), offset))
                 .catch(() => {

@@ -1,5 +1,6 @@
 import { MetaKeys, CacheKeys, ErrorMessage } from 'src/constants'
-import { Image, ImageSizes } from 'src/types'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { Image, ImageSizes } from 'src/types'
 import { cached, getPostMeta, getPostsBy } from 'src/utils'
 
 type AttachmentRawData = Record<string, Record<string, Record<string, string>>>

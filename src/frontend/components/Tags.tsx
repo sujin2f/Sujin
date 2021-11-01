@@ -6,7 +6,8 @@
 import React from 'react'
 
 import { Link } from 'src/frontend/components'
-import { Term } from 'src/types'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { Term } from 'src/types'
 
 interface Props {
     items: Term[]

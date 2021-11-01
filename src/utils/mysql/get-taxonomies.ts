@@ -1,5 +1,7 @@
 import { CacheKeys, MySQLQuery } from 'src/constants'
-import { Term, TermTypes } from 'src/types'
+import { TermTypes } from 'src/types'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { Term } from 'src/types'
 import { cached, mysql } from 'src/utils'
 
 /**

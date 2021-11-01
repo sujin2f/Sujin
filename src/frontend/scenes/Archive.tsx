@@ -12,6 +12,7 @@ import { useParams } from 'react-router-dom'
 import { ListItem, Paging } from 'src/frontend/components'
 import { NotFound } from 'src/frontend/scenes'
 import { useArchive } from 'src/frontend/hooks'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Post as PostType, TermTypes } from 'src/types'
 
 export const Archive = (): JSX.Element => {

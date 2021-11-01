@@ -1,5 +1,6 @@
 import { MySQLQuery, CacheKeys } from 'src/constants'
-import { Nullable } from 'src/types'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { Nullable } from 'src/types'
 import { cached, mysql } from 'src/utils'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires

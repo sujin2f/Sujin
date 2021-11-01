@@ -15,7 +15,11 @@ import {
     LOAD_ARCHIVE_INIT,
     LOAD_ARCHIVE_SUCCESS,
     LOAD_ARCHIVE_FAIL,
+    LOAD_FLICKR_INIT,
+    LOAD_FLICKR_SUCCESS,
+    LOAD_FLICKR_FAIL,
 } from 'src/frontend/store/actions'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Action, State } from 'src/types'
 import { dummyPost } from 'src/constants'
 
@@ -39,6 +43,7 @@ export const initialState: State = {
         },
     },
     posts: {},
+    flickr: undefined,
 }
 
 export const reducer = (state: State = initialState, action: Action): State => {
@@ -145,6 +150,7 @@ export const reducer = (state: State = initialState, action: Action): State => {
                     {
                         url: DEFAULT_BACKGROUND,
                         mimeType: 'image/jpeg',
+                        title: '',
                         sizes: [
                             {
                                 key: 'medium',
@@ -206,6 +212,27 @@ export const reducer = (state: State = initialState, action: Action): State => {
                         [action.page]: 'Failed',
                     },
                 },
+            }
+        }
+
+        case LOAD_FLICKR_INIT: {
+            return {
+                ...state,
+                flickr: [],
+            }
+        }
+
+        case LOAD_FLICKR_SUCCESS: {
+            return {
+                ...state,
+                flickr: action.flickr,
+            }
+        }
+
+        case LOAD_FLICKR_FAIL: {
+            return {
+                ...state,
+                flickr: [],
             }
         }
 

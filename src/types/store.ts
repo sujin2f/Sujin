@@ -1,4 +1,6 @@
-import { Term, TermTypes } from 'src/types'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { FlickrImage, Term, TermTypes } from 'src/types'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Image, MenuItem, Post } from './wordpress'
 
 type Type = {
@@ -48,11 +50,11 @@ export type State = {
             }
         }
     }
+    flickr?: FlickrImage[]
 } & Menus
 
 export type Action = {
     posts: Post[]
-    // leftRail: StateLeftRail
     menuItems: MenuItem[]
     backgrounds: Image[]
     pageInfo: Partial<PageInfo>
@@ -60,5 +62,6 @@ export type Action = {
     post: Post
     termType: TermTypes
     term: Term
+    flickr: FlickrImage[]
 } & Type &
     Slug

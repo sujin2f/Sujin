@@ -5,7 +5,7 @@
 
 import React, { Fragment } from 'react'
 
-import { FooterBottom, GoogleAdvert } from 'src/frontend/components'
+import { Flickr, FooterBottom, GoogleAdvert } from 'src/frontend/components'
 
 export const Footer = (): JSX.Element => {
     return (
@@ -16,6 +16,9 @@ export const Footer = (): JSX.Element => {
                         client={window.globalVariable.adClient}
                         slot={window.globalVariable.adSlot}
                     />
+                </section>
+                <section className="widget__container columns small-12 medium-4">
+                    <Flickr />
                 </section>
             </aside>
             <section className="footer__bottom">

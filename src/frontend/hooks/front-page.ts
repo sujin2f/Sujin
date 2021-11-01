@@ -4,7 +4,8 @@
 import { gql } from '@apollo/client'
 import { useContext, useEffect } from 'react'
 
-import { Image } from 'src/types'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { Image } from 'src/types'
 import { graphqlClient } from 'src/frontend/utils'
 import {
     Context,

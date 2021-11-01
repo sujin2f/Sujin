@@ -1,4 +1,5 @@
 import { CacheKeys, ErrorMessage, MySQLQuery, PER_PAGE } from 'src/constants'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { GetTermByArgs, Image, Nullable, Term } from 'src/types'
 import { TermTypes } from 'src/types'
 import { cached, getAttachment, getTermMeta, mysql } from 'src/utils'

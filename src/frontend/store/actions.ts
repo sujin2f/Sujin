@@ -3,6 +3,7 @@
  * @module frontend
  */
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
     Image,
     MenuItem,
@@ -11,7 +12,9 @@ import {
     PageInfo,
     TermTypes,
     Term,
+    FlickrImage,
 } from 'src/types'
+/* eslint-enable @typescript-eslint/no-unused-vars */
 
 export const SET_PAGE_INFO = 'sujin/v1/SET_PAGE_HEADER'
 
@@ -31,6 +34,9 @@ export const LOAD_ARCHIVE_INIT = 'sujin/v1/LOAD_ARCHIVE_INIT'
 export const LOAD_ARCHIVE_SUCCESS = 'sujin/v1/LOAD_ARCHIVE_SUCCESS'
 export const LOAD_ARCHIVE_FAIL = 'sujin/v1/LOAD_ARCHIVE_FAIL'
 
+export const LOAD_FLICKR_INIT = 'sujin/v1/LOAD_FLICKR_INIT'
+export const LOAD_FLICKR_SUCCESS = 'sujin/v1/LOAD_FLICKR_SUCCESS'
+export const LOAD_FLICKR_FAIL = 'sujin/v1/LOAD_FLICKR_FAIL'
 /**
  * To set pageInfo
  *
@@ -157,5 +163,24 @@ export const loadArchiveFail = (
         termType,
         slug,
         page,
+    }
+}
+
+export const loadFlickrInit = (): Partial<Action> => {
+    return {
+        type: LOAD_FLICKR_INIT,
+    }
+}
+
+export const loadFlickrSuccess = (flickr: FlickrImage[]): Partial<Action> => {
+    return {
+        type: LOAD_FLICKR_SUCCESS,
+        flickr,
+    }
+}
+
+export const loadFlickrFail = (): Partial<Action> => {
+    return {
+        type: LOAD_FLICKR_FAIL,
     }
 }

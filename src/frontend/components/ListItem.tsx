@@ -8,7 +8,8 @@ import { ImageType } from 'src/constants'
 import DEFAULT_BG from 'src/assets/images/thumbnail.svg'
 
 import { Link, Tags } from 'src/frontend/components'
-import { Post } from 'src/types'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { Post } from 'src/types'
 import { getImageMap } from 'src/utils'
 
 interface Props {

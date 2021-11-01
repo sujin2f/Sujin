@@ -6,7 +6,8 @@
 import React from 'react'
 
 import { ListItem } from 'src/frontend/components'
-import { Post } from 'src/types'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { Post } from 'src/types'
 
 interface Props {
     items?: Post[]

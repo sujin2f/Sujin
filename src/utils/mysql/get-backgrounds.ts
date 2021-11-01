@@ -1,5 +1,6 @@
 import { MySQLQuery, CacheKeys, ErrorMessage } from 'src/constants'
-import { Image, Post } from 'src/types'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { Image, Post } from 'src/types'
 import { cached, getAttachment, mysql } from 'src/utils'
 
 /**

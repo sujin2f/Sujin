@@ -5,7 +5,8 @@ import {
     MenuItemTypes,
     ErrorMessage,
 } from 'src/constants'
-import { MenuItem, Post } from 'src/types'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { MenuItem, Post } from 'src/types'
 import { mysql, cached, getAllPostMeta, getTermBy, getPostsBy } from 'src/utils'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires

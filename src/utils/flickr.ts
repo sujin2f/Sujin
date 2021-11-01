@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { cached } from 'src/utils'
-import { FlickrImage, FlickrResponse } from 'src/types'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { FlickrImage, FlickrResponse } from 'src/types'
 
 export const getFlickr = async (): Promise<FlickrImage[]> => {
     const cache = cached.get<FlickrImage[]>('flickr')

@@ -5,8 +5,9 @@
 
 import React, { Fragment } from 'react'
 
-import { Post, ReactChildrenProps } from 'src/types'
 import { parseContent } from 'src/frontend/utils/single'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { Post, ReactChildrenProps } from 'src/types'
 
 interface Props extends ReactChildrenProps {
     post: Post

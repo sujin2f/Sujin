@@ -11,10 +11,6 @@ interface Props {
     id: string
 }
 
-interface State {
-    isLoading: boolean
-}
-
 export const TweetEmbed = (props: Props): JSX.Element => {
     const refDiv = useRef<HTMLDivElement>(null)
     const twitterModule = window.twttr
@@ -39,6 +35,7 @@ export const TweetEmbed = (props: Props): JSX.Element => {
         }
 
         const renderTweet = (): void => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             twitterModule.ready().then(({ widgets }: any) => {
                 // Clear previously rendered tweet before rendering the updated tweet id
                 if (refDiv.current) {

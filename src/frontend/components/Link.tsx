@@ -5,7 +5,8 @@
 
 import React from 'react'
 import { Link as ReactLink } from 'react-router-dom'
-import { ReactChildrenProps } from 'src/types'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { ReactChildrenProps } from 'src/types'
 
 interface Props extends ReactChildrenProps {
     className?: string

@@ -1,4 +1,7 @@
-import React, { useState, useRef, ChangeEvent, KeyboardEvent } from 'react'
+import React, { useState, useRef } from 'react'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { ChangeEvent, KeyboardEvent } from 'react'
+
 import { useHistory } from 'react-router-dom'
 
 export const Search = (): JSX.Element => {
