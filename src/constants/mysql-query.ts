@@ -105,6 +105,44 @@ const GET_TERM_META = `
     WHERE term_id={0} AND meta_key="{1}"
 `
 
+const GET_TAG_COUNT = `
+    SELECT
+        terms.term_id as id,
+        terms.name as title,
+        terms.slug as slug,
+        taxonomy.count as count,
+        count.hit as hit
+    FROM wp_term_taxonomy as taxonomy
+        LEFT JOIN wp_terms as terms ON taxonomy.term_id = terms.term_id
+        LEFT JOIN wp_term_relationships as relationship ON terms.term_id = relationship.term_taxonomy_id
+        LEFT JOIN wp_posts as post ON post.ID = relationship.object_ID
+        LEFT JOIN wp_terms_hit as count ON count.term_id = terms.term_id
+    WHERE
+        taxonomy.taxonomy="post_tag" AND
+        count<>0
+    GROUP BY terms.term_id
+    ORDER BY count DESC LIMIT 20
+`
+
+const GET_TAG_HIT = `
+    SELECT
+        terms.term_id as id,
+        terms.name as title,
+        terms.slug as slug,
+        taxonomy.count as count,
+        count.hit as hit
+    FROM wp_term_taxonomy as taxonomy
+        LEFT JOIN wp_terms as terms ON taxonomy.term_id = terms.term_id
+        LEFT JOIN wp_term_relationships as relationship ON terms.term_id = relationship.term_taxonomy_id
+        LEFT JOIN wp_posts as post ON post.ID = relationship.object_ID
+        LEFT JOIN wp_terms_hit as count ON count.term_id = terms.term_id
+    WHERE
+        taxonomy.taxonomy="post_tag" AND
+        count<>0
+    GROUP BY terms.term_id
+    ORDER BY hit DESC LIMIT 20
+`
+
 export const MySQLQuery = {
     getAllPostMeta: (postId: number): string =>
         format(GET_ALL_POST_META, postId),
@@ -141,6 +179,8 @@ export const MySQLQuery = {
     getTaxonomies: (postId: number): string => format(GET_TAXONOMIES, postId),
     getTermMeta: (id: number, metaKey: string): string =>
         format(GET_TERM_META, id, metaKey),
+    getTagCount: (): string => format(GET_TAG_COUNT),
+    getTagHit: (): string => format(GET_TAG_HIT),
 }
 
 export enum MetaKeys {

@@ -7,6 +7,7 @@ export type {
     Term,
     ImageSizes,
     ImageKeys,
+    TagCloud,
 } from './wordpress'
 export type { GetPostsByKeys, GetTermByArgs } from './graphql'
 export type { WrapperClasses, Action, State, PageInfo } from './store'

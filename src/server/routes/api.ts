@@ -13,6 +13,7 @@ import {
     getBackgrounds,
     getTermBy,
     getFlickr,
+    getTagCloud,
 } from 'src/utils/'
 
 const apiRouter = express.Router()
@@ -28,6 +29,7 @@ apiRouter.use(
             getBackgrounds,
             getTermBy,
             getFlickr,
+            getTagCloud,
         },
         graphiql: true,
     }),

@@ -33,4 +33,7 @@ export {
     loadFlickrInit,
     loadFlickrSuccess,
     loadFlickrFail,
+    loadTagCloudInit,
+    loadTagCloudSuccess,
+    loadTagCloudFail,
 } from 'src/frontend/store/actions'

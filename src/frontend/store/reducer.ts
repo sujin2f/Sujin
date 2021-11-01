@@ -18,6 +18,9 @@ import {
     LOAD_FLICKR_INIT,
     LOAD_FLICKR_SUCCESS,
     LOAD_FLICKR_FAIL,
+    LOAD_TAG_CLOUD_INIT,
+    LOAD_TAG_CLOUD_SUCCESS,
+    LOAD_TAG_CLOUD_FAIL,
 } from 'src/frontend/store/actions'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Action, State } from 'src/types'
@@ -44,6 +47,7 @@ export const initialState: State = {
     },
     posts: {},
     flickr: undefined,
+    tagCloud: undefined,
 }
 
 export const reducer = (state: State = initialState, action: Action): State => {
@@ -233,6 +237,27 @@ export const reducer = (state: State = initialState, action: Action): State => {
             return {
                 ...state,
                 flickr: [],
+            }
+        }
+
+        case LOAD_TAG_CLOUD_INIT: {
+            return {
+                ...state,
+                tagCloud: [],
+            }
+        }
+
+        case LOAD_TAG_CLOUD_SUCCESS: {
+            return {
+                ...state,
+                tagCloud: action.tagCloud,
+            }
+        }
+
+        case LOAD_TAG_CLOUD_FAIL: {
+            return {
+                ...state,
+                tagCloud: [],
             }
         }
 

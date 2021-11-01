@@ -66,3 +66,11 @@ export type Image = {
     title: string
     sizes: ImageSizes
 }
+
+export type TagCloud = {
+    id: number
+    title: string
+    slug: string
+    count: number
+    hit: number
+}

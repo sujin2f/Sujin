@@ -12,6 +12,7 @@ export const graphqlSchema = `
         getTermBy(key: String!, value: String!): Term
         getBackgrounds: [Image]
         getFlickr: [FlickrImage]
+        getTagCloud: [TagCloud]
     },
     type MenuItem {
         id: Int
@@ -73,6 +74,13 @@ export const graphqlSchema = `
         title: String
         link: String
         media: String
+    }
+    type TagCloud {
+        id: Int
+        title: String
+        slug: String
+        count: Int
+        hit: Int
     }
 `
 

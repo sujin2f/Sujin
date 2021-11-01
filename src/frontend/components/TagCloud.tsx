@@ -1,15 +1,23 @@
 /** components/widgets/Tags */
 import React from 'react'
+import { useTagCloud } from 'src/frontend/hooks'
+import { Link } from 'src/frontend/components/Link'
 
-interface Props {
-    html: string
-}
-
-export const TagCloud = (props: Props): JSX.Element => {
+export const TagCloud = (): JSX.Element => {
+    const tagCloud = useTagCloud()
+    console.log(tagCloud)
     return (
-        <section
-            className="widget tag-cloud"
-            dangerouslySetInnerHTML={{ __html: props.html }}
-        />
+        <section className="widget--tag-cloud">
+            {tagCloud.slice(0, 20).map((tag) => (
+                <Link
+                    className={`tag-cloud tag-cloud--size-${tag.count} tag-cloud--color-${tag.hit}`}
+                    title={tag.title}
+                    to={`/tag/${tag.slug}`}
+                    key={`tag-${tag.id}`}
+                >
+                    {tag.title}
+                </Link>
+            ))}
+        </section>
     )
 }

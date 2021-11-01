@@ -13,6 +13,7 @@ import {
     TermTypes,
     Term,
     FlickrImage,
+    TagCloud,
 } from 'src/types'
 /* eslint-enable @typescript-eslint/no-unused-vars */
 
@@ -37,6 +38,11 @@ export const LOAD_ARCHIVE_FAIL = 'sujin/v1/LOAD_ARCHIVE_FAIL'
 export const LOAD_FLICKR_INIT = 'sujin/v1/LOAD_FLICKR_INIT'
 export const LOAD_FLICKR_SUCCESS = 'sujin/v1/LOAD_FLICKR_SUCCESS'
 export const LOAD_FLICKR_FAIL = 'sujin/v1/LOAD_FLICKR_FAIL'
+
+export const LOAD_TAG_CLOUD_INIT = 'sujin/v1/LOAD_TAG_CLOUD_INIT'
+export const LOAD_TAG_CLOUD_SUCCESS = 'sujin/v1/LOAD_TAG_CLOUD_SUCCESS'
+export const LOAD_TAG_CLOUD_FAIL = 'sujin/v1/LOAD_TAG_CLOUD_FAIL'
+
 /**
  * To set pageInfo
  *
@@ -182,5 +188,24 @@ export const loadFlickrSuccess = (flickr: FlickrImage[]): Partial<Action> => {
 export const loadFlickrFail = (): Partial<Action> => {
     return {
         type: LOAD_FLICKR_FAIL,
+    }
+}
+
+export const loadTagCloudInit = (): Partial<Action> => {
+    return {
+        type: LOAD_TAG_CLOUD_INIT,
+    }
+}
+
+export const loadTagCloudSuccess = (tagCloud: TagCloud[]): Partial<Action> => {
+    return {
+        type: LOAD_TAG_CLOUD_SUCCESS,
+        tagCloud,
+    }
+}
+
+export const loadTagCloudFail = (): Partial<Action> => {
+    return {
+        type: LOAD_TAG_CLOUD_FAIL,
     }
 }

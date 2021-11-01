@@ -20,5 +20,6 @@ export { getTermBy } from './mysql/get-term-by'
 export { getTaxonomies } from './mysql/get-taxonomies'
 export { getTermMeta } from './mysql/get-term-meta'
 export { getAttachment } from './mysql/get-attachment'
+export { getTagCloud } from './mysql/get-tag-cloud'
 
 export { getFlickr } from './flickr'

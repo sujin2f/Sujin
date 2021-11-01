@@ -5,11 +5,10 @@
 
 import React from 'react'
 
-import { WidgetContainer } from 'src/frontend/components'
 // import { GlobalVariable } from 'src/frontend/store/items/global-variable'
 
 export const SingleAside = (): JSX.Element => {
     // const globalVars = GlobalVariable.getInstance(window.sujin)
 
-    return <WidgetContainer />
+    return <div>1</div>
 }
