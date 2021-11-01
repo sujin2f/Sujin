@@ -60,3 +60,22 @@
         }
     }
 }
+
+/**
+ * Top
+ */
+.footer__top {
+    margin-top: 2em;
+    margin-bottom: 1em;
+
+    .widget__heading {
+        font-size: 17pt;
+        margin-bottom: 1em;
+        border-bottom: 1px solid $white;
+
+        span {
+            background-color: $white;
+            color: $black;
+        }
+    }
+}

@@ -18,6 +18,9 @@ export const Footer = (): JSX.Element => {
                     />
                 </section>
                 <section className="widget__container columns small-12 medium-4">
+                    <h2 className="widget__heading">
+                        <span>Photo Stream</span>
+                    </h2>
                     <Flickr />
                 </section>
             </aside>

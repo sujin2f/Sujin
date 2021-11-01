@@ -1,0 +1,22 @@
+.widget__heading {
+    border-bottom: 1px solid $medium-gray;
+    font-size: 17pt;
+    margin-bottom: 1em;
+
+    span {
+        background-color: $medium-gray;
+        color: $white;
+        display: inline-block;
+        padding: 0 10px;
+    }
+}
+
+.widget--flickr {
+    .list-item__image {
+        height: auto;
+    }
+}
+
+.widget--flickr__wrapper {
+    padding: 3px;
+}
