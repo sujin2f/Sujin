@@ -1,41 +1,11 @@
 import { MySQLQuery, CacheKeys, PostType, ErrorMessage } from 'src/constants'
 import { PER_PAGE } from 'src/constants'
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import type {
-    Post,
-    GetPostsByKeys,
-    Nullable,
-    Term,
-    ImageKeys,
-    Image,
-} from 'src/types'
-/* eslint-enable @typescript-eslint/no-unused-vars */
+import { Post, Term, ImageKeys, Image } from 'src/types'
 import { TermTypes } from 'src/types'
-import {
-    dateToPrettyUrl,
-    cached,
-    mysql,
-    getTaxonomies,
-    getPostMeta,
-    getAttachment,
-    autop,
-} from 'src/utils'
-
-type GetGraphPostsByArgs = {
-    key: GetPostsByKeys
-    value: string
-    page: number
-}
-
-export const getGraphPostsBy = async ({
-    key,
-    value,
-    page = 1,
-}: GetGraphPostsByArgs): Promise<Nullable<Post[]>> => {
-    return await getPostsBy(key, value, page).catch(() => {
-        throw new Error()
-    })
-}
+import { dateToPrettyUrl, cached, mysql, autop } from 'src/utils'
+import { getPostMeta } from 'src/utils/mysql/get-post-meta'
+import { getTaxonomies } from 'src/utils/mysql/get-taxonomies'
+import { getAttachment } from 'src/utils/mysql/get-attachment'
 
 /**
  * Get posts by id/slug/category/tag
@@ -45,11 +15,11 @@ export const getGraphPostsBy = async ({
  * @throws
  */
 export const getPostsBy = async (
-    key: GetPostsByKeys,
+    key: TermTypes | 'id' | 'slug',
     value: string | number,
     page = 1,
     ignoreStatus = false,
-): Promise<Nullable<Post[]>> => {
+): Promise<Post[]> => {
     // Caching
     const cacheKey = `${CacheKeys.POST}-${key}-${value}-${page}-${ignoreStatus}`
     const cache = cached.get<Post[]>(cacheKey)
@@ -151,20 +121,19 @@ export const getPostsBy = async (
         }
 
         const images: {
-            [key in ImageKeys]?: Image
+            [imageKey in ImageKeys]?: Image
         } = {}
 
-        for await (const key of Object.keys(imageIds)) {
-            const imageKey = key as ImageKeys
-            if (!imageIds[imageKey]) {
+        for await (const imageKey of Object.keys(imageIds)) {
+            if (!imageIds[imageKey as ImageKeys]) {
                 continue
             }
-            const image = await getAttachment(imageIds[imageKey]).catch(
-                () => undefined,
-            )
+            const image = await getAttachment(
+                imageIds[imageKey as ImageKeys],
+            ).catch(() => undefined)
 
             if (image) {
-                images[imageKey] = image
+                images[imageKey as ImageKeys] = image
             }
         }
 
@@ -185,11 +154,22 @@ export const getPostsBy = async (
             ),
             series: taxonomies.filter((term) => term.type === TermTypes.series),
             mimeType: post.mimeType,
-            images,
+            images: {
+                id: post.id,
+                ...images,
+            },
             meta,
         })
     }
 
     cached.set<Post[]>(cacheKey, posts)
     return posts
+}
+
+export const getPost = async (slug: string): Promise<Post> => {
+    const posts = await getPostsBy('slug', slug)
+    if (posts) {
+        return posts[0]
+    }
+    throw new Error('')
 }

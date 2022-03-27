@@ -3,7 +3,7 @@ import { cached } from 'src/utils'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { FlickrImage, FlickrResponse } from 'src/types'
 
-export const getFlickr = async (): Promise<FlickrImage[]> => {
+export const flickr = async (): Promise<FlickrImage[]> => {
     const cache = cached.get<FlickrImage[]>('flickr')
     if (cache) {
         return cache

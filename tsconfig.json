@@ -1,9 +1,13 @@
 {
+    "ts-node": {
+        "files": true
+    },
+    "files": ["src/server/index.ts", "src/global.d.ts"],
     "compilerOptions": {
         "target": "es2018",
         "module": "commonjs",
         "jsx": "react",
-        "outDir": "./build",
+        "outDir": "./.build/development",
         "removeComments": true,
         "strict": true,
         "rootDirs": ["src"],
@@ -21,6 +25,5 @@
         "forceConsistentCasingInFileNames": true,
         "lib": ["dom", "dom.iterable", "esnext"]
     },
-    "include": ["src/**/*"],
-    "exclude": ["node_modules"]
+    "include": ["src/**/*"]
 }

@@ -1,16 +1,10 @@
-/*
- * Global Footer Component
- * components/layout/GlobalFooter
- */
-
-import React, { Fragment } from 'react'
-
+import React, { Fragment } from "react";
 import {
     Flickr,
     FooterBottom,
     GoogleAdvert,
     TagCloud,
-} from 'src/frontend/components'
+} from "src/frontend/components";
 
 export const Footer = (): JSX.Element => {
     return (
@@ -39,5 +33,5 @@ export const Footer = (): JSX.Element => {
                 <FooterBottom />
             </section>
         </Fragment>
-    )
-}
+    );
+};

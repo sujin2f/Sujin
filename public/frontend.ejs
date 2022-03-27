@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title><%= title %></title>
+        <meta name="description" content="<%= excerpt %>" />
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#000000" />
+        <base href="/" />
+        <link rel="icon" type="image/png" href="/favicon.png" />
+        <link rel="manifest" href="/manifest.json" />
+        <% css.forEach(function(bundle) { %>
+        <link rel="stylesheet" type="text/css" href="/<%= bundle %>" />
+        <% }); %>
+        <meta property="og:title" content="<%= title %>" />
+        <meta property="og:url" content="https://sujinc.com/" />
+        <meta property="og:image" content="/thumbnail.png" />
+        <script>
+            var globalVariable = {
+                title: '<%= title %>',
+                excerpt: '<%= excerpt %>',
+                frontend: '<%= frontend %>',
+                adClient: '<%= adClient %>',
+                adSlot: '<%= adSlot %>',
+            }
+        </script>
+    </head>
+    <body>
+        <noscript>You need to enable JavaScript to run this app.</noscript>
+        <div id="root" role="main"></div>
+        <% js.forEach(function(bundle){ %>
+        <script src="/<%= bundle %>"></script>
+        <% }); %>
+    </body>
+</html>

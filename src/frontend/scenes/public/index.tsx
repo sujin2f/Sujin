@@ -1,16 +1,9 @@
-/*
- * Public Wrapper Component
- * scenes/public
- */
-
-import React from 'react'
+import React, { PropsWithChildren } from 'react'
 
 import { Footer, FixedHeader, Banner } from 'src/frontend/components'
 import { useGlobalWrapper } from 'src/frontend/hooks'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { ReactChildrenProps } from 'src/types'
 
-export const Public = (props: ReactChildrenProps): JSX.Element => {
+export const Public = (props: PropsWithChildren<{}>): JSX.Element => {
     const [className, wrapperElement] = useGlobalWrapper()
 
     return (

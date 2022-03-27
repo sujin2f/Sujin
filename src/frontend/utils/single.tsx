@@ -8,6 +8,7 @@ import {
     Gist,
     TweetEmbed,
     AboutItem,
+    Carousel,
 } from 'src/frontend/components'
 // import { Post } from 'src/types'
 
@@ -165,6 +166,14 @@ export function parseContent(content: string): JSX.Element[] {
         matched,
     )
 
+    matched = (str.match(regexp('carousel')) || []).reduce(
+        (acc, value) => ({
+            ...acc,
+            [value]: attrs(value),
+        }),
+        matched,
+    )
+
     const elements = splited.map((value, index) => {
         if (matched[value]) {
             if (value.indexOf('[gist') === 0) {
@@ -250,6 +259,14 @@ export function parseContent(content: string): JSX.Element[] {
                         content={innerContent}
                     />
                 )
+            }
+
+            if (value.indexOf('[carousel') === 0) {
+                const images: string[] = Object.keys(matched[value].named)
+                    .filter((key) => key.match(/sc[0-9]+/))
+                    .map((key) => matched[value].named[key])
+
+                return <Carousel images={images} />
             }
         }
 

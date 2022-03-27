@@ -1,19 +1,7 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { FlickrImage, TagCloud, Term, TermTypes } from 'src/types'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Image, MenuItem, Post } from './wordpress'
+import { Image } from './wordpress'
 
 type Type = {
     type: string
-}
-type Slug = {
-    slug: string
-}
-
-type Menus = {
-    menus: {
-        [slug: string]: MenuItem[]
-    }
 }
 
 /**
@@ -37,33 +25,9 @@ export type PageInfo = {
 }
 
 export type State = {
-    backgrounds?: Image[]
     pageInfo: PageInfo
-    posts: {
-        [slug: string]: Post
-    }
-    archive: {
-        [slug: string]: {
-            term?: Term
-            items: {
-                [page: number]: string[] | 'Loading' | 'Failed'
-            }
-        }
-    }
-    flickr?: FlickrImage[]
-    tagCloud?: TagCloud[]
-} & Menus
+}
 
 export type Action = {
-    posts: Post[]
-    menuItems: MenuItem[]
-    backgrounds: Image[]
     pageInfo: Partial<PageInfo>
-    page: number
-    post: Post
-    termType: TermTypes
-    term: Term
-    flickr: FlickrImage[]
-    tagCloud: TagCloud[]
-} & Type &
-    Slug
+} & Type

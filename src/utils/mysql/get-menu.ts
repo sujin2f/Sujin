@@ -5,28 +5,29 @@ import {
     MenuItemTypes,
     ErrorMessage,
 } from 'src/constants'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { MenuItem, Post } from 'src/types'
-import { mysql, cached, getAllPostMeta, getTermBy, getPostsBy } from 'src/utils'
+import type { MenuItem, Post, Term } from 'src/types'
+import { mysql, cached } from 'src/utils'
+import { getPostsBy } from 'src/utils/mysql/get-posts-by'
+import { getAllPostMeta } from 'src/utils/mysql/get-all-post-meta'
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+// tslint:disable-next-line: no-var-requires
 const PHPUnserialize = require('php-unserialize')
 
 /**
  * Convert Post to MenuItem
  *
- * @param {Post} menu
+ * @param {Post} post
  * @return {Promise<MenuItem>}
  * @throws
  */
-const getMenuItemFromPost = async (menu: Post): Promise<MenuItem> => {
-    const postMetas = await getAllPostMeta(menu.id).catch(() => undefined)
+const getMenuItemFromPost = async (post: Post): Promise<MenuItem> => {
+    const postMetas = await getAllPostMeta(post.id).catch(() => undefined)
     if (!postMetas) {
         return {
-            id: menu.id,
-            title: menu.title,
+            id: post.id,
+            title: post.title,
             target: '',
-            link: menu.link,
+            link: post.link,
             htmlClass: [],
             children: [],
             parent: 0,
@@ -41,39 +42,43 @@ const getMenuItemFromPost = async (menu: Post): Promise<MenuItem> => {
     const type = postMetas[MetaKeys.MENU_ITEM_TYPE]
     const parent = postMetas[MetaKeys.MENU_ITEM_PARENT]
     let link = postMetas[MetaKeys.MENU_ITEM_URL]
-    let title = menu.title
+    let title = post.title
 
     switch (type) {
         case MenuItemTypes.POST_TYPE:
-            const post = await getPostsBy('id', objectId).catch(() => undefined)
+            const queriedPost = await getPostsBy('id', objectId).catch(
+                () => undefined,
+            )
 
-            if (post) {
-                title = title || post[0].title || ''
-                link = post[0].link
+            if (queriedPost) {
+                title = title || queriedPost[0].title || ''
+                link = queriedPost[0].link
             }
             break
 
         case MenuItemTypes.TAXONOMY:
-            const term = (await getTermBy({
-                key: 'id',
-                value: objectId,
-            }).catch(() => ({ title: '', slug: '' }))) || {
-                title: '',
-                slug: '',
-            }
-            title = title || term.title
-            link = link || `/category/${term.slug}`
+            const connection = await mysql().catch(() => {
+                throw new Error(ErrorMessage.MYSQL_CONNECTION)
+            })
+            const terms: Term[] = (await connection
+                .query(MySQLQuery.getTermBy('id', objectId))
+                .catch(() => [{ title: '', slug: '' }])) || [
+                { title: '', slug: '' },
+            ]
+
+            title = title || terms[0].title
+            link = link || `/category/${terms[0].slug}`
             break
     }
 
     return {
-        id: menu.id,
+        id: post.id,
         target: target || '',
         link: link || '',
         htmlClass: htmlClass || [],
         children: [],
         title: title || '',
-        parent: parseInt(parent || ''),
+        parent: parseInt(parent || '', 10),
     } as MenuItem
 }
 
@@ -84,13 +89,9 @@ const getMenuItemFromPost = async (menu: Post): Promise<MenuItem> => {
  * @return {Promise<MenuItem[]>}
  * @throws
  */
-export const getMenu = async ({
-    menuName,
-}: {
-    menuName: string
-}): Promise<MenuItem[]> => {
+export const getMenu = async (slug: string): Promise<MenuItem[]> => {
     // Caching
-    const cacheKey = `${CacheKeys.MENU}-${menuName}`
+    const cacheKey = `${CacheKeys.MENU}-${slug}`
     const cache = cached.get<MenuItem[]>(cacheKey)
     if (cache && process.env.USE_CACHE) {
         return cache
@@ -101,7 +102,7 @@ export const getMenu = async ({
         throw new Error(ErrorMessage.MYSQL_CONNECTION)
     })
     const posts: Post[] = await connection
-        .query(MySQLQuery.getTermItems(menuName, 0))
+        .query(MySQLQuery.getTermItems(slug, 0))
         .catch(() => [])
 
     if (!posts || !posts.length) {
@@ -111,18 +112,18 @@ export const getMenu = async ({
     // Convert post to menu item
     const menus: Record<number, MenuItem> = {}
     for (const post of posts) {
-        const menu = await getMenuItemFromPost(post).catch(() => undefined)
-        if (menu) {
-            menus[post.id] = menu
+        const menuItem = await getMenuItemFromPost(post).catch(() => undefined)
+        if (menuItem) {
+            menus[post.id] = menuItem
         }
     }
 
     // Parent-children relationship
     Object.keys(menus).forEach((menuId) => {
-        const menu = menus[parseInt(menuId)]
-        if (menu.parent) {
-            menus[menu.parent].children.push(menu)
-            delete menus[parseInt(menuId)]
+        const menuItem = menus[parseInt(menuId, 10)]
+        if (menuItem.parent) {
+            menus[menuItem.parent].children.push(menuItem)
+            delete menus[parseInt(menuId, 10)]
         }
     })
 

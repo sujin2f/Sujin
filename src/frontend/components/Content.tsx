@@ -3,18 +3,17 @@
  * components/single/Content
  */
 
-import React, { Fragment } from 'react'
+import React, { Fragment, PropsWithChildren } from 'react'
 
 import { parseContent } from 'src/frontend/utils/single'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { Post, ReactChildrenProps } from 'src/types'
+import type { Post } from 'src/types'
 
-interface Props extends ReactChildrenProps {
+type Props = {
     post: Post
     className?: string
 }
 
-export const Content = (props: Props): JSX.Element => {
+export const Content = (props: PropsWithChildren<Props>): JSX.Element => {
     const {
         post: { id, slug, content, type },
         className,

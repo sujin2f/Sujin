@@ -8,7 +8,7 @@ import { ImageType } from 'src/constants'
 import { MenuNames } from 'src/constants/mysql-query'
 
 import { Loading, Menu } from 'src/frontend/components'
-import { Context } from 'src/frontend/store'
+import { Context, ContextType } from 'src/frontend/store'
 import { getImageMap } from 'src/utils'
 
 export const Banner = (): JSX.Element => {
@@ -24,7 +24,7 @@ export const Banner = (): JSX.Element => {
                 backgroundColor,
             },
         },
-    ] = useContext(Context) as Context
+    ] = useContext(Context) as ContextType
 
     if (isLoading) {
         return (

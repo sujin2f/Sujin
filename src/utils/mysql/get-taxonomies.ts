@@ -25,6 +25,7 @@ export const getTaxonomies = async (postId: number): Promise<Term[]> => {
     const terms: Term[] = result.map((item: Record<string, string>) => ({
         ...item,
         type: TermTypes[item.type as keyof typeof TermTypes],
+        page: 0,
     }))
     cached.set<Term[]>(`${CacheKeys.TAXONOMY}-${postId}`, terms)
     return terms

@@ -1,18 +1,9 @@
-/*
- * Archive Component
- *
- * //domain.com/category/blog
- * //domain.com/tag/blog
- * //domain.com/search/blog
- */
-
 import React, { Fragment } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { ListItem, Paging } from 'src/frontend/components'
-import { NotFound } from 'src/frontend/scenes'
-import { useArchive } from 'src/frontend/hooks'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { NotFound } from 'src/frontend/scenes/public'
+import { useArchive } from 'src/frontend/hooks/useArchive'
 import { Post as PostType, TermTypes } from 'src/types'
 
 export const Archive = (): JSX.Element => {
@@ -21,25 +12,25 @@ export const Archive = (): JSX.Element => {
         slug: string
         page: string
     }>()
-    const [posts, term] = useArchive(
+    const { archive, loading, error } = useArchive(
         TermTypes[type],
         slug,
-        parseInt(page || '1'),
+        parseInt(page || '1', 10),
     )
 
-    if ('Failed' === posts) {
+    if (error) {
         return <NotFound />
     }
 
-    if (!posts || 'Loading' === posts) {
+    if (loading) {
         return <Fragment />
     }
 
     return (
         <Fragment>
-            {posts.length > 0 && (
+            {archive!.posts.length > 0 && (
                 <Fragment>
-                    {posts.map((post: PostType) => (
+                    {archive!.posts.map((post: PostType) => (
                         <ListItem
                             className="columns large-4 medium-6 small-12 archive__item"
                             key={`${type}-${slug}-${page}-${post.id}`}
@@ -48,8 +39,8 @@ export const Archive = (): JSX.Element => {
                     ))}
 
                     <Paging
-                        totalPages={term?.pages || 0}
-                        currentPage={parseInt(page) || 1}
+                        totalPages={archive?.pages || 0}
+                        currentPage={parseInt(page, 10) || 1}
                         urlPrefix={`/${type}/${slug}`}
                     />
                 </Fragment>

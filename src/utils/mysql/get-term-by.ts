@@ -1,8 +1,10 @@
 import { CacheKeys, ErrorMessage, MySQLQuery, PER_PAGE } from 'src/constants'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { GetTermByArgs, Image, Nullable, Term } from 'src/types'
+import { Image, Nullable, Term } from 'src/types'
 import { TermTypes } from 'src/types'
-import { cached, getAttachment, getTermMeta, mysql } from 'src/utils'
+import { cached, mysql } from 'src/utils'
+import { getPostsBy } from 'src/utils/mysql/get-posts-by'
+import { getTermMeta } from 'src/utils/mysql/get-term-meta'
+import { getAttachment } from 'src/utils/mysql/get-attachment'
 
 /**
  * Get Term from ID
@@ -11,12 +13,13 @@ import { cached, getAttachment, getTermMeta, mysql } from 'src/utils'
  * @return {Promise<Nullable<Term>}
  * @throws
  */
-export const getTermBy = async ({
-    key,
-    value,
-}: GetTermByArgs): Promise<Term> => {
+export const getTermBy = async (
+    type: TermTypes,
+    slug: string,
+    page: number,
+): Promise<Term> => {
     // Caching
-    const cacheKey = `${CacheKeys.TERM}-${key}-${value}`
+    const cacheKey = `${CacheKeys.TERM}-${type}-${slug}-${page}`
     const cache = cached.get<Term | string>(cacheKey)
     if (cache && process.env.USE_CACHE) {
         if (typeof cache === 'string') {
@@ -28,32 +31,35 @@ export const getTermBy = async ({
     const connection = await mysql().catch(() => {
         throw new Error(ErrorMessage.MYSQL_CONNECTION)
     })
-    const result: Term[] = await connection
-        .query(MySQLQuery.getTermBy(key, value.toString()))
+    const terms: Term[] = await connection
+        .query(MySQLQuery.getTermBy('slug', slug))
         .catch(() => [])
 
-    if (!result.length) {
+    if (!terms.length) {
         cached.set<string>(cacheKey, 'NOT_FOUND')
         throw new Error(ErrorMessage.TERM_NOT_FOUND)
     }
+    const result = terms[0]
 
-    const pages = Math.ceil(result[0].total / PER_PAGE)
+    const pages = Math.ceil(result.total / PER_PAGE)
     const thumbnailId = await getTermMeta<{ value: string }>(
-        result[0].id,
+        result.id,
         'thumbnail',
     ).catch(() => undefined)
-    let image: Nullable<Image> = undefined
+    let image: Nullable<Image>
     if (thumbnailId) {
-        image = await getAttachment(parseInt(thumbnailId.value)).catch(
+        image = await getAttachment(parseInt(thumbnailId.value, 10)).catch(
             () => undefined,
         )
     }
     const term: Term = {
-        ...result[0],
-        type: TermTypes[result[0].type as keyof typeof TermTypes],
+        ...result,
+        type: TermTypes[result.type as keyof typeof TermTypes],
         limit: PER_PAGE,
         pages,
         image,
+        posts: await getPostsBy(type, slug, page),
+        page,
     }
     cached.set<Term>(cacheKey, term)
     return term

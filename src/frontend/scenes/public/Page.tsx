@@ -9,36 +9,36 @@ import { useParams } from 'react-router-dom'
 import DEFAULT_BG from 'src/assets/images/thumbnail.svg'
 
 import { Tags, Content, SocialShare } from 'src/frontend/components'
-import { usePost } from 'src/frontend/hooks'
-import { NotFound } from 'src/frontend/scenes'
+import { usePost } from 'src/frontend/hooks/usePost'
+import { NotFound } from 'src/frontend/scenes/public'
 
 export const Page = (): JSX.Element => {
     const { slug } = useParams<{ slug: string }>()
-    const post = usePost(slug)
+    const { post, loading, error } = usePost(slug)
 
-    if (post && 'Failed' === post.date) {
+    if (error) {
         return <NotFound />
     }
 
-    if (!post || 'Loading' === post.date) {
+    if (loading) {
         return <Fragment />
     }
 
     const thumbnail =
-        post.images.list?.url ||
-        post.images.thumbnail?.url ||
-        post.images.background?.url ||
+        post!.images.list?.url ||
+        post!.images.thumbnail?.url ||
+        post!.images.background?.url ||
         DEFAULT_BG
 
     return (
         <Fragment>
             <div className="columns medium-12 large-2" />
-            <Content post={post} className="columns large-8 medium-12">
-                <Tags items={post.tags} prefix={`single-${slug}`} />
+            <Content post={post!} className="columns large-8 medium-12">
+                <Tags items={post!.tags} prefix={`single-${slug}`} />
 
                 <SocialShare
-                    title={post.title}
-                    excerpt={post.excerpt}
+                    title={post!.title}
+                    excerpt={post!.excerpt}
                     thumbnail={thumbnail}
                 />
             </Content>

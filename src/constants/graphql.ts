@@ -1,18 +1,220 @@
-/**
- * Constants for GraphQL
- *
- * @module constants
- */
+import { gql } from '@apollo/client'
+import {
+    FlickrImage,
+    Image,
+    MenuItem,
+    Post,
+    TagCloud,
+    Term,
+    TermTypes,
+} from 'src/types'
+
+export enum Fields {
+    BACKGROUNDS = 'backgrounds',
+    POST = 'post',
+    MENU = 'menu',
+    ARCHIVE = 'archive',
+    FLICKR = 'flickr',
+    TAG_CLOUD = 'tagCloud',
+}
+
+export enum Types {}
+
+export const imageQueryNodes = `
+    url
+    mimeType
+    sizes {
+        key
+        file
+    }
+`
+export const baseQueryNodes = `
+    id
+    slug
+    title
+    excerpt
+`
+
+export const GraphQuery = {
+    BACKGROUNDS: gql`
+        query {
+            ${Fields.BACKGROUNDS} { ${imageQueryNodes} }
+        }
+    `,
+    POST: gql`
+        query ${Fields.POST} ($slug: String!) {
+            ${Fields.POST} (slug: $slug) {
+                ${baseQueryNodes}
+                content
+                date
+                link
+                parent
+                type
+                menuOrder
+                tags {
+                    ${baseQueryNodes}
+                    page
+                    type
+                }
+                categories {
+                    ${baseQueryNodes}
+                    page
+                    type
+                }
+                series {
+                    ${baseQueryNodes}
+                    page
+                    type
+                }
+                meta {
+                    useBackgroundColor
+                    backgroundColor
+                }
+                images {
+                    id
+                    list {
+                        ${imageQueryNodes}
+                    }
+                    icon {
+                        ${imageQueryNodes}
+                    }
+                    title {
+                        ${imageQueryNodes}
+                    }
+                    background {
+                        ${imageQueryNodes}
+                    }
+                    thumbnail {
+                        ${imageQueryNodes}
+                    }
+                }
+            }
+        }
+    `,
+    MENU: gql`
+        query ${Fields.MENU} ($slug: String!) {
+            ${Fields.MENU} (slug: $slug) {
+                id
+                title
+                target
+                link
+                htmlClass
+                children {
+                    id
+                    title
+                    target
+                    link
+                    htmlClass
+                }
+            }
+        }
+    `,
+    ARCHIVE: gql`
+        query ${Fields.ARCHIVE} ($type: String!, $slug: String!, $page: Int!) {
+            ${Fields.ARCHIVE} (type: $type, slug: $slug, page: $page) {
+                ${baseQueryNodes}
+                total
+                limit
+                pages
+                page
+                type
+                image {
+                    ${imageQueryNodes}
+                }
+                posts {
+                    ${baseQueryNodes}
+                    date
+                    link
+                    tags {
+                        ${baseQueryNodes}
+                        page
+                        type
+                    }
+                    images {
+                        id
+                        list {
+                            ${imageQueryNodes}
+                        }
+                        background {
+                            ${imageQueryNodes}
+                        }
+                        thumbnail {
+                            ${imageQueryNodes}
+                        }
+                    }
+                }
+            }
+        }
+    `,
+    FLICKR: gql`
+        query {
+            ${Fields.FLICKR} {
+                title
+                link
+                media
+            }
+        }
+    `,
+    TAG_CLOUD: gql`
+        query {
+            ${Fields.TAG_CLOUD} {
+                id
+                title
+                slug
+                count
+                hit
+            }
+        }
+    `,
+}
+
+export type BackgroundsReturnType = {
+    [Fields.BACKGROUNDS]: Image[]
+}
+
+export type PostReturnType = {
+    [Fields.POST]: Post
+}
+
+export type MenuReturnType = {
+    [Fields.MENU]: MenuItem[]
+}
+
+export type ArchiveReturnType = {
+    [Fields.ARCHIVE]: Term
+}
+
+export type FlickrReturnType = {
+    [Fields.FLICKR]: FlickrImage[]
+}
+
+export type TagCloudReturnType = {
+    [Fields.TAG_CLOUD]: TagCloud[]
+}
+
+export type ArchiveVariables = {
+    type: TermTypes
+    slug: string
+    page: number
+}
+
+export type MenuVariables = {
+    slug: string
+}
+
+export type PostVariables = {
+    slug: string
+}
 
 export const graphqlSchema = `
     scalar Date
     type Query {
-        getMenu(menuName: String!): [MenuItem]
-        getPostsBy(key: String!, value: String!, page: Int): [Post]
-        getTermBy(key: String!, value: String!): Term
-        getBackgrounds: [Image]
-        getFlickr: [FlickrImage]
-        getTagCloud: [TagCloud]
+        ${Fields.BACKGROUNDS}: [Image]
+        ${Fields.POST}(slug: String!): Post
+        ${Fields.MENU}(slug: String!): [MenuItem]
+        ${Fields.ARCHIVE}(type: String!, slug: String!, page: Int!): Term
+        ${Fields.FLICKR}: [FlickrImage]
+        ${Fields.TAG_CLOUD}: [TagCloud]
     },
     type MenuItem {
         id: Int
@@ -40,6 +242,7 @@ export const graphqlSchema = `
         meta: PostMeta
     },
     type Images {
+        id: Int
         list: Image
         icon: Image
         title: Image
@@ -60,6 +263,8 @@ export const graphqlSchema = `
         pages: Int
         excerpt: String
         image: Image
+        posts: [Post]
+        page: Int
     },
     type Image {
         url: String
@@ -81,21 +286,5 @@ export const graphqlSchema = `
         slug: String
         count: Int
         hit: Int
-    }
-`
-
-export const baseQueryNodes = `
-    id
-    slug
-    title
-    excerpt
-`
-
-export const imageQueryNodes = `
-    url
-    mimeType
-    sizes {
-        key
-        file
     }
 `

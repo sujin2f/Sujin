@@ -5,7 +5,7 @@ import type { RefObject } from 'react'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { WrapperClasses } from 'src/types'
 import { TOP_MENU_SCROLLED_POSITION } from 'src/frontend/constants/common'
-import { Context, setPageInfo } from 'src/frontend/store'
+import { Context, ContextType, setPageInfo } from 'src/frontend/store'
 
 type ReturnType = [string, RefObject<HTMLDivElement>]
 
@@ -20,7 +20,7 @@ export const useGlobalWrapper = (): ReturnType => {
             pageInfo: { wrapperClasses, currentPage },
         },
         dispatch,
-    ] = useContext(Context) as Context
+    ] = useContext(Context) as ContextType
     const wrapperElement = useRef<HTMLDivElement>(null)
 
     useEffect(() => {

@@ -1,57 +1,25 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import * as serviceWorker from 'src/frontend/serviceWorker'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
+import { ApolloProvider } from '@apollo/client/react'
 
-import {
-    Public,
-    Archive,
-    FrontPage,
-    NotFound,
-    Page,
-    Post,
-} from 'src/frontend/scenes'
+import { Router } from 'src/frontend/Router'
 import { Store } from 'src/frontend/store'
+import { graphqlClient } from 'src/frontend/utils/graphql'
 
 import 'src/assets/styles/style.scss'
 
 ReactDOM.render(
-    <React.StrictMode>
-        <Router>
-            <Store>
-                <Public>
-                    <Switch>
-                        <Route exact={true} path="/">
-                            <FrontPage />
-                        </Route>
-
-                        <Route
-                            exact={true}
-                            path="/:year([0-9]+)/:month([0-9]+)/:day([0-9]+)/:slug"
-                        >
-                            <Post />
-                        </Route>
-
-                        <Route exact={true} path="/:slug">
-                            <Page />
-                        </Route>
-
-                        <Route exact={true} path="/:type/:slug">
-                            <Archive />
-                        </Route>
-
-                        <Route exact={true} path="/:type/:slug/page/:page?">
-                            <Archive />
-                        </Route>
-
-                        <Route path="*">
-                            <NotFound />
-                        </Route>
-                    </Switch>
-                </Public>
-            </Store>
-        </Router>
-    </React.StrictMode>,
+    <ApolloProvider client={graphqlClient}>
+        <React.StrictMode>
+            <BrowserRouter>
+                <Store>
+                    <Router />
+                </Store>
+            </BrowserRouter>
+        </React.StrictMode>
+    </ApolloProvider>,
     document.getElementById('root'),
 )
 

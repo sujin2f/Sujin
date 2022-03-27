@@ -25,7 +25,12 @@ export type Post = {
     series: Term[]
     mimeType: string
     images: {
-        [key in ImageKeys]?: Image
+        id: number
+        list?: Image
+        icon?: Image
+        title?: Image
+        background?: Image
+        thumbnail?: Image
     }
     meta: {
         useBackgroundColor: boolean
@@ -53,6 +58,8 @@ export type Term = {
     pages: number
     excerpt: string
     image?: Image
+    posts: Post[]
+    page: number
 }
 
 export type ImageSizes = {

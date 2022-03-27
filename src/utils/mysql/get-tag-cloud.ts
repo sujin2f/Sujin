@@ -9,7 +9,7 @@ import { cached, mysql } from 'src/utils'
  * @param {number} postId
  * @return {Promise<TagCloud[]>}
  */
-export const getTagCloud = async (): Promise<TagCloud[]> => {
+export const tagCloud = async (): Promise<TagCloud[]> => {
     const cache = cached.get<TagCloud[]>('tag-cloud')
     if (cache && process.env.USE_CACHE) {
         return cache

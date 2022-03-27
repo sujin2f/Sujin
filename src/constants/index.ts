@@ -8,5 +8,5 @@ export {
     MenuItemTypes,
     PER_PAGE,
 } from './mysql-query'
-export { PostType, dummyPost, imageSizeMap, ImageType } from './wp'
+export { PostType, imageSizeMap, ImageType } from './wp'
 export { ErrorMessage } from './errors'

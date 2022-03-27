@@ -1,7 +1,9 @@
 import { MetaKeys, CacheKeys, ErrorMessage } from 'src/constants'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { Image, ImageSizes } from 'src/types'
-import { cached, getPostMeta, getPostsBy } from 'src/utils'
+import { cached } from 'src/utils'
+import { getPostsBy } from 'src/utils/mysql/get-posts-by'
+import { getPostMeta } from 'src/utils/mysql/get-post-meta'
 
 type AttachmentRawData = Record<string, Record<string, Record<string, string>>>
 
@@ -43,11 +45,11 @@ export const getAttachment = async (postId: number): Promise<Image> => {
     )
     if (meta.sizes) {
         Object.keys(meta.sizes).forEach((sizeKey) => {
-            const url = new URL(post[0].link)
-            const path = url.pathname.split('/')
+            const sizeUrl = new URL(post[0].link)
+            const path = sizeUrl.pathname.split('/')
             path.pop()
 
-            const file = `${url.origin}/${path.join('/')}/${
+            const file = `${sizeUrl.origin}/${path.join('/')}/${
                 meta.sizes[sizeKey].file
             }`
             sizes.push({
@@ -57,13 +59,13 @@ export const getAttachment = async (postId: number): Promise<Image> => {
         })
     }
 
-    const attachement: Image = {
+    const attachment: Image = {
         url,
         mimeType: post[0].mimeType,
         title: post[0].title,
         sizes,
     }
 
-    cached.set<Image>(cacheKey, attachement)
-    return attachement
+    cached.set<Image>(cacheKey, attachment)
+    return attachment
 }

@@ -6,10 +6,9 @@
 
 import React, { Fragment } from 'react'
 
-import { useBackground, useFrontPage } from 'src/frontend/hooks'
+import { useFrontPage } from 'src/frontend/hooks/useFrontPage'
 
 export const FrontPage = (): JSX.Element => {
-    useBackground()
     useFrontPage()
     return <Fragment />
 }

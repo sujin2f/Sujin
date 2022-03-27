@@ -1,3 +1,13 @@
 {
+    "editor.formatOnPaste": true,
+    "editor.fontFamily": "Fira Code",
+    "editor.fontLigatures": true,
+    "editor.renderWhitespace": "all",
+    "editor.codeActionsOnSave": {
+        "source.fixAll.tslint": true
+    },
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "cSpell.words": ["datetime", "entrypoints", "flickr", "flickrs", "sujin"],
     "phpcs.composerJsonPath": "wordpress/composer.json"
 }

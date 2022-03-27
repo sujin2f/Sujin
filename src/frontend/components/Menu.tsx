@@ -6,7 +6,7 @@
 import React, { Fragment } from 'react'
 
 import { MenuItem } from 'src/frontend/components'
-import { useMenu } from 'src/frontend/hooks'
+import { useMenu } from 'src/frontend/hooks/useMenu'
 
 interface Props {
     slug: string
@@ -15,9 +15,9 @@ interface Props {
 
 export const Menu = (props: Props): JSX.Element => {
     const { slug, className } = props
-    const menu = useMenu(slug)
+    const { menu, error, loading } = useMenu(slug)
 
-    if (!menu || !menu.length) {
+    if (error || loading) {
         return <Fragment />
     }
 

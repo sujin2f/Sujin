@@ -9,17 +9,24 @@ import ejs from 'ejs'
 
 import { GlobalVariable } from 'src/types'
 import { CacheKeys } from 'src/constants'
-import {
-    bundles,
-    isDev,
-    publicDir,
-    baseDirDev,
-    baseDirProd,
-    cached,
-    getOption,
-} from 'src/utils'
+import { bundles, publicDir, baseDir, cached } from 'src/utils'
 
 const staticRouter = express.Router()
+
+/**
+ * Assets
+ */
+staticRouter.get(
+    /robots\.txt|manifest\.json|favicon\.png|favicon-16x16\.png|favicon-32x32\.png|thumbnail\.png$/,
+    (req, res) => {
+        const html = `${publicDir}${req.url}`
+        res.sendFile(html)
+    },
+)
+
+staticRouter.get('/static(/*)', (req, res) => {
+    res.sendFile(`${baseDir}/frontend${req.url}`)
+})
 
 const getGlobalVariable = async (): Promise<GlobalVariable> => {
     const cache = cached.get<GlobalVariable>(CacheKeys.GLOBAL_VARS)
@@ -27,25 +34,11 @@ const getGlobalVariable = async (): Promise<GlobalVariable> => {
         return cache
     }
 
-    const home = await getOption<string>('home').catch((e) => console.error(e))
-    const siteurl = await getOption<string>('siteurl').catch((e) =>
-        console.error(e),
-    )
-    const frontend = home ? new URL(home).origin : ''
-    const backend = siteurl ? new URL(siteurl).origin : ''
-    const title = await getOption<string>('blogname').catch((e) =>
-        console.error(e),
-    )
-    const excerpt = await getOption<string>('blogdescription').catch((e) =>
-        console.error(e),
-    )
-
+    // TODO Title and excerpt from WP
     const globalVariable: GlobalVariable = {
-        title: title || '',
-        excerpt: excerpt || '',
-        frontend: isDev() ? 'http://localhost:3000' : frontend,
-        backend: backend,
-        flickrId: process.env.FLICKR_ID,
+        title: process.env.TITLE,
+        excerpt: process.env.EXCERPT,
+        frontend: process.env.FRONTEND,
         adClient: process.env.GOOGLE_AD_CLIENT,
         adSlot: process.env.GOOGLE_AD_SLOT,
     }
@@ -61,16 +54,16 @@ const getGlobalVariable = async (): Promise<GlobalVariable> => {
  * @return {void}
  */
 export const showReact = async (res: Response): Promise<void> => {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const filePath = path.resolve(publicDir, 'frontend.html')
-
+    const filePath = path.resolve(publicDir, 'frontend.ejs')
+    const bundleData = bundles()
     const globalVariable = await getGlobalVariable().catch((e) =>
         console.error(e),
     )
     const html = await ejs
         .renderFile(filePath, {
-            globalVariable,
-            bundles: [...bundles()],
+            ...globalVariable,
+            js: bundleData.filter((value) => value.endsWith('.js')),
+            css: bundleData.filter((value) => value.endsWith('.css')),
         })
         .catch((e) => console.error(e))
 
@@ -78,32 +71,9 @@ export const showReact = async (res: Response): Promise<void> => {
 }
 
 /**
- * Assets
- */
-staticRouter.get('/assets(/*)', (req, res) => {
-    const html = `${publicDir}/${req.url}`
-    res.sendFile(html)
-})
-
-staticRouter.get('/robots.txt', (_, res) => {
-    const html = `${publicDir}/robots.txt`
-    res.sendFile(html)
-})
-
-staticRouter.get('/static(/*)', (req, res) => {
-    if (isDev()) {
-        const html = `${baseDirDev}${req.url}`
-        res.sendFile(html)
-    } else {
-        const html = `${baseDirProd}${req.url}`
-        res.sendFile(html)
-    }
-})
-
-/**
  * React frontend
  */
-staticRouter.use(function (_, res) {
+staticRouter.use((_, res) => {
     showReact(res)
 })
 

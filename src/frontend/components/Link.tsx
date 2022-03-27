@@ -1,14 +1,7 @@
-/*
- * Global Footer Bottom Element Component
- * components/common/Link
- */
-
-import React from 'react'
+import React, { PropsWithChildren } from 'react'
 import { Link as ReactLink } from 'react-router-dom'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { ReactChildrenProps } from 'src/types'
 
-interface Props extends ReactChildrenProps {
+type Props = {
     className?: string
     dangerouslySetInnerHTML?: { __html: string }
     itemType?: string
@@ -17,7 +10,7 @@ interface Props extends ReactChildrenProps {
     to: string
 }
 
-export const Link = (props: Props): JSX.Element => {
+export const Link = (props: PropsWithChildren<Props>): JSX.Element => {
     const {
         children,
         className,
@@ -27,7 +20,7 @@ export const Link = (props: Props): JSX.Element => {
         title,
     } = props
 
-    const to = props.to.replace(window.globalVariable.frontend, '')
+    const to = props.to.replace(window.globalVariable.frontend || '', '')
 
     return (
         <ReactLink

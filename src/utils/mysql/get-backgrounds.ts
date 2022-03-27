@@ -1,7 +1,7 @@
 import { MySQLQuery, CacheKeys, ErrorMessage } from 'src/constants'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { Image, Post } from 'src/types'
-import { cached, getAttachment, mysql } from 'src/utils'
+import { Image, Post } from 'src/types'
+import { cached, mysql } from 'src/utils'
+import { getAttachment } from 'src/utils/mysql/get-attachment'
 
 /**
  * Get random backgrounds
@@ -28,15 +28,15 @@ export const getBackgrounds = async (): Promise<Image[]> => {
         return []
     }
 
-    const backgrounds: Image[] = []
+    const result: Image[] = []
 
     for (const post of posts) {
         const image = await getAttachment(post.id).catch(() => undefined)
 
         if (image) {
-            backgrounds.push(image)
+            result.push(image)
         }
     }
-    cached.set<Image[]>(CacheKeys.BACKGROUND, backgrounds)
-    return backgrounds
+    cached.set<Image[]>(CacheKeys.BACKGROUND, result)
+    return result
 }
