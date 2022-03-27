@@ -1,37 +1,28 @@
-/*
- * Global Header > Top Header Component
- * components/layout/GlobalHeader/TopHeader
- */
-
-import React, { useContext, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import { ImageType } from 'src/constants'
 import { MenuNames } from 'src/constants/mysql-query'
 
-import { Loading, Menu } from 'src/frontend/components'
-import { Context, ContextType } from 'src/frontend/store'
+import { Loading } from 'src/frontend/components'
 import { getImageMap } from 'src/utils'
+import { useGlobalState } from 'src/frontend/hooks/global'
+import { Menu } from './Menu'
 
 export const Banner = (): JSX.Element => {
-    const [
-        {
-            pageInfo: {
-                background,
-                title,
-                excerpt,
-                isLoading,
-                icon,
-                prefix,
-                backgroundColor,
-            },
-        },
-    ] = useContext(Context) as ContextType
+    const {
+        background,
+        title,
+        excerpt,
+        isLoading,
+        icon,
+        prefix,
+        backgroundColor,
+    } = useGlobalState()
 
     if (isLoading) {
         return (
             <section className="banner loading">
                 <div className="banner__overlay">
                     <Loading />
-
                     <Menu
                         className="show-for-large row menu--banner"
                         slug={MenuNames.MAIN}

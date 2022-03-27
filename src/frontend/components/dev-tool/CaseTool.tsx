@@ -1,9 +1,5 @@
-/*
- * Dev Tool / Case Tool Component
- * import { CaseTool } from 'components/dev-tools/CaseTool'
- */
-
 import React, { Fragment, useState, useRef } from 'react'
+import { Column, Row } from 'src/common'
 
 import { Link } from 'src/frontend/components'
 import {
@@ -84,79 +80,79 @@ export const CaseTool = (): JSX.Element => {
                 </section>
 
                 {converted.length > 0 && (
-                    <dl className="row">
-                        <div className="columns large-6 medium-12">
+                    <Row dom="dl">
+                        <Column large={6} medium={12}>
                             <dt>
                                 <span className="label">camelCase</span>
                             </dt>
                             <dd className="lead">
                                 <code>{camelCase(converted)}</code>
                             </dd>
-                        </div>
+                        </Column>
 
-                        <div className="columns large-6 medium-12">
+                        <Column large={6} medium={12}>
                             <dt>
                                 <span className="label">PascalCase</span>
                             </dt>
                             <dd className="lead">
                                 <code>{pascalCase(converted)}</code>
                             </dd>
-                        </div>
+                        </Column>
 
-                        <div className="columns large-6 medium-12">
+                        <Column large={6} medium={12}>
                             <dt>
                                 <span className="label">param-case</span>
                             </dt>
                             <dd className="lead">
                                 <code>{paramCase(converted)}</code>
                             </dd>
-                        </div>
+                        </Column>
 
-                        <div className="columns large-6 medium-12">
+                        <Column large={6} medium={12}>
                             <dt>
                                 <span className="label">snake_case</span>
                             </dt>
                             <dd className="lead">
                                 <code>{snakeCase(converted)}</code>
                             </dd>
-                        </div>
+                        </Column>
 
-                        <div className="columns large-6 medium-12">
+                        <Column large={6} medium={12}>
                             <dt>
                                 <span className="label">CONSTANT_CASE</span>
                             </dt>
                             <dd className="lead">
                                 <code>{constantCase(converted)}</code>
                             </dd>
-                        </div>
+                        </Column>
 
-                        <div className="columns large-6 medium-12">
+                        <Column large={6} medium={12}>
                             <dt>
                                 <span className="label">Title Case</span>
                             </dt>
                             <dd className="lead">
                                 <code>{titleCase(converted)}</code>
                             </dd>
-                        </div>
+                        </Column>
 
-                        <div className="columns large-6 medium-12">
+                        <Column large={6} medium={12}>
                             <dt>
                                 <span className="label">dot.case</span>
                             </dt>
                             <dd className="lead">
                                 <code>{dotCase(converted)}</code>
                             </dd>
-                        </div>
+                        </Column>
 
-                        <div className="columns large-6 medium-12">
+                        <Column large={6} medium={12}>
                             <dt>
                                 <span className="label">path/case</span>
                             </dt>
                             <dd className="lead">
                                 <code>{pathCase(converted)}</code>
                             </dd>
-                        </div>
-                    </dl>
+                        </Column>
+                    </Row>
                 )}
             </article>
         </Fragment>

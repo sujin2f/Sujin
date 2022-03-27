@@ -1,20 +1,13 @@
-/*
- * Simple Post Component
- * components/common/SimplePost
- */
-
 import React from 'react'
 import { ImageType } from 'src/constants'
 import DEFAULT_BG from 'src/assets/images/thumbnail.svg'
 
 import { Link, Tags } from 'src/frontend/components'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { Post } from 'src/types'
+import { Post } from 'src/types'
 import { getImageMap } from 'src/utils'
 
 interface Props {
     item: Post
-    className?: string
     thumbnailKey?: {
         desktop?: 'large' | 'medium' | 'small' | 'tiny'
         mobile?: 'large' | 'medium' | 'small' | 'tiny'
@@ -24,7 +17,6 @@ interface Props {
 export const ListItem = (props: Props): JSX.Element => {
     const {
         item: { title, link, date, excerpt, tags, images },
-        className,
     } = props
 
     const jsDate = new Date(date)
@@ -34,7 +26,7 @@ export const ListItem = (props: Props): JSX.Element => {
         : []
 
     return (
-        <div className={`list-item ${className}`}>
+        <div className="list-item">
             <figure className="list-item__thumbnail">
                 <Link to={link} title={title}>
                     <div className="list-item__zoom" />

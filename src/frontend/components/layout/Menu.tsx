@@ -1,12 +1,7 @@
-/*
- * Menu Component
- * components/layout/Menu
- */
-
 import React, { Fragment } from 'react'
 
-import { MenuItem } from 'src/frontend/components'
 import { useMenu } from 'src/frontend/hooks/useMenu'
+import { MenuItem } from 'src/frontend/components/layout/MenuItem'
 
 interface Props {
     slug: string

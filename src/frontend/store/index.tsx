@@ -16,5 +16,3 @@ export const Store = ({
         </Context.Provider>
     )
 }
-
-export { setPageInfo } from 'src/frontend/store/actions'

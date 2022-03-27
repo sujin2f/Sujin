@@ -1,13 +1,8 @@
-/*
- * Related Posts Component
- * components/single/RelatedPosts
- */
-
 import React from 'react'
+import { Column } from 'src/common'
 
 import { ListItem } from 'src/frontend/components'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { Post } from 'src/types'
+import { Post } from 'src/types'
 
 interface Props {
     items?: Post[]
@@ -23,11 +18,13 @@ export const RelatedPosts = (props: Props): JSX.Element => {
             {props.items && (
                 <section className="row">
                     {props.items.map((related) => (
-                        <ListItem
-                            item={related}
+                        <Column
                             key={`related--${related.id}`}
-                            className="column medium-6 small-12"
-                        />
+                            medium={6}
+                            small={12}
+                        >
+                            <ListItem item={related} />
+                        </Column>
                     ))}
                 </section>
             )}

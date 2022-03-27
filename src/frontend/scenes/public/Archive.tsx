@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import { useParams } from 'react-router-dom'
+import { Row, Column } from 'src/common'
 
 import { ListItem, Paging } from 'src/frontend/components'
 import { NotFound } from 'src/frontend/scenes/public'
@@ -28,23 +29,30 @@ export const Archive = (): JSX.Element => {
 
     return (
         <Fragment>
-            {archive!.posts.length > 0 && (
-                <Fragment>
-                    {archive!.posts.map((post: PostType) => (
-                        <ListItem
-                            className="columns large-4 medium-6 small-12 archive__item"
-                            key={`${type}-${slug}-${page}-${post.id}`}
-                            item={post}
+            <Row>
+                {archive!.posts.map((post: PostType) => (
+                    <Column
+                        key={`${type}-${slug}-${page}-${post.id}`}
+                        large={4}
+                        medium={6}
+                        small={12}
+                        className="archive__item"
+                    >
+                        <ListItem item={post} />
+                    </Column>
+                ))}
+            </Row>
+            <Row>
+                <Column>
+                    {archive!.posts.length > 0 && (
+                        <Paging
+                            totalPages={archive?.pages || 0}
+                            currentPage={parseInt(page, 10) || 1}
+                            urlPrefix={`/${type}/${slug}`}
                         />
-                    ))}
-
-                    <Paging
-                        totalPages={archive?.pages || 0}
-                        currentPage={parseInt(page, 10) || 1}
-                        urlPrefix={`/${type}/${slug}`}
-                    />
-                </Fragment>
-            )}
+                    )}
+                </Column>
+            </Row>
         </Fragment>
     )
 }

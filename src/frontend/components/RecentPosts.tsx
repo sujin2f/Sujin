@@ -2,7 +2,7 @@
 import React, { Fragment } from 'react'
 
 import { ListItem } from 'src/frontend/components'
-import { useArchive } from 'src/frontend/hooks'
+// import { useArchive } from 'src/frontend/hooks'
 import { Post } from 'src/types'
 
 interface Props {

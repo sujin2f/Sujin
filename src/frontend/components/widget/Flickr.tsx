@@ -1,4 +1,5 @@
 import React from 'react'
+import { Column, Row } from 'src/common'
 import { useFlickr } from 'src/frontend/hooks/useFlickr'
 
 export const Flickr = (): JSX.Element => {
@@ -6,10 +7,13 @@ export const Flickr = (): JSX.Element => {
 
     return (
         <section className="widget--flickr">
-            <div className="row">
+            <Row>
                 {flickr.slice(0, 12).map((item) => (
-                    <div
-                        className="large-3 medium-4 small-3 columns widget--flickr__wrapper"
+                    <Column
+                        large={3}
+                        medium={4}
+                        small={3}
+                        className="widget--flickr__wrapper"
                         key={`flickr-${item.link}`}
                     >
                         <figure className="list-item__thumbnail">
@@ -29,9 +33,9 @@ export const Flickr = (): JSX.Element => {
                                 />
                             </a>
                         </figure>
-                    </div>
+                    </Column>
                 ))}
-            </div>
+            </Row>
         </section>
     )
 }

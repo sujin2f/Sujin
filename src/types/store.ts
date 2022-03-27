@@ -12,7 +12,7 @@ export type WrapperClasses = {
     'wrapper--mobile-menu': boolean
     'wrapper--headline': boolean
 }
-export type PageInfo = {
+export type State = {
     background?: Image
     backgroundColor: string
     excerpt: string
@@ -24,10 +24,16 @@ export type PageInfo = {
     wrapperClasses: Partial<WrapperClasses>
 }
 
-export type State = {
-    pageInfo: PageInfo
-}
-
 export type Action = {
-    pageInfo: Partial<PageInfo>
+    pageInfo: Partial<{
+        background?: Image
+        backgroundColor: string
+        excerpt: string
+        prefix: string
+        title: string
+        icon?: Image
+        isLoading: boolean
+        currentPage: string
+        wrapperClasses: Partial<WrapperClasses>
+    }>
 } & Type

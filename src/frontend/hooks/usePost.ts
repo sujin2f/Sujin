@@ -5,7 +5,8 @@ import {
     PostReturnType,
     PostVariables,
 } from 'src/constants/graphql'
-import { Context, ContextType, setPageInfo } from 'src/frontend/store'
+import { Context, ContextType } from 'src/frontend/store'
+import { setPageInfo } from 'src/frontend/store/actions'
 
 export const usePost = (slug: string) => {
     const [, dispatch] = useContext(Context) as ContextType

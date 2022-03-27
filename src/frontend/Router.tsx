@@ -12,35 +12,45 @@ import {
 
 export const Router = (): JSX.Element => {
     return (
-        <Public>
-            <Switch>
-                <Route exact={true} path="/">
+        <Switch>
+            <Route exact={true} path="/">
+                <Public>
                     <FrontPage />
-                </Route>
+                </Public>
+            </Route>
 
-                <Route
-                    exact={true}
-                    path="/:year([0-9]+)/:month([0-9]+)/:day([0-9]+)/:slug"
-                >
+            <Route
+                exact={true}
+                path="/:year([0-9]+)/:month([0-9]+)/:day([0-9]+)/:slug"
+            >
+                <Public>
                     <Post />
-                </Route>
+                </Public>
+            </Route>
 
-                <Route exact={true} path="/:slug">
+            <Route exact={true} path="/:slug">
+                <Public>
                     <Page />
-                </Route>
+                </Public>
+            </Route>
 
-                <Route exact={true} path="/:type/:slug">
+            <Route exact={true} path="/:type/:slug">
+                <Public>
                     <Archive />
-                </Route>
+                </Public>
+            </Route>
 
-                <Route exact={true} path="/:type/:slug/page/:page?">
+            <Route exact={true} path="/:type/:slug/page/:page?">
+                <Public>
                     <Archive />
-                </Route>
+                </Public>
+            </Route>
 
-                <Route path="*">
+            <Route path="*">
+                <Public>
                     <NotFound />
-                </Route>
-            </Switch>
-        </Public>
+                </Public>
+            </Route>
+        </Switch>
     )
 }

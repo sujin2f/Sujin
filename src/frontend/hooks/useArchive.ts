@@ -5,7 +5,8 @@ import {
     ArchiveVariables,
     GraphQuery,
 } from 'src/constants/graphql'
-import { Context, ContextType, setPageInfo } from 'src/frontend/store'
+import { Context, ContextType } from 'src/frontend/store'
+import { setPageInfo } from 'src/frontend/store/actions'
 import { TermTypes } from 'src/types'
 
 export const useArchive = (type: TermTypes, slug: string, page: number) => {

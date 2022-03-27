@@ -1,19 +1,18 @@
 import React, { PropsWithChildren } from 'react'
-
-import { Footer, FixedHeader, Banner } from 'src/frontend/components'
-import { useGlobalWrapper } from 'src/frontend/hooks'
+import { Footer, FixedHeader, Banner } from 'src/frontend/components/layout'
+import { useGlobalState } from 'src/frontend/hooks/global'
 
 export const Public = (props: PropsWithChildren<{}>): JSX.Element => {
-    const [className, wrapperElement] = useGlobalWrapper()
+    const { returnClasses, wrapperElement } = useGlobalState()
 
     return (
-        <div ref={wrapperElement} className={`${className} wrapper`}>
+        <div ref={wrapperElement} className={`${returnClasses} wrapper`}>
             <header>
                 <FixedHeader />
                 <Banner />
             </header>
 
-            <main className="row">{props.children}</main>
+            <main>{props.children}</main>
 
             <footer className="footer">
                 <Footer />

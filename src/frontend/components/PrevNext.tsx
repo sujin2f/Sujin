@@ -1,8 +1,3 @@
-/*
- * PrevNext Component
- * components/single/PrevNext
- */
-
 import React, { Fragment } from 'react'
 
 import { Link } from 'src/frontend/components'
@@ -14,8 +9,6 @@ interface Props {
         next?: Post
     }
 }
-
-type keys = Props['prevNext']
 
 export const PrevNext = (props: Props): JSX.Element => {
     if (!props.prevNext) {

@@ -1,12 +1,7 @@
-/*
- * Page Component
- * scenes/public/Page
- * domain.com/slug
- */
-
 import React, { Fragment } from 'react'
 import { useParams } from 'react-router-dom'
 import DEFAULT_BG from 'src/assets/images/thumbnail.svg'
+import { Column, Row } from 'src/common'
 
 import { Tags, Content, SocialShare } from 'src/frontend/components'
 import { usePost } from 'src/frontend/hooks/usePost'
@@ -31,17 +26,19 @@ export const Page = (): JSX.Element => {
         DEFAULT_BG
 
     return (
-        <Fragment>
-            <div className="columns medium-12 large-2" />
-            <Content post={post!} className="columns large-8 medium-12">
-                <Tags items={post!.tags} prefix={`single-${slug}`} />
+        <Row>
+            <Column medium={12} large={2} />
+            <Column medium={12} large={8}>
+                <Content post={post!}>
+                    <Tags items={post!.tags} prefix={`single-${slug}`} />
 
-                <SocialShare
-                    title={post!.title}
-                    excerpt={post!.excerpt}
-                    thumbnail={thumbnail}
-                />
-            </Content>
-        </Fragment>
+                    <SocialShare
+                        title={post!.title}
+                        excerpt={post!.excerpt}
+                        thumbnail={thumbnail}
+                    />
+                </Content>
+            </Column>
+        </Row>
     )
 }

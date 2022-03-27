@@ -1,8 +1,3 @@
-/*
- * Content / TweetEmbed Component
- * components/single/Gist
- */
-
 import React, { useEffect, useRef } from 'react'
 
 const callbacks: { (): void; (): void }[] = []

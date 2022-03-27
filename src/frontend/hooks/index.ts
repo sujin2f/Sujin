@@ -1,1 +1,0 @@
-export { useGlobalWrapper } from './global'

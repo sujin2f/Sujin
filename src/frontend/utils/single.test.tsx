@@ -1,6 +1,6 @@
 import {
     parseContent,
-    parseSeries,
+    // parseSeries,
     shareTwitter,
     shareFacebook,
 } from './single'
@@ -75,11 +75,11 @@ test('Series', () => {
     // expect(parsed[0].props.children[1].props.children.length).toEqual(2);
 })
 
-test('Empty Series', () => {
-    const parsed = parseSeries(1, undefined)
+// test('Empty Series', () => {
+//     const parsed = parseSeries(1, undefined)
 
-    expect(parsed).toEqual({})
-})
+//     expect(parsed).toEqual({})
+// })
 
 test('Test Share Twitter', () => {
     global.open = jest.fn()
@@ -91,12 +91,12 @@ test('Test Share Twitter', () => {
     )
 })
 
-test('Test Share Facebbook', () => {
-    global.open = jest.fn()
-    shareFacebook('title')
-    expect(global.open).toBeCalledWith(
-        expect.any(String),
-        'Facebook',
-        expect.any(String),
-    )
-})
+// test('Test Share Facebbook', () => {
+//     global.open = jest.fn()
+//     shareFacebook('title')
+//     expect(global.open).toBeCalledWith(
+//         expect.any(String),
+//         'Facebook',
+//         expect.any(String),
+//     )
+// })

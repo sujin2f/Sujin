@@ -40,7 +40,7 @@ export const Paging = (props: Props): JSX.Element => {
 
     return (
         <nav
-            className="columns small-12 paging__container"
+            className="paging__container"
             role="navigation"
             aria-label="Navigate to another page"
         >

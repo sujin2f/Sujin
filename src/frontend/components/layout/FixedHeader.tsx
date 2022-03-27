@@ -1,22 +1,13 @@
-/*
- * Global Header > Fixed Header Component
- * components/layout/GlobalHeader/FixedHeader
- */
+import React from 'react'
 
-import React, { useContext } from 'react'
-
-import { Link, Search, Menu } from 'src/frontend/components'
-import { Context } from 'src/frontend/store'
-import { setPageInfo } from 'src/frontend/store/actions'
+import { Link, Search } from 'src/frontend/components'
 import { MenuNames } from 'src/constants'
+import { useGlobalState } from 'src/frontend/hooks/global'
+import { Menu } from './Menu'
+import { Column, Row } from 'src/common'
 
 export const FixedHeader = (): JSX.Element => {
-    const [
-        {
-            pageInfo: { wrapperClasses },
-        },
-        dispatch,
-    ] = useContext(Context) as Context
+    const { wrapperClasses, setWrapperClass } = useGlobalState()
 
     return (
         <section>
@@ -28,37 +19,34 @@ export const FixedHeader = (): JSX.Element => {
             </section>
 
             <section className="fixed-header">
-                <div className="row">
-                    <section className="columns small-6 fixed-header__section">
+                <Row>
+                    <Column small={6} className="fixed-header__section">
                         <button
                             className="hide-for-large fixed-header__hamburger"
                             type="button"
                             onClick={() =>
-                                dispatch(
-                                    setPageInfo({
-                                        wrapperClasses: {
-                                            'wrapper--mobile-menu':
-                                                !wrapperClasses[
-                                                    'wrapper--mobile-menu'
-                                                ],
-                                        },
-                                    }),
-                                )
+                                setWrapperClass({
+                                    'wrapper--mobile-menu':
+                                        !wrapperClasses['wrapper--mobile-menu'],
+                                })
                             }
                         />
                         <Menu
                             className="show-for-large menu--fixed-header"
                             slug={MenuNames.MAIN}
                         />
-                    </section>
-                    <section className="columns small-6 hide-for-small-only fixed-header__section">
+                    </Column>
+                    <Column
+                        small={6}
+                        className="hide-for-small-only fixed-header__section"
+                    >
                         <Search />
                         <Menu
                             className="show-for-large fixed-header__social-media"
                             slug={MenuNames.SOCIAL}
                         />
-                    </section>
-                </div>
+                    </Column>
+                </Row>
             </section>
 
             <section className="fixed-header__logo__container">

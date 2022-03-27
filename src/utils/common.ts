@@ -1,11 +1,6 @@
-/**
- * Common helpers
- */
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { addZero } from 'src/common'
 import { imageSizeMap, ImageType } from 'src/constants'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { ImageSizes } from 'src/types'
+import { ImageSizes } from 'src/types'
 
 /**
  * Making a formatted string
@@ -21,22 +16,6 @@ export const format = (str: string, ...args: (string | number)[]): string => {
         result = result.replace(new RegExp(`\\{${idx}\\}`, 'g'), arg.toString())
     })
     return result
-}
-
-/**
- * Adding zero to a single string
- * 1 => 01
- * @param {string} number
- * @return {string}
- */
-const addZero = (number: string | number): string => {
-    const num = typeof number === 'string' ? number : number.toString()
-
-    if (num.length >= 2) {
-        return num
-    }
-
-    return `0${num}`
 }
 
 export const dateToPrettyUrl = (date: Date): string => {
