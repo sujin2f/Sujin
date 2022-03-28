@@ -178,3 +178,88 @@
         mask-size: 60px;
     }
 }
+
+.prev-next__prev,
+.prev-next__next {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    transition: color ease-out 0.3s;
+    flex-grow: 1;
+    background: none;
+    width: 50%;
+
+    i {
+        background-color: map-get($foundation-palette, 'primary');
+        border-radius: 3px;
+        width: 40px;
+        height: 40px;
+        transition: background-color ease-out 0.3s;
+
+        &:after {
+            content: '';
+            mask-image: url('../../images/icons/prev.svg');
+            mask-size: 15px;
+            mask-repeat: no-repeat;
+            mask-position: center;
+            width: 40px;
+            height: 40px;
+            display: block;
+
+            background-color: white;
+        }
+    }
+
+    &:hover {
+        color: $black;
+        background: none;
+
+        i {
+            background-color: $black;
+        }
+    }
+}
+
+.prev-next__prev {
+    i {
+        margin-right: 0.5em;
+    }
+}
+
+.prev-next__next {
+    flex-direction: row-reverse;
+
+    i {
+        margin-left: 0.5em;
+
+        &:after {
+            transform: rotate(180deg);
+        }
+    }
+}
+
+.prev-next {
+    display: flex;
+    margin-bottom: 2em;
+
+    @include breakpoint(small only) {
+        flex-direction: column;
+
+        .prev-next__prev,
+        .prev-next__next {
+            width: 100%;
+
+            &.prev-next__prev {
+                margin-bottom: 0.3em;
+            }
+
+            &.prev-next__next {
+                flex-direction: row;
+
+                i {
+                    margin: 0 0.5em 0 0;
+                }
+            }
+        }
+    }
+}

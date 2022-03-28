@@ -1,3 +1,8 @@
+/**
+ * @jest-environment jsdom
+ */
+// yarn test Select.spec.ts
+
 import '@testing-library/jest-dom'
 import React, { Fragment, useState } from 'react'
 import { render, act, screen, fireEvent } from '@testing-library/react'

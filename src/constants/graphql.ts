@@ -88,6 +88,16 @@ export const GraphQuery = {
                         ${imageQueryNodes}
                     }
                 }
+                prevNext {
+                    prev {
+                        ${baseQueryNodes}
+                        link
+                    }
+                    next {
+                        ${baseQueryNodes}
+                        link
+                    }
+                }
             }
         }
     `,
@@ -240,6 +250,7 @@ export const graphqlSchema = `
         series: [Term]
         images: Images
         meta: PostMeta
+        prevNext: PrevNext
     },
     type Images {
         id: Int
@@ -286,5 +297,9 @@ export const graphqlSchema = `
         slug: String
         count: Int
         hit: Int
+    }
+    type PrevNext {
+        prev: Post
+        next: Post
     }
 `

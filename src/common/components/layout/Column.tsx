@@ -26,6 +26,7 @@ export const Column = (props: PropsWithChildren<Props>): JSX.Element => {
     const className = props.className || ''
     const join =
         [small, medium, large, smallOffset, mediumOffset, largeOffset]
+            .filter((v) => v)
             .join(' ')
             .trim() || 'small-12'
     const type = props.dom || 'div'

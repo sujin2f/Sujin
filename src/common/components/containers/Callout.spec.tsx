@@ -17,4 +17,17 @@ describe('Callout.ts', () => {
         const wrapper = result.container.querySelector('.callout__wrapper')
         expect(wrapper).toBeTruthy()
     })
+
+    it('No Message', async () => {
+        const Component = (): JSX.Element => {
+            return <Callout />
+        }
+        const result = render(<Component />)
+        try {
+            result.container.querySelector('.callout__wrapper')
+            expect(true).toBeFalsy()
+        } catch (e) {
+            expect(true).toBeTruthy()
+        }
+    })
 })

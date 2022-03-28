@@ -15,26 +15,23 @@ export const PrevNext = (props: Props): JSX.Element => {
         return <Fragment />
     }
 
-    const prevNext = props.prevNext as { [key: string]: Post }
-
+    const {
+        prevNext: { prev, next },
+    } = props
     return (
         <nav className="prev-next">
-            {Object.keys(prevNext).map((key) => {
-                if (!prevNext[key]) {
-                    return null
-                }
-
-                return (
-                    <Link
-                        to={prevNext[key].link}
-                        className={key}
-                        key={`prev-next__${prevNext[key].id}`}
-                    >
-                        <i />
-                        <Fragment>{prevNext[key].title}</Fragment>
-                    </Link>
-                )
-            })}
+            {prev && (
+                <Link to={prev.link} className="prev-next__prev">
+                    <i />
+                    {prev.title}
+                </Link>
+            )}
+            {next && (
+                <Link to={next.link} className="prev-next__next">
+                    <i />
+                    {next.title}
+                </Link>
+            )}
         </nav>
     )
 }

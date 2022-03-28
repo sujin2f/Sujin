@@ -27,7 +27,7 @@ export const Gist = (props: Props): JSX.Element => {
             return <Fragment />
         }
         refIframe.current.contentDocument.open()
-        refIframe.current.contentDocument.write(iframeHtml)
+        refIframe.current.contentDocument.append(iframeHtml)
         refIframe.current.contentDocument.close()
 
         refIframe.current.setAttribute('data-loaded', 'true')

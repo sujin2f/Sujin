@@ -36,6 +36,10 @@ export type Post = {
         useBackgroundColor: boolean
         backgroundColor: string
     }
+    prevNext: {
+        prev?: Post
+        next?: Post
+    }
 }
 
 export type MenuItem = {

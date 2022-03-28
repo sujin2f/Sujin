@@ -27,8 +27,7 @@ export const Page = (): JSX.Element => {
 
     return (
         <Row>
-            <Column medium={12} large={2} />
-            <Column medium={12} large={8}>
+            <Column medium={12} large={8} largeOffset={2}>
                 <Content post={post!}>
                     <Tags items={post!.tags} prefix={`single-${slug}`} />
 

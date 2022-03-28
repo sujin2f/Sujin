@@ -1,14 +1,8 @@
-/*
- * Post Component
- * scenes/public/Post
- * domain.com/2020/01/01/slug
- */
-
 import React, { Fragment } from 'react'
 import { useParams } from 'react-router-dom'
 import DEFAULT_BG from 'src/assets/images/thumbnail.svg'
 
-import { Content, SocialShare, Tags } from 'src/frontend/components'
+import { Content, PrevNext, SocialShare, Tags } from 'src/frontend/components'
 import { GoogleAdvert } from 'src/frontend/components/widget'
 import { NotFound } from 'src/frontend/scenes/public'
 import { usePost } from 'src/frontend/hooks/usePost'
@@ -34,9 +28,7 @@ export const Post = (): JSX.Element => {
 
     return (
         <Row>
-            <Column medium={12} large={2} />
-
-            <Column medium={12} large={8}>
+            <Column medium={12} large={8} largeOffset={2}>
                 <Content post={post!}>
                     <Tags items={post!.tags} prefix={`single-${slug}`} />
                     <SocialShare
@@ -44,14 +36,15 @@ export const Post = (): JSX.Element => {
                         excerpt={post!.excerpt}
                         thumbnail={thumbnail}
                     />
-                    {/* <PrevNext prevNext={prevNext} />
+                    <PrevNext prevNext={post!.prevNext} />
+                    {/* 
                 <RelatedPosts items={related} /> */}
                 </Content>
             </Column>
 
             <Column
                 small={12}
-                large={3}
+                large={2}
                 className="layout__article__right"
                 dom="aside"
             >

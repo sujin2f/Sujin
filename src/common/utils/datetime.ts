@@ -1,4 +1,4 @@
-export const formatDate = (dateString: string | Date): string => {
+export const formatDate = (dateString: string | number | Date): string => {
     if (!dateString) {
         return ''
     }
@@ -53,4 +53,22 @@ export const yyyyMmDdToDate = (yyyyMmDd: string): Date => {
     date.setUTCHours(0, 0, 0, 0)
 
     return date
+}
+
+export const getShortMonthName = (dt: Date) => {
+    const monthNames = [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec',
+    ]
+    return monthNames[dt.getMonth()]
 }

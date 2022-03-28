@@ -16,6 +16,7 @@ export const ColorPicker = forwardRef(
             background: color,
         }
 
+        /* istanbul ignore next */
         const onChange = (value: string) => {
             changeColor(value)
             if (props.onChange) {

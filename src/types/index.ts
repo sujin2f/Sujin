@@ -10,5 +10,5 @@ export type {
     TagCloud,
 } from './wordpress'
 export type { GetPostsByKeys } from './graphql'
-export type { WrapperClasses, Action, State, PageInfo } from './store'
+export type { WrapperClasses, Action, State } from './store'
 export type { FlickrImage, FlickrResponse, FlickrResponseImage } from './flickr'

@@ -6,6 +6,7 @@ import { dateToPrettyUrl, cached, mysql, autop } from 'src/utils'
 import { getPostMeta } from 'src/utils/mysql/get-post-meta'
 import { getTaxonomies } from 'src/utils/mysql/get-taxonomies'
 import { getAttachment } from 'src/utils/mysql/get-attachment'
+import { getAdjacentPost } from './get_adjacent_post'
 
 /**
  * Get posts by id/slug/category/tag
@@ -137,7 +138,7 @@ export const getPostsBy = async (
             }
         }
 
-        posts.push({
+        const postResult = {
             id: post.id,
             slug: post.slug,
             title: post.title,
@@ -159,7 +160,15 @@ export const getPostsBy = async (
                 ...images,
             },
             meta,
-        })
+            prevNext: {},
+        }
+        if (postResult.type === 'post')
+            postResult.prevNext = {
+                prev: await getAdjacentPost(postResult, true),
+                next: await getAdjacentPost(postResult, false),
+            }
+
+        posts.push(postResult)
     }
 
     cached.set<Post[]>(cacheKey, posts)

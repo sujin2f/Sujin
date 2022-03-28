@@ -5,6 +5,7 @@ import DEFAULT_BG from 'src/assets/images/thumbnail.svg'
 import { Link, Tags } from 'src/frontend/components'
 import { Post } from 'src/types'
 import { getImageMap } from 'src/utils'
+import { getShortMonthName } from 'src/common'
 
 interface Props {
     item: Post
@@ -16,10 +17,10 @@ interface Props {
 
 export const ListItem = (props: Props): JSX.Element => {
     const {
-        item: { title, link, date, excerpt, tags, images },
+        item: { title, link, excerpt, tags, images },
     } = props
 
-    const jsDate = new Date(date)
+    const date = new Date(props.item.date)
     const image = images.list || images.thumbnail
     const imageMapThumbnail = image
         ? getImageMap(ImageType.HEADER, image.sizes)
@@ -33,16 +34,14 @@ export const ListItem = (props: Props): JSX.Element => {
                     <div className="list-item__shadow" />
                     <time
                         className="list-item__time"
-                        dateTime={new Date(date).toString()}
+                        dateTime={date.toString()}
                     >
-                        <span className="list-item__day">
-                            {jsDate.getDate()}
-                        </span>
+                        <span className="list-item__day">{date.getDate()}</span>
                         <span className="list-item__month">
-                            {jsDate.getMonth() + 1}
+                            {getShortMonthName(date)}
                         </span>
                         <span className="list-item__year">
-                            {jsDate.getFullYear()}
+                            {date.getFullYear()}
                         </span>
                     </time>
                     <picture>

@@ -4,6 +4,8 @@
  * @module constants
  */
 
+import { formatDate } from 'src/common/utils/datetime'
+import { Post } from 'src/types'
 import { format } from 'src/utils'
 
 const POST_FIELDS = `
@@ -143,12 +145,26 @@ const GET_TAG_HIT = `
     ORDER BY hit DESC LIMIT 20
 `
 
+const GET_ADJACENT_POST = `
+    SELECT
+        ${POST_FIELDS}
+    FROM wp_posts AS posts
+        INNER JOIN wp_term_relationships AS relationship ON posts.ID = relationship.object_id
+        INNER JOIN wp_term_taxonomy taxonomy ON relationship.term_taxonomy_id = taxonomy.term_taxonomy_id
+    WHERE
+        posts.post_date {0} "{1}" AND
+        posts.post_type = "post" AND
+        taxonomy.taxonomy = "category" AND
+        taxonomy.term_id IN ("{2}") AND
+        posts.post_status = "publish"
+    ORDER BY posts.post_date {3} LIMIT 1
+`
+
 export const MySQLQuery = {
-    getAllPostMeta: (postId: number): string =>
-        format(GET_ALL_POST_META, postId),
-    getRandomBackgrounds: (): string =>
+    getAllPostMeta: (postId: number) => format(GET_ALL_POST_META, postId),
+    getRandomBackgrounds: () =>
         format(GET_TERM_ITEMS, 'background', 'inherit', 'ORDER BY RAND()', 0),
-    getTermItems: (termSlug: string, offset: number): string =>
+    getTermItems: (termSlug: string, offset: number) =>
         format(
             GET_TERM_ITEMS,
             termSlug,
@@ -156,15 +172,15 @@ export const MySQLQuery = {
             'ORDER BY posts.ID DESC',
             offset,
         ),
-    getOption: (optionName: string): string => format(GET_OPTION, optionName),
-    getPostMeta: (postId: number, metaKey: string): string =>
+    getOption: (optionName: string) => format(GET_OPTION, optionName),
+    getPostMeta: (postId: number, metaKey: string) =>
         format(GET_POST_META, postId, metaKey),
     getPostBy: (
         key: string,
         value: string | number,
         offset: number,
         ignoreStatus: boolean,
-    ): string =>
+    ) =>
         format(
             GET_POST_BY,
             key,
@@ -172,15 +188,27 @@ export const MySQLQuery = {
             offset,
             ignoreStatus ? '' : 'AND posts.post_status="publish"',
         ),
-    getTermBy: (key: string, value: string): string => {
+    getTermBy: (key: string, value: string) => {
         const newKey = key === 'id' ? 'terms.term_id' : 'terms.slug'
         return format(GET_TERM_BY, newKey, value)
     },
-    getTaxonomies: (postId: number): string => format(GET_TAXONOMIES, postId),
-    getTermMeta: (id: number, metaKey: string): string =>
+    getTaxonomies: (postId: number) => format(GET_TAXONOMIES, postId),
+    getTermMeta: (id: number, metaKey: string) =>
         format(GET_TERM_META, id, metaKey),
-    getTagCount: (): string => format(GET_TAG_COUNT),
-    getTagHit: (): string => format(GET_TAG_HIT),
+    getTagCount: () => format(GET_TAG_COUNT),
+    getTagHit: () => format(GET_TAG_HIT),
+    getAdjacentPost: (post: Post, previous = true) => {
+        const comparison = previous ? '<' : '>'
+        const order = previous ? 'DESC' : 'ASC'
+        const termId = post.categories.map((category) => category.id)
+        return format(
+            GET_ADJACENT_POST,
+            comparison,
+            formatDate(post.date),
+            termId.join(','),
+            order,
+        )
+    },
 }
 
 export enum MetaKeys {
