@@ -16,6 +16,7 @@ export enum Fields {
     ARCHIVE = 'archive',
     FLICKR = 'flickr',
     TAG_CLOUD = 'tagCloud',
+    RECENT = 'recent',
 }
 
 export enum Types {}
@@ -98,6 +99,29 @@ export const GraphQuery = {
                         link
                     }
                 }
+                related {
+                    ${baseQueryNodes}
+                    date
+                    link
+                    images {
+                        id
+                        list {
+                            ${imageQueryNodes}
+                        }
+                        icon {
+                            ${imageQueryNodes}
+                        }
+                        title {
+                            ${imageQueryNodes}
+                        }
+                        background {
+                            ${imageQueryNodes}
+                        }
+                        thumbnail {
+                            ${imageQueryNodes}
+                        }
+                    }
+                }
             }
         }
     `,
@@ -176,6 +200,33 @@ export const GraphQuery = {
             }
         }
     `,
+    RECENT: gql`
+        query {
+            ${Fields.RECENT} {
+                ${baseQueryNodes}
+                date
+                link
+                images {
+                    id
+                    list {
+                        ${imageQueryNodes}
+                    }
+                    icon {
+                        ${imageQueryNodes}
+                    }
+                    title {
+                        ${imageQueryNodes}
+                    }
+                    background {
+                        ${imageQueryNodes}
+                    }
+                    thumbnail {
+                        ${imageQueryNodes}
+                    }
+                }
+            }
+        }
+    `,
 }
 
 export type BackgroundsReturnType = {
@@ -202,6 +253,10 @@ export type TagCloudReturnType = {
     [Fields.TAG_CLOUD]: TagCloud[]
 }
 
+export type RecentReturnType = {
+    [Fields.RECENT]: Post[]
+}
+
 export type ArchiveVariables = {
     type: TermTypes
     slug: string
@@ -225,6 +280,7 @@ export const graphqlSchema = `
         ${Fields.ARCHIVE}(type: String!, slug: String!, page: Int!): Term
         ${Fields.FLICKR}: [FlickrImage]
         ${Fields.TAG_CLOUD}: [TagCloud]
+        ${Fields.RECENT}: [Post]
     },
     type MenuItem {
         id: Int
@@ -251,6 +307,7 @@ export const graphqlSchema = `
         images: Images
         meta: PostMeta
         prevNext: PrevNext
+        related: [Post]
     },
     type Images {
         id: Int

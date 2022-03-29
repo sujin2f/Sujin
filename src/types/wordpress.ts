@@ -40,6 +40,7 @@ export type Post = {
         prev?: Post
         next?: Post
     }
+    related: Post[]
 }
 
 export type MenuItem = {

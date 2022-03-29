@@ -38,6 +38,14 @@ const GET_POST_BY = `
     LIMIT ${PER_PAGE} OFFSET {2}
 `
 
+const GET_RECENT_POSTS = `
+    SELECT ${POST_FIELDS}
+    FROM wp_posts AS posts
+    WHERE posts.post_type="post" AND posts.post_status="publish"
+    ORDER BY posts.ID DESC
+    LIMIT 4
+`
+
 const GET_POST_META = `
     SELECT meta_value
     FROM wp_postmeta
@@ -160,6 +168,20 @@ const GET_ADJACENT_POST = `
     ORDER BY posts.post_date {3} LIMIT 1
 `
 
+const GET_RELATED_POST = `
+    SELECT
+        ${POST_FIELDS}
+    FROM wp_posts AS posts
+        INNER JOIN wp_term_relationships AS relationship ON posts.ID = relationship.object_id
+        INNER JOIN wp_term_taxonomy taxonomy ON relationship.term_taxonomy_id = taxonomy.term_taxonomy_id
+    WHERE
+        posts.post_type = "post" AND
+        taxonomy.taxonomy = "{0}" AND
+        taxonomy.term_id IN ("{1}") AND
+        posts.post_status = "publish"
+    ORDER BY posts.post_date DESC LIMIT 4
+`
+
 export const MySQLQuery = {
     getAllPostMeta: (postId: number) => format(GET_ALL_POST_META, postId),
     getRandomBackgrounds: () =>
@@ -209,6 +231,10 @@ export const MySQLQuery = {
             order,
         )
     },
+    getRelatedPost: (taxonomy: 'category' | 'post_tag', termIds: number[]) => {
+        return format(GET_RELATED_POST, taxonomy, termIds.join(','))
+    },
+    getRecentPosts: () => GET_RECENT_POSTS,
 }
 
 export enum MetaKeys {

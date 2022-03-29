@@ -19,6 +19,10 @@
 
 .widget--flickr__wrapper {
     padding: 3px;
+
+    .list-item__thumbnail {
+        height: 90px;
+    }
 }
 
 .widget--tag-cloud {

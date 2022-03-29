@@ -9,17 +9,25 @@ import { Context, ContextType } from 'src/frontend/store'
 import { setPageInfo } from 'src/frontend/store/actions'
 import { TermTypes } from 'src/types'
 
-export const useArchive = (type: TermTypes, slug: string, page: number) => {
+export const useArchive = (
+    type: TermTypes,
+    slug: string,
+    page: number,
+    updateHeader = false,
+) => {
     const [, dispatch] = useContext(Context) as ContextType
     const { data, loading, error } = useQuery<
         ArchiveReturnType,
         ArchiveVariables
     >(GraphQuery.ARCHIVE, {
-        variables: { type, slug, page },
+        variables: { type, slug: encodeURIComponent(slug), page },
     })
     const archive = data && data.archive
 
     useEffect(() => {
+        if (!updateHeader) {
+            return
+        }
         if (!archive) {
             dispatch(
                 setPageInfo({
@@ -54,7 +62,7 @@ export const useArchive = (type: TermTypes, slug: string, page: number) => {
                 },
             }),
         )
-    }, [dispatch, archive, type])
+    }, [dispatch, archive, type, updateHeader])
 
     return { archive, loading, error }
 }

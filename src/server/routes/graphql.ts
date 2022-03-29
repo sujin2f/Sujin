@@ -7,9 +7,10 @@ import { graphqlSchema } from 'src/constants'
 import { backgrounds } from 'src/utils/graphql/backgrounds'
 import { menu } from 'src/utils/graphql/menu'
 import { flickr } from 'src/utils/graphql/flickr'
-import { tagCloud } from 'src/utils/mysql/get-tag-cloud'
+import { tagCloud } from 'src/utils/graphql/tagCloud'
 import { post } from 'src/utils/graphql/post'
 import { archive } from 'src/utils/graphql/archive'
+import { recent } from 'src/utils/graphql/recent'
 
 const graphqlRouter = express.Router()
 const schema = buildSchema(graphqlSchema)
@@ -25,6 +26,7 @@ graphqlRouter.use(
             backgrounds,
             flickr,
             tagCloud,
+            recent,
         },
         graphiql: true,
     }),

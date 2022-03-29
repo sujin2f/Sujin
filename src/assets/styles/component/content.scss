@@ -263,3 +263,75 @@
         }
     }
 }
+
+.recent-posts {
+    margin: 0;
+
+    .loading {
+        img {
+            display: none;
+        }
+    }
+
+    .list-item {
+        figure {
+            height: 200px;
+        }
+
+        time {
+            display: none;
+        }
+
+        .tags {
+            display: none;
+        }
+
+        p {
+            display: none;
+        }
+
+        h2 {
+            font-size: 13pt;
+        }
+
+        @include breakpoint(large) {
+            display: flex;
+            justify-content: space-between;
+            padding: 0;
+
+            figure {
+                width: 70px;
+                height: 70px;
+                margin-right: 10px;
+            }
+
+            > div {
+                width: 190px;
+
+                h2 {
+                    font-size: 1em;
+                    margin-top: 0;
+                }
+
+                p {
+                    display: block;
+                    font-size: 0.9em;
+                    margin: 0;
+                    line-height: inherit;
+                }
+            }
+
+            &:last-child {
+                margin-bottom: 0;
+
+                p {
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+
+    .tag__container {
+        display: none;
+    }
+}

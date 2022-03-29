@@ -13,11 +13,13 @@ interface Props {
         desktop?: 'large' | 'medium' | 'small' | 'tiny'
         mobile?: 'large' | 'medium' | 'small' | 'tiny'
     }
+    className?: string
 }
 
 export const ListItem = (props: Props): JSX.Element => {
     const {
         item: { title, link, excerpt, tags, images },
+        className,
     } = props
 
     const date = new Date(props.item.date)
@@ -27,7 +29,7 @@ export const ListItem = (props: Props): JSX.Element => {
         : []
 
     return (
-        <div className="list-item">
+        <div className={`list-item ${className || ''}`}>
             <figure className="list-item__thumbnail">
                 <Link to={link} title={title}>
                     <div className="list-item__zoom" />
@@ -44,7 +46,7 @@ export const ListItem = (props: Props): JSX.Element => {
                             {date.getFullYear()}
                         </span>
                     </time>
-                    <picture>
+                    <picture className="list-item__image__container">
                         {imageMapThumbnail.map((map) => (
                             <source
                                 key={`header-${map.file}`}

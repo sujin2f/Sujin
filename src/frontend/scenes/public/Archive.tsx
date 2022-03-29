@@ -17,6 +17,7 @@ export const Archive = (): JSX.Element => {
         TermTypes[type],
         slug,
         parseInt(page || '1', 10),
+        true,
     )
 
     if (error) {

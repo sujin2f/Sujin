@@ -10,4 +10,5 @@ export enum CacheKeys {
     TAXONOMY = 'mysql-get-taxonomy',
     ARCHIVE_META = 'mysql-get-archive-meta',
     ADJACENT = 'mysql-get-adjacent-post',
+    RELATED = 'mysql-get-related-post',
 }

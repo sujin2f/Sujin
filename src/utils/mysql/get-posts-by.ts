@@ -7,7 +7,42 @@ import { getPostMeta } from 'src/utils/mysql/get-post-meta'
 import { getTaxonomies } from 'src/utils/mysql/get-taxonomies'
 import { getAttachment } from 'src/utils/mysql/get-attachment'
 import { getAdjacentPost } from './get_adjacent_post'
+import { getRelatedPost } from './get_related_post'
 
+export const getPostImages = async (post: Post) => {
+    const imageIds: Record<ImageKeys, number> = {
+        list: await getPostMeta<number>(post.id, 'list').catch(() => 0),
+        icon: await getPostMeta<number>(post.id, 'icon').catch(() => 0),
+        title: await getPostMeta<number>(post.id, 'title').catch(() => 0),
+        background: await getPostMeta<number>(post.id, 'background').catch(
+            () => 0,
+        ),
+        thumbnail: await getPostMeta<number>(post.id, '_thumbnail_id').catch(
+            () => 0,
+        ),
+    }
+
+    const images: {
+        [imageKey in ImageKeys]?: Image
+    } = {}
+
+    for await (const imageKey of Object.keys(imageIds)) {
+        if (!imageIds[imageKey as ImageKeys]) {
+            continue
+        }
+        const image = await getAttachment(
+            imageIds[imageKey as ImageKeys],
+        ).catch(() => undefined)
+
+        if (image) {
+            images[imageKey as ImageKeys] = image
+        }
+    }
+    return {
+        id: post.id,
+        ...images,
+    }
+}
 /**
  * Get posts by id/slug/category/tag
  *
@@ -17,7 +52,7 @@ import { getAdjacentPost } from './get_adjacent_post'
  */
 export const getPostsBy = async (
     key: TermTypes | 'id' | 'slug',
-    value: string | number,
+    value?: string | number,
     page = 1,
     ignoreStatus = false,
 ): Promise<Post[]> => {
@@ -40,6 +75,9 @@ export const getPostsBy = async (
     let dbResult: Post[] = []
     switch (key) {
         case 'id':
+            if (!value) {
+                return []
+            }
             dbResult = await connection
                 .query(MySQLQuery.getPostBy('posts.ID', value, 0, ignoreStatus))
                 .catch(() => {
@@ -48,6 +86,9 @@ export const getPostsBy = async (
             break
 
         case 'slug':
+            if (!value) {
+                return []
+            }
             dbResult = await connection
                 .query(
                     MySQLQuery.getPostBy(
@@ -64,9 +105,19 @@ export const getPostsBy = async (
 
         case 'category':
         case 'tag':
+            if (!value) {
+                return []
+            }
             const offset = (page - 1) * PER_PAGE
             dbResult = await connection
                 .query(MySQLQuery.getTermItems(value.toString(), offset))
+                .catch(() => {
+                    throw new Error(ErrorMessage.POST_NOT_FOUND)
+                })
+            break
+        case 'recent-posts':
+            dbResult = await connection
+                .query(MySQLQuery.getRecentPosts())
                 .catch(() => {
                     throw new Error(ErrorMessage.POST_NOT_FOUND)
                 })
@@ -95,18 +146,6 @@ export const getPostsBy = async (
         const taxonomies = await getTaxonomies(post.id).catch(
             () => [] as Term[],
         )
-        const imageIds: Record<ImageKeys, number> = {
-            list: await getPostMeta<number>(post.id, 'list').catch(() => 0),
-            icon: await getPostMeta<number>(post.id, 'icon').catch(() => 0),
-            title: await getPostMeta<number>(post.id, 'title').catch(() => 0),
-            background: await getPostMeta<number>(post.id, 'background').catch(
-                () => 0,
-            ),
-            thumbnail: await getPostMeta<number>(
-                post.id,
-                '_thumbnail_id',
-            ).catch(() => 0),
-        }
 
         const meta = {
             useBackgroundColor: await getPostMeta<boolean>(
@@ -121,22 +160,7 @@ export const getPostsBy = async (
             ).catch(() => ''),
         }
 
-        const images: {
-            [imageKey in ImageKeys]?: Image
-        } = {}
-
-        for await (const imageKey of Object.keys(imageIds)) {
-            if (!imageIds[imageKey as ImageKeys]) {
-                continue
-            }
-            const image = await getAttachment(
-                imageIds[imageKey as ImageKeys],
-            ).catch(() => undefined)
-
-            if (image) {
-                images[imageKey as ImageKeys] = image
-            }
-        }
+        const images = await getPostImages(post)
 
         const postResult = {
             id: post.id,
@@ -155,18 +179,19 @@ export const getPostsBy = async (
             ),
             series: taxonomies.filter((term) => term.type === TermTypes.series),
             mimeType: post.mimeType,
-            images: {
-                id: post.id,
-                ...images,
-            },
+            images,
             meta,
             prevNext: {},
+            related: [] as Post[],
         }
-        if (postResult.type === 'post')
+
+        if (postResult.type === 'post') {
             postResult.prevNext = {
                 prev: await getAdjacentPost(postResult, true),
                 next: await getAdjacentPost(postResult, false),
             }
+            postResult.related = await getRelatedPost(postResult)
+        }
 
         posts.push(postResult)
     }

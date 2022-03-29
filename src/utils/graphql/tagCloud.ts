@@ -1,6 +1,5 @@
 import { MySQLQuery, ErrorMessage } from 'src/constants'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { TagCloud } from 'src/types'
+import { TagCloud } from 'src/types'
 import { cached, mysql } from 'src/utils'
 
 /**
@@ -20,20 +19,22 @@ export const tagCloud = async (): Promise<TagCloud[]> => {
         throw new Error(ErrorMessage.MYSQL_CONNECTION)
     })
 
-    const tags: Record<number, TagCloud> = {}
     let counts: number[] = []
     let hits: number[] = []
-    await connection
+    const tags: Record<number, TagCloud> = await connection
         .query(MySQLQuery.getTagCount())
         .catch(() => [])
-        .map((item) => {
+        .reduce((acc, item) => {
             const tag = item as TagCloud
-            tags[tag.id] = tag
-        })
+            return {
+                ...acc,
+                [tag.id]: tag,
+            }
+        }, {})
     await connection
         .query(MySQLQuery.getTagHit())
         .catch(() => [])
-        .map((item) => {
+        .each((item) => {
             const tag = item as TagCloud
             if (tags[tag.id]) {
                 return
@@ -42,8 +43,8 @@ export const tagCloud = async (): Promise<TagCloud[]> => {
         })
 
     // Push counts and hits
-    Object.keys(tags).map((key) => {
-        const tag = tags[parseInt(key)] as TagCloud
+    Object.keys(tags).forEach((key) => {
+        const tag = tags[parseInt(key, 10)] as TagCloud
         counts.push(tag.count)
         hits.push(tag.hit)
     })

@@ -46,22 +46,4 @@
             }
         }
     }
-
-    .related-posts {
-        .simple-post {
-            h2 {
-                font-size: 13pt;
-            }
-
-            figure {
-                height: 180px;
-            }
-
-            .description,
-            .tags,
-            time {
-                display: none;
-            }
-        }
-    }
 }
