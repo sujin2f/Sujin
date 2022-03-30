@@ -53,9 +53,7 @@ export const getRelatedPost = async (post: Post): Promise<Post[]> => {
     for await (const p of dbResult) {
         result.push({
             ...p,
-            link: `/${dateToPrettyUrl(new Date(dbResult[0].date))}/${
-                dbResult[0].slug
-            }`,
+            link: `/${dateToPrettyUrl(new Date(p.date))}/${p.slug}`,
             images: await getPostImages(p),
         })
     }

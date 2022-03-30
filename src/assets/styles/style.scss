@@ -2,11 +2,14 @@
 @import 'mixin.scss';
 @import 'settings.scss';
 @import 'global.scss';
+
 @import 'layout/fixed-header.scss';
 @import 'layout/banner.scss';
 @import 'layout/footer.scss';
+
 @import 'component/content.scss';
 @import 'component/list-item.scss';
 @import 'component/tag.scss';
 @import 'component/paging.scss';
 @import 'component/widget.scss';
+@import 'component/carousel.scss';

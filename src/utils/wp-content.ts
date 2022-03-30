@@ -219,8 +219,8 @@ export const autop = (text: string, br = true): string => {
      * before and after <source> and <track> elements.
      */
     if (text.indexOf('<source') !== -1 || text.indexOf('<track') !== -1) {
-        text = text.replace(/([<\[](?:audio|video)[^>\]]*[>\]])\s*/g, '$1')
-        text = text.replace(/\s*([<\[]\/(?:audio|video)[>\]])/g, '$1')
+        text = text.replace(/([<[](?:audio|video)[^>\]]*[>\]])\s*/g, '$1')
+        text = text.replace(/\s*([<[]\/(?:audio|video)[>\]])/g, '$1')
         text = text.replace(/\s*(<(?:source|track)[^>]*>)\s*/g, '$1')
     }
 

@@ -262,7 +262,12 @@ export function parseContent(content: string): JSX.Element[] {
                     .filter((key) => key.match(/sc[0-9]+/))
                     .map((key) => matched[value].named[key])
 
-                return <Carousel images={images} />
+                return (
+                    <Carousel
+                        images={images}
+                        key={`content-element__carousel__${index}`}
+                    />
+                )
             }
         }
 
