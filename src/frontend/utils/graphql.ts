@@ -9,6 +9,6 @@ const cache = new InMemoryCache({
 })
 
 export const graphqlClient = new ApolloClient({
-    uri: `${window.globalVariable.frontend}/graphql`,
+    uri: '/graphql',
     cache,
 })

@@ -8,23 +8,16 @@ import { config as dotEnvConfig } from 'dotenv'
 import path from 'path'
 import moduleAlias from 'module-alias'
 
-/**
- * Get if the current server is development server
- * @return {boolean}
- */
+const nodeEnv = process.env.NODE_ENV || ''
 const rootDir =
-    process.env.NODE_ENV === 'development'
+    nodeEnv === 'development'
         ? path.resolve(__dirname, '../../../')
         : path.resolve(__dirname, '../../../')
 
-export const baseDir = path.resolve(
-    rootDir,
-    '.build',
-    process.env.NODE_ENV || '',
-)
+export const baseDir = path.resolve(rootDir, '.build', nodeEnv)
 
 // Alias
-if (['production', 'stage'].includes(process.env.NODE_ENV)) {
+if (['production', 'stage'].includes(nodeEnv)) {
     moduleAlias.addAlias('src', baseDir)
     moduleAlias()
 }
@@ -38,9 +31,9 @@ import { graphqlRouter } from 'src/server/routes/graphql'
  * .env
  */
 const envPath =
-    process.env.NODE_ENV !== 'production'
+    nodeEnv === 'development'
         ? undefined
-        : path.resolve(__dirname, '../', '../', '../', '.env.production')
+        : path.resolve(__dirname, '../', '../', '../', `.env.${nodeEnv}`)
 dotEnvConfig({ path: envPath })
 
 // Create a new express application instance
@@ -48,8 +41,18 @@ const app: express.Application = express()
 app.use('/graphql', graphqlRouter)
 app.use('/', staticRouter)
 
+let port: number = 8080
+switch (nodeEnv) {
+    case 'development':
+        port = 8080
+        break
+    default:
+        port = 80
+        break
+}
+
 // Go!
-app.listen(3000, () => {
+app.listen(port, () => {
     // tslint:disable-next-line: no-console
-    console.log(`🤩 Server started at http://localhost:3000`)
+    console.log(`🤩 Server started at http://localhost:${port}`)
 })

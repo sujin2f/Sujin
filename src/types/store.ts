@@ -25,15 +25,5 @@ export type State = {
 }
 
 export type Action = {
-    pageInfo: Partial<{
-        background?: Image
-        backgroundColor: string
-        excerpt: string
-        prefix: string
-        title: string
-        icon?: Image
-        isLoading: boolean
-        currentPage: string
-        wrapperClasses: Partial<WrapperClasses>
-    }>
+    pageInfo: Partial<State>
 } & Type
