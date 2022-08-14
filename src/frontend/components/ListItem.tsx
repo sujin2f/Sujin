@@ -53,7 +53,7 @@ export const ListItem = (props: Props): JSX.Element => {
                                 key={`header-${map.file}`}
                                 media={map.key}
                                 srcSet={map.file}
-                                type={image?.mimeType}
+                                type={image?.mimeType || 'image/jpeg'}
                             />
                         ))}
                         <img

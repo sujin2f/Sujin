@@ -7,13 +7,14 @@ import {
 } from 'src/constants/graphql'
 import { Context, ContextType } from 'src/frontend/store'
 import { setPageInfo } from 'src/frontend/store/actions'
+import { Nullable } from 'src/types/common'
 
-export const usePost = (slug: string) => {
+export const usePost = (slug: Nullable<string>) => {
     const [, dispatch] = useContext(Context) as ContextType
     const { data, loading, error } = useQuery<PostReturnType, PostVariables>(
         GraphQuery.POST,
         {
-            variables: { slug: encodeURIComponent(slug) },
+            variables: { slug: encodeURIComponent(slug || '') },
             skip: !slug,
         },
     )

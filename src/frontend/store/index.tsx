@@ -1,7 +1,7 @@
 /** store */
 import React, { createContext, PropsWithChildren, useReducer } from 'react'
 import { reducer, initialState } from 'src/frontend/store/reducer'
-import type { State } from 'src/types/store'
+import { State } from 'src/types/store'
 
 export const Context = createContext([initialState, null])
 export type ContextType = [State, any]

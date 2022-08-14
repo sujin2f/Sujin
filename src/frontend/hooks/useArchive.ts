@@ -7,11 +7,12 @@ import {
 } from 'src/constants/graphql'
 import { Context, ContextType } from 'src/frontend/store'
 import { setPageInfo } from 'src/frontend/store/actions'
+import { Nullable } from 'src/types/common'
 import { TermTypes } from 'src/types/wordpress'
 
 export const useArchive = (
-    type: TermTypes,
-    slug: string,
+    type: Nullable<keyof typeof TermTypes>,
+    slug: Nullable<string>,
     page: number,
     updateHeader = false,
 ) => {
@@ -20,7 +21,11 @@ export const useArchive = (
         ArchiveReturnType,
         ArchiveVariables
     >(GraphQuery.ARCHIVE, {
-        variables: { type, slug: encodeURIComponent(slug), page },
+        variables: {
+            type: TermTypes[type || 'category'],
+            slug: encodeURIComponent(slug || ''),
+            page,
+        },
     })
     const archive = data && data.archive
 

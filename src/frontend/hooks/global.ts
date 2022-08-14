@@ -1,9 +1,5 @@
 import { useContext, useEffect, useRef } from 'react'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { RefObject } from 'react'
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { WrapperClasses } from 'src/types/store'
+import { WrapperClasses } from 'src/types/store'
 import { TOP_MENU_SCROLLED_POSITION } from 'src/frontend/constants/common'
 import { Context, ContextType } from 'src/frontend/store'
 import { setPageInfo } from 'src/frontend/store/actions'

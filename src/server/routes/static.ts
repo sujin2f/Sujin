@@ -22,7 +22,7 @@ const staticRouter = express.Router()
  * WP content
  */
 staticRouter.get('/wp-content(/*)', (req, res) => {
-    const html = path.join(__dirname, '../../../../', req.url)
+    const html = path.join(__dirname, '../', '../', '../', '../', req.url)
     res.sendFile(html)
 })
 

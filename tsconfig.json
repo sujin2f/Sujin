@@ -15,11 +15,6 @@
         "paths": {
             "src/*": ["src/*"]
         },
-        "plugins": [
-            {
-                "transform": "@zerollup/ts-transform-paths"
-            }
-        ],
         "esModuleInterop": true,
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,

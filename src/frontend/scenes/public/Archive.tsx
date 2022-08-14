@@ -16,7 +16,7 @@ export const Archive = (): JSX.Element => {
         page: string
     }>()
     const { archive, loading, error } = useArchive(
-        TermTypes[type],
+        type,
         slug,
         parseInt(page || '1', 10),
         true,
@@ -50,7 +50,7 @@ export const Archive = (): JSX.Element => {
                     {archive!.posts.length > 0 && (
                         <Paging
                             totalPages={archive?.pages || 0}
-                            currentPage={parseInt(page, 10) || 1}
+                            currentPage={parseInt(page || '0', 10) || 1}
                             urlPrefix={`/${type}/${slug}`}
                         />
                     )}
