@@ -1,4 +1,8 @@
 {
+    "ts-node": {
+        "files": true
+    },
+    "files": ["src/server/index.ts", "src/global.d.ts"],
     "compilerOptions": {
         "target": "es2018",
         "module": "commonjs",

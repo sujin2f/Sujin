@@ -1,4 +1,4 @@
-import { Action, State } from 'src/types'
+import { Action, State } from 'src/types/store'
 export const SET_PAGE_INFO = 'sujin/v1/SET_PAGE_HEADER'
 
 /**

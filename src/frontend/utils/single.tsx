@@ -1,12 +1,13 @@
 import React from 'react'
 
 import DEFAULT_BACKGROUND from 'src/assets/images/thumbnail.svg'
-import { Gist, TweetEmbed, AboutItem, Carousel } from 'src/frontend/components'
-import {
-    CaseTool,
-    SymbolAlignment,
-    TextSort,
-} from 'src/frontend/components/dev-tool'
+import { Gist } from 'src/frontend/components/Gist'
+import { TweetEmbed } from 'src/frontend/components/TweetEmbed'
+import { AboutItem } from 'src/frontend/components/AboutItem'
+import { Carousel } from 'src/frontend/components/Carousel'
+import { CaseTool } from 'src/frontend/components/dev-tool/CaseTool'
+import { SymbolAlignment } from 'src/frontend/components/dev-tool/SymbolAlignment'
+import { TextSort } from 'src/frontend/components/dev-tool/TextSort'
 
 interface UrlArgs {
     [key: string]: string

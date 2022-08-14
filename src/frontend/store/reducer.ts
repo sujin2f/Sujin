@@ -1,6 +1,6 @@
 import { SET_PAGE_INFO } from 'src/frontend/store/actions'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Action, State } from 'src/types'
+import { Action, State } from 'src/types/store'
 
 export const initialState: State = {
     background: undefined,

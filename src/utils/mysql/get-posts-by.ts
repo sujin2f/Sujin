@@ -1,8 +1,12 @@
-import { MySQLQuery, CacheKeys, PostType, ErrorMessage } from 'src/constants'
-import { PER_PAGE } from 'src/constants'
-import { Post, Term, ImageKeys, Image } from 'src/types'
-import { TermTypes } from 'src/types'
-import { dateToPrettyUrl, cached, mysql, autop } from 'src/utils'
+import { CacheKeys } from 'src/constants/cache-keys'
+import { ErrorMessage } from 'src/constants/errors'
+import { MySQLQuery, PER_PAGE } from 'src/constants/mysql-query'
+import { PostType } from 'src/constants/wp'
+import { Post, Term, ImageKeys, Image, TermTypes } from 'src/types/wordpress'
+import { dateToPrettyUrl } from 'src/utils/common'
+import { autop } from 'src/utils/wp-content'
+import { cached } from 'src/utils/node-cache'
+import { mysql } from 'src/utils/mysql/mysqld'
 import { getPostMeta } from 'src/utils/mysql/get-post-meta'
 import { getTaxonomies } from 'src/utils/mysql/get-taxonomies'
 import { getAttachment } from 'src/utils/mysql/get-attachment'
@@ -59,7 +63,7 @@ export const getPostsBy = async (
     // Caching
     const cacheKey = `${CacheKeys.POST}-${key}-${value}-${page}-${ignoreStatus}`
     const cache = cached.get<Post[]>(cacheKey)
-    if (cache && process.env.USE_CACHE) {
+    if (cache && process.env.MYSQL_CACHE_TTL) {
         if (cache === []) {
             throw new Error(ErrorMessage.POST_NOT_FOUND)
         }

@@ -5,15 +5,17 @@
 
 import React, { Fragment } from 'react'
 
-import { Link } from 'src/frontend/components'
+import { Link } from 'src/frontend/components/Link'
+import { useGlobalState } from 'src/frontend/hooks/global'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { MenuItem as MenuItemType } from 'src/types'
+import type { MenuItem as MenuItemType } from 'src/types/wordpress'
 
 interface Props {
     menuItem: MenuItemType
 }
 
 export const MenuItem = (props: Props): JSX.Element => {
+    const { setWrapperClass } = useGlobalState()
     const {
         menuItem: { target, link, htmlClass, title },
     } = props
@@ -38,6 +40,11 @@ export const MenuItem = (props: Props): JSX.Element => {
                     className={`${
                         htmlClass ? htmlClass.join(' ') : ''
                     } menu__item__link`}
+                    onClick={() =>
+                        setWrapperClass({
+                            'wrapper--mobile-menu': false,
+                        })
+                    }
                 >
                     {title}
                 </Link>

@@ -1,14 +1,16 @@
-import { CacheKeys, ErrorMessage, MySQLQuery } from 'src/constants'
-import { Post } from 'src/types'
-import { dateToPrettyUrl } from '../common'
-import { cached } from '../node-cache'
-import { getPostImages } from './get-posts-by'
-import { mysql } from './mysqld'
+import { CacheKeys } from 'src/constants/cache-keys'
+import { ErrorMessage } from 'src/constants/errors'
+import { MySQLQuery } from 'src/constants/mysql-query'
+import { Post } from 'src/types/wordpress'
+import { dateToPrettyUrl } from 'src/utils/common'
+import { getPostImages } from 'src/utils/mysql/get-posts-by'
+import { cached } from 'src/utils/node-cache'
+import { mysql } from 'src/utils/mysql/mysqld'
 
 export const getRelatedPost = async (post: Post): Promise<Post[]> => {
     const cacheKey = `${CacheKeys.RELATED}-${post.id}`
     const cache = cached.get<Post[]>(cacheKey)
-    if (cache && process.env.USE_CACHE) {
+    if (cache && process.env.MYSQL_CACHE_TTL) {
         return cache
     }
 

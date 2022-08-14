@@ -2,7 +2,7 @@ import express from 'express'
 import { graphqlHTTP } from 'express-graphql'
 import { buildSchema } from 'graphql'
 
-import { graphqlSchema } from 'src/constants'
+import { graphqlSchema } from 'src/constants/graphql'
 
 import { backgrounds } from 'src/utils/graphql/backgrounds'
 import { menu } from 'src/utils/graphql/menu'

@@ -2,18 +2,17 @@ import React, { Fragment } from 'react'
 import { useParams } from 'react-router-dom'
 import DEFAULT_BG from 'src/assets/images/thumbnail.svg'
 
-import {
-    Content,
-    PrevNext,
-    RecentPosts,
-    RelatedPosts,
-    SocialShare,
-    Tags,
-} from 'src/frontend/components'
+import { Content } from 'src/frontend/components/Content'
+import { PrevNext } from 'src/frontend/components/PrevNext'
+import { RecentPosts } from 'src/frontend/components/RecentPosts'
+import { RelatedPosts } from 'src/frontend/components/RelatedPosts'
+import { SocialShare } from 'src/frontend/components/SocialShare'
+import { Tags } from 'src/frontend/components/Tags'
 import { GoogleAdvert } from 'src/frontend/components/widget'
 import { NotFound } from 'src/frontend/scenes/public'
 import { usePost } from 'src/frontend/hooks/usePost'
-import { Column, Row } from 'src/common'
+import { Column } from 'src/common/components/layout/Column'
+import { Row } from 'src/common/components/layout/Row'
 
 export const Post = (): JSX.Element => {
     const { slug } = useParams<{ slug: string }>()

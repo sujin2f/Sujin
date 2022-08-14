@@ -1,7 +1,8 @@
-import { MySQLQuery, CacheKeys } from 'src/constants'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { Nullable } from 'src/types'
-import { cached, mysql } from 'src/utils'
+import { CacheKeys } from 'src/constants/cache-keys'
+import { MySQLQuery } from 'src/constants/mysql-query'
+import { Nullable } from 'src/types/common'
+import { cached } from 'src/utils/node-cache'
+import { mysql } from 'src/utils/mysql/mysqld'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const PHPUnserialize = require('php-unserialize')
@@ -21,7 +22,7 @@ export const getOption = async <T>(
     const cache = cached.get<Nullable<T>>(
         `${CacheKeys.OPTION}-${optionName}-${key}`,
     )
-    if (cache && process.env.USE_CACHE) {
+    if (cache && process.env.MYSQL_CACHE_TTL) {
         return cache
     }
 

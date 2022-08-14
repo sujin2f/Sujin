@@ -1,6 +1,6 @@
-import { addZero } from 'src/common'
-import { imageSizeMap, ImageType } from 'src/constants'
-import { ImageSizes } from 'src/types'
+import { addZero } from 'src/common/utils/datetime'
+import { imageSizeMap, ImageType } from 'src/constants/wp'
+import { ImageSizes } from 'src/types/wordpress'
 
 /**
  * Making a formatted string

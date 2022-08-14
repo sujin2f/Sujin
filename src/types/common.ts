@@ -10,4 +10,5 @@ export type GlobalVariable = {
     frontend?: string
     adClient?: string
     adSlot?: string
+    isProd?: boolean
 }

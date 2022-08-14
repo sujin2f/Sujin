@@ -1,6 +1,8 @@
-import { MySQLQuery, ErrorMessage } from 'src/constants'
-import { TagCloud } from 'src/types'
-import { cached, mysql } from 'src/utils'
+import { MySQLQuery } from 'src/constants/mysql-query'
+import { ErrorMessage } from 'src/constants/errors'
+import { TagCloud } from 'src/types/wordpress'
+import { cached } from 'src/utils/node-cache'
+import { mysql } from 'src/utils/mysql/mysqld'
 
 /**
  * Get all post meta
@@ -10,7 +12,7 @@ import { cached, mysql } from 'src/utils'
  */
 export const tagCloud = async (): Promise<TagCloud[]> => {
     const cache = cached.get<TagCloud[]>('tag-cloud')
-    if (cache && process.env.USE_CACHE) {
+    if (cache && process.env.MYSQL_CACHE_TTL) {
         return cache
     }
 

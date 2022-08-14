@@ -1,7 +1,8 @@
-import { MetaKeys, CacheKeys, ErrorMessage } from 'src/constants'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { Image, ImageSizes } from 'src/types'
-import { cached } from 'src/utils'
+import { CacheKeys } from 'src/constants/cache-keys'
+import { ErrorMessage } from 'src/constants/errors'
+import { MetaKeys } from 'src/constants/mysql-query'
+import { Image, ImageSizes } from 'src/types/wordpress'
+import { cached } from 'src/utils/node-cache'
 import { getPostsBy } from 'src/utils/mysql/get-posts-by'
 import { getPostMeta } from 'src/utils/mysql/get-post-meta'
 
@@ -18,7 +19,7 @@ export const getAttachment = async (postId: number): Promise<Image> => {
     // Caching
     const cacheKey = `${CacheKeys.ATTACHMENT}-${postId}`
     const cache = cached.get<Image | string>(cacheKey)
-    if (cache && process.env.USE_CACHE) {
+    if (cache && process.env.MYSQL_CACHE_TTL) {
         if (typeof cache === 'string') {
             throw new Error(ErrorMessage.ATTACHMENT_NOT_FOUND)
         }
@@ -49,9 +50,9 @@ export const getAttachment = async (postId: number): Promise<Image> => {
             const path = sizeUrl.pathname.split('/')
             path.pop()
 
-            const file = `${sizeUrl.origin}/${path.join('/')}/${
-                meta.sizes[sizeKey].file
-            }`
+            const file = `${sizeUrl.origin}/${path
+                .filter((v) => v)
+                .join('/')}/${meta.sizes[sizeKey].file}`
             sizes.push({
                 key: sizeKey,
                 file,

@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 
-import { Link } from 'src/frontend/components'
-import { Post } from 'src/types'
+import { Link } from 'src/frontend/components/Link'
+import { Post } from 'src/types/wordpress'
 
 interface Props {
     prevNext?: {

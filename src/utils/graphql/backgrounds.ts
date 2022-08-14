@@ -1,4 +1,4 @@
-import type { Image } from 'src/types'
+import { Image } from 'src/types/wordpress'
 import { getBackgrounds } from 'src/utils/mysql/get-backgrounds'
 
 export const backgrounds = async (): Promise<Image[]> => {

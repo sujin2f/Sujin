@@ -8,13 +8,23 @@ import path from 'path'
 import ejs from 'ejs'
 import { pathToRegexp } from 'path-to-regexp'
 
-import { GlobalVariable, TermTypes } from 'src/types'
-import { CacheKeys } from 'src/constants'
-import { bundles, publicDir, baseDir, cached } from 'src/utils'
+import { GlobalVariable } from 'src/types/common'
+import { TermTypes } from 'src/types/wordpress'
+import { CacheKeys } from 'src/constants/cache-keys'
+import { bundles, publicDir, baseDir } from 'src/utils/environment'
+import { cached } from 'src/utils/node-cache'
 import { getPost } from 'src/utils/mysql/get-posts-by'
 import { getTermBy } from 'src/utils/mysql/get-term-by'
 
 const staticRouter = express.Router()
+
+/**
+ * WP content
+ */
+staticRouter.get('/wp-content(/*)', (req, res) => {
+    const html = path.join(__dirname, '../../../../', req.url)
+    res.sendFile(html)
+})
 
 /**
  * Assets
@@ -40,7 +50,9 @@ const getTitleExcerpt = async (
         process.env.EXCERPT || '',
         '/thumbnail.png',
     ]
-
+    if (req.url === '/') {
+        return defaultValue
+    }
     const regexPost = pathToRegexp(
         '/:year([0-9]+)/:month([0-9]+)/:day([0-9]+)/:slug',
         [],
@@ -88,7 +100,7 @@ const getTitleExcerpt = async (
 
 const getGlobalVariable = async (req: Request): Promise<GlobalVariable> => {
     const cache = cached.get<GlobalVariable>(CacheKeys.GLOBAL_VARS)
-    if (cache && process.env.USE_CACHE) {
+    if (cache && process.env.MYSQL_CACHE_TTL) {
         return cache
     }
 
@@ -102,6 +114,7 @@ const getGlobalVariable = async (req: Request): Promise<GlobalVariable> => {
         frontend: process.env.FRONTEND,
         adClient: process.env.GOOGLE_AD_CLIENT,
         adSlot: process.env.GOOGLE_AD_SLOT,
+        isProd: process.env.NODE_ENV === 'production',
     }
 
     cached.set<GlobalVariable>(CacheKeys.GLOBAL_VARS, globalVariable)

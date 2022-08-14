@@ -15,6 +15,29 @@
         <meta property="og:title" content="<%= title %>" />
         <meta property="og:url" content="<%= url %>" />
         <meta property="og:image" content="<%= image %>" />
+
+        <% if (isProd) { %>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=UA-37266518-1"
+        ></script>
+        <script>
+            window.dataLayer = window.dataLayer || []
+            function gtag() {
+                dataLayer.push(arguments)
+            }
+            gtag('js', new Date())
+
+            gtag('config', 'UA-37266518-1')
+        </script>
+        <script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<%= adClient %>"
+            crossorigin="anonymous"
+        ></script>
+        <% } %>
+
         <script>
             var globalVariable = {
                 title: '<%= title %>',
@@ -28,7 +51,7 @@
     <body>
         <noscript>You need to enable JavaScript to run this app.</noscript>
         <div id="root" role="main"></div>
-        <% js.forEach(function(bundle){ %>
+        <% js.forEach(function(bundle) { %>
         <script src="/<%= bundle %>"></script>
         <% }); %>
     </body>

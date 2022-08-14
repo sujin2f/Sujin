@@ -1,5 +1,6 @@
 import React from 'react'
-import { Column, Row } from 'src/common'
+import { Column } from 'src/common/components/layout/Column'
+import { Row } from 'src/common/components/layout/Row'
 import { useFlickr } from 'src/frontend/hooks/useFlickr'
 
 export const Flickr = (): JSX.Element => {

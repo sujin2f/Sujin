@@ -5,7 +5,7 @@
 
 import React, { Fragment, useState } from 'react'
 
-import { Link } from 'src/frontend/components'
+import { Link } from 'src/frontend/components/Link'
 import { sortText } from 'src/frontend/utils/dev-tools'
 
 export const TextSort = (): JSX.Element => {

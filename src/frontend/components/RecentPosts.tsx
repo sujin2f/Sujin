@@ -1,8 +1,8 @@
 /** components/widgets/RecentPosts */
 import React, { Fragment } from 'react'
 
-import { ListItem } from 'src/frontend/components'
-import { Post, TermTypes } from 'src/types'
+import { ListItem } from 'src/frontend/components/ListItem'
+import { Post, TermTypes } from 'src/types/wordpress'
 import { useArchive } from '../hooks/useArchive'
 
 export const RecentPosts = (): JSX.Element => {
@@ -17,13 +17,12 @@ export const RecentPosts = (): JSX.Element => {
     }
 
     return (
-        <section className="widget recent-posts row">
+        <section className="widget recent-posts show-for-large-only">
             {archive!.posts &&
                 archive!.posts &&
                 archive!.posts.map((item: Post) => (
                     <ListItem
                         key={`recent-post-id-${item.slug}`}
-                        className="column small-12 medium-6 large-12"
                         item={item}
                         thumbnailKey={{ desktop: 'small', mobile: 'small' }}
                     />

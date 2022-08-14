@@ -1,8 +1,9 @@
 import React from 'react'
-import { Column, Row } from 'src/common'
-import { MenuNames } from 'src/constants'
+import { Column } from 'src/common/components/layout/Column'
+import { Row } from 'src/common/components/layout/Row'
+import { MenuNames } from 'src/constants/mysql-query'
 
-import { Link } from 'src/frontend/components'
+import { Link } from 'src/frontend/components/Link'
 import { Menu } from './Menu'
 
 export const FooterBottom = (): JSX.Element => {

@@ -1,12 +1,10 @@
-import {
-    MySQLQuery,
-    CacheKeys,
-    MetaKeys,
-    MenuItemTypes,
-    ErrorMessage,
-} from 'src/constants'
-import type { MenuItem, Post, Term } from 'src/types'
-import { mysql, cached } from 'src/utils'
+import { CacheKeys } from 'src/constants/cache-keys'
+import { ErrorMessage } from 'src/constants/errors'
+import { MySQLQuery } from 'src/constants/mysql-query'
+import { MenuItemTypes, MetaKeys } from 'src/constants/mysql-query'
+import { MenuItem, Post, Term } from 'src/types/wordpress'
+import { cached } from 'src/utils/node-cache'
+import { mysql } from 'src/utils/mysql/mysqld'
 import { getPostsBy } from 'src/utils/mysql/get-posts-by'
 import { getAllPostMeta } from 'src/utils/mysql/get-all-post-meta'
 
@@ -93,7 +91,7 @@ export const getMenu = async (slug: string): Promise<MenuItem[]> => {
     // Caching
     const cacheKey = `${CacheKeys.MENU}-${slug}`
     const cache = cached.get<MenuItem[]>(cacheKey)
-    if (cache && process.env.USE_CACHE) {
+    if (cache && process.env.MYSQL_CACHE_TTL) {
         return cache
     }
 

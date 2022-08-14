@@ -1,8 +1,11 @@
-import { CacheKeys, ErrorMessage, MySQLQuery } from 'src/constants'
-import { Nullable, Post } from 'src/types'
-import { dateToPrettyUrl } from '../common'
-import { cached } from '../node-cache'
-import { mysql } from './mysqld'
+import { CacheKeys } from 'src/constants/cache-keys'
+import { ErrorMessage } from 'src/constants/errors'
+import { MySQLQuery } from 'src/constants/mysql-query'
+import { Nullable } from 'src/types/common'
+import { Post } from 'src/types/wordpress'
+import { dateToPrettyUrl } from 'src/utils/common'
+import { cached } from 'src/utils/node-cache'
+import { mysql } from 'src/utils/mysql/mysqld'
 
 export const getAdjacentPost = async (
     post: Post,
@@ -10,7 +13,7 @@ export const getAdjacentPost = async (
 ): Promise<Nullable<Post>> => {
     const cacheKey = `${CacheKeys.ADJACENT}-${post.id}-${previous}`
     const cache = cached.get<Nullable<Post>>(cacheKey)
-    if (cache && process.env.USE_CACHE) {
+    if (cache && process.env.MYSQL_CACHE_TTL) {
         return cache
     }
 

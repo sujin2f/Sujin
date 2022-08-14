@@ -7,7 +7,7 @@ import {
 } from 'src/constants/graphql'
 import { Context, ContextType } from 'src/frontend/store'
 import { setPageInfo } from 'src/frontend/store/actions'
-import { TermTypes } from 'src/types'
+import { TermTypes } from 'src/types/wordpress'
 
 export const useArchive = (
     type: TermTypes,

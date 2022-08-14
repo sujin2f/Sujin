@@ -1,11 +1,13 @@
 import React, { Fragment } from 'react'
 import { useParams } from 'react-router-dom'
-import { Row, Column } from 'src/common'
+import { Column } from 'src/common/components/layout/Column'
+import { Row } from 'src/common/components/layout/Row'
 
-import { ListItem, Paging } from 'src/frontend/components'
+import { ListItem } from 'src/frontend/components/ListItem'
+import { Paging } from 'src/frontend/components/Paging'
 import { NotFound } from 'src/frontend/scenes/public'
 import { useArchive } from 'src/frontend/hooks/useArchive'
-import { Post as PostType, TermTypes } from 'src/types'
+import { Post as PostType, TermTypes } from 'src/types/wordpress'
 
 export const Archive = (): JSX.Element => {
     const { type, slug, page } = useParams<{

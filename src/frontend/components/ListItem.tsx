@@ -1,11 +1,12 @@
 import React from 'react'
-import { ImageType } from 'src/constants'
+import { ImageType } from 'src/constants/wp'
 import DEFAULT_BG from 'src/assets/images/thumbnail.svg'
 
-import { Link, Tags } from 'src/frontend/components'
-import { Post } from 'src/types'
-import { getImageMap } from 'src/utils'
-import { getShortMonthName } from 'src/common'
+import { Link } from 'src/frontend/components/Link'
+import { Tags } from 'src/frontend/components/Tags'
+import { Post } from 'src/types/wordpress'
+import { getImageMap } from 'src/utils/common'
+import { getShortMonthName } from 'src/common/utils/datetime'
 
 interface Props {
     item: Post

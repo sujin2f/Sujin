@@ -1,9 +1,12 @@
 import React, { Fragment } from 'react'
 import { useParams } from 'react-router-dom'
 import DEFAULT_BG from 'src/assets/images/thumbnail.svg'
-import { Column, Row } from 'src/common'
+import { Column } from 'src/common/components/layout/Column'
+import { Row } from 'src/common/components/layout/Row'
 
-import { Tags, Content, SocialShare } from 'src/frontend/components'
+import { Tags } from 'src/frontend/components/Tags'
+import { Content } from 'src/frontend/components/Content'
+import { SocialShare } from 'src/frontend/components/SocialShare'
 import { usePost } from 'src/frontend/hooks/usePost'
 import { NotFound } from 'src/frontend/scenes/public'
 

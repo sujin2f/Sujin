@@ -1,5 +1,7 @@
 import React, { PropsWithChildren } from 'react'
-import { Footer, FixedHeader, Banner } from 'src/frontend/components/layout'
+import { Banner } from 'src/frontend/components/layout/Banner'
+import { FixedHeader } from 'src/frontend/components/layout/FixedHeader'
+import { Footer } from 'src/frontend/components/layout/Footer'
 import { useGlobalState } from 'src/frontend/hooks/global'
 
 export const Public = (props: PropsWithChildren<{}>): JSX.Element => {

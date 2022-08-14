@@ -5,8 +5,8 @@
  */
 
 import { formatDate } from 'src/common/utils/datetime'
-import { Post } from 'src/types'
-import { format } from 'src/utils'
+import { Post } from 'src/types/wordpress'
+import { format } from 'src/utils/common'
 
 const POST_FIELDS = `
     posts.ID AS id,
@@ -160,12 +160,13 @@ const GET_ADJACENT_POST = `
         INNER JOIN wp_term_relationships AS relationship ON posts.ID = relationship.object_id
         INNER JOIN wp_term_taxonomy taxonomy ON relationship.term_taxonomy_id = taxonomy.term_taxonomy_id
     WHERE
-        posts.post_date {0} "{1}" AND
+        posts.ID <> {0} AND
+        posts.post_date {1} "{2}" AND
         posts.post_type = "post" AND
         taxonomy.taxonomy = "category" AND
-        taxonomy.term_id IN ("{2}") AND
+        taxonomy.term_id IN ("{3}") AND
         posts.post_status = "publish"
-    ORDER BY posts.post_date {3} LIMIT 1
+    ORDER BY posts.post_date {4} LIMIT 1
 `
 
 const GET_RELATED_POST = `
@@ -225,6 +226,7 @@ export const MySQLQuery = {
         const termId = post.categories.map((category) => category.id)
         return format(
             GET_ADJACENT_POST,
+            post.id,
             comparison,
             formatDate(post.date),
             termId.join(','),

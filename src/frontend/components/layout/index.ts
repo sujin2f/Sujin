@@ -1,6 +1,0 @@
-export { Banner } from './Banner'
-export { FixedHeader } from './FixedHeader'
-export { Footer } from './Footer'
-export { FooterBottom } from './FooterBottom'
-export { Menu } from './Menu'
-export { MenuItem } from './MenuItem'

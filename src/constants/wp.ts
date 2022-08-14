@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { Post } from 'src/types'
+import type { Post } from 'src/types/wordpress'
 
 export enum PostType {
     POST = 'post',
@@ -23,7 +23,7 @@ export const imageSizeMap: {
     }
 } = {
     [ImageType.HEADER]: {
-        medium: '(max-width: 480px)',
+        // medium: '(max-width: 480px)',
         medium_large: '(max-width: 768px)',
         large: '(max-width: 1024px)',
     },

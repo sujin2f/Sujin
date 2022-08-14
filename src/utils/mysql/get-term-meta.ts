@@ -1,5 +1,8 @@
-import { CacheKeys, ErrorMessage, MySQLQuery } from 'src/constants'
-import { cached, mysql } from 'src/utils'
+import { CacheKeys } from 'src/constants/cache-keys'
+import { ErrorMessage } from 'src/constants/errors'
+import { MySQLQuery } from 'src/constants/mysql-query'
+import { cached } from 'src/utils/node-cache'
+import { mysql } from 'src/utils/mysql/mysqld'
 
 /**
  * Get Term from ID
@@ -13,7 +16,7 @@ export const getTermMeta = async <T = string>(
 ): Promise<T> => {
     const cacheKey = `${CacheKeys.TERM}-meta-${id}-${metaKey}`
     const cache = cached.get<T | string>(cacheKey)
-    if (cache && process.env.USE_CACHE) {
+    if (cache && process.env.MYSQL_CACHE_TTL) {
         if (cache === 'NOT_FOUND') {
             throw new Error(ErrorMessage.TERM_META_NOT_FOUND)
         }

@@ -1,6 +1,9 @@
-import { MySQLQuery, CacheKeys, ErrorMessage } from 'src/constants'
-import { Image, Post } from 'src/types'
-import { cached, mysql } from 'src/utils'
+import { CacheKeys } from 'src/constants/cache-keys'
+import { ErrorMessage } from 'src/constants/errors'
+import { MySQLQuery } from 'src/constants/mysql-query'
+import { Image, Post } from 'src/types/wordpress'
+import { cached } from 'src/utils/node-cache'
+import { mysql } from 'src/utils/mysql/mysqld'
 import { getAttachment } from 'src/utils/mysql/get-attachment'
 
 /**
@@ -11,7 +14,7 @@ import { getAttachment } from 'src/utils/mysql/get-attachment'
  */
 export const getBackgrounds = async (): Promise<Image[]> => {
     const cache = cached.get<Image[]>(CacheKeys.BACKGROUND)
-    if (cache && process.env.USE_CACHE) {
+    if (cache && process.env.MYSQL_CACHE_TTL) {
         return cache
     }
 

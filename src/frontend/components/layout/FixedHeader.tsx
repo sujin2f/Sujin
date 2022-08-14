@@ -1,10 +1,12 @@
 import React from 'react'
 
-import { Link, Search } from 'src/frontend/components'
-import { MenuNames } from 'src/constants'
+import { Link } from 'src/frontend/components/Link'
+import { Search } from 'src/frontend/components/Search'
+import { MenuNames } from 'src/constants/mysql-query'
 import { useGlobalState } from 'src/frontend/hooks/global'
 import { Menu } from './Menu'
-import { Column, Row } from 'src/common'
+import { Column } from 'src/common/components/layout/Column'
+import { Row } from 'src/common/components/layout/Row'
 
 export const FixedHeader = (): JSX.Element => {
     const { wrapperClasses, setWrapperClass } = useGlobalState()

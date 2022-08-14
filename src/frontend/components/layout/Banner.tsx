@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react'
-import { ImageType } from 'src/constants'
+import { ImageType } from 'src/constants/wp'
 import { MenuNames } from 'src/constants/mysql-query'
 
-import { Loading } from 'src/frontend/components'
-import { getImageMap } from 'src/utils'
+import { Loading } from 'src/frontend/components/Loading'
+import { getImageMap } from 'src/utils/common'
 import { useGlobalState } from 'src/frontend/hooks/global'
 import { Menu } from './Menu'
 

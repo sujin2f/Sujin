@@ -1,7 +1,11 @@
-import { CacheKeys, ErrorMessage, MySQLQuery, PER_PAGE } from 'src/constants'
-import { Image, Nullable, Term } from 'src/types'
-import { TermTypes } from 'src/types'
-import { cached, mysql } from 'src/utils'
+import { CacheKeys } from 'src/constants/cache-keys'
+import { ErrorMessage } from 'src/constants/errors'
+import { MySQLQuery, PER_PAGE } from 'src/constants/mysql-query'
+import { Image, Term } from 'src/types/wordpress'
+import { Nullable } from 'src/types/common'
+import { TermTypes } from 'src/types/wordpress'
+import { cached } from 'src/utils/node-cache'
+import { mysql } from 'src/utils/mysql/mysqld'
 import { getPostsBy } from 'src/utils/mysql/get-posts-by'
 import { getTermMeta } from 'src/utils/mysql/get-term-meta'
 import { getAttachment } from 'src/utils/mysql/get-attachment'
@@ -21,7 +25,7 @@ export const getTermBy = async (
     // Caching
     const cacheKey = `${CacheKeys.TERM}-${type}-${slug}-${page}`
     const cache = cached.get<Term | string>(cacheKey)
-    if (cache && process.env.USE_CACHE) {
+    if (cache && process.env.MYSQL_CACHE_TTL) {
         if (typeof cache === 'string') {
             throw new Error(ErrorMessage.TERM_NOT_FOUND)
         }

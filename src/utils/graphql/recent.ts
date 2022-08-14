@@ -1,4 +1,4 @@
-import { TermTypes } from 'src/types'
+import { TermTypes } from 'src/types/wordpress'
 import { getPostsBy } from '../mysql/get-posts-by'
 
 export const recent = async () => {

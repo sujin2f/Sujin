@@ -1,7 +1,8 @@
 import React, { Fragment, useState, useRef } from 'react'
-import { Column, Row } from 'src/common'
+import { Column } from 'src/common/components/layout/Column'
+import { Row } from 'src/common/components/layout/Row'
 
-import { Link } from 'src/frontend/components'
+import { Link } from 'src/frontend/components/Link'
 import {
     preserveCase,
     camelCase,

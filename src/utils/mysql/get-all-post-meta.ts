@@ -1,5 +1,7 @@
-import { MySQLQuery, CacheKeys } from 'src/constants'
-import { cached, mysql } from 'src/utils'
+import { CacheKeys } from 'src/constants/cache-keys'
+import { MySQLQuery } from 'src/constants/mysql-query'
+import { cached } from 'src/utils/node-cache'
+import { mysql } from 'src/utils/mysql/mysqld'
 
 type PostMeta = {
     meta_key: string
@@ -15,7 +17,7 @@ type PostMetas = Record<string, string>
  */
 export const getAllPostMeta = async (postId: number): Promise<PostMetas> => {
     const cache = cached.get<PostMetas>(`${CacheKeys.POST_META}-${postId}`)
-    if (cache && process.env.USE_CACHE) {
+    if (cache && process.env.MYSQL_CACHE_TTL) {
         return cache
     }
     const connection = await mysql().catch((e) => console.error(e))

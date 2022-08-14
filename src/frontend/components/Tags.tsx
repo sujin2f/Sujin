@@ -5,9 +5,9 @@
 
 import React from 'react'
 
-import { Link } from 'src/frontend/components'
+import { Link } from 'src/frontend/components/Link'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { Term } from 'src/types'
+import type { Term } from 'src/types/wordpress'
 
 interface Props {
     items: Term[]

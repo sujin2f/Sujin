@@ -1,13 +1,13 @@
 import { gql } from '@apollo/client'
 import {
-    FlickrImage,
     Image,
     MenuItem,
     Post,
     TagCloud,
     Term,
     TermTypes,
-} from 'src/types'
+} from 'src/types/wordpress'
+import { FlickrImage } from 'src/types/flickr'
 
 export enum Fields {
     BACKGROUNDS = 'backgrounds',
