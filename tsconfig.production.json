@@ -1,0 +1,30 @@
+{
+    "ts-node": {
+        "files": true
+    },
+    "files": ["src/server/index.ts", "src/global.d.ts"],
+    "compilerOptions": {
+        "target": "es2018",
+        "module": "commonjs",
+        "jsx": "react",
+        "outDir": "./.build/production",
+        "removeComments": true,
+        "strict": true,
+        "rootDirs": ["src/server"],
+        "baseUrl": "./",
+        "paths": {
+            "src/*": ["src/*"]
+        },
+        "plugins": [
+            {
+                "transform": "@zerollup/ts-transform-paths"
+            }
+        ],
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "lib": ["dom", "dom.iterable", "esnext"]
+    },
+    "include": ["src/server/**/*"],
+    "exclude": ["node_modules", "**/*.spec.ts"]
+}

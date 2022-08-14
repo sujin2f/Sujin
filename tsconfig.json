@@ -1,26 +1,29 @@
 {
-  "compilerOptions": {
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react",
-    "baseUrl": "src"
-  },
-  "include": [
-    "src"
-  ]
+    "ts-node": {
+        "files": true
+    },
+    "files": ["src/server/index.ts", "src/global.d.ts"],
+    "compilerOptions": {
+        "target": "es2018",
+        "module": "commonjs",
+        "jsx": "react",
+        "outDir": "./.build/development",
+        "removeComments": true,
+        "strict": true,
+        "rootDirs": ["src"],
+        "baseUrl": "./",
+        "paths": {
+            "src/*": ["src/*"]
+        },
+        "plugins": [
+            {
+                "transform": "@zerollup/ts-transform-paths"
+            }
+        ],
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "lib": ["dom", "dom.iterable", "esnext"]
+    },
+    "include": ["src/**/*"]
 }

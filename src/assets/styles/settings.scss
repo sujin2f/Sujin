@@ -1,0 +1,30 @@
+$header-height: 48px;
+
+$body-font-family: 'Ubuntu', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+// Colors
+$foundation-palette: (
+    primary: #970000,
+    secondary: #fee632,
+    success: #3e854d,
+    warning: #ffae00,
+    alert: #ec5840,
+);
+$white: #ffffff;
+$black: #000000;
+$light-gray: #f6f6f6;
+$medium-gray: #ababab;
+$dark-gray: #1a1a1a;
+$primary-dark: darken(map-get($foundation-palette, 'primary'), 15%);
+$primary-black: darken(map-get($foundation-palette, 'primary'), 23%);
+
+$body-background: $light-gray;
+
+$page-header-height: 300px + $header-height;
+$page-header-height-medium: 400px + $header-height;
+$page-header-height-small: 500px + $header-height;
+$search-size: 26px;
+
+$admin-bar-height: 32px;
+$admin-bar-height-mobile: 46px;
+$wp-mobile-screen-width: 782px;

@@ -1,0 +1,89 @@
+// Tags
+html {
+    scroll-behavior: smooth;
+}
+
+html[lang='en-US'],
+body {
+    font-family: $body-font-family;
+    font-size: 100%;
+    font-weight: 300;
+    margin: 0 !important;
+}
+
+body.unicorn {
+    background-image: url('../images/background/unicorn.png');
+    background-size: 3em;
+}
+
+::selection {
+    background-color: map-get($foundation-palette, 'primary');
+    color: $white;
+}
+
+strong {
+    font-weight: 700;
+}
+
+a {
+    color: map-get($foundation-palette, 'primary');
+}
+
+p {
+    line-height: 1.8;
+
+    &:empty {
+        display: none;
+    }
+}
+
+h1 {
+    font-family: $body-font-family;
+    font-weight: 700;
+}
+
+h2 {
+    font-family: $body-font-family;
+    font-size: 20pt;
+    font-weight: 500;
+    letter-spacing: -1.3px;
+}
+
+h3 {
+    font-family: $body-font-family;
+    font-size: 15pt;
+    font-weight: 400;
+    letter-spacing: -0.4px;
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+menu,
+nav,
+section,
+summary {
+    overflow: auto;
+}
+
+button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+dd {
+    margin-bottom: 1em;
+    overflow-wrap: break-word;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}

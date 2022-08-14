@@ -1,0 +1,80 @@
+.widget__heading {
+    border-bottom: 1px solid $medium-gray;
+    font-size: 17pt;
+    margin-bottom: 1em;
+
+    span {
+        background-color: $medium-gray;
+        color: $white;
+        display: inline-block;
+        padding: 0 10px;
+    }
+}
+
+.widget--flickr {
+    .list-item__image {
+        height: auto;
+    }
+}
+
+.widget--flickr__wrapper {
+    padding: 3px;
+
+    .list-item__thumbnail {
+        height: 90px;
+    }
+}
+
+.widget--tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.tag-cloud--size-0 {
+    font-size: 1em;
+}
+.tag-cloud--size-1 {
+    font-size: 1.1em;
+}
+.tag-cloud--size-2 {
+    font-size: 1.2em;
+}
+.tag-cloud--size-3 {
+    font-size: 1.3em;
+}
+.tag-cloud--size-4 {
+    font-size: 1.4em;
+}
+
+.tag-cloud--color-0 {
+    color: rgba(255, 255, 255, 0.7);
+    background-color: transparent;
+}
+.tag-cloud--color-2 {
+    color: $white;
+    background-color: rgba(151, 0, 0, 0.5);
+}
+.tag-cloud--color-3 {
+    color: $white;
+    background-color: rgba(151, 0, 0, 0.7);
+}
+.tag-cloud--color-4 {
+    color: $white;
+    background-color: map-get($foundation-palette, 'primary');
+}
+
+.tag-cloud {
+    border-radius: 5px;
+    color: $white;
+    padding: 0 0.3em;
+    display: block;
+    margin: 0 0.5em 0.5em 0;
+    transition: all 0.5s;
+
+    &:hover {
+        background-color: $white;
+        color: $black;
+    }
+}
