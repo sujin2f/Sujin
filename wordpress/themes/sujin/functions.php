@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
 
-require_once get_stylesheet_directory() . '/wp-express/autoload.php';
+require_once get_stylesheet_directory() . '/vendor/sujin/wp-express/autoload.php';
 
 $class_loader = new Sujin\Wordpress\WP_Express\Autoloader(
 	'Sujin\\Wordpress\\Theme\\Sujin',

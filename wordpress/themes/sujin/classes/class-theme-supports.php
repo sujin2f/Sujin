@@ -79,7 +79,6 @@ class Theme_Supports {
 	 */
 	private function add_theme_support(): void {
 		add_theme_support( 'post-thumbnails' );
-		add_theme_support( 'html5' );
 		add_theme_support( 'widgets' );
 		add_theme_support( 'automatic-feed-links' );
 		add_theme_support( 'title-tag' );
