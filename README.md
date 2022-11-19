@@ -5,6 +5,7 @@
 The Wordpress Theme which frontend is React from the new WP Editor Gutenberg.
 
 ## Tech Stack
+
 1. Language: ES6, Typescript, SASS
 2. Library: React (from WP)
 3. Bundler: Webpack, Babel
@@ -12,6 +13,7 @@ The Wordpress Theme which frontend is React from the new WP Editor Gutenberg.
 5. Test: Jest, PHP Unit
 
 ## Dev Note
+
 To install this theme in dev mode:
 
 ```shell
@@ -36,6 +38,7 @@ npm run schema:build
 ```
 
 ### NPM scripts
+
 ```shell
 # Run NPM
 npm start
@@ -60,10 +63,17 @@ npm run arson
 ```
 
 ### Ignore settings file from your local change
+
 If you want to change for your local environment like password, execute this on your terminal:
+
 ```shell
 git update-index --skip-worktree ./.configs/docker/.env
 ```
 
 ### Install PHP x-debug
+
 Code coverage feature needs to install `x-debug` locally. You may already have PHP 7.x in your local. Unfortunately, `brew` doesn't support `x-debug` installation anymore. You should use `pecl` instead. I followed [this instruction](https://javorszky.co.uk/2018/05/03/getting-xdebug-working-on-php-7-2-and-homebrew/). The version could be different on your local. I removed the symlink of `/usr/local/Cellar/php/7.3.1/pecl`, my PHP configuration is in `/usr/local/etc/php/7.3/conf.d/xdebug.ini`, and the `zend_extension` is `/usr/local/Cellar/php/7.3.1/pecl/20180731/xdebug.so`.
+
+docker run --rm --interactive --tty \
+ --volume $PWD:/app \
+ composer install

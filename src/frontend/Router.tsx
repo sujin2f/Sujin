@@ -23,7 +23,7 @@ export const Router = (): JSX.Element => {
             />
 
             <Route
-                path="/:year([0-9]+)/:month([0-9]+)/:day([0-9]+)/:slug"
+                path="/:year/:month/:day/:slug"
                 element={
                     <Public>
                         <Post />
