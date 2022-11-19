@@ -11,7 +11,7 @@ import { pathToRegexp } from 'path-to-regexp'
 import { GlobalVariable } from 'src/types/common'
 import { TermTypes } from 'src/types/wordpress'
 import { CacheKeys } from 'src/constants/cache-keys'
-import { bundles, publicDir, baseDir } from 'src/utils/environment'
+import { bundles, publicDir, baseDir, rootDir } from 'src/utils/environment'
 import { cached } from 'src/utils/node-cache'
 import { getPost } from 'src/utils/mysql/get-posts-by'
 import { getTermBy } from 'src/utils/mysql/get-term-by'
@@ -22,12 +22,8 @@ const staticRouter = express.Router()
  * WP content
  */
 staticRouter.get('/wp-content(/*)', (req, res) => {
-    // const html = path.join(__dirname, '../', '../', '../', '../', req.url)
     const html = path.join(
-        __dirname,
-        '../',
-        '../',
-        '../',
+        rootDir,
         'wordpress',
         req.url.replace('wp-content', ''),
     )
