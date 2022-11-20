@@ -40,19 +40,6 @@ class Theme_Supports {
 	protected function __construct() {
 		add_action( 'after_setup_theme', array( $this, 'after_setup_theme' ) );
 		add_action( 'init', array( $this, 'register_nav_menu' ) );
-		add_filter( 'option_home', array( $this, 'home_url' ) );
-	}
-
-	/**
-	 * Change the home URL.
-	 *
-	 * @@param  string $home_url Current value.
-	 * @@return string A new value.
-	 *
-	 * @@see https://developer.wordpress.org/reference/hooks/option_option/
-	 */
-	public function home_url( string $home_url ): string {
-		return Environment::get_instance()->frontend ?: $home_url;
 	}
 
 	/**
@@ -80,8 +67,7 @@ class Theme_Supports {
 	private function add_theme_support(): void {
 		add_theme_support( 'post-thumbnails' );
 		add_theme_support( 'widgets' );
-		add_theme_support( 'automatic-feed-links' );
-		add_theme_support( 'title-tag' );
+		add_theme_support( 'title-tag' ); // TODO
 
 		add_post_type_support( 'page', 'excerpt' );
 	}

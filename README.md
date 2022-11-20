@@ -74,6 +74,10 @@ git update-index --skip-worktree ./.configs/docker/.env
 
 Code coverage feature needs to install `x-debug` locally. You may already have PHP 7.x in your local. Unfortunately, `brew` doesn't support `x-debug` installation anymore. You should use `pecl` instead. I followed [this instruction](https://javorszky.co.uk/2018/05/03/getting-xdebug-working-on-php-7-2-and-homebrew/). The version could be different on your local. I removed the symlink of `/usr/local/Cellar/php/7.3.1/pecl`, my PHP configuration is in `/usr/local/etc/php/7.3/conf.d/xdebug.ini`, and the `zend_extension` is `/usr/local/Cellar/php/7.3.1/pecl/20180731/xdebug.so`.
 
-docker run --rm --interactive --tty \
- --volume $PWD:/app \
- composer install
+TODO
+
+docker run --rm --interactive --tty --volume $PWD:/app composer install
+
+- Default image
+- Twitter embed
+- Error handling -- Category not found
