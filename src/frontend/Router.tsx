@@ -23,15 +23,6 @@ export const Router = (): JSX.Element => {
             />
 
             <Route
-                path="/:year/:month/:day/:slug"
-                element={
-                    <Public>
-                        <Post />
-                    </Public>
-                }
-            />
-
-            <Route
                 path="/:slug"
                 element={
                     <Public>
@@ -54,6 +45,15 @@ export const Router = (): JSX.Element => {
                 element={
                     <Public>
                         <Archive />
+                    </Public>
+                }
+            />
+
+            <Route
+                path="/:year/:month/:day/:slug"
+                element={
+                    <Public>
+                        <Post />
                     </Public>
                 }
             />
