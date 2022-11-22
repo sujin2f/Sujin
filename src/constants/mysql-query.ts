@@ -75,7 +75,6 @@ const GET_TERM_BY = `
     INNER JOIN wp_terms AS terms
         ON terms.term_id = taxonomy.term_id
     WHERE {0}="{1}" AND posts.post_status="publish"
-    GROUP BY type
 `
 
 const GET_TERM_ITEMS = `
