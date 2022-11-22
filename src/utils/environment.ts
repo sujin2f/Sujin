@@ -9,7 +9,7 @@ import fs from 'fs'
  * Get if the current server is development server
  * @return {boolean}
  */
-const rootDir =
+export const rootDir =
     process.env.NODE_ENV === 'development'
         ? path.resolve(__dirname, '../../')
         : path.resolve(__dirname, '../../../')

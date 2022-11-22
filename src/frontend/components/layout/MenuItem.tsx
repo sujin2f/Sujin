@@ -7,8 +7,7 @@ import React, { Fragment } from 'react'
 
 import { Link } from 'src/frontend/components/Link'
 import { useGlobalState } from 'src/frontend/hooks/global'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { MenuItem as MenuItemType } from 'src/types/wordpress'
+import { MenuItem as MenuItemType } from 'src/types/wordpress'
 
 interface Props {
     menuItem: MenuItemType

@@ -23,5 +23,5 @@ yarn-error.log*
 
 # Dev mode
 .backup
-/wordpress/vendor
-/wordpress/wordpress
+/wordpress/uploads/**/*
+/wordpress/themes/sujin/vendor/**/*

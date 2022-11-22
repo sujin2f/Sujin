@@ -1,6 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { Post } from 'src/types/wordpress'
-
 export enum PostType {
     POST = 'post',
     PAGE = 'page',

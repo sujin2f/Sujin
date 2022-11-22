@@ -1,0 +1,52 @@
+version: '3.9'
+services:
+    mysql:
+        container_name: mysql
+        image: mariadb
+        restart: always
+        volumes:
+            - mysql:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: MYSQL_ROOT_PASSWORD
+        ports:
+            - 3306:3306
+    wordpress:
+        container_name: wordpress
+        image: wordpress:latest
+        restart: always
+        environment:
+            WORDPRESS_DB_HOST: host.docker.internal:3306
+            WORDPRESS_DB_NAME: WORDPRESS_DB_NAME
+            WORDPRESS_DB_USER: WORDPRESS_DB_USER
+            WORDPRESS_DB_PASSWORD: WORDPRESS_DB_PASSWORD
+            WORDPRESS_DEBUG: 0
+            TZ: America/Toronto
+        volumes:
+            - ./wordpress/plugins/2d-tag-cloud:/var/www/html/wp-content/plugins/2d-tag-cloud
+            - ./wordpress/uploads:/var/www/html/wp-content/uploads
+            - ./wordpress/themes/sujin:/var/www/html/wp-content/themes/sujin
+        ports:
+            - 80
+        depends_on:
+            - mysql
+    sujin-prod:
+        container_name: sujin-prod
+        image: node:16
+        restart: always
+        volumes:
+            - ./:/home/node/app
+            - ./wordpress/uploads:/home/node/app/wp-content/uploads
+        ports:
+            - 80
+        command: yarn prod:server
+    sujin-stage:
+        container_name: sujin-stage
+        image: node:16
+        restart: always
+            - ./:/home/node/app
+            - ./wordpress/uploads:/home/node/app/wp-content/uploads
+        ports:
+            - 80
+        command: yarn stage:server
+volumes:
+    mysql:

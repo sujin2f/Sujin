@@ -15,6 +15,7 @@ import { Column } from 'src/common/components/layout/Column'
 import { Row } from 'src/common/components/layout/Row'
 
 export const Post = (): JSX.Element => {
+    console.log('Post')
     const { slug } = useParams<{ slug: string }>()
     const { post, error, loading } = usePost(slug)
 

@@ -2,15 +2,11 @@
 import React, { Fragment } from 'react'
 
 import { ListItem } from 'src/frontend/components/ListItem'
-import { Post, TermTypes } from 'src/types/wordpress'
+import { Post } from 'src/types/wordpress'
 import { useArchive } from '../hooks/useArchive'
 
 export const RecentPosts = (): JSX.Element => {
-    const { archive, loading, error } = useArchive(
-        TermTypes.recent_posts,
-        '',
-        0,
-    )
+    const { archive, loading, error } = useArchive('recent_posts', '', 0)
 
     if (loading || error) {
         return <Fragment />

@@ -1,0 +1,45 @@
+#SJ2DTAG #shortcode {font-size:15px;}
+#SJ2DTAG #shortcode .square_bracket,
+#SJ2DTAG #shortcode .option
+{color:#ba4141}
+#SJ2DTAG #shortcode .tag {color:#4157ba}
+#SJ2DTAG #shortcode .option_name {color:#0d520c}
+#SJ2DTAG #shortcode .quot,
+#SJ2DTAG #shortcode .equal
+{color:#888888}
+
+#SJ2DTAG #shortcode ul {margin-left:40px;  list-style-type:disc;}
+#SJ2DTAG #shortcode ul ul {list-style-type:circle; margin-top:5px;}
+
+
+#SJ2DTAG #donation .inside {text-align:center; padding-top:10px;}
+
+#SJ2DTAG #publish #publish .dashicons {line-height:26px;}
+
+#SJ2DTAG .delete_column {color:#cc2e2e; cursor:pointer;}
+
+#SJ2DTAG_tag_config thead th {text-align:center;}
+#SJ2DTAG_tag_config tbody td {text-align:center;}
+
+#SJ2DTAG_tag_config thead th > span {display:inline-block;}
+
+#SJ2DTAG_tag_config .ui-spinner-input {width:50px;}
+#SJ2DTAG_tag_config #steps {width:100px;}
+
+#SJ2DTAG_tag_config input.color_picker {width:70px;}
+#SJ2DTAG_tag_config input.jquery-spinner {width:42px;}
+
+#SJ2DTAG_tags .buttons {margin-top:10px; overflow:auto;}
+#SJ2DTAG_tags .buttons #add_step_next {float:right;}
+#SJ2DTAG_tags .buttons #add_step_prev {float:left;}
+#SJ2DTAG_tags .buttons .button .dashicons {line-height:26px;}
+
+#SJ2DTAG #preview .inside a {display:inline-block;}
+
+.ui-spinner-up {top:0;}
+.ui-spinner-button {cursor:default; display:block; font-size:0.5em; height:50%; margin:0; overflow:hidden; padding:0; position:absolute; right:0; text-align:center; width:16px;}
+.ui-spinner .ui-icon {left:0; margin-top:-8px; position:absolute; top:50%;}
+.ui-icon {height:16px; width:16px; background-repeat:no-repeat; display:block; overflow:hidden;}
+.ui-spinner-button {cursor:default; font-size:0.5em; text-align:center;}
+.ui-spinner {display:inline-block; overflow:hidden; padding:0; position:relative; vertical-align:middle;}
+.ui-spinner-down {bottom:0;}

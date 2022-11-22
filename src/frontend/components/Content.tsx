@@ -6,7 +6,7 @@
 import React, { Fragment, PropsWithChildren } from 'react'
 
 import { parseContent } from 'src/frontend/utils/single'
-import type { Post } from 'src/types/wordpress'
+import { Post } from 'src/types/wordpress'
 
 type Props = {
     post: Post

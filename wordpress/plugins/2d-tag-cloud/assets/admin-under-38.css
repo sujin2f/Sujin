@@ -1,0 +1,3 @@
+#SJ2DTAG_tag_config .delete_column {margin-left:10px;}
+#SJ2DTAG_tag_config .delete_column span:before {content:'X';}
+#SJ2DTAG_tag_config .delete_column span {background-color:#CC2E2E; color:#FFFFFF; padding:3px; border-radius:10px; display:inline-block; width:15px; height:15px;}

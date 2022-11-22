@@ -1,0 +1,34 @@
+{
+    "name": "sujin2f/sujin",
+    "description": "WordPress theme for sujinc.com",
+    "keywords": [
+        "wordpress",
+        "development"
+    ],
+    "homepage": "https://github.com/sujin2f/sujin",
+    "type": "theme",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Sujin 수진 Choi",
+            "email": "sujin.2f@gmail.com",
+            "homepage": "https://sujinc.com",
+            "role": "Developer"
+        }
+    ],
+    "config": {
+        "platform": {
+            "php": "7.1"
+        }
+    },
+    "require": {
+        "php": ">=7.1",
+        "sujin/wp-express": "dev-master"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/sujin2f/sujin/"
+        }
+    ]
+}

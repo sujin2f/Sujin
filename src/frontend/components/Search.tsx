@@ -1,12 +1,12 @@
 import React, { useState, useRef, ChangeEvent, KeyboardEvent } from 'react'
 
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 export const Search = (): JSX.Element => {
     const [opened, setOpened] = useState<boolean>(false)
     const [keyword, setKeyword] = useState<string>('')
     const refTextInput = useRef<HTMLInputElement>(null)
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const handleSubmitSearch = (
         e?: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -26,7 +26,7 @@ export const Search = (): JSX.Element => {
 
         if (keyword) {
             const to = `/search/${keyword}`
-            history.push(to)
+            navigate(to)
             setKeyword('')
         }
     }

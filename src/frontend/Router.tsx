@@ -1,5 +1,5 @@
 import React from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 
 import {
     Public,
@@ -12,45 +12,60 @@ import {
 
 export const Router = (): JSX.Element => {
     return (
-        <Switch>
-            <Route exact={true} path="/">
-                <Public>
-                    <FrontPage />
-                </Public>
-            </Route>
+        <Routes>
+            <Route
+                path="/"
+                element={
+                    <Public>
+                        <FrontPage />
+                    </Public>
+                }
+            />
 
             <Route
-                exact={true}
-                path="/:year([0-9]+)/:month([0-9]+)/:day([0-9]+)/:slug"
-            >
-                <Public>
-                    <Post />
-                </Public>
-            </Route>
+                path="/:year/:month/:day/:slug"
+                element={
+                    <Public>
+                        <Post />
+                    </Public>
+                }
+            />
 
-            <Route exact={true} path="/:slug">
-                <Public>
-                    <Page />
-                </Public>
-            </Route>
+            <Route
+                path="/:slug"
+                element={
+                    <Public>
+                        <Page />
+                    </Public>
+                }
+            />
 
-            <Route exact={true} path="/:type/:slug">
-                <Public>
-                    <Archive />
-                </Public>
-            </Route>
+            <Route
+                path="/:type/:slug"
+                element={
+                    <Public>
+                        <Archive />
+                    </Public>
+                }
+            />
 
-            <Route exact={true} path="/:type/:slug/page/:page?">
-                <Public>
-                    <Archive />
-                </Public>
-            </Route>
+            <Route
+                path="/:type/:slug/page/:page?"
+                element={
+                    <Public>
+                        <Archive />
+                    </Public>
+                }
+            />
 
-            <Route path="*">
-                <Public>
-                    <NotFound />
-                </Public>
-            </Route>
-        </Switch>
+            <Route
+                path="*"
+                element={
+                    <Public>
+                        <NotFound />
+                    </Public>
+                }
+            />
+        </Routes>
     )
 }

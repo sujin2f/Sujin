@@ -1,0 +1,81 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "4bd4db2d818afcc460a9a58875e1a255",
+    "packages": [
+        {
+            "name": "sujin/wp-express",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sujin2f/wp_express.git",
+                "reference": "44eeacf1704d7171829fa92273e60c272e6db35b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sujin2f/wp_express/zipball/44eeacf1704d7171829fa92273e60c272e6db35b",
+                "reference": "44eeacf1704d7171829fa92273e60c272e6db35b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
+                "johnpbloch/wordpress": "5.1.0",
+                "mikey179/vfsstream": "^1.6",
+                "php-coveralls/php-coveralls": "^2.1",
+                "phpcompatibility/php-compatibility": "^9.1",
+                "phpcompatibility/phpcompatibility-wp": "*",
+                "phpunit/phpunit": "^7",
+                "squizlabs/php_codesniffer": "~3",
+                "wp-coding-standards/wpcs": "^1.2",
+                "wp-phpunit/wp-phpunit": "5.1"
+            },
+            "default-branch": true,
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Sujin 수진 Choi",
+                    "email": "sujin.2f@gmail.com",
+                    "homepage": "http://sujinc.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Quick Wordpress Development Module.",
+            "homepage": "https://github.com/sujin2f/wp_express",
+            "keywords": [
+                "development",
+                "wordpress"
+            ],
+            "support": {
+                "issues": "https://github.com/sujin2f/wp_express/issues",
+                "source": "https://github.com/sujin2f/wp_express/tree/4.0.5"
+            },
+            "time": "2020-07-08T22:28:06+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "sujin/wp-express": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=7.1"
+    },
+    "platform-dev": [],
+    "platform-overrides": {
+        "php": "7.1"
+    },
+    "plugin-api-version": "2.3.0"
+}
