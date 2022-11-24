@@ -1,7 +1,12 @@
 import { PostVariables } from 'src/constants/graphql'
 import { Post } from 'src/types/wordpress'
-import { getPost } from 'src/utils/mysql/get-posts-by'
+import { getPost } from 'src/utils/mysql/posts'
 
 export const post = async ({ slug }: PostVariables): Promise<Post> => {
-    return await getPost(slug)
+    const post = await getPost(slug)
+    if (post) {
+        return post
+    }
+    console.error(`🤬 Post does not exist: ${slug}`)
+    throw new Error(`🤬 Post does not exist: ${slug}`)
 }

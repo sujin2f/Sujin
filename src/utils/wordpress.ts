@@ -318,3 +318,10 @@ export const autop = (text: string, br = true): string => {
 
     return text
 }
+
+export const isSerialized = (value: string): boolean => {
+    if (typeof value !== 'string') {
+        return false
+    }
+    return value ? value.startsWith('a:') && value.endsWith('}') : false
+}

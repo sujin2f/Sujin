@@ -13,8 +13,8 @@ import { TermTypes } from 'src/types/wordpress'
 import { CacheKeys } from 'src/constants/cache-keys'
 import { bundles, publicDir, baseDir, rootDir } from 'src/utils/environment'
 import { cached } from 'src/utils/node-cache'
-import { getPost } from 'src/utils/mysql/get-posts-by'
-import { getTermBy } from 'src/utils/mysql/get-term-by'
+import { getPost } from 'src/utils/mysql/posts'
+import { getTermBy } from 'src/utils/mysql/term'
 
 const staticRouter = express.Router()
 
@@ -86,17 +86,16 @@ const getTitleExcerpt = async (
     const type = execArchive[1] || execArchiveWithPage[1]
     const slug = execArchive[2] || execArchiveWithPage[2]
     if (type === 'category') {
-        return await getTermBy(TermTypes.category, slug, 1)
-            .then((response) => {
-                return [
-                    `${defaultTitle} - ${response.title}`,
-                    response.excerpt,
-                    response.image?.url || '/thumbnail.png',
-                ] as [string, string, string]
-            })
-            .catch(() => {
+        return await getTermBy(TermTypes.category, slug, 1).then((response) => {
+            if (!response) {
                 return defaultValue
-            })
+            }
+            return [
+                `${defaultTitle} - ${response.title}`,
+                response.excerpt,
+                response.image?.url || '/thumbnail.png',
+            ] as [string, string, string]
+        })
     }
 
     return defaultValue
