@@ -17,10 +17,12 @@ export const getPostMeta = async <T = string>(
     defaultValue: T,
 ): Promise<T> => {
     const value: T = await MySQL.getInstance()
-        .query<any[]>(MySQLQuery.getPostMeta(postId, metaKey), [
+        .query<any>(MySQLQuery.getPostMeta(postId, metaKey), [
             { meta_value: defaultValue },
         ])
-        .then((result) => result[0].meta_value)
+        .then((result) => {
+            return result[0].meta_value
+        })
 
     // Serialize
     if (isSerialized(value as unknown as string)) {
@@ -34,12 +36,12 @@ export const getAllPostMeta = async (
     postId: number,
 ): Promise<PostMetaRecord> => {
     const query = MySQLQuery.getAllPostMeta(postId)
-    const result = await MySQL.getInstance().query<PostMeta[]>(query, [])
+    const result = await MySQL.getInstance().query<PostMeta>(query, [])
 
-    return result.reduce((acc: PostMetaRecord, member) => {
+    return result.reduce((acc: PostMetaRecord, meta) => {
         return {
             ...acc,
-            [member.meta_key]: member.meta_value,
+            [meta.meta_key]: meta.meta_value,
         }
     }, {})
 }

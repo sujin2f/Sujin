@@ -153,6 +153,11 @@ const GET_TAG_HIT = `
     ORDER BY hit DESC LIMIT 20
 `
 
+const UPDATE_TAG_HIT = `
+    INSERT INTO wp_terms_hit (term_id, hit) VALUES ({0}, 1)
+    ON DUPLICATE KEY UPDATE hit = hit + 1
+`
+
 const GET_ADJACENT_POST = `
     SELECT
         ${POST_FIELDS}
@@ -220,6 +225,7 @@ export const MySQLQuery = {
         format(GET_TERM_META, id, metaKey),
     getTagCount: () => format(GET_TAG_COUNT),
     getTagHit: () => format(GET_TAG_HIT),
+    updateTagHit: (termId: number) => format(UPDATE_TAG_HIT, termId),
     getAdjacentPost: (post: Post, previous = true) => {
         const comparison = previous ? '<' : '>'
         const order = previous ? 'DESC' : 'ASC'

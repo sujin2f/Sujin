@@ -66,17 +66,16 @@ const getTitleExcerpt = async (
     const execPage = regexPage.exec(req.url) || []
     const postSlug = execPost[4] || execPage[1]
     if (postSlug) {
-        return await getPost(postSlug)
-            .then((response) => {
+        return await getPost(postSlug).then((response) => {
+            if (response) {
                 return [
                     `${defaultTitle} - ${response.title}`,
                     response.excerpt,
                     response.images.thumbnail?.url || '/thumbnail.png',
                 ] as [string, string, string]
-            })
-            .catch(() => {
-                return defaultValue
-            })
+            }
+            return defaultValue
+        })
     }
 
     const regexArchive = pathToRegexp('/:type/:slug', [])

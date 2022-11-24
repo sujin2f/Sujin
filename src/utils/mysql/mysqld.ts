@@ -2,11 +2,7 @@ import { default as mysqld } from 'promise-mysql'
 import { Nullable } from 'src/types/common'
 import { cached } from 'src/utils/node-cache'
 
-interface mySQL {
-    query: <T>(query: string, defaultValue: T) => Promise<T>
-}
-
-export class MySQL implements mySQL {
+export class MySQL {
     private mysql: Nullable<mysqld.Connection>
     private static _instance: MySQL
     public static getInstance(): MySQL {
@@ -22,12 +18,10 @@ export class MySQL implements mySQL {
         })
     }
 
-    public async query<T>(query: string, defaultValue: T): Promise<T> {
-        console.log(query)
-        const cache = cached.get<T>(query)
+    public async query<T>(query: string, defaultValue: T[]): Promise<T[]> {
+        const cache = cached.get<T[]>(query)
         if (cache) {
             if ((cache as unknown as string) == 'NOT EXIST') {
-                console.error('🤬 MySQL result is not found: ${query}')
                 return defaultValue
             }
             return cache
@@ -44,24 +38,34 @@ export class MySQL implements mySQL {
             return defaultValue
         }
 
-        const result = await this.mysql
-            .query<T>(query)
-            .then((data) => data || defaultValue)
-            .catch(() => {
-                cached.set<string>(query, 'NOT EXIST', ttl)
-                console.error(`🤬 MySQL result is not found: ${query}`)
-                return defaultValue
-            })
-        console.log(result)
-
         const ttl = process.env.MYSQL_CACHE_TTL
             ? parseInt(process.env.MYSQL_CACHE_TTL)
             : 0
 
+        const result = await this.mysql
+            .query<T[]>(query)
+            .then((data) => {
+                return data && data.length ? data : defaultValue
+            })
+            .catch(() => {
+                cached.set<string>(query, 'NOT EXIST', ttl)
+                return defaultValue
+            })
+
         if (ttl) {
-            cached.set<T>(query, result, ttl)
+            cached.set<T[]>(query, result, ttl)
         }
 
         return result
+    }
+
+    public async update(query: string): Promise<void> {
+        if (!this.mysql) {
+            this.mysql = await this.init().catch(() => {
+                console.error('🤬 MySQL connection failed.')
+                throw new Error('🤬 MySQL connection failed.')
+            })
+        }
+        await this.mysql.query(query)
     }
 }

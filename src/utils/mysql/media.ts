@@ -58,7 +58,7 @@ export const getMedia = async (postId: number): Promise<Nullable<Image>> => {
 }
 
 export const getBackgrounds = async (): Promise<Image[]> => {
-    const posts: Post[] = await MySQL.getInstance().query<Post[]>(
+    const posts: Post[] = await MySQL.getInstance().query<Post>(
         MySQLQuery.getRandomBackgrounds(),
         [],
     )

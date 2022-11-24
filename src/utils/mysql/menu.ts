@@ -10,20 +10,20 @@ import { Nullable } from 'src/types/common'
 const PHPUnserialize = require('php-unserialize')
 
 const getMenuItemFromPost = async (post: Post): Promise<Nullable<MenuItem>> => {
-    const postMetas = await getAllPostMeta(post.id)
-    if (!Object.keys(postMetas).length) {
+    const meta = await getAllPostMeta(post.id)
+    if (!Object.keys(meta).length) {
         return
     }
 
     const htmlClass =
         Object.values<string>(
-            PHPUnserialize.unserialize(postMetas[MetaKeys.MENU_ITEM_CLASSES]),
+            PHPUnserialize.unserialize(meta[MetaKeys.MENU_ITEM_CLASSES]),
         ) || []
-    const objectId = postMetas[MetaKeys.MENU_ITEM_OBJECT_ID]
-    const target = postMetas[MetaKeys.MENU_ITEM_TARGET] || ''
-    const type = postMetas[MetaKeys.MENU_ITEM_TYPE]
-    const parent = postMetas[MetaKeys.MENU_ITEM_PARENT] || '0'
-    let link = postMetas[MetaKeys.MENU_ITEM_URL] || ''
+    const objectId = meta[MetaKeys.MENU_ITEM_OBJECT_ID]
+    const target = meta[MetaKeys.MENU_ITEM_TARGET] || ''
+    const type = meta[MetaKeys.MENU_ITEM_TYPE]
+    const parent = meta[MetaKeys.MENU_ITEM_PARENT] || '0'
+    let link = meta[MetaKeys.MENU_ITEM_URL] || ''
     let title = post.title || ''
 
     switch (type) {
@@ -37,7 +37,7 @@ const getMenuItemFromPost = async (post: Post): Promise<Nullable<MenuItem>> => {
             break
 
         case MenuItemTypes.TAXONOMY:
-            const terms = await MySQL.getInstance().query<Term[]>(
+            const terms = await MySQL.getInstance().query<Term>(
                 MySQLQuery.getTermBy('id', objectId),
                 [],
             )
@@ -63,7 +63,7 @@ const getMenuItemFromPost = async (post: Post): Promise<Nullable<MenuItem>> => {
 }
 
 export const getMenu = async (slug: string): Promise<MenuItem[]> => {
-    const posts: Post[] = await MySQL.getInstance().query<Post[]>(
+    const posts = await MySQL.getInstance().query<Post>(
         MySQLQuery.getTermItems(slug, 0),
         [],
     )

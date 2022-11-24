@@ -10,7 +10,7 @@ export const getOption = async <T>(
     optionName: string,
     key?: Nullable<string>,
 ): Promise<Nullable<T>> => {
-    const result = await MySQL.getInstance().query<any[]>(
+    const result = await MySQL.getInstance().query<any>(
         MySQLQuery.getOption(optionName),
         [],
     )

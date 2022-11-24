@@ -89,7 +89,7 @@ const getAdjacentPost = async (
     previous = true,
 ): Promise<Nullable<Post>> => {
     const query = MySQLQuery.getAdjacentPost(post, previous)
-    const posts = await MySQL.getInstance().query<Post[]>(query, [])
+    const posts = await MySQL.getInstance().query<Post>(query, [])
 
     if (posts.length) {
         return {
@@ -102,14 +102,14 @@ const getAdjacentPost = async (
 }
 
 const getRelatedPost = async (post: Post): Promise<Post[]> => {
-    const tags = await MySQL.getInstance().query<Post[]>(
+    const tags = await MySQL.getInstance().query<Post>(
         MySQLQuery.getRelatedPost(
             'post_tag',
             post.tags.map((t) => t.id),
         ),
         [],
     )
-    const categories = await MySQL.getInstance().query<Post[]>(
+    const categories = await MySQL.getInstance().query<Post>(
         MySQLQuery.getRelatedPost(
             'category',
             post.categories.map((t) => t.id),
@@ -146,7 +146,7 @@ export const getPostsBy = async (
     ignoreStatus = false,
 ): Promise<Post[]> => {
     const query = getPostQuery(queryKey, queryValue, page, ignoreStatus)
-    const result: Post[] = await MySQL.getInstance().query<Post[]>(query, [])
+    const result: Post[] = await MySQL.getInstance().query<Post>(query, [])
 
     // Create Post from dbResult
     const posts: Post[] = []
