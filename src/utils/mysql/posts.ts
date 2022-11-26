@@ -56,12 +56,15 @@ const getPostQuery = (
 
 type getPostImagesReturnType = {
     id: number
-    images: { [imageKey in ImageKeys]?: Image }
+    list?: Image
+    icon?: Image
+    title?: Image
+    background?: Image
+    thumbnail?: Image
 }
 const getPostImages = async (post: Post): Promise<getPostImagesReturnType> => {
     const result: getPostImagesReturnType = {
         id: post.id,
-        images: {},
     }
 
     const imageIds: Record<ImageKeys, number> = {
@@ -79,7 +82,7 @@ const getPostImages = async (post: Post): Promise<getPostImagesReturnType> => {
         const image = await getMedia(imageIds[imageKey as ImageKeys])
 
         if (image) {
-            result.images[imageKey as ImageKeys] = image
+            result[imageKey as ImageKeys] = image
         }
     }
 

@@ -32,7 +32,7 @@ services:
         ports:
             - 8000:80
     phpmyadmin:
-        container_name: phpmyadmin  
+        container_name: phpmyadmin
         image: phpmyadmin
         restart: always
         ports:
