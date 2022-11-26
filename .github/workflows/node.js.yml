@@ -3,19 +3,19 @@
 
 name: Node.js CI
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: borales/actions-yarn@v3.0.0
-        with:
-          cmd: install # will run `yarn install` command
-      - uses: borales/actions-yarn@v3.0.0
-        with:
-          cmd: prod # will run `yarn build` command
-      - uses: borales/actions-yarn@v3.0.0
-        with:
-          cmd: test # will run `yarn test` command
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: borales/actions-yarn@v3.0.0
+              with:
+                  cmd: install # will run `yarn install` command
+            - uses: borales/actions-yarn@v3.0.0
+              with:
+                  cmd: prod # will run `yarn build` command
+            - uses: borales/actions-yarn@v3.0.0
+              with:
+                  cmd: test # will run `yarn test` command
