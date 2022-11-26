@@ -1,6 +1,6 @@
 // yarn test posts.spec.ts
 
-import { post } from '../../__tests__/fixture'
+import { media, mediaMeta, post, term } from '../../__tests__/fixture'
 import { getPostsBy, getPost } from './posts'
 
 jest.mock('src/utils/node-cache', () => ({
@@ -27,23 +27,38 @@ describe('posts.ts', () => {
                     type: 'post',
                 },
             ])
-            .mockResolvedValueOnce(undefined) // use-background-color
-            .mockResolvedValueOnce(undefined) // background-color
-            .mockResolvedValueOnce(undefined) // image list
-            .mockResolvedValueOnce(undefined) // image icon
-            .mockResolvedValueOnce(undefined) // image title
-            .mockResolvedValueOnce(undefined) // image background
-            .mockResolvedValueOnce(undefined) // image _thumbnail_id
-            .mockResolvedValueOnce([post]) // prev
-            .mockResolvedValueOnce([post]) // next
-            .mockResolvedValueOnce([post, post]) // related tag
+            .mockResolvedValueOnce([term]) // post term
+            .mockResolvedValueOnce(undefined) // post use-background-color
+            .mockResolvedValueOnce(undefined) // post background-color
+            .mockResolvedValueOnce(undefined) // post image list
+            .mockResolvedValueOnce(undefined) // post image icon
+            .mockResolvedValueOnce(undefined) // post image title
+            .mockResolvedValueOnce(undefined) // post image background
+            .mockResolvedValueOnce([
+                {
+                    meta_value: 1,
+                },
+            ]) // post image _thumbnail_id
+            .mockResolvedValueOnce([media]) // thumbnail
+            .mockResolvedValueOnce(undefined) // thumbnail term
+            .mockResolvedValueOnce(undefined) // thumbnail use-background-color
+            .mockResolvedValueOnce(undefined) // thumbnail background-color
+            .mockResolvedValueOnce(undefined) // thumbnail image list
+            .mockResolvedValueOnce(undefined) // thumbnail image icon
+            .mockResolvedValueOnce(undefined) // thumbnail image title
+            .mockResolvedValueOnce(undefined) // thumbnail image background
+            .mockResolvedValueOnce(undefined) // thumbnail image _thumbnail_id
+            .mockResolvedValueOnce([mediaMeta]) // thumbnail meta
+            .mockResolvedValueOnce([post]) // post prev
+            .mockResolvedValueOnce(undefined) // post next
+            .mockResolvedValueOnce([post, post]) // post related tag
             .mockResolvedValueOnce([
                 post,
                 {
                     ...post,
                     id: 3,
                 },
-            ]) // related category
+            ]) // post related category
 
         const result = await getPostsBy('id', 0)
 

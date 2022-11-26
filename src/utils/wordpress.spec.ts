@@ -9,13 +9,20 @@ jest.mock('php-unserialize', () => ({
 }))
 
 describe('wordpress.ts', () => {
-    it('unserialize: Fail', () => {
-        const result = unserialize('Thank you', 'You are welcome')
-        expect(result).toBe('You are welcome')
-    })
+    describe('unserialize()', () => {
+        it('Empty', () => {
+            const result = unserialize('', 'You are welcome')
+            expect(result).toBe('You are welcome')
+        })
 
-    it('unserialize: Key does not exist', () => {
-        const result = unserialize('a}:', 'You are welcome', 'lock')
-        expect(result).toBe('You are welcome')
+        it('Not Serialized Text', () => {
+            const result = unserialize('Thank you', 'You are welcome')
+            expect(result).toBe('Thank you')
+        })
+
+        it('Key does not exist', () => {
+            const result = unserialize('a:{}', 'You are welcome', 'lock')
+            expect(result).toBe('You are welcome')
+        })
     })
 })

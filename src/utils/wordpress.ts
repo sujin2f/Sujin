@@ -329,14 +329,15 @@ export const unserialize = <
     key?: string,
 ): T => {
     if (typeof value !== 'string') {
+        return value
+    }
+
+    if (!value) {
         return defaultValue
     }
 
-    const isSerialized = value
-        ? value.startsWith('a:') && value.endsWith('}')
-        : false
-    if (!isSerialized) {
-        return defaultValue
+    if (!value.startsWith('a:') || !value.endsWith('}')) {
+        return value as T
     }
 
     const unserialized = PHPUnserialize.unserialize(value)

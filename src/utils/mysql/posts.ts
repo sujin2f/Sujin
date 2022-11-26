@@ -72,7 +72,7 @@ const getPostImages = async (post: Post): Promise<getPostImagesReturnType> => {
         thumbnail: await getPostMeta<number>(post.id, '_thumbnail_id', 0),
     }
 
-    for await (const imageKey of Object.keys(imageIds)) {
+    for (const imageKey of Object.keys(imageIds)) {
         if (!imageIds[imageKey as ImageKeys]) {
             continue
         }
@@ -117,6 +117,7 @@ const getRelatedPost = async (post: Post): Promise<Post[]> => {
             post.categories.map((t) => t.id),
         ),
     )
+
     const duplication: number[] = []
     const dbResult = [...tags, ...categories]
         .filter((r) => {

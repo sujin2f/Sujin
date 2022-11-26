@@ -3,7 +3,7 @@
  */
 // yarn test device.spec.ts
 
-import { isMobile } from './device'
+import { isMobile, scrollTo } from './device'
 
 describe('device.ts', () => {
     /* eslint-disable max-len,no-useless-escape */
@@ -88,6 +88,38 @@ describe('device.ts', () => {
             })
             const actual = isMobile()
             expect(actual).toEqual(expected)
+        })
+    })
+
+    describe('scrollTo()', () => {
+        beforeAll(() => {
+            window.scrollTo = jest.fn()
+            document.body.innerHTML = `
+        <section>
+        <div id="first-container">First Container</div>
+        <div id="second-container">Second Container</div>
+        <div id="third-container">Third Container</div>
+        <div id="forth-container">Forth Container</div>
+        <div id="fifth-container">Fifth Container</div>
+        <div id="sixth-container">Sixth Container</div>
+        </section>
+        <section id="second-section">Second Section</section>
+        `
+        })
+
+        test('scrollTo()', () => {
+            scrollTo()
+            expect(window.scrollTo).toHaveBeenCalledWith(0, 0)
+        })
+
+        test('scrollTo(selector)', () => {
+            const result = scrollTo('#second-section')
+            expect(result).toBe(0)
+        })
+
+        test('scrollTo(wrong selector)', () => {
+            const result = scrollTo('#foo')
+            expect(result).toBe(undefined)
         })
     })
 })

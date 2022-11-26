@@ -15,16 +15,13 @@ export const removeEmpty = (
         .reduce((acc, key) => ({ ...acc, [key]: object[key] }), {})
 
 export const isEmpty = (
-    value: Record<string, unknown> | string | number | unknown[],
+    value: Record<string, unknown> | string | number | unknown[] | null,
 ): boolean => {
-    if (value === undefined) {
+    if (value === undefined || value === null || value === NaN) {
         return true
     }
     if (typeof value === 'string') {
         return value === ''
-    }
-    if (typeof value === 'number') {
-        return value === NaN
     }
     if (Array.isArray(value)) {
         return value.length === 0
