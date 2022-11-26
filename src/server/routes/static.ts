@@ -15,6 +15,7 @@ import { bundles, publicDir, baseDir, rootDir } from 'src/utils/environment'
 import { cached } from 'src/utils/node-cache'
 import { getPost } from 'src/utils/mysql/posts'
 import { getTermBy } from 'src/utils/mysql/term'
+import { DAY_IN_SECONDS } from 'src/common/constants/datetime'
 
 const staticRouter = express.Router()
 
@@ -66,7 +67,7 @@ const getTitleExcerpt = async (
     const execPage = regexPage.exec(req.url) || []
     const postSlug = execPost[4] || execPage[1]
     if (postSlug) {
-        return await getPost(postSlug).then((response) => {
+        return await getPost('slug', postSlug).then((response) => {
             if (response) {
                 return [
                     `${defaultTitle} - ${response.title}`,
@@ -102,7 +103,7 @@ const getTitleExcerpt = async (
 
 const getGlobalVariable = async (req: Request): Promise<GlobalVariable> => {
     const cache = cached.get<GlobalVariable>(CacheKeys.GLOBAL_VARS)
-    if (cache && process.env.MYSQL_CACHE_TTL) {
+    if (cache) {
         return cache
     }
 
@@ -119,7 +120,7 @@ const getGlobalVariable = async (req: Request): Promise<GlobalVariable> => {
         isProd: process.env.NODE_ENV === 'production',
     }
 
-    cached.set<GlobalVariable>(CacheKeys.GLOBAL_VARS, globalVariable)
+    cached.set<GlobalVariable>(CacheKeys.GLOBAL_VARS, globalVariable, DAY_IN_SECONDS)
     return globalVariable
 }
 

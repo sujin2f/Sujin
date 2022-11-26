@@ -1,4 +1,6 @@
 import { default as mysqld } from 'promise-mysql'
+import { DAY_IN_SECONDS } from 'src/common/constants/datetime'
+import { isEmpty } from 'src/common/utils/object'
 import { Nullable } from 'src/types/common'
 import { cached } from 'src/utils/node-cache'
 
@@ -18,7 +20,11 @@ export class MySQL {
         })
     }
 
-    public async query<T>(query: string, defaultValue: T[]): Promise<T[]> {
+    public async select<T>(
+        query: string,
+        defaultValue: T[] = [],
+        cacheTtl = 0,
+    ): Promise<T[]> {
         const cache = cached.get<T[]>(query)
         if (cache) {
             if ((cache as unknown as string) == 'NOT EXIST') {
@@ -38,25 +44,29 @@ export class MySQL {
             return defaultValue
         }
 
-        const ttl = process.env.MYSQL_CACHE_TTL
-            ? parseInt(process.env.MYSQL_CACHE_TTL)
-            : 0
-
         const result = await this.mysql
             .query<T[]>(query)
             .then((data) => {
-                return data && data.length ? data : defaultValue
+                if (isEmpty(data)) {
+                    return defaultValue
+                }
+                return data
             })
             .catch(() => {
-                cached.set<string>(query, 'NOT EXIST', ttl)
+                cached.set<string>(query, 'NOT EXIST', DAY_IN_SECONDS)
                 return defaultValue
             })
 
-        if (ttl) {
-            cached.set<T[]>(query, result, ttl)
-        }
-
+        cached.set<T[]>(query, result, DAY_IN_SECONDS)
         return result
+    }
+
+    public async selectOne<T>(query: string): Promise<Nullable<T>> {
+        const selection = await this.select<T>(query)
+        if (isEmpty(selection)) {
+            return
+        }
+        return selection[0]
     }
 
     public async update(query: string): Promise<void> {

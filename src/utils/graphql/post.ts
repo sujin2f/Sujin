@@ -4,7 +4,7 @@ import { getPost } from 'src/utils/mysql/posts'
 import { updateHit } from 'src/utils/mysql/tag-cloud'
 
 export const post = async ({ slug }: PostVariables): Promise<Post> => {
-    const post = await getPost(slug)
+    const post = await getPost('slug', slug)
     if (post) {
         post.tags.forEach((tag) => {
             void updateHit(tag.id)

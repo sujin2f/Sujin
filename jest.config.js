@@ -3,7 +3,7 @@ module.exports = {
     testEnvironment: 'node',
     testMatch: [
         '<rootDir>/src/common/**/?(*.)+(spec).ts?(x)',
-        '<rootDir>/src/utils/mysql/**/?(*.)+(spec).ts?(x)',
+        '<rootDir>/src/utils/**/?(*.)+(spec).ts?(x)',
     ],
     testPathIgnorePatterns: ['/node_modules/'],
     moduleNameMapper: {
@@ -18,7 +18,7 @@ module.exports = {
     collectCoverage: true,
     collectCoverageFrom: [
         '<rootDir>/src/common/**/*.{ts,tsx}',
-        '<rootDir>/src/utils/mysql/**/*.{ts,tsx}',
+        '<rootDir>/src/utils/**/*.{ts,tsx}',
         '!<rootDir>/src/**/*.spec.{ts,tsx}',
         '!<rootDir>/src/**/*.d.{ts,tsx}',
         '!<rootDir>/src/__tests__/*',

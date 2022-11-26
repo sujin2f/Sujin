@@ -1,5 +1,6 @@
 // yarn test term.spec.ts
 
+import { term } from '../../__tests__/fixture'
 import { TermTypes } from 'src/types/wordpress'
 import { getTaxonomies, getTermBy } from './term'
 
@@ -20,30 +21,29 @@ jest.mock('promise-mysql', () => ({
 
 describe('term.ts', () => {
     it('getTaxonomies', async () => {
-        query.mockResolvedValueOnce([
-            {
-                type: 'category',
-                title: 'category',
-            },
-        ])
+        query.mockResolvedValueOnce([term])
 
         const result = await getTaxonomies(1)
-        expect(result[0].type).toBe('category')
-        expect(result[0].title).toBe('category')
+        expect(result[0].type).toBe(term.type)
+        expect(result[0].title).toBe(term.title)
     })
 
     it('getTermBy', async () => {
         query.mockResolvedValueOnce([
             {
-                type: 'category',
-                title: 'category',
-                total: 16,
+                ...term,
+                total: 20,
             },
         ])
 
         const result = await getTermBy(TermTypes.category, 'category', 0)
-        expect(result!.type).toBe('category')
-        expect(result!.title).toBe('category')
+        expect(result!.type).toBe(term.type)
+        expect(result!.title).toBe(term.title)
         expect(result!.pages).toBe(2)
+    })
+
+    it('getTermBy: Nothing', async () => {
+        const result = await getTermBy(TermTypes.category, 'category', 0)
+        expect(result).toBe(undefined)
     })
 })

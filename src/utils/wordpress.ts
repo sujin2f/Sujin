@@ -1,3 +1,5 @@
+const PHPUnserialize = require('php-unserialize')
+
 /**
  * The regular expression for an HTML element.
  *
@@ -319,9 +321,30 @@ export const autop = (text: string, br = true): string => {
     return text
 }
 
-export const isSerialized = (value: string): boolean => {
+export const unserialize = <
+    T extends Record<string, any> | string | number | boolean,
+>(
+    value: string,
+    defaultValue: T,
+    key?: string,
+): T => {
     if (typeof value !== 'string') {
-        return false
+        return defaultValue
     }
-    return value ? value.startsWith('a:') && value.endsWith('}') : false
+
+    const isSerialized = value
+        ? value.startsWith('a:') && value.endsWith('}')
+        : false
+    if (!isSerialized) {
+        return defaultValue
+    }
+
+    const unserialized = PHPUnserialize.unserialize(value)
+    if (key) {
+        if (Object.keys(unserialized).includes(key)) {
+            return unserialized[key]
+        }
+        return defaultValue
+    }
+    return unserialized
 }

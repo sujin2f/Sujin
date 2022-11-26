@@ -10,15 +10,14 @@ const getTermMeta = async <T = string>(
     id: number,
     metaKey: string,
 ): Promise<Nullable<T>> => {
-    return await MySQL.getInstance()
-        .query<T>(MySQLQuery.getTermMeta(id, metaKey), [])
-        .then((result) => (result.length ? result[0] : undefined))
+    return await MySQL.getInstance().selectOne<T>(
+        MySQLQuery.getTermMeta(id, metaKey),
+    )
 }
 
 export const getTaxonomies = async (postId: number): Promise<Term[]> => {
-    const result = await MySQL.getInstance().query<Term>(
+    const result = await MySQL.getInstance().select<Term>(
         MySQLQuery.getTaxonomies(postId),
-        [],
     )
 
     return result.map((item) => ({
@@ -33,9 +32,9 @@ export const getTermBy = async (
     slug: string,
     page: number,
 ): Promise<Nullable<Term>> => {
-    const term: Nullable<Term> = await MySQL.getInstance()
-        .query<Term>(MySQLQuery.getTermBy('slug', slug), [])
-        .then((data) => (data.length ? data[0] : undefined))
+    const term = await MySQL.getInstance().selectOne<Term>(
+        MySQLQuery.getTermBy('slug', slug),
+    )
 
     if (!term) {
         return

@@ -1,72 +1,57 @@
+import { isEmpty } from 'src/common/utils/object'
 import { MetaKeys, MySQLQuery } from 'src/constants/mysql-query'
-import { Image, ImageSizes, Post } from 'src/types/wordpress'
-import { getPostsBy } from 'src/utils/mysql/posts'
-import { getPostMeta } from 'src/utils/mysql/post-meta'
+import { Image, ImageSizes, Post, MediaRawData } from 'src/types/wordpress'
 import { Nullable } from 'src/types/common'
-import { MySQL } from './mysqld'
-
-type MediaRawData = {
-    file: string
-    sizes: Record<string, { file: string }>
-}
+import { getPost } from 'src/utils/mysql/posts'
+import { getPostMeta } from 'src/utils/mysql/post-meta'
+import { MySQL } from 'src/utils/mysql/mysqld'
 
 export const getMedia = async (postId: number): Promise<Nullable<Image>> => {
-    // MySQL query
-    const post = await getPostsBy('id', postId, 1, true).then((data) =>
-        data.length ? data[0] : undefined,
-    )
+    const result = {} as Image
+
+    const post = await getPost('id', postId, true)
     if (!post) {
-        return undefined
+        return
     }
 
-    const meta = await getPostMeta<Nullable<MediaRawData>>(
+    result.mimeType = post.mimeType
+    result.title = post.title
+
+    const meta = await getPostMeta<MediaRawData>(
         postId,
         MetaKeys.ATTACHMENT_META,
-        undefined,
+        {} as MediaRawData,
     )
-    if (!meta) {
-        return undefined
+    if (isEmpty(meta)) {
+        return
     }
 
     // Map sizes
-    const sizes: ImageSizes = []
-    const url = post.link.replace(/[0-9]+\/[0-9]+\/.+$/, meta.file)
-    if (meta.sizes) {
-        Object.keys(meta.sizes).forEach((sizeKey) => {
-            const postUrl = new URL(post.link)
-            const path = postUrl.pathname.split('/')
-            path.pop()
+    result.sizes = [] as ImageSizes
+    result.url = post.link.replace(/[0-9]+\/[0-9]+\/.+$/, meta.file)
 
-            const file = `${postUrl.origin}/${path
-                .filter((v) => v)
-                .join('/')}/${meta.sizes[sizeKey].file}`
-            sizes.push({
-                key: sizeKey,
-                file,
+    if (meta.sizes) {
+        const urlBase = result.url.replace(/\/[a-zA-Z0-9-_\.]+$/, '')
+
+        Object.keys(meta.sizes).forEach((key) => {
+            result.sizes.push({
+                key,
+                file: `${urlBase}/${meta.sizes[key].file}`,
             })
         })
     }
 
-    const attachment: Image = {
-        url,
-        mimeType: post.mimeType,
-        title: post.title,
-        sizes,
-    }
-
-    return attachment
+    return result
 }
 
 export const getBackgrounds = async (): Promise<Image[]> => {
-    const posts: Post[] = await MySQL.getInstance().query<Post>(
-        MySQLQuery.getRandomBackgrounds(),
-        [],
-    )
+    const result = []
+    const mysql = MySQL.getInstance()
+    const query = MySQLQuery.getRandomBackgrounds()
+    const posts = await mysql.select<Post>(query)
 
-    const result: Image[] = []
-
-    for (const post of posts) {
-        const image = await getMedia(post.id).catch(() => undefined)
+    for await (const post of posts) {
+        const image = await getMedia(post.id)
 
         if (image) {
             result.push(image)

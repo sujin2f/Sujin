@@ -1,13 +1,13 @@
 import { MySQLQuery, PER_PAGE } from 'src/constants/mysql-query'
 import { PostType } from 'src/constants/wp'
 import { Post, Term, ImageKeys, Image, TermTypes } from 'src/types/wordpress'
+import { Nullable } from 'src/types/common'
 import { dateToPrettyUrl } from 'src/utils/common'
 import { autop } from 'src/utils/wordpress'
 import { MySQL } from 'src/utils/mysql/mysqld'
 import { getPostMeta } from 'src/utils/mysql/post-meta'
 import { getTaxonomies } from 'src/utils/mysql/term'
 import { getMedia } from 'src/utils/mysql/media'
-import { Nullable } from 'src/types/common'
 
 const getPostLink = (post: Post): string => {
     switch (post.type) {
@@ -54,7 +54,16 @@ const getPostQuery = (
     return ''
 }
 
-const getPostImages = async (post: Post) => {
+type getPostImagesReturnType = {
+    id: number
+    images: { [imageKey in ImageKeys]?: Image }
+}
+const getPostImages = async (post: Post): Promise<getPostImagesReturnType> => {
+    const result: getPostImagesReturnType = {
+        id: post.id,
+        images: {},
+    }
+
     const imageIds: Record<ImageKeys, number> = {
         list: await getPostMeta<number>(post.id, 'list', 0),
         icon: await getPostMeta<number>(post.id, 'icon', 0),
@@ -63,10 +72,6 @@ const getPostImages = async (post: Post) => {
         thumbnail: await getPostMeta<number>(post.id, '_thumbnail_id', 0),
     }
 
-    const images: {
-        [imageKey in ImageKeys]?: Image
-    } = {}
-
     for await (const imageKey of Object.keys(imageIds)) {
         if (!imageIds[imageKey as ImageKeys]) {
             continue
@@ -74,14 +79,11 @@ const getPostImages = async (post: Post) => {
         const image = await getMedia(imageIds[imageKey as ImageKeys])
 
         if (image) {
-            images[imageKey as ImageKeys] = image
+            result.images[imageKey as ImageKeys] = image
         }
     }
 
-    return {
-        id: post.id,
-        ...images,
-    }
+    return result
 }
 
 const getAdjacentPost = async (
@@ -89,45 +91,43 @@ const getAdjacentPost = async (
     previous = true,
 ): Promise<Nullable<Post>> => {
     const query = MySQLQuery.getAdjacentPost(post, previous)
-    const posts = await MySQL.getInstance().query<Post>(query, [])
+    const adjacentPost = await MySQL.getInstance().selectOne<Post>(query)
 
-    if (posts.length) {
-        return {
-            ...posts[0],
-            link: getPostLink(posts[0]),
-        }
+    if (!adjacentPost) {
+        return
     }
 
-    return
+    return {
+        ...adjacentPost,
+        link: getPostLink(adjacentPost),
+    }
 }
 
 const getRelatedPost = async (post: Post): Promise<Post[]> => {
-    const tags = await MySQL.getInstance().query<Post>(
+    const result = []
+    const tags = await MySQL.getInstance().select<Post>(
         MySQLQuery.getRelatedPost(
             'post_tag',
             post.tags.map((t) => t.id),
         ),
-        [],
     )
-    const categories = await MySQL.getInstance().query<Post>(
+    const categories = await MySQL.getInstance().select<Post>(
         MySQLQuery.getRelatedPost(
             'category',
             post.categories.map((t) => t.id),
         ),
-        [],
     )
-    const duplication: number[] = []
-    const dbResult = [...tags, ...categories]
-        .filter((r) => {
-            if (duplication.includes(r.id)) {
-                return false
-            }
-            duplication.push(r.id)
-            return true
-        })
+    // const duplication: number[] = []
+    const dbResult = [...new Set([...tags, ...categories])]
+        // .filter((r) => {
+        //     if (duplication.includes(r.id)) {
+        //         return false
+        //     }
+        //     duplication.push(r.id)
+        //     return true
+        // })
         .slice(0, 4)
 
-    const result = []
     for await (const post_ of dbResult) {
         result.push({
             ...post_,
@@ -146,7 +146,7 @@ export const getPostsBy = async (
     ignoreStatus = false,
 ): Promise<Post[]> => {
     const query = getPostQuery(queryKey, queryValue, page, ignoreStatus)
-    const result: Post[] = await MySQL.getInstance().query<Post>(query, [])
+    const result = await MySQL.getInstance().select<Post>(query)
 
     // Create Post from dbResult
     const posts: Post[] = []
@@ -194,8 +194,12 @@ export const getPostsBy = async (
     return posts
 }
 
-export const getPost = async (slug: string): Promise<Nullable<Post>> => {
-    const posts = await getPostsBy('slug', slug)
+export const getPost = async (
+    queryKey: 'id' | 'slug',
+    queryValue: string | number,
+    ignoreStatus = false,
+): Promise<Nullable<Post>> => {
+    const posts = await getPostsBy(queryKey, queryValue, 1, ignoreStatus)
 
     if (posts.length) {
         return posts[0]

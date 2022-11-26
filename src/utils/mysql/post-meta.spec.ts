@@ -1,5 +1,6 @@
 // yarn test post-meta.spec.ts
 
+import { mediaMeta } from '../../__tests__/fixture'
 import { getAllPostMeta, getPostMeta } from './post-meta'
 
 jest.mock('src/utils/node-cache', () => ({
@@ -19,28 +20,22 @@ jest.mock('promise-mysql', () => ({
 
 describe('post-meta.ts', () => {
     it('getAllPostMeta', async () => {
-        query.mockResolvedValueOnce([
-            {
-                meta_key: 'meta_key',
-                meta_value: 'meta_value',
-            },
-        ])
+        query.mockResolvedValueOnce([mediaMeta])
 
         const result = await getAllPostMeta(1)
 
-        expect(result.meta_key).toBe('meta_value')
+        expect(result[mediaMeta.meta_key]).toBe(mediaMeta.meta_value)
     })
 
     it('getPostMeta', async () => {
-        query.mockResolvedValueOnce([
-            {
-                meta_key: 'meta_key',
-                meta_value: 'meta_value',
-            },
-        ])
+        query.mockResolvedValueOnce([mediaMeta])
 
-        const result = await getPostMeta<string>(1, 'meta_key', '')
+        const result = await getPostMeta<Record<string, number>>(
+            1,
+            mediaMeta.meta_key,
+            {},
+        )
 
-        expect(result).toBe('meta_value')
+        expect(result.width).toBe(1024)
     })
 })

@@ -86,3 +86,10 @@ export type TagCloud = {
     count: number
     hit: number
 }
+
+export type MediaRawData = {
+    file: string
+    sizes: Record<string, { file: string }>
+}
+
+export type OptionValue = Record<string, any> | string | number | boolean

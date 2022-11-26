@@ -13,13 +13,12 @@ export const flickr = async (): Promise<FlickrImage[]> => {
     }
 
     const flickrs = await axios
-        .get(
+        .get<FlickrResponse>(
             `https://www.flickr.com/services/feeds/photos_public.gne?id=${process.env.FLICKR_ID}&format=json&nojsoncallback=1`,
             { responseType: 'json' },
         )
         .then((response) => {
-            const result = response.data as unknown as FlickrResponse
-            return result.items.map((item) => ({
+            return response.data.items.map((item) => ({
                 ...item,
                 media: item.media.m,
             }))

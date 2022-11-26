@@ -1,9 +1,7 @@
+import { OptionValue } from 'src/types/wordpress'
 import { MySQLQuery } from 'src/constants/mysql-query'
 import { MySQL } from 'src/utils/mysql/mysqld'
-import { isSerialized } from '../wordpress'
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const PHPUnserialize = require('php-unserialize')
+import { unserialize } from 'src/utils/wordpress'
 
 type PostMeta = {
     meta_key: string
@@ -11,32 +9,28 @@ type PostMeta = {
 }
 type PostMetaRecord = Record<string, string>
 
-export const getPostMeta = async <T = string>(
+export const getPostMeta = async <T extends OptionValue>(
     postId: number,
     metaKey: string,
     defaultValue: T,
 ): Promise<T> => {
-    const value: T = await MySQL.getInstance()
-        .query<any>(MySQLQuery.getPostMeta(postId, metaKey), [
-            { meta_value: defaultValue },
-        ])
-        .then((result) => {
-            return result[0].meta_value
-        })
+    const mysql = MySQL.getInstance()
+    const value = await mysql.selectOne<PostMeta>(
+        MySQLQuery.getPostMeta(postId, metaKey),
+    )
 
-    // Serialize
-    if (isSerialized(value as unknown as string)) {
-        return PHPUnserialize.unserialize(value)
+    if (!value) {
+        return defaultValue
     }
 
-    return value
+    return unserialize<T>(value.meta_value, defaultValue)
 }
 
 export const getAllPostMeta = async (
     postId: number,
 ): Promise<PostMetaRecord> => {
     const query = MySQLQuery.getAllPostMeta(postId)
-    const result = await MySQL.getInstance().query<PostMeta>(query, [])
+    const result = await MySQL.getInstance().select<PostMeta>(query)
 
     return result.reduce((acc: PostMetaRecord, meta) => {
         return {

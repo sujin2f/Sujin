@@ -1,18 +1,19 @@
+import { DAY_IN_SECONDS } from 'src/common/constants/datetime'
 import { MySQLQuery } from 'src/constants/mysql-query'
 import { TagCloud, Term } from 'src/types/wordpress'
 import { MySQL } from 'src/utils/mysql/mysqld'
 import { cached } from 'src/utils/node-cache'
-
-const removeCache = (): void => {
-    cached.del(MySQLQuery.getTagCount())
-}
 
 export const getTagCloud = async (): Promise<TagCloud[]> => {
     let counts: number[] = []
     let hits: number[] = []
 
     const mysql = await MySQL.getInstance()
-    const tagResult = await mysql.query<TagCloud>(MySQLQuery.getTagCount(), [])
+    const tagResult = await mysql.select<TagCloud>(
+        MySQLQuery.getTagCount(),
+        [],
+        DAY_IN_SECONDS,
+    )
     const tags: Record<number, TagCloud> = tagResult.reduce(
         (acc, item: TagCloud) => {
             return {
@@ -22,7 +23,11 @@ export const getTagCloud = async (): Promise<TagCloud[]> => {
         },
         {},
     )
-    const hitResult = await mysql.query<TagCloud>(MySQLQuery.getTagHit(), [])
+    const hitResult = await mysql.select<TagCloud>(
+        MySQLQuery.getTagHit(),
+        [],
+        DAY_IN_SECONDS,
+    )
     hitResult.forEach((item: TagCloud) => {
         if (tags[item.id]) {
             return
@@ -55,5 +60,4 @@ export const getTagCloud = async (): Promise<TagCloud[]> => {
 export const updateHit = async (termId: number): Promise<void> => {
     const mysql = await MySQL.getInstance()
     await mysql.update(MySQLQuery.updateTagHit(termId))
-    removeCache()
 }

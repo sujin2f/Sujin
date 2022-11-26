@@ -1,0 +1,37 @@
+// yarn test option.spec.ts
+
+import { mediaMeta } from '../../__tests__/fixture'
+import { getOption } from './option'
+
+jest.mock('src/utils/node-cache', () => ({
+    cached: {
+        get: jest.fn(),
+        set: jest.fn(),
+    },
+}))
+const query = jest.fn().mockImplementation(async (query, defaultValue) => {
+    return defaultValue
+})
+jest.mock('promise-mysql', () => ({
+    createConnection: async () => ({
+        query,
+    }),
+}))
+
+describe('option.ts', () => {
+    it('getOption', async () => {
+        query.mockResolvedValueOnce([
+            {
+                option_value: mediaMeta.meta_value,
+            },
+        ])
+
+        const result = await getOption<number>('option', 0, 'height')
+        expect(result).toBe(684)
+    })
+
+    it('getOption - No result', async () => {
+        const result = await getOption<number>('option', 0, 'height')
+        expect(result).toBe(undefined)
+    })
+})
