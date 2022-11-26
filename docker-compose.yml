@@ -1,4 +1,5 @@
 version: '3.9'
+
 services:
     mysql:
         container_name: mysql
@@ -7,6 +8,9 @@ services:
         volumes:
             - mysql:/var/lib/mysql
         environment:
+            MYSQL_DATABASE: wordpress
+            MYSQL_USER: MYSQL_USER
+            MYSQL_PASSWORD: MYSQL_PASSWORD
             MYSQL_ROOT_PASSWORD: MYSQL_ROOT_PASSWORD
         ports:
             - 3306:3306
@@ -15,10 +19,10 @@ services:
         image: wordpress:latest
         restart: always
         environment:
-            WORDPRESS_DB_HOST: host.docker.internal:3306
-            WORDPRESS_DB_NAME: WORDPRESS_DB_NAME
-            WORDPRESS_DB_USER: WORDPRESS_DB_USER
-            WORDPRESS_DB_PASSWORD: WORDPRESS_DB_PASSWORD
+            WORDPRESS_DB_HOST: mysql
+            WORDPRESS_DB_NAME: wordpress
+            WORDPRESS_DB_USER: MYSQL_USER
+            WORDPRESS_DB_PASSWORD: MYSQL_PASSWORD
             WORDPRESS_DEBUG: 0
             TZ: America/Toronto
         volumes:
@@ -26,27 +30,18 @@ services:
             - ./wordpress/uploads:/var/www/html/wp-content/uploads
             - ./wordpress/themes/sujin:/var/www/html/wp-content/themes/sujin
         ports:
-            - 80
-        depends_on:
-            - mysql
-    sujin-prod:
-        container_name: sujin-prod
-        image: node:16
+            - 8000:80
+    phpmyadmin:
+        container_name: phpmyadmin  
+        image: phpmyadmin
         restart: always
-        volumes:
-            - ./:/home/node/app
-            - ./wordpress/uploads:/home/node/app/wp-content/uploads
         ports:
-            - 80
-        command: yarn prod:server
-    sujin-stage:
-        container_name: sujin-stage
-        image: node:16
-        restart: always
-            - ./:/home/node/app
-            - ./wordpress/uploads:/home/node/app/wp-content/uploads
-        ports:
-            - 80
-        command: yarn stage:server
+            - 8081:80
+        environment:
+            PMA_ARBITRARY: 1
+            PMA_HOST: mysql
+            PMA_USER: MYSQL_USER
+            PMA_PASSWORD: MYSQL_PASSWORD
+
 volumes:
     mysql:

@@ -22,9 +22,3 @@ export const Public = (props: PropsWithChildren<{}>): JSX.Element => {
         </div>
     )
 }
-
-export { Archive } from './Archive'
-export { FrontPage } from './FrontPage'
-export { NotFound } from './NotFound'
-export { Page } from './Page'
-export { Post } from './Post'

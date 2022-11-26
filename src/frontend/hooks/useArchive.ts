@@ -69,5 +69,9 @@ export const useArchive = (
         )
     }, [dispatch, archive, type, updateHeader])
 
-    return { archive, loading, error }
+    const title = [window.globalVariable.siteName || '']
+    if (archive) {
+        title.push(archive.title)
+    }
+    return { archive, loading, error, title: title.join(' - ') }
 }

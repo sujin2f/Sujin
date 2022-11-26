@@ -24,7 +24,6 @@ export const Carousel = (props: Props): JSX.Element => {
     const navItemClick = (e: MouseEvent<HTMLImageElement>) => {
         const index = parseInt(
             e.currentTarget.getAttribute('data-image-index') || '0',
-            10,
         )
         changeImageIndex(index)
     }

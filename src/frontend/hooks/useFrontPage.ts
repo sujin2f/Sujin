@@ -10,7 +10,7 @@ export const useFrontPage = () => {
     const backgrounds = data && data.backgrounds
 
     useEffect(() => {
-        const title = window.globalVariable.title || ''
+        const title = window.globalVariable.siteName || ''
         const excerpt = window.globalVariable.excerpt
         const randomBackground =
             backgrounds && backgrounds.length
@@ -33,4 +33,6 @@ export const useFrontPage = () => {
             }),
         )
     }, [dispatch, backgrounds])
+
+    return { title: window.globalVariable.siteName }
 }

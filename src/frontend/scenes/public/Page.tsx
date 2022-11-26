@@ -8,11 +8,11 @@ import { Tags } from 'src/frontend/components/Tags'
 import { Content } from 'src/frontend/components/Content'
 import { SocialShare } from 'src/frontend/components/SocialShare'
 import { usePost } from 'src/frontend/hooks/usePost'
-import { NotFound } from 'src/frontend/scenes/public'
+import { NotFound } from 'src/frontend/scenes/public/NotFound'
 
 export const Page = (): JSX.Element => {
     const { slug } = useParams<{ slug: string }>()
-    const { post, loading, error } = usePost(slug)
+    const { post, loading, error, title } = usePost(slug)
 
     if (error) {
         return <NotFound />
@@ -21,6 +21,8 @@ export const Page = (): JSX.Element => {
     if (loading) {
         return <Fragment />
     }
+
+    document.title = title
 
     const thumbnail =
         post!.images.list?.url ||
