@@ -40,12 +40,16 @@ export const getTermBy = async (
         return
     }
 
+    if (!term.id) {
+        return
+    }
+
     const pages = Math.ceil(term.total / PER_PAGE)
     const image = await getTermMeta<{ value: string }>(
         term.id,
         'thumbnail',
     ).then(async (data) =>
-        data ? await getMedia(parseInt(data.value, 10)) : undefined,
+        data ? await getMedia(parseInt(data.value)) : undefined,
     )
 
     return {

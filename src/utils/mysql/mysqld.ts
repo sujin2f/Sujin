@@ -3,6 +3,7 @@ import { DAY_IN_SECONDS } from 'src/common/constants/datetime'
 import { isEmpty } from 'src/common/utils/object'
 import { Nullable } from 'src/types/common'
 import { cached } from 'src/utils/node-cache'
+import { isDev } from '../environment'
 
 export class MySQL {
     private mysql: Nullable<mysqld.Connection>
@@ -23,10 +24,9 @@ export class MySQL {
     public async select<T>(
         query: string,
         defaultValue: T[] = [],
-        cacheTtl = 0,
     ): Promise<T[]> {
         const cache = cached.get<T[]>(query)
-        if (cache) {
+        if (cache && !isDev) {
             if ((cache as unknown as string) == 'NOT EXIST') {
                 return defaultValue
             }

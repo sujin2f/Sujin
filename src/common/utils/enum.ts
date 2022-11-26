@@ -3,7 +3,7 @@ export const getEnumKeys = (
 ): string[] =>
     Object.keys(target).filter(
         (key) =>
-            target[target[key]]?.toString() !== key || isNaN(parseInt(key, 10)),
+            target[target[key]]?.toString() !== key || isNaN(parseInt(key)),
     )
 
 export const getEnumValues = (

@@ -57,5 +57,9 @@ export const usePost = (slug: Nullable<string>) => {
         )
     }, [dispatch, post])
 
-    return { post, loading, error }
+    const title = [window.globalVariable.siteName || '']
+    if (post) {
+        title.push(post.title)
+    }
+    return { post, loading, error, title: title.join(' - ') }
 }

@@ -117,15 +117,15 @@ const getRelatedPost = async (post: Post): Promise<Post[]> => {
             post.categories.map((t) => t.id),
         ),
     )
-    // const duplication: number[] = []
-    const dbResult = [...new Set([...tags, ...categories])]
-        // .filter((r) => {
-        //     if (duplication.includes(r.id)) {
-        //         return false
-        //     }
-        //     duplication.push(r.id)
-        //     return true
-        // })
+    const duplication: number[] = []
+    const dbResult = [...tags, ...categories]
+        .filter((r) => {
+            if (duplication.includes(r.id)) {
+                return false
+            }
+            duplication.push(r.id)
+            return true
+        })
         .slice(0, 4)
 
     for await (const post_ of dbResult) {

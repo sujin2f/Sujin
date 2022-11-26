@@ -47,9 +47,9 @@ export const yyyyMmDdToDate = (yyyyMmDd: string): Date => {
         return date
     }
 
-    date.setUTCFullYear(parseInt(splitted[0], 10))
-    date.setUTCMonth(parseInt(splitted[1], 10) - 1)
-    date.setUTCDate(parseInt(splitted[2], 10))
+    date.setUTCFullYear(parseInt(splitted[0]))
+    date.setUTCMonth(parseInt(splitted[1]) - 1)
+    date.setUTCDate(parseInt(splitted[2]))
     date.setUTCHours(0, 0, 0, 0)
 
     return date

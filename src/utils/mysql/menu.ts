@@ -27,7 +27,7 @@ const getMenuItemFromPost = async (post: Post): Promise<Nullable<MenuItem>> => {
 
     result.link = meta[MetaKeys.MENU_ITEM_URL] || ''
     result.title = post.title || ''
-    result.parent = parseInt(parent, 10)
+    result.parent = parseInt(parent)
     result.target = meta[MetaKeys.MENU_ITEM_TARGET] || ''
     result.htmlClass = Object.values<string>(htmlClass)
 
@@ -75,7 +75,7 @@ export const getMenu = async (slug: string): Promise<MenuItem[]> => {
 
     // Parent-children relationship
     Object.keys(result).forEach((menuId) => {
-        const key = parseInt(menuId, 10)
+        const key = parseInt(menuId)
         const menuItem = result[key]
         if (menuItem.parent) {
             result[menuItem.parent].children.push(menuItem)

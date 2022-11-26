@@ -9,15 +9,14 @@ import { RelatedPosts } from 'src/frontend/components/RelatedPosts'
 import { SocialShare } from 'src/frontend/components/SocialShare'
 import { Tags } from 'src/frontend/components/Tags'
 import { GoogleAdvert } from 'src/frontend/components/widget'
-import { NotFound } from 'src/frontend/scenes/public'
+import { NotFound } from 'src/frontend/scenes/public/NotFound'
 import { usePost } from 'src/frontend/hooks/usePost'
 import { Column } from 'src/common/components/layout/Column'
 import { Row } from 'src/common/components/layout/Row'
 
 export const Post = (): JSX.Element => {
-    console.log('Post')
     const { slug } = useParams<{ slug: string }>()
-    const { post, error, loading } = usePost(slug)
+    const { post, error, loading, title } = usePost(slug)
 
     if (error) {
         return <NotFound />
@@ -26,6 +25,8 @@ export const Post = (): JSX.Element => {
     if (loading) {
         return <Fragment />
     }
+
+    document.title = title
 
     const thumbnail =
         post!.images.list?.url ||

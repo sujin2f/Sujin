@@ -9,11 +9,7 @@ export const getTagCloud = async (): Promise<TagCloud[]> => {
     let hits: number[] = []
 
     const mysql = await MySQL.getInstance()
-    const tagResult = await mysql.select<TagCloud>(
-        MySQLQuery.getTagCount(),
-        [],
-        DAY_IN_SECONDS,
-    )
+    const tagResult = await mysql.select<TagCloud>(MySQLQuery.getTagCount(), [])
     const tags: Record<number, TagCloud> = tagResult.reduce(
         (acc, item: TagCloud) => {
             return {
@@ -23,11 +19,7 @@ export const getTagCloud = async (): Promise<TagCloud[]> => {
         },
         {},
     )
-    const hitResult = await mysql.select<TagCloud>(
-        MySQLQuery.getTagHit(),
-        [],
-        DAY_IN_SECONDS,
-    )
+    const hitResult = await mysql.select<TagCloud>(MySQLQuery.getTagHit(), [])
     hitResult.forEach((item: TagCloud) => {
         if (tags[item.id]) {
             return
@@ -37,7 +29,7 @@ export const getTagCloud = async (): Promise<TagCloud[]> => {
 
     // Push counts and hits
     Object.keys(tags).forEach((key) => {
-        const tag = tags[parseInt(key, 10)] as TagCloud
+        const tag = tags[parseInt(key)] as TagCloud
         counts.push(tag.count)
         hits.push(tag.hit)
     })

@@ -2,12 +2,11 @@ import React, { Fragment } from 'react'
 import { useParams } from 'react-router-dom'
 import { Column } from 'src/common/components/layout/Column'
 import { Row } from 'src/common/components/layout/Row'
-
+import { Post as PostType, TermTypes } from 'src/types/wordpress'
 import { ListItem } from 'src/frontend/components/ListItem'
 import { Paging } from 'src/frontend/components/Paging'
-import { NotFound } from 'src/frontend/scenes/public'
+import { NotFound } from 'src/frontend/scenes/public/NotFound'
 import { useArchive } from 'src/frontend/hooks/useArchive'
-import { Post as PostType, TermTypes } from 'src/types/wordpress'
 
 export const Archive = (): JSX.Element => {
     const { type, slug, page } = useParams<{
@@ -15,10 +14,11 @@ export const Archive = (): JSX.Element => {
         slug: string
         page: string
     }>()
-    const { archive, loading, error } = useArchive(
+    const pageInt = parseInt(page || '1')
+    const { archive, loading, error, title } = useArchive(
         type,
         slug,
-        parseInt(page || '1', 10),
+        pageInt,
         true,
     )
 
@@ -30,12 +30,14 @@ export const Archive = (): JSX.Element => {
         return <Fragment />
     }
 
+    document.title = title
+
     return (
         <Fragment>
             <Row>
                 {archive!.posts.map((post: PostType) => (
                     <Column
-                        key={`${type}-${slug}-${page}-${post.id}`}
+                        key={`${type}-${slug}-${pageInt}-${post.id}`}
                         large={4}
                         medium={6}
                         small={12}
@@ -49,8 +51,8 @@ export const Archive = (): JSX.Element => {
                 <Column>
                     {archive!.posts.length > 0 && (
                         <Paging
-                            totalPages={archive?.pages || 0}
-                            currentPage={parseInt(page || '0', 10) || 1}
+                            totalPages={archive?.pages || 1}
+                            currentPage={pageInt}
                             urlPrefix={`/${type}/${slug}`}
                         />
                     )}

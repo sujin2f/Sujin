@@ -6,12 +6,17 @@
 import express, { Response, Request } from 'express'
 import path from 'path'
 import ejs from 'ejs'
-import { pathToRegexp } from 'path-to-regexp'
 
 import { GlobalVariable } from 'src/types/common'
 import { TermTypes } from 'src/types/wordpress'
 import { CacheKeys } from 'src/constants/cache-keys'
-import { bundles, publicDir, baseDir, rootDir } from 'src/utils/environment'
+import {
+    bundles,
+    publicDir,
+    baseDir,
+    rootDir,
+    isDev,
+} from 'src/utils/environment'
 import { cached } from 'src/utils/node-cache'
 import { getPost } from 'src/utils/mysql/posts'
 import { getTermBy } from 'src/utils/mysql/term'
@@ -58,16 +63,60 @@ const getTitleExcerpt = async (
     if (req.url === '/') {
         return defaultValue
     }
-    const regexPost = pathToRegexp(
-        '/:year([0-9]+)/:month([0-9]+)/:day([0-9]+)/:slug',
-        [],
-    )
-    const execPost = regexPost.exec(req.url) || []
-    const regexPage = pathToRegexp('/:slug', [])
-    const execPage = regexPage.exec(req.url) || []
-    const postSlug = execPost[4] || execPage[1]
-    if (postSlug) {
-        return await getPost('slug', postSlug).then((response) => {
+
+    let slug = ''
+    let type = TermTypes.category
+
+    // archive
+    let regex = new RegExp(/\/(category|tag)\/(.+)$/)
+    let regexExec = regex.exec(req.url)
+    if (regexExec) {
+        if (regexExec[1] === 'tag') {
+            type = TermTypes.post_tag
+        }
+        slug = regexExec[2]
+    }
+
+    // archive with page
+    regex = new RegExp(/\/(category|tag)\/([a-z0-9-_]+)\/page\/([0-9]+)$/)
+    regexExec = regex.exec(req.url)
+    if (regexExec) {
+        if (regexExec[1] === 'tag') {
+            type = TermTypes.post_tag
+        }
+        slug = regexExec[2]
+    }
+
+    if (slug) {
+        return await getTermBy(type, slug, 1).then((response) => {
+            if (response) {
+                return [
+                    `${defaultTitle} - ${response.title}`,
+                    response.excerpt,
+                    response.image?.url || '/thumbnail.png',
+                ] as [string, string, string]
+            }
+
+            // TODO: 404
+            return defaultValue
+        })
+    }
+
+    // post type
+    regex = new RegExp(/\/\d{4}\/[0-9]+\/[0-9]+\/(.+)$/)
+    regexExec = regex.exec(req.url)
+    if (regexExec) {
+        slug = regexExec[1]
+    }
+    // page type
+    regex = new RegExp(/\/([0-9a-z-_]+)$/)
+    regexExec = regex.exec(req.url)
+    if (regexExec) {
+        slug = regexExec[1]
+    }
+
+    if (slug) {
+        return await getPost('slug', slug).then((response) => {
             if (response) {
                 return [
                     `${defaultTitle} - ${response.title}`,
@@ -75,26 +124,8 @@ const getTitleExcerpt = async (
                     response.images.thumbnail?.url || '/thumbnail.png',
                 ] as [string, string, string]
             }
+            // TODO: 404
             return defaultValue
-        })
-    }
-
-    const regexArchive = pathToRegexp('/:type/:slug', [])
-    const execArchive = regexArchive.exec(req.url) || []
-    const regexArchiveWithPage = pathToRegexp('/:type/:slug/page/:page?', [])
-    const execArchiveWithPage = regexArchiveWithPage.exec(req.url) || []
-    const type = execArchive[1] || execArchiveWithPage[1]
-    const slug = execArchive[2] || execArchiveWithPage[2]
-    if (type === 'category') {
-        return await getTermBy(TermTypes.category, slug, 1).then((response) => {
-            if (!response) {
-                return defaultValue
-            }
-            return [
-                `${defaultTitle} - ${response.title}`,
-                response.excerpt,
-                response.image?.url || '/thumbnail.png',
-            ] as [string, string, string]
         })
     }
 
@@ -102,14 +133,16 @@ const getTitleExcerpt = async (
 }
 
 const getGlobalVariable = async (req: Request): Promise<GlobalVariable> => {
-    const cache = cached.get<GlobalVariable>(CacheKeys.GLOBAL_VARS)
-    if (cache) {
+    const cacheKey = `${CacheKeys.GLOBAL_VARS}-${req.url}`
+    const cache = cached.get<GlobalVariable>(cacheKey)
+    if (cache && !isDev) {
         return cache
     }
 
     const [title, excerpt, image] = await getTitleExcerpt(req)
 
     const globalVariable: GlobalVariable = {
+        siteName: process.env.TITLE,
         title,
         excerpt,
         image,
@@ -120,7 +153,7 @@ const getGlobalVariable = async (req: Request): Promise<GlobalVariable> => {
         isProd: process.env.NODE_ENV === 'production',
     }
 
-    cached.set<GlobalVariable>(CacheKeys.GLOBAL_VARS, globalVariable, DAY_IN_SECONDS)
+    cached.set<GlobalVariable>(cacheKey, globalVariable, DAY_IN_SECONDS)
     return globalVariable
 }
 
@@ -134,9 +167,7 @@ const getGlobalVariable = async (req: Request): Promise<GlobalVariable> => {
 export const showReact = async (req: Request, res: Response): Promise<void> => {
     const filePath = path.resolve(publicDir, 'frontend.ejs')
     const bundleData = bundles()
-    const globalVariable = await getGlobalVariable(req).catch((e) =>
-        console.error(e),
-    )
+    const globalVariable = await getGlobalVariable(req)
     const html = await ejs
         .renderFile(filePath, {
             ...globalVariable,
