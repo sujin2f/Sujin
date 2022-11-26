@@ -1,6 +1,6 @@
 # Wordpress Theme Sujin
 
-![](https://github.com/sujin2f/Sujin/workflows/Fire%20everything/badge.svg)
+![](https://github.com/sujin2f/Sujin/workflows/Node.js%20CI/badge.svg)
 
 The Wordpress Theme which frontend is React from the new WP Editor Gutenberg.
 
