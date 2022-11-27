@@ -95,7 +95,8 @@ const getTitleExcerpt = async (
                     return [
                         `${defaultTitle} - ${response.title}`,
                         response.excerpt,
-                        response.image?.url || '/thumbnail.png',
+                        response.image?.url ||
+                            `${process.env.FRONTEND}/thumbnail.png`,
                     ] as [string, string, string]
                 }
 
@@ -125,7 +126,8 @@ const getTitleExcerpt = async (
                     return [
                         `${defaultTitle} - ${response.title}`,
                         response.excerpt,
-                        response.images.thumbnail?.url || '/thumbnail.png',
+                        response.images.thumbnail?.url ||
+                            `${process.env.FRONTEND}/thumbnail.png`,
                     ] as [string, string, string]
                 }
                 // TODO: 404
