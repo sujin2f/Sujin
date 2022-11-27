@@ -51,6 +51,7 @@ export const getTermBy = async (
     ).then(async (data) =>
         data ? await getMedia(parseInt(data.value)) : undefined,
     )
+    const posts = await getPostsBy(type, slug, page)
 
     return {
         ...term,
@@ -58,7 +59,7 @@ export const getTermBy = async (
         limit: PER_PAGE,
         pages,
         image,
-        posts: await getPostsBy(type, slug, page),
+        posts,
         page,
     }
 }
