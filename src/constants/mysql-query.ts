@@ -185,7 +185,7 @@ const GET_RELATED_POST = `
         taxonomy.taxonomy = "{0}" AND
         taxonomy.term_id IN ("{1}") AND
         posts.post_status = "publish"
-    ORDER BY posts.post_date DESC LIMIT 4
+    ORDER BY posts.post_date DESC LIMIT 5
 `
 
 const DELETE_POST_META = `

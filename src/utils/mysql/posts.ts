@@ -124,6 +124,9 @@ const getRelatedPost = async (post: Post): Promise<Post[]> => {
     const duplication: number[] = []
     const dbResult = [...tags, ...categories]
         .filter((r) => {
+            if (r.id === post.id) {
+                return false
+            }
             if (duplication.includes(r.id)) {
                 return false
             }
