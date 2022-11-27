@@ -9,13 +9,7 @@ import ejs from 'ejs'
 
 import { GlobalVariable } from 'src/types/common'
 import { TermTypes } from 'src/types/wordpress'
-import {
-    bundles,
-    publicDir,
-    baseDir,
-    rootDir,
-    isDev,
-} from 'src/utils/environment'
+import { bundles, publicDir, baseDir, rootDir } from 'src/utils/environment'
 import { archive } from 'src/utils/endpoints/archive'
 import { post } from 'src/utils/endpoints/post'
 
@@ -35,6 +29,11 @@ staticRouter.get('/wp-content(/*)', (req, res) => {
 
 // Sitemap - Use XML Sitemap Generator for WordPress
 staticRouter.get(/^\/sitemap.+/, (req, res) => {
+    console.log(`🤩 Sitemap Accessed ${req.url}`)
+    res.redirect(301, `${process.env.WORDPRESS}${req.url}`)
+})
+
+staticRouter.get(/\/feed\/$/, (req, res) => {
     res.redirect(301, `${process.env.WORDPRESS}${req.url}`)
 })
 
@@ -90,18 +89,21 @@ const getTitleExcerpt = async (
     }
 
     if (slug) {
-        return await archive({ type, slug, page: 1 }).then((response) => {
-            if (response) {
-                return [
-                    `${defaultTitle} - ${response.title}`,
-                    response.excerpt,
-                    response.image?.url || '/thumbnail.png',
-                ] as [string, string, string]
-            }
+        return await archive({ type, slug, page: 1 })
+            .then((response) => {
+                if (response) {
+                    return [
+                        `${defaultTitle} - ${response.title}`,
+                        response.excerpt,
+                        response.image?.url ||
+                            `${process.env.FRONTEND}/thumbnail.png`,
+                    ] as [string, string, string]
+                }
 
-            // TODO: 404
-            return defaultValue
-        })
+                // TODO: 404
+                return defaultValue
+            })
+            .catch(() => defaultValue)
     }
 
     // post type
@@ -118,17 +120,20 @@ const getTitleExcerpt = async (
     }
 
     if (slug) {
-        return await post({ slug }).then((response) => {
-            if (response) {
-                return [
-                    `${defaultTitle} - ${response.title}`,
-                    response.excerpt,
-                    response.images.thumbnail?.url || '/thumbnail.png',
-                ] as [string, string, string]
-            }
-            // TODO: 404
-            return defaultValue
-        })
+        return await post({ slug })
+            .then((response) => {
+                if (response) {
+                    return [
+                        `${defaultTitle} - ${response.title}`,
+                        response.excerpt,
+                        response.images.thumbnail?.url ||
+                            `${process.env.FRONTEND}/thumbnail.png`,
+                    ] as [string, string, string]
+                }
+                // TODO: 404
+                return defaultValue
+            })
+            .catch(() => defaultValue)
     }
 
     return defaultValue

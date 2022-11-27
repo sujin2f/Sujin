@@ -165,7 +165,7 @@ export const getPostsBy = async (
                 post.id,
                 'use-background-color',
                 false,
-            ),
+            ).then((response) => !!response),
             backgroundColor: await getPostMeta<string>(
                 post.id,
                 'background-color',

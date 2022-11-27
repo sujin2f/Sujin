@@ -13,8 +13,13 @@
         <link rel="stylesheet" type="text/css" href="/<%= bundle %>" />
         <% }); %>
         <meta property="og:title" content="<%= title %>" />
+        <meta property="og:description" content="<%= excerpt %>" />
         <meta property="og:url" content="<%= url %>" />
         <meta property="og:image" content="<%= image %>" />
+        <meta property="twitter:card" content="summary" />
+        <meta property="twitter:title" content="<%= title %>" />
+        <meta property="twitter:description" content="<%= excerpt %>" />
+        <meta property="twitter:image" content="<%= image %>" />
 
         <% if (isProd) { %>
         <!-- Global site tag (gtag.js) - Google Analytics -->

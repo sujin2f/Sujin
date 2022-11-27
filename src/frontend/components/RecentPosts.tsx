@@ -2,7 +2,6 @@
 import React, { Fragment } from 'react'
 
 import { ListItem } from 'src/frontend/components/ListItem'
-import { Post } from 'src/types/wordpress'
 import { useRecentPosts } from '../hooks/useRecentPosts'
 
 type Props = {
