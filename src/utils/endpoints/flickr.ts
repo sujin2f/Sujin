@@ -1,4 +1,4 @@
-import { Cached } from 'src/utils/node-cache'
+import { Cached } from 'src/utils/cached'
 import { FlickrImage } from 'src/types/flickr'
 import { getFlickr } from 'src/utils/request/flickr'
 

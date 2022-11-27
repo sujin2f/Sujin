@@ -12,6 +12,10 @@ jest.mock('promise-mysql', () => ({
 }))
 
 describe('tag-cloud.ts', () => {
+    afterAll(() => {
+        jest.clearAllMocks()
+    })
+
     it('tag-cloud', async () => {
         const result = await tagCloud()
         expect(result).toStrictEqual([])

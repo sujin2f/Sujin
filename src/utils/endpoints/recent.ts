@@ -1,6 +1,6 @@
 import { Post, TermTypes } from 'src/types/wordpress'
 import { getPostsBy } from '../mysql/posts'
-import { Cached } from 'src/utils/node-cache'
+import { Cached } from 'src/utils/cached'
 
 export const recent = async () => {
     const cacheKey = `recent`

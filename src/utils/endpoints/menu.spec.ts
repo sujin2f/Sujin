@@ -12,6 +12,10 @@ jest.mock('promise-mysql', () => ({
 }))
 
 describe('menu.ts', () => {
+    afterAll(() => {
+        jest.clearAllMocks()
+    })
+
     it('menu', async () => {
         const result = await menu({ slug: 'main' })
         expect(result).toStrictEqual([])

@@ -13,6 +13,10 @@ jest.mock('promise-mysql', () => ({
 }))
 
 describe('post-meta.ts', () => {
+    afterAll(() => {
+        jest.clearAllMocks()
+    })
+
     it('getAllPostMeta', async () => {
         query.mockResolvedValueOnce([mediaMeta])
 

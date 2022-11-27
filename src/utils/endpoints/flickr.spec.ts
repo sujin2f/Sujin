@@ -17,6 +17,10 @@ jest.mock('axios', () => ({
 }))
 
 describe('flickr.ts', () => {
+    afterAll(() => {
+        jest.clearAllMocks()
+    })
+
     it('flickr: No ID', async () => {
         const result = await flickr()
         expect(result).toStrictEqual([])

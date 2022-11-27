@@ -1,7 +1,7 @@
 import { MenuVariables } from 'src/constants/graphql'
 import { MenuItem } from 'src/types/wordpress'
 import { getMenu } from 'src/utils/mysql/menu'
-import { Cached } from 'src/utils/node-cache'
+import { Cached } from 'src/utils/cached'
 
 export const menu = async ({ slug }: MenuVariables): Promise<MenuItem[]> => {
     const cacheKey = `menu ${slug}`

@@ -13,6 +13,10 @@ jest.mock('promise-mysql', () => ({
 }))
 
 describe('menu.ts', () => {
+    afterAll(() => {
+        jest.clearAllMocks()
+    })
+
     it('getMenu: parent relationship', async () => {
         query
             .mockResolvedValueOnce([

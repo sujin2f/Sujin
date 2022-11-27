@@ -2,7 +2,7 @@ import { PostVariables } from 'src/constants/graphql'
 import { Post } from 'src/types/wordpress'
 import { getPost } from 'src/utils/mysql/posts'
 import { updateHit } from 'src/utils/mysql/tag-cloud'
-import { Cached } from 'src/utils/node-cache'
+import { Cached } from 'src/utils/cached'
 import { MySQL } from 'src/utils/mysql/mysqld'
 import { MySQLQuery } from 'src/constants/mysql-query'
 

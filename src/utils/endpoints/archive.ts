@@ -2,7 +2,7 @@ import { ArchiveVariables } from 'src/constants/graphql'
 import { Term, TermTypes } from 'src/types/wordpress'
 import { getTermBy } from 'src/utils/mysql/term'
 import { updateHit } from 'src/utils/mysql/tag-cloud'
-import { Cached } from 'src/utils/node-cache'
+import { Cached } from 'src/utils/cached'
 
 export const archive = async ({
     type,

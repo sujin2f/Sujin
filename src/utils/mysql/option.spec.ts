@@ -13,6 +13,10 @@ jest.mock('promise-mysql', () => ({
 }))
 
 describe('option.ts', () => {
+    afterAll(() => {
+        jest.clearAllMocks()
+    })
+
     it('getOption', async () => {
         query.mockResolvedValueOnce([
             {

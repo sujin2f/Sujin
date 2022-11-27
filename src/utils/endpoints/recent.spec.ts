@@ -12,6 +12,10 @@ jest.mock('promise-mysql', () => ({
 }))
 
 describe('recent.ts', () => {
+    afterAll(() => {
+        jest.clearAllMocks()
+    })
+
     it('recent', async () => {
         const result = await recent()
         expect(result).toStrictEqual([])

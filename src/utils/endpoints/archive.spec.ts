@@ -14,6 +14,10 @@ jest.mock('promise-mysql', () => ({
 }))
 
 describe('archive.ts', () => {
+    afterAll(() => {
+        jest.clearAllMocks()
+    })
+
     it('archive', async () => {
         query.mockResolvedValueOnce([term])
 

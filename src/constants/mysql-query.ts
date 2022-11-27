@@ -43,7 +43,7 @@ const GET_RECENT_POSTS = `
     FROM wp_posts AS posts
     WHERE posts.post_type="post" AND posts.post_status="publish"
     ORDER BY posts.ID DESC
-    LIMIT 4
+    LIMIT 5
 `
 
 const GET_POST_META = `
@@ -185,7 +185,7 @@ const GET_RELATED_POST = `
         taxonomy.taxonomy = "{0}" AND
         taxonomy.term_id IN ("{1}") AND
         posts.post_status = "publish"
-    ORDER BY posts.post_date DESC LIMIT 4
+    ORDER BY posts.post_date DESC LIMIT 5
 `
 
 const DELETE_POST_META = `

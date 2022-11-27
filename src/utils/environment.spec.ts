@@ -9,6 +9,10 @@ jest.mock('fs', () => ({
 }))
 
 describe('environment.ts', () => {
+    afterAll(() => {
+        jest.clearAllMocks()
+    })
+
     it('rootDir', () => {
         expect(rootDir).toBe(path.resolve(__dirname, '../../'))
     })

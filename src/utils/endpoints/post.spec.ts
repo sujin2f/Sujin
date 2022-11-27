@@ -13,6 +13,10 @@ jest.mock('promise-mysql', () => ({
 }))
 
 describe('post.ts', () => {
+    afterAll(() => {
+        jest.clearAllMocks()
+    })
+
     it('post: No post', async () => {
         await post({ slug: 'main' })
             .then(() => expect(true).toBeFalsy())
