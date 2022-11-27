@@ -29,6 +29,7 @@ staticRouter.get('/wp-content(/*)', (req, res) => {
 
 // Sitemap - Use XML Sitemap Generator for WordPress
 staticRouter.get(/^\/sitemap.+/, (req, res) => {
+    console.log(`🤩 Sitemap Accessed ${req.url}`)
     res.redirect(301, `${process.env.WORDPRESS}${req.url}`)
 })
 
