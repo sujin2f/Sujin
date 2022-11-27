@@ -14,6 +14,10 @@ jest.mock('promise-mysql', () => ({
 }))
 
 describe('term.ts', () => {
+    afterAll(() => {
+        jest.clearAllMocks()
+    })
+
     it('getTaxonomies', async () => {
         query.mockResolvedValueOnce([term])
 

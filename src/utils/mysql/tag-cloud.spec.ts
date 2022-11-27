@@ -14,6 +14,10 @@ jest.mock('promise-mysql', () => ({
 }))
 
 describe('tag-cloud.ts', () => {
+    afterAll(() => {
+        jest.clearAllMocks()
+    })
+
     it('getTagCloud', async () => {
         query.mockResolvedValueOnce([tagCloud]).mockResolvedValueOnce([
             tagCloud,

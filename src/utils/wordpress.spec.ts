@@ -9,6 +9,10 @@ jest.mock('php-unserialize', () => ({
 }))
 
 describe('wordpress.ts', () => {
+    afterAll(() => {
+        jest.clearAllMocks()
+    })
+
     describe('unserialize()', () => {
         it('Empty', () => {
             const result = unserialize('', 'You are welcome')

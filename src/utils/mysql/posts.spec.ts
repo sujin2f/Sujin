@@ -13,6 +13,10 @@ jest.mock('promise-mysql', () => ({
 }))
 
 describe('posts.ts', () => {
+    afterAll(() => {
+        jest.clearAllMocks()
+    })
+
     it('getPostsBy', async () => {
         query
             .mockResolvedValueOnce([
@@ -45,9 +49,21 @@ describe('posts.ts', () => {
             .mockResolvedValueOnce([mediaMeta]) // thumbnail meta
             .mockResolvedValueOnce([post]) // post prev
             .mockResolvedValueOnce(undefined) // post next
-            .mockResolvedValueOnce([post, post]) // post related tag
             .mockResolvedValueOnce([
-                post,
+                {
+                    ...post,
+                    id: 10,
+                },
+                {
+                    ...post,
+                    id: 10,
+                },
+            ]) // post related tag
+            .mockResolvedValueOnce([
+                {
+                    ...post,
+                    id: 10,
+                },
                 {
                     ...post,
                     id: 3,

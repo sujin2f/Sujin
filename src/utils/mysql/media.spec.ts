@@ -13,6 +13,10 @@ jest.mock('promise-mysql', () => ({
 }))
 
 describe('media.ts', () => {
+    afterAll(() => {
+        jest.clearAllMocks()
+    })
+
     it('getMedia', async () => {
         query
             .mockResolvedValueOnce([media])
