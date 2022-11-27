@@ -9,7 +9,6 @@ import ejs from 'ejs'
 
 import { GlobalVariable } from 'src/types/common'
 import { TermTypes } from 'src/types/wordpress'
-import { CacheKeys } from 'src/constants/cache-keys'
 import {
     bundles,
     publicDir,
@@ -17,10 +16,8 @@ import {
     rootDir,
     isDev,
 } from 'src/utils/environment'
-import { cached } from 'src/utils/node-cache'
-import { getPost } from 'src/utils/mysql/posts'
-import { getTermBy } from 'src/utils/mysql/term'
-import { DAY_IN_SECONDS } from 'src/common/constants/datetime'
+import { archive } from 'src/utils/endpoints/archive'
+import { post } from 'src/utils/endpoints/post'
 
 const staticRouter = express.Router()
 
@@ -34,6 +31,11 @@ staticRouter.get('/wp-content(/*)', (req, res) => {
         req.url.replace('wp-content', ''),
     )
     res.sendFile(html)
+})
+
+// Sitemap - Use XML Sitemap Generator for WordPress
+staticRouter.get(/^\/sitemap.+/, (req, res) => {
+    res.redirect(301, `${process.env.WORDPRESS}${req.url}`)
 })
 
 /**
@@ -88,7 +90,7 @@ const getTitleExcerpt = async (
     }
 
     if (slug) {
-        return await getTermBy(type, slug, 1).then((response) => {
+        return await archive({ type, slug, page: 1 }).then((response) => {
             if (response) {
                 return [
                     `${defaultTitle} - ${response.title}`,
@@ -116,7 +118,7 @@ const getTitleExcerpt = async (
     }
 
     if (slug) {
-        return await getPost('slug', slug).then((response) => {
+        return await post({ slug }).then((response) => {
             if (response) {
                 return [
                     `${defaultTitle} - ${response.title}`,
@@ -133,12 +135,6 @@ const getTitleExcerpt = async (
 }
 
 const getGlobalVariable = async (req: Request): Promise<GlobalVariable> => {
-    const cacheKey = `${CacheKeys.GLOBAL_VARS}-${req.url}`
-    const cache = cached.get<GlobalVariable>(cacheKey)
-    if (cache && !isDev) {
-        return cache
-    }
-
     const [title, excerpt, image] = await getTitleExcerpt(req)
 
     const globalVariable: GlobalVariable = {
@@ -153,7 +149,6 @@ const getGlobalVariable = async (req: Request): Promise<GlobalVariable> => {
         isProd: process.env.NODE_ENV === 'production',
     }
 
-    cached.set<GlobalVariable>(cacheKey, globalVariable, DAY_IN_SECONDS)
     return globalVariable
 }
 

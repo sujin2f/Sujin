@@ -188,6 +188,13 @@ const GET_RELATED_POST = `
     ORDER BY posts.post_date DESC LIMIT 4
 `
 
+const DELETE_POST_META = `
+    DELETE FROM wp_postmeta
+    WHERE
+        post_id = {0} AND
+        meta_key = "{1}"
+`
+
 export const MySQLQuery = {
     getAllPostMeta: (postId: number) => format(GET_ALL_POST_META, postId),
     getRandomBackgrounds: () =>
@@ -243,6 +250,9 @@ export const MySQLQuery = {
         return format(GET_RELATED_POST, taxonomy, termIds.join(','))
     },
     getRecentPosts: () => GET_RECENT_POSTS,
+    deletePostMeta: (postId: number, metaKey: string) => {
+        return format(DELETE_POST_META, postId, metaKey)
+    },
 }
 
 export enum MetaKeys {

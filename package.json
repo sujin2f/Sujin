@@ -22,7 +22,7 @@
         "prod:tsc": "NODE_ENV=production tsc --project tsconfig.production.json",
         "prod:server": "NODE_ENV=production node .build/production/server/index.js",
         "prod:analyze": "source-map-explorer '.build/production/frontend/static/js/*.js'",
-        "test": "NODE_ENV=jest jest"
+        "test": "NODE_ENV=development jest"
     },
     "dependencies": {},
     "devDependencies": {

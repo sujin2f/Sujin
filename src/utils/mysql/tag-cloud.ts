@@ -2,7 +2,6 @@ import { DAY_IN_SECONDS } from 'src/common/constants/datetime'
 import { MySQLQuery } from 'src/constants/mysql-query'
 import { TagCloud, Term } from 'src/types/wordpress'
 import { MySQL } from 'src/utils/mysql/mysqld'
-import { cached } from 'src/utils/node-cache'
 
 export const getTagCloud = async (): Promise<TagCloud[]> => {
     let counts: number[] = []
