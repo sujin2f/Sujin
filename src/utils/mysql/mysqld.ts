@@ -1,9 +1,6 @@
 import { default as mysqld } from 'promise-mysql'
-import { DAY_IN_SECONDS } from 'src/common/constants/datetime'
 import { isEmpty } from 'src/common/utils/object'
 import { Nullable } from 'src/types/common'
-import { cached } from 'src/utils/node-cache'
-import { isDev } from '../environment'
 
 export class MySQL {
     private mysql: Nullable<mysqld.Connection>
@@ -25,14 +22,6 @@ export class MySQL {
         query: string,
         defaultValue: T[] = [],
     ): Promise<T[]> {
-        const cache = cached.get<T[]>(query)
-        if (cache && !isDev) {
-            if ((cache as unknown as string) == 'NOT EXIST') {
-                return defaultValue
-            }
-            return cache
-        }
-
         if (!this.mysql) {
             this.mysql = await this.init().catch(() => {
                 console.error('🤬 MySQL connection failed.')
@@ -53,11 +42,9 @@ export class MySQL {
                 return data
             })
             .catch(() => {
-                cached.set<string>(query, 'NOT EXIST', DAY_IN_SECONDS)
                 return defaultValue
             })
 
-        cached.set<T[]>(query, result, DAY_IN_SECONDS)
         return result
     }
 

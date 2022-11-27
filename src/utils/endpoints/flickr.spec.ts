@@ -2,12 +2,6 @@
 
 import { flickr } from './flickr'
 
-jest.mock('src/utils/node-cache', () => ({
-    cached: {
-        get: jest.fn(),
-        set: jest.fn(),
-    },
-}))
 jest.mock('axios', () => ({
     get: async () => ({
         data: {

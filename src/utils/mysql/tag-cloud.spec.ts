@@ -4,12 +4,6 @@ import { MySQLQuery } from 'src/constants/mysql-query'
 import { tagCloud } from '../../__tests__/fixture'
 import { getTagCloud, updateHit } from './tag-cloud'
 
-jest.mock('src/utils/node-cache', () => ({
-    cached: {
-        get: jest.fn(),
-        set: jest.fn(),
-    },
-}))
 const query = jest.fn().mockImplementation(async (query, defaultValue) => {
     return defaultValue
 })

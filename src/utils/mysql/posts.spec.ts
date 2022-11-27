@@ -3,12 +3,6 @@
 import { media, mediaMeta, post, term } from '../../__tests__/fixture'
 import { getPostsBy, getPost } from './posts'
 
-jest.mock('src/utils/node-cache', () => ({
-    cached: {
-        get: jest.fn(),
-        set: jest.fn(),
-    },
-}))
 const query = jest.fn().mockImplementation(async (query, defaultValue) => {
     return defaultValue
 })

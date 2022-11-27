@@ -1,13 +1,7 @@
 import axios from 'axios'
-import { cached } from 'src/utils/node-cache'
 import { FlickrImage, FlickrResponse } from 'src/types/flickr'
 
-export const flickr = async (): Promise<FlickrImage[]> => {
-    const cache = cached.get<FlickrImage[]>('flickr')
-    if (cache) {
-        return cache
-    }
-
+export const getFlickr = async (): Promise<FlickrImage[]> => {
     if (!process.env.FLICKR_ID) {
         return []
     }
@@ -23,10 +17,7 @@ export const flickr = async (): Promise<FlickrImage[]> => {
                 media: item.media.m,
             }))
         })
-        .catch(() => {
-            throw new Error()
-        })
+        .catch(() => [])
 
-    cached.set<FlickrImage[]>('flickr', flickrs)
     return flickrs
 }

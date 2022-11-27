@@ -10,7 +10,7 @@ jest.mock('fs', () => ({
 
 describe('environment.ts', () => {
     it('rootDir', () => {
-        expect(rootDir).toBe(path.resolve(__dirname, '../../../'))
+        expect(rootDir).toBe(path.resolve(__dirname, '../../'))
     })
 
     it('publicDir', () => {

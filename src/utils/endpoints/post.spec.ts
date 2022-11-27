@@ -3,12 +3,6 @@
 import { post } from './post'
 import { post as postData } from '../../__tests__/fixture'
 
-jest.mock('src/utils/node-cache', () => ({
-    cached: {
-        get: jest.fn(),
-        set: jest.fn(),
-    },
-}))
 const query = jest.fn().mockImplementation(async (query, defaultValue) => {
     return defaultValue
 })

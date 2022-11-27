@@ -2,12 +2,6 @@
 
 import { menu } from './menu'
 
-jest.mock('src/utils/node-cache', () => ({
-    cached: {
-        get: jest.fn(),
-        set: jest.fn(),
-    },
-}))
 const query = jest.fn().mockImplementation(async (query, defaultValue) => {
     return defaultValue
 })
