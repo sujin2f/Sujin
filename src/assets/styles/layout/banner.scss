@@ -165,6 +165,15 @@
     }
 }
 
+.layout__header__icon {
+    position: relative;
+    border-radius: 100px;
+    margin: -7.5em auto 2em;
+    display: block;
+    width: 9em;
+    height: 9em;
+}
+
 .wrapper--front-page {
     .banner__title__heading {
         height: 116px;
@@ -208,11 +217,26 @@
     }
 }
 
-.layout__header__icon {
-    position: relative;
-    border-radius: 100px;
-    margin: -7.5em auto 2em;
-    display: block;
-    width: 9em;
-    height: 9em;
+.wrapper--404 {
+    .banner__title__heading {
+        height: 116px;
+        overflow: hidden;
+        width: 100%;
+        margin-bottom: 20px;
+        font-size: 8em;
+    }
+
+    .banner__title__excerpt {
+        padding: 0 0.2em;
+        line-height: inherit;
+        background-color: $white;
+        color: $black;
+        font-size: 1.3em;
+        font-weight: 400;
+        margin-bottom: 0;
+
+        @include breakpoint(small only) {
+            font-size: 1.2em;
+        }
+    }
 }
