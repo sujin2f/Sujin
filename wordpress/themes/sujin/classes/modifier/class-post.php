@@ -34,6 +34,7 @@ class Post {
 	 * @visibility protected
 	 */
 	protected function __construct() {
+		add_action( 'save_post', array( $this, 'post_updated' ), 10, 2 );
 		Meta_Box::get_instance( 'Images' )
 			->append_to( Post_Type::get_instance( 'Post' ) )
 			->append_to( Post_Type::get_instance( 'Page' ) )
@@ -43,5 +44,9 @@ class Post {
 			->append( Attachment::get_instance( 'Background' ) )
 			->append( Checkbox::get_instance( 'Use Background Color' ) )
 			->append( Input::get_instance( 'Background Color' )->type( 'color' ) );
+	}
+
+	public function post_updated( $post_id, $post ) {
+		update_post_meta( 1, $post->post_name . '-updated', 'true' );
 	}
 }
