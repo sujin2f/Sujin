@@ -20,7 +20,9 @@ describe('post.ts', () => {
     })
 
     it('post: No post', async () => {
-        query.mockResolvedValueOnce([postData])
+        query
+            .mockResolvedValueOnce(undefined) // Checking Update
+            .mockResolvedValueOnce([postData])
         const result = await post({ slug: 'main' })
         expect(result!.title).toBe(postData.title)
     })
