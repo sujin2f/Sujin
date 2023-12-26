@@ -10,6 +10,10 @@ export class MySQL {
     }
 
     private async init(): Promise<mysqld.Connection> {
+        console.log(process.env.MYSQL)
+        console.log(process.env.MYSQL_USER)
+        console.log(process.env.MYSQL_PASSWORD)
+        console.log(process.env.MYSQL_DB)
         return await mysqld.createConnection({
             host: process.env.MYSQL,
             user: process.env.MYSQL_USER,
@@ -23,8 +27,9 @@ export class MySQL {
         defaultValue: T[] = [],
     ): Promise<T[]> {
         if (!this.mysql) {
-            this.mysql = await this.init().catch(() => {
+            this.mysql = await this.init().catch((e) => {
                 console.error('🤬 MySQL connection failed.')
+                console.error(e)
                 return undefined
             })
         }
