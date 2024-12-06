@@ -5,9 +5,6 @@ import { Gist } from 'src/frontend/components/Gist'
 import { TweetEmbed } from 'src/frontend/components/TweetEmbed'
 import { AboutItem } from 'src/frontend/components/AboutItem'
 import { Carousel } from 'src/frontend/components/Carousel'
-import { CaseTool } from 'src/frontend/components/dev-tool/CaseTool'
-import { SymbolAlignment } from 'src/frontend/components/dev-tool/SymbolAlignment'
-import { TextSort } from 'src/frontend/components/dev-tool/TextSort'
 
 interface UrlArgs {
     [key: string]: string
@@ -92,7 +89,8 @@ const attrs = (text: string): AttrMatch => {
     /* eslint-enable no-cond-assign */
 
     const patternShortcode =
-        /(\[([\w-]+)[^\]]*?\]([^\2]*)?\[\/[^\]]*\2\]|\[[\w-]+[^\]]*?\/\])/gi
+        // eslint-disable-next-line no-control-regex
+        /(\[([\w-]+)[^\]]*?\]([^\x02]*)?\[\/[^\]]*\2\]|\[[\w-]+[^\]]*?\/\])/gi
     const shortcodeMatch = patternShortcode.exec(text)
     if (shortcodeMatch && shortcodeMatch[3]) {
         named.innerContent = shortcodeMatch[3]
@@ -113,7 +111,8 @@ const replaceQuotes = (matched: Named, key: string) => {
 
 export function parseContent(content: string): JSX.Element[] {
     const patternShortcode =
-        /(\[([\w-]+)[^\]]*?\][^\2]*?\[\/[^\]]*\2\]|\[[\w-]+[^\]]*?\/\])/gi
+        // eslint-disable-next-line no-control-regex
+        /(\[([\w-]+)[^\]]*?\][^\x02]*?\[\/[^\]]*\2\]|\[[\w-]+[^\]]*?\/\])/gi
     const str = content
 
     let matched: {
@@ -213,31 +212,6 @@ export function parseContent(content: string): JSX.Element[] {
                         dangerouslySetInnerHTML={{ __html: innerContent }}
                     ></div>
                 )
-            }
-
-            if (value.indexOf('[dev-tools') === 0) {
-                const id = replaceQuotes(matched[value].named, 'id')
-                switch (id) {
-                    case 'text-sort':
-                        return (
-                            <TextSort
-                                key={`content-element__text-sort__${index}`}
-                            />
-                        )
-                    case 'symbol-alignment':
-                        return (
-                            <SymbolAlignment
-                                key={`content-element__text-sort__${index}`}
-                            />
-                        )
-                    case 'case-tool':
-                    default:
-                        return (
-                            <CaseTool
-                                key={`content-element__case-tool__${index}`}
-                            />
-                        )
-                }
             }
 
             if (value.indexOf('[about-item') === 0) {

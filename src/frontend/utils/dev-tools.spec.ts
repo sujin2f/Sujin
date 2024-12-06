@@ -9,7 +9,6 @@ import {
     snakeCase,
     titleCase,
     sortText,
-    symbolAlignment,
 } from './dev-tools'
 
 test('Case Tool', () => {
@@ -83,38 +82,10 @@ test('Text Sort', () => {
         'sunt in culpa qui officia deserunt mollit anim id est laborum.',
     ].join('\n')
 
-    const actual = sortText(text, false)
+    const actual = sortText(text, '', false)
         .split('\n')
         .map((line) => line.charAt(0))
         .join('')
 
     expect(actual).toEqual('DELUceqss')
-})
-
-test('Symbol Alignment', () => {
-    const text = [
-        'Lorem => amet,',
-        'consectetur => elit,',
-        'sed => aliqua.',
-        'Ut => veniam,',
-        'quis => consequat.',
-        'Duis => velit',
-        'esse => pariatur.',
-        'Excepteur => proident,',
-        'sunt => laborum.',
-    ].join('\n')
-
-    const actual = symbolAlignment(text, '=>').split('\n')
-
-    expect(actual).toEqual([
-        'Lorem       => amet,',
-        'consectetur => elit,',
-        'sed         => aliqua.',
-        'Ut          => veniam,',
-        'quis        => consequat.',
-        'Duis        => velit',
-        'esse        => pariatur.',
-        'Excepteur   => proident,',
-        'sunt        => laborum.',
-    ])
 })

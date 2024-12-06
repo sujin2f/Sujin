@@ -34,7 +34,7 @@ class Post {
 	 * @visibility protected
 	 */
 	protected function __construct() {
-		add_action( 'save_post', array( $this, 'post_updated' ), 10, 2 );
+		add_action( 'save_post', array( $this, 'post_updated' ), 100, 2 );
 		Meta_Box::get_instance( 'Images' )
 			->append_to( Post_Type::get_instance( 'Post' ) )
 			->append_to( Post_Type::get_instance( 'Page' ) )

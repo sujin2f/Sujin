@@ -7,6 +7,9 @@ import { FrontPage } from 'src/frontend/scenes/public/FrontPage'
 import { NotFound } from 'src/frontend/scenes/public/NotFound'
 import { Page } from 'src/frontend/scenes/public/Page'
 import { Post } from 'src/frontend/scenes/public/Post'
+import { DevTool } from 'src/frontend/scenes/devtool'
+import { CaseTool } from 'src/frontend/scenes/devtool/CaseTool'
+import { TextSort } from './scenes/devtool/TextSort'
 
 export const Router = (): JSX.Element => {
     return (
@@ -17,6 +20,24 @@ export const Router = (): JSX.Element => {
                     <Public>
                         <FrontPage />
                     </Public>
+                }
+            />
+
+            <Route
+                path="/dev-tools/case"
+                element={
+                    <DevTool>
+                        <CaseTool />
+                    </DevTool>
+                }
+            />
+
+            <Route
+                path="/dev-tools/text-sort"
+                element={
+                    <DevTool>
+                        <TextSort />
+                    </DevTool>
                 }
             />
 

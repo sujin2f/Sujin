@@ -3,10 +3,11 @@ import React, {
     Fragment,
     KeyboardEvent,
     RefObject,
+    useCallback,
     useRef,
 } from 'react'
-import { removeEmpty } from '../../utils/object'
-import { generateUUID } from '../../utils/string'
+import { filterEmpty } from 'src/common/utils/object'
+import { generateUUID } from 'src/common/utils/string'
 
 type Props = {
     label?: string
@@ -24,11 +25,16 @@ type Props = {
     autoFocus?: boolean
     value?: string
 }
+
+/*
+ * Input Component in Foundation Site
+ * @ref https://get.foundation/sites/docs/forms.html#text-inputs
+ */
 export const Input = (props: Props): JSX.Element => {
     const {
         label,
         defaultValue,
-        reference,
+        reference: refProp,
         helpText,
         required,
         errorMessage,
@@ -40,8 +46,8 @@ export const Input = (props: Props): JSX.Element => {
         onChange,
     } = props
 
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const ref = reference || useRef<HTMLInputElement>(null)
+    const refComp = useRef<HTMLInputElement>(null)
+    const ref = refProp || refComp
 
     const id = props.id || generateUUID()
     const type = props.type || 'text'
@@ -52,7 +58,7 @@ export const Input = (props: Props): JSX.Element => {
     const className = `${inlineLabel ? 'input-group-field' : ''} ${
         errorMessage ? 'input--error' : ''
     }`
-    const inputProps = removeEmpty({
+    const inputProps = filterEmpty({
         id,
         type,
         defaultValue,
@@ -65,11 +71,14 @@ export const Input = (props: Props): JSX.Element => {
         value,
     })
 
-    const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter' && onEnterKeyDown) {
-            onEnterKeyDown()
-        }
-    }
+    const onKeyDown = useCallback(
+        (e: KeyboardEvent<HTMLInputElement>) => {
+            if (e.key === 'Enter' && onEnterKeyDown) {
+                onEnterKeyDown()
+            }
+        },
+        [onEnterKeyDown],
+    )
 
     const inputComponent = (
         <Fragment>

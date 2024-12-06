@@ -8,3 +8,33 @@ export const WEEK_IN_MS = DAY_IN_MS
 export const MINUTE_IN_SECONDS = 60
 export const HOUR_IN_SECONDS = MINUTE_IN_SECONDS * 60
 export const DAY_IN_SECONDS = HOUR_IN_SECONDS * 24
+
+export const ShortMonthNames = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+]
+
+export const FullMonthNames = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+]

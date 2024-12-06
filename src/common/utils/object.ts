@@ -1,30 +1,41 @@
-export const removeEmpty = (
+/**
+ * Remove empty nodes
+ */
+export const filterEmpty = (
     object: Record<string, unknown>,
 ): Record<string, unknown> =>
     Object.keys(object)
         .filter((key) => {
-            if (
-                object[key] &&
-                typeof object[key] === 'object' &&
-                !Object.keys(object[key] as Record<string, unknown>).length
-            ) {
+            if (isEmpty(object[key])) {
                 return false
             }
             return object[key]
         })
         .reduce((acc, key) => ({ ...acc, [key]: object[key] }), {})
 
-export const isEmpty = (
-    value: Record<string, unknown> | string | number | unknown[] | null,
-): boolean => {
-    if (value === undefined || value === null || value === NaN) {
+/**
+ * Check given value is empty
+ * Zero is not empty. Only NaN is empty.
+ */
+export const isEmpty = <T>(value: T): boolean => {
+    if (value === undefined || value === null) {
         return true
+    }
+    if (typeof value === 'boolean') {
+        return false
     }
     if (typeof value === 'string') {
         return value === ''
     }
-    if (Array.isArray(value)) {
-        return value.length === 0
+    if (typeof value === 'number') {
+        return isNaN(value)
     }
-    return Object.keys(value).length === 0
+    if (Array.isArray(value)) {
+        return value.filter((v) => !isEmpty(v)).length === 0
+    }
+    // Check if {}
+    if (typeof value === 'object') {
+        return Object.keys(value).length === 0
+    }
+    return !!value
 }

@@ -83,71 +83,67 @@ export const snakeCase = (texts: string[]): string =>
 export const titleCase = (texts: string[]): string =>
     texts.map((text) => ucfirst(text)).join(' ')
 
-export const sortText = (text: string, removeEmpty: boolean): string =>
+const sortTextBlock = (text: string) =>
     text
         .split('\n')
-        .filter((l) => (removeEmpty && l) || !removeEmpty)
+        .filter((l) => l)
         .sort()
         .join('\n')
 
-export const symbolAlignment = (text: string, symbol: string): string => {
-    const lineInfo: {
-        indent: number
-        symbol: null | number
-    }[] = []
-    const maxPosition: number[] = [] // this key is indent
+const sortTextWithPrimary = (text: string, primaryText: string) => {
+    if (!primaryText) {
+        return sortTextBlock(text)
+    }
 
-    return text
-        .split('\n')
-        .map((line, lineNumber) => {
-            lineInfo[lineNumber] = {
-                indent: 0,
-                symbol: null,
+    const keys: string[] = []
+    const empty: string[] = []
+    const group: Record<string, string[]> = {}
+    text.split('\n')
+        .filter((l) => l)
+        .forEach((line) => {
+            const splitted = line.split(primaryText)
+            const key = splitted[1]
+            if (!key) {
+                empty.push(line)
+                return
             }
 
-            let indentFound = false
-
-            for (let i = 0; i < line.length; i += 1) {
-                if (lineInfo[lineNumber].symbol === null) {
-                    // Calculate indent
-                    if (!indentFound) {
-                        if (line[i] === ' ' || line[i] === '\t') {
-                            lineInfo[lineNumber].indent += 1
-                        } else {
-                            indentFound = true
-                        }
-                    }
-
-                    // Symbol finder
-                    const compare = line.substring(i, i + symbol.length)
-                    if (
-                        compare === symbol &&
-                        lineInfo[lineNumber].symbol === null
-                    ) {
-                        lineInfo[lineNumber].symbol = i
-                        if (
-                            (maxPosition[lineInfo[lineNumber].indent] || 0) < i
-                        ) {
-                            maxPosition[lineInfo[lineNumber].indent] = i
-                        }
-                    }
-                }
+            if (!group[key]) {
+                keys.push(key)
+                group[key] = []
             }
-
-            return line
+            group[key].push(line)
         })
-        .map((line, lineNumber) => {
-            // Change the text
-            if (!lineInfo[lineNumber].symbol) {
-                return line
-            }
 
-            const offset = lineInfo[lineNumber].symbol || 0
-            const numSpaces = maxPosition[lineInfo[lineNumber].indent] - offset
-            const spaces = Array(numSpaces).fill(' ').join('')
-            const before = line.substring(0, offset)
-            const after = line.substring(offset)
-            return `${before}${spaces}${after}`
-        })
-        .join('\n')
+    const result = []
+    if (empty.length) {
+        result.push(sortTextBlock(empty.join('\n')))
+    }
+    keys.sort().forEach((key) => {
+        result.push(sortTextBlock(group[key].join('\n')))
+    })
+    return result.join('\n')
+}
+
+export const sortText = (
+    text: string,
+    primaryText: string,
+    groupByEmpty: boolean,
+): string => {
+    if (groupByEmpty) {
+        return text
+            .split('\n\n')
+            .filter((l) => l)
+            .map((block) => sortTextWithPrimary(block, primaryText))
+            .join('\n\n')
+    }
+    return sortTextWithPrimary(text, primaryText)
+}
+
+export const getMaxCols = (text: string): number => {
+    return Math.max(...text.split('\n').map((line) => line.length))
+}
+
+export const getRows = (text: string): number => {
+    return text.split('\n').length
 }

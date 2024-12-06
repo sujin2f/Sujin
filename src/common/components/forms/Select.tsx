@@ -1,4 +1,10 @@
-import React, { Fragment, ForwardedRef, ChangeEvent, forwardRef } from 'react'
+import React, {
+    Fragment,
+    ForwardedRef,
+    ChangeEvent,
+    forwardRef,
+    useCallback,
+} from 'react'
 import { generateUUID } from '../../utils/string'
 
 type OptGroup = Record<string, string>
@@ -17,6 +23,9 @@ type Props = {
     onChange?: (value: string) => void
 }
 
+/*
+ * HTML Select
+ */
 export const Select = forwardRef(
     (props: Props, ref: ForwardedRef<HTMLSelectElement>): JSX.Element => {
         const {
@@ -31,15 +40,19 @@ export const Select = forwardRef(
             helpText,
         } = props
         const id = props.id || generateUUID()
-        const onChange = (e: ChangeEvent<HTMLSelectElement>) => {
-            if (props.onChange) {
-                props.onChange(e.target.value)
-            }
-        }
         const ariaDescribedby = helpText ? `${id}-help-text` : ''
         const labelClassName = `form-label ${
             required ? 'form-label--required' : ''
         }`
+
+        const onChange = useCallback(
+            (e: ChangeEvent<HTMLSelectElement>) => {
+                if (props.onChange) {
+                    props.onChange(e.target.value)
+                }
+            },
+            [props],
+        )
 
         return (
             <Fragment>

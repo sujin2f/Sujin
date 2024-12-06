@@ -8,7 +8,11 @@ import { Menu } from './Menu'
 import { Column } from 'src/common/components/layout/Column'
 import { Row } from 'src/common/components/layout/Row'
 
-export const FixedHeader = (): JSX.Element => {
+interface Props {
+    isDevTool?: boolean
+}
+
+export const FixedHeader = (props: Props): JSX.Element => {
     const { wrapperClasses, setWrapperClass } = useGlobalState()
 
     return (
@@ -36,6 +40,7 @@ export const FixedHeader = (): JSX.Element => {
                         <Menu
                             className="show-for-large menu--fixed-header"
                             slug={MenuNames.MAIN}
+                            isDevTool={props.isDevTool}
                         />
                     </Column>
                     <Column
@@ -60,6 +65,7 @@ export const FixedHeader = (): JSX.Element => {
             <Menu
                 className="hide-for-large menu--fixed-header--mobile"
                 slug={MenuNames.MAIN}
+                isDevTool={props.isDevTool}
             />
         </section>
     )

@@ -1,15 +1,23 @@
 import { PropsWithChildren, createElement } from 'react'
 
+type OneToTwelve = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12
+type OneToEleven = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11
 type Props = {
-    small?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12
-    smallOffset?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11
-    medium?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12
-    mediumOffset?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11
-    large?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12
-    largeOffset?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11
+    small?: OneToTwelve
+    smallOffset?: OneToEleven
+    medium?: OneToTwelve
+    mediumOffset?: OneToEleven
+    large?: OneToTwelve
+    largeOffset?: OneToEleven
     className?: string
+    id?: string
     dom?: string
 }
+
+/*
+ * Grid Layout Component in Foundation Site
+ * @ref https://get.foundation/sites/docs/flex-grid.html
+ */
 export const Column = (props: PropsWithChildren<Props>): JSX.Element => {
     const small = props.small ? `small-${props.small}` : ''
     const medium = props.medium ? `medium-${props.medium}` : ''
@@ -35,6 +43,7 @@ export const Column = (props: PropsWithChildren<Props>): JSX.Element => {
         type,
         {
             className: `columns ${join} ${className}`,
+            id: props.id,
         },
         props.children,
     )

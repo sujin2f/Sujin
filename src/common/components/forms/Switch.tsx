@@ -4,6 +4,7 @@ import React, {
     forwardRef,
     ForwardedRef,
     ChangeEvent,
+    useCallback,
 } from 'react'
 
 type Props = {
@@ -13,15 +14,23 @@ type Props = {
     style?: CSSProperties
     onChange?: (value: boolean) => void
 }
+
+/*
+ * Switch Component in Foundation Site
+ * @ref https://get.foundation/sites/docs/switch.html
+ */
 export const Switch = forwardRef(
     (props: Props, ref: ForwardedRef<HTMLInputElement>): JSX.Element => {
         const { id, checked, title, style } = props
 
-        const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-            if (props.onChange) {
-                props.onChange(!!e.target.value)
-            }
-        }
+        const onChange = useCallback(
+            (e: ChangeEvent<HTMLInputElement>) => {
+                if (props.onChange) {
+                    props.onChange(!!e.target.value)
+                }
+            },
+            [props],
+        )
 
         return (
             <Fragment>

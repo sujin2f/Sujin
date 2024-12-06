@@ -1,4 +1,10 @@
-import React, { CSSProperties, useState, forwardRef, ForwardedRef } from 'react'
+import React, {
+    CSSProperties,
+    useState,
+    forwardRef,
+    ForwardedRef,
+    useCallback,
+} from 'react'
 import { SwatchesPicker } from 'react-color'
 
 type Props = {
@@ -7,6 +13,9 @@ type Props = {
     onChange?: (value: string) => void
 }
 
+/*
+ * React Color picker
+ */
 export const ColorPicker = forwardRef(
     (props: Props, ref: ForwardedRef<HTMLInputElement>): JSX.Element => {
         const [activated, changeActivated] = useState(false)
@@ -16,13 +25,15 @@ export const ColorPicker = forwardRef(
             background: color,
         }
 
-        /* istanbul ignore next */
-        const onChange = (value: string) => {
-            changeColor(value)
-            if (props.onChange) {
-                props.onChange(value)
-            }
-        }
+        const onChange = useCallback(
+            (value: string) => {
+                changeColor(value)
+                if (props.onChange) {
+                    props.onChange(value)
+                }
+            },
+            [props],
+        )
 
         return (
             <div className="color-picker">

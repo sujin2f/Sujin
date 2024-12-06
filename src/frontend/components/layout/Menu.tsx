@@ -6,11 +6,12 @@ import { MenuItem } from 'src/frontend/components/layout/MenuItem'
 interface Props {
     slug: string
     className?: string
+    isDevTool?: boolean
 }
 
 export const Menu = (props: Props): JSX.Element => {
     const { slug, className } = props
-    const { menu, error, loading } = useMenu(slug)
+    const { menu, error, loading } = useMenu(props.isDevTool ? 'devtool' : slug)
 
     if (error || loading) {
         return <Fragment />

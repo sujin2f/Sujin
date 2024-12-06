@@ -3,17 +3,16 @@ version: '3.9'
 services:
     mysql:
         container_name: mysql
-        image: mariadb
+        image: mariadb:10.5
         restart: always
-        volumes:
-            - mysql:/var/lib/mysql
         environment:
             MYSQL_DATABASE: wordpress
             MYSQL_USER: MYSQL_USER
             MYSQL_PASSWORD: MYSQL_PASSWORD
             MYSQL_ROOT_PASSWORD: MYSQL_ROOT_PASSWORD
         ports:
-            - 3306:3306
+            - 3307:3306
+
     wordpress:
         container_name: wordpress
         image: wordpress:latest
@@ -27,21 +26,6 @@ services:
             TZ: America/Toronto
         volumes:
             - ./wordpress/plugins/2d-tag-cloud:/var/www/html/wp-content/plugins/2d-tag-cloud
-            - ./wordpress/uploads:/var/www/html/wp-content/uploads
             - ./wordpress/themes/sujin:/var/www/html/wp-content/themes/sujin
         ports:
-            - 8000:80
-    phpmyadmin:
-        container_name: phpmyadmin
-        image: phpmyadmin
-        restart: always
-        ports:
-            - 8081:80
-        environment:
-            PMA_ARBITRARY: 1
-            PMA_HOST: mysql
-            PMA_USER: MYSQL_USER
-            PMA_PASSWORD: MYSQL_PASSWORD
-
-volumes:
-    mysql:
+            - 9000:80

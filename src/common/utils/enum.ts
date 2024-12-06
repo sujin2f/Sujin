@@ -1,9 +1,13 @@
+/**
+ * Considering to remove
+ */
+
 export const getEnumKeys = (
     target: Record<string, number | string>,
 ): string[] =>
     Object.keys(target).filter(
         (key) =>
-            target[target[key]]?.toString() !== key || isNaN(parseInt(key)),
+            target[target[key]]?.toString() !== key || isNaN(parseInt(key, 10)),
     )
 
 export const getEnumValues = (

@@ -5,6 +5,7 @@ import { updateHit } from 'src/utils/mysql/tag-cloud'
 import { Cached } from 'src/utils/cached'
 import { MySQL } from 'src/utils/mysql/mysqld'
 import { MySQLQuery } from 'src/constants/mysql-query'
+import { ErrorMessage } from 'src/constants/errors'
 
 export const post = async ({ slug }: PostVariables): Promise<Post> => {
     const safeSlug =
@@ -33,6 +34,7 @@ export const post = async ({ slug }: PostVariables): Promise<Post> => {
         })
         return post
     }
-    console.error(`🤬 Post does not exist: ${safeSlug}`)
-    throw new Error(`🤬 Post does not exist: ${safeSlug}`)
+
+    console.error(`🤬 ${ErrorMessage.POST_NOT_FOUND}: ${safeSlug}`)
+    throw new Error(`🤬 ${ErrorMessage.POST_NOT_FOUND}: ${safeSlug}`)
 }

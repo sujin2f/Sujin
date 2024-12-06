@@ -328,8 +328,13 @@ export const unserialize = <
     defaultValue: T,
     key?: string,
 ): T => {
-    if (typeof value !== 'string') {
-        return value
+    if (typeof defaultValue !== 'string') {
+        switch (typeof defaultValue) {
+            case 'boolean':
+                return !!value as any
+            case 'number':
+                return (parseInt(value) as any) || defaultValue
+        }
     }
 
     if (!value) {

@@ -1,17 +1,24 @@
+import { FullMonthNames, ShortMonthNames } from 'src/common/constants/datetime'
+
+/*
+ * Get YYYY-MM-DD format
+ */
 export const formatDate = (dateString: string | number | Date): string => {
     if (!dateString) {
         return ''
     }
 
-    const date = dateString instanceof Date ? dateString : new Date(dateString)
+    let date = dateString instanceof Date ? dateString : new Date(dateString)
     if (date.toString() === 'Invalid Date') {
         return 'Invalid Date'
     }
 
     date.setUTCHours(0, 0, 0, 0)
-    return `${date.getUTCFullYear()}-${addZero(
-        date.getUTCMonth() + 1,
-    )}-${addZero(date.getUTCDate())}`
+
+    const year = date.getUTCFullYear()
+    const month = addZero(date.getUTCMonth() + 1)
+    const day = addZero(date.getUTCDate())
+    return `${year}-${month}-${day}`
 }
 
 /**
@@ -34,41 +41,9 @@ export const addZero = (amount: string | number, digits = 2): string => {
     return value.join('')
 }
 
-/**
- * Convert YYYY-DD-MM to Date
- * @param {string} yyyyMmDd YYYY-DD-MM
- * @return {Date}
- */
-export const yyyyMmDdToDate = (yyyyMmDd: string): Date => {
-    const splitted = yyyyMmDd.split('-')
-    const date = new Date()
-    if (splitted.length !== 3) {
-        date.setUTCHours(0, 0, 0, 0)
-        return date
+export const getMonthName = (dt: Date, isFull = false) => {
+    if (isFull) {
+        return FullMonthNames[dt.getMonth()]
     }
-
-    date.setUTCFullYear(parseInt(splitted[0]))
-    date.setUTCMonth(parseInt(splitted[1]) - 1)
-    date.setUTCDate(parseInt(splitted[2]))
-    date.setUTCHours(0, 0, 0, 0)
-
-    return date
-}
-
-export const getShortMonthName = (dt: Date) => {
-    const monthNames = [
-        'Jan',
-        'Feb',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'Jul',
-        'Aug',
-        'Sep',
-        'Oct',
-        'Nov',
-        'Dec',
-    ]
-    return monthNames[dt.getMonth()]
+    return ShortMonthNames[dt.getMonth()]
 }

@@ -6,7 +6,7 @@ import { Link } from 'src/frontend/components/Link'
 import { Tags } from 'src/frontend/components/Tags'
 import { Post } from 'src/types/wordpress'
 import { getImageMap } from 'src/utils/common'
-import { getShortMonthName } from 'src/common/utils/datetime'
+import { getMonthName } from 'src/common/utils/datetime'
 
 interface Props {
     item: Post
@@ -41,7 +41,7 @@ export const ListItem = (props: Props): JSX.Element => {
                     >
                         <span className="list-item__day">{date.getDate()}</span>
                         <span className="list-item__month">
-                            {getShortMonthName(date)}
+                            {getMonthName(date)}
                         </span>
                         <span className="list-item__year">
                             {date.getFullYear()}

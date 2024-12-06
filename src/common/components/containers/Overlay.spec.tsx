@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-// yarn test Overlay.spec.ts
+// yarn test Reveal.spec.ts
 
 import '@testing-library/jest-dom'
 import React, { Fragment, useState } from 'react'
@@ -32,7 +32,7 @@ describe('useOverlay.ts', () => {
         }
         render(<Component />)
 
-        // Test overlay does not exist
+        // Test Overlay does not exist
         try {
             screen.getByTestId('overlay')
             expect(true).toBeFalsy()
@@ -48,7 +48,7 @@ describe('useOverlay.ts', () => {
         fireEvent.click(screen.getByTestId('close'))
         try {
             screen.getByTestId('overlay')
-            expect(true).toBeFalsy()
+            expect(true).reveal()
         } catch (e) {
             expect(true).toBeTruthy()
         }

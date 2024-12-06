@@ -87,3 +87,7 @@ dd {
     display: flex;
     flex-wrap: wrap;
 }
+
+.cursor--copy {
+    cursor: copy !important;
+}

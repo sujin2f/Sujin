@@ -1,6 +1,6 @@
 // yarn test datetime.spec.ts
 
-import { formatDate, yyyyMmDdToDate, addZero } from './datetime'
+import { formatDate, addZero, getMonthName } from './datetime'
 
 describe('datetime.ts', () => {
     it('formatDate()', () => {
@@ -12,28 +12,15 @@ describe('datetime.ts', () => {
         expect(formatDate('30/30/1977')).toEqual('Invalid Date')
     })
 
-    describe('yyyyMmDdToDate()', () => {
-        it('Success', () => {
-            const date = yyyyMmDdToDate('1977-01-02')
-            expect(date.getUTCFullYear()).toEqual(1977)
-            expect(date.getUTCMonth()).toEqual(0)
-            expect(date.getUTCDate()).toEqual(2)
-        })
-
-        it('🤬 fail', () => {
-            const today = new Date()
-            const date = yyyyMmDdToDate('1977-01')
-
-            expect(today.getFullYear()).toEqual(date.getFullYear())
-            expect(today.getMonth()).toEqual(date.getMonth())
-            expect(today.getUTCDate()).toEqual(date.getUTCDate())
-        })
-    })
-
     it('addZero()', () => {
         expect(addZero('1')).toEqual('01')
         expect(addZero(1)).toEqual('01')
         expect(addZero(10)).toEqual('10')
         expect(addZero(100)).toEqual('100')
+    })
+
+    it('getMonthName()', () => {
+        expect(getMonthName(new Date('1977-01-02'))).toEqual('Jan')
+        expect(getMonthName(new Date('1977-01-02'), true)).toEqual('January')
     })
 })

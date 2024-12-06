@@ -1,5 +1,8 @@
-import { Nullable } from 'src/types/common'
+import { Nullable } from 'src/common/types'
 
+/**
+ * Check if the browser is mobile
+ */
 export const isMobile = (): boolean => {
     const userAgent =
         window.navigator.userAgent || window.navigator.vendor || window.opera
@@ -12,9 +15,19 @@ export const isMobile = (): boolean => {
     return regex1.test(userAgent) || regex2.test(userAgent.substr(0, 4))
 }
 
-export const scrollTo = (id?: string): Nullable<number> => {
+/**
+ * Scroll on action
+ */
+export const scrollTo = (
+    id: Nullable<string>,
+    isSmooth = true,
+): Nullable<number> => {
+    // const behavior = isSmooth ? 'smooth' : 'instant'
     if (!id) {
-        window.scrollTo(0, 0)
+        window.scrollTo({
+            top: 0,
+            // behavior,
+        })
         return
     }
 
@@ -29,6 +42,32 @@ export const scrollTo = (id?: string): Nullable<number> => {
     const clientTop = docElem.clientTop || body.clientTop || 0
     const scrollTop = window.pageYOffset || docElem.scrollTop || body.scrollTop
 
-    window.scrollTo(0, box.top + scrollTop - clientTop)
+    window.scrollTo({
+        top: box.top + scrollTop - clientTop,
+        // behavior
+    })
     return box.top + scrollTop - clientTop
+}
+
+/**
+ * Delay to execute
+ * usage: debounce(() => {...}, 300)
+ */
+export const debounce = (callback: () => void, wait: number) => {
+    let timeoutId: NodeJS.Timeout | null = null
+    if (timeoutId) {
+        clearTimeout(timeoutId)
+    }
+    timeoutId = setTimeout(() => {
+        callback()
+    }, wait)
+}
+
+export const copyText = (text?: string): void => {
+    console.log(1)
+    if (!text) {
+        return
+    }
+    console.log(text)
+    navigator.clipboard.writeText(text)
 }

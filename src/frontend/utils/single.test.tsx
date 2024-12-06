@@ -30,12 +30,6 @@ test('[gist /], [carousel /], [tweet /] Content Parse Test', () => {
     content += '[tweet id="476962421873975296" /]'
     content += 'Lorem ipsum dolor sit amet'
     content += '[tweet id="476962421873975298" /]'
-    content += 'Lorem ipsum dolor sit amet'
-    content += '[dev-tools /]'
-    content += 'Lorem ipsum dolor sit amet'
-    content += '[dev-tools id="text-sort" /]'
-    content += 'Lorem ipsum dolor sit amet'
-    content += '[dev-tools id="symbol-alignment" /]'
     /* eslint-enable max-len */
 
     const parsed = parseContent(content)
@@ -48,12 +42,6 @@ test('[gist /], [carousel /], [tweet /] Content Parse Test', () => {
     expect(parsed[3].type.name).toEqual('TweetEmbed')
     expect(parsed[4].type).toEqual('section')
     expect(parsed[5].type.name).toEqual('TweetEmbed')
-    expect(parsed[6].type).toEqual('section')
-    expect(parsed[7].type.name).toEqual('CaseTool')
-    expect(parsed[8].type).toEqual('section')
-    expect(parsed[9].type.name).toEqual('TextSort')
-    expect(parsed[10].type).toEqual('section')
-    expect(parsed[11].type.name).toEqual('SymbolAlignment')
 })
 
 test('Series', () => {

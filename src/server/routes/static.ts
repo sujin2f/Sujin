@@ -12,6 +12,7 @@ import { TermTypes } from 'src/types/wordpress'
 import { bundles, publicDir, baseDir, rootDir } from 'src/utils/environment'
 import { archive } from 'src/utils/endpoints/archive'
 import { post } from 'src/utils/endpoints/post'
+import { DEV_TOOL_SEO } from 'src/constants/menu-devtool'
 
 const staticRouter = express.Router()
 
@@ -63,6 +64,16 @@ const getTitleExcerpt = async (
     ]
     if (req.url === '/') {
         return defaultValue
+    }
+
+    if (req.url.indexOf('/dev-tools/') !== 1) {
+        if (DEV_TOOL_SEO[req.url]) {
+            return [
+                DEV_TOOL_SEO[req.url].seoTitle,
+                DEV_TOOL_SEO[req.url].seoDescription,
+                '/thumbnail.png',
+            ]
+        }
     }
 
     let slug = ''

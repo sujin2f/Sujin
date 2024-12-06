@@ -4,6 +4,10 @@ type Props = {
     id: string
     values: string[]
 }
+
+/*
+ * HTML datalist
+ */
 export const Datalist = (props: Props): JSX.Element => {
     const { id, values } = props
 

@@ -1,20 +1,20 @@
 // yarn test object.spec.ts
 
-import { removeEmpty, isEmpty } from './object'
+import { filterEmpty, isEmpty } from './object'
 
 describe('object.ts', () => {
-    it('removeEmpty()', () => {
+    it('filterEmpty()', () => {
         const testData = {
             a: 'a',
             b: '',
             c: 0,
             d: {},
-            e: [],
+            e: [[], []],
             f: undefined,
             g: null,
             h: NaN,
         }
-        const result = removeEmpty(testData)
+        const result = filterEmpty(testData)
         expect(Object.keys(result).length).toEqual(1)
         expect(result.a).toEqual('a')
     })

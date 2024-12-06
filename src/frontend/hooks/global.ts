@@ -9,7 +9,7 @@ import { setPageInfo } from 'src/frontend/store/actions'
  *
  * @returns {[string, RefObject<HTMLDivElement>]} Class name and <div /> reference
  */
-export const useGlobalState = () => {
+export const useGlobalState = (...wrapperClassOverride: string[]) => {
     const [options, dispatch] = useContext(Context) as ContextType
     const wrapperElement = useRef<HTMLDivElement>(null)
     const { wrapperClasses, currentPage } = options
@@ -51,9 +51,13 @@ export const useGlobalState = () => {
         (key) => wrapperClasses[key as keyof WrapperClasses],
     )
 
-    if (currentPage) {
-        returnClasses.push(`wrapper--${currentPage}`)
-    }
+    const classes = wrapperClassOverride.length
+        ? wrapperClassOverride
+        : [currentPage]
+    classes.forEach((current) => {
+        returnClasses.push(`wrapper--${current}`)
+    })
+
     const setWrapperClass = (value: Partial<WrapperClasses>) => {
         dispatch(
             setPageInfo({

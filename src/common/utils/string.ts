@@ -1,14 +1,21 @@
-export const currencyToNumber = (currency?: string): number => {
-    if (!currency) {
+/**
+ * String to number
+ * i.g $1, 123, 00.23
+ */
+export const toNumber = (input?: string): number => {
+    if (!input) {
         return 0
     }
-    const float = parseFloat(currency.replace(/[^0-9.-]+/g, ''))
+    const float = parseFloat(input.replace(/[^0-9.-]+/g, ''))
     if (!float || isNaN(float)) {
         return 0
     }
     return float
 }
 
+/**
+ * Get UUID
+ */
 export const generateUUID = () => {
     let d = new Date().getTime()
     let d2: number
@@ -34,12 +41,6 @@ export const generateUUID = () => {
     })
 }
 
-export const toMongoSearchString = (text: string) => {
-    const title = text
-        .replace(/[^a-zA-Z]/g, ' ')
-        .toLowerCase()
-        .split(' ')
-        .filter((v) => v)
-    const unique = [...new Set(title)]
-    return unique.join(' ')
+export const capitalize = (string: string) => {
+    return `${string.charAt(0).toUpperCase()}${string.slice(1)}`
 }

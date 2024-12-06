@@ -1,9 +1,14 @@
-import React, { MouseEvent } from 'react'
+import React from 'react'
+import { MouseEventCallback } from 'src/common/types/react'
 
 type Props = {
-    onClick?: (e?: MouseEvent) => void
+    onClick?: MouseEventCallback
 }
 
+/*
+ * Close Button Component in Foundation Site
+ * @ref https://get.foundation/sites/docs/close-button.html
+ */
 export const CloseButton = (props: Props): JSX.Element => {
     return (
         <button

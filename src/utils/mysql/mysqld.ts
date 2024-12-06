@@ -10,15 +10,12 @@ export class MySQL {
     }
 
     private async init(): Promise<mysqld.Connection> {
-        console.log(process.env.MYSQL)
-        console.log(process.env.MYSQL_USER)
-        console.log(process.env.MYSQL_PASSWORD)
-        console.log(process.env.MYSQL_DB)
         return await mysqld.createConnection({
-            host: process.env.MYSQL,
-            user: process.env.MYSQL_USER,
-            password: process.env.MYSQL_PASSWORD,
-            database: process.env.MYSQL_DB,
+            host: process.env.MYSQL || 'localhost',
+            user: process.env.MYSQL_USER || 'MYSQL_USER',
+            password: process.env.MYSQL_PASSWORD || 'MYSQL_PASSWORD',
+            database: process.env.MYSQL_DB || 'wordpress',
+            port: 3307,
         })
     }
 
