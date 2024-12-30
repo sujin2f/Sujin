@@ -27,7 +27,7 @@ type ItemProps = {
 }
 
 const MenuItem = (props: ItemProps): JSX.Element => {
-    const hasChildren = !!props.item.children
+    const hasChildren = props.item.children && props.item.children.length > 0
     const [closed, changeClosed] = useState(
         hasChildren && props.dropdown ? true : false,
     )
@@ -77,12 +77,12 @@ const MenuItem = (props: ItemProps): JSX.Element => {
         >
             <Link to={linkTo} className="menu__link">
                 {props.item.title}
-                {props.dropdown && props.item.children && (
+                {props.dropdown && hasChildren && (
                     <Arrow className="menu__link__arrow" />
                 )}
             </Link>
 
-            {props.item.children && (
+            {hasChildren && (
                 <MenuBlock
                     items={props.item.children}
                     direction={props.direction}

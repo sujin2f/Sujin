@@ -5,6 +5,7 @@
     --black: #{variable.$black};
     --dark-gray: #{variable.$dark-gray};
     --gray: #{variable.$gray};
+    --light-gray: #{variable.$light-gray};
     --white: #{variable.$white};
     --primary: #{variable.$primary};
     --warning: #{variable.$warning};
@@ -111,7 +112,7 @@ button {
     display: none;
 }
 
-.show-for-small-only {
+.show-for-small {
     display: inherit !important;
 
     @include mixin.medium {
@@ -123,12 +124,26 @@ button {
     }
 }
 
-.hide-for-small-only {
+.hide-for-small {
     display: none !important;
 
     @include mixin.medium {
         display: inherit !important;
     }
+
+    @include mixin.large {
+        display: inherit !important;
+    }
+}
+
+.hide-for-large {
+    @include mixin.large {
+        display: none !important;
+    }
+}
+
+.show-for-large {
+    display: none !important;
 
     @include mixin.large {
         display: inherit !important;

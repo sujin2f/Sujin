@@ -1,9 +1,13 @@
 import React, { PropsWithChildren } from 'react'
+
+import { FixedHeader } from 'src/frontend/scenes/layout/FixedHeader'
+import { Footer } from 'src/frontend/scenes/layout/Footer'
+
 import { Column } from 'src/common/components/layout/Column'
 import { Row } from 'src/common/components/layout/Row'
+
 import { SideMenu } from 'src/frontend/components/dev-tool/SideMenu'
-import { FixedHeader } from 'src/frontend/components/layout/FixedHeader'
-import { Footer } from 'src/frontend/components/layout/Footer'
+
 import { useGlobalState } from 'src/frontend/hooks/global'
 
 const DevTool = (props: PropsWithChildren<{}>): JSX.Element => {

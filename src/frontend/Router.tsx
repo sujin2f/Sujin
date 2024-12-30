@@ -3,10 +3,10 @@ import { Routes, Route } from 'react-router-dom'
 
 import { Wrapper } from 'src/common/components/layout/Wrapper'
 import { Public } from 'src/frontend/scenes/public'
-import { FrontPage } from 'src/frontend/scenes/public/FrontPage'
 import { NotFound } from 'src/frontend/scenes/public/NotFound'
 import { Loading } from 'src/frontend/components/Loading'
 
+const FrontPage = lazy(() => import('src/frontend/scenes/FrontPage'))
 const Archive = lazy(() => import('src/frontend/scenes/public/Archive'))
 const Page = lazy(() => import('src/frontend/scenes/public/Page'))
 const Post = lazy(() => import('src/frontend/scenes/public/Post'))
@@ -19,14 +19,7 @@ export const Router = (): JSX.Element => {
         <Suspense fallback={<Loading />}>
             <Wrapper>
                 <Routes>
-                    <Route
-                        path="/"
-                        element={
-                            <Public>
-                                <FrontPage />
-                            </Public>
-                        }
-                    />
+                    <Route path="/" element={<FrontPage />} />
 
                     <Route
                         path="/dev-tools/case"

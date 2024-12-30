@@ -3,9 +3,9 @@ import { useParams } from 'react-router-dom'
 import { Column } from 'src/common/components/layout/Column'
 import { Row } from 'src/common/components/layout/Row'
 import { Card } from 'src/common/components/containers/Card'
+import { Paging } from 'src/common/components/containers/Paging'
 
 import { Post as PostType, TermTypes } from 'src/types/wordpress'
-import { Paging } from 'src/frontend/components/Paging'
 import { NotFound } from 'src/frontend/scenes/public/NotFound'
 import { useArchive } from 'src/frontend/hooks/useArchive'
 

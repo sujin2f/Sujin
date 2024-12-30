@@ -268,6 +268,7 @@ export enum MetaKeys {
 export enum MenuNames {
     MAIN = 'main',
     SOCIAL = 'social-media',
+    DEV_TOOL = 'devtool',
 }
 
 export enum MenuItemTypes {

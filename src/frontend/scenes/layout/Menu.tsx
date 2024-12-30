@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 
+import { MenuItem } from 'src/frontend/scenes/layout/MenuItem'
 import { useMenu } from 'src/frontend/hooks/useMenu'
-import { MenuItem } from 'src/frontend/components/layout/MenuItem'
 
 interface Props {
     slug: string

@@ -1,13 +1,28 @@
 import React, { Fragment } from 'react'
+
+import { Menu } from 'src/common/components/layout/Menu'
+
 import { ImageType } from 'src/constants/wp'
 import { MenuNames } from 'src/constants/mysql-query'
 
 import { Loading } from 'src/frontend/components/Loading'
 import { getImageMap } from 'src/utils/common'
-import { useGlobalState } from 'src/frontend/hooks/global'
-import { Menu } from './Menu'
 
-export const Banner = (): JSX.Element => {
+import { useMenu } from 'src/frontend/hooks/useMenu'
+
+require('src/frontend/scss/banner.scss')
+
+type Props = {
+    background?: string
+    title?: string | JSX.Element
+    excerpt?: string
+    isLoading?: boolean
+    icon?: string
+    prefix?: string
+    backgroundColor?: string
+}
+
+export const Banner = (props: Props): JSX.Element => {
     const {
         background,
         title,
@@ -16,7 +31,8 @@ export const Banner = (): JSX.Element => {
         icon,
         prefix,
         backgroundColor,
-    } = useGlobalState()
+    } = props
+    const { menu: menuMain } = useMenu(MenuNames.MAIN)
 
     if (isLoading) {
         return (
@@ -46,6 +62,10 @@ export const Banner = (): JSX.Element => {
         <Fragment>
             <section className="banner" style={style}>
                 <div className="banner__overlay">
+                    <Menu
+                        className="show-for-large menu__container--banner"
+                        items={menuMain}
+                    />
                     <div className="banner__title">
                         <h1 className="banner__title__heading">
                             {prefix && (
@@ -62,11 +82,6 @@ export const Banner = (): JSX.Element => {
                             }}
                         />
                     </div>
-
-                    <Menu
-                        className="show-for-large row menu--banner"
-                        slug={MenuNames.MAIN}
-                    />
                 </div>
                 <picture>
                     {imageMapBackground.map((map) => (

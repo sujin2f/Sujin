@@ -6,3 +6,6 @@ export const backgroundImageStyle = (
     }
     return (image && { backgroundImage: `url(${image})` }) || {}
 }
+
+export const replaceLink = (to: string) =>
+    to.replace(window.globalVariable.frontend || '', '')
