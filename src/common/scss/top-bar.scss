@@ -1,0 +1,15 @@
+.top-bar {
+    .column {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:last-child {
+            justify-content: end;
+        }
+
+        &:first-child {
+            justify-content: start;
+        }
+    }
+}

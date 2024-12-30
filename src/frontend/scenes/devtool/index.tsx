@@ -6,7 +6,7 @@ import { FixedHeader } from 'src/frontend/components/layout/FixedHeader'
 import { Footer } from 'src/frontend/components/layout/Footer'
 import { useGlobalState } from 'src/frontend/hooks/global'
 
-export const DevTool = (props: PropsWithChildren<{}>): JSX.Element => {
+const DevTool = (props: PropsWithChildren<{}>): JSX.Element => {
     const { returnClasses, wrapperElement } = useGlobalState(
         'devtool',
         'scrolled',
@@ -31,3 +31,5 @@ export const DevTool = (props: PropsWithChildren<{}>): JSX.Element => {
         </div>
     )
 }
+
+export default DevTool

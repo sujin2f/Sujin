@@ -5,7 +5,9 @@ import React, {
     forwardRef,
     useCallback,
 } from 'react'
-import { generateUUID } from '../../utils/string'
+import { className, generateUUID } from '../../utils/string'
+
+require('src/common/scss/form.scss')
 
 type OptGroup = Record<string, string>
 
@@ -41,9 +43,10 @@ export const Select = forwardRef(
         } = props
         const id = props.id || generateUUID()
         const ariaDescribedby = helpText ? `${id}-help-text` : ''
-        const labelClassName = `form-label ${
-            required ? 'form-label--required' : ''
-        }`
+        const labelClassName = className(
+            'form__label',
+            required && 'form__label--required',
+        )
 
         const onChange = useCallback(
             (e: ChangeEvent<HTMLSelectElement>) => {
@@ -73,6 +76,7 @@ export const Select = forwardRef(
                     required={required}
                     aria-describedby={ariaDescribedby}
                     onChange={onChange}
+                    className="form__input"
                 >
                     {Object.entries(options).map(
                         ([optionValue, optionText]) => {

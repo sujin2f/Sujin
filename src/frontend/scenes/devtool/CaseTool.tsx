@@ -27,7 +27,7 @@ const CASES: Record<string, (text: string[]) => string> = {
     'path/case': pathCase,
 }
 
-export const CaseTool = (): JSX.Element => {
+const CaseTool = (): JSX.Element => {
     const [textArr, setTextArr] = useState<string[]>([])
 
     const change = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,3 +78,5 @@ export const CaseTool = (): JSX.Element => {
         </Fragment>
     )
 }
+
+export default CaseTool

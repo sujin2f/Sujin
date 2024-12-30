@@ -1,11 +1,10 @@
-import React, { Fragment } from 'react'
-import { Column } from 'src/common/components/layout/Column'
-import { Row } from 'src/common/components/layout/Row'
+import React, { PropsWithChildren } from 'react'
 import { CloseButton } from 'src/common/components/forms/CloseButton'
 import { MouseEventCallback } from 'src/common/types/react'
+import { className } from 'src/common/utils/string'
 
 type Props = {
-    message?: string
+    className?: string
     onClick?: MouseEventCallback
 }
 
@@ -13,21 +12,13 @@ type Props = {
  * Callout Component in Foundation Site
  * @ref https://get.foundation/sites/docs/callout.html
  */
-export const Callout = (props: Props): JSX.Element => {
-    const { message, onClick } = props
-
-    if (!message) {
-        return <Fragment />
-    }
+export const Callout = (props: PropsWithChildren<Props>): JSX.Element => {
+    const { onClick } = props
 
     return (
-        <Row className="callout__wrapper">
-            <Column>
-                <div className="callout alert">
-                    <p>{message}</p>
-                    <CloseButton onClick={onClick} />
-                </div>
-            </Column>
-        </Row>
+        <div className={className('callout', props.className)}>
+            {props.children}
+            {onClick && <CloseButton onClick={onClick} />}
+        </div>
     )
 }

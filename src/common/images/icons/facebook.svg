@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 80 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1,0,0,1,-360,-40)">
+        <g transform="matrix(0.266667,0,0,0.266667,400,80)">
+            <g transform="matrix(1,0,0,1,-150,-150)">
+                <clipPath id="_clip1">
+                    <rect x="0" y="0" width="300" height="300"/>
+                </clipPath>
+                <g clip-path="url(#_clip1)">
+                    <path d="M300.004,0.002L-0.002,0.002L-0.002,299.999L146.178,299.999L146.178,191.693L109.848,191.693L109.848,149.295L146.178,149.295L146.178,118.099C146.178,81.94 168.211,62.227 200.37,62.227C211.208,62.196 222.031,62.756 232.808,63.861L232.808,101.669L210.666,101.669C193.144,101.669 189.733,109.977 189.733,122.238L189.733,149.233L231.598,149.233L226.156,191.631L189.485,191.631L189.485,299.999L300.004,299.999L300.004,0.002Z"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

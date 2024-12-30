@@ -2,13 +2,14 @@ import React, { Fragment } from 'react'
 import { useParams } from 'react-router-dom'
 import { Column } from 'src/common/components/layout/Column'
 import { Row } from 'src/common/components/layout/Row'
+import { Card } from 'src/common/components/containers/Card'
+
 import { Post as PostType, TermTypes } from 'src/types/wordpress'
-import { ListItem } from 'src/frontend/components/ListItem'
 import { Paging } from 'src/frontend/components/Paging'
 import { NotFound } from 'src/frontend/scenes/public/NotFound'
 import { useArchive } from 'src/frontend/hooks/useArchive'
 
-export const Archive = (): JSX.Element => {
+const Archive = (): JSX.Element => {
     const { type, slug, page } = useParams<{
         type: keyof typeof TermTypes
         slug: string
@@ -41,9 +42,14 @@ export const Archive = (): JSX.Element => {
                         large={4}
                         medium={6}
                         small={12}
-                        className="archive__item"
                     >
-                        <ListItem item={post} />
+                        <Card
+                            title={post.title}
+                            description={post.excerpt}
+                            to={post.link}
+                            time={new Date(post.date)}
+                            image={post.images.list || post.images.thumbnail}
+                        />
                     </Column>
                 ))}
             </Row>
@@ -61,3 +67,5 @@ export const Archive = (): JSX.Element => {
         </Fragment>
     )
 }
+
+export default Archive

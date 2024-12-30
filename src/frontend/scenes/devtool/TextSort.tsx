@@ -9,7 +9,7 @@ import { Row } from 'src/common/components/layout/Row'
 
 import { getMaxCols, getRows, sortText } from 'src/frontend/utils/dev-tools'
 
-export const TextSort = (): JSX.Element => {
+const TextSort = (): JSX.Element => {
     const result = useRef<HTMLTextAreaElement>(null)
     const [text, changeText] = useState('')
     const [divider, setDivider] = useState<string>('')
@@ -112,3 +112,5 @@ export const TextSort = (): JSX.Element => {
         </Fragment>
     )
 }
+
+export default TextSort

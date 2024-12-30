@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 80 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+    <g transform="matrix(1,0,0,1,-760,-120)">
+        <g transform="matrix(1.10141,0,0,1.10141,263.21,-16.2258)">
+            <circle cx="560" cy="160" r="36.317"/>
+        </g>
+        <g transform="matrix(1,0,0,1,-40,2.86438e-14)">
+            <path d="M870,135.708C870,132.558 867.442,130 864.292,130L815.708,130C812.558,130 810,132.558 810,135.708L810,184.292C810,187.442 812.558,190 815.708,190L864.292,190C867.442,190 870,187.442 870,184.292L870,135.708Z" style="fill:none;stroke:black;stroke-width:7px;"/>
+            <g transform="matrix(1,0,0,1,0,-5)">
+                <path d="M810,150L870,150" style="fill:none;stroke:black;stroke-width:7px;"/>
+            </g>
+            <g transform="matrix(1.66482,0,0,1.62262,-228.856,-311.44)">
+                <text x="630.23px" y="303.22px" style="font-family:'HelveticaNeue-CondensedBold', 'Helvetica Neue';font-weight:700;font-stretch:condensed;font-size:24px;">10</text>
+            </g>
+        </g>
+    </g>
+</svg>

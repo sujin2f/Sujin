@@ -1,7 +1,7 @@
 /** components/widgets/RecentPosts */
 import React, { Fragment } from 'react'
+import { Card } from 'src/common/components/containers/Card'
 
-import { ListItem } from 'src/frontend/components/ListItem'
 import { useRecentPosts } from '../hooks/useRecentPosts'
 
 type Props = {
@@ -21,10 +21,13 @@ export const RecentPosts = (props: Props): JSX.Element => {
                 .filter((item) => item.id !== props.current)
                 .slice(0, 4)
                 .map((item) => (
-                    <ListItem
+                    <Card
                         key={`recent-post-id-${item.slug}`}
-                        item={item}
-                        thumbnailKey={{ desktop: 'small', mobile: 'small' }}
+                        title={item.title}
+                        description={item.excerpt}
+                        to={item.link}
+                        time={new Date(item.date)}
+                        image={item.images.list || item.images.thumbnail}
                     />
                 ))}
         </section>

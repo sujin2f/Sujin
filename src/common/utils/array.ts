@@ -1,3 +1,4 @@
+import { getRandomInt } from './number'
 import { isEmpty } from './object'
 
 /*
@@ -104,4 +105,12 @@ export const average = (items: unknown[]): number => {
         return a
     }, 0) as number
     return sum / count
+}
+
+export const shuffle = (input: any[]): any[] => {
+    for (let i = input.length - 1; i > 0; i--) {
+        const randomIndex = getRandomInt(i + 1)
+        ;[input[i], input[randomIndex]] = [input[randomIndex], input[i]]
+    }
+    return input
 }

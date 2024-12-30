@@ -1,0 +1,10 @@
+@use 'sass:color';
+
+$black: #0d121c;
+$dark-gray: color.adjust($black, $lightness: 10%);
+$gray: color.adjust($black, $lightness: 40%, $saturation: -30%);
+$white: #ffffff;
+$primary: #970000;
+$warning: #970000;
+
+$header-height: 3.4rem;

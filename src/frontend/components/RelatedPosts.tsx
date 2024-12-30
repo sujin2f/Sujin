@@ -1,8 +1,8 @@
 import React from 'react'
 import { Column } from 'src/common/components/layout/Column'
 import { Row } from 'src/common/components/layout/Row'
+import { Card } from 'src/common/components/containers/Card'
 
-import { ListItem } from 'src/frontend/components/ListItem'
 import { Post } from 'src/types/wordpress'
 
 interface Props {
@@ -24,7 +24,16 @@ export const RelatedPosts = (props: Props): JSX.Element => {
                             medium={6}
                             small={12}
                         >
-                            <ListItem item={related} />
+                            <Card
+                                title={related.title}
+                                description={related.excerpt}
+                                to={related.link}
+                                time={new Date(related.date)}
+                                image={
+                                    related.images.list ||
+                                    related.images.thumbnail
+                                }
+                            />
                         </Column>
                     ))}
             </Row>

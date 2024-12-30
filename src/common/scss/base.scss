@@ -1,0 +1,136 @@
+@use 'variable';
+@use 'mixin';
+
+:root {
+    --black: #{variable.$black};
+    --dark-gray: #{variable.$dark-gray};
+    --gray: #{variable.$gray};
+    --white: #{variable.$white};
+    --primary: #{variable.$primary};
+    --warning: #{variable.$warning};
+    --font: 'Ubuntu', 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial,
+        sans-serif;
+    --max-width: 75rem;
+    --header-height: #{variable.$header-height};
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 12pt;
+}
+
+body {
+    font-weight: 400;
+    font-family: var(--font);
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--black);
+}
+
+::selection {
+    background-color: var(--primary);
+    color: var(--white);
+}
+
+strong {
+    font-weight: 700;
+}
+
+a,
+.anchor {
+    color: var(--primary);
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+p {
+    line-height: 1.8;
+    margin: 0 0 1em;
+
+    &:empty {
+        display: none;
+    }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    text-transform: capitalize;
+    font-weight: 500;
+    letter-spacing: -0.05em;
+    margin: 0;
+    padding: 0;
+
+    small {
+        color: var(--gray);
+    }
+}
+
+h1 {
+    font-size: 2.2rem;
+    font-weight: 600;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1.8rem;
+}
+
+h4 {
+    font-size: 1.6rem;
+}
+
+h5 {
+    font-size: 1.4rem;
+}
+
+h6 {
+    font-size: 1.2rem;
+}
+
+button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.strike_through {
+    text-decoration: line-through;
+}
+
+.hide {
+    display: none;
+}
+
+.show-for-small-only {
+    display: inherit !important;
+
+    @include mixin.medium {
+        display: none !important;
+    }
+
+    @include mixin.large {
+        display: none !important;
+    }
+}
+
+.hide-for-small-only {
+    display: none !important;
+
+    @include mixin.medium {
+        display: inherit !important;
+    }
+
+    @include mixin.large {
+        display: inherit !important;
+    }
+}

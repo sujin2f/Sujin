@@ -8,8 +8,6 @@ import { Router } from 'src/frontend/Router'
 import { Store } from 'src/frontend/store'
 import { graphqlClient } from 'src/frontend/utils/graphql'
 
-import 'src/assets/styles/style.scss'
-
 const root = document.getElementById('root')
 if (root) {
     const dom = ReactDOM.createRoot(root)

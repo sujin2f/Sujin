@@ -68,7 +68,9 @@
     .menu__item__link {
         height: $header-height;
         background: transparent;
-        transition: ease-out 0.3s background, ease-out 0.3s color,
+        transition:
+            ease-out 0.3s background,
+            ease-out 0.3s color,
             ease-out 0.7s margin;
         padding: 0 13px;
         font-weight: 600;

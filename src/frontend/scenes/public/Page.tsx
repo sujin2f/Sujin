@@ -10,7 +10,7 @@ import { SocialShare } from 'src/frontend/components/SocialShare'
 import { usePost } from 'src/frontend/hooks/usePost'
 import { NotFound } from 'src/frontend/scenes/public/NotFound'
 
-export const Page = (): JSX.Element => {
+const Page = (): JSX.Element => {
     const { slug } = useParams<{ slug: string }>()
     const { post, loading, error, title } = usePost(slug)
 
@@ -46,3 +46,5 @@ export const Page = (): JSX.Element => {
         </Row>
     )
 }
+
+export default Page

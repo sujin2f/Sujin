@@ -43,7 +43,9 @@
         display: inline-block;
         color: map-get($foundation-palette, 'primary');
         background-color: transparent;
-        transition: background-color 0.3s ease-out, color 0.3s ease-out;
+        transition:
+            background-color 0.3s ease-out,
+            color 0.3s ease-out;
 
         &:hover,
         &:focus {

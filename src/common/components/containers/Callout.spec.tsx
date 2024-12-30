@@ -11,7 +11,7 @@ import { Callout } from './Callout'
 describe('Callout.ts', () => {
     it('Base', async () => {
         const Component = (): JSX.Element => {
-            return <Callout message="message" />
+            return <Callout>message</Callout>
         }
         const result = render(<Component />)
         const wrapper = result.container.querySelector('.callout__wrapper')
