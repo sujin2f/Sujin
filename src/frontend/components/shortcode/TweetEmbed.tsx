@@ -1,17 +1,19 @@
 import React, { useEffect, useRef } from 'react'
 
+import { AttrMatch } from 'src/types/wordpress'
+import { replaceQuotes } from 'src/frontend/utils/single'
+
 const callbacks: { (): void; (): void }[] = []
 
 interface Props {
-    id: string
+    value: AttrMatch
 }
 
 export const TweetEmbed = (props: Props): JSX.Element => {
     const refDiv = useRef<HTMLDivElement>(null)
     const twitterModule = window.twttr
     const currentDiv = refDiv.current
-    const id = props.id
-
+    const id = replaceQuotes(props.value.named, 'id')
     const addScript = (src: string, cb: () => void): void => {
         if (!callbacks.length) {
             callbacks.push(cb)

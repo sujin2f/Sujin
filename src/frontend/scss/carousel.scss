@@ -1,11 +1,11 @@
-section.carousel {
-    background: $light-gray;
+.carousel {
+    background: var(--light-gray);
     display: flex;
     flex-direction: row-reverse;
     transition: height 0.5s ease;
     position: relative;
 
-    section.picture-frame {
+    .picture-frame {
         padding: 10px;
         width: calc(100% - (100px + 20px));
         height: auto;
@@ -17,7 +17,7 @@ section.carousel {
         }
     }
 
-    section.nav {
+    .nav {
         overflow-y: scroll;
         padding: 10px 0 10px 10px;
         width: calc(100px + 20px);
@@ -32,11 +32,11 @@ section.carousel {
                 max-width: 100px;
                 height: auto;
                 margin-bottom: 10px;
-                border: 2px solid $light-gray;
+                border: 2px solid var(--light-gray);
                 transition: border 0.5s ease;
 
                 &.current {
-                    border-color: map-get($foundation-palette, 'primary');
+                    border-color: var(--primary);
                 }
 
                 &:last-child {
@@ -46,27 +46,27 @@ section.carousel {
         }
     }
 
-    section.arrow-nav {
+    .arrow-nav {
         position: absolute;
         display: none;
         left: 50%;
         transform: translate(-50%, 0);
 
         button {
-            background-color: map-get($foundation-palette, 'primary');
+            background-color: var(--primary);
             outline: none;
 
             i {
-                mask-image: url('../../images/icons/prev.svg');
-                mask-size: 15px;
-                mask-repeat: no-repeat;
-                mask-position: center;
+                //mask-image: url('../../images/icons/prev.svg');
+                //mask-size: 15px;
+                //mask-repeat: no-repeat;
+                //mask-position: center;
 
                 width: 40px;
                 height: 40px;
                 display: block;
 
-                background-color: $white;
+                background-color: var(--white);
             }
         }
 
@@ -76,8 +76,8 @@ section.carousel {
 
         div {
             display: flex;
-            background: $black;
-            color: $white;
+            background: var(--black);
+            color: var(--white);
             width: 40px;
             height: 40px;
             justify-content: center;
@@ -85,17 +85,17 @@ section.carousel {
         }
     }
 
-    @include breakpoint(small only) {
-        section.picture-frame {
-            width: 100%;
-        }
+    //    @include breakpoint(small only) {
+    //        section.picture-frame {
+    //            width: 100%;
+    //        }
 
-        section.nav {
-            display: none;
-        }
+    //        section.nav {
+    //            display: none;
+    //        }
 
-        section.arrow-nav {
-            display: flex;
-        }
-    }
+    //        section.arrow-nav {
+    //            display: flex;
+    //        }
+    //    }
 }

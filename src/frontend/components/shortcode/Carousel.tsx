@@ -1,22 +1,33 @@
-import React, { MouseEvent, useState } from 'react'
+import React, { MouseEvent, useState, useCallback } from 'react'
+
+import { AttrMatch } from 'src/types/wordpress'
+import { replaceQuotes } from 'src/frontend/utils/single'
+
+require('src/frontend/scss/carousel.scss')
 
 interface Props {
-    images: string[]
+    value: AttrMatch
 }
 
 export const Carousel = (props: Props): JSX.Element => {
     const [currentImageIndex, changeImageIndex] = useState(0)
+    const {
+        value: { named },
+    } = props
+    const images: string[] = Object.keys(named)
+        .filter((key) => key.match(/sc[0-9]+/))
+        .map((key) => named[key])
 
     const prev = () => {
         const newIndex = currentImageIndex - 1
         if (newIndex < 0) {
-            changeImageIndex(props.images.length - 1)
+            changeImageIndex(images.length - 1)
         }
         changeImageIndex(newIndex)
     }
     const next = () => {
         const newIndex = currentImageIndex + 1
-        if (newIndex > props.images.length - 1) {
+        if (newIndex > images.length - 1) {
             changeImageIndex(0)
         }
         changeImageIndex(newIndex)
@@ -34,19 +45,19 @@ export const Carousel = (props: Props): JSX.Element => {
                     <i></i>
                 </button>
                 <div className="indicator">
-                    {currentImageIndex + 1}/{props.images.length}
+                    {currentImageIndex + 1}/{images.length}
                 </div>
                 <button className="next" type="button" onClick={next}>
                     <i></i>
                 </button>
             </section>
             <section className="picture-frame">
-                <img src={props.images[currentImageIndex]} alt="" />
+                <img src={images[currentImageIndex]} alt="" />
             </section>
 
             <section className="nav">
                 <nav>
-                    {props.images.map((image, key) => (
+                    {images.map((image, key) => (
                         <img
                             src={image}
                             className={`${

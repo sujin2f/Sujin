@@ -1,6 +1,6 @@
 .about-item {
     display: flex;
-    margin-bottom: 10px;
+    margin-bottom: 0.5em;
     align-items: flex-start;
     border-top: 1px solid var(--primary);
 }
@@ -11,24 +11,28 @@
     justify-content: space-evenly;
     background-color: var(--primary);
     color: var(--white);
-    width: 80px;
-    height: 80px;
-    margin-right: 20px;
+    width: 5.5em;
+    height: 5.5em;
+    margin-right: iem;
     align-items: center;
 
     div {
         text-align: center;
-        width: 80px;
-        margin: 2px 0;
+        width: 100%;
     }
 
     .about-item__separator {
-        background-color: white;
-        height: 5px;
-        width: 5px;
+        background-color: var(--white);
+        height: 0.3em;
+        width: 0.3em;
     }
 }
 
 .about-item__detail {
-    padding-top: 1em;
+    h3 {
+        font-size: 1.4em;
+        ul {
+            margin-top: 0.5em;
+        }
+    }
 }

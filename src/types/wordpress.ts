@@ -93,3 +93,6 @@ export type MediaRawData = {
 }
 
 export type OptionValue = Record<string, any> | string | number | boolean
+
+export type Named = Record<string, string>
+export type AttrMatch = { named: Named; numeric: string[] }

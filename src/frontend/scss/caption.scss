@@ -1,0 +1,9 @@
+.caption {
+    font-size: 0.9em;
+    font-style: italic;
+    margin-bottom: 1em;
+
+    &.caption--align-center {
+        text-align: center;
+    }
+}

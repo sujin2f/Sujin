@@ -107,10 +107,12 @@ $social-height: 26px;
     width: initial;
     left: 50%;
     transform: translateX(-50%);
+    overflow: hidden;
 }
 
 .top-bar__logo {
     background-color: rgba(0, 0, 0, 0.1);
+    display: block;
 
     svg {
         fill: var(--white);

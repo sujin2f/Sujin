@@ -21,7 +21,7 @@ html {
 }
 
 body {
-    font-weight: 400;
+    font-weight: 300;
     font-family: var(--font);
     font-size: 1rem;
     line-height: 1.6;
@@ -102,6 +102,25 @@ button {
     background-color: transparent;
     border: none;
     cursor: pointer;
+}
+
+ul,
+ol {
+    padding-left: 2em;
+}
+
+code[class],
+code[data-lang] {
+    display: block;
+    background-color: var(--black);
+    color: var(--white);
+    padding: 0.5em;
+}
+
+article img {
+    max-width: 100%;
+    height: auto;
+    display: block;
 }
 
 .strike_through {
