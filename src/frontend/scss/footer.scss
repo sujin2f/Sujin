@@ -1,0 +1,54 @@
+.footer {
+    background-color: var(--dark-gray);
+}
+
+.footer__bottom {
+    background-color: var(--black);
+    padding: 0.8em 0;
+}
+
+.footer__bottom__left {
+    display: flex;
+    align-items: center;
+}
+
+.footer__logo {
+    margin-right: 0.8em;
+
+    svg {
+        width: 62px;
+        height: auto;
+
+        path {
+            fill: var(--gray);
+        }
+    }
+}
+
+.footer__copyright {
+    margin: 0;
+    color: var(--gray);
+    font-size: 0.9em;
+    height: 70%;
+}
+
+/**
+ * Top
+ */
+.footer__top {
+    padding-top: 2em;
+    padding-bottom: 1em;
+
+    .widget__heading {
+        font-size: 1.7em;
+        margin-bottom: 1em;
+        border-bottom: 1px solid var(--white);
+        line-height: 1.3;
+
+        span {
+            background-color: var(--white);
+            color: var(--black);
+            padding: 0.1em 0.2em;
+        }
+    }
+}

@@ -4,6 +4,8 @@ import { Row } from 'src/common/components/layout/Row'
 import { GoogleAdvert, TagCloud, Flickr } from 'src/frontend/components/widget'
 import { FooterBottom } from './FooterBottom'
 
+require('src/frontend/scss/footer.scss')
+
 export const Footer = (): JSX.Element => {
     return (
         <Fragment>
