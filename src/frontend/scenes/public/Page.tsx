@@ -27,12 +27,6 @@ const Page = (): JSX.Element => {
 
     document.title = title
 
-    //const thumbnail =
-    //    post!.images.list?.url ||
-    //    post!.images.thumbnail?.url ||
-    //    post!.images.background?.url ||
-    //    DeafultThumbnail
-
     return (
         <Fragment>
             <Banner

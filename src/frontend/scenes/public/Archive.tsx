@@ -1,13 +1,17 @@
 import React, { Fragment } from 'react'
 import { useParams } from 'react-router-dom'
+
 import { Column } from 'src/common/components/layout/Column'
 import { Row } from 'src/common/components/layout/Row'
 import { Card } from 'src/common/components/containers/Card'
 import { Paging } from 'src/common/components/containers/Paging'
 
+import { Banner } from 'src/frontend/scenes/layout/Banner'
 import { Post as PostType, TermTypes } from 'src/types/wordpress'
 import { NotFound } from 'src/frontend/scenes/public/NotFound'
 import { useArchive } from 'src/frontend/hooks/useArchive'
+
+import defaultBg from 'src/frontend/images/thumbnail-default.png'
 
 const Archive = (): JSX.Element => {
     const { type, slug, page } = useParams<{
@@ -35,6 +39,11 @@ const Archive = (): JSX.Element => {
 
     return (
         <Fragment>
+            <Banner
+                title={archive.title}
+                excerpt={archive.excerpt}
+                background={archive.image}
+            />
             <Row>
                 {archive!.posts.map((post: PostType) => (
                     <Column
@@ -48,7 +57,11 @@ const Archive = (): JSX.Element => {
                             description={post.excerpt}
                             to={post.link}
                             time={new Date(post.date)}
-                            image={post.images.list || post.images.thumbnail}
+                            image={
+                                post.images.list ||
+                                post.images.thumbnail ||
+                                defaultBg
+                            }
                         />
                     </Column>
                 ))}
