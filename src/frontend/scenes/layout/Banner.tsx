@@ -96,12 +96,12 @@ export const Banner = (props: Props): JSX.Element => {
                         src={background?.url}
                         role="presentation"
                         alt=""
-                        className="layout__header__image"
+                        className="banner__background"
                     />
                 </picture>
             </section>
             {icon && (
-                <picture>
+                <picture className="banner__icon__container">
                     {imageMapIcon.map((map) => (
                         <source
                             key={`icon-${map.file}`}
@@ -114,7 +114,7 @@ export const Banner = (props: Props): JSX.Element => {
                         src={icon?.url}
                         role="presentation"
                         alt=""
-                        className="layout__header__icon"
+                        className="banner__icon"
                     />
                 </picture>
             )}

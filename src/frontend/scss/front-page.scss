@@ -1,7 +1,12 @@
 .wrapper--front-page {
+    .top-bar__menu {
+        display: none !important;
+    }
+
     .banner {
         height: 100vh;
         margin: 0;
+        overflow: hidden;
     }
 
     .banner__overlay {
@@ -28,5 +33,9 @@
         //@include breakpoint(small only) {
         //    font-size: 1.2em;
         //}
+    }
+
+    .banner__background {
+        height: 100vh;
     }
 }

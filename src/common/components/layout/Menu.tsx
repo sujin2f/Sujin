@@ -2,7 +2,8 @@ import React, { useCallback, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { MenuItem as TypeMenuItem } from 'src/common/types/menu'
-import { className, generateUUID } from 'src/common/utils/string'
+import { className } from 'src/common/utils/string'
+
 import Arrow from 'src/common/images/icons/arrow_drop_up.svg'
 
 require('src/common/scss/menu.scss')
@@ -95,9 +96,9 @@ const MenuItem = (props: ItemProps): JSX.Element => {
 const MenuBlock = (props: BlockProps): JSX.Element => {
     return (
         <ul className="menu">
-            {props.items.map((menu) => (
+            {props.items.map((menu, index) => (
                 <MenuItem
-                    key={`menu-${menu.title}-${generateUUID()}`}
+                    key={`menu-${menu.title}-${index}`}
                     item={menu}
                     dropdown={props.dropdown}
                     direction={props.direction}
@@ -108,14 +109,27 @@ const MenuBlock = (props: BlockProps): JSX.Element => {
 }
 
 export const Menu = (props: ComponentProps): JSX.Element => {
-    const direction = props.direction || 'horizontal'
-    const cls = className(
-        'menu__container',
-        `menu__container--${direction}`,
-        props.className,
+    const direction = useMemo(
+        () => props.direction || 'horizontal',
+        [props.direction],
     )
-    const dropdown =
-        direction === 'horizontal' && !props.dropdown ? 'hover' : props.dropdown
+    const cls = useMemo(
+        () =>
+            className(
+                'menu__container',
+                `menu__container--${direction}`,
+                props.className,
+            ),
+        [direction, props.className],
+    )
+    const dropdown = useMemo(
+        () =>
+            direction === 'horizontal' && !props.dropdown
+                ? 'hover'
+                : props.dropdown,
+        [direction, props.dropdown],
+    )
+
     return (
         <nav className={cls}>
             <MenuBlock

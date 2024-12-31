@@ -1,0 +1,34 @@
+.about-item {
+    display: flex;
+    margin-bottom: 10px;
+    align-items: flex-start;
+    border-top: 1px solid var(--primary);
+}
+
+.about-item__year {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    background-color: var(--primary);
+    color: var(--white);
+    width: 80px;
+    height: 80px;
+    margin-right: 20px;
+    align-items: center;
+
+    div {
+        text-align: center;
+        width: 80px;
+        margin: 2px 0;
+    }
+
+    .about-item__separator {
+        background-color: white;
+        height: 5px;
+        width: 5px;
+    }
+}
+
+.about-item__detail {
+    padding-top: 1em;
+}

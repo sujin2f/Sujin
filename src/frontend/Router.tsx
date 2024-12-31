@@ -14,6 +14,8 @@ const DevTool = lazy(() => import('src/frontend/scenes/devtool'))
 const CaseTool = lazy(() => import('src/frontend/scenes/devtool/CaseTool'))
 const TextSort = lazy(() => import('src/frontend/scenes/devtool/TextSort'))
 
+require('src/frontend/scss/wrapper.scss')
+
 export const Router = (): JSX.Element => {
     return (
         <Suspense fallback={<Loading />}>

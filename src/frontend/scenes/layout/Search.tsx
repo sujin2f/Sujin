@@ -1,6 +1,7 @@
 import React, { useState, useRef, ChangeEvent, KeyboardEvent } from 'react'
-
 import { useNavigate } from 'react-router-dom'
+
+import Magnify from 'src/frontend/images/magnify.svg'
 
 export const Search = (): JSX.Element => {
     const [opened, setOpened] = useState<boolean>(false)
@@ -40,6 +41,7 @@ export const Search = (): JSX.Element => {
     }
 
     const wrapperClass = opened ? 'open' : ''
+
     return (
         <section className={`${wrapperClass} search`}>
             <input
@@ -51,10 +53,12 @@ export const Search = (): JSX.Element => {
                 onKeyDown={handleKeyDownSearch}
             />
             <button
-                className="icon magnify search__button"
+                className="search__button"
                 onClick={handleSubmitSearch}
                 type="submit"
-            />
+            >
+                <Magnify />{' '}
+            </button>
         </section>
     )
 }

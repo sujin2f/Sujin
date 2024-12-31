@@ -93,44 +93,6 @@
 }
 
 /**
- * About Page
- */
-.about-item {
-    display: flex;
-    margin-bottom: 10px;
-    align-items: flex-start;
-    border-top: 1px solid map-get($foundation-palette, 'primary');
-}
-
-.about-item__year {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    background-color: map-get($foundation-palette, 'primary');
-    color: $white;
-    width: 80px;
-    height: 80px;
-    margin-right: 20px;
-    align-items: center;
-
-    div {
-        text-align: center;
-        width: 80px;
-        margin: 2px 0;
-    }
-
-    .about-item__separator {
-        background-color: white;
-        height: 5px;
-        width: 5px;
-    }
-}
-
-.about-item__detail {
-    padding-top: 1em;
-}
-
-/**
  * Footer
  */
 .content__footer {

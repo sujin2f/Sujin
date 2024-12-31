@@ -13,13 +13,11 @@ if (root) {
     const dom = ReactDOM.createRoot(root)
     dom.render(
         <ApolloProvider client={graphqlClient}>
-            <React.StrictMode>
-                <BrowserRouter>
-                    <Store>
-                        <Router />
-                    </Store>
-                </BrowserRouter>
-            </React.StrictMode>
+            <BrowserRouter>
+                <Store>
+                    <Router />
+                </Store>
+            </BrowserRouter>
         </ApolloProvider>,
     )
 }
@@ -27,4 +25,8 @@ if (root) {
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.register()
+if (process.env.NODE_ENV === 'production') {
+    serviceWorker.register()
+} else {
+    serviceWorker.unregister()
+}

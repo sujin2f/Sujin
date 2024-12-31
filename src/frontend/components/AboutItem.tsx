@@ -1,5 +1,7 @@
 import React from 'react'
 
+require('src/frontend/scss/about-item.scss')
+
 interface Props {
     from: string
     to: string

@@ -6,13 +6,15 @@ import { Menu } from 'src/common/components/layout/Menu'
 import { Column } from 'src/common/components/layout/Column'
 import { Row } from 'src/common/components/layout/Row'
 
-import { Search } from 'src/frontend/components/Search'
+import { Hamburger } from 'src/frontend/scenes/layout/Hamburger'
+import { Search } from 'src/frontend/scenes/layout/Search'
 
 import { MenuNames } from 'src/constants/mysql-query'
-import { useGlobalState } from 'src/frontend/hooks/global'
 import { useMenu } from 'src/frontend/hooks/useMenu'
 
 import Logo from 'src/frontend/images/logo-top-bar.svg'
+import Facebook from 'src/frontend/images/facebook.svg'
+import Twitter from 'src/frontend/images/twitter.svg'
 
 require('src/frontend/scss/fixed-header.scss')
 
@@ -21,11 +23,8 @@ interface Props {
 }
 
 export const FixedHeader = (props: Props): JSX.Element => {
-    const { wrapperClasses, setWrapperClass } = useGlobalState()
     const { menu: menuSocial } = useMenu(MenuNames.SOCIAL)
-    const { menu: menuMain } = useMenu(
-        props.isDevTool ? MenuNames.DEV_TOOL : MenuNames.MAIN,
-    )
+    const { menu: menuMain } = useMenu(MenuNames.MAIN)
 
     return (
         <TopBar fixed fullWidth>
@@ -38,27 +37,32 @@ export const FixedHeader = (props: Props): JSX.Element => {
 
             <Row dom="section" className="top-bar__main" fullWidth>
                 <Column small={6}>
-                    <button
-                        className="hide-for-large top-bar__main__hamburger"
-                        type="button"
-                        onClick={() =>
-                            setWrapperClass({
-                                'wrapper--mobile-menu':
-                                    !wrapperClasses['wrapper--mobile-menu'],
-                            })
-                        }
-                    />
+                    <Hamburger />
                     <Menu
-                        className="show-for-large top-bar__menu"
+                        className="show-for-large top-bar__menu__container"
                         items={menuMain || []}
                     />
                 </Column>
                 <Column small={6} className="hide-for-small">
                     <Search />
-                    <Menu
-                        className="show-for-large top-bar__manu--social-media"
-                        items={menuSocial || []}
-                    />
+                    <nav className="social-media">
+                        <a
+                            href="http://twitter.com/sujin2f"
+                            className="social-media--twitter"
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            <Twitter />
+                        </a>
+                        <a
+                            href="https://www.facebook.com/sujin1977"
+                            className="social-media--facebook"
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            <Facebook />
+                        </a>
+                    </nav>
                 </Column>
             </Row>
 
@@ -69,8 +73,9 @@ export const FixedHeader = (props: Props): JSX.Element => {
             </section>
 
             <Menu
-                className="hide-for-large top-bar__menu--mobile"
+                className="hide-for-large top-bar__menu__container--mobile"
                 items={menuMain || []}
+                direction="vertical"
             />
         </TopBar>
     )

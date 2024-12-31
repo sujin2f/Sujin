@@ -52,10 +52,18 @@ staticRouter.get('/static(/*)', (req, res) => {
     res.sendFile(`${baseDir}/frontend${req.url}`)
 })
 
+staticRouter.get('/assets(/*)', (req, res) => {
+    res.sendFile(`${baseDir}/frontend${req.url}`)
+})
+
 /**
  * JS
  */
 staticRouter.get('/(*).js', (req, res) => {
+    res.sendFile(`${baseDir}/frontend${req.url}`)
+})
+
+staticRouter.get('/(*).map', (req, res) => {
     res.sendFile(`${baseDir}/frontend${req.url}`)
 })
 

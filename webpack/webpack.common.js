@@ -90,4 +90,9 @@ module.exports = {
         //     emitWarning: process.env.NODE_ENV !== 'production',
         // }),
     ],
+optimization: {
+     splitChunks: {
+       chunks: 'all',
+     },
+   },
 }
