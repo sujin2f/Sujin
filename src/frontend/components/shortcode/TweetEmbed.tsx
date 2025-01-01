@@ -1,64 +1,31 @@
 import React, { useEffect, useRef } from 'react'
 
+import { useScriptLoader } from 'src/common/hooks/useScriptLoader'
+import { LoadingStatus } from 'src/common/constants/asset'
+
 import { AttrMatch } from 'src/types/wordpress'
 import { replaceQuotes } from 'src/frontend/utils/single'
-
-const callbacks: { (): void; (): void }[] = []
 
 interface Props {
     value: AttrMatch
 }
 
 export const TweetEmbed = (props: Props): JSX.Element => {
-    const refDiv = useRef<HTMLDivElement>(null)
-    const twitterModule = window.twttr
-    const currentDiv = refDiv.current
+    const ref = useRef<HTMLDivElement>(null)
+    const state = useScriptLoader('//platform.twitter.com/widgets.js')
+    const twttr = window.twttr
     const id = replaceQuotes(props.value.named, 'id')
-    const addScript = (src: string, cb: () => void): void => {
-        if (!callbacks.length) {
-            callbacks.push(cb)
-            const s = document.createElement('script')
-            s.setAttribute('src', src)
-            s.onload = (): void => callbacks.forEach((d) => d())
-            document.body.appendChild(s)
-        } else {
-            callbacks.push(cb)
-        }
-    }
 
     useEffect(() => {
-        if (!twitterModule || !currentDiv) {
-            return
-        }
-
-        const renderTweet = (): void => {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            twitterModule.ready().then(({ widgets }: any) => {
-                // Clear previously rendered tweet before rendering the updated tweet id
-                if (refDiv.current) {
-                    refDiv.current.innerHTML = ''
+        if (state === LoadingStatus.DONE && twttr) {
+            twttr.ready().then(({ widgets }: any) => {
+                if (ref.current) {
+                    ref.current.innerHTML = ''
                 }
-                widgets.createTweetEmbed(id, currentDiv, {})
+                widgets.createTweetEmbed(id, ref.current, {})
             })
         }
+    }, [state, twttr, ref.current, id])
 
-        const loadTweetForProps = (): void => {
-            if (!(twitterModule && twitterModule.ready)) {
-                const protocol =
-                    window.location.protocol.indexOf('file') >= 0
-                        ? 'https:'
-                        : ''
-                addScript(
-                    `${protocol}//platform.twitter.com/widgets.js`,
-                    renderTweet,
-                )
-            } else {
-                renderTweet()
-            }
-        }
-
-        loadTweetForProps()
-    }, [twitterModule, currentDiv, id])
-
-    return <div ref={refDiv} />
+    return <div ref={ref} />
 }

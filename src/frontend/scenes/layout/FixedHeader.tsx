@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useCallback, useContext } from 'react'
 import { Link } from 'react-router-dom'
 
 import { TopBar } from 'src/common/components/layout/TopBar'
 import { Menu } from 'src/common/components/layout/Menu'
 import { Column } from 'src/common/components/layout/Column'
 import { Row } from 'src/common/components/layout/Row'
+import { Context, ContextType } from 'src/frontend/store'
+import { setPageInfo } from 'src/frontend/store/actions'
 
 import { Hamburger } from 'src/frontend/scenes/layout/Hamburger'
 import { Search } from 'src/frontend/scenes/layout/Search'
@@ -23,8 +25,20 @@ interface Props {
 }
 
 export const FixedHeader = (props: Props): JSX.Element => {
+    const [{ wrapperClasses }, dispatch] = useContext(Context) as ContextType
     const { menu: menuSocial } = useMenu(MenuNames.SOCIAL)
     const { menu: menuMain } = useMenu(MenuNames.MAIN)
+
+    const mobileOnClick = useCallback(() => {
+        dispatch(
+            setPageInfo({
+                wrapperClasses: {
+                    ...wrapperClasses,
+                    'wrapper--mobile-menu': false,
+                },
+            }),
+        )
+    })
 
     return (
         <TopBar fixed fullWidth>
@@ -76,6 +90,7 @@ export const FixedHeader = (props: Props): JSX.Element => {
                 className="hide-for-large top-bar__menu__container--mobile"
                 items={menuMain || []}
                 direction="vertical"
+                callback={mobileOnClick}
             />
         </TopBar>
     )

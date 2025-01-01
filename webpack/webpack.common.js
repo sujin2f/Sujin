@@ -23,7 +23,8 @@ module.exports = {
             {
                 // CSS Loader
                 test: /\.css$/,
-                use: [
+                exclude: /node_modules/,
+		use: [
                     {
                         loader: inDev()
                             ? 'style-loader'

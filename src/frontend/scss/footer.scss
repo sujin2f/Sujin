@@ -40,12 +40,12 @@
     padding-bottom: 1em;
 
     .widget__heading {
-        font-size: 1.7em;
         margin-bottom: 1em;
         border-bottom: 1px solid var(--white);
-        line-height: 1.3;
+        display: flex;
 
         span {
+            font-size: 0.8em;
             background-color: var(--white);
             color: var(--black);
             padding: 0.1em 0.2em;

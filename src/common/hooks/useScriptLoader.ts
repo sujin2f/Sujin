@@ -8,7 +8,7 @@ import { LoadingStatus } from 'src/common/constants/asset'
  *
  * const state = useScriptLoader('https://cdn.com/javascript.js')
  * useEffect(() => {
- *   if (state === LoadingStatus.COMPLETE) {
+ *   if (state === LoadingStatus.DONE) {
  *     doSomething()
  *   }
  * }, [state])

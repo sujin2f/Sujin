@@ -1,6 +1,6 @@
 .about-item {
     display: flex;
-    margin-bottom: 0.5em;
+    margin-bottom: 2em;
     align-items: flex-start;
     border-top: 1px solid var(--primary);
 }
@@ -13,8 +13,9 @@
     color: var(--white);
     width: 5.5em;
     height: 5.5em;
-    margin-right: iem;
+    margin-right: 1em;
     align-items: center;
+    flex-shrink: 0;
 
     div {
         text-align: center;
@@ -34,5 +35,9 @@
         ul {
             margin-top: 0.5em;
         }
+    }
+
+    & *:last-child {
+        margin-bottom: 0;
     }
 }

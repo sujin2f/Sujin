@@ -13,18 +13,21 @@ type ComponentProps = {
     dropdown?: 'hover' | 'click'
     items: TypeMenuItem[]
     direction?: 'vertical' | 'horizontal'
+    callback?: () => void
 }
 
 type BlockProps = {
     dropdown?: 'hover' | 'click'
     items: TypeMenuItem[]
     direction: 'vertical' | 'horizontal'
+    callback?: () => void
 }
 
 type ItemProps = {
     item: TypeMenuItem
     dropdown?: 'hover' | 'click'
     direction: 'vertical' | 'horizontal'
+    callback?: () => void
 }
 
 const MenuItem = (props: ItemProps): JSX.Element => {
@@ -76,7 +79,7 @@ const MenuItem = (props: ItemProps): JSX.Element => {
             onClick={onClick}
             className={classNames}
         >
-            <Link to={linkTo} className="menu__link">
+            <Link to={linkTo} onClick={props.callback} className="menu__link">
                 {props.item.title}
                 {props.dropdown && hasChildren && (
                     <Arrow className="menu__link__arrow" />
@@ -87,6 +90,7 @@ const MenuItem = (props: ItemProps): JSX.Element => {
                 <MenuBlock
                     items={props.item.children}
                     direction={props.direction}
+                    callback={props.callback}
                 />
             )}
         </li>
@@ -102,6 +106,7 @@ const MenuBlock = (props: BlockProps): JSX.Element => {
                     item={menu}
                     dropdown={props.dropdown}
                     direction={props.direction}
+                    callback={props.callback}
                 />
             ))}
         </ul>
@@ -136,6 +141,7 @@ export const Menu = (props: ComponentProps): JSX.Element => {
                 dropdown={dropdown}
                 items={props.items}
                 direction={direction}
+                callback={props.callback}
             />
         </nav>
     )

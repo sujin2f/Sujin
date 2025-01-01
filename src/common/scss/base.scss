@@ -48,7 +48,7 @@ a,
 }
 
 p {
-    line-height: 1.8;
+    line-height: 1.6;
     margin: 0 0 1em;
 
     &:empty {
@@ -67,6 +67,7 @@ h6 {
     letter-spacing: -0.05em;
     margin: 0;
     padding: 0;
+    line-height: normal;
 
     small {
         color: var(--gray);

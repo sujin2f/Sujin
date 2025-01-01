@@ -1,7 +1,10 @@
-import React, { MouseEvent, useState, useCallback } from 'react'
+import React, { MouseEvent, useState, useCallback, useMemo } from 'react'
+
+import { Button } from 'src/common/components/forms/Button'
 
 import { AttrMatch } from 'src/types/wordpress'
 import { replaceQuotes } from 'src/frontend/utils/single'
+import Arrow from 'src/frontend/images/prev.svg'
 
 require('src/frontend/scss/carousel.scss')
 
@@ -10,68 +13,83 @@ interface Props {
 }
 
 export const Carousel = (props: Props): JSX.Element => {
-    const [currentImageIndex, changeImageIndex] = useState(0)
+    const [index, setIndex] = useState(0)
     const {
         value: { named },
     } = props
-    const images: string[] = Object.keys(named)
-        .filter((key) => key.match(/sc[0-9]+/))
-        .map((key) => named[key])
 
-    const prev = () => {
-        const newIndex = currentImageIndex - 1
+    const images: string[] = useMemo(
+        () =>
+            Object.keys(named)
+                .filter((key) => key.match(/sc[0-9]+/))
+                .map((key) => named[key]),
+        [named],
+    )
+
+    const prev = useCallback(() => {
+        let newIndex = index - 1
         if (newIndex < 0) {
-            changeImageIndex(images.length - 1)
+            newIndex = images.length - 1
         }
-        changeImageIndex(newIndex)
-    }
-    const next = () => {
-        const newIndex = currentImageIndex + 1
+        setIndex(newIndex)
+    })
+    const next = useCallback(() => {
+        let newIndex = index + 1
         if (newIndex > images.length - 1) {
-            changeImageIndex(0)
+            newIndex = 0
         }
-        changeImageIndex(newIndex)
-    }
-    const navItemClick = (e: MouseEvent<HTMLImageElement>) => {
+        setIndex(newIndex)
+    })
+    const onClick = (e: MouseEvent<HTMLImageElement>) => {
         const index = parseInt(
-            e.currentTarget.getAttribute('data-image-index') || '0',
+            e.currentTarget.getAttribute('data-index') || '0',
         )
-        changeImageIndex(index)
+        setIndex(index)
     }
-    return (
-        <section className="carousel">
-            <section className="arrow-nav">
-                <button className="prev" type="button" onClick={prev}>
-                    <i></i>
-                </button>
-                <div className="indicator">
-                    {currentImageIndex + 1}/{images.length}
-                </div>
-                <button className="next" type="button" onClick={next}>
-                    <i></i>
-                </button>
-            </section>
-            <section className="picture-frame">
-                <img src={images[currentImageIndex]} alt="" />
-            </section>
 
-            <section className="nav">
-                <nav>
-                    {images.map((image, key) => (
-                        <img
-                            src={image}
-                            className={`${
-                                key === currentImageIndex ? 'current' : ''
-                            }`}
-                            role="presentation"
-                            key={`carousel-${image}=${key}`}
-                            alt={image}
-                            onClick={navItemClick}
-                            data-image-index={key}
-                        />
-                    ))}
-                </nav>
-            </section>
+    return (
+        <section className="carousel" aria-label="Gallery">
+            <nav className="carousel__arrow__container">
+                <Button
+                    className="carousel__arrow carousel__arrow__prev"
+                    onClick={prev}
+                    aria-label="Show Prev Image"
+                >
+                    <Arrow />
+                </Button>
+                <div className="carousel__arrow__number">
+                    {index + 1}/{images.length}
+                </div>
+                <Button
+                    className="carousel__arrow carousel__arrow__next"
+                    onClick={next}
+                    aria-label="Show Next Image"
+                >
+                    <Arrow />
+                </Button>
+            </nav>
+
+            <picture className="carousel__picture">
+                <img
+                    src={images[index]}
+                    alt={images[index]}
+                    role="presentation"
+                />
+            </picture>
+
+            <nav className="carousel__nav">
+                {images.map((image, key) => (
+                    <img
+                        src={image}
+                        className={`${key === index && 'current'}`}
+                        role="presentation"
+                        key={`carousel-${image}-${key}`}
+                        alt={image}
+                        onClick={onClick}
+                        data-index={key}
+                    />
+                ))}
+            </nav>
         </section>
     )
 }

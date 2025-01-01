@@ -2,6 +2,7 @@ import React, { useState, useCallback, Fragment } from 'react'
 
 import { Column } from 'src/common/components/layout/Column'
 import { Row } from 'src/common/components/layout/Row'
+import { Input } from 'src/common/components/forms/Input'
 import { copyText } from 'src/common/utils/device'
 
 import {
@@ -38,17 +39,13 @@ const CaseTool = (): JSX.Element => {
         <Fragment>
             <p className="description">Convert keyword into many cases.</p>
 
-            <section className="input-group">
-                <span className="input-group-label">Keyword</span>
-                <input
-                    id="convert-keyword"
-                    className="input-group-field"
-                    type="text"
-                    onChange={change}
-                />
-            </section>
-            <p className="help-text">Click result to copy to the clipboard.</p>
-
+            <Input
+                id="convert-keyword"
+                type="text"
+                onChange={change}
+                label="Keyword"
+                helpText="Click result to copy to the clipboard."
+            />
             {textArr.length > 0 && (
                 <Row dom="dl">
                     {Object.keys(CASES).map((key) => {
