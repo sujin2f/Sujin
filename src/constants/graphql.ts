@@ -181,8 +181,8 @@ export const GraphQuery = {
         }
     `,
     FLICKR: gql`
-        query {
-            ${Fields.FLICKR} {
+        query ${Fields.FLICKR} ($id: String!) {
+            ${Fields.FLICKR} (id: $id) {
                 title
                 link
                 media
@@ -271,6 +271,10 @@ export type PostVariables = {
     slug: string
 }
 
+export type FlickrVariables = {
+    id: string
+}
+
 export const graphqlSchema = `
     scalar Date
     type Query {
@@ -278,7 +282,7 @@ export const graphqlSchema = `
         ${Fields.POST}(slug: String!): Post
         ${Fields.MENU}(slug: String!): [MenuItem]
         ${Fields.ARCHIVE}(type: String!, slug: String!, page: Int!): Term
-        ${Fields.FLICKR}: [FlickrImage]
+        ${Fields.FLICKR}(id: String!): [FlickrImage]
         ${Fields.TAG_CLOUD}: [TagCloud]
         ${Fields.RECENT}: [Post]
     },

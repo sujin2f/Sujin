@@ -12,4 +12,5 @@ export type GlobalVariable = {
     adClient?: string
     adSlot?: string
     isProd?: boolean
+    flickrId?: string
 }

@@ -12,7 +12,7 @@ module.exports = {
             {
                 // Typescript loader
                 test: /\.tsx?$/,
-                exclude: /(node_modules|\.webpack)/,
+                exclude: /node_modules/,
                 use: {
                     loader: 'ts-loader',
                     options: {
@@ -84,10 +84,5 @@ module.exports = {
             emitWarning: process.env.NODE_ENV !== 'production',
         }),
     ],
-    optimization: {
-        splitChunks: {
-            chunks: 'all',
-        },
-    },
     devtool: 'source-map',
 }

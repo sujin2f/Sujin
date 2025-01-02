@@ -159,6 +159,7 @@ const getGlobalVariable: GetGlobalVariable<GlobalVariable> = async (req) => {
         frontend: process.env.FRONTEND,
         adClient: process.env.GOOGLE_AD_CLIENT,
         adSlot: process.env.GOOGLE_AD_SLOT,
+        flickrId: process.env.FLICKR_ID,
         isProd: process.env.NODE_ENV === 'production',
     }
 
