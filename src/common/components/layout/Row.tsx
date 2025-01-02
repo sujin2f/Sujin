@@ -1,26 +1,23 @@
 import { PropsWithChildren, createElement } from 'react'
+import { className } from 'src/common/utils/string'
+
+require('src/common/scss/layout.scss')
 
 type Props = {
     className?: string
-    dom?: string
-    expanded?: boolean
+    dom?: string | JSX.Element
+    fullWidth?: boolean
 }
 
-/*
- * Grid Layout Component in Foundation Site
- * @ref https://get.foundation/sites/docs/flex-grid.html
- */
 export const Row = (props: PropsWithChildren<Props>): JSX.Element => {
-    const type = props.dom || 'div'
-    const className = [
-        'row',
-        props.className || '',
-        props.expanded && 'expanded',
-    ].filter((v) => v)
+    const { className: cls, dom, fullWidth } = props
+    const type = dom || 'div'
 
     return createElement(
         type,
-        { className: className.join(' ') },
+        {
+            className: className('row', cls, fullWidth && 'row--full-width'),
+        },
         props.children,
     )
 }

@@ -1,0 +1,99 @@
+.card {
+    margin-bottom: 1.5em;
+
+    .card__thumbnail__zoom {
+        position: absolute;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        background: var(--primary);
+        transition: opacity 0.3s ease-out;
+        opacity: 0;
+        background-image: url('../images/icons/magnify.svg');
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: 4em;
+    }
+
+    .card__thumbnail__shadow {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        display: block;
+        box-shadow: inset 0 2px 50px rgba(0, 0, 0, 0.1);
+        z-index: 3;
+    }
+
+    .card__time {
+        position: absolute;
+        top: 0;
+        background: var(--primary);
+        color: var(--white);
+        z-index: 300;
+        padding: 9px 10px 5px;
+        right: 0;
+        text-align: center;
+    }
+
+    .card__time__day {
+        font-weight: 700;
+        font-size: 2.7em;
+        display: block;
+        text-align: center;
+        line-height: 1em;
+    }
+
+    .card__time__month {
+        margin-right: 0.2em;
+    }
+
+    .card__image__container {
+        height: 100%;
+        width: 100%;
+    }
+
+    .card__image {
+        object-fit: cover;
+        object-position: center center;
+        transition: transform 0.2s ease-out;
+        height: inherit;
+        width: 100%;
+    }
+
+    .card__title {
+        font-size: 1.5rem;
+        margin: 0 0 0.2em;
+
+        a:hover {
+            text-decoration: none;
+        }
+    }
+
+    .card__description {
+        line-height: 1.5;
+    }
+
+    .card__thumbnail {
+        width: 100%;
+        height: 15em;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(211, 0, 0, 0);
+        transition: border 0.2s ease-out;
+        margin-bottom: 0.5em;
+
+        &:hover {
+            border: 1px solid rgba(211, 0, 0, 0.4);
+
+            .card__thumbnail__zoom {
+                opacity: 0.4;
+            }
+
+            .card__image {
+                transform: rotate(7deg) scale(1.5, 1.5);
+            }
+        }
+    }
+}

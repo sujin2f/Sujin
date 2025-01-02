@@ -6,6 +6,7 @@ import React, {
     useCallback,
 } from 'react'
 import { MouseEventCallback } from 'src/common/types/react'
+import { className } from 'src/common/utils/string'
 
 type Props = PropsWithChildren<{
     className?: string
@@ -19,7 +20,7 @@ type Props = PropsWithChildren<{
  */
 export const Overlay = (props: Props): JSX.Element => {
     const overlayRef = useRef<HTMLDivElement>(null)
-    const { className, style } = props
+    const { style } = props
 
     const close = useCallback(
         (e: MouseEvent) => {
@@ -33,7 +34,7 @@ export const Overlay = (props: Props): JSX.Element => {
 
     return (
         <div
-            className={`reveal-overlay ${className}`}
+            className={className('reveal-overlay', props.className)}
             style={style}
             ref={overlayRef}
             onClick={(e) => close(e)}

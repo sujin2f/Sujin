@@ -11,14 +11,8 @@ import { useStyleLoader } from './useStyleLoader'
 describe('useStyleLoader.ts', () => {
     it('test', async () => {
         const Component = (): JSX.Element => {
-            useStyleLoader(
-                'https://test.com/test1.css',
-                'https://test.com/test2.css',
-            )
-            useStyleLoader(
-                'https://test.com/test1.css',
-                'https://test.com/test2.css',
-            )
+            useStyleLoader('https://test.com/test1.css')
+            useStyleLoader('https://test.com/test1.css')
             return <Fragment></Fragment>
         }
         render(<Component />)

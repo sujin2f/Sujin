@@ -40,6 +40,11 @@ export const romanize = (arabic: number) => {
     return roman
 }
 
-export const getRandomInt = (max: number) => {
-    return Math.floor(Math.random() * max)
+export const getRandomInt = (max: number, from?: number) => {
+    if (!from) {
+        return Math.floor(Math.random() * max)
+    }
+
+    const range = max - from
+    return Math.floor(Math.random() * range) + from
 }

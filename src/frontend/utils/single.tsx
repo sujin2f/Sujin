@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { createElement } from 'react'
 
 import DEFAULT_BACKGROUND from 'src/assets/images/thumbnail.svg'
-import { Gist } from 'src/frontend/components/Gist'
-import { TweetEmbed } from 'src/frontend/components/TweetEmbed'
-import { AboutItem } from 'src/frontend/components/AboutItem'
-import { Carousel } from 'src/frontend/components/Carousel'
+
+import { Named, AttrMatch } from 'src/types/wordpress'
+import { Gist } from 'src/frontend/components/shortcode/Gist'
+import { TweetEmbed } from 'src/frontend/components/shortcode/TweetEmbed'
+import { AboutItem } from 'src/frontend/components/shortcode/AboutItem'
+import { Carousel } from 'src/frontend/components/shortcode/Carousel'
+import { Caption } from 'src/frontend/components/shortcode/Caption'
+import { Code } from 'src/frontend/components/shortcode/Code'
 
 interface UrlArgs {
     [key: string]: string
@@ -26,8 +30,6 @@ const regexp = (tag: string): RegExp => {
     )
 }
 
-type Named = Record<string, string>
-type AttrMatch = { named: Named; numeric: string[] }
 /**
  * Parse shortcode attributes.
  * @param {string} text Serialised shortcode attributes.
@@ -104,9 +106,18 @@ const addQueryArgs = (url: string, args: UrlArgs) => {
     return `${parsed.protocol}//${parsed.host}${parsed.pathname}${parsed.search}${parsed.hash}`
 }
 
-const replaceQuotes = (matched: Named, key: string) => {
+export const replaceQuotes = (matched: Named, key: string) => {
     const regex = /(&#8221;|&#8243;|\/\])/g
     return (matched[key] && matched[key].replace(regex, '')) || ''
+}
+
+const shortcodes = {
+    gist: Gist,
+    tweet: TweetEmbed,
+    'about-item': AboutItem,
+    caption: Caption,
+    carousel: Carousel,
+    code: Code,
 }
 
 export function parseContent(content: string): JSX.Element[] {
@@ -120,129 +131,27 @@ export function parseContent(content: string): JSX.Element[] {
     } = {}
     const splited = (str.split(patternShortcode) || [])
         .filter((v) => v)
-        .filter((v) => v !== 'about-item' && v !== 'caption')
+        .filter((v) => v !== 'about-item' && v !== 'caption' && v !== 'code')
+    const keys = Object.keys(shortcodes)
 
-    matched = (str.match(regexp('gist')) || []).reduce(
-        (acc, value) => ({
-            ...acc,
-            [value]: attrs(value),
-        }),
-        matched,
-    )
-
-    matched = (str.match(regexp('tweet')) || []).reduce(
-        (acc, value) => ({
-            ...acc,
-            [value]: attrs(value),
-        }),
-        matched,
-    )
-
-    matched = (str.match(regexp('dev-tools')) || []).reduce(
-        (acc, value) => ({
-            ...acc,
-            [value]: attrs(value),
-        }),
-        matched,
-    )
-
-    matched = (str.match(regexp('about-item')) || []).reduce(
-        (acc, value) => ({
-            ...acc,
-            [value]: attrs(value),
-        }),
-        matched,
-    )
-
-    matched = (str.match(regexp('caption')) || []).reduce(
-        (acc, value) => ({
-            ...acc,
-            [value]: attrs(value),
-        }),
-        matched,
-    )
-
-    matched = (str.match(regexp('carousel')) || []).reduce(
-        (acc, value) => ({
-            ...acc,
-            [value]: attrs(value),
-        }),
-        matched,
-    )
-
+    keys.forEach((shortcode) => {
+        matched = (str.match(regexp(shortcode)) || []).reduce(
+            (acc, value) => ({
+                ...acc,
+                [value]: attrs(value),
+            }),
+            matched,
+        )
+    })
     const elements = splited.map((value, index) => {
         if (matched[value]) {
-            if (value.indexOf('[gist') === 0) {
-                const id = replaceQuotes(matched[value].named, 'id')
-                const file = replaceQuotes(matched[value].named, 'file')
-
-                return (
-                    <Gist
-                        id={id}
-                        file={file}
-                        key={`content-element__gist__${id}__${index}`}
-                    />
-                )
-            }
-
-            if (value.indexOf('[tweet') === 0) {
-                const id = replaceQuotes(matched[value].named, 'id')
-                return (
-                    <TweetEmbed
-                        id={id}
-                        key={`content-element__tweet__${id}__${index}`}
-                    />
-                )
-            }
-
-            if (value.indexOf('[caption') === 0) {
-                const align = replaceQuotes(matched[value].named, 'align')
-                const innerContent = replaceQuotes(
-                    matched[value].named,
-                    'innerContent',
-                )
-                const alignClass =
-                    align === 'aligncenter' ? 'caption--align-center' : ''
-
-                return (
-                    <div
-                        id="attachment_14308"
-                        className={`caption ${alignClass}`}
-                        key={`content-element__caption__${index}`}
-                        dangerouslySetInnerHTML={{ __html: innerContent }}
-                    ></div>
-                )
-            }
-
-            if (value.indexOf('[about-item') === 0) {
-                const from = replaceQuotes(matched[value].named, 'from')
-                const to = replaceQuotes(matched[value].named, 'to')
-                const innerContent = replaceQuotes(
-                    matched[value].named,
-                    'innerContent',
-                )
-
-                return (
-                    <AboutItem
-                        key={`content-element__about-item__${index}`}
-                        from={from}
-                        to={to}
-                        content={innerContent}
-                    />
-                )
-            }
-
-            if (value.indexOf('[carousel') === 0) {
-                const images: string[] = Object.keys(matched[value].named)
-                    .filter((key) => key.match(/sc[0-9]+/))
-                    .map((key) => matched[value].named[key])
-
-                return (
-                    <Carousel
-                        images={images}
-                        key={`content-element__carousel__${index}`}
-                    />
-                )
+            for (let i = 0; i < keys.length; i++) {
+                if (value.indexOf(`[${keys[i]}`) === 0) {
+                    return createElement(shortcodes[keys[i]], {
+                        key: `content-element__${i}__${index}`,
+                        value: matched[value],
+                    })
+                }
             }
         }
 

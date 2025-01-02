@@ -9,11 +9,17 @@ import ejs from 'ejs'
 
 import { GlobalVariable } from 'src/types/common'
 import { TermTypes } from 'src/types/wordpress'
-import { bundles, publicDir, baseDir, rootDir } from 'src/utils/environment'
 import { archive } from 'src/utils/endpoints/archive'
 import { post } from 'src/utils/endpoints/post'
 import { DEV_TOOL_SEO } from 'src/constants/menu-devtool'
+import {
+    publicParam,
+    assetParam,
+    showReact,
+    GetGlobalVariable,
+} from 'src/common/utils/server-route'
 
+const { baseDir, rootDir } = require('src/common/utils/path')
 const staticRouter = express.Router()
 
 /**
@@ -41,17 +47,8 @@ staticRouter.get(/\/feed\/$/, (req, res) => {
 /**
  * Assets
  */
-staticRouter.get(
-    /robots\.txt|manifest\.json|favicon\.png|favicon-16x16\.png|favicon-32x32\.png|thumbnail\.png$/,
-    (req, res) => {
-        const html = `${publicDir}${req.url}`
-        res.sendFile(html)
-    },
-)
-
-staticRouter.get('/static(/*)', (req, res) => {
-    res.sendFile(`${baseDir}/frontend${req.url}`)
-})
+staticRouter.get(publicParam[0], publicParam[1])
+staticRouter.get(assetParam[0], assetParam[1])
 
 const getTitleExcerpt = async (
     req: Request,
@@ -150,7 +147,7 @@ const getTitleExcerpt = async (
     return defaultValue
 }
 
-const getGlobalVariable = async (req: Request): Promise<GlobalVariable> => {
+const getGlobalVariable: GetGlobalVariable<GlobalVariable> = async (req) => {
     const [title, excerpt, image] = await getTitleExcerpt(req)
 
     const globalVariable: GlobalVariable = {
@@ -169,32 +166,10 @@ const getGlobalVariable = async (req: Request): Promise<GlobalVariable> => {
 }
 
 /**
- * Show react frontend
- *
- * @param {Request} req
- * @param {Response} res
- * @return {void}
- */
-export const showReact = async (req: Request, res: Response): Promise<void> => {
-    const filePath = path.resolve(publicDir, 'frontend.ejs')
-    const bundleData = bundles()
-    const globalVariable = await getGlobalVariable(req)
-    const html = await ejs
-        .renderFile(filePath, {
-            ...globalVariable,
-            js: bundleData.filter((value) => value.endsWith('.js')),
-            css: bundleData.filter((value) => value.endsWith('.css')),
-        })
-        .catch((e) => console.error(e))
-
-    res.send(html)
-}
-
-/**
  * React frontend
  */
 staticRouter.use((req, res) => {
-    showReact(req, res)
+    showReact(req, res, getGlobalVariable)
 })
 
 export { staticRouter }

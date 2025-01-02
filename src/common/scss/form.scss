@@ -1,0 +1,160 @@
+@use 'sass:color';
+@use 'variable';
+
+.form__label {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 0.1em;
+
+    &.form__label--required::after {
+        content: '*';
+        color: var(--warning);
+    }
+}
+
+.form__input {
+    width: 100%;
+    padding: 0.5em;
+    margin-bottom: 1em;
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--gray);
+    outline: none !important;
+
+    &:focus {
+        border-color: var(--black);
+    }
+
+    &.form__input--error {
+        border-color: var(--warning);
+        margin-bottom: 0;
+    }
+
+    &.form__input--with-help-text {
+        margin-bottom: 0;
+    }
+
+    &[type='radio'],
+    &[type='checkbox'] {
+        width: initial;
+        margin-right: 0.5em;
+    }
+
+    &[multiple] {
+        padding: 0;
+
+        option {
+            padding: 0.5em;
+        }
+    }
+}
+
+.form__input__error-message {
+    color: var(--warning);
+    line-height: 1.3em;
+
+    &:has(+ .form__input__help-text) {
+        margin-bottom: 0;
+    }
+}
+
+.form__input__help-text {
+    font-style: italic;
+    font-size: 0.9em;
+    color: var(--gray);
+    margin-bottom: 1em;
+    line-height: 1.3em;
+}
+
+fieldset {
+    margin-bottom: 1em;
+
+    > *:last-child {
+        margin-bottom: 0;
+
+        .form__input {
+            margin-bottom: 0;
+        }
+    }
+}
+
+@mixin button($bg-color, $fg-color) {
+    $dark: color.adjust($bg-color, $lightness: -10%);
+
+    background-color: $bg-color;
+    color: $fg-color;
+    box-sizing: border-box;
+    margin-bottom: 1em;
+    padding: 0.8em;
+    border: 1px solid $bg-color;
+
+    &:hover,
+    &:focus,
+    &:visited,
+    &:active {
+        background-color: $dark;
+    }
+
+    &.button--hollow {
+        background-color: transparent;
+        color: $bg-color;
+
+        &:hover,
+        &:focus,
+        &:visited,
+        &:active {
+            border-color: $dark;
+            color: $dark;
+        }
+    }
+}
+
+.button {
+    @include button(variable.$primary, variable.$white);
+
+    &.button--primary {
+        @include button(variable.$primary, variable.$white);
+    }
+
+    &.button--close {
+        margin: 0;
+        padding: 0;
+        width: 2em;
+        height: 2em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--gray);
+        background-color: transparent;
+        border-color: transparent;
+
+        span {
+            display: block;
+            line-height: 0;
+            font-size: 2.5em;
+        }
+    }
+
+    &.button--icon {
+        width: 2em;
+        height: 2em;
+        display: flex;
+        padding: 0;
+        border: none;
+        background-color: transparent;
+        border: none;
+
+        svg {
+            fill: var(--primary);
+        }
+
+        &:hover,
+        &:focus,
+        &:visited,
+        &:active {
+            svg {
+                fill: color.adjust(variable.$primary, $lightness: -10%);
+            }
+        }
+    }
+}

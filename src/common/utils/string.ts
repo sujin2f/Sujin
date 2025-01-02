@@ -41,6 +41,11 @@ export const generateUUID = () => {
     })
 }
 
-export const capitalize = (string: string) => {
-    return `${string.charAt(0).toUpperCase()}${string.slice(1)}`
-}
+export const capitalize = (input: string) =>
+    `${input.charAt(0).toUpperCase()}${input.slice(1)}`
+
+export const className = (...input: any[]) =>
+    input
+        .filter((s) => s)
+        .map((s) => s.toString().trim())
+        .join(' ')

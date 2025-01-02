@@ -1,0 +1,26 @@
+$padding: 0.4em;
+
+.hamburger {
+    width: calc(var(--header-height) - #{$padding} * 2);
+    height: calc(var(--header-height) - #{$padding} * 2);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding: $padding;
+
+    div {
+        background-color: var(--primary);
+        width: 100%;
+        height: 20%;
+    }
+
+    &:hover {
+        background-color: var(--primary);
+
+        div {
+            background-color: var(--white);
+        }
+    }
+}

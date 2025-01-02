@@ -1,23 +1,10 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const path = require('path')
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const configFactory = require('react-scripts/config/webpack.config')
-const config =
-    'development' === process.env.NODE_ENV
-        ? configFactory('development')
-        : configFactory('production')
+const webpackMerge = require('webpack-merge')
+const common = require('./webpack/webpack.common')
 
-config.entry = [path.resolve(__dirname, 'src', 'frontend', 'index.tsx')]
-
-config.output.path = path.resolve(
-    __dirname,
-    '.build',
-    process.env.NODE_ENV,
-    'frontend',
-)
-
-if ('stage' === process.env.NODE_ENV) {
-    process.env.NODE_ENV = 'production'
+const envs = {
+    development: 'dev',
+    production: 'prod',
 }
-
-module.exports = config
+const env = envs[process.env.NODE_ENV || 'development']
+const envConfig = require(`./webpack/webpack.${env}.js`)
+module.exports = webpackMerge.merge(common, envConfig)

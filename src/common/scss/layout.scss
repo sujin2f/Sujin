@@ -1,0 +1,65 @@
+@use 'mixin';
+
+$width: calc((100% - 1em - (11 * 1em)) / 12);
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: calc(var(--max-width) + 1em);
+    margin: 0 auto;
+    padding: 0 0 0 1em;
+
+    &.row--full-width {
+        max-width: calc(100% + 1em);
+        width: calc(100% + 1em);
+        padding: 0;
+    }
+
+    .column {
+        margin-right: 1em;
+
+        @for $i from 1 through 12 {
+            &.small-#{$i} {
+                width: calc(#{$width} * #{$i} + #{$i - 1}em);
+            }
+        }
+
+        @for $i from 1 through 12 {
+            @include mixin.medium {
+                &.medium-#{$i} {
+                    width: calc(#{$width} * #{$i} + #{$i - 1}em);
+                }
+            }
+        }
+
+        @for $i from 1 through 12 {
+            @include mixin.large {
+                &.large-#{$i} {
+                    width: calc(#{$width} * #{$i} + #{$i - 1}em);
+                }
+            }
+        }
+
+        @for $i from 1 through 11 {
+            &.small-offset-#{$i} {
+                margin-left: calc(#{$width} * #{$i} + #{$i}em);
+            }
+        }
+
+        @for $i from 1 through 11 {
+            @include mixin.medium {
+                &.medium-offset-#{$i} {
+                    margin-left: calc(#{$width} * #{$i} + #{$i}em);
+                }
+            }
+        }
+
+        @for $i from 1 through 11 {
+            @include mixin.large {
+                &.large-offset-#{$i} {
+                    margin-left: calc(#{$width} * #{$i} + #{$i}em);
+                }
+            }
+        }
+    }
+}

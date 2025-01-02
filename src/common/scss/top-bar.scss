@@ -1,0 +1,32 @@
+.top-bar {
+    height: var(--header-height);
+    background-color: var(--white);
+    margin: 0;
+
+    .column {
+        display: flex;
+        justify-content: center;
+        align-items: stretch;
+        height: var(--header-height);
+
+        &:last-child {
+            justify-content: end;
+        }
+
+        &:first-child {
+            justify-content: start;
+        }
+    }
+
+    &.top-bar--fixed {
+        width: 100%;
+        max-width: 100%;
+        position: fixed;
+        z-index: 10000;
+        top: 0;
+
+        & + * {
+            margin-top: var(--header-height);
+        }
+    }
+}

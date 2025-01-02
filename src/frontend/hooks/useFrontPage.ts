@@ -7,19 +7,23 @@ import { setPageInfo } from 'src/frontend/store/actions'
 export const useFrontPage = () => {
     const [, dispatch] = useContext(Context) as ContextType
     const { data } = useQuery<BackgroundsReturnType>(GraphQuery.BACKGROUNDS)
-    const backgrounds = data && data.backgrounds
+
+    const title = window.globalVariable.siteName || ''
+    const excerpt = window.globalVariable.excerpt || ''
+    const background =
+        data && data.backgrounds && data.backgrounds.length
+            ? data.backgrounds[
+                  Math.floor(Math.random() * data.backgrounds.length)
+              ]
+            : ''
 
     useEffect(() => {
         const title = window.globalVariable.siteName || ''
         const excerpt = window.globalVariable.excerpt
-        const randomBackground =
-            backgrounds && backgrounds.length
-                ? backgrounds[Math.floor(Math.random() * backgrounds.length)]
-                : undefined
 
         dispatch(
             setPageInfo({
-                background: randomBackground,
+                background,
                 backgroundColor: '',
                 excerpt,
                 icon: undefined,
@@ -32,7 +36,7 @@ export const useFrontPage = () => {
                 },
             }),
         )
-    }, [dispatch, backgrounds])
+    }, [dispatch, background])
 
-    return { title: window.globalVariable.siteName }
+    return { title, excerpt, background }
 }

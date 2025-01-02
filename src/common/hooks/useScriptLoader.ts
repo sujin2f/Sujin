@@ -1,11 +1,6 @@
 import { useEffect, useState } from 'react'
-import { GlobalState } from '../model/GlobalState'
-
-export enum LoadingStatus {
-    INIT = 'init',
-    ON_LOADING = 'onload',
-    COMPLETE = 'complete',
-}
+import { GlobalState } from 'src/common/model/GlobalState'
+import { LoadingStatus } from 'src/common/constants/asset'
 
 /*
  * External JS loader
@@ -13,7 +8,7 @@ export enum LoadingStatus {
  *
  * const state = useScriptLoader('https://cdn.com/javascript.js')
  * useEffect(() => {
- *   if (state === LoadingStatus.COMPLETE) {
+ *   if (state === LoadingStatus.DONE) {
  *     doSomething()
  *   }
  * }, [state])
@@ -24,12 +19,15 @@ export const useScriptLoader = (src: string) => {
     const state = globalState.value
 
     if (state === LoadingStatus.INIT) {
-        globalState.value = LoadingStatus.ON_LOADING
+        globalState.value = LoadingStatus.LOADING
         const script = document.createElement('script')
         script.src = src
         script.async = true
         script.onload = () => {
-            globalState.value = LoadingStatus.COMPLETE
+            globalState.value = LoadingStatus.DONE
+        }
+        script.onerror = () => {
+            globalState.value = LoadingStatus.ERROR
         }
         document.body.appendChild(script)
     }

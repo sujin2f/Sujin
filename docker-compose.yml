@@ -1,17 +1,15 @@
-version: '3.9'
-
 services:
     mysql:
         container_name: mysql
         image: mariadb:10.5
         restart: always
         environment:
-            MYSQL_DATABASE: wordpress
-            MYSQL_USER: MYSQL_USER
-            MYSQL_PASSWORD: MYSQL_PASSWORD
-            MYSQL_ROOT_PASSWORD: MYSQL_ROOT_PASSWORD
+            MYSQL_DATABASE: ${MYSQL_DB}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
         ports:
-            - 3307:3306
+            - 3306:3306
 
     wordpress:
         container_name: wordpress
@@ -19,13 +17,38 @@ services:
         restart: always
         environment:
             WORDPRESS_DB_HOST: mysql
-            WORDPRESS_DB_NAME: wordpress
-            WORDPRESS_DB_USER: MYSQL_USER
-            WORDPRESS_DB_PASSWORD: MYSQL_PASSWORD
+            WORDPRESS_DB_NAME: ${MYSQL_DB}
+            WORDPRESS_DB_USER: ${MYSQL_USER}
+            WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
             WORDPRESS_DEBUG: 0
             TZ: America/Toronto
         volumes:
             - ./wordpress/plugins/2d-tag-cloud:/var/www/html/wp-content/plugins/2d-tag-cloud
             - ./wordpress/themes/sujin:/var/www/html/wp-content/themes/sujin
+            - ./wordpress/uploads:/var/www/html/wp-content/uploads
         ports:
             - 9000:80
+    prod:
+        container_name: sujin-prod
+        image: node:latest
+        restart: always
+        environment:
+            MYSQL: mysql
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_DB: ${MYSQL_DB}
+            PORT: 80
+            TITLE: ${TITLE}
+            EXCERPT: ${EXCERPT}
+            FRONTEND: ${FRONTEND}
+            WORDPRESS: ${WORDPRESS}
+            FLICKR_ID: ${FLICKR_ID}
+            GOOGLE_AD_CLIENT: ${GOOGLE_AD_CLIENT}
+            GOOGLE_AD_SLOT: ${GOOGLE_AD_SLOT}
+
+        volumes:
+            - ./:/home/node/app
+        working_dir: /home/node/app
+        command: yarn prod:server
+        ports:
+            - 80:80

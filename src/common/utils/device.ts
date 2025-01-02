@@ -4,8 +4,7 @@ import { Nullable } from 'src/common/types'
  * Check if the browser is mobile
  */
 export const isMobile = (): boolean => {
-    const userAgent =
-        window.navigator.userAgent || window.navigator.vendor || window.opera
+    const userAgent = window.navigator.userAgent || window.navigator.vendor
     /* eslint-disable max-len,no-useless-escape */
     const regex1 =
         /(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i
@@ -64,10 +63,8 @@ export const debounce = (callback: () => void, wait: number) => {
 }
 
 export const copyText = (text?: string): void => {
-    console.log(1)
     if (!text) {
         return
     }
-    console.log(text)
     navigator.clipboard.writeText(text)
 }

@@ -21,6 +21,9 @@ export const isEmpty = <T>(value: T): boolean => {
     if (value === undefined || value === null) {
         return true
     }
+    if (typeof value === 'function') {
+        return false
+    }
     if (typeof value === 'boolean') {
         return false
     }

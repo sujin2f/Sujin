@@ -1,7 +1,8 @@
-/** components/widgets/Tags */
 import React from 'react'
+import { Link } from 'react-router-dom'
+
 import { useTagCloud } from 'src/frontend/hooks/useTagCloud'
-import { Link } from 'src/frontend/components/Link'
+require('src/frontend/scss/tag-cloud.scss')
 
 export const TagCloud = (): JSX.Element => {
     const { tagCloud } = useTagCloud()

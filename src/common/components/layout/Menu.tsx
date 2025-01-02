@@ -1,0 +1,148 @@
+import React, { useCallback, useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
+
+import { MenuItem as TypeMenuItem } from 'src/common/types/menu'
+import { className } from 'src/common/utils/string'
+
+import Arrow from 'src/common/images/icons/arrow_drop_up.svg'
+
+require('src/common/scss/menu.scss')
+
+type ComponentProps = {
+    className?: string
+    dropdown?: 'hover' | 'click'
+    items: TypeMenuItem[]
+    direction?: 'vertical' | 'horizontal'
+    callback?: () => void
+}
+
+type BlockProps = {
+    dropdown?: 'hover' | 'click'
+    items: TypeMenuItem[]
+    direction: 'vertical' | 'horizontal'
+    callback?: () => void
+}
+
+type ItemProps = {
+    item: TypeMenuItem
+    dropdown?: 'hover' | 'click'
+    direction: 'vertical' | 'horizontal'
+    callback?: () => void
+}
+
+const MenuItem = (props: ItemProps): JSX.Element => {
+    const hasChildren = props.item.children && props.item.children.length > 0
+    const [closed, changeClosed] = useState(
+        hasChildren && props.dropdown ? true : false,
+    )
+
+    const onMouseOver = useCallback(() => {
+        if (props.dropdown === 'hover') {
+            changeClosed(false)
+        }
+    }, [props.dropdown])
+
+    const onMouseLeave = useCallback(() => {
+        if (props.dropdown === 'hover') {
+            changeClosed(true)
+        }
+    }, [props.dropdown])
+
+    const onClick = useCallback(() => {
+        if (props.dropdown === 'click') {
+            changeClosed(!closed)
+        }
+    }, [props.dropdown, closed])
+
+    const linkTo = useMemo(() => {
+        if (hasChildren) {
+            return ''
+        }
+        return props.item.link
+    }, [props.item.link, hasChildren])
+
+    const classNames = useMemo(
+        () =>
+            className(
+                'menu__item',
+                closed && 'menu__item--closed',
+                hasChildren && !closed && 'menu__item--opened',
+                hasChildren && 'menu__item--children',
+            ),
+        [closed, hasChildren],
+    )
+
+    return (
+        <li
+            onMouseOver={onMouseOver}
+            onMouseLeave={onMouseLeave}
+            onClick={onClick}
+            className={classNames}
+        >
+            <Link to={linkTo} onClick={props.callback} className="menu__link">
+                {props.item.title}
+                {props.dropdown && hasChildren && (
+                    <Arrow className="menu__link__arrow" />
+                )}
+            </Link>
+
+            {hasChildren && (
+                <MenuBlock
+                    items={props.item.children}
+                    direction={props.direction}
+                    callback={props.callback}
+                />
+            )}
+        </li>
+    )
+}
+
+const MenuBlock = (props: BlockProps): JSX.Element => {
+    return (
+        <ul className="menu">
+            {props.items.map((menu, index) => (
+                <MenuItem
+                    key={`menu-${menu.title}-${index}`}
+                    item={menu}
+                    dropdown={props.dropdown}
+                    direction={props.direction}
+                    callback={props.callback}
+                />
+            ))}
+        </ul>
+    )
+}
+
+export const Menu = (props: ComponentProps): JSX.Element => {
+    const direction = useMemo(
+        () => props.direction || 'horizontal',
+        [props.direction],
+    )
+    const cls = useMemo(
+        () =>
+            className(
+                'menu__container',
+                `menu__container--${direction}`,
+                props.className,
+            ),
+        [direction, props.className],
+    )
+    const dropdown = useMemo(
+        () =>
+            direction === 'horizontal' && !props.dropdown
+                ? 'hover'
+                : props.dropdown,
+        [direction, props.dropdown],
+    )
+
+    return (
+        <nav className={cls}>
+            <MenuBlock
+                dropdown={dropdown}
+                items={props.items}
+                direction={direction}
+                callback={props.callback}
+            />
+        </nav>
+    )
+}
