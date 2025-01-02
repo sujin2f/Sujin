@@ -5,7 +5,7 @@ require('src/common/scss/layout.scss')
 
 type Props = {
     className?: string
-    dom?: string
+    dom?: string | JSX.Element
     fullWidth?: boolean
 }
 

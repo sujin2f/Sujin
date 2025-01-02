@@ -14,6 +14,7 @@ import { post } from 'src/utils/endpoints/post'
 import { DEV_TOOL_SEO } from 'src/constants/menu-devtool'
 import {
     publicParam,
+    assetParam,
     showReact,
     GetGlobalVariable,
 } from 'src/common/utils/server-route'
@@ -47,25 +48,7 @@ staticRouter.get(/\/feed\/$/, (req, res) => {
  * Assets
  */
 staticRouter.get(publicParam[0], publicParam[1])
-
-staticRouter.get('/static(/*)', (req, res) => {
-    res.sendFile(`${baseDir}/frontend${req.url}`)
-})
-
-staticRouter.get('/assets(/*)', (req, res) => {
-    res.sendFile(`${baseDir}/frontend${req.url}`)
-})
-
-/**
- * JS
- */
-staticRouter.get('/(*).js', (req, res) => {
-    res.sendFile(`${baseDir}/frontend${req.url}`)
-})
-
-staticRouter.get('/(*).map', (req, res) => {
-    res.sendFile(`${baseDir}/frontend${req.url}`)
-})
+staticRouter.get(assetParam[0], assetParam[1])
 
 const getTitleExcerpt = async (
     req: Request,

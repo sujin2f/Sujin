@@ -64,7 +64,7 @@
 
     .card__title {
         font-size: 1.5rem;
-        margin: 0;
+        margin: 0 0 0.2em;
 
         a:hover {
             text-decoration: none;
@@ -72,7 +72,7 @@
     }
 
     .card__description {
-        margin: 0;
+        line-height: 1.5;
     }
 
     .card__thumbnail {

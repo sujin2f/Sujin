@@ -11,7 +11,7 @@ import { SocialShare } from 'src/frontend/components/SocialShare'
 import { usePost } from 'src/frontend/hooks/usePost'
 import { NotFound } from 'src/frontend/scenes/public/NotFound'
 
-import DeafultThumbnail from 'src/frontend/images/thumbnail-default.svg'
+import DeafultThumbnail from 'src/frontend/images/thumbnail-default.png'
 
 const Page = (): JSX.Element => {
     const { slug } = useParams<{ slug: string }>()
@@ -27,6 +27,9 @@ const Page = (): JSX.Element => {
 
     document.title = title
 
+    const thumbnail =
+        post.images.list?.url || post.images.thumbnail?.url || DeafultThumbnail
+
     return (
         <Fragment>
             <Banner
@@ -40,11 +43,11 @@ const Page = (): JSX.Element => {
                     <Content post={post!}>
                         <Tags items={post!.tags} prefix={`single-${slug}`} />
 
-                        {/*<SocialShare
-                        title={post!.title}
-                        excerpt={post!.excerpt}
-                        thumbnail={thumbnail}
-                    />*/}
+                        <SocialShare
+                            title={post!.title}
+                            excerpt={post!.excerpt}
+                            thumbnail={thumbnail}
+                        />
                     </Content>
                 </Column>
             </Row>

@@ -24,7 +24,7 @@ module.exports = {
                 // CSS Loader
                 test: /\.css$/,
                 exclude: /node_modules/,
-		use: [
+                use: [
                     {
                         loader: inDev()
                             ? 'style-loader'
@@ -66,12 +66,24 @@ module.exports = {
                 // Assets loader
                 // More information here https://webpack.js.org/guides/asset-modules/
                 test: /\.(gif|jpe?g|tiff|png|webp|bmp|eot|ttf|woff|woff2)$/i,
-                type: 'asset',
+                type: 'asset/resource',
                 generator: {
-                    filename: 'assets/[hash][ext][query]',
+                    filename: '[hash][ext][query]',
                 },
             },
-            { test: /\.svg$/, use: ['@svgr/webpack'] },
+            {
+                test: /\.svg$/,
+                issuer: /\.s[ac]ss$/i,
+                type: 'asset/resource',
+                generator: {
+                    filename: '[hash][ext][query]',
+                },
+            },
+            {
+                test: /\.svg$/,
+                issuer: /\.tsx?$/,
+                use: ['@svgr/webpack'],
+            },
         ],
     },
     resolve: {
@@ -91,9 +103,9 @@ module.exports = {
         //     emitWarning: process.env.NODE_ENV !== 'production',
         // }),
     ],
-optimization: {
-     splitChunks: {
-       chunks: 'all',
-     },
-   },
+    optimization: {
+        splitChunks: {
+            chunks: 'all',
+        },
+    },
 }

@@ -1,24 +1,30 @@
 import React from 'react'
+
 import { Column } from 'src/common/components/layout/Column'
 import { Row } from 'src/common/components/layout/Row'
 import { Card } from 'src/common/components/containers/Card'
+import { WidgetTitle } from 'src/frontend/components/widget/WidgetTitle'
 
 import { Post } from 'src/types/wordpress'
+
+import DeafultThumbnail from 'src/frontend/images/thumbnail-default.png'
+
+require('src/frontend/scss/related-posts.scss')
 
 interface Props {
     items?: Post[]
 }
 
 export const RelatedPosts = (props: Props): JSX.Element => {
+    const { items } = props
+
     return (
         <section className="related-posts">
-            <h2 className="section-header">
-                <span>Related Posts</span>
-            </h2>
+            <WidgetTitle>Related Posts</WidgetTitle>
 
-            <Row dom="section">
-                {props.items &&
-                    props.items.map((related) => (
+            <Row fullWidth>
+                {items &&
+                    items.map((related) => (
                         <Column
                             key={`related--${related.id}`}
                             medium={6}
@@ -30,8 +36,9 @@ export const RelatedPosts = (props: Props): JSX.Element => {
                                 to={related.link}
                                 time={new Date(related.date)}
                                 image={
-                                    related.images.list ||
-                                    related.images.thumbnail
+                                    related.images.list?.url ||
+                                    related.images.thumbnail?.url ||
+                                    DeafultThumbnail
                                 }
                             />
                         </Column>

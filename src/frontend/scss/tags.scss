@@ -1,0 +1,24 @@
+.tag__container {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 0 0.5em;
+    padding: 0;
+}
+
+.tag {
+    display: inline-block;
+    background-color: var(--black);
+    color: var(--white);
+    padding: 0 0.5em;
+    margin: 0 0.4em 0.5em 0;
+    border-radius: 2px;
+    transition: background-color ease-out 0.2s;
+
+    &:hover,
+    &:focus,
+    &:active {
+        background-color: var(--primary);
+        text-decoration: none;
+    }
+}

@@ -7,15 +7,15 @@ import { Row } from 'src/common/components/layout/Row'
 import { Banner } from 'src/frontend/scenes/layout/Banner'
 import { Content } from 'src/frontend/components/Content'
 import { PrevNext } from 'src/frontend/components/PrevNext'
-import { RecentPosts } from 'src/frontend/components/RecentPosts'
-import { RelatedPosts } from 'src/frontend/components/RelatedPosts'
+import { RecentPosts } from 'src/frontend/components/widget/RecentPosts'
+import { RelatedPosts } from 'src/frontend/components/widget/RelatedPosts'
 import { SocialShare } from 'src/frontend/components/SocialShare'
 import { Tags } from 'src/frontend/components/Tags'
-import { GoogleAdvert } from 'src/frontend/components/widget'
+import { GoogleAdvert } from 'src/frontend/components/widget/GoogleAdvert'
 import { NotFound } from 'src/frontend/scenes/public/NotFound'
 import { usePost } from 'src/frontend/hooks/usePost'
 
-import DeafultThumbnail from 'src/frontend/images/thumbnail-default.svg'
+import DeafultThumbnail from 'src/frontend/images/thumbnail-default.png'
 
 const Post = (): JSX.Element => {
     const { slug } = useParams<{ slug: string }>()
@@ -36,10 +36,7 @@ const Post = (): JSX.Element => {
     document.title = title
 
     const thumbnail =
-        post.images.list?.url ||
-        post.images.thumbnail?.url ||
-        post.images.background?.url ||
-        DeafultThumbnail
+        post.images.list?.url || post.images.thumbnail?.url || DeafultThumbnail
 
     return (
         <Fragment>
@@ -52,7 +49,7 @@ const Post = (): JSX.Element => {
             <Row>
                 <Column medium={12} large={6} largeOffset={3}>
                     <Content post={post}>
-                        <Tags items={post.tags} prefix={`single-${slug}`} />
+                        <Tags items={post.tags} />
                         <SocialShare
                             title={post.title}
                             excerpt={post.excerpt}

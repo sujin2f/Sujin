@@ -32,23 +32,16 @@
     height: 70%;
 }
 
-/**
- * Top
- */
 .footer__top {
     padding-top: 2em;
     padding-bottom: 1em;
 
     .widget__heading {
-        margin-bottom: 1em;
         border-bottom: 1px solid var(--white);
-        display: flex;
 
         span {
-            font-size: 0.8em;
             background-color: var(--white);
             color: var(--black);
-            padding: 0.1em 0.2em;
         }
     }
 }

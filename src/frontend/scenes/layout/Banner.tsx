@@ -1,13 +1,12 @@
 import React, { Fragment } from 'react'
 
 import { Menu } from 'src/common/components/layout/Menu'
-
+import { Row } from 'src/common/components/layout/Row'
+import { Column } from 'src/common/components/layout/Column'
 import { ImageType } from 'src/constants/wp'
 import { MenuNames } from 'src/constants/mysql-query'
-
 import { Loading } from 'src/frontend/components/Loading'
 import { getImageMap } from 'src/utils/common'
-
 import { useMenu } from 'src/frontend/hooks/useMenu'
 
 require('src/frontend/scss/banner.scss')
@@ -75,12 +74,16 @@ export const Banner = (props: Props): JSX.Element => {
                             )}
                             {title}
                         </h1>
-                        <p
-                            className="banner__title__excerpt"
-                            dangerouslySetInnerHTML={{
-                                __html: excerpt,
-                            }}
-                        />
+                        <Row>
+                            <Column>
+                                <p
+                                    className="banner__title__excerpt"
+                                    dangerouslySetInnerHTML={{
+                                        __html: excerpt,
+                                    }}
+                                />
+                            </Column>
+                        </Row>
                     </div>
                 </div>
                 <picture>

@@ -14,7 +14,7 @@ type Props = {
     largeOffset?: OneToEleven
     className?: string
     id?: string
-    dom?: string
+    dom?: string | JSX.Element
 }
 
 export const Column = (props: PropsWithChildren<Props>): JSX.Element => {

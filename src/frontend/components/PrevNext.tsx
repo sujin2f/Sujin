@@ -1,7 +1,12 @@
 import React, { Fragment } from 'react'
+import { Link } from 'react-router-dom'
 
-import { Link } from 'src/frontend/components/Link'
+import { Row } from 'src/common/components/layout/Row'
+import { Column } from 'src/common/components/layout/Column'
 import { Post } from 'src/types/wordpress'
+import Prev from 'src/frontend/images/prev.svg'
+
+require('src/frontend/scss/prev-next.scss')
 
 interface Props {
     prevNext?: {
@@ -19,19 +24,31 @@ export const PrevNext = (props: Props): JSX.Element => {
         prevNext: { prev, next },
     } = props
     return (
-        <nav className="prev-next">
+        <Row dom="nav" fullWidth className="prev-next__container">
             {prev && (
-                <Link to={prev.link} className="prev-next__prev">
-                    <i />
+                <Column
+                    dom={Link}
+                    small={12}
+                    medium={6}
+                    to={prev.link}
+                    className="prev-next prev-next--prev"
+                >
+                    <Prev />
                     {prev.title}
-                </Link>
+                </Column>
             )}
             {next && (
-                <Link to={next.link} className="prev-next__next">
-                    <i />
+                <Column
+                    dom={Link}
+                    small={12}
+                    medium={6}
+                    to={next.link}
+                    className="prev-next prev-next--next"
+                >
+                    <Prev />
                     {next.title}
-                </Link>
+                </Column>
             )}
-        </nav>
+        </Row>
     )
 }

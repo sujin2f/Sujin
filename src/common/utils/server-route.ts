@@ -9,10 +9,17 @@ const { bundles, publicDir, baseDir } = require('src/common/utils/path')
  * Public Dir
  */
 export const publicParam: [RegExp, (req: Request, res: Response) => void] = [
-    /robots\.txt|manifest\.json|favicon\.png|favicon-16x16\.png|favicon-32x32\.png|thumbnail\.png|service-worker\.js$/,
+    /robots\.txt|favicon\.png|favicon-16x16\.png|favicon-32x32\.png|thumbnail\.png|service-worker\.js$/,
     (req, res) => {
         const html = `${publicDir}${req.url}`
         res.sendFile(html)
+    },
+]
+
+export const assetParam: [RegExp, (req: Request, res: Response) => void] = [
+    /\.js|\.map|\.json|\.png|\.svg$/,
+    (req, res) => {
+        res.sendFile(`${baseDir}/frontend${req.url}`)
     },
 ]
 

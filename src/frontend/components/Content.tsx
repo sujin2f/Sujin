@@ -8,6 +8,8 @@ import React, { Fragment, PropsWithChildren } from 'react'
 import { parseContent } from 'src/frontend/utils/single'
 import { Post } from 'src/types/wordpress'
 
+require('src/frontend/scss/content.scss')
+
 type Props = {
     post: Post
 }

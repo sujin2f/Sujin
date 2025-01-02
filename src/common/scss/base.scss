@@ -11,7 +11,7 @@
     --warning: #{variable.$warning};
     --font: 'Ubuntu', 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial,
         sans-serif;
-    --max-width: 75rem;
+    --max-width: #{variable.$max-width};
     --header-height: #{variable.$header-height};
 }
 
@@ -48,7 +48,7 @@ a,
 }
 
 p {
-    line-height: 1.6;
+    line-height: 2;
     margin: 0 0 1em;
 
     &:empty {
@@ -65,7 +65,7 @@ h6 {
     text-transform: capitalize;
     font-weight: 500;
     letter-spacing: -0.05em;
-    margin: 0;
+    margin: 0 0 0.5em;
     padding: 0;
     line-height: normal;
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'src/frontend/components/Link'
+import { Link } from 'react-router-dom'
 
 export const SideMenu = (): JSX.Element => {
     return (

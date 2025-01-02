@@ -1,0 +1,14 @@
+.widget__heading {
+    margin-bottom: 0.2em;
+    border-bottom: 1px solid var(--black);
+    display: flex;
+    font-size: 1.7em;
+    font-weight: 300;
+
+    span {
+        font-size: 0.8em;
+        background-color: var(--black);
+        color: var(--white);
+        padding: 0.2em 0.4em;
+    }
+}

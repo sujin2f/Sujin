@@ -1,0 +1,11 @@
+.content {
+    blockquote {
+        background-image: url('src/frontend/images/quote.svg');
+        background-position: center 1em;
+        background-repeat: no-repeat;
+        background-size: 2em;
+        padding: 4em 1.2em 1em;
+        background-color: var(--light-gray);
+        margin: 0 0 1.5em;
+    }
+}

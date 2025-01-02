@@ -114,3 +114,15 @@ export const shuffle = (input: any[]): any[] => {
     }
     return input
 }
+
+export const getPrev = <T>(arr: T[], idx: number): [number, T] => {
+    let prev = idx - 1
+    prev = prev < 0 ? arr.length - 1 : prev
+    return [prev, arr[prev]]
+}
+
+export const getNext = <T>(arr: T[], idx: number): [number, T] => {
+    let next = idx + 1
+    next = next >= arr.length ? 0 : next
+    return [next, arr[next]]
+}

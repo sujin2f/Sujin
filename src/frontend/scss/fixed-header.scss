@@ -170,6 +170,7 @@ $social-height: 26px;
 
 .top-bar__main {
     @include fixed-header;
+    position: relative;
     padding: 0 1em !important;
 
     .column {

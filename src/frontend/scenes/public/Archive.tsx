@@ -9,9 +9,10 @@ import { Paging } from 'src/common/components/containers/Paging'
 import { Banner } from 'src/frontend/scenes/layout/Banner'
 import { Post as PostType, TermTypes } from 'src/types/wordpress'
 import { NotFound } from 'src/frontend/scenes/public/NotFound'
+import { Tags } from 'src/frontend/components/Tags'
 import { useArchive } from 'src/frontend/hooks/useArchive'
 
-import defaultBg from 'src/frontend/images/thumbnail-default.png'
+import DeafultThumbnail from 'src/frontend/images/thumbnail-default.png'
 
 const Archive = (): JSX.Element => {
     const { type, slug, page } = useParams<{
@@ -58,11 +59,13 @@ const Archive = (): JSX.Element => {
                             to={post.link}
                             time={new Date(post.date)}
                             image={
-                                post.images.list ||
-                                post.images.thumbnail ||
-                                defaultBg
+                                post.images.list?.url ||
+                                post.images.thumbnail?.url ||
+                                DeafultThumbnail
                             }
-                        />
+                        >
+                            <Tags items={post.tags} />
+                        </Card>
                     </Column>
                 ))}
             </Row>

@@ -1,21 +1,23 @@
 @use 'mixin';
 
-$width: calc((100% - (11 * 1em)) / 12);
+$width: calc((100% - 1em - (11 * 1em)) / 12);
 
 .row {
     display: flex;
-    justify-content: space-between;
     flex-wrap: wrap;
-    max-width: var(--max-width);
+    max-width: calc(var(--max-width) + 1em);
     margin: 0 auto;
-    padding: 0 1em;
+    padding: 0 0 0 1em;
 
     &.row--full-width {
-        max-width: 100%;
+        max-width: calc(100% + 1em);
+        width: calc(100% + 1em);
         padding: 0;
     }
 
     .column {
+        margin-right: 1em;
+
         @for $i from 1 through 12 {
             &.small-#{$i} {
                 width: calc(#{$width} * #{$i} + #{$i - 1}em);

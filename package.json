@@ -24,7 +24,7 @@
         "prod:analyze": "source-map-explorer '.build/production/frontend/static/js/*.js'",
         "test": "NODE_ENV=development jest",
         "lint": "eslint --fix ./src/**/*.ts ./src/**/*.tsx",
-        "pretty": "yarn prettier -w ./src"
+        "pretty": "yarn prettier -w ./src ./public ./webpack ./*.yml ./*.js ./*.json"
     },
     "dependencies": {},
     "devDependencies": {
@@ -90,7 +90,8 @@
     },
     "eslintConfig": {
         "extends": [
-            "react-app"
+            "react-app",
+            "prettier"
         ]
     },
     "browserslist": {

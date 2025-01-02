@@ -49,7 +49,7 @@ export const FixedHeader = (props: Props): JSX.Element => {
                 <div className="top-bar__background--white" />
             </section>
 
-            <Row dom="section" className="top-bar__main" fullWidth>
+            <Row dom="section" className="top-bar__main">
                 <Column small={6}>
                     <Hamburger />
                     <Menu
