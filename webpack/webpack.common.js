@@ -3,7 +3,7 @@ const ESLintPlugin = require('eslint-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin')
 const commonPaths = require('./paths')
-const { inDev, createWebpackAliases } = require('./helpers')
+const { createWebpackAliases } = require('./helpers')
 
 module.exports = {
     entry: commonPaths.entryPath,
@@ -24,25 +24,14 @@ module.exports = {
                 // CSS Loader
                 test: /\.css$/,
                 exclude: /node_modules/,
-                use: [
-                    {
-                        loader: inDev()
-                            ? 'style-loader'
-                            : MiniCssExtractPlugin.loader,
-                    },
-                    { loader: 'css-loader' },
-                ],
+                use: ['style-loader', 'css-loader'],
             },
             {
                 // SCSS (SASS) Loader
                 test: /\.s[ac]ss$/i,
                 use: [
-                    {
-                        loader: inDev()
-                            ? 'style-loader'
-                            : MiniCssExtractPlugin.loader,
-                    },
-                    { loader: 'css-loader' },
+                    'style-loader',
+                    'css-loader',
                     {
                         loader: 'sass-loader',
                         options: { api: 'modern' },
@@ -52,15 +41,7 @@ module.exports = {
             {
                 // Less loader
                 test: /\.less$/,
-                use: [
-                    {
-                        loader: inDev()
-                            ? 'style-loader'
-                            : MiniCssExtractPlugin.loader,
-                    },
-                    { loader: 'css-loader' },
-                    { loader: 'less-loader' },
-                ],
+                use: ['style-loader', 'css-loader', 'less-loader'],
             },
             {
                 // Assets loader
@@ -97,15 +78,16 @@ module.exports = {
         new WebpackManifestPlugin({
             publicPath: '',
         }),
-        // new ESLintPlugin({
-        //     extensions: ['js', 'jsx', 'ts', 'tsx'],
-        //     fix: true,
-        //     emitWarning: process.env.NODE_ENV !== 'production',
-        // }),
+        new ESLintPlugin({
+            extensions: ['js', 'jsx', 'ts', 'tsx'],
+            fix: true,
+            emitWarning: process.env.NODE_ENV !== 'production',
+        }),
     ],
     optimization: {
         splitChunks: {
             chunks: 'all',
         },
     },
+    devtool: 'source-map',
 }

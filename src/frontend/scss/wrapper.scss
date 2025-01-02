@@ -2,4 +2,9 @@ $header-height: 48px;
 
 .wrapper {
     --header-height: #{$header-height};
+
+    main {
+        min-height: calc(100vh);
+        margin-bottom: 3em;
+    }
 }

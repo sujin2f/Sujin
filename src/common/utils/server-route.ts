@@ -17,7 +17,7 @@ export const publicParam: [RegExp, (req: Request, res: Response) => void] = [
 ]
 
 export const assetParam: [RegExp, (req: Request, res: Response) => void] = [
-    /\.js|\.map|\.json|\.png|\.svg$/,
+    /\.js|\.map|\.json|\.png|\.svg|\.css$/,
     (req, res) => {
         res.sendFile(`${baseDir}/frontend${req.url}`)
     },

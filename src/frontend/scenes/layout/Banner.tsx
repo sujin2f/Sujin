@@ -1,8 +1,6 @@
 import React, { Fragment } from 'react'
 
 import { Menu } from 'src/common/components/layout/Menu'
-import { Row } from 'src/common/components/layout/Row'
-import { Column } from 'src/common/components/layout/Column'
 import { ImageType } from 'src/constants/wp'
 import { MenuNames } from 'src/constants/mysql-query'
 import { Loading } from 'src/frontend/components/Loading'
@@ -74,16 +72,12 @@ export const Banner = (props: Props): JSX.Element => {
                             )}
                             {title}
                         </h1>
-                        <Row>
-                            <Column>
-                                <p
-                                    className="banner__title__excerpt"
-                                    dangerouslySetInnerHTML={{
-                                        __html: excerpt,
-                                    }}
-                                />
-                            </Column>
-                        </Row>
+                        <p
+                            className="banner__title__excerpt"
+                            dangerouslySetInnerHTML={{
+                                __html: excerpt,
+                            }}
+                        />
                     </div>
                 </div>
                 <picture>

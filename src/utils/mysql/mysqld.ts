@@ -15,7 +15,7 @@ export class MySQL {
             user: process.env.MYSQL_USER || 'MYSQL_USER',
             password: process.env.MYSQL_PASSWORD || 'MYSQL_PASSWORD',
             database: process.env.MYSQL_DB || 'wordpress',
-            port: 3307,
+            port: 3306,
         })
     }
 

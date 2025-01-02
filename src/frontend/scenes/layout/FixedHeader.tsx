@@ -20,13 +20,8 @@ import Twitter from 'src/frontend/images/twitter.svg'
 
 require('src/frontend/scss/fixed-header.scss')
 
-interface Props {
-    isDevTool?: boolean
-}
-
-export const FixedHeader = (props: Props): JSX.Element => {
+export const FixedHeader = (): JSX.Element => {
     const [{ wrapperClasses }, dispatch] = useContext(Context) as ContextType
-    const { menu: menuSocial } = useMenu(MenuNames.SOCIAL)
     const { menu: menuMain } = useMenu(MenuNames.MAIN)
 
     const mobileOnClick = useCallback(() => {
@@ -38,7 +33,7 @@ export const FixedHeader = (props: Props): JSX.Element => {
                 },
             }),
         )
-    })
+    }, [dispatch, wrapperClasses])
 
     return (
         <TopBar fixed fullWidth>

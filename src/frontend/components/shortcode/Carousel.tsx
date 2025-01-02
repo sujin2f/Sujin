@@ -4,7 +4,6 @@ import { Button } from 'src/common/components/forms/Button'
 import { getPrev, getNext } from 'src/common/utils/array'
 
 import { AttrMatch } from 'src/types/wordpress'
-import { replaceQuotes } from 'src/frontend/utils/single'
 import Arrow from 'src/frontend/images/prev.svg'
 
 require('src/frontend/scss/carousel.scss')
@@ -30,17 +29,17 @@ export const Carousel = (props: Props): JSX.Element => {
     const prev = useCallback(() => {
         const [idx] = getPrev(images, index)
         setIndex(idx)
-    })
+    }, [images, index])
     const next = useCallback(() => {
         const [idx] = getNext(images, index)
         setIndex(idx)
-    })
-    const onClick = (e: MouseEvent<HTMLImageElement>) => {
+    }, [images, index])
+    const onClick = useCallback((e: MouseEvent<HTMLImageElement>) => {
         const index = parseInt(
             e.currentTarget.getAttribute('data-index') || '0',
         )
         setIndex(index)
-    }
+    }, [])
 
     return (
         <section className="carousel" aria-label="Gallery">

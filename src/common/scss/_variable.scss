@@ -4,6 +4,7 @@ $black: #0d121c;
 $dark-gray: color.adjust($black, $lightness: 10%);
 $gray: color.adjust($black, $lightness: 40%, $saturation: -30%);
 $light-gray: color.adjust($black, $lightness: 80%, $saturation: -30%);
+$lighter-gray: color.adjust($black, $lightness: 88%, $saturation: -30%);
 $white: #ffffff;
 $primary: #970000;
 $warning: #970000;

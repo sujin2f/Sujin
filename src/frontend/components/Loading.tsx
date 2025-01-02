@@ -5,12 +5,12 @@
 
 import React from 'react'
 
-import IMG_Loading from 'src/assets/images/loading.svg'
+import LoadingImg from 'src/assets/images/loading.svg'
 
 export const Loading = (): JSX.Element => {
     return (
         <section>
-            <IMG_Loading />
+            <LoadingImg />
         </section>
     )
 }

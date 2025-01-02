@@ -1,4 +1,4 @@
-import React, { createElement, lazy } from 'react'
+import React, { createElement } from 'react'
 
 import DEFAULT_BACKGROUND from 'src/assets/images/thumbnail.svg'
 

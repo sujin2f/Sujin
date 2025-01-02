@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 
 import { Column } from 'src/common/components/layout/Column'
 import { Row } from 'src/common/components/layout/Row'
@@ -12,7 +12,7 @@ require('src/frontend/scss/footer.scss')
 
 export const Footer = (): JSX.Element => {
     return (
-        <Fragment>
+        <footer className="footer">
             <Row className="footer__top" dom="aside">
                 <Column small={12} medium={4} dom="section">
                     <GoogleAdvert
@@ -32,6 +32,6 @@ export const Footer = (): JSX.Element => {
             <section className="footer__bottom">
                 <FooterBottom />
             </section>
-        </Fragment>
+        </footer>
     )
 }

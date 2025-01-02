@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React from 'react'
 
 import { AttrMatch } from 'src/types/wordpress'
 import { replaceQuotes as getter } from 'src/frontend/utils/single'
@@ -23,6 +23,7 @@ export const Gist = (props: Props): JSX.Element => {
 
     return (
         <iframe
+            title="Gist"
             className="gist"
             frameBorder="0"
             src={`data:text/html;charset=utf-8,

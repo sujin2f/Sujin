@@ -11,20 +11,15 @@
         "removeComments": true,
         "strict": true,
         "rootDirs": ["src/server"],
-        "baseUrl": "./",
+        "baseUrl": ".",
         "paths": {
             "src/*": ["src/*"]
         },
-        "plugins": [
-            {
-                "transform": "@zerollup/ts-transform-paths"
-            }
-        ],
         "esModuleInterop": true,
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
         "lib": ["dom", "dom.iterable", "esnext"]
     },
-    "include": ["src/server/**/*"],
+    "include": ["src/server/**/*", "src/common/utils"],
     "exclude": ["node_modules", "**/*.spec.ts"]
 }

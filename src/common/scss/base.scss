@@ -6,6 +6,7 @@
     --dark-gray: #{variable.$dark-gray};
     --gray: #{variable.$gray};
     --light-gray: #{variable.$light-gray};
+    --lighter-gray: #{variable.$lighter-gray};
     --white: #{variable.$white};
     --primary: #{variable.$primary};
     --warning: #{variable.$warning};
@@ -108,6 +109,10 @@ button {
 ul,
 ol {
     padding-left: 2em;
+}
+
+dd {
+    margin-left: 0;
 }
 
 code[class],

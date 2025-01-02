@@ -25,7 +25,7 @@ export const TweetEmbed = (props: Props): JSX.Element => {
                 widgets.createTweetEmbed(id, ref.current, {})
             })
         }
-    }, [state, twttr, ref.current, id])
+    }, [state, twttr, id])
 
     return <div ref={ref} />
 }
