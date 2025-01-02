@@ -42,6 +42,22 @@ export const showReact = async <T>(
     const filePath = path.resolve(publicDir, 'frontend.ejs')
     const bundleData = bundles()
     const globalVariable = await getGlobalVariable(req)
+    const js = Object.keys(bundleData)
+        .filter((value) => (value as string).endsWith('.js'))
+        .reduce((acc, cur) => {
+            return {
+                ...acc,
+                [cur]: bundleData[cur],
+            }
+        }, {})
+    const css = Object.keys(bundleData)
+        .filter((value) => (value as string).endsWith('.css'))
+        .reduce((acc, cur) => {
+            return {
+                ...acc,
+                [cur]: bundleData[cur],
+            }
+        }, {})
     const html = await ejs
         .renderFile(filePath, {
             ...globalVariable,

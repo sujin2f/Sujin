@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react'
+import React, { lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
 
 import { Wrapper } from 'src/common/components/layout/Wrapper'
@@ -18,8 +18,8 @@ require('src/frontend/scss/wrapper.scss')
 
 export const Router = (): JSX.Element => {
     return (
-        <Suspense fallback={<Loading />}>
-            <Wrapper>
+        <Wrapper>
+            <Suspense fallback={<Loading />}>
                 <Routes>
                     <Route path="/" element={<FrontPage />} />
 
@@ -86,7 +86,7 @@ export const Router = (): JSX.Element => {
                         }
                     />
                 </Routes>
-            </Wrapper>
-        </Suspense>
+            </Suspense>
+        </Wrapper>
     )
 }

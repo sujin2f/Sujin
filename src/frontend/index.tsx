@@ -26,7 +26,7 @@ if (root) {
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 if (window.globalVariable.isProd) {
-    	serviceWorker.register()
+    serviceWorker.register()
 } else {
     serviceWorker.unregister()
 }

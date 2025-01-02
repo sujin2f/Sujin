@@ -28,8 +28,8 @@ services:
             - ./wordpress/uploads:/var/www/html/wp-content/uploads
         ports:
             - 9000:80
-    prod:
-        container_name: sujin-prod
+    sujin:
+        container_name: sujin
         image: node:latest
         restart: always
         environment:

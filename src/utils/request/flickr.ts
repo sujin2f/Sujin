@@ -1,14 +1,10 @@
 import axios from 'axios'
 import { FlickrImage, FlickrResponse } from 'src/types/flickr'
 
-export const getFlickr = async (): Promise<FlickrImage[]> => {
-    if (!process.env.FLICKR_ID) {
-        return []
-    }
-
+export const getFlickr = async (id: string): Promise<FlickrImage[]> => {
     const flickrs = await axios
         .get<FlickrResponse>(
-            `https://www.flickr.com/services/feeds/photos_public.gne?id=${process.env.FLICKR_ID}&format=json&nojsoncallback=1`,
+            `https://www.flickr.com/services/feeds/photos_public.gne?id=${id}&format=json&nojsoncallback=1`,
             { responseType: 'json' },
         )
         .then((response) => {
@@ -17,7 +13,6 @@ export const getFlickr = async (): Promise<FlickrImage[]> => {
                 media: item.media.m,
             }))
         })
-        .catch(() => [])
-
-    return flickrs
+        .catch((e) => console.log(e))
+    return flickrs || []
 }
