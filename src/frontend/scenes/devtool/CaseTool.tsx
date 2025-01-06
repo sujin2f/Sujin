@@ -18,6 +18,7 @@ import {
     pathCase,
     dotCase,
 } from 'src/frontend/utils/dev-tools'
+import { Link } from 'react-router-dom'
 
 const CASES: Record<string, (text: string[]) => string> = {
     camelCase: camelCase,
@@ -30,7 +31,7 @@ const CASES: Record<string, (text: string[]) => string> = {
     'path/case': pathCase,
 }
 
-const CaseTool = (): JSX.Element => {
+function CaseTool() {
     const [textArr, setTextArr] = useState<string[]>([])
 
     const change = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,43 +39,63 @@ const CaseTool = (): JSX.Element => {
     }, [])
 
     return (
-        <Fragment>
+        <>
             <Banner
-                title="Case Tool"
                 excerpt="Convert keyword into many cases"
+                title="Case Tool"
             />
+
             <Row>
-                <Column small={12} large={3} dom="aside">
+                <Column
+                    dom="aside"
+                    large={3}
+                    small={12}
+                >
                     <SideMenu />
                 </Column>
-                <Column small={12} large={9} dom="article">
+
+                <Column
+                    dom="article"
+                    large={9}
+                    small={12}
+                >
                     <Input
-                        id="convert-keyword"
-                        type="text"
-                        onChange={change}
-                        label="Keyword"
                         helpText="Click result to copy to the clipboard."
+                        id="convert-keyword"
+                        label="Keyword"
+                        onChange={change}
+                        type="text"
                     />
+
                     {textArr.length > 0 && (
-                        <Row dom="dl" fullWidth className="casetool__result">
+                        <Row
+                            className="casetool__result"
+                            dom="dl"
+                            fullWidth
+                        >
                             {Object.keys(CASES).map((key) => {
                                 const converted = CASES[key](textArr)
+
                                 return (
                                     <Column
+                                        key={`case-tool-${key}`}
                                         large={6}
                                         medium={12}
-                                        key={`case-tool-${key}`}
                                     >
-                                        <dt>{key}</dt>
+                                        <dt>
+                                            {key}
+                                        </dt>
+
                                         <dd className="lead">
-                                            <code
+                                            <Link
                                                 onClick={() =>
-                                                    copyText(converted)
-                                                }
-                                                data-lang="txt"
+                                                    copyText(converted)}
+                                                to="#"
                                             >
-                                                {converted}
-                                            </code>
+                                                <code data-lang="txt">
+                                                    {converted}
+                                                </code>
+                                            </Link>
                                         </dd>
                                     </Column>
                                 )
@@ -83,7 +104,7 @@ const CaseTool = (): JSX.Element => {
                     )}
                 </Column>
             </Row>
-        </Fragment>
+        </>
     )
 }
 

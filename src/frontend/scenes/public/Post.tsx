@@ -15,11 +15,11 @@ import { GoogleAdvert } from 'src/frontend/components/widget/GoogleAdvert'
 import { NotFound } from 'src/frontend/scenes/public/NotFound'
 import { usePost } from 'src/frontend/hooks/usePost'
 
-import DeafultThumbnail from 'src/frontend/images/thumbnail-default.png'
+import DefaultThumbnail from 'src/frontend/images/thumbnail-default.png'
 
-const Post = (): JSX.Element => {
+function Post() {
     const { slug } = useParams<{ slug: string }>()
-    const { post, error, loading, title } = usePost(slug)
+    const { post, error, loading } = usePost({ slug: slug || '' })
 
     if (error) {
         return <NotFound />
@@ -33,10 +33,8 @@ const Post = (): JSX.Element => {
         return <NotFound />
     }
 
-    document.title = title
-
     const thumbnail =
-        post.images.list?.url || post.images.thumbnail?.url || DeafultThumbnail
+        post.images.list?.url || post.images.thumbnail?.url || DefaultThumbnail
 
     return (
         <Fragment>
@@ -68,8 +66,8 @@ const Post = (): JSX.Element => {
                 >
                     <RecentPosts current={post.id} />
                     <GoogleAdvert
-                        client={window.globalVariable.adClient}
-                        slot={window.globalVariable.adSlot}
+                        client={window.sujin.GOOGLE_AD_CLIENT}
+                        slot={window.sujin.GOOGLE_AD_SLOT}
                     />
                 </Column>
             </Row>

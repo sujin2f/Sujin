@@ -9,7 +9,10 @@ import { useEffect, useState } from 'react'
  * useStyleLoader('https://cdn.com/style.css')
  */
 export const useStyleLoader = (src: string) => {
-    const globalState = GlobalState.getInstance(src, LoadingStatus.INIT)
+    const globalState = GlobalState.getInstance(
+        src,
+        LoadingStatus.INIT,
+    ) as GlobalState<LoadingStatus>
     const [, setState] = useState<LoadingStatus>(globalState.value)
     const state = globalState.value
 

@@ -16,12 +16,10 @@ describe('Select.ts', () => {
     }
 
     it('Basic', async () => {
-        const Component = (): JSX.Element => (
-            <Select options={options} id="select" />
-        )
+        const Component = () => <Select options={options} id="select" />
         const result = render(<Component />)
         expect(result.container.innerHTML).toMatch(
-            '<select id="select" aria-describedby=""><option value="">Please Select</option><option value="option1">Value 1</option><option value="option2">Value 2</option></select>',
+            '<select id="select" aria-describedby="" class="form__input"><option value="">Please Select</option><option value="option1">Value 1</option><option value="option2">Value 2</option></select>',
         )
     })
 
@@ -37,23 +35,20 @@ describe('Select.ts', () => {
                 forFour: 'For Four',
             },
         }
-        const Component = (): JSX.Element => (
-            <Select options={optionsGroup} id="select" />
-        )
+        const Component = () => <Select options={optionsGroup} id="select" />
         const result = render(<Component />)
         expect(result.container.innerHTML).toMatch(
-            '<select id="select" aria-describedby=""><option value="">Please Select</option><optgroup label="BMW"><option value="z3">Z3</option><option value="z4">Z4</option></optgroup><optgroup label="Smart"><option value="forTwo">For Two</option><option value="forFour">For Four</option></optgroup></select>',
+            '<select id="select" aria-describedby="" class="form__input"><option value="">Please Select</option><optgroup label="BMW"><option value="z3">Z3</option><option value="z4">Z4</option></optgroup><optgroup label="Smart"><option value="forTwo">For Two</option><option value="forFour">For Four</option></optgroup></select>',
         )
     })
 
     it('With props', async () => {
-        const Component = (): JSX.Element => (
+        const Component = () => (
             <Select
                 options={options}
                 id="select"
                 defaultValue="option1"
                 label="Label"
-                autoFocus
                 disabled
                 required
                 helpText="helpText"
@@ -61,12 +56,12 @@ describe('Select.ts', () => {
         )
         const result = render(<Component />)
         expect(result.container.innerHTML).toMatch(
-            '<label for="select" class="form-label form-label--required">Label</label><select id="select" disabled="" required="" aria-describedby="select-help-text"><option value="">Please Select</option><option value="option1" selected="">Value 1</option><option value="option2">Value 2</option></select><p class="help-text" id="select-help-text">helpText</p>',
+            '<label for="select" class="form__label form__label--required">Label</label><select id="select" disabled="" required="" aria-describedby="select-help-text" class="form__input"><option value="">Please Select</option><option value="option1" selected="">Value 1</option><option value="option2">Value 2</option></select><p class="help-text" id="select-help-text">helpText</p>',
         )
     })
 
     it('OnChange', async () => {
-        const Component = (): JSX.Element => {
+        const Component = () => {
             const [selected, ChangeSelected] = useState('')
             const onChange = (value: string) => {
                 ChangeSelected(value)

@@ -6,7 +6,7 @@ const usePreConnect = () => {
     const globalState = GlobalState.getInstance(
         'https://fonts.googleapis.com',
         LoadingStatus.INIT,
-    )
+    ) as GlobalState<LoadingStatus>
     const [, setState] = useState<LoadingStatus>(globalState.value)
     const state = globalState.value
 
@@ -46,7 +46,10 @@ const usePreConnect = () => {
 export const useFontLoader = (font: string) => {
     usePreConnect()
     const src = `https://fonts.googleapis.com/css2?family=${font}:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap`
-    const globalState = GlobalState.getInstance(src, LoadingStatus.INIT)
+    const globalState = GlobalState.getInstance(
+        src,
+        LoadingStatus.INIT,
+    ) as GlobalState<LoadingStatus>
     const [, setState] = useState<LoadingStatus>(globalState.value)
     const state = globalState.value
 

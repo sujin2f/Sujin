@@ -10,7 +10,7 @@ import { useScriptLoader } from './useScriptLoader'
 
 describe('useScriptLoader.ts', () => {
     it('test', async () => {
-        const Component = (): JSX.Element => {
+        const Component = () => {
             useScriptLoader('https://test.com/test.js')
             useScriptLoader('https://test.com/test.js')
             return <Fragment></Fragment>

@@ -4,7 +4,7 @@ import { className } from 'src/common/utils/string'
 import { Link } from 'react-router-dom'
 import { ShortMonthNames } from 'src/common/constants/datetime'
 
-require('src/common/scss/card.scss')
+import 'src/common/scss/card.scss'
 
 type Props = {
     title: string
@@ -15,7 +15,7 @@ type Props = {
     className?: string
 }
 
-export const Card = (props: PropsWithChildren<Props>): JSX.Element => {
+export const Card = (props: PropsWithChildren<Props>) => {
     const time = new Date(props.time)
     return (
         <section className={className('card', props.className)}>

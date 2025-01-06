@@ -6,13 +6,13 @@ import { getPrev, getNext } from 'src/common/utils/array'
 import { AttrMatch } from 'src/types/wordpress'
 import Arrow from 'src/frontend/images/prev.svg'
 
-require('src/frontend/scss/carousel.scss')
+import 'src/frontend/scss/carousel.scss'
 
 interface Props {
     value: AttrMatch
 }
 
-export const Carousel = (props: Props): JSX.Element => {
+export const Carousel = (props: Props) => {
     const [index, setIndex] = useState(0)
     const {
         value: { named },

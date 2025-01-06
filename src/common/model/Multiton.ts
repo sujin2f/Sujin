@@ -1,9 +1,10 @@
 export const Multiton = <T>() => {
     return class Multiton {
         static _instance: Record<string, T> = {}
-        protected constructor(...args: any[]) {}
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        protected constructor(...args: unknown[]) {}
 
-        public static getInstance(identifier: string, ...args: any[]): T {
+        public static getInstance(identifier: string, ...args: unknown[]): T {
             if (!this._instance[identifier]) {
                 this._instance[identifier] = new this(...args) as T
             }

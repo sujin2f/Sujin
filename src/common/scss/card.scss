@@ -1,3 +1,5 @@
+@use 'mixin';
+
 .card {
     margin-bottom: 1.5em;
 
@@ -66,8 +68,10 @@
         font-size: 1.5rem;
         margin: 0 0 0.2em;
 
-        a:hover {
-            text-decoration: none;
+        a {
+            @include mixin.hover {
+                text-decoration: none;
+            }
         }
     }
 
@@ -84,7 +88,7 @@
         transition: border 0.2s ease-out;
         margin-bottom: 0.5em;
 
-        &:hover {
+        @include mixin.hover {
             border: 1px solid rgba(211, 0, 0, 0.4);
 
             .card__thumbnail__zoom {

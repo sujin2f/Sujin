@@ -10,23 +10,23 @@ import { Callout } from './Callout'
 
 describe('Callout.ts', () => {
     it('Base', async () => {
-        const Component = (): JSX.Element => {
+        const Component = () => {
             return <Callout>message</Callout>
         }
         const result = render(<Component />)
-        const wrapper = result.container.querySelector('.callout__wrapper')
+        const wrapper = result.container.querySelector('.callout')
         expect(wrapper).toBeTruthy()
     })
 
     it('No Message', async () => {
-        const Component = (): JSX.Element => {
+        const Component = () => {
             return <Callout />
         }
         const result = render(<Component />)
         try {
-            result.container.querySelector('.callout__wrapper')
+            result.container.querySelector('.callout')
             expect(true).toBeFalsy()
-        } catch (e) {
+        } catch {
             expect(true).toBeTruthy()
         }
     })

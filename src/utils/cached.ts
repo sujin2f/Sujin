@@ -1,7 +1,6 @@
 import NodeCache from 'node-cache'
 import { DAY_IN_SECONDS } from 'src/common/constants/datetime'
 import { Nullable } from 'src/types/common'
-import { isDev } from './environment'
 
 export class Cached {
     private cache: NodeCache
@@ -25,7 +24,7 @@ export class Cached {
     }
 
     public get<T>(key: string): Nullable<T> {
-        if (isDev) {
+        if (process.env.NODE_ENV !== 'production') {
             return
         }
         return this.cache.get<T>(key)
@@ -35,8 +34,9 @@ export class Cached {
         key: string,
         callback: () => Promise<Nullable<T>>,
         ttl = DAY_IN_SECONDS,
+        force = false,
     ): Promise<T> {
-        if (isDev) {
+        if (process.env.NODE_ENV !== 'production' && !force) {
             return (await callback()) || (Cached.FAILED as unknown as T)
         }
 

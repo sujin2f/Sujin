@@ -1,4 +1,5 @@
 @use 'sass:math';
+@use 'src/common/scss/mixin';
 
 $logo-width: 84px;
 $social-height: 26px;
@@ -37,7 +38,7 @@ $social-height: 26px;
             ease-out 0.7s margin;
         padding: 0 13px;
 
-        &:hover {
+        @include mixin.hover {
             background-color: var(--primary);
             color: var(--white);
         }
@@ -133,7 +134,7 @@ $social-height: 26px;
         padding: 20px;
         background-color: var(--black);
 
-        &:hover {
+        @include mixin.hover {
             background-color: var(--primary);
         }
     }
@@ -189,7 +190,7 @@ $social-height: 26px;
         fill: var(--primary);
     }
 
-    &:hover {
+    @include mixin.hover {
         svg {
             fill: var(--black);
         }

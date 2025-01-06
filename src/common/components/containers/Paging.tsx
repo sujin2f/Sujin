@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 
-require('src/common/scss/paging.scss')
+import 'src/common/scss/paging.scss'
 
 interface Props {
     totalPages: number
@@ -10,7 +10,7 @@ interface Props {
     pageOffset?: number
 }
 
-export const Paging = (props: Props): JSX.Element => {
+export const Paging = (props: Props) => {
     const { totalPages, urlPrefix, currentPage } = props
     const pageOffset = props.pageOffset || 5
 

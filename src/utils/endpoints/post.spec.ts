@@ -1,7 +1,7 @@
 // yarn test post.spec.ts
 
 import { post } from './post'
-import { post as postData } from '../../__tests__/fixture'
+import { post as postData } from '../../../.configs/jest/fixture'
 
 const query = jest.fn().mockImplementation(async (query, defaultValue) => {
     return defaultValue

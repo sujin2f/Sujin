@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { GlobalState } from 'src/common/model/GlobalState'
-import { LoadingStatus } from 'src/common/constants/asset'
+import { GlobalState } from '../model/GlobalState'
+import { LoadingStatus } from '../constants/asset'
 
 /*
  * External JS loader
@@ -14,7 +14,10 @@ import { LoadingStatus } from 'src/common/constants/asset'
  * }, [state])
  */
 export const useScriptLoader = (src: string) => {
-    const globalState = GlobalState.getInstance(src, LoadingStatus.INIT)
+    const globalState = GlobalState.getInstance(
+        src,
+        LoadingStatus.INIT,
+    ) as GlobalState<LoadingStatus>
     const [, setState] = useState<LoadingStatus>(globalState.value)
     const state = globalState.value
 

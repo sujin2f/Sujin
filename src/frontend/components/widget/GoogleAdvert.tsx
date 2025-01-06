@@ -2,12 +2,12 @@
 import React, { useRef, useEffect, Fragment } from 'react'
 
 interface Props {
-    client?: string
-    responsive?: boolean
-    slot?: string
+    readonly client?: string
+    readonly responsive?: boolean
+    readonly slot?: string
 }
 
-export const GoogleAdvert = (props: Props): JSX.Element => {
+export function GoogleAdvert(props: Props) {
     const { client, responsive, slot } = props
 
     const adRef = useRef<HTMLModElement>(null)
@@ -34,19 +34,19 @@ export const GoogleAdvert = (props: Props): JSX.Element => {
     })
 
     if (!client || !slot) {
-        return <Fragment />
+        return <></>
     }
 
     return (
         <section className="widget google-advert">
             <ins
                 className="adsbygoogle"
-                style={{ display: 'block', width: '100%' }}
                 data-ad-client={client}
-                data-ad-slot={slot}
                 data-ad-format="auto"
+                data-ad-slot={slot}
                 data-full-width-responsive={responsive ? 'true' : 'false'}
                 ref={adRef}
+                style={{ display: 'block', width: '100%' }}
             />
         </section>
     )

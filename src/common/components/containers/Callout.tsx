@@ -1,24 +1,37 @@
-import React, { PropsWithChildren } from 'react'
+import React, { createElement, JSX, PropsWithChildren, useState } from 'react'
 import { CloseButton } from 'src/common/components/forms/CloseButton'
-import { MouseEventCallback } from 'src/common/types/react'
 import { className } from 'src/common/utils/string'
+
+import 'src/common/scss/callout.scss'
 
 type Props = {
     className?: string
-    onClick?: MouseEventCallback
+    closeButton?: boolean
+    dom?: string | JSX.ElementType
 }
 
-/*
- * Callout Component in Foundation Site
- * @ref https://get.foundation/sites/docs/callout.html
+/**
+ * @param {{className?: string, closeButton?: boolean, dom?: string | JSX.ElementType}} props
  */
-export const Callout = (props: PropsWithChildren<Props>): JSX.Element => {
-    const { onClick } = props
+export const Callout = (props: PropsWithChildren<Props>) => {
+    const { closeButton, dom } = props
+    const [closed, setClosed] = useState(false)
 
-    return (
-        <div className={className('callout', props.className)}>
-            {props.children}
-            {onClick && <CloseButton onClick={onClick} />}
-        </div>
+    const type = dom || 'div'
+    const children = [
+        props.children,
+        closeButton && <CloseButton onClick={() => setClosed(true)} />,
+    ]
+
+    if (closed) {
+        return
+    }
+
+    return createElement(
+        type,
+        {
+            className: className('callout', props.className),
+        },
+        children,
     )
 }

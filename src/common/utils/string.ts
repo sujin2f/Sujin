@@ -22,7 +22,7 @@ export const generateUUID = () => {
 
     try {
         d2 = performance && performance.now && performance.now() * 1000
-    } catch (e) {
+    } catch {
         d2 = 0
     }
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
@@ -44,8 +44,8 @@ export const generateUUID = () => {
 export const capitalize = (input: string) =>
     `${input.charAt(0).toUpperCase()}${input.slice(1)}`
 
-export const className = (...input: any[]) =>
+export const className = (...input: unknown[]) =>
     input
         .filter((s) => s)
-        .map((s) => s.toString().trim())
+        .map((s) => (s as string).toString().trim())
         .join(' ')

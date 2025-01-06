@@ -5,7 +5,7 @@ type Props = {
     onClick?: MouseEventCallback
 }
 
-export const CloseButton = (props: Props): JSX.Element => {
+export const CloseButton = (props: Props) => {
     return (
         <button
             className="button button--close"

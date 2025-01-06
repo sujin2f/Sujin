@@ -1,3 +1,5 @@
+@use 'src/common/scss/mixin';
+
 $page-header-height: 20rem;
 $page-header-height-medium: 400px;
 $page-header-height-small: 500px;
@@ -98,6 +100,12 @@ $page-header-height-small: 500px;
     top: var(--header-height);
     justify-content: flex-end;
     overflow: visible;
+    z-index: 1000;
+
+    .menu__container {
+        display: flex;
+        justify-content: end;
+    }
 
     .menu__link {
         color: var(--white);
@@ -109,7 +117,7 @@ $page-header-height-small: 500px;
         height: 4em;
         padding: 0 1em;
 
-        &:hover {
+        @include mixin.hover {
             background-color: var(--primary);
             border-bottom: 6px solid var(--primary-dark);
         }

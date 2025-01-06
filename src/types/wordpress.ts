@@ -1,7 +1,6 @@
 export enum TermTypes {
     category = 'category',
     tag = 'tag',
-    post_tag = 'tag',
     search = 'search',
     recent_posts = 'recent-posts',
     series = 'series',
@@ -92,6 +91,7 @@ export type MediaRawData = {
     sizes: Record<string, { file: string }>
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type OptionValue = Record<string, any> | string | number | boolean
 
 export type Named = Record<string, string>

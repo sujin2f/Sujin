@@ -1,6 +1,11 @@
 // yarn test menu.spec.ts
 
-import { menuItem, menuItemMeta, post, term } from '../../__tests__/fixture'
+import {
+    menuItem,
+    menuItemMeta,
+    post,
+    term,
+} from '../../../.configs/jest/fixture'
 import { getMenu } from './menu'
 
 const query = jest.fn().mockImplementation(async (query, defaultValue) => {

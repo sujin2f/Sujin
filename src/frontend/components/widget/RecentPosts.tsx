@@ -3,13 +3,13 @@ import React, { Fragment } from 'react'
 import { Card } from 'src/common/components/containers/Card'
 import { WidgetTitle } from 'src/frontend/components/widget/WidgetTitle'
 import { useRecentPosts } from 'src/frontend/hooks/useRecentPosts'
-import DeafultThumbnail from 'src/frontend/images/thumbnail-default.png'
+import DefaultThumbnail from 'src/frontend/images/thumbnail-default.png'
 
 type Props = {
     current: number
 }
 
-export const RecentPosts = (props: Props): JSX.Element => {
+export const RecentPosts = (props: Props) => {
     const { recentPost } = useRecentPosts()
 
     if (!recentPost.length) {
@@ -28,11 +28,11 @@ export const RecentPosts = (props: Props): JSX.Element => {
                         title={item.title}
                         description={item.excerpt}
                         to={item.link}
-                        time={new Date(item.date)}
+                        time={new Date(item.date).getTime()}
                         image={
                             item.images.list?.url ||
                             item.images.thumbnail?.url ||
-                            DeafultThumbnail
+                            DefaultThumbnail
                         }
                     />
                 ))}

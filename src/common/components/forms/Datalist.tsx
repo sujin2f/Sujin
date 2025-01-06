@@ -8,7 +8,7 @@ type Props = {
 /*
  * HTML datalist
  */
-export const Datalist = (props: Props): JSX.Element => {
+export const Datalist = (props: Props) => {
     const { id, values } = props
 
     return (

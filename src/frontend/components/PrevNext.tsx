@@ -6,7 +6,7 @@ import { Column } from 'src/common/components/layout/Column'
 import { Post } from 'src/types/wordpress'
 import Prev from 'src/frontend/images/prev.svg'
 
-require('src/frontend/scss/prev-next.scss')
+import 'src/frontend/scss/prev-next.scss'
 
 interface Props {
     prevNext?: {
@@ -15,7 +15,7 @@ interface Props {
     }
 }
 
-export const PrevNext = (props: Props): JSX.Element => {
+export const PrevNext = (props: Props) => {
     if (!props.prevNext) {
         return <Fragment />
     }
@@ -30,11 +30,12 @@ export const PrevNext = (props: Props): JSX.Element => {
                     dom={Link}
                     small={12}
                     medium={6}
-                    to={prev.link}
                     className="prev-next prev-next--prev"
                 >
-                    <Prev />
-                    {prev.title}
+                    <Link to={prev.link}>
+                        <Prev />
+                        {prev.title}
+                    </Link>
                 </Column>
             )}
             {next && (
@@ -42,11 +43,12 @@ export const PrevNext = (props: Props): JSX.Element => {
                     dom={Link}
                     small={12}
                     medium={6}
-                    to={next.link}
                     className="prev-next prev-next--next"
                 >
-                    <Prev />
-                    {next.title}
+                    <Link to={next.link}>
+                        <Prev />
+                        {next.title}
+                    </Link>
                 </Column>
             )}
         </Row>

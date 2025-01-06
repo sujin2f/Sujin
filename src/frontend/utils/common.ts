@@ -8,4 +8,4 @@ export const backgroundImageStyle = (
 }
 
 export const replaceLink = (to: string) =>
-    to.replace(window.globalVariable.frontend || '', '')
+    to.replace(window.sujin.FRONTEND || '', '')

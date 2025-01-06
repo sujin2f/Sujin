@@ -10,7 +10,7 @@ import { Switch } from './Switch'
 
 describe('Switch.ts', () => {
     it('Basic', async () => {
-        const Component = (): JSX.Element => <Switch id="switch" />
+        const Component = () => <Switch id="switch" />
         const result = render(<Component />)
 
         const switchInput = result.container.querySelector('#switch')
@@ -21,7 +21,7 @@ describe('Switch.ts', () => {
     })
 
     it('onChange', async () => {
-        const Component = (): JSX.Element => {
+        const Component = () => {
             const [checked, ChangeChecked] = useState(false)
             const onChange = (value: boolean) => {
                 ChangeChecked(value)

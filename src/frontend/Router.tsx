@@ -14,76 +14,79 @@ const DevTool = lazy(() => import('src/frontend/scenes/devtool'))
 const CaseTool = lazy(() => import('src/frontend/scenes/devtool/CaseTool'))
 const TextSort = lazy(() => import('src/frontend/scenes/devtool/TextSort'))
 
-require('src/frontend/scss/wrapper.scss')
+import 'src/frontend/scss/wrapper.scss'
 
-export const Router = (): JSX.Element => {
+export function Router() {
     return (
         <Wrapper>
             <Suspense fallback={<Loading />}>
                 <Routes>
-                    <Route path="/" element={<FrontPage />} />
+                    <Route
+                        element={<FrontPage />}
+                        path="/"
+                    />
 
                     <Route
-                        path="/dev-tools/case"
                         element={
                             <DevTool>
                                 <CaseTool />
                             </DevTool>
                         }
+                        path="/dev-tools/case"
                     />
 
                     <Route
-                        path="/dev-tools/text-sort"
                         element={
                             <DevTool>
                                 <TextSort />
                             </DevTool>
                         }
+                        path="/dev-tools/text-sort"
                     />
 
                     <Route
-                        path="/:slug"
                         element={
                             <Public>
                                 <Page />
                             </Public>
                         }
+                        path="/:slug"
                     />
 
                     <Route
+                        element={
+                            <Public>
+                                <Archive />
+                            </Public>
+                        }
                         path="/:type/:slug"
+                    />
+
+                    <Route
                         element={
                             <Public>
                                 <Archive />
                             </Public>
                         }
-                    />
-
-                    <Route
                         path="/:type/:slug/page/:page"
-                        element={
-                            <Public>
-                                <Archive />
-                            </Public>
-                        }
                     />
 
                     <Route
-                        path="/:year/:month/:day/:slug"
                         element={
                             <Public>
                                 <Post />
                             </Public>
                         }
+                        path="/:year/:month/:day/:slug"
                     />
 
                     <Route
-                        path="*"
                         element={
                             <Public>
                                 <NotFound />
                             </Public>
                         }
+                        path="*"
                     />
                 </Routes>
             </Suspense>

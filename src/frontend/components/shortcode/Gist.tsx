@@ -3,13 +3,13 @@ import React from 'react'
 import { AttrMatch } from 'src/types/wordpress'
 import { replaceQuotes as getter } from 'src/frontend/utils/single'
 
-require('src/frontend/scss/gist.scss')
+import 'src/frontend/scss/gist.scss'
 
 interface Props {
     value: AttrMatch
 }
 
-export const Gist = (props: Props): JSX.Element => {
+export const Gist = (props: Props) => {
     const {
         value: { named },
     } = props

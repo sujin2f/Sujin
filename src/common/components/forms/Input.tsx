@@ -12,12 +12,14 @@ import { filterEmpty } from 'src/common/utils/object'
 import { generateUUID } from 'src/common/utils/string'
 import { className as getClassName } from 'src/common/utils/string'
 
-require('src/common/scss/form.scss')
+import 'src/common/scss/form.scss'
+import { useKeyDown } from 'src/common/hooks/useKeyDown'
+import { KeyCodes } from 'src/common/constants/keycode'
 
 type Props = {
-    label?: string
-    id?: string
-    type?:
+    readonly label?: string
+    readonly id?: string
+    readonly type?:
         | 'text'
         | 'number'
         | 'checkbox'
@@ -33,21 +35,20 @@ type Props = {
         | 'url'
         | 'search'
         | 'textarea'
-    defaultValue?: string | number
-    reference?: RefObject<HTMLInputElement>
-    helpText?: string
-    required?: boolean
-    errorMessage?: string
-    list?: string
-    onEnterKeyDown?: () => void
-    onChange?: ChangeEventHandler<HTMLInputElement>
-    autoFocus?: boolean
-    value?: string | number
-    placeholder?: string
-    name?: string
+    readonly defaultValue?: string | number
+    readonly reference?: RefObject<HTMLInputElement>
+    readonly helpText?: string
+    readonly required?: boolean
+    readonly errorMessage?: string
+    readonly list?: string
+    readonly onEnterKeyDown?: () => void
+    readonly onChange?: ChangeEventHandler<HTMLInputElement>
+    readonly value?: string | number
+    readonly placeholder?: string
+    readonly name?: string
 }
 
-export const Input = (props: Props): JSX.Element => {
+export function Input(props: Props) {
     const {
         label,
         defaultValue,
@@ -56,7 +57,6 @@ export const Input = (props: Props): JSX.Element => {
         required,
         errorMessage,
         list,
-        autoFocus,
         value,
         onEnterKeyDown,
         onChange,
@@ -96,7 +96,6 @@ export const Input = (props: Props): JSX.Element => {
                 required,
                 className,
                 list,
-                autoFocus,
                 value,
                 placeholder,
                 name,
@@ -110,7 +109,6 @@ export const Input = (props: Props): JSX.Element => {
             required,
             className,
             list,
-            autoFocus,
             value,
             placeholder,
             name,
@@ -146,42 +144,52 @@ export const Input = (props: Props): JSX.Element => {
     )
 
     const inputComponent = (
-        <Fragment>
+        <>
             {Element}
-            {errorMessage && (
-                <p className="form__input__error-message">{errorMessage}</p>
-            )}
-            {helpText && (
-                <p className="form__input__help-text" id={ariaDescribedby}>
-                    {helpText}
-                </p>
-            )}
-        </Fragment>
+
+            {errorMessage ? <p className="form__input__error-message">
+                {errorMessage}
+            </p> : null}
+
+            {helpText ? <p
+                className="form__input__help-text"
+                id={ariaDescribedby}
+                        >
+                {helpText}
+                        </p> : null}
+        </>
     )
     const labelComponent = (
-        <Fragment>
-            {label && (
-                <Fragment>
-                    <label
-                        htmlFor={id}
-                        className={labelClassNames}
-                        onClick={() => {
+        <>
+            {label ? <>
+                {/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */}
+                <label
+                    className={labelClassNames}
+                    htmlFor={id}
+                    onClick={() => {
                             ref.current?.focus()
                         }}
-                    >
-                        {(type === 'checkbox' || type === 'radio') &&
+                    onKeyDown={() =>
+                            useKeyDown(KeyCodes.ENTER, () => {
+                                ref.current?.focus()
+                            })}
+                >
+                    {(type === 'checkbox' || type === 'radio') &&
                             inputComponent}
-                        {label}
-                    </label>
-                </Fragment>
-            )}
-        </Fragment>
+
+                    {label}
+                </label>
+
+                {/* eslint-enable jsx-a11y/no-noninteractive-element-interactions */}
+            </> : null}
+        </>
     )
 
     return (
-        <Fragment>
+        <>
             {labelComponent}
+
             {type !== 'checkbox' && type !== 'radio' && inputComponent}
-        </Fragment>
+        </>
     )
 }

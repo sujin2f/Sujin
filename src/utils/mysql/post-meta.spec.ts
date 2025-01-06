@@ -1,6 +1,6 @@
 // yarn test post-meta.spec.ts
 
-import { mediaMeta } from '../../__tests__/fixture'
+import { mediaMeta } from '../../../.configs/jest/fixture'
 import { getAllPostMeta, getPostMeta } from './post-meta'
 
 const query = jest.fn().mockImplementation(async (query, defaultValue) => {

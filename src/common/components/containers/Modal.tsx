@@ -21,7 +21,7 @@ type Props = {
  * Reveal Component in Foundation Site
  * @ref https://get.foundation/sites/docs/reveal.html
  */
-export const Modal = (props: PropsWithChildren<Props>): JSX.Element => {
+export const Modal = (props: PropsWithChildren<Props>) => {
     const [opened, changeOpened] = useState<boolean>(true)
 
     const close = useCallback(

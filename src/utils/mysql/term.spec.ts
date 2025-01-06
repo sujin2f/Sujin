@@ -1,6 +1,6 @@
 // yarn test term.spec.ts
 
-import { term } from '../../__tests__/fixture'
+import { term } from '../../../.configs/jest/fixture'
 import { TermTypes } from 'src/types/wordpress'
 import { getTaxonomies, getTermBy } from './term'
 

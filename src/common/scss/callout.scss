@@ -1,0 +1,13 @@
+.callout {
+    position: relative;
+    border: 1px solid var(--gray);
+    background-color: var(--light-gray);
+    margin: 0 0 1em 0;
+    padding: 1em;
+
+    .button--close {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+}

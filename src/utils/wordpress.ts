@@ -6,7 +6,7 @@ const PHPUnserialize = require('php-unserialize')
  * @type {RegExp}
  */
 const htmlSplitRegex = (() => {
-    /* eslint-disable no-multi-spaces */
+     
     const comments =
         '!' + // Start of comment, after the <.
         '(?:' + // Unroll the loop: Consume everything until --> is found.
@@ -47,7 +47,7 @@ const htmlSplitRegex = (() => {
         ')'
 
     return new RegExp(regex)
-    /* eslint-enable no-multi-spaces */
+     
 })()
 
 /**

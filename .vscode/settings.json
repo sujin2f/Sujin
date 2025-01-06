@@ -1,5 +1,5 @@
 {
-    "editor.formatOnPaste": true,
+    "editor.formatOnPaste": false,
     "editor.fontFamily": "Fira Code",
     "editor.fontLigatures": true,
     "editor.renderWhitespace": "all",
@@ -8,6 +8,14 @@
     },
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true,
-    "cSpell.words": ["datetime", "entrypoints", "flickr", "flickrs", "sujin"],
-    "phpcs.composerJsonPath": "wordpress/composer.json"
+    "cSpell.words": [
+        "datetime",
+        "entrypoints",
+        "flickr",
+        "flickrs",
+        "sujin",
+        "twttr"
+    ],
+    "eslint.useFlatConfig": true,
+    "prettier.configPath": ".configs/prettier.json"
 }

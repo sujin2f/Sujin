@@ -6,31 +6,33 @@ import { className } from 'src/common/utils/string'
 
 import Arrow from 'src/common/images/icons/arrow_drop_up.svg'
 
-require('src/common/scss/menu.scss')
+import 'src/common/scss/menu.scss'
+import { useKeyDown } from 'src/common/hooks/useKeyDown'
+import { KeyCodes } from 'src/common/constants/keycode'
 
 type ComponentProps = {
-    className?: string
-    dropdown?: 'hover' | 'click'
-    items: TypeMenuItem[]
-    direction?: 'vertical' | 'horizontal'
-    callback?: () => void
+    readonly className?: string
+    readonly dropdown?: 'hover' | 'click'
+    readonly items: TypeMenuItem[]
+    readonly direction?: 'vertical' | 'horizontal'
+    readonly callback?: () => void
 }
 
 type BlockProps = {
-    dropdown?: 'hover' | 'click'
-    items: TypeMenuItem[]
-    direction: 'vertical' | 'horizontal'
-    callback?: () => void
+    readonly dropdown?: 'hover' | 'click'
+    readonly items: TypeMenuItem[]
+    readonly direction: 'vertical' | 'horizontal'
+    readonly callback?: () => void
 }
 
 type ItemProps = {
-    item: TypeMenuItem
-    dropdown?: 'hover' | 'click'
-    direction: 'vertical' | 'horizontal'
-    callback?: () => void
+    readonly item: TypeMenuItem
+    readonly dropdown?: 'hover' | 'click'
+    readonly direction: 'vertical' | 'horizontal'
+    readonly callback?: () => void
 }
 
-const MenuItem = (props: ItemProps): JSX.Element => {
+function MenuItem(props: ItemProps) {
     const hasChildren = props.item.children && props.item.children.length > 0
     const [closed, changeClosed] = useState(
         hasChildren && props.dropdown ? true : false,
@@ -72,48 +74,55 @@ const MenuItem = (props: ItemProps): JSX.Element => {
         [closed, hasChildren],
     )
 
+    /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
     return (
         <li
-            onMouseOver={onMouseOver}
-            onMouseLeave={onMouseLeave}
-            onClick={onClick}
             className={classNames}
+            onClick={onClick}
+            onFocus={onMouseOver}
+            onKeyDown={() =>
+                useKeyDown(KeyCodes.ENTER, () => {
+                    onClick()
+                })}
+            onMouseLeave={onMouseLeave}
+            onMouseOver={onMouseOver}
         >
-            <Link to={linkTo} onClick={props.callback} className="menu__link">
+            <Link
+                className="menu__link"
+                onClick={props.callback}
+                to={linkTo}
+            >
                 {props.item.title}
-                {props.dropdown && hasChildren && (
-                    <Arrow className="menu__link__arrow" />
-                )}
+
+                {props.dropdown && hasChildren ? <Arrow className="menu__link__arrow" /> : null}
             </Link>
 
-            {hasChildren && (
-                <MenuBlock
-                    items={props.item.children}
-                    direction={props.direction}
-                    callback={props.callback}
-                />
-            )}
+            {hasChildren ? <MenuBlock
+                callback={props.callback}
+                direction={props.direction}
+                items={props.item.children || []}
+                           /> : null}
         </li>
     )
 }
 
-const MenuBlock = (props: BlockProps): JSX.Element => {
+function MenuBlock(props: BlockProps) {
     return (
         <ul className="menu">
             {props.items.map((menu, index) => (
                 <MenuItem
-                    key={`menu-${menu.title}-${index}`}
-                    item={menu}
-                    dropdown={props.dropdown}
-                    direction={props.direction}
                     callback={props.callback}
+                    direction={props.direction}
+                    dropdown={props.dropdown}
+                    item={menu}
+                    key={`menu-${menu.title}-${index}`}
                 />
             ))}
         </ul>
     )
 }
 
-export const Menu = (props: ComponentProps): JSX.Element => {
+export function Menu(props: ComponentProps) {
     const direction = useMemo(
         () => props.direction || 'horizontal',
         [props.direction],
@@ -138,10 +147,10 @@ export const Menu = (props: ComponentProps): JSX.Element => {
     return (
         <nav className={cls}>
             <MenuBlock
+                callback={props.callback}
+                direction={direction}
                 dropdown={dropdown}
                 items={props.items}
-                direction={direction}
-                callback={props.callback}
             />
         </nav>
     )

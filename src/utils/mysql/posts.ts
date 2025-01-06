@@ -177,7 +177,7 @@ export const getPostsBy = async (
             ...post,
             content: autop(post.content),
             link,
-            tags: taxonomies.filter((term) => term.type === TermTypes.post_tag),
+            tags: taxonomies.filter((term) => term.type === TermTypes.tag),
             categories: taxonomies.filter(
                 (term) => term.type === TermTypes.category,
             ),

@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react'
+import React, { JSX, PropsWithChildren } from 'react'
 
 import { Row } from './Row'
 import { Column } from './Column'
@@ -7,14 +7,14 @@ import { className as getClassName } from 'src/common/utils/string'
 import 'src/common/scss/top-bar.scss'
 
 type Props = {
-    left?: JSX.Element
-    right?: JSX.Element
-    className?: string
-    fullWidth?: boolean
-    fixed?: boolean
+    readonly left?: JSX.Element
+    readonly right?: JSX.Element
+    readonly className?: string
+    readonly fullWidth?: boolean
+    readonly fixed?: boolean
 }
 
-export const TopBar = (props: PropsWithChildren<Props>): JSX.Element => {
+export function TopBar(props: PropsWithChildren<Props>) {
     const { left, right, fullWidth, children, fixed } = props
     const className = getClassName(
         'top-bar',
@@ -22,9 +22,19 @@ export const TopBar = (props: PropsWithChildren<Props>): JSX.Element => {
         fixed && 'top-bar--fixed',
     )
     return (
-        <Row className={className} dom="section" fullWidth={fullWidth}>
-            {left && <Column small={6}>{left}</Column>}
-            {right && <Column small={6}>{right}</Column>}
+        <Row
+            className={className}
+            dom="section"
+            fullWidth={fullWidth}
+        >
+            {left ? <Column small={6}>
+                {left}
+                    </Column> : null}
+
+            {right ? <Column small={6}>
+                {right}
+                     </Column> : null}
+
             {children}
         </Row>
     )

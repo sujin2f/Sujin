@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, JSX } from 'react'
 
 import { Menu } from 'src/common/components/layout/Menu'
 import { ImageType } from 'src/constants/wp'
@@ -6,20 +6,23 @@ import { MenuNames } from 'src/constants/mysql-query'
 import { Loading } from 'src/frontend/components/Loading'
 import { getImageMap } from 'src/utils/common'
 import { useMenu } from 'src/frontend/hooks/useMenu'
+import { Image } from 'src/types/wordpress'
+import { Row } from 'src/common/components/layout/Row'
+import { Column } from 'src/common/components/layout/Column'
 
-require('src/frontend/scss/banner.scss')
+import 'src/frontend/scss/banner.scss'
 
 type Props = {
-    background?: string
-    title?: string | JSX.Element
-    excerpt?: string
-    isLoading?: boolean
-    icon?: string
-    prefix?: string
-    backgroundColor?: string
+    readonly background?: Image
+    readonly title?: string | JSX.Element
+    readonly excerpt?: string
+    readonly isLoading?: boolean
+    readonly icon?: Image
+    readonly prefix?: string
+    readonly backgroundColor?: string
 }
 
-export const Banner = (props: Props): JSX.Element => {
+export function Banner(props: Props) {
     const {
         background,
         title,
@@ -29,16 +32,17 @@ export const Banner = (props: Props): JSX.Element => {
         prefix,
         backgroundColor,
     } = props
-    const { menu: menuMain } = useMenu(MenuNames.MAIN)
+    const { menu: menuMain } = useMenu({ slug: MenuNames.MAIN })
 
     if (isLoading) {
         return (
             <section className="banner loading">
                 <div className="banner__overlay">
                     <Loading />
+
                     <Menu
                         className="show-for-large row menu--banner"
-                        slug={MenuNames.MAIN}
+                        items={menuMain}
                     />
                 </div>
             </section>
@@ -56,30 +60,37 @@ export const Banner = (props: Props): JSX.Element => {
 
     const imageMapIcon = icon ? getImageMap(ImageType.ICON, icon.sizes) : []
     return (
-        <Fragment>
+        <>
             <section className="banner" style={style}>
+                <div className="show-for-large menu__container--banner">
+                    <Row>
+                        <Column small={12}>
+                            <Menu items={menuMain} />
+                        </Column>
+                    </Row>
+                </div>
+
                 <div className="banner__overlay">
-                    <Menu
-                        className="show-for-large menu__container--banner"
-                        items={menuMain}
-                    />
                     <div className="banner__title">
                         <h1 className="banner__title__heading">
-                            {prefix && (
+                            {prefix ? (
                                 <span className="banner__title__tag">
                                     {prefix}
                                 </span>
-                            )}
+                            ) : null}
+
                             {title}
                         </h1>
+
                         <p
                             className="banner__title__excerpt"
                             dangerouslySetInnerHTML={{
-                                __html: excerpt,
+                                __html: excerpt || '',
                             }}
                         />
                     </div>
                 </div>
+
                 <picture>
                     {imageMapBackground.map((map) => (
                         <source
@@ -89,15 +100,17 @@ export const Banner = (props: Props): JSX.Element => {
                             type={background?.mimeType}
                         />
                     ))}
+
                     <img
-                        src={background?.url}
-                        role="presentation"
                         alt=""
                         className="banner__background"
+                        role="presentation"
+                        src={background?.url}
                     />
                 </picture>
             </section>
-            {icon && (
+
+            {icon ? (
                 <picture className="banner__icon__container">
                     {imageMapIcon.map((map) => (
                         <source
@@ -107,14 +120,15 @@ export const Banner = (props: Props): JSX.Element => {
                             type={icon?.mimeType}
                         />
                     ))}
+
                     <img
-                        src={icon?.url}
-                        role="presentation"
                         alt=""
                         className="banner__icon"
+                        role="presentation"
+                        src={icon?.url}
                     />
                 </picture>
-            )}
-        </Fragment>
+            ) : null}
+        </>
     )
 }
