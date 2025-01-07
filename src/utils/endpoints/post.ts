@@ -1,4 +1,4 @@
-import { PostVariables } from 'src/constants/graphql'
+// import { PostVariables } from 'src/constants/graphql'
 import { Post } from 'src/types/wordpress'
 import { getPost } from 'src/utils/mysql/posts'
 import { updateHit } from 'src/utils/mysql/tag-cloud'
@@ -6,8 +6,12 @@ import { Cached } from 'src/utils/cached'
 import { MySQL } from 'src/utils/mysql/mysqld'
 import { MySQLQuery } from 'src/constants/mysql-query'
 import { ErrorMessage } from 'src/constants/errors'
+import { GetOperationArgsType } from 'src/common/graphql'
+import { operationMenu } from 'src/constants/graphql'
 
-export const post = async ({ slug }: PostVariables): Promise<Post> => {
+export const post = async ({
+    slug,
+}: GetOperationArgsType<typeof operationMenu>): Promise<Post> => {
     const safeSlug =
         slug.indexOf('/') === slug.length - 1
             ? slug.substring(0, slug.length - 1)

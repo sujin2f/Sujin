@@ -9,3 +9,11 @@
         @content;
     }
 }
+
+@mixin hover {
+    &:hover,
+    &:focus,
+    &:active {
+        @content;
+    }
+}

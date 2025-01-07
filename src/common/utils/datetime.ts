@@ -8,7 +8,7 @@ export const formatDate = (dateString: string | number | Date): string => {
         return ''
     }
 
-    let date = dateString instanceof Date ? dateString : new Date(dateString)
+    const date = dateString instanceof Date ? dateString : new Date(dateString)
     if (date.toString() === 'Invalid Date') {
         return 'Invalid Date'
     }

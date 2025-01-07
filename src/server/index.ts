@@ -3,7 +3,7 @@
  */
 
 /* istanbul ignore file */
-import express from 'express'
+import express, { Request, Response } from 'express'
 import { config as dotEnvConfig } from 'dotenv'
 import compression from 'compression'
 import path from 'path'
@@ -27,10 +27,8 @@ if (nodeEnv === 'development') {
     dotEnvConfig({ path: path.resolve(rootDir, `.env`) })
 }
 
-/* eslint-disable import/first */
 import { staticRouter } from 'src/server/routes/static'
 import { graphqlRouter } from 'src/server/routes/graphql'
-/* eslint-enable import/first */
 
 // Create a new express application instance
 const app: express.Application = express()
@@ -38,9 +36,9 @@ app.use('/graphql', graphqlRouter)
 app.use('/', staticRouter)
 
 const port = process.env.PORT
-// app.use(compression())
 
-function shouldCompress(req: any, res: any) {
+app.use(compression({ filter: shouldCompress }))
+function shouldCompress(req: Request, res: Response) {
     if (req.headers['x-no-compression']) {
         // don't compress responses with this request header
         return false

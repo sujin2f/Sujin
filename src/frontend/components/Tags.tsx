@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom'
 
 import { Term } from 'src/types/wordpress'
 
-require('src/frontend/scss/tags.scss')
+import 'src/frontend/scss/tags.scss'
 
 interface Props {
     items: Term[]
 }
 
-export const Tags = (props: Props): JSX.Element => {
+export const Tags = (props: Props) => {
     const { items } = props
 
     return (

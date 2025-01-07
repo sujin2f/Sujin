@@ -1,7 +1,7 @@
 import { PropsWithChildren, createElement } from 'react'
 import { className } from 'src/common/utils/string'
 
-require('src/common/scss/layout.scss')
+import 'src/common/scss/layout.scss'
 
 type OneToTwelve = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12
 type OneToEleven = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11
@@ -14,10 +14,10 @@ type Props = {
     largeOffset?: OneToEleven
     className?: string
     id?: string
-    dom?: string | JSX.Element
+    dom?: string | React.ElementType
 }
 
-export const Column = (props: PropsWithChildren<Props>): JSX.Element => {
+export const Column = (props: PropsWithChildren<Props>) => {
     const small = props.small && `small-${props.small}`
     const medium = props.medium && `medium-${props.medium}`
     const large = props.large && `large-${props.large}`

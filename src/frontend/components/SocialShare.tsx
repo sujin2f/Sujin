@@ -6,7 +6,7 @@ import { shareTwitter, shareFacebook } from 'src/frontend/utils/single'
 import Twitter from 'src/frontend/images/twitter.svg'
 import Facebook from 'src/frontend/images/facebook.svg'
 
-require('/src/frontend/scss/social-share.scss')
+import '/src/frontend/scss/social-share.scss'
 
 interface Props {
     title: string
@@ -14,7 +14,7 @@ interface Props {
     thumbnail: string
 }
 
-export const SocialShare = (props: Props): JSX.Element => {
+export const SocialShare = (props: Props) => {
     const { title, excerpt, thumbnail } = props
 
     return (

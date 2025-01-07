@@ -10,7 +10,7 @@ import { Datalist } from './Datalist'
 
 describe('Datalist.ts', () => {
     it('Basic', async () => {
-        const Component = (): JSX.Element => (
+        const Component = () => (
             <Datalist values={['Value 1', 'Value 2']} id="datalist" />
         )
         render(<Component />)

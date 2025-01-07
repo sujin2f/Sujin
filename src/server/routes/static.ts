@@ -3,23 +3,21 @@
  */
 
 /* istanbul ignore file */
-import express, { Response, Request } from 'express'
+import express, { Request } from 'express'
 import path from 'path'
-import ejs from 'ejs'
 
-import { GlobalVariable } from 'src/types/common'
 import { TermTypes } from 'src/types/wordpress'
 import { archive } from 'src/utils/endpoints/archive'
 import { post } from 'src/utils/endpoints/post'
 import { DEV_TOOL_SEO } from 'src/constants/menu-devtool'
+import { rootDir } from 'src/common/utils/path'
 import {
     publicParam,
     assetParam,
+    GetTemplateVar,
     showReact,
-    GetGlobalVariable,
 } from 'src/common/utils/server-route'
 
-const { baseDir, rootDir } = require('src/common/utils/path')
 const staticRouter = express.Router()
 
 /**
@@ -81,7 +79,7 @@ const getTitleExcerpt = async (
     let regexExec = regex.exec(req.url)
     if (regexExec) {
         if (regexExec[1] === 'tag') {
-            type = TermTypes.post_tag
+            type = TermTypes.tag
         }
         slug = regexExec[2]
     }
@@ -91,7 +89,7 @@ const getTitleExcerpt = async (
     regexExec = regex.exec(req.url)
     if (regexExec) {
         if (regexExec[1] === 'tag') {
-            type = TermTypes.post_tag
+            type = TermTypes.tag
         }
         slug = regexExec[2]
     }
@@ -147,20 +145,21 @@ const getTitleExcerpt = async (
     return defaultValue
 }
 
-const getGlobalVariable: GetGlobalVariable<GlobalVariable> = async (req) => {
+const getGlobalVariable: GetTemplateVar<GlobalVars> = async (req: Request) => {
     const [title, excerpt, image] = await getTitleExcerpt(req)
 
-    const globalVariable: GlobalVariable = {
-        siteName: process.env.TITLE,
-        title,
-        excerpt,
-        image,
-        url: `${process.env.FRONTEND}${req.url}`,
-        frontend: process.env.FRONTEND,
-        adClient: process.env.GOOGLE_AD_CLIENT,
-        adSlot: process.env.GOOGLE_AD_SLOT,
-        flickrId: process.env.FLICKR_ID,
-        isProd: process.env.NODE_ENV === 'production',
+    const globalVariable: GlobalVars = {
+        SITE_NAME: process.env.TITLE || '',
+        TITLE: title,
+        DESCRIPTION: excerpt,
+        EXCERPT: process.env.EXCERPT || '',
+        IMAGE: image,
+        URL: `${process.env.FRONTEND}${req.url}`,
+        FRONTEND: process.env.FRONTEND || '',
+        GOOGLE_AD_CLIENT: process.env.GOOGLE_AD_CLIENT || '',
+        GOOGLE_AD_SLOT: process.env.GOOGLE_AD_SLOT || '',
+        FLICKR_ID: process.env.FLICKR_ID || '',
+        IS_PRODUCTION: process.env.NODE_ENV === 'production',
     }
 
     return globalVariable

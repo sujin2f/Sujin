@@ -1,15 +1,15 @@
-import { PropsWithChildren, createElement } from 'react'
+import { JSX, PropsWithChildren, createElement } from 'react'
 import { className } from 'src/common/utils/string'
 
-require('src/common/scss/layout.scss')
+import 'src/common/scss/layout.scss'
 
 type Props = {
-    className?: string
-    dom?: string | JSX.Element
-    fullWidth?: boolean
+    readonly className?: string
+    readonly dom?: string | JSX.ElementType
+    readonly fullWidth?: boolean
 }
 
-export const Row = (props: PropsWithChildren<Props>): JSX.Element => {
+export function Row(props: PropsWithChildren<Props>) {
     const { className: cls, dom, fullWidth } = props
     const type = dom || 'div'
 

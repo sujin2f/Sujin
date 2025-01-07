@@ -9,6 +9,7 @@
     --lighter-gray: #{variable.$lighter-gray};
     --white: #{variable.$white};
     --primary: #{variable.$primary};
+    --primary-dark: #{variable.$primary-dark};
     --warning: #{variable.$warning};
     --font: 'Ubuntu', 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial,
         sans-serif;
@@ -18,14 +19,13 @@
 
 html {
     scroll-behavior: smooth;
-    font-size: 12pt;
 }
 
 body {
     font-weight: 300;
     font-family: var(--font);
-    font-size: 1rem;
-    line-height: 1.6;
+    font-size: 11pt;
+    line-height: normal;
     color: var(--black);
 }
 
@@ -43,14 +43,13 @@ a,
     color: var(--primary);
     text-decoration: none;
 
-    &:hover {
+    @include mixin.hover {
         text-decoration: underline;
     }
 }
 
 p {
-    line-height: 2;
-    margin: 0 0 1em;
+    margin: 0;
 
     &:empty {
         display: none;
@@ -65,10 +64,8 @@ h5,
 h6 {
     text-transform: capitalize;
     font-weight: 500;
-    letter-spacing: -0.05em;
-    margin: 0 0 0.5em;
     padding: 0;
-    line-height: normal;
+    margin: 0;
 
     small {
         color: var(--gray);
@@ -76,28 +73,27 @@ h6 {
 }
 
 h1 {
-    font-size: 2.2rem;
-    font-weight: 600;
+    font-size: 1.5rem;
 }
 
 h2 {
-    font-size: 2rem;
-}
-
-h3 {
-    font-size: 1.8rem;
-}
-
-h4 {
-    font-size: 1.6rem;
-}
-
-h5 {
     font-size: 1.4rem;
 }
 
-h6 {
+h3 {
+    font-size: 1.3rem;
+}
+
+h4 {
     font-size: 1.2rem;
+}
+
+h5 {
+    font-size: 1.1rem;
+}
+
+h6 {
+    font-size: 1rem;
 }
 
 button {
@@ -111,22 +107,31 @@ ol {
     padding-left: 2em;
 }
 
-dd {
-    margin-left: 0;
+dt {
+    font-weight: 500;
 }
 
-code[class],
-code[data-lang] {
-    display: block;
-    background-color: var(--black);
-    color: var(--white);
-    padding: 0.5em;
-}
-
-article img {
+code,
+kbd {
+    font-family: monospace;
+    white-space: pre;
+    border: 1px solid var(--gray);
+    background-color: var(--light-gray);
+    display: inline-flex;
     max-width: 100%;
-    height: auto;
-    display: block;
+    word-wrap: break-word;
+    padding: 0.2em 0.3em;
+    overflow-x: scroll;
+}
+
+main {
+    line-height: 1.5;
+
+    img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
 }
 
 .strike_through {

@@ -6,7 +6,7 @@ import { Column } from 'src/common/components/layout/Column'
 import { Post } from 'src/types/wordpress'
 import Prev from 'src/frontend/images/prev.svg'
 
-require('src/frontend/scss/prev-next.scss')
+import 'src/frontend/scss/prev-next.scss'
 
 interface Props {
     prevNext?: {
@@ -15,7 +15,7 @@ interface Props {
     }
 }
 
-export const PrevNext = (props: Props): JSX.Element => {
+export const PrevNext = (props: Props) => {
     if (!props.prevNext) {
         return <Fragment />
     }
@@ -25,30 +25,26 @@ export const PrevNext = (props: Props): JSX.Element => {
     } = props
     return (
         <Row dom="nav" fullWidth className="prev-next__container">
-            {prev && (
-                <Column
-                    dom={Link}
-                    small={12}
-                    medium={6}
-                    to={prev.link}
-                    className="prev-next prev-next--prev"
-                >
-                    <Prev />
-                    {prev.title}
-                </Column>
-            )}
-            {next && (
-                <Column
-                    dom={Link}
-                    small={12}
-                    medium={6}
-                    to={next.link}
-                    className="prev-next prev-next--next"
-                >
-                    <Prev />
-                    {next.title}
-                </Column>
-            )}
+            <Column small={12} medium={6} className="prev-next prev-next--prev">
+                {prev && (
+                    <Link to={prev.link} className="prev-next__link">
+                        <Prev />
+                        <span className="prev-next__link__title">
+                            {prev.title}
+                        </span>
+                    </Link>
+                )}
+            </Column>
+            <Column small={12} medium={6} className="prev-next prev-next--next">
+                {next && (
+                    <Link to={next.link} className="prev-next__link">
+                        <Prev />
+                        <span className="prev-next__link__title">
+                            {next.title}
+                        </span>
+                    </Link>
+                )}
+            </Column>
         </Row>
     )
 }

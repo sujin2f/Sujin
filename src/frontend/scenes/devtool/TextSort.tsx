@@ -7,7 +7,7 @@ import { Input } from 'src/common/components/forms/Input'
 import { SideMenu } from 'src/frontend/scenes/devtool/SideMenu'
 import { getMaxCols, getRows, sortText } from 'src/frontend/utils/dev-tools'
 
-const TextSort = (): JSX.Element => {
+function TextSort() {
     const result = useRef<HTMLTextAreaElement>(null)
     const [text, changeText] = useState('')
     const [divider, setDivider] = useState<string>('')
@@ -31,27 +31,31 @@ const TextSort = (): JSX.Element => {
     return (
         <Fragment>
             <Banner title="Text Sort" />
+
             <Row>
-                <Column small={12} large={3} dom="aside">
+                <Column dom="aside" large={3} small={12}>
                     <SideMenu />
                 </Column>
-                <Column small={12} large={9} dom="article">
+
+                <Column dom="article" large={9} small={12}>
                     <Input
-                        type="text"
+                        label="Primary Sort after"
                         onChange={(e) =>
                             handleChange(text, e.target.value, groupEnter)
                         }
-                        label="Primary Sort after"
+                        type="text"
                     />
+
                     <Input
-                        type="checkbox"
+                        label="Group divided by empty lines"
                         onChange={(e) =>
                             handleChange(text, divider, e.target.checked)
                         }
-                        label="Group divided by empty lines"
+                        type="checkbox"
                     />
+
                     <Row fullWidth>
-                        <Column small={6} className="text-sort__container">
+                        <Column className="text-sort__container" small={6}>
                             <div className="text-sort__line-number">
                                 {Array(rows)
                                     .fill(0)
@@ -63,9 +67,11 @@ const TextSort = (): JSX.Element => {
                                         </div>
                                     ))}
                             </div>
+
                             <div className="text-sort__section">
                                 <textarea
                                     className="text-sort__textarea"
+                                    cols={getMaxCols(text)}
                                     onChange={(e) =>
                                         handleChange(
                                             e.target.value,
@@ -73,12 +79,12 @@ const TextSort = (): JSX.Element => {
                                             groupEnter,
                                         )
                                     }
-                                    cols={getMaxCols(text)}
                                     rows={rows}
                                 />
                             </div>
                         </Column>
-                        <Column small={6} className="text-sort__container">
+
+                        <Column className="text-sort__container" small={6}>
                             <div className="text-sort__line-number">
                                 {Array(rows)
                                     .fill(0)
@@ -90,14 +96,15 @@ const TextSort = (): JSX.Element => {
                                         </div>
                                     ))}
                             </div>
+
                             <div className="text-sort__section">
                                 <textarea
                                     className="text-sort__textarea"
-                                    disabled={true}
-                                    ref={result}
                                     cols={getMaxCols(text)}
+                                    disabled
+                                    ref={result}
                                     rows={rows}
-                                ></textarea>
+                                />
                             </div>
                         </Column>
                     </Row>

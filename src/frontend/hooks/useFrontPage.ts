@@ -1,42 +1,14 @@
-import { useQuery } from '@apollo/client'
-import { useContext, useEffect } from 'react'
-import { GraphQuery, BackgroundsReturnType } from 'src/constants/graphql'
-import { Context, ContextType } from 'src/frontend/store'
-import { setPageInfo } from 'src/frontend/store/actions'
+import { useQuery } from 'src/common/graphql/useQuery'
+import { operationBackgrounds } from 'src/constants/graphql'
+import { Image } from 'src/types/wordpress'
 
 export const useFrontPage = () => {
-    const [, dispatch] = useContext(Context) as ContextType
-    const { data } = useQuery<BackgroundsReturnType>(GraphQuery.BACKGROUNDS)
+    const { data } = useQuery<Image[]>(operationBackgrounds, {})
 
-    const title = window.globalVariable.siteName || ''
-    const excerpt = window.globalVariable.excerpt || ''
     const background =
-        data && data.backgrounds && data.backgrounds.length
-            ? data.backgrounds[
-                  Math.floor(Math.random() * data.backgrounds.length)
-              ]
-            : ''
+        data && data.length
+            ? data[Math.floor(Math.random() * data.length)]
+            : undefined
 
-    useEffect(() => {
-        const title = window.globalVariable.siteName || ''
-        const excerpt = window.globalVariable.excerpt
-
-        dispatch(
-            setPageInfo({
-                background,
-                backgroundColor: '',
-                excerpt,
-                icon: undefined,
-                isLoading: false,
-                prefix: '',
-                title: title.toUpperCase(),
-                currentPage: 'front-page',
-                wrapperClasses: {
-                    'wrapper--headline': true,
-                },
-            }),
-        )
-    }, [dispatch, background])
-
-    return { title, excerpt, background }
+    return background
 }

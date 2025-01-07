@@ -8,13 +8,13 @@ import React, { Fragment, PropsWithChildren } from 'react'
 import { parseContent } from 'src/frontend/utils/single'
 import { Post } from 'src/types/wordpress'
 
-require('src/frontend/scss/content.scss')
+import 'src/frontend/scss/content.scss'
 
 type Props = {
     post: Post
 }
 
-export const Content = (props: PropsWithChildren<Props>): JSX.Element => {
+export const Content = (props: PropsWithChildren<Props>) => {
     const {
         post: { id, slug, content, type },
         children,

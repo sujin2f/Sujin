@@ -6,7 +6,6 @@ import { Menu } from 'src/common/components/layout/Menu'
 import { Column } from 'src/common/components/layout/Column'
 import { Row } from 'src/common/components/layout/Row'
 import { Context, ContextType } from 'src/frontend/store'
-import { setPageInfo } from 'src/frontend/store/actions'
 
 import { Hamburger } from 'src/frontend/scenes/layout/Hamburger'
 import { Search } from 'src/frontend/scenes/layout/Search'
@@ -18,56 +17,60 @@ import Logo from 'src/frontend/images/logo-top-bar.svg'
 import Facebook from 'src/frontend/images/facebook.svg'
 import Twitter from 'src/frontend/images/twitter.svg'
 
-require('src/frontend/scss/fixed-header.scss')
+import 'src/frontend/scss/fixed-header.scss'
+import { setWrapperClasses } from 'src/frontend/store/actions'
 
-export const FixedHeader = (): JSX.Element => {
-    const [{ wrapperClasses }, dispatch] = useContext(Context) as ContextType
-    const { menu: menuMain } = useMenu(MenuNames.MAIN)
+export function FixedHeader() {
+    const [, dispatch] = useContext(Context) as ContextType
+    const { menu: menuMain } = useMenu({ slug: MenuNames.MAIN })
 
     const mobileOnClick = useCallback(() => {
         dispatch(
-            setPageInfo({
-                wrapperClasses: {
-                    ...wrapperClasses,
-                    'wrapper--mobile-menu': false,
-                },
+            setWrapperClasses({
+                'wrapper--mobile-menu': false,
             }),
         )
-    }, [dispatch, wrapperClasses])
+    }, [dispatch])
 
     return (
         <TopBar fixed fullWidth>
             {/* For Transparent Logo */}
             <section className="top-bar__background">
                 <div className="top-bar__background--white" />
+
                 <div className="top-bar__background--transparent" />
+
                 <div className="top-bar__background--white" />
             </section>
 
-            <Row dom="section" className="top-bar__main">
+            <Row className="top-bar__main" dom="section">
                 <Column small={6}>
                     <Hamburger />
+
                     <Menu
                         className="show-for-large top-bar__menu__container"
                         items={menuMain || []}
                     />
                 </Column>
-                <Column small={6} className="hide-for-small">
+
+                <Column className="hide-for-small" small={6}>
                     <Search />
+
                     <nav className="social-media">
                         <a
-                            href="http://twitter.com/sujin2f"
                             className="social-media--twitter"
-                            target="_blank"
+                            href="http://twitter.com/sujin2f"
                             rel="noreferrer"
+                            target="_blank"
                         >
                             <Twitter />
                         </a>
+
                         <a
-                            href="https://www.facebook.com/sujin1977"
                             className="social-media--facebook"
-                            target="_blank"
+                            href="https://www.facebook.com/sujin1977"
                             rel="noreferrer"
+                            target="_blank"
                         >
                             <Facebook />
                         </a>
@@ -76,16 +79,16 @@ export const FixedHeader = (): JSX.Element => {
             </Row>
 
             <section className="top-bar__logo__container">
-                <Link to="/" className="top-bar__logo">
+                <Link className="top-bar__logo" to="/">
                     <Logo />
                 </Link>
             </section>
 
             <Menu
-                className="hide-for-large top-bar__menu__container--mobile"
-                items={menuMain || []}
-                direction="vertical"
                 callback={mobileOnClick}
+                className="hide-for-large top-bar__menu__container--mobile"
+                direction="vertical"
+                items={menuMain || []}
             />
         </TopBar>
     )

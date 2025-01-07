@@ -4,13 +4,13 @@ import { className as getClassName } from 'src/common/utils/string'
 import { AttrMatch } from 'src/types/wordpress'
 import { replaceQuotes as getter } from 'src/frontend/utils/single'
 
-require('src/frontend/scss/caption.scss')
+import 'src/frontend/scss/caption.scss'
 
 interface Props {
     value: AttrMatch
 }
 
-export const Caption = (props: Props): JSX.Element => {
+export const Caption = (props: Props) => {
     const {
         value: { named },
     } = props

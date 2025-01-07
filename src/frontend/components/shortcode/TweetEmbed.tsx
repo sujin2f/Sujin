@@ -10,7 +10,7 @@ interface Props {
     value: AttrMatch
 }
 
-export const TweetEmbed = (props: Props): JSX.Element => {
+export const TweetEmbed = (props: Props) => {
     const ref = useRef<HTMLDivElement>(null)
     const state = useScriptLoader('//platform.twitter.com/widgets.js')
     const twttr = window.twttr
@@ -18,6 +18,7 @@ export const TweetEmbed = (props: Props): JSX.Element => {
 
     useEffect(() => {
         if (state === LoadingStatus.DONE && twttr) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             twttr.ready().then(({ widgets }: any) => {
                 if (ref.current) {
                     ref.current.innerHTML = ''

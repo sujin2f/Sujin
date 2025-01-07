@@ -23,23 +23,23 @@ describe('node-cache.ts', () => {
 
     it('set', async () => {
         Cached.getInstance().set('key', 'value')
-        expect(set).toBeCalled()
+        expect(set).toHaveBeenCalled()
     })
 
     it('get', async () => {
         const result = Cached.getInstance().get('key')
         expect(result).toBeFalsy()
-        expect(get).not.toBeCalled()
+        expect(get).not.toHaveBeenCalled()
     })
 
     it('getOrExecute', async () => {
         const execute = jest.fn()
-        const result = Cached.getInstance().getOrExecute('key', execute)
-        expect(execute).toBeCalled()
+        Cached.getInstance().getOrExecute('key', execute)
+        expect(execute).toHaveBeenCalled()
     })
 
     it('del', async () => {
         Cached.getInstance().del('key')
-        expect(del).toBeCalled()
+        expect(del).toHaveBeenCalled()
     })
 })

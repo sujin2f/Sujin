@@ -10,15 +10,15 @@ import { Column } from './Column'
 
 describe('Column.ts', () => {
     it('Basic', async () => {
-        const Component = (): JSX.Element => <Column />
+        const Component = () => <Column />
         const result = render(<Component />)
 
-        const columns = result.container.querySelector('.columns')
+        const columns = result.container.querySelector('.column')
         expect(columns).toBeTruthy()
     })
 
     it('Options', async () => {
-        const Component = (): JSX.Element => (
+        const Component = () => (
             <Column
                 small={1}
                 smallOffset={1}
@@ -33,7 +33,7 @@ describe('Column.ts', () => {
         const result = render(<Component />)
 
         const columns = result.container.querySelector(
-            'section.columns.small-1.medium-2.large-3.small-offset-1.medium-offset-2.large-offset-3.className',
+            'section.column.small-1.medium-2.large-3.small-offset-1.medium-offset-2.large-offset-3.className',
         )
         expect(columns).toBeTruthy()
     })

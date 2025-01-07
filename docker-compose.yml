@@ -31,7 +31,6 @@ services:
     sujin:
         container_name: sujin
         image: node:latest
-        restart: always
         environment:
             MYSQL: mysql
             MYSQL_USER: ${MYSQL_USER}

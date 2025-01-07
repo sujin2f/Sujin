@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react'
-import { GlobalState } from 'src/common/model/GlobalState'
-import { LoadingStatus } from 'src/common/constants/asset'
+import { LoadingStatus } from '../constants/asset'
+import { useGlobalState } from './useGlobalState'
 
 /*
  * External JS loader
@@ -14,38 +13,21 @@ import { LoadingStatus } from 'src/common/constants/asset'
  * }, [state])
  */
 export const useScriptLoader = (src: string) => {
-    const globalState = GlobalState.getInstance(src, LoadingStatus.INIT)
-    const [, setState] = useState<LoadingStatus>(globalState.value)
-    const state = globalState.value
+    const [state, changeState] = useGlobalState(src, LoadingStatus.INIT)
 
     if (state === LoadingStatus.INIT) {
-        globalState.value = LoadingStatus.LOADING
+        changeState(LoadingStatus.LOADING)
         const script = document.createElement('script')
         script.src = src
         script.async = true
         script.onload = () => {
-            globalState.value = LoadingStatus.DONE
+            changeState(LoadingStatus.DONE)
         }
         script.onerror = () => {
-            globalState.value = LoadingStatus.ERROR
+            changeState(LoadingStatus.ERROR)
         }
         document.body.appendChild(script)
     }
-
-    function render(newState: LoadingStatus) {
-        // This will be called when the global state changes
-        setState(newState)
-    }
-
-    useEffect(() => {
-        // Subscribe to a global state when a component mounts
-        globalState.subscribe(render)
-
-        return () => {
-            // Unsubscribe from a global state when a component unmounts
-            globalState.unsubscribe(render)
-        }
-    })
 
     return state
 }

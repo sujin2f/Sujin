@@ -1,3 +1,5 @@
+@use 'src/common/scss/mixin';
+
 .tag__container {
     list-style: none;
     display: flex;
@@ -15,9 +17,7 @@
     border-radius: 2px;
     transition: background-color ease-out 0.2s;
 
-    &:hover,
-    &:focus,
-    &:active {
+    @include mixin.hover {
         background-color: var(--primary);
         text-decoration: none;
     }

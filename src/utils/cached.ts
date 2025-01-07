@@ -1,7 +1,6 @@
 import NodeCache from 'node-cache'
 import { DAY_IN_SECONDS } from 'src/common/constants/datetime'
 import { Nullable } from 'src/types/common'
-import { isDev } from './environment'
 
 export class Cached {
     private cache: NodeCache
@@ -25,18 +24,16 @@ export class Cached {
     }
 
     public get<T>(key: string): Nullable<T> {
-        if (isDev) {
-            return
-        }
         return this.cache.get<T>(key)
     }
 
     public async getOrExecute<T>(
         key: string,
         callback: () => Promise<Nullable<T>>,
+        force = false,
         ttl = DAY_IN_SECONDS,
     ): Promise<T> {
-        if (isDev) {
+        if (force) {
             return (await callback()) || (Cached.FAILED as unknown as T)
         }
 
@@ -48,7 +45,9 @@ export class Cached {
             return Cached.FAILED as unknown as T
         }
 
-        this.set<T>(key, result, ttl)
+        if (!get) {
+            this.set<T>(key, result, ttl)
+        }
         return result
     }
 
@@ -56,7 +55,7 @@ export class Cached {
         this.cache.del(key)
     }
 
-    public isFailed(value: any): boolean {
+    public isFailed(value: unknown): boolean {
         return value === Cached.FAILED
     }
 }

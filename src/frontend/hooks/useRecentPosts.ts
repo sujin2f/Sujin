@@ -1,9 +1,9 @@
-import { useQuery } from '@apollo/client'
-import { RecentReturnType, GraphQuery } from 'src/constants/graphql'
+import { useQuery } from 'src/common/graphql/useQuery'
+import { operationRecentPost } from 'src/constants/graphql'
+import { Post } from 'src/types/wordpress'
 
 export const useRecentPosts = () => {
-    const { data } = useQuery<RecentReturnType>(GraphQuery.RECENT)
-    const recentPost = (data && data.recent) || []
+    const { data } = useQuery<Post[]>(operationRecentPost, {})
 
-    return { recentPost }
+    return { recentPost: data || [] }
 }

@@ -1,26 +1,4 @@
-// @use '../variable';
-
-// .top-bar {
-//     .menu--hamburger {
-//         position: fixed;
-//         top: variable.$header-height;
-//         left: 0;
-//         width: 100vw;
-
-//         .menu {
-//             height: auto;
-//             flex-direction: column;
-//             width: 100vw;
-
-//             .menu {
-//                 a::before {
-//                     content: '-';
-//                     margin-right: 0.5em;
-//                 }
-//             }
-//         }
-//     }
-// }
+@use 'mixin';
 
 .menu {
     display: flex;
@@ -35,27 +13,31 @@
     align-items: center;
     padding: 0;
     font-weight: 400;
+    background-color: var(--white);
     transition:
         background 0.3s ease-out,
         color 0.3s ease-out;
+
+    @include mixin.hover {
+        color: white;
+        background-color: var(--primary);
+        text-decoration: none;
+
+        .menu__link__arrow {
+            fill: var(--white);
+        }
+    }
 }
 
 .menu__link__arrow {
+    width: 24px;
+    height: 24px;
     fill: var(--gray);
-}
-
-.menu__link:hover {
-    color: white;
-    background-color: var(--primary);
-    text-decoration: none;
-
-    .menu__link__arrow {
-        fill: var(--white);
-    }
 }
 
 .menu .menu {
     position: absolute;
+    z-index: 100000;
     display: none;
     flex-direction: column;
     height: auto;

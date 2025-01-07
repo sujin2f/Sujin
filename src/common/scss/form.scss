@@ -1,5 +1,6 @@
 @use 'sass:color';
 @use 'variable';
+@use 'mixin';
 
 .form__label {
     display: flex;
@@ -84,14 +85,10 @@ fieldset {
     background-color: $bg-color;
     color: $fg-color;
     box-sizing: border-box;
-    margin-bottom: 1em;
     padding: 0.8em;
     border: 1px solid $bg-color;
 
-    &:hover,
-    &:focus,
-    &:visited,
-    &:active {
+    @include mixin.hover {
         background-color: $dark;
     }
 
@@ -99,10 +96,7 @@ fieldset {
         background-color: transparent;
         color: $bg-color;
 
-        &:hover,
-        &:focus,
-        &:visited,
-        &:active {
+        @include mixin.hover {
             border-color: $dark;
             color: $dark;
         }
@@ -148,13 +142,23 @@ fieldset {
             fill: var(--primary);
         }
 
-        &:hover,
-        &:focus,
-        &:visited,
-        &:active {
+        @include mixin.hover {
             svg {
                 fill: color.adjust(variable.$primary, $lightness: -10%);
             }
+        }
+    }
+
+    &.button--vanilla {
+        background: none;
+        color: initial;
+        padding: 0;
+        border: none;
+
+        @include mixin.hover {
+            background: none;
+            border: none;
+            color: initial;
         }
     }
 }
