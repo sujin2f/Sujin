@@ -1,7 +1,6 @@
 export enum TermTypes {
     category = 'category',
     tag = 'tag',
-    post_tag = 'tag',
     search = 'search',
     recent_posts = 'recent-posts',
     series = 'series',
