@@ -87,10 +87,10 @@ export function Banner(props: Props) {
                     </picture>
                 )}
 
-                <div className="banner__title">
+                <div className="banner__header">
                     <Row>
                         <Column small={12} className="column--banner__title">
-                            <h1 className="banner__title__heading">
+                            <h1 className="banner__title">
                                 {prefix ? (
                                     <span className="banner__title__tag">
                                         {prefix}
@@ -101,7 +101,7 @@ export function Banner(props: Props) {
                             </h1>
 
                             <p
-                                className="banner__title__excerpt"
+                                className="banner__excerpt"
                                 dangerouslySetInnerHTML={{
                                     __html: excerpt || '',
                                 }}

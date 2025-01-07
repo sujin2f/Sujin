@@ -1,7 +1,10 @@
 import React from 'react'
 
 import { AttrMatch } from 'src/types/wordpress'
-import { replaceQuotes as getter } from 'src/frontend/utils/single'
+import {
+    replaceQuotes as getter,
+    removeExtraParagraph,
+} from 'src/frontend/utils/single'
 
 import 'src/frontend/scss/about-item.scss'
 
@@ -27,7 +30,9 @@ export const AboutItem = (props: Props) => {
             </div>
             <div
                 className="about-item__detail"
-                dangerouslySetInnerHTML={{ __html: content }}
+                dangerouslySetInnerHTML={{
+                    __html: removeExtraParagraph(content),
+                }}
             ></div>
         </div>
     )

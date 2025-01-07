@@ -1,15 +1,12 @@
 @use 'src/common/scss/mixin';
 
 .prev-next__container {
-    margin-bottom: 0.7em;
+    margin-bottom: 1.5em;
 }
 
 .prev-next {
-    display: flex;
-    align-items: baseline;
     background: none;
     text-decoration: none;
-    margin-bottom: 0.3em;
 
     svg {
         width: 1em;

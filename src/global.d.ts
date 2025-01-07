@@ -29,5 +29,6 @@ interface Window {
     twttr: any
     adsbygoogle: any
     opera: any
+    hljs: any
     sujin: FrontendVars
 }

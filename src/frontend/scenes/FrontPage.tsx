@@ -22,7 +22,12 @@ function FrontPage() {
                 <Banner
                     background={background}
                     excerpt={window.sujin.EXCERPT}
-                    title={<Logo aria-label={window.sujin.SITE_NAME} />}
+                    title={
+                        <Logo
+                            aria-label={window.sujin.SITE_NAME}
+                            className="banner__logo"
+                        />
+                    }
                 />
             </main>
         </div>

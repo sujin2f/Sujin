@@ -1,4 +1,4 @@
-import React, { createElement } from 'react'
+import React, { Fragment, JSX, createElement } from 'react'
 
 import DEFAULT_BACKGROUND from 'src/assets/images/thumbnail.svg'
 
@@ -110,7 +110,8 @@ export const replaceQuotes = (matched: Named, key: string) => {
     return (matched[key] && matched[key].replace(regex, '')) || ''
 }
 
-const shortcodes = {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const shortcodes: Record<string, (prop: any) => JSX.Element> = {
     gist: Gist,
     tweet: TweetEmbed,
     'about-item': AboutItem,
@@ -154,15 +155,30 @@ export function parseContent(content: string): JSX.Element[] {
             }
         }
 
-        return (
-            <div
-                dangerouslySetInnerHTML={{ __html: value }}
-                key={`content-element__section__${index}`}
-            />
-        )
+        const section = removeExtraParagraph(value)
+
+        if (section) {
+            return (
+                <div
+                    dangerouslySetInnerHTML={{
+                        __html: section,
+                    }}
+                    key={`content-element__section__${index}`}
+                />
+            )
+        }
+        return <Fragment key={`content-element__section__${index}`} />
     })
 
     return elements
+}
+
+export const removeExtraParagraph = (value: string) => {
+    return value
+        .replace(/<p>$/, '')
+        .replace(/^<\/p>/, '')
+        .replace('/n', '')
+        .trim()
 }
 
 // export function parseSeries(

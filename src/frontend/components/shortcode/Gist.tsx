@@ -25,7 +25,6 @@ export const Gist = (props: Props) => {
         <iframe
             title="Gist"
             className="gist"
-            frameBorder="0"
             src={`data:text/html;charset=utf-8,
             <head>
                 ${script}

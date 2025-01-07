@@ -1,8 +1,12 @@
 .about-item {
     display: flex;
-    margin-bottom: 1em;
     align-items: flex-start;
     border-top: 1px solid var(--primary);
+    margin-bottom: 1.5em;
+
+    p {
+        margin-bottom: 0.5em;
+    }
 }
 
 .about-item__year {
