@@ -35,37 +35,26 @@ export const showReact = async <T>(
 ): Promise<void> => {
     const filePath = path.resolve(publicDir, 'index.ejs')
     const bundleData = bundles()
-    const vars = {
-        ...(await getTemplateVar(req)),
-        isProd: process.env.NODE_ENV === 'production',
-    }
-    const jsObj = Object.keys(bundleData)
-        .filter((value) => (value as string).endsWith('.js'))
-        .reduce((acc, cur) => {
-            return {
-                ...acc,
-                [cur]: bundleData[cur],
-            }
-        }, {})
-    const cssObj = Object.keys(bundleData)
-        .filter((value) => (value as string).endsWith('.css'))
-        .reduce((acc, cur) => {
-            return {
-                ...acc,
-                [cur]: bundleData[cur],
-            }
-        }, {})
+    const vars = await getTemplateVar(req)
     const html = await ejs
         .renderFile(filePath, {
             ...vars,
-            js: Object.values(bundleData).filter((value) =>
-                (value as string).endsWith('.js'),
-            ),
-            css: Object.values(bundleData).filter((value) =>
-                (value as string).endsWith('.css'),
-            ),
-            jsObj,
-            cssObj,
+            JS: Object.keys(bundleData)
+                .filter((value) => (value as string).endsWith('.js'))
+                .reduce((acc, cur) => {
+                    return {
+                        ...acc,
+                        [cur]: bundleData[cur],
+                    }
+                }, {}),
+            CSS: Object.keys(bundleData)
+                .filter((value) => (value as string).endsWith('.css'))
+                .reduce((acc, cur) => {
+                    return {
+                        ...acc,
+                        [cur]: bundleData[cur],
+                    }
+                }, {}),
         })
         .catch((e) => console.error(e))
     res.send(html)
