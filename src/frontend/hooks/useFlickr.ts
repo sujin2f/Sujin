@@ -1,19 +1,14 @@
-import { useQuery } from '@apollo/client'
-import {
-    GraphQuery,
-    FlickrReturnType,
-    FlickrVariables,
-} from 'src/constants/graphql'
+import { useQuery } from 'src/common/graphql/useQuery'
+import { operationFlickr } from 'src/constants/graphql'
+import { GetOperationArgsType } from 'src/common/graphql'
+import { FlickrImage } from 'src/types/flickr'
 
-export const useFlickr = () => {
-    const { data } = useQuery<FlickrReturnType, FlickrVariables>(
-        GraphQuery.FLICKR,
-        {
-            variables: {
-                id: window.globalVariable.flickrId,
-            },
-        },
-    )
-    const flickr = (data && data.flickr) || []
-    return { flickr }
+export const useFlickr = (
+    args: GetOperationArgsType<typeof operationFlickr>,
+) => {
+    const { data } = useQuery<FlickrImage[]>(operationFlickr, args)
+
+    return {
+        flickr: data || [],
+    }
 }

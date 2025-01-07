@@ -1,11 +1,34 @@
 @mixin medium {
-    @media print, screen and (min-width: 40em) {
+    @media print, screen and (min-width: 40rem) {
         @content;
     }
 }
 
 @mixin large {
-    @media print, screen and (min-width: 64em) {
+    @media print, screen and (min-width: 64rem) {
         @content;
+    }
+}
+
+@mixin extra-large {
+    @media print, screen and (min-width: 100rem) {
+        @content;
+    }
+}
+
+@mixin hover {
+    &:hover,
+    &:focus,
+    &:active {
+        @content;
+    }
+}
+
+@function headings($before: '', $from: 1, $to: 6, $after: '') {
+    @if $from == $to {
+        @return '#{$before} h#{$from}#{$after}';
+    } @else {
+        @return '#{$before} h#{$from}#{$after}, ' +
+            headings($before, $from + 1, $to, $after);
     }
 }

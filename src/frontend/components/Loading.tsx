@@ -7,7 +7,7 @@ import React from 'react'
 
 import LoadingImg from 'src/assets/images/loading.svg'
 
-export const Loading = (): JSX.Element => {
+export function Loading() {
     return (
         <section>
             <LoadingImg />

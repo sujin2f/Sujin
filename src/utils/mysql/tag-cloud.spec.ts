@@ -1,7 +1,7 @@
 // yarn test tag-cloud.spec.ts
 
 import { MySQLQuery } from 'src/constants/mysql-query'
-import { tagCloud } from '../../__tests__/fixture'
+import { tagCloud } from '../../../.configs/jest/fixture'
 import { getTagCloud, updateHit } from './tag-cloud'
 
 const query = jest.fn().mockImplementation(async (query, defaultValue) => {
@@ -40,6 +40,6 @@ describe('tag-cloud.ts', () => {
     it('updateHit', async () => {
         await updateHit(1)
 
-        expect(query).toBeCalledWith(MySQLQuery.updateTagHit(1))
+        expect(query).toHaveBeenCalledWith(MySQLQuery.updateTagHit(1))
     })
 })

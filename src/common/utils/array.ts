@@ -59,6 +59,21 @@ export const trimEnd = <T>(items: T[]): T[] => {
 }
 
 /*
+ * Remove empty items from the end
+ */
+export const trimStart = <T>(items: T[]): T[] => {
+    let notEmpty = false
+    const arr = deepCopy(items)
+    return arr.filter((item) => {
+        // Once it's not empty, keep values
+        if (notEmpty || (!isEmpty(item) && !notEmpty)) {
+            notEmpty = true
+        }
+        return notEmpty
+    })
+}
+
+/*
  * Remove empty items
  */
 export const filterEmpty = <T>(items: T[]): T[] => {
@@ -107,7 +122,7 @@ export const average = (items: unknown[]): number => {
     return sum / count
 }
 
-export const shuffle = (input: any[]): any[] => {
+export const shuffle = (input: unknown[]): unknown[] => {
     for (let i = input.length - 1; i > 0; i--) {
         const randomIndex = getRandomInt(i + 1)
         ;[input[i], input[randomIndex]] = [input[randomIndex], input[i]]

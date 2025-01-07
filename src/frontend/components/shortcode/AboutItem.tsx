@@ -1,15 +1,18 @@
 import React from 'react'
 
 import { AttrMatch } from 'src/types/wordpress'
-import { replaceQuotes as getter } from 'src/frontend/utils/single'
+import {
+    replaceQuotes as getter,
+    removeExtraParagraph,
+} from 'src/frontend/utils/single'
 
-require('src/frontend/scss/about-item.scss')
+import 'src/frontend/scss/about-item.scss'
 
 interface Props {
     value: AttrMatch
 }
 
-export const AboutItem = (props: Props): JSX.Element => {
+export const AboutItem = (props: Props) => {
     const {
         value: { named },
     } = props
@@ -27,7 +30,9 @@ export const AboutItem = (props: Props): JSX.Element => {
             </div>
             <div
                 className="about-item__detail"
-                dangerouslySetInnerHTML={{ __html: content }}
+                dangerouslySetInnerHTML={{
+                    __html: removeExtraParagraph(content),
+                }}
             ></div>
         </div>
     )

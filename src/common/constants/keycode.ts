@@ -1,5 +1,4 @@
-/* istanbul ignore file */
 export enum KeyCodes {
-    ENTER = 13,
-    ESC = 27,
+    ENTER = 'Enter',
+    ESC = 'Escape',
 }

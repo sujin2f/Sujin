@@ -7,15 +7,15 @@ import { WidgetTitle } from 'src/frontend/components/widget/WidgetTitle'
 
 import { Post } from 'src/types/wordpress'
 
-import DeafultThumbnail from 'src/frontend/images/thumbnail-default.png'
+import DefaultThumbnail from 'src/frontend/images/thumbnail-default.png'
 
-require('src/frontend/scss/related-posts.scss')
+import 'src/frontend/scss/related-posts.scss'
 
 interface Props {
     items?: Post[]
 }
 
-export const RelatedPosts = (props: Props): JSX.Element => {
+export const RelatedPosts = (props: Props) => {
     const { items } = props
 
     return (
@@ -34,11 +34,13 @@ export const RelatedPosts = (props: Props): JSX.Element => {
                                 title={related.title}
                                 description={related.excerpt}
                                 to={related.link}
-                                time={new Date(related.date)}
+                                time={new Date(
+                                    parseInt(related.date),
+                                ).getTime()}
                                 image={
                                     related.images.list?.url ||
                                     related.images.thumbnail?.url ||
-                                    DeafultThumbnail
+                                    DefaultThumbnail
                                 }
                             />
                         </Column>

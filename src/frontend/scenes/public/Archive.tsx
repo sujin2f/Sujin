@@ -12,21 +12,21 @@ import { NotFound } from 'src/frontend/scenes/public/NotFound'
 import { Tags } from 'src/frontend/components/Tags'
 import { useArchive } from 'src/frontend/hooks/useArchive'
 
-import DeafultThumbnail from 'src/frontend/images/thumbnail-default.png'
+import DefaultThumbnail from 'src/frontend/images/thumbnail-default.png'
 
-const Archive = (): JSX.Element => {
+function Archive() {
     const { type, slug, page } = useParams<{
-        type: keyof typeof TermTypes
+        type: TermTypes
         slug: string
         page: string
     }>()
+
     const pageInt = parseInt(page || '1')
-    const { archive, loading, error, title } = useArchive(
-        type,
-        slug,
-        pageInt,
-        true,
-    )
+    const { archive, loading, error } = useArchive({
+        type: type || TermTypes.category,
+        slug: slug || '',
+        page: pageInt,
+    })
 
     if (error) {
         return <NotFound />
@@ -36,7 +36,10 @@ const Archive = (): JSX.Element => {
         return <Fragment />
     }
 
-    document.title = title
+    if (!archive) {
+        // 404
+        return <Fragment />
+    }
 
     return (
         <Fragment>
@@ -57,11 +60,11 @@ const Archive = (): JSX.Element => {
                             title={post.title}
                             description={post.excerpt}
                             to={post.link}
-                            time={new Date(post.date)}
+                            time={new Date(parseInt(post.date)).getTime()}
                             image={
                                 post.images.list?.url ||
                                 post.images.thumbnail?.url ||
-                                DeafultThumbnail
+                                DefaultThumbnail
                             }
                         >
                             <Tags items={post.tags} />
@@ -70,7 +73,7 @@ const Archive = (): JSX.Element => {
                 ))}
             </Row>
             <Row>
-                <Column>
+                <Column small={12}>
                     {archive!.posts.length > 0 && (
                         <Paging
                             totalPages={archive?.pages || 1}

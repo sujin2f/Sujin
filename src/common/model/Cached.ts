@@ -1,6 +1,6 @@
 import NodeCache from 'node-cache'
 import { DAY_IN_SECONDS } from 'src/common/constants/datetime'
-import { Nullable } from 'src/common/types'
+import type { Nullable } from 'src/common/types'
 import { Singleton } from './Singleton'
 
 /*

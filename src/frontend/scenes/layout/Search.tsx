@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 import Magnify from 'src/frontend/images/magnify.svg'
 
-export const Search = (): JSX.Element => {
+export function Search() {
     const [opened, setOpened] = useState<boolean>(false)
     const [keyword, setKeyword] = useState<string>('')
     const refTextInput = useRef<HTMLInputElement>(null)
@@ -46,12 +46,13 @@ export const Search = (): JSX.Element => {
         <section className={`${wrapperClass} search`}>
             <input
                 className="search__input"
-                type="text"
-                ref={refTextInput}
-                value={keyword}
                 onChange={handleChangeSearch}
                 onKeyDown={handleKeyDownSearch}
+                ref={refTextInput}
+                type="text"
+                value={keyword}
             />
+
             <button
                 className="search__button"
                 onClick={handleSubmitSearch}

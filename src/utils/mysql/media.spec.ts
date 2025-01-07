@@ -1,6 +1,6 @@
 // yarn test media.spec.ts
 
-import { media, mediaMeta } from '../../__tests__/fixture'
+import { media, mediaMeta } from '../../../.configs/jest/fixture'
 import { getMedia, getBackgrounds } from './media'
 
 const query = jest.fn().mockImplementation(async (query, defaultValue) => {

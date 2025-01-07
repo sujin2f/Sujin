@@ -1,15 +1,18 @@
-import { Action, State } from 'src/types/store'
-export const SET_PAGE_INFO = 'sujin/v1/SET_PAGE_HEADER'
+import type { Action, WrapperClasses } from 'src/frontend/store/type'
+import { ActionType } from 'src/frontend/store/constants'
 
-/**
- * To set pageInfo
- *
- * @param {Partial<PageInfo>} pageInfo
- * @returns {Partial<Action>}
- */
-export const setPageInfo = (pageInfo: Partial<State>): Partial<Action> => {
+export const setCurrentPage = (currentPage: string): Partial<Action> => {
     return {
-        type: SET_PAGE_INFO,
-        pageInfo,
+        type: ActionType.SET_CURRENT_PAGE,
+        currentPage,
+    }
+}
+
+export const setWrapperClasses = (
+    wrapperClasses: Partial<WrapperClasses>,
+): Partial<Action> => {
+    return {
+        type: ActionType.SET_WRAPPER_CLASSES,
+        wrapperClasses,
     }
 }

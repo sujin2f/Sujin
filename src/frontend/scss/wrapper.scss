@@ -1,3 +1,5 @@
+@use 'src/common/scss/mixin';
+
 $header-height: 48px;
 
 .wrapper {
@@ -5,6 +7,69 @@ $header-height: 48px;
 
     main {
         min-height: calc(100vh);
-        margin-bottom: 3em;
+    }
+
+    .paging__container {
+        margin-bottom: 1.5em;
+    }
+
+    article {
+        margin-bottom: 1.5em;
+
+        blockquote {
+            background-image: url('src/frontend/images/quote.svg');
+            background-position: center 1em;
+            background-repeat: no-repeat;
+            background-size: 2em;
+            padding: 4em 1.2em 1em;
+            background-color: var(--light-gray);
+            margin: 0 0 1.5em;
+
+            :last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        dl {
+            dd {
+                margin-bottom: 0.5em;
+            }
+
+            :last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        pre.code {
+            overflow-x: scroll;
+            margin-bottom: 1.5em;
+            box-sizing: border-box;
+            padding: 1em;
+            background-color: var(--light-gray);
+            width: calc(100vw - 2em);
+
+            code.hljs {
+                padding: 0;
+                background-color: transparent;
+            }
+
+            @include mixin.medium {
+                width: 100%;
+                max-width: 100%;
+            }
+        }
+
+        .twitter-tweet {
+            margin-bottom: 1.5em !important;
+        }
+
+        .gist {
+            display: none;
+            width: 100%;
+            min-height: calc(100vh - #{$header-height});
+            margin-bottom: 1.5em;
+            border: 1px solid var(--light-gray);
+            padding: 0.5em 0;
+        }
     }
 }

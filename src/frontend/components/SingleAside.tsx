@@ -5,10 +5,6 @@
 
 import React from 'react'
 
-// import { GlobalVariable } from 'src/frontend/store/items/global-variable'
-
-export const SingleAside = (): JSX.Element => {
-    // const globalVars = GlobalVariable.getInstance(window.sujin)
-
+export const SingleAside = () => {
     return <div>1</div>
 }

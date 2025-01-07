@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { Fn } from '../types'
+import type { Fn } from '../types'
 
 export const useDocumentClick = <T extends HTMLElement>(callback: Fn) => {
     const ref = useRef<T>(null)

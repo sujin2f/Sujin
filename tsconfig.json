@@ -20,5 +20,5 @@
         "forceConsistentCasingInFileNames": true,
         "lib": ["dom", "dom.iterable", "esnext"]
     },
-    "include": ["src/**/*"]
+    "include": ["src/**/*", ".configs/jest/fixture.ts"]
 }

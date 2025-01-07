@@ -18,7 +18,7 @@ type Props = PropsWithChildren<{
  * Overlay Component in Foundation Site
  * @ref https://get.foundation/sites/docs/reveal.html
  */
-export const Overlay = (props: Props): JSX.Element => {
+export const Overlay = (props: Props) => {
     const overlayRef = useRef<HTMLDivElement>(null)
     const { style } = props
 

@@ -7,7 +7,11 @@ $light-gray: color.adjust($black, $lightness: 80%, $saturation: -30%);
 $lighter-gray: color.adjust($black, $lightness: 88%, $saturation: -30%);
 $white: #ffffff;
 $primary: #970000;
+$primary-dark: color.adjust($primary, $lightness: -10%);
 $warning: #970000;
+$pastel-red: #f4aab9;
+$pastel-blue: #66ccff;
 
+$font-size: 11pt;
 $header-height: 3.4rem;
-$max-width: 75em;
+$max-width: 75rem;

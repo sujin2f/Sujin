@@ -2,8 +2,7 @@
 import { Response, Request } from 'express'
 import path from 'path'
 import ejs from 'ejs'
-
-const { bundles, publicDir, baseDir } = require('src/common/utils/path')
+import { bundles, publicDir, baseDir } from './path'
 
 /**
  * Public Dir
@@ -23,12 +22,7 @@ export const assetParam: [RegExp, (req: Request, res: Response) => void] = [
     },
 ]
 
-export type GetGlobalVariable<T> = (req: Request) => Promise<T>
-type ShowReac<T> = (
-    req: Request,
-    res: Response,
-    getGlobalVariable: GetGlobalVariable<T>,
-) => Promise<void>
+export type GetTemplateVar<T> = (req: Request) => Promise<T>
 
 /**
  * Show react frontend
@@ -37,36 +31,30 @@ type ShowReac<T> = (
 export const showReact = async <T>(
     req: Request,
     res: Response,
-    getGlobalVariable: GetGlobalVariable<T>,
+    getTemplateVar: GetTemplateVar<T>,
 ): Promise<void> => {
-    const filePath = path.resolve(publicDir, 'frontend.ejs')
+    const filePath = path.resolve(publicDir, 'index.ejs')
     const bundleData = bundles()
-    const globalVariable = await getGlobalVariable(req)
-    const js = Object.keys(bundleData)
-        .filter((value) => (value as string).endsWith('.js'))
-        .reduce((acc, cur) => {
-            return {
-                ...acc,
-                [cur]: bundleData[cur],
-            }
-        }, {})
-    const css = Object.keys(bundleData)
-        .filter((value) => (value as string).endsWith('.css'))
-        .reduce((acc, cur) => {
-            return {
-                ...acc,
-                [cur]: bundleData[cur],
-            }
-        }, {})
+    const vars = await getTemplateVar(req)
     const html = await ejs
         .renderFile(filePath, {
-            ...globalVariable,
-            js: Object.values(bundleData).filter((value) =>
-                (value as string).endsWith('.js'),
-            ),
-            css: Object.values(bundleData).filter((value) =>
-                (value as string).endsWith('.css'),
-            ),
+            ...vars,
+            JS: Object.keys(bundleData)
+                .filter((value) => (value as string).endsWith('.js'))
+                .reduce((acc, cur) => {
+                    return {
+                        ...acc,
+                        [cur]: bundleData[cur],
+                    }
+                }, {}),
+            CSS: Object.keys(bundleData)
+                .filter((value) => (value as string).endsWith('.css'))
+                .reduce((acc, cur) => {
+                    return {
+                        ...acc,
+                        [cur]: bundleData[cur],
+                    }
+                }, {}),
         })
         .catch((e) => console.error(e))
     res.send(html)

@@ -1,6 +1,6 @@
 // yarn test option.spec.ts
 
-import { mediaMeta } from '../../__tests__/fixture'
+import { mediaMeta } from '../../../.configs/jest/fixture'
 import { getOption } from './option'
 
 const query = jest.fn().mockImplementation(async (query, defaultValue) => {

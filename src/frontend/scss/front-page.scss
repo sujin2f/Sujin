@@ -1,3 +1,5 @@
+@use 'src/common/scss/mixin';
+
 .wrapper--front-page {
     main {
         margin-bottom: 0 !important;
@@ -17,26 +19,28 @@
         height: 100vh;
     }
 
-    .banner__title__heading {
-        display: flex;
-        height: 116px;
-        overflow: hidden;
-        width: 100%;
-        margin-bottom: 20px;
+    .banner__header {
+        height: 100vh;
     }
 
-    .banner__title__excerpt {
-        padding: 0 0.2em;
-        line-height: inherit;
-        background-color: var(--white);
-        color: var(--black);
-        font-size: 1.3em;
-        font-weight: 400;
-        margin-bottom: 0;
+    .banner__title {
+        width: 100%;
+    }
 
-        //@include breakpoint(small only) {
-        //    font-size: 1.2em;
-        //}
+    .banner__logo {
+        width: 50vw;
+
+        @include mixin.medium {
+            width: 20rem;
+        }
+
+        @include mixin.extra-large {
+            width: 20vw;
+        }
+    }
+
+    .banner__excerpt {
+        width: fit-content;
     }
 
     .banner__background {

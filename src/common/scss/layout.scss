@@ -40,6 +40,14 @@ $width: calc((100% - 1em - (11 * 1em)) / 12);
             }
         }
 
+        @for $i from 1 through 12 {
+            @include mixin.extra-large {
+                &.larger-#{$i} {
+                    width: calc(#{$width} * #{$i} + #{$i - 1}em);
+                }
+            }
+        }
+
         @for $i from 1 through 11 {
             &.small-offset-#{$i} {
                 margin-left: calc(#{$width} * #{$i} + #{$i}em);
@@ -57,6 +65,14 @@ $width: calc((100% - 1em - (11 * 1em)) / 12);
         @for $i from 1 through 11 {
             @include mixin.large {
                 &.large-offset-#{$i} {
+                    margin-left: calc(#{$width} * #{$i} + #{$i}em);
+                }
+            }
+        }
+
+        @for $i from 1 through 11 {
+            @include mixin.extra-large {
+                &.larger-offset-#{$i} {
                     margin-left: calc(#{$width} * #{$i} + #{$i}em);
                 }
             }

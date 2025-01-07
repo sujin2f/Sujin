@@ -10,9 +10,9 @@ import { CloseButton } from './CloseButton'
 
 describe('CloseButton.ts', () => {
     it('Basic', async () => {
-        const Component = (): JSX.Element => <CloseButton />
+        const Component = () => <CloseButton />
         const result = render(<Component />)
-        const closeButton = result.container.querySelector('.close-button')
+        const closeButton = result.container.querySelector('.button--close')
         expect(closeButton).toBeTruthy()
     })
 })

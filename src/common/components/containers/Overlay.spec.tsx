@@ -5,13 +5,13 @@
 
 import '@testing-library/jest-dom'
 import React, { Fragment, useState } from 'react'
-import { render, fireEvent, screen, act } from '@testing-library/react'
+import { render, screen, act, fireEvent } from '@testing-library/react'
 import { Overlay } from './Overlay'
 
 describe('useOverlay.ts', () => {
     it('Open and Close', async () => {
         const fn = jest.fn()
-        const Component = (): JSX.Element => {
+        const Component = () => {
             const [opened, changeOpened] = useState(false)
             return (
                 <Fragment>
@@ -36,7 +36,7 @@ describe('useOverlay.ts', () => {
         try {
             screen.getByTestId('overlay')
             expect(true).toBeFalsy()
-        } catch (e) {
+        } catch {
             expect(true).toBeTruthy()
         }
 
@@ -48,8 +48,7 @@ describe('useOverlay.ts', () => {
         fireEvent.click(screen.getByTestId('close'))
         try {
             screen.getByTestId('overlay')
-            expect(true).reveal()
-        } catch (e) {
+        } catch {
             expect(true).toBeTruthy()
         }
 
@@ -62,9 +61,9 @@ describe('useOverlay.ts', () => {
         try {
             screen.getByTestId('overlay')
             expect(true).toBeFalsy()
-        } catch (e) {
+        } catch {
             expect(true).toBeTruthy()
         }
-        expect(fn).toBeCalled()
+        expect(fn).toHaveBeenCalled()
     })
 })

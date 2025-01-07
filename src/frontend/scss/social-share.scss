@@ -1,27 +1,25 @@
+@use 'src/common/scss/mixin';
+
 .social-share {
     display: flex;
-    margin-bottom: 1em;
+    margin-bottom: 1.5em;
 }
 
 .social-share__button {
-    background: none !important;
-    border: none !important;
-    padding: 0 !important;
     width: 3em;
     height: 3em;
     margin: 0 0.3em 0 0 !important;
     border-radius: 1.5em;
     overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 
     svg {
         transition: transform 0.2s ease-out;
     }
 
-    &:hover svg {
-        transform: rotate(7deg) scale(1.5, 1.5);
+    @include mixin.hover {
+        svg {
+            transform: rotate(7deg) scale(1.5, 1.5);
+        }
     }
 }
 

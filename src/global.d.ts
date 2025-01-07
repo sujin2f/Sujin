@@ -1,12 +1,34 @@
-import { GlobalVariable } from 'src/types/common'
+declare module '*.png'
+declare module '*.jpg'
+declare module '*.jpeg'
+declare module '*.svg'
+declare module '*.gif'
 
-declare global {
-    interface Window {
-        globalVariable: GlobalVariable
-        twttr: any
-        adsbygoogle: any
-        opera: any
-    }
+declare module 'php-unserialize' {
+    export function unserialize(value: string): unknown
 }
 
-export default global
+type FrontendVars = {
+    SITE_NAME: string
+    EXCERPT: string
+    FRONTEND: string
+    GOOGLE_AD_CLIENT: string
+    GOOGLE_AD_SLOT: string
+    FLICKR_ID: string
+    IS_PRODUCTION: boolean
+}
+
+type GlobalVars = FrontendVars & {
+    TITLE: string
+    DESCRIPTION: string
+    IMAGE: string
+    URL: string
+}
+
+interface Window {
+    twttr: any
+    adsbygoogle: any
+    opera: any
+    hljs: any
+    sujin: FrontendVars
+}

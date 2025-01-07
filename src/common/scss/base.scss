@@ -9,6 +9,7 @@
     --lighter-gray: #{variable.$lighter-gray};
     --white: #{variable.$white};
     --primary: #{variable.$primary};
+    --primary-dark: #{variable.$primary-dark};
     --warning: #{variable.$warning};
     --font: 'Ubuntu', 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial,
         sans-serif;
@@ -18,14 +19,13 @@
 
 html {
     scroll-behavior: smooth;
-    font-size: 12pt;
 }
 
 body {
     font-weight: 300;
     font-family: var(--font);
-    font-size: 1rem;
-    line-height: 1.6;
+    font-size: variable.$font-size;
+    line-height: normal;
     color: var(--black);
 }
 
@@ -34,70 +34,49 @@ body {
     color: var(--white);
 }
 
-strong {
-    font-weight: 700;
-}
-
-a,
-.anchor {
-    color: var(--primary);
-    text-decoration: none;
-
-    &:hover {
-        text-decoration: underline;
-    }
-}
-
-p {
-    line-height: 2;
-    margin: 0 0 1em;
-
-    &:empty {
-        display: none;
-    }
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+/**
+ * Heading selectors
+ */
+$size-h1: 1.5rem;
+#{mixin.headings()} {
     text-transform: capitalize;
     font-weight: 500;
-    letter-spacing: -0.05em;
-    margin: 0 0 0.5em;
     padding: 0;
-    line-height: normal;
+    margin: 0;
 
     small {
         color: var(--gray);
     }
 }
 
-h1 {
-    font-size: 2.2rem;
-    font-weight: 600;
+@for $i from 1 through 6 {
+    h#{$i} {
+        font-size: $size-h1 - ($i * 0.1);
+    }
 }
 
-h2 {
-    font-size: 2rem;
+/**
+ * HTML <tags />
+ */
+strong {
+    font-weight: 700;
 }
 
-h3 {
-    font-size: 1.8rem;
+a {
+    color: var(--primary);
+    text-decoration: none;
+
+    @include mixin.hover {
+        text-decoration: underline;
+    }
 }
 
-h4 {
-    font-size: 1.6rem;
-}
+p {
+    margin: 0;
 
-h5 {
-    font-size: 1.4rem;
-}
-
-h6 {
-    font-size: 1.2rem;
+    &:empty {
+        display: none;
+    }
 }
 
 button {
@@ -108,27 +87,57 @@ button {
 
 ul,
 ol {
+    margin: 0;
     padding-left: 2em;
 }
 
+dt {
+    margin: 0;
+    padding: 0;
+    font-weight: 500;
+}
+
 dd {
-    margin-left: 0;
+    margin: 0;
+    padding: 0;
 }
 
-code[class],
-code[data-lang] {
-    display: block;
-    background-color: var(--black);
-    color: var(--white);
-    padding: 0.5em;
+code,
+kbd {
+    font-family: monospace;
 }
 
-article img {
-    max-width: 100%;
-    height: auto;
-    display: block;
+/**
+ * Inside <article /> tag
+ */
+article {
+    #{mixin.headings()} {
+        margin-bottom: 0.35em;
+    }
+
+    p,
+    ul,
+    ol,
+    dl,
+    img {
+        line-height: 1.8;
+        margin-bottom: 1.5em;
+    }
+
+    > *:last-child {
+        margin-bottom: 0;
+    }
+
+    img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
 }
 
+/**
+ * .classes
+ */
 .strike_through {
     text-decoration: line-through;
 }
@@ -137,6 +146,9 @@ article img {
     display: none;
 }
 
+/**
+ * @media (query) .classes
+ */
 .show-for-small {
     display: inherit !important;
 
