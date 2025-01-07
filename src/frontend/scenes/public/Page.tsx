@@ -27,6 +27,10 @@ function Page() {
         return <Fragment />
     }
 
+    if (!post) {
+        return <NotFound />
+    }
+
     document.title = post.title
 
     const thumbnail =
