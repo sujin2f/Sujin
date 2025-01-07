@@ -32,7 +32,9 @@ export const Code = (props: Props) => {
 
     return (
         <pre className="code">
-            <code>{content.replace(/<br \/>/gi, '')}</code>
+            <code className={`language-${lang}`}>
+                {content.replace(/<br \/>/gi, '')}
+            </code>
         </pre>
     )
 }
