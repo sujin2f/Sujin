@@ -40,7 +40,7 @@ export const useGlobalState = (...wrapperClassOverride: string[]) => {
         }
 
         window.addEventListener('scroll', (): void => handleScrollChange())
-    }, [])
+    }, [dispatch])
 
     const returnClasses = Object.keys(wrapperClasses).filter(
         (key) => wrapperClasses[key as keyof WrapperClasses],
@@ -53,9 +53,14 @@ export const useGlobalState = (...wrapperClassOverride: string[]) => {
         returnClasses.push(`wrapper--${current}`)
     })
 
+    const setWrapperClass = (value: Partial<WrapperClasses>) => {
+        dispatch(setWrapperClasses(value))
+    }
+
     return {
         returnClasses: returnClasses.join(' '),
         wrapperClasses,
+        setWrapperClass,
         wrapperElement,
     }
 }

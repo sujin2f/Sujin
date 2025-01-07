@@ -10,15 +10,10 @@ export function Public(props: PropsWithChildren) {
     const className = getClassName('wrapper', returnClasses)
 
     return (
-        <div
-            className={className}
-            ref={wrapperElement}
-        >
+        <div className={className} ref={wrapperElement}>
             <FixedHeader />
 
-            <main>
-                {props.children}
-            </main>
+            <main>{props.children}</main>
 
             <Footer />
         </div>

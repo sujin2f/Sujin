@@ -10,30 +10,35 @@ type Props = {
     title: string
     description?: string
     to: string
-    time: number
+    time?: number
     image: string
     className?: string
 }
 
 export const Card = (props: PropsWithChildren<Props>) => {
-    const time = new Date(props.time)
+    const time = props.time && new Date(props.time)
     return (
         <section className={className('card', props.className)}>
             <figure className="card__thumbnail">
                 <Link title={props.title} to={props.to}>
                     <div className="card__thumbnail__zoom"></div>
                     <div className="card__thumbnail__shadow"></div>
-                    <time className="card__time" dateTime={time.toISOString()}>
-                        <span className="card__time__day">
-                            {time.getDate()}
-                        </span>
-                        <span className="card__time__month">
-                            {ShortMonthNames[time.getMonth()]}
-                        </span>
-                        <span className="card__time__year">
-                            {time.getFullYear()}
-                        </span>
-                    </time>
+                    {time && (
+                        <time
+                            className="card__time"
+                            dateTime={time.toISOString()}
+                        >
+                            <span className="card__time__day">
+                                {time.getDate()}
+                            </span>
+                            <span className="card__time__month">
+                                {ShortMonthNames[time.getMonth()]}
+                            </span>
+                            <span className="card__time__year">
+                                {time.getFullYear()}
+                            </span>
+                        </time>
+                    )}
                     <picture className="card__image__container">
                         <img
                             src={props.image}
@@ -44,9 +49,13 @@ export const Card = (props: PropsWithChildren<Props>) => {
                     </picture>
                 </Link>
             </figure>
-            <div>
+            <div className="card__text">
                 <h2 className="card__title">
-                    <Link title={props.title} to={props.to}>
+                    <Link
+                        title={props.title}
+                        to={props.to}
+                        className="card__link"
+                    >
                         {props.title}
                     </Link>
                 </h2>

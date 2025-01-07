@@ -13,8 +13,6 @@ import { generateUUID } from 'src/common/utils/string'
 import { className as getClassName } from 'src/common/utils/string'
 
 import 'src/common/scss/form.scss'
-import { useKeyDown } from 'src/common/hooks/useKeyDown'
-import { KeyCodes } from 'src/common/constants/keycode'
 
 type Props = {
     readonly label?: string
@@ -144,52 +142,44 @@ export function Input(props: Props) {
     )
 
     const inputComponent = (
-        <>
+        <Fragment>
             {Element}
 
-            {errorMessage ? <p className="form__input__error-message">
-                {errorMessage}
-            </p> : null}
+            {errorMessage ? (
+                <p className="form__input__error-message">{errorMessage}</p>
+            ) : null}
 
-            {helpText ? <p
-                className="form__input__help-text"
-                id={ariaDescribedby}
-                        >
-                {helpText}
-                        </p> : null}
-        </>
+            {helpText ? (
+                <p className="form__input__help-text" id={ariaDescribedby}>
+                    {helpText}
+                </p>
+            ) : null}
+        </Fragment>
     )
     const labelComponent = (
-        <>
-            {label ? <>
-                {/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */}
+        <Fragment>
+            {label ? (
                 <label
                     className={labelClassNames}
                     htmlFor={id}
                     onClick={() => {
-                            ref.current?.focus()
-                        }}
-                    onKeyDown={() =>
-                            useKeyDown(KeyCodes.ENTER, () => {
-                                ref.current?.focus()
-                            })}
+                        ref.current?.focus()
+                    }}
                 >
                     {(type === 'checkbox' || type === 'radio') &&
-                            inputComponent}
+                        inputComponent}
 
                     {label}
                 </label>
-
-                {/* eslint-enable jsx-a11y/no-noninteractive-element-interactions */}
-            </> : null}
-        </>
+            ) : null}
+        </Fragment>
     )
 
     return (
-        <>
+        <Fragment>
             {labelComponent}
 
             {type !== 'checkbox' && type !== 'radio' && inputComponent}
-        </>
+        </Fragment>
     )
 }

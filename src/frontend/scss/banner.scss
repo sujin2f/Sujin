@@ -10,15 +10,7 @@ $page-header-height-small: 500px;
     background-position: center;
     margin-bottom: 3em;
     position: relative;
-    height: $page-header-height;
-
-    // @include breakpoint(medium only) {
-    //    height: $page-header-height-medium;
-    //}
-
-    //@include breakpoint(small only) {
-    //    height: $page-header-height-small;
-    //}
+    min-height: $page-header-height;
 }
 
 .banner__overlay {
@@ -27,30 +19,35 @@ $page-header-height-small: 500px;
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
-    height: $page-header-height;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     width: 100%;
-    flex-direction: column;
+    height: 100%;
+    z-index: 1;
+}
 
-    //@include breakpoint(medium only) {
-    //    height: $page-header-height-medium;
-    //}
+.banner__background {
+    position: absolute;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
 
-    //@include breakpoint(small only) {
-    //    height: $page-header-height-small;
-    //}
+    img {
+        height: inherit;
+        object-fit: cover;
+        object-position: center center;
+        transition: transform 0.2s ease-out;
+        width: 100%;
+    }
 }
 
 .banner__title {
+    position: relative;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
-    color: var(--white);
-    margin-top: 2em;
     width: 100%;
+    min-height: $page-header-height;
+    color: var(--white);
+    padding: calc(var(--header-height) + 3em) 0 2em;
+    z-index: 2;
 }
 
 .banner__title__tag {
@@ -68,19 +65,8 @@ $page-header-height-small: 500px;
     font-size: 3em;
     margin-bottom: 0.5em;
     line-height: 1;
-
-    //@include breakpoint(medium only) {
-    //    font-size: 40px;
-    //}
+    text-align: center;
 }
-
-//  @include breakpoint(small only) {
-//        font-size: 35px;
-//
-//       .banner__title__tag {
-//           font-size: 0.6em;
-//      }
-// }
 
 .banner__title__excerpt {
     margin: 0;
@@ -92,6 +78,7 @@ $page-header-height-small: 500px;
     font-size: 1.3em;
     font-weight: 400;
     padding: 0 0.2em;
+    text-align: center;
 }
 
 .menu__container--banner {
@@ -124,19 +111,13 @@ $page-header-height-small: 500px;
     }
 }
 
-.banner__background {
-    object-fit: cover;
-    object-position: center center;
-    width: 100%;
-    height: $page-header-height;
-}
-
 .banner__icon {
     border-radius: 100%;
     height: 9em;
     margin: -7.5em auto 2em;
     width: 9em;
     position: relative;
+    z-index: 3;
 }
 
 .banner__icon__container {

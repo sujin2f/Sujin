@@ -9,14 +9,8 @@ import Logo from 'src/frontend/images/logo.svg'
 export function FooterBottom() {
     return (
         <Row>
-            <Column
-                className="footer__bottom__left"
-                small={12}
-            >
-                <Link
-                    className="footer__logo hide-for-small"
-                    to="/"
-                >
+            <Column className="footer__bottom__left" small={12}>
+                <Link className="footer__logo hide-for-small" to="/">
                     <Logo aria-label="Sujin" />
                 </Link>
 

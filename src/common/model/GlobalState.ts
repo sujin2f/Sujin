@@ -1,11 +1,6 @@
 import type { Fn } from '../types'
 import { Multiton } from './Multiton'
 
-/*
- * Global State
- *
- * From https://dev.to/yezyilomo/global-state-management-in-react-with-global-variables-and-hooks-state-management-doesn-t-have-to-be-so-hard-2n2c
- */
 export class GlobalState<T> extends Multiton<GlobalState<unknown>>() {
     private _subscribers: Fn<[T]>[] = []
 

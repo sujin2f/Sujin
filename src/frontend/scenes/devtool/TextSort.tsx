@@ -29,42 +29,33 @@ function TextSort() {
     const rows = useMemo(() => Math.max(getRows(text), 10), [text])
 
     return (
-        <>
+        <Fragment>
             <Banner title="Text Sort" />
 
             <Row>
-                <Column
-                    dom="aside"
-                    large={3}
-                    small={12}
-                >
+                <Column dom="aside" large={3} small={12}>
                     <SideMenu />
                 </Column>
 
-                <Column
-                    dom="article"
-                    large={9}
-                    small={12}
-                >
+                <Column dom="article" large={9} small={12}>
                     <Input
                         label="Primary Sort after"
                         onChange={(e) =>
-                            handleChange(text, e.target.value, groupEnter)}
+                            handleChange(text, e.target.value, groupEnter)
+                        }
                         type="text"
                     />
 
                     <Input
                         label="Group divided by empty lines"
                         onChange={(e) =>
-                            handleChange(text, divider, e.target.checked)}
+                            handleChange(text, divider, e.target.checked)
+                        }
                         type="checkbox"
                     />
 
                     <Row fullWidth>
-                        <Column
-                            className="text-sort__container"
-                            small={6}
-                        >
+                        <Column className="text-sort__container" small={6}>
                             <div className="text-sort__line-number">
                                 {Array(rows)
                                     .fill(0)
@@ -86,16 +77,14 @@ function TextSort() {
                                             e.target.value,
                                             divider,
                                             groupEnter,
-                                        )}
+                                        )
+                                    }
                                     rows={rows}
                                 />
                             </div>
                         </Column>
 
-                        <Column
-                            className="text-sort__container"
-                            small={6}
-                        >
+                        <Column className="text-sort__container" small={6}>
                             <div className="text-sort__line-number">
                                 {Array(rows)
                                     .fill(0)
@@ -121,7 +110,7 @@ function TextSort() {
                     </Row>
                 </Column>
             </Row>
-        </>
+        </Fragment>
     )
 }
 

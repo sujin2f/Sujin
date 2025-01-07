@@ -7,24 +7,17 @@ import { useGlobalState } from 'src/frontend/hooks/useGlobalState'
 
 import 'src/frontend/scss/dev-tool.scss'
 
-function DevTool(props: PropsWithChildren) {
+export function DevTool(props: PropsWithChildren) {
     const { returnClasses, wrapperElement } = useGlobalState('devtool')
     const className = getClassName('wrapper', returnClasses)
 
     return (
-        <div
-            className={className}
-            ref={wrapperElement}
-        >
+        <div className={className} ref={wrapperElement}>
             <FixedHeader />
 
-            <main>
-                {props.children}
-            </main>
+            <main>{props.children}</main>
 
             <Footer />
         </div>
     )
 }
-
-export default DevTool

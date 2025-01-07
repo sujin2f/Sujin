@@ -7,14 +7,9 @@ import { DEV_TOOL } from 'src/constants/menu-devtool'
 export function SideMenu() {
     return (
         <section>
-            <WidgetTitle>
-                Dev Tools
-            </WidgetTitle>
+            <WidgetTitle>Dev Tools</WidgetTitle>
 
-            <Menu
-                direction="vertical"
-                items={DEV_TOOL.children}
-            />
+            <Menu direction="vertical" items={DEV_TOOL.children} />
         </section>
     )
 }

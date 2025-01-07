@@ -1,0 +1,22 @@
+.recent-posts {
+    .card {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: 0;
+    }
+
+    .card__thumbnail {
+        width: 6em;
+        min-width: 6em;
+        height: 4em;
+        margin-right: 0.5em;
+    }
+
+    .card__text {
+        width: calc(100% - 6.5em);
+    }
+
+    .card__title {
+        font-size: 1em;
+    }
+}

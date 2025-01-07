@@ -6,14 +6,14 @@
 
 .prev-next {
     display: flex;
-    align-items: center;
-    align-content: center;
+    align-items: baseline;
     background: none;
     text-decoration: none;
     margin-bottom: 0.3em;
 
     svg {
         width: 1em;
+        min-width: 1em;
         height: 1em;
         margin-right: 0.5em;
         padding: 0.7em;
@@ -31,17 +31,30 @@
     }
 }
 
+.prev-next__link {
+    display: flex;
+    width: 100%;
+}
+
+.prev-next__link__title {
+    display: flex;
+    align-items: center;
+}
+
 .prev-next--next {
-    svg {
-        transform: rotate(180deg);
-    }
-
-    @include mixin.medium {
-        flex-direction: row-reverse;
-
+    .prev-next__link {
         svg {
-            margin-right: 0;
-            margin-left: 0.5em;
+            transform: rotate(180deg);
+        }
+
+        @include mixin.medium {
+            flex-direction: row-reverse;
+            justify-content: right;
+
+            svg {
+                margin-right: 0;
+                margin-left: 0.5em;
+            }
         }
     }
 }

@@ -71,7 +71,7 @@ const attrs = (text: string): AttrMatch => {
 
     // Match and normalize attributes.
     // tslint:disable:no-conditional-assignment
-     
+
     while ((match = pattern.exec(text))) {
         if (match[1]) {
             named[match[1].toLowerCase()] = match[2]
@@ -88,7 +88,6 @@ const attrs = (text: string): AttrMatch => {
         }
     }
     // tslint:enable:no-conditional-assignment
-     
 
     const patternShortcode =
         // eslint-disable-next-line no-control-regex

@@ -40,6 +40,6 @@ describe('tag-cloud.ts', () => {
     it('updateHit', async () => {
         await updateHit(1)
 
-        expect(query).toBeCalledWith(MySQLQuery.updateTagHit(1))
+        expect(query).toHaveBeenCalledWith(MySQLQuery.updateTagHit(1))
     })
 })

@@ -32,7 +32,7 @@ export const Button = (props: PropsWithChildren<Props>) => {
             props.hollow && 'button--hollow',
             props.vanilla && 'button--vanilla',
         )
-    }, [props.className, props.color, props.hollow])
+    }, [props.className, props.color, props.hollow, props.vanilla])
 
     const title = useMemo(() => props.title, [props.title])
 

@@ -34,7 +34,9 @@ export const RelatedPosts = (props: Props) => {
                                 title={related.title}
                                 description={related.excerpt}
                                 to={related.link}
-                                time={new Date(related.date).getTime()}
+                                time={new Date(
+                                    parseInt(related.date),
+                                ).getTime()}
                                 image={
                                     related.images.list?.url ||
                                     related.images.thumbnail?.url ||

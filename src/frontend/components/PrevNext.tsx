@@ -25,32 +25,26 @@ export const PrevNext = (props: Props) => {
     } = props
     return (
         <Row dom="nav" fullWidth className="prev-next__container">
-            {prev && (
-                <Column
-                    dom={Link}
-                    small={12}
-                    medium={6}
-                    className="prev-next prev-next--prev"
-                >
-                    <Link to={prev.link}>
+            <Column small={12} medium={6} className="prev-next prev-next--prev">
+                {prev && (
+                    <Link to={prev.link} className="prev-next__link">
                         <Prev />
-                        {prev.title}
+                        <span className="prev-next__link__title">
+                            {prev.title}
+                        </span>
                     </Link>
-                </Column>
-            )}
-            {next && (
-                <Column
-                    dom={Link}
-                    small={12}
-                    medium={6}
-                    className="prev-next prev-next--next"
-                >
-                    <Link to={next.link}>
+                )}
+            </Column>
+            <Column small={12} medium={6} className="prev-next prev-next--next">
+                {next && (
+                    <Link to={next.link} className="prev-next__link">
                         <Prev />
-                        {next.title}
+                        <span className="prev-next__link__title">
+                            {next.title}
+                        </span>
                     </Link>
-                </Column>
-            )}
+                )}
+            </Column>
         </Row>
     )
 }

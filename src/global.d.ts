@@ -4,6 +4,10 @@ declare module '*.jpeg'
 declare module '*.svg'
 declare module '*.gif'
 
+declare module 'php-unserialize' {
+    export function unserialize(value: string): unknown
+}
+
 type FrontendVars = {
     SITE_NAME: string
     EXCERPT: string

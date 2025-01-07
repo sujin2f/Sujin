@@ -4,7 +4,7 @@ import { getTermBy } from 'src/utils/mysql/term'
 import { updateHit } from 'src/utils/mysql/tag-cloud'
 import { Cached } from 'src/utils/cached'
 import { GetOperationArgsType } from 'src/common/graphql'
-import { operationArchive, operationFlickr } from 'src/constants/graphql'
+import { operationArchive } from 'src/constants/graphql'
 
 export type ArchiveVariables = {
     type: TermTypes

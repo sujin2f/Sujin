@@ -7,8 +7,6 @@ import { className } from 'src/common/utils/string'
 import Arrow from 'src/common/images/icons/arrow_drop_up.svg'
 
 import 'src/common/scss/menu.scss'
-import { useKeyDown } from 'src/common/hooks/useKeyDown'
-import { KeyCodes } from 'src/common/constants/keycode'
 
 type ComponentProps = {
     readonly className?: string
@@ -74,34 +72,29 @@ function MenuItem(props: ItemProps) {
         [closed, hasChildren],
     )
 
-    /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
     return (
         <li
             className={classNames}
             onClick={onClick}
             onFocus={onMouseOver}
-            onKeyDown={() =>
-                useKeyDown(KeyCodes.ENTER, () => {
-                    onClick()
-                })}
             onMouseLeave={onMouseLeave}
             onMouseOver={onMouseOver}
         >
-            <Link
-                className="menu__link"
-                onClick={props.callback}
-                to={linkTo}
-            >
+            <Link className="menu__link" onClick={props.callback} to={linkTo}>
                 {props.item.title}
 
-                {props.dropdown && hasChildren ? <Arrow className="menu__link__arrow" /> : null}
+                {props.dropdown && hasChildren ? (
+                    <Arrow className="menu__link__arrow" />
+                ) : null}
             </Link>
 
-            {hasChildren ? <MenuBlock
-                callback={props.callback}
-                direction={props.direction}
-                items={props.item.children || []}
-                           /> : null}
+            {hasChildren ? (
+                <MenuBlock
+                    callback={props.callback}
+                    direction={props.direction}
+                    items={props.item.children || []}
+                />
+            ) : null}
         </li>
     )
 }

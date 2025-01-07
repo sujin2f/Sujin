@@ -20,6 +20,7 @@ function Archive() {
         slug: string
         page: string
     }>()
+
     const pageInt = parseInt(page || '1')
     const { archive, loading, error } = useArchive({
         type: type || TermTypes.category,
@@ -32,6 +33,11 @@ function Archive() {
     }
 
     if (loading) {
+        return <Fragment />
+    }
+
+    if (!archive) {
+        // 404
         return <Fragment />
     }
 
@@ -54,7 +60,7 @@ function Archive() {
                             title={post.title}
                             description={post.excerpt}
                             to={post.link}
-                            time={new Date(post.date).getTime()}
+                            time={new Date(parseInt(post.date)).getTime()}
                             image={
                                 post.images.list?.url ||
                                 post.images.thumbnail?.url ||
@@ -67,7 +73,7 @@ function Archive() {
                 ))}
             </Row>
             <Row>
-                <Column>
+                <Column small={12}>
                     {archive!.posts.length > 0 && (
                         <Paging
                             totalPages={archive?.pages || 1}

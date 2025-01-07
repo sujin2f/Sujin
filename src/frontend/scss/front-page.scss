@@ -17,26 +17,26 @@
         height: 100vh;
     }
 
-    .banner__title__heading {
+    .banner__title {
+        height: 100vh;
+    }
+
+    .column--banner__title {
         display: flex;
-        height: 116px;
-        overflow: hidden;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .banner__title__heading {
         width: 100%;
-        margin-bottom: 20px;
+
+        svg {
+            width: 30vw;
+        }
     }
 
     .banner__title__excerpt {
-        padding: 0 0.2em;
-        line-height: inherit;
-        background-color: var(--white);
-        color: var(--black);
-        font-size: 1.3em;
-        font-weight: 400;
-        margin-bottom: 0;
-
-        //@include breakpoint(small only) {
-        //    font-size: 1.2em;
-        //}
+        width: fit-content;
     }
 
     .banner__background {

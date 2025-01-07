@@ -22,18 +22,10 @@ export function TopBar(props: PropsWithChildren<Props>) {
         fixed && 'top-bar--fixed',
     )
     return (
-        <Row
-            className={className}
-            dom="section"
-            fullWidth={fullWidth}
-        >
-            {left ? <Column small={6}>
-                {left}
-                    </Column> : null}
+        <Row className={className} dom="section" fullWidth={fullWidth}>
+            {left ? <Column small={6}>{left}</Column> : null}
 
-            {right ? <Column small={6}>
-                {right}
-                     </Column> : null}
+            {right ? <Column small={6}>{right}</Column> : null}
 
             {children}
         </Row>

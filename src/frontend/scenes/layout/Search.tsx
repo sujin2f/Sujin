@@ -58,9 +58,7 @@ export function Search() {
                 onClick={handleSubmitSearch}
                 type="submit"
             >
-                <Magnify />
-
-                {' '}
+                <Magnify />{' '}
             </button>
         </section>
     )

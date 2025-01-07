@@ -34,7 +34,7 @@ export function GoogleAdvert(props: Props) {
     })
 
     if (!client || !slot) {
-        return <></>
+        return <Fragment></Fragment>
     }
 
     return (

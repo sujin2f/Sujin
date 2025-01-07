@@ -21,7 +21,7 @@ import 'src/frontend/scss/fixed-header.scss'
 import { setWrapperClasses } from 'src/frontend/store/actions'
 
 export function FixedHeader() {
-    const [{ wrapperClasses }, dispatch] = useContext(Context) as ContextType
+    const [, dispatch] = useContext(Context) as ContextType
     const { menu: menuMain } = useMenu({ slug: MenuNames.MAIN })
 
     const mobileOnClick = useCallback(() => {
@@ -30,7 +30,7 @@ export function FixedHeader() {
                 'wrapper--mobile-menu': false,
             }),
         )
-    }, [dispatch, wrapperClasses])
+    }, [dispatch])
 
     return (
         <TopBar fixed fullWidth>

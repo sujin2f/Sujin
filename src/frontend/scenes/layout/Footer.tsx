@@ -13,41 +13,22 @@ import 'src/frontend/scss/footer.scss'
 export function Footer() {
     return (
         <footer className="footer">
-            <Row
-                className="footer__top"
-                dom="aside"
-            >
-                <Column
-                    dom="section"
-                    medium={4}
-                    small={12}
-                >
+            <Row className="footer__top" dom="aside">
+                <Column dom="section" medium={4} small={12}>
                     <GoogleAdvert
                         client={window.sujin.GOOGLE_AD_CLIENT}
                         slot={window.sujin.GOOGLE_AD_SLOT}
                     />
                 </Column>
 
-                <Column
-                    dom="section"
-                    medium={4}
-                    small={12}
-                >
-                    <WidgetTitle>
-                        Photo Stream
-                    </WidgetTitle>
+                <Column dom="section" medium={4} small={12}>
+                    <WidgetTitle>Photo Stream</WidgetTitle>
 
                     <Flickr />
                 </Column>
 
-                <Column
-                    dom="section"
-                    medium={4}
-                    small={12}
-                >
-                    <WidgetTitle>
-                        Popular Tags
-                    </WidgetTitle>
+                <Column dom="section" medium={4} small={12}>
+                    <WidgetTitle>Popular Tags</WidgetTitle>
 
                     <TagCloud />
                 </Column>

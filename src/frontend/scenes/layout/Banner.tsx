@@ -60,7 +60,7 @@ export function Banner(props: Props) {
 
     const imageMapIcon = icon ? getImageMap(ImageType.ICON, icon.sizes) : []
     return (
-        <>
+        <Fragment>
             <section className="banner" style={style}>
                 <div className="show-for-large menu__container--banner">
                     <Row>
@@ -70,44 +70,45 @@ export function Banner(props: Props) {
                     </Row>
                 </div>
 
-                <div className="banner__overlay">
-                    <div className="banner__title">
-                        <h1 className="banner__title__heading">
-                            {prefix ? (
-                                <span className="banner__title__tag">
-                                    {prefix}
-                                </span>
-                            ) : null}
+                <div className="banner__overlay"></div>
 
-                            {title}
-                        </h1>
+                {background && (
+                    <picture className="banner__background">
+                        {imageMapBackground.map((map) => (
+                            <source
+                                key={`header-${map.file}`}
+                                media={map.key}
+                                srcSet={map.file}
+                                type={background?.mimeType}
+                            />
+                        ))}
 
-                        <p
-                            className="banner__title__excerpt"
-                            dangerouslySetInnerHTML={{
-                                __html: excerpt || '',
-                            }}
-                        />
-                    </div>
+                        <img alt="" role="presentation" src={background?.url} />
+                    </picture>
+                )}
+
+                <div className="banner__title">
+                    <Row>
+                        <Column small={12} className="column--banner__title">
+                            <h1 className="banner__title__heading">
+                                {prefix ? (
+                                    <span className="banner__title__tag">
+                                        {prefix}
+                                    </span>
+                                ) : null}
+
+                                {title}
+                            </h1>
+
+                            <p
+                                className="banner__title__excerpt"
+                                dangerouslySetInnerHTML={{
+                                    __html: excerpt || '',
+                                }}
+                            />
+                        </Column>
+                    </Row>
                 </div>
-
-                <picture>
-                    {imageMapBackground.map((map) => (
-                        <source
-                            key={`header-${map.file}`}
-                            media={map.key}
-                            srcSet={map.file}
-                            type={background?.mimeType}
-                        />
-                    ))}
-
-                    <img
-                        alt=""
-                        className="banner__background"
-                        role="presentation"
-                        src={background?.url}
-                    />
-                </picture>
             </section>
 
             {icon ? (
@@ -129,6 +130,6 @@ export function Banner(props: Props) {
                     />
                 </picture>
             ) : null}
-        </>
+        </Fragment>
     )
 }

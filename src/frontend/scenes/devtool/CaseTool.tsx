@@ -39,26 +39,18 @@ function CaseTool() {
     }, [])
 
     return (
-        <>
+        <Fragment>
             <Banner
                 excerpt="Convert keyword into many cases"
                 title="Case Tool"
             />
 
             <Row>
-                <Column
-                    dom="aside"
-                    large={3}
-                    small={12}
-                >
+                <Column dom="aside" large={3} small={12}>
                     <SideMenu />
                 </Column>
 
-                <Column
-                    dom="article"
-                    large={9}
-                    small={12}
-                >
+                <Column dom="article" large={9} small={12}>
                     <Input
                         helpText="Click result to copy to the clipboard."
                         id="convert-keyword"
@@ -68,11 +60,7 @@ function CaseTool() {
                     />
 
                     {textArr.length > 0 && (
-                        <Row
-                            className="casetool__result"
-                            dom="dl"
-                            fullWidth
-                        >
+                        <Row className="casetool__result" dom="dl" fullWidth>
                             {Object.keys(CASES).map((key) => {
                                 const converted = CASES[key](textArr)
 
@@ -82,14 +70,13 @@ function CaseTool() {
                                         large={6}
                                         medium={12}
                                     >
-                                        <dt>
-                                            {key}
-                                        </dt>
+                                        <dt>{key}</dt>
 
                                         <dd className="lead">
                                             <Link
                                                 onClick={() =>
-                                                    copyText(converted)}
+                                                    copyText(converted)
+                                                }
                                                 to="#"
                                             >
                                                 <code data-lang="txt">
@@ -104,7 +91,7 @@ function CaseTool() {
                     )}
                 </Column>
             </Row>
-        </>
+        </Fragment>
     )
 }
 

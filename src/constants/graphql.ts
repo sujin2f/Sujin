@@ -69,7 +69,7 @@ const Post = new GraphQLObjectType({
         title: { type: GraphQLString },
         excerpt: { type: GraphQLString },
         content: { type: GraphQLString },
-        date: { type: GraphQLInt },
+        date: { type: GraphQLString },
         link: { type: GraphQLString },
         parent: { type: GraphQLInt },
         type: { type: GraphQLString },
@@ -226,9 +226,26 @@ const imageOperationQuery = [
         sizes: ['key', 'file'],
     },
 ]
+const imagesOperationQuery = [
+    'id',
+    {
+        list: imageOperationQuery,
+        icon: imageOperationQuery,
+        title: imageOperationQuery,
+        background: imageOperationQuery,
+        thumbnail: imageOperationQuery,
+    },
+]
 const menuOperationQuery = ['id', 'title', 'target', 'link', 'htmlClass']
-const commonOperationQuery = ['id', 'slug', 'title', 'excerpt']
+const commonOperationQuery = ['id', 'slug', 'title']
 const taxonomyOperationQuery = [...commonOperationQuery, 'page', 'type']
+const miniPostOperationQuery = [
+    ...commonOperationQuery,
+    'link',
+    {
+        images: imagesOperationQuery,
+    },
+]
 
 export const operationBackgrounds = new Operation(
     queryBackgrounds,
@@ -248,10 +265,10 @@ export const operationMenu = new Operation<{ slug: string }>(
 export const operationPost = new Operation<{ slug: string }>(
     queryPost,
     ['slug'],
-    ...commonOperationQuery,
-    'content',
+    ...miniPostOperationQuery,
     'date',
-    'link',
+    'excerpt',
+    'content',
     'parent',
     'type',
     {
@@ -259,39 +276,13 @@ export const operationPost = new Operation<{ slug: string }>(
         categories: taxonomyOperationQuery,
         series: taxonomyOperationQuery,
         meta: ['useBackgroundColor', 'backgroundColor'],
-        images: [
-            'id',
-            {
-                list: imageOperationQuery,
-                icon: imageOperationQuery,
-                title: imageOperationQuery,
-                background: imageOperationQuery,
-                thumbnail: imageOperationQuery,
-            },
-        ],
         prevNext: [
             {
                 prev: [...commonOperationQuery, 'link'],
                 next: [...commonOperationQuery, 'link'],
             },
         ],
-        related: [
-            ...commonOperationQuery,
-            'date',
-            'link',
-            {
-                images: [
-                    'id',
-                    {
-                        list: imageOperationQuery,
-                        icon: imageOperationQuery,
-                        title: imageOperationQuery,
-                        background: imageOperationQuery,
-                        thumbnail: imageOperationQuery,
-                    },
-                ],
-            },
-        ],
+        related: [...miniPostOperationQuery, 'date'],
     },
 )
 
@@ -321,6 +312,7 @@ export const operationArchive = new Operation<{
     queryArchive,
     ['type', 'slug', 'page'],
     ...commonOperationQuery,
+    'excerpt',
     'total',
     'limit',
     'pages',
@@ -329,19 +321,11 @@ export const operationArchive = new Operation<{
     {
         image: imageOperationQuery,
         posts: [
-            ...commonOperationQuery,
+            ...miniPostOperationQuery,
             'date',
-            'link',
+            'excerpt',
             {
                 tags: [...commonOperationQuery, 'page', 'type'],
-                images: [
-                    'id',
-                    {
-                        list: imageOperationQuery,
-                        background: imageOperationQuery,
-                        thumbnail: imageOperationQuery,
-                    },
-                ],
             },
         ],
     },
@@ -350,21 +334,7 @@ export const operationArchive = new Operation<{
 export const operationRecentPost = new Operation<{ id: string }>(
     queryRecent,
     [],
-    ...commonOperationQuery,
-    'date',
-    'link',
-    {
-        images: [
-            'id',
-            {
-                list: imageOperationQuery,
-                icon: imageOperationQuery,
-                title: imageOperationQuery,
-                background: imageOperationQuery,
-                thumbnail: imageOperationQuery,
-            },
-        ],
-    },
+    ...miniPostOperationQuery,
 )
 
 const queries = new GraphQLQueries(
@@ -389,89 +359,3 @@ export const graphqlSchema = getSchema(
     FlickrImage,
     TagCloud,
 )
-
-export const a = {
-    b: ``,
-    // import { gql } from '@apollo/client'
-    // import {
-    //     Image,
-    //     MenuItem,
-    //     Post,
-    //     TagCloud,
-    //     Term,
-    //     TermTypes,
-    // } from 'src/types/wordpress'
-    // import { FlickrImage } from 'src/types/flickr'
-
-    // export enum Fields {
-    //     BACKGROUNDS = 'backgrounds',
-    //     POST = 'post',
-    //     MENU = 'menu',
-    //     ARCHIVE = 'archive',
-    //     FLICKR = 'flickr',
-    //     TAG_CLOUD = 'tagCloud',
-    //     RECENT = 'recent',
-    // }
-
-    // export enum Types {}
-
-    // export const imageQueryNodes = `
-    //     url
-    //     mimeType
-    //     sizes {
-    //         key
-    //         file
-    //     }
-    // `
-
-    //             }
-    //         }
-    //     `,
-    // }
-
-    // export type BackgroundsReturnType = {
-    //     [Fields.BACKGROUNDS]: Image[]
-    // }
-
-    // export type PostReturnType = {
-    //     [Fields.POST]: Post
-    // }
-
-    // export type MenuReturnType = {
-    //     [Fields.MENU]: MenuItem[]
-    // }
-
-    // export type ArchiveReturnType = {
-    //     [Fields.ARCHIVE]: Term
-    // }
-
-    // export type FlickrReturnType = {
-    //     [Fields.FLICKR]: FlickrImage[]
-    // }
-
-    // export type TagCloudReturnType = {
-    //     [Fields.TAG_CLOUD]: TagCloud[]
-    // }
-
-    // export type RecentReturnType = {
-    //     [Fields.RECENT]: Post[]
-    // }
-
-    // export type ArchiveVariables = {
-    //     type: TermTypes
-    //     slug: string
-    //     page: number
-    // }
-
-    // export type MenuVariables = {
-    //     slug: string
-    // }
-
-    // export type PostVariables = {
-    //     slug: string
-    // }
-
-    // export type FlickrVariables = {
-    //     id: string
-    // }
-}

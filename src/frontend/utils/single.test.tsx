@@ -72,7 +72,7 @@ test('Series', () => {
 test('Test Share Twitter', () => {
     global.open = jest.fn()
     shareTwitter('title')
-    expect(global.open).toBeCalledWith(
+    expect(global.open).toHaveBeenCalledWith(
         expect.any(String),
         'Twitter',
         expect.any(String),
@@ -82,7 +82,7 @@ test('Test Share Twitter', () => {
 // test('Test Share Facebbook', () => {
 //     global.open = jest.fn()
 //     shareFacebook('title')
-//     expect(global.open).toBeCalledWith(
+//     expect(global.open).toHaveBeenCalledWith(
 //         expect.any(String),
 //         'Facebook',
 //         expect.any(String),

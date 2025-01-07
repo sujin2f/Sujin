@@ -13,7 +13,8 @@ export function Hamburger() {
                 setWrapperClass({
                     'wrapper--mobile-menu':
                         !wrapperClasses['wrapper--mobile-menu'],
-                })}
+                })
+            }
             type="button"
         >
             <HamburgerIcon />

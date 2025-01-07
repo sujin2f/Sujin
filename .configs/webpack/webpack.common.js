@@ -45,8 +45,6 @@ export default {
         new ESLintPlugin({
             extensions: ['js', 'jsx', 'ts', 'tsx'],
             fix: true,
-            // eslint-disable-next-line no-undef
-            emitWarning: process.env.NODE_ENV !== 'production',
             configType: 'flat',
         }),
     ],

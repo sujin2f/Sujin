@@ -15,10 +15,7 @@ function FrontPage() {
     const { returnClasses, wrapperElement } = useGlobalState('front-page')
 
     return (
-        <div
-            className={`${returnClasses} wrapper`}
-            ref={wrapperElement}
-        >
+        <div className={`${returnClasses} wrapper`} ref={wrapperElement}>
             <FixedHeader />
 
             <main>

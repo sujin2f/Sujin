@@ -7,7 +7,5 @@ import 'src/common/scss/base.scss'
 export function Wrapper(props: PropsWithChildren) {
     useFontLoader('Ubuntu')
 
-    return (<>
-        {props.children}
-            </>)
+    return <Fragment>{props.children}</Fragment>
 }

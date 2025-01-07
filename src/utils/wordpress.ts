@@ -1,12 +1,10 @@
-const PHPUnserialize = require('php-unserialize')
-
+import { unserialize as phpUnserialize } from 'php-unserialize'
 /**
  * The regular expression for an HTML element.
  *
  * @type {RegExp}
  */
 const htmlSplitRegex = (() => {
-     
     const comments =
         '!' + // Start of comment, after the <.
         '(?:' + // Unroll the loop: Consume everything until --> is found.
@@ -47,7 +45,6 @@ const htmlSplitRegex = (() => {
         ')'
 
     return new RegExp(regex)
-     
 })()
 
 /**
@@ -322,7 +319,7 @@ export const autop = (text: string, br = true): string => {
 }
 
 export const unserialize = <
-    T extends Record<string, any> | string | number | boolean,
+    T extends Record<string, unknown> | string | number | boolean,
 >(
     value: string,
     defaultValue: T,
@@ -331,9 +328,9 @@ export const unserialize = <
     if (typeof defaultValue !== 'string') {
         switch (typeof defaultValue) {
             case 'boolean':
-                return !!value as any
+                return !!value as T
             case 'number':
-                return (parseInt(value) as any) || defaultValue
+                return (parseInt(value) as T) || defaultValue
         }
     }
 
@@ -345,12 +342,12 @@ export const unserialize = <
         return value as T
     }
 
-    const unserialized = PHPUnserialize.unserialize(value)
-    if (key) {
-        if (Object.keys(unserialized).includes(key)) {
-            return unserialized[key]
+    const unserialized = phpUnserialize(value)
+    if (key && typeof unserialized === 'object') {
+        if (Object.keys(unserialized as object).includes(key)) {
+            return (unserialized as Record<string, T>)[key]
         }
         return defaultValue
     }
-    return unserialized
+    return unserialized as T
 }
