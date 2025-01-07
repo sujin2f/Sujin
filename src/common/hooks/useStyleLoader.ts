@@ -1,12 +1,11 @@
-import { GlobalState } from 'src/common/model/GlobalState'
 import { LoadingStatus } from 'src/common/constants/asset'
-import { useEffect, useState } from 'react'
 import { useGlobalState } from './useGlobalState'
 
-/*
+/**
  * External CSS loader
  * Even though multiple components call same css, this will embed it just once
  *
+ * @example
  * useStyleLoader('https://cdn.com/style.css')
  */
 export const useStyleLoader = (src: string) => {
