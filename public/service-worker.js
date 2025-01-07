@@ -1,5 +1,5 @@
-const PRECACHE = 'sujin-cache-v9'
-const RUNTIME = 'sujin-cache-runtime-v9'
+const PRECACHE = 'sujin-cache-v12.0.0'
+const RUNTIME = 'sujin-cache-runtime-v12.0.0'
 const PRE_CACHE_URLS = ['index.html', './']
 
 self.addEventListener('install', (event) => {

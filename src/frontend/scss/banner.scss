@@ -39,7 +39,7 @@ $page-header-height-small: 500px;
     }
 }
 
-.banner__title {
+.banner__header {
     position: relative;
     display: flex;
     align-items: center;
@@ -50,6 +50,12 @@ $page-header-height-small: 500px;
     z-index: 2;
 }
 
+.column--banner__title {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
 .banner__title__tag {
     font-size: 0.4em;
     font-weight: 200;
@@ -58,27 +64,32 @@ $page-header-height-small: 500px;
     padding: 0 0.4em 0.1em;
 }
 
-.banner__title__heading {
+.banner__title {
     display: flex;
     align-items: center;
     flex-direction: column;
-    font-size: 3em;
+    font-size: 2em;
     margin-bottom: 0.5em;
     line-height: 1;
     text-align: center;
+
+    @include mixin.medium {
+        font-size: 3em;
+    }
 }
 
-.banner__title__excerpt {
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+.banner__excerpt {
     background-color: var(--white);
     color: var(--black);
-    font-size: 1.3em;
+    font-size: 1em;
     font-weight: 400;
-    padding: 0 0.2em;
+    padding: 0.2em;
     text-align: center;
+    width: fit-content;
+
+    @include mixin.medium {
+        font-size: 1.3em;
+    }
 }
 
 .menu__container--banner {

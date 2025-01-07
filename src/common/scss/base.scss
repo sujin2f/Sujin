@@ -24,7 +24,7 @@ html {
 body {
     font-weight: 300;
     font-family: var(--font);
-    font-size: 11pt;
+    font-size: variable.$font-size;
     line-height: normal;
     color: var(--black);
 }
@@ -34,12 +34,35 @@ body {
     color: var(--white);
 }
 
+/**
+ * Heading selectors
+ */
+$size-h1: 1.5rem;
+#{mixin.headings()} {
+    text-transform: capitalize;
+    font-weight: 500;
+    padding: 0;
+    margin: 0;
+
+    small {
+        color: var(--gray);
+    }
+}
+
+@for $i from 1 through 6 {
+    h#{$i} {
+        font-size: $size-h1 - ($i * 0.1);
+    }
+}
+
+/**
+ * HTML <tags />
+ */
 strong {
     font-weight: 700;
 }
 
-a,
-.anchor {
+a {
     color: var(--primary);
     text-decoration: none;
 
@@ -56,46 +79,6 @@ p {
     }
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    text-transform: capitalize;
-    font-weight: 500;
-    padding: 0;
-    margin: 0;
-
-    small {
-        color: var(--gray);
-    }
-}
-
-h1 {
-    font-size: 1.5rem;
-}
-
-h2 {
-    font-size: 1.4rem;
-}
-
-h3 {
-    font-size: 1.3rem;
-}
-
-h4 {
-    font-size: 1.2rem;
-}
-
-h5 {
-    font-size: 1.1rem;
-}
-
-h6 {
-    font-size: 1rem;
-}
-
 button {
     background-color: transparent;
     border: none;
@@ -104,28 +87,46 @@ button {
 
 ul,
 ol {
+    margin: 0;
     padding-left: 2em;
 }
 
 dt {
+    margin: 0;
+    padding: 0;
     font-weight: 500;
+}
+
+dd {
+    margin: 0;
+    padding: 0;
 }
 
 code,
 kbd {
     font-family: monospace;
-    white-space: pre;
-    border: 1px solid var(--gray);
-    background-color: var(--light-gray);
-    display: inline-flex;
-    max-width: 100%;
-    word-wrap: break-word;
-    padding: 0.2em 0.3em;
-    overflow-x: scroll;
 }
 
-main {
-    line-height: 1.5;
+/**
+ * Inside <article /> tag
+ */
+article {
+    #{mixin.headings()} {
+        margin-bottom: 0.35em;
+    }
+
+    p,
+    ul,
+    ol,
+    dl,
+    img {
+        line-height: 1.8;
+        margin-bottom: 1.5em;
+    }
+
+    > *:last-child {
+        margin-bottom: 0;
+    }
 
     img {
         width: 100%;
@@ -134,6 +135,9 @@ main {
     }
 }
 
+/**
+ * .classes
+ */
 .strike_through {
     text-decoration: line-through;
 }
@@ -142,6 +146,9 @@ main {
     display: none;
 }
 
+/**
+ * @media (query) .classes
+ */
 .show-for-small {
     display: inherit !important;
 

@@ -5,7 +5,11 @@
     display: flex;
     flex-direction: row-reverse;
     transition: height 0.5s ease;
-    margin-bottom: 1em;
+    margin-bottom: 1.5em;
+
+    img {
+        margin-bottom: 0;
+    }
 }
 
 .carousel__picture {

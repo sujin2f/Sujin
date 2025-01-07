@@ -35,5 +35,11 @@ export default tseslint.config(
         },
     },
     eslint.configs.recommended,
-    tseslint.configs.recommended,
+    {
+        ...tseslint.configs.recommended,
+        rules: {
+            ...tseslint.configs.recommended.rules,
+            '@typescript-eslint/no-duplicate-enum-values': 'off',
+        },
+    },
 )

@@ -1,14 +1,7 @@
-/*
- * Content Component
- * components/single/Content
- */
-
 import React, { Fragment, PropsWithChildren } from 'react'
 
 import { parseContent } from 'src/frontend/utils/single'
 import { Post } from 'src/types/wordpress'
-
-import 'src/frontend/scss/content.scss'
 
 type Props = {
     post: Post

@@ -20,12 +20,14 @@ export const SocialShare = (props: Props) => {
     return (
         <nav className="social-share">
             <Button
+                vanilla
                 className="social-share__button social-share__button--twitter"
                 onClick={() => shareTwitter(title)}
             >
                 <Twitter />
             </Button>
             <Button
+                vanilla
                 className="social-share__button social-share__button--facebook"
                 onClick={() => shareFacebook(title, excerpt, thumbnail)}
             >

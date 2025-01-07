@@ -1,9 +1,8 @@
 {
     "name": "sujin",
-    "version": "11.0.0",
-    "description": "WordPress theme for sujinc.com",
+    "version": "12.0.0",
+    "description": "React + Node + WordPress theme for sujinc.com",
     "license": "MIT",
-    "main": ".build/production/server/index.js",
     "scripts": {
         "dev": "npm-run-all -s dev:clean dev:watch",
         "dev:clean": "rimraf .build/development/*",

@@ -1,3 +1,5 @@
+@use 'src/common/scss/mixin';
+
 .wrapper--front-page {
     main {
         margin-bottom: 0 !important;
@@ -17,25 +19,27 @@
         height: 100vh;
     }
 
-    .banner__title {
+    .banner__header {
         height: 100vh;
     }
 
-    .column--banner__title {
-        display: flex;
-        align-items: center;
-        flex-direction: column;
+    .banner__title {
+        width: 100%;
     }
 
-    .banner__title__heading {
-        width: 100%;
+    .banner__logo {
+        width: 50vw;
 
-        svg {
-            width: 30vw;
+        @include mixin.medium {
+            width: 20rem;
+        }
+
+        @include mixin.extra-large {
+            width: 20vw;
         }
     }
 
-    .banner__title__excerpt {
+    .banner__excerpt {
         width: fit-content;
     }
 
