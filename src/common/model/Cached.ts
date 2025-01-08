@@ -7,14 +7,19 @@ import { Singleton } from './Singleton'
  * Node Cache
  */
 export class Cached extends Singleton<Cached>() {
-    private cache: NodeCache
+    private readonly cache: NodeCache
+    public static readonly FAILED = 'FAILED TO CACHE'
 
     protected constructor() {
         super()
         this.cache = new NodeCache()
     }
 
-    public set<T>(key: string, value: T, ttl = DAY_IN_SECONDS): void {
+    public set<T>(key: string, value: T, ttl = DAY_IN_SECONDS) {
+        if (!value) {
+            this.cache.set<string>(key, Cached.FAILED, ttl)
+            return
+        }
         this.cache.set<T>(key, value, ttl)
     }
 
@@ -24,17 +29,34 @@ export class Cached extends Singleton<Cached>() {
 
     public async getOrExecute<T>(
         key: string,
-        callback: () => Promise<T>,
+        callback: () => Promise<Nullable<T>>,
+        force = false,
         ttl = DAY_IN_SECONDS,
     ): Promise<T> {
+        if (force) {
+            return (await callback()) || (Cached.FAILED as unknown as T)
+        }
+
         const get = this.get<T>(key)
         const result = get || (await callback())
 
-        this.set<T>(key, result, ttl)
+        if (!result) {
+            this.set<string>(key, Cached.FAILED, ttl)
+            return Cached.FAILED as unknown as T
+        }
+
+        if (!get) {
+            this.set<T>(key, result, ttl)
+        }
+
         return result
     }
 
     public del(key: string): void {
         this.cache.del(key)
+    }
+
+    public isFailed(value: unknown): boolean {
+        return value === Cached.FAILED
     }
 }

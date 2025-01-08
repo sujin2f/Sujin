@@ -13,7 +13,13 @@
         "rootDirs": ["src"],
         "baseUrl": ".",
         "paths": {
-            "src/*": ["src/*"]
+            "src/*": ["src/*"],
+            "@common/*": ["src/common/*"],
+            "@constants/*": ["src/constants/*"],
+            "@frontend/*": ["src/frontend/*"],
+            "@server/*": ["src/server/*"],
+            "@types/*": ["src/types/*"],
+            "@utils/*": ["src/utils/*"]
         },
         "esModuleInterop": true,
         "skipLibCheck": true,
