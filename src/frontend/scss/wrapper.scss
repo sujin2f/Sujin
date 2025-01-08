@@ -3,7 +3,7 @@
 $header-height: 48px;
 
 .wrapper {
-    --header-height: #{$header-height};
+    --header-height: 48px;
 
     main {
         min-height: calc(100vh);
@@ -18,10 +18,10 @@ $header-height: 48px;
 
         blockquote {
             background-image: url('src/frontend/images/quote.svg');
-            background-position: center 1em;
+            background-position: center var(--gap);
             background-repeat: no-repeat;
             background-size: 2em;
-            padding: 4em 1.2em 1em;
+            padding: 4em 1.2em var(--gap);
             background-color: var(--light-gray);
             margin: 0 0 1.5em;
 
@@ -44,7 +44,7 @@ $header-height: 48px;
             overflow-x: scroll;
             margin-bottom: 1.5em;
             box-sizing: border-box;
-            padding: 1em;
+            padding: var(--gap);
             background-color: var(--light-gray);
             width: calc(100vw - 2em);
 

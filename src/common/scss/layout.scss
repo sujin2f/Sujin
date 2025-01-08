@@ -1,33 +1,37 @@
 @use 'mixin';
 
-$width: calc((100% - 1em - (11 * 1em)) / 12);
+$width: calc((100% - (12 * var(--gap))) / 12);
 
+/**
+ * 12 Column Layout
+ * Pass --gap to adjust
+ */
 .row {
     display: flex;
     flex-wrap: wrap;
-    max-width: calc(var(--max-width) + 1em);
+    max-width: calc(var(--max-width) + var(--gap));
     margin: 0 auto;
-    padding: 0 0 0 1em;
+    padding: 0 0 0 var(--gap);
 
     &.row--full-width {
-        max-width: calc(100% + 1em);
-        width: calc(100% + 1em);
+        max-width: calc(100% + var(--gap));
+        width: calc(100% + var(--gap));
         padding: 0;
     }
 
     .column {
-        margin-right: 1em;
+        margin-right: var(--gap);
 
         @for $i from 1 through 12 {
             &.small-#{$i} {
-                width: calc(#{$width} * #{$i} + #{$i - 1}em);
+                width: calc((#{$width} * #{$i}) + (#{$i - 1} * var(--gap)));
             }
         }
 
         @for $i from 1 through 12 {
             @include mixin.medium {
                 &.medium-#{$i} {
-                    width: calc(#{$width} * #{$i} + #{$i - 1}em);
+                    width: calc((#{$width} * #{$i}) + (#{$i - 1} * var(--gap)));
                 }
             }
         }
@@ -35,7 +39,7 @@ $width: calc((100% - 1em - (11 * 1em)) / 12);
         @for $i from 1 through 12 {
             @include mixin.large {
                 &.large-#{$i} {
-                    width: calc(#{$width} * #{$i} + #{$i - 1}em);
+                    width: calc((#{$width} * #{$i}) + (#{$i - 1} * var(--gap)));
                 }
             }
         }
@@ -43,21 +47,23 @@ $width: calc((100% - 1em - (11 * 1em)) / 12);
         @for $i from 1 through 12 {
             @include mixin.extra-large {
                 &.larger-#{$i} {
-                    width: calc(#{$width} * #{$i} + #{$i - 1}em);
+                    width: calc((#{$width} * #{$i}) + (#{$i - 1} * var(--gap)));
                 }
             }
         }
 
         @for $i from 1 through 11 {
             &.small-offset-#{$i} {
-                margin-left: calc(#{$width} * #{$i} + #{$i}em);
+                margin-left: calc((#{$width} * #{$i}) + (#{$i} * var(--gap)));
             }
         }
 
         @for $i from 1 through 11 {
             @include mixin.medium {
                 &.medium-offset-#{$i} {
-                    margin-left: calc(#{$width} * #{$i} + #{$i}em);
+                    margin-left: calc(
+                        (#{$width} * #{$i}) + (#{$i} * var(--gap))
+                    );
                 }
             }
         }
@@ -65,7 +71,9 @@ $width: calc((100% - 1em - (11 * 1em)) / 12);
         @for $i from 1 through 11 {
             @include mixin.large {
                 &.large-offset-#{$i} {
-                    margin-left: calc(#{$width} * #{$i} + #{$i}em);
+                    margin-left: calc(
+                        (#{$width} * #{$i}) + (#{$i} * var(--gap))
+                    );
                 }
             }
         }
@@ -73,7 +81,9 @@ $width: calc((100% - 1em - (11 * 1em)) / 12);
         @for $i from 1 through 11 {
             @include mixin.extra-large {
                 &.larger-offset-#{$i} {
-                    margin-left: calc(#{$width} * #{$i} + #{$i}em);
+                    margin-left: calc(
+                        (#{$width} * #{$i}) + (#{$i} * var(--gap))
+                    );
                 }
             }
         }

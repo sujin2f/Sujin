@@ -1,5 +1,8 @@
 @use 'sass:color';
 
+/**
+ * Color
+ */
 $black: #0d121c;
 $dark-gray: color.adjust($black, $lightness: 10%);
 $gray: color.adjust($black, $lightness: 40%, $saturation: -30%);
@@ -12,6 +15,19 @@ $warning: #970000;
 $pastel-red: #f4aab9;
 $pastel-blue: #66ccff;
 
+/**
+ * Font
+ */
 $font-size: 11pt;
+$font-family: 'Ubuntu', 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial,
+    sans-serif;
+
+/**
+ * Size
+ */
 $header-height: 3.4rem;
 $max-width: 75rem;
+$medium: 40rem;
+$large: 64rem;
+$extra-large: 100rem;
+$gap: 1em;

@@ -1,0 +1,11 @@
+.widget--flickr {
+    --gap: 0.5em;
+
+    .card__text {
+        display: none;
+    }
+
+    .card__thumbnail {
+        aspect-ratio: 1;
+    }
+}

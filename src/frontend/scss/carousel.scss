@@ -68,8 +68,8 @@ $arrow-size: 3em;
     justify-content: center;
 
     svg {
-        width: calc(#{$arrow-size} - 1em);
-        height: calc(#{$arrow-size} - 1em);
+        width: calc(#{$arrow-size} - var(--gap));
+        height: calc(#{$arrow-size} - var(--gap));
         fill: var(--white);
     }
 }

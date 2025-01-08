@@ -34,7 +34,7 @@
 
 .footer__top {
     padding-top: 2em;
-    padding-bottom: 1em;
+    padding-bottom: var(--gap);
 
     .widget__heading {
         border-bottom: 1px solid var(--white);

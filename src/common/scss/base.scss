@@ -2,6 +2,9 @@
 @use 'mixin';
 
 :root {
+    /**
+     * Color
+    */
     --black: #{variable.$black};
     --dark-gray: #{variable.$dark-gray};
     --gray: #{variable.$gray};
@@ -11,10 +14,22 @@
     --primary: #{variable.$primary};
     --primary-dark: #{variable.$primary-dark};
     --warning: #{variable.$warning};
-    --font: 'Ubuntu', 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial,
-        sans-serif;
+
+    /**
+     * Font
+     */
+    --font-family: #{variable.$font-family};
+    --font-size: #{variable.$font-size};
+
+    /**
+     * Size
+     */
     --max-width: #{variable.$max-width};
     --header-height: #{variable.$header-height};
+    --gap: #{variable.$gap};
+    --medium: #{variable.$medium};
+    --large: #{variable.$large};
+    --extra-large: #{variable.$extra-large};
 }
 
 html {
@@ -23,8 +38,8 @@ html {
 
 body {
     font-weight: 300;
-    font-family: var(--font);
-    font-size: variable.$font-size;
+    font-family: var(--font-family);
+    font-size: var(--font-family);
     line-height: normal;
     color: var(--black);
 }

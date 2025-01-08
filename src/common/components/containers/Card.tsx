@@ -7,7 +7,7 @@ import { ShortMonthNames } from 'src/common/constants/datetime'
 import 'src/common/scss/card.scss'
 
 type Props = {
-    title: string
+    title?: string
     description?: string
     to: string
     time?: number
@@ -20,7 +20,7 @@ export const Card = (props: PropsWithChildren<Props>) => {
     return (
         <section className={className('card', props.className)}>
             <figure className="card__thumbnail">
-                <Link title={props.title} to={props.to}>
+                <Link title={props.title || ''} to={props.to}>
                     <div className="card__thumbnail__zoom"></div>
                     <div className="card__thumbnail__shadow"></div>
                     {time && (
@@ -49,21 +49,23 @@ export const Card = (props: PropsWithChildren<Props>) => {
                     </picture>
                 </Link>
             </figure>
-            <div className="card__text">
-                <h2 className="card__title">
-                    <Link
-                        title={props.title}
-                        to={props.to}
-                        className="card__link"
-                    >
-                        {props.title}
-                    </Link>
-                </h2>
-                {props.description && (
-                    <p className="card__description">{props.description}</p>
-                )}
-                {props.children && props.children}
-            </div>
+            {props.title && (
+                <div className="card__text">
+                    <h2 className="card__title">
+                        <Link
+                            title={props.title}
+                            to={props.to}
+                            className="card__link"
+                        >
+                            {props.title}
+                        </Link>
+                    </h2>
+                    {props.description && (
+                        <p className="card__description">{props.description}</p>
+                    )}
+                    {props.children && props.children}
+                </div>
+            )}
         </section>
     )
 }
