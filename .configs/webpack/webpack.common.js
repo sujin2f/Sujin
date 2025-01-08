@@ -37,6 +37,9 @@ export default {
         alias: createWebpackAliases({
             '@src': 'src',
         }),
+        fallback: {
+            fs: false,
+        },
     },
     plugins: [
         new WebpackManifestPlugin({
