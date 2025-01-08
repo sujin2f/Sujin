@@ -8,8 +8,11 @@ export const baseDir = path.resolve(
     '.build',
     process.env.NODE_ENV || '',
 )
-export const bundles = function () {
+export const bundles = () => {
     const manifest = path.resolve(baseDir, 'frontend', 'manifest.json')
     const raw = fs.readFileSync(manifest).toString()
     return JSON.parse(raw)
 }
+
+export const removeURLProtocol = (url: string) =>
+    url.replace(/(^\w+:|^)\/\//, '')

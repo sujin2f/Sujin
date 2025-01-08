@@ -5,7 +5,7 @@ import { Footer } from '@frontend/scenes/layout/Footer'
 import { className as getClassName } from '@common/utils/string'
 import { useGlobalState } from '@frontend/hooks/useGlobalState'
 
-import 'src/frontend/scss/dev-tool.scss'
+import '@frontend/scss/dev-tool.scss'
 
 export function DevTool(props: PropsWithChildren) {
     const { returnClasses, wrapperElement } = useGlobalState('devtool')

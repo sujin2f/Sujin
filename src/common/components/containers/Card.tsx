@@ -4,7 +4,7 @@ import { className } from '@common/utils/string'
 import { Link } from 'react-router-dom'
 import { ShortMonthNames } from '@common/constants/datetime'
 
-import 'src/common/scss/card.scss'
+import '@common/scss/card.scss'
 
 type Props = {
     title?: string

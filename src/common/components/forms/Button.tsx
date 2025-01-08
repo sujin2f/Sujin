@@ -5,7 +5,7 @@ import { filterEmpty } from '@common/utils/object'
 import { className as getClassName } from '@common/utils/string'
 import { MouseEventCallback } from '@common/types/react'
 
-import 'src/common/scss/form.scss'
+import '@common/scss/form.scss'
 
 type Props = {
     title?: string | number

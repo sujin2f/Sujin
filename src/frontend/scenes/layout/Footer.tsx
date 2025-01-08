@@ -8,7 +8,7 @@ import { Flickr } from '@frontend/components/widget/Flickr'
 import { WidgetTitle } from '@frontend/components/widget/WidgetTitle'
 import { FooterBottom } from './FooterBottom'
 
-import 'src/frontend/scss/footer.scss'
+import '@frontend/scss/footer.scss'
 
 export function Footer() {
     return (

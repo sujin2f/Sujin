@@ -6,7 +6,7 @@ import { Column } from '@common/components/layout/Column'
 import { Post } from '@project/types/wordpress'
 import Prev from '@frontend/images/prev.svg'
 
-import 'src/frontend/scss/prev-next.scss'
+import '@frontend/scss/prev-next.scss'
 
 interface Props {
     prevNext?: {

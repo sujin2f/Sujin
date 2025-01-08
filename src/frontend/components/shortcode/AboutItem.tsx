@@ -6,7 +6,7 @@ import {
     removeExtraParagraph,
 } from '@frontend/utils/single'
 
-import 'src/frontend/scss/about-item.scss'
+import '@frontend/scss/about-item.scss'
 
 interface Props {
     value: AttrMatch

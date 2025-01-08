@@ -2,7 +2,7 @@ import React, { createElement, JSX, PropsWithChildren, useState } from 'react'
 import { CloseButton } from '@common/components/forms/CloseButton'
 import { className } from '@common/utils/string'
 
-import 'src/common/scss/callout.scss'
+import '@common/scss/callout.scss'
 
 type Props = {
     className?: string

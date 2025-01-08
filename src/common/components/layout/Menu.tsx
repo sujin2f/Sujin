@@ -6,7 +6,7 @@ import { className } from '@common/utils/string'
 
 import Arrow from '@common/images/icons/arrow_drop_up.svg'
 
-import 'src/common/scss/menu.scss'
+import '@common/scss/menu.scss'
 
 type ComponentProps = {
     readonly className?: string

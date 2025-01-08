@@ -17,7 +17,7 @@ import Logo from '@frontend/images/logo-top-bar.svg'
 import Facebook from '@frontend/images/facebook.svg'
 import Twitter from '@frontend/images/twitter.svg'
 
-import 'src/frontend/scss/fixed-header.scss'
+import '@frontend/scss/fixed-header.scss'
 import { setWrapperClasses } from '@frontend/store/actions'
 
 export function FixedHeader() {

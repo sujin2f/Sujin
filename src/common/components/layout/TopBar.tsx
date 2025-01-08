@@ -4,7 +4,7 @@ import { Row } from './Row'
 import { Column } from './Column'
 import { className as getClassName } from '@common/utils/string'
 
-import 'src/common/scss/top-bar.scss'
+import '@common/scss/top-bar.scss'
 
 type Props = {
     readonly left?: JSX.Element

@@ -6,7 +6,7 @@ import { useDocumentClick } from '@common/hooks/useDocumentClick'
 import { useKeyDown } from '@common/hooks/useKeyDown'
 import { KeyCodes } from '@common/constants/keycode'
 
-import 'src/common/scss/hamburger.scss'
+import '@common/scss/hamburger.scss'
 
 type Props = {
     menu: MenuItem[]

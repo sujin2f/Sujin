@@ -7,14 +7,14 @@ import { Public } from '@frontend/scenes/public'
 import { NotFound } from '@frontend/scenes/public/NotFound'
 import { Loading } from '@frontend/components/Loading'
 
-const FrontPage = lazy(() => import('src/frontend/scenes/FrontPage'))
-const Archive = lazy(() => import('src/frontend/scenes/public/Archive'))
-const Page = lazy(() => import('src/frontend/scenes/public/Page'))
-const Post = lazy(() => import('src/frontend/scenes/public/Post'))
-const CaseTool = lazy(() => import('src/frontend/scenes/devtool/CaseTool'))
-const TextSort = lazy(() => import('src/frontend/scenes/devtool/TextSort'))
+const FrontPage = lazy(() => import('@frontend/scenes/FrontPage'))
+const Archive = lazy(() => import('@frontend/scenes/public/Archive'))
+const Page = lazy(() => import('@frontend/scenes/public/Page'))
+const Post = lazy(() => import('@frontend/scenes/public/Post'))
+const CaseTool = lazy(() => import('@frontend/scenes/devtool/CaseTool'))
+const TextSort = lazy(() => import('@frontend/scenes/devtool/TextSort'))
 
-import 'src/frontend/scss/wrapper.scss'
+import '@frontend/scss/wrapper.scss'
 
 export function Router() {
     return (

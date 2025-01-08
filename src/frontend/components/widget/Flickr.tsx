@@ -4,7 +4,7 @@ import { Column } from '@common/components/layout/Column'
 import { Row } from '@common/components/layout/Row'
 import { useFlickr } from '@frontend/hooks/useFlickr'
 
-import 'src/frontend/scss/flickr.scss'
+import '@frontend/scss/flickr.scss'
 
 export function Flickr() {
     const { flickr } = useFlickr({ id: window.sujin.FLICKR_ID || '' })

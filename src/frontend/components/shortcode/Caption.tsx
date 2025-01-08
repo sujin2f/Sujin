@@ -4,7 +4,7 @@ import { className as getClassName } from '@common/utils/string'
 import { AttrMatch } from '@project/types/wordpress'
 import { replaceQuotes as getter } from '@frontend/utils/single'
 
-import 'src/frontend/scss/caption.scss'
+import '@frontend/scss/caption.scss'
 
 interface Props {
     value: AttrMatch

@@ -13,7 +13,6 @@
         "rootDirs": ["../src/server"],
         "baseUrl": ".",
         "paths": {
-            "src/*": ["../src/*"],
             "@common/*": ["src/common/*"],
             "@constants/*": ["src/constants/*"],
             "@frontend/*": ["src/frontend/*"],

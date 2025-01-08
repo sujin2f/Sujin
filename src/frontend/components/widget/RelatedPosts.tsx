@@ -9,7 +9,7 @@ import { Post } from '@project/types/wordpress'
 
 import DefaultThumbnail from '@frontend/images/thumbnail-default.png'
 
-import 'src/frontend/scss/related-posts.scss'
+import '@frontend/scss/related-posts.scss'
 
 interface Props {
     items?: Post[]

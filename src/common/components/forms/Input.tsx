@@ -12,7 +12,7 @@ import { filterEmpty } from '@common/utils/object'
 import { generateUUID } from '@common/utils/string'
 import { className as getClassName } from '@common/utils/string'
 
-import 'src/common/scss/form.scss'
+import '@common/scss/form.scss'
 
 type Props = {
     readonly label?: string

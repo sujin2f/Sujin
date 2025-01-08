@@ -1,8 +1,8 @@
 import React, { Fragment, PropsWithChildren } from 'react'
 import { useFontLoader } from '@common/hooks/useFontLoader'
 
-import 'src/common/scss/normalize.css'
-import 'src/common/scss/base.scss'
+import '@common/scss/normalize.css'
+import '@common/scss/base.scss'
 
 export function Wrapper(props: PropsWithChildren) {
     useFontLoader('Ubuntu')

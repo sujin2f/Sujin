@@ -5,7 +5,7 @@ import { WidgetTitle } from '@frontend/components/widget/WidgetTitle'
 import { useRecentPosts } from '@frontend/hooks/useRecentPosts'
 import DefaultThumbnail from '@frontend/images/thumbnail-default.png'
 
-import 'src/frontend/scss/recent-post.scss'
+import '@frontend/scss/recent-post.scss'
 
 type Props = {
     current: number

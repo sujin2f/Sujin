@@ -2,11 +2,12 @@ import React, { MouseEvent, useState, useCallback, useMemo } from 'react'
 
 import { Button } from '@common/components/forms/Button'
 import { getPrev, getNext } from '@common/utils/array'
+import { removeURLProtocol } from '@common/utils/path'
 
 import { AttrMatch } from '@project/types/wordpress'
 import Arrow from '@frontend/images/prev.svg'
 
-import 'src/frontend/scss/carousel.scss'
+import '@frontend/scss/carousel.scss'
 
 interface Props {
     value: AttrMatch
@@ -43,6 +44,7 @@ export const Carousel = (props: Props) => {
 
     return (
         <section className="carousel" aria-label="Gallery">
+            {/* Arrow Navigation */}
             <nav className="carousel__arrow__container">
                 <Button
                     className="carousel__arrow carousel__arrow__prev"
@@ -65,8 +67,8 @@ export const Carousel = (props: Props) => {
 
             <picture className="carousel__picture">
                 <img
-                    src={images[index]}
-                    alt={images[index]}
+                    src={removeURLProtocol(images[index])}
+                    alt={removeURLProtocol(images[index])}
                     role="presentation"
                 />
             </picture>
@@ -74,7 +76,7 @@ export const Carousel = (props: Props) => {
             <nav className="carousel__nav">
                 {images.map((image, key) => (
                     <img
-                        src={image}
+                        src={removeURLProtocol(image)}
                         className={`${key === index && 'current'}`}
                         role="presentation"
                         key={`carousel-${image}-${key}`}

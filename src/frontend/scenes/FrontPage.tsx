@@ -8,7 +8,7 @@ import { useGlobalState } from '@frontend/hooks/useGlobalState'
 
 import Logo from '@frontend/images/logo.svg'
 
-import 'src/frontend/scss/front-page.scss'
+import '@frontend/scss/front-page.scss'
 
 function FrontPage() {
     const background = useFrontPage()

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 import { Term } from '@project/types/wordpress'
 
-import 'src/frontend/scss/tags.scss'
+import '@frontend/scss/tags.scss'
 
 interface Props {
     items: Term[]

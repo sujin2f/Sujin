@@ -35,7 +35,6 @@ export default {
         modules: ['src', 'node_modules'],
         extensions: ['.js', '.jsx', '.ts', '.tsx', '.css', '.scss'],
         alias: createWebpackAliases({
-            src: 'src',
             '@common': 'src/common',
             '@constants': 'src/constants',
             '@frontend': 'src/frontend',

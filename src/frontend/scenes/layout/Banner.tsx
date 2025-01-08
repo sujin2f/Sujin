@@ -10,7 +10,7 @@ import { Image } from '@project/types/wordpress'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 
-import 'src/frontend/scss/banner.scss'
+import '@frontend/scss/banner.scss'
 
 type Props = {
     readonly background?: Image
