@@ -1,12 +1,12 @@
-import { Post } from '@src/types/wordpress'
-import { getPost } from '@src/utils/mysql/posts'
-import { updateHit } from '@src/utils/mysql/tag-cloud'
-import { Cached } from '@src/common/model/Cached'
-import { MySQL } from '@src/utils/mysql/mysqld'
-import { MySQLQuery } from '@src/constants/mysql-query'
-import { ErrorMessage } from '@src/constants/errors'
-import { GetOperationArgsType } from '@src/common/graphql'
-import { operationMenu } from '@src/constants/graphql'
+import { Post } from 'src/types/wordpress'
+import { getPost } from 'src/utils/mysql/posts'
+import { updateHit } from 'src/utils/mysql/tag-cloud'
+import { Cached } from 'src/common/model/Cached'
+import { MySQL } from 'src/utils/mysql/mysqld'
+import { MySQLQuery } from 'src/constants/mysql-query'
+import { ErrorMessage } from 'src/constants/errors'
+import { GetOperationArgsType } from 'src/common/graphql'
+import { operationMenu } from 'src/constants/graphql'
 
 export const post = async ({
     slug,

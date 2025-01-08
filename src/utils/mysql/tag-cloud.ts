@@ -1,6 +1,6 @@
-import { MySQLQuery } from '@src/constants/mysql-query'
-import { TagCloud } from '@src/types/wordpress'
-import { MySQL } from '@src/utils/mysql/mysqld'
+import { MySQLQuery } from 'src/constants/mysql-query'
+import { TagCloud } from 'src/types/wordpress'
+import { MySQL } from 'src/utils/mysql/mysqld'
 
 export const getTagCloud = async (): Promise<TagCloud[]> => {
     let counts: number[] = []

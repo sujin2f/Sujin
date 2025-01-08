@@ -27,8 +27,8 @@ if (nodeEnv === 'development') {
     dotEnvConfig({ path: path.resolve(rootDir, `.env`) })
 }
 
-import { staticRouter } from '@src/server/routes/static'
-import { graphqlRouter } from '@src/server/routes/graphql'
+import { staticRouter } from 'src/server/routes/static'
+import { graphqlRouter } from 'src/server/routes/graphql'
 
 // Create a new express application instance
 const app: express.Application = express()

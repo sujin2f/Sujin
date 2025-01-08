@@ -1,17 +1,17 @@
 import React, { Fragment } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { Column } from '@src/common/components/layout/Column'
-import { Row } from '@src/common/components/layout/Row'
+import { Column } from 'src/common/components/layout/Column'
+import { Row } from 'src/common/components/layout/Row'
 
-import { Banner } from '@src/frontend/scenes/layout/Banner'
-import { Tags } from '@src/frontend/components/Tags'
-import { Content } from '@src/frontend/components/Content'
-import { SocialShare } from '@src/frontend/components/SocialShare'
-import { usePost } from '@src/frontend/hooks/usePost'
-import { NotFound } from '@src/frontend/scenes/public/NotFound'
+import { Banner } from 'src/frontend/scenes/layout/Banner'
+import { Tags } from 'src/frontend/components/Tags'
+import { Content } from 'src/frontend/components/Content'
+import { SocialShare } from 'src/frontend/components/SocialShare'
+import { usePost } from 'src/frontend/hooks/usePost'
+import { NotFound } from 'src/frontend/scenes/public/NotFound'
 
-import DefaultThumbnail from '@src/frontend/images/thumbnail-default.png'
+import DefaultThumbnail from 'src/frontend/images/thumbnail-default.png'
 
 function Page() {
     const { slug } = useParams<{ slug: string }>()

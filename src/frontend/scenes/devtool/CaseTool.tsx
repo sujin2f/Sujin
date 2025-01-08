@@ -1,11 +1,11 @@
 import React, { useState, useCallback, Fragment } from 'react'
 
-import { Banner } from '@src/frontend/scenes/layout/Banner'
-import { Column } from '@src/common/components/layout/Column'
-import { Row } from '@src/common/components/layout/Row'
-import { SideMenu } from '@src/frontend/scenes/devtool/SideMenu'
-import { Input } from '@src/common/components/forms/Input'
-import { copyText } from '@src/common/utils/device'
+import { Banner } from 'src/frontend/scenes/layout/Banner'
+import { Column } from 'src/common/components/layout/Column'
+import { Row } from 'src/common/components/layout/Row'
+import { SideMenu } from 'src/frontend/scenes/devtool/SideMenu'
+import { Input } from 'src/common/components/forms/Input'
+import { copyText } from 'src/common/utils/device'
 
 import {
     preserveCase,
@@ -17,7 +17,7 @@ import {
     titleCase,
     pathCase,
     dotCase,
-} from '@src/frontend/utils/dev-tools'
+} from 'src/frontend/utils/dev-tools'
 import { Link } from 'react-router-dom'
 
 const CASES: Record<string, (text: string[]) => string> = {

@@ -1,8 +1,8 @@
 // import { useQuery } from '@apollo/client'
 // import { useContext, useEffect } from 'react'
-// import { GraphQuery, BackgroundsReturnType } from '@src/constants/graphql'
-// import { Context, ContextType } from '@src/frontend/store'
-// import { setPageInfo } from '@src/frontend/store/actions'
+// import { GraphQuery, BackgroundsReturnType } from 'src/constants/graphql'
+// import { Context, ContextType } from 'src/frontend/store'
+// import { setPageInfo } from 'src/frontend/store/actions'
 
 export const use404 = () => {
     // const [, dispatch] = useContext(Context) as ContextType

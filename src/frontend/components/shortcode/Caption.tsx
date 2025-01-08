@@ -1,10 +1,10 @@
 import React from 'react'
 
-import { className as getClassName } from '@src/common/utils/string'
-import { AttrMatch } from '@src/types/wordpress'
-import { replaceQuotes as getter } from '@src/frontend/utils/single'
+import { className as getClassName } from 'src/common/utils/string'
+import { AttrMatch } from 'src/types/wordpress'
+import { replaceQuotes as getter } from 'src/frontend/utils/single'
 
-import '@src/frontend/scss/caption.scss'
+import 'src/frontend/scss/caption.scss'
 
 interface Props {
     value: AttrMatch

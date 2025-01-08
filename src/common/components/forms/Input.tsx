@@ -8,11 +8,11 @@ import React, {
     useRef,
     createElement,
 } from 'react'
-import { filterEmpty } from '@src/common/utils/object'
-import { generateUUID } from '@src/common/utils/string'
-import { className as getClassName } from '@src/common/utils/string'
+import { filterEmpty } from 'src/common/utils/object'
+import { generateUUID } from 'src/common/utils/string'
+import { className as getClassName } from 'src/common/utils/string'
 
-import '@src/common/scss/form.scss'
+import 'src/common/scss/form.scss'
 
 type Props = {
     readonly label?: string

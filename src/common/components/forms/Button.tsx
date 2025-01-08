@@ -1,11 +1,11 @@
 import React, { useCallback, useMemo, PropsWithChildren } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { filterEmpty } from '@src/common/utils/object'
-import { className as getClassName } from '@src/common/utils/string'
-import { MouseEventCallback } from '@src/common/types/react'
+import { filterEmpty } from 'src/common/utils/object'
+import { className as getClassName } from 'src/common/utils/string'
+import { MouseEventCallback } from 'src/common/types/react'
 
-import '@src/common/scss/form.scss'
+import 'src/common/scss/form.scss'
 
 type Props = {
     title?: string | number

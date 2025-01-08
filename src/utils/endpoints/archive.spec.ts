@@ -1,7 +1,7 @@
 // yarn test archive.spec.ts
 
 import { term } from '../../../.configs/jest/fixture'
-import { TermTypes } from '@src/types/wordpress'
+import { TermTypes } from 'src/types/wordpress'
 import { archive } from './archive'
 
 const query = jest.fn().mockImplementation(async (query, defaultValue) => {

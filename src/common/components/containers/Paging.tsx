@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 
-import '@src/common/scss/paging.scss'
+import 'src/common/scss/paging.scss'
 
 interface Props {
     totalPages: number

@@ -1,17 +1,17 @@
 import React, { Fragment, JSX } from 'react'
 
-import { Menu } from '@src/common/components/layout/Menu'
-import { ImageType } from '@src/constants/wp'
-import { MenuNames } from '@src/constants/mysql-query'
-import { Loading } from '@src/frontend/components/Loading'
-import { getImageMap } from '@src/utils/common'
-import { useMenu } from '@src/frontend/hooks/useMenu'
-import { Image } from '@src/types/wordpress'
-import { Row } from '@src/common/components/layout/Row'
-import { Column } from '@src/common/components/layout/Column'
+import { Menu } from 'src/common/components/layout/Menu'
+import { ImageType } from 'src/constants/wp'
+import { MenuNames } from 'src/constants/mysql-query'
+import { Loading } from 'src/frontend/components/Loading'
+import { getImageMap } from 'src/utils/common'
+import { useMenu } from 'src/frontend/hooks/useMenu'
+import { Image } from 'src/types/wordpress'
+import { Row } from 'src/common/components/layout/Row'
+import { Column } from 'src/common/components/layout/Column'
 
-import '@src/frontend/scss/banner.scss'
-import { removeURLProtocol } from '@src/common/utils/path'
+import 'src/frontend/scss/banner.scss'
+import { removeURLProtocol } from 'src/common/utils/path'
 
 type Props = {
     readonly background?: Image

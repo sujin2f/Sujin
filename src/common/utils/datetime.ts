@@ -1,4 +1,4 @@
-import { FullMonthNames, ShortMonthNames } from '@src/common/constants/datetime'
+import { FullMonthNames, ShortMonthNames } from 'src/common/constants/datetime'
 
 /*
  * Get YYYY-MM-DD format

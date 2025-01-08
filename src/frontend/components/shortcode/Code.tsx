@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 
-import { AttrMatch } from '@src/types/wordpress'
-import { replaceQuotes as getter } from '@src/frontend/utils/single'
-import { useStyleLoader } from '@src/common/hooks/useStyleLoader'
-import { useScriptLoader } from '@src/common/hooks/useScriptLoader'
-import { LoadingStatus } from '@src/common/constants/asset'
+import { AttrMatch } from 'src/types/wordpress'
+import { replaceQuotes as getter } from 'src/frontend/utils/single'
+import { useStyleLoader } from 'src/common/hooks/useStyleLoader'
+import { useScriptLoader } from 'src/common/hooks/useScriptLoader'
+import { LoadingStatus } from 'src/common/constants/asset'
 
 interface Props {
     value: AttrMatch

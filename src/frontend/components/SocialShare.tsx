@@ -1,10 +1,10 @@
 import React from 'react'
 
-import { Button } from '@src/common/components/forms/Button'
-import { shareTwitter, shareFacebook } from '@src/frontend/utils/single'
+import { Button } from 'src/common/components/forms/Button'
+import { shareTwitter, shareFacebook } from 'src/frontend/utils/single'
 
-import Twitter from '@src/frontend/images/twitter.svg'
-import Facebook from '@src/frontend/images/facebook.svg'
+import Twitter from 'src/frontend/images/twitter.svg'
+import Facebook from 'src/frontend/images/facebook.svg'
 
 import '/src/frontend/scss/social-share.scss'
 

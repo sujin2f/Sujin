@@ -13,7 +13,7 @@
         "rootDirs": ["src"],
         "baseUrl": ".",
         "paths": {
-            "@src/*": ["src/*"]
+            "src/*": ["src/*"]
         },
         "esModuleInterop": true,
         "skipLibCheck": true,

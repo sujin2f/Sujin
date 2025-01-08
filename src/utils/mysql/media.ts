@@ -1,10 +1,10 @@
-import { isEmpty } from '@src/common/utils/object'
-import { MetaKeys, MySQLQuery } from '@src/constants/mysql-query'
-import { Image, ImageSizes, Post, MediaRawData } from '@src/types/wordpress'
-import { Nullable } from '@src/types/common'
-import { getPost } from '@src/utils/mysql/posts'
-import { getPostMeta } from '@src/utils/mysql/post-meta'
-import { MySQL } from '@src/utils/mysql/mysqld'
+import { isEmpty } from 'src/common/utils/object'
+import { MetaKeys, MySQLQuery } from 'src/constants/mysql-query'
+import { Image, ImageSizes, Post, MediaRawData } from 'src/types/wordpress'
+import { Nullable } from 'src/types/common'
+import { getPost } from 'src/utils/mysql/posts'
+import { getPostMeta } from 'src/utils/mysql/post-meta'
+import { MySQL } from 'src/utils/mysql/mysqld'
 
 export const getMedia = async (postId: number): Promise<Nullable<Image>> => {
     const result = {} as Image

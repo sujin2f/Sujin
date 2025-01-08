@@ -1,8 +1,8 @@
-import { MySQLQuery } from '@src/constants/mysql-query'
-import { Nullable } from '@src/types/common'
-import { OptionValue } from '@src/types/wordpress'
-import { MySQL } from '@src/utils/mysql/mysqld'
-import { unserialize } from '@src/utils/wordpress'
+import { MySQLQuery } from 'src/constants/mysql-query'
+import { Nullable } from 'src/types/common'
+import { OptionValue } from 'src/types/wordpress'
+import { MySQL } from 'src/utils/mysql/mysqld'
+import { unserialize } from 'src/utils/wordpress'
 
 export const getOption = async <T extends OptionValue>(
     optionName: string,

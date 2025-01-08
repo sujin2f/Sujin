@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef } from 'react'
-// import { TOP_MENU_SCROLLED_POSITION } from '@src/frontend/constants/common'
-import { Context, ContextType } from '@src/frontend/store'
-import type { WrapperClasses } from '@src/frontend/store/type'
+// import { TOP_MENU_SCROLLED_POSITION } from 'src/frontend/constants/common'
+import { Context, ContextType } from 'src/frontend/store'
+import type { WrapperClasses } from 'src/frontend/store/type'
 import { TOP_MENU_SCROLLED_POSITION } from '../constants/common'
 import { setWrapperClasses } from '../store/actions'
 

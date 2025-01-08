@@ -1,3 +1,4 @@
+import webpack from 'webpack'
 import ESLintPlugin from 'eslint-webpack-plugin'
 import { WebpackManifestPlugin } from 'webpack-manifest-plugin'
 import { entryPath } from './paths.js'
@@ -35,11 +36,8 @@ export default {
         modules: ['src', 'node_modules'],
         extensions: ['.js', '.jsx', '.ts', '.tsx', '.css', '.scss'],
         alias: createWebpackAliases({
-            '@src': 'src',
+            src: 'src',
         }),
-        fallback: {
-            fs: false,
-        },
     },
     plugins: [
         new WebpackManifestPlugin({
@@ -49,6 +47,9 @@ export default {
             extensions: ['js', 'jsx', 'ts', 'tsx'],
             fix: true,
             configType: 'flat',
+        }),
+        new webpack.DefinePlugin({
+            'process.env': JSON.stringify(process.env),
         }),
     ],
 

@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from 'react'
 
-import { useScriptLoader } from '@src/common/hooks/useScriptLoader'
-import { LoadingStatus } from '@src/common/constants/asset'
+import { useScriptLoader } from 'src/common/hooks/useScriptLoader'
+import { LoadingStatus } from 'src/common/constants/asset'
 
-import { AttrMatch } from '@src/types/wordpress'
-import { replaceQuotes } from '@src/frontend/utils/single'
+import { AttrMatch } from 'src/types/wordpress'
+import { replaceQuotes } from 'src/frontend/utils/single'
 
 interface Props {
     value: AttrMatch

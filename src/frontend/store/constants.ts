@@ -1,4 +1,4 @@
-import type { State } from '@src/frontend/store/type'
+import type { State } from 'src/frontend/store/type'
 
 export enum ActionType {
     SET_CURRENT_PAGE = 'sujin/v9/SET_CURRENT_PAGE',

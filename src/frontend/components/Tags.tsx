@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 
-import { Term } from '@src/types/wordpress'
+import { Term } from 'src/types/wordpress'
 
-import '@src/frontend/scss/tags.scss'
+import 'src/frontend/scss/tags.scss'
 
 interface Props {
     items: Term[]

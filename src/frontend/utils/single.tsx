@@ -1,14 +1,14 @@
 import React, { Fragment, JSX, createElement } from 'react'
 
-import { Named, AttrMatch } from '@src/types/wordpress'
-import { Gist } from '@src/frontend/components/shortcode/Gist'
-import { TweetEmbed } from '@src/frontend/components/shortcode/TweetEmbed'
-import { AboutItem } from '@src/frontend/components/shortcode/AboutItem'
-import { Carousel } from '@src/frontend/components/shortcode/Carousel'
-import { Caption } from '@src/frontend/components/shortcode/Caption'
-import { Code } from '@src/frontend/components/shortcode/Code'
+import { Named, AttrMatch } from 'src/types/wordpress'
+import { Gist } from 'src/frontend/components/shortcode/Gist'
+import { TweetEmbed } from 'src/frontend/components/shortcode/TweetEmbed'
+import { AboutItem } from 'src/frontend/components/shortcode/AboutItem'
+import { Carousel } from 'src/frontend/components/shortcode/Carousel'
+import { Caption } from 'src/frontend/components/shortcode/Caption'
+import { Code } from 'src/frontend/components/shortcode/Code'
 
-import DEFAULT_BACKGROUND from '@src/frontend/images/thumbnail.svg'
+import DEFAULT_BACKGROUND from 'src/frontend/images/thumbnail.svg'
 
 interface UrlArgs {
     [key: string]: string

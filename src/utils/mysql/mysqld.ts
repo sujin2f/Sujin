@@ -1,6 +1,6 @@
 import { default as mysqld } from 'promise-mysql'
-import { isEmpty } from '@src/common/utils/object'
-import { Nullable } from '@src/types/common'
+import { isEmpty } from 'src/common/utils/object'
+import { Nullable } from 'src/types/common'
 
 export class MySQL {
     private mysql: Nullable<mysqld.Connection>

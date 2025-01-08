@@ -1,13 +1,13 @@
 import React, { MouseEvent, useState, useCallback, useMemo } from 'react'
 
-import { Button } from '@src/common/components/forms/Button'
-import { getPrev, getNext } from '@src/common/utils/array'
-import { removeURLProtocol } from '@src/common/utils/path'
+import { Button } from 'src/common/components/forms/Button'
+import { getPrev, getNext } from 'src/common/utils/array'
+import { removeURLProtocol } from 'src/common/utils/path'
 
-import { AttrMatch } from '@src/types/wordpress'
-import Arrow from '@src/frontend/images/prev.svg'
+import { AttrMatch } from 'src/types/wordpress'
+import Arrow from 'src/frontend/images/prev.svg'
 
-import '@src/frontend/scss/carousel.scss'
+import 'src/frontend/scss/carousel.scss'
 
 interface Props {
     value: AttrMatch

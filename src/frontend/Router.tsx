@@ -1,20 +1,20 @@
 import React, { lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
 
-import { Wrapper } from '@src/common/components/layout/Wrapper'
-import { DevTool } from '@src/frontend/scenes/devtool'
-import { Public } from '@src/frontend/scenes/public'
-import { NotFound } from '@src/frontend/scenes/public/NotFound'
-import { Loading } from '@src/frontend/components/Loading'
+import { Wrapper } from 'src/common/components/layout/Wrapper'
+import { DevTool } from 'src/frontend/scenes/devtool'
+import { Public } from 'src/frontend/scenes/public'
+import { NotFound } from 'src/frontend/scenes/public/NotFound'
+import { Loading } from 'src/frontend/components/Loading'
 
-const FrontPage = lazy(() => import('@src/frontend/scenes/FrontPage'))
-const Archive = lazy(() => import('@src/frontend/scenes/public/Archive'))
-const Page = lazy(() => import('@src/frontend/scenes/public/Page'))
-const Post = lazy(() => import('@src/frontend/scenes/public/Post'))
-const CaseTool = lazy(() => import('@src/frontend/scenes/devtool/CaseTool'))
-const TextSort = lazy(() => import('@src/frontend/scenes/devtool/TextSort'))
+const FrontPage = lazy(() => import('src/frontend/scenes/FrontPage'))
+const Archive = lazy(() => import('src/frontend/scenes/public/Archive'))
+const Page = lazy(() => import('src/frontend/scenes/public/Page'))
+const Post = lazy(() => import('src/frontend/scenes/public/Post'))
+const CaseTool = lazy(() => import('src/frontend/scenes/devtool/CaseTool'))
+const TextSort = lazy(() => import('src/frontend/scenes/devtool/TextSort'))
 
-import '@src/frontend/scss/wrapper.scss'
+import 'src/frontend/scss/wrapper.scss'
 
 export function Router() {
     return (
