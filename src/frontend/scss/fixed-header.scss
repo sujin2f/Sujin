@@ -1,7 +1,7 @@
 @use 'sass:math';
 @use 'src/common/scss/mixin';
 
-$logo-width: 84px;
+$logo-width: 100px;
 $social-height: 26px;
 
 @mixin fixed-header {
@@ -105,7 +105,7 @@ $social-height: 26px;
 
 .top-bar__logo__container {
     @include fixed-header;
-    width: initial;
+    width: $logo-width + 2px;
     left: 50%;
     transform: translateX(-50%);
     overflow: hidden;
@@ -117,8 +117,7 @@ $social-height: 26px;
 
     svg {
         fill: var(--white);
-        height: var(--header-height);
-        width: auto;
+        width: $logo-width + 2px;
     }
 }
 
