@@ -1,7 +1,0 @@
-@use 'wrapper';
-
-.gist {
-    width: 100%;
-    min-height: calc(100vh - #{wrapper.$header-height});
-    margin-bottom: 1.5em;
-}

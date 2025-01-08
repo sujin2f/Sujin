@@ -2,7 +2,7 @@
 import { Term, TermTypes } from 'src/types/wordpress'
 import { getTermBy } from 'src/utils/mysql/term'
 import { updateHit } from 'src/utils/mysql/tag-cloud'
-import { Cached } from 'src/utils/cached'
+import { Cached } from 'src/common/model/Cached'
 import { GetOperationArgsType } from 'src/common/graphql'
 import { operationArchive } from 'src/constants/graphql'
 

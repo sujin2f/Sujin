@@ -69,7 +69,7 @@
             position: static;
 
             .menu__link {
-                padding-left: 1em;
+                padding-left: var(--gap);
             }
         }
     }

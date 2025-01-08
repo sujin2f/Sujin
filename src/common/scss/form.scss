@@ -16,7 +16,7 @@
 .form__input {
     width: 100%;
     padding: 0.5em;
-    margin-bottom: 1em;
+    margin-bottom: var(--gap);
     border-width: 1px;
     border-style: solid;
     border-color: var(--gray);
@@ -63,12 +63,12 @@
     font-style: italic;
     font-size: 0.9em;
     color: var(--gray);
-    margin-bottom: 1em;
+    margin-bottom: var(--gap);
     line-height: 1.3em;
 }
 
 fieldset {
-    margin-bottom: 1em;
+    margin-bottom: var(--gap);
 
     > *:last-child {
         margin-bottom: 0;

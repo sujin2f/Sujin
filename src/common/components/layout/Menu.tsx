@@ -1,12 +1,11 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import { MenuItem as TypeMenuItem } from 'src/common/types/menu'
-import { className } from 'src/common/utils/string'
+import type { MenuItem as TypeMenuItem } from '../../types/menu'
+import { className } from '../../utils/string'
 
-import Arrow from 'src/common/images/icons/arrow_drop_up.svg'
-
-import 'src/common/scss/menu.scss'
+import Arrow from '../../images/icons/arrow_drop_up.svg'
+import '../../scss/menu.scss'
 
 type ComponentProps = {
     readonly className?: string

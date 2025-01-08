@@ -11,6 +11,7 @@ import { Row } from 'src/common/components/layout/Row'
 import { Column } from 'src/common/components/layout/Column'
 
 import 'src/frontend/scss/banner.scss'
+import { removeURLProtocol } from 'src/common/utils/string'
 
 type Props = {
     readonly background?: Image
@@ -83,7 +84,11 @@ export function Banner(props: Props) {
                             />
                         ))}
 
-                        <img alt="" role="presentation" src={background?.url} />
+                        <img
+                            alt=""
+                            role="presentation"
+                            src={removeURLProtocol(background.url)}
+                        />
                     </picture>
                 )}
 
@@ -126,7 +131,7 @@ export function Banner(props: Props) {
                         alt=""
                         className="banner__icon"
                         role="presentation"
-                        src={icon?.url}
+                        src={removeURLProtocol(icon.url)}
                     />
                 </picture>
             ) : null}

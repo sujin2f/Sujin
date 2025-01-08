@@ -1,17 +1,19 @@
+@use 'variable';
+
 @mixin medium {
-    @media print, screen and (min-width: 40rem) {
+    @media print, screen and (min-width: variable.$medium) {
         @content;
     }
 }
 
 @mixin large {
-    @media print, screen and (min-width: 64rem) {
+    @media print, screen and (min-width: variable.$large) {
         @content;
     }
 }
 
 @mixin extra-large {
-    @media print, screen and (min-width: 100rem) {
+    @media print, screen and (min-width: variable.$extra-large) {
         @content;
     }
 }

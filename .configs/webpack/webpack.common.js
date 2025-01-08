@@ -1,3 +1,4 @@
+import webpack from 'webpack'
 import ESLintPlugin from 'eslint-webpack-plugin'
 import { WebpackManifestPlugin } from 'webpack-manifest-plugin'
 import { entryPath } from './paths.js'

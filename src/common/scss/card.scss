@@ -1,7 +1,7 @@
 @use 'mixin';
 
 .card {
-    margin-bottom: 1.5em;
+    margin-bottom: var(--gap);
 }
 
 .card__thumbnail__zoom {

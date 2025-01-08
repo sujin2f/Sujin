@@ -3,8 +3,6 @@ import React from 'react'
 import { AttrMatch } from 'src/types/wordpress'
 import { replaceQuotes as getter } from 'src/frontend/utils/single'
 
-import 'src/frontend/scss/gist.scss'
-
 interface Props {
     value: AttrMatch
 }

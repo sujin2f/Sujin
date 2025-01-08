@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { flickr } from 'src/constants/flickr-default'
 import { FlickrImage, FlickrResponse } from 'src/types/flickr'
 
 export const getFlickr = async (id: string): Promise<FlickrImage[]> => {
@@ -13,6 +14,12 @@ export const getFlickr = async (id: string): Promise<FlickrImage[]> => {
                 media: item.media.m,
             }))
         })
-        .catch((e) => console.log(e))
-    return flickrs || []
+        .catch((e) => {
+            console.log(e)
+            return flickr.items.map((item) => ({
+                ...item,
+                media: item.media.m,
+            }))
+        })
+    return flickrs
 }

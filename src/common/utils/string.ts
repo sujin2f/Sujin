@@ -49,3 +49,6 @@ export const className = (...input: unknown[]) =>
         .filter((s) => s)
         .map((s) => (s as string).toString().trim())
         .join(' ')
+
+export const removeURLProtocol = (url: string) =>
+    url.replace(/(^\w+:|^)\/\//, '//')

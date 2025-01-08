@@ -6,7 +6,7 @@
     "moduleNameMapper": {
         "\\.(css|scss)$": "<rootDir>/.configs/jest/__mocks__/styleMock.js",
         "\\.svg$": "<rootDir>/.configs/jest/__mocks__/styleMock.js",
-        "src/common/(.*)": "<rootDir>/src/common/$1"
+        "src/*": "<rootDir>src/$1"
     },
     "collectCoverage": true,
     "collectCoverageFrom": [

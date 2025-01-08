@@ -2,8 +2,8 @@
     position: relative;
     border: 1px solid var(--gray);
     background-color: var(--light-gray);
-    margin: 0 0 1em 0;
-    padding: 1em;
+    margin: 0 0 var(--gap) 0;
+    padding: var(--gap);
 
     .button--close {
         position: absolute;

@@ -51,3 +51,8 @@ services:
         command: yarn prod:server
         ports:
             - 80:80
+
+networks:
+    default:
+        name: bridge
+        external: true
