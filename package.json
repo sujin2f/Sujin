@@ -37,7 +37,6 @@
         "@types/express": "^5.0.0",
         "@types/jest": "^29.2.3",
         "@types/module-alias": "^2.0.1",
-        "@types/mongoose": "^5.11.97",
         "@types/mysql": "^2.15.21",
         "@types/node": "^22.10.5",
         "@types/react": "^19.0.2",

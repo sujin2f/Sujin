@@ -1,8 +1,8 @@
-import { MenuItem } from '@project/types/wordpress'
-import { getMenu } from '@utils/mysql/menu'
-import { Cached } from '@common/model/Cached'
-import { GetOperationArgsType } from '@common/graphql'
-import { operationMenu } from '@constants/graphql'
+import { MenuItem } from '@src/types/wordpress'
+import { getMenu } from '@src/utils/mysql/menu'
+import { Cached } from '@src/common/model/Cached'
+import { GetOperationArgsType } from '@src/common/graphql'
+import { operationMenu } from '@src/constants/graphql'
 
 export const menu = async ({
     slug,

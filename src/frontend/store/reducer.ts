@@ -1,6 +1,6 @@
-import type { Action, State } from '@frontend/store/type'
-import { initialState } from '@frontend/store/constants'
-import { ActionType } from '@frontend/store/constants'
+import type { Action, State } from '@src/frontend/store/type'
+import { initialState } from '@src/frontend/store/constants'
+import { ActionType } from '@src/frontend/store/constants'
 
 export const reducer = (state: State = initialState, action: Action): State => {
     switch (action.type) {

@@ -1,7 +1,7 @@
-import { OptionValue } from '@project/types/wordpress'
-import { MySQLQuery } from '@constants/mysql-query'
-import { MySQL } from '@utils/mysql/mysqld'
-import { unserialize } from '@utils/wordpress'
+import { OptionValue } from '@src/types/wordpress'
+import { MySQLQuery } from '@src/constants/mysql-query'
+import { MySQL } from '@src/utils/mysql/mysqld'
+import { unserialize } from '@src/utils/wordpress'
 
 type PostMeta = {
     meta_key: string

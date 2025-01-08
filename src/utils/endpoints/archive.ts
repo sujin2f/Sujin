@@ -1,10 +1,10 @@
-// import { ArchiveVariables } from '@constants/graphql'
-import { Term, TermTypes } from '@project/types/wordpress'
-import { getTermBy } from '@utils/mysql/term'
-import { updateHit } from '@utils/mysql/tag-cloud'
-import { Cached } from '@common/model/Cached'
-import { GetOperationArgsType } from '@common/graphql'
-import { operationArchive } from '@constants/graphql'
+// import { ArchiveVariables } from '@src/constants/graphql'
+import { Term, TermTypes } from '@src/types/wordpress'
+import { getTermBy } from '@src/utils/mysql/term'
+import { updateHit } from '@src/utils/mysql/tag-cloud'
+import { Cached } from '@src/common/model/Cached'
+import { GetOperationArgsType } from '@src/common/graphql'
+import { operationArchive } from '@src/constants/graphql'
 
 export type ArchiveVariables = {
     type: TermTypes

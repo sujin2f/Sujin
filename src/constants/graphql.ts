@@ -3,11 +3,11 @@ import {
     GraphQLObjectType,
     GraphQLString,
     GraphQLBoolean,
-} from '@common/graphql/object-type'
-import { Operation } from '@common/graphql/operation'
-import { GraphQLQueries, GraphQLQuery } from '@common/graphql/query-type'
-import { getSchema } from '@common/graphql/schema'
-import { TermTypes } from '@project/types/wordpress'
+} from '@src/common/graphql/object-type'
+import { Operation } from '@src/common/graphql/operation'
+import { GraphQLQueries, GraphQLQuery } from '@src/common/graphql/query-type'
+import { getSchema } from '@src/common/graphql/schema'
+import { TermTypes } from '@src/types/wordpress'
 
 const list = true
 const required = true

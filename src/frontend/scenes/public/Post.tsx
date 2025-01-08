@@ -1,21 +1,21 @@
 import React, { Fragment } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { Column } from '@common/components/layout/Column'
-import { Row } from '@common/components/layout/Row'
+import { Column } from '@src/common/components/layout/Column'
+import { Row } from '@src/common/components/layout/Row'
 
-import { Banner } from '@frontend/scenes/layout/Banner'
-import { Content } from '@frontend/components/Content'
-import { PrevNext } from '@frontend/components/PrevNext'
-import { RecentPosts } from '@frontend/components/widget/RecentPosts'
-import { RelatedPosts } from '@frontend/components/widget/RelatedPosts'
-import { SocialShare } from '@frontend/components/SocialShare'
-import { Tags } from '@frontend/components/Tags'
-import { GoogleAdvert } from '@frontend/components/widget/GoogleAdvert'
-import { NotFound } from '@frontend/scenes/public/NotFound'
-import { usePost } from '@frontend/hooks/usePost'
+import { Banner } from '@src/frontend/scenes/layout/Banner'
+import { Content } from '@src/frontend/components/Content'
+import { PrevNext } from '@src/frontend/components/PrevNext'
+import { RecentPosts } from '@src/frontend/components/widget/RecentPosts'
+import { RelatedPosts } from '@src/frontend/components/widget/RelatedPosts'
+import { SocialShare } from '@src/frontend/components/SocialShare'
+import { Tags } from '@src/frontend/components/Tags'
+import { GoogleAdvert } from '@src/frontend/components/widget/GoogleAdvert'
+import { NotFound } from '@src/frontend/scenes/public/NotFound'
+import { usePost } from '@src/frontend/hooks/usePost'
 
-import DefaultThumbnail from '@frontend/images/thumbnail-default.png'
+import DefaultThumbnail from '@src/frontend/images/thumbnail-default.png'
 
 function Post() {
     const { slug } = useParams<{ slug: string }>()

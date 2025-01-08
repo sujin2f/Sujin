@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react'
 
-import { Card } from '@common/components/containers/Card'
-import { WidgetTitle } from '@frontend/components/widget/WidgetTitle'
-import { useRecentPosts } from '@frontend/hooks/useRecentPosts'
-import DefaultThumbnail from '@frontend/images/thumbnail-default.png'
+import { Card } from '@src/common/components/containers/Card'
+import { WidgetTitle } from '@src/frontend/components/widget/WidgetTitle'
+import { useRecentPosts } from '@src/frontend/hooks/useRecentPosts'
+import DefaultThumbnail from '@src/frontend/images/thumbnail-default.png'
 
-import '@frontend/scss/recent-post.scss'
+import '@src/frontend/scss/recent-post.scss'
 
 type Props = {
     current: number

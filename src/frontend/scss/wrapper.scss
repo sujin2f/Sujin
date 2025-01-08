@@ -1,4 +1,4 @@
-@use '@common/scss/mixin';
+@use '@src/common/scss/mixin';
 
 $header-height: 48px;
 
@@ -17,7 +17,7 @@ $header-height: 48px;
         margin-bottom: 1.5em;
 
         blockquote {
-            background-image: url('@frontend/images/quote.svg');
+            background-image: url('@src/frontend/images/quote.svg');
             background-position: center var(--gap);
             background-repeat: no-repeat;
             background-size: 2em;

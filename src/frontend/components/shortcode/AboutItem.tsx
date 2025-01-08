@@ -1,12 +1,12 @@
 import React from 'react'
 
-import { AttrMatch } from '@project/types/wordpress'
+import { AttrMatch } from '@src/types/wordpress'
 import {
     replaceQuotes as getter,
     removeExtraParagraph,
-} from '@frontend/utils/single'
+} from '@src/frontend/utils/single'
 
-import '@frontend/scss/about-item.scss'
+import '@src/frontend/scss/about-item.scss'
 
 interface Props {
     value: AttrMatch

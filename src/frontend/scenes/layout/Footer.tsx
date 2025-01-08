@@ -1,14 +1,14 @@
 import React from 'react'
 
-import { Column } from '@common/components/layout/Column'
-import { Row } from '@common/components/layout/Row'
-import { GoogleAdvert } from '@frontend/components/widget/GoogleAdvert'
-import { TagCloud } from '@frontend/components/widget/TagCloud'
-import { Flickr } from '@frontend/components/widget/Flickr'
-import { WidgetTitle } from '@frontend/components/widget/WidgetTitle'
+import { Column } from '@src/common/components/layout/Column'
+import { Row } from '@src/common/components/layout/Row'
+import { GoogleAdvert } from '@src/frontend/components/widget/GoogleAdvert'
+import { TagCloud } from '@src/frontend/components/widget/TagCloud'
+import { Flickr } from '@src/frontend/components/widget/Flickr'
+import { WidgetTitle } from '@src/frontend/components/widget/WidgetTitle'
 import { FooterBottom } from './FooterBottom'
 
-import '@frontend/scss/footer.scss'
+import '@src/frontend/scss/footer.scss'
 
 export function Footer() {
     return (

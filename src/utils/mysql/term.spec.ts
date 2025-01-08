@@ -1,7 +1,7 @@
 // yarn test term.spec.ts
 
 import { term } from '../../../.configs/jest/fixture'
-import { TermTypes } from '@project/types/wordpress'
+import { TermTypes } from '@src/types/wordpress'
 import { getTaxonomies, getTermBy } from './term'
 
 const query = jest.fn().mockImplementation(async (query, defaultValue) => {

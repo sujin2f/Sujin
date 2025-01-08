@@ -1,5 +1,5 @@
 import { useCallback, useRef } from 'react'
-import { debounce } from '@common/utils/device'
+import { debounce } from '@src/common/utils/device'
 
 /**
  * Not to execute the single click when onClick and onDoubleClick are combined

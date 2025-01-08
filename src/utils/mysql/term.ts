@@ -1,8 +1,8 @@
-import { MySQLQuery, PER_PAGE } from '@constants/mysql-query'
-import { Nullable } from '@project/types/common'
-import { TermTypes } from '@project/types/wordpress'
-import { Term } from '@project/types/wordpress'
-import { MySQL } from '@utils/mysql/mysqld'
+import { MySQLQuery, PER_PAGE } from '@src/constants/mysql-query'
+import { Nullable } from '@src/types/common'
+import { TermTypes } from '@src/types/wordpress'
+import { Term } from '@src/types/wordpress'
+import { MySQL } from '@src/utils/mysql/mysqld'
 import { getMedia } from './media'
 import { getPostsBy } from './posts'
 

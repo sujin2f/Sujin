@@ -1,7 +1,7 @@
 import React, { Fragment, RefObject, ChangeEvent, useCallback } from 'react'
 import { className, generateUUID } from '../../utils/string'
 
-import '@common/scss/form.scss'
+import '@src/common/scss/form.scss'
 
 type OptGroup = Record<string, string>
 

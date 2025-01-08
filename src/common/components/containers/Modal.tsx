@@ -6,10 +6,10 @@ import React, {
     Fragment,
 } from 'react'
 
-import { CloseButton } from '@common/components/forms/CloseButton'
-import { Button } from '@common/components/forms/Button'
-import { Overlay } from '@common/components/containers/Overlay'
-import { MouseEventCallback } from '@common/types/react'
+import { CloseButton } from '@src/common/components/forms/CloseButton'
+import { Button } from '@src/common/components/forms/Button'
+import { Overlay } from '@src/common/components/containers/Overlay'
+import { MouseEventCallback } from '@src/common/types/react'
 
 type Props = {
     closeModal?: MouseEventCallback

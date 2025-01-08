@@ -4,9 +4,9 @@
  * @module constants
  */
 
-import { formatDate } from '@common/utils/datetime'
-import { Post } from '@project/types/wordpress'
-import { format } from '@utils/common'
+import { formatDate } from '@src/common/utils/datetime'
+import { Post } from '@src/types/wordpress'
+import { format } from '@src/utils/common'
 
 const POST_FIELDS = `
     posts.ID AS id,

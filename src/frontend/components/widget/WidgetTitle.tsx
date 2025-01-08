@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from 'react'
 
-import '@frontend/scss/widget.scss'
+import '@src/frontend/scss/widget.scss'
 
 export function WidgetTitle(props: PropsWithChildren) {
     return (

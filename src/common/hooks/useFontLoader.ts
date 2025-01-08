@@ -1,4 +1,4 @@
-import { LoadingStatus } from '@common/constants/asset'
+import { LoadingStatus } from '@src/common/constants/asset'
 import { useGlobalState } from './useGlobalState'
 
 const usePreConnect = () => {

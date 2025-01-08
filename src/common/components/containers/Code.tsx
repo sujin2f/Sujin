@@ -2,7 +2,7 @@ import React, { PropsWithChildren, useMemo } from 'react'
 import { generateUUID } from '../../utils/string'
 import { className as getClassName } from '../../utils/string'
 
-import '@common/scss/code.scss'
+import '@src/common/scss/code.scss'
 import { trimStart } from '../../utils/array'
 
 type Props = {

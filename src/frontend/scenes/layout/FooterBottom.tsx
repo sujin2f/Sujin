@@ -1,10 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import { Column } from '@common/components/layout/Column'
-import { Row } from '@common/components/layout/Row'
+import { Column } from '@src/common/components/layout/Column'
+import { Row } from '@src/common/components/layout/Row'
 
-import Logo from '@frontend/images/logo.svg'
+import Logo from '@src/frontend/images/logo.svg'
 
 export function FooterBottom() {
     return (

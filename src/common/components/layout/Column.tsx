@@ -1,7 +1,7 @@
 import { PropsWithChildren, createElement } from 'react'
-import { className } from '@common/utils/string'
+import { className } from '@src/common/utils/string'
 
-import '@common/scss/layout.scss'
+import '@src/common/scss/layout.scss'
 
 type OneToTwelve = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12
 type OneToEleven = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11

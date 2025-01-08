@@ -1,14 +1,14 @@
 import React from 'react'
 
-import { FixedHeader } from '@frontend/scenes/layout/FixedHeader'
-import { Banner } from '@frontend/scenes/layout/Banner'
+import { FixedHeader } from '@src/frontend/scenes/layout/FixedHeader'
+import { Banner } from '@src/frontend/scenes/layout/Banner'
 
-import { useFrontPage } from '@frontend/hooks/useFrontPage'
-import { useGlobalState } from '@frontend/hooks/useGlobalState'
+import { useFrontPage } from '@src/frontend/hooks/useFrontPage'
+import { useGlobalState } from '@src/frontend/hooks/useGlobalState'
 
-import Logo from '@frontend/images/logo.svg'
+import Logo from '@src/frontend/images/logo.svg'
 
-import '@frontend/scss/front-page.scss'
+import '@src/frontend/scss/front-page.scss'
 
 function FrontPage() {
     const background = useFrontPage()

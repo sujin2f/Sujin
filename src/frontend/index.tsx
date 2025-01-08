@@ -1,11 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import * as serviceWorker from '@frontend/serviceWorker'
+import * as serviceWorker from '@src/frontend/serviceWorker'
 import { BrowserRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
-import { Router } from '@frontend/Router'
-import { Store } from '@frontend/store'
+import { Router } from '@src/frontend/Router'
+import { Store } from '@src/frontend/store'
 
 const queryClient = new QueryClient()
 

@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { flickr } from '@constants/flickr-default'
-import { FlickrImage, FlickrResponse } from '@project/types/flickr'
+import { flickr } from '@src/constants/flickr-default'
+import { FlickrImage, FlickrResponse } from '@src/types/flickr'
 
 export const getFlickr = async (id: string): Promise<FlickrImage[]> => {
     const flickrs = await axios
