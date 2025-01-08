@@ -1,10 +1,11 @@
 import React, { PropsWithChildren } from 'react'
 
-import { className } from '@common/utils/string'
+import { className } from '../../utils/string'
 import { Link } from 'react-router-dom'
-import { ShortMonthNames } from '@common/constants/datetime'
+import { ShortMonthNames } from '../../constants/datetime'
+import { removeURLProtocol } from '../../utils/path'
 
-import '@common/scss/card.scss'
+import '../../scss/card.scss'
 
 type Props = {
     title?: string
@@ -41,7 +42,7 @@ export const Card = (props: PropsWithChildren<Props>) => {
                     )}
                     <picture className="card__image__container">
                         <img
-                            src={props.image}
+                            src={removeURLProtocol(props.image)}
                             role="presentation"
                             alt={props.title}
                             className="card__image"
