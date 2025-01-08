@@ -1,8 +1,8 @@
 import React, { PropsWithChildren } from 'react'
 
-import { className } from 'src/common/utils/string'
+import { className } from '@common/utils/string'
 import { Link } from 'react-router-dom'
-import { ShortMonthNames } from 'src/common/constants/datetime'
+import { ShortMonthNames } from '@common/constants/datetime'
 
 import 'src/common/scss/card.scss'
 

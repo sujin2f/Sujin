@@ -1,7 +1,7 @@
 import React, { useState, useRef, ChangeEvent, KeyboardEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import Magnify from 'src/frontend/images/magnify.svg'
+import Magnify from '@frontend/images/magnify.svg'
 
 export function Search() {
     const [opened, setOpened] = useState<boolean>(false)

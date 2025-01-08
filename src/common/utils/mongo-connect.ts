@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { Error } from 'src/common/model/Error'
+import { Error } from '@common/model/Error'
 
 export const mongoConnect = async (): Promise<typeof mongoose> => {
     const host = process.env.MONGO || 'localhost:27017'

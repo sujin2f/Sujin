@@ -1,10 +1,10 @@
 import React, { MouseEvent, useState, useCallback, useMemo } from 'react'
 
-import { Button } from 'src/common/components/forms/Button'
-import { getPrev, getNext } from 'src/common/utils/array'
+import { Button } from '@common/components/forms/Button'
+import { getPrev, getNext } from '@common/utils/array'
 
-import { AttrMatch } from 'src/types/wordpress'
-import Arrow from 'src/frontend/images/prev.svg'
+import { AttrMatch } from '@project/types/wordpress'
+import Arrow from '@frontend/images/prev.svg'
 
 import 'src/frontend/scss/carousel.scss'
 

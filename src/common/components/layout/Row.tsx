@@ -1,5 +1,5 @@
 import { JSX, PropsWithChildren, createElement } from 'react'
-import { className } from 'src/common/utils/string'
+import { className } from '@common/utils/string'
 
 import 'src/common/scss/layout.scss'
 

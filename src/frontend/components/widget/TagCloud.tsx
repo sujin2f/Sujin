@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import { useTagCloud } from 'src/frontend/hooks/useTagCloud'
+import { useTagCloud } from '@frontend/hooks/useTagCloud'
 import 'src/frontend/scss/tag-cloud.scss'
 
 export function TagCloud() {

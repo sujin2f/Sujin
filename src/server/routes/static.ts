@@ -6,17 +6,17 @@
 import express, { Request } from 'express'
 import path from 'path'
 
-import { TermTypes } from 'src/types/wordpress'
-import { archive } from 'src/utils/endpoints/archive'
-import { post } from 'src/utils/endpoints/post'
-import { DEV_TOOL_SEO } from 'src/constants/menu-devtool'
-import { rootDir } from 'src/common/utils/path'
+import { TermTypes } from '@project/types/wordpress'
+import { archive } from '@utils/endpoints/archive'
+import { post } from '@utils/endpoints/post'
+import { DEV_TOOL_SEO } from '@constants/menu-devtool'
+import { rootDir } from '@common/utils/path'
 import {
     publicParam,
     assetParam,
     GetTemplateVar,
     showReact,
-} from 'src/common/utils/server-route'
+} from '@common/utils/server-route'
 
 const staticRouter = express.Router()
 

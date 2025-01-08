@@ -18,7 +18,7 @@
             "@constants/*": ["src/constants/*"],
             "@frontend/*": ["src/frontend/*"],
             "@server/*": ["src/server/*"],
-            "@types/*": ["src/types/*"],
+            "@project/types/*": ["src/types/*"],
             "@utils/*": ["src/utils/*"]
         },
         "esModuleInterop": true,

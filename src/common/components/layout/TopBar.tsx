@@ -2,7 +2,7 @@ import React, { JSX, PropsWithChildren } from 'react'
 
 import { Row } from './Row'
 import { Column } from './Column'
-import { className as getClassName } from 'src/common/utils/string'
+import { className as getClassName } from '@common/utils/string'
 
 import 'src/common/scss/top-bar.scss'
 

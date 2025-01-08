@@ -1,13 +1,19 @@
-import { MySQLQuery, PER_PAGE } from 'src/constants/mysql-query'
-import { PostType } from 'src/constants/wp'
-import { Post, Term, ImageKeys, Image, TermTypes } from 'src/types/wordpress'
-import { Nullable } from 'src/types/common'
-import { dateToPrettyUrl } from 'src/utils/common'
-import { autop } from 'src/utils/wordpress'
-import { MySQL } from 'src/utils/mysql/mysqld'
-import { getPostMeta } from 'src/utils/mysql/post-meta'
-import { getTaxonomies } from 'src/utils/mysql/term'
-import { getMedia } from 'src/utils/mysql/media'
+import { MySQLQuery, PER_PAGE } from '@constants/mysql-query'
+import { PostType } from '@constants/wp'
+import {
+    Post,
+    Term,
+    ImageKeys,
+    Image,
+    TermTypes,
+} from '@project/types/wordpress'
+import { Nullable } from '@project/types/common'
+import { dateToPrettyUrl } from '@utils/common'
+import { autop } from '@utils/wordpress'
+import { MySQL } from '@utils/mysql/mysqld'
+import { getPostMeta } from '@utils/mysql/post-meta'
+import { getTaxonomies } from '@utils/mysql/term'
+import { getMedia } from '@utils/mysql/media'
 
 const getPostLink = (post: Post): string => {
     switch (post.type) {

@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { useGlobalState } from 'src/frontend/hooks/useGlobalState'
-import HamburgerIcon from 'src/frontend/images/hamburger.svg'
+import { useGlobalState } from '@frontend/hooks/useGlobalState'
+import HamburgerIcon from '@frontend/images/hamburger.svg'
 
 export function Hamburger() {
     const { wrapperClasses, setWrapperClass } = useGlobalState()

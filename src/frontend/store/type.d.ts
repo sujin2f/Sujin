@@ -1,4 +1,4 @@
-import { ActionType } from 'src/frontend/store/constants'
+import { ActionType } from '@frontend/store/constants'
 
 export type WrapperClasses = {
     'wrapper--scrolled': boolean

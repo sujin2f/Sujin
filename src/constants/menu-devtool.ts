@@ -1,4 +1,4 @@
-import { MenuItem } from 'src/types/wordpress'
+import { MenuItem } from '@project/types/wordpress'
 
 export const DEV_TOOL_SEO: Record<
     string,

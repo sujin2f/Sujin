@@ -1,11 +1,11 @@
 import React, { lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
 
-import { Wrapper } from 'src/common/components/layout/Wrapper'
-import { DevTool } from 'src/frontend/scenes/devtool'
-import { Public } from 'src/frontend/scenes/public'
-import { NotFound } from 'src/frontend/scenes/public/NotFound'
-import { Loading } from 'src/frontend/components/Loading'
+import { Wrapper } from '@common/components/layout/Wrapper'
+import { DevTool } from '@frontend/scenes/devtool'
+import { Public } from '@frontend/scenes/public'
+import { NotFound } from '@frontend/scenes/public/NotFound'
+import { Loading } from '@frontend/components/Loading'
 
 const FrontPage = lazy(() => import('src/frontend/scenes/FrontPage'))
 const Archive = lazy(() => import('src/frontend/scenes/public/Archive'))

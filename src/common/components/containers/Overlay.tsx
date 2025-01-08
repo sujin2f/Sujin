@@ -5,8 +5,8 @@ import React, {
     CSSProperties,
     useCallback,
 } from 'react'
-import { MouseEventCallback } from 'src/common/types/react'
-import { className } from 'src/common/utils/string'
+import { MouseEventCallback } from '@common/types/react'
+import { className } from '@common/utils/string'
 
 type Props = PropsWithChildren<{
     className?: string

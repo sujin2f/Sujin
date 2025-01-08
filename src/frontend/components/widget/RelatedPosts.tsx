@@ -1,13 +1,13 @@
 import React from 'react'
 
-import { Column } from 'src/common/components/layout/Column'
-import { Row } from 'src/common/components/layout/Row'
-import { Card } from 'src/common/components/containers/Card'
-import { WidgetTitle } from 'src/frontend/components/widget/WidgetTitle'
+import { Column } from '@common/components/layout/Column'
+import { Row } from '@common/components/layout/Row'
+import { Card } from '@common/components/containers/Card'
+import { WidgetTitle } from '@frontend/components/widget/WidgetTitle'
 
-import { Post } from 'src/types/wordpress'
+import { Post } from '@project/types/wordpress'
 
-import DefaultThumbnail from 'src/frontend/images/thumbnail-default.png'
+import DefaultThumbnail from '@frontend/images/thumbnail-default.png'
 
 import 'src/frontend/scss/related-posts.scss'
 

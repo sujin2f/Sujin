@@ -1,24 +1,24 @@
 import React, { useCallback, useContext } from 'react'
 import { Link } from 'react-router-dom'
 
-import { TopBar } from 'src/common/components/layout/TopBar'
-import { Menu } from 'src/common/components/layout/Menu'
-import { Column } from 'src/common/components/layout/Column'
-import { Row } from 'src/common/components/layout/Row'
-import { Context, ContextType } from 'src/frontend/store'
+import { TopBar } from '@common/components/layout/TopBar'
+import { Menu } from '@common/components/layout/Menu'
+import { Column } from '@common/components/layout/Column'
+import { Row } from '@common/components/layout/Row'
+import { Context, ContextType } from '@frontend/store'
 
-import { Hamburger } from 'src/frontend/scenes/layout/Hamburger'
-import { Search } from 'src/frontend/scenes/layout/Search'
+import { Hamburger } from '@frontend/scenes/layout/Hamburger'
+import { Search } from '@frontend/scenes/layout/Search'
 
-import { MenuNames } from 'src/constants/mysql-query'
-import { useMenu } from 'src/frontend/hooks/useMenu'
+import { MenuNames } from '@constants/mysql-query'
+import { useMenu } from '@frontend/hooks/useMenu'
 
-import Logo from 'src/frontend/images/logo-top-bar.svg'
-import Facebook from 'src/frontend/images/facebook.svg'
-import Twitter from 'src/frontend/images/twitter.svg'
+import Logo from '@frontend/images/logo-top-bar.svg'
+import Facebook from '@frontend/images/facebook.svg'
+import Twitter from '@frontend/images/twitter.svg'
 
 import 'src/frontend/scss/fixed-header.scss'
-import { setWrapperClasses } from 'src/frontend/store/actions'
+import { setWrapperClasses } from '@frontend/store/actions'
 
 export function FixedHeader() {
     const [, dispatch] = useContext(Context) as ContextType

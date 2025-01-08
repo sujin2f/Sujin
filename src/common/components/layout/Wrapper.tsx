@@ -1,5 +1,5 @@
 import React, { Fragment, PropsWithChildren } from 'react'
-import { useFontLoader } from 'src/common/hooks/useFontLoader'
+import { useFontLoader } from '@common/hooks/useFontLoader'
 
 import 'src/common/scss/normalize.css'
 import 'src/common/scss/base.scss'

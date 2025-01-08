@@ -1,6 +1,6 @@
 import React, { createElement, JSX, PropsWithChildren, useState } from 'react'
-import { CloseButton } from 'src/common/components/forms/CloseButton'
-import { className } from 'src/common/utils/string'
+import { CloseButton } from '@common/components/forms/CloseButton'
+import { className } from '@common/utils/string'
 
 import 'src/common/scss/callout.scss'
 

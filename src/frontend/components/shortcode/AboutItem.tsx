@@ -1,10 +1,10 @@
 import React from 'react'
 
-import { AttrMatch } from 'src/types/wordpress'
+import { AttrMatch } from '@project/types/wordpress'
 import {
     replaceQuotes as getter,
     removeExtraParagraph,
-} from 'src/frontend/utils/single'
+} from '@frontend/utils/single'
 
 import 'src/frontend/scss/about-item.scss'
 

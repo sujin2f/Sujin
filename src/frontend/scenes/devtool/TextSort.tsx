@@ -1,11 +1,11 @@
 import React, { Fragment, useCallback, useMemo, useRef, useState } from 'react'
 
-import { Banner } from 'src/frontend/scenes/layout/Banner'
-import { Column } from 'src/common/components/layout/Column'
-import { Row } from 'src/common/components/layout/Row'
-import { Input } from 'src/common/components/forms/Input'
-import { SideMenu } from 'src/frontend/scenes/devtool/SideMenu'
-import { getMaxCols, getRows, sortText } from 'src/frontend/utils/dev-tools'
+import { Banner } from '@frontend/scenes/layout/Banner'
+import { Column } from '@common/components/layout/Column'
+import { Row } from '@common/components/layout/Row'
+import { Input } from '@common/components/forms/Input'
+import { SideMenu } from '@frontend/scenes/devtool/SideMenu'
+import { getMaxCols, getRows, sortText } from '@frontend/utils/dev-tools'
 
 function TextSort() {
     const result = useRef<HTMLTextAreaElement>(null)

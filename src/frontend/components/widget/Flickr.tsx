@@ -1,8 +1,8 @@
 import React from 'react'
-import { Card } from 'src/common/components/containers/Card'
-import { Column } from 'src/common/components/layout/Column'
-import { Row } from 'src/common/components/layout/Row'
-import { useFlickr } from 'src/frontend/hooks/useFlickr'
+import { Card } from '@common/components/containers/Card'
+import { Column } from '@common/components/layout/Column'
+import { Row } from '@common/components/layout/Row'
+import { useFlickr } from '@frontend/hooks/useFlickr'
 
 import 'src/frontend/scss/flickr.scss'
 

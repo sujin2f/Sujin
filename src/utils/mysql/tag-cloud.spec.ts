@@ -1,6 +1,6 @@
 // yarn test tag-cloud.spec.ts
 
-import { MySQLQuery } from 'src/constants/mysql-query'
+import { MySQLQuery } from '@constants/mysql-query'
 import { tagCloud } from '../../../.configs/jest/fixture'
 import { getTagCloud, updateHit } from './tag-cloud'
 

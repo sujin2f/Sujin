@@ -1,11 +1,11 @@
-import { isEmpty } from 'src/common/utils/object'
-import { MySQLQuery, MenuItemTypes, MetaKeys } from 'src/constants/mysql-query'
-import { MenuItem, Post, Term } from 'src/types/wordpress'
-import { Nullable } from 'src/types/common'
-import { unserialize } from 'src/utils/wordpress'
-import { MySQL } from 'src/utils/mysql/mysqld'
-import { getPost } from 'src/utils/mysql/posts'
-import { getAllPostMeta } from 'src/utils/mysql/post-meta'
+import { isEmpty } from '@common/utils/object'
+import { MySQLQuery, MenuItemTypes, MetaKeys } from '@constants/mysql-query'
+import { MenuItem, Post, Term } from '@project/types/wordpress'
+import { Nullable } from '@project/types/common'
+import { unserialize } from '@utils/wordpress'
+import { MySQL } from '@utils/mysql/mysqld'
+import { getPost } from '@utils/mysql/posts'
+import { getAllPostMeta } from '@utils/mysql/post-meta'
 
 const getMenuItemFromPost = async (post: Post): Promise<Nullable<MenuItem>> => {
     const result = {} as MenuItem

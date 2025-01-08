@@ -1,10 +1,10 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import { MenuItem as TypeMenuItem } from 'src/common/types/menu'
-import { className } from 'src/common/utils/string'
+import { MenuItem as TypeMenuItem } from '@common/types/menu'
+import { className } from '@common/utils/string'
 
-import Arrow from 'src/common/images/icons/arrow_drop_up.svg'
+import Arrow from '@common/images/icons/arrow_drop_up.svg'
 
 import 'src/common/scss/menu.scss'
 

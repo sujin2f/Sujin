@@ -1,7 +1,7 @@
-import { useQuery } from 'src/common/graphql/useQuery'
-import { operationArchive } from 'src/constants/graphql'
-import { GetOperationArgsType } from 'src/common/graphql'
-import { Term } from 'src/types/wordpress'
+import { useQuery } from '@common/graphql/useQuery'
+import { operationArchive } from '@constants/graphql'
+import { GetOperationArgsType } from '@common/graphql'
+import { Term } from '@project/types/wordpress'
 
 export const useArchive = (
     args: GetOperationArgsType<typeof operationArchive>,

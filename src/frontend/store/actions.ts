@@ -1,5 +1,5 @@
-import type { Action, WrapperClasses } from 'src/frontend/store/type'
-import { ActionType } from 'src/frontend/store/constants'
+import type { Action, WrapperClasses } from '@frontend/store/type'
+import { ActionType } from '@frontend/store/constants'
 
 export const setCurrentPage = (currentPage: string): Partial<Action> => {
     return {

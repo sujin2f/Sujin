@@ -1,10 +1,10 @@
 import React, { useCallback, useState } from 'react'
-import { MenuItem } from 'src/common/types/menu'
-import { className } from 'src/common/utils/string'
+import { MenuItem } from '@common/types/menu'
+import { className } from '@common/utils/string'
 import { Menu } from './Menu'
-import { useDocumentClick } from 'src/common/hooks/useDocumentClick'
-import { useKeyDown } from 'src/common/hooks/useKeyDown'
-import { KeyCodes } from 'src/common/constants/keycode'
+import { useDocumentClick } from '@common/hooks/useDocumentClick'
+import { useKeyDown } from '@common/hooks/useKeyDown'
+import { KeyCodes } from '@common/constants/keycode'
 
 import 'src/common/scss/hamburger.scss'
 

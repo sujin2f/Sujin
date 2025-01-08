@@ -1,8 +1,8 @@
-import { Cached } from 'src/common/model/Cached'
-import { FlickrImage } from 'src/types/flickr'
-import { getFlickr } from 'src/utils/request/flickr'
-import { GetOperationArgsType } from 'src/common/graphql'
-import { operationFlickr } from 'src/constants/graphql'
+import { Cached } from '@common/model/Cached'
+import { FlickrImage } from '@project/types/flickr'
+import { getFlickr } from '@utils/request/flickr'
+import { GetOperationArgsType } from '@common/graphql'
+import { operationFlickr } from '@constants/graphql'
 
 export const flickr = async ({
     id,

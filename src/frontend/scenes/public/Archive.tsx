@@ -1,18 +1,18 @@
 import React, { Fragment } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { Column } from 'src/common/components/layout/Column'
-import { Row } from 'src/common/components/layout/Row'
-import { Card } from 'src/common/components/containers/Card'
-import { Paging } from 'src/common/components/containers/Paging'
+import { Column } from '@common/components/layout/Column'
+import { Row } from '@common/components/layout/Row'
+import { Card } from '@common/components/containers/Card'
+import { Paging } from '@common/components/containers/Paging'
 
-import { Banner } from 'src/frontend/scenes/layout/Banner'
-import { Post as PostType, TermTypes } from 'src/types/wordpress'
-import { NotFound } from 'src/frontend/scenes/public/NotFound'
-import { Tags } from 'src/frontend/components/Tags'
-import { useArchive } from 'src/frontend/hooks/useArchive'
+import { Banner } from '@frontend/scenes/layout/Banner'
+import { Post as PostType, TermTypes } from '@project/types/wordpress'
+import { NotFound } from '@frontend/scenes/public/NotFound'
+import { Tags } from '@frontend/components/Tags'
+import { useArchive } from '@frontend/hooks/useArchive'
 
-import DefaultThumbnail from 'src/frontend/images/thumbnail-default.png'
+import DefaultThumbnail from '@frontend/images/thumbnail-default.png'
 
 function Archive() {
     const { type, slug, page } = useParams<{

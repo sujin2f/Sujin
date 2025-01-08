@@ -5,7 +5,7 @@
 
 import React from 'react'
 
-import LoadingImg from 'src/assets/images/loading.svg'
+import LoadingImg from '@frontend/images/loading.svg'
 
 export function Loading() {
     return (

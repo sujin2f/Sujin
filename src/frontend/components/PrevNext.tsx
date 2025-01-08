@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 
-import { Row } from 'src/common/components/layout/Row'
-import { Column } from 'src/common/components/layout/Column'
-import { Post } from 'src/types/wordpress'
-import Prev from 'src/frontend/images/prev.svg'
+import { Row } from '@common/components/layout/Row'
+import { Column } from '@common/components/layout/Column'
+import { Post } from '@project/types/wordpress'
+import Prev from '@frontend/images/prev.svg'
 
 import 'src/frontend/scss/prev-next.scss'
 
