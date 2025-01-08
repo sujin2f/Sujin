@@ -3,7 +3,7 @@ import React, { PropsWithChildren } from 'react'
 import { className } from '../../utils/string'
 import { Link } from 'react-router-dom'
 import { ShortMonthNames } from '../../constants/datetime'
-import { removeURLProtocol } from '../../utils/path'
+import { removeURLProtocol } from '../../utils/string'
 
 import '../../scss/card.scss'
 

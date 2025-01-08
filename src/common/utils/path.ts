@@ -1,3 +1,6 @@
+/**
+ * DO NOT USE THIS FROM FRONTEND
+ */
 import path from 'path'
 import fs from 'fs'
 
@@ -13,6 +16,3 @@ export const bundles = () => {
     const raw = fs.readFileSync(manifest).toString()
     return JSON.parse(raw)
 }
-
-export const removeURLProtocol = (url: string) =>
-    url.replace(/(^\w+:|^)\/\//, '')

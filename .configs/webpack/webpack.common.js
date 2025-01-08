@@ -48,9 +48,6 @@ export default {
             fix: true,
             configType: 'flat',
         }),
-        new webpack.DefinePlugin({
-            'process.env': JSON.stringify(process.env),
-        }),
     ],
 
     devtool: 'source-map',

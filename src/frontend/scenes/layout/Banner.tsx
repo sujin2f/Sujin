@@ -11,7 +11,7 @@ import { Row } from 'src/common/components/layout/Row'
 import { Column } from 'src/common/components/layout/Column'
 
 import 'src/frontend/scss/banner.scss'
-import { removeURLProtocol } from 'src/common/utils/path'
+import { removeURLProtocol } from 'src/common/utils/string'
 
 type Props = {
     readonly background?: Image
