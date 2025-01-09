@@ -1,30 +1,35 @@
-code.code {
-    display: block;
-    background-color: var(--black);
-    color: var(--white);
-    padding: 0.8em 0.5em;
-    margin-bottom: var(--gap);
-    counter-reset: line;
+@use 'mixin';
 
-    > * {
-        &::before {
+pre.code {
+    font-family: monospace;
+    overflow-x: scroll;
+    margin-bottom: 1.5em;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+
+    .code__lines {
+        padding: 0.5em 0;
+        counter-reset: line;
+        background-color: var(--light-gray);
+
+        div::before {
             counter-increment: line;
             content: counter(line);
             width: 1.5em;
-            background-color: var(--dark-gray);
             display: inline-block;
-            color: var(--gray);
             text-align: right;
-            margin-right: 0.4em;
             padding-right: 0.4em;
+        }
+
+        &.code__lines--bash div::before {
+            content: '#';
         }
     }
 
-    &[lang='shell'] {
-        > * {
-            &::before {
-                content: '#';
-            }
-        }
+    .hljs {
+        padding: 0.5em 0 0.5em 0.5em;
+        width: 100%;
     }
 }

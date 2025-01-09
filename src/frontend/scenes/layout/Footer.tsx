@@ -16,8 +16,8 @@ export function Footer() {
             <Row className="footer__top" dom="aside">
                 <Column dom="section" medium={4} small={12}>
                     <GoogleAdvert
-                        client={window.sujin.GOOGLE_AD_CLIENT}
-                        slot={window.sujin.GOOGLE_AD_SLOT}
+                        client={window.frontendVars.GOOGLE_AD_CLIENT}
+                        slot={window.frontendVars.GOOGLE_AD_SLOT}
                     />
                 </Column>
 

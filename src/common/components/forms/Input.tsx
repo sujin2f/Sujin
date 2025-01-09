@@ -83,6 +83,7 @@ export function Input(props: Props) {
             ),
         [errorMessage, helpText],
     )
+    const autoComplete = useMemo(() => type === 'password' && 'on', [type])
     const inputProps = useMemo(
         () =>
             filterEmpty({
@@ -97,6 +98,7 @@ export function Input(props: Props) {
                 value,
                 placeholder,
                 name,
+                autoComplete,
             }),
         [
             id,
@@ -110,6 +112,7 @@ export function Input(props: Props) {
             value,
             placeholder,
             name,
+            autoComplete,
         ],
     )
 

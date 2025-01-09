@@ -1,6 +1,6 @@
 import { MenuItem } from 'src/types/wordpress'
 
-export const DEV_TOOL_SEO: Record<
+export const PROJECT_SEO: Record<
     string,
     { seoTitle: string; seoDescription: string }
 > = {
@@ -14,7 +14,7 @@ export const DEV_TOOL_SEO: Record<
     },
 }
 
-export const DEV_TOOL: MenuItem = {
+export const PROJECT: MenuItem = {
     id: 345678909876543,
     title: 'Dev Tool',
     target: '',

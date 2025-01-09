@@ -18,10 +18,6 @@ export const Callout = (props: PropsWithChildren<Props>) => {
     const [closed, setClosed] = useState(false)
 
     const type = dom || 'div'
-    const children = [
-        props.children,
-        closeButton && <CloseButton onClick={() => setClosed(true)} />,
-    ]
 
     if (closed) {
         return
@@ -32,6 +28,7 @@ export const Callout = (props: PropsWithChildren<Props>) => {
         {
             className: className('callout', props.className),
         },
-        children,
+        props.children,
+        closeButton && <CloseButton onClick={() => setClosed(true)} />,
     )
 }

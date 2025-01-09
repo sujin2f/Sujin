@@ -7,7 +7,7 @@ import { useFlickr } from 'src/frontend/hooks/useFlickr'
 import 'src/frontend/scss/flickr.scss'
 
 export function Flickr() {
-    const { flickr } = useFlickr({ id: window.sujin.FLICKR_ID || '' })
+    const { flickr } = useFlickr({ id: window.frontendVars.FLICKR_ID || '' })
 
     return (
         <section className="widget--flickr">

@@ -21,10 +21,10 @@ function FrontPage() {
             <main>
                 <Banner
                     background={background}
-                    excerpt={window.sujin.EXCERPT}
+                    excerpt={window.frontendVars.EXCERPT}
                     title={
                         <Logo
-                            aria-label={window.sujin.SITE_NAME}
+                            aria-label={window.frontendVars.SITE_NAME}
                             className="banner__logo"
                         />
                     }

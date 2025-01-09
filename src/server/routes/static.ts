@@ -9,7 +9,7 @@ import path from 'path'
 import { TermTypes } from 'src/types/wordpress'
 import { archive } from 'src/utils/endpoints/archive'
 import { post } from 'src/utils/endpoints/post'
-import { DEV_TOOL_SEO } from 'src/constants/menu-devtool'
+import { PROJECT_SEO } from 'src/constants/menu-static'
 import { rootDir } from 'src/common/utils/path'
 import {
     publicParam,
@@ -62,10 +62,10 @@ const getTitleExcerpt = async (
     }
 
     if (req.url.indexOf('/dev-tools/') !== 1) {
-        if (DEV_TOOL_SEO[req.url]) {
+        if (PROJECT_SEO[req.url]) {
             return [
-                DEV_TOOL_SEO[req.url].seoTitle,
-                DEV_TOOL_SEO[req.url].seoDescription,
+                PROJECT_SEO[req.url].seoTitle,
+                PROJECT_SEO[req.url].seoDescription,
                 '/thumbnail.png',
             ]
         }
@@ -145,10 +145,10 @@ const getTitleExcerpt = async (
     return defaultValue
 }
 
-const getGlobalVariable: GetTemplateVar<GlobalVars> = async (req: Request) => {
+const getGlobalVariable: GetTemplateVar<TemplateVar> = async (req: Request) => {
     const [title, excerpt, image] = await getTitleExcerpt(req)
 
-    const globalVariable: GlobalVars = {
+    const globalVariable: TemplateVar = {
         SITE_NAME: process.env.TITLE || '',
         TITLE: title,
         DESCRIPTION: excerpt,
@@ -160,6 +160,7 @@ const getGlobalVariable: GetTemplateVar<GlobalVars> = async (req: Request) => {
         GOOGLE_AD_SLOT: process.env.GOOGLE_AD_SLOT || '',
         FLICKR_ID: process.env.FLICKR_ID || '',
         IS_PRODUCTION: process.env.NODE_ENV === 'production',
+        VERSION: process.env.VERSION || '1.0.0',
     }
 
     return globalVariable

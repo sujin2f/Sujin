@@ -249,13 +249,11 @@ const miniPostOperationQuery = [
 
 export const operationBackgrounds = new Operation(
     queryBackgrounds,
-    [],
     ...imageOperationQuery,
 )
 
 export const operationMenu = new Operation<{ slug: string }>(
     queryMenu,
-    ['slug'],
     ...menuOperationQuery,
     {
         children: menuOperationQuery,
@@ -264,7 +262,6 @@ export const operationMenu = new Operation<{ slug: string }>(
 
 export const operationPost = new Operation<{ slug: string }>(
     queryPost,
-    ['slug'],
     ...miniPostOperationQuery,
     'date',
     'excerpt',
@@ -288,7 +285,6 @@ export const operationPost = new Operation<{ slug: string }>(
 
 export const operationTagCloud = new Operation(
     queryTagCloud,
-    [],
     'id',
     'title',
     'slug',
@@ -298,7 +294,6 @@ export const operationTagCloud = new Operation(
 
 export const operationFlickr = new Operation<{ id: string }>(
     queryFlickr,
-    ['id'],
     'title',
     'link',
     'media',
@@ -310,7 +305,6 @@ export const operationArchive = new Operation<{
     page: number
 }>(
     queryArchive,
-    ['type', 'slug', 'page'],
     ...commonOperationQuery,
     'excerpt',
     'total',
@@ -333,7 +327,6 @@ export const operationArchive = new Operation<{
 
 export const operationRecentPost = new Operation<{ id: string }>(
     queryRecent,
-    [],
     ...miniPostOperationQuery,
 )
 

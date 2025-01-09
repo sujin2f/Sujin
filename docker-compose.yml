@@ -44,15 +44,11 @@ services:
             FLICKR_ID: ${FLICKR_ID}
             GOOGLE_AD_CLIENT: ${GOOGLE_AD_CLIENT}
             GOOGLE_AD_SLOT: ${GOOGLE_AD_SLOT}
-
+            SERVER_SECRET: ${SERVER_SECRET}
+            VERSION: ${VERSION}
         volumes:
             - ./:/home/node/app
         working_dir: /home/node/app
         command: yarn prod:server
         ports:
             - 80:80
-
-networks:
-    default:
-        name: bridge
-        external: true

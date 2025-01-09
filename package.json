@@ -1,6 +1,6 @@
 {
     "name": "sujin",
-    "version": "12.0.0",
+    "version": "12.0.1",
     "description": "React + Node + WordPress theme for sujinc.com",
     "license": "MIT",
     "scripts": {
@@ -10,7 +10,7 @@
         "dev:node": "NODE_ENV=development ts-node-dev -r tsconfig-paths/register --respawn ./src/server/index.ts",
         "dev:react": "NODE_ENV=development webpack --watch --config .configs/webpack.config.babel.js",
         "prod": "npm-run-all -s prod:clean prod:tsc prod:webpack",
-        "prod:clean": "rimraf .build/production/*",
+        "prod:clean": "node .configs/clear-production.js",
         "prod:webpack": "NODE_ENV=production webpack --config .configs/webpack.config.babel.js",
         "prod:tsc": "NODE_ENV=production tsc --project .configs/tsconfig.production.server.json",
         "prod:server": "NODE_ENV=production node .build/production/server/index.js",

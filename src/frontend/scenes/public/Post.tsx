@@ -68,8 +68,8 @@ function Post() {
                 >
                     <RecentPosts current={post.id} />
                     <GoogleAdvert
-                        client={window.sujin.GOOGLE_AD_CLIENT}
-                        slot={window.sujin.GOOGLE_AD_SLOT}
+                        client={window.frontendVars.GOOGLE_AD_CLIENT}
+                        slot={window.frontendVars.GOOGLE_AD_SLOT}
                     />
                 </Column>
             </Row>

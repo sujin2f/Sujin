@@ -32,7 +32,6 @@ export interface IQuery {
 
 export interface IOperation<T> {
     readonly query: IQuery
-    readonly args: string[]
     readonly fields: OperationFields
     toString: (args: T) => string
 }
