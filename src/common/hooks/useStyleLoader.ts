@@ -1,5 +1,6 @@
 import { LoadingStatus } from 'src/common/constants/asset'
 import { useGlobalState } from './useGlobalState'
+import { useEffect } from 'react'
 
 /**
  * External CSS loader
@@ -11,19 +12,21 @@ import { useGlobalState } from './useGlobalState'
 export const useStyleLoader = (src: string) => {
     const [state, changeState] = useGlobalState(src, LoadingStatus.INIT)
 
-    if (state === LoadingStatus.INIT) {
-        changeState(LoadingStatus.LOADING)
-        const link = document.createElement('link')
-        link.href = src
-        link.rel = 'stylesheet'
-        link.onload = () => {
-            changeState(LoadingStatus.DONE)
+    useEffect(() => {
+        if (state === LoadingStatus.INIT) {
+            changeState(LoadingStatus.LOADING)
+            const link = document.createElement('link')
+            link.href = src
+            link.rel = 'stylesheet'
+            link.onload = () => {
+                changeState(LoadingStatus.DONE)
+            }
+            link.onerror = () => {
+                changeState(LoadingStatus.ERROR)
+            }
+            document.head.insertBefore(link, document.head.firstChild)
         }
-        link.onerror = () => {
-            changeState(LoadingStatus.ERROR)
-        }
-        document.head.insertBefore(link, document.head.firstChild)
-    }
+    }, [state, changeState, src])
 
     return state
 }

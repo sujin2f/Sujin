@@ -23,10 +23,7 @@ if (root) {
     )
 }
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-if (window.sujin.IS_PRODUCTION) {
+if (window.frontendVars.IS_PRODUCTION) {
     serviceWorker.register()
 } else {
     serviceWorker.unregister()

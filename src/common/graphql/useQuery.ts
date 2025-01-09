@@ -24,7 +24,7 @@ export const useQuery = <T>(
     const { data, isLoading, error } = reactUseQuery<Nullable<T>>({
         queryKey: [operation.query.name, ...Object.values(args)],
         queryFn: () =>
-            fetch('/graphql', {
+            fetch(`/graphql/${window.frontendVars.VERSION}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

@@ -3,7 +3,6 @@ import { Error } from '../model/Error'
 
 export class Operation<T extends OperationArgs> implements IOperation<T> {
     readonly query: IQuery
-    readonly args: string[]
     readonly fields: OperationFields
 
     private readonly TYPE_VALIDATION = [
@@ -12,15 +11,14 @@ export class Operation<T extends OperationArgs> implements IOperation<T> {
         [['Boolean'], 'boolean'],
     ]
 
-    constructor(query: IQuery, args: string[], ...fields: OperationFields) {
+    constructor(query: IQuery, ...fields: OperationFields) {
         this.query = query
-        this.args = args
         this.fields = fields
     }
 
     toString(args: T) {
-        this.validateOperation(args)
-        let argsString = this.args
+        this.validateOperation()
+        let argsString = Object.keys(this.query.arguments)
             .map((key) => {
                 const argValue = args[key]
                 let value = argValue
@@ -41,46 +39,16 @@ export class Operation<T extends OperationArgs> implements IOperation<T> {
         return `{\n${this.query.name}${argsString} ${filedString}\n}`
     }
 
-    private validateOperation(args: T) {
+    private validateOperation() {
         // Validation Required
         Object.entries(this.query.arguments)
             .filter(([, value]) => value.required)
             .forEach(([key]) => {
-                if (!this.args.includes(key)) {
+                if (!Object.keys(this.query.arguments).includes(key)) {
                     throw new Error(
                         `GraphQL argument ${key} is required in query ${this.query.name}`,
                     )
                 }
             })
-
-        // Validation type
-        const keys = Object.keys(this.query.arguments)
-        this.args.forEach((key) => {
-            const argValue = args[key]
-            if (!keys.includes(key)) {
-                throw new Error(
-                    `GraphQL argument ${key} does not exist in query ${this.query.name}`,
-                )
-            }
-
-            this.TYPE_VALIDATION.forEach((validation) => {
-                if (this.query.arguments[key].type === 'self') {
-                    throw new Error(
-                        `Operation query argument type should not be self.`,
-                    )
-                }
-
-                if (
-                    validation[0].includes(
-                        this.query.arguments[key].type.name,
-                    ) &&
-                    typeof argValue !== validation[1]
-                ) {
-                    throw new Error(
-                        `GraphQL argument ${key} is not a ${validation[1]} value in query ${this.query.name}`,
-                    )
-                }
-            })
-        })
     }
 }

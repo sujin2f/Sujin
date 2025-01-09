@@ -16,9 +16,10 @@ type FrontendVars = {
     GOOGLE_AD_SLOT: string
     FLICKR_ID: string
     IS_PRODUCTION: boolean
+    VERSION: string
 }
 
-type GlobalVars = FrontendVars & {
+type TemplateVar = FrontendVars & {
     TITLE: string
     DESCRIPTION: string
     IMAGE: string
@@ -30,5 +31,5 @@ interface Window {
     adsbygoogle: any
     opera: any
     hljs: any
-    sujin: FrontendVars
+    frontendVars: FrontendVars
 }

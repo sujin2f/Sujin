@@ -25,9 +25,12 @@ type Config = {
     onUpdate?: (registration: ServiceWorkerRegistration) => void
 }
 
-export function register(config?: Config): void {
+export const register = (config?: Config) => {
     // The URL constructor is available in all browsers that support SW.
-    const publicUrl = new URL('/', window.location.href)
+    const publicUrl = new URL(
+        window.frontendVars.FRONTEND,
+        window.location.href,
+    )
     if (publicUrl.origin !== window.location.origin) {
         // Our service worker won't work if PUBLIC_URL is on a different origin
         // from what our page is served on. This might happen if a CDN is used to
@@ -36,7 +39,8 @@ export function register(config?: Config): void {
     }
 
     window.addEventListener('load', () => {
-        const swUrl = `/service-worker.js`
+        const swUrl = `${window.frontendVars.FRONTEND}/service-worker.js?version=${window.frontendVars.VERSION}`
+
         if (isLocalhost) {
             // This is running on localhost. Let's check if a service worker still exists or not.
             checkValidServiceWorker(swUrl, config)
@@ -131,9 +135,9 @@ function checkValidServiceWorker(swUrl: string, config?: Config) {
         })
 }
 
-export function unregister(): void {
+export const unregister = async () => {
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.ready
+        return await navigator.serviceWorker.ready
             .then((registration) => {
                 registration.unregister()
             })

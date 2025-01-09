@@ -125,9 +125,17 @@ dd {
     padding: 0;
 }
 
-code,
+code:not(.hljs),
 kbd {
     font-family: monospace;
+    white-space: pre;
+    border: 1px solid var(--gray);
+    background-color: var(--light-gray);
+    display: inline-flex;
+    max-width: 100%;
+    word-wrap: break-word;
+    padding: 0.2em 0.3em;
+    overflow-x: scroll;
 }
 
 /**

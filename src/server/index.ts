@@ -24,7 +24,7 @@ if (['production'].includes(nodeEnv)) {
  */
 
 if (nodeEnv === 'development') {
-    dotEnvConfig({ path: path.resolve(rootDir, `.env`) })
+    dotEnvConfig({ path: path.resolve(rootDir, '.env') })
 }
 
 import { staticRouter } from 'src/server/routes/static'

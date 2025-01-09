@@ -36,7 +36,7 @@ describe('operation.ts', () => {
         },
     })
 
-    const operation = new Operation(query, ['id'], 'id', {
+    const operation = new Operation(query, 'id', {
         author: ['id', 'name', 'email'],
         author2: ['id', 'name', 'email'],
     })
