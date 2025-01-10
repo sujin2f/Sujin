@@ -33,7 +33,7 @@ export function Banner(props: Props) {
         prefix,
         backgroundColor,
     } = props
-    const { menu: menuMain } = useMenu({ slug: MenuNames.MAIN })
+    const { menu: menuMain } = useMenu(MenuNames.MAIN)
 
     if (isLoading) {
         return (

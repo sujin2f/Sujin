@@ -15,7 +15,7 @@ export const getFlickr = async (id: string): Promise<FlickrImage[]> => {
             }))
         })
         .catch((e) => {
-            console.log(e)
+            console.log(e.message)
             return flickr.items.map((item) => ({
                 ...item,
                 media: item.media.m,

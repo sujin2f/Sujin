@@ -2,6 +2,7 @@ import NodeCache from 'node-cache'
 import { DAY_IN_SECONDS } from 'src/common/constants/datetime'
 import type { Nullable } from 'src/common/types'
 import { Singleton } from './Singleton'
+import { Error } from './Error'
 
 /*
  * Node Cache
@@ -41,11 +42,15 @@ export class Cached extends Singleton<Cached>() {
         const result = get || (await callback())
 
         if (!result) {
+            new Error(`Getting data failed for key ${key}`, { level: 'log' })
             this.set<string>(key, Cached.FAILED, ttl)
             return Cached.FAILED as unknown as T
         }
 
         if (!get) {
+            new Error(`Cached value does not exist for key ${key}`, {
+                level: 'log',
+            })
             this.set<T>(key, result, ttl)
         }
 

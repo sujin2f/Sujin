@@ -10,9 +10,10 @@ import { Banner } from 'src/frontend/scenes/layout/Banner'
 import { Post as PostType, TermTypes } from 'src/types/wordpress'
 import { NotFound } from 'src/frontend/scenes/public/NotFound'
 import { Tags } from 'src/frontend/components/Tags'
-import { useArchive } from 'src/frontend/hooks/useArchive'
 
 import DefaultThumbnail from 'src/frontend/images/thumbnail-default.png'
+import { useQuery } from 'src/common/graphql/useQuery'
+import { archiveOpr, queryArchive } from 'src/constants/graphql'
 
 function Archive() {
     const { type, slug, page } = useParams<{
@@ -22,11 +23,24 @@ function Archive() {
     }>()
 
     const pageInt = parseInt(page || '1')
-    const { archive, loading, error } = useArchive({
-        type: type || TermTypes.category,
-        slug: slug || '',
-        page: pageInt,
-    })
+
+    const {
+        data: archive,
+        loading,
+        error,
+    } = useQuery(
+        queryArchive,
+        archiveOpr,
+        type || TermTypes.category,
+        slug || '',
+        pageInt,
+    )
+
+    // const { archive, loading, error } = useQuery({
+    //         type: type || TermTypes.category,
+    //         slug: slug || '',
+    //         page: pageInt,
+    //     })
 
     if (error) {
         return <NotFound />

@@ -5,12 +5,8 @@ import { Cached } from 'src/common/model/Cached'
 import { MySQL } from 'src/utils/mysql/mysqld'
 import { MySQLQuery } from 'src/constants/mysql-query'
 import { ErrorMessage } from 'src/constants/errors'
-import { GetOperationArgsType } from 'src/common/graphql'
-import { operationMenu } from 'src/constants/graphql'
 
-export const post = async ({
-    slug,
-}: GetOperationArgsType<typeof operationMenu>): Promise<Post> => {
+export const post = async (slug: string): Promise<Post> => {
     const safeSlug =
         slug.indexOf('/') === slug.length - 1
             ? slug.substring(0, slug.length - 1)

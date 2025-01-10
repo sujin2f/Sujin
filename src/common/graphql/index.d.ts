@@ -1,41 +1,63 @@
 import { Scalar } from './constants'
+import { Nullable } from '../types'
 
-export type Argument<T extends Scalar> = {
-    type: IObjectType<T> | 'self'
+type ScalarJSType = string | number | boolean
+
+/**
+ * GQL Scalar Type
+ * String or Int of { name: String } or { ref: [Int] }
+ * @template T typescript filed type
+ */
+interface ITypeScalar<T extends ScalarJSType> {
+    name: Scalar | string
+}
+
+/**
+ * GQL custom Type
+ * @template T typescript filed type
+ */
+interface IType<T> extends ITypeScalar {
+    name: string
+    fields: Record<string, GQLField>
+    toString: () => string
+}
+
+type GQLField<T> = {
+    type: ITypeScalar<T> | IType<T>
+    list?: boolean
     required?: boolean
 }
 
-export type ReturnType<T extends string> = {
-    type: IObjectType<T> | 'self'
+// (id: ID!)
+type IQueryArgs = Record<string, { type: ITypeScalar; required?: boolean }>
+//
+
+type QueryReturnType<T> = {
+    type: IType<T>
     list?: boolean
 }
 
-export type Field = Argument<string> & ReturnType<string>
-
-export type Fields = Record<string, Field>
-export type OperationFields = (string | Record<string, OperationFields>)[]
-export type OperationArgs = Record<string, string | number | boolean>
-
-export interface IObjectType<T extends string> {
-    readonly name: T
-    readonly fields: Fields
-    toString: () => string
-    toOperation: (...field: OperationFields) => string
-}
-
-export interface IQuery {
+/**
+ * GQL custom Type
+ * @template A argument type as tuple
+ * @template R return type
+ */
+interface IQuery<A extends ScalarJSType[], R> {
     readonly name: string
-    readonly return: ReturnType<string>
-    readonly arguments: Record<string, Argument<Scalar>>
-    toString: () => string
-}
+    readonly rtn: QueryReturnType<R>
+    readonly args?: IQueryArgs
 
-export interface IOperation<T> {
-    readonly query: IQuery
-    readonly fields: OperationFields
-    toString: (args: T) => string
+    callback: IQuery
+    toString(): string
+    toOperation(fields: string, ...args: A): string
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type GetOperationArgsType<C extends IOperation<any>> =
-    C extends IOperation<infer T> ? T : unknown
+// type GetOperationArgsType<C extends IOperation<any>> =
+//     C extends IOperation<infer T> ? T : unknown
+
+// type QueryArgument<C extends IQuery<any>> =
+//     C extends IQuery<infer A> ? A : unknown
+
+// type QueryReturn<C extends IQuery<Record<string, ReturnTypeScalar>, any>> =
+//     C extends IQuery<A, infer R> ? R : unknown

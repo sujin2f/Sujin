@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react'
 
 import { Card } from 'src/common/components/containers/Card'
+import { useQuery } from 'src/common/graphql/useQuery'
+import { miniPostOpr, queryRecent } from 'src/constants/graphql'
 import { WidgetTitle } from 'src/frontend/components/widget/WidgetTitle'
-import { useRecentPosts } from 'src/frontend/hooks/useRecentPosts'
 import DefaultThumbnail from 'src/frontend/images/thumbnail-default.png'
 
 import 'src/frontend/scss/recent-post.scss'
@@ -12,9 +13,9 @@ type Props = {
 }
 
 export const RecentPosts = (props: Props) => {
-    const { recentPost } = useRecentPosts()
+    const { data: recentPost } = useQuery(queryRecent, miniPostOpr)
 
-    if (!recentPost.length) {
+    if (!recentPost || !recentPost.length) {
         return <Fragment />
     }
 

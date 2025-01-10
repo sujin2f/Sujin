@@ -48,6 +48,9 @@ staticRouter.get(/\/feed\/$/, (req, res) => {
 staticRouter.get(publicParam[0], publicParam[1])
 staticRouter.get(assetParam[0], assetParam[1])
 
+/**
+ * Get title and description from WP
+ */
 const getTitleExcerpt = async (
     req: Request,
 ): Promise<[string, string, string]> => {
@@ -95,7 +98,7 @@ const getTitleExcerpt = async (
     }
 
     if (slug) {
-        return await archive({ type, slug, page: 1 })
+        return await archive(type, slug, 1)
             .then((response) => {
                 if (response) {
                     return [
@@ -126,7 +129,7 @@ const getTitleExcerpt = async (
     }
 
     if (slug) {
-        return await post({ slug })
+        return await post(slug)
             .then((response) => {
                 if (response) {
                     return [
@@ -147,7 +150,6 @@ const getTitleExcerpt = async (
 
 const getGlobalVariable: GetTemplateVar<TemplateVar> = async (req: Request) => {
     const [title, excerpt, image] = await getTitleExcerpt(req)
-
     const globalVariable: TemplateVar = {
         SITE_NAME: process.env.TITLE || '',
         TITLE: title,
@@ -158,7 +160,6 @@ const getGlobalVariable: GetTemplateVar<TemplateVar> = async (req: Request) => {
         FRONTEND: process.env.FRONTEND || '',
         GOOGLE_AD_CLIENT: process.env.GOOGLE_AD_CLIENT || '',
         GOOGLE_AD_SLOT: process.env.GOOGLE_AD_SLOT || '',
-        FLICKR_ID: process.env.FLICKR_ID || '',
         IS_PRODUCTION: process.env.NODE_ENV === 'production',
         VERSION: process.env.VERSION || '1.0.0',
     }

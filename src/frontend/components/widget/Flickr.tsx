@@ -2,17 +2,18 @@ import React from 'react'
 import { Card } from 'src/common/components/containers/Card'
 import { Column } from 'src/common/components/layout/Column'
 import { Row } from 'src/common/components/layout/Row'
-import { useFlickr } from 'src/frontend/hooks/useFlickr'
+import { useQuery } from 'src/common/graphql/useQuery'
+import { flickrOpr, queryFlickr } from 'src/constants/graphql'
 
 import 'src/frontend/scss/flickr.scss'
 
 export function Flickr() {
-    const { flickr } = useFlickr({ id: window.frontendVars.FLICKR_ID || '' })
+    const { data: flickr } = useQuery(queryFlickr, flickrOpr)
 
     return (
         <section className="widget--flickr">
             <Row fullWidth>
-                {flickr.slice(0, 12).map((item) => (
+                {(flickr || []).slice(0, 12).map((item) => (
                     <Column
                         className="widget--flickr__column"
                         key={`flickr-${item.link}`}

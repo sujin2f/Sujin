@@ -1,6 +1,6 @@
 import { useQuery as reactUseQuery } from '@tanstack/react-query'
 import { useGlobalState } from '../hooks/useGlobalState'
-import type { IOperation, OperationArgs } from '.'
+import type { IQuery, ScalarJSType } from '.'
 import type { Nullable } from '../types'
 
 type ReturnType<T> = {
@@ -9,26 +9,26 @@ type ReturnType<T> = {
     error: boolean
 }
 
-export const useQuery = <T>(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    operation: IOperation<any>,
-    args: OperationArgs,
-): ReturnType<T> => {
+export const useQuery = <A extends ScalarJSType[], R>(
+    query: IQuery<A, R>,
+    fields: string,
+    ...args: A
+): ReturnType<R> => {
     // Cache with GlobalState
-    const key = [operation.query.name, ...Object.values(args)].join(',')
+    const key = [query.name, ...args].join(',')
     const [[stateData, enabled], changeState] = useGlobalState(key, [
         undefined,
         true,
     ])
 
-    const { data, isLoading, error } = reactUseQuery<Nullable<T>>({
-        queryKey: [operation.query.name, ...Object.values(args)],
+    const { data, isLoading, error } = reactUseQuery<Nullable<R>>({
+        queryKey: [query.name, ...args],
         queryFn: () =>
-            fetch(`/graphql/${window.frontendVars.VERSION}`, {
+            fetch(`/graphql`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    query: operation.toString(args),
+                    query: query.toOperation(fields, ...args),
                 }),
             })
                 .then((response) => {
@@ -38,7 +38,7 @@ export const useQuery = <T>(
                     return response.json()
                 })
                 .then((data) => {
-                    const value = data.data[operation.query.name]
+                    const value = data.data[query.name]
                     changeState([value, false])
                     return value
                 }),

@@ -15,9 +15,7 @@ import DefaultThumbnail from 'src/frontend/images/thumbnail-default.png'
 
 function Page() {
     const { slug } = useParams<{ slug: string }>()
-    const { post, loading, error } = usePost({
-        slug: encodeURIComponent(slug || ''),
-    })
+    const { post, loading, error } = usePost(encodeURIComponent(slug || ''))
 
     if (error) {
         return <NotFound />

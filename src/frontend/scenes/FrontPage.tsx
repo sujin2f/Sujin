@@ -2,17 +2,24 @@ import React from 'react'
 
 import { FixedHeader } from 'src/frontend/scenes/layout/FixedHeader'
 import { Banner } from 'src/frontend/scenes/layout/Banner'
-
-import { useFrontPage } from 'src/frontend/hooks/useFrontPage'
 import { useGlobalState } from 'src/frontend/hooks/useGlobalState'
+import { useQuery } from 'src/common/graphql/useQuery'
+import { imageOpr, queryBackgrounds } from 'src/constants/graphql'
 
 import Logo from 'src/frontend/images/logo.svg'
 
 import 'src/frontend/scss/front-page.scss'
 
 function FrontPage() {
-    const background = useFrontPage()
+    const { data: backgrounds } = useQuery(queryBackgrounds, imageOpr)
+    const background =
+        backgrounds && backgrounds.length
+            ? backgrounds[Math.floor(Math.random() * backgrounds.length)]
+            : undefined
+
     const { returnClasses, wrapperElement } = useGlobalState('front-page')
+
+    document.title = window.frontendVars.SITE_NAME
 
     return (
         <div className={`${returnClasses} wrapper`} ref={wrapperElement}>

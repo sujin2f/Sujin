@@ -67,10 +67,12 @@ export type Term = {
     page: number
 }
 
-export type ImageSizes = {
+export type ImageSize = {
     key: string
     file: string
-}[]
+}
+
+export type ImageSizes = ImageSize[]
 
 export type Image = {
     url: string

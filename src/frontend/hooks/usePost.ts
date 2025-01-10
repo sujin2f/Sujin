@@ -1,9 +1,11 @@
-import { GetOperationArgsType } from 'src/common/graphql'
 import { useQuery } from 'src/common/graphql/useQuery'
-import { operationPost } from 'src/constants/graphql'
-import { Post } from 'src/types/wordpress'
+import { postOpr, queryPost } from 'src/constants/graphql'
 
-export const usePost = (args: GetOperationArgsType<typeof operationPost>) => {
-    const { data, loading, error } = useQuery<Post>(operationPost, args)
-    return { post: data, loading, error }
+export const usePost = (id: string) => {
+    const { data, loading, error } = useQuery(queryPost, postOpr, id)
+    return {
+        post: data,
+        loading,
+        error,
+    }
 }

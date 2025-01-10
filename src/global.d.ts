@@ -14,7 +14,6 @@ type FrontendVars = {
     FRONTEND: string
     GOOGLE_AD_CLIENT: string
     GOOGLE_AD_SLOT: string
-    FLICKR_ID: string
     IS_PRODUCTION: boolean
     VERSION: string
 }

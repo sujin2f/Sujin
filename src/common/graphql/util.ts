@@ -1,18 +1,7 @@
-import type { Argument, IObjectType } from '.'
-import { Scalar } from './constants'
+import type { GQLField } from '.'
 
-export const returnTypeToString = (
-    name: string,
-    list = false,
-    required = false,
-) => `${list ? '[' : ''}${name}${list ? ']' : ''}${required ? '!' : ''}`
-
-export const argumentsToString = (args: Record<string, Argument<Scalar>>) => {
-    const str = Object.entries(args)
-        .map(
-            ([key, value]) =>
-                `${key}: ${returnTypeToString((value.type as IObjectType<string>).name, false, value.required)}`,
-        )
-        .join(', ')
-    return str ? `(${str})` : ''
+export const fieldToString = <T>(field: GQLField<T>) => {
+    const required = field.required ? '!' : ''
+    const result = field.list ? `[${field.type.name}]` : field.type.name
+    return `${result}${required}`
 }

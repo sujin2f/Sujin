@@ -22,7 +22,7 @@ import { setWrapperClasses } from 'src/frontend/store/actions'
 
 export function FixedHeader() {
     const [, dispatch] = useContext(Context) as ContextType
-    const { menu: menuMain } = useMenu({ slug: MenuNames.MAIN })
+    const { menu: menuMain } = useMenu(MenuNames.MAIN)
 
     const mobileOnClick = useCallback(() => {
         dispatch(
