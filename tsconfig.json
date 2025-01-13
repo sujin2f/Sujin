@@ -4,33 +4,26 @@
         "lib": ["dom", "dom.iterable", "esnext"],
         "allowJs": true,
         "skipLibCheck": true,
-        "strict": false,
+        "strict": true,
         "noEmit": true,
-        "incremental": true,
-        "module": "esnext",
         "esModuleInterop": true,
-        "moduleResolution": "node",
+        "module": "esnext",
+        "moduleResolution": "bundler",
         "resolveJsonModule": true,
         "isolatedModules": true,
         "jsx": "preserve",
-        "paths": {
-            "@app/*": ["./app/*"],
-            "@src/*": ["./src/*"],
-            "@common/*": ["./common/*"]
-        },
+        "incremental": true,
         "plugins": [
             {
                 "name": "next"
             }
         ],
-        "strictNullChecks": true
+        "paths": {
+            "@app/*": ["./app/*"],
+            "@src/*": ["./src/*"],
+            "@common/*": ["./common/*"]
+        }
     },
-    "include": [
-        "next-env.d.ts",
-        ".next/types/**/*.ts",
-        "**/*.ts",
-        "**/*.tsx",
-        "src/utils/mysql/-media.ts.bak"
-    ],
-    "exclude": ["node_modules", "wordpress"]
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+    "exclude": ["node_modules"]
 }
