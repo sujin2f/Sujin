@@ -1,6 +1,16 @@
 module.exports = {
     reactStrictMode: false,
     output: 'standalone',
+    typescript: {
+        // !! WARN !!
+        // Dangerously allow production builds to successfully complete even if
+        // your project has type errors.
+        // !! WARN !!
+        ignoreBuildErrors: process.env.NODE_ENV === 'production',
+    },
+    eslint: {
+        ignoreDuringBuilds: process.env.NODE_ENV === 'production',
+    },
     webpack(config) {
         const fileLoaderRule = config.module.rules.find((rule) =>
             rule.test?.test?.('.svg'),

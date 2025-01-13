@@ -11,6 +11,8 @@ export default tseslint.config({
         tseslint.configs.recommended,
         react.configs.flat.recommended,
         jsxA11y.flatConfigs.recommended,
+        'next/core-web-vitals',
+        'next/typescript',
     ],
     plugins: {
         'react-hooks': hooksPlugin,
