@@ -1,0 +1,24 @@
+@use '@common/scss/mixin';
+
+.tag__container {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 0 var(--gap);
+    padding: 0;
+}
+
+.tag {
+    display: inline-block;
+    background-color: var(--black);
+    color: var(--white);
+    padding: 0.25em 0.5em 0.42em;
+    margin: 0 0.4em 0.5em 0;
+    border-radius: 2px;
+    transition: background-color ease-out 0.2s;
+
+    @include mixin.hover {
+        background-color: var(--primary);
+        text-decoration: none;
+    }
+}

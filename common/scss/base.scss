@@ -1,0 +1,219 @@
+@use 'variable';
+@use 'mixin';
+
+:root {
+    /**
+     * Color
+    */
+    --black: #{variable.$black};
+    --dark-gray: #{variable.$dark-gray};
+    --gray: #{variable.$gray};
+    --light-gray: #{variable.$light-gray};
+    --lighter-gray: #{variable.$lighter-gray};
+    --white: #{variable.$white};
+    --primary: #{variable.$primary};
+    --primary-dark: #{variable.$primary-dark};
+    --warning: #{variable.$warning};
+
+    /**
+     * Font
+     */
+    --font-family: #{variable.$font-family};
+    --font-size: #{variable.$font-size};
+
+    /**
+     * Size
+     */
+    --max-width: #{variable.$max-width};
+    --header-height: #{variable.$header-height};
+    --gap: #{variable.$gap};
+    --medium: #{variable.$medium};
+    --large: #{variable.$large};
+    --extra-large: #{variable.$extra-large};
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-weight: 300;
+    font-family: var(--font-family);
+    font-size: var(--font-family);
+    line-height: normal;
+    color: var(--black);
+}
+
+::selection {
+    background-color: var(--primary);
+    color: var(--white);
+}
+
+/**
+ * Heading selectors
+ */
+$size-h1: 1.5rem;
+#{mixin.headings()} {
+    text-transform: capitalize;
+    font-weight: 500;
+    padding: 0;
+    margin: 0;
+
+    small {
+        color: var(--gray);
+    }
+}
+
+@for $i from 1 through 6 {
+    h#{$i} {
+        font-size: $size-h1 - ($i * 0.1);
+    }
+}
+
+/**
+ * HTML <tags />
+ */
+strong {
+    font-weight: 700;
+}
+
+a {
+    color: var(--primary);
+    text-decoration: none;
+
+    @include mixin.hover {
+        text-decoration: underline;
+    }
+}
+
+p {
+    margin: 0;
+
+    &:empty {
+        display: none;
+    }
+}
+
+h5 {
+    font-size: 1.1rem;
+}
+
+h6 {
+    font-size: 1rem;
+}
+
+button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+ul,
+ol {
+    margin: 0;
+    padding-left: 2em;
+}
+
+dt {
+    margin: 0;
+    padding: 0;
+    font-weight: 500;
+}
+
+dd {
+    margin: 0;
+    padding: 0;
+}
+
+code:not(.hljs),
+kbd {
+    font-family: monospace;
+    white-space: pre;
+    border: 1px solid var(--gray);
+    background-color: var(--light-gray);
+    display: inline-flex;
+    max-width: 100%;
+    word-wrap: break-word;
+    padding: 0.2em 0.3em;
+    overflow-x: scroll;
+}
+
+/**
+ * Inside <article /> tag
+ */
+article {
+    #{mixin.headings()} {
+        margin-bottom: 0.35em;
+    }
+
+    p,
+    ul,
+    ol,
+    dl,
+    img {
+        line-height: 1.8;
+        margin-bottom: 1.5em;
+    }
+
+    > *:last-child {
+        margin-bottom: 0;
+    }
+
+    img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+}
+
+/**
+ * .classes
+ */
+.strike_through {
+    text-decoration: line-through;
+}
+
+.hide {
+    display: none;
+}
+
+/**
+ * @media (query) .classes
+ */
+.show-for-small {
+    display: inherit !important;
+
+    @include mixin.medium {
+        display: none !important;
+    }
+
+    @include mixin.large {
+        display: none !important;
+    }
+}
+
+.hide-for-small {
+    display: none !important;
+
+    @include mixin.medium {
+        display: inherit !important;
+    }
+
+    @include mixin.large {
+        display: inherit !important;
+    }
+}
+
+.hide-for-large {
+    @include mixin.large {
+        display: none !important;
+    }
+}
+
+.show-for-large {
+    display: none !important;
+
+    @include mixin.large {
+        display: inherit !important;
+    }
+}

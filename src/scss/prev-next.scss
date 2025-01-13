@@ -1,0 +1,57 @@
+@use '@common/scss/mixin';
+
+.prev-next__container {
+    margin-bottom: 1.5em;
+}
+
+.prev-next {
+    background: none;
+    text-decoration: none;
+
+    svg {
+        width: 1em;
+        min-width: 1em;
+        height: 1em;
+        margin-right: 0.5em;
+        padding: 0.7em;
+        background-color: var(--primary);
+        fill: var(--white);
+        transition: background-color 0.3s ease-out;
+    }
+
+    @include mixin.hover {
+        text-decoration: none;
+
+        svg {
+            background-color: var(--black);
+        }
+    }
+}
+
+.prev-next__link {
+    display: flex;
+    width: 100%;
+}
+
+.prev-next__link__title {
+    display: flex;
+    align-items: center;
+}
+
+.prev-next--next {
+    .prev-next__link {
+        svg {
+            transform: rotate(180deg);
+        }
+
+        @include mixin.medium {
+            flex-direction: row-reverse;
+            justify-content: right;
+
+            svg {
+                margin-right: 0;
+                margin-left: 0.5em;
+            }
+        }
+    }
+}

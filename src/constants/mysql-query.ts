@@ -4,9 +4,9 @@
  * @module constants
  */
 
-import { formatDate } from 'src/common/utils/datetime'
-import { Post } from 'src/types/wordpress'
-import { format } from 'src/utils/common'
+import { formatDate } from '@common/utils/datetime'
+import { Post } from '@src/types/wordpress'
+import { format } from '@src/utils/common'
 
 const POST_FIELDS = `
     posts.ID AS id,
@@ -38,12 +38,20 @@ const GET_POST_BY = `
     LIMIT ${PER_PAGE} OFFSET {2}
 `
 
+const GET_SEARCH = `
+    SELECT DISTINCT ${POST_FIELDS}
+    FROM wp_posts AS posts
+    WHERE UPPER(posts.post_title) LIKE UPPER("%{0}%") AND posts.post_status="publish"
+    ORDER BY posts.ID DESC
+    LIMIT ${PER_PAGE} OFFSET {1}
+`
+
 const GET_RECENT_POSTS = `
     SELECT ${POST_FIELDS}
     FROM wp_posts AS posts
     WHERE posts.post_type="post" AND posts.post_status="publish"
     ORDER BY posts.ID DESC
-    LIMIT 5
+    LIMIT 6
 `
 
 const GET_POST_META = `
@@ -223,6 +231,8 @@ export const MySQLQuery = {
             offset,
             ignoreStatus ? '' : 'AND posts.post_status="publish"',
         ),
+    getSearch: (value: string | number, offset: number) =>
+        format(GET_SEARCH, value, offset),
     getTermBy: (key: string, value: string) => {
         const newKey = key === 'id' ? 'terms.term_id' : 'terms.slug'
         return format(GET_TERM_BY, newKey, value)

@@ -1,24 +1,29 @@
 {
-    "ts-node": {
-        "files": true
-    },
-    "files": ["src/server/index.ts", "src/global.d.ts"],
     "compilerOptions": {
-        "target": "es2018",
-        "module": "commonjs",
-        "jsx": "react",
-        "outDir": "./.build/development",
-        "removeComments": true,
-        "strict": true,
-        "rootDirs": ["src"],
-        "baseUrl": ".",
-        "paths": {
-            "src/*": ["src/*"]
-        },
-        "esModuleInterop": true,
+        "target": "ES2017",
+        "lib": ["dom", "dom.iterable", "esnext"],
+        "allowJs": true,
         "skipLibCheck": true,
-        "forceConsistentCasingInFileNames": true,
-        "lib": ["dom", "dom.iterable", "esnext"]
+        "strict": true,
+        "noEmit": true,
+        "esModuleInterop": true,
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "jsx": "preserve",
+        "incremental": true,
+        "plugins": [
+            {
+                "name": "next"
+            }
+        ],
+        "paths": {
+            "@app/*": ["./app/*"],
+            "@src/*": ["./src/*"],
+            "@common/*": ["./common/*"]
+        }
     },
-    "include": ["src/**/*", ".configs/jest/fixture.ts"]
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+    "exclude": ["node_modules"]
 }

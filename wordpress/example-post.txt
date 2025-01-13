@@ -1,0 +1,119 @@
+<h2>Header 2: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et</h2>
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+[about-item from="2016" to="2018"]
+<h3><a href="https://www.uncannyowl.com/downloads/tin-canny-reporting/" target="_blank" rel="noopener noreferrer">Tin Canny LearnDash Reporting</a> WP Plugin</h3>
+The Tin Canny LearnDash Reporting plugin adds drill-down reporting capabilities, a simple uploader for Articulate Storyline, Rise, iSpring and Captivate modules and a basic Learning Record Store (LRS) to your LearnDash site. It allows site admins and Group Leaders to drill down from trends in learning activities across the entire site and each specific user.
+<ul>
+ 	<li>Module uploader</li>
+ 	<li>Capturing Tin Can API and recording user experience</li>
+ 	<li>Retrieving user's last state</li>
+</ul>
+[/about-item]
+
+[about-item from="2016" to="2018"]
+<h3><a href="https://www.uncannyowl.com/downloads/tin-canny-reporting/" target="_blank" rel="noopener noreferrer">Tin Canny LearnDash Reporting</a> WP Plugin</h3>
+<ul>
+ 	<li>Module uploader</li>
+ 	<li>Capturing Tin Can API and recording user experience</li>
+ 	<li>Retrieving user's last state</li>
+</ul>
+[/about-item]
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+[about-item from="2016" to="2018"]
+<h3><a href="https://www.uncannyowl.com/downloads/tin-canny-reporting/" target="_blank" rel="noopener noreferrer">Tin Canny LearnDash Reporting</a> WP Plugin</h3>
+<ul>
+ 	<li>Module uploader</li>
+ 	<li>Capturing Tin Can API and recording user experience</li>
+ 	<li>Retrieving user's last state</li>
+</ul>
+[/about-item]
+
+
+<h3>Header 3: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et</h3>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+[caption id="attachment_14308" align="aligncenter" width="500"]<img class="wp-image-14308 size-full" src="http://sujinc.com/wp-content/uploads/2015/02/Eye-Covering-Cat.jpg" alt="Alt Text" width="500" height="384" /> Caption[/caption]
+
+<h4>Header 4: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et</h4>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+[caption id="attachment_14308" align="aligncenter" width="500"]<img class="wp-image-14308 size-full" src="http://sujinc.com/wp-content/uploads/2015/02/Eye-Covering-Cat.jpg" alt="Alt Text" width="500" height="384" /> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit[/caption]
+
+<h2>Header 2: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et</h2>
+
+<blockquote>앞서 이야기했듯이 이 시기는 특화된 국면으로 설정하기에 모호한 부분이 있었다. 그럼에도 불구하고 이 시기를 중요하게 설정하게 된 것은 현 서울LGBT영화제가 이 시기를 영화제의 ‘분리/독립’의 시점이자 근거로서 제시하고 있기 때문이었다. 성공회는 이 시기에 개인들의 ‘분리/독립’에 관한 인식적 불균형이 발생했을 뿐만 아니라, 조직 내에서 중요한 사안을 결정함에 있어 민주적 절차가 충분히 이뤄지지 않았다고 보았다. 따라서 이 시기는 현 서울LGBT영화제의 주장처럼 영화제의 ‘분리/독립’의 시기나 근거로서 제시되기에는 부적절하다고 판단된다. 오히려 이 시기에 주목해야 하는 것은 분리/독립과 집행위원회 체계에 대한 이해의 차이다. 따라서 문제는 이에 대한 충분한 판단과 고려를 거치지 못한 채 김조광수감독이 집행위원장으로 영입되었던 과정에도 존재한다.
+
+<small>2-1) 2011년 초 소결 (입장서 10 페이지)</small></blockquote>
+
+<h3>Header 3</h2>
+[carousel sc1="http://sujinc.com/wp-content/uploads/2018/01/vsl-sc1.jpg" sc2="http://sujinc.com/wp-content/uploads/2018/01/vsl-sc2.jpg" /]
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+<ul>
+ 	<li>Module uploader</li>
+ 	<li>Capturing Tin Can API and recording user experience</li>
+ 	<li>Retrieving user's last state</li>
+</ul>
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+<ol>
+ 	<li>Module uploader</li>
+ 	<li>Capturing Tin Can API and recording user experience</li>
+ 	<li>Retrieving user's last state</li>
+</ol>
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+<dl>
+ 	<dt>Module uploader</dt>
+ 	<dd>Capturing Tin Can API and recording user experience</dd>
+ 	<dt>Retrieving user's last state</dt>
+ 	<dd>Capturing Tin Can API and recording user experience</dd>
+</dl>
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+[code lang="js"]{
+    "ts-node": {
+        "files": true
+    },
+    "files": ["src/server/index.ts", "src/global.d.ts"],
+    "compilerOptions": {
+        "target": "es2018",
+        "module": "commonjs",
+        "jsx": "react",
+        "outDir": "./.build/development",
+        "removeComments": true,
+        "strict": true,
+        "rootDirs": ["src"],
+        "baseUrl": ".",
+        "paths": {
+            "src/*": ["src/*"]
+        },
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true, "forceConsistentCasingInFileNames": true, "forceConsistentCasingInFileNames": true, "forceConsistentCasingInFileNames": true,
+        "lib": ["dom", "dom.iterable", "esnext"]
+    },
+    "include": ["src/**/*", ".configs/jest/fixture.ts"]
+}[/code]
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+[tweet id="1732824684683784516" /]
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+[gist id="d6ff10312084824d2a2058a70dbdb961" file="docker-compose.yml" /]
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.

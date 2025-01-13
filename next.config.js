@@ -1,0 +1,54 @@
+module.exports = {
+    reactStrictMode: false,
+    swcMinify: false,
+    output: 'standalone',
+    typescript: {
+        // !! WARN !!
+        // Dangerously allow production builds to successfully complete even if
+        // your project has type errors.
+        // !! WARN !!
+        ignoreBuildErrors: process.env.NODE_ENV === 'production',
+    },
+    eslint: {
+        ignoreDuringBuilds: process.env.NODE_ENV === 'production',
+    },
+    webpack(config) {
+        const fileLoaderRule = config.module.rules.find((rule) =>
+            rule.test?.test?.('.svg'),
+        )
+
+        config.module.rules.push(
+            {
+                ...fileLoaderRule,
+                test: /\.svg$/i,
+                resourceQuery: /url/,
+            },
+
+            {
+                test: /\.svg$/i,
+                issuer: fileLoaderRule.issuer,
+                resourceQuery: {
+                    not: [...fileLoaderRule.resourceQuery.not, /url/],
+                },
+                use: ['@svgr/webpack'],
+            },
+        )
+
+        fileLoaderRule.exclude = /\.svg$/i
+
+        return {
+            ...config,
+            optimization: {
+                minimize: false,
+            },
+            resolve: {
+                ...config.resolve,
+                fallback: {
+                    fs: false,
+                    path: false,
+                    net: false,
+                },
+            },
+        }
+    },
+}

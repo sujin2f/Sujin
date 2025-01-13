@@ -1,24 +1,45 @@
-const PRECACHE = 'sujin-cache-v12.0.1'
-const RUNTIME = 'sujin-cache-runtime-v12.0.1'
-const PRE_CACHE_URLS = ['index.html', './']
+const version = new URL(location).searchParams.get('version')
+if (!version) {
+    console.error('Version is not set. Service worker is not registered!')
+}
+
+const manifest = `/${version}/manifest.json`
+const precache = `sujin-cache-${version}`
 
 self.addEventListener('install', (event) => {
     event.waitUntil(
-        caches
-            .open(PRECACHE)
-            .then((cache) => cache.addAll(PRE_CACHE_URLS))
-            .then(() => self.skipWaiting()),
+        fetch(manifest)
+            .then((response) => response.json())
+            .then((jsonData) => {
+                const urls = Object.values(jsonData)
+                    .filter(
+                        (file) => file.endsWith('.css') || file.endsWith('.js'),
+                    )
+                    .map((file) => `/${version}/${file}`)
+
+                caches
+                    .open(precache)
+                    .then((cache) => cache.addAll([...urls, '/']))
+                    .then(() => self.skipWaiting())
+                    .catch((e) => console.error(e.message))
+            })
+            .catch((e) => {
+                console.error(
+                    `service-worker cannot fetch manifest.json: ${manifest} | ${e.message}`,
+                )
+                return []
+            }),
     )
 })
 
-self.addEventListener('activate', (e) => {
-    const currentCaches = [PRECACHE, RUNTIME]
-    e.waitUntil(
+self.addEventListener('activate', (event) => {
+    event.waitUntil(
         caches
             .keys()
             .then((cacheNames) => {
                 return cacheNames.filter(
-                    (cacheName) => !currentCaches.includes(cacheName),
+                    (cacheName) =>
+                        ![precache, `${precache}-runtime`].includes(cacheName),
                 )
             })
             .then((cachesToDelete) => {
@@ -40,27 +61,25 @@ self.addEventListener('fetch', (event) => {
                 if (cachedResponse) {
                     return cachedResponse
                 }
-
                 const request = event.request.clone()
-
                 if (
                     request.method !== 'GET' ||
                     request.url.indexOf('http') !== 0
                 ) {
                     return await fetch(request)
                 }
-
-                return await caches.open(RUNTIME).then(async (cache) => {
-                    return await fetch(request).then(async (response) => {
-                        if (!response || response.status !== 200) {
-                            return response
-                        }
-
-                        return await cache
-                            .put(event.request, response.clone())
-                            .then(() => response)
+                return await caches
+                    .open(`${precache}-runtime`)
+                    .then(async (cache) => {
+                        return await fetch(request).then(async (response) => {
+                            if (!response || response.status !== 200) {
+                                return response
+                            }
+                            return await cache
+                                .put(event.request, response.clone())
+                                .then(() => response)
+                        })
                     })
-                })
             })(),
         )
     }

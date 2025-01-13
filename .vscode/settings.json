@@ -17,5 +17,4 @@
         "twttr"
     ],
     "eslint.useFlatConfig": true,
-    "prettier.configPath": ".configs/prettier.json"
 }

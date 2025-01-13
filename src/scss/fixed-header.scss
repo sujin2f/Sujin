@@ -1,0 +1,214 @@
+@use 'sass:math';
+@use '@common/scss/mixin';
+
+$logo-width: 100px;
+$social-height: 26px;
+
+@mixin fixed-header {
+    position: fixed;
+    z-index: 10000;
+    width: 100%;
+    height: var(--header-height);
+}
+
+.top-bar {
+    background-color: transparent;
+
+    &.top-bar--fixed + * {
+        margin-top: 0;
+    }
+}
+
+.top-bar__menu__container {
+    $elements: 15;
+    @for $i from 0 to $elements {
+        $px: -1 * (50 + ($i * 30));
+
+        .menu__item:nth-child(#{$i}) .menu__link {
+            margin-top: #{$px}px;
+        }
+    }
+
+    .menu__link {
+        height: var(--header-height);
+        background-color: var(--white);
+        transition:
+            ease-out 0.3s background,
+            ease-out 0.3s color,
+            ease-out 0.7s margin;
+        padding: 0 13px;
+
+        @include mixin.hover {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        &.current {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+    }
+}
+
+.search__input {
+    color: var(--white);
+    font-size: 0.9rem;
+    border: none;
+    margin: 0;
+    padding: 0;
+    width: calc(100% - 35px);
+    box-shadow: none;
+    display: none;
+    background: transparent;
+
+    &:focus {
+        border: none;
+        box-shadow: none;
+        transition: none;
+        outline: none;
+    }
+}
+
+.search__button {
+    display: flex;
+    width: $social-height;
+    height: $social-height;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+        width: $social-height;
+        height: $social-height;
+        fill: var(--white);
+    }
+}
+
+.search {
+    height: $social-height;
+    display: flex;
+    align-items: center;
+    position: relative;
+    border-radius: 24px;
+    background: var(--primary);
+    overflow: hidden;
+    transition: ease-out width 0.3s;
+    justify-content: flex-end;
+
+    &.open {
+        width: 200px;
+
+        .search__input {
+            display: block;
+        }
+    }
+}
+
+.top-bar__logo__container {
+    @include fixed-header;
+    width: $logo-width + 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    overflow: hidden;
+}
+
+.top-bar__logo {
+    background-color: rgba(0, 0, 0, 0.1);
+    display: block;
+
+    svg {
+        fill: var(--white);
+        width: $logo-width + 2px;
+    }
+}
+
+.top-bar__menu__container--mobile {
+    width: 100%;
+    position: absolute;
+    overflow: hidden;
+    width: 100vw;
+    top: var(--header-height);
+    left: 0;
+
+    .menu__link {
+        transition: background-color 0.3s ease-out;
+        color: var(--white);
+        padding: 20px;
+        background-color: var(--black);
+
+        @include mixin.hover {
+            background-color: var(--primary);
+        }
+    }
+
+    .menu .menu {
+        .menu__link {
+            padding-left: 50px;
+        }
+    }
+}
+
+.top-bar__background {
+    @include fixed-header;
+    display: flex;
+}
+
+.top-bar__background--white {
+    height: var(--header-height);
+    background: var(--white);
+    width: calc(50% - #{$logo-width} / 2);
+}
+
+.top-bar__background--transparent {
+    height: var(--header-height);
+    background: transparent;
+    width: $logo-width;
+}
+
+.top-bar__main {
+    @include fixed-header;
+    position: relative;
+    padding: 0 var(--gap) !important;
+
+    .column {
+        align-items: center;
+    }
+}
+
+.hamburger {
+    width: var(--header-height);
+    height: var(--header-height);
+    padding: 0;
+    display: flex;
+    align-items: center;
+
+    svg {
+        fill: var(--primary);
+    }
+
+    @include mixin.hover {
+        svg {
+            fill: var(--black);
+        }
+    }
+}
+
+.social-media {
+    display: flex;
+    align-items: center;
+
+    a {
+        margin-left: 0.3em;
+
+        svg {
+            display: block;
+            border-radius: 6px;
+            width: $social-height;
+            height: auto;
+            fill: var(--primary);
+        }
+    }
+}
+
+.wrapper--scrolled .menu__link {
+    margin-top: 0 !important;
+}

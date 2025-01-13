@@ -67,10 +67,12 @@ export type Term = {
     page: number
 }
 
-export type ImageSizes = {
+export type ImageSize = {
     key: string
     file: string
-}[]
+}
+
+export type ImageSizes = ImageSize[]
 
 export type Image = {
     url: string
@@ -90,6 +92,11 @@ export type TagCloud = {
 export type MediaRawData = {
     file: string
     sizes: Record<string, { file: string }>
+}
+
+export type PostMeta = {
+    meta_key: string
+    meta_value: string
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
