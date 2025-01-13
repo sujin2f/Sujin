@@ -1,6 +1,5 @@
 module.exports = {
     reactStrictMode: false,
-    swcMinify: true,
     output: 'standalone',
     webpack(config) {
         const fileLoaderRule = config.module.rules.find((rule) =>
