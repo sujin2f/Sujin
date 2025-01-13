@@ -1,5 +1,6 @@
 module.exports = {
     reactStrictMode: false,
+    swcMinify: false,
     output: 'standalone',
     typescript: {
         // !! WARN !!
