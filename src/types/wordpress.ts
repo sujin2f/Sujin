@@ -94,6 +94,11 @@ export type MediaRawData = {
     sizes: Record<string, { file: string }>
 }
 
+export type PostMeta = {
+    meta_key: string
+    meta_value: string
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type OptionValue = Record<string, any> | string | number | boolean
 

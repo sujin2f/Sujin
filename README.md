@@ -24,8 +24,7 @@ npm i
 composer install
 
 # Create Docker Image
-cd ./.configs/docker/
-docker build -f Dockerfile.dev -t sujin2f/wordpress:latest .
+docker build -t nextjs-docker .
 
 # Activate docker containers
 cd ./.configs/docker/

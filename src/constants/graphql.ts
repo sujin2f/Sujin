@@ -1,7 +1,7 @@
-import { GQLQuery } from 'src/common/graphql/query'
-import { GQLBoolean, GQLInt, GQLString, GQLType } from 'src/common/graphql/type'
-import { FlickrImage } from 'src/types/flickr'
-import { TermTypes } from 'src/types/wordpress'
+import { GQLQuery } from '@common/graphql/query'
+import { GQLBoolean, GQLInt, GQLString, GQLType } from '@common/graphql/type'
+import { FlickrImage } from '@src/types/flickr'
+import { TermTypes } from '@src/types/wordpress'
 import type {
     ImageSize,
     Image,
@@ -9,7 +9,7 @@ import type {
     MenuItem,
     Post,
     TagCloud,
-} from 'src/types/wordpress'
+} from '@src/types/wordpress'
 
 const list = true
 const required = true
@@ -102,12 +102,11 @@ export const GQLTagCloud = new GQLType<TagCloud>('TagCloud', {
     hit: { type: GQLInt },
 })
 
-export const queryBackgrounds = new GQLQuery<[], Image[]>(
-    'backgrounds',
+export const queryBackground = new GQLQuery<[], Image>(
+    'background',
     {},
     {
         type: GQLImage,
-        list,
     },
 )
 

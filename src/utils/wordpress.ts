@@ -55,7 +55,7 @@ const htmlSplitRegex = (() => {
  * @return {string[]} The formatted text.
  */
 const htmlSplit = (input: string): string[] => {
-    const parts = []
+    const parts: string[] = []
     let workingInput = input
 
     let match
@@ -140,7 +140,7 @@ const replaceInHtmlTags = (
  * @return {string} Text which has been converted into paragraph tags.
  */
 export const autop = (text: string, br = true): string => {
-    const preTags = []
+    const preTags: string[][] = []
 
     if (text.trim() === '') {
         return ''

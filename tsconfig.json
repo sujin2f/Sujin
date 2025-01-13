@@ -1,24 +1,36 @@
 {
-    "ts-node": {
-        "files": true
-    },
-    "files": ["src/server/index.ts", "src/global.d.ts"],
     "compilerOptions": {
-        "target": "es2018",
-        "module": "commonjs",
-        "jsx": "react",
-        "outDir": "./.build/development",
-        "removeComments": true,
-        "strict": true,
-        "rootDirs": ["src"],
-        "baseUrl": ".",
-        "paths": {
-            "src/*": ["src/*"]
-        },
-        "esModuleInterop": true,
+        "target": "ES2017",
+        "lib": ["dom", "dom.iterable", "esnext"],
+        "allowJs": true,
         "skipLibCheck": true,
-        "forceConsistentCasingInFileNames": true,
-        "lib": ["dom", "dom.iterable", "esnext"]
+        "strict": false,
+        "noEmit": true,
+        "incremental": true,
+        "module": "esnext",
+        "esModuleInterop": true,
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "jsx": "preserve",
+        "paths": {
+            "@app/*": ["./app/*"],
+            "@src/*": ["./src/*"],
+            "@common/*": ["./common/*"]
+        },
+        "plugins": [
+            {
+                "name": "next"
+            }
+        ],
+        "strictNullChecks": true
     },
-    "include": ["src/**/*", ".configs/jest/fixture.ts"]
+    "include": [
+        "next-env.d.ts",
+        ".next/types/**/*.ts",
+        "**/*.ts",
+        "**/*.tsx",
+        "src/utils/mysql/-media.ts.bak"
+    ],
+    "exclude": ["node_modules", "wordpress"]
 }

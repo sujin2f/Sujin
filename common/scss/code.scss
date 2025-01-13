@@ -1,0 +1,36 @@
+@use 'mixin';
+
+pre.code {
+    font-family: monospace;
+    overflow-x: scroll;
+    margin-bottom: 1.5em;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    font-size: 1rem !important;
+
+    .code__lines {
+        counter-reset: line;
+        background-color: var(--light-gray);
+        padding: 0 0.5em 0 0;
+
+        div::before {
+            counter-increment: line;
+            content: counter(line);
+            width: 1.5em;
+            display: inline-block;
+            text-align: right;
+            padding-right: 0.4em;
+        }
+
+        &.code__lines--bash div::before {
+            content: '#';
+        }
+    }
+
+    .hljs {
+        padding: 0.5em 0 0.5em 0.5em;
+        width: 100%;
+    }
+}
