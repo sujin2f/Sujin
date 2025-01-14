@@ -48,6 +48,7 @@ class Theme_Supports {
 	public function register_nav_menu(): void {
 		register_nav_menu( 'main-menu', 'Main Menu' );
 		register_nav_menu( 'social-media', 'Social Media' );
+		register_nav_menu( 'devtool', 'Dev Tool' );
 	}
 
 	/**
