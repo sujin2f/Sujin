@@ -1,4 +1,4 @@
-.casetool__result {
+.case-tool__result {
     .column {
         margin-bottom: var(--gap);
     }
@@ -7,6 +7,9 @@
 .text-sort__container {
     display: flex;
     overflow-y: scroll;
+    font-family: monospace;
+    font-size: 1rem;
+    line-height: 1.4;
 }
 
 .text-sort__section {

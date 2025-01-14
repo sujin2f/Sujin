@@ -2,14 +2,16 @@
 
 import React, { useEffect, use } from 'react'
 
-import { Row } from '@common/components/layout/Row'
-import { Column } from '@common/components/layout/Column'
-import { useContext } from '@src/store'
-import { setBanner, setWrapperClass } from '@src/store/actions'
-import { SideMenu } from '@src/components/dev-tools/SideMenu'
 import { CaseTool } from '@src/components/dev-tools/CaseTool'
+import { Column } from '@common/components/layout/Column'
+import { MenuNames } from '@src/constants/mysql-query'
 import { ParamPromise } from '@app/dev-tools'
+import { Row } from '@common/components/layout/Row'
 import { TextSort } from '@src/components/dev-tools/TextSort'
+import { setBanner, setMenu, setWrapperClass } from '@src/store/actions'
+import { useContext } from '@src/store'
+
+import '@src/scss/dev-tool.scss'
 
 export default function DevTool({ params }: ParamPromise) {
     const { slug } = use(params)
@@ -26,12 +28,15 @@ export default function DevTool({ params }: ParamPromise) {
     }
 
     useEffect(() => {
+        dispatch(setMenu(MenuNames.DEV_TOOL))
+    }, [dispatch])
+
+    useEffect(() => {
         dispatch(setWrapperClass(''))
         dispatch(
             setBanner({
                 title,
-                excerpt:
-                    'We cannot find the result. See below for recent articles.',
+                excerpt: '',
                 icon: undefined,
                 prefix: undefined,
                 background: undefined,
@@ -42,11 +47,7 @@ export default function DevTool({ params }: ParamPromise) {
 
     return (
         <Row>
-            <Column dom="aside" large={3} small={12}>
-                <SideMenu />
-            </Column>
-
-            <Column dom="article" large={9} small={12}>
+            <Column dom="article" small={12}>
                 {slug === 'case' && <CaseTool />}
                 {slug === 'text-sort' && <TextSort />}
             </Column>

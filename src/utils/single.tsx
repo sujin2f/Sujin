@@ -90,7 +90,6 @@ const attrs = (text: string): AttrMatch => {
     // tslint:enable:no-conditional-assignment
 
     const patternShortcode =
-        // eslint-disable-next-line no-control-regex
         /(\[([\w-]+)[^\]]*?\]([^\x02]*)?\[\/[^\]]*\2\]|\[[\w-]+[^\]]*?\/\])/gi
     const shortcodeMatch = patternShortcode.exec(text)
     if (shortcodeMatch && shortcodeMatch[3]) {
@@ -122,14 +121,13 @@ const shortcodes: Record<string, (prop: any) => JSX.Element> = {
 
 export function parseContent(content: string): JSX.Element[] {
     const patternShortcode =
-        // eslint-disable-next-line no-control-regex
         /(\[([\w-]+)[^\]]*?\][^\x02]*?\[\/[^\]]*\2\]|\[[\w-]+[^\]]*?\/\])/gi
     const str = content
 
     const matched: {
         [key: string]: AttrMatch
     } = {}
-    const splited = (str.split(patternShortcode) || [])
+    const splitted = (str.split(patternShortcode) || [])
         .filter((v) => v)
         .filter((v) => v !== 'about-item' && v !== 'caption' && v !== 'code')
     const keys = Object.keys(shortcodes)
@@ -139,7 +137,7 @@ export function parseContent(content: string): JSX.Element[] {
             matched[value] = attrs(value)
         })
     })
-    const elements = splited.map((value, index) => {
+    const elements = splitted.map((value, index) => {
         if (matched[value]) {
             for (let i = 0; i < keys.length; i++) {
                 if (value.indexOf(`[${keys[i]}`) === 0) {

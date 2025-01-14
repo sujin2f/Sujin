@@ -1,26 +1,45 @@
 'use client'
 
-import React from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
 
 import { TopBar } from '@common/components/layout/TopBar'
 import { Menu } from '@common/components/layout/Menu'
 import { Column } from '@common/components/layout/Column'
 import { Row } from '@common/components/layout/Row'
-
 import { Hamburger } from '@src/components/layout/header/Hamburger'
 import { Search } from '@src/components/layout/header/Search'
+import { useMenu } from '@src/hooks/useMenu'
 
 import Logo from '@src/images/logo-top-bar.svg'
 import Facebook from '@src/images/facebook.svg'
 import Twitter from '@src/images/twitter.svg'
 
 import '@src/scss/fixed-header.scss'
-import { useMenu } from '@src/hooks/useMenu'
-import { MenuNames } from '@src/constants/mysql-query'
+import { useContext } from '@src/store'
+
+const TOP_MENU_SCROLLED_POSITION = 80
 
 export function FixedHeader() {
-    const { menu } = useMenu(MenuNames.MAIN)
+    const [{ menu: menuSlug }] = useContext()
+    const { menu } = useMenu(menuSlug)
+    const [scrolled, setScrolled] = useState('')
+
+    const handleScrolled = useCallback(() => {
+        if (window.scrollY > TOP_MENU_SCROLLED_POSITION && !scrolled) {
+            setScrolled('scrolled')
+            return
+        }
+
+        if (window.scrollY <= TOP_MENU_SCROLLED_POSITION && scrolled) {
+            setScrolled('')
+        }
+    }, [scrolled])
+
+    useEffect(() => {
+        document.body.addEventListener('scroll', handleScrolled)
+        return () => document.body.removeEventListener('scroll', handleScrolled)
+    }, [handleScrolled])
 
     return (
         <TopBar fixed fullWidth>
@@ -36,7 +55,7 @@ export function FixedHeader() {
                     <Hamburger />
 
                     <Menu
-                        className="show-for-large top-bar__menu__container"
+                        className={`show-for-large top-bar__menu__container ${scrolled}`}
                         items={menu}
                     />
                 </Column>

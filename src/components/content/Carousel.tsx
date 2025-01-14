@@ -8,6 +8,7 @@ import { AttrMatch } from '@src/types/wordpress'
 
 import Arrow from '@src/images/prev.svg'
 import '@src/scss/carousel.scss'
+import Image from 'next/image'
 
 interface Props {
     value: AttrMatch
@@ -75,7 +76,7 @@ export const Carousel = (props: Props) => {
 
             <nav className="carousel__nav">
                 {images.map((image, key) => (
-                    <img
+                    <Image
                         src={removeURLProtocol(image)}
                         className={`${key === index && 'current'}`}
                         role="presentation"

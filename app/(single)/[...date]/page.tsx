@@ -2,21 +2,23 @@
 
 import React, { use, useEffect } from 'react'
 
-import type { ParamPromise } from '.'
+import type { ParamPromise } from '@app/(single)/[...date]'
+import { NotFound } from '@app/404'
 import { Column } from '@common/components/layout/Column'
 import { Row } from '@common/components/layout/Row'
-import { usePost } from '@src/hooks/usePost'
+import { GoogleAdvert } from '@src/components/GoogleAdvert'
 import { Content } from '@src/components/content'
+import { PrevNext } from '@src/components/content/PrevNext'
+import { RecentPosts } from '@src/components/content/RecentPosts'
+import { RelatedPosts } from '@src/components/content/RelatedPosts'
 import { SocialShare } from '@src/components/content/SocialShare'
 import { Tags } from '@src/components/content/Tags'
-import { PrevNext } from '@src/components/content/PrevNext'
-import { RelatedPosts } from '@src/components/content/RelatedPosts'
-import { RecentPosts } from '@src/components/content/RecentPosts'
-import { GoogleAdvert } from '@src/components/GoogleAdvert'
+import { MenuNames } from '@src/constants/mysql-query'
+import { usePost } from '@src/hooks/usePost'
 import { useContext } from '@src/store'
-import { setBanner, setWrapperClass } from '@src/store/actions'
+import { setBanner, setMenu, setWrapperClass } from '@src/store/actions'
+
 import Loading from '@app/loading'
-import { NotFound } from '@app/404'
 
 export default function Post({ params }: ParamPromise) {
     const [, dispatch] = useContext()
@@ -24,6 +26,10 @@ export default function Post({ params }: ParamPromise) {
         date: [, , , slug],
     } = use(params)
     const { post, loading, error } = usePost(slug)
+
+    useEffect(() => {
+        dispatch(setMenu(MenuNames.MAIN))
+    }, [dispatch])
 
     useEffect(() => {
         if (post && slug) {

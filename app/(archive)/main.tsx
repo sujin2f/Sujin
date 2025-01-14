@@ -9,10 +9,12 @@ import { Card } from '@common/components/containers/Card'
 import { Tags } from '@src/components/content/Tags'
 import { Paging } from '@common/components/containers/Paging'
 import { useContext } from '@src/store'
-import { setBanner, setWrapperClass } from '@src/store/actions'
+import { setBanner, setMenu, setWrapperClass } from '@src/store/actions'
 import { useArchive } from '@src/hooks/useArchive'
-import Loading from '@app/loading'
 import { NotFound } from '@app/404'
+import { MenuNames } from '@src/constants/mysql-query'
+
+import Loading from '@app/loading'
 
 type Props = {
     readonly type: TermTypes
@@ -24,6 +26,10 @@ export function Archive({ type, slug, page }: Props) {
     const [, dispatch] = useContext()
 
     const { archive, loading, error } = useArchive(type, slug, page)
+
+    useEffect(() => {
+        dispatch(setMenu(MenuNames.MAIN))
+    }, [dispatch])
 
     useEffect(() => {
         dispatch(setWrapperClass(''))

@@ -1,9 +1,9 @@
-import React, { useState, useCallback, Fragment } from 'react'
+import React, { useState, useCallback } from 'react'
 import Link from 'next/link'
 
+import { Input } from '@common/components/forms/Input'
 import { Column } from '@common/components/layout/Column'
 import { Row } from '@common/components/layout/Row'
-import { Input } from '@common/components/forms/Input'
 import { copyText } from '@common/utils/device'
 
 import {
@@ -37,7 +37,7 @@ export function CaseTool() {
     }, [])
 
     return (
-        <Fragment>
+        <div className="case-tool">
             <Input
                 helpText="Click result to copy to the clipboard."
                 id="convert-keyword"
@@ -47,7 +47,7 @@ export function CaseTool() {
             />
 
             {textArr.length > 0 && (
-                <Row className="casetool__result" dom="dl" fullWidth>
+                <Row className="case-tool__result" dom="dl" fullWidth>
                     {Object.keys(CASES).map((key) => {
                         const converted = CASES[key](textArr)
 
@@ -72,6 +72,6 @@ export function CaseTool() {
                     })}
                 </Row>
             )}
-        </Fragment>
+        </div>
     )
 }

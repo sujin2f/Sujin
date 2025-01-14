@@ -3,12 +3,13 @@
 import React, { useEffect } from 'react'
 
 import { useBackground } from '@src/hooks/useBackground'
-import { setBanner, setWrapperClass } from '@src/store/actions'
+import { setBanner, setMenu, setWrapperClass } from '@src/store/actions'
 import { useContext } from '@src/store'
 
 import Logo from '@src/images/logo.svg'
 import '@src/scss/front-page.scss'
 import { Banner } from '@src/store/type'
+import { MenuNames } from '@src/constants/mysql-query'
 
 const bannerInfo: Banner = {
     title: (
@@ -42,6 +43,7 @@ export default function FrontPage() {
                 excerpt: process.env.NEXT_PUBLIC_EXCERPT || '',
             }),
         )
+        dispatch(setMenu(MenuNames.MAIN))
     }, [dispatch])
 
     useEffect(() => {

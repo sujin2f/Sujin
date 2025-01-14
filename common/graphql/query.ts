@@ -58,7 +58,7 @@ export class GQLQuery<A extends ScalarJSType[], R> implements IQuery<A, R> {
         if (!this._callback) {
             throw Error('Callback does not assigned.')
         }
-        return (_, args: Record<string, ScalarJSType>) => {
+        return (_: unknown, args: Record<string, ScalarJSType>) => {
             if (args) {
                 return this._callback!(...(Object.values(args) as A))
             }
