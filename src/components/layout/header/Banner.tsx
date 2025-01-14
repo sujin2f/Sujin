@@ -2,21 +2,20 @@
 
 import React, { Fragment } from 'react'
 
-import { Menu } from '@common/components/layout/Menu'
-import { ImageType } from '@src/constants/wp'
-import { getImageMap } from '@src/utils/common'
-import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
+import { Menu } from '@common/components/layout/Menu'
+import { Row } from '@common/components/layout/Row'
 import { removeURLProtocol } from '@common/utils/string'
-import { useContext } from '@src/store'
+import { ImageType } from '@src/constants/wp'
 import { useMenu } from '@src/hooks/useMenu'
-import { MenuNames } from '@src/constants/mysql-query'
+import { useContext } from '@src/store'
+import { getImageMap } from '@src/utils/common'
 
 import '@src/scss/banner.scss'
 
 export function Banner() {
-    const { menu } = useMenu(MenuNames.MAIN)
-    const [{ banner }] = useContext()
+    const [{ banner, menu: menuSlug }] = useContext()
+    const { menu } = useMenu(menuSlug)
 
     // TODO
     const style = banner.backgroundColor

@@ -9,7 +9,6 @@ import React, {
     createElement,
 } from 'react'
 import { filterEmpty } from '../../utils/object'
-import { generateUUID } from '../../utils/string'
 import { className as getClassName } from '../../utils/string'
 
 import '../../scss/form.scss'
@@ -60,11 +59,11 @@ export function Input(props: Props) {
         onChange,
         placeholder,
         name,
+        id,
     } = props
 
     const refComp = useRef<HTMLInputElement>(null)
     const ref = useMemo(() => refProp || refComp, [refProp, refComp])
-    const id = useMemo(() => props.id || generateUUID(), [props.id])
     const type = useMemo(() => props.type || 'text', [props.type])
     const ariaDescribedby = useMemo(
         () => (helpText ? `${id}-help-text` : ''),

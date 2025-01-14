@@ -18,6 +18,13 @@ export const reducer = (state: State = initialState, action: Action): State => {
             }
         }
 
+        case ActionType.SET_MENU: {
+            return {
+                ...state,
+                menu: action.menu,
+            }
+        }
+
         default: {
             return state
         }

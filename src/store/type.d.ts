@@ -12,6 +12,7 @@ export type Banner = {
 export type State = {
     wrapperClass: string
     banner: Banner
+    menu: string
 }
 
 export type Action = State & {

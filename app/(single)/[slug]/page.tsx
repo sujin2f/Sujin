@@ -10,14 +10,19 @@ import { Content } from '@src/components/content'
 import { SocialShare } from '@src/components/content/SocialShare'
 import type { ParamPromise } from '.'
 import { useContext } from '@src/store'
-import { setBanner, setWrapperClass } from '@src/store/actions'
+import { setBanner, setMenu, setWrapperClass } from '@src/store/actions'
 import { NotFound } from '@app/404'
 import { Loading } from '@src/components/Loading'
+import { MenuNames } from '@src/constants/mysql-query'
 
 export default function Page({ params }: ParamPromise) {
     const [, dispatch] = useContext()
     const { slug } = use(params)
     const { post, loading, error } = usePost(slug)
+
+    useEffect(() => {
+        dispatch(setMenu(MenuNames.MAIN))
+    }, [dispatch])
 
     useEffect(() => {
         if (post && slug) {

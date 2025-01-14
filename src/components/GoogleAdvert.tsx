@@ -1,3 +1,4 @@
+import Script from 'next/script'
 import React, { useRef, useEffect, Fragment } from 'react'
 
 interface Props {
@@ -42,16 +43,16 @@ export function GoogleAdvert(props: Props) {
 
     return (
         <>
-            <script
+            <Script
                 async
                 src="https://www.googletagmanager.com/gtag/js?id=UA-37266518-1"
                 crossOrigin="anonymous"
-            ></script>
-            <script
+            ></Script>
+            <Script
                 async
                 src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.GOOGLE_AD_CLIENT}`}
                 crossOrigin="anonymous"
-            ></script>
+            ></Script>
             <section className="widget google-advert">
                 <ins
                     className="adsbygoogle"

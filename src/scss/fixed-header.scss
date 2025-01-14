@@ -48,6 +48,10 @@ $social-height: 26px;
             color: var(--white);
         }
     }
+
+    &.scrolled .menu__link {
+        margin-top: 0 !important;
+    }
 }
 
 .search__input {
@@ -207,8 +211,4 @@ $social-height: 26px;
             fill: var(--primary);
         }
     }
-}
-
-.wrapper--scrolled .menu__link {
-    margin-top: 0 !important;
 }

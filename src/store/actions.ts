@@ -14,3 +14,10 @@ export const setWrapperClass = (wrapperClass: string): Partial<Action> => {
         wrapperClass,
     }
 }
+
+export const setMenu = (menu: string): Partial<Action> => {
+    return {
+        type: ActionType.SET_MENU,
+        menu,
+    }
+}

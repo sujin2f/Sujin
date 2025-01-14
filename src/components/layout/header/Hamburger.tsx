@@ -6,10 +6,11 @@ import HamburgerIcon from '@src/images/hamburger.svg'
 import { Menu } from '@common/components/layout/Menu'
 import { useDocumentClick } from '@common/hooks/useDocumentClick'
 import { useMenu } from '@src/hooks/useMenu'
-import { MenuNames } from '@src/constants/mysql-query'
+import { useContext } from '@src/store'
 
 export function Hamburger() {
-    const { menu } = useMenu(MenuNames.MAIN)
+    const [{ menu: menuSlug }] = useContext()
+    const { menu } = useMenu(menuSlug)
     const [menuOpened, setMenuOpened] = useState(false)
     const toggleMenu = () => setMenuOpened(!menuOpened)
     const ref = useDocumentClick<HTMLElement>(() => {
