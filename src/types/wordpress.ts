@@ -16,7 +16,7 @@ export type Post = {
     title: string
     excerpt: string
     content: string
-    date: string
+    date: number
     link: string
     parent: number
     type: string

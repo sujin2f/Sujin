@@ -10,6 +10,7 @@ import { unserialize } from '@src/utils/wordpress'
 import { MySQL } from '@src/db/mysql'
 import { request as getPost } from '@src/db/mysql/getPost'
 import { getAllPostMeta } from '@src/db/mysql/getAllPostMeta'
+import { DAY_IN_SECONDS } from '@common/constants/datetime'
 
 const getMenuItemFromPost = async (post: Post): Promise<Nullable<MenuItem>> => {
     const result = {} as MenuItem
@@ -86,7 +87,9 @@ const request = async (slug: string): Promise<MenuItem[]> => {
 }
 
 const cachedRequest = async (slug: string) => {
-    return unstable_cache(async () => await request(slug), ['menu', slug])
+    return unstable_cache(async () => await request(slug), ['menu', slug], {
+        revalidate: DAY_IN_SECONDS,
+    })
 }
 
 export const getMenu = async (slug: string) => {

@@ -2,22 +2,20 @@ import React, { PropsWithChildren } from 'react'
 import type { Metadata } from 'next'
 import { Ubuntu } from 'next/font/google'
 
-import { Store } from '@src/store'
-import Wrapper from '@app/wrapper'
-
 import '@src/scss/wrapper.scss'
 import '@common/scss/normalize.css'
 import '@common/scss/base.scss'
+import { WrapperClient } from '@app/wrapper-client'
 
 export const metadata: Metadata = {
     title: 'Sujin',
     description: 'React, Node, Wordpress Developer',
     keywords: ['Next.js', 'React', 'JavaScript', 'TypeScript', 'Express'],
     creator: 'Sujin Choi',
-    metadataBase: new URL('https://sujinc.com'),
+    metadataBase: new URL(process.env.BASE_URL || ''),
     openGraph: {
         images: '/thumbnail.png',
-        url: 'https://sujinc.com',
+        url: process.env.BASE_URL,
         title: 'Sujin',
         siteName: 'Sujin',
     },
@@ -38,7 +36,7 @@ const ubuntu = Ubuntu({
     subsets: ['latin'],
 })
 
-export default function RootLayout({ children }: PropsWithChildren) {
+export default function Layout({ children }: PropsWithChildren) {
     return (
         <html lang="en">
             <head>
@@ -52,9 +50,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
                 </script>
             </head>
             <body className={`wrapper ${ubuntu.className}`}>
-                <Store>
-                    <Wrapper>{children}</Wrapper>
-                </Store>
+                <WrapperClient>{children}</WrapperClient>
             </body>
         </html>
     )

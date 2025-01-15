@@ -4,9 +4,9 @@ import { unstable_cache } from 'next/cache'
 import axios from 'axios'
 import { flickr } from '@src/constants/flickr-default'
 import { FlickrImage, FlickrResponse } from '@src/types/flickr'
+import { DAY_IN_SECONDS } from '@common/constants/datetime'
 
 const request = async (): Promise<FlickrImage[]> => {
-    console.log(process.env.FLICKR_ID)
     if (process.env.NODE_ENV === 'development') {
         return flickr.items.map((item) => ({
             ...item,
@@ -46,4 +46,5 @@ const request = async (): Promise<FlickrImage[]> => {
 export const getFlickr = unstable_cache(
     async (): Promise<FlickrImage[]> => await request(),
     ['flickr'],
+    { revalidate: DAY_IN_SECONDS * 7 },
 )

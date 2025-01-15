@@ -189,6 +189,7 @@ export const getPostsBy = async (
             ),
             series: taxonomies.filter((term) => term.type === TermTypes.series),
             images,
+            date: new Date(post.date).getTime(),
             meta,
             prevNext: {},
             related: [],

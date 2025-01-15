@@ -43,6 +43,7 @@ $page-header-height-small: 500px;
     position: relative;
     display: flex;
     align-items: center;
+    justify-content: center;
     width: 100%;
     min-height: $page-header-height;
     color: var(--white);
@@ -50,10 +51,18 @@ $page-header-height-small: 500px;
     z-index: 2;
 }
 
+.banner__header--with-icon {
+    padding-bottom: 4.5em;
+}
+
 .column--banner__title {
     display: flex;
     align-items: center;
     flex-direction: column;
+
+    *:last-child {
+        margin-bottom: 0;
+    }
 }
 
 .banner__title__tag {
