@@ -18,7 +18,7 @@ export const Page = ({ post, thumbnail }: Props) => {
     return (
         <Row>
             <ScrollToTop />
-            <Column medium={12} large={6} largeOffset={3}>
+            <Column medium={12} large={8} largeOffset={2}>
                 <Suspense>
                     <Content post={post}>
                         <SocialShare

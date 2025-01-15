@@ -29,7 +29,7 @@ export const Post = ({ post, thumbnail }: Props) => {
     return (
         <Row>
             <ScrollToTop />
-            <Column medium={12} large={6} largeOffset={3}>
+            <Column medium={12} large={7} largeOffset={2}>
                 <Content post={post}>
                     <Tags items={post.tags} />
                     <SocialShare

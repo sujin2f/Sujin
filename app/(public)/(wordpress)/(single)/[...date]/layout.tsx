@@ -1,7 +1,7 @@
-import { Wrapper } from '@app/(wordpress)/(single)/wrapper'
-import { getMetadata } from '@app/(wordpress)/(single)/util'
+import { Wrapper } from '@app/(public)/(wordpress)/(single)/wrapper'
+import { getMetadata } from '@app/(public)/(wordpress)/(single)/util'
 import { getPost } from '@src/db/mysql/getPost'
-import NotFound from '@app/(wordpress)/not-found'
+import NotFound from '@app/(public)/not-found'
 
 type Props = {
     params: Promise<{

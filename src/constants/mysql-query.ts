@@ -279,6 +279,7 @@ export enum MenuNames {
     MAIN = 'main',
     SOCIAL = 'social-media',
     DEV_TOOL = 'devtool',
+    ETHER = 'ether',
 }
 
 export enum MenuItemTypes {

@@ -1,6 +1,6 @@
-import { ParamPromise } from '@app/(wordpress)/archive/[type]/[slug]/page/[page]'
-import { Wrapper } from '@app/(wordpress)/archive/[type]/[slug]/page/[page]/wrapper'
-import NotFound from '@app/(wordpress)/not-found'
+import { ParamPromise } from '@app/(public)/(wordpress)/archive/[type]/[slug]/page/[page]'
+import { Wrapper } from '@app/(public)/(wordpress)/archive/[type]/[slug]/page/[page]/wrapper'
+import NotFound from '@app/(public)/not-found'
 import { getTermBy } from '@src/db/mysql/getTermBy'
 
 export const generateMetadata = async ({ params }: ParamPromise) => {

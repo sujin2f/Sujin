@@ -37,8 +37,8 @@ export function FixedHeader() {
     }, [scrolled])
 
     useEffect(() => {
-        document.body.addEventListener('scroll', handleScrolled)
-        return () => document.body.removeEventListener('scroll', handleScrolled)
+        window.addEventListener('scroll', handleScrolled)
+        return () => window.removeEventListener('scroll', handleScrolled)
     }, [handleScrolled])
 
     return (
