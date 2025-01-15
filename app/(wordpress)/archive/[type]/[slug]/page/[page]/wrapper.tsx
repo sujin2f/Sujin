@@ -9,6 +9,7 @@ import { Term } from '@src/types/wordpress'
 import { Cards } from '@app/components/archive/cards'
 import { Paging } from '@app/components/archive/paging'
 import { Row } from '@common/components/layout/Row'
+import { ScrollToTop } from '@app/components/ScrollToTop'
 
 type Props = {
     archive: Term
@@ -37,6 +38,7 @@ export const Wrapper = (props: Props) => {
 
     return (
         <>
+            <ScrollToTop />
             <Row>
                 <Cards
                     posts={posts}
@@ -46,7 +48,6 @@ export const Wrapper = (props: Props) => {
                     small={12}
                 />
             </Row>
-
             <Paging pages={pages} page={page} urlPrefix={`/${type}/${slug}`} />
         </>
     )

@@ -10,6 +10,7 @@ import { setBanner, setMenu, setWrapperClass } from '@src/store/actions'
 import { useContext } from '@src/store'
 import { map } from '@common/utils/array'
 import { getMaxCols, getRows, sortText } from '@src/utils/dev-tools'
+import { ScrollToTop } from '@app/components/ScrollToTop'
 
 import '@src/scss/dev-tool.scss'
 
@@ -43,6 +44,7 @@ export default function TextSort() {
 
     return (
         <Row className="text-sort">
+            <ScrollToTop />
             <Column dom="article" small={12}>
                 <Input
                     label="Primary Sort after"

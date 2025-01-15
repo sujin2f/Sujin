@@ -10,6 +10,7 @@ import { copyText } from '@common/utils/device'
 import { MenuNames } from '@src/constants/mysql-query'
 import { setBanner, setMenu, setWrapperClass } from '@src/store/actions'
 import { useContext } from '@src/store'
+import { ScrollToTop } from '@app/components/ScrollToTop'
 
 import {
     preserveCase,
@@ -61,6 +62,7 @@ export default function CaseTool() {
 
     return (
         <Row className="case-tool">
+            <ScrollToTop />
             <Column dom="article" small={12}>
                 <Input
                     helpText="Click result to copy to the clipboard."

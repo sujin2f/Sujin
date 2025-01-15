@@ -15,6 +15,7 @@ import { GoogleAdvert } from '@app/components/GoogleAdvert'
 import { Loading } from '@app/components/archive/loading'
 import { fetchGQL } from '@common/graphql/fetchGQL'
 import { archiveOpr, queryRecent } from '@src/constants/graphql'
+import { ScrollToTop } from '@app/components/ScrollToTop'
 
 type Props = {
     post: PostType
@@ -27,6 +28,7 @@ export const Post = ({ post, thumbnail }: Props) => {
 
     return (
         <Row>
+            <ScrollToTop />
             <Column medium={12} large={6} largeOffset={3}>
                 <Content post={post}>
                     <Tags items={post.tags} />
