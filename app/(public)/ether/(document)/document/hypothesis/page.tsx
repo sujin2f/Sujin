@@ -1,10 +1,12 @@
 'use client'
 
-import Image from 'next/image'
+import { useEffect } from 'react'
+
+import { Image } from '@app/(public)/ether/(document)/document/image'
 import { MenuNames } from '@src/constants/mysql-query'
 import { useContext } from '@src/store'
 import { setBanner, setMenu, setWrapperClass } from '@src/store/actions'
-import { useEffect } from 'react'
+import { ScrollToTop } from '@app/components/ScrollToTop'
 
 import pic1 from '@src/images/ether/pic1_eng.png'
 import pic2 from '@src/images/ether/pic2_eng.png'
@@ -34,6 +36,7 @@ export default function Intro() {
 
     return (
         <>
+            <ScrollToTop />
             <p>
                 This document begins with a single question. According to
                 quantum physics, matter exists as a probability. However, is the
@@ -42,7 +45,7 @@ export default function Intro() {
                 that have?
             </p>
             <div className="align__center">
-                <Image src={pic3} alt="Hypothesis" role="presentation" />
+                <Image src={pic3} alt="Hypothesis" />
                 <p>
                     <strong>Hypothesis</strong>
                     <br />
@@ -68,22 +71,21 @@ export default function Intro() {
             <h3>Ether and Sparkle</h3>
 
             <p>
-                If thq at&apos;s the case, what is the probability space?
-                Assuming that the mass of a photon-ish matter is also zero, just
-                like the photon with zero mass, we can assume that what has mass
-                is space. A photon in a vacuum state travels at the speed of
-                light. On the other hand, photon-ish matter bound by mass would
-                have a slower speed. If the mass of space increases, the speed
-                of photon-ish matter would decrease, and vice versa. The
-                universe is what photons can travel through. If the space of a
-                photon is the entire universe, then the universe of photon-ish
-                matter can be considered a probability space with mass.
+                If that&apos;s the case, what is the probability space? Assuming
+                that the mass of a photon-ish matter is also zero, just like the
+                photon with zero mass, we can assume that what has mass is
+                space. A photon in a vacuum state travels at the speed of light.
+                On the other hand, photon-ish matter bound by mass would have a
+                slower speed. If the mass of space increases, the speed of
+                photon-ish matter would decrease, and vice versa. The universe
+                is what photons can travel through. If the space of a photon is
+                the entire universe, then the universe of photon-ish matter can
+                be considered a probability space with mass.
             </p>
 
             <div className="align__center">
                 <Image
                     src={pic8}
-                    role="presentation"
                     alt="The differences between the photon and electron"
                 />
 
@@ -105,7 +107,7 @@ export default function Intro() {
             </p>
 
             <div className="align__center">
-                <Image src={pic7} role="presentation" alt="Name it!" />
+                <Image src={pic7} alt="Name it!" />
                 <p>
                     <strong>Name it!</strong>: ether and a sparkle
                 </p>
@@ -132,11 +134,7 @@ export default function Intro() {
             </p>
 
             <div className="align__center">
-                <Image
-                    src={pic91}
-                    role="presentation"
-                    alt="Emerging and shrinking of universe"
-                />
+                <Image src={pic91} alt="Emerging and shrinking of universe" />
             </div>
 
             <p>
@@ -171,7 +169,6 @@ export default function Intro() {
             <div className="align__center">
                 <Image
                     src={pic4}
-                    role="presentation"
                     alt="Applying the hypothesis to the double-slit experiment"
                 />
                 <p>
@@ -223,11 +220,7 @@ export default function Intro() {
             </p>
 
             <div className="align__center">
-                <Image
-                    src={pic1}
-                    role="presentation"
-                    alt="Classic Physics: Bohr Model"
-                />
+                <Image src={pic1} alt="Classic Physics: Bohr Model" />
 
                 <p>
                     <strong>Classic Physics</strong>: Bohr Model
@@ -261,7 +254,6 @@ export default function Intro() {
             <div className="align__center">
                 <Image
                     src={pic2}
-                    role="presentation"
                     alt="Reconstruction Bohr Model by Ether-Sparkle Hypothesis"
                 />
 

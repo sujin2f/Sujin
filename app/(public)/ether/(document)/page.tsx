@@ -1,5 +1,6 @@
 'use client'
 
+import { ScrollToTop } from '@app/components/ScrollToTop'
 import { MenuNames } from '@src/constants/mysql-query'
 import { useContext } from '@src/store'
 import { setBanner, setMenu, setWrapperClass } from '@src/store/actions'
@@ -26,6 +27,7 @@ export default function Intro() {
 
     return (
         <>
+            <ScrollToTop />
             <h1 id="intro">
                 Hypothesis on the Spatial and Temporal Aspects of Matter
             </h1>

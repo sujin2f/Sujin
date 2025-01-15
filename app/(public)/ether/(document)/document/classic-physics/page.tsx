@@ -1,13 +1,17 @@
 'use client'
 
-import Image from 'next/image'
+import { useEffect } from 'react'
 import { InlineMath, BlockMath } from 'react-katex'
+
+import { Image } from '@app/(public)/ether/(document)/document/image'
 import { MenuNames } from '@src/constants/mysql-query'
 import { useContext } from '@src/store'
 import { setBanner, setMenu, setWrapperClass } from '@src/store/actions'
-import { useEffect } from 'react'
+import { ScrollToTop } from '@app/components/ScrollToTop'
+import { Table } from '@common/components/containers/Table'
 
 import pic5 from '@src/images/ether/pic5_eng.png'
+
 import 'katex/dist/katex.min.css'
 
 export default function Intro() {
@@ -30,6 +34,7 @@ export default function Intro() {
 
     return (
         <>
+            <ScrollToTop />
             <h3>
                 The emitted wavelengths of the Photon-Ether based on Bohr&apos;s
                 atomic model
@@ -53,65 +58,55 @@ export default function Intro() {
                 </p>
             </div>
 
-            <div className="table-scroll">
-                <table className="unstriped">
-                    <thead>
-                        <tr>
-                            <th>n</th>
-                            <th>2</th>
-                            <th>3</th>
-                            <th>4</th>
-                            <th>5</th>
-                            <th>6</th>
-                            <th>7</th>
-                            <th>8</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>nm</th>
-                            <td>121.50</td>
-                            <td>102.51</td>
-                            <td>97.20</td>
-                            <td>94.92</td>
-                            <td>93.73</td>
-                            <td>93.02</td>
-                            <td>92.57</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <p className="align__center">
-                <strong>Wavelength of the Lyman Series</strong>
-            </p>
+            <Table scroll center caption="Wavelength of the Lyman Series">
+                <thead>
+                    <tr>
+                        <th>n</th>
+                        <th>2</th>
+                        <th>3</th>
+                        <th>4</th>
+                        <th>5</th>
+                        <th>6</th>
+                        <th>7</th>
+                        <th>8</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>nm</th>
+                        <td>121.50</td>
+                        <td>102.51</td>
+                        <td>97.20</td>
+                        <td>94.92</td>
+                        <td>93.73</td>
+                        <td>93.02</td>
+                        <td>92.57</td>
+                    </tr>
+                </tbody>
+            </Table>
 
-            <div className="table-scroll">
-                <table className="unstriped">
-                    <thead>
-                        <tr>
-                            <th>n</th>
-                            <th>4</th>
-                            <th>5</th>
-                            <th>6</th>
-                            <th>7</th>
-                            <th>8</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>nm</th>
-                            <td>1,874.60</td>
-                            <td>1,281.46</td>
-                            <td>1,093.52</td>
-                            <td>1,004.67</td>
-                            <td>954.34</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <p className="align__center">
-                <strong>Wavelength of the Paschen Series</strong>
-            </p>
+            <Table scroll center caption="Wavelength of the Paschen Series">
+                <thead>
+                    <tr>
+                        <th>n</th>
+                        <th>4</th>
+                        <th>5</th>
+                        <th>6</th>
+                        <th>7</th>
+                        <th>8</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>nm</th>
+                        <td>1,874.60</td>
+                        <td>1,281.46</td>
+                        <td>1,093.52</td>
+                        <td>1,004.67</td>
+                        <td>954.34</td>
+                    </tr>
+                </tbody>
+            </Table>
 
             <p>
                 At first glance, it may seem that there is a decreasing pattern
@@ -124,39 +119,34 @@ export default function Intro() {
                 wave numbers, it can be represented as follows:
             </p>
 
-            <div className="table-scroll">
-                <table className="unstriped">
-                    <thead>
-                        <tr>
-                            <th>n</th>
-                            <th>2</th>
-                            <th>3</th>
-                            <th>4</th>
-                            <th>5</th>
-                            <th>6</th>
-                            <th>7</th>
-                            <th>8</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>
-                                cm<sup>-1</sup>
-                            </th>
-                            <td>82,302.98</td>
-                            <td>97,544.28</td>
-                            <td>102,878.73</td>
-                            <td>105,347.82</td>
-                            <td>106,689.05</td>
-                            <td>107,497.77</td>
-                            <td>108,022.67</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <p className="align__center">
-                <strong>Wave Number of Lyman Series</strong>
-            </p>
+            <Table scroll center caption="Wave Number of Lyman Series">
+                <thead>
+                    <tr>
+                        <th>n</th>
+                        <th>2</th>
+                        <th>3</th>
+                        <th>4</th>
+                        <th>5</th>
+                        <th>6</th>
+                        <th>7</th>
+                        <th>8</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>
+                            cm<sup>-1</sup>
+                        </th>
+                        <td>82,302.98</td>
+                        <td>97,544.28</td>
+                        <td>102,878.73</td>
+                        <td>105,347.82</td>
+                        <td>106,689.05</td>
+                        <td>107,497.77</td>
+                        <td>108,022.67</td>
+                    </tr>
+                </tbody>
+            </Table>
 
             <p>
                 Let&apos;s focus on the gaps between the wave numbers. In other
@@ -164,85 +154,83 @@ export default function Intro() {
                 and from 4 to 3.
             </p>
 
-            <div className="table-scroll">
-                <table className="unstriped">
-                    <thead>
-                        <tr>
-                            <th>n</th>
-                            <th>
-                                <InlineMath>3 \to 2</InlineMath>
-                            </th>
-                            <th>
-                                <InlineMath>4 \to 3</InlineMath>
-                            </th>
-                            <th>
-                                <InlineMath>5 \to 4</InlineMath>
-                            </th>
-                            <th>
-                                <InlineMath>6 \to 5</InlineMath>
-                            </th>
-                            <th>
-                                <InlineMath>7 \to 6</InlineMath>
-                            </th>
-                            <th>
-                                <InlineMath>8 \to 7</InlineMath>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>
-                                cm<sup>-1</sup>
-                            </th>
-                            <td>15,241.29</td>
-                            <td>5,334.45</td>
-                            <td>2,469.08</td>
-                            <td>1,341.23</td>
-                            <td>808.72</td>
-                            <td>524.89</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <p className="align__center">
-                <strong>Wave Number Differences of the Lyman Series</strong>
-            </p>
+            <Table
+                scroll
+                center
+                caption="Wave Number Differences of the Lyman Series"
+            >
+                <thead>
+                    <tr>
+                        <th>n</th>
+                        <th>
+                            <InlineMath>3 \to 2</InlineMath>
+                        </th>
+                        <th>
+                            <InlineMath>4 \to 3</InlineMath>
+                        </th>
+                        <th>
+                            <InlineMath>5 \to 4</InlineMath>
+                        </th>
+                        <th>
+                            <InlineMath>6 \to 5</InlineMath>
+                        </th>
+                        <th>
+                            <InlineMath>7 \to 6</InlineMath>
+                        </th>
+                        <th>
+                            <InlineMath>8 \to 7</InlineMath>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>
+                            cm<sup>-1</sup>
+                        </th>
+                        <td>15,241.29</td>
+                        <td>5,334.45</td>
+                        <td>2,469.08</td>
+                        <td>1,341.23</td>
+                        <td>808.72</td>
+                        <td>524.89</td>
+                    </tr>
+                </tbody>
+            </Table>
 
-            <div className="table-scroll">
-                <table className="unstriped">
-                    <thead>
-                        <tr>
-                            <th>n</th>
-                            <th>
-                                <InlineMath>5 \to 4</InlineMath>
-                            </th>
-                            <th>
-                                <InlineMath>6 \to 5</InlineMath>
-                            </th>
-                            <th>
-                                <InlineMath>7 \to 6</InlineMath>
-                            </th>
-                            <th>
-                                <InlineMath>8 \to 7</InlineMath>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>
-                                cm<sup>-1</sup>
-                            </th>
-                            <td>2,469.08</td>
-                            <td>1,341.23</td>
-                            <td>808.72</td>
-                            <td>524.89</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <p className="align__center">
-                <strong>Wave Number Differences of the Paschen Series</strong>
-            </p>
+            <Table
+                scroll
+                center
+                caption="Wave Number Differences of the Paschen Series"
+            >
+                <thead>
+                    <tr>
+                        <th>n</th>
+                        <th>
+                            <InlineMath>5 \to 4</InlineMath>
+                        </th>
+                        <th>
+                            <InlineMath>6 \to 5</InlineMath>
+                        </th>
+                        <th>
+                            <InlineMath>7 \to 6</InlineMath>
+                        </th>
+                        <th>
+                            <InlineMath>8 \to 7</InlineMath>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>
+                            cm<sup>-1</sup>
+                        </th>
+                        <td>2,469.08</td>
+                        <td>1,341.23</td>
+                        <td>808.72</td>
+                        <td>524.89</td>
+                    </tr>
+                </tbody>
+            </Table>
 
             <p>
                 The difference in wave numbers is the same for both series. This
@@ -284,51 +272,46 @@ export default function Intro() {
                 </p>
             </div>
 
-            <div className="table-scroll">
-                <table className="unstriped">
-                    <thead>
-                        <tr>
-                            <th>n</th>
-                            <th>
-                                <InlineMath>2 \to 1</InlineMath>
-                            </th>
-                            <th>
-                                <InlineMath>3 \to 2</InlineMath>
-                            </th>
-                            <th>
-                                <InlineMath>4 \to 3</InlineMath>
-                            </th>
-                            <th>
-                                <InlineMath>5 \to 4</InlineMath>
-                            </th>
-                            <th>
-                                <InlineMath>6 \to 5</InlineMath>
-                            </th>
-                            <th>
-                                <InlineMath>7 \to 6</InlineMath>
-                            </th>
-                            <th>
-                                <InlineMath>8 \to 7</InlineMath>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>eV</th>
-                            <td>10.2050</td>
-                            <td>1.8898</td>
-                            <td>0.6614</td>
-                            <td>0.3061</td>
-                            <td>0.1663</td>
-                            <td>0.1002</td>
-                            <td>0.0650</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <p className="align__center">
-                <strong>Result Energy from the Formula</strong>
-            </p>
+            <Table scroll center caption="Result Energy from the Formula">
+                <thead>
+                    <tr>
+                        <th>n</th>
+                        <th>
+                            <InlineMath>2 \to 1</InlineMath>
+                        </th>
+                        <th>
+                            <InlineMath>3 \to 2</InlineMath>
+                        </th>
+                        <th>
+                            <InlineMath>4 \to 3</InlineMath>
+                        </th>
+                        <th>
+                            <InlineMath>5 \to 4</InlineMath>
+                        </th>
+                        <th>
+                            <InlineMath>6 \to 5</InlineMath>
+                        </th>
+                        <th>
+                            <InlineMath>7 \to 6</InlineMath>
+                        </th>
+                        <th>
+                            <InlineMath>8 \to 7</InlineMath>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>eV</th>
+                        <td>10.2050</td>
+                        <td>1.8898</td>
+                        <td>0.6614</td>
+                        <td>0.3061</td>
+                        <td>0.1663</td>
+                        <td>0.1002</td>
+                        <td>0.0650</td>
+                    </tr>
+                </tbody>
+            </Table>
 
             <p>
                 In the Bohr atomic model and the Schrödinger equation for the
@@ -350,58 +333,57 @@ export default function Intro() {
 
             <BlockMath>{`\\frac{ℏ^2}{2 \\mu a_0 ^ 2} (\\dfrac{1}{(n - 1)^2} - \\dfrac{1}{n^2}) \\hspace{10pt} \\{ n \\geqq 2 \\}`}</BlockMath>
 
-            <div className="table-scroll">
-                <table className="unstriped">
-                    <thead>
-                        <tr>
-                            <th>n</th>
-                            <th>
-                                <InlineMath>2 \to 1</InlineMath>
-                            </th>
-                            <th>
-                                <InlineMath>3 \to 2</InlineMath>
-                            </th>
-                            <th>
-                                <InlineMath>4 \to 3</InlineMath>
-                            </th>
-                            <th>
-                                <InlineMath>5 \to 4</InlineMath>
-                            </th>
-                            <th>
-                                <InlineMath>6 \to 5</InlineMath>
-                            </th>
-                            <th>
-                                <InlineMath>7 \to 6</InlineMath>
-                            </th>
-                            <th>
-                                <InlineMath>8 \to 7</InlineMath>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>1st values</th>
-                            <td>10.2050</td>
-                            <td>1.8898</td>
-                            <td>0.6614</td>
-                            <td>0.3061</td>
-                            <td>0.1663</td>
-                            <td>0.1002</td>
-                            <td>0.0650</td>
-                        </tr>
-                        <tr>
-                            <th>2nd values</th>
-                            <td>10.2009</td>
-                            <td>1.8890</td>
-                            <td>0.6611</td>
-                            <td>0.3060</td>
-                            <td>0.1662</td>
-                            <td>0.1002</td>
-                            <td>0.0650</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <Table scroll center>
+                <thead>
+                    <tr>
+                        <th>n</th>
+                        <th>
+                            <InlineMath>2 \to 1</InlineMath>
+                        </th>
+                        <th>
+                            <InlineMath>3 \to 2</InlineMath>
+                        </th>
+                        <th>
+                            <InlineMath>4 \to 3</InlineMath>
+                        </th>
+                        <th>
+                            <InlineMath>5 \to 4</InlineMath>
+                        </th>
+                        <th>
+                            <InlineMath>6 \to 5</InlineMath>
+                        </th>
+                        <th>
+                            <InlineMath>7 \to 6</InlineMath>
+                        </th>
+                        <th>
+                            <InlineMath>8 \to 7</InlineMath>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>1st values</th>
+                        <td>10.2050</td>
+                        <td>1.8898</td>
+                        <td>0.6614</td>
+                        <td>0.3061</td>
+                        <td>0.1663</td>
+                        <td>0.1002</td>
+                        <td>0.0650</td>
+                    </tr>
+                    <tr>
+                        <th>2nd values</th>
+                        <td>10.2009</td>
+                        <td>1.8890</td>
+                        <td>0.6611</td>
+                        <td>0.3060</td>
+                        <td>0.1662</td>
+                        <td>0.1002</td>
+                        <td>0.0650</td>
+                    </tr>
+                </tbody>
+            </Table>
+
             <div className="align__center">
                 <Image src={pic5} alt="Rydberg of Photon-Ether" />
                 <p>

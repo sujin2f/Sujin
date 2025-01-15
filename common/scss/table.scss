@@ -1,0 +1,35 @@
+.table {
+    max-height: 150vh;
+    margin-bottom: var(--gap);
+    width: 100%;
+    max-width: 100%;
+
+    table {
+        border: 1px solid var(--light-gray);
+    }
+
+    thead {
+        background-color: var(--light-gray);
+    }
+
+    th,
+    td {
+        padding: 0.5em 1em;
+    }
+
+    caption {
+        margin: 0.5em 0;
+        caption-side: bottom;
+    }
+}
+
+.table__container {
+    width: fit-content;
+    max-width: 100%;
+    overflow: auto;
+}
+
+.table--center {
+    display: flex;
+    justify-content: center;
+}
