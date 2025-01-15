@@ -3,6 +3,8 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
+    height: calc(100% - 4em);
+    margin-bottom: 1em;
 }
 
 .tag-cloud {

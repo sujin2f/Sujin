@@ -1,6 +1,5 @@
 'use server'
 
-import { Nullable } from '@common/types'
 import { MySQLQuery, PER_PAGE } from '@src/constants/mysql-query'
 import { MySQL } from '@src/db/mysql'
 import { Term, TermTypes } from '@src/types/wordpress'
@@ -8,21 +7,19 @@ import { getTermMeta } from '@src/db/mysql/getTermMeta'
 import { getMedia } from '@src/db/mysql/getMedia'
 import { getPostsBy } from '@src/db/mysql/getPostsBy'
 import { unstable_cache } from 'next/cache'
+import { DAY_IN_SECONDS } from '@common/constants/datetime'
 
 export const request = async (
     type: TermTypes,
     slug: string,
     page: number,
-): Promise<Nullable<Term>> => {
+): Promise<Term> => {
     const term = await MySQL.getInstance().selectOne<Term>(
         MySQLQuery.getTermBy('slug', slug),
     )
 
-    if (!term) {
-        return
-    }
-    if (!term.id) {
-        return
+    if (!term || !term.id) {
+        throw new Error(`Cannot find the archive ${type} ${slug} ${page}`)
     }
 
     const pages = Math.ceil(term.total / PER_PAGE)
@@ -47,17 +44,22 @@ export const request = async (
 
 const cachedRequest = async (type: TermTypes, slug: string, page: number) => {
     return unstable_cache(
-        async () => await request(type, slug, page),
+        async () =>
+            await request(type, slug, page)
+                .then((result) => result)
+                .catch((e) => {
+                    throw new Error(e.message)
+                }),
         ['term', type, slug, page.toString()],
+        { revalidate: DAY_IN_SECONDS },
     )
 }
 
-export const getTermBy = async (
-    type: TermTypes,
-    slug: string,
-    page: number,
-) => {
-    return (await (
+export const getTermBy = async (type: TermTypes, slug: string, page: number) =>
+    await (
         await cachedRequest(type, slug, page)
-    )()) as Term
-}
+    )()
+        .then((result) => result)
+        .catch((e) => {
+            throw new Error(e.message)
+        })

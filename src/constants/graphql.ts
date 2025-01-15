@@ -54,7 +54,7 @@ export const GQLPost = new GQLType<Post>('Post', {
     title: { type: GQLString },
     excerpt: { type: GQLString },
     content: { type: GQLString },
-    date: { type: GQLString },
+    date: { type: GQLInt },
     link: { type: GQLString },
     parent: { type: GQLInt },
     type: { type: GQLString },
@@ -175,12 +175,11 @@ export const queryTagCloud = new GQLQuery<[], TagCloud[]>(
     },
 )
 
-export const queryRecent = new GQLQuery<[], Post[]>(
+export const queryRecent = new GQLQuery<[], Term>(
     'recent',
     {},
     {
-        type: GQLPost,
-        list,
+        type: GQLTerm,
     },
 )
 
