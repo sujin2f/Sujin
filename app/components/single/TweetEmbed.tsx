@@ -17,13 +17,15 @@ export const TweetEmbed = (props: Props) => {
                 src="//platform.twitter.com/widgets.js"
                 crossOrigin="anonymous"
                 onReady={() => {
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    window.twttr.ready().then(({ widgets }: any) => {
-                        if (ref.current) {
-                            ref.current.innerHTML = ''
-                        }
-                        widgets.createTweetEmbed(id, ref.current, {})
-                    })
+                    if (window.twttr) {
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        window.twttr.ready().then(({ widgets }: any) => {
+                            if (ref.current) {
+                                ref.current.innerHTML = ''
+                            }
+                            widgets.createTweetEmbed(id, ref.current, {})
+                        })
+                    }
                 }}
             />
             <div ref={ref} />

@@ -1,7 +1,7 @@
-import { notFound } from 'next/navigation'
 import { Wrapper } from '@app/(wordpress)/(single)/wrapper'
 import { getMetadata } from '@app/(wordpress)/(single)/util'
 import { getPost } from '@src/db/mysql/getPost'
+import NotFound from '@app/(wordpress)/not-found'
 
 type Props = {
     params: Promise<{
@@ -18,7 +18,7 @@ export default async function SingleLayout({ params }: Props) {
     const { slug } = await params
     const post = await getPost(slug)
     if (!post) {
-        notFound()
+        return <NotFound />
     }
     return <Wrapper post={post} isPost={false} />
 }
