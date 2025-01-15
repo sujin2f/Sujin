@@ -2,6 +2,7 @@ import { ParamPromise } from '@app/(wordpress)/archive/[type]/[slug]/page/[page]
 import { Wrapper } from '@app/(wordpress)/archive/[type]/[slug]/page/[page]/wrapper'
 import NotFound from '@app/(wordpress)/not-found'
 import { getTermBy } from '@src/db/mysql/getTermBy'
+import { notFound } from 'next/navigation'
 
 export const generateMetadata = async ({ params }: ParamPromise) => {
     const { type, slug, page } = await params

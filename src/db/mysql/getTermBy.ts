@@ -1,5 +1,6 @@
 'use server'
 
+import { Nullable } from '@common/types'
 import { MySQLQuery, PER_PAGE } from '@src/constants/mysql-query'
 import { MySQL } from '@src/db/mysql'
 import { Term, TermTypes } from '@src/types/wordpress'
@@ -13,7 +14,7 @@ export const request = async (
     type: TermTypes,
     slug: string,
     page: number,
-): Promise<Term> => {
+): Promise<Nullable<Term>> => {
     const term = await MySQL.getInstance().selectOne<Term>(
         MySQLQuery.getTermBy('slug', slug),
     )
@@ -44,12 +45,7 @@ export const request = async (
 
 const cachedRequest = async (type: TermTypes, slug: string, page: number) => {
     return unstable_cache(
-        async () =>
-            await request(type, slug, page)
-                .then((result) => result)
-                .catch((e) => {
-                    throw new Error(e.message)
-                }),
+        async () => await request(type, slug, page),
         ['term', type, slug, page.toString()],
         { revalidate: DAY_IN_SECONDS },
     )
