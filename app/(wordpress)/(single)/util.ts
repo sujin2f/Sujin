@@ -7,6 +7,9 @@ export const getMetadata = async (
     day?: number,
 ) => {
     const post = await getPost(slug)
+    if (!post) {
+        return {}
+    }
     const pathname =
         year && month && day ? `/${year}/${month}/${day}/${slug}` : `/${slug}`
     const url = `${process.env.BASE_URL}${pathname}`

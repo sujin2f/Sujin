@@ -46,6 +46,9 @@ export default async function SingleLayout({ params }: Props) {
     }
     const [, , , slug] = result
 
-    const post = await getPost(slug).catch(() => notFound())
+    const post = await getPost(slug)
+    if (!post) {
+        notFound()
+    }
     return <Wrapper post={post} isPost={true} />
 }

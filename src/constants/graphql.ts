@@ -1,5 +1,6 @@
 import { GQLQuery } from '@common/graphql/query'
 import { GQLBoolean, GQLInt, GQLString, GQLType } from '@common/graphql/type'
+import { Nullable } from '@common/types'
 import { FlickrImage } from '@src/types/flickr'
 import { TermTypes } from '@src/types/wordpress'
 import type {
@@ -110,7 +111,7 @@ export const queryBackground = new GQLQuery<[], Image>(
     },
 )
 
-export const queryPost = new GQLQuery<[string], Post>(
+export const queryPost = new GQLQuery<[string], Nullable<Post>>(
     'post',
     {
         slug: {
@@ -137,7 +138,10 @@ export const queryMenu = new GQLQuery<[string], MenuItem[]>(
     },
 )
 
-export const queryArchive = new GQLQuery<[TermTypes, string, number], Term>(
+export const queryArchive = new GQLQuery<
+    [TermTypes, string, number],
+    Nullable<Term>
+>(
     'archive',
     {
         type: {

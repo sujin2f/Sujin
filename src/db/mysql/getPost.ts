@@ -5,29 +5,25 @@ import { getPostsBy } from '@src/db/mysql/getPostsBy'
 import { unstable_cache } from 'next/cache'
 import { Error } from '@common/model/Error'
 import { DAY_IN_SECONDS } from '@common/constants/datetime'
+import { Nullable } from '@common/types'
 
 export const request = async (
     queryKey: 'id' | 'slug',
     queryValue: string | number,
     ignoreStatus = false,
-): Promise<Post> => {
+): Promise<Nullable<Post>> => {
     const posts = await getPostsBy(queryKey, queryValue, 1, ignoreStatus)
 
     if (posts.length) {
         return posts[0]
     }
 
-    throw new Error(`Cannot find the post ${queryKey}: ${queryValue}`)
+    return
 }
 
 const cachedRequest = async (slug: string) => {
     return unstable_cache(
-        async () =>
-            await request('slug', slug)
-                .then((result) => result)
-                .catch((e) => {
-                    throw new Error(e.message)
-                }),
+        async () => await request('slug', slug),
         ['post', slug],
         { revalidate: DAY_IN_SECONDS * 7 },
     )
@@ -41,8 +37,4 @@ export const getPost = async (slug: string) => {
     return await (
         await cachedRequest(slug)
     )()
-        .then((result) => result)
-        .catch((e) => {
-            throw new Error(e.message)
-        })
 }
