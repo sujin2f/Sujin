@@ -64,7 +64,9 @@ export function Banner() {
                     </picture>
                 )}
 
-                <div className="banner__header">
+                <div
+                    className={`banner__header ${banner.icon && 'banner__header--with-icon'}`}
+                >
                     <Row>
                         <Column small={12} className="column--banner__title">
                             <h1 className="banner__title">
@@ -77,7 +79,11 @@ export function Banner() {
                                 {banner.title}
                             </h1>
 
-                            <p className="banner__excerpt">{banner.excerpt}</p>
+                            {banner.excerpt && (
+                                <p className="banner__excerpt">
+                                    {banner.excerpt}
+                                </p>
+                            )}
                         </Column>
                     </Row>
                 </div>
