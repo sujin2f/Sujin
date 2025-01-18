@@ -1,7 +1,8 @@
+import { cache } from 'react'
 import type { IQuery, ScalarJSType } from '.'
 import { Error } from '@common/model/Error'
 
-export const fetchGQL = <A extends ScalarJSType[], R>(
+const fetchGQL = <A extends ScalarJSType[], R>(
     query: IQuery<A, R>,
     fields: string,
     ...args: A
@@ -9,9 +10,7 @@ export const fetchGQL = <A extends ScalarJSType[], R>(
     fetch(`/api/graphql`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            query: query.toOperation(fields, ...args),
-        }),
+        body: query.toOperation(fields, ...args),
     })
         .then((response) => {
             if (response.status >= 400) {
@@ -30,5 +29,7 @@ export const fetchGQL = <A extends ScalarJSType[], R>(
                     { level: 'log' },
                 )
             }
-            return value
+            return value as R
         })
+
+export default cache(fetchGQL)

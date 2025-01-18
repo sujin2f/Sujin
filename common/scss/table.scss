@@ -1,10 +1,9 @@
 .table {
-    max-height: 150vh;
     margin-bottom: var(--gap);
     width: 100%;
     max-width: 100%;
 
-    table {
+    .table__container {
         border: 1px solid var(--light-gray);
     }
 
@@ -20,6 +19,7 @@
     caption {
         margin: 0.5em 0;
         caption-side: bottom;
+        text-align: start;
     }
 }
 

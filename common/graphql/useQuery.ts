@@ -2,7 +2,7 @@ import { useQuery as reactUseQuery } from '@tanstack/react-query'
 import { useGlobalState } from '../hooks/useGlobalState'
 import type { IQuery, ScalarJSType } from '.'
 import type { Nullable } from '../types'
-import { fetchGQL } from './fetchGQL'
+import fetchGQL from './fetchGQL'
 
 type ReturnType<T> = {
     data: Nullable<T>
@@ -23,11 +23,14 @@ export const useQuery = <A extends ScalarJSType[], R>(
 
     const { data, isLoading, error } = reactUseQuery<Nullable<R>>({
         queryKey: [query.name, ...args],
-        queryFn: () =>
-            fetchGQL(query, fields, ...args).then((value) => {
+        queryFn: () => {
+            // Prevent double request
+            changeState([stateData, false])
+            return fetchGQL(query, fields, ...args).then((value) => {
                 changeState([value, false])
                 return value
-            }),
+            })
+        },
         enabled,
     })
 

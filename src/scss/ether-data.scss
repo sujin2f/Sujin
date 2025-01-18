@@ -1,0 +1,19 @@
+.header--ether--data {
+    padding-top: var(--header-height);
+}
+
+.table.table--ether__data {
+    text-align: right;
+
+    tbody {
+        border-bottom: 1px solid var(--light-gray);
+
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+
+    th {
+        background-color: var(--lighter-gray);
+    }
+}

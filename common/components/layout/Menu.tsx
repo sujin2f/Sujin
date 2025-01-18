@@ -82,7 +82,12 @@ function MenuItem(props: ItemProps) {
             onMouseLeave={onMouseLeave}
             onMouseOver={onMouseOver}
         >
-            <Link className="menu__link" onClick={props.callback} href={linkTo}>
+            <Link
+                className="menu__link"
+                onClick={props.callback}
+                href={linkTo}
+                target={props.item.target}
+            >
                 {props.item.title}
 
                 {props.dropdown && hasChildren ? (

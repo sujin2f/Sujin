@@ -23,7 +23,7 @@ export const Column = (props: PropsWithChildren<Props>) => {
     const small = props.small && `small-${props.small}`
     const medium = props.medium && `medium-${props.medium}`
     const large = props.large && `large-${props.large}`
-    const larger = props.large && `larger-${props.larger}`
+    const larger = props.larger && `larger-${props.larger}`
     const smallOffset = props.smallOffset && `small-offset-${props.smallOffset}`
     const mediumOffset =
         props.mediumOffset && `medium-offset-${props.mediumOffset}`

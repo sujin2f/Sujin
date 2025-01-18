@@ -129,9 +129,8 @@ code:not(.hljs),
 kbd {
     font-family: monospace;
     white-space: pre;
-    border: 1px solid var(--gray);
     background-color: var(--light-gray);
-    display: inline-flex;
+    display: inline;
     max-width: 100%;
     word-wrap: break-word;
     padding: 0.2em 0.3em;
@@ -164,6 +163,26 @@ article {
         height: auto;
         display: block;
     }
+
+    .caption {
+        font-size: 0.9em;
+        font-style: italic;
+        margin-bottom: 1.5em;
+
+        img {
+            margin-bottom: 0.7em;
+        }
+
+        .caption__text {
+            &::before {
+                content: ' ';
+                display: block;
+                border-top: 2px solid var(--primary);
+                width: 30px;
+                padding-top: 0.5em;
+            }
+        }
+    }
 }
 
 /**
@@ -175,15 +194,6 @@ article {
 
 .hide {
     display: none;
-}
-
-.flex {
-    display: flex;
-}
-
-.flex--center {
-    align-items: center;
-    justify-content: center;
 }
 
 /**

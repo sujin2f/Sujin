@@ -1,14 +1,33 @@
-import { useQuery } from '@common/graphql/useQuery'
-import { menuOpr, queryMenu } from '@src/constants/graphql'
-import { MenuEther } from '@src/constants/menu'
-import { MenuNames } from '@src/constants/mysql-query'
+'use client'
 
-export const useMenu = (id: string) => {
-    const { data, loading, error } = useQuery(queryMenu, menuOpr, id)
-    const menu = id === MenuNames.ETHER ? MenuEther : data || []
-    return {
-        menu,
-        loading,
-        error,
+import fetchGQL from '@common/graphql/fetchGQL'
+import { menuOpr, queryMenu } from '@src/constants/graphql'
+import { MenuDefault, MenuEther, MenuEtherKor } from '@src/constants/menu'
+import { MenuNames } from '@src/constants/mysql-query'
+import { MenuItem } from '@src/types/wordpress'
+import { startTransition, useActionState, useEffect } from 'react'
+
+const getMenu = (slug: string) => {
+    if (slug === MenuNames.ETHER) {
+        return new Promise<MenuItem[]>((resolve) => resolve(MenuEther))
     }
+
+    if (slug === MenuNames.ETHER_KOR) {
+        return new Promise<MenuItem[]>((resolve) => resolve(MenuEtherKor))
+    }
+
+    return fetchGQL(queryMenu, menuOpr, slug)
+}
+
+export const useMenu = (slug: string): MenuItem[] => {
+    const [menu, setMenu] = useActionState(() => getMenu(slug), null)
+    useEffect(() => {
+        startTransition(() => setMenu())
+    }, [])
+
+    if (slug === MenuNames.MAIN && !menu) {
+        return MenuDefault
+    }
+
+    return menu || []
 }

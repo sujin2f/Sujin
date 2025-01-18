@@ -52,8 +52,11 @@ const request = async (): Promise<TagCloud[]> => {
     })
 }
 
-export const getTagCloud = unstable_cache(
-    async () => await request(),
-    ['tag-cloud'],
-    { revalidate: DAY_IN_SECONDS * 7 },
-)
+export const getTagCloud = unstable_cache(request, ['tag-cloud'], {
+    revalidate: DAY_IN_SECONDS * 7,
+})
+
+export const updateHit = async (termId: number): Promise<void> => {
+    const mysql = await MySQL.getInstance()
+    await mysql.update(MySQLQuery.updateTagHit(termId))
+}

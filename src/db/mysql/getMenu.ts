@@ -11,6 +11,7 @@ import { MySQL } from '@src/db/mysql'
 import { request as getPost } from '@src/db/mysql/getPost'
 import { getAllPostMeta } from '@src/db/mysql/getAllPostMeta'
 import { DAY_IN_SECONDS } from '@common/constants/datetime'
+import { Error } from '@common/model/Error'
 
 const getMenuItemFromPost = async (post: Post): Promise<Nullable<MenuItem>> => {
     const result = {} as MenuItem
@@ -59,6 +60,7 @@ const getMenuItemFromPost = async (post: Post): Promise<Nullable<MenuItem>> => {
 }
 
 const request = async (slug: string): Promise<MenuItem[]> => {
+    new Error(`Menu Requested ${slug}`, { level: 'log' })
     const result: Record<number, MenuItem> = {}
 
     const posts = await MySQL.getInstance().select<Post>(
@@ -86,12 +88,23 @@ const request = async (slug: string): Promise<MenuItem[]> => {
     return Object.values(result)
 }
 
-const cachedRequest = async (slug: string) => {
-    return unstable_cache(async () => await request(slug), ['menu', slug], {
-        revalidate: DAY_IN_SECONDS,
-    })
-}
+const cachedRequest = async (slug: string) =>
+    unstable_cache(
+        async () =>
+            request(slug).then((menu) => {
+                if (!menu.length) {
+                    throw new Error(`Menu ${slug} has no menuitems.`, {
+                        level: 'error',
+                    })
+                }
+                return menu
+            }),
+        ['menu', slug],
+        {
+            revalidate: DAY_IN_SECONDS,
+        },
+    )()
 
 export const getMenu = async (slug: string) => {
-    return (await cachedRequest(slug))()
+    return await cachedRequest(slug).catch(() => [] as MenuItem[])
 }

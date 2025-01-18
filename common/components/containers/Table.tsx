@@ -8,24 +8,31 @@ type Props = {
     readonly scroll?: boolean
     readonly center?: boolean
     readonly caption?: ReactNode
+    readonly className?: string
 }
 
 export const Table = ({
     scroll,
     center,
     caption,
+    className: cls,
     children,
 }: PropsWithChildren<Props>) => {
     const className = getClassName(
         'table',
         scroll && 'table--scroll',
         center && 'table--center',
+        cls && `table--${cls}`,
     )
     return (
         <div className={className}>
             <div className="table__container">
                 <table>
-                    {caption && <caption>{caption}</caption>}
+                    {caption && (
+                        <caption className="caption">
+                            <div className="caption__text">{caption}</div>
+                        </caption>
+                    )}
                     {children}
                 </table>
             </div>

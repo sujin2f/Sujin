@@ -1,5 +1,4 @@
 import { Scalar } from './constants'
-import { Nullable } from '../types'
 
 type ScalarJSType = string | number | boolean
 
@@ -8,7 +7,7 @@ type ScalarJSType = string | number | boolean
  * String or Int of { name: String } or { ref: [Int] }
  * @template T typescript filed type
  */
-interface ITypeScalar<T extends ScalarJSType> {
+interface ITypeScalar {
     name: Scalar | string
 }
 
@@ -18,12 +17,12 @@ interface ITypeScalar<T extends ScalarJSType> {
  */
 interface IType<T> extends ITypeScalar {
     name: string
-    fields: Record<string, GQLField>
+    fields: Record<string, GQLField<T>>
     toString: () => string
 }
 
 type GQLField<T> = {
-    type: ITypeScalar<T> | IType<T>
+    type: ITypeScalar | IType<T>
     list?: boolean
     required?: boolean
 }

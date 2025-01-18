@@ -1,12 +1,12 @@
 import React, { Fragment, JSX, createElement } from 'react'
 
 import { Named, AttrMatch } from '@src/types/wordpress'
-import { Gist } from '@app/components/single/Gist'
-import { TweetEmbed } from '@app/components/single/TweetEmbed'
-import { AboutItem } from '@app/components/single/AboutItem'
-import { Carousel } from '@app/components/single/Carousel'
-import { Caption } from '@app/components/single/Caption'
-import { Code } from '@app/components/single/Code'
+import { Gist } from '@components/(wordpress)/single/Gist'
+import { TweetEmbed } from '@components/(wordpress)/single/TweetEmbed'
+import { AboutItem } from '@components/(wordpress)/single/AboutItem'
+import { Carousel } from '@components/(wordpress)/single/Carousel'
+import { Caption } from '@components/(wordpress)/single/Caption'
+import { Code } from '@components/(wordpress)/single/Code'
 
 import DEFAULT_BACKGROUND from '@src/images/thumbnail.svg'
 

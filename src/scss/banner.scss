@@ -118,12 +118,20 @@ $page-header-height-small: 500px;
         color: var(--white);
         font-weight: 500;
         text-transform: uppercase;
-        background-color: rgba(0, 0, 0, 0.5);
+        background-color: transparent;
         transition: background-color ease-out 0.3s;
         border-bottom: 6px solid transparent;
         height: 4em;
         padding: 0 var(--gap);
 
+        @include mixin.hover {
+            background-color: var(--primary);
+            border-bottom: 6px solid var(--primary-dark);
+        }
+    }
+
+    .menu .menu .menu__link {
+        background-color: rgba(0, 0, 0, 0.5);
         @include mixin.hover {
             background-color: var(--primary);
             border-bottom: 6px solid var(--primary-dark);

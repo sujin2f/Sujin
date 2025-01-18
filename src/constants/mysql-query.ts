@@ -280,6 +280,7 @@ export enum MenuNames {
     SOCIAL = 'social-media',
     DEV_TOOL = 'devtool',
     ETHER = 'ether',
+    ETHER_KOR = 'ether-kor',
 }
 
 export enum MenuItemTypes {
