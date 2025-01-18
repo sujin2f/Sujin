@@ -15,7 +15,7 @@ import '@src/scss/front-page.scss'
 export default function FrontPage() {
     const [background, setBackground] = useActionState(
         () => fetchGQL(queryBackground, imageOpr),
-        null,
+        undefined,
     )
     useEffect(() => {
         startTransition(() => setBackground())

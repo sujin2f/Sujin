@@ -1,6 +1,6 @@
 'use client'
 
-import React, { Fragment } from 'react'
+import React, { Fragment, ReactNode } from 'react'
 
 import { Column } from '@common/components/layout/Column'
 import { Menu } from '@common/components/layout/Menu'
@@ -12,9 +12,18 @@ import {
 import { ImageType } from '@src/constants/wp'
 import { useMenu } from '@src/hooks/useMenu'
 import { getImageMap } from '@src/utils/common'
-import { Banner as BannerType } from '@src/store/type'
+import { Image } from '@src/types/wordpress'
 
 import '@src/scss/banner.scss'
+
+export type BannerType = {
+    title: string | ReactNode
+    excerpt: string
+    icon?: Image
+    prefix?: string
+    background?: Image
+    backgroundColor?: string
+}
 
 type Props = {
     banner: BannerType
@@ -71,7 +80,7 @@ export function Banner(props: Props) {
                                 key={`header-${map.file}`}
                                 media={map.key}
                                 srcSet={map.file}
-                                type={banner.background.mimeType}
+                                type={banner.background?.mimeType}
                             />
                         ))}
 
@@ -106,14 +115,14 @@ export function Banner(props: Props) {
                 </div>
             </section>
 
-            {banner.icon ? (
+            {banner.icon && (
                 <picture className="banner__icon__container">
                     {imageMapIcon.map((map) => (
                         <source
                             key={`icon-${map.file}`}
                             media={map.key}
                             srcSet={map.file}
-                            type={banner.icon.mimeType}
+                            type={banner.icon?.mimeType}
                         />
                     ))}
 
@@ -124,7 +133,7 @@ export function Banner(props: Props) {
                         src={removeURLProtocol(banner.icon.url)}
                     />
                 </picture>
-            ) : null}
+            )}
         </Fragment>
     )
 }
