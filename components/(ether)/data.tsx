@@ -51,7 +51,7 @@ export const Data = ({
         .reduce(
             (acc, current, index) => ({
                 ...acc,
-                [matrix[index].term]: current,
+                [`${matrix[index].term}-${matrix[index].j}`]: current,
             }),
             {},
         )

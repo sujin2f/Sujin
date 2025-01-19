@@ -17,9 +17,7 @@ export const Chart = ({
     const [chart, setChart] = useState<ChartJS>()
 
     useEffect(() => {
-        console.log(1, ref.current, chart)
-        if (ref.current && !chart) {
-            console.log(2, ref.current.getAttribute('data-assigned'))
+        if (ref.current && !chart && !ChartJS.getChart('chart-container')) {
             const datasets = Object.entries(data).map(
                 ([label, data], index) => {
                     return {
@@ -35,20 +33,16 @@ export const Chart = ({
                     } as ChartDataset<'line'>
                 },
             )
-            console.log(ref.current.getContext('2d')?.canvas.dataset.assigned)
-            if (ref.current.getContext('2d')) {
-                // ;(ref.current.getContext('2d') as unknown as ChartJS).destroy()
-            }
 
-            const newChart = new ChartJS(ref.current, {
-                type: 'line',
-                data: {
-                    datasets,
-                    labels: map(columns, (_, index) => index + 1),
-                },
-            })
-
-            setChart(newChart)
+            setChart(
+                new ChartJS(ref.current, {
+                    type: 'line',
+                    data: {
+                        datasets,
+                        labels: map(columns, (_, index) => index + 1),
+                    },
+                }),
+            )
         }
 
         return () => {
@@ -58,5 +52,5 @@ export const Chart = ({
         }
     }, [chart, columns, data])
 
-    return <canvas className="chart" ref={ref} />
+    return <canvas id="chart-container" className="chart" ref={ref} />
 }
