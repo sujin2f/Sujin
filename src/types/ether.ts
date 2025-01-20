@@ -1,6 +1,6 @@
 import { orbitalKeys } from '@src/constants/spectra'
 
-export interface Spectra {
+export interface Spectrum {
     /**
      * Atom number
      */
@@ -19,7 +19,7 @@ export interface Spectra {
      */
     spin: number
     /**
-     * The total orbital angular momentum quantum number
+     * The orbital angular momentum quantum number
      */
     l: string
     /**
@@ -28,6 +28,8 @@ export interface Spectra {
     parity: boolean
     /**
      * The total electronic angular momentum quantum number
+     * 0, 1, 2, ... n-1
+     * @see http://hyperphysics.phy-astr.gsu.edu/hbase/quantum/qangm.html#c2
      */
     j: number
     /**
@@ -40,14 +42,17 @@ export interface Spectra {
     orbital: (typeof orbitalKeys)[number]
 }
 
-export type OrbitalMatrix = {
-    term: string
-    j: number
-    l: string
-    spin: number
-    conf: string[]
-    orbital: (typeof orbitalKeys)[number]
-    items: Spectra[]
+export type SpectraItem = {
+    [label: string]: Spectrum[]
+}
+
+export type Spectra = {
+    [termGroup: string]: SpectraItem
+}
+
+export type ChartData = { [label: string]: number[] }
+export type TableData = {
+    [termGroup: string]: { [rowLabel: string]: (string | number)[][] }
 }
 
 // export type SortType = 'orbital' | 'ether'

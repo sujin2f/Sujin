@@ -1,24 +1,22 @@
 import React from 'react'
 
-import { className as getClassName } from '@common/utils/string'
-import { AttrMatch } from '@src/types/wordpress'
-import { replaceQuotes as getter } from '@src/utils/single'
+/* Helpers */
+import type { AttrMatch } from '@src/types/wordpress'
+import { joinClassNames } from '@common/utils/string'
+import { replaceQuotes } from '@src/utils/single'
 
 interface Props {
     value: AttrMatch
 }
 
-export const Caption = (props: Props) => {
-    const {
-        value: { named },
-    } = props
-
-    const align = getter(named, 'align')
-    const content = getter(named, 'innerContent')
-    const className = getClassName(
-        'caption',
-        align === 'aligncenter' && 'caption--align-center',
-    )
+/**
+ * Caption component that renders an image with a caption.
+ *
+ * @param {AttrMatch} props.value - The value containing the attributes for the caption.
+ */
+export const Caption = ({ value: { named } }: Props) => {
+    const align = replaceQuotes(named, 'align')
+    const content = replaceQuotes(named, 'innerContent')
     let image = content
     let text = ''
     const tags = content.match(/(<img[^>]*src="[^"]+"[^>]*>)(.+)/)
@@ -28,7 +26,12 @@ export const Caption = (props: Props) => {
     }
 
     return (
-        <div className={className}>
+        <div
+            className={joinClassNames(
+                'caption',
+                align === 'aligncenter' && 'caption--align-center',
+            )}
+        >
             <div
                 className="caption__image"
                 dangerouslySetInnerHTML={{ __html: image }}

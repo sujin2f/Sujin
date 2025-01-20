@@ -12,8 +12,18 @@ type PostProps = {
 
 type ArchiveProps = {
     params: Promise<{
-        type: TermTypes
+        type: string
         slug: string
-        page: number
+        page: string
     }>
+}
+
+type EtherDataProps = {
+    type: 'ether' | 'orbital'
+    atom: string
+    ion: string
+}
+
+type EtherDataServerProps = {
+    params: Promise<EtherDataProps>
 }

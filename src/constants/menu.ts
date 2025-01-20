@@ -92,7 +92,7 @@ export const MenuEther: MenuItem[] = [
     {
         ...menu,
         title: 'Data',
-        link: '/ether/data/1/1',
+        link: '/ether/data/ether/1/1',
     },
     {
         ...menu,
@@ -147,7 +147,7 @@ export const MenuEtherKor: MenuItem[] = [
     {
         ...menu,
         title: 'Data',
-        link: '/ether/data/1/1',
+        link: '/ether/data/ether/1/1',
     },
     {
         ...menu,

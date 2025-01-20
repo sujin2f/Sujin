@@ -2,7 +2,7 @@
     padding-top: var(--header-height);
 }
 
-.table.table--ether__data {
+.table.table--ether {
     text-align: right;
 
     tbody {
@@ -15,5 +15,10 @@
 
     th {
         background-color: var(--lighter-gray);
+    }
+
+    .table__ether__term-group {
+        text-align: left;
+        border-bottom: 1px solid var(--light-gray);
     }
 }

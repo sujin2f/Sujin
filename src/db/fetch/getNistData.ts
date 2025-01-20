@@ -4,8 +4,8 @@ import { Atom } from '@src/types/atom'
 import { cache } from 'react'
 import { Nullable } from '@common/types'
 import Crawler from '@src/db/mongo/crawler'
-import Spectra from '@src/db/mongo/spectra'
-import { Spectra as SpectraType } from '@src/types/ether'
+import Spectrum from '@src/db/mongo/spectra'
+import { Spectrum as SpectrumType } from '@src/types/ether'
 import { orbitalKeys } from '@src/constants/spectra'
 
 const request = async (atom: Atom, ion: number) =>
@@ -604,11 +604,11 @@ const request = async (atom: Atom, ion: number) =>
 export const getNistData = async (atom: Atom, ion: number) => {
     const crawler = await Crawler.findOne(atom.number, ion)
     if (crawler) {
-        return await Spectra.findMany(atom.number, ion)
+        return await Spectrum.findMany(atom.number, ion)
     }
     const response = await request(atom, ion)
     await parseCsvDataHandler(atom, ion, response)
-    const result = await Spectra.findMany(atom.number, ion)
+    const result = await Spectrum.findMany(atom.number, ion)
     if (result) {
         await Crawler.insertOne({ number: atom.number, ion, result: true })
     }
@@ -650,7 +650,7 @@ const parseCsvDataHandler = async (atom: Atom, ion: number, csv: string) => {
             })
 
             if (rawData) {
-                await Spectra.insertOne(rawData)
+                await Spectrum.insertOne(rawData)
             }
 
             // k
@@ -664,7 +664,7 @@ const parseCsvDataHandler = async (atom: Atom, ion: number, csv: string) => {
             })
 
             if (rawData) {
-                await Spectra.insertOne(rawData)
+                await Spectrum.insertOne(rawData)
             }
         }
         index = true
@@ -714,7 +714,7 @@ const createRawData = (param: {
     conf: string
     term: string
     j: string
-}): SpectraType | void => {
+}): SpectrumType | void => {
     const energy = filterNumValue(param.energy)
     const term = filterValue(param.term)
     const j = getNumber(param.j)
@@ -762,7 +762,7 @@ const createRawData = (param: {
         conf,
         position: parseInt(position[0]),
         orbital,
-    } as SpectraType
+    } as SpectrumType
 }
 
 /**

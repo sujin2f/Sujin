@@ -2,18 +2,18 @@
 
 import React, { Fragment, ReactNode } from 'react'
 
+/* Components */
+import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 import { Menu } from '@common/components/layout/Menu'
-import { Row } from '@common/components/layout/Row'
-import {
-    className as getClassName,
-    removeURLProtocol,
-} from '@common/utils/string'
-import { ImageType } from '@src/constants/wp'
-import { useMenu } from '@src/hooks/useMenu'
-import { getImageMap } from '@src/utils/common'
-import { Image } from '@src/types/wordpress'
 
+/* Helpers */
+import { joinClassNames, removeURLProtocol } from '@common/utils/string'
+import { ImageType } from '@src/constants/wp'
+import { getImageMap } from '@src/utils/common'
+import { useMenu } from '@src/hooks/useMenu'
+import type { Image } from '@src/types/wordpress'
+/* Assets */
 import '@src/scss/banner.scss'
 
 export type BannerType = {
@@ -31,11 +31,16 @@ type Props = {
     className?: string
 }
 
-export function Banner(props: Props) {
-    const menu = useMenu(props.menu)
-    const banner = props.banner
+/**
+ * Banner component that renders a banner with a title, excerpt, icon, and background image.
+ *
+ * @param {BannerType} props.banner - The banner data.
+ * @param {string} props.menu - The menu name to be used in the banner.
+ * @param {string} [props.className] - Additional class names for the banner.
+ */
+export function Banner({ menu: menuName, banner, className }: Props) {
+    const menu = useMenu(menuName)
 
-    // TODO
     const style =
         banner && banner.backgroundColor
             ? {
@@ -51,18 +56,15 @@ export function Banner(props: Props) {
         ? getImageMap(ImageType.ICON, banner.icon.sizes)
         : []
 
-    const className = getClassName(
-        'banner',
-        props.className && `banner--${props.className}`,
-    )
-    const classNameHeader = getClassName(
-        'banner__header',
-        banner.icon && 'banner__header--with-icon',
-    )
-
     return (
         <Fragment>
-            <section className={className} style={style}>
+            <section
+                className={joinClassNames(
+                    'banner',
+                    className && `banner--${className}`,
+                )}
+                style={style}
+            >
                 <div className="show-for-large menu__container--banner">
                     <Row>
                         <Column small={12}>
@@ -92,7 +94,12 @@ export function Banner(props: Props) {
                     </picture>
                 )}
 
-                <div className={classNameHeader}>
+                <div
+                    className={joinClassNames(
+                        'banner__header',
+                        banner.icon && 'banner__header--with-icon',
+                    )}
+                >
                     <Row>
                         <Column small={12} className="column--banner__title">
                             <h1 className="banner__title">

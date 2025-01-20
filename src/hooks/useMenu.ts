@@ -25,7 +25,7 @@ export const useMenu = (slug: string): MenuItem[] => {
         startTransition(() => setMenu())
     }, [])
 
-    if (slug === MenuNames.MAIN && !menu) {
+    if (slug === MenuNames.MAIN && menu && !menu.length) {
         return MenuDefault
     }
 

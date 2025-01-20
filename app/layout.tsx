@@ -1,7 +1,8 @@
 import React, { PropsWithChildren } from 'react'
-import type { Metadata } from 'next'
 import { Ubuntu } from 'next/font/google'
+import type { Metadata } from 'next'
 
+/* Assets */
 import '@src/scss/wrapper.scss'
 import '@common/scss/normalize.css'
 import '@common/scss/base.scss'
@@ -36,6 +37,11 @@ const ubuntu = Ubuntu({
     subsets: ['latin'],
 })
 
+/**
+ * Layout component that wraps the application with common layout elements.
+ *
+ * @param {ReactNode} props.children - The content to be wrapped by the layout.
+ */
 export default function Layout({ children }: PropsWithChildren) {
     return (
         <html lang="en">

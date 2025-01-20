@@ -1,25 +1,43 @@
 import { PropsWithChildren, createElement } from 'react'
-import { className } from '../../utils/string'
 
+/* Helpers */
+import { joinClassNames } from '../../utils/string'
+/* Assets */
 import '../../scss/layout.scss'
 
-export type OneToTwelve = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12
 export type OneToEleven = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11
-type Props = {
-    small?: OneToTwelve
-    smallOffset?: OneToEleven
-    medium?: OneToTwelve
-    mediumOffset?: OneToEleven
-    large?: OneToTwelve
-    largeOffset?: OneToEleven
-    larger?: OneToTwelve
-    largerOffset?: OneToEleven
-    className?: string
-    id?: string
-    dom?: string | React.ElementType
-}
+export type OneToTwelve = OneToEleven | 12
+type Props = PropsWithChildren<{
+    readonly small?: OneToTwelve
+    readonly smallOffset?: OneToEleven
+    readonly medium?: OneToTwelve
+    readonly mediumOffset?: OneToEleven
+    readonly large?: OneToTwelve
+    readonly largeOffset?: OneToEleven
+    readonly larger?: OneToTwelve
+    readonly largerOffset?: OneToEleven
+    readonly className?: string
+    readonly id?: string
+    readonly dom?: string | React.ElementType
+}>
 
-export const Column = (props: PropsWithChildren<Props>) => {
+/**
+ * Column component that renders a responsive column with various size and offset options.
+ *
+ * @param {ReactNode} [props.children] - The content to display in the column.
+ * @param {OneToTwelve} [props.small] - The column size for small screens.
+ * @param {OneToEleven} [props.smallOffset] - The column offset for small screens.
+ * @param {OneToTwelve} [props.medium] - The column size for medium screens.
+ * @param {OneToEleven} [props.mediumOffset] - The column offset for medium screens.
+ * @param {OneToTwelve} [props.large] - The column size for large screens.
+ * @param {OneToEleven} [props.largeOffset] - The column offset for large screens.
+ * @param {OneToTwelve} [props.larger] - The column size for larger screens.
+ * @param {OneToEleven} [props.largerOffset] - The column offset for larger screens.
+ * @param {string} [props.className] - Additional class names for the column.
+ * @param {string} [props.id] - The id of the column.
+ * @param {string | React.ElementType} [props.dom] - The DOM element or component to use for the column.
+ */
+export const Column = (props: Props) => {
     const small = props.small && `small-${props.small}`
     const medium = props.medium && `medium-${props.medium}`
     const large = props.large && `large-${props.large}`
@@ -31,12 +49,10 @@ export const Column = (props: PropsWithChildren<Props>) => {
     const largerOffset =
         props.largerOffset && `larger-offset-${props.largerOffset}`
 
-    const dom = props.dom || 'div'
-
-    const Element = createElement(
-        dom,
+    return createElement(
+        props.dom || 'div',
         {
-            className: className(
+            className: joinClassNames(
                 'column',
                 props.className,
                 small,
@@ -52,6 +68,4 @@ export const Column = (props: PropsWithChildren<Props>) => {
         },
         props.children,
     )
-
-    return Element
 }

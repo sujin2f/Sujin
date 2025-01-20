@@ -2,7 +2,7 @@ import type { Metadata } from 'next/types'
 
 import { Nullable } from '@common/types'
 import { getPost } from '@src/db/mysql/getPost'
-import { Post, Term } from '@src/types/wordpress'
+import { Post, Term, TermTypes } from '@src/types/wordpress'
 import { getTermBy } from '@src/db/mysql/getTermBy'
 import { cache } from 'react'
 
@@ -89,7 +89,11 @@ export const getArchivePageData = async ({
     params,
 }: ArchiveProps): Promise<Nullable<Term>> => {
     const { type, slug, page } = await params
-    const archive = await getArchiveCached(type, slug, page)
+    const archive = await getArchiveCached(
+        type as TermTypes,
+        slug,
+        parseInt(page),
+    )
 
     if (!archive || archive.posts.length === 0) {
         return

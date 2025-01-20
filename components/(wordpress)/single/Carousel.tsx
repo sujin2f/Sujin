@@ -2,12 +2,13 @@
 
 import React, { MouseEvent, useState, useCallback, useMemo } from 'react'
 
+/* Components */
 import { Button } from '@common/components/forms/Button'
+/* Helpers */
 import { getPrev, getNext } from '@common/utils/array'
 import { removeURLProtocol } from '@common/utils/string'
-
-import { AttrMatch } from '@src/types/wordpress'
-
+import type { AttrMatch } from '@src/types/wordpress'
+/* Assets */
 import Arrow from '@src/images/prev.svg'
 import '@src/scss/carousel.scss'
 
@@ -15,12 +16,13 @@ interface Props {
     value: AttrMatch
 }
 
-export const Carousel = (props: Props) => {
+/**
+ * Carousel component that renders a carousel of images with navigation buttons.
+ *
+ * @param {AttrMatch} props.value - The value containing the attributes for the carousel.
+ */
+export const Carousel = ({ value: { named } }: Props) => {
     const [index, setIndex] = useState(0)
-    const {
-        value: { named },
-    } = props
-
     const images: string[] = useMemo(
         () =>
             Object.keys(named)

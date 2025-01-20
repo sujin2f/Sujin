@@ -1,11 +1,14 @@
 import React, { useCallback, useState } from 'react'
-import { MenuItem } from '../../types/menu'
-import { className } from '../../utils/string'
+
+/* Components */
 import { Menu } from './Menu'
+/* Helpers */
+import { MenuItem } from '../../types/menu'
+import { joinClassNames } from '../../utils/string'
 import { useDocumentClick } from '../../hooks/useDocumentClick'
 import { useKeyDown } from '../../hooks/useKeyDown'
 import { KeyCodes } from '../../constants/keycode'
-
+/* Assets */
 import '../../scss/hamburger.scss'
 
 type Props = {
@@ -13,26 +16,35 @@ type Props = {
     className?: string
 }
 
-export const Hamburger = (props: Props) => {
+/**
+ * Hamburger component that renders a button to toggle a menu.
+ *
+ * @param {MenuItem[]} props.menu - The menu items to be displayed in the hamburger menu.
+ * @param {string} [props.className] - Additional class names for the hamburger button.
+ */
+export const Hamburger = ({ menu, className }: Props) => {
     const [hidden, setHidden] = useState(true)
     const ref = useDocumentClick<HTMLDivElement>(() => setHidden(true))
     const onClick = useCallback(() => {
         setHidden(!hidden)
     }, [hidden])
-    const menuClass = className('menu--hamburger', hidden && 'hide')
     useKeyDown(KeyCodes.ESC, () => setHidden(true))
 
     return (
         <div ref={ref}>
             <button
-                className={className('hamburger', props.className)}
+                className={joinClassNames('hamburger', className)}
                 onClick={onClick}
             >
                 <div></div>
                 <div></div>
                 <div></div>
             </button>
-            <Menu items={props.menu} className={menuClass} dropdown="click" />
+            <Menu
+                items={menu}
+                className={joinClassNames('menu--hamburger', hidden && 'hide')}
+                dropdown="click"
+            />
         </div>
     )
 }

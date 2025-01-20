@@ -3,27 +3,36 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
 
+/* Components */
 import { TopBar } from '@common/components/layout/TopBar'
 import { Menu } from '@common/components/layout/Menu'
 import { Column } from '@common/components/layout/Column'
 import { Row } from '@common/components/layout/Row'
 import { Hamburger } from '@components/header/Hamburger'
 import { Search } from '@components/header/Search'
+/* Hook */
 import { useMenu } from '@src/hooks/useMenu'
-
+/* Images */
 import Logo from '@src/images/logo-top-bar.svg'
 import Facebook from '@src/images/facebook.svg'
 import Twitter from '@src/images/twitter.svg'
-
+/* Assets */
 import '@src/scss/fixed-header.scss'
 
 const TOP_MENU_SCROLLED_POSITION = 80
 
 type Props = {
     menu: string
+    className?: string
 }
 
-export function FixedHeader(props: Props) {
+/**
+ * FixedHeader component that displays a top bar with a menu, logo, and social media links.
+ * The top bar changes its appearance when the user scrolls down the page.
+ *
+ * @param {string} props.menu - The menu items to be displayed in the top bar.
+ */
+export const FixedHeader = (props: Props) => {
     const menu = useMenu(props.menu)
     const [scrolled, setScrolled] = useState('')
 

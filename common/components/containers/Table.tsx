@@ -1,31 +1,42 @@
 import React, { type PropsWithChildren, type ReactNode } from 'react'
 
-import { className as getClassName } from '../../utils/string'
-
+/* Helpers */
+import { joinClassNames } from '../../utils/string'
+/* Assets */
 import '../../scss/table.scss'
 
-type Props = {
+type Props = PropsWithChildren<{
     readonly scroll?: boolean
     readonly center?: boolean
     readonly caption?: ReactNode
     readonly className?: string
-}
+}>
 
+/**
+ * Table component that displays a table with optional scrolling, centering, and caption.
+ *
+ * @param {ReactNode} [props.children] - The content to display in the table.
+ * @param {boolean} [props.scroll] - Whether the table should be scrollable.
+ * @param {boolean} [props.center] - Whether the table should be centered.
+ * @param {ReactNode} [props.caption] - The caption for the table.
+ * @param {string} [props.className] - Additional class names for the table.
+ */
 export const Table = ({
     scroll,
     center,
     caption,
-    className: cls,
+    className,
     children,
-}: PropsWithChildren<Props>) => {
-    const className = getClassName(
-        'table',
-        scroll && 'table--scroll',
-        center && 'table--center',
-        cls && `table--${cls}`,
-    )
+}: Props) => {
     return (
-        <div className={className}>
+        <div
+            className={joinClassNames(
+                'table',
+                scroll && 'table--scroll',
+                center && 'table--center',
+                className && `table--${className}`,
+            )}
+        >
             <div className="table__container">
                 <table>
                     {caption && (
