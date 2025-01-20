@@ -1,8 +1,11 @@
+import Link from 'next/link'
+/* Components */
 import { Image } from '@common/components/containers/image'
-import { ScrollToTop } from '@components/ScrollToTop'
 import { PrevNext } from '@components/(wordpress)/single/PrevNext'
-import { Post } from '@src/types/wordpress'
-
+/* Helpers */
+import type { Post } from '@src/types/wordpress'
+import { ScrollToTop } from '@components/ScrollToTop'
+/* Assets */
 import pic13 from '@src/images/ether/pic13_eng.png'
 import pic14 from '@src/images/ether/pic14_eng.png'
 import pic15 from '@src/images/ether/pic15.png'
@@ -190,14 +193,14 @@ export default function Conclusion() {
                 그런데 정말로 그 일이 일어났습니다. 실험을 한 것이다. 실험에서는
                 중성자 하나를 두 통로로 통과시켜 각각 스핀을 변화시키는 방식으로
                 행해졌다. 그러자 스핀의 변화가 양쪽 모두의 영향을 받은 것.{' '}
-                <a
+                <Link
                     href="https://journals.aps.org/prresearch/abstract/10.1103/PhysRevResearch.4.023075"
                     target="_blank"
                     rel="noreferrer"
                 >
                     Quantifying the presence of a neutron in the paths of an
                     interferometer
-                </a>
+                </Link>
             </p>
 
             <h2>(3) 양자 얽힘은 분리된 에테르?</h2>

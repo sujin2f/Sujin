@@ -1,14 +1,16 @@
 import { InlineMath } from 'react-katex'
-
+import Link from 'next/link'
+/* Components */
 import { Image } from '@common/components/containers/image'
-import { ScrollToTop } from '@components/ScrollToTop'
 import { Table } from '@common/components/containers/Table'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 import { Latex } from '@components/(wordpress)/single/Latex'
 import { PrevNext } from '@components/(wordpress)/single/PrevNext'
-import { Post } from '@src/types/wordpress'
-
+/* Helpers */
+import { ScrollToTop } from '@components/ScrollToTop'
+import type { Post } from '@src/types/wordpress'
+/* Assets */
 import pic29 from '@src/images/ether/pic29.png'
 import pic42 from '@src/images/ether/pic42.png'
 import pic65 from '@src/images/ether/pic65.png'
@@ -30,7 +32,6 @@ import pic109 from '@src/images/ether/pic109.png'
 import pic110 from '@src/images/ether/pic110.png'
 import pic111 from '@src/images/ether/pic111.png'
 import pic112 from '@src/images/ether/pic112.png'
-
 import 'katex/dist/katex.min.css'
 
 export default function Analysis() {
@@ -170,9 +171,13 @@ export default function Analysis() {
 
             <p>
                 So, I{' '}
-                <a href="/ether/2+1+1/graph" target="_blank" rel="noreferrer">
+                <Link
+                    href="/ether/data/orbital/2/1"
+                    target="_blank"
+                    rel="noreferrer"
+                >
                     created it
-                </a>
+                </Link>
                 .
             </p>
 
@@ -201,9 +206,13 @@ export default function Analysis() {
             </Row>
 
             <h2>
-                <a href="/ether/1+1/graph" target="_blank" rel="noreferrer">
+                <Link
+                    href="/ether/data/orbital/1/1"
+                    target="_blank"
+                    rel="noreferrer"
+                >
                     Hydrogen
-                </a>
+                </Link>
             </h2>
 
             <Row fullWidth>
@@ -229,13 +238,13 @@ export default function Analysis() {
                 Rydberg formula. The second reason is that the r value I used
                 (the height of the graph in hydrogen) is derived from the
                 ionization energy values obtained{' '}
-                <a
+                <Link
                     href="https://github.com/Bowserinator/Periodic-Table-JSON"
                     target="_blank"
                     rel="noreferrer"
                 >
                     here
-                </a>
+                </Link>
                 , which may have a slight margin of error. This is true for all
                 atoms, but hydrogen has such a small error that even a change of
                 0.0001 significantly alters the graph.
@@ -315,9 +324,13 @@ export default function Analysis() {
             </p>
 
             <h2>
-                <a href="/ether/2+1+1/graph" target="_blank" rel="noreferrer">
+                <Link
+                    href="/ether/data/ether/2/1"
+                    target="_blank"
+                    rel="noreferrer"
+                >
                     Helium
-                </a>
+                </Link>
             </h2>
 
             <Row fullWidth>
@@ -356,9 +369,13 @@ export default function Analysis() {
             </p>
 
             <h2>
-                <a href="/ether/3+1+1/graph" target="_blank" rel="noreferrer">
+                <Link
+                    href="/ether/data/ether/3/1"
+                    target="_blank"
+                    rel="noreferrer"
+                >
                     Lithium
-                </a>
+                </Link>
             </h2>
 
             <Row fullWidth>
@@ -549,9 +566,13 @@ export default function Analysis() {
             </p>
 
             <h2>
-                <a href="/ether/4+1+1/graph" target="_blank" rel="noreferrer">
+                <Link
+                    href="/ether/data/ether/4/1"
+                    target="_blank"
+                    rel="noreferrer"
+                >
                     Beryllium
-                </a>
+                </Link>
             </h2>
 
             <Row fullWidth>
@@ -632,9 +653,13 @@ export default function Analysis() {
             </p>
 
             <h2>
-                <a href="/ether/11+1+1/graph" target="_blank" rel="noreferrer">
+                <Link
+                    href="/ether/data/ether/11/1"
+                    target="_blank"
+                    rel="noreferrer"
+                >
                     Sodium
-                </a>
+                </Link>
             </h2>
 
             <p>
@@ -642,9 +667,13 @@ export default function Analysis() {
                 very challenging for non-experts to accurately classify values
                 up to neon due to their limitations. However, looking at the
                 approximate shape of{' '}
-                <a href="/ether/8+1+1/graph" target="_blank" rel="noreferrer">
+                <Link
+                    href="/ether/data/ether/8/1"
+                    target="_blank"
+                    rel="noreferrer"
+                >
                     oxygen
-                </a>
+                </Link>
                 , I expect that everything else will also show a pattern as long
                 as the values are correctly arranged.
             </p>
@@ -653,13 +682,13 @@ export default function Analysis() {
                 Interestingly, after beryllium, the atom where the pattern
                 becomes clear is sodium. It is a friend in the same group as
                 hydrogen on the{' '}
-                <a
-                    href="</a>https://www.google.com/search?q=periodic+table"
+                <Link
+                    href="https://www.google.com/search?q=periodic+table"
                     target="_blank"
                     rel="noreferrer"
                 >
                     periodic table
-                </a>
+                </Link>
                 . It is a friend with a similar structure where orbitals are
                 initially arranged in a circular shape in the shell.
             </p>

@@ -1,8 +1,11 @@
+import Link from 'next/link'
+/* Components */
 import { Image } from '@common/components/containers/image'
-import { ScrollToTop } from '@components/ScrollToTop'
 import { PrevNext } from '@components/(wordpress)/single/PrevNext'
-import { Post } from '@src/types/wordpress'
-
+/* Helpers */
+import type { Post } from '@src/types/wordpress'
+import { ScrollToTop } from '@components/ScrollToTop'
+/* Assets */
 import pic13 from '@src/images/ether/pic13_eng.png'
 import pic14 from '@src/images/ether/pic14_eng.png'
 import pic15 from '@src/images/ether/pic15.png'
@@ -217,14 +220,14 @@ export default function Conclusion() {
                 In the experiment, a neutron was passed through two channels,
                 altering its spin in each. The spin change was observed to
                 influence both sides.{' '}
-                <a
+                <Link
                     href="https://journals.aps.org/prresearch/abstract/10.1103/PhysRevResearch.4.023075"
                     target="_blank"
                     rel="noreferrer"
                 >
                     Quantifying the presence of a neutron in the paths of an
                     interferometer
-                </a>
+                </Link>
             </p>
 
             <h2>(3) Separated Ether is Quantum Entanglement?</h2>

@@ -1,13 +1,15 @@
+import Link from 'next/link'
 import { InlineMath } from 'react-katex'
-
+/* Components */
 import { Image } from '@common/components/containers/image'
-import { ScrollToTop } from '@components/ScrollToTop'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 import { Latex } from '@components/(wordpress)/single/Latex'
 import { PrevNext } from '@components/(wordpress)/single/PrevNext'
-import { Post } from '@src/types/wordpress'
-
+/* Helpers */
+import type { Post } from '@src/types/wordpress'
+import { ScrollToTop } from '@components/ScrollToTop'
+/* Assets */
 import pic58 from '@src/images/ether/pic58.png'
 import pic114 from '@src/images/ether/pic114.png'
 import pic115 from '@src/images/ether/pic115.png'
@@ -20,7 +22,6 @@ import pic121 from '@src/images/ether/pic121.png'
 import pic122 from '@src/images/ether/pic122.png'
 import pic123 from '@src/images/ether/pic123.png'
 import pic125 from '@src/images/ether/pic125.png'
-
 import 'katex/dist/katex.min.css'
 
 export default function Between() {
@@ -82,13 +83,13 @@ export default function Between() {
             <p>패턴이 나타나는지 보자.</p>
 
             <h2>
-                <a
-                    href="/orbital/1+1+1/chart/between"
+                <Link
+                    href="/ether/data/orbital/1/1"
                     target="_blank"
                     rel="noreferrer"
                 >
                     수소
-                </a>
+                </Link>
             </h2>
 
             <Row fullWidth>
@@ -124,13 +125,13 @@ export default function Between() {
             </p>
 
             <h2>
-                <a
-                    href="/orbital/2+1+1/chart/between"
+                <Link
+                    href="/ether/data/orbital/2/1"
                     target="_blank"
                     rel="noreferrer"
                 >
                     헬륨
-                </a>
+                </Link>
             </h2>
 
             <Row fullWidth>

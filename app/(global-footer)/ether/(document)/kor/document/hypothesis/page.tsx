@@ -1,8 +1,11 @@
+import Link from 'next/link'
+/* Components */
 import { Image } from '@common/components/containers/image'
-import { ScrollToTop } from '@components/ScrollToTop'
 import { PrevNext } from '@components/(wordpress)/single/PrevNext'
-import { Post } from '@src/types/wordpress'
-
+/* Helpers */
+import type { Post } from '@src/types/wordpress'
+import { ScrollToTop } from '@components/ScrollToTop'
+/* Assets */
 import pic1 from '@src/images/ether/pic1_eng.png'
 import pic2 from '@src/images/ether/pic2_eng.png'
 import pic3 from '@src/images/ether/pic3_eng.png'
@@ -119,13 +122,13 @@ export default function Hypothesis() {
 
             <p>
                 전자의{' '}
-                <a
+                <Link
                     href="https://ko.wikipedia.org/wiki/%EC%9D%B4%EC%A4%91%EC%8A%AC%EB%A6%BF_%EC%8B%A4%ED%97%98"
                     target="_blank"
                     rel="noreferrer"
                 >
                     이중슬릿 실험
-                </a>{' '}
+                </Link>{' '}
                 을 가설에 맞추어 재구성해보자. 이 유명한 실험은 파장이자 입자인
                 물질의 이중성을 잘 보여준다. 전자는 두 슬릿을 동시에 통과하지만,
                 관측을 한다면 두 슬릿 중 한 곳에서만 존재한다. 최종적으로 이는

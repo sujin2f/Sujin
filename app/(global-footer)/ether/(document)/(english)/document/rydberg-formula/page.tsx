@@ -1,12 +1,14 @@
+import Link from 'next/link'
 import { InlineMath } from 'react-katex'
-
+/* Components */
 import { Image } from '@common/components/containers/image'
-import { ScrollToTop } from '@components/ScrollToTop'
 import { Table } from '@common/components/containers/Table'
 import { Latex } from '@components/(wordpress)/single/Latex'
 import { PrevNext } from '@components/(wordpress)/single/PrevNext'
-import { Post } from '@src/types/wordpress'
-
+/* Helpers */
+import type { Post } from '@src/types/wordpress'
+import { ScrollToTop } from '@components/ScrollToTop'
+/* Assets */
 import pic9 from '@src/images/ether/pic9.png'
 import pic10 from '@src/images/ether/pic10.png'
 import pic55 from '@src/images/ether/pic55.png'
@@ -19,7 +21,6 @@ import pic93 from '@src/images/ether/pic93.jpeg'
 import pic94 from '@src/images/ether/pic94.png'
 import pic95 from '@src/images/ether/pic95.png'
 import pic113 from '@src/images/ether/pic113.png'
-
 import 'katex/dist/katex.min.css'
 
 export default function RydbergFormula() {
@@ -42,13 +43,13 @@ export default function RydbergFormula() {
                 caption={
                     <>
                         <strong>Electron Orbital</strong>{' '}
-                        <a
+                        <Link
                             href="https://en.wikipedia.org/wiki/Atomic_orbital"
                             target="_blank"
                             rel="noreferrer"
                         >
                             credit: Wikipedia
-                        </a>
+                        </Link>
                     </>
                 }
                 center
@@ -154,13 +155,13 @@ export default function RydbergFormula() {
                     2s<sup>2</sup>
                 </code>{' '}
                 as <code>[O]2</code>. The data used below is referenced from{' '}
-                <a
+                <Link
                     href="https://physics.nist.gov/PhysRefData/ASD/lines_form.html"
                     target="_blank"
                     rel="noreferrer"
                 >
                     NIST
-                </a>
+                </Link>
                 .
             </p>
 

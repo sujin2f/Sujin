@@ -1,6 +1,11 @@
+import Link from 'next/link'
+/* Components */
 import { Image } from '@common/components/containers/image'
+import { PrevNext } from '@components/(wordpress)/single/PrevNext'
+/* Helpers */
 import { ScrollToTop } from '@components/ScrollToTop'
-
+import type { Post } from '@src/types/wordpress'
+/* Assets */
 import pic1 from '@src/images/ether/pic1_eng.png'
 import pic2 from '@src/images/ether/pic2_eng.png'
 import pic3 from '@src/images/ether/pic3_eng.png'
@@ -8,8 +13,6 @@ import pic4 from '@src/images/ether/pic4_eng.png'
 import pic7 from '@src/images/ether/pic7_eng.png'
 import pic8 from '@src/images/ether/pic8_eng.png'
 import pic91 from '@src/images/ether/pic91.jpeg'
-import { PrevNext } from '@components/(wordpress)/single/PrevNext'
-import { Post } from '@src/types/wordpress'
 
 export default function Hypothesis() {
     return (
@@ -136,13 +139,13 @@ export default function Hypothesis() {
 
             <p>
                 Let&apos;s reconstruct the{' '}
-                <a
+                <Link
                     href="https://en.wikipedia.org/wiki/Double-slit_experiment"
                     target="_blank"
                     rel="noreferrer"
                 >
                     double-slit experiment
-                </a>{' '}
+                </Link>{' '}
                 for electrons based on the hypothesis. This famous experiment
                 illustrates the duality of waves and particles. Electrons pass
                 through both slits simultaneously, but upon observation, they

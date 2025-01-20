@@ -1,12 +1,14 @@
+import Link from 'next/link'
 import { InlineMath } from 'react-katex'
-
+/* Components */
 import { Image } from '@common/components/containers/image'
-import { ScrollToTop } from '@components/ScrollToTop'
 import { Table } from '@common/components/containers/Table'
 import { Latex } from '@components/(wordpress)/single/Latex'
 import { PrevNext } from '@components/(wordpress)/single/PrevNext'
-import { Post } from '@src/types/wordpress'
-
+/* Helpers */
+import type { Post } from '@src/types/wordpress'
+import { ScrollToTop } from '@components/ScrollToTop'
+/* Assets */
 import pic9 from '@src/images/ether/pic9.png'
 import pic10 from '@src/images/ether/pic10.png'
 import pic55 from '@src/images/ether/pic55.png'
@@ -19,7 +21,6 @@ import pic93 from '@src/images/ether/pic93.jpeg'
 import pic94 from '@src/images/ether/pic94.png'
 import pic95 from '@src/images/ether/pic95.png'
 import pic113 from '@src/images/ether/pic113.png'
-
 import 'katex/dist/katex.min.css'
 
 export default function RydbergFormula() {
@@ -42,13 +43,13 @@ export default function RydbergFormula() {
                 caption={
                     <>
                         <strong>전자 오비탈</strong>{' '}
-                        <a
+                        <Link
                             href="https://en.wikipedia.org/wiki/Atomic_orbital"
                             target="_blank"
                             rel="noreferrer"
                         >
                             출처: 위키피디아
-                        </a>
+                        </Link>
                     </>
                 }
                 center
@@ -143,13 +144,13 @@ export default function RydbergFormula() {
                 </code>
                 는 <code>[O]2</code>와 같이 표기하도록 하자. 아래 사용되는
                 데이터는{' '}
-                <a
+                <Link
                     href="https://physics.nist.gov/PhysRefData/ASD/lines_form.html"
                     target="_blank"
                     rel="noreferrer"
                 >
                     NIST에서 참조
-                </a>
+                </Link>
                 하였다.
             </p>
 

@@ -1,14 +1,16 @@
+import Link from 'next/link'
 import { InlineMath } from 'react-katex'
-
+/* Components */
 import { Image } from '@common/components/containers/image'
-import { ScrollToTop } from '@components/ScrollToTop'
 import { Table } from '@common/components/containers/Table'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 import { Latex } from '@components/(wordpress)/single/Latex'
 import { PrevNext } from '@components/(wordpress)/single/PrevNext'
-import { Post } from '@src/types/wordpress'
-
+/* Helpers */
+import type { Post } from '@src/types/wordpress'
+import { ScrollToTop } from '@components/ScrollToTop'
+/* Assets */
 import pic29 from '@src/images/ether/pic29.png'
 import pic42 from '@src/images/ether/pic42.png'
 import pic65 from '@src/images/ether/pic65.png'
@@ -30,7 +32,6 @@ import pic109 from '@src/images/ether/pic109.png'
 import pic110 from '@src/images/ether/pic110.png'
 import pic111 from '@src/images/ether/pic111.png'
 import pic112 from '@src/images/ether/pic112.png'
-
 import 'katex/dist/katex.min.css'
 
 export default function Analysis() {
@@ -156,9 +157,13 @@ export default function Analysis() {
 
             <p>
                 그래서{' '}
-                <a href="/ether/2+1+1/chart" target="_blank" rel="noreferrer">
+                <Link
+                    href="/ether/data/ether/2/1"
+                    target="_blank"
+                    rel="noreferrer"
+                >
                     만들었다
-                </a>
+                </Link>
                 .
             </p>
 
@@ -185,9 +190,13 @@ export default function Analysis() {
             </Row>
 
             <h2>
-                <a href="/ether/1+1/chart" target="_blank" rel="noreferrer">
+                <Link
+                    href="/ether/data/ether/1/1"
+                    target="_blank"
+                    rel="noreferrer"
+                >
                     수소
-                </a>
+                </Link>
             </h2>
 
             <Row fullWidth>
@@ -211,13 +220,13 @@ export default function Analysis() {
                 안타깝게도 수소는 별 변별력이 없다. 첫번째, 수소는 기존의
                 뤼드베리 방정식으로도 워낙 오차가 작기 때문이다. 두번째 이유는
                 내가 사용한 r값(수소에서 그래프의 높이)은{' '}
-                <a
+                <Link
                     href="https://github.com/Bowserinator/Periodic-Table-JSON"
                     target="_blank"
                     rel="noreferrer"
                 >
                     이곳에서 가져온
-                </a>{' '}
+                </Link>{' '}
                 이온화 에너지 값인데, 야주 약간의 오차가 있다. 이것은 모든 원자
                 역시 마찬가지인데, 다만 수소는 워낙 오차가 너무 작아서 0.0001
                 만으로도 그래프가 휙휙 바뀌게 된다.
@@ -293,9 +302,13 @@ export default function Analysis() {
             <p>조금 더 보기 편해졌으니 이 수식을 고정적으로 사용하기로 한다.</p>
 
             <h2>
-                <a href="/ether/2+1+1/chart" target="_blank" rel="noreferrer">
+                <Link
+                    href="/ether/data/ether/1/1"
+                    target="_blank"
+                    rel="noreferrer"
+                >
                     헬륨
-                </a>
+                </Link>
             </h2>
 
             <Row fullWidth>
@@ -331,9 +344,13 @@ export default function Analysis() {
             </p>
 
             <h2>
-                <a href="/ether/3+1+1/chart" target="_blank" rel="noreferrer">
+                <Link
+                    href="/ether/data/ether/3/1"
+                    target="_blank"
+                    rel="noreferrer"
+                >
                     리튬
-                </a>
+                </Link>
             </h2>
 
             <Row fullWidth>
@@ -511,9 +528,13 @@ export default function Analysis() {
             </p>
 
             <h2>
-                <a href="/ether/4+1+1/chart" target="_blank" rel="noreferrer">
+                <Link
+                    href="/ether/data/ether/4/1"
+                    target="_blank"
+                    rel="noreferrer"
+                >
                     베릴륨
-                </a>
+                </Link>
             </h2>
 
             <Row>
@@ -588,9 +609,13 @@ export default function Analysis() {
             </p>
 
             <h2>
-                <a href="/ether/11+1+1/chart" target="_blank" rel="noreferrer">
+                <Link
+                    href="/ether/data/ether/11/1"
+                    target="_blank"
+                    rel="noreferrer"
+                >
                     소디움
-                </a>{' '}
+                </Link>{' '}
                 (우리 땐 나트륨이라고)
             </h2>
 
@@ -598,9 +623,13 @@ export default function Analysis() {
                 마지막으로 소디움을 보겠다. 보론에서 네온 까지는 앞서 밝혔듯
                 비전공자의 한계 때문에 값들을 정확히 분류해 내는 것이 매우
                 어렵다. 다만{' '}
-                <a href="/ether/8+1+1/chart" target="_blank" rel="noreferrer">
+                <Link
+                    href="/ether/data/ether/8/1"
+                    target="_blank"
+                    rel="noreferrer"
+                >
                     산소
-                </a>
+                </Link>
                 의 대략적인 모습을 보면 값을 제대로 배치만 한다면 역시 패턴을
                 보여줄 수 있으리라 기대한다.
             </p>
@@ -608,13 +637,13 @@ export default function Analysis() {
             <p>
                 공교롭게도 베릴륨 이후에 패턴을 명확하게 볼 수 있는 원자가
                 소디움이다.{' '}
-                <a
-                    href="</a>https://www.google.com/search?q=periodic+table"
+                <Link
+                    href="https://www.google.com/search?q=periodic+table"
                     target="_blank"
                     rel="noreferrer"
                 >
                     주기율표
-                </a>
+                </Link>
                 에서 수소와 같은 족에 있는 친구이다. 껍질에 원형이 우선 배치되는
                 같은 종류의 친구이다.
             </p>
