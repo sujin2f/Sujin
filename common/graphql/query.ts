@@ -46,7 +46,10 @@ export class GQLQuery<A extends ScalarJSType[], R> implements IQuery<A, R> {
                 return `${key}: ${typeof args[index] === 'string' ? `"${args[index]}"` : args[index]}`
             })
             .join(', ')
-        return `{\n${this.name}${argStr ? `(${argStr})` : ''} {\n${fields}\n}\n}`
+
+        return JSON.stringify({
+            query: `{\n${this.name}${argStr ? `(${argStr})` : ''} {\n${fields}\n}\n}`,
+        })
     }
 
     setCallback(callback: (...args: A) => Promise<R>) {

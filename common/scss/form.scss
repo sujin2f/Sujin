@@ -85,7 +85,7 @@ fieldset {
     background-color: $bg-color;
     color: $fg-color;
     box-sizing: border-box;
-    padding: 0.8em;
+    padding: 0.5em;
     border: 1px solid $bg-color;
 
     @include mixin.hover {

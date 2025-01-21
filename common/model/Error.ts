@@ -19,26 +19,29 @@ class MyError extends Error {
         this.level = options?.level
 
         if (this.level) {
-            const code = this.code ? `[${this.code}]: ` : ''
-            const msg = message ? message : ''
-            const source = this.source ? ` @ ${this.source}` : ''
-            const date = new Date()
-            const result = `${date.toLocaleDateString()} ${date.toLocaleTimeString()} - ${code}${msg}${source}`
+            this.echo()
+        }
+    }
 
-            switch (this.level) {
-                case 'info':
-                    console.info(result)
-                    break
-                case 'log':
-                    console.log(result)
-                    break
-                case 'warn':
-                    console.warn(result)
-                    break
-                case 'error':
-                    console.error(result)
-                    break
-            }
+    public echo() {
+        const code = this.code ? `[${this.code}]: ` : ''
+        const msg = this.message ? this.message : ''
+        const source = this.source ? ` @ ${this.source}` : ''
+        const date = new Date()
+        const result = `${date.toLocaleDateString()} ${date.toLocaleTimeString()} - ${code}${msg}${source}`
+
+        switch (this.level) {
+            case 'info':
+                console.info(result)
+                break
+            case 'log':
+                console.log(result)
+                break
+            case 'warn':
+                console.warn(result)
+                break
+            default:
+                console.error(result)
         }
     }
 }

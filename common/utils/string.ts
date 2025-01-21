@@ -14,9 +14,11 @@ export const toNumber = (input?: string): number => {
 }
 
 /**
- * Get UUID
+ * Generates a UUID.
+ *
+ * @returns {string} The generated UUID.
  */
-export const generateUUID = () => {
+export const generateUUID = (): string => {
     let d = new Date().getTime()
     let d2: number
 
@@ -41,14 +43,32 @@ export const generateUUID = () => {
     })
 }
 
-export const capitalize = (input: string) =>
+/**
+ * Capitalizes the first letter of the input string.
+ *
+ * @param {string} input - The input string.
+ * @returns {string} The capitalized string.
+ */
+export const capitalize = (input: string): string =>
     `${input.charAt(0).toUpperCase()}${input.slice(1)}`
 
-export const className = (...input: unknown[]) =>
+/**
+ * Joins multiple inputs into a single class name string.
+ *
+ * @param {...unknown[]} input - The input values.
+ * @returns {string} The concatenated class name string.
+ */
+export const joinClassNames = (...input: unknown[]): string =>
     input
         .filter((s) => s)
         .map((s) => (s as string).toString().trim())
         .join(' ')
 
-export const removeURLProtocol = (url: string) =>
+/**
+ * Removes the protocol from a URL.
+ *
+ * @param {string} url - The input URL.
+ * @returns {string} The URL without the protocol.
+ */
+export const removeURLProtocol = (url: string): string =>
     url.replace(/(^\w+:|^)\/\//, '//')

@@ -9,6 +9,7 @@ import { getMedia } from '@src/db/mysql/getMedia'
 import { getPostsBy } from '@src/db/mysql/getPostsBy'
 import { unstable_cache } from 'next/cache'
 import { DAY_IN_SECONDS } from '@common/constants/datetime'
+import { Error } from '@common/model/Error'
 
 export const request = async (
     type: TermTypes,
@@ -20,7 +21,7 @@ export const request = async (
     )
 
     if (!term || !term.id) {
-        return
+        throw new Error(`Term ${slug} does not exist.`, { level: 'error' })
     }
 
     const pages = Math.ceil(term.total / PER_PAGE)
@@ -43,15 +44,9 @@ export const request = async (
     }
 }
 
-const cachedRequest = async (type: TermTypes, slug: string, page: number) => {
-    return unstable_cache(
-        async () => await request(type, slug, page),
+export const getTermBy = async (type: TermTypes, slug: string, page: number) =>
+    unstable_cache(
+        async () => await request(type, slug, page).catch(() => undefined),
         ['term', type, slug, page.toString()],
         { revalidate: DAY_IN_SECONDS },
-    )
-}
-
-export const getTermBy = async (type: TermTypes, slug: string, page: number) =>
-    await (
-        await cachedRequest(type, slug, page)
     )()

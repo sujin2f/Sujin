@@ -4,7 +4,7 @@ import { NextRequest } from 'next/server'
 
 import { getBackground } from '@src/db/mysql/getBackground'
 import { getMenu } from '@src/db/mysql/getMenu'
-import { getFlickr } from '@src/db/flickr/getFlickr'
+import { getFlickr } from '@src/db/fetch/getFlickr'
 import { getTagCloud } from '@src/db/mysql/getTagCloud'
 import { getRecentPosts } from '@src/db/mysql/getRecentPosts'
 import { getPost } from '@src/db/mysql/getPost'

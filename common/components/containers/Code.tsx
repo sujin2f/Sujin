@@ -1,49 +1,55 @@
+'use client'
+
 import React, { useState } from 'react'
 import Script from 'next/script'
 
-import { className as getClassName } from '../../utils/string'
+/* Helpers */
+import { joinClassNames } from '../../utils/string'
 import { languages } from '../../constants/helper'
-
 import { map } from '../../utils/array'
-
+/* Assets */
 import '../../scss/code.scss'
 
 type Props = {
-    lang?: (typeof languages)[number]
-    className?: string
-    children: string
+    readonly lang?: (typeof languages)[number]
+    readonly className?: string
+    readonly children: string
 }
 
+const highlightVersion = '11.11.1'
+
 /**
+ * Code component that displays syntax-highlighted code.
+ *
+ * @param {string} [props.lang] - The programming language of the code.
+ * @param {string} [props.className] - Additional class names for the code block.
+ * @param {string} props.children - The code to be displayed.
  * @see https://highlightjs.org/
  */
-export const Code = (props: Props) => {
-    const { lang, children } = props
+export const Code = ({ lang, children, className }: Props) => {
     const [languageScript, setLanguageScript] = useState(false)
-    const className = getClassName(props.className, 'code')
-
     const lineCount = (children.match(/\n/g) || []).length + 1
 
     return (
         <>
             <link
                 rel="stylesheet"
-                href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css"
+                href={`https://cdnjs.cloudflare.com/ajax/libs/highlight.js/${highlightVersion}/styles/default.min.css`}
             />
             <Script
-                src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"
+                src={`https://cdnjs.cloudflare.com/ajax/libs/highlight.js/${highlightVersion}/highlight.min.js`}
                 crossOrigin="anonymous"
                 onReady={() => setLanguageScript(true)}
             />
             {languageScript && (
                 <Script
-                    src={`https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/${lang}.min.js`}
+                    src={`https://cdnjs.cloudflare.com/ajax/libs/highlight.js/${highlightVersion}/languages/${lang}.min.js`}
                     crossOrigin="anonymous"
                     onReady={() => window.hljs.highlightAll()}
                     onError={() => window.hljs.highlightAll()}
                 />
             )}
-            <pre className={className}>
+            <pre className={joinClassNames('code', className)}>
                 <div className={`code__lines code__lines--${lang}`}>
                     {map(lineCount, (_, index) => (
                         <div key={`code__lines__${children}__${index}`} />

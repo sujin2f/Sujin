@@ -1,4 +1,4 @@
-import type { ITypeScalar, GQLField, IType, ScalarJSType } from '.'
+import type { ITypeScalar, GQLField, IType } from '.'
 import { Scalar } from './constants'
 import { fieldToString } from './util'
 
@@ -48,7 +48,7 @@ export class GQLType<T> implements IType<T> {
  * @template R return type
  * @implements {ITypeScalar}
  */
-class GQLTypeScalar<R extends ScalarJSType> implements ITypeScalar<R> {
+class GQLTypeScalar implements ITypeScalar {
     readonly name: Scalar
 
     constructor(name: Scalar) {
@@ -59,8 +59,8 @@ class GQLTypeScalar<R extends ScalarJSType> implements ITypeScalar<R> {
 /**
  * GQL type Scalar: String | Int...
  */
-export const GQLInt = new GQLTypeScalar<number>(Scalar.INT)
-export const GQLFloat = new GQLTypeScalar<number>(Scalar.FLOAT)
-export const GQLString = new GQLTypeScalar<string>(Scalar.STRING)
-export const GQLBoolean = new GQLTypeScalar<boolean>(Scalar.BOOLEAN)
-export const GQLID = new GQLTypeScalar<string>(Scalar.ID)
+export const GQLInt = new GQLTypeScalar(Scalar.INT)
+export const GQLFloat = new GQLTypeScalar(Scalar.FLOAT)
+export const GQLString = new GQLTypeScalar(Scalar.STRING)
+export const GQLBoolean = new GQLTypeScalar(Scalar.BOOLEAN)
+export const GQLID = new GQLTypeScalar(Scalar.ID)

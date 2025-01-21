@@ -24,11 +24,9 @@ const request = async (): Promise<Image[]> => {
     return result
 }
 
-const getBackgrounds = unstable_cache(
-    async (): Promise<Image[]> => await request(),
-    ['background'],
-    { revalidate: DAY_IN_SECONDS * 7 },
-)
+const getBackgrounds = unstable_cache(request, ['background'], {
+    revalidate: DAY_IN_SECONDS * 7,
+})
 
 export const getBackground = async (): Promise<Image> => {
     const backgrounds = await getBackgrounds()

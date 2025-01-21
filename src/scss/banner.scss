@@ -129,6 +129,14 @@ $page-header-height-small: 500px;
             border-bottom: 6px solid var(--primary-dark);
         }
     }
+
+    .menu .menu .menu__link {
+        background-color: rgba(0, 0, 0, 0.5);
+        @include mixin.hover {
+            background-color: var(--primary);
+            border-bottom: 6px solid var(--primary-dark);
+        }
+    }
 }
 
 .banner__icon {

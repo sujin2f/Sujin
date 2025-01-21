@@ -1,59 +1,73 @@
 import React, { Fragment, RefObject, ChangeEvent, useCallback } from 'react'
-import { className, generateUUID } from '../../utils/string'
 
+/* Helpers */
+import { joinClassNames } from '../../utils/string'
+/* Assets */
 import '../../scss/form.scss'
 
-type OptGroup = Record<string, string>
-
 type Props = {
-    options: Record<string, string | OptGroup>
-    id?: string
-    value?: string
-    defaultValue?: string
-    label?: string
-    multiple?: boolean
-    disabled?: boolean
-    required?: boolean
-    helpText?: string
-    onChange?: (value: string) => void
-    ref?: RefObject<HTMLSelectElement>
+    readonly options: Record<string, string | Record<string, string>>
+    readonly id?: string
+    readonly value?: string
+    readonly defaultValue?: string
+    readonly label?: string
+    readonly multiple?: boolean
+    readonly disabled?: boolean
+    readonly required?: boolean
+    readonly helpText?: string
+    readonly onChange?: (value: string) => void
+    readonly ref?: RefObject<HTMLSelectElement>
 }
 
-/*
- * HTML Select
+/**
+ * Select component that renders a dropdown select field with various styles and behaviors.
+ *
+ * @param {Record<string, string | Record<string, string>>} props.options - The options for the select field.
+ * @param {string} [props.id] - The id of the select field.
+ * @param {string} [props.label] - The label for the select field.
+ * @param {string} [props.value] - The value of the select field.
+ * @param {string} [props.defaultValue] - The default value of the select field.
+ * @param {boolean} [props.multiple] - Whether the select field allows multiple selections.
+ * @param {boolean} [props.disabled] - Whether the select field is disabled.
+ * @param {boolean} [props.required] - Whether the select field is required.
+ * @param {string} [props.helpText] - The help text for the select field.
+ * @param {(value: string) => void} [props.onChange] - Callback function to handle change events.
+ * @param {RefObject<HTMLSelectElement>} [props.ref] - The ref object for the select field.
  */
-export const Select = (props: Props) => {
-    const {
-        label,
-        options,
-        value,
-        defaultValue,
-        multiple,
-        disabled,
-        required,
-        helpText,
-        ref,
-    } = props
-    const id = props.id || generateUUID()
+export const Select = ({
+    id,
+    label,
+    options,
+    value,
+    defaultValue,
+    multiple,
+    disabled,
+    required,
+    helpText,
+    ref,
+    onChange: propsOnChange,
+}: Props) => {
     const ariaDescribedby = helpText ? `${id}-help-text` : ''
-    const labelClassName = className(
-        'form__label',
-        required && 'form__label--required',
-    )
 
     const onChange = useCallback(
         (e: ChangeEvent<HTMLSelectElement>) => {
-            if (props.onChange) {
-                props.onChange(e.target.value)
+            if (propsOnChange) {
+                propsOnChange(e.target.value)
             }
         },
-        [props],
+        [propsOnChange],
     )
 
     return (
         <Fragment>
             {label && (
-                <label htmlFor={id} className={labelClassName}>
+                <label
+                    htmlFor={id}
+                    className={joinClassNames(
+                        'form__label',
+                        required && 'form__label--required',
+                    )}
+                >
                     {label}
                 </label>
             )}

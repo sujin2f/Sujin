@@ -1,19 +1,9 @@
 @use '@common/scss/mixin';
 
-.wrapper--front-page {
-    main {
-        margin-bottom: 0 !important;
-    }
-
-    .top-bar__menu {
-        display: none !important;
-    }
-
-    .banner {
-        height: 100vh;
-        margin: 0;
-        overflow: hidden;
-    }
+.banner--front-page {
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
 
     .banner__overlay {
         height: 100vh;

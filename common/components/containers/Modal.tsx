@@ -1,6 +1,5 @@
 import React, {
     PropsWithChildren,
-    MouseEvent,
     useCallback,
     useState,
     Fragment,
@@ -24,16 +23,13 @@ type Props = {
 export const Modal = (props: PropsWithChildren<Props>) => {
     const [opened, changeOpened] = useState<boolean>(true)
 
-    const close = useCallback(
-        (e?: MouseEvent) => {
-            if (!props.closeModal) {
-                changeOpened(false)
-                return
-            }
-            props.closeModal()
-        },
-        [props],
-    )
+    const close = useCallback(() => {
+        if (!props.closeModal) {
+            changeOpened(false)
+            return
+        }
+        props.closeModal()
+    }, [props])
 
     if (!opened) {
         return <Fragment></Fragment>

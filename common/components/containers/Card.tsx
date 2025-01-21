@@ -1,70 +1,86 @@
 import React, { PropsWithChildren } from 'react'
 import Link from 'next/link'
 
-import { className } from '../../utils/string'
-import { ShortMonthNames } from '../../constants/datetime'
+/* Helpers */
+import { joinClassNames } from '../../utils/string'
 import { removeURLProtocol } from '../../utils/string'
-
+import { ShortMonthNames } from '../../constants/datetime'
+/* Assets */
 import '../../scss/card.scss'
 
 type Props = {
-    title?: string
-    description?: string
-    to: string
-    time?: number
-    image: string
-    className?: string
+    readonly to: string
+    readonly title?: string
+    readonly description?: string
+    readonly time?: number
+    readonly image: string
+    readonly className?: string
 }
 
-export const Card = (props: PropsWithChildren<Props>) => {
-    const time = props.time && new Date(props.time)
+/**
+ * Card component that displays a card with an image, title, description, and optional time.
+ *
+ * @param {ReactNode} props.children - The content to display in the card.
+ * @param {string} props.to - The URL to link to.
+ * @param {string} [props.title] - The title of the card.
+ * @param {string} [props.description] - The description of the card.
+ * @param {number} [props.time] - The timestamp to display on the card.
+ * @param {string} props.image - The URL of the image to display on the card.
+ * @param {string} [props.className] - Additional class names for the card.
+ */
+export const Card = ({
+    children,
+    title,
+    description,
+    to,
+    time,
+    image,
+    className,
+}: PropsWithChildren<Props>) => {
+    const datetime = time && new Date(time)
     return (
-        <section className={className('card', props.className)}>
+        <section className={joinClassNames('card', className)}>
             <figure className="card__thumbnail">
-                <Link title={props.title || ''} href={props.to}>
+                <Link title={title || ''} href={to}>
                     <div className="card__thumbnail__zoom"></div>
                     <div className="card__thumbnail__shadow"></div>
-                    {time && (
+                    {datetime && (
                         <time
                             className="card__time"
-                            dateTime={time.toISOString()}
+                            dateTime={datetime.toISOString()}
                         >
                             <span className="card__time__day">
-                                {time.getDate()}
+                                {datetime.getDate()}
                             </span>
                             <span className="card__time__month">
-                                {ShortMonthNames[time.getMonth()]}
+                                {ShortMonthNames[datetime.getMonth()]}
                             </span>
                             <span className="card__time__year">
-                                {time.getFullYear()}
+                                {datetime.getFullYear()}
                             </span>
                         </time>
                     )}
                     <picture className="card__image__container">
                         <img
-                            src={removeURLProtocol(props.image)}
+                            src={removeURLProtocol(image)}
                             role="presentation"
-                            alt={props.title}
+                            alt={title}
                             className="card__image"
                         />
                     </picture>
                 </Link>
             </figure>
-            {props.title && (
+            {title && (
                 <div className="card__text">
                     <h2 className="card__title">
-                        <Link
-                            title={props.title}
-                            href={props.to}
-                            className="card__link"
-                        >
-                            {props.title}
+                        <Link title={title} href={to} className="card__link">
+                            {title}
                         </Link>
                     </h2>
-                    {props.description && (
-                        <p className="card__description">{props.description}</p>
+                    {description && (
+                        <p className="card__description">{description}</p>
                     )}
-                    {props.children && props.children}
+                    {children && children}
                 </div>
             )}
         </section>

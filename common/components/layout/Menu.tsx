@@ -3,13 +3,14 @@
 import React, { RefObject, useCallback, useMemo, useState } from 'react'
 import Link from 'next/link'
 
+/* Helpers */
 import type { MenuItem as TypeMenuItem } from '../../types/menu'
-import { className } from '../../utils/string'
-
+import { joinClassNames } from '../../utils/string'
+/* Assets */
 import Arrow from '../../images/icons/arrow_drop_up.svg'
 import '../../scss/menu.scss'
 
-type ComponentProps = {
+type Props = {
     readonly className?: string
     readonly dropdown?: 'hover' | 'click'
     readonly items: TypeMenuItem[]
@@ -18,11 +19,68 @@ type ComponentProps = {
     readonly ref?: RefObject<HTMLElement | null>
 }
 
+/**
+ * Menu component that renders a navigation menu with various styles and behaviors.
+ *
+ * @param {MenuItem[]} props.items - The menu items to be displayed.
+ * @param {'horizontal' | 'vertical'} [props.direction] - The direction of the menu.
+ * @param {'hover' | 'click'} [props.dropdown] - The dropdown behavior of the menu.
+ * @param {string} [props.className] - Additional class names for the menu container.
+ * @param {() => void} [props.callback] - Callback function to handle menu item clicks.
+ * @param {React.Ref<HTMLDivElement>} [props.ref] - The ref object for the menu container.
+ */
+export function Menu({
+    items,
+    direction: propDirection,
+    dropdown: propDropdown,
+    className,
+    ref,
+    callback,
+}: Props) {
+    const direction = propDirection || 'horizontal'
+    const dropdown =
+        direction === 'horizontal' && !propDropdown ? 'hover' : propDropdown
+
+    return (
+        <nav
+            className={joinClassNames(
+                'menu__container',
+                `menu__container--${direction}`,
+                className,
+            )}
+            ref={ref}
+        >
+            <MenuBlock
+                callback={callback}
+                direction={direction}
+                dropdown={dropdown}
+                items={items}
+            />
+        </nav>
+    )
+}
+
 type BlockProps = {
-    readonly dropdown?: 'hover' | 'click'
     readonly items: TypeMenuItem[]
+    readonly dropdown?: 'hover' | 'click'
     readonly direction: 'vertical' | 'horizontal'
     readonly callback?: () => void
+}
+
+function MenuBlock({ items, dropdown, direction, callback }: BlockProps) {
+    return (
+        <ul className="menu">
+            {items.map((menu, index) => (
+                <MenuItem
+                    callback={callback}
+                    direction={direction}
+                    dropdown={dropdown}
+                    item={menu}
+                    key={`menu-${menu.title}-${index}`}
+                />
+            ))}
+        </ul>
+    )
 }
 
 type ItemProps = {
@@ -32,121 +90,70 @@ type ItemProps = {
     readonly callback?: () => void
 }
 
-function MenuItem(props: ItemProps) {
-    const hasChildren = props.item.children && props.item.children.length > 0
+function MenuItem({ item, dropdown, direction, callback }: ItemProps) {
+    const hasChildren = item.children && item.children.length > 0
     const [closed, changeClosed] = useState(
-        hasChildren && props.dropdown ? true : false,
+        hasChildren && dropdown ? true : false,
     )
 
     const onMouseOver = useCallback(() => {
-        if (props.dropdown === 'hover') {
+        if (dropdown === 'hover') {
             changeClosed(false)
         }
-    }, [props.dropdown])
+    }, [dropdown])
 
     const onMouseLeave = useCallback(() => {
-        if (props.dropdown === 'hover') {
+        if (dropdown === 'hover') {
             changeClosed(true)
         }
-    }, [props.dropdown])
+    }, [dropdown])
 
     const onClick = useCallback(() => {
-        if (props.dropdown === 'click') {
+        if (dropdown === 'click') {
             changeClosed(!closed)
         }
-    }, [props.dropdown, closed])
+    }, [dropdown, closed])
 
     const linkTo = useMemo(() => {
         if (hasChildren) {
             return ''
         }
-        return props.item.link
-    }, [props.item.link, hasChildren])
+        return item.link
+    }, [item.link, hasChildren])
 
-    const classNames = useMemo(
-        () =>
-            className(
+    return (
+        <li
+            className={joinClassNames(
                 'menu__item',
                 closed && 'menu__item--closed',
                 hasChildren && !closed && 'menu__item--opened',
                 hasChildren && 'menu__item--children',
-            ),
-        [closed, hasChildren],
-    )
-
-    return (
-        <li
-            className={classNames}
+            )}
             onClick={onClick}
             onFocus={onMouseOver}
             onMouseLeave={onMouseLeave}
             onMouseOver={onMouseOver}
         >
-            <Link className="menu__link" onClick={props.callback} href={linkTo}>
-                {props.item.title}
+            <Link
+                className="menu__link"
+                onClick={callback}
+                href={linkTo}
+                target={item.target}
+            >
+                {item.title}
 
-                {props.dropdown && hasChildren ? (
+                {dropdown && hasChildren ? (
                     <Arrow className="menu__link__arrow" />
                 ) : null}
             </Link>
 
             {hasChildren ? (
                 <MenuBlock
-                    callback={props.callback}
-                    direction={props.direction}
-                    items={props.item.children || []}
+                    callback={callback}
+                    direction={direction}
+                    items={item.children || []}
                 />
             ) : null}
         </li>
-    )
-}
-
-function MenuBlock(props: BlockProps) {
-    return (
-        <ul className="menu">
-            {props.items.map((menu, index) => (
-                <MenuItem
-                    callback={props.callback}
-                    direction={props.direction}
-                    dropdown={props.dropdown}
-                    item={menu}
-                    key={`menu-${menu.title}-${index}`}
-                />
-            ))}
-        </ul>
-    )
-}
-
-export function Menu(props: ComponentProps) {
-    const direction = useMemo(
-        () => props.direction || 'horizontal',
-        [props.direction],
-    )
-    const cls = useMemo(
-        () =>
-            className(
-                'menu__container',
-                `menu__container--${direction}`,
-                props.className,
-            ),
-        [direction, props.className],
-    )
-    const dropdown = useMemo(
-        () =>
-            direction === 'horizontal' && !props.dropdown
-                ? 'hover'
-                : props.dropdown,
-        [direction, props.dropdown],
-    )
-
-    return (
-        <nav className={cls} ref={props.ref}>
-            <MenuBlock
-                callback={props.callback}
-                direction={direction}
-                dropdown={dropdown}
-                items={props.items}
-            />
-        </nav>
     )
 }

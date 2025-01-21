@@ -21,15 +21,10 @@
         "paths": {
             "@app/*": ["./app/*"],
             "@src/*": ["./src/*"],
-            "@common/*": ["./common/*"]
+            "@common/*": ["./common/*"],
+            "@components/*": ["./components/*"]
         }
     },
-    "include": [
-        "next-env.d.ts",
-        "**/*.ts",
-        "**/*.tsx",
-        ".next/types/**/*.ts",
-        ".backup/components/(archive)/category/[slug]/page/[page]/layout.tsx.bak"
-    ],
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
     "exclude": ["node_modules", "wordpress"]
 }
