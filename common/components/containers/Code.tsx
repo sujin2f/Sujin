@@ -6,7 +6,7 @@ import Script from 'next/script'
 /* Helpers */
 import { joinClassNames } from '../../utils/string'
 import { languages } from '../../constants/helper'
-import { Arr } from '@common/model/Array'
+import { map } from '../../utils/array'
 /* Assets */
 import '../../scss/code.scss'
 
@@ -51,7 +51,7 @@ export const Code = ({ lang, children, className }: Props) => {
             )}
             <pre className={joinClassNames('code', className)}>
                 <div className={`code__lines code__lines--${lang}`}>
-                    {new Arr(lineCount).map((_, index) => (
+                    {map(lineCount, (_, index) => (
                         <div key={`code__lines__${children}__${index}`} />
                     ))}
                 </div>

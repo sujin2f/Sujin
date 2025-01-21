@@ -6,7 +6,7 @@ import { Chart as ChartJS, ChartDataset } from 'chart.js/auto'
 import { getRandomInt } from '@common/utils/number'
 import { chartColors } from '@src/constants/chart'
 import { ChartData } from '@src/types/ether'
-import { Arr } from '@common/model/Array'
+import { map } from '@common/utils/array'
 
 type Props = { data: ChartData }
 
@@ -27,7 +27,7 @@ const getChartData = (data: ChartData, term?: string) => {
                 tension: 0,
             } as ChartDataset<'line'>
         })
-    const labels = new Arr(maxColumn).map((_, index) => index + 1)
+    const labels = map(maxColumn, (_, index) => index + 1)
 
     return { datasets, labels }
 }
