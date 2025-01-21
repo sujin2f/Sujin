@@ -1,5 +1,8 @@
-import React, { PropsWithChildren } from 'react'
+import React, { PropsWithChildren, Suspense } from 'react'
 import type { Metadata } from 'next/types'
+import { FixedHeader } from '@components/header/FixedHeader'
+import { MenuNames } from '@src/constants/mysql-query'
+import Loading from '@app/loading'
 
 export const metadata: Metadata = {
     title: 'Sujin | Ether',
@@ -13,5 +16,12 @@ export const metadata: Metadata = {
 }
 
 export default function Layout({ children }: PropsWithChildren) {
-    return <main>{children}</main>
+    return (
+        <>
+            <FixedHeader menu={MenuNames.ETHER} />
+            <Suspense fallback={<Loading menu={MenuNames.ETHER} />}>
+                <main>{children}</main>
+            </Suspense>
+        </>
+    )
 }

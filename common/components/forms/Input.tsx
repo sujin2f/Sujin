@@ -81,6 +81,7 @@ export const Input = (props: Props) => {
                     {isCheckbox && (
                         <InputContainer {...props} type={type} ref={ref} />
                     )}
+                    {props.label}
                 </LabelComponent>
             )}
 
@@ -187,19 +188,5 @@ const InputComponent = ({
         type === 'textarea' ? value : undefined,
     )
 
-    return (
-        <Fragment>
-            {Element}
-
-            {errorMessage ? (
-                <p className="form__input__error-message">{errorMessage}</p>
-            ) : null}
-
-            {helpText ? (
-                <p className="form__input__help-text" id={ariaDescribedby}>
-                    {helpText}
-                </p>
-            ) : null}
-        </Fragment>
-    )
+    return Element
 }
