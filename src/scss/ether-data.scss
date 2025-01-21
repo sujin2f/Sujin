@@ -1,8 +1,28 @@
-.header--ether--data {
+.top-bar--ether {
+    .menu__link {
+        margin-top: 0 !important;
+    }
+}
+
+.header--ether {
     padding-top: var(--header-height);
+
+    .header--ether__atom {
+        margin-top: var(--gap);
+    }
+
+    .header--ether__type {
+        text-align: center;
+        margin-top: var(--gap);
+    }
+}
+
+.chart {
+    margin-top: var(--gap);
 }
 
 .table.table--ether {
+    margin-top: var(--gap);
     text-align: right;
 
     tbody {

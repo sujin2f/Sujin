@@ -5,9 +5,9 @@ import React, { MouseEvent, useState, useCallback, useMemo } from 'react'
 /* Components */
 import { Button } from '@common/components/forms/Button'
 /* Helpers */
-import { getPrev, getNext } from '@common/utils/array'
 import { removeURLProtocol } from '@common/utils/string'
 import type { AttrMatch } from '@src/types/wordpress'
+import { Arr } from '@common/model/Array'
 /* Assets */
 import Arrow from '@src/images/prev.svg'
 import '@src/scss/carousel.scss'
@@ -23,20 +23,21 @@ interface Props {
  */
 export const Carousel = ({ value: { named } }: Props) => {
     const [index, setIndex] = useState(0)
-    const images: string[] = useMemo(
+
+    const images = useMemo(
         () =>
-            Object.keys(named)
+            new Arr(Object.keys(named))
                 .filter((key) => key.match(/sc[0-9]+/))
                 .map((key) => named[key]),
         [named],
     )
 
     const prev = useCallback(() => {
-        const [idx] = getPrev(images, index)
+        const [idx] = images.getPrev(index)
         setIndex(idx)
     }, [images, index])
     const next = useCallback(() => {
-        const [idx] = getNext(images, index)
+        const [idx] = images.getNext(index)
         setIndex(idx)
     }, [images, index])
     const onClick = useCallback((e: MouseEvent<HTMLImageElement>) => {

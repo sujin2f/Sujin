@@ -1,10 +1,6 @@
 import { PropsWithChildren } from 'react'
 
 import type { Metadata } from 'next/types'
-import { Row } from '@common/components/layout/Row'
-import { ScrollToTop } from '@components/ScrollToTop'
-import { Column } from '@common/components/layout/Column'
-import { DataHeader } from '@components/(ether)/data-header'
 
 export const metadata: Metadata = {
     title: 'Sujin | Ether',
@@ -17,16 +13,6 @@ export const metadata: Metadata = {
     metadataBase: new URL(`${process.env.BASE_URL}/ether`),
 }
 
-import '@src/scss/ether-data.scss'
-
 export default function Layout({ children }: PropsWithChildren) {
-    return (
-        <>
-            <DataHeader />
-            <Row>
-                <ScrollToTop />
-                <Column small={12}>{children}</Column>
-            </Row>
-        </>
-    )
+    return children
 }

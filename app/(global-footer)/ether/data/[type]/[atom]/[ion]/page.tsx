@@ -3,8 +3,8 @@ import { redirect } from 'next/navigation'
 import { periodicTable } from '@src/constants/spectra'
 import { getNistData } from '@src/db/fetch/getNistData'
 import { getClientData, sortEther, getSpectra } from '@src/utils/ether'
-import { Chart } from '@components/(ether)/chart'
-import { Table } from '@components/(ether)/table'
+import { Data } from '@components/(ether)/data'
+import { DataHeader } from '@components/(ether)/data-header'
 
 export default async function DataPage(props: EtherDataServerProps) {
     const params = await props.params
@@ -24,11 +24,17 @@ export default async function DataPage(props: EtherDataServerProps) {
         kRadial,
         kLinear,
     )
+    const terms = Object.keys(tableData)
 
     return (
         <>
-            <Chart data={chartData} />
-            <Table data={tableData} rowHead={rowHead} maxColumn={maxColumn} />
+            <DataHeader terms={terms} />
+            <Data
+                chartData={chartData}
+                tableData={tableData}
+                rowHead={rowHead}
+                maxColumn={maxColumn}
+            />
         </>
     )
 }

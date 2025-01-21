@@ -1,29 +1,85 @@
-class Array2<T> extends Array<T> {
-    public reverse(): Array2<T> {
-        return new Array2(...super.reverse())
+import {
+    deepCopy,
+    splitItems,
+    random,
+    trimEnd,
+    trimStart,
+    filterEmpty,
+    sum,
+    average,
+    shuffle,
+    getPrev,
+    getNext,
+} from '@common/utils/array'
+
+export class Arr<T = number> extends Array {
+    constructor(param: number | T[]) {
+        super()
+
+        if (typeof param === 'number') {
+            this.fill('').map((_, index) => index)
+        }
+
+        if (Array.isArray(param)) {
+            param.forEach((value, index) => (this[index] = value))
+        }
     }
 
-    public splice(
-        start: number,
-        deleteCount: number,
-        ...items: T[]
-    ): Array2<T> {
-        return new Array2(...super.splice(start, deleteCount, ...items))
+    public deepCopy() {
+        return deepCopy(this)
     }
 
-    public map<U>(
-        callbackfn: (value: T, index: number, array: T[]) => U,
-        thisArg?: any,
-    ): Array2<U> {
-        return new Array2(...super.map(callbackfn, thisArg))
+    public splitItems(numOfRows: number) {
+        return splitItems(this, numOfRows)
+    }
+
+    public random() {
+        return random(this)
+    }
+
+    public trimEnd() {
+        return trimEnd(this)
+    }
+
+    public trimStart() {
+        return trimStart(this)
+    }
+
+    public filterEmpty() {
+        return filterEmpty(this)
+    }
+
+    public sum() {
+        return sum(this)
+    }
+
+    public average() {
+        return average(this)
+    }
+
+    public shuffle() {
+        return shuffle(this)
+    }
+
+    public getPrev(idx: number) {
+        return getPrev(this, idx)
+    }
+
+    public getNext(idx: number) {
+        return getNext(this, idx)
     }
 
     public filter(
         predicate: (value: T, index: number, array: T[]) => unknown,
-        thisArg?: any,
-    ): Array2<T> {
-        return new Array2(...super.filter(predicate, thisArg))
+        thisArg?: unknown,
+    ): Arr<T> {
+        return new Arr(super.filter(predicate, thisArg))
+    }
+
+    public map<U>(
+        callbackfn: (value: T, index: number, array: T[]) => U,
+        thisArg?: unknown,
+    ): Arr<U> {
+        return new Arr(super.map(callbackfn, thisArg))
     }
 }
-
-export { Array2 as Array }

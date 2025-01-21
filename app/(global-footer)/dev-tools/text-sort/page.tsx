@@ -5,9 +5,9 @@ import React, { useState, useMemo } from 'react'
 import { Input } from '@common/components/forms/Input'
 import { Column } from '@common/components/layout/Column'
 import { Row } from '@common/components/layout/Row'
-import { map } from '@common/utils/array'
 import { getMaxCols, getRows, sortText } from '@src/utils/dev-tools'
 import { ScrollToTop } from '@components/ScrollToTop'
+import { Arr } from '@common/model/Array'
 
 import '@src/scss/dev-tool.scss'
 
@@ -41,7 +41,7 @@ export default function TextSort() {
                 <Row fullWidth>
                     <Column className="text-sort__container" small={6}>
                         <div className="text-sort__line-number">
-                            {map(rows, (_, index) => (
+                            {new Arr(rows).map((_, index) => (
                                 <div
                                     key={`text-sort__line-number--input-${index}`}
                                 >
@@ -62,7 +62,7 @@ export default function TextSort() {
 
                     <Column className="text-sort__container" small={6}>
                         <div className="text-sort__line-number">
-                            {map(rows, (_, index) => (
+                            {new Arr(rows).map((_, index) => (
                                 <div
                                     key={`text-sort__line-number--output-${index}`}
                                 >

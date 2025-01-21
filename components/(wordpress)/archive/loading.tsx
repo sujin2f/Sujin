@@ -4,7 +4,7 @@ import React from 'react'
 
 import { Row } from '@common/components/layout/Row'
 import { Column, OneToTwelve } from '@common/components/layout/Column'
-import { map } from '@common/utils/array'
+import { Arr } from '@common/model/Array'
 
 import '@src/scss/loading.scss'
 
@@ -22,7 +22,7 @@ export const Loading = (props: Props) => {
     const className = props.className && `loader--${props.className}`
     return (
         <Row className={`loader ${className}`} fullWidth={fullWidth}>
-            {map(counts || 12, (_, index: number) => (
+            {new Arr(counts || 12).map((_, index: number) => (
                 <Column
                     key={`${index}`}
                     large={large}

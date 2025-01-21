@@ -53,7 +53,7 @@ export const FixedHeader = (props: Props) => {
     }, [handleScrolled])
 
     return (
-        <TopBar fixed fullWidth>
+        <TopBar fixed fullWidth className={props.className}>
             {/* For Transparent Logo */}
             <section className="top-bar__background">
                 <div className="top-bar__background--white" />

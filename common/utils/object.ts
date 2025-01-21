@@ -42,3 +42,20 @@ export const isEmpty = <T>(value: T): boolean => {
     }
     return !!value
 }
+
+export const sort = <T extends Record<string, U>, U>(
+    object: T,
+    func: (key: string, value: U) => number,
+): T =>
+    Object.entries(object)
+        .sort(
+            ([aKey, aValue], [bKey, bValue]) =>
+                func(aKey, aValue) - func(bKey, bValue),
+        )
+        .reduce(
+            (acc, [key, value]) => ({
+                ...acc,
+                [key]: value,
+            }),
+            {} as T,
+        )

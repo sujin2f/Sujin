@@ -13,6 +13,7 @@ import { peak, jouleToEv, periodicTable, ratios } from '@src/constants/spectra'
 import { orbitalKeys } from '@src/constants/spectra'
 import { map, trimEnd, trimStart } from '@common/utils/array'
 import { Nullable } from '@common/types'
+import { sort } from '@common/utils/object'
 
 /**
  * Calculates the Rydberg formula for a given ratio, k, and position.
@@ -215,39 +216,35 @@ export const getSpectra = (
         Math.sqrt(ratio / (peak - minimum[1])) - minimumPosition[1] - 1
     const orbitals = orbitalKeys as unknown as string[]
 
-    result = Object.entries(result)
-        // Sort term group by minimum energy
-        .sort(([, a], [, b]) => {
-            const min1 = Math.min(
-                ...Object.values(a).map((value) => trimStart(value)[0].energy),
-            )
-            const min2 = Math.min(
-                ...Object.values(b).map((value) => trimStart(value)[0].energy),
-            )
-            return min1 - min2
-        })
-        .reduce((acc, [, group], index) => {
-            // Sort items in term group
-            const sorted = Object.entries(group)
-                .sort(
-                    ([aKey], [bKey]) =>
-                        orbitals.indexOf(aKey) - orbitals.indexOf(bKey),
-                )
-                .reduce((acc, [, value]) => {
-                    // Row Label
-                    const label = trimStart(value)[0].term
-                    return { ...acc, [label]: value }
-                }, {} as SpectraItem)
+    result = sort(result, (_, val: SpectraItem) =>
+        Math.min(
+            ...Object.values(val).map((value) => trimStart(value)[0].energy),
+        ),
+    )
 
-            const spectra = sorted[Object.keys(sorted)[0]]
-            const spectrum = spectra[spectra.length - 1]
-            // Term Label
-            const label = `${spectrum.term}_${spectrum.j}_${index}`
-            return {
-                ...acc,
-                [label]: sorted,
-            }
-        }, {} as Spectra)
+    result = Object.entries(result).reduce((acc, [, group], index) => {
+        // Sort items in term group
+        const sorted = Object.entries(group)
+            .sort(
+                ([aKey], [bKey]) =>
+                    orbitals.indexOf(aKey) - orbitals.indexOf(bKey),
+            )
+            .reduce((acc, [, value]) => {
+                // Row Label
+                const label = trimStart(value)[0].term
+                return { ...acc, [label]: value }
+            }, {} as SpectraItem)
+
+        // Label
+        const spectra = sorted[Object.keys(sorted)[0]]
+        const spectrum = spectra[spectra.length - 1]
+        // Term Label
+        const label = `${spectrum.term}_${spectrum.j}_${index}`
+        return {
+            ...acc,
+            [label]: sorted,
+        }
+    }, {} as Spectra)
 
     return [result, ratio, kRadial, kLinear]
 }
@@ -399,217 +396,3 @@ export const getClientData = (
     const rowHead = ['conf', 'eConf', 'energy', 'diff', 'rydberg']
     return [chartData, tableData, rowHead, maxColumn]
 }
-
-// import { peak, ratios } from '@src/constants/spectra'
-// import { RawData, RowType } from '@src/types/spectra'
-// import { TermGroup } from '@src/model/ether/TermGroup'
-// import {
-//     ElectronState,
-//     ElectronStateFactory,
-// } from '@src/model/ether/ElectronState'
-// import { Row } from '@src/model/ether/Row'
-
-// export const getEtherTermGroups = (rawData: RawData[]): TermGroup[] => {
-//     let baseKey = ''
-//     const radialBucket: Record<string, ElectronState[]> = {}
-//     const rowsBucket: Record<string, ElectronState[][]> = {}
-//     const types: Record<string, RowType[]> = {}
-
-//     rawData.forEach((data) => {
-//         const electron = ElectronStateFactory(data)
-//         if (electron.isNull) {
-//             return
-//         }
-//         const radial = electron.position - electron.orbital
-//         const key = electron.toString('group')
-
-//         if (electron.energy === 0) {
-//             baseKey = key
-//         }
-
-//         if (!rowsBucket[key]) {
-//             rowsBucket[key] = []
-//             types[key] = []
-//         }
-//         if (electron.orbital === 0) {
-//             // Radial
-//             if (!rowsBucket[key][0]) {
-//                 rowsBucket[key][0] = []
-//                 types[key][0] = 'radial'
-//             }
-//             rowsBucket[key][0][electron.position] = electron.clone()
-//             // Radial Object
-//             if (!radialBucket[key]) {
-//                 radialBucket[key] = []
-//             }
-//             radialBucket[key][electron.position] = electron.clone()
-//             if (radial) {
-//                 // S base
-//                 if (!rowsBucket[key][radial + 1]) {
-//                     rowsBucket[key][radial + 1] = []
-//                     types[key][radial + 1] = 'ether'
-//                 }
-//                 rowsBucket[key][radial + 1][electron.position] =
-//                     electron.clone()
-//             }
-//         } else if (radial === 0) {
-//             // Linear
-//             if (!rowsBucket[key][1]) {
-//                 rowsBucket[key][1] = []
-//                 types[key][1] = 'linear'
-//             }
-//             rowsBucket[key][1][electron.position] = electron.clone()
-//         } else {
-//             // S base
-//             if (!rowsBucket[key][radial + 1]) {
-//                 rowsBucket[key][radial + 1] = []
-//                 types[key][radial + 1] = 'ether'
-//             }
-//             rowsBucket[key][radial + 1][electron.position] = electron.clone()
-//         }
-//     })
-
-//     const radials: Record<string, Row> = {}
-//     const rows: Record<string, Row[]> = {}
-
-//     Object.keys(radialBucket).forEach((key) => {
-//         if (radialBucket[key].length === 0) {
-//             return
-//         }
-//         radialBucket[key].filter((electron) => !!electron)[0].isFirst = true
-//         radials[key] = new Row(...radialBucket[key])
-//     })
-//     Object.keys(rowsBucket).forEach((key) => {
-//         rows[key] = rowsBucket[key]
-//             .map((electrons, index) => {
-//                 electrons.filter((electron) => !!electron)[0].isFirst = true
-//                 const row = new Row(...electrons)
-//                 row.type = types[key][index]
-//                 return row
-//             })
-//             .filter((row) => row.length !== 0)
-//     })
-
-//     return Object.keys(rows).map((key) => {
-//         const group = rows[key].map((row) => {
-//             const items = row.filter((item) => !!item && !item.isNull)
-//             // Fill radial items
-//             if (radials[key] && row.type !== 'linear') {
-//                 row.push(...radials[key].slice(0, items[0].position))
-//             } else if (
-//                 radials[baseKey] &&
-//                 row.type !== 'linear' &&
-//                 !row.isCombination
-//             ) {
-//                 row.push(...radials[baseKey].slice(0, items[0].position))
-//             }
-//             row.refresh()
-//             return row
-//         })
-//         return new TermGroup(...group)
-//     })
-// }
-
-// export const getOrbitalTermGroups = (rawData: RawData[]): TermGroup[] => {
-//     const linearBucket: Record<string, ElectronState[]> = {}
-//     const rowsBucket: Record<string, ElectronState[][]> = {}
-
-//     rawData.forEach((rawItem) => {
-//         const electron = ElectronStateFactory(rawItem)
-//         if (electron.isNull) {
-//             return
-//         }
-//         const group = electron.toString('group')
-
-//         if (!rowsBucket[group]) {
-//             rowsBucket[group] = []
-//         }
-
-//         if (!rowsBucket[group][electron.orbital]) {
-//             rowsBucket[group][electron.orbital] = []
-//         }
-
-//         if (!linearBucket[group]) {
-//             linearBucket[group] = []
-//         }
-
-//         rowsBucket[group][electron.orbital][electron.position] = electron
-
-//         // Linear row
-//         if (!electron.radial) {
-//             const electronLinear = ElectronStateFactory(rawItem)
-//             linearBucket[group][electron.position] = electronLinear
-//         }
-//     })
-
-//     const linear: Record<string, Row> = {}
-//     const rows: Record<string, Row[]> = {}
-
-//     // filter and push linear and rows with setting first element
-//     Object.keys(linearBucket).forEach((key) => {
-//         if (linearBucket[key].length === 0) {
-//             return
-//         }
-//         linearBucket[key].filter((electron) => !!electron)[0].isFirst = true
-//         linear[key] = new Row(...linearBucket[key])
-//         linear[key].type = 'linear'
-//     })
-
-//     Object.keys(rowsBucket).forEach((key) => {
-//         rows[key] = rowsBucket[key]
-//             .filter((row) => row.length !== 0)
-//             .map((electrons) => {
-//                 electrons.filter((electron) => !!electron)[0].isFirst = true
-//                 return new Row(...electrons)
-//             })
-//     })
-
-//     // For each rows, set type
-//     Object.keys(rows).forEach((key) => {
-//         rows[key].forEach((row) => {
-//             const items = row.filter((item) => item && !item.isNull)
-//             if (items[0].orbital === 0) {
-//                 row.type = 'radial'
-//             } else {
-//                 row.type = 'orbital'
-//             }
-
-//             // Fill linear items to empty positions
-//             if (linear[key] && row.type === 'orbital') {
-//                 row.push(...linear[key].slice(0, items[0].position))
-//             }
-//             row.refresh()
-//         })
-//     })
-
-//     // Push Linear to rows
-//     Object.keys(linear).forEach((key) => {
-//         if (linear[key].length) {
-//             rows[key].push(linear[key])
-//         }
-//     })
-
-//     return Object.keys(rows).map((key) => {
-//         return new TermGroup(...rows[key])
-//     })
-// }
-// /**
-//  * Get configuration as an array
-//  * 1s2 => [1s, 1s]
-//  * 1s2.2s1 => [1s, 1s, 2s]
-//  */
-// export const getConfArray = (conf: string): string[] => {
-//     const result: string[] = []
-//     const div = conf.indexOf('.') !== -1 ? conf.split('.') : conf.split(' ')
-//     div.forEach((el) => {
-//         const hasMultiple = /([0-9]+)([a-z]+)([0-9]+)/.exec(el)
-//         if (!hasMultiple) {
-//             result.push(el)
-//             return
-//         }
-//         Array(parseInt(hasMultiple[3], 10))
-//             .fill('')
-//             .forEach(() => result.push(`${hasMultiple[1]}${hasMultiple[2]}`))
-//     })
-//     return result
-// }

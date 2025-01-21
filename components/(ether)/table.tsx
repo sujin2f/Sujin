@@ -1,13 +1,16 @@
 'use client'
-
+import { Fragment } from 'react'
+import Link from 'next/link'
 /* Components */
 import { Table as TableComponent } from '@common/components/containers/Table'
 /* Helpers */
 import type { TableData } from '@src/types/ether'
-import Link from 'next/link'
-import { Fragment } from 'react'
 
-type Props = { data: TableData; rowHead: string[]; maxColumn: number }
+type Props = {
+    data: TableData
+    rowHead: string[]
+    maxColumn: number
+}
 
 export const Table = ({ data, rowHead, maxColumn }: Props) => {
     return (
