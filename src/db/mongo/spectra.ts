@@ -8,8 +8,10 @@ const insertOne = async (rawData: Partial<Spectrum>) => {
     }
 }
 
-const findMany = async (number: number, ion: number) =>
-    await Mongo.findMany<Spectrum>('spectra', { number, ion })
+const findMany = async (number: number, ion: number) => {
+    console.log(`Mongo Spectrum request ${number} ${ion}`)
+    return await Mongo.findMany<Spectrum>('spectra', { number, ion })
+}
 
 const findOne = async (rawData: Partial<Spectrum>) =>
     await Mongo.findOne('spectra', { ...rawData })

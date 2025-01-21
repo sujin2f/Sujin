@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export default function Layout({ children }: PropsWithChildren) {
     return (
         <>
-            <FixedHeader menu={MenuNames.ETHER} className="top-bar--ether" />
+            <FixedHeader menu={MenuNames.ETHER} />
             {children}
         </>
     )

@@ -7,10 +7,12 @@ import Crawler from '@src/db/mongo/crawler'
 import Spectrum from '@src/db/mongo/spectra'
 import { Spectrum as SpectrumType } from '@src/types/ether'
 import { orbitalKeys } from '@src/constants/spectra'
+import { unstable_cache } from 'next/cache'
+import { DAY_IN_SECONDS } from '@common/constants/datetime'
 
 const request = async (atom: Atom, ion: number) =>
     cache(async () => {
-        console.log('request')
+        console.log('Request NIST')
         const ionRoman = romanize(ion)
         const nistUrl = `https://physics.nist.gov/cgi-bin/ASD/lines1.pl?spectra=${atom.symbol}+${ionRoman}&limits_type=0&low_w=&upp_w=&unit=1&de=0&I_scale_type=1&format=2&line_out=0&remove_js=on&en_unit=1&output=0&bibrefs=1&page_size=15&show_obs_wl=1&show_calc_wl=1&unc_out=1&order_out=0&max_low_enrg=&show_av=2&max_upp_enrg=&tsb_value=0&min_str=&A_out=0&intens_out=on&max_str=&allowed_out=1&forbid_out=1&min_accur=&min_intens=&conf_out=on&term_out=on&enrg_out=on&J_out=on&submit=Retrieve+Data`
 
@@ -601,10 +603,23 @@ const request = async (atom: Atom, ion: number) =>
 // "=""46710000000.0""","=""70000000.0""","=""45450000000""","=""60000000""","=""""","=""""",,"=""[13.486051554]""","=""[13.486051581]""","=""11p""","=""2P*""","=""1/2""","=""11s""","=""2S""","=""1/2""",,"=""""","=""L15291c33""",
 // "=""55000000000.0""","=""9000000000.0""","=""56000000000""","=""6000000000""","=""""","=""""",,"=""12.0875070783""","=""12.0875071004""","=""3d""","=""2D""","=""3/2""","=""3p""","=""2P*""","=""3/2""",,"=""""","=""L4386""",
 // "=""60640000000.0""","=""90000000.0""","=""62500000000""","=""90000000""","=""""","=""""",,"=""[13.504001658]""","=""[13.504001678]""","=""12p""","=""2P*""","=""1/2""","=""12s""","=""2S""","=""1/2""",,"=""""","=""L15291c33""",`
+
+const cachedRequest = async (number: number, ion: number) =>
+    unstable_cache(
+        async () => Spectrum.findMany(number, ion),
+        ['spectrum', number.toString(), ion.toString()],
+        {
+            revalidate: DAY_IN_SECONDS * 7,
+        },
+    )()
+
 export const getNistData = async (atom: Atom, ion: number) => {
     const crawler = await Crawler.findOne(atom.number, ion)
     if (crawler) {
-        return await Spectrum.findMany(atom.number, ion)
+        const responseMongo = await cachedRequest(atom.number, ion)
+        if (responseMongo) {
+            return responseMongo
+        }
     }
     const response = await request(atom, ion)
     await parseCsvDataHandler(atom, ion, response)
