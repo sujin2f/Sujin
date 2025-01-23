@@ -1,12 +1,12 @@
 import { cache, PropsWithChildren } from 'react'
 import type { Metadata } from 'next/types'
 
-import { Term } from '@app/(global-footer)/(wordpress)/archive/[type]/[slug]/page/[page]/page'
 import { Banner } from '@components/header/Banner'
 import { MenuNames } from '@src/constants/mysql-query'
 import { redirect } from 'next/navigation'
 import { getTerm } from '@src/db/mongo/wordpress/term'
 import { TermTypes } from '@src/types/wordpress'
+import { Archive } from '@components/(wordpress)/archive/Archive'
 
 const getArchiveCached = cache(
     async (type: TermTypes, slug: string, page: number) =>
@@ -66,7 +66,7 @@ export default async function Layout(props: PropsWithChildren<ArchiveProps>) {
                 className=""
             />
 
-            <Term term={archive} />
+            <Archive term={archive} />
         </>
     )
 }

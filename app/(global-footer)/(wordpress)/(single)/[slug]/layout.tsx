@@ -1,14 +1,14 @@
 import { cache, PropsWithChildren } from 'react'
 import type { Metadata } from 'next/types'
 
-import { Page } from '@app/(global-footer)/(wordpress)/(single)/[slug]/page'
 import { Banner } from '@components/header/Banner'
 import { MenuNames } from '@src/constants/mysql-query'
 import { redirect } from 'next/navigation'
 import { getPost } from '@src/db/mongo/wordpress/post'
 import { removeId } from '@src/db/mongo/util'
+import { Page } from '@components/(wordpress)/single/Page'
 
-export const getPageParams = async ({ params }: PageProps) => {
+const getPageParams = async ({ params }: PageProps) => {
     const { slug } = await params
     return slug
 }

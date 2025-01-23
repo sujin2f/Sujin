@@ -1,15 +1,15 @@
 import { cache, PropsWithChildren } from 'react'
 import type { Metadata } from 'next/types'
 
-import { Post } from '@app/(global-footer)/(wordpress)/(single)/[...date]/page'
 import { Banner } from '@components/header/Banner'
 import { MenuNames } from '@src/constants/mysql-query'
 import { redirect } from 'next/navigation'
 import { getPost } from '@src/db/mongo/wordpress/post'
 import { updateHit } from '@src/db/mysql/getTagCloud'
 import { removeId } from '@src/db/mongo/util'
+import { Post } from '@components/(wordpress)/single/Post'
 
-export const getPostParams = async (
+const getPostParams = async (
     params: Promise<{
         date: string[]
     }>,
