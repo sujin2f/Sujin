@@ -1,31 +1,9 @@
 // yarn test mongo.spec.ts
 
-// import { MongoMemoryServer } from 'mongodb-memory-server'
 import Mongo from './mongo'
-import MongoClient from './mongo-client'
 
 describe('mongo.ts', () => {
-    // // let mongoServer: MongoMemoryServer
-    // // let actions: typeof import('./mongo').default
-
-    beforeAll(async () => {
-        //     // jest.resetModules()
-        //     // mongoServer = await MongoMemoryServer.create()
-        //     // global.process.env.MONGO = mongoServer
-        //     //     .getUri()
-        //     //     .replace('mongodb://', '')
-        //     // process.env.MONGO = mongoServer.getUri().replace('mongodb://', '')
-        //     // eslint-disable-next-line @typescript-eslint/no-require-imports
-        //     // actions = require('./mongo').default
-        // actions.deleteMany('test', {})
-        MongoClient.on('commandStarted', (started) => console.log(started))
-    })
-
     afterAll(async () => {
-        // // eslint-disable-next-line @typescript-eslint/no-require-imports
-        // const MongoClient = require('./mongo-client').default
-        // await MongoClient.close()
-        // await mongoServer.stop()
         Mongo.deleteMany('test', {})
     }, 10000)
 

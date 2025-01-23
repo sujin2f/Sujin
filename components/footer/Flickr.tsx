@@ -1,4 +1,4 @@
-import React, { use } from 'react'
+import React from 'react'
 import { Card } from '@common/components/containers/Card'
 import { Column } from '@common/components/layout/Column'
 import { Row } from '@common/components/layout/Row'
@@ -7,16 +7,14 @@ import { FlickrImage } from '@src/types/flickr'
 import '@src/scss/flickr.scss'
 
 type Props = {
-    readonly request: Promise<FlickrImage[]>
+    readonly items: FlickrImage[]
 }
 
-export const Flickr = ({ request }: Props) => {
-    const flickr = use(request)
-
+export const Flickr = ({ items }: Props) => {
     return (
         <section className="widget--flickr">
             <Row fullWidth>
-                {flickr.slice(0, 12).map((item) => (
+                {items.slice(0, 12).map((item) => (
                     <Column
                         className="widget--flickr__column"
                         key={`flickr-${item.link}`}

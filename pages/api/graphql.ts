@@ -1,4 +1,5 @@
 import { startServerAndCreateNextHandler } from '@as-integrations/next'
+import { InMemoryLRUCache } from '@apollo/utils.keyvaluecache'
 import { ApolloServer } from '@apollo/server'
 import { NextRequest } from 'next/server'
 
@@ -50,6 +51,12 @@ const resolvers = {
 const server = new ApolloServer({
     typeDefs: options.schema,
     resolvers,
+    cache: new InMemoryLRUCache({
+        // ~100MiB
+        maxSize: Math.pow(2, 20) * 100,
+        // 5 minutes (in seconds)
+        ttl: 300,
+    }),
 })
 
 // Typescript: req has the type NextRequest

@@ -1,6 +1,6 @@
 'use client'
 
-import { Suspense, useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 import { Column } from '@common/components/layout/Column'
 import { Row } from '@common/components/layout/Row'
@@ -20,26 +20,45 @@ import {
 } from '@src/constants/graphql'
 import { Loading } from '@components/(wordpress)/archive/loading'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
+import { useGlobalState } from '@common/hooks/useGlobalState'
 
 import '@src/scss/footer.scss'
 
 export const Footer = () => {
-    const [requestFlickr, setRequestFlickr] = useState<Promise<FlickrImage[]>>()
-    const [requestTagCloud, setRequestTagCloud] =
-        useState<Promise<TagCloudType[]>>()
-
-    useEffect(
-        () =>
-            setRequestFlickr(fetchGQL(queryFlickr, flickrOpr, WEEK_IN_SECONDS)),
+    const [flickr, setFlickr] = useGlobalState<FlickrImage[] | null>(
+        'flickr',
         [],
     )
-    useEffect(
-        () =>
-            setRequestTagCloud(
-                fetchGQL(queryTagCloud, tagCloudOpr, WEEK_IN_SECONDS),
-            ),
+    const [tagCloud, setTagCloud] = useGlobalState<TagCloudType[] | null>(
+        'tag-cloud',
         [],
     )
+    useEffect(() => {
+        if (flickr && !flickr.length) {
+            const fetchFlickr = async () => {
+                const response = await fetchGQL(
+                    queryFlickr,
+                    flickrOpr,
+                    WEEK_IN_SECONDS,
+                ).catch(() => null)
+                setFlickr(response)
+            }
+            fetchFlickr()
+        }
+    }, [flickr, setFlickr])
+    useEffect(() => {
+        if (tagCloud && !tagCloud.length) {
+            const fetchTagCloud = async () => {
+                const response = await fetchGQL(
+                    queryTagCloud,
+                    tagCloudOpr,
+                    WEEK_IN_SECONDS,
+                ).catch(() => null)
+                setTagCloud(response)
+            }
+            fetchTagCloud()
+        }
+    }, [tagCloud, setTagCloud])
 
     return (
         <footer className="footer">
@@ -50,37 +69,31 @@ export const Footer = () => {
 
                 <Column dom="section" medium={4} small={12}>
                     <WidgetTitle>Photo Stream</WidgetTitle>
-                    <Suspense
-                        fallback={
-                            <Loading
-                                className="flickr"
-                                counts={12}
-                                large={3}
-                                medium={4}
-                                small={3}
-                            />
-                        }
-                    >
-                        {requestFlickr && <Flickr request={requestFlickr} />}
-                    </Suspense>
+                    {flickr && flickr.length && <Flickr items={flickr} />}
+                    {flickr && !flickr.length && (
+                        <Loading
+                            className="flickr"
+                            counts={12}
+                            large={3}
+                            medium={4}
+                            small={3}
+                        />
+                    )}
                 </Column>
 
                 <Column dom="section" medium={4} small={12}>
                     <WidgetTitle>Popular Tags</WidgetTitle>
-                    <Suspense
-                        fallback={
-                            <Loading
-                                fullWidth
-                                className="tag-cloud"
-                                counts={1}
-                                small={12}
-                            />
-                        }
-                    >
-                        {requestTagCloud && (
-                            <TagCloud request={requestTagCloud} />
-                        )}
-                    </Suspense>
+                    {tagCloud && tagCloud.length && (
+                        <TagCloud items={tagCloud} />
+                    )}
+                    {tagCloud && !tagCloud.length && (
+                        <Loading
+                            fullWidth
+                            className="tag-cloud"
+                            counts={1}
+                            small={12}
+                        />
+                    )}
                 </Column>
             </Row>
             <section className="footer__bottom">

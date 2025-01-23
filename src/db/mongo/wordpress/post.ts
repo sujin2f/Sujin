@@ -20,13 +20,12 @@ const requestAPI = async (doc: Filter<Post>): Promise<void> => {
     await Mongo.insertMany('post', [post])
 }
 
-export const getPost = async (slug: string) => {
-    const post = await getCachedData<Post>(
-        'post',
-        { slug: slug.toLowerCase() },
-        requestAPI,
-        WEEK_IN_SECONDS,
-    )
-
-    return post[0]
-}
+export const getPost = async (slug: string) =>
+    (
+        await getCachedData<Post>(
+            'post',
+            { slug: slug.toLowerCase() },
+            requestAPI,
+            WEEK_IN_SECONDS,
+        )
+    )[0]

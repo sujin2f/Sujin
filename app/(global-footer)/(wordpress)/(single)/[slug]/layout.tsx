@@ -1,4 +1,4 @@
-import { cache, PropsWithChildren } from 'react'
+import { PropsWithChildren } from 'react'
 import type { Metadata } from 'next/types'
 
 import { Banner } from '@components/header/Banner'
@@ -7,17 +7,26 @@ import { redirect } from 'next/navigation'
 import { getPost } from '@src/db/mongo/wordpress/post'
 import { removeId } from '@src/db/mongo/util'
 import { Page } from '@components/(wordpress)/single/Page'
+import { unstable_cache } from 'next/cache'
+import { DAY_IN_SECONDS } from '@common/constants/datetime'
 
 const getPageParams = async ({ params }: PageProps) => {
     const { slug } = await params
     return slug
 }
 
-const getPostCached = cache(async (slug: string) => await getPost(slug))
-
 export const generateMetadata = async (props: PageProps): Promise<Metadata> => {
     const slug = await getPageParams(props)
-    const post = await getPostCached(slug)
+
+    const requestPost = unstable_cache(
+        async (slug) => await getPost(slug),
+        [slug],
+        {
+            tags: ['wordpress', 'page'],
+            revalidate: DAY_IN_SECONDS,
+        },
+    )
+    const post = await requestPost(slug)
     if (!post) {
         return {}
     }
@@ -44,7 +53,16 @@ export const generateMetadata = async (props: PageProps): Promise<Metadata> => {
 
 export default async function Layout(props: PropsWithChildren<PageProps>) {
     const slug = await getPageParams(props)
-    const post = await getPostCached(slug)
+    const requestPost = unstable_cache(
+        async (slug) => await getPost(slug),
+        [slug],
+        {
+            tags: ['wordpress', 'page'],
+            revalidate: DAY_IN_SECONDS,
+        },
+    )
+
+    const post = await requestPost(slug)
 
     if (!post) {
         redirect('/404')

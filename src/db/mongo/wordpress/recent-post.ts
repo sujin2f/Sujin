@@ -23,12 +23,5 @@ const requestAPI = async (): Promise<void> => {
     await Mongo.insertMany('recent-post', recentPosts)
 }
 
-export const getRecentPosts = async () => {
-    const recentPosts = await getCachedData<Post>(
-        'recent-post',
-        {},
-        requestAPI,
-        DAY_IN_SECONDS * 2,
-    )
-    return recentPosts
-}
+export const getRecentPosts = async () =>
+    await getCachedData<Post>('recent-post', {}, requestAPI, DAY_IN_SECONDS * 2)

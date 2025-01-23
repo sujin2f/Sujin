@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { startTransition, useActionState, useEffect } from 'react'
+import { useEffect } from 'react'
 
 import { Banner } from '@components/header/Banner'
 import { MenuNames } from '@src/constants/mysql-query'
@@ -12,15 +12,27 @@ import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 
 import Logo from '@src/images/logo.svg'
 import '@src/scss/front-page.scss'
+import { useGlobalState } from '@common/hooks/useGlobalState'
+import { Image } from '@src/types/wordpress'
 
 export default function FrontPage() {
-    const [backgrounds, setBackground] = useActionState(
-        () => fetchGQL(queryBackground, imageOpr, WEEK_IN_SECONDS),
-        undefined,
+    const [backgrounds, setBackgrounds] = useGlobalState<Image[] | null>(
+        'backgrounds',
+        [],
     )
     useEffect(() => {
-        startTransition(() => setBackground())
-    }, [])
+        if (backgrounds && !backgrounds.length) {
+            const fetchBackgrounds = async () => {
+                const response = await fetchGQL(
+                    queryBackground,
+                    imageOpr,
+                    WEEK_IN_SECONDS,
+                ).catch(() => null)
+                setBackgrounds(response)
+            }
+            fetchBackgrounds()
+        }
+    }, [backgrounds, setBackgrounds])
 
     const background =
         backgrounds && backgrounds.length

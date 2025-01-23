@@ -1,8 +1,6 @@
 'use server'
 
-import { unstable_cache } from 'next/cache'
 import type { MenuItem, Post, Term } from '@src/types/wordpress'
-// import { getMenu as getSQLMenu } from '@src/utils/mysql/menu'
 import { isEmpty } from '@common/utils/object'
 import { MySQLQuery, MenuItemTypes, MetaKeys } from '@src/constants/mysql-query'
 import { Nullable } from '@common/types'
@@ -10,7 +8,6 @@ import { unserialize } from '@src/utils/wordpress'
 import { MySQL } from '@src/db/mysql'
 import { getPost } from '@src/db/mysql/getPost'
 import { getAllPostMeta } from '@src/db/mysql/getAllPostMeta'
-import { DAY_IN_SECONDS } from '@common/constants/datetime'
 import { Error } from '@common/model/Error'
 
 const getMenuItemFromPost = async (post: Post): Promise<Nullable<MenuItem>> => {
@@ -59,7 +56,7 @@ const getMenuItemFromPost = async (post: Post): Promise<Nullable<MenuItem>> => {
     return result
 }
 
-const request = async (slug: string): Promise<MenuItem[]> => {
+export const request = async (slug: string): Promise<MenuItem[]> => {
     new Error(`Menu Requested ${slug}`, { level: 'log' })
     const result: Record<number, MenuItem> = {}
 
@@ -86,25 +83,4 @@ const request = async (slug: string): Promise<MenuItem[]> => {
     })
 
     return Object.values(result)
-}
-
-const cachedRequest = async (slug: string) =>
-    unstable_cache(
-        async () =>
-            request(slug).then((menu) => {
-                if (!menu.length) {
-                    throw new Error(`Menu ${slug} has no menuitems.`, {
-                        level: 'error',
-                    })
-                }
-                return menu
-            }),
-        ['menu', slug],
-        {
-            revalidate: DAY_IN_SECONDS,
-        },
-    )()
-
-export const getMenu = async (slug: string) => {
-    return await cachedRequest(slug).catch(() => [] as MenuItem[])
 }

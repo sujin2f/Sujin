@@ -1,6 +1,6 @@
 'use client'
 
-import React, { Suspense, use, useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 
 import { fetchGQL } from '@common/data/graphql/fetchGQL'
 import { postOpr, queryRecent } from '@src/constants/graphql'
@@ -11,31 +11,23 @@ import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 import { Cards } from '@components/(wordpress)/archive/cards'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
-
-const NotFoundArticles = (param: { posts: Promise<Post[]> }) => {
-    const posts = use(param.posts)
-
-    return (
-        <>
-            <Row>
-                <Cards
-                    posts={posts}
-                    keyPrefix="not-found"
-                    large={4}
-                    medium={6}
-                    small={12}
-                />
-            </Row>
-        </>
-    )
-}
+import { useGlobalState } from '@common/hooks/useGlobalState'
 
 export default function NotFound() {
-    const [request, setRequest] = useState<Promise<Post[]>>()
-    useEffect(
-        () => setRequest(fetchGQL(queryRecent, postOpr, WEEK_IN_SECONDS)),
-        [],
-    )
+    const [posts, setPosts] = useGlobalState<Post[] | null>('recent-posts', [])
+    useEffect(() => {
+        if (posts && !posts.length) {
+            const fetchRecentPosts = async () => {
+                const response = await fetchGQL(
+                    queryRecent,
+                    postOpr,
+                    WEEK_IN_SECONDS,
+                ).catch(() => null)
+                setPosts(response)
+            }
+            fetchRecentPosts()
+        }
+    }, [posts, setPosts])
 
     return (
         <>
@@ -45,19 +37,26 @@ export default function NotFound() {
                 </Column>
             </Row>
 
-            <Suspense
-                fallback={
-                    <Loading
-                        className="archive"
-                        counts={12}
+            {posts && posts.length && (
+                <Row>
+                    <Cards
+                        posts={posts}
+                        keyPrefix="not-found"
                         large={4}
                         medium={6}
                         small={12}
                     />
-                }
-            >
-                {request && <NotFoundArticles posts={request} />}
-            </Suspense>
+                </Row>
+            )}
+            {posts && !posts.length && (
+                <Loading
+                    className="archive"
+                    counts={12}
+                    large={4}
+                    medium={6}
+                    small={12}
+                />
+            )}
         </>
     )
 }

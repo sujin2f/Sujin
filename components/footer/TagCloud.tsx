@@ -1,4 +1,4 @@
-import React, { use } from 'react'
+import React from 'react'
 import Link from 'next/link'
 
 import type { TagCloud as TagCloudType } from '@src/types/wordpress'
@@ -6,15 +6,13 @@ import type { TagCloud as TagCloudType } from '@src/types/wordpress'
 import '@src/scss/tag-cloud.scss'
 
 type Props = {
-    readonly request: Promise<TagCloudType[]>
+    readonly items: TagCloudType[]
 }
 
-export function TagCloud({ request }: Props) {
-    const tagCloud = use(request)
-
+export function TagCloud({ items }: Props) {
     return (
         <section className="widget--tag-cloud">
-            {tagCloud.slice(0, 20).map((tag) => (
+            {items.slice(0, 20).map((tag) => (
                 <Link
                     className={`tag-cloud tag-cloud--size-${tag.count} tag-cloud--color-${tag.hit}`}
                     key={`tag-${tag.id}`}

@@ -29,13 +29,12 @@ const requestAPI = async (doc: Filter<Term>): Promise<void> => {
     await Mongo.insertMany('term', [term])
 }
 
-export const getTerm = async (type: TermTypes, slug: string, page: number) => {
-    const post = await getCachedData<Term>(
-        'term',
-        { type, slug: slug.toLowerCase(), page },
-        requestAPI,
-        DAY_IN_SECONDS,
-    )
-
-    return post[0]
-}
+export const getTerm = async (type: TermTypes, slug: string, page: number) =>
+    (
+        await getCachedData<Term>(
+            'term',
+            { type, slug: slug.toLowerCase(), page },
+            requestAPI,
+            DAY_IN_SECONDS,
+        )
+    )[0]

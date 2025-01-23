@@ -7,7 +7,7 @@ if (!process.env.MONGO) {
 }
 
 const uri = process.env.MONGO
-const options = { appName: 'devrel.template.nextjs', monitorCommands: true }
+const options = { appName: 'devrel.template.nextjs' }
 
 let client: MongoClient
 
@@ -20,7 +20,7 @@ if (process.env.NODE_ENV === 'development') {
 
     if (!globalWithMongo._mongoClient) {
         globalWithMongo._mongoClient = new MongoClient(
-            `mongodb://${uri}`,
+            `mongodb://${uri}:27017`,
             options,
         )
     }

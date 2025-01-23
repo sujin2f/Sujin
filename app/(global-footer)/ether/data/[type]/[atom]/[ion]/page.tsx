@@ -19,9 +19,9 @@ export default async function DataPage(props: EtherDataServerProps) {
 
     const requestSpectra = unstable_cache(
         async () => await request(periodicTable[atom - 1], ion),
-        ['spectra'],
+        [atom.toString(), ion.toString()],
         {
-            tags: [atom.toString(), ion.toString()],
+            tags: ['spectra'],
             revalidate: DAY_IN_SECONDS * 7,
         },
     )

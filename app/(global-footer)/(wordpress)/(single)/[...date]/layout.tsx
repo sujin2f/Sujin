@@ -1,4 +1,4 @@
-import { cache, PropsWithChildren } from 'react'
+import { PropsWithChildren } from 'react'
 import type { Metadata } from 'next/types'
 
 import { Banner } from '@components/header/Banner'
@@ -8,6 +8,8 @@ import { getPost } from '@src/db/mongo/wordpress/post'
 import { updateHit } from '@src/db/mysql/getTagCloud'
 import { removeId } from '@src/db/mongo/util'
 import { Post } from '@components/(wordpress)/single/Post'
+import { unstable_cache } from 'next/cache'
+import { DAY_IN_SECONDS } from '@common/constants/datetime'
 
 const getPostParams = async (
     params: Promise<{
@@ -30,15 +32,22 @@ const getPostParams = async (
     return [year, month, day, slug]
 }
 
-const getPostCached = cache(async (slug: string) => await getPost(slug))
-
 export const generateMetadata = async (props: PostProps): Promise<Metadata> => {
     const params = await getPostParams(props.params)
     if (!params) {
         return {}
     }
     const [year, month, day, slug] = params
-    const post = await getPostCached(slug)
+    const requestPost = unstable_cache(
+        async (slug) => await getPost(slug),
+        [slug],
+        {
+            tags: ['wordpress', 'post'],
+            revalidate: DAY_IN_SECONDS,
+        },
+    )
+
+    const post = await requestPost(slug)
     const pathname =
         year && month && day ? `/${year}/${month}/${day}/${slug}` : `/${slug}`
     const url = `${process.env.BASE_URL}${pathname}`
@@ -67,7 +76,15 @@ export default async function Layout(props: PropsWithChildren<PostProps>) {
         redirect('/404')
     }
     const [, , , slug] = params
-    const post = await getPostCached(slug)
+    const requestPost = unstable_cache(
+        async (slug) => await getPost(slug),
+        [slug],
+        {
+            tags: ['wordpress', 'post'],
+            revalidate: DAY_IN_SECONDS,
+        },
+    )
+    const post = await requestPost(slug)
 
     if (!post) {
         redirect('/404')

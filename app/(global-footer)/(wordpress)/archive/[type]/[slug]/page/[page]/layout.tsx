@@ -1,4 +1,4 @@
-import { cache, PropsWithChildren } from 'react'
+import { PropsWithChildren } from 'react'
 import type { Metadata } from 'next/types'
 
 import { Banner } from '@components/header/Banner'
@@ -7,17 +7,22 @@ import { redirect } from 'next/navigation'
 import { getTerm } from '@src/db/mongo/wordpress/term'
 import { TermTypes } from '@src/types/wordpress'
 import { Archive } from '@components/(wordpress)/archive/Archive'
-
-const getArchiveCached = cache(
-    async (type: TermTypes, slug: string, page: number) =>
-        await getTerm(type, slug, page),
-)
+import { unstable_cache } from 'next/cache'
+import { DAY_IN_SECONDS } from '@common/constants/datetime'
 
 export const generateMetadata = async (
     props: ArchiveProps,
 ): Promise<Metadata> => {
     const { type, slug, page } = await props.params
-    const archive = await getArchiveCached(
+    const requestArchive = unstable_cache(
+        async (type, slug, page) => await getTerm(type, slug, page),
+        [type, slug, page],
+        {
+            tags: ['wordpress', 'archive'],
+            revalidate: DAY_IN_SECONDS,
+        },
+    )
+    const archive = await requestArchive(
         type as TermTypes,
         slug,
         parseInt(page),
@@ -42,7 +47,16 @@ export const generateMetadata = async (
 
 export default async function Layout(props: PropsWithChildren<ArchiveProps>) {
     const { type, slug, page } = await props.params
-    const archive = await getArchiveCached(
+    const requestArchive = unstable_cache(
+        async (type, slug, page) => await getTerm(type, slug, page),
+        [type, slug, page],
+        {
+            tags: ['wordpress', 'archive'],
+            revalidate: DAY_IN_SECONDS,
+        },
+    )
+
+    const archive = await requestArchive(
         type as TermTypes,
         slug,
         parseInt(page),
