@@ -49,7 +49,7 @@ export const request = async (atom: Atom, ion: number) =>
  */
 export const insertOne = async (rawData: Partial<Spectrum>) => {
     // Prevent duplication
-    await Mongo.findOne('spectra', { ...rawData }, true).catch(
+    await Mongo.findOne('spectra', { ...rawData }).catch(
         async () => await Mongo.insertOne('spectra', rawData),
     )
 }

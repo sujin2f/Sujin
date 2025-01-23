@@ -15,6 +15,7 @@ const insertOne = async (
     items: ObjectId[],
     ttl = DAY_IN_SECONDS,
 ) => {
+    // Delete old cache
     await Mongo.deleteMany('expiration', {
         collection,
         key,
@@ -31,15 +32,11 @@ const findOne = async <T extends Document>(
     collection: string,
     key: string,
 ): Promise<[WithId<T>[], boolean]> =>
-    await Mongo.findOne<Cached>('expiration', { collection, key }, true).then(
+    await Mongo.findOne<Cached>('expiration', { collection, key }).then(
         async (expiration) => {
-            const result = await Mongo.findMany<T>(
-                collection,
-                {
-                    _id: { $in: expiration.items },
-                } as Filter<T>,
-                true,
-            )
+            const result = await Mongo.findMany<T>(collection, {
+                _id: { $in: expiration.items },
+            } as Filter<T>)
             if (expiration.expire > Date.now() / SECOND_IN_MS) {
                 return [result, false]
             }
@@ -70,17 +67,17 @@ export const getCachedData = async <T extends Document>(
 
     // Request cached value
     const [cashed] = await findOne<T>(collection, cacheKey)
-        .then((result) => {
+        .then(async (result) => {
             // When expired, update cache
             if (result[1]) {
-                requestCallBack(doc).then(async () => {
+                await requestCallBack(doc).then(async () => {
                     const result = await Mongo.findMany<T>(
                         collection,
                         doc,
                     ).catch(() => [] as WithId<T>[])
 
                     if (result.length) {
-                        insertOne(
+                        await insertOne(
                             collection,
                             cacheKey,
                             result.map((item) => item._id),
@@ -98,7 +95,7 @@ export const getCachedData = async <T extends Document>(
                 () => [] as WithId<T>[],
             )
             if (result.length) {
-                insertOne(
+                await insertOne(
                     collection,
                     cacheKey,
                     result.map((item) => item._id),

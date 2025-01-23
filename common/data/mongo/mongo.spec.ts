@@ -1,53 +1,58 @@
 // yarn test mongo.spec.ts
 
-import { MongoMemoryServer } from 'mongodb-memory-server'
-import actions from './mongo'
+// import { MongoMemoryServer } from 'mongodb-memory-server'
+import Mongo from './mongo'
 import MongoClient from './mongo-client'
 
 describe('mongo.ts', () => {
-    let mongoServer: MongoMemoryServer
+    // // let mongoServer: MongoMemoryServer
+    // // let actions: typeof import('./mongo').default
 
     beforeAll(async () => {
-        mongoServer = await MongoMemoryServer.create()
-        global.process = {
-            ...global.process,
-            env: {
-                ...global.process.env,
-                MONGO: mongoServer.getUri().replace('mongodb://', ''),
-            },
-        }
+        //     // jest.resetModules()
+        //     // mongoServer = await MongoMemoryServer.create()
+        //     // global.process.env.MONGO = mongoServer
+        //     //     .getUri()
+        //     //     .replace('mongodb://', '')
+        //     // process.env.MONGO = mongoServer.getUri().replace('mongodb://', '')
+        //     // eslint-disable-next-line @typescript-eslint/no-require-imports
+        //     // actions = require('./mongo').default
+        // actions.deleteMany('test', {})
+        MongoClient.on('commandStarted', (started) => console.log(started))
     })
 
     afterAll(async () => {
-        if (mongoServer) {
-            await MongoClient.close()
-            await mongoServer.stop()
-        }
-    })
+        // // eslint-disable-next-line @typescript-eslint/no-require-imports
+        // const MongoClient = require('./mongo-client').default
+        // await MongoClient.close()
+        // await mongoServer.stop()
+        Mongo.deleteMany('test', {})
+    }, 10000)
 
-    it('insertOne() and findOne()', async () => {
-        const inserted = await actions.insertOne('test', { test: 1 })
+    test('insertOne() and findOne()', async () => {
+        const inserted = await Mongo.insertOne('test', { mongo1: 1 })
         expect(inserted.acknowledged).toEqual(true)
-        const id = inserted.insertedId
+        const _id = inserted.insertedId
 
-        const find = await actions.findOne('test', { test: 1 })
-        expect(id).toEqual(find._id)
-    })
+        const find = await Mongo.findOne('test', { mongo1: 1 })
+        expect(_id).toEqual(find!._id)
+    }, 10000)
 
-    it('insertMany() and findMany()', async () => {
-        await actions.insertMany('test', [
-            { test: 1, value: true },
-            { test: 2, value: false },
-            { test: 3, value: true },
+    test('insertMany() and findMany()', async () => {
+        await Mongo.insertMany('test', [
+            { mongo2: 1, value: true },
+            { mongo2: 2, value: false },
+            { mongo2: 3, value: true },
         ])
-        const find = await actions.findMany('test', { value: true })
-        expect(find.map((v) => v.test)).toEqual([1, 3])
-    })
+        const find = await Mongo.findMany('test', { value: true })
+        expect(find.map((v) => v.mongo2)).toEqual([1, 3])
+        Mongo.deleteMany('test', {})
+    }, 10000)
 
-    it('findOne() error', async () => {
-        const find = await actions
-            .findOne('test', { test: 5 })
-            .catch(() => 'error')
-        expect(find).toEqual('error')
-    })
+    test('findOne() error', async () => {
+        const find = await Mongo.findOne('test', { mongo3: 5 }).catch(
+            () => 'error',
+        )
+        expect(find).toBe('error')
+    }, 10000)
 })

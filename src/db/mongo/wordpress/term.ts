@@ -32,7 +32,7 @@ const requestAPI = async (doc: Filter<Term>): Promise<void> => {
 export const getTerm = async (type: TermTypes, slug: string, page: number) => {
     const post = await getCachedData<Term>(
         'term',
-        { type, slug, page },
+        { type, slug: slug.toLowerCase(), page },
         requestAPI,
         DAY_IN_SECONDS,
     )

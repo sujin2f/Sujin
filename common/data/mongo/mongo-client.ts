@@ -3,11 +3,11 @@
 import { MongoClient } from 'mongodb'
 
 if (!process.env.MONGO) {
-    throw new Error('Invalid/Missing environment variable: "MONGODB_URI"')
+    throw new Error('Invalid/Missing environment variable: "MONGO"')
 }
 
 const uri = process.env.MONGO
-const options = { appName: 'devrel.template.nextjs' }
+const options = { appName: 'devrel.template.nextjs', monitorCommands: true }
 
 let client: MongoClient
 
@@ -27,7 +27,7 @@ if (process.env.NODE_ENV === 'development') {
     client = globalWithMongo._mongoClient
 } else {
     // In production mode, it's best to not use a global variable.
-    client = new MongoClient(`mongodb://${uri}`, options)
+    client = new MongoClient(`mongodb://${uri}:27017`, options)
 }
 
 // Export a module-scoped MongoClient. By doing this in a
