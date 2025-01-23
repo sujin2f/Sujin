@@ -1,18 +1,17 @@
 import React from 'react'
-import { redirect } from 'next/navigation'
 
 import { ScrollToTop } from '@components/ScrollToTop'
-import { getArchivePageData } from '@app/(global-footer)/(wordpress)/util'
 import { Cards } from '@components/(wordpress)/archive/cards'
 import { Paging } from '@components/(wordpress)/archive/paging'
 import { Row } from '@common/components/layout/Row'
+import { Term as TermType } from '@src/types/wordpress'
 
-export default async function Page(props: ArchiveProps) {
-    const archive = await getArchivePageData(props)
-    if (!archive) {
-        redirect('/404')
-    }
-    const { slug, type, posts, pages, page } = archive
+export default async function Default() {
+    return <></>
+}
+
+export const Term = ({ term }: { term: TermType }) => {
+    const { slug, type, posts, pages, page } = term
     return (
         <>
             <ScrollToTop />

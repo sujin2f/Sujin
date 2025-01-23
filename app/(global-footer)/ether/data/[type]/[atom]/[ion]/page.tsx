@@ -1,13 +1,12 @@
 import { redirect } from 'next/navigation'
 
 import { periodicTable } from '@src/constants/spectra'
-import { getNistData } from '@src/db/fetch/getNistData'
 import { getClientData, sortEther, getSpectra } from '@src/utils/ether'
 import { Data } from '@components/(ether)/data'
 import { DataHeader } from '@components/(ether)/data-header'
-import { cache } from 'react'
-
-const cachedRequest = cache(getNistData)
+import { request } from '@src/db/mongo/ether/spectra'
+import { unstable_cache } from 'next/cache'
+import { DAY_IN_SECONDS } from '@common/constants/datetime'
 
 export default async function DataPage(props: EtherDataServerProps) {
     const params = await props.params
@@ -18,7 +17,16 @@ export default async function DataPage(props: EtherDataServerProps) {
     const atom = parseInt(params.atom)
     const ion = parseInt(params.ion)
 
-    const response = await cachedRequest(periodicTable[atom - 1], ion)
+    const requestSpectra = unstable_cache(
+        async () => await request(periodicTable[atom - 1], ion),
+        ['spectra'],
+        {
+            tags: [atom.toString(), ion.toString()],
+            revalidate: DAY_IN_SECONDS * 7,
+        },
+    )
+
+    const response = await requestSpectra()
     const [orbital, ratio, kRadial, kLinear] = getSpectra(response, atom, ion)
     const spectra = type === 'ether' ? sortEther(orbital) : orbital
     const [chartData, tableData, rowHead, maxColumn] = getClientData(

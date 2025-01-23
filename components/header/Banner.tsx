@@ -6,12 +6,11 @@ import React, { Fragment, ReactNode } from 'react'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 import { Menu } from '@common/components/layout/Menu'
-
 /* Helpers */
 import { joinClassNames, removeURLProtocol } from '@common/utils/string'
 import { ImageType } from '@src/constants/wp'
 import { getImageMap } from '@src/utils/common'
-import { useMenu } from '@src/hooks/useMenu'
+import { getMenu } from '@src/utils/menu'
 import type { Image } from '@src/types/wordpress'
 /* Assets */
 import '@src/scss/banner.scss'
@@ -39,7 +38,7 @@ type Props = {
  * @param {string} [props.className] - Additional class names for the banner.
  */
 export function Banner({ menu: menuName, banner, className }: Props) {
-    const menu = useMenu(menuName)
+    const menu = getMenu(menuName)
 
     const style =
         banner && banner.backgroundColor

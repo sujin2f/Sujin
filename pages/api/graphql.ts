@@ -2,14 +2,11 @@ import { startServerAndCreateNextHandler } from '@as-integrations/next'
 import { ApolloServer } from '@apollo/server'
 import { NextRequest } from 'next/server'
 
-import { getBackground } from '@src/db/mysql/getBackground'
-import { getMenu } from '@src/db/mysql/getMenu'
-import { getFlickr } from '@src/db/fetch/getFlickr'
-import { getTagCloud } from '@src/db/mysql/getTagCloud'
-import { getRecentPosts } from '@src/db/mysql/getRecentPosts'
-import { getPost } from '@src/db/mysql/getPost'
-import { getTermBy } from '@src/db/mysql/getTermBy'
-import { createGQLOptions } from '@common/graphql/createExpressRouter'
+import { getBackgrounds } from '@src/db/mongo/wordpress/background'
+import { getFlickr } from '@src/db/mongo/flickr'
+import { getTagCloud } from '@src/db/mongo/wordpress/tag-cloud'
+import { getRecentPosts } from '@src/db/mongo/wordpress/recent-post'
+import { createGQLOptions } from '@common/data/graphql/createExpressRouter'
 import {
     GQLImageSize,
     GQLImage,
@@ -22,12 +19,9 @@ import {
     GQLFlickrImage,
     GQLTagCloud,
     queryBackground,
-    queryMenu,
     queryFlickr,
     queryTagCloud,
     queryRecent,
-    queryPost,
-    queryArchive,
 } from '@src/constants/graphql'
 
 const options = createGQLOptions(
@@ -41,13 +35,10 @@ const options = createGQLOptions(
     GQLTerm,
     GQLFlickrImage,
     GQLTagCloud,
-    queryBackground.setCallback(getBackground),
-    queryMenu.setCallback(getMenu),
+    queryBackground.setCallback(getBackgrounds),
     queryFlickr.setCallback(getFlickr),
     queryTagCloud.setCallback(getTagCloud),
     queryRecent.setCallback(getRecentPosts),
-    queryPost.setCallback(getPost),
-    queryArchive.setCallback(getTermBy),
 )
 
 const resolvers = {

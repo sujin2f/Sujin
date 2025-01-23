@@ -1,24 +1,23 @@
 import React from 'react'
-import { redirect } from 'next/navigation'
 
 import { Column } from '@common/components/layout/Column'
 import { Row } from '@common/components/layout/Row'
 import { SocialShare } from '@components/(wordpress)/single/SocialShare'
 import { Content } from '@components/(wordpress)/single/Content'
 import { ScrollToTop } from '@components/ScrollToTop'
-import {
-    getSinglePageData,
-    getPageParams,
-} from '@app/(global-footer)/(wordpress)/util'
+import { Post } from '@src/types/wordpress'
 
-export default async function Page(props: PageProps) {
-    const slug = await getPageParams(props)
-    const [post, thumbnail] = await getSinglePageData(slug)
+export default async function Default() {
+    return <></>
+}
 
-    if (!post) {
-        redirect('/404')
-    }
-
+export const Page = ({
+    post,
+    thumbnail,
+}: {
+    post: Post
+    thumbnail: string
+}) => {
     return (
         <Row>
             <ScrollToTop />

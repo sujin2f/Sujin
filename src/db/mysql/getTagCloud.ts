@@ -1,13 +1,8 @@
-'use server'
-
-import { unstable_cache } from 'next/cache'
 import type { TagCloud } from '@src/types/wordpress'
-
 import { MySQLQuery } from '@src/constants/mysql-query'
 import { MySQL } from '@src/db/mysql'
-import { DAY_IN_SECONDS } from '@common/constants/datetime'
 
-const request = async (): Promise<TagCloud[]> => {
+export const getTagCloud = async (): Promise<TagCloud[]> => {
     let counts: number[] = []
     let hits: number[] = []
 
@@ -51,10 +46,6 @@ const request = async (): Promise<TagCloud[]> => {
         }
     })
 }
-
-export const getTagCloud = unstable_cache(request, ['tag-cloud'], {
-    revalidate: DAY_IN_SECONDS * 7,
-})
 
 export const updateHit = async (termId: number): Promise<void> => {
     const mysql = await MySQL.getInstance()

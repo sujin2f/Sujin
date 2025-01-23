@@ -1,16 +1,19 @@
-import { cache } from 'react'
+import { DAY_IN_SECONDS } from '@common/constants/datetime'
 import type { IQuery, ScalarJSType } from '.'
 import { Error } from '@common/model/Error'
 
-const fetchGQL = <A extends ScalarJSType[], R>(
+export const fetchGQL = <A extends ScalarJSType[], R>(
     query: IQuery<A, R>,
     fields: string,
+    ttl: number,
     ...args: A
 ): Promise<R> =>
     fetch(`/api/graphql`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: query.toOperation(fields, ...args),
+        cache: 'force-cache',
+        next: { revalidate: ttl || DAY_IN_SECONDS },
     })
         .then((response) => {
             if (response.status >= 400) {
@@ -31,5 +34,3 @@ const fetchGQL = <A extends ScalarJSType[], R>(
             }
             return value as R
         })
-
-export default cache(fetchGQL)

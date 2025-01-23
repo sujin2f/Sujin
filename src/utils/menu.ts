@@ -1,5 +1,3 @@
-'use client'
-
 import {
     MenuDefault,
     MenuDevTool,
@@ -9,7 +7,7 @@ import {
 import { MenuNames } from '@src/constants/mysql-query'
 import { MenuItem } from '@src/types/wordpress'
 
-export const useMenu = (slug: string): MenuItem[] => {
+export const getMenu = (slug: string): MenuItem[] => {
     if (slug === MenuNames.ETHER) {
         return MenuEther
     }

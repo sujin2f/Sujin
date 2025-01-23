@@ -1,34 +1,28 @@
 import React from 'react'
-import { redirect } from 'next/navigation'
 
-import {
-    getPostParams,
-    getSinglePageData,
-} from '@app/(global-footer)/(wordpress)/util'
-import { Column } from '@common/components/layout/Column'
-import { Row } from '@common/components/layout/Row'
-import { SocialShare } from '@components/(wordpress)/single/SocialShare'
-import { Content } from '@components/(wordpress)/single/Content'
-import { ScrollToTop } from '@components/ScrollToTop'
 import { Tags } from '@components/(wordpress)/single/Tags'
 import { PrevNext } from '@components/(wordpress)/single/PrevNext'
 import { RelatedPosts } from '@components/(wordpress)/single/RelatedPosts'
 import { RecentPosts } from '@components/(wordpress)/single/RecentPosts'
 import { GoogleAdvert } from '@components/GoogleAdvert'
+import { Column } from '@common/components/layout/Column'
+import { Row } from '@common/components/layout/Row'
+import { SocialShare } from '@components/(wordpress)/single/SocialShare'
+import { Content } from '@components/(wordpress)/single/Content'
+import { ScrollToTop } from '@components/ScrollToTop'
+import { Post as PostType } from '@src/types/wordpress'
 
-export default async function Page(props: PostProps) {
-    const params = await getPostParams(props.params)
-    if (!params) {
-        redirect('/404')
-    }
-    const [, , , slug] = params
+export default async function Default() {
+    return <></>
+}
 
-    const [post, thumbnail] = await getSinglePageData(slug, true)
-
-    if (!post) {
-        redirect('/404')
-    }
-
+export const Post = ({
+    post,
+    thumbnail,
+}: {
+    post: PostType
+    thumbnail: string
+}) => {
     return (
         <Row>
             <ScrollToTop />

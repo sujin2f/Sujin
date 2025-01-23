@@ -11,7 +11,7 @@ import { FooterBottom } from '@components/footer/FooterBottom'
 import { WidgetTitle } from '@components/WidgetTitle'
 import type { FlickrImage } from '@src/types/flickr'
 import type { TagCloud as TagCloudType } from '@src/types/wordpress'
-import fetchGQL from '@common/graphql/fetchGQL'
+import { fetchGQL } from '@common/data/graphql/fetchGQL'
 import {
     flickrOpr,
     queryFlickr,
@@ -19,6 +19,7 @@ import {
     tagCloudOpr,
 } from '@src/constants/graphql'
 import { Loading } from '@components/(wordpress)/archive/loading'
+import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 
 import '@src/scss/footer.scss'
 
@@ -27,9 +28,16 @@ export const Footer = () => {
     const [requestTagCloud, setRequestTagCloud] =
         useState<Promise<TagCloudType[]>>()
 
-    useEffect(() => setRequestFlickr(fetchGQL(queryFlickr, flickrOpr)), [])
     useEffect(
-        () => setRequestTagCloud(fetchGQL(queryTagCloud, tagCloudOpr)),
+        () =>
+            setRequestFlickr(fetchGQL(queryFlickr, flickrOpr, WEEK_IN_SECONDS)),
+        [],
+    )
+    useEffect(
+        () =>
+            setRequestTagCloud(
+                fetchGQL(queryTagCloud, tagCloudOpr, WEEK_IN_SECONDS),
+            ),
         [],
     )
 
