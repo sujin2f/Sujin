@@ -1,16 +1,27 @@
-import { PropsWithChildren } from 'react'
+import { cache, PropsWithChildren } from 'react'
 import type { Metadata } from 'next/types'
 
 import { Banner } from '@components/header/Banner'
 import { MenuNames } from '@src/constants/mysql-query'
-import { getArchivePageData } from '@app/(global-footer)/(wordpress)/util'
 import { redirect } from 'next/navigation'
+import { getTerm } from '@src/db/mongo/wordpress/term'
+import { TermTypes } from '@src/types/wordpress'
+import { Archive } from '@components/(wordpress)/archive/Archive'
+
+const getArchiveCached = cache(
+    async (type: TermTypes, slug: string, page: number) =>
+        await getTerm(type, slug, page),
+)
 
 export const generateMetadata = async (
     props: ArchiveProps,
 ): Promise<Metadata> => {
     const { type, slug, page } = await props.params
-    const archive = await getArchivePageData(props)
+    const archive = await getArchiveCached(
+        type as TermTypes,
+        slug,
+        parseInt(page),
+    ).catch(() => undefined)
     if (!archive || archive.posts.length === 0) {
         return {}
     }
@@ -30,11 +41,16 @@ export const generateMetadata = async (
 }
 
 export default async function Layout(props: PropsWithChildren<ArchiveProps>) {
-    const archive = await getArchivePageData(props)
+    const { type, slug, page } = await props.params
+    const archive = await getArchiveCached(
+        type as TermTypes,
+        slug,
+        parseInt(page),
+    ).catch(() => undefined)
     if (!archive) {
         return redirect('/404')
     }
-    const { title, excerpt, type, image } = archive
+    const { title, excerpt, image } = archive
     return (
         <>
             <Banner
@@ -50,7 +66,7 @@ export default async function Layout(props: PropsWithChildren<ArchiveProps>) {
                 className=""
             />
 
-            {props.children}
+            <Archive term={archive} />
         </>
     )
 }

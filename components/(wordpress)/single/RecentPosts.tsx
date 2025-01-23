@@ -4,21 +4,22 @@ import React, { Suspense, use, useEffect, useState } from 'react'
 
 import { Row } from '@common/components/layout/Row'
 import { WidgetTitle } from '@components/WidgetTitle'
-import { Term } from '@src/types/wordpress'
+import { Post } from '@src/types/wordpress'
 import { Cards } from '@components/(wordpress)/archive/cards'
+import { Loading } from '../archive/loading'
+import { fetchGQL } from '@common/data/graphql/fetchGQL'
+import { postOpr, queryRecent } from '@src/constants/graphql'
+import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 
 import '@src/scss/recent-post.scss'
-import { Loading } from '../archive/loading'
-import fetchGQL from '@common/graphql/fetchGQL'
-import { archiveOpr, queryRecent } from '@src/constants/graphql'
 
 type Props = {
     readonly current: number
-    readonly term: Promise<Term>
+    readonly posts: Promise<Post[]>
 }
 
 const Component = (props: Props) => {
-    const { posts } = use(props.term)
+    const posts = use(props.posts)
 
     return (
         <section className="recent-posts show-for-large">
@@ -36,8 +37,11 @@ const Component = (props: Props) => {
 }
 
 export const RecentPosts = ({ current }: { current: number }) => {
-    const [recent, setRecent] = useState<Promise<Term>>()
-    useEffect(() => setRecent(fetchGQL(queryRecent, archiveOpr)), [])
+    const [recent, setRecent] = useState<Promise<Post[]>>()
+    useEffect(
+        () => setRecent(fetchGQL(queryRecent, postOpr, WEEK_IN_SECONDS)),
+        [],
+    )
 
     return (
         <Suspense
@@ -45,7 +49,7 @@ export const RecentPosts = ({ current }: { current: number }) => {
                 <Loading className="recent" counts={4} small={12} fullWidth />
             }
         >
-            {recent && <Component current={current} term={recent} />}
+            {recent && <Component current={current} posts={recent} />}
         </Suspense>
     )
 }

@@ -2,7 +2,7 @@
 
 import { GQLQuery } from './query'
 import { GQLInt, GQLType, GQLString } from './type'
-import { createExpressRouter } from './createExpressRouter'
+import { createGQLOptions } from './createExpressRouter'
 
 type UserType = {
     id?: number
@@ -40,7 +40,7 @@ describe('graphql', () => {
     })
 
     it('GQLQuery.toString()', () => {
-        expect(getList.toString()).toEqual('getList(id: Int!): List')
+        expect(getList.toString()).toEqual('getList(id: String!): List')
     })
 
     it('GQLQuery.toOperation()', () => {
@@ -59,14 +59,14 @@ describe('graphql', () => {
                     },
                 ],
             }) as ListType
-        const router = createExpressRouter(
+        const router = createGQLOptions(
             getList.setCallback(callback),
             User,
             Post,
             List,
         )
         expect(
-            router.toString().includes('function router(req, res, next) {'),
+            router.schema.includes('getList(id: String!): List'),
         ).toBeTruthy()
     })
 })

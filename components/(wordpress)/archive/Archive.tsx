@@ -1,22 +1,16 @@
-'use client'
+import React from 'react'
 
-import React, { use } from 'react'
-
-import { Term } from '@src/types/wordpress'
+import { ScrollToTop } from '@components/ScrollToTop'
 import { Cards } from '@components/(wordpress)/archive/cards'
 import { Paging } from '@components/(wordpress)/archive/paging'
 import { Row } from '@common/components/layout/Row'
+import { Term as TermType } from '@src/types/wordpress'
 
-type Props = {
-    readonly term: Promise<Term>
-}
-
-export const WrapperClient = (props: Props) => {
-    const term = use(props.term)
-    const { posts, pages, type, slug, page } = term as Term
-
+export const Archive = ({ term }: { term: TermType }) => {
+    const { slug, type, posts, pages, page } = term
     return (
         <>
+            <ScrollToTop />
             <Row>
                 <Cards
                     posts={posts}
@@ -26,7 +20,6 @@ export const WrapperClient = (props: Props) => {
                     small={12}
                 />
             </Row>
-
             <Paging pages={pages} page={page} urlPrefix={`/${type}/${slug}`} />
         </>
     )

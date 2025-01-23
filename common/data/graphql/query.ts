@@ -5,7 +5,7 @@ import type {
     ScalarJSType,
     QueryReturnType,
 } from '.'
-import { isEmpty } from '../utils/object'
+import { isEmpty } from '../../utils/object'
 import { fieldToString } from './util'
 
 /**
@@ -43,12 +43,18 @@ export class GQLQuery<A extends ScalarJSType[], R> implements IQuery<A, R> {
     toOperation(fields: string, ...args: A) {
         const argStr = Object.keys(this.args)
             .map((key, index) => {
-                return `${key}: ${typeof args[index] === 'string' ? `"${args[index]}"` : args[index]}`
+                return `${key}: ${
+                    typeof args[index] === 'string'
+                        ? `"${args[index]}"`
+                        : args[index]
+                }`
             })
             .join(', ')
 
         return JSON.stringify({
-            query: `{\n${this.name}${argStr ? `(${argStr})` : ''} {\n${fields}\n}\n}`,
+            query: `{\n${this.name}${
+                argStr ? `(${argStr})` : ''
+            } {\n${fields}\n}\n}`,
         })
     }
 

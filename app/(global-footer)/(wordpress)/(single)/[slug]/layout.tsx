@@ -1,27 +1,58 @@
-import { PropsWithChildren } from 'react'
+import { cache, PropsWithChildren } from 'react'
 import type { Metadata } from 'next/types'
 
-import {
-    getSingleMetadata,
-    getPageParams,
-    getSinglePageData,
-} from '@app/(global-footer)/(wordpress)/util'
 import { Banner } from '@components/header/Banner'
 import { MenuNames } from '@src/constants/mysql-query'
 import { redirect } from 'next/navigation'
+import { getPost } from '@src/db/mongo/wordpress/post'
+import { removeId } from '@src/db/mongo/util'
+import { Page } from '@components/(wordpress)/single/Page'
+
+const getPageParams = async ({ params }: PageProps) => {
+    const { slug } = await params
+    return slug
+}
+
+const getPostCached = cache(async (slug: string) => await getPost(slug))
 
 export const generateMetadata = async (props: PageProps): Promise<Metadata> => {
     const slug = await getPageParams(props)
-    return await getSingleMetadata(slug)
+    const post = await getPostCached(slug)
+    if (!post) {
+        return {}
+    }
+    const pathname = `/${slug}`
+    const url = `${process.env.BASE_URL}${pathname}`
+    const images =
+        post.images.thumbnail?.url ||
+        post.images.list?.url ||
+        `${process.env.BASE_URL}/thumbnail.png`
+
+    return {
+        title: `Sujin | ${post.title}`,
+        description: post.excerpt,
+        // TODO
+        keywords: ['Next.js', 'React', 'JavaScript', 'TypeScript', 'Express'],
+        openGraph: {
+            title: `Sujin | ${post.title}`,
+            url: url,
+            images,
+        },
+        metadataBase: new URL(url),
+    }
 }
 
 export default async function Layout(props: PropsWithChildren<PageProps>) {
     const slug = await getPageParams(props)
-    const [post] = await getSinglePageData(slug)
+    const post = await getPostCached(slug)
 
     if (!post) {
         redirect('/404')
     }
+
+    const thumbnail =
+        (post && (post.images.list?.url || post.images.thumbnail?.url)) ||
+        '/thumbnail.png'
 
     return (
         <>
@@ -38,7 +69,7 @@ export default async function Layout(props: PropsWithChildren<PageProps>) {
                 className=""
             />
 
-            {props.children}
+            <Page post={removeId(post)} thumbnail={thumbnail} />
         </>
     )
 }

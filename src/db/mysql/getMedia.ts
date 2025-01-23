@@ -4,7 +4,7 @@ import { isEmpty } from '@common/utils/object'
 import { MetaKeys } from '@src/constants/mysql-query'
 import type { Image, ImageSizes, MediaRawData } from '@src/types/wordpress'
 import type { Nullable } from '@common/types'
-import { request as getPost } from '@src/db/mysql/getPost'
+import { getPost } from '@src/db/mysql/getPost'
 import { getPostMeta } from '@src/db/mysql/getPostMeta'
 
 export const getMedia = async (postId: number): Promise<Nullable<Image>> => {

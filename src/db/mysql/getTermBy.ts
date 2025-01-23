@@ -7,11 +7,9 @@ import { Term, TermTypes } from '@src/types/wordpress'
 import { getTermMeta } from '@src/db/mysql/getTermMeta'
 import { getMedia } from '@src/db/mysql/getMedia'
 import { getPostsBy } from '@src/db/mysql/getPostsBy'
-import { unstable_cache } from 'next/cache'
-import { DAY_IN_SECONDS } from '@common/constants/datetime'
 import { Error } from '@common/model/Error'
 
-export const request = async (
+export const getTermBy = async (
     type: TermTypes,
     slug: string,
     page: number,
@@ -43,10 +41,3 @@ export const request = async (
         page,
     }
 }
-
-export const getTermBy = async (type: TermTypes, slug: string, page: number) =>
-    unstable_cache(
-        async () => await request(type, slug, page).catch(() => undefined),
-        ['term', type, slug, page.toString()],
-        { revalidate: DAY_IN_SECONDS },
-    )()

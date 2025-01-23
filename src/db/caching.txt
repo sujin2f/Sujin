@@ -1,0 +1,16 @@
+# mermaid diagram
+
+https://mermaid.live/edit#pako:eNp1kU9LxDAQxb9KyNWW3oP0IOJJBdmbFCSbzLbBbabmj7uy7Hd32qQlK5hT8ubNm1-SC1eogQvu4SuCVfBoZO_k2FlG68HhyYOr2_buFc5BMDe7fLjfu6ZVUg3AGhatD3J_hI9FSI2zu6a2HCDYUtPU7ye0fnVhAIbf4NgL2h4Fg_NknAwGLdMylFlEkD0ZIdUWbR5Ur3wpn51MGIq4W6p6w_qP5wmCGprd27NgFmahuNs2MwOZQxoEuqK8kfpLH4EXYTfwmz6HFaYj9n8NxJynxSm9DK_4CG6URtPnXWZ_x8MAI3Rc0FZL99nxzl7JJ2PA3Y9VXAQXoeIOYz9wcZBHT6cUmL99Uydp3xHX8_UX4Hy4UA
+
+sequenceDiagram
+    Browser->>+Next: request<br/>cache / unstable_cache
+    Next-->>Browser: cached response
+    Note over Mongo: expiration date
+    Next->>+Mongo: request
+    Mongo-->>-Next: response with expiration
+    Next-->>-Browser: response
+    Note over Fetch/SQL: never cache
+    Mongo-->>Mongo: if expired, remove
+    Mongo->>+Fetch/SQL: request
+    Fetch/SQL-->>Fetch/SQL: log
+    Fetch/SQL->>-Mongo: update

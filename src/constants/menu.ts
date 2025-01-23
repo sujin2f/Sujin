@@ -42,6 +42,11 @@ export const MenuDefault: MenuItem[] = [
                 link: 'https://common.sujinc.com/',
                 target: '_blank',
             },
+            {
+                ...menu,
+                title: 'Ether',
+                link: '/ether',
+            },
         ],
     },
 ]
@@ -153,5 +158,23 @@ export const MenuEtherKor: MenuItem[] = [
         ...menu,
         title: 'English',
         link: '/ether',
+    },
+]
+
+export const MenuDevTool: MenuItem[] = [
+    {
+        ...menu,
+        title: 'Home',
+        link: '/',
+    },
+    {
+        ...menu,
+        title: 'Case Tool',
+        link: '/dev-tools/case',
+    },
+    {
+        ...menu,
+        title: 'Text Sort',
+        link: '/dev-tools/text-sort',
     },
 ]

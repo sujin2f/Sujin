@@ -1,5 +1,11 @@
-import { GQLQuery } from '@common/graphql/query'
-import { GQLBoolean, GQLInt, GQLString, GQLType } from '@common/graphql/type'
+import { GQLQuery } from '@common/data/graphql/query'
+import {
+    GQLBoolean,
+    GQLFloat,
+    GQLInt,
+    GQLString,
+    GQLType,
+} from '@common/data/graphql/type'
 import { Nullable } from '@common/types'
 import { FlickrImage } from '@src/types/flickr'
 import { TermTypes } from '@src/types/wordpress'
@@ -55,7 +61,7 @@ export const GQLPost = new GQLType<Post>('Post', {
     title: { type: GQLString },
     excerpt: { type: GQLString },
     content: { type: GQLString },
-    date: { type: GQLInt },
+    date: { type: GQLFloat },
     link: { type: GQLString },
     parent: { type: GQLInt },
     type: { type: GQLString },
@@ -103,11 +109,12 @@ export const GQLTagCloud = new GQLType<TagCloud>('TagCloud', {
     hit: { type: GQLInt },
 })
 
-export const queryBackground = new GQLQuery<[], Image>(
+export const queryBackground = new GQLQuery<[], Image[]>(
     'background',
     {},
     {
         type: GQLImage,
+        list,
     },
 )
 
@@ -179,11 +186,12 @@ export const queryTagCloud = new GQLQuery<[], TagCloud[]>(
     },
 )
 
-export const queryRecent = new GQLQuery<[], Term>(
+export const queryRecent = new GQLQuery<[], Post[]>(
     'recent',
     {},
     {
-        type: GQLTerm,
+        type: GQLPost,
+        list,
     },
 )
 

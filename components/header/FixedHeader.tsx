@@ -11,7 +11,7 @@ import { Row } from '@common/components/layout/Row'
 import { Hamburger } from '@components/header/Hamburger'
 import { Search } from '@components/header/Search'
 /* Hook */
-import { useMenu } from '@src/hooks/useMenu'
+import { getMenu } from '@src/utils/menu'
 /* Images */
 import Logo from '@src/images/logo-top-bar.svg'
 import Facebook from '@src/images/facebook.svg'
@@ -33,7 +33,7 @@ type Props = {
  * @param {string} props.menu - The menu items to be displayed in the top bar.
  */
 export const FixedHeader = (props: Props) => {
-    const menu = useMenu(props.menu)
+    const menu = getMenu(props.menu)
     const [scrolled, setScrolled] = useState('')
 
     const handleScrolled = useCallback(() => {

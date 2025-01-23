@@ -6,7 +6,6 @@
 import { isMobile, scrollTo } from './device'
 
 describe('device.ts', () => {
-    /* eslint-disable max-len,no-useless-escape */
     const dataIsMobile = [
         [
             'Mozilla/5.0 (Linux; Android 8.0.0; SM-G960F Build/R16NW) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.84 Mobile Safari/537.36',
@@ -78,7 +77,6 @@ describe('device.ts', () => {
             false,
         ],
     ]
-    /* eslint-enable max-len,no-useless-escape */
 
     describe.each(dataIsMobile)('isMobile()', (input, expected) => {
         test(`isMobile ${input}`, () => {
