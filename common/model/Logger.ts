@@ -5,6 +5,6 @@ const styleLog = [
     'border-radius: 3px',
 ].join(';')
 
-export const logger = (message: any) => {
+export const logger = (message: string | number | boolean) => {
     return [`%cLOG%c ${message}`, styleLog, []]
 }

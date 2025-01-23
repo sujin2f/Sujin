@@ -7,7 +7,8 @@
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "test": "jest --no-cache"
+        "test": "jest --no-cache",
+        "lint": "eslint ./src/**/*.ts ./src/**/*.tsx ./app/**/*.tsx ./common/**/*.ts ./common/**/*.tsx ./components/**/*.tsx"
     },
     "dependencies": {
         "@apollo/server": "^4.11.3",
