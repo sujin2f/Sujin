@@ -1,4 +1,4 @@
-import Mongo from '@common/data/mongo-connect'
+import Mongo from '@common/data/mongo/mongo'
 import { getCachedData } from '@src/db/mongo/object-cache'
 import { request as getFlickrAPI } from '@src/db/fetch/getFlickr'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'

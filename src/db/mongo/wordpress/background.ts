@@ -1,4 +1,4 @@
-import Mongo from '@common/data/mongo-connect'
+import Mongo from '@common/data/mongo/mongo'
 import { getCachedData } from '@src/db/mongo/object-cache'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { getBackgrounds as queryBackgrounds } from '@src/db/mysql/getBackgrounds'

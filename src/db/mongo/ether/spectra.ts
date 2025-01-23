@@ -1,7 +1,7 @@
 import type { Filter } from 'mongodb'
 import type { Atom } from '@src/types/atom'
 import type { Spectrum } from '@src/types/ether'
-import Mongo from '@common/data/mongo-connect'
+import Mongo from '@common/data/mongo/mongo'
 import { getCachedData } from '@src/db/mongo/object-cache'
 import { request as getNistData } from '@src/db/fetch/getNistData'
 import { insertManyFromCSV } from '@src/db/mongo/ether/util'

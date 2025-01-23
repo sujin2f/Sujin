@@ -21,7 +21,7 @@ export const generateMetadata = async (
         type as TermTypes,
         slug,
         parseInt(page),
-    )
+    ).catch(() => undefined)
     if (!archive || archive.posts.length === 0) {
         return {}
     }
@@ -46,7 +46,7 @@ export default async function Layout(props: PropsWithChildren<ArchiveProps>) {
         type as TermTypes,
         slug,
         parseInt(page),
-    )
+    ).catch(() => undefined)
     if (!archive) {
         return redirect('/404')
     }

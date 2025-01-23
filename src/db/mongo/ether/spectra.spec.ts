@@ -4,6 +4,7 @@ import { MongoMemoryServer } from 'mongodb-memory-server'
 import { getAtom } from '@src/utils/ether'
 import { request } from './spectra'
 import { NISTresponse } from '../../../../.jest/fixture'
+import MongoClient from '@common/data/mongo/mongo-client'
 
 describe('spectra.spec.ts', () => {
     let mongoServer: MongoMemoryServer
@@ -27,6 +28,7 @@ describe('spectra.spec.ts', () => {
 
     afterAll(async () => {
         if (mongoServer) {
+            await MongoClient.close()
             await mongoServer.stop()
         }
     })

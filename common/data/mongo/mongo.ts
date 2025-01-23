@@ -1,52 +1,29 @@
-// see https://github.com/vercel/next.js/tree/canary/examples/with-mongodb
-
 import {
     InsertManyResult,
-    MongoClient,
     type Document,
     type Filter,
     type InsertOneResult,
     type OptionalUnlessRequiredId,
     type WithId,
 } from 'mongodb'
-import { Error as CustomError, isCustomError } from '@common/model/Error'
+import MongoClient from './mongo-client'
+import { Error as CustomError, isCustomError } from '../../model/Error'
 
 const handleCustomError = (e: unknown, quiet: boolean) => {
     if (isCustomError(e)) {
         if (!quiet) {
             e.echo('log')
+            return e
         }
-        throw e
     }
-}
-
-const handleJSError = (e: unknown, quiet: boolean) => {
     if (e instanceof Error) {
         const error = new CustomError(e.message)
         if (!quiet) {
             error.echo('log')
+            return error
         }
-        throw error
     }
-}
-
-/**
- * Creates and returns a MongoDB client.
- *
- * @returns {MongoClient} The MongoDB client.
- * @throws {Error} If the MONGO environment variable is missing or invalid.
- */
-const getClient = () => {
-    if (!process.env.MONGO) {
-        throw new CustomError('Invalid/Missing environment variable: "MONGO"', {
-            level: 'log',
-        })
-    }
-
-    const uri = process.env.MONGO
-    const options = { appName: 'devrel.template.nextjs' }
-
-    return new MongoClient(`mongodb://${uri}`, options)
+    return e
 }
 
 /**
@@ -64,7 +41,7 @@ const findOne = async <T extends Document>(
     doc: Filter<T>,
     quiet: boolean = false,
 ): Promise<WithId<T>> => {
-    const client = getClient()
+    const client = MongoClient
     try {
         const database = client.db('sujin')
         const result = await database.collection<T>(collection).findOne(doc)
@@ -77,12 +54,7 @@ const findOne = async <T extends Document>(
         }
         return result
     } catch (e: unknown) {
-        handleCustomError(e, quiet)
-        handleJSError(e, quiet)
-        throw e
-    } finally {
-        // Close the MongoDB client connection
-        await client.close()
+        throw handleCustomError(e, quiet)
     }
 }
 
@@ -101,7 +73,7 @@ const findMany = async <T extends Document>(
     doc: Filter<T>,
     quiet: boolean = false,
 ): Promise<WithId<T>[]> => {
-    const client = getClient()
+    const client = MongoClient
     try {
         const database = client.db('sujin')
         const result = await database
@@ -117,12 +89,7 @@ const findMany = async <T extends Document>(
         }
         return result
     } catch (e: unknown) {
-        handleCustomError(e, quiet)
-        handleJSError(e, quiet)
-        throw e
-    } finally {
-        // Close the MongoDB client connection
-        await client.close()
+        throw handleCustomError(e, quiet)
     }
 }
 
@@ -141,16 +108,12 @@ const insertOne = async <T extends Document>(
     doc: OptionalUnlessRequiredId<T>,
     quiet: boolean = false,
 ): Promise<InsertOneResult<T>> => {
-    const client = getClient()
+    const client = MongoClient
     try {
         const database = client.db('sujin')
         return await database.collection<T>(collection).insertOne(doc)
     } catch (e: unknown) {
-        handleJSError(e, quiet)
-        throw e
-    } finally {
-        // Close the MongoDB client connection
-        await client.close()
+        throw handleCustomError(e, quiet)
     }
 }
 
@@ -169,16 +132,12 @@ const insertMany = async <T extends Document>(
     doc: OptionalUnlessRequiredId<T>[],
     quiet: boolean = false,
 ): Promise<InsertManyResult<T>> => {
-    const client = getClient()
+    const client = MongoClient
     try {
         const database = client.db('sujin')
         return await database.collection<T>(collection).insertMany(doc)
     } catch (e: unknown) {
-        handleJSError(e, quiet)
-        throw e
-    } finally {
-        // Close the MongoDB client connection
-        await client.close()
+        throw handleCustomError(e, quiet)
     }
 }
 
@@ -187,16 +146,12 @@ const deleteMany = async <T extends Document>(
     doc: Filter<T>,
     quiet: boolean = false,
 ) => {
-    const client = getClient()
+    const client = MongoClient
     try {
         const database = client.db('sujin')
         return await database.collection<T>(collection).deleteMany(doc)
     } catch (e: unknown) {
-        handleJSError(e, quiet)
-        throw e
-    } finally {
-        // Close the MongoDB client connection
-        await client.close()
+        throw handleCustomError(e, quiet)
     }
 }
 

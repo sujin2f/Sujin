@@ -1,5 +1,5 @@
 import { DAY_IN_SECONDS, SECOND_IN_MS } from '@common/constants/datetime'
-import Mongo from '@common/data/mongo-connect'
+import Mongo from '@common/data/mongo/mongo'
 import type { Document, ObjectId, WithId, Filter } from 'mongodb'
 
 type Cached = {
@@ -31,11 +31,15 @@ const findOne = async <T extends Document>(
     collection: string,
     key: string,
 ): Promise<[WithId<T>[], boolean]> =>
-    await Mongo.findOne<Cached>('expiration', { collection, key }).then(
+    await Mongo.findOne<Cached>('expiration', { collection, key }, true).then(
         async (expiration) => {
-            const result = await Mongo.findMany<T>(collection, {
-                _id: { $in: expiration.items },
-            } as Filter<T>)
+            const result = await Mongo.findMany<T>(
+                collection,
+                {
+                    _id: { $in: expiration.items },
+                } as Filter<T>,
+                true,
+            )
             if (expiration.expire > Date.now() / SECOND_IN_MS) {
                 return [result, false]
             }
@@ -106,10 +110,3 @@ export const getCachedData = async <T extends Document>(
 
     return cashed
 }
-
-const actions = {
-    findOne,
-    insertOne,
-}
-
-export default actions

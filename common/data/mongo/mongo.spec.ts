@@ -1,9 +1,10 @@
-// yarn test mongo-connect.spec.ts
+// yarn test mongo.spec.ts
 
 import { MongoMemoryServer } from 'mongodb-memory-server'
-import actions from './mongo-connect'
+import actions from './mongo'
+import MongoClient from './mongo-client'
 
-describe('mongo-connect.ts', () => {
+describe('mongo.ts', () => {
     let mongoServer: MongoMemoryServer
 
     beforeAll(async () => {
@@ -19,32 +20,33 @@ describe('mongo-connect.ts', () => {
 
     afterAll(async () => {
         if (mongoServer) {
+            await MongoClient.close()
             await mongoServer.stop()
         }
     })
 
     it('insertOne() and findOne()', async () => {
-        const inserted = await actions.insertOne('test', 'test', { test: 1 })
+        const inserted = await actions.insertOne('test', { test: 1 })
         expect(inserted.acknowledged).toEqual(true)
         const id = inserted.insertedId
 
-        const find = await actions.findOne('test', 'test', { test: 1 })
+        const find = await actions.findOne('test', { test: 1 })
         expect(id).toEqual(find._id)
     })
 
     it('insertMany() and findMany()', async () => {
-        await actions.insertMany('test', 'test', [
+        await actions.insertMany('test', [
             { test: 1, value: true },
             { test: 2, value: false },
             { test: 3, value: true },
         ])
-        const find = await actions.findMany('test', 'test', { value: true })
+        const find = await actions.findMany('test', { value: true })
         expect(find.map((v) => v.test)).toEqual([1, 3])
     })
 
     it('findOne() error', async () => {
         const find = await actions
-            .findOne('test', 'test', { test: 5 })
+            .findOne('test', { test: 5 })
             .catch(() => 'error')
         expect(find).toEqual('error')
     })

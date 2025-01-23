@@ -1,4 +1,4 @@
-import Mongo from '@common/data/mongo-connect'
+import Mongo from '@common/data/mongo/mongo'
 import { getCachedData } from '@src/db/mongo/object-cache'
 import { DAY_IN_SECONDS } from '@common/constants/datetime'
 import { getTermBy as queryTerm } from '@src/db/mysql/getTermBy'

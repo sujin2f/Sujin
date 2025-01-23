@@ -18,6 +18,9 @@ const getPostCached = cache(async (slug: string) => await getPost(slug))
 export const generateMetadata = async (props: PageProps): Promise<Metadata> => {
     const slug = await getPageParams(props)
     const post = await getPostCached(slug)
+    if (!post) {
+        return {}
+    }
     const pathname = `/${slug}`
     const url = `${process.env.BASE_URL}${pathname}`
     const images =
