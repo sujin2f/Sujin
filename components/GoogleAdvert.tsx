@@ -1,38 +1,20 @@
 'use client'
 import Script from 'next/script'
-import React, { useRef, useEffect, Fragment } from 'react'
+import React, { Fragment } from 'react'
 
 interface Props {
     readonly responsive?: boolean
+    readonly place: 'footer' | 'sidebar'
 }
 
 export function GoogleAdvert(props: Props) {
     const { responsive } = props
-    const adRef = useRef<HTMLModElement>(null)
 
     const client = process.env.NEXT_PUBLIC_GOOGLE_AD_CLIENT
-    const slot = process.env.NEXT_PUBLIC_GOOGLE_AD_SLOT
-
-    useEffect((): void => {
-        if (
-            !adRef.current ||
-            (adRef.current && adRef.current.classList.contains('loaded'))
-        ) {
-            return
-        }
-
-        adRef.current.classList.add('loaded')
-
-        if (!adRef.current.offsetWidth) {
-            return
-        }
-
-        if (!adRef.current.offsetParent) {
-            return
-        }
-
-        ;(window.adsbygoogle = window.adsbygoogle || []).push({})
-    })
+    const slot =
+        props.place === 'footer'
+            ? process.env.NEXT_PUBLIC_FOOTER_GOOGLE_AD_SLOT
+            : process.env.NEXT_PUBLIC_SIDEBAR_GOOGLE_AD_SLOT
 
     if (process.env.NODE_ENV === 'development' || !client || !slot) {
         return <Fragment></Fragment>
@@ -46,12 +28,7 @@ export function GoogleAdvert(props: Props) {
         <>
             <Script
                 async
-                src="https://www.googletagmanager.com/gtag/js?id=UA-37266518-1"
-                crossOrigin="anonymous"
-            ></Script>
-            <Script
-                async
-                src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.GOOGLE_AD_CLIENT}`}
+                src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${client}`}
                 crossOrigin="anonymous"
             ></Script>
             <section className="widget google-advert">
@@ -61,9 +38,11 @@ export function GoogleAdvert(props: Props) {
                     data-ad-format="auto"
                     data-ad-slot={slot}
                     data-full-width-responsive={responsive ? 'true' : 'false'}
-                    ref={adRef}
                     style={{ display: 'block', width: '100%' }}
                 />
+                <Script
+                    id={`google-ad-script-${slot}`}
+                >{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
             </section>
         </>
     )

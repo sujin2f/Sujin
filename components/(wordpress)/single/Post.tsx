@@ -42,7 +42,7 @@ export const Post = ({
                 dom="aside"
             >
                 <RecentPosts current={post.id} />
-                <GoogleAdvert />
+                <GoogleAdvert responsive place="sidebar" />
             </Column>
         </Row>
     )

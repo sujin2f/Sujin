@@ -1,6 +1,7 @@
 import React, { PropsWithChildren } from 'react'
 import { Ubuntu } from 'next/font/google'
 import type { Metadata } from 'next'
+import Script from 'next/script'
 
 /* Assets */
 import '@src/scss/wrapper.scss'
@@ -46,14 +47,11 @@ export default function Layout({ children }: PropsWithChildren) {
     return (
         <html lang="en">
             <head>
-                <script>
-                    {`window.dataLayer = window.dataLayer || []
-                    function gtag() {
-                        dataLayer.push(arguments)
-                    }
-                    gtag('js', new Date())
-                    gtag('config', 'UA-37266518-1')`}
-                </script>
+                <Script
+                    async
+                    src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_GOOGLE_AD_CLIENT}`}
+                    crossOrigin="anonymous"
+                ></Script>
             </head>
             <body className={`wrapper ${ubuntu.className}`}>{children}</body>
         </html>

@@ -66,7 +66,7 @@ export const Footer = () => {
         <footer className="footer">
             <Row className="footer__top" dom="aside">
                 <Column dom="section" medium={4} small={12}>
-                    <GoogleAdvert />
+                    <GoogleAdvert responsive place="footer" />
                 </Column>
 
                 <Column dom="section" medium={4} small={12}>
