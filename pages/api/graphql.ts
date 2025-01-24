@@ -1,6 +1,7 @@
 import { startServerAndCreateNextHandler } from '@as-integrations/next'
 import { InMemoryLRUCache } from '@apollo/utils.keyvaluecache'
 import { ApolloServer } from '@apollo/server'
+import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/disabled'
 import { NextRequest } from 'next/server'
 
 import { getBackgrounds } from '@src/db/mongo/wordpress/background'
@@ -57,11 +58,23 @@ const server = new ApolloServer({
         // 5 minutes (in seconds)
         ttl: 300,
     }),
+    plugins: [ApolloServerPluginLandingPageDisabled()],
 })
 
 // Typescript: req has the type NextRequest
 const handler = startServerAndCreateNextHandler<NextRequest>(server, {
-    context: async (req) => ({ req }),
+    context: async (req, res) => {
+        const headerReferer = ((
+            req.headers as unknown as Record<string, string>
+        ).referer || '') as string
+        const referer = new URL(headerReferer).host
+        const base = new URL(process.env.BASE_URL || '').host
+
+        if (!referer.includes(base)) {
+            throw Error('Access Denied.')
+        }
+        return { req, res }
+    },
 })
 
 export default handler
