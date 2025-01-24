@@ -18,7 +18,7 @@ describe('spectra.spec.ts', () => {
         Mongo.deleteMany('test', {})
     })
 
-    it('request', async () => {
+    test('request', async () => {
         const response = await request(getAtom(1), 1)
         expect(response.length).toBe(66)
     })

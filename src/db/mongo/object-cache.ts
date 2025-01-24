@@ -61,28 +61,25 @@ const findOne = async <T extends Document>(
     collection: string,
     key: string,
 ): Promise<[WithId<T>[], boolean]> => {
-    try {
-        const expiration = await Mongo.findOne<Cached>('expiration', {
-            collection,
-            key,
-        })
+    const expiration = await Mongo.findOne<Cached>('expiration', {
+        collection,
+        key,
+    }).catch(() => {
+        throw new Error('Cache not found')
+    })
 
-        // Find actual data from cached IDs
-        const result = await Mongo.findMany<T>(collection, {
-            _id: { $in: expiration.items },
-        } as Filter<T>)
+    // Find actual data from cached IDs
+    const result = await Mongo.findMany<T>(collection, {
+        _id: { $in: expiration.items },
+    } as Filter<T>)
 
-        // Check if the cache is not expired
-        if (expiration.expire > Date.now() / SECOND_IN_MS) {
-            return [result, false]
-        }
-
-        // Cache is expired
-        return [result, true]
-    } catch {
-        // Cache does not exist
-        return [[], true]
+    // Check if the cache is not expired
+    if (expiration.expire > Date.now() / SECOND_IN_MS) {
+        return [result, false]
     }
+
+    // Cache is expired
+    return [result, true]
 }
 
 /**

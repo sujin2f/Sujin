@@ -38,3 +38,4 @@ jobs:
                   cmd: test # will run `yarn test` command
               env:
                   MONGO: mongodb
+                  MONGO_DATABASE: test
