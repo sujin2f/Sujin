@@ -30,6 +30,11 @@ const GET_OPTION = `
     LIMIT 1
 `
 
+const DELETE_OPTION = `
+    DELETE FROM wp_options
+    WHERE option_name="{0}"
+`
+
 const GET_POST_BY = `
     SELECT ${POST_FIELDS}
     FROM wp_posts AS posts
@@ -216,6 +221,7 @@ export const MySQLQuery = {
             offset,
         ),
     getOption: (optionName: string) => format(GET_OPTION, optionName),
+    deleteOption: (optionName: string) => format(DELETE_OPTION, optionName),
     getPostMeta: (postId: number, metaKey: string) =>
         format(GET_POST_META, postId, metaKey),
     getPostBy: (

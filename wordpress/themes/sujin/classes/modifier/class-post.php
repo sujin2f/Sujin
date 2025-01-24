@@ -45,8 +45,45 @@ class Post {
 			->append( Checkbox::get_instance( 'Use Background Color' ) )
 			->append( Input::get_instance( 'Background Color' )->type( 'color' ) );
 	}
-
+	/**
+	 * Remove mongo cache
+	 */
 	public function post_updated( $post_id, $post ) {
-		update_post_meta( 1, $post->post_name . '-updated', 'true' );
+		$nonce = wp_create_nonce( 'clear-cache_' . $post_id );
+		$is_dev = false;
+		if ( function_exists( 'getenv_docker' ) ) {
+			$is_dev = getenv_docker( 'NODE_ENV', 'production' ) === 'development';
+		}
+		$base_url = $is_dev ? 'http://host.docker.internal:3000' : 'http://localhost:3000';
+		if ( !$is_dev && function_exists( 'getenv_docker' ) ) {
+			$base_url = getenv_docker( 'BASE_URL', $base_url );
+		}
+
+		$categories = array();
+		$tags = array();
+		foreach (get_the_category( $post_id ) as  $category) {
+			array_push( $categories, $category->slug );
+		}
+		foreach (get_the_tags( $post_id ) as  $tag) {
+			array_push( $tags, $tag->slug );
+		}
+
+		$mutation = array(
+			'query' => '
+				mutation {
+					removeCache(nonce: "' . $nonce . '", slug: "' . $post->post_name . '", categories: "' . join( ',', $categories ) . '", tags: "' . join( ',', $tags ) . '") {
+						result
+					}
+				}'
+		);
+		$args = array(
+			'headers' => array(
+				'Content-Type' => 'application/json',
+			),
+			'body' => json_encode( $mutation ),
+		);
+
+		update_option( 'clear_cache', $nonce . '-' . $post->post_name );
+		wp_remote_post( $base_url . '/api/graphql', $args );
 	}
 }

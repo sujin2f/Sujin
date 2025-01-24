@@ -1,3 +1,4 @@
+import { GQLMutation } from '@common/data/graphql/mutation'
 import { GQLQuery } from '@common/data/graphql/query'
 import {
     GQLBoolean,
@@ -193,6 +194,37 @@ export const queryRecent = new GQLQuery<[], Post[]>(
         type: GQLPost,
         list,
     },
+)
+
+type ResultType = {
+    result: boolean
+}
+
+export const GQLResult = new GQLType<boolean>('Result', {
+    result: { type: GQLBoolean },
+})
+export const mutateCache = new GQLMutation<
+    [string, string, string, string],
+    ResultType
+>(
+    'removeCache',
+    {
+        nonce: {
+            type: GQLString,
+            required,
+        },
+        slug: {
+            type: GQLString,
+            required,
+        },
+        categories: {
+            type: GQLString,
+        },
+        tags: {
+            type: GQLString,
+        },
+    },
+    { type: GQLResult },
 )
 
 export const imageOpr = 'url mimeType sizes { key file }'

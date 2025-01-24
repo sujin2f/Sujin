@@ -8,7 +8,7 @@ import { getTerm } from '@src/db/mongo/wordpress/term'
 import { TermTypes } from '@src/types/wordpress'
 import { Archive } from '@components/(wordpress)/archive/Archive'
 import { unstable_cache } from 'next/cache'
-import { DAY_IN_SECONDS } from '@common/constants/datetime'
+import { DAY_IN_SECONDS, HOUR_IN_SECONDS } from '@common/constants/datetime'
 import { removeId } from '@src/db/mongo/util'
 
 export const generateMetadata = async (
@@ -55,7 +55,7 @@ export default async function Layout(props: PropsWithChildren<ArchiveProps>) {
         [type, slug, page],
         {
             tags: ['wordpress', 'archive'],
-            revalidate: DAY_IN_SECONDS,
+            revalidate: HOUR_IN_SECONDS,
         },
     )
 

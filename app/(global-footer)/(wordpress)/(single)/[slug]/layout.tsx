@@ -8,7 +8,7 @@ import { getPost } from '@src/db/mongo/wordpress/post'
 import { removeId } from '@src/db/mongo/util'
 import { Page } from '@components/(wordpress)/single/Page'
 import { unstable_cache } from 'next/cache'
-import { DAY_IN_SECONDS } from '@common/constants/datetime'
+import { DAY_IN_SECONDS, HOUR_IN_SECONDS } from '@common/constants/datetime'
 
 const getPageParams = async ({ params }: PageProps) => {
     const { slug } = await params
@@ -59,7 +59,7 @@ export default async function Layout(props: PropsWithChildren<PageProps>) {
         [slug],
         {
             tags: ['wordpress', 'page'],
-            revalidate: DAY_IN_SECONDS,
+            revalidate: HOUR_IN_SECONDS,
         },
     )
 

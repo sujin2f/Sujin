@@ -9,7 +9,7 @@ import { updateHit } from '@src/db/mysql/getTagCloud'
 import { removeId } from '@src/db/mongo/util'
 import { Post } from '@components/(wordpress)/single/Post'
 import { unstable_cache } from 'next/cache'
-import { DAY_IN_SECONDS } from '@common/constants/datetime'
+import { DAY_IN_SECONDS, HOUR_IN_SECONDS } from '@common/constants/datetime'
 
 const getPostParams = async (
     params: Promise<{
@@ -85,7 +85,7 @@ export default async function Layout(props: PropsWithChildren<PostProps>) {
         [slug],
         {
             tags: ['wordpress', 'post'],
-            revalidate: DAY_IN_SECONDS,
+            revalidate: HOUR_IN_SECONDS,
         },
     )
     const post = await requestPost(slug)
