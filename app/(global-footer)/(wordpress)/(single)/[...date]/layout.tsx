@@ -48,6 +48,10 @@ export const generateMetadata = async (props: PostProps): Promise<Metadata> => {
     )
 
     const post = await requestPost(slug)
+    if (!post) {
+        return {}
+    }
+
     const pathname =
         year && month && day ? `/${year}/${month}/${day}/${slug}` : `/${slug}`
     const url = `${process.env.BASE_URL}${pathname}`
@@ -55,12 +59,12 @@ export const generateMetadata = async (props: PostProps): Promise<Metadata> => {
         post.images.thumbnail?.url ||
         post.images.list?.url ||
         `${process.env.BASE_URL}/thumbnail.png`
+    const keywords = post.tags.map((tag) => tag.title)
 
     return {
         title: `Sujin | ${post.title}`,
         description: post.excerpt,
-        // TODO
-        keywords: ['Next.js', 'React', 'JavaScript', 'TypeScript', 'Express'],
+        keywords,
         openGraph: {
             title: `Sujin | ${post.title}`,
             url: url,

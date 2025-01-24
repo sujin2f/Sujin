@@ -25,35 +25,37 @@ import { useGlobalState } from '@common/hooks/useGlobalState'
 import '@src/scss/footer.scss'
 
 export const Footer = () => {
-    const [flickr, setFlickr] = useGlobalState<FlickrImage[] | null>(
+    const [flickr, setFlickr] = useGlobalState<FlickrImage[] | boolean>(
         'flickr',
-        [],
+        false,
     )
-    const [tagCloud, setTagCloud] = useGlobalState<TagCloudType[] | null>(
+    const [tagCloud, setTagCloud] = useGlobalState<TagCloudType[] | boolean>(
         'tag-cloud',
-        [],
+        false,
     )
     useEffect(() => {
-        if (flickr && !flickr.length) {
+        if (!flickr) {
+            setFlickr(true) // Prevent fetching again
             const fetchFlickr = async () => {
                 const response = await fetchGQL(
                     queryFlickr,
                     flickrOpr,
                     WEEK_IN_SECONDS,
-                ).catch(() => null)
+                ).catch(() => false)
                 setFlickr(response)
             }
             fetchFlickr()
         }
     }, [flickr, setFlickr])
     useEffect(() => {
-        if (tagCloud && !tagCloud.length) {
+        if (!tagCloud) {
+            setTagCloud(true) // Prevent fetching again
             const fetchTagCloud = async () => {
                 const response = await fetchGQL(
                     queryTagCloud,
                     tagCloudOpr,
                     WEEK_IN_SECONDS,
-                ).catch(() => null)
+                ).catch(() => false)
                 setTagCloud(response)
             }
             fetchTagCloud()
@@ -69,8 +71,8 @@ export const Footer = () => {
 
                 <Column dom="section" medium={4} small={12}>
                     <WidgetTitle>Photo Stream</WidgetTitle>
-                    {flickr && flickr.length && <Flickr items={flickr} />}
-                    {flickr && !flickr.length && (
+                    {Array.isArray(flickr) && <Flickr items={flickr} />}
+                    {!Array.isArray(flickr) && (
                         <Loading
                             className="flickr"
                             counts={12}
@@ -83,10 +85,8 @@ export const Footer = () => {
 
                 <Column dom="section" medium={4} small={12}>
                     <WidgetTitle>Popular Tags</WidgetTitle>
-                    {tagCloud && tagCloud.length && (
-                        <TagCloud items={tagCloud} />
-                    )}
-                    {tagCloud && !tagCloud.length && (
+                    {Array.isArray(tagCloud) && <TagCloud items={tagCloud} />}
+                    {!Array.isArray(tagCloud) && (
                         <Loading
                             fullWidth
                             className="tag-cloud"

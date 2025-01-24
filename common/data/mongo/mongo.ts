@@ -122,12 +122,27 @@ const deleteMany = async <T extends Document>(
     }
 }
 
+const replaceOne = async <T extends Document>(
+    collection: string,
+    filter: Filter<T>,
+    doc: OptionalUnlessRequiredId<T>,
+) => {
+    const client = MongoClient
+    try {
+        const database = client.db('sujin')
+        return await database.collection<T>(collection).replaceOne(filter, doc)
+    } catch (e: unknown) {
+        throw e
+    }
+}
+
 const actions = {
     findOne,
     findMany,
     insertOne,
     insertMany,
     deleteMany,
+    replaceOne,
 }
 
 export default actions

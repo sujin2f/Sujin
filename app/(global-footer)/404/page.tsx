@@ -14,15 +14,19 @@ import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { useGlobalState } from '@common/hooks/useGlobalState'
 
 export default function NotFound() {
-    const [posts, setPosts] = useGlobalState<Post[] | null>('recent-posts', [])
+    const [posts, setPosts] = useGlobalState<Post[] | boolean>(
+        'recent-posts',
+        false,
+    )
     useEffect(() => {
-        if (posts && !posts.length) {
+        if (!posts) {
+            setPosts(true) // Prevent fetching again
             const fetchRecentPosts = async () => {
                 const response = await fetchGQL(
                     queryRecent,
                     postOpr,
                     WEEK_IN_SECONDS,
-                ).catch(() => null)
+                ).catch(() => false)
                 setPosts(response)
             }
             fetchRecentPosts()
@@ -37,7 +41,7 @@ export default function NotFound() {
                 </Column>
             </Row>
 
-            {posts && posts.length && (
+            {Array.isArray(posts) && (
                 <Row>
                     <Cards
                         posts={posts}
@@ -48,7 +52,7 @@ export default function NotFound() {
                     />
                 </Row>
             )}
-            {posts && !posts.length && (
+            {!Array.isArray(posts) && (
                 <Loading
                     className="archive"
                     counts={12}

@@ -9,6 +9,7 @@ import { TermTypes } from '@src/types/wordpress'
 import { Archive } from '@components/(wordpress)/archive/Archive'
 import { unstable_cache } from 'next/cache'
 import { DAY_IN_SECONDS } from '@common/constants/datetime'
+import { removeId } from '@src/db/mongo/util'
 
 export const generateMetadata = async (
     props: ArchiveProps,
@@ -31,12 +32,14 @@ export const generateMetadata = async (
         return {}
     }
     const url = `${process.env.BASE_URL}/archive/${type}/${slug}/page/${page}`
+    const keywords = archive.posts
+        .map((post) => post.tags.map((tag) => tag.title))
+        .flat()
 
     return {
         title: `Sujin | ${archive.title}`,
         description: archive.excerpt,
-        // TODO
-        keywords: ['Next.js', 'React', 'JavaScript', 'TypeScript', 'Express'],
+        keywords,
         openGraph: {
             title: `Sujin | ${archive.title}`,
             url: url,
@@ -80,7 +83,7 @@ export default async function Layout(props: PropsWithChildren<ArchiveProps>) {
                 className=""
             />
 
-            <Archive term={archive} />
+            <Archive term={removeId(archive)} />
         </>
     )
 }

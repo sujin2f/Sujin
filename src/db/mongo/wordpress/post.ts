@@ -1,31 +1,52 @@
 import Mongo from '@common/data/mongo/mongo'
-import { getCachedData } from '@src/db/mongo/object-cache'
-import { WEEK_IN_SECONDS } from '@common/constants/datetime'
+import { SECOND_IN_MS, WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { getPost as queryPost } from '@src/db/mysql/getPost'
 import { Post } from '@src/types/wordpress'
-import { Filter } from 'mongodb'
+import type { WithCache } from '@src/db/mongo/util'
 
 /**
  * Requests MySQL and save
  *
  * @returns {Promise<void>}
  */
-const requestAPI = async (doc: Filter<Post>): Promise<void> => {
-    const { slug } = doc as { slug: string }
-    const post = await queryPost('slug', slug)
-    if (!post) {
-        return
-    }
-    await Mongo.deleteMany('post', { slug })
-    await Mongo.insertMany('post', [post])
-}
+const requestAPI = async (
+    slug: string,
+    action: 'insert' | 'replace',
+): Promise<Post | undefined> =>
+    queryPost('slug', slug).then((result) => {
+        if (result) {
+            const doc = {
+                ...result,
+                expired: Date.now() / SECOND_IN_MS + WEEK_IN_SECONDS,
+            }
 
-export const getPost = async (slug: string) =>
-    (
-        await getCachedData<Post>(
-            'post',
-            { slug: slug.toLowerCase() },
-            requestAPI,
-            WEEK_IN_SECONDS,
-        )
-    )[0]
+            if (action === 'insert') {
+                Mongo.insertOne('post', doc)
+            } else {
+                Mongo.replaceOne('post', { slug }, doc)
+            }
+        }
+
+        return result
+    })
+
+export const getPost = async (_slug: string) => {
+    const slug = _slug.toLowerCase()
+    const post = await Mongo.findOne<WithCache<Post>>('post', {
+        slug,
+    }).catch(() => null)
+
+    // Post is not found
+    if (!post) {
+        return await requestAPI(slug, 'insert')
+    }
+
+    // Check if the cache is not expired
+    if (post.expired > Date.now() / SECOND_IN_MS) {
+        return post
+    }
+
+    // If the cache is expired, update the cache
+    requestAPI(slug, 'replace')
+    return post
+}

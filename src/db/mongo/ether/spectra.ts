@@ -1,4 +1,4 @@
-import type { Filter } from 'mongodb'
+import type { Filter, WithId } from 'mongodb'
 import type { Atom } from '@src/types/atom'
 import type { Spectrum } from '@src/types/ether'
 import Mongo from '@common/data/mongo/mongo'
@@ -15,15 +15,18 @@ import { getAtom } from '@src/utils/ether'
  * @param {number} doc.ion - The ionization state.
  * @returns {Promise<void>}
  */
-const requestNIST = async (doc: Filter<Spectrum>): Promise<void> => {
+const requestNIST = async (
+    doc: Filter<Spectrum>,
+): Promise<WithId<Spectrum>[]> => {
     const { number, ion } = doc as { number: number; ion: number }
     const atom = getAtom(number)
     const csv = await getNistData(atom, ion)
     if (!csv) {
-        return
+        return []
     }
     await Mongo.deleteMany('spectra', { number, ion })
     await insertManyFromCSV(atom.number, ion, csv)
+    return Mongo.findMany('spectra', { number, ion })
 }
 
 /**

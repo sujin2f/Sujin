@@ -1,6 +1,18 @@
 import { DAY_IN_SECONDS, SECOND_IN_MS } from '@common/constants/datetime'
 import Mongo from '@common/data/mongo/mongo'
-import type { Document, ObjectId, WithId, Filter } from 'mongodb'
+import type {
+    Document,
+    ObjectId,
+    WithId,
+    Filter,
+    InsertOneResult,
+} from 'mongodb'
+
+/**
+ * Cached data for expiration collection.
+ * Use this for multiple results that need to be cleared at once.
+ * Do not use this for a single result like a post that causes a house keeping problem.
+ */
 
 type Cached = {
     collection: string
@@ -9,12 +21,21 @@ type Cached = {
     items: ObjectId[]
 }
 
-const insertOne = async (
+/**
+ * Inserts a single cache entry into the expiration collection.
+ *
+ * @param {string} collection - The name of the collection.
+ * @param {string} key - The cache key.
+ * @param {ObjectId[]} items - The ObjectIds to cache.
+ * @param {number} [ttl=DAY_IN_SECONDS] - The time-to-live (TTL) for the cache entry in seconds.
+ * @returns {Promise<InsertOneResult<Cached>>} The result of the insert operation.
+ */
+const replaceOne = async (
     collection: string,
     key: string,
     items: ObjectId[],
-    ttl = DAY_IN_SECONDS,
-) => {
+    ttl: number = DAY_IN_SECONDS,
+): Promise<InsertOneResult<Cached>> => {
     // Delete old cache
     await Mongo.deleteMany('expiration', {
         collection,
@@ -28,22 +49,41 @@ const insertOne = async (
     })
 }
 
+/**
+ * Finds a single cache entry in the expiration collection.
+ *
+ * @template T - The type of the document.
+ * @param {string} collection - The name of the collection.
+ * @param {string} key - The cache key.
+ * @returns {Promise<[WithId<T>[], boolean]>} The found documents and a boolean indicating if the cache is expired.
+ */
 const findOne = async <T extends Document>(
     collection: string,
     key: string,
-): Promise<[WithId<T>[], boolean]> =>
-    await Mongo.findOne<Cached>('expiration', { collection, key }).then(
-        async (expiration) => {
-            const result = await Mongo.findMany<T>(collection, {
-                _id: { $in: expiration.items },
-            } as Filter<T>)
-            if (expiration.expire > Date.now() / SECOND_IN_MS) {
-                return [result, false]
-            }
+): Promise<[WithId<T>[], boolean]> => {
+    try {
+        const expiration = await Mongo.findOne<Cached>('expiration', {
+            collection,
+            key,
+        })
 
-            return [result, true]
-        },
-    )
+        // Find actual data from cached IDs
+        const result = await Mongo.findMany<T>(collection, {
+            _id: { $in: expiration.items },
+        } as Filter<T>)
+
+        // Check if the cache is not expired
+        if (expiration.expire > Date.now() / SECOND_IN_MS) {
+            return [result, false]
+        }
+
+        // Cache is expired
+        return [result, true]
+    } catch {
+        // Cache does not exist
+        return [[], true]
+    }
+}
 
 /**
  * Requests cached data.
@@ -51,14 +91,14 @@ const findOne = async <T extends Document>(
  * @template T - The type of the documents.
  * @param {string} collection - The collection to be store.
  * @param {Filter<T>} doc - The filter to apply to the query.
- * @param {(doc: Filter<T>) => Promise<T[]>} requestCallBack - Database or API call.
+ * @param {(doc: Filter<T>) => Promise<WithId<T>[]>} requestCallBack - Database or API call.
  * @param {number} ttl - Caching time.
  * @returns {Promise<WithId<T>[]>} The result data.
  */
 export const getCachedData = async <T extends Document>(
     collection: string,
     doc: Filter<T>,
-    requestCallBack: (doc: Filter<T>) => Promise<void>,
+    requestCallBack: (doc: Filter<T>) => Promise<WithId<T>[]>,
     ttl: number = DAY_IN_SECONDS,
 ): Promise<WithId<T>[]> => {
     const cacheKey = `${collection}-${JSON.stringify(doc)
@@ -66,43 +106,36 @@ export const getCachedData = async <T extends Document>(
         .replaceAll('"', '')}`
 
     // Request cached value
-    const [cashed] = await findOne<T>(collection, cacheKey)
+    const cashed = await findOne<T>(collection, cacheKey)
         .then(async (result) => {
-            // When expired, update cache
+            // When expired
             if (result[1]) {
-                await requestCallBack(doc).then(async () => {
-                    const result = await Mongo.findMany<T>(
-                        collection,
-                        doc,
-                    ).catch(() => [] as WithId<T>[])
-
-                    if (result.length) {
-                        await insertOne(
+                // Request API, does not wait
+                requestCallBack(doc).then(async (items: WithId<T>[]) => {
+                    if (items.length) {
+                        replaceOne(
                             collection,
                             cacheKey,
-                            result.map((item) => item._id),
+                            items.map((item) => item._id),
                             ttl,
                         )
                     }
                 })
             }
-            return result
+            return result[0]
         })
+        // When cached value does not exist, request and save
         .catch(async () => {
-            // When cached value does not exist, request flickr.com and save
-            await requestCallBack(doc)
-            const result = await Mongo.findMany<T>(collection, doc).catch(
-                () => [] as WithId<T>[],
-            )
+            const result = await requestCallBack(doc)
             if (result.length) {
-                await insertOne(
+                replaceOne(
                     collection,
                     cacheKey,
                     result.map((item) => item._id),
                     ttl,
                 )
             }
-            return [result, false] as [WithId<T>[], boolean]
+            return result
         })
 
     return cashed

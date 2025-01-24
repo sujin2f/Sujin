@@ -30,18 +30,19 @@ export const generateMetadata = async (props: PageProps): Promise<Metadata> => {
     if (!post) {
         return {}
     }
+
     const pathname = `/${slug}`
     const url = `${process.env.BASE_URL}${pathname}`
     const images =
         post.images.thumbnail?.url ||
         post.images.list?.url ||
         `${process.env.BASE_URL}/thumbnail.png`
+    const keywords = post.tags.map((tag) => tag.title)
 
     return {
         title: `Sujin | ${post.title}`,
         description: post.excerpt,
-        // TODO
-        keywords: ['Next.js', 'React', 'JavaScript', 'TypeScript', 'Express'],
+        keywords,
         openGraph: {
             title: `Sujin | ${post.title}`,
             url: url,
@@ -63,7 +64,6 @@ export default async function Layout(props: PropsWithChildren<PageProps>) {
     )
 
     const post = await requestPost(slug)
-
     if (!post) {
         redirect('/404')
     }

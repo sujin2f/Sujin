@@ -3,19 +3,21 @@ import { getCachedData } from '@src/db/mongo/object-cache'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { getTagCloud as queryTagCloud } from '@src/db/mysql/getTagCloud'
 import type { TagCloud } from '@src/types/wordpress'
+import type { WithId } from 'mongodb'
 
 /**
  * Requests MySQL and save
  *
- * @returns {Promise<void>}
+ * @returns {Promise<WithId<TagCloud>[]>}
  */
-const requestAPI = async (): Promise<void> => {
+const requestAPI = async (): Promise<WithId<TagCloud>[]> => {
     const tagCloud = await queryTagCloud()
     if (!tagCloud.length) {
-        return
+        return []
     }
     await Mongo.deleteMany('tag-cloud', {})
     await Mongo.insertMany('tag-cloud', tagCloud)
+    return await Mongo.findMany('tag-cloud', {})
 }
 
 export const getTagCloud = async () =>

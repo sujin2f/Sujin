@@ -1,6 +1,8 @@
-import type { WithId } from 'mongodb'
+export type WithCache<T> = T & {
+    expired: number
+}
 
-export const removeId = <T>(item: WithId<T>): T => {
+export const removeId = <T>(item: T): T => {
     return {
         ...item,
         ['_id']: undefined,

@@ -1,40 +1,61 @@
 import Mongo from '@common/data/mongo/mongo'
-import { getCachedData } from '@src/db/mongo/object-cache'
-import { DAY_IN_SECONDS } from '@common/constants/datetime'
+import { SECOND_IN_MS, WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { getTermBy as queryTerm } from '@src/db/mysql/getTermBy'
 import { Term, TermTypes } from '@src/types/wordpress'
-import type { Filter } from 'mongodb'
 import { getPost } from '@src/db/mongo/wordpress/post'
+import type { WithCache } from '@src/db/mongo/util'
 
 /**
  * Requests MySQL and save
  *
  * @returns {Promise<void>}
  */
-const requestAPI = async (doc: Filter<Term>): Promise<void> => {
-    const { type, slug, page } = doc as {
-        slug: string
-        type: TermTypes
-        page: number
-    }
-    const term = await queryTerm(type, slug, page)
-    if (!term) {
-        return
-    }
-    // Update posts
-    term.posts.forEach((post) => {
-        getPost(post.slug)
-    })
-    await Mongo.deleteMany('term', { type, slug, page })
-    await Mongo.insertMany('term', [term])
-}
+const requestAPI = async (
+    type: TermTypes,
+    slug: string,
+    page: number,
+    action: 'insert' | 'replace',
+): Promise<Term | undefined> =>
+    queryTerm(type, slug, page).then((result) => {
+        if (result) {
+            const doc = {
+                ...result,
+                expired: Date.now() / SECOND_IN_MS + WEEK_IN_SECONDS,
+            }
 
-export const getTerm = async (type: TermTypes, slug: string, page: number) =>
-    (
-        await getCachedData<Term>(
-            'term',
-            { type, slug: slug.toLowerCase(), page },
-            requestAPI,
-            DAY_IN_SECONDS,
-        )
-    )[0]
+            if (action === 'insert') {
+                Mongo.insertOne('term', doc)
+            } else {
+                Mongo.replaceOne('term', { slug }, doc)
+            }
+
+            result.posts.forEach((post) => {
+                getPost(post.slug)
+            })
+        }
+
+        return result
+    })
+
+export const getTerm = async (type: TermTypes, _slug: string, page: number) => {
+    const slug = _slug.toLowerCase()
+    const term = await Mongo.findOne<WithCache<Term>>('term', {
+        type,
+        slug,
+        page,
+    }).catch(() => null)
+
+    // Term is not found
+    if (!term) {
+        return await requestAPI(type, slug, page, 'insert')
+    }
+
+    // Check if the cache is not expired
+    if (term.expired > Date.now() / SECOND_IN_MS) {
+        return term
+    }
+
+    // If the cache is expired, update the cache
+    requestAPI(type, slug, page, 'replace')
+    return term
+}

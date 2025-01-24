@@ -16,28 +16,28 @@ import { useGlobalState } from '@common/hooks/useGlobalState'
 import { Image } from '@src/types/wordpress'
 
 export default function FrontPage() {
-    const [backgrounds, setBackgrounds] = useGlobalState<Image[] | null>(
+    const [backgrounds, setBackgrounds] = useGlobalState<Image[] | boolean>(
         'backgrounds',
-        [],
+        false,
     )
     useEffect(() => {
-        if (backgrounds && !backgrounds.length) {
+        if (!backgrounds) {
+            setBackgrounds(true) // Prevent fetching again
             const fetchBackgrounds = async () => {
                 const response = await fetchGQL(
                     queryBackground,
                     imageOpr,
                     WEEK_IN_SECONDS,
-                ).catch(() => null)
+                ).catch(() => false)
                 setBackgrounds(response)
             }
             fetchBackgrounds()
         }
     }, [backgrounds, setBackgrounds])
 
-    const background =
-        backgrounds && backgrounds.length
-            ? backgrounds[Math.floor(Math.random() * backgrounds.length)]
-            : undefined
+    const background = Array.isArray(backgrounds)
+        ? backgrounds[Math.floor(Math.random() * backgrounds.length)]
+        : undefined
 
     return (
         <>

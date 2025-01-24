@@ -15,26 +15,30 @@ import { useGlobalState } from '@common/hooks/useGlobalState'
 import '@src/scss/recent-post.scss'
 
 export const RecentPosts = ({ current }: { current: number }) => {
-    const [posts, setPosts] = useGlobalState<Post[] | null>('recent-posts', [])
+    const [posts, setPosts] = useGlobalState<Post[] | boolean>(
+        'recent-posts',
+        false,
+    )
     useEffect(() => {
-        if (posts && !posts.length) {
+        if (!posts) {
+            setPosts(true) // Prevent fetching again
             const fetchRecentPosts = async () => {
                 const response = await fetchGQL(
                     queryRecent,
                     postOpr,
                     WEEK_IN_SECONDS,
-                ).catch(() => null)
+                ).catch(() => true)
                 setPosts(response)
             }
             fetchRecentPosts()
         }
     }, [posts, setPosts])
 
-    if (!posts) {
+    if (!Array.isArray(posts)) {
         return <></>
     }
 
-    if (posts.length) {
+    if (posts) {
         return (
             <section className="recent-posts show-for-large">
                 <WidgetTitle>Recent Posts</WidgetTitle>

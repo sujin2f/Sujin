@@ -15,7 +15,7 @@ export function TagCloud({ items }: Props) {
             {items.slice(0, 20).map((tag) => (
                 <Link
                     className={`tag-cloud tag-cloud--size-${tag.count} tag-cloud--color-${tag.hit}`}
-                    key={`tag-${tag.id}`}
+                    key={`tag-cloud-${tag.id}-${tag.title}-${tag.slug}`}
                     title={tag.title}
                     href={`/tag/${tag.slug}`}
                 >
