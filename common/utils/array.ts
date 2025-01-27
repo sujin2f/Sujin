@@ -189,3 +189,13 @@ export const getNext = <T>(arr: T[], idx: number): [number, T] => {
     next = next >= arr.length ? 0 : next
     return [next, arr[next]]
 }
+
+/**
+ * Transpose 2x2 matrix
+ *
+ * @param {unknown[][]} arr - Array input.
+ * @returns {unknown[][]} The transposed array.
+ */
+export const transpose = <T>(arr: T[][]): T[][] => {
+    return arr[0].map((_, colIndex) => arr.map((row) => row[colIndex]))
+}

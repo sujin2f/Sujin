@@ -48,7 +48,7 @@ class Post {
 	/**
 	 * Remove mongo cache
 	 */
-	public function post_updated( $post_id, $post ) {
+	public function post_updated( string $post_id, \WP_Post $post ): void {
 		$nonce = wp_create_nonce( 'clear-cache_' . $post_id );
 		$is_dev = false;
 		if ( function_exists( 'getenv_docker' ) ) {

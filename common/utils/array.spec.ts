@@ -1,10 +1,17 @@
 // yarn test array.spec.ts
 
-import { deepCopy, splitItems, random, trimEnd, filterEmpty } from './array'
+import {
+    deepCopy,
+    splitItems,
+    random,
+    trimEnd,
+    filterEmpty,
+    transpose,
+} from './array'
 
 describe('array.ts', () => {
     describe('deepCopy()', () => {
-        it('🤬 Non-deep copy', () => {
+        test('🤬 Non-deep copy', () => {
             const value = [
                 [
                     {
@@ -21,7 +28,7 @@ describe('array.ts', () => {
             expect(copied[0][0]._id).not.toEqual('test_id_1')
         })
 
-        it('Deep copy', () => {
+        test('Deep copy', () => {
             const value = [
                 [
                     {
@@ -40,7 +47,7 @@ describe('array.ts', () => {
         })
     })
 
-    it('splitItems()', () => {
+    test('splitItems()', () => {
         const value = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
         const result = splitItems(value, 3)
         expect(result).toEqual([
@@ -50,13 +57,13 @@ describe('array.ts', () => {
         ])
     })
 
-    it('random()', () => {
+    test('random()', () => {
         const value = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
         const result = random(value)
         expect(value.indexOf(result) >= -1).toBeTruthy()
     })
 
-    it('trimEnd()', () => {
+    test('trimEnd()', () => {
         const value = [
             1,
             2,
@@ -76,7 +83,7 @@ describe('array.ts', () => {
         expect(result).toEqual(value.slice(0, 10))
     })
 
-    it('filterEmpty()', () => {
+    test('filterEmpty()', () => {
         const value = [
             1,
             2,
@@ -94,5 +101,20 @@ describe('array.ts', () => {
         ]
         const result = filterEmpty(value)
         expect(result).toEqual([1, 2, 4, 6, 8, 9, 10])
+    })
+
+    test('transpose()', () => {
+        const arr = [
+            [1, 2, 3],
+            [4, 5],
+            [6, 7, 8],
+        ]
+        const result = transpose(arr)
+        console.log(result)
+        expect(result).toEqual([
+            [1, 4, 6],
+            [2, 5, 7],
+            [3, undefined, 8],
+        ])
     })
 })
