@@ -5,11 +5,11 @@ import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/dis
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default'
 import { NextRequest } from 'next/server'
 
-import { getBackgrounds } from '@src/db/mongo/wordpress/background'
-import { getFlickr } from '@src/db/mongo/flickr'
-import { getTagCloud } from '@src/db/mongo/wordpress/tag-cloud'
-import { getRecentPosts } from '@src/db/mongo/wordpress/recent-post'
-import { clearCache } from '@src/db/mongo/wordpress/clear-cache'
+import { getBackgrounds } from '@src/db/mysql/getBackgrounds'
+import { getFlickr } from '@src/db/fetch/getFlickr'
+import { getTagCloud } from '@src/db/mysql/getTagCloud'
+import { getRecentPosts } from '@src/db/mysql/getPostsBy'
+import { clearCache } from '@src/db/clear-cache'
 import { createGQLOptions } from '@common/data/graphql/createExpressRouter'
 import {
     GQLImageSize,
@@ -83,7 +83,7 @@ const handler = startServerAndCreateNextHandler<NextRequest>(server, {
             req.headers as unknown as Record<string, string>
         ).referer || '') as string
         const referer = new URL(headerReferer).hostname
-        const base = new URL(process.env.BASE_URL || '').hostname
+        const base = new URL(process.env.NEXT_PUBLIC_BASE_URL || '').hostname
         const dev = process.env.NODE_ENV === 'development'
 
         // Disallow different domain

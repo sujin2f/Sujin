@@ -14,13 +14,7 @@ export default function Loading({ menu }: Props) {
             menu={menu}
             banner={{
                 title: <LoadingImg />,
-                excerpt: '',
-                icon: undefined,
-                prefix: undefined,
-                background: undefined,
-                backgroundColor: undefined,
             }}
-            className=""
         />
     )
 }

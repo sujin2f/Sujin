@@ -10,6 +10,8 @@ import { MySQL } from '@src/db/mysql'
 import { getPostMeta } from '@src/db/mysql/getPostMeta'
 import { getTaxonomies } from '@src/db/mysql/getTaxonomies'
 import { getMedia } from '@src/db/mysql/getMedia'
+import { DAY_IN_SECONDS } from '@common/constants/datetime'
+import { Cached } from '@common/model/Cached'
 
 const getPostLink = (post: Post): string => {
     switch (post.type) {
@@ -100,7 +102,9 @@ const getAdjacentPost = async (
     previous = true,
 ): Promise<Nullable<Post>> => {
     const query = MySQLQuery.getAdjacentPost(post, previous)
-    const adjacentPost = await MySQL.getInstance().selectOne<Post>(query)
+    const adjacentPost = await MySQL.getInstance()
+        .selectOne<Post>(query)
+        .catch(() => undefined)
 
     if (!adjacentPost) {
         return
@@ -207,3 +211,10 @@ export const getPostsBy = async (
 
     return posts
 }
+
+export const getRecentPosts = async () =>
+    await Cached.getInstance().getOrExecute(
+        'recent-post',
+        async () => await getPostsBy(TermTypes.recent_posts),
+        DAY_IN_SECONDS,
+    )

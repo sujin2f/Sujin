@@ -56,7 +56,7 @@ class Post {
 		}
 		$base_url = $is_dev ? 'http://host.docker.internal:3000' : 'http://localhost:3000';
 		if ( !$is_dev && function_exists( 'getenv_docker' ) ) {
-			$base_url = getenv_docker( 'BASE_URL', $base_url );
+			$base_url = getenv_docker( 'NEXT_PUBLIC_BASE_URL', $base_url );
 		}
 
 		$categories = array();

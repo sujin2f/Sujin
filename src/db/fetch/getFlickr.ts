@@ -3,7 +3,8 @@
 import { flickr } from '@src/constants/flickr-default'
 import { FlickrImage, FlickrResponse } from '@src/types/flickr'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
-import { Error as CustomError, isCustomError } from '@common/model/Error'
+import { Cached } from '@common/model/Cached'
+import { Logger } from '@common/model/Logger'
 
 export const request = async (): Promise<FlickrImage[]> => {
     if (process.env.NODE_ENV === 'development') {
@@ -32,7 +33,7 @@ export const request = async (): Promise<FlickrImage[]> => {
     )
         .then(async (response) => {
             if (response.status >= 400) {
-                throw new CustomError(`Failed to request Flickr with ${id}`)
+                throw Error(`Failed to request Flickr with ${id}`)
             }
             const json = (await response.json()) as FlickrResponse
             return json.items.map((item) => ({
@@ -41,11 +42,8 @@ export const request = async (): Promise<FlickrImage[]> => {
             }))
         })
         .catch((e: Error) => {
-            if (isCustomError(e)) {
-                e.echo('log')
-            }
             if (e instanceof Error) {
-                new CustomError(e.message, { level: 'log' })
+                Logger.server(e.message)
             }
             return flickr.items.map((item) => ({
                 ...item,
@@ -53,3 +51,10 @@ export const request = async (): Promise<FlickrImage[]> => {
             }))
         })
 }
+
+export const getFlickr = async () =>
+    await Cached.getInstance().getOrExecute(
+        'flickr',
+        async () => await request(),
+        WEEK_IN_SECONDS,
+    )

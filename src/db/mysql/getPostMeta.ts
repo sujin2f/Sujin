@@ -11,9 +11,9 @@ export const getPostMeta = async <T extends OptionValue>(
     defaultValue: T,
 ): Promise<T> => {
     const mysql = MySQL.getInstance()
-    const value = await mysql.selectOne<PostMeta>(
-        MySQLQuery.getPostMeta(postId, metaKey),
-    )
+    const value = await mysql
+        .selectOne<PostMeta>(MySQLQuery.getPostMeta(postId, metaKey))
+        .catch(() => undefined)
 
     if (!value) {
         return defaultValue

@@ -1,56 +1,67 @@
-import type { Filter, WithId } from 'mongodb'
 import type { Atom } from '@src/types/atom'
-import type { Spectrum } from '@src/types/ether'
+import type { ISpectrum } from '@src/types/ether'
 import Mongo from '@common/data/mongo/mongo'
-import { getCachedData } from '@src/db/mongo/object-cache'
 import { request as getNistData } from '@src/db/fetch/getNistData'
 import { insertManyFromCSV } from '@src/db/mongo/ether/util'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
-import { getAtom } from '@src/utils/ether'
-
-/**
- * Requests spectra data from NIST and save
- *
- * @param {number} doc.number - The atom object.
- * @param {number} doc.ion - The ionization state.
- * @returns {Promise<void>}
- */
-const requestNIST = async (
-    doc: Filter<Spectrum>,
-): Promise<WithId<Spectrum>[]> => {
-    const { number, ion } = doc as { number: number; ion: number }
-    const atom = getAtom(number)
-    const csv = await getNistData(atom, ion)
-    if (!csv) {
-        return []
-    }
-    await Mongo.deleteMany('spectra', { number, ion })
-    await insertManyFromCSV(atom.number, ion, csv)
-    return Mongo.findMany('spectra', { number, ion })
-}
+import { Cached } from '@common/model/Cached'
+import { WithId } from 'mongodb'
 
 /**
  * Requests spectra data
  *
  * @param {Atom} atom - The atom object.
  * @param {number} ion - The ionization state.
- * @returns {Promise<WithId<Spectrum>[]>} The spectra data.
+ * @returns {Promise<WithId<ISpectrum>[]>} The spectra data.
  */
-export const request = async (atom: Atom, ion: number) =>
-    await getCachedData(
-        'spectra',
-        { number: atom.number, ion },
-        requestNIST,
+const request = async (
+    atom: Atom,
+    ion: number,
+): Promise<WithId<ISpectrum>[]> => {
+    const number = atom.number
+    const spectra = await Mongo.findMany<ISpectrum>('spectra', {
+        number,
+        ion,
+    })
+    if (spectra.length) {
+        return spectra
+    }
+
+    const csv = await getNistData(atom, ion)
+    if (!csv) {
+        return []
+    }
+    await insertManyFromCSV(atom.number, ion, csv)
+    return await Mongo.findMany<ISpectrum>('spectra', { number, ion })
+}
+
+export const getSpectraFromNIST = async (atom: Atom, ion: number) => {
+    const key = `spectra-${atom.number}-${ion}`
+    return await Cached.getInstance().getOrExecute(
+        key,
+        async () => await request(atom, ion),
         WEEK_IN_SECONDS,
+        true,
     )
+}
+
+export const findSpectra = async (spectrum: Partial<ISpectrum>) => {
+    const key = `spectra-${JSON.stringify(spectrum)}`
+    return await Cached.getInstance().getOrExecute(
+        key,
+        async () => await Mongo.findMany<ISpectrum>('spectra', spectrum),
+        WEEK_IN_SECONDS,
+        true,
+    )
+}
 
 /**
  * Inserts a single spectrum document into the MongoDB collection.
  *
- * @param {Partial<Spectrum>} rawData - The spectrum data to insert.
+ * @param {Partial<ISpectrum>} rawData - The spectrum data to insert.
  * @returns {Promise<void>} The result of the insert operation.
  */
-export const insertOne = async (rawData: Partial<Spectrum>) => {
+export const insertOne = async (rawData: Partial<ISpectrum>): Promise<void> => {
     // Prevent duplication
     await Mongo.findOne('spectra', { ...rawData }).catch(
         async () => await Mongo.insertOne('spectra', rawData),

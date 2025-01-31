@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { usePathname } from 'next/navigation'
 
 import { Column } from '@common/components/layout/Column'
 import { Row } from '@common/components/layout/Row'
@@ -20,47 +21,27 @@ import {
 } from '@src/constants/graphql'
 import { Loading } from '@components/(wordpress)/archive/loading'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
-import { useGlobalState } from '@common/hooks/useGlobalState'
 
 import '@src/scss/footer.scss'
 
 export const Footer = () => {
-    const [flickr, setFlickr] = useGlobalState<FlickrImage[] | boolean>(
-        'flickr',
-        false,
-    )
-    const [tagCloud, setTagCloud] = useGlobalState<TagCloudType[] | boolean>(
-        'tag-cloud',
-        false,
-    )
+    const isFrontPage = usePathname() === '/'
+    return !isFrontPage ? <CommonFooter /> : <></>
+}
+
+export const CommonFooter = () => {
+    const [flickr, setFlickr] = useState<FlickrImage[] | boolean>(false)
+    const [tagCloud, setTagCloud] = useState<TagCloudType[] | boolean>(false)
     useEffect(() => {
-        if (!flickr) {
-            setFlickr(true) // Prevent fetching again
-            const fetchFlickr = async () => {
-                const response = await fetchGQL(
-                    queryFlickr,
-                    flickrOpr,
-                    WEEK_IN_SECONDS,
-                ).catch(() => false)
-                setFlickr(response)
-            }
-            fetchFlickr()
-        }
-    }, [flickr, setFlickr])
+        fetchGQL(queryFlickr, flickrOpr, WEEK_IN_SECONDS)
+            .then((result) => setFlickr(result))
+            .catch(() => setFlickr([]))
+    }, [])
     useEffect(() => {
-        if (!tagCloud) {
-            setTagCloud(true) // Prevent fetching again
-            const fetchTagCloud = async () => {
-                const response = await fetchGQL(
-                    queryTagCloud,
-                    tagCloudOpr,
-                    WEEK_IN_SECONDS,
-                ).catch(() => false)
-                setTagCloud(response)
-            }
-            fetchTagCloud()
-        }
-    }, [tagCloud, setTagCloud])
+        fetchGQL(queryTagCloud, tagCloudOpr, WEEK_IN_SECONDS)
+            .then((result) => setTagCloud(result))
+            .catch(() => setTagCloud([]))
+    }, [])
 
     return (
         <footer className="footer">

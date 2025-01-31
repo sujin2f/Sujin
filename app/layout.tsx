@@ -1,7 +1,10 @@
-import React, { PropsWithChildren } from 'react'
+import React from 'react'
 import { Ubuntu } from 'next/font/google'
-import type { Metadata } from 'next'
 import Script from 'next/script'
+import type { PropsWithChildren } from 'react'
+import type { Metadata } from 'next'
+import { Footer } from '@components/footer'
+import Header from '@components/header'
 
 /* Assets */
 import '@src/scss/wrapper.scss'
@@ -13,11 +16,11 @@ export const metadata: Metadata = {
     description: 'React, Node, Wordpress Developer',
     keywords: ['Next.js', 'React', 'JavaScript', 'TypeScript', 'Express'],
     creator: 'Sujin Choi',
-    metadataBase: new URL(process.env.BASE_URL || ''),
+    metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || ''),
     referrer: 'origin',
     openGraph: {
-        images: `${process.env.BASE_URL}/thumbnail.png`,
-        url: process.env.BASE_URL,
+        images: `${process.env.NEXT_PUBLIC_BASE_URL}/assets/thumbnail.png`,
+        url: process.env.NEXT_PUBLIC_BASE_URL,
         title: 'Sujin',
         siteName: 'Sujin',
     },
@@ -27,9 +30,9 @@ export const metadata: Metadata = {
         nocache: true,
     },
     icons: {
-        icon: `${process.env.BASE_URL}/favicon-16x16.png`,
-        shortcut: `${process.env.BASE_URL}/favicon-32x32.png`,
-        apple: `${process.env.BASE_URL}/favicon-32x32.png`,
+        icon: `${process.env.NEXT_PUBLIC_BASE_URL}/assets/favicon-16x16.png`,
+        shortcut: `${process.env.NEXT_PUBLIC_BASE_URL}/assets/favicon-32x32.png`,
+        apple: `${process.env.NEXT_PUBLIC_BASE_URL}/assets/favicon-32x32.png`,
     },
 }
 
@@ -43,7 +46,7 @@ const ubuntu = Ubuntu({
  *
  * @param {ReactNode} props.children - The content to be wrapped by the layout.
  */
-export default function Layout({ children }: PropsWithChildren) {
+export default async function Layout({ children }: PropsWithChildren) {
     return (
         <html lang="en">
             <head>
@@ -53,7 +56,11 @@ export default function Layout({ children }: PropsWithChildren) {
                     crossOrigin="anonymous"
                 ></Script>
             </head>
-            <body className={`wrapper ${ubuntu.className}`}>{children}</body>
+            <body className={`wrapper ${ubuntu.className}`}>
+                <Header />
+                {children}
+                <Footer />
+            </body>
         </html>
     )
 }

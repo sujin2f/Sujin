@@ -203,10 +203,7 @@ type ResultType = {
 export const GQLResult = new GQLType<boolean>('Result', {
     result: { type: GQLBoolean },
 })
-export const mutateCache = new GQLMutation<
-    [string, string, string, string],
-    ResultType
->(
+export const mutateCache = new GQLMutation<[string, string], ResultType>(
     'removeCache',
     {
         nonce: {
@@ -216,12 +213,6 @@ export const mutateCache = new GQLMutation<
         slug: {
             type: GQLString,
             required,
-        },
-        categories: {
-            type: GQLString,
-        },
-        tags: {
-            type: GQLString,
         },
     },
     { type: GQLResult },

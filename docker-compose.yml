@@ -30,7 +30,7 @@ services:
             WORDPRESS_DEBUG: 0
             TZ: America/Toronto
             MONGO: mongo
-            BASE_URL: ${BASE_URL}
+            NEXT_PUBLIC_BASE_URL: ${NEXT_PUBLIC_BASE_URL}
             NODE_ENV: development
         volumes:
             - ./wordpress/plugins/2d-tag-cloud:/var/www/html/wp-content/plugins/2d-tag-cloud

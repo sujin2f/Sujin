@@ -50,18 +50,21 @@ export class MySQL {
         return result
     }
 
-    public async selectOne<T>(query: string): Promise<Nullable<T>> {
-        const selection = await this.select<T>(query)
-        if (isEmpty(selection)) {
-            return
-        }
-        return selection[0]
+    public async selectOne<T>(query: string): Promise<T> {
+        const selection = await this.select<T>(query).then((result) => {
+            if (isEmpty(result)) {
+                throw Error(
+                    `🤬 MySQL selectOne is failed because the result is empty.`,
+                )
+            }
+            return result[0]
+        })
+        return selection
     }
 
     public async update(query: string): Promise<void> {
         if (!this.mysql) {
             this.mysql = await this.init().catch(() => {
-                console.error('🤬 MySQL connection failed.')
                 throw new Error('🤬 MySQL connection failed.')
             })
         }

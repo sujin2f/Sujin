@@ -53,7 +53,10 @@ export const Table = ({ data, rowHead, maxColumn }: Props) => {
                                                 <td
                                                     key={`td-${groupIndex}-${rowsLabel}-${colIndex}`}
                                                 >
-                                                    {col}
+                                                    {typeof col === 'number' &&
+                                                    isNaN(col)
+                                                        ? ''
+                                                        : col}
                                                 </td>
                                             ))}
                                         </tr>

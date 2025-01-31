@@ -38,12 +38,6 @@ export const MenuDefault: MenuItem[] = [
             },
             {
                 ...menu,
-                title: 'React BoilerPlate',
-                link: 'https://common.sujinc.com/',
-                target: '_blank',
-            },
-            {
-                ...menu,
                 title: 'Ether',
                 link: '/ether',
             },

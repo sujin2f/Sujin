@@ -4,12 +4,6 @@ type PageProps = {
     }>
 }
 
-type PostProps = {
-    params: Promise<{
-        date: string[]
-    }>
-}
-
 type ArchiveProps = {
     params: Promise<{
         type: string

@@ -31,7 +31,7 @@ export const Cards = ({ posts, keyPrefix, large, medium, small }: Props) => {
                 image={
                     post.images.list?.url ||
                     post.images.thumbnail?.url ||
-                    '/thumbnail.png'
+                    '/assets/thumbnail.png'
                 }
             >
                 <Tags items={post.tags} />

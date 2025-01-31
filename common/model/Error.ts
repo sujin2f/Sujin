@@ -6,6 +6,9 @@ interface ErrorOptions2 extends ErrorOptions {
     level?: ErrorLevel
 }
 
+/**
+ * @deprecated Use Logger and global Error
+ */
 class MyError extends Error {
     public code?: string
     public source?: string

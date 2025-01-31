@@ -1,7 +1,6 @@
 'use server'
 
 import { MySQLQuery } from '@src/constants/mysql-query'
-import { Nullable } from '@common/types'
 import { TermTypes } from '@src/types/wordpress'
 import { Term } from '@src/types/wordpress'
 import { MySQL } from '@src/db/mysql'
@@ -9,7 +8,7 @@ import { MySQL } from '@src/db/mysql'
 export const getTermMeta = async <T = string>(
     id: number,
     metaKey: string,
-): Promise<Nullable<T>> => {
+): Promise<T> => {
     return await MySQL.getInstance().selectOne<T>(
         MySQLQuery.getTermMeta(id, metaKey),
     )
