@@ -110,7 +110,6 @@ describe('array.ts', () => {
             [6, 7, 8],
         ]
         const result = transpose(arr)
-        console.log(result)
         expect(result).toEqual([
             [1, 4, 6],
             [2, 5, 7],

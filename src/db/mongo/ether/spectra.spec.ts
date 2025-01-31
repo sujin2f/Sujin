@@ -1,7 +1,7 @@
 // yarn test spectra.spec.ts
 
 import { getAtom } from '@src/utils/ether'
-import { NISTresponseBe } from '../../../../.jest/fixture'
+import { NISTresponseH } from '../../../../.jest/fixture'
 import { getSpectraFromNIST } from './spectra'
 import Mongo from '@common/data/mongo/mongo'
 
@@ -9,7 +9,7 @@ describe('spectra.spec.ts', () => {
     beforeAll(async () => {
         global.fetch = jest.fn(() =>
             Promise.resolve({
-                text: () => Promise.resolve(NISTresponseBe),
+                text: () => Promise.resolve(NISTresponseH),
             }),
         ) as jest.Mock
     })
