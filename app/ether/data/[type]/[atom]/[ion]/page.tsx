@@ -1,17 +1,18 @@
+import { notFound } from 'next/navigation'
+
 import { periodicTable } from '@src/constants/spectra'
 import { getClientData, sortEther, getSpectra } from '@src/utils/ether'
-import { Data } from '@components/(ether)/data'
-import { DataHeader } from '@components/(ether)/data-header'
+import { Data } from '@components/ether/data'
+import { DataHeader } from '@components/ether/data-header'
 import { getSpectraFromNIST } from '@src/db/mongo/ether/spectra'
 import { unstable_cache } from 'next/cache'
 import { DAY_IN_SECONDS } from '@common/constants/datetime'
-import NotFound from '@app/not-found'
 
 export default async function DataPage(props: EtherDataServerProps) {
     const params = await props.params
     const type = params.type
     if (type !== 'ether' && type !== 'orbital') {
-        return NotFound()
+        notFound()
     }
     const atom = parseInt(params.atom)
     const ion = parseInt(params.ion)

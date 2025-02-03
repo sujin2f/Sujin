@@ -1,16 +1,23 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { Chart as ChartJS, ChartDataset } from 'chart.js/auto'
-
+import {
+    Chart as ChartJS,
+    type ChartDataset,
+    type ChartData as ChartJSData,
+} from 'chart.js/auto'
+/* Helpers */
 import { getRandomInt } from '@common/utils/number'
-import { chartColors } from '@src/constants/chart'
-import { ChartData } from '@src/types/ether'
+import { CHART_COLORS, options } from '@src/constants/chart'
+import { ChartData } from '@src/types/ether' // TODO Name
 import { map } from '@common/utils/array'
 
 type Props = { data: ChartData }
 
-const getChartData = (data: ChartData, term?: string) => {
+const convertChartData = (
+    data: ChartData,
+    term?: string,
+): ChartJSData<'line'> => {
     const maxColumn = Math.max(...Object.values(data).map((row) => row.length))
     const datasets = Object.entries(data)
         .filter(([key]) => (term ? key.indexOf(term) !== -1 : true))
@@ -20,10 +27,10 @@ const getChartData = (data: ChartData, term?: string) => {
                 data,
                 fill: false,
                 borderColor:
-                    chartColors[index] ||
-                    `rgb(${getRandomInt(256)}, ${getRandomInt(256)}, ${getRandomInt(
+                    CHART_COLORS[index] ||
+                    `rgb(${getRandomInt(256)}, ${getRandomInt(
                         256,
-                    )})`,
+                    )}, ${getRandomInt(256)})`,
                 tension: 0,
             } as ChartDataset<'line'>
         })
@@ -33,7 +40,7 @@ const getChartData = (data: ChartData, term?: string) => {
 }
 
 export const Chart = ({ data }: Props) => {
-    const searchParams = useSearchParams()
+    const searchParams = useSearchParams() // TODO Changed
     const term = (searchParams && searchParams.get('term')) || undefined
     const ref = useRef<HTMLCanvasElement>(null)
     const [chart, setChart] = useState<ChartJS>()
@@ -43,11 +50,12 @@ export const Chart = ({ data }: Props) => {
             setChart(
                 new ChartJS(ref.current, {
                     type: 'line',
-                    data: getChartData(data, term),
+                    data: convertChartData(data, term),
+                    options,
                 }),
             )
         } else if (ref.current && chart) {
-            chart.data = getChartData(data, term)
+            chart.data = convertChartData(data, term)
             chart.update()
         }
     }, [chart, data, term])

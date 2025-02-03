@@ -3,9 +3,11 @@ import { Ubuntu } from 'next/font/google'
 import Script from 'next/script'
 import type { PropsWithChildren } from 'react'
 import type { Metadata } from 'next'
-import { Footer } from '@components/footer'
+/* Components */
+import Footer from '@components/footer'
 import Header from '@components/header'
-
+/* Helpers */
+import { BASE_URL, DEFAULT_THUMBNAIL } from '@src/constants/system'
 /* Assets */
 import '@src/scss/wrapper.scss'
 import '@common/scss/normalize.css'
@@ -16,11 +18,11 @@ export const metadata: Metadata = {
     description: 'React, Node, Wordpress Developer',
     keywords: ['Next.js', 'React', 'JavaScript', 'TypeScript', 'Express'],
     creator: 'Sujin Choi',
-    metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || ''),
+    metadataBase: new URL(BASE_URL),
     referrer: 'origin',
     openGraph: {
-        images: `${process.env.NEXT_PUBLIC_BASE_URL}/assets/thumbnail.png`,
-        url: process.env.NEXT_PUBLIC_BASE_URL,
+        images: DEFAULT_THUMBNAIL,
+        url: BASE_URL,
         title: 'Sujin',
         siteName: 'Sujin',
     },
@@ -30,9 +32,9 @@ export const metadata: Metadata = {
         nocache: true,
     },
     icons: {
-        icon: `${process.env.NEXT_PUBLIC_BASE_URL}/assets/favicon-16x16.png`,
-        shortcut: `${process.env.NEXT_PUBLIC_BASE_URL}/assets/favicon-32x32.png`,
-        apple: `${process.env.NEXT_PUBLIC_BASE_URL}/assets/favicon-32x32.png`,
+        icon: `${BASE_URL}/assets/favicon-16x16.png`,
+        shortcut: `${BASE_URL}/assets/favicon-32x32.png`,
+        apple: `${BASE_URL}/assets/favicon-32x32.png`,
     },
 }
 
@@ -43,19 +45,21 @@ const ubuntu = Ubuntu({
 
 /**
  * Layout component that wraps the application with common layout elements.
- *
  * @param {ReactNode} props.children - The content to be wrapped by the layout.
  */
-export default async function Layout({ children }: PropsWithChildren) {
+export default async function AppLayout({ children }: PropsWithChildren) {
+    const adSense = process.env.NEXT_PUBLIC_GOOGLE_AD_CLIENT ? (
+        <Script
+            async
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_GOOGLE_AD_CLIENT}`}
+            crossOrigin="anonymous"
+        ></Script>
+    ) : (
+        <></>
+    )
     return (
         <html lang="en">
-            <head>
-                <Script
-                    async
-                    src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_GOOGLE_AD_CLIENT}`}
-                    crossOrigin="anonymous"
-                ></Script>
-            </head>
+            <head>{adSense}</head>
             <body className={`wrapper ${ubuntu.className}`}>
                 <Header />
                 {children}

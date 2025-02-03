@@ -29,6 +29,7 @@ import {
     mutateCache,
 } from '@src/constants/graphql'
 import { isEmpty } from '@common/utils/object'
+import { BASE_URL, IS_DEV } from '@src/constants/system'
 
 const options = createGQLOptions(
     GQLImageSize,
@@ -71,9 +72,9 @@ const server = new ApolloServer({
     }),
     plugins: [
         // Install a landing page plugin based on NODE_ENV
-        process.env.NODE_ENV === 'production'
-            ? ApolloServerPluginLandingPageDisabled()
-            : ApolloServerPluginLandingPageLocalDefault({ footer: false }),
+        IS_DEV
+            ? ApolloServerPluginLandingPageLocalDefault({ footer: false })
+            : ApolloServerPluginLandingPageDisabled(),
     ],
 })
 
@@ -83,11 +84,10 @@ const handler = startServerAndCreateNextHandler<NextRequest>(server, {
             req.headers as unknown as Record<string, string>
         ).referer || '') as string
         const referer = new URL(headerReferer).hostname
-        const base = new URL(process.env.NEXT_PUBLIC_BASE_URL || '').hostname
-        const dev = process.env.NODE_ENV === 'development'
+        const base = new URL(BASE_URL).hostname
 
         // Disallow different domain
-        if (!dev && !referer.includes(base)) {
+        if (!IS_DEV && !referer.includes(base)) {
             throw Error('Access Denied.')
         }
         return { req, res }

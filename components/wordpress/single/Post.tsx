@@ -1,24 +1,24 @@
 import React from 'react'
-
-import { Tags } from '@components/(wordpress)/single/Tags'
-import { PrevNext } from '@components/(wordpress)/single/PrevNext'
-import { RelatedPosts } from '@components/(wordpress)/single/RelatedPosts'
-import { RecentPosts } from '@components/(wordpress)/single/RecentPosts'
-import { GoogleAdvert } from '@components/GoogleAdvert'
+/* Components */
+import { Tags } from '@components/wordpress/single/Tags'
+import { PrevNext } from '@components/wordpress/single/PrevNext'
+import { RelatedPosts } from '@components/wordpress/single/RelatedPosts'
+import { RecentPosts } from '@components/wordpress/single/RecentPosts'
+import GoogleAdvert from '@components/GoogleAdvert'
+import { SocialShare } from '@components/wordpress/single/SocialShare'
 import { Column } from '@common/components/layout/Column'
 import { Row } from '@common/components/layout/Row'
-import { SocialShare } from '@components/(wordpress)/single/SocialShare'
-import { Content } from '@components/(wordpress)/single/Content'
-import { ScrollToTop } from '@components/ScrollToTop'
-import { Post as PostType } from '@src/types/wordpress'
+import { Content } from '@components/wordpress/single/Content'
+import ScrollToTop from '@components/ScrollToTop'
+/* Helpers */
+import type { Post as PostType } from '@src/types/wordpress'
 
-export const Post = ({
-    post,
-    thumbnail,
-}: {
+type Props = {
     post: PostType
     thumbnail: string
-}) => {
+}
+
+export const Post = ({ post, thumbnail }: Props) => {
     return (
         <Row>
             <ScrollToTop />

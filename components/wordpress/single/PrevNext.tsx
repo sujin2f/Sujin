@@ -1,11 +1,12 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import Link from 'next/link'
-
+/* Components */
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
-import { Post } from '@src/types/wordpress'
+/* Helpers */
+import type { Post } from '@src/types/wordpress'
+/* Assets */
 import Prev from '@src/images/prev.svg'
-
 import '@src/scss/prev-next.scss'
 
 interface Props {
@@ -17,7 +18,7 @@ interface Props {
 
 export const PrevNext = (props: Props) => {
     if (!props.prevNext) {
-        return <Fragment />
+        return <></>
     }
 
     const {

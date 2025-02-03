@@ -1,24 +1,19 @@
-import { headers } from 'next/headers'
-
 import type { Metadata } from 'next/types'
-import { PropsWithChildren } from 'react'
-import { metadata } from '@src/constants/metadata'
+import type { PropsWithChildren } from 'react'
+/* Helpers */
+import { getMetaData } from '@src/utils/server'
 
 export const generateMetadata = async (): Promise<Metadata> => {
-    const path = (await headers()).get('x-pathname')
-    if (!path || !metadata[path]) {
-        return {}
-    }
-    const data = metadata[path]
-    const metadataBase = data.openGraph?.url
-        ? new URL(data.openGraph?.url)
+    const metadata = await getMetaData()
+    const metadataBase = metadata.openGraph?.url
+        ? new URL(metadata.openGraph?.url)
         : undefined
 
     return {
-        ...data,
-        title: `Sujin | Ether | ${data.title}`,
+        ...metadata,
+        title: `Sujin | Ether | ${metadata.title}`,
         openGraph: {
-            title: `Sujin | Ether | ${data}`,
+            title: `Sujin | Ether | ${metadata}`,
         },
         metadataBase,
     }

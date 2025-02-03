@@ -1,52 +1,56 @@
 'use client'
-
 import React, {
     useState,
     useRef,
-    ChangeEvent,
-    KeyboardEvent,
-    Fragment,
+    type ChangeEvent,
+    type KeyboardEvent,
+    useCallback,
 } from 'react'
 import { useRouter } from 'next/navigation'
-
+import { KeyCodes } from '@common/constants/keycode'
+/* Assets */
 import Magnify from '@src/images/magnify.svg'
 
-export function Search() {
+export default function Search() {
     const [opened, setOpened] = useState<boolean>(false)
     const [keyword, setKeyword] = useState<string>('')
-    const refTextInput = useRef<HTMLInputElement>(null)
+    const ref = useRef<HTMLInputElement>(null)
     const router = useRouter()
 
-    const handleSubmitSearch = (
-        e?: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    ) => {
-        if (e) {
-            e.preventDefault()
-        }
+    const handleSubmitSearch = useCallback(
+        (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+            if (e) {
+                e.preventDefault()
+            }
 
-        if (!opened || !keyword) {
-            setOpened(true)
-            setTimeout(
-                () => refTextInput.current && refTextInput.current.focus(),
-                300,
-            )
-            return
-        }
+            if (!opened || !keyword) {
+                setOpened(true)
+                setTimeout(() => ref.current && ref.current.focus(), 300)
+                return
+            }
 
-        if (keyword) {
-            const to = `/search/${keyword}`
-            router.push(to)
-            setKeyword('')
-        }
-    }
-    const handleChangeSearch = (e: ChangeEvent<HTMLInputElement>) => {
-        setKeyword(e.target.value)
-    }
-    const handleKeyDownSearch = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.keyCode === 13) {
-            handleSubmitSearch()
-        }
-    }
+            if (keyword) {
+                const to = `/search/${keyword}`
+                router.push(to)
+                setKeyword('')
+            }
+        },
+        [keyword, opened, router],
+    )
+    const handleChangeSearch = useCallback(
+        (e: ChangeEvent<HTMLInputElement>) => {
+            setKeyword(e.target.value)
+        },
+        [],
+    )
+    const handleKeyDownSearch = useCallback(
+        (e: KeyboardEvent<HTMLInputElement>) => {
+            if (e.key === KeyCodes.ENTER) {
+                handleSubmitSearch()
+            }
+        },
+        [handleSubmitSearch],
+    )
 
     const wrapperClass = opened ? 'open' : ''
 
@@ -56,7 +60,7 @@ export function Search() {
                 className="search__input"
                 onChange={handleChangeSearch}
                 onKeyDown={handleKeyDownSearch}
-                ref={refTextInput}
+                ref={ref}
                 type="text"
                 value={keyword}
             />
@@ -66,9 +70,8 @@ export function Search() {
                 onClick={handleSubmitSearch}
                 type="submit"
             >
-                <Magnify />{' '}
+                <Magnify />
             </button>
         </section>
     )
-    return <Fragment />
 }

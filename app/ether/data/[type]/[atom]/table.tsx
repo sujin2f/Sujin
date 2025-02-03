@@ -3,12 +3,11 @@
 import { getSpectra2 } from '@src/utils/ether'
 import { ChartData, ISpectrum, TableData } from '@src/types/ether'
 import { Lines } from '@src/utils/model-spectra'
-import { Table as Tbl } from '@components/(ether)/table'
-import { Chart } from '@components/(ether)/chart'
+import { Table as Tbl } from '@components/ether/table'
+import { Chart } from '@components/ether/chart'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 import { Fragment } from 'react'
-import { average } from '@common/utils/array'
 
 export function Table({ items }: { items: ISpectrum[] }) {
     const orbital = getSpectra2(items)
@@ -19,15 +18,22 @@ export function Table({ items }: { items: ISpectrum[] }) {
                 ...acc,
                 [atom]: Object.entries(value).reduce(
                     (acc2, [termGroup, value2]) => {
+                        if (termGroup !== '0-0') {
+                            return acc2
+                        }
                         const lines = value2.map(
                             (spectra) => new Lines(spectra),
                         )[0]
 
-                        if (lines.items[2].ion < 20) {
-                            chartData[atom] = lines.items.map(
-                                (item) => item.comparison,
-                            )
-                        }
+                        // if (
+                        //     lines.items[2].ion >= 20
+                        //     //  &&
+                        //     // lines.items[2].ion <= 50
+                        // ) {
+                        chartData[atom] = lines.items.map(
+                            (item) => item.comparison2,
+                        )
+                        // }
 
                         return {
                             ...acc2,
@@ -37,7 +43,7 @@ export function Table({ items }: { items: ISpectrum[] }) {
                                     lines.items.map((item) => item.energy),
                                     lines.items.map((item) => item.diff),
                                     lines.items.map((item) => item.rydberg),
-                                    lines.items.map((item) => item.comparison),
+                                    lines.items.map((item) => item.comparison2),
                                 ],
                             },
                         }
@@ -48,17 +54,7 @@ export function Table({ items }: { items: ISpectrum[] }) {
         },
         {},
     )
-
-    // console.log(
-    //     average([
-    //         0.9998826321576011, 0.9998745227663981, 0.9998635437239224,
-    //         0.9998521503776937, 0.9998425633676989, 0.999829307237396,
-    //         0.9998148539053823, 0.999802910463803, 0.9997774835858516,
-    //         0.9997733847793682, 0.9997553433052391, 0.9997403480732173,
-    //         0.9997213368227351, 0.9997041092928066, 0.9996841143943521,
-    //         0.9996654201376376, 0.9996432510949823,
-    //     ]),
-    // )
+    console.log(orbital2)
 
     return (
         <>

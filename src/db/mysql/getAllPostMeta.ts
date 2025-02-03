@@ -2,7 +2,7 @@
 
 import { MySQLQuery } from '@src/constants/mysql-query'
 import { MySQL } from '@src/db/mysql'
-import { PostMeta } from '@src/types/wordpress'
+import type { PostMeta } from '@src/types/wordpress'
 
 type PostMetaRecord = Record<string, string>
 

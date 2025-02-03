@@ -1,6 +1,7 @@
 // see https://github.com/vercel/next.js/tree/canary/examples/with-mongodb
 
 import { MongoClient } from 'mongodb'
+import { IS_DEV } from '@src/constants/system'
 
 if (!process.env.MONGO) {
     throw new Error('Invalid/Missing environment variable: "MONGO"')
@@ -11,7 +12,7 @@ const options = { appName: 'devrel.template.nextjs' }
 
 let client: MongoClient
 
-if (process.env.NODE_ENV === 'development') {
+if (IS_DEV) {
     // In development mode, use a global variable so that the value
     // is preserved across module reloads caused by HMR (Hot Module Replacement).
     const globalWithMongo = global as typeof globalThis & {

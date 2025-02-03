@@ -7,7 +7,7 @@ export default async function DataPage() {
     const requestSpectra = unstable_cache(
         async () =>
             await findSpectra({
-                ionReverse: 1,
+                ionReverse: 2,
                 orbital: 's',
             }),
         ['spectra-1-s'],
@@ -17,12 +17,7 @@ export default async function DataPage() {
         },
     )
 
-    const response = await findSpectra({
-        ionReverse: 1,
-        orbital: 's',
-    })
-
-    // const [orbital] = getSpectra2(response)
+    const response = await requestSpectra()
 
     return (
         <Table

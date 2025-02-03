@@ -1,9 +1,9 @@
 'use server'
 
 import { MySQLQuery } from '@src/constants/mysql-query'
-import { TermTypes } from '@src/types/wordpress'
-import { Term } from '@src/types/wordpress'
+import { TermTypes } from '@src/constants/wordpress'
 import { MySQL } from '@src/db/mysql'
+import type { Term } from '@src/types/wordpress'
 
 export const getTermMeta = async <T = string>(
     id: number,

@@ -1,18 +1,25 @@
-import { PropsWithChildren } from 'react'
 import type { Metadata } from 'next/types'
-
-import { Banner } from '@components/header/Banner'
-import { MenuNames } from '@src/constants/mysql-query'
-import { getTermBy } from '@src/db/mysql/getTermBy'
-import { TermTypes } from '@src/types/wordpress'
-import { Archive } from '@components/(wordpress)/archive/Archive'
+import { notFound } from 'next/navigation'
 import { unstable_cache } from 'next/cache'
+/* Components */
+import Banner from '@components/header/Banner'
+import { Archive as ArchiveComponent } from '@components/wordpress/archive/Archive'
+/* Helpers */
+import { getTermBy } from '@src/db/mysql/getTermBy'
+import { TermTypes } from '@src/constants/wordpress'
 import { DAY_IN_SECONDS, HOUR_IN_SECONDS } from '@common/constants/datetime'
-import NotFound from '@app/not-found'
+import { BASE_URL } from '@src/constants/system'
+import { MenuNames } from '@src/constants/mysql-query'
 
-export const generateMetadata = async (
-    props: ArchiveProps,
-): Promise<Metadata> => {
+type Props = {
+    params: Promise<{
+        type: string
+        slug: string
+        page: string
+    }>
+}
+
+export const generateMetadata = async (props: Props): Promise<Metadata> => {
     const { type, slug, page } = await props.params
     const requestArchive = unstable_cache(
         async (type, slug, page) => await getTermBy(type, slug, page),
@@ -23,14 +30,12 @@ export const generateMetadata = async (
         },
     )
 
-    let archive
-    try {
-        archive = await requestArchive(type as TermTypes, slug, parseInt(page))
-    } catch {
-        return {}
-    }
-
-    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/archive/${type}/${slug}/page/${page}`
+    const archive = await requestArchive(
+        type as TermTypes,
+        slug,
+        parseInt(page),
+    )
+    const url = `${BASE_URL}/archive/${type}/${slug}/page/${page}`
     const keywords = archive.posts
         .map((post) => post.tags.map((tag) => tag.title))
         .flat()
@@ -47,9 +52,7 @@ export const generateMetadata = async (
     }
 }
 
-export default async function ArchivePage(
-    props: PropsWithChildren<ArchiveProps>,
-) {
+export default async function Archive(props: Props) {
     const { type, slug, page } = await props.params
     const requestArchive = unstable_cache(
         async (type, slug, page) => await getTermBy(type, slug, page),
@@ -59,15 +62,13 @@ export default async function ArchivePage(
             revalidate: HOUR_IN_SECONDS,
         },
     )
-
-    let archive
-    try {
-        archive = await requestArchive(type as TermTypes, slug, parseInt(page))
-    } catch {
-        return NotFound()
-    }
-
+    const archive = await requestArchive(
+        type as TermTypes,
+        slug,
+        parseInt(page),
+    ).catch(() => notFound())
     const { title, excerpt, image } = archive
+
     return (
         <main>
             <Banner
@@ -80,7 +81,7 @@ export default async function ArchivePage(
                 }}
             />
 
-            <Archive term={archive} />
+            <ArchiveComponent term={archive} />
         </main>
     )
 }

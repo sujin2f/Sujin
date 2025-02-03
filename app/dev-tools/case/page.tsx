@@ -1,14 +1,13 @@
 'use client'
-
 import React, { useState, useCallback } from 'react'
 import Link from 'next/link'
-
+/* Components */
 import { Input } from '@common/components/forms/Input'
 import { Column } from '@common/components/layout/Column'
 import { Row } from '@common/components/layout/Row'
+import ScrollToTop from '@components/ScrollToTop'
+/* Helpers */
 import { copyText } from '@common/utils/device'
-import { ScrollToTop } from '@components/ScrollToTop'
-
 import {
     preserveCase,
     camelCase,
@@ -20,7 +19,6 @@ import {
     pathCase,
     dotCase,
 } from '@src/utils/dev-tools'
-import '@src/scss/dev-tool.scss'
 
 const CASES: Record<string, (text: string[]) => string> = {
     camelCase: camelCase,

@@ -1,8 +1,8 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import Link from 'next/link'
-
-import { Term } from '@src/types/wordpress'
-
+/* Helpers */
+import type { Term } from '@src/types/wordpress'
+/* Assets */
 import '@src/scss/tags.scss'
 
 interface Props {
@@ -10,13 +10,11 @@ interface Props {
 }
 
 export const Tags = (props: Props) => {
-    const { items } = props
-
     return (
-        <Fragment>
-            {items && items.length !== 0 && (
+        <>
+            {props.items.length !== 0 && (
                 <ul className="tag__container">
-                    {items.map((tag: Term, index: number) => (
+                    {props.items.map((tag: Term, index: number) => (
                         <li key={`tag-${index}-${tag.slug}`}>
                             <Link
                                 href={`/tag/${tag.slug}/page/1`}
@@ -28,6 +26,6 @@ export const Tags = (props: Props) => {
                     ))}
                 </ul>
             )}
-        </Fragment>
+        </>
     )
 }

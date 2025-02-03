@@ -4,10 +4,10 @@ import Link from 'next/link'
 import { Image } from '@common/components/containers/image'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
-import { Latex } from '@components/(wordpress)/single/Latex'
-import { PrevNext } from '@components/(wordpress)/single/PrevNext'
+import { Latex } from '@components/wordpress/single/Latex'
+import { PrevNext } from '@components/wordpress/single/PrevNext'
 /* Helpers */
-import { ScrollToTop } from '@components/ScrollToTop'
+import ScrollToTop from '@components/ScrollToTop'
 import type { Post } from '@src/types/wordpress'
 /* Assets */
 import pic58 from '@src/images/ether/pic58.png'

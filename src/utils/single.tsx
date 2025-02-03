@@ -1,14 +1,15 @@
 import React, { Fragment, JSX, createElement } from 'react'
 
-import { Named, AttrMatch } from '@src/types/wordpress'
-import { Gist } from '@components/(wordpress)/single/Gist'
-import { TweetEmbed } from '@components/(wordpress)/single/TweetEmbed'
-import { AboutItem } from '@components/(wordpress)/single/AboutItem'
-import { Carousel } from '@components/(wordpress)/single/Carousel'
-import { Caption } from '@components/(wordpress)/single/Caption'
-import { Code } from '@components/(wordpress)/single/Code'
-
-import DEFAULT_BACKGROUND from '@src/images/thumbnail.svg'
+/* Components */
+import { Gist } from '@components/wordpress/single/Gist'
+import { TweetEmbed } from '@components/wordpress/single/TweetEmbed'
+import { AboutItem } from '@components/wordpress/single/AboutItem'
+import { Carousel } from '@components/wordpress/single/Carousel'
+import { Caption } from '@components/wordpress/single/Caption'
+import { Code } from '@components/wordpress/single/Code'
+/* Helpers */
+import type { Named, AttrMatch, Post } from '@src/types/wordpress'
+import { FACEBOOK_SHARE, TWITTER_SHARE } from '@src/constants/system'
 
 interface UrlArgs {
     [key: string]: string
@@ -175,25 +176,25 @@ export const removeExtraParagraph = (value: string) => {
         .trim()
 }
 
-// export function parseSeries(
-//     id: number,
-//     seriesPosts?: SimplePost[],
-// ): StateLeftRail {
-//     if (!seriesPosts || seriesPosts.length === 0) {
-//         return {}
-//     }
+/**
+ * @todo
+ */
+export function parseSeries(id: number, seriesPosts?: Post[]) {
+    if (!seriesPosts || seriesPosts.length === 0) {
+        return {}
+    }
 
-//     return {
-//         Series: {
-//             ...seriesPosts.reduce((acc, series: SimplePost) => {
-//                 return {
-//                     ...acc,
-//                     [series.title]: series.link,
-//                 }
-//             }, {}),
-//         },
-//     }
-// }
+    return {
+        Series: {
+            ...seriesPosts.reduce((acc, series) => {
+                return {
+                    ...acc,
+                    [series.title]: series.link,
+                }
+            }, {}),
+        },
+    }
+}
 
 const getNewWindowFeatures = (): string => {
     const top = (window.innerHeight - 600) / 2
@@ -201,25 +202,26 @@ const getNewWindowFeatures = (): string => {
     return `toolbar=0,status=0,resizable=yes,width=500,height=600,top=${top},left=${left}`
 }
 
-export const shareTwitter = (text: string): void => {
-    const url = addQueryArgs('https://www.twitter.com/intent/tweet', {
+export const shareTwitter = (path: string, text: string): void => {
+    const url = addQueryArgs(TWITTER_SHARE, {
         text,
-        url: window.location.href,
+        url: path,
     })
 
     window.open(url, 'Twitter', getNewWindowFeatures())
 }
 
 export const shareFacebook = (
+    path: string,
     title: string,
     excerpt: string,
     thumbnail: string,
 ): void => {
-    const url = addQueryArgs('https://www.facebook.com/sharer/sharer.php', {
-        u: window.location.href,
-        picture: thumbnail || DEFAULT_BACKGROUND,
-        text: (title && encodeURIComponent(title)) || '',
-        quote: (excerpt && encodeURIComponent(excerpt)) || '',
+    const url = addQueryArgs(FACEBOOK_SHARE, {
+        u: path,
+        picture: thumbnail,
+        text: title && encodeURIComponent(title),
+        quote: excerpt && encodeURIComponent(excerpt),
     })
 
     window.open(url, 'Facebook', getNewWindowFeatures())

@@ -1,4 +1,4 @@
-export const flickr = {
+export const STATIC_FLICKR = {
     title: 'Uploads from Sujin Choi',
     link: 'https://www.flickr.com/photos/ming-zoo/',
     modified: '2018-07-28T18:38:55Z',

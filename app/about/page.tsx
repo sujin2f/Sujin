@@ -1,23 +1,26 @@
 import type { Metadata } from 'next/types'
-
-import { Banner } from '@components/header/Banner'
-import { MenuNames } from '@src/constants/mysql-query'
-import { getPost } from '@src/db/mysql/getPost'
-import { Page } from '@components/(wordpress)/single/Page'
 import { unstable_cache } from 'next/cache'
+import { notFound } from 'next/navigation'
+/* Components */
+import Banner from '@components/header/Banner'
+import { Page } from '@components/wordpress/single/Page'
+/* Helpers */
+import { getPost } from '@src/db/mysql/getPost'
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
-import NotFound from '@app/not-found'
+import { BASE_URL } from '@src/constants/system'
+import { getThumbnailFromPost } from '@src/utils/wordpress'
+import { MenuNames } from '@src/constants/mysql-query'
 
 export const metadata: Metadata = {
     title: 'About Sujin Choi',
     openGraph: {
         title: 'About Sujin Choi',
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/about`,
+        url: `${BASE_URL}/about`,
     },
-    metadataBase: new URL(`${process.env.NEXT_PUBLIC_BASE_URL}/about`),
+    metadataBase: new URL(`${BASE_URL}/about`),
 }
 
-export default async function Layout() {
+export default async function About() {
     const requestPost = unstable_cache(
         async () => await getPost('about'),
         ['about'],
@@ -27,17 +30,8 @@ export default async function Layout() {
         },
     )
 
-    let post
-
-    try {
-        post = await requestPost()
-    } catch {
-        return NotFound()
-    }
-
-    const thumbnail =
-        (post && (post.images.list?.url || post.images.thumbnail?.url)) ||
-        '/assets/thumbnail.png'
+    const post = await requestPost().catch(() => notFound())
+    const thumbnail = getThumbnailFromPost(post)
 
     return (
         <main>

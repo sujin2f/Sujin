@@ -1,16 +1,24 @@
-import { PropsWithChildren } from 'react'
+import { notFound } from 'next/navigation'
+import { unstable_cache } from 'next/cache'
 import type { Metadata } from 'next/types'
-
-import { Banner } from '@components/header/Banner'
-import { MenuNames } from '@src/constants/mysql-query'
+/* Components */
+import Banner from '@components/header/Banner'
+import { Post } from '@components/wordpress/single/Post'
+/* Helpers */
 import { getPost } from '@src/db/mysql/getPost'
 import { updateHit } from '@src/db/mysql/getTagCloud'
-import { Post } from '@components/(wordpress)/single/Post'
-import { unstable_cache } from 'next/cache'
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
-import NotFound from '@app/not-found'
+import { BASE_URL } from '@src/constants/system'
+import { getThumbnailFromPost } from '@src/utils/wordpress'
+import { MenuNames } from '@src/constants/mysql-query'
 
-export const generateMetadata = async (props: PageProps): Promise<Metadata> => {
+type Props = {
+    params: Promise<{
+        slug: string
+    }>
+}
+
+export const generateMetadata = async (props: Props): Promise<Metadata> => {
     const { slug } = await props.params
     const requestPost = unstable_cache(
         async (slug) => await getPost(slug),
@@ -20,20 +28,10 @@ export const generateMetadata = async (props: PageProps): Promise<Metadata> => {
             revalidate: HOUR_IN_SECONDS,
         },
     )
+    const post = await requestPost(slug)
 
-    let post
-
-    try {
-        post = await requestPost(slug)
-    } catch {
-        return {}
-    }
-
-    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/blog/${slug}`
-    const images =
-        post.images.thumbnail?.url ||
-        post.images.list?.url ||
-        `${process.env.NEXT_PUBLIC_BASE_URL}/assets/thumbnail.png`
+    const url = `${BASE_URL}/blog/${slug}`
+    const images = getThumbnailFromPost(post)
     const keywords = post.tags.map((tag) => tag.title)
 
     return {
@@ -49,7 +47,7 @@ export const generateMetadata = async (props: PageProps): Promise<Metadata> => {
     }
 }
 
-export default async function Layout(props: PropsWithChildren<PageProps>) {
+export default async function SinglePost(props: Props) {
     const { slug } = await props.params
     const requestPost = unstable_cache(
         async (slug) => await getPost(slug),
@@ -59,23 +57,14 @@ export default async function Layout(props: PropsWithChildren<PageProps>) {
             revalidate: HOUR_IN_SECONDS,
         },
     )
-
-    let post
-
-    try {
-        post = await requestPost(slug)
-    } catch {
-        return NotFound()
-    }
-
-    const thumbnail =
-        (post && (post.images.list?.url || post.images.thumbnail?.url)) ||
-        '/assets/thumbnail.png'
+    const post = await requestPost(slug).catch(() => notFound())
+    const thumbnail = getThumbnailFromPost(post)
 
     // Update Tag Cloud
     if (post.tags.length) {
         post.tags.forEach((tag) => updateHit(tag.id))
     }
+
     return (
         <main>
             <Banner

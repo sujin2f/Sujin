@@ -1,15 +1,13 @@
 'use client'
-
 import React, { useState, useMemo } from 'react'
-
+/* Components */
 import { Input } from '@common/components/forms/Input'
-import { Column } from '@common/components/layout/Column'
 import { Row } from '@common/components/layout/Row'
+import { Column } from '@common/components/layout/Column'
+import ScrollToTop from '@components/ScrollToTop'
+/* Helpers */
 import { map } from '@common/utils/array'
 import { getMaxCols, getRows, sortText } from '@src/utils/dev-tools'
-import { ScrollToTop } from '@components/ScrollToTop'
-
-import '@src/scss/dev-tool.scss'
 
 export default function TextSort() {
     const [text, setText] = useState('')

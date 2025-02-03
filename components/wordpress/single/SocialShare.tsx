@@ -1,16 +1,17 @@
 'use client'
-
 import React from 'react'
-
+import { usePathname } from 'next/navigation'
+/* Components */
 import { Button } from '@common/components/forms/Button'
+/* Helpers */
 import { shareTwitter, shareFacebook } from '@src/utils/single'
-
+import { BASE_URL } from '@src/constants/system'
+/* Assets */
 import Twitter from '@src/images/twitter.svg'
 import Facebook from '@src/images/facebook.svg'
-
 import '@src/scss/social-share.scss'
 
-interface Props {
+type Props = {
     title: string
     excerpt: string
     thumbnail: string
@@ -18,20 +19,21 @@ interface Props {
 
 export const SocialShare = (props: Props) => {
     const { title, excerpt, thumbnail } = props
+    const path = `${BASE_URL}${usePathname()}`
 
     return (
         <nav className="social-share">
             <Button
                 vanilla
                 className="social-share__button social-share__button--twitter"
-                onClick={() => shareTwitter(title)}
+                onClick={() => shareTwitter(path, title)}
             >
                 <Twitter />
             </Button>
             <Button
                 vanilla
                 className="social-share__button social-share__button--facebook"
-                onClick={() => shareFacebook(title, excerpt, thumbnail)}
+                onClick={() => shareFacebook(path, title, excerpt, thumbnail)}
             >
                 <Facebook />
             </Button>

@@ -1,10 +1,9 @@
 'use client'
-
 import React, { useRef } from 'react'
-
-import { AttrMatch } from '@src/types/wordpress'
-import { replaceQuotes } from '@src/utils/single'
 import Script from 'next/script'
+/* Helpers */
+import { replaceQuotes } from '@src/utils/single'
+import type { AttrMatch } from '@src/types/wordpress'
 
 interface Props {
     value: AttrMatch

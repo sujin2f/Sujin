@@ -1,10 +1,10 @@
 import Link from 'next/link'
 /* Components */
 import { Image } from '@common/components/containers/image'
-import { PrevNext } from '@components/(wordpress)/single/PrevNext'
+import { PrevNext } from '@components/wordpress/single/PrevNext'
 /* Helpers */
 import type { Post } from '@src/types/wordpress'
-import { ScrollToTop } from '@components/ScrollToTop'
+import ScrollToTop from '@components/ScrollToTop'
 /* Assets */
 import pic13 from '@src/images/ether/pic13_eng.png'
 import pic14 from '@src/images/ether/pic14_eng.png'

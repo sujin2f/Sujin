@@ -7,9 +7,9 @@ import {
     GQLString,
     GQLType,
 } from '@common/data/graphql/type'
-import { Nullable } from '@common/types'
-import { FlickrImage } from '@src/types/flickr'
-import { TermTypes } from '@src/types/wordpress'
+import type { Nullable } from '@common/types'
+import type { FlickrImage } from '@src/types/flickr'
+import { TermTypes } from '@src/constants/wordpress'
 import type {
     ImageSize,
     Image,

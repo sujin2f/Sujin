@@ -1,4 +1,4 @@
-import { MenuItem } from '@src/types/wordpress'
+import type { MenuItem } from '@src/types/wordpress'
 
 const menu = {
     id: 0,

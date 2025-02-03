@@ -1,12 +1,13 @@
 import React from 'react'
-
-import { ScrollToTop } from '@components/ScrollToTop'
-import { Cards } from '@components/(wordpress)/archive/cards'
-import { Paging } from '@components/(wordpress)/archive/paging'
+/* Components */
+import ScrollToTop from '@components/ScrollToTop'
+import { Cards } from '@components/wordpress/archive/cards'
+import { Paging } from '@components/wordpress/archive/paging'
 import { Row } from '@common/components/layout/Row'
-import { Term as TermType } from '@src/types/wordpress'
+/* Helpers */
+import type { Term } from '@src/types/wordpress'
 
-export const Archive = ({ term }: { term: TermType }) => {
+export const Archive = ({ term }: { term: Term }) => {
     const { slug, type, posts, pages, page } = term
     return (
         <>

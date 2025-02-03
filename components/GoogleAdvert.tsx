@@ -1,13 +1,14 @@
-'use client'
+import React from 'react'
 import Script from 'next/script'
-import React, { Fragment } from 'react'
+/* Helpers */
+import { IS_DEV } from '@src/constants/system'
 
 interface Props {
     readonly responsive?: boolean
     readonly place: 'footer' | 'sidebar'
 }
 
-export function GoogleAdvert(props: Props) {
+const GoogleAdvert = (props: Props) => {
     const { responsive } = props
 
     const client = process.env.NEXT_PUBLIC_GOOGLE_AD_CLIENT
@@ -16,21 +17,12 @@ export function GoogleAdvert(props: Props) {
             ? process.env.NEXT_PUBLIC_FOOTER_GOOGLE_AD_SLOT
             : process.env.NEXT_PUBLIC_SIDEBAR_GOOGLE_AD_SLOT
 
-    if (process.env.NODE_ENV === 'development' || !client || !slot) {
-        return <Fragment></Fragment>
-    }
-
-    if (!client || !slot) {
-        return <Fragment></Fragment>
+    if (IS_DEV || !client || !slot) {
+        return <></>
     }
 
     return (
         <>
-            <Script
-                async
-                src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${client}`}
-                crossOrigin="anonymous"
-            ></Script>
             <section className="widget google-advert">
                 <ins
                     className="adsbygoogle"
@@ -47,3 +39,5 @@ export function GoogleAdvert(props: Props) {
         </>
     )
 }
+
+export default GoogleAdvert

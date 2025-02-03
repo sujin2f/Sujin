@@ -1,10 +1,6 @@
 'use server'
-
 import { MySQLQuery, PER_PAGE } from '@src/constants/mysql-query'
-import { PostType } from '@src/constants/wp'
-import { Post, Term, ImageKeys, Image, TermTypes } from '@src/types/wordpress'
-import { Nullable } from '@common/types'
-import { dateToPrettyUrl } from '@src/utils/common'
+import { PostType, TermTypes } from '@src/constants/wordpress'
 import { autop } from '@src/utils/wordpress'
 import { MySQL } from '@src/db/mysql'
 import { getPostMeta } from '@src/db/mysql/getPostMeta'
@@ -12,11 +8,13 @@ import { getTaxonomies } from '@src/db/mysql/getTaxonomies'
 import { getMedia } from '@src/db/mysql/getMedia'
 import { DAY_IN_SECONDS } from '@common/constants/datetime'
 import { Cached } from '@common/model/Cached'
+import type { Post, Term, ImageKeys, Image } from '@src/types/wordpress'
+import type { Nullable } from '@common/types'
 
 const getPostLink = (post: Post): string => {
     switch (post.type) {
         case PostType.POST:
-            return `/${dateToPrettyUrl(new Date(post.date))}/${post.slug}`
+            return `/blog/${post.slug}`
         case PostType.PAGE:
             return `/${post.slug}`
     }

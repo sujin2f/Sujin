@@ -5,8 +5,24 @@
  */
 
 import { formatDate } from '@common/utils/datetime'
-import { Post } from '@src/types/wordpress'
-import { format } from '@src/utils/common'
+import type { Post } from '@src/types/wordpress'
+
+/**
+ * Making a formatted string
+ * Replace {n} to args
+ *
+ * @param {string} str
+ * @param {string[]} args
+ * @return {string}
+ */
+const format = (str: string, ...args: (string | number)[]): string => {
+    let result = str
+
+    args.forEach((arg: string | number, idx: number) => {
+        result = result.replace(new RegExp(`\\{${idx}\\}`, 'g'), arg.toString())
+    })
+    return result
+}
 
 const POST_FIELDS = `
     posts.ID AS id,
@@ -287,6 +303,7 @@ export enum MenuNames {
     DEV_TOOL = 'devtool',
     ETHER = 'ether',
     ETHER_KOR = 'ether-kor',
+    E = 'E',
 }
 
 export enum MenuItemTypes {

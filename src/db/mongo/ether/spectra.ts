@@ -6,6 +6,7 @@ import { insertManyFromCSV } from '@src/db/mongo/ether/util'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { Cached } from '@common/model/Cached'
 import { WithId } from 'mongodb'
+import { IS_DEV } from '@src/constants/system'
 
 /**
  * Requests spectra data
@@ -41,7 +42,7 @@ export const getSpectraFromNIST = async (atom: Atom, ion: number) => {
         key,
         async () => await request(atom, ion),
         WEEK_IN_SECONDS,
-        true,
+        IS_DEV,
     )
 }
 
@@ -51,7 +52,7 @@ export const findSpectra = async (spectrum: Partial<ISpectrum>) => {
         key,
         async () => await Mongo.findMany<ISpectrum>('spectra', spectrum),
         WEEK_IN_SECONDS,
-        true,
+        IS_DEV,
     )
 }
 

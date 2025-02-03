@@ -1,5 +1,3 @@
-'use server'
-
 import type { Image, Post } from '@src/types/wordpress'
 import { MySQL } from '@src/db/mysql'
 import { MySQLQuery } from '@src/constants/mysql-query'
@@ -21,6 +19,10 @@ export const request = async (): Promise<Image[]> => {
         if (image) {
             result.push(image)
         }
+    }
+
+    if (!result.length) {
+        throw Error(`Background is empty.`)
     }
 
     return result

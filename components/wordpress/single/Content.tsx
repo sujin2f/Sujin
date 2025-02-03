@@ -1,9 +1,8 @@
 'use client'
-
 import React, { Fragment, PropsWithChildren } from 'react'
-
+/* Helpers */
 import { parseContent } from '@src/utils/single'
-import { Post } from '@src/types/wordpress'
+import type { Post } from '@src/types/wordpress'
 
 type Props = {
     post: Post

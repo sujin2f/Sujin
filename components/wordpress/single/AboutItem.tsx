@@ -1,11 +1,8 @@
 import React from 'react'
-
-import { AttrMatch } from '@src/types/wordpress'
-import {
-    replaceQuotes as getter,
-    removeExtraParagraph,
-} from '@src/utils/single'
-
+/* Helpers */
+import { replaceQuotes, removeExtraParagraph } from '@src/utils/single'
+import type { AttrMatch } from '@src/types/wordpress'
+/* Assets */
 import '@src/scss/about-item.scss'
 
 interface Props {
@@ -17,9 +14,9 @@ export const AboutItem = (props: Props) => {
         value: { named },
     } = props
 
-    const from = getter(named, 'from')
-    const to = getter(named, 'to')
-    const content = getter(named, 'innerContent')
+    const from = replaceQuotes(named, 'from')
+    const to = replaceQuotes(named, 'to')
+    const content = replaceQuotes(named, 'innerContent')
 
     return (
         <div className="about-item">

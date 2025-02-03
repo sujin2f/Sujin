@@ -1,28 +1,18 @@
-'use client'
 import React from 'react'
-
-import { FixedHeader } from '@components/header/FixedHeader'
+/* Components */
+import FixedHeader from '@components/header/FixedHeader'
+/* Helpers */
 import { MenuNames } from '@src/constants/mysql-query'
-import { usePathname } from 'next/navigation'
+import { getPathName } from '@src/utils/server'
+import { getMenuNameFromPath } from '@src/utils/system'
 
-export default function Header() {
-    const path = usePathname()
-
-    if (path?.startsWith('/ether/kor')) {
-        return <FixedHeader menu={MenuNames.ETHER_KOR} />
-    }
-
+const Header = async () => {
+    const path = await getPathName()
     if (path?.startsWith('/ether/data')) {
         return <FixedHeader menu={MenuNames.ETHER} className="top-bar--ether" />
     }
 
-    if (path?.startsWith('/ether')) {
-        return <FixedHeader menu={MenuNames.ETHER} />
-    }
-
-    if (path?.startsWith('/dev-tools')) {
-        return <FixedHeader menu={MenuNames.DEV_TOOL} />
-    }
-
-    return <FixedHeader menu={MenuNames.MAIN} />
+    const menu = getMenuNameFromPath(path)
+    return <FixedHeader menu={menu} />
 }
+export default Header

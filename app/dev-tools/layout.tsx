@@ -1,32 +1,28 @@
-import { headers } from 'next/headers'
-
-import { Banner } from '@components/header/Banner'
-import { MenuNames } from '@src/constants/mysql-query'
+import type { PropsWithChildren } from 'react'
 import type { Metadata } from 'next/types'
-import { PropsWithChildren } from 'react'
-import { metadata } from '@src/constants/metadata'
+/* Components */
+import Banner from '@components/header/Banner'
+/* Helpers */
+import { MenuNames } from '@src/constants/mysql-query'
+import { getMetaData } from '@src/utils/server'
+/* Assets */
+import '@src/scss/dev-tool.scss'
 
 export const generateMetadata = async (): Promise<Metadata> => {
-    const path = (await headers()).get('x-pathname')
-    if (!path || !metadata[path]) {
-        return {}
-    }
-    const data = metadata[path]
-    const metadataBase = data.openGraph?.url
-        ? new URL(data.openGraph?.url)
-        : undefined
+    const metadata = await getMetaData()
+    const metadataBase = new URL(metadata.openGraph.url)
 
     return {
-        ...data,
-        title: `Sujin | Dev Tool | ${data.title}`,
+        ...metadata,
+        title: `Sujin | Dev Tool | ${metadata.title}`,
         openGraph: {
-            title: `Sujin | ${data}`,
+            title: `Sujin | ${metadata}`,
         },
         metadataBase,
     }
 }
 
-export default async function Layout({ children }: PropsWithChildren) {
+export default async function DevToolLayout({ children }: PropsWithChildren) {
     return (
         <main>
             <Banner menu={MenuNames.DEV_TOOL} />

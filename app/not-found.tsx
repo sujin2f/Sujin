@@ -1,7 +1,10 @@
-import { Banner } from '@components/header/Banner'
-import NotFoundArticles from '@components/NotFoundArticles'
-import { MenuNames } from '@src/constants/mysql-query'
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
+/* Components */
+import Banner from '@components/header/Banner'
+import ArchiveRecent from '@components/NotFoundArticles'
+/* Helpers */
+import { getPathName } from '@src/utils/server'
+import { getMenuNameFromPath } from '@src/utils/system'
 
 export const metadata: Metadata = {
     robots: {
@@ -11,18 +14,20 @@ export const metadata: Metadata = {
     },
 }
 
-export default function NotFound() {
+export default async function NotFound() {
+    const path = await getPathName()
+    const menu = getMenuNameFromPath(path)
     return (
         <main>
             <Banner
-                menu={MenuNames.MAIN}
+                menu={menu}
                 banner={{
                     title: '404 Not Found',
                     excerpt:
                         'We cannot find the result. See below for recent articles.',
                 }}
             />
-            <NotFoundArticles />
+            <ArchiveRecent />
         </main>
     )
 }

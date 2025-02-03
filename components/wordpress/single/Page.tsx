@@ -1,19 +1,19 @@
 import React from 'react'
-
+/* Components */
 import { Column } from '@common/components/layout/Column'
 import { Row } from '@common/components/layout/Row'
-import { SocialShare } from '@components/(wordpress)/single/SocialShare'
-import { Content } from '@components/(wordpress)/single/Content'
-import { ScrollToTop } from '@components/ScrollToTop'
-import { Post } from '@src/types/wordpress'
+import { SocialShare } from '@components/wordpress/single/SocialShare'
+import { Content } from '@components/wordpress/single/Content'
+import ScrollToTop from '@components/ScrollToTop'
+/* Helpers */
+import type { Post } from '@src/types/wordpress'
 
-export const Page = ({
-    post,
-    thumbnail,
-}: {
+type Props = {
     post: Post
     thumbnail: string
-}) => {
+}
+
+export const Page = ({ post, thumbnail }: Props) => {
     return (
         <Row>
             <ScrollToTop />

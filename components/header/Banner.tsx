@@ -1,34 +1,31 @@
 'use client'
-
-import React, { Fragment, ReactNode } from 'react'
+import React, { Fragment, type ReactNode } from 'react'
 import { usePathname } from 'next/navigation'
-
 /* Components */
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 import { Menu } from '@common/components/layout/Menu'
 /* Helpers */
 import { joinClassNames, removeURLProtocol } from '@common/utils/string'
-import { ImageType } from '@src/constants/wp'
-import { getImageMap } from '@src/utils/common'
-import { getMenu } from '@src/utils/menu'
+import { getImageMap } from '@src/utils/wordpress'
+import { getMenu } from '@src/utils/system'
+import { METADATA } from '@src/constants/system'
+import { ImageType } from '@src/constants/wordpress'
+import { MenuNames } from '@src/constants/mysql-query'
 import type { Image } from '@src/types/wordpress'
-import { metadata } from '@src/constants/metadata'
 /* Assets */
 import '@src/scss/banner.scss'
 
-export type BannerType = {
-    title?: string | ReactNode
-    excerpt?: string
-    icon?: Image
-    prefix?: string
-    background?: Image
-    backgroundColor?: string
-}
-
 type Props = {
-    banner?: BannerType
-    menu: string
+    banner?: {
+        title?: string | ReactNode
+        excerpt?: string
+        icon?: Image
+        prefix?: string
+        background?: Image
+        backgroundColor?: string
+    }
+    menu: MenuNames
 }
 
 /**
@@ -37,33 +34,30 @@ type Props = {
  * @param {BannerType} props.banner - The banner data.
  * @param {string} props.menu - The menu name to be used in the banner.
  */
-export function Banner({ menu: menuName, banner }: Props) {
-    const menu = getMenu(menuName)
+export default function Banner(props: Props) {
+    const menu = getMenu(props.menu)
     const path = usePathname()
 
     const title =
-        path && metadata[path]
-            ? metadata[path].title?.toString()
-            : banner?.title
+        path && METADATA[path] ? METADATA[path].title : props.banner?.title
     const excerpt =
-        path && metadata[path] ? metadata[path].description : banner?.excerpt
+        path && METADATA[path]
+            ? METADATA[path].description
+            : props.banner?.excerpt
 
-    const style =
-        banner && banner.backgroundColor
-            ? {
-                  backgroundColor: banner.backgroundColor,
-              }
-            : {}
+    const style = props.banner?.backgroundColor
+        ? {
+              backgroundColor: props.banner.backgroundColor,
+          }
+        : {}
 
-    const imageMapBackground =
-        banner && banner.background
-            ? getImageMap(ImageType.HEADER, banner.background.sizes)
-            : []
+    const imageMapBackground = props.banner?.background
+        ? getImageMap(ImageType.HEADER, props.banner.background.sizes)
+        : null
 
-    const imageMapIcon =
-        banner && banner.icon
-            ? getImageMap(ImageType.ICON, banner.icon.sizes)
-            : []
+    const imageMapIcon = props.banner?.icon
+        ? getImageMap(ImageType.ICON, props.banner.icon.sizes)
+        : null
 
     return (
         <Fragment>
@@ -78,21 +72,23 @@ export function Banner({ menu: menuName, banner }: Props) {
 
                 <div className="banner__overlay"></div>
 
-                {banner && banner.background && (
+                {imageMapBackground && (
                     <picture className="banner__background">
                         {imageMapBackground.map((map) => (
                             <source
                                 key={`header-${map.file}`}
                                 media={map.key}
                                 srcSet={map.file}
-                                type={banner.background?.mimeType}
+                                type={props.banner!.background!.mimeType}
                             />
                         ))}
 
                         <img
                             alt=""
                             role="presentation"
-                            src={removeURLProtocol(banner.background.url)}
+                            src={removeURLProtocol(
+                                props.banner!.background!.url,
+                            )}
                         />
                     </picture>
                 )}
@@ -100,15 +96,15 @@ export function Banner({ menu: menuName, banner }: Props) {
                 <div
                     className={joinClassNames(
                         'banner__header',
-                        banner && banner.icon && 'banner__header--with-icon',
+                        props.banner?.icon && 'banner__header--with-icon',
                     )}
                 >
                     <Row>
                         <Column small={12} className="column--banner__title">
                             <h1 className="banner__title">
-                                {banner && banner.prefix ? (
+                                {props.banner?.prefix ? (
                                     <span className="banner__title__tag">
-                                        {banner.prefix}
+                                        {props.banner.prefix}
                                     </span>
                                 ) : null}
 
@@ -123,14 +119,14 @@ export function Banner({ menu: menuName, banner }: Props) {
                 </div>
             </section>
 
-            {banner && banner.icon && (
+            {imageMapIcon && (
                 <picture className="banner__icon__container">
                     {imageMapIcon.map((map) => (
                         <source
                             key={`icon-${map.file}`}
                             media={map.key}
                             srcSet={map.file}
-                            type={banner.icon?.mimeType}
+                            type={props.banner!.icon!.mimeType}
                         />
                     ))}
 
@@ -138,7 +134,7 @@ export function Banner({ menu: menuName, banner }: Props) {
                         alt=""
                         className="banner__icon"
                         role="presentation"
-                        src={removeURLProtocol(banner.icon.url)}
+                        src={removeURLProtocol(props.banner!.icon!.url)}
                     />
                 </picture>
             )}

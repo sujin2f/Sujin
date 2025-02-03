@@ -1,6 +1,6 @@
-import { ChartOptions } from 'chart.js/auto'
+import type { ChartOptions } from 'chart.js/auto'
 
-export const chartColors = [
+export const CHART_COLORS = [
     '#FF6699',
     '#FF9933',
     '#FFCC66',

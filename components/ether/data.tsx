@@ -1,8 +1,8 @@
 'use client'
 /* Components */
-import { Chart } from '@components/(ether)/chart'
-import { Table } from '@components/(ether)/table'
-import { ScrollToTop } from '@components/ScrollToTop'
+import { Chart } from '@components/ether/chart'
+import { Table } from '@components/ether/table'
+import ScrollToTop from '@components/ScrollToTop'
 /* Helpers */
 import type { ChartData, TableData } from '@src/types/ether'
 import { Row } from '@common/components/layout/Row'

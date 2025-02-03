@@ -1,14 +1,15 @@
 'use server'
-
 import { MySQLQuery, PER_PAGE } from '@src/constants/mysql-query'
 import { MySQL } from '@src/db/mysql'
-import { Term, TermTypes } from '@src/types/wordpress'
+import { TermTypes } from '@src/constants/wordpress'
 import { getTermMeta } from '@src/db/mysql/getTermMeta'
 import { getMedia } from '@src/db/mysql/getMedia'
 import { getPostsBy } from '@src/db/mysql/getPostsBy'
 import { Logger } from '@common/model/Logger'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { Cached } from '@common/model/Cached'
+import { IS_DEV } from '@src/constants/system'
+import type { Term } from '@src/types/wordpress'
 
 export const request = async (
     type: TermTypes,
@@ -60,6 +61,6 @@ export const getTermBy = async (
         key,
         async () => await request(type, slug, page),
         WEEK_IN_SECONDS,
-        process.env.NODE_ENV === 'development',
+        IS_DEV,
     )
 }

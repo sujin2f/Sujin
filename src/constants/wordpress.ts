@@ -1,3 +1,13 @@
+export enum TermTypes {
+    category = 'category',
+    tag = 'tag',
+    // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
+    post_tag = 'tag',
+    search = 'search',
+    recent_posts = 'recent-posts',
+    series = 'series',
+}
+
 export enum PostType {
     POST = 'post',
     PAGE = 'page',

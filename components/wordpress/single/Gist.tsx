@@ -1,7 +1,7 @@
 import React from 'react'
-
-import { AttrMatch } from '@src/types/wordpress'
-import { replaceQuotes as getter } from '@src/utils/single'
+/* Helpers */
+import { replaceQuotes } from '@src/utils/single'
+import type { AttrMatch } from '@src/types/wordpress'
 
 interface Props {
     value: AttrMatch
@@ -12,8 +12,8 @@ export const Gist = (props: Props) => {
         value: { named },
     } = props
 
-    const id = getter(named, 'id')
-    const file = getter(named, 'file') || ''
+    const id = replaceQuotes(named, 'id')
+    const file = replaceQuotes(named, 'file') || ''
 
     const arg = file ? `?file=${file}` : ''
     const link = `https://gist.github.com/${id}.js${arg}`

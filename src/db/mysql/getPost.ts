@@ -1,8 +1,9 @@
-import { Post } from '@src/types/wordpress'
+import { Cached } from '@common/model/Cached'
 import { getPostsBy } from '@src/db/mysql/getPostsBy'
 import { Logger } from '@common/model/Logger'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
-import { Cached } from '@common/model/Cached'
+import type { Post } from '@src/types/wordpress'
+import { IS_DEV } from '@src/constants/system'
 
 export const request = async (
     queryKey: 'id' | 'slug',
@@ -31,6 +32,6 @@ export const getPost = async (_slug: string) => {
         key,
         async () => await request('slug', slug),
         WEEK_IN_SECONDS,
-        process.env.NODE_ENV === 'development',
+        IS_DEV,
     )
 }
