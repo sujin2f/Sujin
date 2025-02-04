@@ -7,7 +7,7 @@
  * @author  Sujin 수진 Choi http://www.sujinc.com/
  */
 
-namespace Sujin\Wordpress\Theme\Sujin\Shortcode;
+namespace Sujin\WordPress\Theme\Sujin\Shortcode;
 
 use Sujin\Wordpress\WP_Express\Helpers\Trait_Singleton;
 
@@ -59,7 +59,7 @@ class About_Item {
 					<div><?php echo esc_html( $atts['to'] ); ?></div>
 				<?php } ?>
 			</div>
-			<div class="detail"><?php echo $content; ?></div>
+			<div class="detail"><?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- broken quote ?></div>
 		</div>
 		<?php
 

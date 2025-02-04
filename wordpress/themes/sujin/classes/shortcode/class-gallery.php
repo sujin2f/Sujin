@@ -7,7 +7,7 @@
  * @author  Sujin 수진 Choi http://www.sujinc.com/
  */
 
-namespace Sujin\Wordpress\Theme\Sujin\Shortcode;
+namespace Sujin\WordPress\Theme\Sujin\Shortcode;
 
 use Sujin\Wordpress\WP_Express\Helpers\Trait_Singleton;
 use Sujin\Wordpress\WP_Express\Fields\Post_Meta\Attachment;
@@ -64,7 +64,7 @@ class Gallery {
 
 		$attachments = Attachment::get_instance( 'Photos' )->get( $atts['id'] );
 		$attachments = array_map(
-			function( int $attachment ): string {
+			function ( int $attachment ): string {
 				return wp_get_attachment_url( $attachment );
 			},
 			$attachments,

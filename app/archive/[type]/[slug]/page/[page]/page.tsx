@@ -20,7 +20,9 @@ type Props = {
 }
 
 export const generateMetadata = async (props: Props): Promise<Metadata> => {
-    const { type, slug, page } = await props.params
+    const params = await props.params
+    const { slug, page } = params
+    const type = params.type === 'tag' ? TermTypes.post_tag : params.type
     const requestArchive = unstable_cache(
         async (type, slug, page) => await getTermBy(type, slug, page),
         [type, slug, page],
@@ -53,7 +55,9 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
 }
 
 export default async function Archive(props: Props) {
-    const { type, slug, page } = await props.params
+    const params = await props.params
+    const { slug, page } = params
+    const type = params.type === 'tag' ? TermTypes.post_tag : params.type
     const requestArchive = unstable_cache(
         async (type, slug, page) => await getTermBy(type, slug, page),
         [type, slug, page],

@@ -7,14 +7,14 @@
  * @author  Sujin 수진 Choi http://www.sujinc.com/
  */
 
-namespace Sujin\Wordpress\Theme\Sujin;
+namespace Sujin\WordPress\Theme\Sujin;
 
 // Shortcodes.
-use Sujin\Wordpress\Theme\Sujin\Shortcode\About_Item;
-use Sujin\Wordpress\Theme\Sujin\Shortcode\Gallery as Shortcode_Gallery;
+use Sujin\WordPress\Theme\Sujin\Shortcode\About_Item;
+use Sujin\WordPress\Theme\Sujin\Shortcode\Gallery as Shortcode_Gallery;
 
 // Modifiers.
-use Sujin\Wordpress\Theme\Sujin\Modifier\{
+use Sujin\WordPress\Theme\Sujin\Modifier\{
 	Taxonomies,
 	Post as Post_Modifier,
 	Post_Type\Gallery,

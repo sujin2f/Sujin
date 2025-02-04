@@ -7,7 +7,7 @@
  * @author  Sujin 수진 Choi http://www.sujinc.com/
  */
 
-namespace Sujin\Wordpress\Theme\Sujin\Modifier\Post_Type;
+namespace Sujin\WordPress\Theme\Sujin\Modifier\Post_Type;
 
 use Sujin\Wordpress\WP_Express\Helpers\Trait_Singleton;
 use Sujin\Wordpress\WP_Express\Meta_Box;

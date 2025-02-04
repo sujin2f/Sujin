@@ -31,7 +31,7 @@ export const Cards = ({ posts, keyPrefix, large, medium, small }: Props) => {
                 time={post.date}
                 image={getThumbnailFromPost(post)}
             >
-                <Tags items={post.tags} />
+                {post.tags && <Tags items={post.tags} />}
             </Card>
         </Column>
     ))

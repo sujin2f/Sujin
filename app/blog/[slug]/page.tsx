@@ -5,7 +5,7 @@ import type { Metadata } from 'next/types'
 import Banner from '@components/header/Banner'
 import { Post } from '@components/wordpress/single/Post'
 /* Helpers */
-import { getPost } from '@src/db/mysql/getPost'
+import { getPostBy } from '@src/db/mysql/getPostBy'
 import { updateHit } from '@src/db/mysql/getTagCloud'
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
 import { BASE_URL } from '@src/constants/system'
@@ -21,7 +21,7 @@ type Props = {
 export const generateMetadata = async (props: Props): Promise<Metadata> => {
     const { slug } = await props.params
     const requestPost = unstable_cache(
-        async (slug) => await getPost(slug),
+        async (slug) => await getPostBy('slug', slug),
         [slug],
         {
             tags: ['wordpress', 'post'],
@@ -50,7 +50,7 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
 export default async function SinglePost(props: Props) {
     const { slug } = await props.params
     const requestPost = unstable_cache(
-        async (slug) => await getPost(slug),
+        async (slug) => await getPostBy('slug', slug),
         [slug],
         {
             tags: ['wordpress', 'post'],

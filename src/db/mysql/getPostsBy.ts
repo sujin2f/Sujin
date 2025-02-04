@@ -204,6 +204,11 @@ export const getPostsBy = async (
             post_.related = await getRelatedPost(post_)
         }
 
+        const slug = post_.slug.toLowerCase()
+        const id = post_.id
+        await Cached.getInstance().set(`post-${slug}`, post_)
+        await Cached.getInstance().set(`post-${id}`, post_)
+
         posts.push(post_)
     }
 

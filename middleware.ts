@@ -41,6 +41,6 @@ export const config = {
         '/(category|tag|search)/:slug/page/:page',
         '/:year/:month/:date/:slug',
         '/dev-tools/:slug',
-        '/ether/(.*)',
+        '/ether(.*)',
     ],
 }

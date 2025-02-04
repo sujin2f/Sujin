@@ -6,10 +6,10 @@
  * @since   9.0.0
  * @author  Sujin 수진 Choi http://www.sujinc.com/
  */
-namespace Sujin\Wordpress\Theme\Sujin\Shortcode\About_Item;
+namespace Sujin\WordPress\Theme\Sujin\Shortcode\About_Item;
 
 use Test_Case_Theme_Sujin;
-use Sujin\Wordpress\Theme\Sujin\Shortcode\About_Item;
+use Sujin\WordPress\Theme\Sujin\Shortcode\About_Item;
 
 /**
  * [about-item] shortcode Unit Test

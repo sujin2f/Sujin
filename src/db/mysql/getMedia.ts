@@ -4,13 +4,13 @@ import { isEmpty } from '@common/utils/object'
 import { MetaKeys } from '@src/constants/mysql-query'
 import type { Image, ImageSizes, MediaRawData } from '@src/types/wordpress'
 import type { Nullable } from '@common/types'
-import { request } from '@src/db/mysql/getPost'
+import { getPostBy } from '@src/db/mysql/getPostBy'
 import { getPostMeta } from '@src/db/mysql/getPostMeta'
 
 export const getMedia = async (postId: number): Promise<Nullable<Image>> => {
     const result = {} as Image
 
-    const post = await request('id', postId, true)
+    const post = await getPostBy('id', postId, true)
     if (!post) {
         return
     }

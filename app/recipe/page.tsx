@@ -37,8 +37,6 @@ export default function Page() {
             }
         })
 
-    console.log(tools, order, ingredient)
-
     const [state, setState] = useState<Record<string, [number, number]>>({})
     const [width, setWidth] = useState(500)
     const [height, setHeight] = useState(500)

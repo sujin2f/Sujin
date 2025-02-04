@@ -1,14 +1,12 @@
 import { Cached } from '@common/model/Cached'
 import { getPostsBy } from '@src/db/mysql/getPostsBy'
 import { Logger } from '@common/model/Logger'
-import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import type { Post } from '@src/types/wordpress'
-import { IS_DEV } from '@src/constants/system'
 
-export const request = async (
+const request = async (
     queryKey: 'id' | 'slug',
     queryValue: string | number,
-    ignoreStatus = false,
+    ignoreStatus: boolean,
 ): Promise<Post> => {
     Logger.server(
         `Access MySQL for getting post key: ${queryKey} and value: ${queryValue}.`,
@@ -25,13 +23,18 @@ export const request = async (
     )
 }
 
-export const getPost = async (_slug: string) => {
-    const slug = _slug.toLowerCase()
-    const key = `post-${slug}`
+export const getPostBy = async (
+    queryKey: 'id' | 'slug',
+    queryValue: string | number,
+    ignoreStatus = false,
+) => {
+    let value = queryValue
+    if (typeof queryValue === 'string') {
+        value = queryValue.toLowerCase()
+    }
+    const key = `post-${value}`
     return await Cached.getInstance().getOrExecute(
         key,
-        async () => await request('slug', slug),
-        WEEK_IN_SECONDS,
-        IS_DEV,
+        async () => await request(queryKey, value, ignoreStatus),
     )
 }

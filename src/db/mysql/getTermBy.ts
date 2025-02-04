@@ -6,9 +6,7 @@ import { getTermMeta } from '@src/db/mysql/getTermMeta'
 import { getMedia } from '@src/db/mysql/getMedia'
 import { getPostsBy } from '@src/db/mysql/getPostsBy'
 import { Logger } from '@common/model/Logger'
-import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { Cached } from '@common/model/Cached'
-import { IS_DEV } from '@src/constants/system'
 import type { Term } from '@src/types/wordpress'
 
 export const request = async (
@@ -31,12 +29,13 @@ export const request = async (
     }
 
     const pages = Math.ceil(term.total / PER_PAGE)
-    const image = await getTermMeta<{ value: string }>(
-        term.id,
-        'thumbnail',
-    ).then(async (data) =>
-        data && data.value ? await getMedia(parseInt(data.value)) : undefined,
-    )
+    const image = await getTermMeta<{ value: string }>(term.id, 'thumbnail')
+        .then(async (data) =>
+            data && data.value
+                ? await getMedia(parseInt(data.value))
+                : undefined,
+        )
+        .catch(() => undefined)
     const posts = await getPostsBy(type, slug, page)
 
     return {
@@ -60,7 +59,5 @@ export const getTermBy = async (
     return await Cached.getInstance().getOrExecute(
         key,
         async () => await request(type, slug, page),
-        WEEK_IN_SECONDS,
-        IS_DEV,
     )
 }

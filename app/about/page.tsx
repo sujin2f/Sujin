@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation'
 import Banner from '@components/header/Banner'
 import { Page } from '@components/wordpress/single/Page'
 /* Helpers */
-import { getPost } from '@src/db/mysql/getPost'
+import { getPostBy } from '@src/db/mysql/getPostBy'
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
 import { BASE_URL } from '@src/constants/system'
 import { getThumbnailFromPost } from '@src/utils/wordpress'
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 
 export default async function About() {
     const requestPost = unstable_cache(
-        async () => await getPost('about'),
+        async () => await getPostBy('slug', 'about'),
         ['about'],
         {
             tags: ['wordpress', 'page'],

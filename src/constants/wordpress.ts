@@ -1,8 +1,7 @@
 export enum TermTypes {
     category = 'category',
     tag = 'tag',
-    // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
-    post_tag = 'tag',
+    post_tag = 'post_tag',
     search = 'search',
     recent_posts = 'recent-posts',
     series = 'series',
