@@ -1,21 +1,25 @@
 'use server'
 
-import { flickr } from '@src/constants/flickr-default'
-import { FlickrImage, FlickrResponse } from '@src/types/flickr'
+import { STATIC_FLICKR } from '@src/constants/flickr'
+import type { FlickrImage, FlickrResponse } from '@src/types/flickr'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
-import { Error as CustomError, isCustomError } from '@common/model/Error'
+import { Cached } from '@common/model/Cached'
+import { Logger } from '@common/model/Logger'
+import { IS_DEV } from '@src/constants/system'
 
 export const request = async (): Promise<FlickrImage[]> => {
-    if (process.env.NODE_ENV === 'development') {
-        return flickr.items.map((item) => ({
-            ...item,
-            media: item.media.m,
-        }))
+    const defaultValue = STATIC_FLICKR.items.map((item) => ({
+        ...item,
+        media: item.media.m,
+    }))
+
+    if (IS_DEV) {
+        return defaultValue
     }
 
     const id = process.env.FLICKR_ID
     if (!id) {
-        return flickr.items.map((item) => ({
+        return STATIC_FLICKR.items.map((item) => ({
             ...item,
             media: item.media.m,
         }))
@@ -32,7 +36,7 @@ export const request = async (): Promise<FlickrImage[]> => {
     )
         .then(async (response) => {
             if (response.status >= 400) {
-                throw new CustomError(`Failed to request Flickr with ${id}`)
+                throw Error(`Failed to request Flickr with ${id}`)
             }
             const json = (await response.json()) as FlickrResponse
             return json.items.map((item) => ({
@@ -41,15 +45,16 @@ export const request = async (): Promise<FlickrImage[]> => {
             }))
         })
         .catch((e: Error) => {
-            if (isCustomError(e)) {
-                e.echo('log')
-            }
             if (e instanceof Error) {
-                new CustomError(e.message, { level: 'log' })
+                Logger.server(e.message)
             }
-            return flickr.items.map((item) => ({
-                ...item,
-                media: item.media.m,
-            }))
+            return defaultValue
         })
 }
+
+export const getFlickr = async () =>
+    await Cached.getInstance().getOrExecute(
+        'flickr',
+        async () => await request(),
+        WEEK_IN_SECONDS,
+    )

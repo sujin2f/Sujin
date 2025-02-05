@@ -1,8 +1,10 @@
 import type { TagCloud } from '@src/types/wordpress'
 import { MySQLQuery } from '@src/constants/mysql-query'
 import { MySQL } from '@src/db/mysql'
+import { WEEK_IN_SECONDS } from '@common/constants/datetime'
+import { Cached } from '@common/model/Cached'
 
-export const getTagCloud = async (): Promise<TagCloud[]> => {
+export const request = async (): Promise<TagCloud[]> => {
     let counts: number[] = []
     let hits: number[] = []
 
@@ -47,7 +49,13 @@ export const getTagCloud = async (): Promise<TagCloud[]> => {
     })
 }
 
-export const updateHit = async (termId: number): Promise<void> => {
-    const mysql = await MySQL.getInstance()
-    await mysql.update(MySQLQuery.updateTagHit(termId))
+export const updateHit = (termId: number) => {
+    MySQL.getInstance().update(MySQLQuery.updateTagHit(termId))
 }
+
+export const getTagCloud = async () =>
+    await Cached.getInstance().getOrExecute(
+        'tag-cloud',
+        async () => await request(),
+        WEEK_IN_SECONDS,
+    )

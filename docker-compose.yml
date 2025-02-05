@@ -29,6 +29,9 @@ services:
             WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
             WORDPRESS_DEBUG: 0
             TZ: America/Toronto
+            MONGO: mongo
+            NEXT_PUBLIC_BASE_URL: ${NEXT_PUBLIC_BASE_URL}
+            NODE_ENV: development
         volumes:
             - ./wordpress/plugins/2d-tag-cloud:/var/www/html/wp-content/plugins/2d-tag-cloud
             - ./wordpress/themes/sujin:/var/www/html/wp-content/themes/sujin

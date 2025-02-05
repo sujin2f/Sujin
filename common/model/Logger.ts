@@ -5,6 +5,14 @@ const styleLog = [
     'border-radius: 3px',
 ].join(';')
 
-export const logger = (message: string | number | boolean) => {
-    return [`%cLOG%c ${message}`, styleLog, []]
+export class Logger {
+    static client(message: string) {
+        console.log([`%cLOG%c ${message}`, styleLog, []])
+    }
+
+    static server(message: string) {
+        const date = new Date()
+        const result = `${date.toLocaleDateString()} ${date.toLocaleTimeString()} - ${message}`
+        console.log(result)
+    }
 }

@@ -1,11 +1,6 @@
-import type {
-    IQueryArgs,
-    // GQLField,
-    IQuery,
-    ScalarJSType,
-    QueryReturnType,
-} from '.'
+import type { IQueryArgs, IQuery, ScalarJSType, QueryReturnType } from '.'
 import { isEmpty } from '../../utils/object'
+import { OperationType } from './constants'
 import { fieldToString } from './util'
 
 /**
@@ -16,6 +11,7 @@ import { fieldToString } from './util'
  * @implements {IQuery}
  */
 export class GQLQuery<A extends ScalarJSType[], R> implements IQuery<A, R> {
+    public type = OperationType.QUERY
     readonly name: string
     readonly rtn: QueryReturnType<R>
     readonly args: IQueryArgs
@@ -52,7 +48,7 @@ export class GQLQuery<A extends ScalarJSType[], R> implements IQuery<A, R> {
             .join(', ')
 
         return JSON.stringify({
-            query: `{\n${this.name}${
+            [this.type]: `{\n${this.name}${
                 argStr ? `(${argStr})` : ''
             } {\n${fields}\n}\n}`,
         })

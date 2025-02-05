@@ -1,39 +1,41 @@
 @use '@common/scss/mixin';
 
-.banner--front-page {
-    height: 100vh;
-    margin: 0;
-    overflow: hidden;
-
-    .banner__overlay {
+.page--frontpage {
+    .banner {
         height: 100vh;
-    }
+        margin: 0;
+        overflow: hidden;
 
-    .banner__header {
-        height: 100vh;
-    }
-
-    .banner__title {
-        width: 100%;
-    }
-
-    .banner__logo {
-        width: 50vw;
-
-        @include mixin.medium {
-            width: 20rem;
+        .banner__overlay {
+            height: 100vh;
         }
 
-        @include mixin.extra-large {
-            width: 20vw;
+        .banner__header {
+            height: 100vh;
         }
-    }
 
-    .banner__excerpt {
-        width: fit-content;
-    }
+        .banner__title {
+            width: 100%;
+        }
 
-    .banner__background {
-        height: 100vh;
+        .banner__logo {
+            width: 50vw;
+
+            @include mixin.medium {
+                width: 20rem;
+            }
+
+            @include mixin.extra-large {
+                width: 20vw;
+            }
+        }
+
+        .banner__excerpt {
+            width: fit-content;
+        }
+
+        .banner__background {
+            height: 100vh;
+        }
     }
 }

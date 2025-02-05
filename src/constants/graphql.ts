@@ -1,3 +1,4 @@
+import { GQLMutation } from '@common/data/graphql/mutation'
 import { GQLQuery } from '@common/data/graphql/query'
 import {
     GQLBoolean,
@@ -6,9 +7,9 @@ import {
     GQLString,
     GQLType,
 } from '@common/data/graphql/type'
-import { Nullable } from '@common/types'
-import { FlickrImage } from '@src/types/flickr'
-import { TermTypes } from '@src/types/wordpress'
+import type { Nullable } from '@common/types'
+import type { FlickrImage } from '@src/types/flickr'
+import { TermTypes } from '@src/constants/wordpress'
 import type {
     ImageSize,
     Image,
@@ -193,6 +194,43 @@ export const queryRecent = new GQLQuery<[], Post[]>(
         type: GQLPost,
         list,
     },
+)
+
+type ResultType = {
+    result: boolean
+}
+
+export const GQLResult = new GQLType<boolean>('Result', {
+    result: { type: GQLBoolean },
+})
+export const mutateCache = new GQLMutation<
+    [string, string, number, string, string],
+    ResultType
+>(
+    'removeCache',
+    {
+        nonce: {
+            type: GQLString,
+            required,
+        },
+        slug: {
+            type: GQLString,
+            required,
+        },
+        id: {
+            type: GQLInt,
+            required,
+        },
+        categories: {
+            type: GQLString,
+            required,
+        },
+        tags: {
+            type: GQLString,
+            required,
+        },
+    },
+    { type: GQLResult },
 )
 
 export const imageOpr = 'url mimeType sizes { key file }'

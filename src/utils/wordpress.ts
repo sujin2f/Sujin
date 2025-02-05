@@ -1,4 +1,8 @@
-import { unserialize as phpUnserialize } from 'php-unserialize'
+import { DEFAULT_THUMBNAIL } from '@src/constants/system'
+import type { Post, ImageSizes } from '@src/types/wordpress'
+import { unserialize as phpUnserialize } from 'php-unserialize' // TODO Do not use module
+import { imageSizeMap, ImageType } from '@src/constants/wordpress'
+
 /**
  * The regular expression for an HTML element.
  *
@@ -350,4 +354,16 @@ export const unserialize = <
         return defaultValue
     }
     return unserialized as T
+}
+
+export const getThumbnailFromPost = (post: Post) =>
+    post.images.thumbnail?.url || post.images.list?.url || DEFAULT_THUMBNAIL
+
+export const getImageMap = (type: ImageType, sizes: ImageSizes): ImageSizes => {
+    return sizes
+        .filter((size) => Object.keys(imageSizeMap[type]).includes(size.key))
+        .map((size) => ({
+            key: (imageSizeMap[type] as Record<string, string>)[size.key],
+            file: size.file,
+        }))
 }

@@ -1,6 +1,6 @@
 import { orbitalKeys } from '@src/constants/spectra'
 
-export interface Spectrum {
+export interface ISpectrum {
     /**
      * Atom number
      */
@@ -15,7 +15,7 @@ export interface Spectrum {
     energy: number
     /**
      * Spin quantum number
-     * see: https://en.wikipedia.org/wiki/Term_symbol
+     * @see: https://en.wikipedia.org/wiki/Term_symbol
      */
     spin: number
     /**
@@ -33,9 +33,19 @@ export interface Spectrum {
      */
     j: number
     /**
+     * The key of being same base state
+     * It is j - position of term
+     * i.g. j=1.5 orbital=p => base = 0.5
+     */
+    base: number
+    /**
      * The electron configuration as array: i.g. [1s, 2s, 2p]
      */
     conf: string[]
+    /**
+     * Number of radial and linier ethers
+     */
+    eConf: [number, number]
     ionReverse: number
     position: number
     term: string
@@ -43,7 +53,7 @@ export interface Spectrum {
 }
 
 export type SpectraItem = {
-    [label: string]: Spectrum[]
+    [label: string]: ISpectrum[]
 }
 
 export type Spectra = {

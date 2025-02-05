@@ -1,20 +1,20 @@
 'use server'
-
 import { MySQLQuery, PER_PAGE } from '@src/constants/mysql-query'
-import { PostType } from '@src/constants/wp'
-import { Post, Term, ImageKeys, Image, TermTypes } from '@src/types/wordpress'
-import { Nullable } from '@common/types'
-import { dateToPrettyUrl } from '@src/utils/common'
+import { PostType, TermTypes } from '@src/constants/wordpress'
 import { autop } from '@src/utils/wordpress'
 import { MySQL } from '@src/db/mysql'
 import { getPostMeta } from '@src/db/mysql/getPostMeta'
 import { getTaxonomies } from '@src/db/mysql/getTaxonomies'
 import { getMedia } from '@src/db/mysql/getMedia'
+import { DAY_IN_SECONDS } from '@common/constants/datetime'
+import { Cached } from '@common/model/Cached'
+import type { Post, Term, ImageKeys, Image } from '@src/types/wordpress'
+import type { Nullable } from '@common/types'
 
 const getPostLink = (post: Post): string => {
     switch (post.type) {
         case PostType.POST:
-            return `/${dateToPrettyUrl(new Date(post.date))}/${post.slug}`
+            return `/blog/${post.slug}`
         case PostType.PAGE:
             return `/${post.slug}`
     }
@@ -100,7 +100,9 @@ const getAdjacentPost = async (
     previous = true,
 ): Promise<Nullable<Post>> => {
     const query = MySQLQuery.getAdjacentPost(post, previous)
-    const adjacentPost = await MySQL.getInstance().selectOne<Post>(query)
+    const adjacentPost = await MySQL.getInstance()
+        .selectOne<Post>(query)
+        .catch(() => undefined)
 
     if (!adjacentPost) {
         return
@@ -202,8 +204,20 @@ export const getPostsBy = async (
             post_.related = await getRelatedPost(post_)
         }
 
+        const slug = post_.slug.toLowerCase()
+        const id = post_.id
+        await Cached.getInstance().set(`post-${slug}`, post_)
+        await Cached.getInstance().set(`post-${id}`, post_)
+
         posts.push(post_)
     }
 
     return posts
 }
+
+export const getRecentPosts = async () =>
+    await Cached.getInstance().getOrExecute(
+        'recent-post',
+        async () => await getPostsBy(TermTypes.recent_posts),
+        DAY_IN_SECONDS,
+    )

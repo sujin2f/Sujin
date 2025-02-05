@@ -1,7 +1,7 @@
 import { parse } from 'csv-parse'
 import { Nullable } from '@common/types'
 import { insertOne } from '@src/db/mongo/ether/spectra'
-import { Spectrum as SpectrumType } from '@src/types/ether'
+import { ISpectrum } from '@src/types/ether'
 import { orbitalKeys } from '@src/constants/spectra'
 
 export const insertManyFromCSV = async (
@@ -20,7 +20,11 @@ export const insertManyFromCSV = async (
         J_k: 0,
     }
     let index = false
-    const trimmed = csv.trim().replaceAll('""', '')
+
+    const trimmed = csv
+        .trim()
+        // Remove this ,"="""2,3.sp+"""",
+        .replaceAll(/,"="""([0-9A-Za-z\.,*\[\]]+)(.+?(?="""",))/g, ',')
     const parser = parse(trimmed, {
         raw: true,
         relax_column_count: true,
@@ -107,7 +111,7 @@ const createRawData = (param: {
     conf: string
     term: string
     j: string
-}): SpectrumType | void => {
+}): ISpectrum | void => {
     const energy = filterNumValue(param.energy)
     const term = filterValue(param.term)
     const j = getNumber(param.j)
@@ -132,16 +136,22 @@ const createRawData = (param: {
     }
 
     const conf = getConfArray(filterValue(param.conf))
-    const position = /[0-9]+/.exec(conf[conf.length - 1])
+    const positionMatch = /[0-9]+/.exec(conf[conf.length - 1])
     const orbitalMatch = /[a-z]+/.exec(conf[conf.length - 1]) || ['@']
     const orbitalIndex = orbitalKeys.indexOf(
         orbitalMatch[0] as (typeof orbitalKeys)[number],
     )
     const orbital = orbitalKeys[orbitalIndex]
 
-    if (!position || !orbital) {
+    if (!positionMatch || !orbital) {
         return
     }
+
+    const position = parseInt(positionMatch[0])
+
+    const oIndex = orbitalKeys.indexOf(orbital)
+    const radial = position - oIndex - 1
+    const eConf = [radial, oIndex]
 
     return {
         ...param,
@@ -153,9 +163,11 @@ const createRawData = (param: {
         parity,
         j,
         conf,
-        position: parseInt(position[0]),
+        eConf,
+        position,
         orbital,
-    } as SpectrumType
+        base: j - orbitalKeys.indexOf(orbital),
+    } as ISpectrum
 }
 
 /**

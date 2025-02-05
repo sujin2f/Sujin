@@ -1,28 +1,26 @@
 'use client'
-
 import React, { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
-
 /* Components */
 import { TopBar } from '@common/components/layout/TopBar'
 import { Menu } from '@common/components/layout/Menu'
 import { Column } from '@common/components/layout/Column'
 import { Row } from '@common/components/layout/Row'
-import { Hamburger } from '@components/header/Hamburger'
-import { Search } from '@components/header/Search'
-/* Hook */
-import { getMenu } from '@src/utils/menu'
-/* Images */
+import Hamburger from '@components/header/Hamburger'
+import Search from '@components/header/Search'
+/* Helpers */
+import { getMenu } from '@src/utils/system'
+import { MenuNames } from '@src/constants/mysql-query'
+/* Assets */
 import Logo from '@src/images/logo-top-bar.svg'
 import Facebook from '@src/images/facebook.svg'
 import Twitter from '@src/images/twitter.svg'
-/* Assets */
 import '@src/scss/fixed-header.scss'
 
 const TOP_MENU_SCROLLED_POSITION = 80
 
 type Props = {
-    menu: string
+    menu: MenuNames
     className?: string
 }
 
@@ -32,7 +30,7 @@ type Props = {
  *
  * @param {string} props.menu - The menu items to be displayed in the top bar.
  */
-export const FixedHeader = (props: Props) => {
+const FixedHeader = (props: Props) => {
     const menu = getMenu(props.menu)
     const [scrolled, setScrolled] = useState('')
 
@@ -102,3 +100,5 @@ export const FixedHeader = (props: Props) => {
         </TopBar>
     )
 }
+
+export default FixedHeader

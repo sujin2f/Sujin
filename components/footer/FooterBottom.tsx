@@ -1,9 +1,9 @@
 import React from 'react'
 import Link from 'next/link'
-
+/* Components */
 import { Column } from '@common/components/layout/Column'
 import { Row } from '@common/components/layout/Row'
-
+/* Assets */
 import Logo from '@src/images/logo.svg'
 
 export function FooterBottom() {

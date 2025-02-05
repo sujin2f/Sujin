@@ -1,4 +1,4 @@
-import { MenuItem } from '@src/types/wordpress'
+import type { MenuItem } from '@src/types/wordpress'
 
 const menu = {
     id: 0,
@@ -35,12 +35,6 @@ export const MenuDefault: MenuItem[] = [
                 ...menu,
                 title: 'Dev Tool',
                 link: '/dev-tools/case',
-            },
-            {
-                ...menu,
-                title: 'React BoilerPlate',
-                link: 'https://common.sujinc.com/',
-                target: '_blank',
             },
             {
                 ...menu,

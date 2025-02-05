@@ -1,12 +1,4 @@
-export enum TermTypes {
-    category = 'category',
-    tag = 'tag',
-    // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
-    post_tag = 'tag',
-    search = 'search',
-    recent_posts = 'recent-posts',
-    series = 'series',
-}
+import { TermTypes } from '@src/constants/wordpress'
 
 export type ImageKeys = 'list' | 'icon' | 'title' | 'background' | 'thumbnail'
 

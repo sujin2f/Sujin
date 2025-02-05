@@ -1,6 +1,6 @@
 # Wordpress Theme Sujin
 
-![](https://github.com/sujin2f/Sujin/workflows/Node.js%20CI/badge.svg)
+![](https://github.com/sujin2f/Sujin/workflows/next.js.yml/badge.svg)
 
 The Wordpress Theme which frontend is React from the new WP Editor Gutenberg.
 
@@ -77,6 +77,6 @@ TODO
 
 docker run --rm --interactive --tty --volume $PWD:/app composer install
 
-- Default image
-- Twitter embed
-- Error handling -- Category not found
+-   Default image
+-   Twitter embed
+-   Error handling -- Category not found

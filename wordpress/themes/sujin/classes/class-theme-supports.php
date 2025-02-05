@@ -7,7 +7,7 @@
  * @author  Sujin 수진 Choi http://www.sujinc.com/
  */
 
-namespace Sujin\Wordpress\Theme\Sujin;
+namespace Sujin\WordPress\Theme\Sujin;
 
 use Sujin\Wordpress\WP_Express\Helpers\Trait_Singleton;
 
@@ -68,7 +68,7 @@ class Theme_Supports {
 	private function add_theme_support(): void {
 		add_theme_support( 'post-thumbnails' );
 		add_theme_support( 'widgets' );
-		add_theme_support( 'title-tag' ); // TODO
+		add_theme_support( 'title-tag' );
 
 		add_post_type_support( 'page', 'excerpt' );
 	}

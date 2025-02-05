@@ -24,7 +24,7 @@ const findOne = async <T extends Document>(
     const client = MongoClient
     let result: WithId<T> | null
     try {
-        const database = client.db('sujin')
+        const database = client.db(process.env.MONGO_DATABASE)
         result = await database.collection<T>(collection).findOne(doc)
     } catch (e: unknown) {
         throw e
@@ -57,7 +57,7 @@ const findMany = async <T extends Document>(
 ): Promise<WithId<T>[]> => {
     const client = MongoClient
     try {
-        const database = client.db('sujin')
+        const database = client.db(process.env.MONGO_DATABASE)
         return await database.collection<T>(collection).find(doc).toArray()
     } catch (e: unknown) {
         throw e
@@ -79,7 +79,7 @@ const insertOne = async <T extends Document>(
 ): Promise<InsertOneResult<T>> => {
     const client = MongoClient
     try {
-        const database = client.db('sujin')
+        const database = client.db(process.env.MONGO_DATABASE)
         return await database.collection<T>(collection).insertOne(doc)
     } catch (e: unknown) {
         throw e
@@ -102,7 +102,7 @@ const insertMany = async <T extends Document>(
 ): Promise<InsertManyResult<T>> => {
     const client = MongoClient
     try {
-        const database = client.db('sujin')
+        const database = client.db(process.env.MONGO_DATABASE)
         return await database.collection<T>(collection).insertMany(doc)
     } catch (e: unknown) {
         throw e
@@ -115,8 +115,22 @@ const deleteMany = async <T extends Document>(
 ) => {
     const client = MongoClient
     try {
-        const database = client.db('sujin')
+        const database = client.db(process.env.MONGO_DATABASE)
         return await database.collection<T>(collection).deleteMany(doc)
+    } catch (e: unknown) {
+        throw e
+    }
+}
+
+const replaceOne = async <T extends Document>(
+    collection: string,
+    filter: Filter<T>,
+    doc: OptionalUnlessRequiredId<T>,
+) => {
+    const client = MongoClient
+    try {
+        const database = client.db(process.env.MONGO_DATABASE)
+        return await database.collection<T>(collection).replaceOne(filter, doc)
     } catch (e: unknown) {
         throw e
     }
@@ -128,6 +142,7 @@ const actions = {
     insertOne,
     insertMany,
     deleteMany,
+    replaceOne,
 }
 
 export default actions

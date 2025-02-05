@@ -6,9 +6,9 @@ import { MySQLQuery, MenuItemTypes, MetaKeys } from '@src/constants/mysql-query'
 import { Nullable } from '@common/types'
 import { unserialize } from '@src/utils/wordpress'
 import { MySQL } from '@src/db/mysql'
-import { getPost } from '@src/db/mysql/getPost'
+import { getPostBy } from '@src/db/mysql/getPostBy'
 import { getAllPostMeta } from '@src/db/mysql/getAllPostMeta'
-import { Error } from '@common/model/Error'
+import { Logger } from '@common/model/Logger'
 
 const getMenuItemFromPost = async (post: Post): Promise<Nullable<MenuItem>> => {
     const result = {} as MenuItem
@@ -32,7 +32,7 @@ const getMenuItemFromPost = async (post: Post): Promise<Nullable<MenuItem>> => {
     result.htmlClass = Object.values<string>(htmlClass)
 
     if (type === MenuItemTypes.POST_TYPE) {
-        const queriedPost = await getPost('id', objectId)
+        const queriedPost = await getPostBy('id', objectId)
         if (!queriedPost) {
             return
         }
@@ -57,7 +57,7 @@ const getMenuItemFromPost = async (post: Post): Promise<Nullable<MenuItem>> => {
 }
 
 export const request = async (slug: string): Promise<MenuItem[]> => {
-    new Error(`Menu Requested ${slug}`, { level: 'log' })
+    Logger.server(`Menu Requested ${slug}`)
     const result: Record<number, MenuItem> = {}
 
     const posts = await MySQL.getInstance().select<Post>(

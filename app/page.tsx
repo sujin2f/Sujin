@@ -1,66 +1,53 @@
 'use client'
-
-import React from 'react'
+import React, { useState } from 'react'
 import { useEffect } from 'react'
-
-import { Banner } from '@components/header/Banner'
-import { MenuNames } from '@src/constants/mysql-query'
-import { FixedHeader } from '@components/header/FixedHeader'
+/* Components */
+import Banner from '@components/header/Banner'
+/* Helpers */
+import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { fetchGQL } from '@common/data/graphql/fetchGQL'
 import { imageOpr, queryBackground } from '@src/constants/graphql'
-import { WEEK_IN_SECONDS } from '@common/constants/datetime'
-
+import { MenuNames } from '@src/constants/mysql-query'
+import type { Nullable } from '@common/types'
+import type { Image } from '@src/types/wordpress'
+/* Assets */
 import Logo from '@src/images/logo.svg'
 import '@src/scss/front-page.scss'
-import { useGlobalState } from '@common/hooks/useGlobalState'
-import { Image } from '@src/types/wordpress'
 
 export default function FrontPage() {
-    const [backgrounds, setBackgrounds] = useGlobalState<Image[] | null>(
-        'backgrounds',
-        [],
-    )
-    useEffect(() => {
-        if (backgrounds && !backgrounds.length) {
-            const fetchBackgrounds = async () => {
-                const response = await fetchGQL(
-                    queryBackground,
-                    imageOpr,
-                    WEEK_IN_SECONDS,
-                ).catch(() => null)
-                setBackgrounds(response)
-            }
-            fetchBackgrounds()
-        }
-    }, [backgrounds, setBackgrounds])
-
-    const background =
-        backgrounds && backgrounds.length
-            ? backgrounds[Math.floor(Math.random() * backgrounds.length)]
-            : undefined
+    const background = useBackground()
 
     return (
-        <>
-            <FixedHeader menu={MenuNames.MAIN} />
-            <main>
-                <Banner
-                    menu={MenuNames.MAIN}
-                    banner={{
-                        title: (
-                            <Logo
-                                aria-label={process.env.NEXT_PUBLIC_TITLE}
-                                className="banner__logo"
-                            />
-                        ),
-                        excerpt: process.env.NEXT_PUBLIC_EXCERPT || '',
-                        icon: undefined,
-                        prefix: undefined,
-                        background,
-                        backgroundColor: undefined,
-                    }}
-                    className="front-page"
-                />
-            </main>
-        </>
+        <main className="page--frontpage">
+            <Banner
+                menu={MenuNames.MAIN}
+                banner={{
+                    title: (
+                        <Logo
+                            aria-label={process.env.NEXT_PUBLIC_TITLE}
+                            className="banner__logo"
+                        />
+                    ),
+                    excerpt: process.env.NEXT_PUBLIC_EXCERPT,
+                    background,
+                }}
+            />
+        </main>
     )
+}
+
+/**
+ * Get background from GraphQL
+ * @returns {Image} Background image object
+ */
+const useBackground = (): Nullable<Image> => {
+    const [backgrounds, setBackgrounds] = useState<Image[]>([])
+    useEffect(() => {
+        fetchGQL(queryBackground, imageOpr, WEEK_IN_SECONDS)
+            .then((result) => setBackgrounds(result))
+            .catch(() => [])
+    }, [])
+    return Array.isArray(backgrounds)
+        ? backgrounds[Math.floor(Math.random() * backgrounds.length)]
+        : undefined
 }

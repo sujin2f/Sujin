@@ -1,19 +1,20 @@
 import { WithId } from 'mongodb'
+import { default as quartic } from 'quartic'
 /* Helpers */
 import type { Atom } from '@src/types/atom'
 import type {
-    Spectrum,
+    ISpectrum,
     Spectra,
     ChartData,
     TableData,
     SpectraItem,
 } from '@src/types/ether'
-import { Error } from '@common/model/Error'
 import { peak, jouleToEv, periodicTable, ratios } from '@src/constants/spectra'
 import { orbitalKeys } from '@src/constants/spectra'
 import { map, trimEnd, trimStart } from '@common/utils/array'
 import { Nullable } from '@common/types'
 import { sort } from '@common/utils/object'
+import { Spectrum } from './model-spectra'
 
 /**
  * Calculates the Rydberg formula for a given ratio, k, and position.
@@ -52,11 +53,7 @@ export const getAtom = (number: number): Atom => {
             return element
         }
     }
-    throw new Error(`Cannot find an atom ${number} from the periodic table.`, {
-        code: 'UTL-0003',
-        source: 'utils/atom/getAtom',
-        level: 'error',
-    })
+    throw Error(`Cannot find an atom ${number} from the periodic table.`)
 }
 
 /**
@@ -71,12 +68,8 @@ const getIonizationEnergy = (number: number, ion: number): number => {
     const atom = getAtom(number)
 
     if (atom.ionization_energies.length < ion) {
-        throw new Error(
+        throw Error(
             `Data does not have any Ionization Energies for atom ${atom.number}, ${atom.symbol}, ion ${ion}`,
-            {
-                code: 'UTL-0002',
-                source: 'utils/atom/getIonizationEnergy',
-            },
         )
     }
     return atom.ionization_energies[ion - 1] * jouleToEv
@@ -117,11 +110,7 @@ const getRatioFromData = (ion: number): number => {
         return convergence
     }
 
-    throw new Error(`Data does not have any ratio for ion: ${ion}`, {
-        code: 'UTL-0001',
-        source: 'utils/atom/getRatioFromData',
-        level: 'info',
-    })
+    throw Error(`Data does not have any ratio for ion: ${ion}`)
 }
 
 /**
@@ -157,13 +146,13 @@ export const getPeak = (number: number, ion: number): number => {
 /**
  * Sorts the spectrum data.
  *
- * @param {Spectrum[]} spectra - The spectrum data from DB.
+ * @param {ISpectrum[]} spectra - The spectrum data from DB.
  * @param {number} number - The atomic number of the atom.
  * @param {number} ion - The ionization state.
  * @returns {[Spectra, number, number, number]} The sorted spectrum data, ratio, radial k, and linear k.
  */
 export const getSpectra = (
-    spectra: WithId<Spectrum>[],
+    spectra: WithId<ISpectrum>[],
     number: number,
     ion: number,
 ): [Spectra, number, number, number] => {
@@ -193,7 +182,9 @@ export const getSpectra = (
             minimumPosition[1] = position
         }
 
-        const termGroupKey = `${j - orbitalKeys.indexOf(orbital)}_${spin}_${conf.join('.')}`
+        const termGroupKey = `${
+            j - orbitalKeys.indexOf(orbital)
+        }_${spin}_${conf.join('.')}`
 
         if (!result[termGroupKey]) {
             result[termGroupKey] = {}
@@ -204,7 +195,7 @@ export const getSpectra = (
 
         // Remove ID from Mongo result
         delete (spectrum as unknown as Record<string, unknown>)._id
-        result[termGroupKey][orbital][position - 1] = spectrum as Spectrum
+        result[termGroupKey][orbital][position - 1] = spectrum as ISpectrum
     })
 
     // Get K
@@ -250,6 +241,43 @@ export const getSpectra = (
 }
 
 /**
+ * Sorts the spectrum data.
+ *
+ * @param {ISpectrum[]} spectra - The spectrum data from DB.
+ * @param {number} number - The atomic number of the atom.
+ * @param {number} ion - The ionization state.
+ * @returns {[Spectra, number, number, number]} The sorted spectrum data, ratio, radial k, and linear k.
+ */
+export const getSpectra2 = (
+    items: ISpectrum[],
+): {
+    [atom: string]: { [group: string]: Spectrum[][] }
+} => {
+    const group: {
+        [atom: string]: { [group: string]: Spectrum[][] }
+    } = {}
+
+    // Per each spectrum
+    items.forEach((item) => {
+        const atom = `${item.number}-${item.ion}`
+        const termGroup = `${item.base}-${item.spin}`
+        const position = orbitalKeys.indexOf(item.orbital)
+        if (!group[atom]) {
+            group[atom] = {}
+        }
+        if (!group[atom][termGroup]) {
+            group[atom][termGroup] = []
+        }
+        if (!group[atom][termGroup][position]) {
+            group[atom][termGroup][position] = []
+        }
+        group[atom][termGroup][position][item.position] = new Spectrum(item)
+    })
+
+    return group
+}
+
+/**
  * Sorts the ether data.
  *
  * @param {Spectra} group - The grouped spectrum data.
@@ -257,12 +285,12 @@ export const getSpectra = (
  */
 export const sortEther = (spectra: Spectra): Spectra => {
     return Object.entries(spectra).reduce((acc, [groupKey, term]) => {
-        const radial: Spectrum[] = []
-        const linear: Spectrum[] = []
-        const ether: Spectrum[][] = []
+        const radial: ISpectrum[] = []
+        const linear: ISpectrum[] = []
+        const ether: ISpectrum[][] = []
 
-        Object.values(term).forEach((items: Spectrum[]) =>
-            items.forEach((spectrum: Spectrum) => {
+        Object.values(term).forEach((items: ISpectrum[]) =>
+            items.forEach((spectrum: ISpectrum) => {
                 if (!spectrum) {
                     return
                 }
@@ -309,10 +337,10 @@ export const sortEther = (spectra: Spectra): Spectra => {
 /**
  * Retrieves the ether configuration for a given atom and ionization state.
  *
- * @param {Spectrum} spectra - Spectra data.
+ * @param {ISpectrum} spectra - Spectra data.
  * @returns {[number, number]} Num of radial & liner.
  */
-export const getEtherConf = (spectrum: Spectrum): [number, number] => {
+export const getEtherConf = (spectrum: ISpectrum): [number, number] => {
     const o = orbitalKeys.indexOf(spectrum.orbital)
     const p = spectrum.position
     const r = p - o - 1
@@ -322,7 +350,7 @@ export const getEtherConf = (spectrum: Spectrum): [number, number] => {
 /**
  * Returns the client data to make a chart and a table.
  *
- * @param {Spectrum} spectra - Spectra data.
+ * @param {ISpectrum} spectra - Spectra data.
  * @param {number} ratio - The ratio.
  * @param {number} kRadial - k value of radial.
  * @param {number} kLinear - k value of linear.
@@ -353,7 +381,7 @@ export const getClientData = (
                     map(maxColumn, () => ''),
                 ]
 
-                let prev: Nullable<Spectrum> = undefined
+                let prev: Nullable<ISpectrum> = undefined
                 row.forEach((spectrum) => {
                     const e1 = spectrum ? spectrum.energy : NaN
                     const e2 = prev ? prev.energy : NaN
@@ -395,4 +423,21 @@ export const getClientData = (
     )
     const rowHead = ['conf', 'eConf', 'energy', 'diff', 'rydberg']
     return [chartData, tableData, rowHead, maxColumn]
+}
+
+export const getRatio2 = (value1: number, value2: number, shift: number) => {
+    const a = value1 - shift
+    const b = value2 - shift
+    const sqa = Math.pow(a, 2)
+    const sqb = Math.pow(b, 2)
+    // const x = 489.93348581
+    // const x4 = 3 * Math.pow(x, 4)
+    // const x3 = -4 * (a + b) * Math.pow(x, 3)
+    // const x2 = 6 * a * b * Math.pow(x, 2)
+    // const x0 = -1 * sqa * sqb
+    const coefficients = [3, -4 * (a + b), 6 * a * b, 0, -1 * sqa * sqb]
+    const result = quartic(coefficients)
+    return result
+        .filter((value) => !value.im && value.re > 0)
+        .map((value) => value.re)
 }

@@ -1,4 +1,4 @@
-import { Scalar } from './constants'
+import { Scalar, OperationType } from './constants'
 
 type ScalarJSType = string | number | boolean
 
@@ -42,6 +42,7 @@ type QueryReturnType<T> = {
  * @template R return type
  */
 interface IQuery<A extends ScalarJSType[], R> {
+    readonly type: OperationType
     readonly name: string
     readonly rtn: QueryReturnType<R>
     readonly args?: IQueryArgs
