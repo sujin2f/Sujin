@@ -1,6 +1,5 @@
 // yarn test spectra.spec.ts
 
-import { getAtom } from '@src/utils/ether'
 import { NISTresponseH } from '../../../../.jest/fixture'
 import { getSpectraFromNIST } from './spectra'
 import Mongo from '@common/data/mongo/mongo'
@@ -19,7 +18,7 @@ describe('spectra.spec.ts', () => {
     })
 
     test('request', async () => {
-        const response = await getSpectraFromNIST(getAtom(1), 1)
+        const response = await getSpectraFromNIST(1, 1)
         expect(response.length).toBe(66)
     })
 })
