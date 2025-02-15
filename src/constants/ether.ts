@@ -1749,9 +1749,11 @@ export const periodicTable: Atom[] = [
     },
 ]
 
-// 13.5984355
-export const ratios = [13.598363]
-export const peak: Record<string, number[]> = {
-    H: [ratios[0]],
-    He: [24.58732518],
-}
+export const ROW_HEAD = [
+    'Conf',
+    'eConf',
+    'Energy',
+    'Diff',
+    'Rydberg',
+    'Comparison',
+] as const

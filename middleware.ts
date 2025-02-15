@@ -42,5 +42,6 @@ export const config = {
         '/:year/:month/:date/:slug',
         '/dev-tools/:slug',
         '/ether(.*)',
+        '/',
     ],
 }

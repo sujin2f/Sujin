@@ -1,4 +1,4 @@
-import { orbitalKeys } from '@src/constants/spectra'
+import { orbitalKeys } from '@src/constants/ether'
 
 export interface ISpectrum {
     /**
@@ -65,34 +65,4 @@ export type TableData = {
     [termGroup: string]: { [rowLabel: string]: (string | number)[][] }
 }
 
-// export type SortType = 'orbital' | 'ether'
-
-// export type URLParamData = {
-//     type: SortType
-//     atom: string
-//     chartType: keyof typeof TABLE_ROW
-// }
-// export type URLParamByPosition = {
-//     ionReverse: string
-//     position: string
-//     chartType: keyof typeof TABLE_ROW
-// }
-
-// export const TABLE_ROW = {
-//     orbital: 'Orbital',
-//     ether: 'Ether',
-//     energy: 'Energy',
-//     diff: 'Diff',
-//     transform: 'Transform',
-//     between: 'Between',
-//     scaled: 'Scaled',
-//     k: 'K',
-//     ratio: 'Ratio',
-//     k2nd: '2nd K',
-//     value: 'Value',
-//     close: 'close',
-//     atom: 'Atom',
-//     string: 'String',
-// }
-
-// export type RowType = 'radial' | 'linear' | 'ether' | 'orbital'
+export type SortType = 'orbital' | 'ether'

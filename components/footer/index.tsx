@@ -13,7 +13,8 @@ import '@src/scss/footer.scss'
 
 const Footer = async () => {
     // Front Page
-    if ((await getPathName()) === '/') {
+    const path = await getPathName()
+    if (path === '/') {
         return <></>
     }
 

@@ -1,51 +1,144 @@
-import { notFound } from 'next/navigation'
-
-import { periodicTable } from '@src/constants/spectra'
-import { getClientData, sortEther, getSpectra } from '@src/utils/ether'
-import { Data } from '@components/ether/data'
+'use client'
+import { Fragment, useEffect, useState } from 'react'
+import { useParams } from 'next/navigation'
+import Link from 'next/link'
+/* Components */
 import { DataHeader } from '@components/ether/data-header'
-import { getSpectraFromNIST } from '@src/db/mongo/ether/spectra'
-import { unstable_cache } from 'next/cache'
-import { DAY_IN_SECONDS } from '@common/constants/datetime'
+import ScrollToTop from '@components/ScrollToTop'
+import { Row } from '@common/components/layout/Row'
+import { Column } from '@common/components/layout/Column'
+import { Table } from '@common/components/containers/Table'
+import { Chart } from '@components/ether/chart'
+/* Helpers */
+import type { Nullable } from '@common/types'
+import type { ISpectrum } from '@src/types/ether'
+import { fetchGQL } from '@common/data/graphql/fetchGQL'
+import { querySpectra, spectraOpr } from '@src/constants/graphql'
+import { map } from '@common/utils/array'
+import { ROW_HEAD } from '@src/constants/ether'
+import { DataContainer } from '@src/models/DataContainer'
 
-export default async function DataPage(props: EtherDataServerProps) {
-    const params = await props.params
-    const type = params.type
-    if (type !== 'ether' && type !== 'orbital') {
-        notFound()
+export default function DataPage() {
+    const params = useParams<EtherDataProps>()
+    const [spectra, setSpectra] = useState<Nullable<ISpectrum[]>>()
+
+    if (!params || !params.atom || !params.ion || !params.type) {
+        return <></>
     }
+
     const atom = parseInt(params.atom)
     const ion = parseInt(params.ion)
 
-    const requestSpectra = unstable_cache(
-        async () => await getSpectraFromNIST(periodicTable[atom - 1], ion),
-        [atom.toString(), ion.toString()],
-        {
-            tags: ['spectra'],
-            revalidate: DAY_IN_SECONDS * 7,
-        },
-    )
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useEffect(() => {
+        fetchGQL(querySpectra, spectraOpr, 0, atom, ion)
+            .then((result) => setSpectra(result))
+            .catch(() => setSpectra([]))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
-    const response = await requestSpectra()
-    const [orbital, ratio, kRadial, kLinear] = getSpectra(response, atom, ion)
-    const spectra = type === 'ether' ? sortEther(orbital) : orbital
-    const [chartData, tableData, rowHead, maxColumn] = getClientData(
-        spectra,
-        ratio,
-        kRadial,
-        kLinear,
-    )
-    const terms = Object.keys(tableData)
+    if (!spectra) {
+        return <></>
+    }
+    const container = new DataContainer(spectra, params.type)
+    const orbital = container.get(atom, ion)
 
     return (
         <>
-            <DataHeader terms={terms} />
-            <Data
-                chartData={chartData}
-                tableData={tableData}
-                rowHead={rowHead}
-                maxColumn={maxColumn}
+            <ScrollToTop />
+            <DataHeader
+                container={orbital}
+                atom={atom}
+                ion={ion}
+                type={params.type}
             />
+            <Row>
+                <Column small={12}>
+                    <Chart data={orbital.chartData} />
+                </Column>
+            </Row>
+            <Row>
+                <Column small={12}>
+                    <Table className="ether">
+                        {orbital.map((term, termIndex) => (
+                            <Fragment
+                                key={`term-${term.toString()}-${termIndex}`}
+                            >
+                                {/* Term */}
+                                <thead>
+                                    <tr>
+                                        <th
+                                            colSpan={orbital.maxColumn + 2}
+                                            className="table__ether__term-group"
+                                        >
+                                            <Link
+                                                href={`?term=${term.toString()}`}
+                                            >
+                                                {term.toString()}
+                                            </Link>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {term.map((line, index) => (
+                                        <Fragment
+                                            key={`line-${term.toString()}-${index}`}
+                                        >
+                                            {ROW_HEAD.map((row, index) => {
+                                                const value = line.value[index]
+
+                                                return (
+                                                    <tr
+                                                        key={`conf-${term.toString()}-${index}-${row}`}
+                                                    >
+                                                        {index === 0 && (
+                                                            <th
+                                                                rowSpan={
+                                                                    ROW_HEAD.length
+                                                                }
+                                                            >
+                                                                {line.toString()}
+                                                            </th>
+                                                        )}
+                                                        <th>{row}</th>
+
+                                                        {map(
+                                                            orbital.maxColumn,
+                                                            (_, col) => (
+                                                                <td
+                                                                    key={`conf-${term.toString()}-${index}-${row}-${col}-${
+                                                                        value[
+                                                                            col
+                                                                        ]
+                                                                    }`}
+                                                                >
+                                                                    {typeof value[
+                                                                        col
+                                                                    ] !==
+                                                                        'number' ||
+                                                                    !isNaN(
+                                                                        value[
+                                                                            col
+                                                                        ],
+                                                                    )
+                                                                        ? value[
+                                                                              col
+                                                                          ]
+                                                                        : ''}
+                                                                </td>
+                                                            ),
+                                                        )}
+                                                    </tr>
+                                                )
+                                            })}
+                                        </Fragment>
+                                    ))}
+                                </tbody>
+                            </Fragment>
+                        ))}
+                    </Table>
+                </Column>
+            </Row>
         </>
     )
 }

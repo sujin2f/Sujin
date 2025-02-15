@@ -7,6 +7,7 @@ import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { Cached } from '@common/model/Cached'
 import { WithId } from 'mongodb'
 import { IS_DEV } from '@src/constants/system'
+import { getAtom } from '@src/utils/ether'
 
 /**
  * Requests spectra data
@@ -36,8 +37,9 @@ const request = async (
     return await Mongo.findMany<ISpectrum>('spectra', { number, ion })
 }
 
-export const getSpectraFromNIST = async (atom: Atom, ion: number) => {
-    const key = `spectra-${atom.number}-${ion}`
+export const getSpectraFromNIST = async (number: number, ion: number) => {
+    const atom = getAtom(number)
+    const key = `spectra-${number}-${ion}`
     return await Cached.getInstance().getOrExecute(
         key,
         async () => await request(atom, ion),
