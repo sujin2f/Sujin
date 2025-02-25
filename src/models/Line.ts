@@ -90,6 +90,9 @@ export class Line {
     }
 
     private get shift(): number {
+        if (this.first.ionReverse === 1) {
+            return 0
+        }
         if (!isNaN(this._shift)) {
             return this._shift
         }
@@ -104,6 +107,9 @@ export class Line {
         if (!isNaN(this._ratio) || !this.first) {
             return this._ratio
         }
+
+        this._ratio = this.ratioFromPoints
+        return this._ratio
 
         const atom = getAtom(this.first.ion)
         const peak = atom.ionization_energies[this.first.ion - 1]
@@ -120,9 +126,11 @@ export class Line {
             this.first.energy === 0
                 ? this.spectra[this.first.position]
                 : this.first
+        if (!first) {
+            return NaN
+        }
         const second = this.spectra[first.position]
-
-        if (!first || !second) {
+        if (!second) {
             return NaN
         }
 
@@ -153,6 +161,11 @@ export class Line {
             this.first.energy === 0
                 ? this.spectra[this.first.position]
                 : this.first
+
+        if (!first) {
+            return NaN
+        }
+
         this._k =
             Math.sqrt(this.ratio / (this.ratio - first.energy + this.shift)) -
             first.position

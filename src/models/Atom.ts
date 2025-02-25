@@ -82,4 +82,8 @@ export class Atom {
     public get maxColumn() {
         return Math.max(...this.map((term) => term.maxColumn))
     }
+
+    public toString() {
+        return `${this.ground.number}-${this.ground.ion}`
+    }
 }

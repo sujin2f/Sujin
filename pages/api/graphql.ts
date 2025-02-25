@@ -29,10 +29,14 @@ import {
     queryRecent,
     mutateCache,
     querySpectra,
+    queryMongoSpectra,
 } from '@src/constants/graphql'
 import { isEmpty } from '@common/utils/object'
 import { BASE_URL, IS_DEV } from '@src/constants/system'
-import { getSpectraFromNIST } from '@src/db/mongo/ether/spectra'
+import {
+    getSpectraFromNIST,
+    getSpectraBySchema,
+} from '@src/db/mongo/ether/spectra'
 
 const options = createGQLOptions(
     GQLImageSize,
@@ -51,6 +55,7 @@ const options = createGQLOptions(
     queryTagCloud.setCallback(getTagCloud),
     queryRecent.setCallback(getRecentPosts),
     querySpectra.setCallback(getSpectraFromNIST),
+    queryMongoSpectra.setCallback(getSpectraBySchema),
     mutateCache.setCallback(clearCache),
 )
 

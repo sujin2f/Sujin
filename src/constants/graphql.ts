@@ -290,4 +290,18 @@ export const querySpectra = new GQLQuery<[number, number], ISpectrum[]>(
     },
 )
 
+export const queryMongoSpectra = new GQLQuery<[string], ISpectrum[]>(
+    'spectra_by_mongo',
+    {
+        schema: {
+            type: GQLString,
+            required,
+        },
+    },
+    {
+        type: GQLSpectrum,
+        list,
+    },
+)
+
 export const spectraOpr = `number ion energy spin l parity j base conf eConf ionReverse position term orbital`

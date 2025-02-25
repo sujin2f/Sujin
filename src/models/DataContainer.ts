@@ -1,5 +1,5 @@
 import { Atom } from '@src/models/Atom'
-import type { ISpectrum, SortType } from '@src/types/ether'
+import type { ChartData, ISpectrum, SortType } from '@src/types/ether'
 
 /**
  * Data Container that covers various atom states
@@ -31,5 +31,20 @@ export class DataContainer {
 
     public get(number: number, ion: number) {
         return this.atom[`${number}-${ion}`]
+    }
+
+    public map<T>(callbackfn: (value: Atom, index: number) => T) {
+        return Object.values(this.atom).map(callbackfn)
+    }
+
+    public get chartData() {
+        const data: ChartData = {}
+        this.map((atom) => {
+            Object.entries(atom.chartData).forEach(([key, value]) => {
+                console.log(key, value)
+                data[`${atom.toString()} ${key}`] = value as number[]
+            })
+        })
+        return data
     }
 }

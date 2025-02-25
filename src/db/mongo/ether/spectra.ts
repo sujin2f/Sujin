@@ -48,6 +48,17 @@ export const getSpectraFromNIST = async (number: number, ion: number) => {
     )
 }
 
+export const getSpectraBySchema = async (schema: string) => {
+    const key = `spectra-by-schema-${schema}`
+    const value = JSON.parse(decodeURIComponent(schema))
+    return await Cached.getInstance().getOrExecute(
+        key,
+        async () => await Mongo.findMany<ISpectrum>('spectra', value),
+        WEEK_IN_SECONDS,
+        IS_DEV,
+    )
+}
+
 export const findSpectra = async (spectrum: Partial<ISpectrum>) => {
     const key = `spectra-${JSON.stringify(spectrum)}`
     return await Cached.getInstance().getOrExecute(

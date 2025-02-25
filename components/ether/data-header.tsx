@@ -6,15 +6,15 @@ import Link from 'next/link'
 import { Button } from '@common/components/forms/Button'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
+import { Select } from '@common/components/forms/Select'
 /* Helpers */
 import { periodicTable } from '@src/constants/ether'
 import { getAtom } from '@src/utils/ether'
 import { romanize } from '@common/utils/number'
-import { Select } from '@common/components/forms/Select'
-import type { AtomContainer } from '@src/models/Atom'
+import type { Atom } from '@src/models/Atom'
 
 type Props = {
-    container: AtomContainer
+    container: Atom
     atom: number
     ion: number
     type: string
@@ -43,6 +43,7 @@ export const DataHeader = (props: Props) => {
 
     return (
         <aside className="header--ether">
+            {/* Atom Navigation */}
             <Row dom="nav" className="header--ether__atom">
                 <Column small={4}>
                     {prev && (
@@ -64,6 +65,7 @@ export const DataHeader = (props: Props) => {
                     )}
                 </Column>
             </Row>
+            {/* Type / Term Selection */}
             <Row dom="nav" className="header--ether__type">
                 <Column small={6} className="text--right">
                     <Button
