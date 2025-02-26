@@ -1,8 +1,9 @@
-// yarn test spectra.spec.ts
+// yarn test model-spectra.spec.ts
 
-import { NISTresponseH } from '../../../../.jest/fixture'
-import { getSpectraFromNIST } from './spectra'
+import { NISTresponseH } from '../../.jest/fixture'
+import { getSpectraFromNIST } from '../db/mongo/ether/spectra'
 import Mongo from '@common/data/mongo/mongo'
+import { getSpectra } from '../utils/ether'
 
 describe('spectra.spec.ts', () => {
     beforeAll(async () => {
@@ -19,6 +20,8 @@ describe('spectra.spec.ts', () => {
 
     test('request', async () => {
         const response = await getSpectraFromNIST(1, 1)
-        expect(response.length).toBe(66)
+        const items = getSpectra(response)
+        items['1-1'].sort()
+        expect(items['1-1'].maxColumn).toBe(12)
     })
 })

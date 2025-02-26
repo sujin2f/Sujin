@@ -2,7 +2,7 @@ import { parse } from 'csv-parse'
 import { Nullable } from '@common/types'
 import { insertOne } from '@src/db/mongo/ether/spectra'
 import { ISpectrum } from '@src/types/ether'
-import { orbitalKeys } from '@src/constants/spectra'
+import { orbitalKeys } from '@src/constants/ether'
 
 export const insertManyFromCSV = async (
     number: number,

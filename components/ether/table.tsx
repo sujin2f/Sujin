@@ -4,69 +4,73 @@ import Link from 'next/link'
 /* Components */
 import { Table as TableComponent } from '@common/components/containers/Table'
 /* Helpers */
-import type { TableData } from '@src/types/ether'
+import { Atom } from '@src/models/Atom'
+import { ROW_HEAD } from '@src/constants/ether'
+import { map } from '@common/utils/array'
 
 type Props = {
-    data: TableData
-    rowHead: string[]
-    maxColumn: number
+    orbital: Atom
 }
 
-export const Table = ({ data, rowHead, maxColumn }: Props) => {
+export const Table = ({ orbital }: Props) => {
     return (
-        <>
-            <TableComponent className="ether">
-                {Object.entries(data).map(([groupKey, group], groupIndex) => (
-                    <Fragment key={`term-group-${groupKey}-${groupIndex}`}>
-                        {/* Group */}
-                        <thead>
-                            <tr>
-                                <th
-                                    colSpan={maxColumn + 2}
-                                    className="table__ether__term-group"
-                                >
-                                    <Link href={`?term=${groupKey}`}>
-                                        {groupKey}
-                                    </Link>
-                                </th>
-                            </tr>
-                        </thead>
+        <TableComponent className="ether">
+            {orbital.map((term, termIndex) => (
+                <Fragment key={`term-${term.toString()}-${termIndex}`}>
+                    {/* Term */}
+                    <thead>
+                        <tr>
+                            <th
+                                colSpan={orbital.maxColumn + 2}
+                                className="table__ether__term-group"
+                            >
+                                <Link href={`?term=${term.toString()}`}>
+                                    {term.toString()}
+                                </Link>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {term.map((line, index) => (
+                            <Fragment key={`line-${term.toString()}-${index}`}>
+                                {ROW_HEAD.map((row, index) => {
+                                    const value = line.value[index]
 
-                        {Object.entries(group).map(
-                            ([rowsLabel, rows], rowsIndex) => (
-                                <tbody
-                                    key={`tbody-${groupKey}-${groupIndex}-${rowsLabel}-${rowsIndex}`}
-                                >
-                                    {rows.map((row, index) => (
+                                    return (
                                         <tr
-                                            key={`tr-${groupKey}-${groupIndex}-${rowsLabel}-${rowsIndex}-${index}`}
+                                            key={`conf-${term.toString()}-${index}-${row}`}
                                         >
                                             {index === 0 && (
-                                                <th rowSpan={rowHead.length}>
-                                                    {rowsLabel}
+                                                <th rowSpan={ROW_HEAD.length}>
+                                                    {line.toString()}
                                                 </th>
                                             )}
+                                            <th>{row}</th>
 
-                                            <th>{rowHead[index]}</th>
-
-                                            {row.map((col, colIndex) => (
-                                                <td
-                                                    key={`td-${groupIndex}-${rowsLabel}-${colIndex}`}
-                                                >
-                                                    {typeof col === 'number' &&
-                                                    isNaN(col)
-                                                        ? ''
-                                                        : col}
-                                                </td>
-                                            ))}
+                                            {map(
+                                                orbital.maxColumn,
+                                                (_, col) => (
+                                                    <td
+                                                        key={`conf-${term.toString()}-${index}-${row}-${col}-${
+                                                            value[col]
+                                                        }`}
+                                                    >
+                                                        {typeof value[col] !==
+                                                            'number' ||
+                                                        !isNaN(value[col])
+                                                            ? value[col]
+                                                            : ''}
+                                                    </td>
+                                                ),
+                                            )}
                                         </tr>
-                                    ))}
-                                </tbody>
-                            ),
-                        )}
-                    </Fragment>
-                ))}
-            </TableComponent>
-        </>
+                                    )
+                                })}
+                            </Fragment>
+                        ))}
+                    </tbody>
+                </Fragment>
+            ))}
+        </TableComponent>
     )
 }

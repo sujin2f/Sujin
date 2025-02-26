@@ -22,14 +22,21 @@ import {
     GQLFlickrImage,
     GQLTagCloud,
     GQLResult,
+    GQLSpectrum,
     queryBackground,
     queryFlickr,
     queryTagCloud,
     queryRecent,
     mutateCache,
+    querySpectra,
+    queryMongoSpectra,
 } from '@src/constants/graphql'
 import { isEmpty } from '@common/utils/object'
 import { BASE_URL, IS_DEV } from '@src/constants/system'
+import {
+    getSpectraFromNIST,
+    getSpectraBySchema,
+} from '@src/db/mongo/ether/spectra'
 
 const options = createGQLOptions(
     GQLImageSize,
@@ -42,10 +49,13 @@ const options = createGQLOptions(
     GQLFlickrImage,
     GQLTagCloud,
     GQLResult,
+    GQLSpectrum,
     queryBackground.setCallback(getBackgrounds),
     queryFlickr.setCallback(getFlickr),
     queryTagCloud.setCallback(getTagCloud),
     queryRecent.setCallback(getRecentPosts),
+    querySpectra.setCallback(getSpectraFromNIST),
+    queryMongoSpectra.setCallback(getSpectraBySchema),
     mutateCache.setCallback(clearCache),
 )
 

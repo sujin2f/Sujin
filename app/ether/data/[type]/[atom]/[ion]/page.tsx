@@ -1,51 +1,64 @@
-import { notFound } from 'next/navigation'
-
-import { periodicTable } from '@src/constants/spectra'
-import { getClientData, sortEther, getSpectra } from '@src/utils/ether'
-import { Data } from '@components/ether/data'
+'use client'
+import { useEffect, useState } from 'react'
+import { useParams } from 'next/navigation'
+/* Components */
 import { DataHeader } from '@components/ether/data-header'
-import { getSpectraFromNIST } from '@src/db/mongo/ether/spectra'
-import { unstable_cache } from 'next/cache'
-import { DAY_IN_SECONDS } from '@common/constants/datetime'
+import ScrollToTop from '@components/ScrollToTop'
+import { Row } from '@common/components/layout/Row'
+import { Column } from '@common/components/layout/Column'
+import { Chart } from '@components/ether/chart'
+import { Table } from '@components/ether/table'
+/* Helpers */
+import type { Nullable } from '@common/types'
+import type { ISpectrum } from '@src/types/ether'
+import { fetchGQL } from '@common/data/graphql/fetchGQL'
+import { querySpectra, spectraOpr } from '@src/constants/graphql'
+import { DataContainer } from '@src/models/DataContainer'
 
-export default async function DataPage(props: EtherDataServerProps) {
-    const params = await props.params
-    const type = params.type
-    if (type !== 'ether' && type !== 'orbital') {
-        notFound()
+export default function DataPage() {
+    const params = useParams<EtherDataProps>()
+    const [spectra, setSpectra] = useState<Nullable<ISpectrum[]>>()
+
+    if (!params || !params.atom || !params.ion || !params.type) {
+        return <></>
     }
+
     const atom = parseInt(params.atom)
     const ion = parseInt(params.ion)
 
-    const requestSpectra = unstable_cache(
-        async () => await getSpectraFromNIST(periodicTable[atom - 1], ion),
-        [atom.toString(), ion.toString()],
-        {
-            tags: ['spectra'],
-            revalidate: DAY_IN_SECONDS * 7,
-        },
-    )
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useEffect(() => {
+        fetchGQL(querySpectra, spectraOpr, 0, atom, ion)
+            .then((result) => setSpectra(result))
+            .catch(() => setSpectra([]))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
-    const response = await requestSpectra()
-    const [orbital, ratio, kRadial, kLinear] = getSpectra(response, atom, ion)
-    const spectra = type === 'ether' ? sortEther(orbital) : orbital
-    const [chartData, tableData, rowHead, maxColumn] = getClientData(
-        spectra,
-        ratio,
-        kRadial,
-        kLinear,
-    )
-    const terms = Object.keys(tableData)
+    if (!spectra) {
+        return <></>
+    }
+    const container = new DataContainer(spectra, params.type)
+    const orbital = container.get(atom, ion)
 
     return (
         <>
-            <DataHeader terms={terms} />
-            <Data
-                chartData={chartData}
-                tableData={tableData}
-                rowHead={rowHead}
-                maxColumn={maxColumn}
+            <ScrollToTop />
+            <DataHeader
+                container={orbital}
+                atom={atom}
+                ion={ion}
+                type={params.type}
             />
+            <Row>
+                <Column small={12}>
+                    <Chart data={orbital.chartData} />
+                </Column>
+            </Row>
+            <Row>
+                <Column small={12}>
+                    <Table orbital={orbital} />
+                </Column>
+            </Row>
         </>
     )
 }

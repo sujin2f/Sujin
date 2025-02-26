@@ -1,61 +1,49 @@
 'use client'
 import React, { useMemo } from 'react'
-import {
-    redirect,
-    useParams,
-    useSearchParams,
-    usePathname,
-} from 'next/navigation'
+import { redirect } from 'next/navigation'
 import Link from 'next/link'
 /* Components */
 import { Button } from '@common/components/forms/Button'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
+import { Select } from '@common/components/forms/Select'
 /* Helpers */
-import { periodicTable } from '@src/constants/spectra'
+import { periodicTable } from '@src/constants/ether'
 import { getAtom } from '@src/utils/ether'
 import { romanize } from '@common/utils/number'
-import { Select } from '@common/components/forms/Select'
+import type { Atom } from '@src/models/Atom'
 
 type Props = {
-    terms: string[]
+    container: Atom
+    atom: number
+    ion: number
+    type: string
+    term?: string
 }
 
-export const DataHeader = ({ terms }: Props) => {
-    const path = usePathname()
-    const searchParams = useSearchParams()
-    const term = (searchParams && searchParams.get('term')) || ''
-    const params = useParams<EtherDataProps>()
-
-    const atom = parseInt(params ? params.atom : '0')
-    const ion = parseInt(params ? params.ion : '0')
-    const type = params ? params.type : ''
-
+export const DataHeader = (props: Props) => {
+    const { ion, type, term } = props
+    const container = props.container
+    const atom = getAtom(props.atom)
     const prev = useMemo(() => {
-        if (atom < 2) {
+        if (atom.number < 2) {
             return
         }
-        return getAtom(atom - 1)
-    }, [atom])
-    const next = useMemo(() => getAtom(atom + 1), [atom])
+        return getAtom(atom.number - 1)
+    }, [atom.number])
+    const next = useMemo(() => getAtom(atom.number + 1), [atom.number])
 
-    const options: Record<string, string> = terms.reduce(
-        (acc, cur) => ({
-            ...acc,
-            [cur]: cur,
-        }),
-        {},
-    )
-    const onTermChange = (value: string) => {
-        if (value) {
-            redirect(`?term=${value}`)
-        } else if (path) {
-            redirect(path)
+    const onTermChange = (term: string) => {
+        const url = `/ether/data/${type}/${atom.number}/${ion}`
+        if (!term) {
+            redirect(url)
         }
+        redirect(`${url}/${term}`)
     }
 
     return (
         <aside className="header--ether">
+            {/* Atom Navigation */}
             <Row dom="nav" className="header--ether__atom">
                 <Column small={4}>
                     {prev && (
@@ -66,7 +54,7 @@ export const DataHeader = ({ terms }: Props) => {
                 </Column>
                 <Column small={4}>
                     <h1 className="text--center">
-                        {periodicTable[atom - 1].name} {romanize(ion)}
+                        {periodicTable[atom.number - 1].name} {romanize(ion)}
                     </h1>
                 </Column>
                 <Column small={4} className="text--right">
@@ -77,22 +65,23 @@ export const DataHeader = ({ terms }: Props) => {
                     )}
                 </Column>
             </Row>
+            {/* Type / Term Selection */}
             <Row dom="nav" className="header--ether__type">
                 <Column small={6} className="text--right">
                     <Button
                         title="Orbital"
-                        href={`/ether/data/orbital/${atom}/${ion}`}
+                        href={`/ether/data/orbital/${atom.number}/${ion}`}
                         hollow={type === 'ether'}
                     />
                     <Button
                         title="Ether"
-                        href={`/ether/data/ether/${atom}/${ion}`}
+                        href={`/ether/data/ether/${atom.number}/${ion}`}
                         hollow={type === 'orbital'}
                     />
                 </Column>
                 <Column small={6}>
                     <Select
-                        options={{ '': 'Term', ...options }}
+                        options={{ '': 'Term', ...container.termOptions }}
                         value={term}
                         onChange={onTermChange}
                     />

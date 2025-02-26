@@ -4,7 +4,14 @@ import type { PropsWithChildren } from 'react'
 import { getMetaData } from '@src/utils/server'
 
 export const generateMetadata = async (): Promise<Metadata> => {
-    const metadata = await getMetaData()
+    let metadata: Metadata
+
+    try {
+        metadata = await getMetaData()
+    } catch {
+        return {}
+    }
+
     const metadataBase = metadata.openGraph?.url
         ? new URL(metadata.openGraph?.url)
         : undefined

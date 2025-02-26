@@ -8,7 +8,7 @@ import {
 } from 'chart.js/auto'
 /* Helpers */
 import { getRandomInt } from '@common/utils/number'
-import { CHART_COLORS, options } from '@src/constants/chart'
+import { CHART_COLORS } from '@src/constants/chart'
 import { ChartData } from '@src/types/ether' // TODO Name
 import { map } from '@common/utils/array'
 
@@ -51,7 +51,6 @@ export const Chart = ({ data }: Props) => {
                 new ChartJS(ref.current, {
                     type: 'line',
                     data: convertChartData(data, term),
-                    options,
                 }),
             )
         } else if (ref.current && chart) {

@@ -18,6 +18,7 @@ import type {
     Post,
     TagCloud,
 } from '@src/types/wordpress'
+import { ISpectrum } from '@src/types/ether'
 
 const list = true
 const required = true
@@ -250,3 +251,57 @@ export const postOpr = `${miniPostOpr} date excerpt content parent type
 export const tagCloudOpr = 'id title slug count hit'
 export const flickrOpr = 'title link media'
 export const archiveOpr = `${commonOpr} excerpt total limit pages page type image { ${imageOpr} } posts { ${miniPostOpr} date excerpt tags { ${commonOpr} page type } }`
+
+/**
+ * Ether
+ */
+export const GQLSpectrum = new GQLType<ISpectrum>('Spectrum', {
+    number: { type: GQLInt },
+    ion: { type: GQLInt },
+    energy: { type: GQLFloat },
+    spin: { type: GQLFloat },
+    l: { type: GQLString },
+    parity: { type: GQLBoolean },
+    j: { type: GQLFloat },
+    base: { type: GQLFloat },
+    conf: { type: GQLString, list },
+    eConf: { type: GQLInt, list },
+    ionReverse: { type: GQLInt },
+    position: { type: GQLInt },
+    term: { type: GQLString },
+    orbital: { type: GQLString },
+})
+
+export const querySpectra = new GQLQuery<[number, number], ISpectrum[]>(
+    'spectra',
+    {
+        number: {
+            type: GQLInt,
+            required,
+        },
+        ion: {
+            type: GQLInt,
+            required,
+        },
+    },
+    {
+        type: GQLSpectrum,
+        list,
+    },
+)
+
+export const queryMongoSpectra = new GQLQuery<[string], ISpectrum[]>(
+    'spectra_by_mongo',
+    {
+        schema: {
+            type: GQLString,
+            required,
+        },
+    },
+    {
+        type: GQLSpectrum,
+        list,
+    },
+)
+
+export const spectraOpr = `number ion energy spin l parity j base conf eConf ionReverse position term orbital`
