@@ -7,7 +7,7 @@
  * @author  Sujin 수진 Choi http://www.sujinc.com/
  */
 
-namespace Sujin\WordPress\Theme\Sujin\Shortcode;
+namespace Sujin\Theme\Shortcode;
 
 use Sujin\Wordpress\WP_Express\Helpers\Trait_Singleton;
 use Sujin\Wordpress\WP_Express\Fields\Post_Meta\Attachment;

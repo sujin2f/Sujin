@@ -1,6 +1,8 @@
 import { unstable_expireTag } from 'next/cache'
-import { getOption } from '@src/db/mysql/getOption'
+
 import { Cached } from '@common/model/Cached'
+import { getOption } from '@src/db/mysql/getOption'
+import { removeOption } from '@src/db/mysql/removeOption'
 
 export const clearCache = async (
     nonce: string,
@@ -9,7 +11,7 @@ export const clearCache = async (
     categories: string,
     tags: string,
 ) => {
-    const option = await getOption('clear_cache')
+    const option = await getOption('remove_cache')
     const nonceValue = option && option.option_value
 
     if (`${nonce}-${slug}` !== nonceValue) {
@@ -24,8 +26,10 @@ export const clearCache = async (
         ...categories.split(',').map((v) => `archive-category-${v}`),
         ...tags.split(',').map((v) => `archive-post_tag-${v}`),
     ]
+
     await Cached.getInstance().flush(keys)
     unstable_expireTag('wordpress', 'archive', 'page', 'post')
+    await removeOption('remove_cache')
 
     return {
         result: true,

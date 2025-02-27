@@ -16,9 +16,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 require_once get_stylesheet_directory() . '/vendor/sujin/wp-express/autoload.php';
 
 $class_loader = new Sujin\Wordpress\WP_Express\Autoloader(
-	'Sujin\\WordPress\\Theme\\Sujin',
+	'Sujin\\Theme',
 	dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'classes',
 );
 $class_loader->register();
 
-Sujin\WordPress\Theme\Sujin\Bootstrap::get_instance();
+Sujin\Theme\Bootstrap::get_instance();
