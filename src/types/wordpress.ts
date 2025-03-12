@@ -11,7 +11,7 @@ export type Post = {
     date: number
     link: string
     parent: number
-    type: string
+    type: 'post' | 'page' | 'attachment'
     menuOrder: number
     tags: Term[]
     categories: Term[]
@@ -29,11 +29,7 @@ export type Post = {
         useBackgroundColor: boolean
         backgroundColor: string
     }
-    prevNext: {
-        prev?: Post
-        next?: Post
-    }
-    related: Post[]
+    status: 'publish' | 'draft' | 'inherit'
 }
 
 export type MenuItem = {

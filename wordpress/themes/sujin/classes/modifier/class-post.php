@@ -55,6 +55,6 @@ class Post {
 	 */
 	public function post_updated( int $post_id, \WP_Post $post ): void {
 		$graphql = new GraphQL( $post );
-		$graphql->remove_cache();
+		$graphql->update_post();
 	}
 }

@@ -411,16 +411,16 @@ export default function ClassicPhysics() {
             </p>
 
             <PrevNext
-                prevNext={{
-                    prev: {
+                posts={[
+                    {
                         title: 'Hypothesis',
                         link: '/ether/document/hypothesis',
                     } as Post,
-                    next: {
+                    {
                         title: 'Proof(2): Reinterpretation of Rydberg Formula',
                         link: '/ether/document/rydberg-formula',
                     } as Post,
-                }}
+                ]}
             ></PrevNext>
         </div>
     )

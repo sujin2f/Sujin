@@ -241,16 +241,16 @@ export default function Hypothesis() {
             </p>
 
             <PrevNext
-                prevNext={{
-                    prev: {
+                posts={[
+                    {
                         title: '첫 페이지',
                         link: '/ether/kor',
                     } as Post,
-                    next: {
+                    {
                         title: '가설의 검증(1): 고전 물리학',
                         link: '/ether/kor/document/classic-physics',
                     } as Post,
-                }}
+                ]}
             ></PrevNext>
         </div>
     )

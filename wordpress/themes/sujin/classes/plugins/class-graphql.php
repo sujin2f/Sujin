@@ -28,7 +28,7 @@ class GraphQL {
 		}
 	}
 
-    public function remove_cache() {
+    public function update_post() {
 		$categories = array();
 		$tags       = array();
 		foreach ( get_the_category( $this->post->ID ) as  $category ) {
@@ -41,7 +41,7 @@ class GraphQL {
 		$mutation = array(
 			'query' => '
 				mutation {
-					removeCache(nonce: "' . $this->nonce . '", slug: "' . $this->post->post_name . '", id: ' . $this->post->ID . ', categories: "' . join( ',', $categories ) . '", tags: "' . join( ',', $tags ) . '") {
+					updatePost(nonce: "' . $this->nonce . '", slug: "' . $this->post->post_name . '", id: ' . $this->post->ID . ', categories: "' . join( ',', $categories ) . '", tags: "' . join( ',', $tags ) . '") {
 						result
 					}
 				}',
@@ -53,36 +53,7 @@ class GraphQL {
 			'body'    => wp_json_encode( $mutation ),
 		);
 
-		update_option( 'remove_cache', $this->nonce . '-' . $this->post->post_name );
-		wp_remote_post( $this->base_url . '/api/graphql', $args );
-    }
-
-    public function update() {
-		$categories = array();
-		$tags       = array();
-		foreach ( get_the_category( $this->post->ID ) as  $category ) {
-			array_push( $categories, $category->slug );
-		}
-		foreach ( get_the_tags( $this->post->ID ) as  $tag ) {
-			array_push( $tags, $tag->slug );
-		}
-
-		$mutation = array(
-			'query' => '
-				mutation {
-					update(nonce: "' . $this->nonce . '", slug: "' . $this->post->post_name . '", id: ' . $this->post->ID . ', categories: "' . join( ',', $categories ) . '", tags: "' . join( ',', $tags ) . '") {
-						result
-					}
-				}',
-		);
-		$args     = array(
-			'headers' => array(
-				'Content-Type' => 'application/json',
-			),
-			'body'    => wp_json_encode( $mutation ),
-		);
-
-		update_option( 'update', $this->nonce . '-' . $this->post->post_name );
+		update_option( 'update_post_' . $this->nonce, $this->nonce . '-' . $this->post->post_name );
 		wp_remote_post( $this->base_url . '/api/graphql', $args );
     }
 }

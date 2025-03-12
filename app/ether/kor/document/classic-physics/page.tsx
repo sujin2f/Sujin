@@ -387,16 +387,16 @@ export default function ClassicPhysics() {
             </p>
 
             <PrevNext
-                prevNext={{
-                    prev: {
+                posts={[
+                    {
                         title: '가설 제시',
                         link: '/ether/kor/document/hypothesis',
                     } as Post,
-                    next: {
+                    {
                         title: '가설의 검증(2): 뤼드베리 방정식의 재정립',
                         link: '/ether/kor/document/rydberg-formula',
                     } as Post,
-                }}
+                ]}
             ></PrevNext>
         </div>
     )

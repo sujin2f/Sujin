@@ -41,12 +41,13 @@ export default function Intro() {
             </p>
 
             <PrevNext
-                prevNext={{
-                    next: {
+                posts={[
+                    ,
+                    {
                         title: '가설 제시',
                         link: '/ether/kor/document/hypothesis',
                     } as Post,
-                }}
+                ]}
             ></PrevNext>
         </>
     )

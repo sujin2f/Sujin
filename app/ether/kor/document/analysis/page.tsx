@@ -676,16 +676,16 @@ export default function Analysis() {
             </Row>
 
             <PrevNext
-                prevNext={{
-                    prev: {
+                posts={[
+                    {
                         title: '가설의 검증(2): 뤼드베리 방정식의 재정립',
                         link: '/ether/kor/document/rydberg-formula',
                     } as Post,
-                    next: {
+                    {
                         title: '가설의 검증(4): 비교기준, Between',
                         link: '/ether/kor/document/between',
                     } as Post,
-                }}
+                ]}
             ></PrevNext>
         </div>
     )

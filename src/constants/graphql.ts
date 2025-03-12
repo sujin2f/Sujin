@@ -197,18 +197,57 @@ export const queryRecent = new GQLQuery<[], Post[]>(
     },
 )
 
-type ResultType = {
+export const queryPrevNext = new GQLQuery<[number, number, string], Post[]>(
+    'prevNext',
+    {
+        id: {
+            type: GQLInt,
+        },
+        date: {
+            type: GQLInt,
+        },
+        categories: {
+            type: GQLString,
+        },
+    },
+    {
+        type: GQLPost,
+        list,
+    },
+)
+
+export const queryRelatedPosts = new GQLQuery<[number, string, string], Post[]>(
+    'relatedPosts',
+    {
+        id: {
+            type: GQLInt,
+        },
+        categories: {
+            type: GQLString,
+        },
+        tags: {
+            type: GQLString,
+        },
+    },
+    {
+        type: GQLPost,
+        list,
+    },
+)
+
+export type MutationResultType = {
     result: boolean
 }
 
 export const GQLResult = new GQLType<boolean>('Result', {
     result: { type: GQLBoolean },
 })
-export const mutateCache = new GQLMutation<
+
+export const mutateUpdatePost = new GQLMutation<
     [string, string, number, string, string],
-    ResultType
+    MutationResultType
 >(
-    'removeCache',
+    'updatePost',
     {
         nonce: {
             type: GQLString,

@@ -1,7 +1,7 @@
 import React from 'react'
 /* Components */
 import { Tags } from '@components/wordpress/single/Tags'
-import { PrevNext } from '@components/wordpress/single/PrevNext'
+import { PrevNextWithPost } from '@components/wordpress/single/PrevNext'
 import { RelatedPosts } from '@components/wordpress/single/RelatedPosts'
 import { RecentPosts } from '@components/wordpress/single/RecentPosts'
 import GoogleAdvert from '@components/GoogleAdvert'
@@ -30,8 +30,8 @@ export const Post = ({ post, thumbnail }: Props) => {
                         excerpt={post.excerpt}
                         thumbnail={thumbnail}
                     />
-                    <PrevNext prevNext={post.prevNext} />
-                    <RelatedPosts items={post.related} />
+                    <PrevNextWithPost post={post} />
+                    <RelatedPosts post={post} />
                 </Content>
             </Column>
 

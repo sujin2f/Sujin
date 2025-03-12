@@ -1,5 +1,6 @@
 import {
     InsertManyResult,
+    type Sort,
     type Document,
     type Filter,
     type InsertOneResult,
@@ -54,11 +55,22 @@ const findOne = async <T extends Document>(
 const findMany = async <T extends Document>(
     collection: string,
     doc: Filter<T>,
+    options?: {
+        sort?: Sort
+        limit?: number
+    },
 ): Promise<WithId<T>[]> => {
     const client = MongoClient
     try {
         const database = client.db(process.env.MONGO_DATABASE)
-        return await database.collection<T>(collection).find(doc).toArray()
+        let find = await database.collection<T>(collection).find(doc)
+        if (options && options.sort) {
+            find = find.sort(options.sort)
+        }
+        if (options && options.limit) {
+            find = find.limit(options.limit)
+        }
+        return find.toArray()
     } catch (e: unknown) {
         throw e
     }

@@ -49,6 +49,7 @@ const getPostQuery = (
                       queryValue.toString(),
                       (page - 1) * PER_PAGE,
                   )
+        // @deprecated
         case 'recent-posts':
             return MySQLQuery.getRecentPosts()
         case 'search':
@@ -95,7 +96,10 @@ const getPostImages = async (post: Post): Promise<getPostImagesReturnType> => {
     return result
 }
 
-const getAdjacentPost = async (
+/**
+ * @deprecated
+ */
+export const getAdjacentPost = async (
     post: Post,
     previous = true,
 ): Promise<Nullable<Post>> => {
@@ -114,7 +118,10 @@ const getAdjacentPost = async (
     }
 }
 
-const getRelatedPost = async (post: Post): Promise<Post[]> => {
+/**
+ * @deprecated
+ */
+export const getRelatedPost = async (post: Post): Promise<Post[]> => {
     const result: Post[] = []
     const tags = await MySQL.getInstance().select<Post>(
         MySQLQuery.getRelatedPost(
@@ -185,7 +192,7 @@ export const getPostsBy = async (
             ...post,
             content: autop(post.content),
             link,
-            tags: taxonomies.filter((term) => term.type === TermTypes.tag),
+            tags: taxonomies.filter((term) => term.type === TermTypes.post_tag),
             categories: taxonomies.filter(
                 (term) => term.type === TermTypes.category,
             ),
@@ -193,15 +200,6 @@ export const getPostsBy = async (
             images,
             date: new Date(post.date).getTime(),
             meta,
-            prevNext: {},
-            related: [],
-        }
-        if (post_.type === 'post') {
-            post_.prevNext = {
-                prev: await getAdjacentPost(post_, true),
-                next: await getAdjacentPost(post_, false),
-            }
-            post_.related = await getRelatedPost(post_)
         }
 
         const slug = post_.slug.toLowerCase()
@@ -215,6 +213,16 @@ export const getPostsBy = async (
     return posts
 }
 
+/**
+ * Fetches the recent posts from the cache or executes the fetch if not cached.
+ * It uses a caching mechanism to avoid fetching the posts multiple times within a day.
+ *
+ * @returns {Promise<Object>} A promise that resolves to the recent posts.
+ *                             The structure of the posts depends on the implementation of `getPostsBy`.
+ *
+ * @throws {Error} Throws an error if the caching or fetching process fails.
+ * @deprecated
+ */
 export const getRecentPosts = async () =>
     await Cached.getInstance().getOrExecute(
         'recent-post',

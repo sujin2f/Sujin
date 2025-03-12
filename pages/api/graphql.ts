@@ -8,8 +8,10 @@ import { NextRequest } from 'next/server'
 import { getBackgrounds } from '@src/db/mysql/getBackgrounds'
 import { getFlickr } from '@src/db/fetch/getFlickr'
 import { getTagCloud } from '@src/db/mysql/getTagCloud'
-import { getRecentPosts } from '@src/db/mysql/getPostsBy'
-import { clearCache } from '@src/db/clear-cache'
+import { getRecentPosts } from '@src/db/mongo/wordpress/getRecentPosts'
+import { getPrevNext } from '@src/db/mongo/wordpress/getPrevNext'
+import { getRelatedPosts } from '@src/db/mongo/wordpress/getRelatedPosts'
+import { updatePost } from '@src/db/mongo/wordpress/updatePost'
 import { createGQLOptions } from '@common/data/graphql/createExpressRouter'
 import {
     GQLImageSize,
@@ -27,7 +29,9 @@ import {
     queryFlickr,
     queryTagCloud,
     queryRecent,
-    mutateCache,
+    queryPrevNext,
+    queryRelatedPosts,
+    mutateUpdatePost,
     querySpectra,
     queryMongoSpectra,
 } from '@src/constants/graphql'
@@ -54,9 +58,11 @@ const options = createGQLOptions(
     queryFlickr.setCallback(getFlickr),
     queryTagCloud.setCallback(getTagCloud),
     queryRecent.setCallback(getRecentPosts),
+    queryPrevNext.setCallback(getPrevNext),
+    queryRelatedPosts.setCallback(getRelatedPosts),
     querySpectra.setCallback(getSpectraFromNIST),
     queryMongoSpectra.setCallback(getSpectraBySchema),
-    mutateCache.setCallback(clearCache),
+    mutateUpdatePost.setCallback(updatePost),
 )
 
 const server = new ApolloServer({

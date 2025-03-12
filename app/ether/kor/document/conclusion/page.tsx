@@ -229,12 +229,13 @@ export default function Conclusion() {
             <p>Fin</p>
 
             <PrevNext
-                prevNext={{
-                    prev: {
+                posts={[
+                    {
                         title: '가설의 검증(4): 비교기준, Between',
                         link: '/ether/kor/document/between',
                     } as Post,
-                }}
+                    undefined,
+                ]}
             ></PrevNext>
         </div>
     )

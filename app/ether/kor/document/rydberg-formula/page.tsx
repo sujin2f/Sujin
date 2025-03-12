@@ -687,16 +687,16 @@ export default function RydbergFormula() {
             </p>
 
             <PrevNext
-                prevNext={{
-                    prev: {
+                posts={[
+                    {
                         title: '가설의 검증(1): 고전 물리학',
                         link: '/ether/kor/document/classic-physics',
                     } as Post,
-                    next: {
+                    {
                         title: '가설의 검증(3): 방출 에너지 분석',
                         link: '/ether/kor/document/analysis',
                     } as Post,
-                }}
+                ]}
             ></PrevNext>
         </div>
     )

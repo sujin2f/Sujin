@@ -268,16 +268,16 @@ export default function Between() {
             </p>
 
             <PrevNext
-                prevNext={{
-                    prev: {
+                posts={[
+                    {
                         title: '가설의 검증(3): 방출 에너지 분석',
                         link: '/ether/kor/document/analysis',
                     } as Post,
-                    next: {
+                    {
                         title: '결론',
                         link: '/ether/kor/document/conclusion',
                     } as Post,
-                }}
+                ]}
             ></PrevNext>
         </div>
     )

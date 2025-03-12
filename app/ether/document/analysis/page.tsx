@@ -721,16 +721,16 @@ export default function Analysis() {
             </Row>
 
             <PrevNext
-                prevNext={{
-                    prev: {
+                posts={[
+                    {
                         title: 'Proof(2): Reinterpretation of Rydberg Formula',
                         link: '/ether/document/rydberg-formula',
                     } as Post,
-                    next: {
+                    {
                         title: 'Proof(4): Between Comparison',
                         link: '/ether/document/between',
                     } as Post,
-                }}
+                ]}
             ></PrevNext>
         </div>
     )

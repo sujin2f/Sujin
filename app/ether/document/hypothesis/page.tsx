@@ -279,16 +279,16 @@ export default function Hypothesis() {
             </p>
 
             <PrevNext
-                prevNext={{
-                    prev: {
+                posts={[
+                    {
                         title: 'Introduction',
                         link: '/ether',
                     } as Post,
-                    next: {
+                    {
                         title: 'Proof(1): Classic Physics',
                         link: '/ether/document/classic-physics',
                     } as Post,
-                }}
+                ]}
             ></PrevNext>
         </div>
     )

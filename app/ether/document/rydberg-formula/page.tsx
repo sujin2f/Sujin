@@ -759,16 +759,16 @@ export default function RydbergFormula() {
             </p>
 
             <PrevNext
-                prevNext={{
-                    prev: {
+                posts={[
+                    {
                         title: 'Proof(1): Classic Physics',
                         link: '/ether/document/classic-physics',
                     } as Post,
-                    next: {
+                    {
                         title: 'Proof(3): Emission Energy Analysis',
                         link: '/ether/document/analysis',
                     } as Post,
-                }}
+                ]}
             ></PrevNext>
         </div>
     )

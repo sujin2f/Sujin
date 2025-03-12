@@ -263,12 +263,13 @@ export default function Conclusion() {
             </p>
 
             <PrevNext
-                prevNext={{
-                    prev: {
+                posts={[
+                    {
                         title: 'Proof(4): Between Comparison',
                         link: '/ether/document/between',
                     } as Post,
-                }}
+                    undefined,
+                ]}
             ></PrevNext>
         </div>
     )
