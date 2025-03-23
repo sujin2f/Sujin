@@ -36,6 +36,7 @@ class Post {
 	 */
 	protected function __construct() {
 		add_action( 'save_post', array( $this, 'post_updated' ), 100, 2 );
+
 		Meta_Box::get_instance( 'Images' )
 			->append_to( Post_Type::get_instance( 'Post' ) )
 			->append_to( Post_Type::get_instance( 'Page' ) )
@@ -48,13 +49,13 @@ class Post {
 	}
 
 	/**
-	 * Remove mongo cache
+	 * Update mongo document
 	 *
 	 * @param int      $post_id Post ID.
 	 * @param \WP_Post $post    WP_Post object.
 	 */
 	public function post_updated( int $post_id, \WP_Post $post ): void {
-		$graphql = new GraphQL( $post );
-		$graphql->update_post();
+		$graphql = new GraphQL();
+		$graphql->update_post( $post );
 	}
 }

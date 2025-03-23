@@ -51,7 +51,9 @@ export const updatePost = async (
     categories: string,
     tags: string,
 ): Promise<MutationResultType> => {
-    const option = await getOption(`update_post_${nonce}`)
+    const optionKey = `update_post_${nonce}`
+    const option = await getOption(optionKey)
+    await removeOption(optionKey)
     const nonceValue = option && option.option_value
 
     // Nonce validation
@@ -60,9 +62,6 @@ export const updatePost = async (
         console.error(message)
         throw Error(message)
     }
-
-    // Remove Nonce
-    await removeOption('update_post')
 
     // Remove Cache and Update Mongo Post
     await removeCache(slug, id, categories, tags)

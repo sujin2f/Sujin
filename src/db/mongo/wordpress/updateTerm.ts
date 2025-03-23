@@ -1,0 +1,54 @@
+// Models
+import { Cached } from '@common/model/Cached'
+import Mongo from '@common/data/mongo/mongo'
+// Helpers
+import { getOption } from '@src/db/mysql/getOption'
+import { removeOption } from '@src/db/mysql/removeOption'
+import { getTermById } from '@src/db/mysql/getTermBy'
+import type { MutationResultType } from '@src/constants/graphql'
+
+/**
+ * Removes cached data related to a specific term.
+ *
+ * @param {number} termId - The ID of the term.
+ * @returns {Promise<void>} A promise that resolves once the cache has been flushed.
+ */
+export const removeCache = async (termId: number): Promise<void> => {
+    await Cached.getInstance().flush([`archive-${termId}`])
+}
+
+/**
+ * Updates a term in the database and clears associated cache.
+ *
+ * @param {string} nonce - The nonce value used to validate the update request.
+ * @param {number} termId - The ID of the term.
+ * @returns {Promise<MutationResultType>} An object indicating the result of the operation.
+ * @throws {Error} Throws an error if the nonce value is invalid.
+ */
+export const updateTerm = async (
+    nonce: string,
+    termId: number,
+): Promise<MutationResultType> => {
+    const optionKey = `update_term_${nonce}`
+    const option = await getOption(optionKey)
+    await removeOption(optionKey)
+    const nonceValue = option && option.option_value
+
+    // Nonce validation
+    if (`${nonce}-${termId}` !== nonceValue) {
+        const message = 'updateTerm got invalid nonce.'
+        console.error(message)
+        throw Error(message)
+    }
+
+    const term = await getTermById(termId)
+    // Remove Cache and Update Mongo Term
+    await removeCache(term.id)
+    await Mongo.findOne('term', { id: termId })
+        .then(async () => await Mongo.replaceOne('term', { id: termId }, term))
+        .catch(async () => await Mongo.insertOne('term', term))
+
+    return {
+        result: true,
+    }
+}

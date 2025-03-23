@@ -37,6 +37,7 @@ export const request = async (
         )
         .catch(() => undefined)
     const posts = await getPostsBy(type, slug, page)
+    const image = await getTermImage(term)
 
     return {
         ...term,
@@ -59,5 +60,23 @@ export const getTermBy = async (
     return await Cached.getInstance().getOrExecute(
         key,
         async () => await request(type, slug, page),
-    )
 }
+
+export const getTermById = async (termId: number) => {
+    const term = await MySQL.getInstance().selectOne<Term>(
+    )
+    const image = await getTermImage(term)
+    return {
+        ...term,
+        type: TermTypes[term.type as keyof typeof TermTypes],
+        image,
+    }
+}
+
+const getTermImage = async (term: Term) =>
+    await getTermMeta<{ value: string }>(term.id, 'thumbnail')
+        .then(async (data) =>
+            data && data.value
+                ? await getMedia(parseInt(data.value))
+                : undefined,
+        )

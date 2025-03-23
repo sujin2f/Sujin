@@ -273,6 +273,24 @@ export const mutateUpdatePost = new GQLMutation<
     { type: GQLResult },
 )
 
+export const mutateUpdateTerm = new GQLMutation<
+    [string, number],
+    MutationResultType
+>(
+    'updateTerm',
+    {
+        nonce: {
+            type: GQLString,
+            required,
+        },
+        termId: {
+            type: GQLInt,
+            required,
+        },
+    },
+    { type: GQLResult },
+)
+
 export const imageOpr = 'url mimeType sizes { key file }'
 const imagesOpr = `id list { ${imageOpr} } icon { ${imageOpr} } title { ${imageOpr} } background { ${imageOpr} } thumbnail { ${imageOpr} }`
 export const menuItemOpr = 'id title target link htmlClass'

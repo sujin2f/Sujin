@@ -62,8 +62,8 @@ class Export_Post {
 				continue;
 			}
 
-			$graphql = new GraphQL( $post );
-			$graphql->update_post();
+			$graphql = new GraphQL();
+			$graphql->update_post( $post );
 		}
 
 		update_option( $option_name, '' );
