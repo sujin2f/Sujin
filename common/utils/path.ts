@@ -3,8 +3,8 @@
  */
 import path from 'path'
 import fs from 'fs'
+import { isDev } from './system'
 
-export const isDev = process.env.NODE_ENV !== 'production'
 export const rootDir = process.cwd()
 export const publicDir = path.resolve(rootDir, 'public')
 export const baseDir = path.resolve(

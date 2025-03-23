@@ -36,11 +36,12 @@ import {
     queryMongoSpectra,
 } from '@src/constants/graphql'
 import { isEmpty } from '@common/utils/object'
-import { BASE_URL, IS_DEV } from '@src/constants/system'
+import { BASE_URL } from '@src/constants/system'
 import {
     getSpectraFromNIST,
     getSpectraBySchema,
 } from '@src/db/mongo/ether/spectra'
+import { isDev } from '@common/utils/system'
 
 const options = createGQLOptions(
     GQLImageSize,
@@ -88,7 +89,7 @@ const server = new ApolloServer({
     }),
     plugins: [
         // Install a landing page plugin based on NODE_ENV
-        IS_DEV
+        isDev
             ? ApolloServerPluginLandingPageLocalDefault({ footer: false })
             : ApolloServerPluginLandingPageDisabled(),
     ],
@@ -103,7 +104,7 @@ const handler = startServerAndCreateNextHandler<NextRequest>(server, {
         const base = new URL(BASE_URL).hostname
 
         // Disallow different domain
-        if (!IS_DEV && !referer.includes(base)) {
+        if (!isDev && !referer.includes(base)) {
             throw Error('Access Denied.')
         }
         return { req, res }
