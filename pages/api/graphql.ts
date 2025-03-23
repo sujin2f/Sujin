@@ -1,6 +1,6 @@
 import { startServerAndCreateNextHandler } from '@as-integrations/next'
 import { InMemoryLRUCache } from '@apollo/utils.keyvaluecache'
-import { ApolloServer } from '@apollo/server'
+import { ApolloServer, ApolloServerPlugin, BaseContext } from '@apollo/server'
 import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/disabled'
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default'
 import { NextRequest } from 'next/server'
@@ -41,7 +41,9 @@ import {
     getSpectraFromNIST,
     getSpectraBySchema,
 } from '@src/db/mongo/ether/spectra'
+import { mongoMigration } from '@src/constants/mongo-migration'
 import { isDev } from '@common/utils/system'
+import { migrateIndex } from '@common/data/mongo/mongo'
 
 const options = createGQLOptions(
     GQLImageSize,
@@ -65,6 +67,21 @@ const options = createGQLOptions(
     queryMongoSpectra.setCallback(getSpectraBySchema),
     mutateUpdatePost.setCallback(updatePost),
 )
+
+/**
+ * Custom Apollo Server Plugin for when the server started
+ */
+function ApolloServerPluginInit<
+    TContext extends BaseContext,
+>(): ApolloServerPlugin<TContext> {
+    return {
+        async serverWillStart() {
+            // Migrate MongoDB indexes
+            const version = process.env.VERSION || '0.0.0'
+            migrateIndex(version, mongoMigration)
+        },
+    }
+}
 
 const server = new ApolloServer({
     typeDefs: options.schema,
@@ -92,6 +109,7 @@ const server = new ApolloServer({
         isDev
             ? ApolloServerPluginLandingPageLocalDefault({ footer: false })
             : ApolloServerPluginLandingPageDisabled(),
+        ApolloServerPluginInit(),
     ],
 })
 

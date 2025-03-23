@@ -1,13 +1,19 @@
-import {
-    InsertManyResult,
-    type Sort,
-    type Document,
-    type Filter,
-    type InsertOneResult,
-    type OptionalUnlessRequiredId,
-    type WithId,
+import { InsertManyResult } from 'mongodb'
+import type {
+    Sort,
+    Document,
+    Filter,
+    InsertOneResult,
+    OptionalUnlessRequiredId,
+    WithId,
+    IndexSpecification,
+    CreateIndexesOptions,
+    DropIndexesOptions,
+    IndexDirection,
 } from 'mongodb'
-import MongoClient from './mongo-client'
+import client from './mongo-client'
+import { compareVersions } from '../../utils/system'
+import type { MongoOptionCollection } from '../../types'
 
 /**
  * Finds a single document in a MongoDB collection.
@@ -22,24 +28,20 @@ const findOne = async <T extends Document>(
     collection: string,
     doc: Filter<T>,
 ): Promise<WithId<T>> => {
-    const client = MongoClient
-    let result: WithId<T> | null
-    try {
+    return await client.then(async (client) => {
         const database = client.db(process.env.MONGO_DATABASE)
-        result = await database.collection<T>(collection).findOne(doc)
-    } catch (e: unknown) {
-        throw e
-    }
+        const result = await database.collection<T>(collection).findOne(doc)
 
-    if (!result) {
-        throw Error(
-            `Mongo findOne failed to fetch database collection ${collection} with a document ${JSON.stringify(
-                doc,
-            )}`,
-        )
-    }
+        if (!result) {
+            throw Error(
+                `Mongo findOne failed to fetch database collection ${collection} with a document ${JSON.stringify(
+                    doc,
+                )}`,
+            )
+        }
 
-    return result
+        return result
+    })
 }
 
 /**
@@ -60,20 +62,17 @@ const findMany = async <T extends Document>(
         limit?: number
     },
 ): Promise<WithId<T>[]> => {
-    const client = MongoClient
-    try {
+    return await client.then(async (client) => {
         const database = client.db(process.env.MONGO_DATABASE)
-        let find = await database.collection<T>(collection).find(doc)
+        let find = database.collection<T>(collection).find(doc)
         if (options && options.sort) {
             find = find.sort(options.sort)
         }
         if (options && options.limit) {
             find = find.limit(options.limit)
         }
-        return find.toArray()
-    } catch (e: unknown) {
-        throw e
-    }
+        return await find.toArray()
+    })
 }
 
 /**
@@ -89,13 +88,10 @@ const insertOne = async <T extends Document>(
     collection: string,
     doc: OptionalUnlessRequiredId<T>,
 ): Promise<InsertOneResult<T>> => {
-    const client = MongoClient
-    try {
+    return await client.then(async (client) => {
         const database = client.db(process.env.MONGO_DATABASE)
         return await database.collection<T>(collection).insertOne(doc)
-    } catch (e: unknown) {
-        throw e
-    }
+    })
 }
 
 /**
@@ -112,26 +108,20 @@ const insertMany = async <T extends Document>(
     collection: string,
     doc: OptionalUnlessRequiredId<T>[],
 ): Promise<InsertManyResult<T>> => {
-    const client = MongoClient
-    try {
+    return await client.then(async (client) => {
         const database = client.db(process.env.MONGO_DATABASE)
         return await database.collection<T>(collection).insertMany(doc)
-    } catch (e: unknown) {
-        throw e
-    }
+    })
 }
 
 const deleteMany = async <T extends Document>(
     collection: string,
     doc: Filter<T>,
 ) => {
-    const client = MongoClient
-    try {
+    return await client.then(async (client) => {
         const database = client.db(process.env.MONGO_DATABASE)
         return await database.collection<T>(collection).deleteMany(doc)
-    } catch (e: unknown) {
-        throw e
-    }
+    })
 }
 
 const replaceOne = async <T extends Document>(
@@ -139,14 +129,25 @@ const replaceOne = async <T extends Document>(
     filter: Filter<T>,
     doc: OptionalUnlessRequiredId<T>,
 ) => {
-    const client = MongoClient
-    try {
+    return await client.then(async (client) => {
         const database = client.db(process.env.MONGO_DATABASE)
         return await database.collection<T>(collection).replaceOne(filter, doc)
-    } catch (e: unknown) {
-        throw e
-    }
+    })
 }
+
+const getSystemOption = async (key: string): Promise<string> =>
+    await findOne<MongoOptionCollection>('options', { key }).then(
+        (result) => result.value,
+    )
+
+const setSystemOption = async (key: string, value: string) =>
+    await findOne<MongoOptionCollection>('options', { key })
+        .then(async () => {
+            await replaceOne('options', { key }, { key, value })
+        })
+        .catch(async () => {
+            await insertOne('options', { key, value })
+        })
 
 const actions = {
     findOne,
@@ -155,6 +156,107 @@ const actions = {
     insertMany,
     deleteMany,
     replaceOne,
+    getSystemOption,
+    setSystemOption,
 }
 
 export default actions
+
+type IndexInfo = {
+    [collection: string]: {
+        drop?: (
+            | [
+                  {
+                      [key: string]: IndexDirection
+                  },
+                  DropIndexesOptions,
+              ]
+            | [
+                  {
+                      [key: string]: IndexDirection
+                  },
+              ]
+        )[]
+        create?: (
+            | [IndexSpecification, CreateIndexesOptions]
+            | [IndexSpecification]
+        )[]
+    }
+}
+
+const updateIndex = async (indexInfo: IndexInfo) => {
+    await client.then(async (client) => {
+        const database = client.db(process.env.MONGO_DATABASE)
+
+        for (const [collection, info] of Object.entries(indexInfo)) {
+            if (info.drop) {
+                const index = await (
+                    await database.collection(collection).indexes()
+                ).reduce(
+                    (acc, block) => ({
+                        ...acc,
+                        [JSON.stringify(block.key)]: (block.name ||
+                            '') as string,
+                    }),
+                    {} as Record<string, string>,
+                )
+
+                for (const [indexOption, dropOptions] of info.drop) {
+                    const name = index[JSON.stringify(indexOption)]
+                    if (name) {
+                        await database
+                            .collection(collection)
+                            .dropIndex(name, dropOptions)
+                    }
+                }
+            }
+
+            if (info.create) {
+                for (const [indexSpec, options] of info.create) {
+                    await database
+                        .collection(collection)
+                        .createIndex(indexSpec, options)
+                }
+            }
+        }
+    })
+}
+
+/**
+ * @example
+ * await migrateIndex('0.0.2', {
+        '0.0.2': {
+            test: {
+                drop: [[{ id: 1 }]],
+            },
+        },
+        '0.0.1': {
+            test: {
+                create: [[{ id: 1 }]],
+            },
+        },
+    })
+ */
+export type MigrateIndex = {
+    [version: string]: IndexInfo
+}
+export const migrateIndex = async (
+    targetVersion: string,
+    indexInfo: MigrateIndex,
+) => {
+    const option = await getSystemOption('version').catch(() => '0.0.0')
+    // Filter versions that are greater than the current version and less than or equal to the new version
+    const versions = Object.keys(indexInfo)
+        .filter(
+            (v) =>
+                compareVersions(option, v) === -1 &&
+                compareVersions(targetVersion, v) >= 0,
+        )
+        .sort(compareVersions)
+
+    for (const version of versions) {
+        await updateIndex(indexInfo[version])
+    }
+
+    await setSystemOption('version', targetVersion)
+}
