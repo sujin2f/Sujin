@@ -60,6 +60,7 @@ const findMany = async <T extends Document>(
     options?: {
         sort?: Sort
         limit?: number
+        skip?: number
     },
 ): Promise<WithId<T>[]> => {
     return await client.then(async (client) => {
@@ -68,12 +69,24 @@ const findMany = async <T extends Document>(
         if (options && options.sort) {
             find = find.sort(options.sort)
         }
+        if (options && options.skip) {
+            find = find.skip(options.skip)
+        }
         if (options && options.limit) {
             find = find.limit(options.limit)
         }
         return await find.toArray()
     })
 }
+
+const count = async <T extends Document>(
+    collection: string,
+    doc: Filter<T>,
+): Promise<number> =>
+    await client.then(async (client) => {
+        const database = client.db(process.env.MONGO_DATABASE)
+        return database.collection<T>(collection).countDocuments(doc)
+    })
 
 /**
  * Inserts a single document into a MongoDB collection.
@@ -156,6 +169,7 @@ const actions = {
     insertMany,
     deleteMany,
     replaceOne,
+    count,
     getSystemOption,
     setSystemOption,
 }

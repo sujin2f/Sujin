@@ -96,16 +96,13 @@ const GET_TERM_BY = `
         terms.name AS title,
         terms.slug AS slug,
         taxonomy.taxonomy AS type,
-        taxonomy.description AS excerpt,
-        COUNT(posts.ID) as total
-    FROM wp_posts AS posts
-    INNER JOIN wp_term_relationships AS relationships
-        ON posts.ID = relationships.object_id
+        taxonomy.description AS excerpt
+    FROM wp_term_relationships AS relationships
     INNER JOIN wp_term_taxonomy AS taxonomy
         ON taxonomy.term_taxonomy_id = relationships.term_taxonomy_id
     INNER JOIN wp_terms AS terms
         ON terms.term_id = taxonomy.term_id
-    WHERE {0}="{1}" AND posts.post_status="publish"
+    WHERE {0}="{1}"
 `
 
 const GET_TERM_ITEMS = `

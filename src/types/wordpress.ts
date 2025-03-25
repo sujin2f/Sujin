@@ -47,13 +47,9 @@ export type Term = {
     title: string
     slug: string
     type: TermTypes
-    total: number
-    limit: number
-    pages: number
     excerpt: string
     image?: Image
-    posts: Post[]
-    page: number
+    total: number
 }
 
 export type ImageSize = {
@@ -93,3 +89,9 @@ export type OptionValue = Record<string, any> | string | number | boolean
 
 export type Named = Record<string, string>
 export type AttrMatch = { named: Named; numeric: string[] }
+
+export type ArchiveProp = {
+    type: TermTypes
+    slug: string
+    page: number
+}

@@ -35,6 +35,7 @@ import {
     querySpectra,
     queryMongoSpectra,
     mutateUpdateTerm,
+    queryArchive,
 } from '@src/constants/graphql'
 import { isEmpty } from '@common/utils/object'
 import { BASE_URL } from '@src/constants/system'
@@ -46,6 +47,7 @@ import { mongoMigration } from '@src/constants/mongo-migration'
 import { isDev } from '@common/utils/system'
 import { migrateIndex } from '@common/data/mongo/mongo'
 import { updateTerm } from '@src/db/mongo/wordpress/updateTerm'
+import { getArchivePosts } from '@src/db/mongo/wordpress/getArchivePosts'
 
 const options = createGQLOptions(
     GQLImageSize,
@@ -66,6 +68,7 @@ const options = createGQLOptions(
     queryPrevNext.setCallback(getPrevNext),
     queryRelatedPosts.setCallback(getRelatedPosts),
     querySpectra.setCallback(getSpectraFromNIST),
+    queryArchive.setCallback(getArchivePosts),
     queryMongoSpectra.setCallback(getSpectraBySchema),
     mutateUpdatePost.setCallback(updatePost),
     mutateUpdateTerm.setCallback(updateTerm),

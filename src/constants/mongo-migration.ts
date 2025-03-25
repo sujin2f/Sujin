@@ -9,5 +9,18 @@ export const mongoMigration: MigrateIndex = {
                 [{ id: 1 }, { unique: true }],
             ],
         },
+        term: {
+            create: [
+                [{ slug: 1 }, { unique: true }],
+                [{ type: 1 }],
+                [{ id: 1 }, { unique: true }],
+            ],
+        },
+        options: {
+            create: [[{ key: 1 }, { unique: true }]],
+        },
+        spectra: {
+            create: [[{ number: 1 }], [{ ion: 1 }]],
+        },
     },
 }

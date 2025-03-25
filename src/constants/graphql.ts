@@ -7,7 +7,6 @@ import {
     GQLString,
     GQLType,
 } from '@common/data/graphql/type'
-import type { Nullable } from '@common/types'
 import type { FlickrImage } from '@src/types/flickr'
 import { TermTypes } from '@src/constants/wordpress'
 import type {
@@ -120,37 +119,34 @@ export const queryBackground = new GQLQuery<[], Image[]>(
     },
 )
 
-export const queryPost = new GQLQuery<[string], Nullable<Post>>(
-    'post',
-    {
-        slug: {
-            type: GQLString,
-            required,
-        },
-    },
-    {
-        type: GQLPost,
-    },
-)
+// export const queryPost = new GQLQuery<[string], Nullable<Post>>(
+//     'post',
+//     {
+//         slug: {
+//             type: GQLString,
+//             required,
+//         },
+//     },
+//     {
+//         type: GQLPost,
+//     },
+// )
 
-export const queryMenu = new GQLQuery<[string], MenuItem[]>(
-    'menu',
-    {
-        slug: {
-            type: GQLString,
-            required,
-        },
-    },
-    {
-        type: GQLMenuItem,
-        list,
-    },
-)
+// export const queryMenu = new GQLQuery<[string], MenuItem[]>(
+//     'menu',
+//     {
+//         slug: {
+//             type: GQLString,
+//             required,
+//         },
+//     },
+//     {
+//         type: GQLMenuItem,
+//         list,
+//     },
+// )
 
-export const queryArchive = new GQLQuery<
-    [TermTypes, string, number],
-    Nullable<Term>
->(
+export const queryArchive = new GQLQuery<[TermTypes, string, number], Post[]>(
     'archive',
     {
         type: {
@@ -166,7 +162,8 @@ export const queryArchive = new GQLQuery<
         },
     },
     {
-        type: GQLTerm,
+        type: GQLPost,
+        list,
     },
 )
 

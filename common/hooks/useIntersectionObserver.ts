@@ -16,12 +16,16 @@ const useIntersectionObserver = (
         if (!ref || !ref.current) {
             return
         }
+        if (ref.current.getAttribute('data-intersected')) {
+            return
+        }
         const current = ref.current
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
                     if (entry.isIntersecting) {
                         callback()
+                        ref.current!.setAttribute('data-intersected', 'true')
                     }
                 })
             },
@@ -39,8 +43,7 @@ const useIntersectionObserver = (
                 observer.unobserve(current)
             }
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [ref])
+    }, [callback, ref])
 }
 
 export default useIntersectionObserver

@@ -6,6 +6,7 @@ import { getOption } from '@src/db/mysql/getOption'
 import { removeOption } from '@src/db/mysql/removeOption'
 import { getTermById } from '@src/db/mysql/getTermBy'
 import type { MutationResultType } from '@src/constants/graphql'
+import { Term } from '@src/types/wordpress'
 
 /**
  * Removes cached data related to a specific term.
@@ -13,8 +14,9 @@ import type { MutationResultType } from '@src/constants/graphql'
  * @param {number} termId - The ID of the term.
  * @returns {Promise<void>} A promise that resolves once the cache has been flushed.
  */
-export const removeCache = async (termId: number): Promise<void> => {
-    await Cached.getInstance().flush([`archive-${termId}`])
+export const removeCache = async (term: Term): Promise<void> => {
+    const key = `archive-${term.type}-${term.slug}`
+    await Cached.getInstance().flush([key])
 }
 
 /**
@@ -43,7 +45,7 @@ export const updateTerm = async (
 
     const term = await getTermById(termId)
     // Remove Cache and Update Mongo Term
-    await removeCache(term.id)
+    await removeCache(term)
     await Mongo.findOne('term', { id: termId })
         .then(async () => await Mongo.replaceOne('term', { id: termId }, term))
         .catch(async () => await Mongo.insertOne('term', term))
