@@ -5,10 +5,9 @@ import { Logger } from '@common/model/Logger'
 /* Constants */
 import { STATIC_FLICKR } from '@src/constants/flickr'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
+import { IS_DEV } from '@common/constants/helper'
 /* Types */
 import type { FlickrImage, FlickrResponse } from '@src/types/flickr'
-/* Utils */
-import { isDev } from '@common/utils/system'
 
 export const request = async (): Promise<FlickrImage[]> => {
     const defaultValue = STATIC_FLICKR.items.map((item) => ({
@@ -16,7 +15,7 @@ export const request = async (): Promise<FlickrImage[]> => {
         media: item.media.m,
     }))
 
-    if (isDev) {
+    if (IS_DEV) {
         return defaultValue
     }
 

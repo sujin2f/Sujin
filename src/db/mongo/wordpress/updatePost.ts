@@ -4,25 +4,23 @@ import Mongo from '@common/data/mongo/mongo'
 /* Utils */
 import { getOption } from '@src/db/mysql/getOption'
 import { removeOption } from '@src/db/mysql/removeOption'
-import { getPostBy } from '@src/db/mysql/getPostBy'
+import getPostBy from '@src/db/mysql/getPostBy'
 /* Types */
 import type { MutationResultType } from '@src/constants/graphql'
 
 /**
  * Removes cached data related to a specific post.
- *
  * @param {string} slug - The slug of the post.
  * @param {number} id - The ID of the post.
  * @param {string} categories - Comma-separated string of categories associated with the post.
  * @param {string} tags - Comma-separated string of tags associated with the post.
- * @returns {Promise<void>} A promise that resolves once the cache has been flushed.
  */
-export const removeCache = async (
+const removeCache = async (
     slug: string,
     id: number,
     categories: string,
     tags: string,
-): Promise<void> => {
+) => {
     const keys = [
         `post-${id}`,
         `post-${slug.toLowerCase()}`,
@@ -36,7 +34,6 @@ export const removeCache = async (
 
 /**
  * Updates a post in the database and clears associated cache.
- *
  * @param {string} nonce - The nonce value used to validate the update request.
  * @param {string} slug - The slug of the post.
  * @param {number} id - The ID of the post.
@@ -45,7 +42,7 @@ export const removeCache = async (
  * @returns {Promise<MutationResultType>} An object indicating the result of the operation.
  * @throws {Error} Throws an error if the nonce value is invalid.
  */
-export const updatePost = async (
+const updatePost = async (
     nonce: string,
     slug: string,
     id: number,
@@ -75,3 +72,5 @@ export const updatePost = async (
         result: true,
     }
 }
+
+export default updatePost

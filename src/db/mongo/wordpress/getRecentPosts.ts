@@ -4,16 +4,13 @@ import { Cached } from '@common/model/Cached'
 import Mongo from '@common/data/mongo/mongo'
 /* Constants */
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
+import { IS_DEV } from '@common/constants/helper'
 /* Types */
 import type { Post } from '@src/types/wordpress'
-/* Utils */
-import { isDev } from '@common/utils/system'
 
 /**
  * Fetches the recent posts from MongoDB.
- *
  * @returns {Promise<WithId<Post>[]>} A promise that resolves to the recent posts.
- * @throws {Error} Throws an error if fetching process fails.
  */
 const request = async (): Promise<WithId<Post>[]> =>
     await Mongo.findMany<Post>(
@@ -25,14 +22,14 @@ const request = async (): Promise<WithId<Post>[]> =>
 /**
  * Fetches the recent posts from the cache or MongoDB.
  * It uses a caching mechanism to avoid fetching the posts multiple times within a week.
- *
  * @returns {Promise<WithId<Post>[]>} A promise that resolves to the recent posts.
- * @throws {Error} Throws an error if the caching or fetching process fails.
  */
-export const getRecentPosts = async (): Promise<WithId<Post>[]> =>
+const getRecentPosts = async (): Promise<WithId<Post>[]> =>
     await Cached.getInstance().getOrExecute(
         'recent-posts',
         async () => await request(),
         WEEK_IN_SECONDS,
-        isDev,
+        IS_DEV,
     )
+
+export default getRecentPosts

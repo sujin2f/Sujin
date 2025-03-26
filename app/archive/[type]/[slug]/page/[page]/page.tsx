@@ -10,7 +10,7 @@ import { TermTypes } from '@src/constants/wordpress'
 import { BASE_URL } from '@src/constants/system'
 import { MenuNames } from '@src/constants/mysql-query'
 /* Utils */
-import { getArchive } from '@src/db/mongo/wordpress/getArchive'
+import getArchive from '@src/db/mongo/wordpress/getArchive'
 /* Types */
 import type { ArchiveProp } from '@src/types/wordpress'
 

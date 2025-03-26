@@ -1,3 +1,5 @@
+export const VERSION = process.env.VERSION || '0.0.0'
+export const IS_DEV = process.env.NODE_ENV === 'development'
 export const nums: Record<number, string> = {
     1: 'one',
     2: 'two',

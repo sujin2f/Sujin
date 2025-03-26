@@ -11,24 +11,21 @@ import type { Term } from '@src/types/wordpress'
 
 /**
  * Removes cached data related to a specific term.
- *
- * @param {number} termId - The ID of the term.
- * @returns {Promise<void>} A promise that resolves once the cache has been flushed.
+ * @param {Term} term - The ID of the term.
  */
-export const removeCache = async (term: Term): Promise<void> => {
+const removeCache = async (term: Term) => {
     const key = `archive-${term.type}-${term.slug}`
     await Cached.getInstance().flush([key])
 }
 
 /**
  * Updates a term in the database and clears associated cache.
- *
  * @param {string} nonce - The nonce value used to validate the update request.
  * @param {number} termId - The ID of the term.
  * @returns {Promise<MutationResultType>} An object indicating the result of the operation.
  * @throws {Error} Throws an error if the nonce value is invalid.
  */
-export const updateTerm = async (
+const updateTerm = async (
     nonce: string,
     termId: number,
 ): Promise<MutationResultType> => {
@@ -55,3 +52,5 @@ export const updateTerm = async (
         result: true,
     }
 }
+
+export default updateTerm

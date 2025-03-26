@@ -9,9 +9,9 @@ import type { ISpectrum } from '@src/types/ether'
 import { request as getNistData } from '@src/db/fetch/getNistData'
 import { insertManyFromCSV } from '@src/db/mongo/ether/util'
 import { getAtom } from '@src/utils/ether'
-import { isDev } from '@common/utils/system'
 /* Constants */
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
+import { IS_DEV } from '@common/constants/helper'
 
 /**
  * Requests spectra data
@@ -48,7 +48,7 @@ export const getSpectraFromNIST = async (number: number, ion: number) => {
         key,
         async () => await request(atom, ion),
         WEEK_IN_SECONDS,
-        isDev,
+        IS_DEV,
     )
 }
 
@@ -59,7 +59,7 @@ export const getSpectraBySchema = async (schema: string) => {
         key,
         async () => await Mongo.findMany<ISpectrum>('spectra', value),
         WEEK_IN_SECONDS,
-        isDev,
+        IS_DEV,
     )
 }
 
@@ -69,7 +69,7 @@ export const findSpectra = async (spectrum: Partial<ISpectrum>) => {
         key,
         async () => await Mongo.findMany<ISpectrum>('spectra', spectrum),
         WEEK_IN_SECONDS,
-        isDev,
+        IS_DEV,
     )
 }
 

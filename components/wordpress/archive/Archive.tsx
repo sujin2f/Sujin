@@ -8,7 +8,7 @@ import { Paging } from '@components/wordpress/archive/paging'
 import { Row } from '@common/components/layout/Row'
 import { Loading } from '@components/wordpress/archive/loading'
 /* Types */
-import type { Post } from '@src/types/wordpress'
+import type { ArchiveProp, Post } from '@src/types/wordpress'
 import type { Nullable } from '@common/types'
 /* Constants */
 import { postOpr, queryArchive } from '@src/constants/graphql'
@@ -17,10 +17,7 @@ import { PER_PAGE } from '@src/constants/mysql-query'
 /* Utils */
 import { fetchGQL } from '@common/data/graphql/fetchGQL'
 
-interface Props {
-    type: string
-    slug: string
-    page: number
+interface Props extends ArchiveProp {
     total: number
 }
 

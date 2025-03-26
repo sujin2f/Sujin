@@ -7,11 +7,17 @@ import Mongo from '@common/data/mongo/mongo'
 import type { ArchiveProp, Term } from '@src/types/wordpress'
 /* Utils */
 import { getTermBySlug } from '@src/db/mysql/getTermBy'
-import { isDev } from '@common/utils/system'
 /* Constants */
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
+import { IS_DEV } from '@common/constants/helper'
 
-export const request = async (props: ArchiveProp): Promise<Term> => {
+/**
+ * Request archive by type and slug
+ * Queries MongoDB first, and MySQL if MongoDB fails
+ * @param {ArchiveProp} props - The type and slug of archive
+ * @returns {Promise<Term>} - The archive object
+ */
+const request = async (props: ArchiveProp): Promise<Term> => {
     const { slug, type } = props
     const term = await Mongo.findOne<Term>('term', { slug, type }).catch(
         async () => {
@@ -36,7 +42,13 @@ export const request = async (props: ArchiveProp): Promise<Term> => {
     }
 }
 
-export const getArchive = async (props: ArchiveProp) => {
+/**
+ * Get archive by type and slug
+ * This returns the cached result if it exists
+ * @param {ArchiveProp} props - The type and slug of archive
+ * @returns {Promise<Term>} - The archive object
+ */
+const getArchive = async (props: ArchiveProp): Promise<Term> => {
     const slug = props.slug.toLowerCase()
     const key = `archive-${props.type}-${slug}`
     return await Cached.getInstance().getOrExecute(
@@ -47,6 +59,8 @@ export const getArchive = async (props: ArchiveProp) => {
                 slug,
             }),
         WEEK_IN_SECONDS,
-        isDev,
+        IS_DEV,
     )
 }
+
+export default getArchive

@@ -9,9 +9,14 @@ import { fetchGQL } from '../data/graphql/fetchGQL'
 
 /**
  * Hook that observes an element and calls a callback when it becomes visible.
- * @param {RefObject<HTMLElement | null>} ref - The reference to the element to observe.
- * @param {() => void} callback - The callback to call when the element becomes visible.
- * @returns {void}
+ * It fetches data from a GraphQL query and sets the result in the state.
+ * @template A - The type of the DQL arguments.
+ * @template T - The type of the data.
+ * @param {IQuery<A, T[]>} query - The GQL query to fetch data.
+ * @param {string} fields - The fields to fetch from the query.
+ * @param {number} ttl - The time to live of the fetched data.
+ * @param {...A} args - The arguments to pass to the query.
+ * @returns {[RefObject<HTMLElement | null>, Nullable<T[]>]} The reference to the element and the fetched data.
  */
 const useIntersectionGQL = <A extends ScalarJSType[], T>(
     query: IQuery<A, T[]>,

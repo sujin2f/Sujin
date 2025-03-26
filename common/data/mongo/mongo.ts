@@ -10,6 +10,8 @@ import type {
     CreateIndexesOptions,
     DropIndexesOptions,
     IndexDirection,
+    DeleteResult,
+    UpdateResult,
 } from 'mongodb'
 /* Models */
 import client from './mongo-client'
@@ -47,24 +49,24 @@ const findOne = async <T extends Document>(
     })
 }
 
+type findManyOptions = {
+    sort?: Sort
+    limit?: number
+    skip?: number
+}
 /**
  * Finds multiple documents in a MongoDB collection.
  *
  * @template T - The type of the documents.
  * @param {string} collection - The name of the collection.
  * @param {Filter<T>} doc - The filter to apply to the query.
- * @param {boolean} quiet - If log error message.
+ * @param {findManyOptions} options - The options to apply to the query.
  * @returns {Promise<(WithId<T> | T)[]>} The found documents or an empty array if none found.
- * @throws {Error} If the documents are not found.
  */
 const findMany = async <T extends Document>(
     collection: string,
     doc: Filter<T>,
-    options?: {
-        sort?: Sort
-        limit?: number
-        skip?: number
-    },
+    options?: findManyOptions,
 ): Promise<WithId<T>[]> => {
     return await client.then(async (client) => {
         const database = client.db(process.env.MONGO_DATABASE)
@@ -82,6 +84,14 @@ const findMany = async <T extends Document>(
     })
 }
 
+/**
+ * Counts documents in a MongoDB collection.
+ *
+ * @template T - The type of the documents.
+ * @param {string} collection - The name of the collection.
+ * @param {Filter<T>} doc - The filter to apply to the query.
+ * @returns {Promise<number>} The found documents or an empty array if none found.
+ */
 const count = async <T extends Document>(
     collection: string,
     doc: Filter<T>,
@@ -98,7 +108,6 @@ const count = async <T extends Document>(
  * @param {string} collection - The name of the collection.
  * @param {OptionalUnlessRequiredId<T>} doc - The document to insert.
  * @returns {Promise<InsertOneResult<T>>} The result of the insert operation.
- * @throws {Error} If the insert operation fails.
  */
 const insertOne = async <T extends Document>(
     collection: string,
@@ -116,9 +125,7 @@ const insertOne = async <T extends Document>(
  * @template T - The type of the document.
  * @param {string} collection - The name of the collection.
  * @param {OptionalUnlessRequiredId<T>[]} doc - The documents to insert.
- * @param {boolean} quiet - If log error message.
  * @returns {Promise<InsertManyResult<T>>} The result of the insert operation.
- * @throws {Error} If the insert operation fails.
  */
 const insertMany = async <T extends Document>(
     collection: string,
@@ -130,32 +137,61 @@ const insertMany = async <T extends Document>(
     })
 }
 
+/**
+ * Delete multiple documents into a MongoDB collection.
+ *
+ * @template T - The type of the document.
+ * @param {string} collection - The name of the collection.
+ * @param {Filter<T>} doc - The documents to delete.
+ * @returns {Promise<DeleteResult>} The result of the delete operation.
+ */
 const deleteMany = async <T extends Document>(
     collection: string,
     doc: Filter<T>,
-) => {
+): Promise<DeleteResult> => {
     return await client.then(async (client) => {
         const database = client.db(process.env.MONGO_DATABASE)
         return await database.collection<T>(collection).deleteMany(doc)
     })
 }
 
+/**
+ * Replace a single document into a MongoDB collection.
+ *
+ * @template T - The type of the document.
+ * @param {string} collection - The name of the collection.
+ * @param {Filter<T>} filter - Target.
+ * @param {OptionalUnlessRequiredId<T>} filter - The documents to replace.
+ * @returns {Promise<Document | UpdateResult<T>>} The result of the replace operation.
+ */
 const replaceOne = async <T extends Document>(
     collection: string,
     filter: Filter<T>,
     doc: OptionalUnlessRequiredId<T>,
-) => {
+): Promise<Document | UpdateResult<T>> => {
     return await client.then(async (client) => {
         const database = client.db(process.env.MONGO_DATABASE)
         return await database.collection<T>(collection).replaceOne(filter, doc)
     })
 }
 
+/**
+ * Get site-wide system options.
+ *
+ * @param {string} key - The key of the option.
+ * @returns {Promise<string>} Value
+ */
 const getSystemOption = async (key: string): Promise<string> =>
-    await findOne<MongoOptionCollection>('options', { key }).then(
-        (result) => result.value,
-    )
+    await findOne<MongoOptionCollection>('options', { key })
+        .catch(() => ({ value: '' }))
+        .then((result) => result.value)
 
+/**
+ * Set site-wide system options.
+ *
+ * @param {string} key - The key of the option.
+ * @param {string} value - The value of the option.
+ */
 const setSystemOption = async (key: string, value: string) =>
     await findOne<MongoOptionCollection>('options', { key })
         .then(async () => {
@@ -200,7 +236,6 @@ type IndexInfo = {
         )[]
     }
 }
-
 const updateIndex = async (indexInfo: IndexInfo) => {
     await client.then(async (client) => {
         const database = client.db(process.env.MONGO_DATABASE)
@@ -239,7 +274,13 @@ const updateIndex = async (indexInfo: IndexInfo) => {
     })
 }
 
+export type MigrateIndex = {
+    [version: string]: IndexInfo
+}
 /**
+ * Migrate the index of the database.
+ * @param {string} targetVersion - The target version to migrate to.
+ * @param {MigrateIndex} indexInfo - The index information to migrate.
  * @example
  * await migrateIndex('0.0.2', {
         '0.0.2': {
@@ -254,9 +295,6 @@ const updateIndex = async (indexInfo: IndexInfo) => {
         },
     })
  */
-export type MigrateIndex = {
-    [version: string]: IndexInfo
-}
 export const migrateIndex = async (
     targetVersion: string,
     indexInfo: MigrateIndex,

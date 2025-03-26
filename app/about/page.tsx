@@ -9,7 +9,7 @@ import { HOUR_IN_SECONDS } from '@common/constants/datetime'
 import { BASE_URL } from '@src/constants/system'
 import { MenuNames } from '@src/constants/mysql-query'
 /* Utils */
-import { getPost } from '@src/db/mongo/wordpress/getPost'
+import getPost from '@src/db/mongo/wordpress/getPost'
 import { getThumbnailFromPost } from '@src/utils/wordpress'
 
 export const metadata: Metadata = {

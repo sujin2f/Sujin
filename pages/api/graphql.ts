@@ -8,10 +8,11 @@ import type { NextRequest } from 'next/server'
 import { getBackgrounds } from '@src/db/mysql/getBackgrounds'
 import { getFlickr } from '@src/db/fetch/getFlickr'
 import { getTagCloud } from '@src/db/mysql/getTagCloud'
-import { getRecentPosts } from '@src/db/mongo/wordpress/getRecentPosts'
-import { getPrevNext } from '@src/db/mongo/wordpress/getPrevNext'
-import { getRelatedPosts } from '@src/db/mongo/wordpress/getRelatedPosts'
-import { updatePost } from '@src/db/mongo/wordpress/updatePost'
+import getRecentPosts from '@src/db/mongo/wordpress/getRecentPosts'
+import getPrevNext from '@src/db/mongo/wordpress/getPrevNext'
+import getRelatedPosts from '@src/db/mongo/wordpress/getRelatedPosts'
+import updatePost from '@src/db/mongo/wordpress/updatePost'
+import updateTerm from '@src/db/mongo/wordpress/updateTerm'
 import { createGQLOptions } from '@common/data/graphql/createExpressRouter'
 import { isEmpty } from '@common/utils/object'
 import {
@@ -19,10 +20,8 @@ import {
     getSpectraBySchema,
 } from '@src/db/mongo/ether/spectra'
 import { mongoMigration } from '@src/constants/mongo-migration'
-import { isDev } from '@common/utils/system'
 import { migrateIndex } from '@common/data/mongo/mongo'
-import { updateTerm } from '@src/db/mongo/wordpress/updateTerm'
-import { getArchivePosts } from '@src/db/mongo/wordpress/getArchivePosts'
+import getArchivePosts from '@src/db/mongo/wordpress/getArchivePosts'
 /* Constants */
 import {
     GQLImageSize,
@@ -49,6 +48,7 @@ import {
     queryArchive,
 } from '@src/constants/graphql'
 import { BASE_URL } from '@src/constants/system'
+import { IS_DEV } from '@common/constants/helper'
 
 const options = createGQLOptions(
     GQLImageSize,
@@ -98,7 +98,7 @@ const server = new ApolloServer({
     }),
     plugins: [
         // Install a landing page plugin based on NODE_ENV
-        isDev
+        IS_DEV
             ? ApolloServerPluginLandingPageLocalDefault({ footer: false })
             : ApolloServerPluginLandingPageDisabled(),
         // Custom Apollo Server Plugin for the server start event
@@ -121,7 +121,7 @@ const handler = startServerAndCreateNextHandler<NextRequest>(server, {
         const base = new URL(BASE_URL).hostname
 
         // Disallow different domain
-        if (!isDev && !referer.includes(base)) {
+        if (!IS_DEV && !referer.includes(base)) {
             throw Error('Access Denied.')
         }
         return { req, res }

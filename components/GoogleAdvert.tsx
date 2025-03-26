@@ -1,7 +1,7 @@
 import React from 'react'
 import Script from 'next/script'
-/* Utils */
-import { isDev } from '@common/utils/system'
+/* Constants */
+import { IS_DEV } from '@common/constants/helper'
 
 interface Props {
     readonly responsive?: boolean
@@ -17,7 +17,7 @@ const GoogleAdvert = (props: Props) => {
             ? process.env.NEXT_PUBLIC_FOOTER_GOOGLE_AD_SLOT
             : process.env.NEXT_PUBLIC_SIDEBAR_GOOGLE_AD_SLOT
 
-    if (isDev || !client || !slot) {
+    if (IS_DEV || !client || !slot) {
         return <></>
     }
 

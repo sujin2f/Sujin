@@ -8,14 +8,15 @@ import type { Post } from '@src/types/wordpress'
 import { TermTypes } from '@src/constants/wordpress'
 import { PER_PAGE } from '@src/constants/mysql-query'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
-/* Utils */
-import { isDev } from '@common/utils/system'
+import { IS_DEV } from '@common/constants/helper'
 
-const request = async (
-    type: TermTypes,
-    slug: string,
-    page: number,
-): Promise<WithId<Post>[]> =>
+/**
+ * Request posts in the archive from MongoDB by type and slug
+ * @param {string} slug - The slug of archive
+ * @param {number} page - The page number
+ * @returns {Promise<WithId<Post>[]>} - The archive posts
+ */
+const request = async (slug: string, page: number): Promise<WithId<Post>[]> =>
     await Mongo.findMany<Post>(
         'post',
         { 'categories.slug': slug },
@@ -26,7 +27,15 @@ const request = async (
         },
     )
 
-export const getArchivePosts = async (
+/**
+ * Request posts in the archive by type and slug
+ * This returns the cached result if it exists
+ * @param {TermTypes} type - The type of archive
+ * @param {string} _slug - The slug of archive
+ * @param {number} page - The page number
+ * @returns {Promise<WithId<Post>[]>} - The archive posts
+ */
+const getArchivePosts = async (
     type: TermTypes,
     _slug: string,
     page: number,
@@ -36,8 +45,10 @@ export const getArchivePosts = async (
 
     return await Cached.getInstance().getOrExecute(
         key,
-        async () => await request(type, slug, page),
+        async () => await request(slug, page),
         WEEK_IN_SECONDS,
-        isDev,
+        IS_DEV,
     )
 }
+
+export default getArchivePosts

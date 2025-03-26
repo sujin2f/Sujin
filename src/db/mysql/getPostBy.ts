@@ -5,7 +5,7 @@ import { getPostsBy } from '@src/db/mysql/getPostsBy'
 /* Types */
 import type { Post } from '@src/types/wordpress'
 
-export const getPostBy = async (
+const getPostBy = async (
     queryKey: 'id' | 'slug',
     queryValue: string | number,
     ignoreStatus = false,
@@ -24,3 +24,5 @@ export const getPostBy = async (
         },
     )
 }
+
+export default getPostBy

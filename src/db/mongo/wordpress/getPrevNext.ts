@@ -4,16 +4,13 @@ import { Cached } from '@common/model/Cached'
 import Mongo from '@common/data/mongo/mongo'
 /* Constants */
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
+import { IS_DEV } from '@common/constants/helper'
 /* Types */
 import type { Post } from '@src/types/wordpress'
-/* Utils */
-import { isDev } from '@common/utils/system'
 
 /**
  * Fetches the recent posts from MongoDB.
- *
  * @returns {Promise<WithId<Post>[]>} A promise that resolves to the recent posts.
- * @throws {Error} Throws an error if fetching process fails.
  */
 const request = async (
     id: number,
@@ -48,20 +45,22 @@ const request = async (
 
 /**
  * Fetches the recent posts from the cache or MongoDB.
- * It uses a caching mechanism to avoid fetching the posts multiple times within a week.
- *
+ * This returns the cached result if it exists
+ * @param {number} id - The id of the post
+ * @param {number} date - The date of the post
+ * @param {string} categories - The categories of the post
  * @returns {Promise<WithId<Post>[]>} A promise that resolves to the recent posts.
- * @throws {Error} Throws an error if the caching or fetching process fails.
  */
-export const getPrevNext = async (
+const getPrevNext = async (
     id: number,
     date: number,
     categories: string,
-): Promise<WithId<Post>[]> => {
-    return await Cached.getInstance().getOrExecute(
+): Promise<WithId<Post>[]> =>
+    await Cached.getInstance().getOrExecute(
         `prev-next-${id}`,
         async () => await request(id, date, categories),
         WEEK_IN_SECONDS,
-        isDev,
+        IS_DEV,
     )
-}
+
+export default getPrevNext
