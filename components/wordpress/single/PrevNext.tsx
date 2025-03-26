@@ -5,12 +5,14 @@ import Link from 'next/link'
 /* Components */
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
-/* Helpers */
+/* Types */
 import type { Post } from '@src/types/wordpress'
 import type { Nullable } from '@common/types'
-import { fetchGQL } from '@common/data/graphql/fetchGQL'
+/* Constants */
 import { postOpr, queryPrevNext } from '@src/constants/graphql'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
+/* Utils */
+import { fetchGQL } from '@common/data/graphql/fetchGQL'
 /* Assets */
 import Prev from '@src/images/prev.svg'
 import '@src/scss/prev-next.scss'

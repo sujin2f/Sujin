@@ -1,10 +1,11 @@
 'use client'
-
 import { type RefObject, useRef, useState } from 'react'
+/* Types */
+import type { IQuery, ScalarJSType } from '../data/graphql'
 import type { Nullable } from '../types'
+/* Utils */
 import useIntersectionObserver from './useIntersectionObserver'
 import { fetchGQL } from '../data/graphql/fetchGQL'
-import type { IQuery, ScalarJSType } from '../data/graphql'
 
 /**
  * Hook that observes an element and calls a callback when it becomes visible.

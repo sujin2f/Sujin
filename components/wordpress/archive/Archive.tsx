@@ -1,19 +1,21 @@
 'use client'
 import React, { useEffect, useState } from 'react'
+import { notFound } from 'next/navigation'
 /* Components */
 import ScrollToTop from '@components/ScrollToTop'
 import { Cards } from '@components/wordpress/archive/cards'
 import { Paging } from '@components/wordpress/archive/paging'
 import { Row } from '@common/components/layout/Row'
 import { Loading } from '@components/wordpress/archive/loading'
-/* Helpers */
+/* Types */
 import type { Post } from '@src/types/wordpress'
-import { Nullable } from '@common/types'
-import { fetchGQL } from '@common/data/graphql/fetchGQL'
+import type { Nullable } from '@common/types'
+/* Constants */
 import { postOpr, queryArchive } from '@src/constants/graphql'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { PER_PAGE } from '@src/constants/mysql-query'
-import { notFound } from 'next/navigation'
+/* Utils */
+import { fetchGQL } from '@common/data/graphql/fetchGQL'
 
 interface Props {
     type: string

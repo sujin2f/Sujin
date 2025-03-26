@@ -1,10 +1,13 @@
 'use server'
-
-import { STATIC_FLICKR } from '@src/constants/flickr'
-import type { FlickrImage, FlickrResponse } from '@src/types/flickr'
-import { WEEK_IN_SECONDS } from '@common/constants/datetime'
+/* Models */
 import { Cached } from '@common/model/Cached'
 import { Logger } from '@common/model/Logger'
+/* Constants */
+import { STATIC_FLICKR } from '@src/constants/flickr'
+import { WEEK_IN_SECONDS } from '@common/constants/datetime'
+/* Types */
+import type { FlickrImage, FlickrResponse } from '@src/types/flickr'
+/* Utils */
 import { isDev } from '@common/utils/system'
 
 export const request = async (): Promise<FlickrImage[]> => {

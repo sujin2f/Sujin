@@ -6,7 +6,7 @@ import ScrollToTop from '@components/ScrollToTop'
 import { Table } from '@common/components/containers/Table'
 import { Latex } from '@components/wordpress/single/Latex'
 import { PrevNext } from '@components/wordpress/single/PrevNext'
-/* Helpers */
+/* Types */
 import type { Post } from '@src/types/wordpress'
 /* Assets */
 import pic5 from '@src/images/ether/pic5_eng.png'

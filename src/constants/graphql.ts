@@ -1,5 +1,7 @@
+/* Models */
 import { GQLMutation } from '@common/data/graphql/mutation'
 import { GQLQuery } from '@common/data/graphql/query'
+/* Constants */
 import {
     GQLBoolean,
     GQLFloat,
@@ -7,17 +9,17 @@ import {
     GQLString,
     GQLType,
 } from '@common/data/graphql/type'
-import type { FlickrImage } from '@src/types/flickr'
 import { TermTypes } from '@src/constants/wordpress'
+/* Types */
+import type { FlickrImage } from '@src/types/flickr'
 import type {
     ImageSize,
     Image,
     Term,
-    MenuItem,
     Post,
     TagCloud,
 } from '@src/types/wordpress'
-import { ISpectrum } from '@src/types/ether'
+import type { ISpectrum } from '@src/types/ether'
 
 const list = true
 const required = true
@@ -41,15 +43,6 @@ export const GQLImages = new GQLType('Images', {
     background: { type: GQLImage },
     thumbnail: { type: GQLImage },
 })
-
-export const GQLMenuItem = new GQLType<MenuItem>('MenuItem', {
-    id: { type: GQLInt },
-    title: { type: GQLString },
-    target: { type: GQLString },
-    link: { type: GQLString },
-    htmlClass: { type: GQLString, list },
-})
-GQLMenuItem.addField('children', { type: GQLMenuItem, list })
 
 export const GQLPostMeta = new GQLType('PostMeta', {
     useBackgroundColor: { type: GQLBoolean },
@@ -118,33 +111,6 @@ export const queryBackground = new GQLQuery<[], Image[]>(
         list,
     },
 )
-
-// export const queryPost = new GQLQuery<[string], Nullable<Post>>(
-//     'post',
-//     {
-//         slug: {
-//             type: GQLString,
-//             required,
-//         },
-//     },
-//     {
-//         type: GQLPost,
-//     },
-// )
-
-// export const queryMenu = new GQLQuery<[string], MenuItem[]>(
-//     'menu',
-//     {
-//         slug: {
-//             type: GQLString,
-//             required,
-//         },
-//     },
-//     {
-//         type: GQLMenuItem,
-//         list,
-//     },
-// )
 
 export const queryArchive = new GQLQuery<[TermTypes, string, number], Post[]>(
     'archive',

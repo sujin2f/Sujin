@@ -4,12 +4,13 @@ import { notFound } from 'next/navigation'
 /* Components */
 import Banner from '@components/header/Banner'
 import { Page } from '@components/wordpress/single/Page'
-/* Helpers */
-import { getPost } from '@src/db/mongo/wordpress/getPost'
+/* Constants */
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
 import { BASE_URL } from '@src/constants/system'
-import { getThumbnailFromPost } from '@src/utils/wordpress'
 import { MenuNames } from '@src/constants/mysql-query'
+/* Utils */
+import { getPost } from '@src/db/mongo/wordpress/getPost'
+import { getThumbnailFromPost } from '@src/utils/wordpress'
 
 export const metadata: Metadata = {
     title: 'About Sujin Choi',

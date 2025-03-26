@@ -1,10 +1,10 @@
 import { startServerAndCreateNextHandler } from '@as-integrations/next'
 import { InMemoryLRUCache } from '@apollo/utils.keyvaluecache'
-import { ApolloServer, ApolloServerPlugin, BaseContext } from '@apollo/server'
+import { ApolloServer } from '@apollo/server'
 import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/disabled'
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default'
-import { NextRequest } from 'next/server'
-
+import type { NextRequest } from 'next/server'
+/* Utils */
 import { getBackgrounds } from '@src/db/mysql/getBackgrounds'
 import { getFlickr } from '@src/db/fetch/getFlickr'
 import { getTagCloud } from '@src/db/mysql/getTagCloud'
@@ -13,6 +13,17 @@ import { getPrevNext } from '@src/db/mongo/wordpress/getPrevNext'
 import { getRelatedPosts } from '@src/db/mongo/wordpress/getRelatedPosts'
 import { updatePost } from '@src/db/mongo/wordpress/updatePost'
 import { createGQLOptions } from '@common/data/graphql/createExpressRouter'
+import { isEmpty } from '@common/utils/object'
+import {
+    getSpectraFromNIST,
+    getSpectraBySchema,
+} from '@src/db/mongo/ether/spectra'
+import { mongoMigration } from '@src/constants/mongo-migration'
+import { isDev } from '@common/utils/system'
+import { migrateIndex } from '@common/data/mongo/mongo'
+import { updateTerm } from '@src/db/mongo/wordpress/updateTerm'
+import { getArchivePosts } from '@src/db/mongo/wordpress/getArchivePosts'
+/* Constants */
 import {
     GQLImageSize,
     GQLImage,
@@ -37,17 +48,7 @@ import {
     mutateUpdateTerm,
     queryArchive,
 } from '@src/constants/graphql'
-import { isEmpty } from '@common/utils/object'
 import { BASE_URL } from '@src/constants/system'
-import {
-    getSpectraFromNIST,
-    getSpectraBySchema,
-} from '@src/db/mongo/ether/spectra'
-import { mongoMigration } from '@src/constants/mongo-migration'
-import { isDev } from '@common/utils/system'
-import { migrateIndex } from '@common/data/mongo/mongo'
-import { updateTerm } from '@src/db/mongo/wordpress/updateTerm'
-import { getArchivePosts } from '@src/db/mongo/wordpress/getArchivePosts'
 
 const options = createGQLOptions(
     GQLImageSize,
@@ -73,21 +74,6 @@ const options = createGQLOptions(
     mutateUpdatePost.setCallback(updatePost),
     mutateUpdateTerm.setCallback(updateTerm),
 )
-
-/**
- * Custom Apollo Server Plugin for when the server started
- */
-function ApolloServerPluginInit<
-    TContext extends BaseContext,
->(): ApolloServerPlugin<TContext> {
-    return {
-        async serverWillStart() {
-            // Migrate MongoDB indexes
-            const version = process.env.VERSION || '0.0.0'
-            migrateIndex(version, mongoMigration)
-        },
-    }
-}
 
 const server = new ApolloServer({
     typeDefs: options.schema,
@@ -115,7 +101,14 @@ const server = new ApolloServer({
         isDev
             ? ApolloServerPluginLandingPageLocalDefault({ footer: false })
             : ApolloServerPluginLandingPageDisabled(),
-        ApolloServerPluginInit(),
+        // Custom Apollo Server Plugin for the server start event
+        {
+            async serverWillStart() {
+                // Migrate MongoDB indexes
+                const version = process.env.VERSION || '0.0.0'
+                migrateIndex(version, mongoMigration)
+            },
+        },
     ],
 })
 

@@ -1,14 +1,13 @@
 import { InlineMath } from 'react-katex'
-
+/* Components */
 import { Image } from '@common/components/containers/image'
 import ScrollToTop from '@components/ScrollToTop'
 import { Table } from '@common/components/containers/Table'
 import { Latex } from '@components/wordpress/single/Latex'
 import { PrevNext } from '@components/wordpress/single/PrevNext'
 import { Post } from '@src/types/wordpress'
-
+/* Assets */
 import pic5 from '@src/images/ether/pic5_eng.png'
-
 import 'katex/dist/katex.min.css'
 
 export default function ClassicPhysics() {

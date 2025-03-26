@@ -1,10 +1,12 @@
 import { ObjectId, type WithId } from 'mongodb'
-// Models
+/* Models */
 import { Cached } from '@common/model/Cached'
 import Mongo from '@common/data/mongo/mongo'
-// Helpers
+/* Constants */
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
+/* Utils */
 import { getPostBy } from '@src/db/mysql/getPostBy'
+/* Types */
 import type { Post } from '@src/types/wordpress'
 
 const request = async (

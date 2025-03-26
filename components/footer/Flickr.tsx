@@ -5,9 +5,10 @@ import { Card } from '@common/components/containers/Card'
 import { Column } from '@common/components/layout/Column'
 import { Row } from '@common/components/layout/Row'
 import { Loading } from '@components/wordpress/archive/loading'
-/* Helpers */
+/* Constants */
 import { flickrOpr, queryFlickr } from '@src/constants/graphql'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
+/* Utils */
 import useIntersectionGQL from '@common/hooks/useIntersectionGQL'
 /* Assets */
 import '@src/scss/flickr.scss'

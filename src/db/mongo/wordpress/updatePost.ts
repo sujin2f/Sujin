@@ -1,10 +1,11 @@
-// Models
+/* Models */
 import { Cached } from '@common/model/Cached'
 import Mongo from '@common/data/mongo/mongo'
-// Helpers
+/* Utils */
 import { getOption } from '@src/db/mysql/getOption'
 import { removeOption } from '@src/db/mysql/removeOption'
 import { getPostBy } from '@src/db/mysql/getPostBy'
+/* Types */
 import type { MutationResultType } from '@src/constants/graphql'
 
 /**

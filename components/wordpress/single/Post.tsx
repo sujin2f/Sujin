@@ -10,7 +10,7 @@ import { Column } from '@common/components/layout/Column'
 import { Row } from '@common/components/layout/Row'
 import { Content } from '@components/wordpress/single/Content'
 import ScrollToTop from '@components/ScrollToTop'
-/* Helpers */
+/* Types */
 import type { Post as PostType } from '@src/types/wordpress'
 
 type Props = {

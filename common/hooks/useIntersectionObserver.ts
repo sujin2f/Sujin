@@ -1,5 +1,5 @@
 'use client'
-
+/* Types */
 import { type RefObject, useEffect } from 'react'
 
 /**

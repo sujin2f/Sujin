@@ -3,9 +3,10 @@ import React from 'react'
 import Link from 'next/link'
 /* Components */
 import { Loading } from '@components/wordpress/archive/loading'
-/* Helpers */
-import { queryTagCloud, tagCloudOpr } from '@src/constants/graphql'
+/* Constants */
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
+import { queryTagCloud, tagCloudOpr } from '@src/constants/graphql'
+/* Utils */
 import useIntersectionGQL from '@common/hooks/useIntersectionGQL'
 /* Assets */
 import '@src/scss/tag-cloud.scss'

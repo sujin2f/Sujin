@@ -1,10 +1,12 @@
 import type { WithId } from 'mongodb'
-// Models
+/* Models */
 import { Cached } from '@common/model/Cached'
 import Mongo from '@common/data/mongo/mongo'
-// Helpers
+/* Constants */
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
+/* Types */
 import type { Post } from '@src/types/wordpress'
+/* Utils */
 import { getRecentPosts } from '@src/db/mongo/wordpress/getRecentPosts'
 
 /**

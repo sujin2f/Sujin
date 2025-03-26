@@ -1,5 +1,8 @@
-import { getPostsBy } from '@src/db/mysql/getPostsBy'
+/* Models */
 import { Logger } from '@common/model/Logger'
+/* Utils */
+import { getPostsBy } from '@src/db/mysql/getPostsBy'
+/* Types */
 import type { Post } from '@src/types/wordpress'
 
 export const getPostBy = async (

@@ -1,10 +1,14 @@
 'use server'
+/* Constants */
 import { MySQLQuery } from '@src/constants/mysql-query'
-import { MySQL } from '@src/db/mysql'
 import { TermTypes } from '@src/constants/wordpress'
+/* Utils */
 import { getTermMeta } from '@src/db/mysql/getTermMeta'
 import { getMedia } from '@src/db/mysql/getMedia'
+/* Models */
+import { MySQL } from '@src/db/mysql'
 import { Logger } from '@common/model/Logger'
+/* Types */
 import type { ArchiveProp, Term } from '@src/types/wordpress'
 
 export const request = async (type: TermTypes, slug: string): Promise<Term> => {
@@ -12,9 +16,14 @@ export const request = async (type: TermTypes, slug: string): Promise<Term> => {
         `Access MySQL for getting archive type: ${type} and slug: ${slug}.`,
     )
 
-    const term = await MySQL.getInstance().selectOne<Term>(
-        MySQLQuery.getTermBy('slug', slug),
-    )
+    const term = await MySQL.getInstance()
+        .selectOne<Term>(MySQLQuery.getTermBy('slug', slug))
+        .catch(() => {
+            Logger.server(
+                `Failed to get MySQL archive type: ${type} and slug: ${slug}.`,
+            )
+            throw new Error('Failed to get term.')
+        })
 
     const image = await getTermImage(term)
 

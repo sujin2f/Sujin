@@ -4,13 +4,14 @@ import type { Metadata } from 'next/types'
 /* Components */
 import Banner from '@components/header/Banner'
 import { Post } from '@components/wordpress/single/Post'
-/* Helpers */
-import { getPost } from '@src/db/mongo/wordpress/getPost'
-import { updateHit } from '@src/db/mysql/getTagCloud'
+/* Constants */
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
 import { BASE_URL } from '@src/constants/system'
-import { getThumbnailFromPost } from '@src/utils/wordpress'
 import { MenuNames } from '@src/constants/mysql-query'
+/* Utils */
+import { getPost } from '@src/db/mongo/wordpress/getPost'
+import { updateHit } from '@src/db/mysql/getTagCloud'
+import { getThumbnailFromPost } from '@src/utils/wordpress'
 
 type Props = {
     params: Promise<{

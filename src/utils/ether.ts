@@ -1,5 +1,6 @@
-/* Helpers */
+/* Types */
 import type { Atom } from '@src/types/atom'
+/* Constants */
 import { periodicTable } from '@src/constants/ether'
 
 /**

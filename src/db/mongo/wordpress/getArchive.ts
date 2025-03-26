@@ -1,9 +1,11 @@
 'use server'
-import { Logger } from '@common/model/Logger'
-import type { ArchiveProp, Term } from '@src/types/wordpress'
 // Models
 import { Cached } from '@common/model/Cached'
+import { Logger } from '@common/model/Logger'
 import Mongo from '@common/data/mongo/mongo'
+/* Types */
+import type { ArchiveProp, Term } from '@src/types/wordpress'
+/* Utils */
 import { getTermBySlug } from '@src/db/mysql/getTermBy'
 
 export const request = async (props: ArchiveProp): Promise<Term> => {

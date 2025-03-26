@@ -4,13 +4,15 @@ import { unstable_cache } from 'next/cache'
 /* Components */
 import Banner from '@components/header/Banner'
 import { Archive as ArchiveComponent } from '@components/wordpress/archive/Archive'
-/* Helpers */
-import { TermTypes } from '@src/constants/wordpress'
+/* Constants */
 import { DAY_IN_SECONDS, HOUR_IN_SECONDS } from '@common/constants/datetime'
+import { TermTypes } from '@src/constants/wordpress'
 import { BASE_URL } from '@src/constants/system'
 import { MenuNames } from '@src/constants/mysql-query'
-import { ArchiveProp } from '@src/types/wordpress'
+/* Utils */
 import { getArchive } from '@src/db/mongo/wordpress/getArchive'
+/* Types */
+import type { ArchiveProp } from '@src/types/wordpress'
 
 type Props = {
     params: Promise<ArchiveProp>
@@ -29,7 +31,9 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
         },
     )
 
-    const archive = await requestArchive({ type, slug, page })
+    const archive = await requestArchive({ type, slug, page }).catch(() =>
+        notFound(),
+    )
     const url = `${BASE_URL}/archive/${type}/${slug}/page/${page}`
 
     return {

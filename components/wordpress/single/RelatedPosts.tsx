@@ -5,13 +5,15 @@ import { Row } from '@common/components/layout/Row'
 import Title from '@components/WidgetTitle'
 import { Cards } from '@components/wordpress/archive/cards'
 import { Loading } from '@components/wordpress/archive/loading'
-/* Helpers */
+/* Types */
 import type { Post } from '@src/types/wordpress'
 import type { Nullable } from '@common/types'
+/* Utils */
 import { fetchGQL } from '@common/data/graphql/fetchGQL'
+import useIntersectionObserver from '@common/hooks/useIntersectionObserver'
+/* Constants */
 import { postOpr, queryRelatedPosts } from '@src/constants/graphql'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
-import useIntersectionObserver from '@common/hooks/useIntersectionObserver'
 /* Assets */
 import '@src/scss/related-posts.scss'
 

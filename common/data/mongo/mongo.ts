@@ -11,9 +11,12 @@ import type {
     DropIndexesOptions,
     IndexDirection,
 } from 'mongodb'
+/* Models */
 import client from './mongo-client'
+/* Utils */
 import { compareVersions } from '../../utils/system'
-import type { MongoOptionCollection } from '../../types'
+/* Types */
+import type { MongoOptionCollection } from '../../types/mongo'
 
 /**
  * Finds a single document in a MongoDB collection.

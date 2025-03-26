@@ -1,6 +1,6 @@
 import React from 'react'
 import Script from 'next/script'
-/* Helpers */
+/* Utils */
 import { isDev } from '@common/utils/system'
 
 interface Props {

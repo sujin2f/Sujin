@@ -1,7 +1,7 @@
 /* Components */
 import ScrollToTop from '@components/ScrollToTop'
 import { PrevNext } from '@components/wordpress/single/PrevNext'
-/* Helpers */
+/* Types */
 import type { Post } from '@src/types/wordpress'
 
 export default function Intro() {

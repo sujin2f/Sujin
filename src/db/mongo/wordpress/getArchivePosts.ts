@@ -1,9 +1,10 @@
 import { type WithId } from 'mongodb'
-// Models
+/* Models */
 import { Cached } from '@common/model/Cached'
 import Mongo from '@common/data/mongo/mongo'
-// Helpers
+/* Types */
 import type { Post } from '@src/types/wordpress'
+/* Constants */
 import { TermTypes } from '@src/constants/wordpress'
 import { PER_PAGE } from '@src/constants/mysql-query'
 
