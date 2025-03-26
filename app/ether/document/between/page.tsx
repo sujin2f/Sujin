@@ -6,8 +6,8 @@ import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 import { Latex } from '@components/wordpress/single/Latex'
 import { PrevNext } from '@components/wordpress/single/PrevNext'
-/* Helpers */
 import ScrollToTop from '@components/ScrollToTop'
+/* Types */
 import type { Post } from '@src/types/wordpress'
 /* Assets */
 import pic58 from '@src/images/ether/pic58.png'
@@ -277,16 +277,16 @@ export default function Between() {
             </p>
 
             <PrevNext
-                prevNext={{
-                    prev: {
+                posts={[
+                    {
                         title: 'Proof(3): Emission Energy Analysis',
                         link: '/ether/document/analysis',
                     } as Post,
-                    next: {
+                    {
                         title: 'Conclusion',
                         link: '/ether/document/conclusion',
                     } as Post,
-                }}
+                ]}
             ></PrevNext>
         </div>
     )

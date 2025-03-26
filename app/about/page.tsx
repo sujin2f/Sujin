@@ -4,12 +4,13 @@ import { notFound } from 'next/navigation'
 /* Components */
 import Banner from '@components/header/Banner'
 import { Page } from '@components/wordpress/single/Page'
-/* Helpers */
-import { getPostBy } from '@src/db/mysql/getPostBy'
+/* Constants */
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
 import { BASE_URL } from '@src/constants/system'
-import { getThumbnailFromPost } from '@src/utils/wordpress'
 import { MenuNames } from '@src/constants/mysql-query'
+/* Utils */
+import getPost from '@src/db/mongo/wordpress/getPost'
+import { getThumbnailFromPost } from '@src/utils/wordpress'
 
 export const metadata: Metadata = {
     title: 'About Sujin Choi',
@@ -22,7 +23,7 @@ export const metadata: Metadata = {
 
 export default async function About() {
     const requestPost = unstable_cache(
-        async () => await getPostBy('slug', 'about'),
+        async () => await getPost('about', 'page'),
         ['about'],
         {
             tags: ['wordpress', 'page'],
@@ -30,7 +31,12 @@ export default async function About() {
         },
     )
 
-    const post = await requestPost().catch(() => notFound())
+    const post = await requestPost()
+        .then((result) => ({
+            ...result,
+            _id: undefined,
+        }))
+        .catch(() => notFound())
     const thumbnail = getThumbnailFromPost(post)
 
     return (

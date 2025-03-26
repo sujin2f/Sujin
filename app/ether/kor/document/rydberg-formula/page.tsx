@@ -5,9 +5,9 @@ import { Image } from '@common/components/containers/image'
 import { Table } from '@common/components/containers/Table'
 import { Latex } from '@components/wordpress/single/Latex'
 import { PrevNext } from '@components/wordpress/single/PrevNext'
-/* Helpers */
-import type { Post } from '@src/types/wordpress'
 import ScrollToTop from '@components/ScrollToTop'
+/* Types */
+import type { Post } from '@src/types/wordpress'
 /* Assets */
 import pic9 from '@src/images/ether/pic9.png'
 import pic10 from '@src/images/ether/pic10.png'
@@ -687,16 +687,16 @@ export default function RydbergFormula() {
             </p>
 
             <PrevNext
-                prevNext={{
-                    prev: {
+                posts={[
+                    {
                         title: '가설의 검증(1): 고전 물리학',
                         link: '/ether/kor/document/classic-physics',
                     } as Post,
-                    next: {
+                    {
                         title: '가설의 검증(3): 방출 에너지 분석',
                         link: '/ether/kor/document/analysis',
                     } as Post,
-                }}
+                ]}
             ></PrevNext>
         </div>
     )

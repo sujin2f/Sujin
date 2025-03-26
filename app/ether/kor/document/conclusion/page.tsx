@@ -2,9 +2,9 @@ import Link from 'next/link'
 /* Components */
 import { Image } from '@common/components/containers/image'
 import { PrevNext } from '@components/wordpress/single/PrevNext'
-/* Helpers */
-import type { Post } from '@src/types/wordpress'
 import ScrollToTop from '@components/ScrollToTop'
+/* Types */
+import type { Post } from '@src/types/wordpress'
 /* Assets */
 import pic13 from '@src/images/ether/pic13_eng.png'
 import pic14 from '@src/images/ether/pic14_eng.png'
@@ -229,12 +229,13 @@ export default function Conclusion() {
             <p>Fin</p>
 
             <PrevNext
-                prevNext={{
-                    prev: {
+                posts={[
+                    {
                         title: '가설의 검증(4): 비교기준, Between',
                         link: '/ether/kor/document/between',
                     } as Post,
-                }}
+                    undefined,
+                ]}
             ></PrevNext>
         </div>
     )

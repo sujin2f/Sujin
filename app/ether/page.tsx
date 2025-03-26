@@ -4,9 +4,10 @@ import { PrevNext } from '@components/wordpress/single/PrevNext'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 import Banner from '@components/header/Banner'
-/* Helpers */
-import type { Post } from '@src/types/wordpress'
+/* Constants */
 import { MenuNames } from '@src/constants/mysql-query'
+/* Types */
+import type { Post } from '@src/types/wordpress'
 
 export default function Intro() {
     return (
@@ -58,12 +59,13 @@ export default function Intro() {
                         </p>
 
                         <PrevNext
-                            prevNext={{
-                                next: {
+                            posts={[
+                                ,
+                                {
                                     title: 'Hypothesis',
                                     link: '/ether/document/hypothesis',
                                 } as Post,
-                            }}
+                            ]}
                         ></PrevNext>
                     </Column>
                 </Row>

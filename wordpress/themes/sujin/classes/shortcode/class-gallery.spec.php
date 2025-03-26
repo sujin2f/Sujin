@@ -6,10 +6,10 @@
  * @since   9.0.0
  * @author  Sujin 수진 Choi http://www.sujinc.com/
  */
-namespace Sujin\WordPress\Theme\Sujin\Shortcode\Gallery;
+namespace Sujin\Theme\Shortcode\Gallery;
 
 use Test_Case_Theme_Sujin;
-use Sujin\WordPress\Theme\Sujin\Shortcode\Gallery;
+use Sujin\Theme\Shortcode\Gallery;
 use Data_Gallery;
 
 /**

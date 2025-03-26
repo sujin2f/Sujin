@@ -1,11 +1,13 @@
 'use server'
-
+/* Utils */
 import { isEmpty } from '@common/utils/object'
+import getPostBy from '@src/db/mysql/getPostBy'
+import { getPostMeta } from '@src/db/mysql/getPostMeta'
+/* Constants */
 import { MetaKeys } from '@src/constants/mysql-query'
+/* Types */
 import type { Image, ImageSizes, MediaRawData } from '@src/types/wordpress'
 import type { Nullable } from '@common/types'
-import { getPostBy } from '@src/db/mysql/getPostBy'
-import { getPostMeta } from '@src/db/mysql/getPostMeta'
 
 export const getMedia = async (postId: number): Promise<Nullable<Image>> => {
     const result = {} as Image

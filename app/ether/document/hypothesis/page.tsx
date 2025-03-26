@@ -2,8 +2,8 @@ import Link from 'next/link'
 /* Components */
 import { Image } from '@common/components/containers/image'
 import { PrevNext } from '@components/wordpress/single/PrevNext'
-/* Helpers */
 import ScrollToTop from '@components/ScrollToTop'
+/* Types */
 import type { Post } from '@src/types/wordpress'
 /* Assets */
 import pic1 from '@src/images/ether/pic1_eng.png'
@@ -279,16 +279,16 @@ export default function Hypothesis() {
             </p>
 
             <PrevNext
-                prevNext={{
-                    prev: {
+                posts={[
+                    {
                         title: 'Introduction',
                         link: '/ether',
                     } as Post,
-                    next: {
+                    {
                         title: 'Proof(1): Classic Physics',
                         link: '/ether/document/classic-physics',
                     } as Post,
-                }}
+                ]}
             ></PrevNext>
         </div>
     )

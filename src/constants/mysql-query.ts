@@ -33,9 +33,10 @@ const POST_FIELDS = `
     posts.post_content AS content,
     posts.post_parent AS parent,
     posts.post_type AS type,
+    posts.post_status AS status,
+    posts.post_mime_type AS mimeType,
     posts.menu_order AS menuOrder,
-    posts.guid AS link,
-    posts.post_mime_type AS mimeType
+    posts.guid AS link
 `
 export const PER_PAGE = 12
 
@@ -67,6 +68,7 @@ const GET_SEARCH = `
     LIMIT ${PER_PAGE} OFFSET {1}
 `
 
+// @deprecated
 const GET_RECENT_POSTS = `
     SELECT ${POST_FIELDS}
     FROM wp_posts AS posts
@@ -94,16 +96,13 @@ const GET_TERM_BY = `
         terms.name AS title,
         terms.slug AS slug,
         taxonomy.taxonomy AS type,
-        taxonomy.description AS excerpt,
-        COUNT(posts.ID) as total
-    FROM wp_posts AS posts
-    INNER JOIN wp_term_relationships AS relationships
-        ON posts.ID = relationships.object_id
+        taxonomy.description AS excerpt
+    FROM wp_term_relationships AS relationships
     INNER JOIN wp_term_taxonomy AS taxonomy
         ON taxonomy.term_taxonomy_id = relationships.term_taxonomy_id
     INNER JOIN wp_terms AS terms
         ON terms.term_id = taxonomy.term_id
-    WHERE {0}="{1}" AND posts.post_status="publish"
+    WHERE {0}="{1}"
 `
 
 const GET_TERM_ITEMS = `
@@ -187,6 +186,7 @@ const UPDATE_TAG_HIT = `
     ON DUPLICATE KEY UPDATE hit = hit + 1
 `
 
+// @deprecated
 const GET_ADJACENT_POST = `
     SELECT
         ${POST_FIELDS}
@@ -203,6 +203,7 @@ const GET_ADJACENT_POST = `
     ORDER BY posts.post_date {4} LIMIT 1
 `
 
+// @deprecated
 const GET_RELATED_POST = `
     SELECT
         ${POST_FIELDS}
@@ -265,6 +266,7 @@ export const MySQLQuery = {
     getTagCount: () => format(GET_TAG_COUNT),
     getTagHit: () => format(GET_TAG_HIT),
     updateTagHit: (termId: number) => format(UPDATE_TAG_HIT, termId),
+    // @deprecated
     getAdjacentPost: (post: Post, previous = true) => {
         const comparison = previous ? '<' : '>'
         const order = previous ? 'DESC' : 'ASC'
@@ -278,9 +280,11 @@ export const MySQLQuery = {
             order,
         )
     },
+    // @deprecated
     getRelatedPost: (taxonomy: 'category' | 'post_tag', termIds: number[]) => {
         return format(GET_RELATED_POST, taxonomy, termIds.join(','))
     },
+    // @deprecated
     getRecentPosts: () => GET_RECENT_POSTS,
     deletePostMeta: (postId: number, metaKey: string) => {
         return format(DELETE_POST_META, postId, metaKey)

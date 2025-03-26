@@ -1,13 +1,17 @@
+import type { WithId } from 'mongodb'
+/* Models */
+import Mongo from '@common/data/mongo/mongo'
+import { Cached } from '@common/model/Cached'
+/* Types */
 import type { Atom } from '@src/types/atom'
 import type { ISpectrum } from '@src/types/ether'
-import Mongo from '@common/data/mongo/mongo'
+/* Utils */
 import { request as getNistData } from '@src/db/fetch/getNistData'
 import { insertManyFromCSV } from '@src/db/mongo/ether/util'
-import { WEEK_IN_SECONDS } from '@common/constants/datetime'
-import { Cached } from '@common/model/Cached'
-import { WithId } from 'mongodb'
-import { IS_DEV } from '@src/constants/system'
 import { getAtom } from '@src/utils/ether'
+/* Constants */
+import { WEEK_IN_SECONDS } from '@common/constants/datetime'
+import { IS_DEV } from '@common/constants/helper'
 
 /**
  * Requests spectra data

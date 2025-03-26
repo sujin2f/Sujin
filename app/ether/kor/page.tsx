@@ -1,7 +1,7 @@
 /* Components */
 import ScrollToTop from '@components/ScrollToTop'
 import { PrevNext } from '@components/wordpress/single/PrevNext'
-/* Helpers */
+/* Types */
 import type { Post } from '@src/types/wordpress'
 
 export default function Intro() {
@@ -41,12 +41,13 @@ export default function Intro() {
             </p>
 
             <PrevNext
-                prevNext={{
-                    next: {
+                posts={[
+                    ,
+                    {
                         title: '가설 제시',
                         link: '/ether/kor/document/hypothesis',
                     } as Post,
-                }}
+                ]}
             ></PrevNext>
         </>
     )

@@ -1,15 +1,21 @@
 'use server'
-
-import type { MenuItem, Post, Term } from '@src/types/wordpress'
-import { isEmpty } from '@common/utils/object'
-import { MySQLQuery, MenuItemTypes, MetaKeys } from '@src/constants/mysql-query'
-import { Nullable } from '@common/types'
-import { unserialize } from '@src/utils/wordpress'
-import { MySQL } from '@src/db/mysql'
-import { getPostBy } from '@src/db/mysql/getPostBy'
-import { getAllPostMeta } from '@src/db/mysql/getAllPostMeta'
+/* Models */
 import { Logger } from '@common/model/Logger'
+import { MySQL } from '@src/db/mysql'
+/* Utils */
+import { isEmpty } from '@common/utils/object'
+import { unserialize } from '@src/utils/wordpress'
+import getPostBy from '@src/db/mysql/getPostBy'
+import { getAllPostMeta } from '@src/db/mysql/getAllPostMeta'
+/* Constants */
+import { MySQLQuery, MenuItemTypes, MetaKeys } from '@src/constants/mysql-query'
+/* Types */
+import type { Nullable } from '@common/types'
+import type { MenuItem, Post, Term } from '@src/types/wordpress'
 
+/**
+ * @deprecated
+ */
 const getMenuItemFromPost = async (post: Post): Promise<Nullable<MenuItem>> => {
     const result = {} as MenuItem
     result.id = post.id
@@ -56,6 +62,9 @@ const getMenuItemFromPost = async (post: Post): Promise<Nullable<MenuItem>> => {
     return result
 }
 
+/**
+ * @deprecated
+ */
 export const request = async (slug: string): Promise<MenuItem[]> => {
     Logger.server(`Menu Requested ${slug}`)
     const result: Record<number, MenuItem> = {}

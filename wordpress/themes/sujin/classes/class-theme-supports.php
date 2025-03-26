@@ -7,7 +7,7 @@
  * @author  Sujin 수진 Choi http://www.sujinc.com/
  */
 
-namespace Sujin\WordPress\Theme\Sujin;
+namespace Sujin\Theme;
 
 use Sujin\Wordpress\WP_Express\Helpers\Trait_Singleton;
 

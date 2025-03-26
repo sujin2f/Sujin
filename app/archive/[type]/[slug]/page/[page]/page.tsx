@@ -4,19 +4,18 @@ import { unstable_cache } from 'next/cache'
 /* Components */
 import Banner from '@components/header/Banner'
 import { Archive as ArchiveComponent } from '@components/wordpress/archive/Archive'
-/* Helpers */
-import { getTermBy } from '@src/db/mysql/getTermBy'
-import { TermTypes } from '@src/constants/wordpress'
+/* Constants */
 import { DAY_IN_SECONDS, HOUR_IN_SECONDS } from '@common/constants/datetime'
+import { TermTypes } from '@src/constants/wordpress'
 import { BASE_URL } from '@src/constants/system'
 import { MenuNames } from '@src/constants/mysql-query'
+/* Utils */
+import getArchive from '@src/db/mongo/wordpress/getArchive'
+/* Types */
+import type { ArchiveProp } from '@src/types/wordpress'
 
 type Props = {
-    params: Promise<{
-        type: string
-        slug: string
-        page: string
-    }>
+    params: Promise<ArchiveProp>
 }
 
 export const generateMetadata = async (props: Props): Promise<Metadata> => {
@@ -24,28 +23,22 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
     const { slug, page } = params
     const type = params.type === 'tag' ? TermTypes.post_tag : params.type
     const requestArchive = unstable_cache(
-        async (type, slug, page) => await getTermBy(type, slug, page),
-        [type, slug, page],
+        async (params) => await getArchive(params),
+        [type, slug],
         {
             tags: ['wordpress', 'archive'],
             revalidate: DAY_IN_SECONDS,
         },
     )
 
-    const archive = await requestArchive(
-        type as TermTypes,
-        slug,
-        parseInt(page),
+    const archive = await requestArchive({ type, slug, page }).catch(() =>
+        notFound(),
     )
     const url = `${BASE_URL}/archive/${type}/${slug}/page/${page}`
-    const keywords = archive.posts
-        .map((post) => post.tags.map((tag) => tag.title))
-        .flat()
 
     return {
         title: `Sujin | ${archive.title}`,
         description: archive.excerpt,
-        keywords,
         openGraph: {
             title: `Sujin | ${archive.title}`,
             url: url,
@@ -59,18 +52,16 @@ export default async function Archive(props: Props) {
     const { slug, page } = params
     const type = params.type === 'tag' ? TermTypes.post_tag : params.type
     const requestArchive = unstable_cache(
-        async (type, slug, page) => await getTermBy(type, slug, page),
-        [type, slug, page],
+        async (params) => await getArchive(params),
+        [type, slug],
         {
             tags: ['wordpress', 'archive'],
             revalidate: HOUR_IN_SECONDS,
         },
     )
-    const archive = await requestArchive(
-        type as TermTypes,
-        slug,
-        parseInt(page),
-    ).catch(() => notFound())
+    const archive = await requestArchive({ type, slug, page }).catch(() =>
+        notFound(),
+    )
     const { title, excerpt, image } = archive
 
     return (
@@ -85,7 +76,12 @@ export default async function Archive(props: Props) {
                 }}
             />
 
-            <ArchiveComponent term={archive} />
+            <ArchiveComponent
+                type={type}
+                slug={slug}
+                page={page}
+                total={archive.total}
+            />
         </main>
     )
 }

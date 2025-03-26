@@ -3,8 +3,9 @@
  */
 import path from 'path'
 import fs from 'fs'
+/* Constants */
+import { IS_DEV, VERSION } from '@common/constants/helper'
 
-export const isDev = process.env.NODE_ENV !== 'production'
 export const rootDir = process.cwd()
 export const publicDir = path.resolve(rootDir, 'public')
 export const baseDir = path.resolve(
@@ -18,6 +19,6 @@ export const bundles = () => {
     return JSON.parse(raw)
 }
 export const getPath = (filename: string) => {
-    const versionPath = (!isDev && process.env.VERSION) || ''
+    const versionPath = (!IS_DEV && VERSION) || ''
     return path.join(versionPath, filename)
 }

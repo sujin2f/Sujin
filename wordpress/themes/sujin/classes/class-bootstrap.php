@@ -7,18 +7,20 @@
  * @author  Sujin 수진 Choi http://www.sujinc.com/
  */
 
-namespace Sujin\WordPress\Theme\Sujin;
+namespace Sujin\Theme;
 
 // Shortcodes.
-use Sujin\WordPress\Theme\Sujin\Shortcode\About_Item;
-use Sujin\WordPress\Theme\Sujin\Shortcode\Gallery as Shortcode_Gallery;
+use Sujin\Theme\Shortcode\About_Item;
+use Sujin\Theme\Shortcode\Gallery as Shortcode_Gallery;
 
 // Modifiers.
-use Sujin\WordPress\Theme\Sujin\Modifier\{
+use Sujin\Theme\Modifier\{
 	Taxonomies,
 	Post as Post_Modifier,
 	Post_Type\Gallery,
 };
+
+use Sujin\Theme\Plugins\Export_Post;
 
 use Sujin\Wordpress\WP_Express\Helpers\Trait_Singleton;
 
@@ -59,6 +61,8 @@ class Bootstrap {
 
 		// Custom Post Type.
 		Gallery::get_instance();
+
+		Export_Post::get_instance();
 	}
 
 	/**

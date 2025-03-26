@@ -138,4 +138,3 @@ export const METADATA: Record<string, Metadata> = {
         },
     },
 }
-export const IS_DEV = process.env.NODE_ENV === 'development'

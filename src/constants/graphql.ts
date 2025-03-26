@@ -1,5 +1,7 @@
+/* Models */
 import { GQLMutation } from '@common/data/graphql/mutation'
 import { GQLQuery } from '@common/data/graphql/query'
+/* Constants */
 import {
     GQLBoolean,
     GQLFloat,
@@ -7,18 +9,17 @@ import {
     GQLString,
     GQLType,
 } from '@common/data/graphql/type'
-import type { Nullable } from '@common/types'
-import type { FlickrImage } from '@src/types/flickr'
 import { TermTypes } from '@src/constants/wordpress'
+/* Types */
+import type { FlickrImage } from '@src/types/flickr'
 import type {
     ImageSize,
     Image,
     Term,
-    MenuItem,
     Post,
     TagCloud,
 } from '@src/types/wordpress'
-import { ISpectrum } from '@src/types/ether'
+import type { ISpectrum } from '@src/types/ether'
 
 const list = true
 const required = true
@@ -42,15 +43,6 @@ export const GQLImages = new GQLType('Images', {
     background: { type: GQLImage },
     thumbnail: { type: GQLImage },
 })
-
-export const GQLMenuItem = new GQLType<MenuItem>('MenuItem', {
-    id: { type: GQLInt },
-    title: { type: GQLString },
-    target: { type: GQLString },
-    link: { type: GQLString },
-    htmlClass: { type: GQLString, list },
-})
-GQLMenuItem.addField('children', { type: GQLMenuItem, list })
 
 export const GQLPostMeta = new GQLType('PostMeta', {
     useBackgroundColor: { type: GQLBoolean },
@@ -120,37 +112,7 @@ export const queryBackground = new GQLQuery<[], Image[]>(
     },
 )
 
-export const queryPost = new GQLQuery<[string], Nullable<Post>>(
-    'post',
-    {
-        slug: {
-            type: GQLString,
-            required,
-        },
-    },
-    {
-        type: GQLPost,
-    },
-)
-
-export const queryMenu = new GQLQuery<[string], MenuItem[]>(
-    'menu',
-    {
-        slug: {
-            type: GQLString,
-            required,
-        },
-    },
-    {
-        type: GQLMenuItem,
-        list,
-    },
-)
-
-export const queryArchive = new GQLQuery<
-    [TermTypes, string, number],
-    Nullable<Term>
->(
+export const queryArchive = new GQLQuery<[TermTypes, string, number], Post[]>(
     'archive',
     {
         type: {
@@ -166,7 +128,8 @@ export const queryArchive = new GQLQuery<
         },
     },
     {
-        type: GQLTerm,
+        type: GQLPost,
+        list,
     },
 )
 
@@ -197,18 +160,57 @@ export const queryRecent = new GQLQuery<[], Post[]>(
     },
 )
 
-type ResultType = {
+export const queryPrevNext = new GQLQuery<[number, number, string], Post[]>(
+    'prevNext',
+    {
+        id: {
+            type: GQLInt,
+        },
+        date: {
+            type: GQLInt,
+        },
+        categories: {
+            type: GQLString,
+        },
+    },
+    {
+        type: GQLPost,
+        list,
+    },
+)
+
+export const queryRelatedPosts = new GQLQuery<[number, string, string], Post[]>(
+    'relatedPosts',
+    {
+        id: {
+            type: GQLInt,
+        },
+        categories: {
+            type: GQLString,
+        },
+        tags: {
+            type: GQLString,
+        },
+    },
+    {
+        type: GQLPost,
+        list,
+    },
+)
+
+export type MutationResultType = {
     result: boolean
 }
 
 export const GQLResult = new GQLType<boolean>('Result', {
     result: { type: GQLBoolean },
 })
-export const mutateCache = new GQLMutation<
+
+export const mutateUpdatePost = new GQLMutation<
     [string, string, number, string, string],
-    ResultType
+    MutationResultType
 >(
-    'removeCache',
+    'updatePost',
     {
         nonce: {
             type: GQLString,
@@ -228,6 +230,24 @@ export const mutateCache = new GQLMutation<
         },
         tags: {
             type: GQLString,
+            required,
+        },
+    },
+    { type: GQLResult },
+)
+
+export const mutateUpdateTerm = new GQLMutation<
+    [string, number],
+    MutationResultType
+>(
+    'updateTerm',
+    {
+        nonce: {
+            type: GQLString,
+            required,
+        },
+        termId: {
+            type: GQLInt,
             required,
         },
     },

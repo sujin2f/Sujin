@@ -7,9 +7,9 @@ import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 import { Latex } from '@components/wordpress/single/Latex'
 import { PrevNext } from '@components/wordpress/single/PrevNext'
-/* Helpers */
-import type { Post } from '@src/types/wordpress'
 import ScrollToTop from '@components/ScrollToTop'
+/* Types */
+import type { Post } from '@src/types/wordpress'
 /* Assets */
 import pic29 from '@src/images/ether/pic29.png'
 import pic42 from '@src/images/ether/pic42.png'
@@ -676,16 +676,16 @@ export default function Analysis() {
             </Row>
 
             <PrevNext
-                prevNext={{
-                    prev: {
+                posts={[
+                    {
                         title: '가설의 검증(2): 뤼드베리 방정식의 재정립',
                         link: '/ether/kor/document/rydberg-formula',
                     } as Post,
-                    next: {
+                    {
                         title: '가설의 검증(4): 비교기준, Between',
                         link: '/ether/kor/document/between',
                     } as Post,
-                }}
+                ]}
             ></PrevNext>
         </div>
     )

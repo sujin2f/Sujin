@@ -1,7 +1,7 @@
 import React from 'react'
 import Script from 'next/script'
-/* Helpers */
-import { IS_DEV } from '@src/constants/system'
+/* Constants */
+import { IS_DEV } from '@common/constants/helper'
 
 interface Props {
     readonly responsive?: boolean

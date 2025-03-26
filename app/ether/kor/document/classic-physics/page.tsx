@@ -6,7 +6,7 @@ import ScrollToTop from '@components/ScrollToTop'
 import { Table } from '@common/components/containers/Table'
 import { Latex } from '@components/wordpress/single/Latex'
 import { PrevNext } from '@components/wordpress/single/PrevNext'
-/* Helpers */
+/* Types */
 import type { Post } from '@src/types/wordpress'
 /* Assets */
 import pic5 from '@src/images/ether/pic5_eng.png'
@@ -387,16 +387,16 @@ export default function ClassicPhysics() {
             </p>
 
             <PrevNext
-                prevNext={{
-                    prev: {
+                posts={[
+                    {
                         title: '가설 제시',
                         link: '/ether/kor/document/hypothesis',
                     } as Post,
-                    next: {
+                    {
                         title: '가설의 검증(2): 뤼드베리 방정식의 재정립',
                         link: '/ether/kor/document/rydberg-formula',
                     } as Post,
-                }}
+                ]}
             ></PrevNext>
         </div>
     )

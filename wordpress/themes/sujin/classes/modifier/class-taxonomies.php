@@ -7,13 +7,14 @@
  * @author  Sujin 수진 Choi http://www.sujinc.com/
  */
 
-namespace Sujin\WordPress\Theme\Sujin\Modifier;
+namespace Sujin\Theme\Modifier;
 
 use Sujin\Wordpress\WP_Express\Helpers\Trait_Singleton;
 
 use Sujin\Wordpress\WP_Express\Post_Type;
 use Sujin\Wordpress\WP_Express\Taxonomy;
 use Sujin\Wordpress\WP_Express\Fields\Term_Meta\Attachment;
+use Sujin\Theme\Plugins\GraphQL;
 
 /**
  * Modifying Taxonomies
@@ -32,6 +33,7 @@ class Taxonomies {
 	 * @visibility protected
 	 */
 	protected function __construct() {
+		add_action( 'saved_term', array( $this, 'term_updated' ), 100 );
 		// Post Series.
 		Taxonomy::get_instance( 'Series' )
 			->append_to( Post_Type::get_instance( 'Post' ) )
@@ -45,5 +47,15 @@ class Taxonomies {
 		Attachment::get_instance( 'Thumbnail' )
 			->append_to( Taxonomy::get_instance( 'Category' ) )
 			->append_to( Taxonomy::get_instance( 'Tag' ) );
+	}
+
+	/**
+	 * Update mongo document
+	 *
+	 * @param int $term_id Term ID.
+	 */
+	public function term_updated( int $term_id): void {
+		$graphql = new GraphQL();
+		$graphql->update_term( $term_id );
 	}
 }
