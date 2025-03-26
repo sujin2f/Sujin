@@ -122,6 +122,7 @@ const handler = startServerAndCreateNextHandler<NextRequest>(server, {
 
         // Disallow different domain
         if (!IS_DEV && !referer.includes(base)) {
+            console.log(`Access Denied. Referer: ${referer}, Base: ${base}`)
             throw Error('Access Denied.')
         }
         return { req, res }

@@ -68,6 +68,7 @@ const updatePost = async (
         .then(async () => await Mongo.replaceOne('post', { id }, post))
         .catch(async () => await Mongo.insertOne('post', post))
 
+    console.log(`Updated MongoDB post: ${slug} (${id})`)
     return {
         result: true,
     }

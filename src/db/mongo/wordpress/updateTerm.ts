@@ -47,6 +47,7 @@ const updateTerm = async (
         .then(async () => await Mongo.replaceOne('term', { id: termId }, term))
         .catch(async () => await Mongo.insertOne('term', term))
 
+    console.log(`Updated MongoDB term: ${JSON.stringify(term)}`)
     return {
         result: true,
     }
