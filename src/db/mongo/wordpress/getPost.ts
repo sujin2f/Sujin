@@ -6,6 +6,7 @@ import Mongo from '@common/data/mongo/mongo'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 /* Utils */
 import { getPostBy } from '@src/db/mysql/getPostBy'
+import { isDev } from '@common/utils/system'
 /* Types */
 import type { Post } from '@src/types/wordpress'
 
@@ -35,5 +36,6 @@ export const getPost = async (
         key,
         async () => await request(value, type, ignoreStatus),
         WEEK_IN_SECONDS,
+        isDev,
     )
 }

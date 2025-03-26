@@ -7,6 +7,9 @@ import Mongo from '@common/data/mongo/mongo'
 import type { ArchiveProp, Term } from '@src/types/wordpress'
 /* Utils */
 import { getTermBySlug } from '@src/db/mysql/getTermBy'
+import { isDev } from '@common/utils/system'
+/* Constants */
+import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 
 export const request = async (props: ArchiveProp): Promise<Term> => {
     const { slug, type } = props
@@ -43,7 +46,7 @@ export const getArchive = async (props: ArchiveProp) => {
                 ...props,
                 slug,
             }),
-        0,
-        true,
+        WEEK_IN_SECONDS,
+        isDev,
     )
 }

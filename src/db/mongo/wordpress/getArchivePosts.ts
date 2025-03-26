@@ -7,6 +7,9 @@ import type { Post } from '@src/types/wordpress'
 /* Constants */
 import { TermTypes } from '@src/constants/wordpress'
 import { PER_PAGE } from '@src/constants/mysql-query'
+import { WEEK_IN_SECONDS } from '@common/constants/datetime'
+/* Utils */
+import { isDev } from '@common/utils/system'
 
 const request = async (
     type: TermTypes,
@@ -34,6 +37,7 @@ export const getArchivePosts = async (
     return await Cached.getInstance().getOrExecute(
         key,
         async () => await request(type, slug, page),
-        0,
+        WEEK_IN_SECONDS,
+        isDev,
     )
 }

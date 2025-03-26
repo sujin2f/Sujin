@@ -6,6 +6,8 @@ import Mongo from '@common/data/mongo/mongo'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 /* Types */
 import type { Post } from '@src/types/wordpress'
+/* Utils */
+import { isDev } from '@common/utils/system'
 
 /**
  * Fetches the recent posts from MongoDB.
@@ -60,6 +62,6 @@ export const getPrevNext = async (
         `prev-next-${id}`,
         async () => await request(id, date, categories),
         WEEK_IN_SECONDS,
-        true,
+        isDev,
     )
 }

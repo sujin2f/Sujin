@@ -8,6 +8,7 @@ import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import type { Post } from '@src/types/wordpress'
 /* Utils */
 import { getRecentPosts } from '@src/db/mongo/wordpress/getRecentPosts'
+import { isDev } from '@common/utils/system'
 
 /**
  * Fetches the related posts from MongoDB.
@@ -64,6 +65,6 @@ export const getRelatedPosts = async (
         `related-${id}`,
         async () => await request(id, categories, tags),
         WEEK_IN_SECONDS,
-        true,
+        isDev,
     )
 }
