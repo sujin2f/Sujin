@@ -2,7 +2,7 @@
 import { Cached } from '@common/model/Cached'
 import Mongo from '@common/data/mongo/mongo'
 /* Utils */
-import { getOption } from '@src/db/mysql/getOption'
+import getOption from '@src/db/mysql/getOption'
 import { removeOption } from '@src/db/mysql/removeOption'
 import { getTermById } from '@src/db/mysql/getTermBy'
 /* Types */
@@ -30,9 +30,8 @@ const updateTerm = async (
     termId: number,
 ): Promise<MutationResultType> => {
     const optionKey = `update_term_${nonce}`
-    const option = await getOption(optionKey)
+    const nonceValue = await getOption(optionKey)
     await removeOption(optionKey)
-    const nonceValue = option && option.option_value
 
     // Nonce validation
     if (`${nonce}-${termId}` !== nonceValue) {

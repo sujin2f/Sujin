@@ -25,8 +25,9 @@ export const post = {
         '<p>As a new WordPress user, you should go to <a href="http://localhost:8000/wp-admin/">your dashboard</a> to delete this page and create new pages for your content. Have fun!</p>\n' +
         '<!-- /wp:paragraph -->',
     parent: 0,
-    type: 'page',
+    type: 'post',
     menuOrder: 0,
+    status: 'publish',
     link: 'http://localhost:8000/?page_id=2',
     mimeType: '',
 }

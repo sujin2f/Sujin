@@ -2,7 +2,7 @@
 import { Cached } from '@common/model/Cached'
 import Mongo from '@common/data/mongo/mongo'
 /* Utils */
-import { getOption } from '@src/db/mysql/getOption'
+import getOption from '@src/db/mysql/getOption'
 import { removeOption } from '@src/db/mysql/removeOption'
 import getPostBy from '@src/db/mysql/getPostBy'
 /* Types */
@@ -50,9 +50,8 @@ const updatePost = async (
     tags: string,
 ): Promise<MutationResultType> => {
     const optionKey = `update_post_${nonce}`
-    const option = await getOption(optionKey)
+    const nonceValue = await getOption(optionKey)
     await removeOption(optionKey)
-    const nonceValue = option && option.option_value
 
     // Nonce validation
     if (`${nonce}-${slug}` !== nonceValue) {
@@ -63,6 +62,7 @@ const updatePost = async (
 
     // Remove Cache and Update Mongo Post
     await removeCache(slug, id, categories, tags)
+
     const post = await getPostBy('id', id, false)
     await Mongo.findOne('post', { id })
         .then(async () => await Mongo.replaceOne('post', { id }, post))
