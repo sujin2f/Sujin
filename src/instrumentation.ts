@@ -1,4 +1,4 @@
-import { Cached } from '@common/model/Cached'
+import Cached from '@common/model/Cached'
 
 export async function register() {
     if (process.env.NEXT_RUNTIME === 'nodejs') {

@@ -2,7 +2,7 @@ import { default as mysqld } from 'promise-mysql'
 import type { Nullable } from '@common/types'
 import { isEmpty } from '@common/utils/object'
 
-export class MySQL {
+export default class MySQL {
     private mysql: Nullable<mysqld.Connection>
     private static _instance: MySQL
     public static getInstance(): MySQL {

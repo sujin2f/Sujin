@@ -1,7 +1,7 @@
 'use server'
 /* Models */
-import { Cached } from '@common/model/Cached'
-import { Logger } from '@common/model/Logger'
+import Cached from '@common/model/Cached'
+import Logger from '@common/model/Logger'
 /* Constants */
 import { STATIC_FLICKR } from '@src/constants/flickr'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'

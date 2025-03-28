@@ -1,6 +1,6 @@
 import type { WithId } from 'mongodb'
 /* Models */
-import { Cached } from '@common/model/Cached'
+import Cached from '@common/model/Cached'
 import Mongo from '@common/data/mongo/mongo'
 /* Constants */
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'

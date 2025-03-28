@@ -5,7 +5,7 @@ const styleLog = [
     'border-radius: 3px',
 ].join(';')
 
-export class Logger {
+export default class Logger {
     static client(message: string) {
         console.log([`%cLOG%c ${message}`, styleLog, []])
     }

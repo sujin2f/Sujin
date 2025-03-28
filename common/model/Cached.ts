@@ -7,7 +7,7 @@ import { WEEK_IN_SECONDS } from '../constants/datetime'
 /**
  * Node Cache
  */
-export class Cached extends Singleton<Cached>() {
+export default class Cached extends Singleton<Cached>() {
     private async getCache() {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const cache = (global as any)['cache']

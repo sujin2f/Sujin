@@ -2,7 +2,7 @@
 
 import type { OptionValue, PostMeta } from '@src/types/wordpress'
 import { MySQLQuery } from '@src/constants/mysql-query'
-import { MySQL } from '@src/db/mysql'
+import MySQL from '@src/db/mysql'
 import { unserialize } from '@src/utils/wordpress'
 
 export const getPostMeta = async <T extends OptionValue>(

@@ -4,7 +4,7 @@
 // yarn test Cached.spec.ts
 
 import '@testing-library/jest-dom'
-import { Cached } from './Cached'
+import Cached from './Cached'
 
 describe('Cached.ts', () => {
     const cache = Cached.getInstance()
