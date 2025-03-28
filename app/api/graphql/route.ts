@@ -4,6 +4,8 @@ import { ApolloServer } from '@apollo/server'
 import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/disabled'
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default'
 import type { NextRequest } from 'next/server'
+/* Models */
+import Logger from '@common/model/Logger'
 /* Utils */
 import { getBackgrounds } from '@src/db/mysql/getBackgrounds'
 import { getFlickr } from '@src/db/fetch/getFlickr'
@@ -101,32 +103,30 @@ const server = new ApolloServer({
         IS_DEV
             ? ApolloServerPluginLandingPageLocalDefault({ footer: false })
             : ApolloServerPluginLandingPageDisabled(),
-        // Custom Apollo Server Plugin for the server start event
+        // Custom Apollo Server Plugins
         {
             async serverWillStart() {
                 // Migrate MongoDB indexes
                 const version = process.env.VERSION || '0.0.0'
-                migrateIndex(version, mongoMigration)
+                await migrateIndex(version, mongoMigration)
+            },
+            async requestDidStart(context) {
+                const headerReferer =
+                    context.request.http?.headers.get('referer') || ''
+                const referer = new URL(headerReferer).hostname
+                const base = new URL(BASE_URL).hostname
+
+                // Disallow different domain
+                if (!IS_DEV && !referer.includes(base)) {
+                    Logger.server(
+                        `Access Denied. Referer: ${referer}, Base: ${base}`,
+                    )
+                    throw Error('Access Denied.')
+                }
             },
         },
     ],
 })
 
-const handler = startServerAndCreateNextHandler<NextRequest>(server, {
-    context: async (req, res) => {
-        const headerReferer = ((
-            req.headers as unknown as Record<string, string>
-        ).referer || '') as string
-        const referer = new URL(headerReferer).hostname
-        const base = new URL(BASE_URL).hostname
-
-        // Disallow different domain
-        if (!IS_DEV && !referer.includes(base)) {
-            console.log(`Access Denied. Referer: ${referer}, Base: ${base}`)
-            throw Error('Access Denied.')
-        }
-        return { req, res }
-    },
-})
-
-export default handler
+const handler = startServerAndCreateNextHandler<NextRequest>(server)
+export { handler as GET, handler as POST }

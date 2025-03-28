@@ -1,5 +1,6 @@
 'use client'
 import React, { useCallback, useEffect, useState } from 'react'
+import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 /* Components */
 import { TopBar } from '@common/components/layout/TopBar'
@@ -11,6 +12,7 @@ import Search from '@components/header/Search'
 /* Helpers */
 import { getMenu } from '@src/utils/system'
 import { MenuNames } from '@src/constants/mysql-query'
+import { handleSignIn, handleSignOut } from '@src/utils/auth'
 /* Assets */
 import Logo from '@src/images/logo-top-bar.svg'
 import Facebook from '@src/images/facebook.svg'
@@ -31,6 +33,7 @@ type Props = {
  * @param {string} props.menu - The menu items to be displayed in the top bar.
  */
 const FixedHeader = (props: Props) => {
+    const { data: session } = useSession()
     const menu = getMenu(props.menu)
     const [scrolled, setScrolled] = useState('')
 
@@ -88,6 +91,18 @@ const FixedHeader = (props: Props) => {
                         >
                             <Facebook />
                         </a>
+                        {session ? (
+                            <div className="hide">
+                                <h2>Welcome, {session.user?.name}!</h2>
+                                <button onClick={handleSignOut}>
+                                    Sign Out
+                                </button>
+                            </div>
+                        ) : (
+                            <button onClick={handleSignIn} className="hide">
+                                Sign in with Google
+                            </button>
+                        )}
                     </nav>
                 </Column>
             </Row>
