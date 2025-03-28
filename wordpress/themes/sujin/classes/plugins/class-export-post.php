@@ -26,7 +26,25 @@ class Export_Post {
 			)
 			->position( 'tools' );
 
-		add_action('update_option_' . $input->get_id(), array( $this, 'update_option' ), 10, 3 );
+		add_action( 'update_option_' . $input->get_id(), array( $this, 'update_option' ), 10, 3 );
+		add_action( 'admin_init', array( $this, 'admin_init' ) );
+
+	}
+
+	public function admin_init(): void {
+		add_settings_section( 'export-post-log', 'Last Log', array( $this, 'echo_log' ), 'export-posts', array() );
+	}
+
+	/**
+	 * Print the last log of GraphQL response.
+	 *
+	 * @return void
+	 */
+	public function echo_log(): void {
+		$log = get_option( 'last-gql-response');
+		echo '<pre>';
+		var_dump( $log );
+		echo '</pre>';
 	}
 
 	public function update_option( string $old_value, string $value, string $option_name ): void {
@@ -62,8 +80,9 @@ class Export_Post {
 				continue;
 			}
 
-			$graphql = new GraphQL();
-			$graphql->update_post( $post );
+			$graphql  = new GraphQL();
+			$response = $graphql->update_post( $post );
+			update_option( 'last-gql-response', $response );
 		}
 
 		update_option( $option_name, '' );

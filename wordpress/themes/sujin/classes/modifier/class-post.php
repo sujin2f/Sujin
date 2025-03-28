@@ -55,7 +55,8 @@ class Post {
 	 * @param \WP_Post $post    WP_Post object.
 	 */
 	public function post_updated( int $post_id, \WP_Post $post ): void {
-		$graphql = new GraphQL();
-		$graphql->update_post( $post );
+		$graphql  = new GraphQL();
+		$response = $graphql->update_post( $post );
+		update_option( 'last-gql-response', $response );
 	}
 }

@@ -10,18 +10,26 @@
 namespace Sujin\Theme\Plugins;
 
 class GraphQL {
-    public function update_post( \WP_Post $post ): void {
-        $post_id  = $post->ID;
+	public function update_post( \WP_Post $post ): array {
+		$post_id  = $post->ID;
 		$nonce    = wp_create_nonce( 'update_post_' . $post_id );
 		$base_url = get_home_url();
 
 		$categories = array();
 		$tags       = array();
-		foreach ( get_the_category( $post_id ) as  $category ) {
-			array_push( $categories, $category->slug );
+		$the_cats   = get_the_category( $post_id );
+		$the_tags   = get_the_tags( $post_id );
+
+		if ( is_array( $the_cats ) ) {
+			foreach ( get_the_category( $post_id ) as  $category ) {
+				array_push( $categories, $category->slug );
+			}
 		}
-		foreach ( get_the_tags( $this->$post_id ) as  $tag ) {
-			array_push( $tags, $tag->slug );
+
+		if ( is_array( $the_tags ) ) {
+			foreach ( get_the_tags( $post_id ) as  $tag ) {
+				array_push( $tags, $tag->slug );
+			}
 		}
 
 		$mutation = array(
@@ -40,10 +48,11 @@ class GraphQL {
 		);
 
 		update_option( 'update_post_' . $nonce, $nonce . '-' . $post->post_name );
-		wp_remote_post( $base_url . '/api/graphql', $args );
-    }
+		$response = wp_remote_post( $base_url . '/api/graphql', $args );
+		return $response;
+	}
 
-    public function update_term( int $term_id ): void {
+	public function update_term( int $term_id ): array {
 		$nonce    = wp_create_nonce( 'update_term_' . $term_id );
 		$base_url = get_home_url();
 
@@ -63,6 +72,7 @@ class GraphQL {
 		);
 
 		update_option( 'update_term_' . $nonce, $nonce . '-' . $term_id );
-		wp_remote_post( $base_url . '/api/graphql', $args );
-    }
+		$response = wp_remote_post( $base_url . '/api/graphql', $args );
+		return $response;
+	}
 }
