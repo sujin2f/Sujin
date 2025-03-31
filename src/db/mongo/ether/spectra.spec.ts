@@ -1,8 +1,8 @@
 // yarn test spectra.spec.ts
 
+import client from '@common/data/mongo/mongo-client'
 import { NISTresponseH } from '../../../../.jest/fixture'
 import { getSpectraFromNIST } from './spectra'
-import Mongo from '@common/data/mongo/mongo'
 
 describe('spectra.spec.ts', () => {
     beforeAll(async () => {
@@ -14,7 +14,15 @@ describe('spectra.spec.ts', () => {
     })
 
     afterAll(async () => {
-        Mongo.deleteMany('spectra', {})
+        await client.then(async (client) => {
+            const database = client.db(process.env.MONGO_DATABASE)
+            try {
+                await database.collection('spectra').drop()
+            } catch {
+                // ignore
+            }
+            client.close()
+        })
     })
 
     test('request', async () => {

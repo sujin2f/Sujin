@@ -15,12 +15,6 @@ jest.mock('promise-mysql', () => ({
 describe('updateTerm.ts', () => {
     afterAll(async () => {
         jest.clearAllMocks()
-        await client.then(async (client) => {
-            const database = client.db(process.env.MONGO_DATABASE)
-            try {
-                await database.collection('term').drop()
-            } catch {}
-        })
     })
 
     test('updateTerm()', async () => {
@@ -47,5 +41,14 @@ describe('updateTerm.ts', () => {
         const term = await Mongo.findOne('term', { id: 1 })
         expect(term.name).toEqual('Test')
         expect(term.slug).toEqual('test')
+
+        await client.then(async (client) => {
+            const database = client.db(process.env.MONGO_DATABASE)
+            try {
+                await database.collection('term').drop()
+            } catch {}
+
+            await client.close()
+        })
     })
 })
