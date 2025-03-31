@@ -33,6 +33,7 @@ describe('mongo.ts', () => {
             } catch {
                 // ignore
             }
+            client.close()
         })
     })
 

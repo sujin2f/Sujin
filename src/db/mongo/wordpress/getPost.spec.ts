@@ -6,14 +6,7 @@ import Mongo from '@common/data/mongo/mongo'
 import { post } from '../../../../.jest/fixture'
 
 describe('getPost.spec.ts', () => {
-    afterAll(async () => {
-        await client.then(async (client) => {
-            const database = client.db(process.env.MONGO_DATABASE)
-            try {
-                await database.collection('post').drop()
-            } catch {}
-        })
-    })
+    afterAll(async () => {})
 
     test('getPost.spec()', async () => {
         const post1 = {
@@ -51,5 +44,14 @@ describe('getPost.spec.ts', () => {
 
         const result3 = await getPost('test3', 'post', true)
         expect(result3.id).toEqual(3)
+
+        await client.then(async (client) => {
+            const database = client.db(process.env.MONGO_DATABASE)
+            try {
+                await database.collection('post').drop()
+            } catch {}
+
+            await client.close()
+        })
     })
 })

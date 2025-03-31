@@ -1,7 +1,7 @@
 'use server'
 /* Models */
-import { MySQL } from '@src/db/mysql'
-import { Cached } from '@common/model/Cached'
+import MySQL from '@src/db/mysql'
+import Cached from '@common/model/Cached'
 /* Constants */
 import { MySQLQuery, PER_PAGE } from '@src/constants/mysql-query'
 import { PostType, TermTypes } from '@src/constants/wordpress'

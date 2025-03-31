@@ -7,15 +7,7 @@ import { post } from '../../../../.jest/fixture'
 import { TermTypes } from '@src/constants/wordpress'
 
 describe('getArchivePosts.spec.ts', () => {
-    afterAll(async () => {
-        await client.then(async (client) => {
-            const database = client.db(process.env.MONGO_DATABASE)
-            try {
-                await database.collection('post').drop()
-            } catch {}
-        })
-    })
-
+    afterAll(async () => {})
     test('getArchivePosts.spec()', async () => {
         const post1 = {
             ...post,
@@ -66,5 +58,14 @@ describe('getArchivePosts.spec.ts', () => {
             await getArchivePosts(TermTypes.category, 'test', 1)
         ).map((post) => post.id)
         expect(result).toEqual([36, 35, 33, 32])
+
+        await client.then(async (client) => {
+            const database = client.db(process.env.MONGO_DATABASE)
+            try {
+                await database.collection('post').drop()
+            } catch {}
+
+            await client.close()
+        })
     })
 })

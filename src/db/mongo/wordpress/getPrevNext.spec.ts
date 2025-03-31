@@ -6,14 +6,7 @@ import Mongo from '@common/data/mongo/mongo'
 import { post } from '../../../../.jest/fixture'
 
 describe('getPrevNext.spec.ts', () => {
-    afterAll(async () => {
-        await client.then(async (client) => {
-            const database = client.db(process.env.MONGO_DATABASE)
-            try {
-                await database.collection('post').drop()
-            } catch {}
-        })
-    })
+    afterAll(async () => {})
 
     test('getPrevNext.spec()', async () => {
         const post1 = {
@@ -62,5 +55,14 @@ describe('getPrevNext.spec.ts', () => {
         ])
         const result = (await getPrevNext(4, 4, 'test')).map((post) => post.id)
         expect(result).toEqual([2, 5])
+
+        await client.then(async (client) => {
+            const database = client.db(process.env.MONGO_DATABASE)
+            try {
+                await database.collection('post').drop()
+            } catch {}
+
+            await client.close()
+        })
     })
 })

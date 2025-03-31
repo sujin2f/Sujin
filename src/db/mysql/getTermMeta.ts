@@ -2,7 +2,7 @@
 
 import { MySQLQuery } from '@src/constants/mysql-query'
 import { TermTypes } from '@src/constants/wordpress'
-import { MySQL } from '@src/db/mysql'
+import MySQL from '@src/db/mysql'
 import type { Term } from '@src/types/wordpress'
 
 export const getTermMeta = async <T = string>(

@@ -1,6 +1,6 @@
 'use server'
 /* Models */
-import { MySQL } from '@src/db/mysql'
+import MySQL from '@src/db/mysql'
 /* Constants */
 import { MySQLQuery } from '@src/constants/mysql-query'
 

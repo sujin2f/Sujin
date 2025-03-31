@@ -47,8 +47,8 @@ import {
     mutateUpdateTerm,
     queryArchive,
 } from '@src/constants/graphql'
-import { BASE_URL } from '@src/constants/system'
 import { IS_DEV } from '@common/constants/helper'
+import { MINUTE_IN_SECONDS } from '@common/constants/datetime'
 
 const options = createGQLOptions(
     GQLImageSize,
@@ -93,40 +93,30 @@ const server = new ApolloServer({
     cache: new InMemoryLRUCache({
         // ~100MiB
         maxSize: Math.pow(2, 20) * 100,
-        // 5 minutes (in seconds)
-        ttl: 300,
+        ttl: MINUTE_IN_SECONDS * 5,
     }),
     plugins: [
         // Install a landing page plugin based on NODE_ENV
         IS_DEV
             ? ApolloServerPluginLandingPageLocalDefault({ footer: false })
             : ApolloServerPluginLandingPageDisabled(),
-        // Custom Apollo Server Plugin for the server start event
+        // Custom Apollo Server Plugins
         {
             async serverWillStart() {
                 // Migrate MongoDB indexes
                 const version = process.env.VERSION || '0.0.0'
-                migrateIndex(version, mongoMigration)
+                await migrateIndex(version, mongoMigration)
             },
         },
     ],
 })
 
-const handler = startServerAndCreateNextHandler<NextRequest>(server, {
-    context: async (req, res) => {
-        const headerReferer = ((
-            req.headers as unknown as Record<string, string>
-        ).referer || '') as string
-        const referer = new URL(headerReferer).hostname
-        const base = new URL(BASE_URL).hostname
+const handler = startServerAndCreateNextHandler(server)
 
-        // Disallow different domain
-        if (!IS_DEV && !referer.includes(base)) {
-            console.log(`Access Denied. Referer: ${referer}, Base: ${base}`)
-            throw Error('Access Denied.')
-        }
-        return { req, res }
-    },
-})
+export async function GET(request: NextRequest) {
+    return handler(request)
+}
 
-export default handler
+export async function POST(request: NextRequest) {
+    return handler(request)
+}

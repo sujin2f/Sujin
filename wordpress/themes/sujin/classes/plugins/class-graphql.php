@@ -10,7 +10,7 @@
 namespace Sujin\Theme\Plugins;
 
 class GraphQL {
-	public function update_post( \WP_Post $post ): array {
+	public function update_post( \WP_Post $post ) {
 		$post_id  = $post->ID;
 		$nonce    = wp_create_nonce( 'update_post_' . $post_id );
 		$base_url = get_home_url();
@@ -52,7 +52,7 @@ class GraphQL {
 		return $response;
 	}
 
-	public function update_term( int $term_id ): array {
+	public function update_term( int $term_id ) {
 		$nonce    = wp_create_nonce( 'update_term_' . $term_id );
 		$base_url = get_home_url();
 

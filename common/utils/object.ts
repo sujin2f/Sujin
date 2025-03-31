@@ -59,3 +59,16 @@ export const sort = <T extends Record<string, U>, U>(
             }),
             {} as T,
         )
+
+type MongoObject<T> = T & {
+    _id: unknown
+}
+export const mongoIdToString = <T>(...object: MongoObject<T>[]) => {
+    return object.map(
+        (item) =>
+            ({
+                ...item,
+                _id: `${item._id}`,
+            } as T),
+    )
+}

@@ -1,5 +1,5 @@
 /* Models */
-import { Cached } from '@common/model/Cached'
+import Cached from '@common/model/Cached'
 import Mongo from '@common/data/mongo/mongo'
 /* Utils */
 import getOption from '@src/db/mysql/getOption'

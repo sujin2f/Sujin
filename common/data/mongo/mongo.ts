@@ -18,7 +18,7 @@ import client from './mongo-client'
 /* Utils */
 import { compareVersions } from '../../utils/system'
 /* Types */
-import type { MongoOptionCollection } from '../../types/mongo'
+import type { MongoOptionCollection } from '../../types/system'
 
 /**
  * Finds a single document in a MongoDB collection.

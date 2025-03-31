@@ -1,5 +1,5 @@
 /* Models */
-import { Logger } from '@common/model/Logger'
+import Logger from '@common/model/Logger'
 /* Utils */
 import { getPostsBy } from '@src/db/mysql/getPostsBy'
 /* Types */

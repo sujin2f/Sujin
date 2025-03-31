@@ -1,8 +1,8 @@
 import type { TagCloud } from '@src/types/wordpress'
 import { MySQLQuery } from '@src/constants/mysql-query'
-import { MySQL } from '@src/db/mysql'
+import MySQL from '@src/db/mysql'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
-import { Cached } from '@common/model/Cached'
+import Cached from '@common/model/Cached'
 
 export const request = async (): Promise<TagCloud[]> => {
     let counts: number[] = []

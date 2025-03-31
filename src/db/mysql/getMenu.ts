@@ -1,7 +1,7 @@
 'use server'
 /* Models */
-import { Logger } from '@common/model/Logger'
-import { MySQL } from '@src/db/mysql'
+import Logger from '@common/model/Logger'
+import MySQL from '@src/db/mysql'
 /* Utils */
 import { isEmpty } from '@common/utils/object'
 import { unserialize } from '@src/utils/wordpress'

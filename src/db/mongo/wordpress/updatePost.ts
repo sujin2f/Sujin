@@ -1,6 +1,7 @@
 /* Models */
-import { Cached } from '@common/model/Cached'
+import Cached from '@common/model/Cached'
 import Mongo from '@common/data/mongo/mongo'
+import Logger from '@common/model/Logger'
 /* Utils */
 import getOption from '@src/db/mysql/getOption'
 import { removeOption } from '@src/db/mysql/removeOption'
@@ -49,14 +50,15 @@ const updatePost = async (
     categories: string,
     tags: string,
 ): Promise<MutationResultType> => {
+    Logger.server('GQL Server updatePost: started.')
     const optionKey = `update_post_${nonce}`
     const nonceValue = await getOption(optionKey)
     await removeOption(optionKey)
 
     // Nonce validation
     if (`${nonce}-${slug}` !== nonceValue) {
-        const message = 'updatePost got invalid nonce.'
-        console.error(message)
+        const message = 'GQL Server updatePost: got invalid nonce.'
+        Logger.server(message)
         throw Error(message)
     }
 
@@ -68,7 +70,9 @@ const updatePost = async (
         .then(async () => await Mongo.replaceOne('post', { id }, post))
         .catch(async () => await Mongo.insertOne('post', post))
 
-    console.log(`Updated MongoDB post: ${slug} (${id})`)
+    Logger.server(
+        `GQL Server updatePost: Updated MongoDB post: ${slug} (${id})`,
+    )
     return {
         result: true,
     }

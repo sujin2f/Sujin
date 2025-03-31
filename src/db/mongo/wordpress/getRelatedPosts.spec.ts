@@ -6,14 +6,7 @@ import Mongo from '@common/data/mongo/mongo'
 import { post } from '../../../../.jest/fixture'
 
 describe('getRelatedPosts.ts', () => {
-    afterAll(async () => {
-        await client.then(async (client) => {
-            const database = client.db(process.env.MONGO_DATABASE)
-            try {
-                await database.collection('post').drop()
-            } catch {}
-        })
-    })
+    afterAll(async () => {})
 
     test('getRelatedPosts()', async () => {
         const post1 = {
@@ -69,5 +62,14 @@ describe('getRelatedPosts.ts', () => {
             (post) => post.id,
         )
         expect(result2).toEqual([16, 15, 14, 13])
+
+        await client.then(async (client) => {
+            const database = client.db(process.env.MONGO_DATABASE)
+            try {
+                await database.collection('post').drop()
+            } catch {}
+
+            await client.close()
+        })
     })
 })

@@ -6,8 +6,8 @@ import { TermTypes } from '@src/constants/wordpress'
 import { getTermMeta } from '@src/db/mysql/getTermMeta'
 import { getMedia } from '@src/db/mysql/getMedia'
 /* Models */
-import { MySQL } from '@src/db/mysql'
-import { Logger } from '@common/model/Logger'
+import MySQL from '@src/db/mysql'
+import Logger from '@common/model/Logger'
 /* Types */
 import type { ArchiveProp, Term } from '@src/types/wordpress'
 import type { Image } from '@src/types/wordpress'

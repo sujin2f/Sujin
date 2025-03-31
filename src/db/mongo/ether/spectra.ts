@@ -1,7 +1,7 @@
 import type { WithId } from 'mongodb'
 /* Models */
 import Mongo from '@common/data/mongo/mongo'
-import { Cached } from '@common/model/Cached'
+import Cached from '@common/model/Cached'
 /* Types */
 import type { Atom } from '@src/types/atom'
 import type { ISpectrum } from '@src/types/ether'

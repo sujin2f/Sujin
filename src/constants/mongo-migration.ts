@@ -22,5 +22,8 @@ export const mongoMigration: MigrateIndex = {
         spectra: {
             create: [[{ number: 1 }], [{ ion: 1 }]],
         },
+        user: {
+            create: [[{ email: 1 }, { unique: true }]],
+        },
     },
 }
