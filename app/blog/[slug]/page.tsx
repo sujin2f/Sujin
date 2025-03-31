@@ -12,6 +12,7 @@ import { MenuNames } from '@src/constants/mysql-query'
 import getPost from '@src/db/mongo/wordpress/getPost'
 import { updateHit } from '@src/db/mysql/getTagCloud'
 import { getThumbnailFromPost } from '@src/utils/wordpress'
+import { mongoIdToString } from '@common/utils/object'
 
 type Props = {
     params: Promise<{
@@ -58,12 +59,7 @@ export default async function SinglePost(props: Props) {
             revalidate: HOUR_IN_SECONDS,
         },
     )
-    const post = await requestPost(slug)
-        .then((result) => ({
-            ...result,
-            _id: undefined,
-        }))
-        .catch(() => notFound())
+    const post = await requestPost(slug).catch(() => notFound())
     const thumbnail = getThumbnailFromPost(post)
 
     // Update Tag Cloud
@@ -83,7 +79,7 @@ export default async function SinglePost(props: Props) {
                     backgroundColor: post.meta.backgroundColor,
                 }}
             />
-            <Post post={post} thumbnail={thumbnail} />
+            <Post post={mongoIdToString(post)[0]} thumbnail={thumbnail} />
         </main>
     )
 }

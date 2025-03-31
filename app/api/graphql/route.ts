@@ -4,8 +4,6 @@ import { ApolloServer } from '@apollo/server'
 import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/disabled'
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default'
 import type { NextRequest } from 'next/server'
-/* Models */
-import Logger from '@common/model/Logger'
 /* Utils */
 import { getBackgrounds } from '@src/db/mysql/getBackgrounds'
 import { getFlickr } from '@src/db/fetch/getFlickr'
@@ -49,8 +47,8 @@ import {
     mutateUpdateTerm,
     queryArchive,
 } from '@src/constants/graphql'
-import { BASE_URL } from '@src/constants/system'
 import { IS_DEV } from '@common/constants/helper'
+import { MINUTE_IN_SECONDS } from '@common/constants/datetime'
 
 const options = createGQLOptions(
     GQLImageSize,
@@ -95,8 +93,7 @@ const server = new ApolloServer({
     cache: new InMemoryLRUCache({
         // ~100MiB
         maxSize: Math.pow(2, 20) * 100,
-        // 5 minutes (in seconds)
-        ttl: 300,
+        ttl: MINUTE_IN_SECONDS * 5,
     }),
     plugins: [
         // Install a landing page plugin based on NODE_ENV
@@ -110,23 +107,16 @@ const server = new ApolloServer({
                 const version = process.env.VERSION || '0.0.0'
                 await migrateIndex(version, mongoMigration)
             },
-            async requestDidStart(context) {
-                const headerReferer =
-                    context.request.http?.headers.get('referer') || ''
-                const referer = new URL(headerReferer).hostname
-                const base = new URL(BASE_URL).hostname
-
-                // Disallow different domain
-                if (!IS_DEV && !referer.includes(base)) {
-                    Logger.server(
-                        `Access Denied. Referer: ${referer}, Base: ${base}`,
-                    )
-                    throw Error('Access Denied.')
-                }
-            },
         },
     ],
 })
 
-const handler = startServerAndCreateNextHandler<NextRequest>(server)
-export { handler as GET, handler as POST }
+const handler = startServerAndCreateNextHandler(server)
+
+export async function GET(request: NextRequest) {
+    return handler(request)
+}
+
+export async function POST(request: NextRequest) {
+    return handler(request)
+}

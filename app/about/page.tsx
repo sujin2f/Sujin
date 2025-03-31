@@ -11,6 +11,7 @@ import { MenuNames } from '@src/constants/mysql-query'
 /* Utils */
 import getPost from '@src/db/mongo/wordpress/getPost'
 import { getThumbnailFromPost } from '@src/utils/wordpress'
+import { mongoIdToString } from '@common/utils/object'
 
 export const metadata: Metadata = {
     title: 'About Sujin Choi',
@@ -31,12 +32,7 @@ export default async function About() {
         },
     )
 
-    const post = await requestPost()
-        .then((result) => ({
-            ...result,
-            _id: undefined,
-        }))
-        .catch(() => notFound())
+    const post = await requestPost().catch(() => notFound())
     const thumbnail = getThumbnailFromPost(post)
 
     return (
@@ -52,7 +48,7 @@ export default async function About() {
                 }}
             />
 
-            <Page post={post} thumbnail={thumbnail} />
+            <Page post={mongoIdToString(post)[0]} thumbnail={thumbnail} />
         </main>
     )
 }

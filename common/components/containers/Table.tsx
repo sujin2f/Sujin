@@ -20,6 +20,7 @@ type Props = PropsWithChildren<{
  * @param {boolean} [props.center] - Whether the table should be centered.
  * @param {ReactNode} [props.caption] - The caption for the table.
  * @param {string} [props.className] - Additional class names for the table.
+ * @example <Table scroll center><thead><tr><th>...</th></tr></thead></Table>
  */
 export const Table = ({
     scroll,

@@ -2,7 +2,7 @@
 import { type PropsWithChildren } from 'react'
 import { getServerSession } from 'next-auth'
 import SessionProviderClient from '@components/SessionProviderClient'
-import { authOptions } from '@app/api/auth/[...nextauth]/route'
+import authOptions from '@app/api/auth/[...nextauth]/authOptions'
 
 const SessionProvider = async ({ children }: PropsWithChildren) => {
     const session = await getServerSession(authOptions)

@@ -1,7 +1,7 @@
-import getPosts from '@src/db/mongo/admin/getPosts'
-import PostsTable from '@components/admin/PostsTable'
+import TermsTable from '@components/admin/TermsTable'
 import { mongoIdToString } from '@common/utils/object'
 import Link from 'next/link'
+import getTerm from '@src/db/mongo/admin/getTerm'
 
 type Props = {
     params: Promise<{
@@ -9,22 +9,22 @@ type Props = {
     }>
 }
 
-export default async function AdminPost(props: Props) {
+export default async function AdminTerm(props: Props) {
     const params = await props.params
     const page = parseInt(params.page)
-    const posts = await getPosts(page)
+    const terms = await getTerm(page)
     return (
         <>
-            <PostsTable posts={mongoIdToString(...posts)} />
+            <TermsTable terms={mongoIdToString(...terms)} />
             <nav>
                 <ul>
                     {page !== 1 && (
                         <li>
-                            <Link href={`/admin/post/${page - 1}`}>Prev</Link>
+                            <Link href={`/admin/term/${page - 1}`}>Prev</Link>
                         </li>
                     )}
                     <li>
-                        <Link href={`/admin/post/${page + 1}`}>Next</Link>
+                        <Link href={`/admin/term/${page + 1}`}>Next</Link>
                     </li>
                 </ul>
             </nav>
