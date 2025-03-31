@@ -50,9 +50,13 @@ const graphqlCors = (
  * Redirect WP archive URL
  *
  * @param {string} pathname
+ * @param {string} origin
  * @returns {NextResponse | void}
  */
-const redirectArchive = (pathname: string): NextResponse<unknown> | void => {
+const redirectArchive = (
+    pathname: string,
+    origin: string,
+): NextResponse<unknown> | void => {
     const isArchive = pathname.match(REGEX_ARCHIVE)
     if (!isArchive) {
         return
@@ -67,9 +71,13 @@ const redirectArchive = (pathname: string): NextResponse<unknown> | void => {
  * Redirect WP single URL
  *
  * @param {string} pathname
+ * @param {string} origin
  * @returns {NextResponse | void}
  */
-const redirectSingle = (pathname: string): NextResponse<unknown> | void => {
+const redirectSingle = (
+    pathname: string,
+    origin: string,
+): NextResponse<unknown> | void => {
     const isSingle = pathname.match(REGEX_SINGLE)
     if (!isSingle) {
         return
@@ -88,12 +96,12 @@ export function middleware(request: NextRequest) {
         return responseGQL
     }
     // Archive redirection
-    const responseArchive = redirectArchive(pathname)
+    const responseArchive = redirectArchive(pathname, origin)
     if (responseArchive) {
         return responseArchive
     }
     // Single redirection
-    const responseSingle = redirectSingle(pathname)
+    const responseSingle = redirectSingle(pathname, origin)
     if (responseSingle) {
         return responseSingle
     }
