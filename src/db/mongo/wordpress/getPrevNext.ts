@@ -4,7 +4,7 @@ import Cached from '@common/model/Cached'
 import Mongo from '@common/data/mongo/mongo'
 /* Constants */
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
-import { IS_DEV } from '@common/constants/helper'
+import { IS_DEV, VERSION } from '@common/constants/helper'
 /* Types */
 import type { Post } from '@src/types/wordpress'
 
@@ -57,7 +57,7 @@ const getPrevNext = async (
     categories: string,
 ): Promise<WithId<Post>[]> =>
     await Cached.getInstance().getOrExecute(
-        `prev-next-${id}`,
+        `prev-next-${id}-${VERSION}`,
         async () => await request(id, date, categories),
         WEEK_IN_SECONDS,
         IS_DEV,

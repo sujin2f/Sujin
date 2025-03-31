@@ -1,6 +1,11 @@
 import type { Metadata } from 'next/types'
 import type { PropsWithChildren } from 'react'
-/* Helpers */
+/* Components */
+import Header from '@components/header'
+import Footer from '@components/footer'
+/* Constants */
+import { MenuNames } from '@src/constants/mysql-query'
+/* Utils */
 import { getMetaData } from '@src/utils/server'
 
 export const generateMetadata = async (): Promise<Metadata> => {
@@ -27,5 +32,11 @@ export const generateMetadata = async (): Promise<Metadata> => {
 }
 
 export default async function Layout({ children }: PropsWithChildren) {
-    return children
+    return (
+        <>
+            <Header menu={MenuNames.ETHER_KOR} />
+            {children}
+            <Footer />
+        </>
+    )
 }

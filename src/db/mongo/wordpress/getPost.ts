@@ -4,7 +4,7 @@ import Cached from '@common/model/Cached'
 import Mongo from '@common/data/mongo/mongo'
 /* Constants */
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
-import { IS_DEV } from '@common/constants/helper'
+import { IS_DEV, VERSION } from '@common/constants/helper'
 /* Utils */
 import getPostBy from '@src/db/mysql/getPostBy'
 /* Types */
@@ -46,7 +46,7 @@ const getPost = async (
     ignoreStatus: boolean = false,
 ): Promise<WithId<Post>> => {
     const slug = _slug.toLowerCase()
-    const key = `post-${slug}`
+    const key = `post-${slug}-${VERSION}`
 
     return await Cached.getInstance().getOrExecute(
         key,

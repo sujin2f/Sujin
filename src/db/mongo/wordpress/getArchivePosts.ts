@@ -8,7 +8,7 @@ import type { Post } from '@src/types/wordpress'
 import { TermTypes } from '@src/constants/wordpress'
 import { PER_PAGE } from '@src/constants/mysql-query'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
-import { IS_DEV } from '@common/constants/helper'
+import { IS_DEV, VERSION } from '@common/constants/helper'
 
 /**
  * Request posts in the archive from MongoDB by type and slug
@@ -41,7 +41,7 @@ const getArchivePosts = async (
     page: number,
 ): Promise<WithId<Post>[]> => {
     const slug = _slug.toLowerCase()
-    const key = `archive-${type}-${slug}-${page}`
+    const key = `archive-${type}-${slug}-${page}-${VERSION}`
 
     return await Cached.getInstance().getOrExecute(
         key,

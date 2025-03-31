@@ -30,7 +30,7 @@ const removeCache = async (
         'prev-next-',
     ]
 
-    await Cached.getInstance().flush(keys)
+    await Cached.getInstance().flush(...keys)
 }
 
 /**

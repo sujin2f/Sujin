@@ -1,3 +1,5 @@
+'use client'
+
 /* Components */
 import { Column } from '@common/components/layout/Column'
 import { Row } from '@common/components/layout/Row'
@@ -6,18 +8,10 @@ import TagCloud from '@components/footer/TagCloud'
 import Flickr from '@components/footer/Flickr'
 import { FooterBottom } from '@components/footer/FooterBottom'
 import Title from '@components/WidgetTitle'
-/* Helpers */
-import { getPathName } from '@src/utils/server'
 /* Assets */
 import '@src/scss/footer.scss'
 
-const Footer = async () => {
-    // Front Page
-    const path = await getPathName()
-    if (path === '/') {
-        return <></>
-    }
-
+const Footer = () => {
     return (
         <footer className="footer">
             <Row className="footer__top" dom="aside">

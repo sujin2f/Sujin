@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Table } from '@common/components/containers/Table'
 import getIndexes from '@src/db/mongo/admin/getIndexes'
 
@@ -34,6 +35,7 @@ export default async function ResetIndex() {
                     </Table>
                 </article>
             ))}
+            <Link href="/admin/reset-index">Reset Index</Link>
         </>
     )
 }

@@ -4,7 +4,7 @@ import Cached from '@common/model/Cached'
 import Mongo from '@common/data/mongo/mongo'
 /* Constants */
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
-import { IS_DEV } from '@common/constants/helper'
+import { IS_DEV, VERSION } from '@common/constants/helper'
 /* Types */
 import type { Post } from '@src/types/wordpress'
 /* Utils */
@@ -64,7 +64,7 @@ const getRelatedPosts = async (
     tags: string,
 ): Promise<WithId<Post>[]> =>
     await Cached.getInstance().getOrExecute(
-        `related-${id}`,
+        `related-${id}-${VERSION}`,
         async () => await request(id, categories, tags),
         WEEK_IN_SECONDS,
         IS_DEV,

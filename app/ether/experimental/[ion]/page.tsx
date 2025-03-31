@@ -1,16 +1,19 @@
 'use client'
 import { Fragment, useEffect, useState } from 'react'
-/* Helpers */
-import type { Nullable } from '@common/types'
-import type { ISpectrum } from '@src/types/ether'
-import { fetchGQL } from '@common/data/graphql/fetchGQL'
-import { queryMongoSpectra, spectraOpr } from '@src/constants/graphql'
-import { DataContainer } from '@src/models/DataContainer'
+/* Components */
 import { Table } from '@components/ether/table'
 import ScrollToTop from '@components/ScrollToTop'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 import { Chart } from '@components/ether/chart'
+/* Types */
+import type { Nullable } from '@common/types'
+import type { ISpectrum } from '@src/types/ether'
+/* Utils */
+import { fetchGQL } from '@common/data/graphql/fetchGQL'
+import { queryMongoSpectra, spectraOpr } from '@src/constants/graphql'
+/* Models */
+import { DataContainer } from '@src/models/DataContainer'
 
 export default function DataPage() {
     const [spectra, setSpectra] = useState<Nullable<ISpectrum[]>>()

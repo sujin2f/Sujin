@@ -34,27 +34,25 @@ export const Archive = ({ type, slug, page, total }: Props) => {
             <ScrollToTop />
             {/* Loading */}
             {!posts && <Loading counts={12} large={4} medium={6} small={12} />}
-            <Row>
-                {/* Result */}
-                {posts && (
-                    <>
-                        <Row>
-                            <Cards
-                                posts={posts}
-                                keyPrefix={`${type}-${slug}-${page}`}
-                                large={4}
-                                medium={6}
-                                small={12}
-                            />
-                        </Row>
-                        <Paging
-                            pages={pages}
-                            page={page}
-                            urlPrefix={`/${type}/${slug}`}
+            {/* Result */}
+            {posts && (
+                <>
+                    <Row>
+                        <Cards
+                            posts={posts}
+                            keyPrefix={`${type}-${slug}-${page}`}
+                            large={4}
+                            medium={6}
+                            small={12}
                         />
-                    </>
-                )}
-            </Row>
+                    </Row>
+                    <Paging
+                        pages={pages}
+                        page={page}
+                        urlPrefix={`/${type}/${slug}`}
+                    />
+                </>
+            )}
         </>
     )
 }

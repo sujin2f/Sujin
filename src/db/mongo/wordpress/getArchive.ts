@@ -9,7 +9,7 @@ import type { ArchiveProp, Term } from '@src/types/wordpress'
 import { getTermBySlug } from '@src/db/mysql/getTermBy'
 /* Constants */
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
-import { IS_DEV } from '@common/constants/helper'
+import { IS_DEV, VERSION } from '@common/constants/helper'
 
 /**
  * Request archive by type and slug
@@ -50,7 +50,7 @@ const request = async (props: ArchiveProp): Promise<Term> => {
  */
 const getArchive = async (props: ArchiveProp): Promise<Term> => {
     const slug = props.slug.toLowerCase()
-    const key = `archive-${props.type}-${slug}`
+    const key = `archive-${props.type}-${slug}-${VERSION}`
     return await Cached.getInstance().getOrExecute(
         key,
         async () =>

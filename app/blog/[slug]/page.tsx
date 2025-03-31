@@ -4,10 +4,13 @@ import type { Metadata } from 'next/types'
 /* Components */
 import Banner from '@components/header/Banner'
 import { Post } from '@components/wordpress/single/Post'
+import Header from '@components/header'
+import Footer from '@components/footer'
 /* Constants */
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
 import { BASE_URL } from '@src/constants/system'
 import { MenuNames } from '@src/constants/mysql-query'
+import { VERSION } from '@common/constants/helper'
 /* Utils */
 import getPost from '@src/db/mongo/wordpress/getPost'
 import { updateHit } from '@src/db/mysql/getTagCloud'
@@ -24,7 +27,7 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
     const { slug } = await props.params
     const requestPost = unstable_cache(
         async (slug) => await getPost(slug, 'post'),
-        [slug],
+        [slug, VERSION],
         {
             tags: ['wordpress', 'post'],
             revalidate: HOUR_IN_SECONDS,
@@ -53,7 +56,7 @@ export default async function SinglePost(props: Props) {
     const { slug } = await props.params
     const requestPost = unstable_cache(
         async (slug) => await getPost(slug, 'post'),
-        [slug],
+        [slug, VERSION],
         {
             tags: ['wordpress', 'post'],
             revalidate: HOUR_IN_SECONDS,
@@ -68,18 +71,22 @@ export default async function SinglePost(props: Props) {
     }
 
     return (
-        <main>
-            <Banner
-                menu={MenuNames.MAIN}
-                banner={{
-                    title: post.title,
-                    excerpt: post.excerpt,
-                    icon: post.images.icon,
-                    background: post.images.background,
-                    backgroundColor: post.meta.backgroundColor,
-                }}
-            />
-            <Post post={mongoIdToString(post)[0]} thumbnail={thumbnail} />
-        </main>
+        <>
+            <Header />
+            <main>
+                <Banner
+                    menu={MenuNames.MAIN}
+                    banner={{
+                        title: post.title,
+                        excerpt: post.excerpt,
+                        icon: post.images.icon,
+                        background: post.images.background,
+                        backgroundColor: post.meta.backgroundColor,
+                    }}
+                />
+                <Post post={mongoIdToString(post)[0]} thumbnail={thumbnail} />
+            </main>
+            <Footer />
+        </>
     )
 }

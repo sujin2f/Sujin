@@ -1,7 +1,7 @@
 @use '@common/scss/mixin';
 
 .prev-next__container {
-    margin-bottom: 1.5em;
+    margin-top: var(--gap) !important;
 }
 
 .prev-next {
