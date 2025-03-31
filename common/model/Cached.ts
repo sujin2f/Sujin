@@ -75,9 +75,9 @@ export default class Cached extends Singleton<Cached>() {
         cache.del(key)
     }
 
-    public async flush(keys: Nullable<string[]>): Promise<void> {
+    public async flush(...keys: string[]): Promise<void> {
         const cache = await this.getCache()
-        if (!keys) {
+        if (keys.length === 0) {
             cache.flushAll()
             return
         }
@@ -88,5 +88,10 @@ export default class Cached extends Singleton<Cached>() {
                 }
             }),
         )
+    }
+
+    public async list(): Promise<string[]> {
+        const cache = await this.getCache()
+        return cache.keys()
     }
 }

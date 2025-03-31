@@ -3,9 +3,6 @@ import { Ubuntu } from 'next/font/google'
 import Script from 'next/script'
 import type { PropsWithChildren } from 'react'
 import type { Metadata } from 'next'
-/* Components */
-import Footer from '@components/footer'
-import Header from '@components/header'
 /* Helpers */
 import { BASE_URL, DEFAULT_THUMBNAIL } from '@src/constants/system'
 /* Assets */
@@ -60,11 +57,7 @@ export default async function AppLayout({ children }: PropsWithChildren) {
     return (
         <html lang="en">
             <head>{adSense}</head>
-            <body className={`wrapper ${ubuntu.className}`}>
-                <Header />
-                {children}
-                <Footer />
-            </body>
+            <body className={`wrapper ${ubuntu.className}`}>{children}</body>
         </html>
     )
 }

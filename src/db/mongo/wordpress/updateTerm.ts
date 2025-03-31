@@ -15,7 +15,7 @@ import type { Term } from '@src/types/wordpress'
  */
 const removeCache = async (term: Term) => {
     const key = `archive-${term.type}-${term.slug}`
-    await Cached.getInstance().flush([key])
+    await Cached.getInstance().flush(key)
 }
 
 /**

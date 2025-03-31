@@ -2,6 +2,8 @@ import type { PropsWithChildren } from 'react'
 import type { Metadata } from 'next/types'
 /* Components */
 import Banner from '@components/header/Banner'
+import Header from '@components/header'
+import Footer from '@components/footer'
 /* Helpers */
 import { MenuNames } from '@src/constants/mysql-query'
 import { getMetaData } from '@src/utils/server'
@@ -24,9 +26,13 @@ export const generateMetadata = async (): Promise<Metadata> => {
 
 export default async function DevToolLayout({ children }: PropsWithChildren) {
     return (
-        <main>
-            <Banner menu={MenuNames.DEV_TOOL} />
-            {children}
-        </main>
+        <>
+            <Header menu={MenuNames.DEV_TOOL} />
+            <main>
+                <Banner menu={MenuNames.DEV_TOOL} />
+                {children}
+            </main>
+            <Footer />
+        </>
     )
 }

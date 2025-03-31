@@ -4,7 +4,7 @@ import Cached from '@common/model/Cached'
 import Mongo from '@common/data/mongo/mongo'
 /* Constants */
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
-import { IS_DEV } from '@common/constants/helper'
+import { IS_DEV, VERSION } from '@common/constants/helper'
 /* Types */
 import type { Post } from '@src/types/wordpress'
 
@@ -26,7 +26,7 @@ const request = async (): Promise<WithId<Post>[]> =>
  */
 const getRecentPosts = async (): Promise<WithId<Post>[]> =>
     await Cached.getInstance().getOrExecute(
-        'recent-posts',
+        `recent-posts-${VERSION}`,
         async () => await request(),
         WEEK_IN_SECONDS,
         IS_DEV,

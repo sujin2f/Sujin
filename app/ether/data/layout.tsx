@@ -1,7 +1,10 @@
 import { type PropsWithChildren } from 'react'
 import type { Metadata } from 'next/types'
-/* Helpers */
+/* Components */
+import Header from '@components/header'
+/* Constants */
 import { METADATA } from '@src/constants/system'
+import { MenuNames } from '@src/constants/mysql-query'
 /* Assets */
 import '@src/scss/ether-data.scss'
 
@@ -11,5 +14,10 @@ export const metadata: Metadata = {
 }
 
 export default function Layout({ children }: PropsWithChildren) {
-    return <main>{children}</main>
+    return (
+        <>
+            <Header menu={MenuNames.ETHER} />
+            <main>{children}</main>
+        </>
+    )
 }

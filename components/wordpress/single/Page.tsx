@@ -13,7 +13,7 @@ type Props = {
     thumbnail: string
 }
 
-export const Page = ({ post, thumbnail }: Props) => {
+const Page = ({ post, thumbnail }: Props) => {
     return (
         <Row>
             <ScrollToTop />
@@ -29,3 +29,5 @@ export const Page = ({ post, thumbnail }: Props) => {
         </Row>
     )
 }
+
+export default Page

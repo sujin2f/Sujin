@@ -307,7 +307,6 @@ export enum MenuNames {
     DEV_TOOL = 'devtool',
     ETHER = 'ether',
     ETHER_KOR = 'ether-kor',
-    E = 'E',
 }
 
 export enum MenuItemTypes {
