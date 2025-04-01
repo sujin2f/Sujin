@@ -1,6 +1,6 @@
 // yarn test spectra.spec.ts
 
-import client from '@common/data/mongo/mongo-client'
+import { clearMongo } from '../../../../.jest/helpers'
 import { NISTresponseH } from '../../../../.jest/fixture'
 import { getSpectraFromNIST } from './spectra'
 
@@ -11,16 +11,12 @@ describe('spectra.spec.ts', () => {
                 text: () => Promise.resolve(NISTresponseH),
             }),
         ) as jest.Mock
+        await clearMongo('spectra')
     })
 
     afterAll(async () => {
-        await client.then(async (client) => {
-            const database = client.db(process.env.MONGO_DATABASE)
-            try {
-                await database.collection('spectra').drop()
-            } catch {
-                // ignore
-            }
+        jest.clearAllMocks()
+        await clearMongo('spectra').then((client) => {
             client.close()
         })
     })

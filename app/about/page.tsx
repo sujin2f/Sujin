@@ -12,7 +12,7 @@ import { BASE_URL } from '@src/constants/system'
 import { MenuNames } from '@src/constants/mysql-query'
 import { VERSION } from '@common/constants/helper'
 /* Utils */
-import getPost from '@src/db/mongo/wordpress/getPost'
+import getPage from '@src/db/mongo/wordpress/getPage'
 import { getThumbnailFromPost } from '@src/utils/wordpress'
 import { mongoIdToString } from '@common/utils/object'
 
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 
 export default async function About() {
     const requestPost = unstable_cache(
-        async () => await getPost('about', 'page'),
+        async () => await getPage('about'),
         ['about', VERSION],
         {
             tags: ['wordpress', 'page'],

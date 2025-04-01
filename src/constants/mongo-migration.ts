@@ -1,6 +1,18 @@
 import { MigrateIndex } from '@common/data/mongo/mongo'
 
 export const mongoMigration: MigrateIndex = {
+    '10.2.1': {
+        post: {
+            drop: [[{ id: 1 }], [{ slug: 1 }]],
+            create: [[{ slug: 1 }, { unique: true }]],
+        },
+        page: {
+            create: [[{ slug: 1 }, { unique: true }], [{ date: 1 }]],
+        },
+        backgrounds: {
+            create: [[{ id: 1 }, { unique: true }]],
+        },
+    },
     '10.1.1': {
         post: {
             create: [

@@ -5,7 +5,7 @@
  */
 
 import { formatDate } from '@common/utils/datetime'
-import type { Post } from '@src/types/wordpress'
+import type { Post, PostType } from '@src/types/wordpress'
 
 /**
  * Making a formatted string
@@ -55,9 +55,9 @@ const DELETE_OPTION = `
 const GET_POST_BY = `
     SELECT ${POST_FIELDS}
     FROM wp_posts AS posts
-    WHERE {0}="{1}" AND (posts.post_type="post" OR posts.post_type="page" OR posts.post_type="attachment") {3}
+    WHERE {0}="{1}" AND posts.post_type="{2}" {4}
     ORDER BY posts.ID DESC
-    LIMIT ${PER_PAGE} OFFSET {2}
+    LIMIT ${PER_PAGE} OFFSET {3}
 `
 
 const GET_SEARCH = `
@@ -244,6 +244,7 @@ export const MySQLQuery = {
     getPostBy: (
         key: string,
         value: string | number,
+        type: PostType,
         offset: number,
         ignoreStatus: boolean,
     ) =>
@@ -251,6 +252,7 @@ export const MySQLQuery = {
             GET_POST_BY,
             key,
             value,
+            type,
             offset,
             ignoreStatus ? '' : 'AND posts.post_status="publish"',
         ),

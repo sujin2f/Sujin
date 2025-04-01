@@ -1,12 +1,20 @@
 // yarn test getRecentPosts.spec.ts
 
-import client from '@common/data/mongo/mongo-client'
+import { clearMongo } from '../../../../.jest/helpers'
+import { post } from '../../../../.jest/fixture'
 import getRecentPosts from './getRecentPosts'
 import Mongo from '@common/data/mongo/mongo'
-import { post } from '../../../../.jest/fixture'
 
 describe('getRecentPosts.ts', () => {
-    afterAll(async () => {})
+    beforeAll(async () => {
+        await clearMongo('post')
+    })
+
+    afterAll(async () => {
+        await clearMongo('post').then((client) => {
+            client.close()
+        })
+    })
 
     test('getRecentPosts()', async () => {
         const post1 = {
@@ -55,14 +63,5 @@ describe('getRecentPosts.ts', () => {
         ])
         const result = (await getRecentPosts()).map((post) => post.id)
         expect(result).toEqual([26, 25, 24, 23, 22, 21])
-
-        await client.then(async (client) => {
-            const database = client.db(process.env.MONGO_DATABASE)
-            try {
-                await database.collection('post').drop()
-            } catch {}
-
-            await client.close()
-        })
     })
 })

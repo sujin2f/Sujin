@@ -1,13 +1,22 @@
 // yarn test getArchivePosts.spec.ts
 
-import client from '@common/data/mongo/mongo-client'
+import { clearMongo } from '../../../../.jest/helpers'
+import { post } from '../../../../.jest/fixture'
 import getArchivePosts from './getArchivePosts'
 import Mongo from '@common/data/mongo/mongo'
-import { post } from '../../../../.jest/fixture'
 import { TermTypes } from '@src/constants/wordpress'
 
 describe('getArchivePosts.spec.ts', () => {
-    afterAll(async () => {})
+    beforeAll(async () => {
+        await clearMongo('post')
+    })
+
+    afterAll(async () => {
+        await clearMongo('post').then((client) => {
+            client.close()
+        })
+    })
+
     test('getArchivePosts.spec()', async () => {
         const post1 = {
             ...post,
@@ -58,14 +67,5 @@ describe('getArchivePosts.spec.ts', () => {
             await getArchivePosts(TermTypes.category, 'test', 1)
         ).map((post) => post.id)
         expect(result).toEqual([36, 35, 33, 32])
-
-        await client.then(async (client) => {
-            const database = client.db(process.env.MONGO_DATABASE)
-            try {
-                await database.collection('post').drop()
-            } catch {}
-
-            await client.close()
-        })
     })
 })

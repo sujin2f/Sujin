@@ -207,7 +207,7 @@ export const GQLResult = new GQLType<boolean>('Result', {
 })
 
 export const mutateUpdatePost = new GQLMutation<
-    [string, string, number, string, string],
+    [string, string, string, string],
     MutationResultType
 >(
     'updatePost',
@@ -220,16 +220,48 @@ export const mutateUpdatePost = new GQLMutation<
             type: GQLString,
             required,
         },
-        id: {
-            type: GQLInt,
-            required,
-        },
         categories: {
             type: GQLString,
             required,
         },
         tags: {
             type: GQLString,
+            required,
+        },
+    },
+    { type: GQLResult },
+)
+
+export const mutateUpdatePage = new GQLMutation<
+    [string, string],
+    MutationResultType
+>(
+    'updatePage',
+    {
+        nonce: {
+            type: GQLString,
+            required,
+        },
+        slug: {
+            type: GQLString,
+            required,
+        },
+    },
+    { type: GQLResult },
+)
+
+export const mutateUpdateBackground = new GQLMutation<
+    [string, number],
+    MutationResultType
+>(
+    'updateBackground',
+    {
+        nonce: {
+            type: GQLString,
+            required,
+        },
+        id: {
+            type: GQLInt,
             required,
         },
     },

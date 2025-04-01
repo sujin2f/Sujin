@@ -5,14 +5,16 @@ import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/dis
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default'
 import type { NextRequest } from 'next/server'
 /* Utils */
-import { getBackgrounds } from '@src/db/mysql/getBackgrounds'
 import { getFlickr } from '@src/db/fetch/getFlickr'
 import { getTagCloud } from '@src/db/mysql/getTagCloud'
 import getRecentPosts from '@src/db/mongo/wordpress/getRecentPosts'
 import getPrevNext from '@src/db/mongo/wordpress/getPrevNext'
 import getRelatedPosts from '@src/db/mongo/wordpress/getRelatedPosts'
 import updatePost from '@src/db/mongo/wordpress/updatePost'
+import updatePage from '@src/db/mongo/wordpress/updatePage'
+import updateBackground from '@src/db/mongo/wordpress/updateBackground'
 import updateTerm from '@src/db/mongo/wordpress/updateTerm'
+import getBackgrounds from '@src/db/mongo/wordpress/getBackgrounds'
 import { createGQLOptions } from '@common/data/graphql/createExpressRouter'
 import { isEmpty } from '@common/utils/object'
 import {
@@ -41,11 +43,13 @@ import {
     queryRecent,
     queryPrevNext,
     queryRelatedPosts,
-    mutateUpdatePost,
     querySpectra,
     queryMongoSpectra,
-    mutateUpdateTerm,
     queryArchive,
+    mutateUpdateTerm,
+    mutateUpdatePost,
+    mutateUpdatePage,
+    mutateUpdateBackground,
 } from '@src/constants/graphql'
 import { IS_DEV, VERSION } from '@common/constants/helper'
 import { MINUTE_IN_SECONDS } from '@common/constants/datetime'
@@ -72,6 +76,8 @@ const options = createGQLOptions(
     queryArchive.setCallback(getArchivePosts),
     queryMongoSpectra.setCallback(getSpectraBySchema),
     mutateUpdatePost.setCallback(updatePost),
+    mutateUpdatePage.setCallback(updatePage),
+    mutateUpdateBackground.setCallback(updateBackground),
     mutateUpdateTerm.setCallback(updateTerm),
 )
 

@@ -1,12 +1,20 @@
 // yarn test getPrevNext.spec.ts
 
-import client from '@common/data/mongo/mongo-client'
+import { clearMongo } from '../../../../.jest/helpers'
+import { post } from '../../../../.jest/fixture'
 import getPrevNext from './getPrevNext'
 import Mongo from '@common/data/mongo/mongo'
-import { post } from '../../../../.jest/fixture'
 
 describe('getPrevNext.spec.ts', () => {
-    afterAll(async () => {})
+    beforeAll(async () => {
+        await clearMongo('post')
+    })
+
+    afterAll(async () => {
+        await clearMongo('post').then((client) => {
+            client.close()
+        })
+    })
 
     test('getPrevNext.spec()', async () => {
         const post1 = {
@@ -55,14 +63,5 @@ describe('getPrevNext.spec.ts', () => {
         ])
         const result = (await getPrevNext(4, 4, 'test')).map((post) => post.id)
         expect(result).toEqual([2, 5])
-
-        await client.then(async (client) => {
-            const database = client.db(process.env.MONGO_DATABASE)
-            try {
-                await database.collection('post').drop()
-            } catch {}
-
-            await client.close()
-        })
     })
 })

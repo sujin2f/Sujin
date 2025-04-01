@@ -1,12 +1,20 @@
 // yarn test getArchive.spec.ts
 
-import client from '@common/data/mongo/mongo-client'
+import { clearMongo } from '../../../../.jest/helpers'
 import getArchive from './getArchive'
 import Mongo from '@common/data/mongo/mongo'
 import { TermTypes } from '@src/constants/wordpress'
 
 describe('getArchive.spec.ts', () => {
-    afterAll(async () => {})
+    beforeAll(async () => {
+        await clearMongo('term')
+    })
+
+    afterAll(async () => {
+        await clearMongo('term').then((client) => {
+            client.close()
+        })
+    })
 
     test('getArchive.spec()', async () => {
         await Mongo.insertOne('term', {
@@ -24,14 +32,5 @@ describe('getArchive.spec.ts', () => {
             page: 1,
         })
         expect(result.title).toEqual('Uncategorized')
-
-        await client.then(async (client) => {
-            const database = client.db(process.env.MONGO_DATABASE)
-            try {
-                await database.collection('term').drop()
-            } catch {}
-
-            await client.close()
-        })
     })
 })

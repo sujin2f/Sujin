@@ -12,7 +12,7 @@ import type { Nullable } from '@common/types'
 export const getMedia = async (postId: number): Promise<Nullable<Image>> => {
     const result = {} as Image
 
-    const post = await getPostBy('id', postId, true)
+    const post = await getPostBy('id', postId, 'attachment', true)
     if (!post) {
         return
     }

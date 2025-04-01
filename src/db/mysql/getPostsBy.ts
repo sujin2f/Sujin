@@ -4,22 +4,29 @@ import MySQL from '@src/db/mysql'
 import Cached from '@common/model/Cached'
 /* Constants */
 import { MySQLQuery, PER_PAGE } from '@src/constants/mysql-query'
-import { PostType, TermTypes } from '@src/constants/wordpress'
+import { TermTypes } from '@src/constants/wordpress'
 import { DAY_IN_SECONDS } from '@common/constants/datetime'
+import { VERSION } from '@common/constants/helper'
 /* Utils */
 import { autop } from '@src/utils/wordpress'
 import { getPostMeta } from '@src/db/mysql/getPostMeta'
 import { getTaxonomies } from '@src/db/mysql/getTaxonomies'
 import { getMedia } from '@src/db/mysql/getMedia'
 /* Types */
-import type { Post, Term, ImageKeys, Image } from '@src/types/wordpress'
+import type {
+    Post,
+    Term,
+    ImageKeys,
+    Image,
+    PostType,
+} from '@src/types/wordpress'
 import type { Nullable } from '@common/types'
 
 const getPostLink = (post: Post): string => {
     switch (post.type) {
-        case PostType.POST:
+        case 'post':
             return `/blog/${post.slug}`
-        case PostType.PAGE:
+        case 'page':
             return `/${post.slug}`
     }
     return post.link
@@ -27,6 +34,7 @@ const getPostLink = (post: Post): string => {
 
 const getPostQuery = (
     queryKey: TermTypes | 'id' | 'slug',
+    type: PostType,
     queryValue?: string | number,
     page = 1,
     ignoreStatus = false,
@@ -35,17 +43,26 @@ const getPostQuery = (
         case 'id':
             return !queryValue
                 ? ''
-                : MySQLQuery.getPostBy('posts.ID', queryValue, 0, ignoreStatus)
+                : MySQLQuery.getPostBy(
+                      'posts.ID',
+                      queryValue,
+                      type,
+                      0,
+                      ignoreStatus,
+                  )
         case 'slug':
             return !queryValue
                 ? ''
                 : MySQLQuery.getPostBy(
                       'posts.post_name',
                       queryValue,
+                      type,
                       0,
                       ignoreStatus,
                   )
+        // @deprecated
         case 'category':
+        // @deprecated
         case 'tag':
             return !queryValue
                 ? ''
@@ -167,11 +184,12 @@ export const getRelatedPost = async (post: Post): Promise<Post[]> => {
 
 export const getPostsBy = async (
     queryKey: TermTypes | 'id' | 'slug',
+    type: PostType,
     queryValue?: string | number,
     page = 1,
     ignoreStatus = false,
 ): Promise<Post[]> => {
-    const query = getPostQuery(queryKey, queryValue, page, ignoreStatus)
+    const query = getPostQuery(queryKey, type, queryValue, page, ignoreStatus)
     const result = await MySQL.getInstance().select<Post>(query)
 
     // Create Post from dbResult
@@ -207,9 +225,7 @@ export const getPostsBy = async (
         }
 
         const slug = post_.slug.toLowerCase()
-        const id = post_.id
-        await Cached.getInstance().set(`post-${slug}`, post_)
-        await Cached.getInstance().set(`post-${id}`, post_)
+        await Cached.getInstance().set(`${type}-${slug}-${VERSION}`, post_)
 
         posts.push(post_)
     }
@@ -230,6 +246,6 @@ export const getPostsBy = async (
 export const getRecentPosts = async () =>
     await Cached.getInstance().getOrExecute(
         'recent-post',
-        async () => await getPostsBy(TermTypes.recent_posts),
+        async () => await getPostsBy(TermTypes.recent_posts, 'post'),
         DAY_IN_SECONDS,
     )

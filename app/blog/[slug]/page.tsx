@@ -26,7 +26,7 @@ type Props = {
 export const generateMetadata = async (props: Props): Promise<Metadata> => {
     const { slug } = await props.params
     const requestPost = unstable_cache(
-        async (slug) => await getPost(slug, 'post'),
+        async (slug) => await getPost(slug),
         [slug, VERSION],
         {
             tags: ['wordpress', 'post'],
@@ -55,7 +55,7 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
 export default async function SinglePost(props: Props) {
     const { slug } = await props.params
     const requestPost = unstable_cache(
-        async (slug) => await getPost(slug, 'post'),
+        async (slug) => await getPost(slug),
         [slug, VERSION],
         {
             tags: ['wordpress', 'post'],

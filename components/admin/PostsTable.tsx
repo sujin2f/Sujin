@@ -30,7 +30,13 @@ const PostsTable = (props: Props) => {
                             <td>{post.type}</td>
                             <td>{post.status}</td>
                             <td>
-                                <Link href={`/blog/${post.slug}`}>View</Link>
+                                {post.type === 'post' ? (
+                                    <Link href={`/blog/${post.slug}`}>
+                                        View
+                                    </Link>
+                                ) : (
+                                    <Link href={`/${post.slug}`}>View</Link>
+                                )}
                             </td>
                         </tr>
                     ))}

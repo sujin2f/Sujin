@@ -10,6 +10,65 @@
 namespace Sujin\Theme\Plugins;
 
 class GraphQL {
+	public function update_background( int $post_id ) {
+		$nonce    = wp_create_nonce( 'update_background_' . $post_id );
+		$base_url = get_home_url();
+
+		$version = '0.0.0';
+		if ( function_exists( 'getenv_docker') ) {
+			$version = getenv_docker( 'VERSION', $version );
+		}
+
+		$mutation = array(
+			'query' => '
+				mutation {
+					updateBackground(nonce: "' . $nonce . '", id: ' . $post_id . ') {
+						result
+					}
+				}',
+		);
+		$args     = array(
+			'headers' => array(
+				'Content-Type' => 'application/json',
+			),
+			'body'    => wp_json_encode( $mutation ),
+		);
+
+		update_option( 'update_background_' . $nonce, $nonce . '-' . $post_id );
+		$response = wp_remote_post( $base_url . '/api/graphql/' . $version, $args );
+		return $response;
+	}
+
+	public function update_page( \WP_Post $post ) {
+		$post_id  = $post->ID;
+		$nonce    = wp_create_nonce( 'update_page_' . $post_id );
+		$base_url = get_home_url();
+
+		$version = '0.0.0';
+		if ( function_exists( 'getenv_docker') ) {
+			$version = getenv_docker( 'VERSION', $version );
+		}
+
+		$mutation = array(
+			'query' => '
+				mutation {
+					updatePage(nonce: "' . $nonce . '", slug: "' . $post->post_name . '") {
+						result
+					}
+				}',
+		);
+		$args     = array(
+			'headers' => array(
+				'Content-Type' => 'application/json',
+			),
+			'body'    => wp_json_encode( $mutation ),
+		);
+
+		update_option( 'update_page_' . $nonce, $nonce . '-' . $post->post_name );
+		$response = wp_remote_post( $base_url . '/api/graphql/' . $version, $args );
+		return $response;
+	}
+
 	public function update_post( \WP_Post $post ) {
 		$post_id  = $post->ID;
 		$nonce    = wp_create_nonce( 'update_post_' . $post_id );
@@ -21,13 +80,13 @@ class GraphQL {
 		$the_tags   = get_the_tags( $post_id );
 
 		if ( is_array( $the_cats ) ) {
-			foreach ( get_the_category( $post_id ) as  $category ) {
+			foreach ( $the_cats as $category ) {
 				array_push( $categories, $category->slug );
 			}
 		}
 
 		if ( is_array( $the_tags ) ) {
-			foreach ( get_the_tags( $post_id ) as  $tag ) {
+			foreach ( $the_tags as $tag ) {
 				array_push( $tags, $tag->slug );
 			}
 		}
@@ -40,7 +99,7 @@ class GraphQL {
 		$mutation = array(
 			'query' => '
 				mutation {
-					updatePost(nonce: "' . $nonce . '", slug: "' . $post->post_name . '", id: ' . $post_id . ', categories: "' . join( ',', $categories ) . '", tags: "' . join( ',', $tags ) . '") {
+					updatePost(nonce: "' . $nonce . '", slug: "' . $post->post_name . '", categories: "' . join( ',', $categories ) . '", tags: "' . join( ',', $tags ) . '") {
 						result
 					}
 				}',

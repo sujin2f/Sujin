@@ -1,11 +1,10 @@
 // yarn test updateTerm.spec.ts
 
-import client from '@common/data/mongo/mongo-client'
+import { clearMongo } from '../../../../.jest/helpers'
 import updateTerm from './updateTerm'
 import Mongo from '@common/data/mongo/mongo'
 
 const mockQuery = jest.fn()
-
 jest.mock('promise-mysql', () => ({
     createConnection: jest.fn(() => ({
         query: mockQuery,
@@ -13,22 +12,22 @@ jest.mock('promise-mysql', () => ({
 }))
 
 describe('updateTerm.ts', () => {
+    beforeAll(async () => {
+        await clearMongo('term')
+    })
+
     afterAll(async () => {
         jest.clearAllMocks()
+        await clearMongo('term').then((client) => {
+            client.close()
+        })
     })
 
     test('updateTerm()', async () => {
         const nonce = 'nonce'
 
         mockQuery
-            .mockResolvedValueOnce([
-                {
-                    key: 'update_term_nonce',
-                    option_value: 'nonce-1',
-                },
-            ])
-            .mockResolvedValueOnce('')
-            .mockResolvedValueOnce([
+            .mockResolvedValue([
                 {
                     id: 1,
                     name: 'Test',
@@ -36,19 +35,16 @@ describe('updateTerm.ts', () => {
                     type: 'category',
                 },
             ])
+            .mockResolvedValueOnce([
+                {
+                    key: 'update_term_nonce',
+                    option_value: 'nonce-1',
+                },
+            ])
         await updateTerm(nonce, 1)
 
         const term = await Mongo.findOne('term', { id: 1 })
         expect(term.name).toEqual('Test')
         expect(term.slug).toEqual('test')
-
-        await client.then(async (client) => {
-            const database = client.db(process.env.MONGO_DATABASE)
-            try {
-                await database.collection('term').drop()
-            } catch {}
-
-            await client.close()
-        })
     })
 })

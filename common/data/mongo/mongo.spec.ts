@@ -1,38 +1,17 @@
 // yarn test mongo.spec.ts
 
+import { clearMongo } from '../../../.jest/helpers'
+import { MONGO_DATABASE } from '@common/constants/helper'
 import Mongo, { migrateIndex } from './mongo'
 import client from './mongo-client'
 
 describe('mongo.ts', () => {
     beforeAll(async () => {
-        await client.then(async (client) => {
-            const database = client.db(process.env.MONGO_DATABASE)
-            try {
-                await database.collection('test').drop()
-            } catch {
-                // ignore
-            }
-            try {
-                await database.collection('options').drop()
-            } catch {
-                // ignore
-            }
-        })
+        await clearMongo('test', 'options')
     })
 
     afterAll(async () => {
-        await client.then(async (client) => {
-            const database = client.db(process.env.MONGO_DATABASE)
-            try {
-                await database.collection('test').drop()
-            } catch {
-                // ignore
-            }
-            try {
-                await database.collection('options').drop()
-            } catch {
-                // ignore
-            }
+        await clearMongo('test', 'options').then((client) => {
             client.close()
         })
     })
@@ -74,7 +53,7 @@ describe('mongo.ts', () => {
         })
 
         const index = await client.then(async (client) => {
-            const database = client.db(process.env.MONGO_DATABASE)
+            const database = client.db(MONGO_DATABASE)
             return await database.collection('test').indexes()
         })
 
@@ -94,7 +73,7 @@ describe('mongo.ts', () => {
         })
 
         const index2 = await client.then(async (client) => {
-            const database = client.db(process.env.MONGO_DATABASE)
+            const database = client.db(MONGO_DATABASE)
             return await database.collection('test').indexes()
         })
 

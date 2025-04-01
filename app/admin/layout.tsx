@@ -1,11 +1,11 @@
 import React, { type PropsWithChildren } from 'react'
 import { notFound } from 'next/navigation'
-import Link from 'next/link'
 import { getServerSession } from 'next-auth'
 /* Components */
 import Header from '@components/header'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
+import { Menu } from '@common/components/layout/Menu'
 /* Utils */
 import authOptions from '@app/api/auth/[...nextauth]/authOptions'
 
@@ -28,25 +28,34 @@ export default async function AppLayout({ children }: PropsWithChildren) {
             <Header />
             <main className="admin">
                 <Row>
-                    <Column small={3}>
-                        <nav>
-                            <ul>
-                                <li>
-                                    <Link href="/admin/post/1">Post</Link>
-                                </li>
-                                <li>
-                                    <Link href="/admin/term/1">Term</Link>
-                                </li>
-                                <li>
-                                    <Link href="/admin/index">Index</Link>
-                                </li>
-                                <li>
-                                    <Link href="/admin/cache">Cache</Link>
-                                </li>
-                            </ul>
-                        </nav>
+                    <Column small={2}>
+                        <Menu
+                            items={[
+                                {
+                                    title: 'Post',
+                                    link: '/admin/post/1',
+                                },
+                                {
+                                    title: 'Page',
+                                    link: '/admin/page/1',
+                                },
+                                {
+                                    title: 'Term',
+                                    link: '/admin/term/1',
+                                },
+                                {
+                                    title: 'Index',
+                                    link: '/admin/index',
+                                },
+                                {
+                                    title: 'Cache',
+                                    link: '/admin/cache',
+                                },
+                            ]}
+                            direction="vertical"
+                        />
                     </Column>
-                    <Column small={9}>{children}</Column>
+                    <Column small={10}>{children}</Column>
                 </Row>
             </main>
         </>

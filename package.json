@@ -7,7 +7,7 @@
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "test": "MONGO_DATABASE=test jest --no-cache --forceExit --coverage",
+        "test": "jest --no-cache --forceExit --coverage",
         "lint": "eslint ./src/**/*.ts ./src/**/*.tsx ./app/**/*.tsx ./common/**/*.ts ./common/**/*.tsx ./components/**/*.tsx"
     },
     "dependencies": {

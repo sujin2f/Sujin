@@ -8,6 +8,7 @@ import { getTermById } from '@src/db/mysql/getTermBy'
 /* Types */
 import type { MutationResultType } from '@src/constants/graphql'
 import type { Term } from '@src/types/wordpress'
+import Logger from '@common/model/Logger'
 
 /**
  * Removes cached data related to a specific term.
@@ -36,7 +37,7 @@ const updateTerm = async (
     // Nonce validation
     if (`${nonce}-${termId}` !== nonceValue) {
         const message = 'updateTerm got invalid nonce.'
-        console.error(message)
+        Logger.server(message)
         throw Error(message)
     }
 
@@ -47,7 +48,7 @@ const updateTerm = async (
         .then(async () => await Mongo.replaceOne('term', { id: termId }, term))
         .catch(async () => await Mongo.insertOne('term', term))
 
-    console.log(`Updated MongoDB term: ${JSON.stringify(term)}`)
+    Logger.server(`Updated MongoDB term: ${JSON.stringify(term)}`)
     return {
         result: true,
     }

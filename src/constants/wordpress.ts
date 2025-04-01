@@ -7,11 +7,6 @@ export enum TermTypes {
     series = 'series',
 }
 
-export enum PostType {
-    POST = 'post',
-    PAGE = 'page',
-}
-
 export enum ImageType {
     LIST = 'list',
     HEADER = 'header',

@@ -1,3 +1,5 @@
+import { IS_TEST } from '@common/constants/helper'
+
 const styleLog = [
     'background: #fdd663',
     'color: black',
@@ -11,6 +13,9 @@ export default class Logger {
     }
 
     static server(message: string) {
+        if (IS_TEST) {
+            return
+        }
         const date = new Date()
         const result = `${date.toLocaleDateString()} ${date.toLocaleTimeString()} - ${message}`
         console.log(result)

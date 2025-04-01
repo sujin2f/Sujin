@@ -19,6 +19,7 @@ import client from './mongo-client'
 import { compareVersions } from '../../utils/system'
 /* Types */
 import type { MongoOptionCollection } from '../../types/system'
+import { MONGO_DATABASE } from '@common/constants/helper'
 
 /**
  * Finds a single document in a MongoDB collection.
@@ -34,7 +35,7 @@ const findOne = async <T extends Document>(
     doc: Filter<T>,
 ): Promise<WithId<T>> => {
     return await client.then(async (client) => {
-        const database = client.db(process.env.MONGO_DATABASE)
+        const database = client.db(MONGO_DATABASE)
         const result = await database.collection<T>(collection).findOne(doc)
 
         if (!result) {
@@ -69,7 +70,7 @@ const findMany = async <T extends Document>(
     options?: findManyOptions,
 ): Promise<WithId<T>[]> => {
     return await client.then(async (client) => {
-        const database = client.db(process.env.MONGO_DATABASE)
+        const database = client.db(MONGO_DATABASE)
         let find = database.collection<T>(collection).find(doc)
         if (options && options.sort) {
             find = find.sort(options.sort)
@@ -97,7 +98,7 @@ const count = async <T extends Document>(
     doc: Filter<T>,
 ): Promise<number> =>
     await client.then(async (client) => {
-        const database = client.db(process.env.MONGO_DATABASE)
+        const database = client.db(MONGO_DATABASE)
         return database.collection<T>(collection).countDocuments(doc)
     })
 
@@ -114,7 +115,7 @@ const insertOne = async <T extends Document>(
     doc: OptionalUnlessRequiredId<T>,
 ): Promise<InsertOneResult<T>> => {
     return await client.then(async (client) => {
-        const database = client.db(process.env.MONGO_DATABASE)
+        const database = client.db(MONGO_DATABASE)
         return await database.collection<T>(collection).insertOne(doc)
     })
 }
@@ -132,8 +133,26 @@ const insertMany = async <T extends Document>(
     doc: OptionalUnlessRequiredId<T>[],
 ): Promise<InsertManyResult<T>> => {
     return await client.then(async (client) => {
-        const database = client.db(process.env.MONGO_DATABASE)
+        const database = client.db(MONGO_DATABASE)
         return await database.collection<T>(collection).insertMany(doc)
+    })
+}
+
+/**
+ * Delete multiple documents into a MongoDB collection.
+ *
+ * @template T - The type of the document.
+ * @param {string} collection - The name of the collection.
+ * @param {Filter<T>} doc - The documents to delete.
+ * @returns {Promise<DeleteResult>} The result of the delete operation.
+ */
+const deleteOne = async <T extends Document>(
+    collection: string,
+    doc: Filter<T>,
+): Promise<DeleteResult> => {
+    return await client.then(async (client) => {
+        const database = client.db(MONGO_DATABASE)
+        return await database.collection<T>(collection).deleteOne(doc)
     })
 }
 
@@ -150,7 +169,7 @@ const deleteMany = async <T extends Document>(
     doc: Filter<T>,
 ): Promise<DeleteResult> => {
     return await client.then(async (client) => {
-        const database = client.db(process.env.MONGO_DATABASE)
+        const database = client.db(MONGO_DATABASE)
         return await database.collection<T>(collection).deleteMany(doc)
     })
 }
@@ -170,7 +189,7 @@ const replaceOne = async <T extends Document>(
     doc: OptionalUnlessRequiredId<T>,
 ): Promise<Document | UpdateResult<T>> => {
     return await client.then(async (client) => {
-        const database = client.db(process.env.MONGO_DATABASE)
+        const database = client.db(MONGO_DATABASE)
         return await database.collection<T>(collection).replaceOne(filter, doc)
     })
 }
@@ -206,6 +225,7 @@ const actions = {
     findMany,
     insertOne,
     insertMany,
+    deleteOne,
     deleteMany,
     replaceOne,
     count,
@@ -238,11 +258,11 @@ type IndexInfo = {
 }
 const updateIndex = async (indexInfo: IndexInfo) => {
     await client.then(async (client) => {
-        const database = client.db(process.env.MONGO_DATABASE)
+        const database = client.db(MONGO_DATABASE)
 
         for (const [collection, info] of Object.entries(indexInfo)) {
             if (info.drop) {
-                const index = await (
+                const index = (
                     await database.collection(collection).indexes()
                 ).reduce(
                     (acc, block) => ({

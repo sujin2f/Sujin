@@ -1,6 +1,7 @@
 import { TermTypes } from '@src/constants/wordpress'
 
 export type ImageKeys = 'list' | 'icon' | 'title' | 'background' | 'thumbnail'
+export type PostType = 'post' | 'page' | 'attachment'
 
 export type Post = {
     id: number
@@ -11,7 +12,7 @@ export type Post = {
     date: number
     link: string
     parent: number
-    type: 'post' | 'page' | 'attachment'
+    type: PostType
     menuOrder: number
     tags: Term[]
     categories: Term[]
@@ -50,6 +51,7 @@ export type Term = {
     excerpt: string
     image?: Image
     total: number
+    hits: number
 }
 
 export type ImageSize = {
@@ -60,6 +62,7 @@ export type ImageSize = {
 export type ImageSizes = ImageSize[]
 
 export type Image = {
+    id: number
     url: string
     mimeType: string
     title: string
