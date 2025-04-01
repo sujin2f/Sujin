@@ -227,8 +227,7 @@ const DELETE_POST_META = `
 
 export const MySQLQuery = {
     getAllPostMeta: (postId: number) => format(GET_ALL_POST_META, postId),
-    getRandomBackgrounds: () =>
-        format(GET_TERM_ITEMS, 'background', 'inherit', 'ORDER BY RAND()', 0),
+    // @deprecated
     getTermItems: (termSlug: string, offset: number) =>
         format(
             GET_TERM_ITEMS,

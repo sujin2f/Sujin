@@ -1,8 +1,8 @@
-import TermsTable from '@components/admin/TermsTable'
+import BackgroundsTable from '@components/admin/BackgroundsTable'
+import getBackgrounds from '@src/db/mongo/admin/getBackgrounds'
 import { mongoIdToString } from '@common/utils/object'
-import getTerm from '@src/db/mongo/admin/getTerm'
-import type { Post } from '@src/types/wordpress'
 import { PrevNext } from '@components/wordpress/single/PrevNext'
+import type { Post } from '@src/types/wordpress'
 
 type Props = {
     params: Promise<{
@@ -10,26 +10,26 @@ type Props = {
     }>
 }
 
-export default async function AdminTerm(props: Props) {
+export default async function AdminBackgrounds(props: Props) {
     const params = await props.params
     const page = parseInt(params.page)
-    const terms = await getTerm(page)
+    const backgrounds = await getBackgrounds()
 
     const prev =
         page !== 1
             ? ({
                   title: 'Prev',
-                  link: `/admin/term/${page - 1}`,
+                  link: `/admin/backgrounds/${page - 1}`,
               } as Post)
             : undefined
     const next = {
         title: 'Next',
-        link: `/admin/term/${page + 1}`,
+        link: `/admin/backgrounds/${page + 1}`,
     } as Post
 
     return (
         <>
-            <TermsTable terms={mongoIdToString(...terms)} />
+            <BackgroundsTable backgrounds={mongoIdToString(...backgrounds)} />
             <PrevNext posts={[prev, next]} />
         </>
     )

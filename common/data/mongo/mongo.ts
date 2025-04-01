@@ -85,6 +85,19 @@ const findMany = async <T extends Document>(
     })
 }
 
+const random = async <T extends Document>(
+    collection: string,
+    size: number,
+): Promise<T[]> => {
+    return await client.then(async (client) => {
+        const database = client.db(MONGO_DATABASE)
+        return await database
+            .collection<T>(collection)
+            .aggregate<T>([{ $sample: { size } }])
+            .toArray()
+    })
+}
+
 /**
  * Counts documents in a MongoDB collection.
  *
@@ -229,6 +242,7 @@ const actions = {
     deleteMany,
     replaceOne,
     count,
+    random,
     getSystemOption,
     setSystemOption,
 }

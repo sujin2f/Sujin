@@ -44,6 +44,10 @@ export default async function AppLayout({ children }: PropsWithChildren) {
                                     link: '/admin/term/1',
                                 },
                                 {
+                                    title: 'Backgrounds',
+                                    link: '/admin/backgrounds/1',
+                                },
+                                {
                                     title: 'Index',
                                     link: '/admin/index',
                                 },

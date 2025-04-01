@@ -41,7 +41,7 @@ export default async function About() {
     return (
         <>
             <Header />
-            <main>
+            <main className="page--page">
                 <Banner
                     menu={MenuNames.MAIN}
                     banner={{
