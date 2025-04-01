@@ -47,7 +47,7 @@ import {
     mutateUpdateTerm,
     queryArchive,
 } from '@src/constants/graphql'
-import { IS_DEV } from '@common/constants/helper'
+import { IS_DEV, VERSION } from '@common/constants/helper'
 import { MINUTE_IN_SECONDS } from '@common/constants/datetime'
 
 const options = createGQLOptions(
@@ -104,8 +104,7 @@ const server = new ApolloServer({
         {
             async serverWillStart() {
                 // Migrate MongoDB indexes
-                const version = process.env.VERSION || '0.0.0'
-                await migrateIndex(version, mongoMigration)
+                await migrateIndex(VERSION, mongoMigration)
             },
         },
     ],
@@ -114,9 +113,15 @@ const server = new ApolloServer({
 const handler = startServerAndCreateNextHandler(server)
 
 export async function GET(request: NextRequest) {
+    if (!request.url.endsWith(VERSION)) {
+        return new Response(null, { status: 404 })
+    }
     return handler(request)
 }
 
 export async function POST(request: NextRequest) {
+    if (!request.url.endsWith(VERSION)) {
+        return new Response(null, { status: 404 })
+    }
     return handler(request)
 }

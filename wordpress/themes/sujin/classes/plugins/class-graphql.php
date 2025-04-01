@@ -32,6 +32,11 @@ class GraphQL {
 			}
 		}
 
+		$version = '0.0.0';
+		if ( function_exists( 'getenv_docker') ) {
+			$version = getenv_docker( 'VERSION', $version );
+		}
+
 		$mutation = array(
 			'query' => '
 				mutation {
@@ -48,13 +53,17 @@ class GraphQL {
 		);
 
 		update_option( 'update_post_' . $nonce, $nonce . '-' . $post->post_name );
-		$response = wp_remote_post( $base_url . '/api/graphql', $args );
+		$response = wp_remote_post( $base_url . '/api/graphql/' . $version, $args );
 		return $response;
 	}
 
 	public function update_term( int $term_id ) {
 		$nonce    = wp_create_nonce( 'update_term_' . $term_id );
 		$base_url = get_home_url();
+		$version  = '0.0.0';
+		if ( function_exists( 'getenv_docker') ) {
+			$version = getenv_docker( 'VERSION', $version );
+		}
 
 		$mutation = array(
 			'query' => '
@@ -72,7 +81,7 @@ class GraphQL {
 		);
 
 		update_option( 'update_term_' . $nonce, $nonce . '-' . $term_id );
-		$response = wp_remote_post( $base_url . '/api/graphql', $args );
+		$response = wp_remote_post( $base_url . '/api/graphql/' . $version, $args );
 		return $response;
 	}
 }
