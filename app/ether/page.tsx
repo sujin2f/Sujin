@@ -1,13 +1,13 @@
 /* Components */
 import ScrollToTop from '@components/ScrollToTop'
-import { PrevNext } from '@components/wordpress/single/PrevNext'
+import { PrevNext } from '@app/components/single/PrevNext'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
-import Banner from '@components/header/Banner'
+import Banner from '@app/components/header/Banner'
 /* Constants */
 import { MenuNames } from '@src/constants/mysql-query'
 /* Types */
-import type { Post } from '@src/types/wordpress'
+import type { PostType } from '@src/types/wordpress'
 
 export default function Intro() {
     return (
@@ -64,7 +64,7 @@ export default function Intro() {
                                 {
                                     title: 'Hypothesis',
                                     link: '/ether/document/hypothesis',
-                                } as Post,
+                                } as PostType,
                             ]}
                         ></PrevNext>
                     </Column>

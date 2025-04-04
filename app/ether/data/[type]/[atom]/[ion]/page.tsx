@@ -12,7 +12,7 @@ import { Table } from '@components/ether/table'
 import type { Nullable } from '@common/types'
 import type { ISpectrum } from '@src/types/ether'
 import { fetchGQL } from '@common/data/graphql/fetchGQL'
-import { querySpectra, spectraOpr } from '@src/constants/graphql'
+import GQL from '@src/constants/graphql'
 import { DataContainer } from '@src/models/DataContainer'
 
 export default function DataPage() {
@@ -28,7 +28,7 @@ export default function DataPage() {
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
-        fetchGQL(querySpectra, spectraOpr, 0, atom, ion)
+        fetchGQL(GQL.querySpectra, GQL.spectraOpr, 0, atom, ion)
             .then((result) => setSpectra(result))
             .catch(() => setSpectra([]))
         // eslint-disable-next-line react-hooks/exhaustive-deps

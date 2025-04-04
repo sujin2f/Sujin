@@ -4,8 +4,7 @@
  * @module constants
  */
 
-import { formatDate } from '@common/utils/datetime'
-import type { Post, PostType } from '@src/types/wordpress'
+import type { POST_TYPE } from '@src/types/wordpress'
 
 /**
  * Making a formatted string
@@ -31,11 +30,8 @@ const POST_FIELDS = `
     posts.post_excerpt AS excerpt,
     posts.post_date AS date,
     posts.post_content AS content,
-    posts.post_parent AS parent,
-    posts.post_type AS type,
     posts.post_status AS status,
     posts.post_mime_type AS mimeType,
-    posts.menu_order AS menuOrder,
     posts.guid AS link
 `
 export const PER_PAGE = 12
@@ -68,15 +64,6 @@ const GET_SEARCH = `
     LIMIT ${PER_PAGE} OFFSET {1}
 `
 
-// @deprecated
-const GET_RECENT_POSTS = `
-    SELECT ${POST_FIELDS}
-    FROM wp_posts AS posts
-    WHERE posts.post_type="post" AND posts.post_status="publish"
-    ORDER BY posts.ID DESC
-    LIMIT 6
-`
-
 const GET_POST_META = `
     SELECT meta_value
     FROM wp_postmeta
@@ -90,12 +77,25 @@ const GET_ALL_POST_META = `
     WHERE post_id="{0}"
 `
 
+const GET_ARCHIVE_BY = `
+    SELECT
+        terms.term_id AS id,
+        terms.name AS title,
+        terms.slug AS slug,
+        taxonomy.description AS excerpt
+    FROM wp_term_relationships AS relationships
+    INNER JOIN wp_term_taxonomy AS taxonomy
+        ON taxonomy.term_taxonomy_id = relationships.term_taxonomy_id
+    INNER JOIN wp_terms AS terms
+        ON terms.term_id = taxonomy.term_id
+    WHERE {0}="{1}"
+`
+
 const GET_TERM_BY = `
     SELECT
         terms.term_id AS id,
         terms.name AS title,
         terms.slug AS slug,
-        taxonomy.taxonomy AS type,
         taxonomy.description AS excerpt
     FROM wp_term_relationships AS relationships
     INNER JOIN wp_term_taxonomy AS taxonomy
@@ -116,8 +116,6 @@ const GET_TERM_ITEMS = `
         ON terms.term_id = taxonomy.term_id
     WHERE terms.slug="{0}" AND posts.post_status="{1}"
     {2}
-    LIMIT ${PER_PAGE}
-    OFFSET {3}
 `
 
 const GET_TAXONOMIES = `
@@ -186,38 +184,6 @@ const UPDATE_TAG_HIT = `
     ON DUPLICATE KEY UPDATE hit = hit + 1
 `
 
-// @deprecated
-const GET_ADJACENT_POST = `
-    SELECT
-        ${POST_FIELDS}
-    FROM wp_posts AS posts
-        INNER JOIN wp_term_relationships AS relationship ON posts.ID = relationship.object_id
-        INNER JOIN wp_term_taxonomy taxonomy ON relationship.term_taxonomy_id = taxonomy.term_taxonomy_id
-    WHERE
-        posts.ID <> {0} AND
-        posts.post_date {1} "{2}" AND
-        posts.post_type = "post" AND
-        taxonomy.taxonomy = "category" AND
-        taxonomy.term_id IN ("{3}") AND
-        posts.post_status = "publish"
-    ORDER BY posts.post_date {4} LIMIT 1
-`
-
-// @deprecated
-const GET_RELATED_POST = `
-    SELECT
-        ${POST_FIELDS}
-    FROM wp_posts AS posts
-        INNER JOIN wp_term_relationships AS relationship ON posts.ID = relationship.object_id
-        INNER JOIN wp_term_taxonomy taxonomy ON relationship.term_taxonomy_id = taxonomy.term_taxonomy_id
-    WHERE
-        posts.post_type = "post" AND
-        taxonomy.taxonomy = "{0}" AND
-        taxonomy.term_id IN ("{1}") AND
-        posts.post_status = "publish"
-    ORDER BY posts.post_date DESC LIMIT 5
-`
-
 const DELETE_POST_META = `
     DELETE FROM wp_postmeta
     WHERE
@@ -226,6 +192,11 @@ const DELETE_POST_META = `
 `
 
 export const MySQLQuery = {
+    getArchiveBy: (key: string, value: string) => {
+        const newKey = key === 'id' ? 'terms.term_id' : 'terms.slug'
+        return format(GET_ARCHIVE_BY, newKey, value)
+    },
+    getBackgrounds: () => format(GET_TERM_ITEMS, 'background', 'inherit', ''),
     getAllPostMeta: (postId: number) => format(GET_ALL_POST_META, postId),
     // @deprecated
     getTermItems: (termSlug: string, offset: number) =>
@@ -233,8 +204,7 @@ export const MySQLQuery = {
             GET_TERM_ITEMS,
             termSlug,
             'publish',
-            'ORDER BY posts.ID DESC',
-            offset,
+            `ORDER BY posts.ID DESC LIMIT ${PER_PAGE} OFFSET ${offset}`,
         ),
     getOption: (optionName: string) => format(GET_OPTION, optionName),
     deleteOption: (optionName: string) => format(DELETE_OPTION, optionName),
@@ -243,7 +213,7 @@ export const MySQLQuery = {
     getPostBy: (
         key: string,
         value: string | number,
-        type: PostType,
+        type: POST_TYPE,
         offset: number,
         ignoreStatus: boolean,
     ) =>
@@ -257,6 +227,7 @@ export const MySQLQuery = {
         ),
     getSearch: (value: string | number, offset: number) =>
         format(GET_SEARCH, value, offset),
+    // @deprecated
     getTermBy: (key: string, value: string) => {
         const newKey = key === 'id' ? 'terms.term_id' : 'terms.slug'
         return format(GET_TERM_BY, newKey, value)
@@ -267,26 +238,6 @@ export const MySQLQuery = {
     getTagCount: () => format(GET_TAG_COUNT),
     getTagHit: () => format(GET_TAG_HIT),
     updateTagHit: (termId: number) => format(UPDATE_TAG_HIT, termId),
-    // @deprecated
-    getAdjacentPost: (post: Post, previous = true) => {
-        const comparison = previous ? '<' : '>'
-        const order = previous ? 'DESC' : 'ASC'
-        const termId = post.categories.map((category) => category.id)
-        return format(
-            GET_ADJACENT_POST,
-            post.id,
-            comparison,
-            formatDate(post.date),
-            termId.join(','),
-            order,
-        )
-    },
-    // @deprecated
-    getRelatedPost: (taxonomy: 'category' | 'post_tag', termIds: number[]) => {
-        return format(GET_RELATED_POST, taxonomy, termIds.join(','))
-    },
-    // @deprecated
-    getRecentPosts: () => GET_RECENT_POSTS,
     deletePostMeta: (postId: number, metaKey: string) => {
         return format(DELETE_POST_META, postId, metaKey)
     },

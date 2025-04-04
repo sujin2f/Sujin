@@ -1,7 +1,7 @@
 import React, { type PropsWithChildren } from 'react'
 /* Components */
-import Header from '@components/header'
-import Banner from '@components/header/Banner'
+import Header from '@app/components/header'
+import Banner from '@app/components/header/Banner'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 /* Helpers */

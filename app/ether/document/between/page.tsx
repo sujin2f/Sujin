@@ -4,11 +4,11 @@ import Link from 'next/link'
 import { Image } from '@common/components/containers/image'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
-import { Latex } from '@components/wordpress/single/Latex'
-import { PrevNext } from '@components/wordpress/single/PrevNext'
+import { Latex } from '@app/components/single/Latex'
+import { PrevNext } from '@app/components/single/PrevNext'
 import ScrollToTop from '@components/ScrollToTop'
 /* Types */
-import type { Post } from '@src/types/wordpress'
+import type { PostType } from '@src/types/wordpress'
 /* Assets */
 import pic58 from '@src/images/ether/pic58.png'
 import pic114 from '@src/images/ether/pic114.png'
@@ -281,11 +281,11 @@ export default function Between() {
                     {
                         title: 'Proof(3): Emission Energy Analysis',
                         link: '/ether/document/analysis',
-                    } as Post,
+                    } as PostType,
                     {
                         title: 'Conclusion',
                         link: '/ether/document/conclusion',
-                    } as Post,
+                    } as PostType,
                 ]}
             ></PrevNext>
         </div>

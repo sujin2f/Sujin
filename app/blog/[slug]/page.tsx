@@ -1,21 +1,14 @@
-import { notFound } from 'next/navigation'
 import { unstable_cache } from 'next/cache'
 import type { Metadata } from 'next/types'
 /* Components */
-import Banner from '@components/header/Banner'
-import { Post } from '@components/wordpress/single/Post'
-import Header from '@components/header'
-import Footer from '@components/footer'
+import Blog from '@app/blog/[slug]/Blog'
 /* Constants */
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
 import { BASE_URL } from '@src/constants/system'
-import { MenuNames } from '@src/constants/mysql-query'
 import { VERSION } from '@common/constants/helper'
 /* Utils */
-import getPost from '@src/db/mongo/wordpress/getPost'
-import { updateHit } from '@src/db/mysql/getTagCloud'
+import { getCachedPost } from '@src/db/mongo/wordpress/post'
 import { getThumbnailFromPost } from '@src/utils/wordpress'
-import { mongoIdToString } from '@common/utils/object'
 
 type Props = {
     params: Promise<{
@@ -26,18 +19,21 @@ type Props = {
 export const generateMetadata = async (props: Props): Promise<Metadata> => {
     const { slug } = await props.params
     const requestPost = unstable_cache(
-        async (slug) => await getPost(slug),
+        async (slug) => await getCachedPost(slug),
         [slug, VERSION],
         {
             tags: ['wordpress', 'post'],
             revalidate: HOUR_IN_SECONDS,
         },
     )
-    const post = await requestPost(slug)
+    const post = await requestPost(slug.toLowerCase()).catch(() => null)
+    if (!post) {
+        return {}
+    }
 
     const url = `${BASE_URL}/blog/${slug}`
     const images = getThumbnailFromPost(post)
-    const keywords = post.tags.map((tag) => tag.title)
+    const keywords = post.terms.map((term) => term.title)
 
     return {
         title: `Sujin | ${post.title}`,
@@ -52,41 +48,6 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
     }
 }
 
-export default async function SinglePost(props: Props) {
-    const { slug } = await props.params
-    const requestPost = unstable_cache(
-        async (slug) => await getPost(slug),
-        [slug, VERSION],
-        {
-            tags: ['wordpress', 'post'],
-            revalidate: HOUR_IN_SECONDS,
-        },
-    )
-    const post = await requestPost(slug).catch(() => notFound())
-    const thumbnail = getThumbnailFromPost(post)
-
-    // Update Tag Cloud
-    if (post.tags.length) {
-        post.tags.forEach((tag) => updateHit(tag.id))
-    }
-
-    return (
-        <>
-            <Header />
-            <main>
-                <Banner
-                    menu={MenuNames.MAIN}
-                    banner={{
-                        title: post.title,
-                        excerpt: post.excerpt,
-                        icon: post.images.icon,
-                        background: post.images.background,
-                        backgroundColor: post.meta.backgroundColor,
-                    }}
-                />
-                <Post post={mongoIdToString(post)[0]} thumbnail={thumbnail} />
-            </main>
-            <Footer />
-        </>
-    )
+export default async function Page(props: Props) {
+    return <Blog {...props} />
 }

@@ -1,9 +1,9 @@
 'use client'
 import React from 'react'
 /* Components */
-import { Loading } from '@components/wordpress/archive/loading'
+import { Loading } from '@app/components/archive/loading'
 import Title from '@components/WidgetTitle'
-import { Cards } from '@components/wordpress/archive/cards'
+import { Cards } from '@app/components/archive/cards'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 /* Helpers */

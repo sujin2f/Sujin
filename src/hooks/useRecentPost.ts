@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react'
 /* Helpers */
 import { fetchGQL } from '@common/data/graphql/fetchGQL'
-import { postOpr, queryRecent } from '@src/constants/graphql'
+import GQL from '@src/constants/graphql'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
-import type { Post } from '@src/types/wordpress'
+import type { PostType } from '@src/types/wordpress'
 import type { Nullable } from '@common/types'
 
-export const useRecentPost = (): Nullable<Post[]> => {
-    const [posts, setPosts] = useState<Nullable<Post[]>>()
+export const useRecentPost = (): Nullable<PostType[]> => {
+    const [posts, setPosts] = useState<Nullable<PostType[]>>()
     useEffect(() => {
-        fetchGQL(queryRecent, postOpr, WEEK_IN_SECONDS)
+        fetchGQL(GQL.queryRecent, GQL.postOpr, WEEK_IN_SECONDS)
             .then((result) => setPosts(result))
             .catch(() => setPosts([]))
     }, [])

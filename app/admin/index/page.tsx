@@ -1,18 +1,24 @@
-import Link from 'next/link'
 import { Table } from '@common/components/containers/Table'
+import { COLLECTION } from '@src/constants/mongo'
 import getIndexes from '@src/db/mongo/admin/getIndexes'
+import getSystemOption from '@src/db/mongo/admin/getSystemOption'
 
 export default async function ResetIndex() {
     const indexes = await getIndexes(
-        'post',
-        'spectra',
-        'term',
-        'options',
-        'user',
+        COLLECTION.BACKGROUNDS,
+        COLLECTION.CATEGORY,
+        COLLECTION.TAG,
+        COLLECTION.PAGE,
+        COLLECTION.POST,
+        COLLECTION.OPTIONS,
+        COLLECTION.SPECTRA,
+        COLLECTION.USERS,
     )
+    const version = await getSystemOption('version')
 
     return (
         <>
+            <h2>DB Index: {version}</h2>
             {Object.entries(indexes).map(([collection, data]) => (
                 <article key={`admin-index-${collection}`}>
                     <h3>{collection}</h3>
@@ -35,7 +41,6 @@ export default async function ResetIndex() {
                     </Table>
                 </article>
             ))}
-            <Link href="/admin/reset-index">Reset Index</Link>
         </>
     )
 }

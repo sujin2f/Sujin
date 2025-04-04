@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 /* Components */
-import Banner from '@components/header/Banner'
+import Banner from '@app/components/header/Banner'
 import ArchiveRecent from '@components/NotFoundArticles'
-import Header from '@components/header'
-import Footer from '@components/footer'
+import Header from '@app/components/header'
+import Footer from '@app/components/footer'
 /* Helpers */
 import { getPathName } from '@src/utils/server'
 import { getMenuNameFromPath } from '@src/utils/system'

@@ -1,14 +1,14 @@
 import React, { Fragment, JSX, createElement } from 'react'
 
 /* Components */
-import { Gist } from '@components/wordpress/single/Gist'
-import { TweetEmbed } from '@components/wordpress/single/TweetEmbed'
-import { AboutItem } from '@components/wordpress/single/AboutItem'
-import { Carousel } from '@components/wordpress/single/Carousel'
-import { Caption } from '@components/wordpress/single/Caption'
-import { Code } from '@components/wordpress/single/Code'
+import { Gist } from '@app/components/single/Gist'
+import { TweetEmbed } from '@app/components/single/TweetEmbed'
+import { AboutItem } from '@app/components/single/AboutItem'
+import { Carousel } from '@app/components/single/Carousel'
+import { Caption } from '@app/components/single/Caption'
+import { Code } from '@app/components/single/Code'
 /* Helpers */
-import type { Named, AttrMatch, Post } from '@src/types/wordpress'
+import type { Named, AttrMatch } from '@src/types/wordpress'
 import { FACEBOOK_SHARE, TWITTER_SHARE } from '@src/constants/system'
 
 interface UrlArgs {
@@ -174,26 +174,6 @@ export const removeExtraParagraph = (value: string) => {
         .replace(/^<\/p>/, '')
         .replace('/n', '')
         .trim()
-}
-
-/**
- * @todo
- */
-export function parseSeries(id: number, seriesPosts?: Post[]) {
-    if (!seriesPosts || seriesPosts.length === 0) {
-        return {}
-    }
-
-    return {
-        Series: {
-            ...seriesPosts.reduce((acc, series) => {
-                return {
-                    ...acc,
-                    [series.title]: series.link,
-                }
-            }, {}),
-        },
-    }
 }
 
 const getNewWindowFeatures = (): string => {

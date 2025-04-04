@@ -4,81 +4,77 @@ import { ApolloServer } from '@apollo/server'
 import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/disabled'
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default'
 import type { NextRequest } from 'next/server'
+/* Model */
+// import Mongo from '@common/data/mongo/mongo'
 /* Utils */
 import { getFlickr } from '@src/db/fetch/getFlickr'
-import { getTagCloud } from '@src/db/mysql/getTagCloud'
-import getRecentPosts from '@src/db/mongo/wordpress/getRecentPosts'
-import getPrevNext from '@src/db/mongo/wordpress/getPrevNext'
-import getRelatedPosts from '@src/db/mongo/wordpress/getRelatedPosts'
-import updatePost from '@src/db/mongo/wordpress/updatePost'
-import updatePage from '@src/db/mongo/wordpress/updatePage'
-import updateBackground from '@src/db/mongo/wordpress/updateBackground'
-import updateTerm from '@src/db/mongo/wordpress/updateTerm'
-import getBackgrounds from '@src/db/mongo/wordpress/getBackgrounds'
+// import { getTagCloud } from '@src/db/mysql/getTagCloud_'
+// import getRecentPosts from '@src/db/mongo/wordpress/getRecentPosts_'
+// import getPrevNext from '@src/db/mongo/wordpress/getPrevNext_'
+// import getRelatedPosts from '@src/db/mongo/wordpress/getRelatedPosts_'
+// import { GQLUpdatePost } from '@src/db/mongo/wordpress/post'
+// import { secureUpdatePage } from '@src/db/mongo/wordpress/page'
+// import updateBackground from '@src/db/mongo/wordpress/updateBackground_'
+// import {
+// secureUpdateCategory,
+// GQLGetCachedPosts as getCategoryPosts,
+// } from '@src/db/mongo/wordpress/category'
+// import {
+//     GQLUpdateTag,
+//     GQLGetCachedPosts as getTagPosts,
+// } from '@src/db/mongo/wordpress/tag'
+// import getBackgrounds from '@src/db/mongo/wordpress/getBackgrounds_'
 import { createGQLOptions } from '@common/data/graphql/createExpressRouter'
 import { isEmpty } from '@common/utils/object'
 import {
     getSpectraFromNIST,
-    getSpectraBySchema,
+    // getSpectraBySchema,
 } from '@src/db/mongo/ether/spectra'
-import { mongoMigration } from '@src/constants/mongo-migration'
-import { migrateIndex } from '@common/data/mongo/mongo'
-import getArchivePosts from '@src/db/mongo/wordpress/getArchivePosts'
+// import migration from '@src/constants/mongo/migration'
+// import getSystemOption from '@src/db/mongo/admin/getSystemOption'
+// import setSystemOption from '@src/db/mongo/admin/setSystemOption'
 /* Constants */
-import {
-    GQLImageSize,
-    GQLImage,
-    GQLImages,
-    GQLPostMeta,
-    GQLPost,
-    GQLPrevNext,
-    GQLTerm,
-    GQLFlickrImage,
-    GQLTagCloud,
-    GQLResult,
-    GQLSpectrum,
-    queryBackground,
-    queryFlickr,
-    queryTagCloud,
-    queryRecent,
-    queryPrevNext,
-    queryRelatedPosts,
-    querySpectra,
-    queryMongoSpectra,
-    queryArchive,
-    mutateUpdateTerm,
-    mutateUpdatePost,
-    mutateUpdatePage,
-    mutateUpdateBackground,
-} from '@src/constants/graphql'
+import GQL from '@src/constants/graphql'
 import { IS_DEV, VERSION } from '@common/constants/helper'
 import { MINUTE_IN_SECONDS } from '@common/constants/datetime'
+import {
+    getCachedArchivePosts,
+    getCachedPrevNext,
+    getCachedRecentPosts,
+    getCachedRelatedPosts,
+} from '@src/db/mongo/wordpress/post'
+import { getTagCloud } from '@src/db/mongo/wordpress/tag'
+// import Logger from '@common/model/Logger'
+// import { compareVersions } from '@common/utils/system'
 
 const options = createGQLOptions(
-    GQLImageSize,
-    GQLImage,
-    GQLImages,
-    GQLPostMeta,
-    GQLPost,
-    GQLPrevNext,
-    GQLTerm,
-    GQLFlickrImage,
-    GQLTagCloud,
-    GQLResult,
-    GQLSpectrum,
-    queryBackground.setCallback(getBackgrounds),
-    queryFlickr.setCallback(getFlickr),
-    queryTagCloud.setCallback(getTagCloud),
-    queryRecent.setCallback(getRecentPosts),
-    queryPrevNext.setCallback(getPrevNext),
-    queryRelatedPosts.setCallback(getRelatedPosts),
-    querySpectra.setCallback(getSpectraFromNIST),
-    queryArchive.setCallback(getArchivePosts),
-    queryMongoSpectra.setCallback(getSpectraBySchema),
-    mutateUpdatePost.setCallback(updatePost),
-    mutateUpdatePage.setCallback(updatePage),
-    mutateUpdateBackground.setCallback(updateBackground),
-    mutateUpdateTerm.setCallback(updateTerm),
+    GQL.ImageSize,
+    GQL.Image,
+    GQL.Images,
+    GQL.PostMeta,
+    GQL.Post,
+    GQL.PrevNext,
+    GQL.Term,
+    GQL.FlickrImage,
+    GQL.TagCloud,
+    // GQL.Result,
+    GQL.Spectrum,
+
+    // GQL.queryBackground.setCallback(getBackgrounds),
+    GQL.queryFlickr.setCallback(getFlickr),
+    GQL.queryTagCloud.setCallback(getTagCloud),
+    GQL.queryRecent.setCallback(getCachedRecentPosts),
+    GQL.queryPrevNext.setCallback(getCachedPrevNext),
+    GQL.queryRelatedPosts.setCallback(getCachedRelatedPosts),
+    GQL.querySpectra.setCallback(getSpectraFromNIST),
+    GQL.queryArchivePosts.setCallback(getCachedArchivePosts),
+    // GQL.queryTagPosts.setCallback(getTagPosts),
+    // GQL.queryMongoSpectra.setCallback(getSpectraBySchema),
+    // GQL.mutateUpdatePost.setCallback(GQLUpdatePost),
+    // GQL.mutateUpdatePage.setCallback(secureUpdatePage),
+    // GQL.mutateUpdateBackground.setCallback(updateBackground),
+    // GQL.mutateUpdateCategory.setCallback(secureUpdateCategory),
+    // GQL.mutateUpdateTag.setCallback(GQLUpdateTag),
 )
 
 const server = new ApolloServer({
@@ -106,13 +102,6 @@ const server = new ApolloServer({
         IS_DEV
             ? ApolloServerPluginLandingPageLocalDefault({ footer: false })
             : ApolloServerPluginLandingPageDisabled(),
-        // Custom Apollo Server Plugins
-        {
-            async serverWillStart() {
-                // Migrate MongoDB indexes
-                await migrateIndex(VERSION, mongoMigration)
-            },
-        },
     ],
 })
 

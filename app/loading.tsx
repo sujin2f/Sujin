@@ -1,8 +1,8 @@
 import React from 'react'
 /* Components */
-import Banner from '@components/header/Banner'
-import Header from '@components/header'
-import Footer from '@components/footer'
+import Banner from '@app/components/header/Banner'
+import Header from '@app/components/header'
+import Footer from '@app/components/footer'
 /* Helpers */
 import { getPathName } from '@src/utils/server'
 import { getMenuNameFromPath } from '@src/utils/system'

@@ -5,11 +5,11 @@ import { Image } from '@common/components/containers/image'
 import { Table } from '@common/components/containers/Table'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
-import { Latex } from '@components/wordpress/single/Latex'
-import { PrevNext } from '@components/wordpress/single/PrevNext'
+import { Latex } from '@app/components/single/Latex'
+import { PrevNext } from '@app/components/single/PrevNext'
 import ScrollToTop from '@components/ScrollToTop'
 /* Types */
-import type { Post } from '@src/types/wordpress'
+import type { PostType } from '@src/types/wordpress'
 /* Assets */
 import pic29 from '@src/images/ether/pic29.png'
 import pic42 from '@src/images/ether/pic42.png'
@@ -680,11 +680,11 @@ export default function Analysis() {
                     {
                         title: '가설의 검증(2): 뤼드베리 방정식의 재정립',
                         link: '/ether/kor/document/rydberg-formula',
-                    } as Post,
+                    } as PostType,
                     {
                         title: '가설의 검증(4): 비교기준, Between',
                         link: '/ether/kor/document/between',
-                    } as Post,
+                    } as PostType,
                 ]}
             ></PrevNext>
         </div>

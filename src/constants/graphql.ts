@@ -1,3 +1,4 @@
+// @todo Remove unused exports
 /* Models */
 import { GQLMutation } from '@common/data/graphql/mutation'
 import { GQLQuery } from '@common/data/graphql/query'
@@ -9,47 +10,46 @@ import {
     GQLString,
     GQLType,
 } from '@common/data/graphql/type'
-import { TermTypes } from '@src/constants/wordpress'
 /* Types */
-import type { FlickrImage } from '@src/types/flickr'
+import type { FlickrImage as TypeFlickrImage } from '@src/types/flickr'
 import type {
-    ImageSize,
-    Image,
-    Term,
-    Post,
-    TagCloud,
+    ImageType,
+    ImageBlockType,
+    TermType,
+    PostType,
+    ArchiveType,
 } from '@src/types/wordpress'
 import type { ISpectrum } from '@src/types/ether'
 
 const list = true
 const required = true
 
-export const GQLImageSize = new GQLType<ImageSize>('ImageSize', {
+const ImageSize = new GQLType<ImageType>('ImageSize', {
     key: { type: GQLString },
     file: { type: GQLString },
 })
 
-export const GQLImage = new GQLType<Image>('Image', {
+const Image = new GQLType<ImageBlockType>('Image', {
     url: { type: GQLString },
     mimeType: { type: GQLString },
-    sizes: { type: GQLImageSize, list },
+    sizes: { type: ImageSize, list },
 })
 
-export const GQLImages = new GQLType('Images', {
+const Images = new GQLType('Images', {
     id: { type: GQLInt },
-    list: { type: GQLImage },
-    icon: { type: GQLImage },
-    title: { type: GQLImage },
-    background: { type: GQLImage },
-    thumbnail: { type: GQLImage },
+    list: { type: Image },
+    icon: { type: Image },
+    title: { type: Image },
+    background: { type: Image },
+    thumbnail: { type: Image },
 })
 
-export const GQLPostMeta = new GQLType('PostMeta', {
+const PostMeta = new GQLType('PostMeta', {
     useBackgroundColor: { type: GQLBoolean },
     backgroundColor: { type: GQLString },
 })
 
-export const GQLPost = new GQLType<Post>('Post', {
+const Post = new GQLType<PostType>('Post', {
     id: { type: GQLInt },
     slug: { type: GQLString },
     title: { type: GQLString },
@@ -57,63 +57,49 @@ export const GQLPost = new GQLType<Post>('Post', {
     content: { type: GQLString },
     date: { type: GQLFloat },
     link: { type: GQLString },
-    parent: { type: GQLInt },
-    type: { type: GQLString },
-    menuOrder: { type: GQLInt },
-    images: { type: GQLImages },
-    meta: { type: GQLPostMeta },
+    images: { type: Images },
+    meta: { type: PostMeta },
 })
 
-export const GQLPrevNext = new GQLType('PrevNext', {
-    prev: { type: GQLPost },
-    next: { type: GQLPost },
+const PrevNext = new GQLType('PrevNext', {
+    prev: { type: Post },
+    next: { type: Post },
 })
 
-export const GQLTerm = new GQLType<Term>('Term', {
+const Term = new GQLType<TermType>('Term', {
     id: { type: GQLInt },
     title: { type: GQLString },
     slug: { type: GQLString },
     type: { type: GQLString },
-    total: { type: GQLInt },
-    limit: { type: GQLInt },
-    pages: { type: GQLInt },
-    excerpt: { type: GQLString },
-    image: { type: GQLImage },
-    posts: { type: GQLPost, list },
-    page: { type: GQLInt },
 })
 
-GQLPost.addField('prevNext', { type: GQLPrevNext })
-GQLPost.addField('tags', { type: GQLTerm, list })
-GQLPost.addField('categories', { type: GQLTerm, list })
-GQLPost.addField('series', { type: GQLTerm, list })
-GQLPost.addField('related', { type: GQLPost, list })
+Post.addField('terms', { type: Term, list })
 
-export const GQLFlickrImage = new GQLType<FlickrImage>('FlickrImage', {
+const FlickrImage = new GQLType<TypeFlickrImage>('FlickrImage', {
     title: { type: GQLString },
     link: { type: GQLString },
     media: { type: GQLString },
 })
 
-export const GQLTagCloud = new GQLType<TagCloud>('TagCloud', {
+const TagCloud = new GQLType<ArchiveType>('TagCloud', {
     id: { type: GQLInt },
     title: { type: GQLString },
     slug: { type: GQLString },
-    count: { type: GQLInt },
-    hit: { type: GQLInt },
+    total: { type: GQLInt },
+    hits: { type: GQLInt },
 })
 
-export const queryBackground = new GQLQuery<[], Image[]>(
+const queryBackground = new GQLQuery<[], ImageBlockType[]>(
     'background',
     {},
     {
-        type: GQLImage,
+        type: Image,
         list,
     },
 )
 
-export const queryArchive = new GQLQuery<[TermTypes, string, number], Post[]>(
-    'archive',
+const queryArchivePosts = new GQLQuery<[string, string, number], PostType[]>(
+    'archivePosts',
     {
         type: {
             type: GQLString,
@@ -128,72 +114,60 @@ export const queryArchive = new GQLQuery<[TermTypes, string, number], Post[]>(
         },
     },
     {
-        type: GQLPost,
+        type: Post,
         list,
     },
 )
 
-export const queryFlickr = new GQLQuery<[], FlickrImage[]>(
+const queryFlickr = new GQLQuery<[], TypeFlickrImage[]>(
     'flickr',
     {},
     {
-        type: GQLFlickrImage,
+        type: FlickrImage,
         list,
     },
 )
 
-export const queryTagCloud = new GQLQuery<[], TagCloud[]>(
+const queryTagCloud = new GQLQuery<[], ArchiveType[]>(
     'tagCloud',
     {},
     {
-        type: GQLTagCloud,
+        type: TagCloud,
         list,
     },
 )
 
-export const queryRecent = new GQLQuery<[], Post[]>(
+const queryRecent = new GQLQuery<[], PostType[]>(
     'recent',
     {},
     {
-        type: GQLPost,
+        type: Post,
         list,
     },
 )
 
-export const queryPrevNext = new GQLQuery<[number, number, string], Post[]>(
+const queryPrevNext = new GQLQuery<[string], PostType[]>(
     'prevNext',
     {
-        id: {
-            type: GQLInt,
-        },
-        date: {
-            type: GQLInt,
-        },
-        categories: {
+        slug: {
             type: GQLString,
         },
     },
     {
-        type: GQLPost,
+        type: Post,
         list,
     },
 )
 
-export const queryRelatedPosts = new GQLQuery<[number, string, string], Post[]>(
+const queryRelatedPosts = new GQLQuery<[string], PostType[]>(
     'relatedPosts',
     {
-        id: {
-            type: GQLInt,
-        },
-        categories: {
-            type: GQLString,
-        },
-        tags: {
+        slug: {
             type: GQLString,
         },
     },
     {
-        type: GQLPost,
+        type: Post,
         list,
     },
 )
@@ -202,14 +176,11 @@ export type MutationResultType = {
     result: boolean
 }
 
-export const GQLResult = new GQLType<boolean>('Result', {
+const Result = new GQLType<boolean>('Result', {
     result: { type: GQLBoolean },
 })
 
-export const mutateUpdatePost = new GQLMutation<
-    [string, string, string, string],
-    MutationResultType
->(
+const mutateUpdatePost = new GQLMutation<[string, string], MutationResultType>(
     'updatePost',
     {
         nonce: {
@@ -220,22 +191,11 @@ export const mutateUpdatePost = new GQLMutation<
             type: GQLString,
             required,
         },
-        categories: {
-            type: GQLString,
-            required,
-        },
-        tags: {
-            type: GQLString,
-            required,
-        },
     },
-    { type: GQLResult },
+    { type: Result },
 )
 
-export const mutateUpdatePage = new GQLMutation<
-    [string, string],
-    MutationResultType
->(
+const mutateUpdatePage = new GQLMutation<[string, string], MutationResultType>(
     'updatePage',
     {
         nonce: {
@@ -247,10 +207,10 @@ export const mutateUpdatePage = new GQLMutation<
             required,
         },
     },
-    { type: GQLResult },
+    { type: Result },
 )
 
-export const mutateUpdateBackground = new GQLMutation<
+const mutateUpdateBackground = new GQLMutation<
     [string, number],
     MutationResultType
 >(
@@ -265,49 +225,60 @@ export const mutateUpdateBackground = new GQLMutation<
             required,
         },
     },
-    { type: GQLResult },
+    { type: Result },
 )
 
-export const mutateUpdateTerm = new GQLMutation<
-    [string, number],
+const mutateUpdateCategory = new GQLMutation<
+    [string, string],
     MutationResultType
 >(
-    'updateTerm',
+    'updateCategory',
     {
         nonce: {
             type: GQLString,
             required,
         },
-        termId: {
-            type: GQLInt,
+        slug: {
+            type: GQLString,
             required,
         },
     },
-    { type: GQLResult },
+    { type: Result },
 )
 
-export const imageOpr = 'url mimeType sizes { key file }'
+const mutateUpdateTag = new GQLMutation<[string, string], MutationResultType>(
+    'updateTag',
+    {
+        nonce: {
+            type: GQLString,
+            required,
+        },
+        slug: {
+            type: GQLString,
+            required,
+        },
+    },
+    { type: Result },
+)
+
+const imageOpr = 'url mimeType sizes { key file }'
 const imagesOpr = `id list { ${imageOpr} } icon { ${imageOpr} } title { ${imageOpr} } background { ${imageOpr} } thumbnail { ${imageOpr} }`
-export const menuItemOpr = 'id title target link htmlClass'
+const menuItemOpr = 'id title target link htmlClass'
 const commonOpr = 'id slug title'
-const taxOpr = `${commonOpr} page type`
-export const miniPostOpr = `${commonOpr} link images { ${imagesOpr} }`
-export const menuOpr = `${menuItemOpr} children { ${menuItemOpr} }`
-export const postOpr = `${miniPostOpr} date excerpt content parent type
-    tags { ${taxOpr} }
-    categories { ${taxOpr} }
-    series { ${taxOpr} }
-    meta { useBackgroundColor backgroundColor }
-    prevNext { prev { ${commonOpr} link } next { ${commonOpr} link } }
-    related { ${miniPostOpr} date }`
-export const tagCloudOpr = 'id title slug count hit'
-export const flickrOpr = 'title link media'
-export const archiveOpr = `${commonOpr} excerpt total limit pages page type image { ${imageOpr} } posts { ${miniPostOpr} date excerpt tags { ${commonOpr} page type } }`
+const taxOpr = `${commonOpr} type`
+const miniPostOpr = `${commonOpr} link images { ${imagesOpr} }`
+const menuOpr = `${menuItemOpr} children { ${menuItemOpr} }`
+const postOpr = `${miniPostOpr} date excerpt content
+    terms { ${taxOpr} }
+    meta { useBackgroundColor backgroundColor }`
+const tagCloudOpr = 'id title slug total hits'
+const flickrOpr = 'title link media'
+const archiveOpr = `${commonOpr} excerpt total limit pages page type image { ${imageOpr} } posts { ${miniPostOpr} date excerpt tags { ${commonOpr} page type } }`
 
 /**
  * Ether
  */
-export const GQLSpectrum = new GQLType<ISpectrum>('Spectrum', {
+const Spectrum = new GQLType<ISpectrum>('Spectrum', {
     number: { type: GQLInt },
     ion: { type: GQLInt },
     energy: { type: GQLFloat },
@@ -324,7 +295,7 @@ export const GQLSpectrum = new GQLType<ISpectrum>('Spectrum', {
     orbital: { type: GQLString },
 })
 
-export const querySpectra = new GQLQuery<[number, number], ISpectrum[]>(
+const querySpectra = new GQLQuery<[number, number], ISpectrum[]>(
     'spectra',
     {
         number: {
@@ -337,12 +308,12 @@ export const querySpectra = new GQLQuery<[number, number], ISpectrum[]>(
         },
     },
     {
-        type: GQLSpectrum,
+        type: Spectrum,
         list,
     },
 )
 
-export const queryMongoSpectra = new GQLQuery<[string], ISpectrum[]>(
+const queryMongoSpectra = new GQLQuery<[string], ISpectrum[]>(
     'spectra_by_mongo',
     {
         schema: {
@@ -351,9 +322,51 @@ export const queryMongoSpectra = new GQLQuery<[string], ISpectrum[]>(
         },
     },
     {
-        type: GQLSpectrum,
+        type: Spectrum,
         list,
     },
 )
 
-export const spectraOpr = `number ion energy spin l parity j base conf eConf ionReverse position term orbital`
+const spectraOpr = `number ion energy spin l parity j base conf eConf ionReverse position term orbital`
+
+const defaults = {
+    ImageSize,
+    Image,
+    Images,
+    PostMeta,
+    Post,
+    PrevNext,
+    Term,
+    FlickrImage,
+    TagCloud,
+    Spectrum,
+    Result,
+
+    queryFlickr,
+    queryTagCloud,
+    queryRecent,
+    queryPrevNext,
+    queryRelatedPosts,
+    queryBackground,
+    queryArchivePosts,
+    querySpectra,
+    queryMongoSpectra,
+
+    mutateUpdatePost,
+    mutateUpdatePage,
+    mutateUpdateBackground,
+    mutateUpdateCategory,
+    mutateUpdateTag,
+
+    imageOpr,
+    menuItemOpr,
+    miniPostOpr,
+    menuOpr,
+    postOpr,
+    tagCloudOpr,
+    flickrOpr,
+    archiveOpr,
+    spectraOpr,
+}
+
+export default defaults

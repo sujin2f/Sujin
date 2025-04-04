@@ -2,13 +2,13 @@ import React, { type PropsWithChildren } from 'react'
 import { notFound } from 'next/navigation'
 import { getServerSession } from 'next-auth'
 /* Components */
-import Header from '@components/header'
+import Header from '@app/components/header'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 import { Menu } from '@common/components/layout/Menu'
-/* Utils */
+/* Constants */
 import authOptions from '@app/api/auth/[...nextauth]/authOptions'
-
+/* Assets */
 import '@src/scss/admin.scss'
 
 /**
@@ -23,6 +23,7 @@ export default async function AppLayout({ children }: PropsWithChildren) {
     if (session.user?.email !== process.env.ADMIN_EMAIL) {
         notFound()
     }
+
     return (
         <>
             <Header />
@@ -32,16 +33,16 @@ export default async function AppLayout({ children }: PropsWithChildren) {
                         <Menu
                             items={[
                                 {
-                                    title: 'Post',
-                                    link: '/admin/post/1',
+                                    title: 'Pages',
+                                    link: '/admin/pages/1',
                                 },
                                 {
-                                    title: 'Page',
-                                    link: '/admin/page/1',
+                                    title: 'Categories',
+                                    link: '/admin/categories/1',
                                 },
                                 {
-                                    title: 'Term',
-                                    link: '/admin/term/1',
+                                    title: 'Tags',
+                                    link: '/admin/tags/1',
                                 },
                                 {
                                     title: 'Backgrounds',
@@ -50,6 +51,14 @@ export default async function AppLayout({ children }: PropsWithChildren) {
                                 {
                                     title: 'Index',
                                     link: '/admin/index',
+                                },
+                                {
+                                    title: 'Schema',
+                                    link: '/admin/schema',
+                                },
+                                {
+                                    title: 'Collections',
+                                    link: '/admin/collections',
                                 },
                                 {
                                     title: 'Cache',

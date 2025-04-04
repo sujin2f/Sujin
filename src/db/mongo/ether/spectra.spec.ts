@@ -16,8 +16,8 @@ describe('spectra.spec.ts', () => {
 
     afterAll(async () => {
         jest.clearAllMocks()
-        await clearMongo('spectra').then((client) => {
-            client.close()
+        await clearMongo('spectra').then(async (client) => {
+            await client.close()
         })
     })
 

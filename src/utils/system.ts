@@ -6,7 +6,9 @@ import {
 } from '@src/constants/menu'
 import { MenuNames } from '@src/constants/mysql-query'
 import type { Nullable } from '@common/types'
-import type { MenuItem } from '@src/types/wordpress'
+import { ARCHIVE, type MenuItem } from '@src/types/wordpress'
+import { COLLECTION } from '@src/constants/mongo'
+import { VERSION } from '@common/constants/helper'
 
 export const getMenuNameFromPath = (path: Nullable<string>) => {
     if (!path) {
@@ -35,4 +37,33 @@ export const getMenu = (menu: MenuNames): MenuItem[] => {
         default:
             return MenuDefault
     }
+}
+
+/**
+ *
+ * @param {COLLECTION} collection
+ * @param {string} slug
+ * @returns {string}
+ */
+export const getCacheKey = (
+    collection: COLLECTION | ARCHIVE,
+    ...suffixes: (string | number)[]
+): string => {
+    const suffix = suffixes?.join('-')
+
+    switch (collection) {
+        case COLLECTION.POST:
+            return `${VERSION}-post-${suffix}`
+        case COLLECTION.PAGE:
+            return `${VERSION}-page-${suffix}`
+        case ARCHIVE.CATEGORY:
+        case COLLECTION.CATEGORY:
+            return `${VERSION}-category-${suffix}`
+        case ARCHIVE.TAG:
+        case COLLECTION.TAG:
+            return `${VERSION}-tag-${suffix}`
+        case COLLECTION.BACKGROUNDS:
+            return `${VERSION}-backgrounds`
+    }
+    return ''
 }

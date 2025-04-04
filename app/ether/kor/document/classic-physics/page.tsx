@@ -4,10 +4,10 @@ import { InlineMath } from 'react-katex'
 import { Image } from '@common/components/containers/image'
 import ScrollToTop from '@components/ScrollToTop'
 import { Table } from '@common/components/containers/Table'
-import { Latex } from '@components/wordpress/single/Latex'
-import { PrevNext } from '@components/wordpress/single/PrevNext'
+import { Latex } from '@app/components/single/Latex'
+import { PrevNext } from '@app/components/single/PrevNext'
 /* Types */
-import type { Post } from '@src/types/wordpress'
+import type { PostType } from '@src/types/wordpress'
 /* Assets */
 import pic5 from '@src/images/ether/pic5_eng.png'
 import 'katex/dist/katex.min.css'
@@ -391,11 +391,11 @@ export default function ClassicPhysics() {
                     {
                         title: '가설 제시',
                         link: '/ether/kor/document/hypothesis',
-                    } as Post,
+                    } as PostType,
                     {
                         title: '가설의 검증(2): 뤼드베리 방정식의 재정립',
                         link: '/ether/kor/document/rydberg-formula',
-                    } as Post,
+                    } as PostType,
                 ]}
             ></PrevNext>
         </div>

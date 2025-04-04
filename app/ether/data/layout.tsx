@@ -1,7 +1,7 @@
 import { type PropsWithChildren } from 'react'
 import type { Metadata } from 'next/types'
 /* Components */
-import Header from '@components/header'
+import Header from '@app/components/header'
 /* Constants */
 import { METADATA } from '@src/constants/system'
 import { MenuNames } from '@src/constants/mysql-query'

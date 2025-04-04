@@ -1,12 +1,5 @@
-import Cached from '@common/model/Cached'
-import CacheTable from '@components/admin/CacheTable'
+import Cache from '@app/admin/cache/Cache'
 
-export default async function Cache() {
-    const caches = await Cached.getInstance().list()
-    const removeCache = async (key: string) => {
-        'use server'
-        Cached.getInstance().flush(key)
-    }
-
-    return <CacheTable caches={caches} removeCache={removeCache} />
+export default async function Page() {
+    return <Cache />
 }

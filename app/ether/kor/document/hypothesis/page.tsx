@@ -1,10 +1,10 @@
 import Link from 'next/link'
 /* Components */
 import { Image } from '@common/components/containers/image'
-import { PrevNext } from '@components/wordpress/single/PrevNext'
+import { PrevNext } from '@app/components/single/PrevNext'
 import ScrollToTop from '@components/ScrollToTop'
 /* Types */
-import type { Post } from '@src/types/wordpress'
+import type { PostType } from '@src/types/wordpress'
 /* Assets */
 import pic1 from '@src/images/ether/pic1_eng.png'
 import pic2 from '@src/images/ether/pic2_eng.png'
@@ -245,11 +245,11 @@ export default function Hypothesis() {
                     {
                         title: '첫 페이지',
                         link: '/ether/kor',
-                    } as Post,
+                    } as PostType,
                     {
                         title: '가설의 검증(1): 고전 물리학',
                         link: '/ether/kor/document/classic-physics',
-                    } as Post,
+                    } as PostType,
                 ]}
             ></PrevNext>
         </div>

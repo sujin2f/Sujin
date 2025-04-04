@@ -12,6 +12,7 @@ import { getAtom } from '@src/utils/ether'
 /* Constants */
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV } from '@common/constants/helper'
+import { COLLECTION } from '@src/constants/mongo'
 
 /**
  * Requests spectra data
@@ -25,7 +26,7 @@ const request = async (
     ion: number,
 ): Promise<WithId<ISpectrum>[]> => {
     const number = atom.number
-    const spectra = await Mongo.findMany<ISpectrum>('spectra', {
+    const spectra = await Mongo.findMany<ISpectrum>(COLLECTION.SPECTRA, {
         number,
         ion,
     })
@@ -38,7 +39,7 @@ const request = async (
         return []
     }
     await insertManyFromCSV(atom.number, ion, csv)
-    return await Mongo.findMany<ISpectrum>('spectra', { number, ion })
+    return await Mongo.findMany<ISpectrum>(COLLECTION.SPECTRA, { number, ion })
 }
 
 export const getSpectraFromNIST = async (number: number, ion: number) => {
@@ -57,7 +58,7 @@ export const getSpectraBySchema = async (schema: string) => {
     const value = JSON.parse(decodeURIComponent(schema))
     return await Cached.getInstance().getOrExecute(
         key,
-        async () => await Mongo.findMany<ISpectrum>('spectra', value),
+        async () => await Mongo.findMany<ISpectrum>(COLLECTION.SPECTRA, value),
         WEEK_IN_SECONDS,
         IS_DEV,
     )
@@ -67,7 +68,8 @@ export const findSpectra = async (spectrum: Partial<ISpectrum>) => {
     const key = `spectra-${JSON.stringify(spectrum)}`
     return await Cached.getInstance().getOrExecute(
         key,
-        async () => await Mongo.findMany<ISpectrum>('spectra', spectrum),
+        async () =>
+            await Mongo.findMany<ISpectrum>(COLLECTION.SPECTRA, spectrum),
         WEEK_IN_SECONDS,
         IS_DEV,
     )
@@ -81,7 +83,7 @@ export const findSpectra = async (spectrum: Partial<ISpectrum>) => {
  */
 export const insertOne = async (rawData: Partial<ISpectrum>): Promise<void> => {
     // Prevent duplication
-    await Mongo.findOne('spectra', { ...rawData }).catch(
-        async () => await Mongo.insertOne('spectra', rawData),
+    await Mongo.findOne(COLLECTION.SPECTRA, { ...rawData }).catch(
+        async () => await Mongo.insertOne(COLLECTION.SPECTRA, rawData),
     )
 }

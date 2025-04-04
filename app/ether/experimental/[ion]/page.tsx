@@ -11,7 +11,7 @@ import type { Nullable } from '@common/types'
 import type { ISpectrum } from '@src/types/ether'
 /* Utils */
 import { fetchGQL } from '@common/data/graphql/fetchGQL'
-import { queryMongoSpectra, spectraOpr } from '@src/constants/graphql'
+import GQL from '@src/constants/graphql'
 /* Models */
 import { DataContainer } from '@src/models/DataContainer'
 
@@ -20,8 +20,8 @@ export default function DataPage() {
 
     useEffect(() => {
         fetchGQL(
-            queryMongoSpectra,
-            spectraOpr,
+            GQL.queryMongoSpectra,
+            GQL.spectraOpr,
             0,
             encodeURIComponent(JSON.stringify({ ionReverse: 1, orbital: 's' })),
         )

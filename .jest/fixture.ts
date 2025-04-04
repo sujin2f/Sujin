@@ -1,9 +1,16 @@
-export const post = {
+import {
+    ARCHIVE,
+    POST_STATUS,
+    type TermType,
+    type PageType,
+} from '@src/types/wordpress'
+
+export const post: PageType = {
     id: 2,
     slug: 'sample-page',
     title: 'Sample Page',
     excerpt: '',
-    date: '2022-11-23T12:34:52.000Z',
+    date: new Date() as unknown as number,
     content:
         '<!-- wp:paragraph -->\n' +
         "<p>This is an example page. It's different from a blog post because it will stay in one place and will show up in your site navigation (in most themes). Most people start with an About page that introduces them to potential site visitors. It might say something like this:</p>\n" +
@@ -24,20 +31,19 @@ export const post = {
         '<!-- wp:paragraph -->\n' +
         '<p>As a new WordPress user, you should go to <a href="http://localhost:8000/wp-admin/">your dashboard</a> to delete this page and create new pages for your content. Have fun!</p>\n' +
         '<!-- /wp:paragraph -->',
-    parent: 0,
-    type: 'post',
-    menuOrder: 0,
-    status: 'publish',
-    link: 'http://localhost:8000/?page_id=2',
-    mimeType: '',
+    status: POST_STATUS.PUBLISH,
+    link: '/blog/sample-page',
+    images: {},
+    meta: {
+        useBackgroundColor: false,
+        backgroundColor: '',
+    },
 }
-export const term = {
+export const term: TermType = {
     id: 1,
     title: 'Uncategorized',
     slug: 'uncategorized',
-    type: 'category',
-    excerpt: '',
-    total: 1,
+    type: ARCHIVE.CATEGORY,
 }
 export const tagCloud = {
     id: 4,

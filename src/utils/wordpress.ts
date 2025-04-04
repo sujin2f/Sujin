@@ -1,7 +1,13 @@
 import { DEFAULT_THUMBNAIL } from '@src/constants/system'
-import type { Post, ImageSizes } from '@src/types/wordpress'
+import {
+    imageSizeMap,
+    IMAGE_POSITION,
+    type ImageType,
+    type PostType,
+    type PageType,
+    ImageBlockType,
+} from '@src/types/wordpress'
 import { unserialize as phpUnserialize } from 'php-unserialize' // TODO Do not use module
-import { imageSizeMap, ImageType } from '@src/constants/wordpress'
 
 /**
  * The regular expression for an HTML element.
@@ -356,14 +362,46 @@ export const unserialize = <
     return unserialized as T
 }
 
-export const getThumbnailFromPost = (post: Post) =>
+export const getThumbnailFromPost = (post: PostType | PageType) =>
     post.images.thumbnail?.url || post.images.list?.url || DEFAULT_THUMBNAIL
 
-export const getImageMap = (type: ImageType, sizes: ImageSizes): ImageSizes => {
+export const getImageMap = (
+    type: IMAGE_POSITION,
+    sizes: ImageType[],
+): ImageType[] => {
     return sizes
         .filter((size) => Object.keys(imageSizeMap[type]).includes(size.key))
         .map((size) => ({
             key: (imageSizeMap[type] as Record<string, string>)[size.key],
             file: size.file,
         }))
+}
+
+const replaceURL = (url: string) => {
+    let pathname: string
+    try {
+        pathname = new URL(url).pathname
+    } catch {
+        pathname = url
+    }
+    if (pathname.startsWith('/')) {
+        pathname = pathname.slice(1)
+    }
+    if (!pathname.startsWith('wp-content/uploads')) {
+        pathname = `wp-content/uploads/${pathname}`
+    }
+    return `/${pathname}`
+}
+
+export const convertImageBlockURL = (imageBlock: ImageBlockType) => {
+    return {
+        ...imageBlock,
+        sizes: imageBlock.sizes.map((size) => {
+            return {
+                ...size,
+                file: replaceURL(size.file),
+            }
+        }),
+        url: replaceURL(imageBlock.url),
+    }
 }
