@@ -378,6 +378,9 @@ export const getImageMap = (
 }
 
 const replaceURL = (url: string) => {
+    if (!url) {
+        return ''
+    }
     let pathname: string
     try {
         pathname = new URL(url).pathname
