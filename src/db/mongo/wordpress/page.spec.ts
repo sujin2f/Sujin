@@ -14,6 +14,7 @@ import { COLLECTION } from '@src/constants/mongo'
 import migration from '@src/constants/mongo/migration'
 import setSystemOption from '@src/db/mongo/admin/setSystemOption'
 import { PER_PAGE } from '@src/constants/mysql-query'
+import Cached from '@common/model/Cached'
 
 const mockQuery = jest.fn()
 jest.mock('promise-mysql', () => ({
@@ -30,6 +31,7 @@ describe('page.spec.ts', () => {
     })
 
     afterEach(async () => {
+        Cached.getInstance().flush()
         await clearMongo(COLLECTION.PAGE)
     })
 

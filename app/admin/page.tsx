@@ -43,9 +43,16 @@ export default async function Admin() {
 
     return (
         <>
-            <h2>
-                DB|Code Version: {current} | {VERSION}
-            </h2>
+            <h2>Admin</h2>
+            <dl>
+                <dt>DB | Code Version</dt>
+                <dd>
+                    {current} | {VERSION}
+                </dd>
+
+                <dt>Mongo Database</dt>
+                <dd>{MONGO_DATABASE}</dd>
+            </dl>
 
             {compareVersions(VERSION, current) === 1 && (
                 <Button onClick={migrate}>Migrate MongoDB</Button>

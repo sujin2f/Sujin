@@ -33,6 +33,10 @@ export default async function AppLayout({ children }: PropsWithChildren) {
                         <Menu
                             items={[
                                 {
+                                    title: 'Home',
+                                    link: '/admin',
+                                },
+                                {
                                     title: 'Pages',
                                     link: '/admin/pages/1',
                                 },

@@ -4,7 +4,7 @@ import { COLLECTION } from '@src/constants/mongo'
 import SCHEMA from '@src/constants/mongo/schema'
 
 const migration: Migration = {
-    '10.2.2': async (client) => {
+    '10.2.4': async (client) => {
         const database = client.db(MONGO_DATABASE)
         // Drop all collections
         await database.collections().then(async (collections) => {

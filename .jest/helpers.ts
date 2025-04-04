@@ -9,7 +9,7 @@ import type {
     PageType,
     PostType,
 } from '../src/types/wordpress'
-import { post } from './fixture'
+import { page, post } from './fixture'
 
 export const clearMongo = async (...collections: string[]) =>
     await client.then(async (client) => {
@@ -85,7 +85,7 @@ export const postFactory = async (input: Partial<PostType> = {}) => {
 export const pageFactory = async (input: Partial<PageType> = {}) => {
     const id = getRandomInt(10000)
     const document = {
-        ...post,
+        ...page,
         id,
         title: `Page ${id}`,
         slug: `page-${id}`,

@@ -42,6 +42,7 @@ import {
     getCachedPrevNext,
     getCachedRecentPosts,
     getCachedRelatedPosts,
+    mutatePost,
 } from '@src/db/mongo/wordpress/post'
 import { getTagCloud } from '@src/db/mongo/wordpress/tag'
 // import Logger from '@common/model/Logger'
@@ -57,7 +58,7 @@ const options = createGQLOptions(
     GQL.Term,
     GQL.FlickrImage,
     GQL.TagCloud,
-    // GQL.Result,
+    GQL.Result,
     GQL.Spectrum,
 
     // GQL.queryBackground.setCallback(getBackgrounds),
@@ -70,7 +71,7 @@ const options = createGQLOptions(
     GQL.queryArchivePosts.setCallback(getCachedArchivePosts),
     // GQL.queryTagPosts.setCallback(getTagPosts),
     // GQL.queryMongoSpectra.setCallback(getSpectraBySchema),
-    // GQL.mutateUpdatePost.setCallback(GQLUpdatePost),
+    GQL.mutateUpdatePost.setCallback(mutatePost),
     // GQL.mutateUpdatePage.setCallback(secureUpdatePage),
     // GQL.mutateUpdateBackground.setCallback(updateBackground),
     // GQL.mutateUpdateCategory.setCallback(secureUpdateCategory),

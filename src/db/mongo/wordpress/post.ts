@@ -3,7 +3,7 @@ import type { Filter, WithId } from 'mongodb'
 import Mongo from '@common/data/mongo/mongo'
 import Cached from '@common/model/Cached'
 /* Utils */
-import { getPostsBy } from '@src/db/mysql/post'
+import { getPostBy, getPostsBy } from '@src/db/mysql/post'
 import { getCachedTag, updateTagTotal } from '@src/db/mongo/wordpress/tag'
 import { convertImageBlockURL } from '@src/utils/wordpress'
 import { getCacheKey } from '@src/utils/system'
@@ -24,6 +24,9 @@ import { COLLECTION } from '@src/constants/mongo'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV } from '@common/constants/helper'
 import { PER_PAGE } from '@src/constants/mysql-query'
+import { MutationResultType } from '@src/constants/graphql'
+import { getOption, removeOption } from '@src/db/mysql/option'
+import Logger from '@common/model/Logger'
 
 const format = (
     page: WithId<PostType> | PostType | MySQLPostType,
@@ -38,8 +41,56 @@ const format = (
     meta: page.meta,
     status: page.status,
     link: page.link,
-    terms: page.terms,
+    terms: page.terms.filter(
+        (term) => term.type === 'category' || term.type === 'tag',
+    ),
 })
+
+const updateMySQLPost = async (
+    item: MySQLPostType,
+): Promise<[PostType, string[], string[]]> => {
+    const post = format({ ...item, link: `/blog/${item.slug}` })
+    Object.keys(post.images).forEach((key) => {
+        post.images[key] = convertImageBlockURL(post.images[key])
+    })
+
+    const tags: string[] = []
+    const categories: string[] = []
+
+    const result = await Mongo.findOne<PostType>(COLLECTION.POST, {
+        slug: post.slug,
+    })
+        .then(async () => {
+            await Mongo.replaceOne(
+                COLLECTION.POST,
+                { slug: post.slug },
+                post,
+            ).catch((e) => {
+                Logger.server(`Failed to update post ${post.slug}`)
+                console.log(post)
+                throw e
+            })
+            return post
+        })
+        .catch(async () => {
+            await Mongo.insertOne(COLLECTION.POST, post).catch((e) => {
+                Logger.server(`Failed to insert post ${post.slug}`)
+                console.log(post)
+                throw e
+            })
+            post.terms.map((term: TermType) => {
+                if (term.type === 'tag') {
+                    tags.push(term.slug)
+                }
+                if (term.type === 'category') {
+                    categories.push(term.slug)
+                }
+            })
+            return post
+        })
+
+    return [result, categories, tags]
+}
 
 export const getMySQLArchivePosts = async (
     type: ARCHIVE,
@@ -48,45 +99,23 @@ export const getMySQLArchivePosts = async (
 ) => {
     Cached.getInstance().flush(getCacheKey(type, slug))
     const posts: PostType[] = []
-    const tags = new Set<string>()
-    const categories = new Set<string>()
+    const tags: string[] = []
+    const categories: string[] = []
+
     await getPostsBy(type, 'post', slug, page).then(async (result) => {
         for (const item of result) {
-            const post = format({ ...item, link: `/blog/${item.slug}` })
-            Object.keys(post.images).forEach((key) => {
-                post.images[key] = convertImageBlockURL(post.images[key])
-            })
-
-            await Mongo.findOne<PostType>(COLLECTION.POST, {
-                slug: post.slug,
-            })
-                .then(async () => {
-                    await Mongo.replaceOne(
-                        COLLECTION.POST,
-                        { slug: post.slug },
-                        post,
-                    )
-                    posts.push(post)
-                })
-                .catch(async () => {
-                    await Mongo.insertOne(COLLECTION.POST, post)
-                    posts.push(post)
-                    post.terms.map((term: TermType) => {
-                        if (term.type === 'tag') {
-                            tags.add(term.slug)
-                        }
-                        if (term.type === 'category') {
-                            categories.add(term.slug)
-                        }
-                    })
-                })
+            const [post, c, t] = await updateMySQLPost(item)
+            posts.push(post)
+            tags.push(...c)
+            categories.push(...t)
         }
     })
-    for (const item of tags) {
+
+    for (const item of Array.from(new Set(tags))) {
         await getCachedTag(item, true)
         await updateTagTotal(item)
     }
-    for (const item of categories) {
+    for (const item of Array.from(new Set(categories))) {
         await getCachedCategory(item, true)
         await updateCategoryTotal(item)
     }
@@ -329,3 +358,37 @@ export const getCachedRelatedPosts = async (
         WEEK_IN_SECONDS,
         IS_DEV,
     )
+
+export const mutatePost = async (
+    nonce: string,
+    slug: string,
+): Promise<MutationResultType> => {
+    const nonceKey = `update_post_${nonce}`
+    const nonceValue = await getOption(nonceKey)
+    await removeOption(nonceKey)
+
+    if (nonceValue !== `${nonce}-${slug}`) {
+        Logger.server('Invalid nonce')
+        throw new Error('Invalid nonce')
+    }
+
+    await getPostBy('slug', slug, 'post', true).then(async (result) => {
+        const [, cats, tags] = await updateMySQLPost(result)
+
+        for (const item of tags) {
+            await getCachedTag(item, true)
+            await updateTagTotal(item)
+        }
+        for (const item of cats) {
+            await getCachedCategory(item, true)
+            await updateCategoryTotal(item)
+        }
+    })
+
+    Cached.getInstance().flush(getCacheKey(COLLECTION.POST, slug))
+    Logger.server(`Post ${slug} updated.`)
+
+    return {
+        result: true,
+    }
+}

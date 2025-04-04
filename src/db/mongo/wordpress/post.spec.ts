@@ -9,16 +9,19 @@ import {
     tagFactory,
     postFactory,
 } from '../../../../.jest/helpers'
+import { post } from '../../../../.jest/fixture'
 import {
     getCachedPost,
     getCachedArchivePosts,
     getCachedPrevNext,
     getCachedRecentPosts,
     getCachedRelatedPosts,
+    getMySQLArchivePosts,
 } from './post'
 import Mongo from '@common/data/mongo/mongo'
 import { COLLECTION } from '@src/constants/mongo'
 import { ARCHIVE, POST_STATUS } from '@src/types/wordpress'
+import Cached from '@common/model/Cached'
 
 const mockQuery = jest.fn()
 jest.mock('promise-mysql', () => ({
@@ -35,6 +38,7 @@ describe('post.spec.ts', () => {
     })
 
     afterEach(async () => {
+        Cached.getInstance().flush()
         await clearMongo(COLLECTION.POST, COLLECTION.CATEGORY, COLLECTION.TAG)
     })
 
@@ -175,7 +179,7 @@ describe('post.spec.ts', () => {
         expect(result.length).toEqual(5)
     })
 
-    test.only('getCachedRelatedPosts()', async () => {
+    test('getCachedRelatedPosts()', async () => {
         const category = await categoryFactory()
         await postFactory({
             slug: 'test-post-1',
@@ -248,5 +252,40 @@ describe('post.spec.ts', () => {
             'test-post-4',
             'test-post-1',
         ])
+    })
+
+    test('getMySQLArchivePosts()', async () => {
+        mockQuery.mockImplementation((arg: string) => {
+            if (
+                arg.includes(
+                    'WHERE terms.slug="test-post" AND posts.post_status="publish"',
+                )
+            ) {
+                return Promise.resolve([
+                    {
+                        ...post,
+                    },
+                ])
+            }
+
+            if (arg.includes('taxonomy.taxonomy AS type')) {
+                return Promise.resolve([
+                    {
+                        id: 5845,
+                        title: '김조광수 생각',
+                        slug: '%ea%b9%80%ec%a1%b0%ea%b4%91%ec%88%98-%ec%83%9d%ea%b0%81',
+                        type: 'series',
+                    },
+                ])
+            }
+
+            return Promise.resolve([])
+        })
+        const result = await getMySQLArchivePosts(
+            ARCHIVE.CATEGORY,
+            'test-post',
+            1,
+        )
+        expect(result).toBeTruthy()
     })
 })

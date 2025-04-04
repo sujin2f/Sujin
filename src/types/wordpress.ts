@@ -120,23 +120,6 @@ export type MenuItem = {
     parent: number
 }
 
-// // export type
-
-// export type ImageSize = {
-//     key: string
-//     file: string
-// }
-
-// export type ImageSizes = ImageSize[]
-
-// export type Image = {
-//     id: number
-//     url: string
-//     mimeType: string
-//     title: string
-//     sizes: ImageSizes
-// }
-
 export type MySQLMediaType = {
     file: string
     sizes: Record<string, { file: string }>
@@ -146,9 +129,6 @@ export type PostMetaType = {
     meta_key: string
     meta_value: string
 }
-
-// // eslint-disable-next-line @typescript-eslint/no-explicit-any
-// export type OptionValue = Record<string, any> | string | number | boolean
 
 export type Named = Record<string, string>
 export type AttrMatch = { named: Named; numeric: string[] }

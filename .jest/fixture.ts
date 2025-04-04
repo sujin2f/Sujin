@@ -5,11 +5,11 @@ import {
     type PageType,
 } from '@src/types/wordpress'
 
-export const post: PageType = {
-    id: 2,
-    slug: 'sample-page',
-    title: 'Sample Page',
-    excerpt: '',
+export const page: PageType = {
+    id: 14253,
+    slug: '%ea%b2%b0%ea%b5%ad%ec%9d%80-%ec%8b%a4%ed%8c%a8%ed%95%b4%eb%b2%84%eb%a6%b0-%ec%84%b1%ea%b3%b5%ed%9a%8c',
+    title: '김조광수 감독의 교훈 없는 승리',
+    excerpt: '밑은 없지만 끝은 있는 성공회의 결론',
     date: new Date() as unknown as number,
     content:
         '<!-- wp:paragraph -->\n' +
@@ -32,12 +32,30 @@ export const post: PageType = {
         '<p>As a new WordPress user, you should go to <a href="http://localhost:8000/wp-admin/">your dashboard</a> to delete this page and create new pages for your content. Have fun!</p>\n' +
         '<!-- /wp:paragraph -->',
     status: POST_STATUS.PUBLISH,
-    link: '/blog/sample-page',
-    images: {},
+    link: '/blog/%ea%b2%b0%ea%b5%ad%ec%9d%80-%ec%8b%a4%ed%8c%a8%ed%95%b4%eb%b2%84%eb%a6%b0-%ec%84%b1%ea%b3%b5%ed%9a%8c',
+    images: {
+        thumbnail: {
+            mimeType: 'image/jpeg',
+            title: '눈 가리고 야옹',
+            sizes: [],
+            url: '/wp-content/uploads/2015/02/Eye-Covering-Cat.jpg',
+        },
+    },
     meta: {
         useBackgroundColor: false,
-        backgroundColor: '',
+        backgroundColor: '#000000',
     },
+}
+export const post = {
+    ...page,
+    terms: [
+        {
+            id: 5818,
+            title: 'Blog',
+            slug: 'blog',
+            type: 'category',
+        },
+    ],
 }
 export const term: TermType = {
     id: 1,
