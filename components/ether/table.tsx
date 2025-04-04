@@ -4,8 +4,8 @@ import Link from 'next/link'
 /* Components */
 import { Table as TableComponent } from '@common/components/containers/Table'
 /* Helpers */
-import { Atom } from '@src/models/Atom'
-import { ROW_HEAD } from '@src/constants/ether'
+import { Atom } from '@app/ether/data/models/Atom'
+import { ROW_HEAD } from '@app/helpers/constants/ether'
 import { map } from '@common/utils/array'
 
 type Props = {

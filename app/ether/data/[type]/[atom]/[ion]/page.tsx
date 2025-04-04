@@ -3,17 +3,17 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 /* Components */
 import { DataHeader } from '@components/ether/data-header'
-import ScrollToTop from '@components/ScrollToTop'
+import ScrollToTop from '@app/components/common/ScrollToTop'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 import { Chart } from '@components/ether/chart'
 import { Table } from '@components/ether/table'
 /* Helpers */
 import type { Nullable } from '@common/types'
-import type { ISpectrum } from '@src/types/ether'
+import type { ISpectrum } from '@app/helpers/types/ether'
 import { fetchGQL } from '@common/data/graphql/fetchGQL'
-import GQL from '@src/constants/graphql'
-import { DataContainer } from '@src/models/DataContainer'
+import GQL from '@app/helpers/constants/graphql'
+import { DataContainer } from '@app/ether/data/models/DataContainer'
 
 export default function DataPage() {
     const params = useParams<EtherDataProps>()

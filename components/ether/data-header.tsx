@@ -8,10 +8,10 @@ import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 import { Select } from '@common/components/forms/Select'
 /* Helpers */
-import { periodicTable } from '@src/constants/ether'
-import { getAtom } from '@src/utils/ether'
+import { periodicTable } from '@app/helpers/constants/ether'
+import { getAtom } from '@app/helpers/utils/ether'
 import { romanize } from '@common/utils/number'
-import type { Atom } from '@src/models/Atom'
+import type { Atom } from '@app/ether/data/models/Atom'
 
 type Props = {
     container: Atom

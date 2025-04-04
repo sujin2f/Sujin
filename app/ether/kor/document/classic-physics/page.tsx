@@ -2,12 +2,12 @@
 import { InlineMath } from 'react-katex'
 /* Components */
 import { Image } from '@common/components/containers/image'
-import ScrollToTop from '@components/ScrollToTop'
+import ScrollToTop from '@app/components/common/ScrollToTop'
 import { Table } from '@common/components/containers/Table'
 import { Latex } from '@app/components/single/Latex'
 import { PrevNext } from '@app/components/single/PrevNext'
 /* Types */
-import type { PostType } from '@src/types/wordpress'
+import type { PostType } from '@app/helpers/types/wordpress'
 /* Assets */
 import pic5 from '@src/images/ether/pic5_eng.png'
 import 'katex/dist/katex.min.css'

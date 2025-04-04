@@ -2,11 +2,15 @@
 import { PrevNext } from '@app/components/single/PrevNext'
 import PagesClient from '@app/admin/pages/[page]/PagesClient'
 /* Utils */
-import { removePage, updatePage, getPages } from '@src/db/mongo/wordpress/page'
+import {
+    removePage,
+    updatePage,
+    getPages,
+} from '@app/helpers/data/mongo/wordpress/page'
 /* Constants */
-import { PER_PAGE } from '@src/constants/mysql-query'
+import { PER_PAGE } from '@app/helpers/constants/mysql-query'
 /* Types */
-import type { PostType } from '@src/types/wordpress'
+import type { PostType } from '@app/helpers/types/wordpress'
 
 type Props = {
     params: Promise<{

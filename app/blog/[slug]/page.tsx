@@ -4,11 +4,11 @@ import type { Metadata } from 'next/types'
 import Blog from '@app/blog/[slug]/Blog'
 /* Constants */
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
-import { BASE_URL } from '@src/constants/system'
+import { BASE_URL } from '@app/helpers/constants/system'
 import { VERSION } from '@common/constants/helper'
 /* Utils */
-import { getCachedPost } from '@src/db/mongo/wordpress/post'
-import { getThumbnailFromPost } from '@src/utils/wordpress'
+import { getCachedPost } from '@app/helpers/data/mongo/wordpress/post'
+import { getThumbnailFromPost } from '@app/helpers/utils/wordpress'
 
 type Props = {
     params: Promise<{

@@ -5,7 +5,7 @@ import { Table } from '@common/components/containers/Table'
 import { Input } from '@common/components/forms/Input'
 import { Button } from '@common/components/forms/Button'
 /* Types */
-import type { ArchiveType } from '@src/types/wordpress'
+import type { ArchiveType } from '@app/helpers/types/wordpress'
 import Link from 'next/link'
 
 type Props = {

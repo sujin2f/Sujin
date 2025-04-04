@@ -4,8 +4,8 @@ import { usePathname } from 'next/navigation'
 /* Components */
 import { Button } from '@common/components/forms/Button'
 /* Helpers */
-import { shareTwitter, shareFacebook } from '@src/utils/single'
-import { BASE_URL } from '@src/constants/system'
+import { shareTwitter, shareFacebook } from '@app/helpers/utils/single'
+import { BASE_URL } from '@app/helpers/constants/system'
 /* Assets */
 import Twitter from '@src/images/twitter.svg'
 import Facebook from '@src/images/facebook.svg'

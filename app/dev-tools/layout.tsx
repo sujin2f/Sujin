@@ -5,8 +5,8 @@ import Banner from '@app/components/header/Banner'
 import Header from '@app/components/header'
 import Footer from '@app/components/footer'
 /* Helpers */
-import { MenuNames } from '@src/constants/mysql-query'
-import { getMetaData } from '@src/utils/server'
+import { MenuNames } from '@app/helpers/constants/mysql-query'
+import { getMetaData } from '@app/helpers/utils/server'
 /* Assets */
 import '@src/scss/dev-tool.scss'
 

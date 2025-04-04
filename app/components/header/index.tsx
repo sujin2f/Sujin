@@ -1,9 +1,9 @@
 import React from 'react'
 /* Components */
 import FixedHeader from '@app/components/header/FixedHeader'
-import SessionProvider from '@components/SessionProvider'
+import SessionProvider from '@app/components/common/SessionProvider'
 /* Helpers */
-import { MenuNames } from '@src/constants/mysql-query'
+import { MenuNames } from '@app/helpers/constants/mysql-query'
 
 type Props = {
     menu?: MenuNames

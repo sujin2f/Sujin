@@ -3,11 +3,11 @@ import Link from 'next/link'
 import { Table } from '@common/components/containers/Table'
 import { PrevNext } from '@app/components/single/PrevNext'
 /* Constants */
-import { PER_PAGE } from '@src/constants/mysql-query'
+import { PER_PAGE } from '@app/helpers/constants/mysql-query'
 /* Utils */
-import { getMySQLArchivePosts } from '@src/db/mongo/wordpress/post'
+import { getMySQLArchivePosts } from '@app/helpers/data/mongo/wordpress/post'
 /* Types */
-import { ARCHIVE, type PostType } from '@src/types/wordpress'
+import { ARCHIVE, type PostType } from '@app/helpers/types/wordpress'
 
 type Props = {
     params: Promise<{

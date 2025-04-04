@@ -4,14 +4,14 @@ import { unstable_cache } from 'next/cache'
 import Archive from './Archive'
 /* Constants */
 import { DAY_IN_SECONDS } from '@common/constants/datetime'
-import { ARCHIVE } from '@src/types/wordpress'
-import { BASE_URL } from '@src/constants/system'
+import { ARCHIVE } from '@app/helpers/types/wordpress'
+import { BASE_URL } from '@app/helpers/constants/system'
 import { IS_DEV, VERSION } from '@common/constants/helper'
 /* Utils */
-import { getCachedCategory } from '@src/db/mongo/wordpress/category'
-import { getCachedTag } from '@src/db/mongo/wordpress/tag'
+import { getCachedCategory } from '@app/helpers/data/mongo/wordpress/category'
+import { getCachedTag } from '@app/helpers/data/mongo/wordpress/tag'
 /* Types */
-import type { ArchiveProp } from '@src/types/props'
+import type { ArchiveProp } from '@app/helpers/types/props'
 
 type Props = {
     params: Promise<ArchiveProp>

@@ -2,17 +2,17 @@
 import React, { RefObject, useRef, useState } from 'react'
 /* Components */
 import { Row } from '@common/components/layout/Row'
-import Title from '@components/WidgetTitle'
+import Title from '@app/components/common/WidgetTitle'
 import { Cards } from '@app/components/archive/cards'
 import { Loading } from '@app/components/archive/loading'
 /* Types */
-import type { PostType } from '@src/types/wordpress'
+import type { PostType } from '@app/helpers/types/wordpress'
 import type { Nullable } from '@common/types'
 /* Utils */
 import { fetchGQL } from '@common/data/graphql/fetchGQL'
 import useIntersectionObserver from '@common/hooks/useIntersectionObserver'
 /* Constants */
-import GQL from '@src/constants/graphql'
+import GQL from '@app/helpers/constants/graphql'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 /* Assets */
 import '@src/scss/related-posts.scss'

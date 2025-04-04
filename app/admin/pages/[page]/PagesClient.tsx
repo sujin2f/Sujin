@@ -6,7 +6,7 @@ import { Table } from '@common/components/containers/Table'
 import { Input } from '@common/components/forms/Input'
 import { Button } from '@common/components/forms/Button'
 /* Types */
-import type { PageType } from '@src/types/wordpress'
+import type { PageType } from '@app/helpers/types/wordpress'
 
 type Props = {
     pages: PageType[]

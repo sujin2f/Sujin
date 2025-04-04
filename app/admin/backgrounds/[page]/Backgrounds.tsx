@@ -4,14 +4,14 @@ import { PrevNext } from '@app/components/single/PrevNext'
 import { Table } from '@common/components/containers/Table'
 import { Button } from '@common/components/forms/Button'
 /* Constants */
-import { PER_PAGE } from '@src/constants/mysql-query'
+import { PER_PAGE } from '@app/helpers/constants/mysql-query'
 /* Utils */
 import {
     getBackgrounds,
     updateBackgrounds,
-} from '@src/db/mongo/wordpress/background'
+} from '@app/helpers/data/mongo/wordpress/background'
 /* Types */
-import type { PostType } from '@src/types/wordpress'
+import type { PostType } from '@app/helpers/types/wordpress'
 
 type Props = {
     params: Promise<{

@@ -4,10 +4,10 @@ import React, { useState, useMemo } from 'react'
 import { Input } from '@common/components/forms/Input'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
-import ScrollToTop from '@components/ScrollToTop'
+import ScrollToTop from '@app/components/common/ScrollToTop'
 /* Helpers */
 import { map } from '@common/utils/array'
-import { getMaxCols, getRows, sortText } from '@src/utils/dev-tools'
+import { getMaxCols, getRows, sortText } from '@app/helpers/utils/dev-tools'
 
 export default function TextSort() {
     const [text, setText] = useState('')

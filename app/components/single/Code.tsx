@@ -2,9 +2,9 @@ import React from 'react'
 /* Components */
 import { Code as CodeComponent } from '@common/components/containers/Code'
 /* Helpers */
-import { replaceQuotes } from '@src/utils/single'
+import { replaceQuotes } from '@app/helpers/utils/single'
 import { languages } from '@common/constants/helper'
-import type { AttrMatch } from '@src/types/wordpress'
+import type { AttrMatch } from '@app/helpers/types/wordpress'
 
 interface Props {
     value: AttrMatch

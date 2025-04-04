@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 /* Helpers */
-import type { TermType } from '@src/types/wordpress'
+import type { TermType } from '@app/helpers/types/wordpress'
 /* Assets */
 import '@src/scss/tags.scss'
 

@@ -10,9 +10,9 @@ import { Row } from '@common/components/layout/Row'
 import Hamburger from '@app/components/header/Hamburger'
 import Search from '@app/components/header/Search'
 /* Helpers */
-import { getMenu } from '@src/utils/system'
-import { MenuNames } from '@src/constants/mysql-query'
-import { handleSignIn, handleSignOut } from '@src/utils/auth'
+import { getMenu } from '@app/helpers/utils/system'
+import { MenuNames } from '@app/helpers/constants/mysql-query'
+import { handleSignIn, handleSignOut } from '@app/helpers/utils/auth'
 /* Assets */
 import Logo from '@src/images/logo-top-bar.svg'
 import Facebook from '@src/images/facebook.svg'

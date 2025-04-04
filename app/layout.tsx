@@ -4,7 +4,7 @@ import Script from 'next/script'
 import type { PropsWithChildren } from 'react'
 import type { Metadata } from 'next'
 /* Helpers */
-import { BASE_URL, DEFAULT_THUMBNAIL } from '@src/constants/system'
+import { BASE_URL, DEFAULT_THUMBNAIL } from '@app/helpers/constants/system'
 /* Assets */
 import '@src/scss/wrapper.scss'
 import '@common/scss/normalize.css'

@@ -3,11 +3,11 @@
 /* Components */
 import { Column } from '@common/components/layout/Column'
 import { Row } from '@common/components/layout/Row'
-import GoogleAdvert from '@components/GoogleAdvert'
+import GoogleAdvert from '@app/components/common/GoogleAdvert'
 import TagCloud from '@app/components/footer/TagCloud'
 import Flickr from '@app/components/footer/Flickr'
 import { FooterBottom } from '@app/components/footer/FooterBottom'
-import Title from '@components/WidgetTitle'
+import Title from '@app/components/common/WidgetTitle'
 /* Assets */
 import '@src/scss/footer.scss'
 

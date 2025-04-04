@@ -2,8 +2,8 @@
 import React, { useRef } from 'react'
 import Script from 'next/script'
 /* Helpers */
-import { replaceQuotes } from '@src/utils/single'
-import type { AttrMatch } from '@src/types/wordpress'
+import { replaceQuotes } from '@app/helpers/utils/single'
+import type { AttrMatch } from '@app/helpers/types/wordpress'
 
 interface Props {
     value: AttrMatch

@@ -5,13 +5,13 @@ import Banner from '@app/components/header/Banner'
 import Header from '@app/components/header'
 /* Constants */
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
-import { MenuNames } from '@src/constants/mysql-query'
+import { MenuNames } from '@app/helpers/constants/mysql-query'
+import { VERSION } from '@common/constants/helper'
 /* Utils */
-import { getCachedBackgrounds } from '@src/db/mongo/wordpress/background'
+import { getCachedBackgrounds } from '@app/helpers/data/mongo/wordpress/background'
 /* Assets */
 import Logo from '@src/images/logo.svg'
 import '@src/scss/front-page.scss'
-import { VERSION } from '@common/constants/helper'
 
 export default async function FrontPage() {
     const request = unstable_cache(

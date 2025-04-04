@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { Loading } from '@app/components/archive/loading'
 /* Constants */
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
-import GQL from '@src/constants/graphql'
+import GQL from '@app/helpers/constants/graphql'
 /* Utils */
 import useIntersectionGQL from '@common/hooks/useIntersectionGQL'
 /* Assets */

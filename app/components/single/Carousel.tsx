@@ -7,7 +7,7 @@ import { Button } from '@common/components/forms/Button'
 /* Helpers */
 import { removeURLProtocol } from '@common/utils/string'
 import { getPrev, getNext } from '@common/utils/array'
-import type { AttrMatch } from '@src/types/wordpress'
+import type { AttrMatch } from '@app/helpers/types/wordpress'
 /* Assets */
 import Arrow from '@src/images/prev.svg'
 import '@src/scss/carousel.scss'

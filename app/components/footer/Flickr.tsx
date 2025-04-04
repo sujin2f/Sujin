@@ -6,7 +6,7 @@ import { Column } from '@common/components/layout/Column'
 import { Row } from '@common/components/layout/Row'
 import { Loading } from '@app/components/archive/loading'
 /* Constants */
-import GQL from '@src/constants/graphql'
+import GQL from '@app/helpers/constants/graphql'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 /* Utils */
 import useIntersectionGQL from '@common/hooks/useIntersectionGQL'

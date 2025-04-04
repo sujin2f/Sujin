@@ -5,9 +5,9 @@ import { Image } from '@common/components/containers/image'
 import { Table } from '@common/components/containers/Table'
 import { Latex } from '@app/components/single/Latex'
 import { PrevNext } from '@app/components/single/PrevNext'
-import ScrollToTop from '@components/ScrollToTop'
+import ScrollToTop from '@app/components/common/ScrollToTop'
 /* Types */
-import type { PostType } from '@src/types/wordpress'
+import type { PostType } from '@app/helpers/types/wordpress'
 /* Assets */
 import pic9 from '@src/images/ether/pic9.png'
 import pic10 from '@src/images/ether/pic10.png'

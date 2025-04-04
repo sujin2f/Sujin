@@ -1,7 +1,7 @@
 import React from 'react'
 /* Helpers */
-import { replaceQuotes, removeExtraParagraph } from '@src/utils/single'
-import type { AttrMatch } from '@src/types/wordpress'
+import { replaceQuotes, removeExtraParagraph } from '@app/helpers/utils/single'
+import type { AttrMatch } from '@app/helpers/types/wordpress'
 /* Assets */
 import '@src/scss/about-item.scss'
 

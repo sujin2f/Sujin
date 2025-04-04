@@ -4,9 +4,9 @@ import type { PropsWithChildren } from 'react'
 import Header from '@app/components/header'
 import Footer from '@app/components/footer'
 /* Constants */
-import { MenuNames } from '@src/constants/mysql-query'
+import { MenuNames } from '@app/helpers/constants/mysql-query'
 /* Utils */
-import { getMetaData } from '@src/utils/server'
+import { getMetaData } from '@app/helpers/utils/server'
 
 export const generateMetadata = async (): Promise<Metadata> => {
     let metadata: Metadata

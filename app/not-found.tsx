@@ -1,12 +1,12 @@
 import type { Metadata } from 'next'
 /* Components */
 import Banner from '@app/components/header/Banner'
-import ArchiveRecent from '@components/NotFoundArticles'
+import Articles from '@app/NotFoundArticles'
 import Header from '@app/components/header'
 import Footer from '@app/components/footer'
 /* Helpers */
-import { getPathName } from '@src/utils/server'
-import { getMenuNameFromPath } from '@src/utils/system'
+import { getPathName } from '@app/helpers/utils/server'
+import { getMenuNameFromPath } from '@app/helpers/utils/system'
 
 export const metadata: Metadata = {
     robots: {
@@ -31,7 +31,7 @@ export default async function NotFound() {
                             'We cannot find the result. See below for recent articles.',
                     }}
                 />
-                <ArchiveRecent />
+                <Articles />
             </main>
             <Footer />
         </>

@@ -6,9 +6,9 @@ import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 import { Latex } from '@app/components/single/Latex'
 import { PrevNext } from '@app/components/single/PrevNext'
-import ScrollToTop from '@components/ScrollToTop'
+import ScrollToTop from '@app/components/common/ScrollToTop'
 /* Types */
-import type { PostType } from '@src/types/wordpress'
+import type { PostType } from '@app/helpers/types/wordpress'
 /* Assets */
 import pic58 from '@src/images/ether/pic58.png'
 import pic114 from '@src/images/ether/pic114.png'

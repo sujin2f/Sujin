@@ -1,5 +1,5 @@
-import addUser from '@src/db/mongo/admin/addUser'
-import getUser from '@src/db/mongo/admin/getUser'
+import addUser from '@app/helpers/data/mongo/admin/addUser'
+import getUser from '@app/helpers/data/mongo/admin/getUser'
 import type { AuthOptions } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 

@@ -1,7 +1,7 @@
 import { Table } from '@common/components/containers/Table'
-import { COLLECTION } from '@src/constants/mongo'
-import { getSchema } from '@src/db/mongo/admin/getIndexes'
-import getSystemOption from '@src/db/mongo/admin/getSystemOption'
+import { COLLECTION } from '@app/helpers/constants/mongo'
+import { getSchema } from '@app/helpers/data/mongo/admin/getIndexes'
+import getSystemOption from '@app/helpers/data/mongo/admin/getSystemOption'
 
 export default async function ResetIndex() {
     const indexes = await getSchema(

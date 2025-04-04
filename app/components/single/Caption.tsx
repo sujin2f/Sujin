@@ -1,9 +1,9 @@
 import React from 'react'
 
 /* Helpers */
-import type { AttrMatch } from '@src/types/wordpress'
+import type { AttrMatch } from '@app/helpers/types/wordpress'
 import { joinClassNames } from '@common/utils/string'
-import { replaceQuotes } from '@src/utils/single'
+import { replaceQuotes } from '@app/helpers/utils/single'
 
 interface Props {
     value: AttrMatch

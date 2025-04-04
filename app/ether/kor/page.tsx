@@ -1,8 +1,8 @@
 /* Components */
-import ScrollToTop from '@components/ScrollToTop'
+import ScrollToTop from '@app/components/common/ScrollToTop'
 import { PrevNext } from '@app/components/single/PrevNext'
 /* Types */
-import type { PostType } from '@src/types/wordpress'
+import type { PostType } from '@app/helpers/types/wordpress'
 
 export default function Intro() {
     return (

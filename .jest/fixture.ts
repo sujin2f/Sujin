@@ -3,7 +3,7 @@ import {
     POST_STATUS,
     type TermType,
     type PageType,
-} from '@src/types/wordpress'
+} from '@app/helpers/types/wordpress'
 
 export const page: PageType = {
     id: 14253,

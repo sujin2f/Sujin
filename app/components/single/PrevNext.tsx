@@ -6,10 +6,10 @@ import Link from 'next/link'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 /* Types */
-import type { PostType } from '@src/types/wordpress'
+import type { PostType } from '@app/helpers/types/wordpress'
 import type { Nullable } from '@common/types'
 /* Constants */
-import GQL from '@src/constants/graphql'
+import GQL from '@app/helpers/constants/graphql'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 /* Utils */
 import { fetchGQL } from '@common/data/graphql/fetchGQL'

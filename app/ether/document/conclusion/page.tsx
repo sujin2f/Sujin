@@ -2,9 +2,9 @@ import Link from 'next/link'
 /* Components */
 import { Image } from '@common/components/containers/image'
 import { PrevNext } from '@app/components/single/PrevNext'
-import ScrollToTop from '@components/ScrollToTop'
+import ScrollToTop from '@app/components/common/ScrollToTop'
 /* Types */
-import type { PostType } from '@src/types/wordpress'
+import type { PostType } from '@app/helpers/types/wordpress'
 /* Assets */
 import pic13 from '@src/images/ether/pic13_eng.png'
 import pic14 from '@src/images/ether/pic14_eng.png'

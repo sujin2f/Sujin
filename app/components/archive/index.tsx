@@ -2,21 +2,21 @@
 import React, { useEffect, useState } from 'react'
 import { notFound } from 'next/navigation'
 /* Components */
-import ScrollToTop from '@components/ScrollToTop'
+import ScrollToTop from '@app/components/common/ScrollToTop'
 import { Cards } from '@app/components/archive/cards'
 import { Paging } from '@app/components/archive/paging'
 import { Row } from '@common/components/layout/Row'
 import { Loading } from '@app/components/archive/loading'
 /* Types */
-import type { PostType } from '@src/types/wordpress'
+import type { PostType } from '@app/helpers/types/wordpress'
 import type { Nullable } from '@common/types'
 /* Constants */
-import GQL from '@src/constants/graphql'
+import GQL from '@app/helpers/constants/graphql'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
-import { PER_PAGE } from '@src/constants/mysql-query'
+import { PER_PAGE } from '@app/helpers/constants/mysql-query'
 /* Utils */
 import { fetchGQL } from '@common/data/graphql/fetchGQL'
-import { ArchiveProp } from '@src/types/props'
+import { ArchiveProp } from '@app/helpers/types/props'
 
 interface Props extends ArchiveProp {
     total: number

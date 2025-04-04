@@ -2,11 +2,11 @@
 import React from 'react'
 /* Components */
 import { Row } from '@common/components/layout/Row'
-import Title from '@components/WidgetTitle'
+import Title from '@app/components/common/WidgetTitle'
 import { Cards } from '@app/components/archive/cards'
 import { Loading } from '@app/components/archive/loading'
 /* Helpers */
-import { useRecentPost } from '@src/hooks/useRecentPost'
+import { useRecentPost } from '@app/helpers/hooks/useRecentPost'
 /* Assets */
 import '@src/scss/recent-post.scss'
 

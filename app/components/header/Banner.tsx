@@ -7,11 +7,14 @@ import { Column } from '@common/components/layout/Column'
 import { Menu } from '@common/components/layout/Menu'
 /* Helpers */
 import { joinClassNames } from '@common/utils/string'
-import { getImageMap } from '@src/utils/wordpress'
-import { getMenu } from '@src/utils/system'
-import { METADATA } from '@src/constants/system'
-import { MenuNames } from '@src/constants/mysql-query'
-import { IMAGE_POSITION, type ImageBlockType } from '@src/types/wordpress'
+import { getImageMap } from '@app/helpers/utils/wordpress'
+import { getMenu } from '@app/helpers/utils/system'
+import { METADATA } from '@app/helpers/constants/system'
+import { MenuNames } from '@app/helpers/constants/mysql-query'
+import {
+    IMAGE_POSITION,
+    type ImageBlockType,
+} from '@app/helpers/types/wordpress'
 /* Assets */
 import '@src/scss/banner.scss'
 

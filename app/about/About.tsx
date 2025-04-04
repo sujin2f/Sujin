@@ -8,14 +8,14 @@ import { Column } from '@common/components/layout/Column'
 import { Row } from '@common/components/layout/Row'
 import { SocialShare } from '@app/components/single/SocialShare'
 import { Content } from '@app/components/single/Content'
-import ScrollToTop from '@components/ScrollToTop'
+import ScrollToTop from '@app/components/common/ScrollToTop'
 /* Constants */
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
-import { MenuNames } from '@src/constants/mysql-query'
+import { MenuNames } from '@app/helpers/constants/mysql-query'
 import { IS_DEV, VERSION } from '@common/constants/helper'
 /* Utils */
-import { getCachedPage } from '@src/db/mongo/wordpress/page'
-import { getThumbnailFromPost } from '@src/utils/wordpress'
+import { getCachedPage } from '@app/helpers/data/mongo/wordpress/page'
+import { getThumbnailFromPost } from '@app/helpers/utils/wordpress'
 
 export default async function About() {
     const request = unstable_cache(

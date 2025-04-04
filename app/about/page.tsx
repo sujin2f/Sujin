@@ -2,7 +2,7 @@ import type { Metadata } from 'next/types'
 /* Components */
 import About from '@app/about/About'
 /* Constants */
-import { BASE_URL } from '@src/constants/system'
+import { BASE_URL } from '@app/helpers/constants/system'
 
 export const metadata: Metadata = {
     title: 'About Sujin Choi',
