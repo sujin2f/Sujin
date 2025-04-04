@@ -1,18 +1,18 @@
 import Link from 'next/link'
 /* Components */
 import { Image } from '@common/components/containers/image'
-import { PrevNext } from '@app/components/single/PrevNext'
-import ScrollToTop from '@app/components/common/ScrollToTop'
+import { PrevNext } from '@app/(single)/_components/PrevNext'
+import { ScrollToTop } from '@app/_components/ScrollToTop'
 /* Types */
-import type { PostType } from '@app/helpers/types/wordpress'
+import type { PostType } from '@app/_lib/types/wordpress'
 /* Assets */
-import pic1 from '@src/images/ether/pic1_eng.png'
-import pic2 from '@src/images/ether/pic2_eng.png'
-import pic3 from '@src/images/ether/pic3_eng.png'
-import pic4 from '@src/images/ether/pic4_eng.png'
-import pic7 from '@src/images/ether/pic7_eng.png'
-import pic8 from '@src/images/ether/pic8_eng.png'
-import pic91 from '@src/images/ether/pic91.jpeg'
+import pic1 from '@app/_lib/images/ether/pic1_eng.png'
+import pic2 from '@app/_lib/images/ether/pic2_eng.png'
+import pic3 from '@app/_lib/images/ether/pic3_eng.png'
+import pic4 from '@app/_lib/images/ether/pic4_eng.png'
+import pic7 from '@app/_lib/images/ether/pic7_eng.png'
+import pic8 from '@app/_lib/images/ether/pic8_eng.png'
+import pic91 from '@app/_lib/images/ether/pic91.jpeg'
 
 export default function Hypothesis() {
     return (

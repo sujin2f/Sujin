@@ -1,13 +1,13 @@
 import Link from 'next/link'
 /* Components */
 import { Table } from '@common/components/containers/Table'
-import { PrevNext } from '@app/components/single/PrevNext'
+import { PrevNext } from '@app/(single)/_components/PrevNext'
 /* Constants */
-import { PER_PAGE } from '@app/helpers/constants/mysql-query'
+import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 /* Utils */
-import { getMySQLArchivePosts } from '@app/helpers/data/mongo/wordpress/post'
+import { getMySQLArchivePosts } from '@app/_lib/data/mongo/wordpress/post'
 /* Types */
-import { ARCHIVE, type PostType } from '@app/helpers/types/wordpress'
+import { ARCHIVE, type PostType } from '@app/_lib/types/wordpress'
 
 type Props = {
     params: Promise<{

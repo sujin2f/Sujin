@@ -1,14 +1,14 @@
 import type { PropsWithChildren } from 'react'
 import type { Metadata } from 'next/types'
 /* Components */
-import Banner from '@app/components/header/Banner'
-import Header from '@app/components/header'
-import Footer from '@app/components/footer'
+import { Banner } from '@app/_components/header/Banner'
+import { Header } from '@app/_components/header'
+import { Footer } from '@app/_components/footer'
 /* Helpers */
-import { MenuNames } from '@app/helpers/constants/mysql-query'
-import { getMetaData } from '@app/helpers/utils/server'
+import { MenuNames } from '@app/_lib/data/mysql/constants'
+import { getMetaData } from '@app/_lib/utils/server'
 /* Assets */
-import '@src/scss/dev-tool.scss'
+import './style.scss'
 
 export const generateMetadata = async (): Promise<Metadata> => {
     const metadata = await getMetaData()

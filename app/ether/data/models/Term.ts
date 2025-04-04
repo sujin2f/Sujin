@@ -1,7 +1,7 @@
-import { orbitalKeys } from '@app/helpers/constants/ether'
+import { orbitalKeys } from '@app/ether/data/constants'
 import { Line } from '@app/ether/data/models/Line'
 import { Spectrum } from '@app/ether/data/models/Spectrum'
-import type { ISpectrum, SortType } from '@app/helpers/types/ether'
+import type { ISpectrum, SortType } from '@app/ether/data/types'
 
 /**
  * Holds the same term based spectra

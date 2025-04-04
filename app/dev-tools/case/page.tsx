@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { Input } from '@common/components/forms/Input'
 import { Column } from '@common/components/layout/Column'
 import { Row } from '@common/components/layout/Row'
-import ScrollToTop from '@app/components/common/ScrollToTop'
+import { ScrollToTop } from '@app/_components/ScrollToTop'
 /* Helpers */
 import { copyText } from '@common/utils/device'
 import {
@@ -18,7 +18,7 @@ import {
     titleCase,
     pathCase,
     dotCase,
-} from '@app/helpers/utils/dev-tools'
+} from '@app/dev-tools/utils'
 
 const CASES: Record<string, (text: string[]) => string> = {
     camelCase: camelCase,

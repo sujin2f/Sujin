@@ -1,5 +1,5 @@
 import { MONGO_DATABASE, VERSION } from '@common/constants/helper'
-import getSystemOption from '@app/helpers/data/mongo/admin/getSystemOption'
+import getSystemOption from '@app/_lib/data/mongo/admin/getSystemOption'
 /* Models */
 import Mongo from '@common/data/mongo/mongo'
 import Logger from '@common/model/Logger'
@@ -7,10 +7,10 @@ import client from '@common/data/mongo/mongo-client'
 /* Components */
 import { Button } from '@common/components/forms/Button'
 /* Constants */
-import migration from '@app/helpers/constants/mongo/migration'
+import migration from '@app/_lib/migration'
 /* Utils */
 import { compareVersions } from '@common/utils/system'
-import setSystemOption from '@app/helpers/data/mongo/admin/setSystemOption'
+import setSystemOption from '@app/_lib/data/mongo/admin/setSystemOption'
 
 export default async function Admin() {
     const current = (await getSystemOption('version')) || '0.0.0'

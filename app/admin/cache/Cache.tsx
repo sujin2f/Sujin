@@ -1,6 +1,6 @@
+import Link from 'next/link'
 import Cached from '@common/model/Cached'
 import { Table } from '@common/components/containers/Table'
-import Link from 'next/link'
 
 export default async function Cache() {
     const caches = await Cached.getInstance().list()

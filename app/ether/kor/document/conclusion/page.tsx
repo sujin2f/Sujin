@@ -1,15 +1,15 @@
 import Link from 'next/link'
 /* Components */
 import { Image } from '@common/components/containers/image'
-import { PrevNext } from '@app/components/single/PrevNext'
-import ScrollToTop from '@app/components/common/ScrollToTop'
+import { PrevNext } from '@app/(single)/_components/PrevNext'
+import { ScrollToTop } from '@app/_components/ScrollToTop'
 /* Types */
-import type { PostType } from '@app/helpers/types/wordpress'
+import type { PostType } from '@app/_lib/types/wordpress'
 /* Assets */
-import pic13 from '@src/images/ether/pic13_eng.png'
-import pic14 from '@src/images/ether/pic14_eng.png'
-import pic15 from '@src/images/ether/pic15.png'
-import pic124 from '@src/images/ether/pic124.jpeg'
+import pic13 from '@app/_lib/images/ether/pic13_eng.png'
+import pic14 from '@app/_lib/images/ether/pic14_eng.png'
+import pic15 from '@app/_lib/images/ether/pic15.png'
+import pic124 from '@app/_lib/images/ether/pic124.jpeg'
 
 export default function Conclusion() {
     return (

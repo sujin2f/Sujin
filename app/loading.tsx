@@ -1,13 +1,13 @@
 import React from 'react'
 /* Components */
-import Banner from '@app/components/header/Banner'
-import Header from '@app/components/header'
-import Footer from '@app/components/footer'
+import { Banner } from '@app/_components/header/Banner'
+import { Header } from '@app/_components/header'
+import { Footer } from '@app/_components/footer'
 /* Helpers */
-import { getPathName } from '@app/helpers/utils/server'
-import { getMenuNameFromPath } from '@app/helpers/utils/system'
+import { getPathName } from '@app/_lib/utils/server'
+import { getMenuNameFromPath } from '@app/_lib/utils/system'
 /* Assets */
-import LoadingImg from '@src/images/loading.svg'
+import LoadingImg from '@app/_lib/images/loading.svg'
 
 export default async function Loading() {
     const path = await getPathName()

@@ -1,12 +1,12 @@
 import { type PropsWithChildren } from 'react'
 import type { Metadata } from 'next/types'
 /* Components */
-import Header from '@app/components/header'
+import { Header } from '@app/_components/header'
 /* Constants */
-import { METADATA } from '@app/helpers/constants/system'
-import { MenuNames } from '@app/helpers/constants/mysql-query'
+import { METADATA } from '@app/_lib/constants'
+import { MenuNames } from '@app/_lib/data/mysql/constants'
 /* Assets */
-import '@src/scss/ether-data.scss'
+import './style.scss'
 
 export const metadata: Metadata = {
     ...METADATA['/ether'],

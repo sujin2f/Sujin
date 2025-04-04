@@ -1,6 +1,6 @@
 // yarn test mongo.spec.ts
 
-import { clearMongo } from '../../../.jest/helpers'
+import { clearMongo } from '@jest/helpers'
 import Mongo from './mongo'
 
 describe('mongo.ts', () => {

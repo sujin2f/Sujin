@@ -20,18 +20,10 @@
         ],
         "paths": {
             "@app/*": ["./app/*"],
-            "@src/*": ["./src/*"],
             "@common/*": ["./common/*"],
-            "@components/*": ["./components/*"]
+            "@jest/*": ["./.jest/*"]
         }
     },
-    "include": [
-        "next-env.d.ts",
-        "src/global.d.ts",
-        "**/*.ts",
-        "**/*.tsx",
-        ".next/types/**/*.ts",
-        ".backup/layout.tsx"
-    ],
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
     "exclude": ["node_modules", "wordpress"]
 }

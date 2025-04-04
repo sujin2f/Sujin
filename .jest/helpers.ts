@@ -1,15 +1,15 @@
-import Mongo from '../common/data/mongo/mongo'
-import client from '../common/data/mongo/mongo-client'
-import { getRandomInt } from '../common/utils/number'
-import { MONGO_DATABASE } from '../common/constants/helper'
-import { COLLECTION } from '../src/constants/mongo'
+import Mongo from '@common/data/mongo/mongo'
+import client from '@common/data/mongo/mongo-client'
+import { getRandomInt } from '@common/utils/number'
+import { MONGO_DATABASE } from '@common/constants/helper'
 import type {
     ArchiveType,
     ImageBlockType,
     PageType,
     PostType,
-} from '../src/types/wordpress'
+} from '@app/_lib/types/wordpress'
 import { page, post } from './fixture'
+import { COLLECTION } from '@app/_lib/data/mongo/constants'
 
 export const clearMongo = async (...collections: string[]) =>
     await client.then(async (client) => {

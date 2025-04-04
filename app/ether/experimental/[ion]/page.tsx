@@ -1,17 +1,17 @@
 'use client'
 import { Fragment, useEffect, useState } from 'react'
 /* Components */
-import { Table } from '@components/ether/table'
-import ScrollToTop from '@app/components/common/ScrollToTop'
+import { Table } from '@app/ether/data/components/table'
+import { ScrollToTop } from '@app/_components/ScrollToTop'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
-import { Chart } from '@components/ether/chart'
+import { Chart } from '@app/ether/data/components/chart'
 /* Types */
 import type { Nullable } from '@common/types'
-import type { ISpectrum } from '@app/helpers/types/ether'
+import type { ISpectrum } from '@app/ether/data/types'
 /* Utils */
 import { fetchGQL } from '@common/data/graphql/fetchGQL'
-import GQL from '@app/helpers/constants/graphql'
+import GQL from '@app/api/graphql/constants'
 /* Models */
 import { DataContainer } from '@app/ether/data/models/DataContainer'
 

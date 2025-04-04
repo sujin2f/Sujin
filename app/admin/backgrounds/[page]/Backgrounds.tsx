@@ -1,17 +1,17 @@
 import Link from 'next/link'
 /* Components */
-import { PrevNext } from '@app/components/single/PrevNext'
+import { PrevNext } from '@app/(single)/_components/PrevNext'
 import { Table } from '@common/components/containers/Table'
 import { Button } from '@common/components/forms/Button'
 /* Constants */
-import { PER_PAGE } from '@app/helpers/constants/mysql-query'
+import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 /* Utils */
 import {
     getBackgrounds,
     updateBackgrounds,
-} from '@app/helpers/data/mongo/wordpress/background'
+} from '@app/_lib/data/mongo/wordpress/background'
 /* Types */
-import type { PostType } from '@app/helpers/types/wordpress'
+import type { PostType } from '@app/_lib/types/wordpress'
 
 type Props = {
     params: Promise<{

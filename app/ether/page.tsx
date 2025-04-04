@@ -1,13 +1,13 @@
 /* Components */
-import ScrollToTop from '@app/components/common/ScrollToTop'
-import { PrevNext } from '@app/components/single/PrevNext'
+import { ScrollToTop } from '@app/_components/ScrollToTop'
+import { PrevNext } from '@app/(single)/_components/PrevNext'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
-import Banner from '@app/components/header/Banner'
+import { Banner } from '@app/_components/header/Banner'
 /* Constants */
-import { MenuNames } from '@app/helpers/constants/mysql-query'
+import { MenuNames } from '@app/_lib/data/mysql/constants'
 /* Types */
-import type { PostType } from '@app/helpers/types/wordpress'
+import type { PostType } from '@app/_lib/types/wordpress'
 
 export default function Intro() {
     return (

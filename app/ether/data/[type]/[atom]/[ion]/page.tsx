@@ -2,17 +2,17 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 /* Components */
-import { DataHeader } from '@components/ether/data-header'
-import ScrollToTop from '@app/components/common/ScrollToTop'
+import { DataHeader } from '@app/ether/data/components/data-header'
+import { ScrollToTop } from '@app/_components/ScrollToTop'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
-import { Chart } from '@components/ether/chart'
-import { Table } from '@components/ether/table'
+import { Chart } from '@app/ether/data/components/chart'
+import { Table } from '@app/ether/data/components/table'
 /* Helpers */
 import type { Nullable } from '@common/types'
-import type { ISpectrum } from '@app/helpers/types/ether'
+import type { ISpectrum } from '@app/ether/data/types'
 import { fetchGQL } from '@common/data/graphql/fetchGQL'
-import GQL from '@app/helpers/constants/graphql'
+import GQL from '@app/api/graphql/constants'
 import { DataContainer } from '@app/ether/data/models/DataContainer'
 
 export default function DataPage() {

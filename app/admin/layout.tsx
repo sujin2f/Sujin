@@ -2,14 +2,14 @@ import React, { type PropsWithChildren } from 'react'
 import { notFound } from 'next/navigation'
 import { getServerSession } from 'next-auth'
 /* Components */
-import Header from '@app/components/header'
+import { Header } from '@app/_components/header'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 import { Menu } from '@common/components/layout/Menu'
 /* Constants */
-import authOptions from '@app/api/auth/[...nextauth]/authOptions'
+import { authOptions } from '@app/api/auth/constants'
 /* Assets */
-import '@src/scss/admin.scss'
+import './style.scss'
 
 /**
  * Layout component that wraps the application with admin layout elements.

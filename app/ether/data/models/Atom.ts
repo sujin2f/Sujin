@@ -1,6 +1,6 @@
 import { Term } from '@app/ether/data/models/Term'
-import type { ISpectrum, SortType } from '@app/helpers/types/ether'
-import type { ChartData } from '@app/helpers/types/ether' // TODO Name
+import type { ISpectrum, SortType } from '@app/ether/data/types'
+import type { ChartData } from '@app/ether/data/types' // TODO Name
 
 /**
  * Atom Container that holds organized data for ether page
