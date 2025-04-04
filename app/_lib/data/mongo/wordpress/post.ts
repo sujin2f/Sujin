@@ -8,8 +8,8 @@ import {
     getCachedTag,
     updateTagTotal,
 } from '@app/_lib/data/mongo/wordpress/tag'
-import { convertImageBlockURL } from '@app/_lib/utils/wordpress'
-import { getCacheKey } from '@app/_lib/utils/system'
+import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
+import { getCacheKey } from '@app/_lib/utils'
 import {
     getCachedCategory,
     updateCategoryTotal,
@@ -21,7 +21,7 @@ import {
     type MySQLPostType,
     type TermType,
     POST_STATUS,
-} from '@app/_lib/types/wordpress'
+} from '@app/_lib/data/mysql/types'
 /* Constants */
 import { COLLECTION } from '@app/_lib/data/mongo/constants'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'

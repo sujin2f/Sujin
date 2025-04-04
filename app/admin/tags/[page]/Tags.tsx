@@ -6,7 +6,7 @@ import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 /* Utils */
 import { getTags, updateTag } from '@app/_lib/data/mongo/wordpress/tag'
 /* Types */
-import type { PostType } from '@app/_lib/types/wordpress'
+import type { PostType } from '@app/_lib/data/mysql/types'
 
 type Props = {
     params: Promise<{

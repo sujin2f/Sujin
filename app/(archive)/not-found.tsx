@@ -5,8 +5,7 @@ import Articles from '@app/(archive)/NotFoundArticles'
 import { Header } from '@app/_components/header'
 import { Footer } from '@app/_components/footer'
 /* Helpers */
-import { getPathName } from '@app/_lib/utils/server'
-import { getMenuNameFromPath } from '@app/_lib/utils/system'
+import { getPathName, getMenuNameFromPath } from '@app/_lib/utils'
 
 export const metadata: Metadata = {
     robots: {

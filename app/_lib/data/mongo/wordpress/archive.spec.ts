@@ -14,7 +14,7 @@ import { COLLECTION } from '@app/_lib/data/mongo/constants'
 import migration from '@app/_lib/migration'
 import setSystemOption from '@app/_lib/data/mongo/admin/setSystemOption'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
-import { ARCHIVE } from '@app/_lib/types/wordpress'
+import { ARCHIVE } from '@app/_lib/data/mysql/types'
 import Cached from '@common/model/Cached'
 
 const mockQuery = jest.fn()

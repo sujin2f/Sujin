@@ -4,7 +4,7 @@ import MySQL from '@app/_lib/data/mysql'
 /* Constants */
 import { MySQLQuery } from '@app/_lib/data/mysql/constants'
 /* Type */
-import type { OptionType } from '@app/_lib/types/wordpress'
+import type { OptionType } from '@app/_lib/data/mysql/types'
 
 /**
  * Retrieves an option value from the database.

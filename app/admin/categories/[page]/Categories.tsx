@@ -9,7 +9,7 @@ import {
     updateCategory,
 } from '@app/_lib/data/mongo/wordpress/category'
 /* Types */
-import type { PostType } from '@app/_lib/types/wordpress'
+import type { PostType } from '@app/_lib/data/mysql/types'
 
 type Props = {
     params: Promise<{

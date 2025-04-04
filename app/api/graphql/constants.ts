@@ -18,7 +18,7 @@ import type {
     TermType,
     PostType,
     ArchiveType,
-} from '@app/_lib/types/wordpress'
+} from '@app/_lib/data/mysql/types'
 import type { ISpectrum } from '@app/ether/data/types'
 
 const list = true

@@ -8,12 +8,12 @@ import {
     type POST_TYPE,
     type PostMetaType,
     type TermType,
-} from '@app/_lib/types/wordpress'
+} from '@app/_lib/data/mysql/types'
 /* Constants */
 import { MySQLQuery, PER_PAGE } from '@app/_lib/data/mysql/constants'
 /* Utils */
-import { autop } from '@app/_lib/utils/wordpress'
-import { unserialize } from '@app/_lib/utils/wordpress'
+import { autop } from '@app/_lib/data/mysql/utils'
+import { unserialize } from '@app/_lib/data/mysql/utils'
 import { getTermsByPost } from '@app/_lib/data/mysql/term'
 import { getPostImages } from '@app/_lib/data/mysql/media'
 

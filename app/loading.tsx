@@ -4,8 +4,7 @@ import { Banner } from '@app/_components/header/Banner'
 import { Header } from '@app/_components/header'
 import { Footer } from '@app/_components/footer'
 /* Helpers */
-import { getPathName } from '@app/_lib/utils/server'
-import { getMenuNameFromPath } from '@app/_lib/utils/system'
+import { getPathName, getMenuNameFromPath } from '@app/_lib/utils'
 /* Assets */
 import LoadingImg from '@app/_lib/images/loading.svg'
 

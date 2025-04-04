@@ -1,3 +1,4 @@
+import { headers } from 'next/headers'
 import {
     MenuDefault,
     MenuDevTool,
@@ -6,9 +7,10 @@ import {
 } from '@app/_lib/constants'
 import { MenuNames } from '@app/_lib/data/mysql/constants'
 import type { Nullable } from '@common/types'
-import { ARCHIVE, type MenuItem } from '@app/_lib/types/wordpress'
+import { ARCHIVE, type MenuItem } from '@app/_lib/data/mysql/types'
 import { COLLECTION } from '@app/_lib/data/mongo/constants'
 import { VERSION } from '@common/constants/helper'
+import { Metadata, METADATA } from '@app/_lib/constants'
 
 export const getMenuNameFromPath = (path: Nullable<string>) => {
     if (!path) {
@@ -66,4 +68,36 @@ export const getCacheKey = (
             return `${VERSION}-backgrounds`
     }
     return ''
+}
+
+/**
+ * Retrieves the current pathname from the headers.
+ *
+ * This function fetches the value of the `x-pathname` header and returns it.
+ * If the header is not found, it returns `undefined`.
+ *
+ * @async
+ * @returns {Promise<Nullable<string>>} The pathname as a string if found, otherwise `undefined`.
+ */
+export const getPathName = async (): Promise<Nullable<string>> =>
+    (await headers()).get('x-pathname') || undefined
+
+/**
+ * Retrieves metadata based on the current pathname.
+ *
+ * This function fetches the current pathname from the headers and looks up
+ * the corresponding metadata from the `METADATA` object. If the pathname
+ * is not available or the metadata is not found for the given path, an error
+ * is thrown.
+ *
+ * @async
+ * @returns {Promise<Metadata>} The metadata corresponding to the current pathname.
+ * @throws {Error} If the pathname is not found or metadata for the path is missing.
+ */
+export const getMetaData = async (): Promise<Metadata> => {
+    const path = await getPathName()
+    if (!path || !METADATA[path]) {
+        throw Error('Cannot get metadata.')
+    }
+    return METADATA[path]
 }

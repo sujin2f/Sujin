@@ -2,7 +2,7 @@
 import React, { Fragment, PropsWithChildren } from 'react'
 /* Helpers */
 import { parseContent } from '@app/(single)/utils'
-import type { PostType, PageType } from '@app/_lib/types/wordpress'
+import type { PostType, PageType } from '@app/_lib/data/mysql/types'
 
 type Props = {
     post: PostType | PageType

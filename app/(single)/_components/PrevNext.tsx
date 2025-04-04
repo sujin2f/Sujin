@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 /* Types */
-import type { PostType } from '@app/_lib/types/wordpress'
+import type { PostType } from '@app/_lib/data/mysql/types'
 import type { Nullable } from '@common/types'
 /* Constants */
 import GQL from '@app/api/graphql/constants'

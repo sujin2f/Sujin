@@ -6,7 +6,7 @@ import {
     type PostType,
     type PageType,
     ImageBlockType,
-} from '@app/_lib/types/wordpress'
+} from '@app/_lib/data/mysql/types'
 import { unserialize as phpUnserialize } from 'php-unserialize' // TODO Do not use module
 
 /**

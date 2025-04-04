@@ -3,7 +3,7 @@ import React, { useRef } from 'react'
 import Script from 'next/script'
 /* Helpers */
 import { replaceQuotes } from '@app/(single)/utils'
-import type { AttrMatch } from '@app/_lib/types/wordpress'
+import type { AttrMatch } from '@app/_lib/data/mysql/types'
 
 interface Props {
     value: AttrMatch

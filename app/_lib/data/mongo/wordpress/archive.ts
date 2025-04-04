@@ -4,7 +4,7 @@ import Mongo from '@common/data/mongo/mongo'
 import Cached from '@common/model/Cached'
 import Logger from '@common/model/Logger'
 /* Types */
-import type { ARCHIVE, ArchiveType } from '@app/_lib/types/wordpress'
+import type { ARCHIVE, ArchiveType } from '@app/_lib/data/mysql/types'
 import type { MutationResultType } from '@app/api/graphql/constants'
 /* Constants */
 import { COLLECTION } from '@app/_lib/data/mongo/constants'
@@ -13,7 +13,7 @@ import { IS_DEV } from '@common/constants/helper'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 /* Utils */
 import { getArchiveBySlug as getMySQLArchiveBySlug } from '@app/_lib/data/mysql/term'
-import { getCacheKey } from '@app/_lib/utils/system'
+import { getCacheKey } from '@app/_lib/utils'
 import { removeOption, getOption } from '@app/_lib/data/mysql/option'
 
 export const format = (

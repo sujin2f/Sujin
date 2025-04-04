@@ -4,7 +4,7 @@ import { Image } from '@common/components/containers/image'
 import { PrevNext } from '@app/(single)/_components/PrevNext'
 import { ScrollToTop } from '@app/_components/ScrollToTop'
 /* Types */
-import type { PostType } from '@app/_lib/types/wordpress'
+import type { PostType } from '@app/_lib/data/mysql/types'
 /* Assets */
 import pic1 from '@app/_lib/images/ether/pic1_eng.png'
 import pic2 from '@app/_lib/images/ether/pic2_eng.png'

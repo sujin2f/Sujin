@@ -13,7 +13,7 @@ import { MenuNames } from '@app/_lib/data/mysql/constants'
 import { IS_DEV, VERSION } from '@common/constants/helper'
 /* Utils */
 import { getCachedPage } from '@app/_lib/data/mongo/wordpress/page'
-import { getThumbnailFromPost } from '@app/_lib/utils/wordpress'
+import { getThumbnailFromPost } from '@app/_lib/data/mysql/utils'
 
 export async function About() {
     const request = unstable_cache(

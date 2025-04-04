@@ -10,7 +10,7 @@ import {
 /* Constants */
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 /* Types */
-import type { PostType } from '@app/_lib/types/wordpress'
+import type { PostType } from '@app/_lib/data/mysql/types'
 
 type Props = {
     params: Promise<{

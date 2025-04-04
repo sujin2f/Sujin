@@ -7,13 +7,13 @@ import { DAY_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV } from '@common/constants/helper'
 import { COLLECTION } from '@app/_lib/data/mongo/constants'
 /* Types */
-import type { ImageBlockType } from '@app/_lib/types/wordpress'
+import type { ImageBlockType } from '@app/_lib/data/mysql/types'
 /* Utils */
-import { getCacheKey } from '@app/_lib/utils/system'
+import { getCacheKey } from '@app/_lib/utils'
 import Logger from '@common/model/Logger'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 import { getBackgrounds as getMySQLBackgrounds } from '@app/_lib/data/mysql/media'
-import { convertImageBlockURL } from '@app/_lib/utils/wordpress'
+import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
 
 const format = (
     image: WithId<ImageBlockType> | ImageBlockType,

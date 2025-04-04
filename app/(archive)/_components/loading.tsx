@@ -6,8 +6,6 @@ import { Row } from '@common/components/layout/Row'
 import { Column, OneToTwelve } from '@common/components/layout/Column'
 import { map } from '@common/utils/array'
 
-import '@app/_lib/scss/loading.scss'
-
 type Props = {
     readonly className?: string
     readonly counts: number

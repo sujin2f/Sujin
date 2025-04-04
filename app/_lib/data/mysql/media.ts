@@ -14,7 +14,7 @@ import type {
     ImageType,
     MySQLPostType,
     ImageKeysType,
-} from '@app/_lib/types/wordpress'
+} from '@app/_lib/data/mysql/types'
 import type { Nullable } from '@common/types'
 
 export const getBackgrounds = async (): Promise<ImageBlockType[]> => {

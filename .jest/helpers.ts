@@ -7,7 +7,7 @@ import type {
     ImageBlockType,
     PageType,
     PostType,
-} from '@app/_lib/types/wordpress'
+} from '@app/_lib/data/mysql/types'
 import { page, post } from './fixture'
 import { COLLECTION } from '@app/_lib/data/mongo/constants'
 

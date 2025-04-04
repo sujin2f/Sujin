@@ -1,4 +1,4 @@
-import type { MenuItem } from '@app/_lib/types/wordpress'
+import type { MenuItem } from '@app/_lib/data/mysql/types'
 
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || ''
 export const DEFAULT_THUMBNAIL = `${BASE_URL}/assets/thumbnail.png`

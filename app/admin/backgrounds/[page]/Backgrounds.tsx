@@ -11,7 +11,7 @@ import {
     updateBackgrounds,
 } from '@app/_lib/data/mongo/wordpress/background'
 /* Types */
-import type { PostType } from '@app/_lib/types/wordpress'
+import type { PostType } from '@app/_lib/data/mysql/types'
 
 type Props = {
     params: Promise<{

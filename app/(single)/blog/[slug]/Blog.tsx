@@ -19,7 +19,7 @@ import { IS_DEV, VERSION } from '@common/constants/helper'
 /* Utils */
 import { getCachedPost } from '@app/_lib/data/mongo/wordpress/post'
 import { updateHits } from '@app/_lib/data/mongo/wordpress/tag'
-import { getThumbnailFromPost } from '@app/_lib/utils/wordpress'
+import { getThumbnailFromPost } from '@app/_lib/data/mysql/utils'
 
 type Props = {
     params: Promise<{

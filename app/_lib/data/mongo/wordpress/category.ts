@@ -1,5 +1,5 @@
 /* Types */
-import { ARCHIVE, type ArchiveType } from '@app/_lib/types/wordpress'
+import { ARCHIVE, type ArchiveType } from '@app/_lib/data/mysql/types'
 import type { MutationResultType } from '@app/api/graphql/constants'
 /* Utils */
 import {

@@ -1,6 +1,6 @@
 // yarn test wordpress.spec.ts
 
-import { unserialize, convertImageBlockURL } from './wordpress'
+import { unserialize, convertImageBlockURL } from './utils'
 
 jest.mock('php-unserialize', () => ({
     unserialize: () => ({

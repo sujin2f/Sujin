@@ -7,7 +7,7 @@ import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 /* Utils */
 import { getMySQLArchivePosts } from '@app/_lib/data/mongo/wordpress/post'
 /* Types */
-import { ARCHIVE, type PostType } from '@app/_lib/types/wordpress'
+import { ARCHIVE, type PostType } from '@app/_lib/data/mysql/types'
 
 type Props = {
     params: Promise<{

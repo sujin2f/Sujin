@@ -20,7 +20,7 @@ import {
 } from './post'
 import Mongo from '@common/data/mongo/mongo'
 import { COLLECTION } from '@app/_lib/data/mongo/constants'
-import { ARCHIVE, POST_STATUS } from '@app/_lib/types/wordpress'
+import { ARCHIVE, POST_STATUS } from '@app/_lib/data/mysql/types'
 import Cached from '@common/model/Cached'
 
 const mockQuery = jest.fn()

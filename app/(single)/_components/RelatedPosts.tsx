@@ -6,7 +6,7 @@ import Title from '@app/_components/WidgetTitle'
 import { Cards } from '@app/(archive)/_components/cards'
 import { Loading } from '@app/(archive)/_components/loading'
 /* Types */
-import type { PostType } from '@app/_lib/types/wordpress'
+import type { PostType } from '@app/_lib/data/mysql/types'
 import type { Nullable } from '@common/types'
 /* Utils */
 import { fetchGQL } from '@common/data/graphql/fetchGQL'

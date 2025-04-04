@@ -8,7 +8,7 @@ import { Paging } from '@app/(archive)/_components/paging'
 import { Row } from '@common/components/layout/Row'
 import { Loading } from '@app/(archive)/_components/loading'
 /* Types */
-import type { PostType } from '@app/_lib/types/wordpress'
+import type { PostType } from '@app/_lib/data/mysql/types'
 import type { Nullable } from '@common/types'
 /* Constants */
 import GQL from '@app/api/graphql/constants'
@@ -16,7 +16,7 @@ import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 /* Utils */
 import { fetchGQL } from '@common/data/graphql/fetchGQL'
-import { ArchiveProp } from '@app/_lib/types/props'
+import { ArchiveProp } from '@app/(archive)/types'
 
 interface Props extends ArchiveProp {
     total: number

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { fetchGQL } from '@common/data/graphql/fetchGQL'
 import GQL from '@app/api/graphql/constants'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
-import type { PostType } from '@app/_lib/types/wordpress'
+import type { PostType } from '@app/_lib/data/mysql/types'
 import type { Nullable } from '@common/types'
 
 export const useRecentPost = (): Nullable<PostType[]> => {

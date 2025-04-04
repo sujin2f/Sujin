@@ -1,6 +1,6 @@
 // yarn test term.spec.ts
 
-import { ARCHIVE } from '@app/_lib/types/wordpress'
+import { ARCHIVE } from '@app/_lib/data/mysql/types'
 import { getArchiveBySlug } from './term'
 
 const mockQuery = jest.fn()

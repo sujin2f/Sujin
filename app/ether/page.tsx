@@ -7,7 +7,7 @@ import { Banner } from '@app/_components/header/Banner'
 /* Constants */
 import { MenuNames } from '@app/_lib/data/mysql/constants'
 /* Types */
-import type { PostType } from '@app/_lib/types/wordpress'
+import type { PostType } from '@app/_lib/data/mysql/types'
 
 export default function Intro() {
     return (

@@ -6,9 +6,9 @@ import type {
     PostType,
     PageType,
     ArchiveType,
-} from '@app/_lib/types/wordpress'
+} from '@app/_lib/data/mysql/types'
 import type { OptionType } from '@app/_lib/data/mongo/types'
-import { ARCHIVE, POST_STATUS } from '@app/_lib/types/wordpress'
+import { ARCHIVE, POST_STATUS } from '@app/_lib/data/mysql/types'
 
 const image: { [key in keyof ImageType]: object } = {
     key: {

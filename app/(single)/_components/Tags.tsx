@@ -1,9 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 /* Helpers */
-import type { TermType } from '@app/_lib/types/wordpress'
-/* Assets */
-import '@app/_lib/scss/tags.scss'
+import type { TermType } from '@app/_lib/data/mysql/types'
 
 interface Props {
     items: TermType[]

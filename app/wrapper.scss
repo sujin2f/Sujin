@@ -1,4 +1,7 @@
 @use '@common/scss/mixin';
+@use '@app/_lib/scss/loading';
+@use '@app/_lib/scss/tags';
+@use '@app/_lib/scss/widget';
 
 $header-height: 48px;
 

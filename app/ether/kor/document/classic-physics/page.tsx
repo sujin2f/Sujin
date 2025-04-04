@@ -7,7 +7,7 @@ import { Table } from '@common/components/containers/Table'
 import { Latex } from '@app/(single)/_components/Latex'
 import { PrevNext } from '@app/(single)/_components/PrevNext'
 /* Types */
-import type { PostType } from '@app/_lib/types/wordpress'
+import type { PostType } from '@app/_lib/data/mysql/types'
 /* Assets */
 import pic5 from '@app/_lib/images/ether/pic5_eng.png'
 import 'katex/dist/katex.min.css'

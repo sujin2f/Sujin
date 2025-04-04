@@ -2,7 +2,7 @@
 import Mongo from '@common/data/mongo/mongo'
 import Cached from '@common/model/Cached'
 /* Types */
-import { ARCHIVE, type ArchiveType } from '@app/_lib/types/wordpress'
+import { ARCHIVE, type ArchiveType } from '@app/_lib/data/mysql/types'
 import type { MutationResultType } from '@app/api/graphql/constants'
 /* Utils */
 import {
@@ -13,7 +13,7 @@ import {
     getArchives,
     removeArchive,
 } from '@app/_lib/data/mongo/wordpress/archive'
-import { getCacheKey } from '@app/_lib/utils/system'
+import { getCacheKey } from '@app/_lib/utils'
 /* Constants */
 import { COLLECTION } from '@app/_lib/data/mongo/constants'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'

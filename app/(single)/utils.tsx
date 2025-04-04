@@ -8,7 +8,7 @@ import { Carousel } from '@app/(single)/_components/Carousel'
 import { Caption } from '@app/(single)/_components/Caption'
 import { Code } from '@app/(single)/_components/Code'
 /* Helpers */
-import type { Named, AttrMatch } from '@app/_lib/types/wordpress'
+import type { Named, AttrMatch } from '@app/_lib/data/mysql/types'
 import { FACEBOOK_SHARE, TWITTER_SHARE } from '@app/_lib/constants'
 
 interface UrlArgs {

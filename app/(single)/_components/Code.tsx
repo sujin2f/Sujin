@@ -4,7 +4,7 @@ import { Code as CodeComponent } from '@common/components/containers/Code'
 /* Helpers */
 import { replaceQuotes } from '@app/(single)/utils'
 import { languages } from '@common/constants/helper'
-import type { AttrMatch } from '@app/_lib/types/wordpress'
+import type { AttrMatch } from '@app/_lib/data/mysql/types'
 
 interface Props {
     value: AttrMatch

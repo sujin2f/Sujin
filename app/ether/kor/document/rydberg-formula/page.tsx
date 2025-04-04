@@ -7,7 +7,7 @@ import { Latex } from '@app/(single)/_components/Latex'
 import { PrevNext } from '@app/(single)/_components/PrevNext'
 import { ScrollToTop } from '@app/_components/ScrollToTop'
 /* Types */
-import type { PostType } from '@app/_lib/types/wordpress'
+import type { PostType } from '@app/_lib/data/mysql/types'
 /* Assets */
 import pic9 from '@app/_lib/images/ether/pic9.png'
 import pic10 from '@app/_lib/images/ether/pic10.png'

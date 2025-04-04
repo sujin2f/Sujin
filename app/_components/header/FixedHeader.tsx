@@ -10,7 +10,7 @@ import { Row } from '@common/components/layout/Row'
 import Hamburger from '@app/_components/header/Hamburger'
 import Search from '@app/_components/header/Search'
 /* Helpers */
-import { getMenu } from '@app/_lib/utils/system'
+import { getMenu } from '@app/_lib/utils'
 import { MenuNames } from '@app/_lib/data/mysql/constants'
 import { handleSignIn, handleSignOut } from '@app/api/auth/utils'
 /* Assets */

@@ -1,12 +1,12 @@
 'use client'
 import React from 'react'
 /* Components */
-import { ARCHIVE, type PostType } from '@app/_lib/types/wordpress'
+import { ARCHIVE, type PostType } from '@app/_lib/data/mysql/types'
 import { Column, OneToTwelve } from '@common/components/layout/Column'
 import { Card } from '@common/components/containers/Card'
 import { Tags } from '@app/(single)/_components/Tags'
 /* Helpers */
-import { getThumbnailFromPost } from '@app/_lib/utils/wordpress'
+import { getThumbnailFromPost } from '@app/_lib/data/mysql/utils'
 
 type Props = {
     readonly posts: PostType[]

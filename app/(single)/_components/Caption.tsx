@@ -1,7 +1,7 @@
 import React from 'react'
 
 /* Helpers */
-import type { AttrMatch } from '@app/_lib/types/wordpress'
+import type { AttrMatch } from '@app/_lib/data/mysql/types'
 import { joinClassNames } from '@common/utils/string'
 import { replaceQuotes } from '@app/(single)/utils'
 

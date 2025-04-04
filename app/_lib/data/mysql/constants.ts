@@ -4,7 +4,7 @@
  * @module constants
  */
 
-import type { POST_TYPE } from '@app/_lib/types/wordpress'
+import type { POST_TYPE } from '@app/_lib/data/mysql/types'
 
 /**
  * Making a formatted string

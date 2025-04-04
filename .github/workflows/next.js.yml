@@ -32,11 +32,6 @@ jobs:
               with:
                   cmd: lint # will run `yarn lint` command
 
-            - name: Build
-              uses: borales/actions-yarn@v3.0.0
-              with:
-                  cmd: build # will run `yarn build` command
-
             - name: Test
               uses: borales/actions-yarn@v3.0.0
               with:

@@ -5,7 +5,7 @@ import { Table } from '@common/components/containers/Table'
 import { Input } from '@common/components/forms/Input'
 import { Button } from '@common/components/forms/Button'
 /* Types */
-import type { ArchiveType } from '@app/_lib/types/wordpress'
+import type { ArchiveType } from '@app/_lib/data/mysql/types'
 
 type Props = {
     terms: ArchiveType[]

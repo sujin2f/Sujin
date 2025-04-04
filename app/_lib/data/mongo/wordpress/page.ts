@@ -10,11 +10,11 @@ import { COLLECTION } from '@app/_lib/data/mongo/constants'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 /* Utils */
 import { removeOption, getOption } from '@app/_lib/data/mysql/option'
-import { getCacheKey } from '@app/_lib/utils/system'
+import { getCacheKey } from '@app/_lib/utils'
 import { getPostBy } from '@app/_lib/data/mysql/post'
-import { convertImageBlockURL } from '@app/_lib/utils/wordpress'
+import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
 /* Types */
-import { type PageType } from '@app/_lib/types/wordpress'
+import { type PageType } from '@app/_lib/data/mysql/types'
 import type { MutationResultType } from '@app/api/graphql/constants'
 
 const format = (page: WithId<PageType> | PageType): PageType => ({

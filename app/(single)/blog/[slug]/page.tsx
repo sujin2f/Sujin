@@ -8,7 +8,7 @@ import { BASE_URL } from '@app/_lib/constants'
 import { VERSION } from '@common/constants/helper'
 /* Utils */
 import { getCachedPost } from '@app/_lib/data/mongo/wordpress/post'
-import { getThumbnailFromPost } from '@app/_lib/utils/wordpress'
+import { getThumbnailFromPost } from '@app/_lib/data/mysql/utils'
 
 type Props = {
     params: Promise<{

@@ -7,14 +7,14 @@ import { Header } from '@app/_components/header'
 import { Footer } from '@app/_components/footer'
 /* Constants */
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
-import { ARCHIVE } from '@app/_lib/types/wordpress'
+import { ARCHIVE } from '@app/_lib/data/mysql/types'
 import { MenuNames } from '@app/_lib/data/mysql/constants'
 import { IS_DEV, VERSION } from '@common/constants/helper'
 /* Utils */
 import { getCachedCategory } from '@app/_lib/data/mongo/wordpress/category'
 import { getCachedTag, updateHits } from '@app/_lib/data/mongo/wordpress/tag'
 /* Types */
-import type { ArchiveProp } from '@app/_lib/types/props'
+import type { ArchiveProp } from '@app/(archive)/types'
 
 type Props = {
     params: Promise<ArchiveProp>

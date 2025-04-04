@@ -7,12 +7,12 @@ import { Column } from '@common/components/layout/Column'
 import { Menu } from '@common/components/layout/Menu'
 /* Helpers */
 import { joinClassNames } from '@common/utils/string'
-import { getImageMap } from '@app/_lib/utils/wordpress'
-import { getMenu } from '@app/_lib/utils/system'
+import { getImageMap } from '@app/_lib/data/mysql/utils'
+import { getMenu } from '@app/_lib/utils'
 import { METADATA } from '@app/_lib/constants'
 import { MenuNames } from '@app/_lib/data/mysql/constants'
 /* Types */
-import { IMAGE_POSITION, type ImageBlockType } from '@app/_lib/types/wordpress'
+import { IMAGE_POSITION, type ImageBlockType } from '@app/_lib/data/mysql/types'
 
 type Props = {
     banner?: {
