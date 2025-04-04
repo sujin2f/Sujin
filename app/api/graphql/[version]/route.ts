@@ -16,13 +16,17 @@ import {
     getCachedRelatedPosts,
     mutatePost,
 } from '@app/_lib/data/mongo/wordpress/post'
-import { getTagCloud } from '@app/_lib/data/mongo/wordpress/tag'
+import { getTagCloud, mutateTag } from '@app/_lib/data/mongo/wordpress/tag'
 /* Constants */
 import GQL from '@app/api/graphql/constants'
 import { IS_DEV, VERSION } from '@common/constants/helper'
 import { MINUTE_IN_SECONDS } from '@common/constants/datetime'
+import { mutatePage } from '@app/_lib/data/mongo/wordpress/page'
+import { mutateBackground } from '@app/_lib/data/mongo/wordpress/background'
+import { mutateCategory } from '@app/_lib/data/mongo/wordpress/category'
 
 const options = createGQLOptions(
+    // Types
     GQL.ImageSize,
     GQL.Image,
     GQL.Images,
@@ -34,8 +38,7 @@ const options = createGQLOptions(
     GQL.TagCloud,
     GQL.Result,
     GQL.Spectrum,
-
-    // GQL.queryBackground.setCallback(getBackgrounds),
+    // Queries
     GQL.queryFlickr.setCallback(getFlickr),
     GQL.queryTagCloud.setCallback(getTagCloud),
     GQL.queryRecent.setCallback(getCachedRecentPosts),
@@ -43,13 +46,12 @@ const options = createGQLOptions(
     GQL.queryRelatedPosts.setCallback(getCachedRelatedPosts),
     GQL.querySpectra.setCallback(getSpectraFromNIST),
     GQL.queryArchivePosts.setCallback(getCachedArchivePosts),
-    // GQL.queryTagPosts.setCallback(getTagPosts),
-    // GQL.queryMongoSpectra.setCallback(getSpectraBySchema),
-    GQL.mutateUpdatePost.setCallback(mutatePost),
-    // GQL.mutateUpdatePage.setCallback(secureUpdatePage),
-    // GQL.mutateUpdateBackground.setCallback(updateBackground),
-    // GQL.mutateUpdateCategory.setCallback(secureUpdateCategory),
-    // GQL.mutateUpdateTag.setCallback(GQLUpdateTag),
+    // Mutations
+    GQL.mutatePost.setCallback(mutatePost),
+    GQL.mutatePage.setCallback(mutatePage),
+    GQL.mutateBackground.setCallback(mutateBackground),
+    GQL.mutateCategory.setCallback(mutateCategory),
+    GQL.mutateTag.setCallback(mutateTag),
 )
 
 const server = new ApolloServer({

@@ -87,7 +87,7 @@ class Post {
 
 		if ( $is_background ) {
 			$graphql    = new GraphQL();
-			$response   = $graphql->update_background( $post_id );
+			$response   = $graphql->update_background();
 	
 			update_option( 'last-gql-response', $response );
 		}

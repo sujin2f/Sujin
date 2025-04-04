@@ -37,23 +37,25 @@ const format = (page: WithId<PageType> | PageType): PageType => ({
  * @param {string} slug - Post slug
  * @returns {Promise<MutationResultType>}
  */
-export const secureUpdatePage = async (
+export const mutatePage = async (
     nonce: string,
     slug: string,
 ): Promise<MutationResultType> => {
     // Nonce validation
-    Logger.server('GQL Server updatePage: started.')
+    Logger.server('GQL Server mutatePage: started.')
     const optionKey = `update_page_${nonce}`
     const nonceValue = await getOption(optionKey)
     await removeOption(optionKey)
 
     if (`${nonce}-${slug}` !== nonceValue) {
-        const message = 'GQL Server updatePage: got invalid nonce.'
+        const message = 'GQL Server mutatePage: got invalid nonce.'
         Logger.server(message)
         throw Error(message)
     }
 
     await updatePage(slug)
+
+    Logger.server(`GQL Server mutatePage: ${slug} updated.`)
     return {
         result: true,
     }

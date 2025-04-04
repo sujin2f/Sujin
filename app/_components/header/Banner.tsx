@@ -23,7 +23,7 @@ type Props = {
         background?: ImageBlockType
         backgroundColor?: string
     }
-    menu: MenuNames
+    menu?: MenuNames
 }
 
 /**
@@ -33,7 +33,7 @@ type Props = {
  * @param {string} props.menu - The menu name to be used in the banner.
  */
 export function Banner(props: Props) {
-    const menu = getMenu(props.menu)
+    const menu = getMenu(props.menu || MenuNames.MAIN)
     const path = usePathname()
 
     const title =

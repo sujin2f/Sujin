@@ -31,7 +31,7 @@ export const updateTagTotal = async (slug: string): Promise<ArchiveType> =>
 export const updateTag = async (slug: string): Promise<ArchiveType> =>
     await updateArchive(slug, ARCHIVE.TAG)
 
-export const secureUpdateTag = async (
+export const mutateTag = async (
     nonce: string,
     slug: string,
 ): Promise<MutationResultType> =>

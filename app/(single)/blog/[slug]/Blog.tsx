@@ -14,7 +14,6 @@ import { Content } from '@app/(single)/_components/Content'
 import { GoogleAdvert } from '@app/_components/GoogleAdvert'
 /* Constants */
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
-import { MenuNames } from '@app/_lib/data/mysql/constants'
 import { IS_DEV, VERSION } from '@common/constants/helper'
 /* Utils */
 import { getCachedPost } from '@app/_lib/data/mongo/wordpress/post'
@@ -49,7 +48,6 @@ export default async function Blog(props: Props) {
     return (
         <main>
             <Banner
-                menu={MenuNames.MAIN}
                 banner={{
                     title: post.title,
                     excerpt: post.excerpt,

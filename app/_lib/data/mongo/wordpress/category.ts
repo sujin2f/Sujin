@@ -23,7 +23,7 @@ export const updateCategoryTotal = async (slug: string): Promise<ArchiveType> =>
 export const updateCategory = async (slug: string): Promise<ArchiveType> =>
     await updateArchive(slug, ARCHIVE.CATEGORY)
 
-export const secureUpdateCategory = async (
+export const mutateCategory = async (
     nonce: string,
     slug: string,
 ): Promise<MutationResultType> =>

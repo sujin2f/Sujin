@@ -53,6 +53,7 @@ const updateMySQLPost = async (
     item: MySQLPostType,
 ): Promise<[PostType, string[], string[]]> => {
     const post = format({ ...item, link: `/blog/${item.slug}` })
+    Cached.getInstance().flush(getCacheKey(COLLECTION.POST, post.slug))
     Object.keys(post.images).forEach((key) => {
         post.images[key] = convertImageBlockURL(post.images[key])
     })
@@ -70,7 +71,6 @@ const updateMySQLPost = async (
                 post,
             ).catch((e) => {
                 Logger.server(`Failed to update post ${post.slug}`)
-                console.log(post)
                 throw e
             })
             return post
@@ -78,19 +78,19 @@ const updateMySQLPost = async (
         .catch(async () => {
             await Mongo.insertOne(COLLECTION.POST, post).catch((e) => {
                 Logger.server(`Failed to insert post ${post.slug}`)
-                console.log(post)
                 throw e
-            })
-            post.terms.map((term: TermType) => {
-                if (term.type === 'tag') {
-                    tags.push(term.slug)
-                }
-                if (term.type === 'category') {
-                    categories.push(term.slug)
-                }
             })
             return post
         })
+
+    result.terms.map((term: TermType) => {
+        if (term.type === 'tag') {
+            tags.push(term.slug)
+        }
+        if (term.type === 'category') {
+            categories.push(term.slug)
+        }
+    })
 
     return [result, categories, tags]
 }
@@ -366,13 +366,15 @@ export const mutatePost = async (
     nonce: string,
     slug: string,
 ): Promise<MutationResultType> => {
+    Logger.server('GQL Server mutatePost: started.')
     const nonceKey = `update_post_${nonce}`
     const nonceValue = await getOption(nonceKey)
     await removeOption(nonceKey)
 
     if (nonceValue !== `${nonce}-${slug}`) {
-        Logger.server('Invalid nonce')
-        throw new Error('Invalid nonce')
+        const message = 'GQL Server mutatePost: got invalid nonce.'
+        Logger.server(message)
+        throw new Error(message)
     }
 
     await getPostBy('slug', slug, 'post', true).then(async (result) => {
@@ -388,8 +390,7 @@ export const mutatePost = async (
         }
     })
 
-    Cached.getInstance().flush(getCacheKey(COLLECTION.POST, slug))
-    Logger.server(`Post ${slug} updated.`)
+    Logger.server(`GQL Server mutatePost: ${slug} updated.`)
 
     return {
         result: true,

@@ -8,7 +8,6 @@ import { Footer } from '@app/_components/footer'
 /* Constants */
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
 import { ARCHIVE } from '@app/_lib/data/mysql/types'
-import { MenuNames } from '@app/_lib/data/mysql/constants'
 import { IS_DEV, VERSION } from '@common/constants/helper'
 /* Utils */
 import { getCachedCategory } from '@app/_lib/data/mongo/wordpress/category'
@@ -48,7 +47,6 @@ export default async function Archive(props: Props) {
             <Header />
             <main>
                 <Banner
-                    menu={MenuNames.MAIN}
                     banner={{
                         title: title,
                         excerpt: excerpt,

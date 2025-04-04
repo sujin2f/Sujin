@@ -4,7 +4,7 @@ import { VERSION } from '@common/constants/helper'
 import { clearMongo, pageFactory } from '@jest/helpers'
 import {
     getCachedPage,
-    secureUpdatePage,
+    mutatePage,
     removePage,
     updatePage,
     getPages,
@@ -55,7 +55,7 @@ describe('page.spec.ts', () => {
         expect(result2.id).toEqual(post2.id)
     })
 
-    test('secureUpdatePage()', async () => {
+    test('mutatePage()', async () => {
         const nonce = 'nonce'
 
         mockQuery.mockImplementation((arg: string) => {
@@ -81,7 +81,7 @@ describe('page.spec.ts', () => {
             }
             return Promise.resolve([])
         })
-        await secureUpdatePage(nonce, 'test')
+        await mutatePage(nonce, 'test')
 
         const post = await Mongo.findOne(COLLECTION.PAGE, { id: 1 })
         expect(post.title).toEqual('Test')

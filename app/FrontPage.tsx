@@ -5,7 +5,6 @@ import { Banner } from '@app/_components/header/Banner'
 import { Header } from '@app/_components/header'
 /* Constants */
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
-import { MenuNames } from '@app/_lib/data/mysql/constants'
 import { VERSION } from '@common/constants/helper'
 /* Utils */
 import { getCachedBackgrounds } from '@app/_lib/data/mongo/wordpress/background'
@@ -32,7 +31,6 @@ export default async function FrontPage() {
             <Header />
             <main className="page--frontpage">
                 <Banner
-                    menu={MenuNames.MAIN}
                     banner={{
                         title: (
                             <Logo

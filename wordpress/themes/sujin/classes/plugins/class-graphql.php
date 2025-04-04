@@ -10,8 +10,8 @@
 namespace Sujin\Theme\Plugins;
 
 class GraphQL {
-	public function update_background( int $post_id ) {
-		$nonce    = wp_create_nonce( 'update_background_' . $post_id );
+	public function update_background() {
+		$nonce    = wp_create_nonce( 'update_background' );
 		$base_url = get_home_url();
 
 		$version = '0.0.0';
@@ -22,7 +22,7 @@ class GraphQL {
 		$mutation = array(
 			'query' => '
 				mutation {
-					updateBackground(nonce: "' . $nonce . '", id: ' . $post_id . ') {
+					updateBackground(nonce: "' . $nonce . '") {
 						result
 					}
 				}',
@@ -34,7 +34,7 @@ class GraphQL {
 			'body'    => wp_json_encode( $mutation ),
 		);
 
-		update_option( 'update_background_' . $nonce, $nonce . '-' . $post_id );
+		update_option( 'update_background_' . $nonce, $nonce );
 		$response = wp_remote_post( $base_url . '/api/graphql/' . $version, $args );
 		return $response;
 	}

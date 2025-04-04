@@ -6,7 +6,7 @@ import { Footer } from '@app/_components/footer'
 /* Constants */
 import { MenuNames } from '@app/_lib/data/mysql/constants'
 /* Utils */
-import { getMetaData } from '@app/_lib/utils'
+import { getMetaData } from '@app/_lib/utils-server'
 
 export const generateMetadata = async (): Promise<Metadata> => {
     let metadata: Metadata

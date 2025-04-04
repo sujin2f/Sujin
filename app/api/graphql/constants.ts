@@ -89,15 +89,6 @@ const TagCloud = new GQLType<ArchiveType>('TagCloud', {
     hits: { type: GQLInt },
 })
 
-const queryBackground = new GQLQuery<[], ImageBlockType[]>(
-    'background',
-    {},
-    {
-        type: Image,
-        list,
-    },
-)
-
 const queryArchivePosts = new GQLQuery<[string, string, number], PostType[]>(
     'archivePosts',
     {
@@ -180,7 +171,7 @@ const Result = new GQLType<boolean>('Result', {
     result: { type: GQLBoolean },
 })
 
-const mutateUpdatePost = new GQLMutation<[string, string], MutationResultType>(
+const mutatePost = new GQLMutation<[string, string], MutationResultType>(
     'updatePost',
     {
         nonce: {
@@ -195,7 +186,7 @@ const mutateUpdatePost = new GQLMutation<[string, string], MutationResultType>(
     { type: Result },
 )
 
-const mutateUpdatePage = new GQLMutation<[string, string], MutationResultType>(
+const mutatePage = new GQLMutation<[string, string], MutationResultType>(
     'updatePage',
     {
         nonce: {
@@ -210,28 +201,18 @@ const mutateUpdatePage = new GQLMutation<[string, string], MutationResultType>(
     { type: Result },
 )
 
-const mutateUpdateBackground = new GQLMutation<
-    [string, number],
-    MutationResultType
->(
+const mutateBackground = new GQLMutation<[string], MutationResultType>(
     'updateBackground',
     {
         nonce: {
             type: GQLString,
             required,
         },
-        id: {
-            type: GQLInt,
-            required,
-        },
     },
     { type: Result },
 )
 
-const mutateUpdateCategory = new GQLMutation<
-    [string, string],
-    MutationResultType
->(
+const mutateCategory = new GQLMutation<[string, string], MutationResultType>(
     'updateCategory',
     {
         nonce: {
@@ -246,7 +227,7 @@ const mutateUpdateCategory = new GQLMutation<
     { type: Result },
 )
 
-const mutateUpdateTag = new GQLMutation<[string, string], MutationResultType>(
+const mutateTag = new GQLMutation<[string, string], MutationResultType>(
     'updateTag',
     {
         nonce: {
@@ -347,16 +328,15 @@ const defaults = {
     queryRecent,
     queryPrevNext,
     queryRelatedPosts,
-    queryBackground,
     queryArchivePosts,
     querySpectra,
     queryMongoSpectra,
 
-    mutateUpdatePost,
-    mutateUpdatePage,
-    mutateUpdateBackground,
-    mutateUpdateCategory,
-    mutateUpdateTag,
+    mutatePost,
+    mutatePage,
+    mutateBackground,
+    mutateCategory,
+    mutateTag,
 
     imageOpr,
     menuItemOpr,

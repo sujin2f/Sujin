@@ -4,8 +4,6 @@ import { Banner } from '@app/_components/header/Banner'
 import Articles from '@app/(archive)/NotFoundArticles'
 import { Header } from '@app/_components/header'
 import { Footer } from '@app/_components/footer'
-/* Helpers */
-import { getPathName, getMenuNameFromPath } from '@app/_lib/utils'
 
 export const metadata: Metadata = {
     robots: {
@@ -16,14 +14,11 @@ export const metadata: Metadata = {
 }
 
 export default async function NotFound() {
-    const path = await getPathName()
-    const menu = getMenuNameFromPath(path)
     return (
         <>
             <Header />
             <main>
                 <Banner
-                    menu={menu}
                     banner={{
                         title: '404 Not Found',
                         excerpt:
