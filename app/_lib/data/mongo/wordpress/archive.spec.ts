@@ -79,21 +79,9 @@ describe('archive.spec.ts', () => {
         const category = await categoryFactory({ title: 'Changed' })
         await removeArchive(category.slug, ARCHIVE.CATEGORY)
 
-        mockQuery.mockImplementation((arg: string) => {
-            if (
-                arg.includes(
-                    'ON taxonomy.term_taxonomy_id = relationships.term_taxonomy_id',
-                )
-            ) {
-                return Promise.resolve([
-                    {
-                        ...category,
-                        title: 'Changed',
-                    },
-                ])
-            }
-            return Promise.resolve([])
-        })
+        mockQuery.mockImplementation(() =>
+            Promise.resolve({ ...category, title: 'Changed' }),
+        )
 
         await updateArchive(category.slug, ARCHIVE.CATEGORY)
         const result = await Mongo.findOne(COLLECTION.CATEGORY, {

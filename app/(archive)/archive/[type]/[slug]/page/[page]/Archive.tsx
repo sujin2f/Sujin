@@ -21,7 +21,8 @@ type Props = {
 
 export default async function Archive(props: Props) {
     const params = await props.params
-    const { slug, page } = params
+    const { page } = params
+    const slug = params.slug.toLowerCase()
     const type = params.type === 'tag' ? ARCHIVE.TAG : params.type
     const requestArchive = unstable_cache(
         async (slug) =>
