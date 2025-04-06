@@ -1,18 +1,17 @@
 import type { PropsWithChildren } from 'react'
 import type { Metadata } from 'next/types'
 /* Components */
-import Banner from '@components/header/Banner'
-import Header from '@components/header'
-import Footer from '@components/footer'
+import { Banner } from '@app/_components/header/Banner'
+import { Header } from '@app/_components/header'
+import { Footer } from '@app/_components/footer'
 /* Helpers */
-import { MenuNames } from '@src/constants/mysql-query'
-import { getMetaData } from '@src/utils/server'
+import { MenuNames } from '@app/_lib/data/mysql/constants'
+import { getMetaData } from '@app/_lib/utils-server'
 /* Assets */
-import '@src/scss/dev-tool.scss'
+import './style.scss'
 
 export const generateMetadata = async (): Promise<Metadata> => {
     const metadata = await getMetaData()
-    const metadataBase = new URL(metadata.openGraph.url)
 
     return {
         ...metadata,
@@ -20,11 +19,10 @@ export const generateMetadata = async (): Promise<Metadata> => {
         openGraph: {
             title: `Sujin | ${metadata}`,
         },
-        metadataBase,
     }
 }
 
-export default async function DevToolLayout({ children }: PropsWithChildren) {
+export default async function Layout({ children }: PropsWithChildren) {
     return (
         <>
             <Header menu={MenuNames.DEV_TOOL} />

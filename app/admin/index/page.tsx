@@ -1,41 +1,52 @@
-import Link from 'next/link'
 import { Table } from '@common/components/containers/Table'
-import getIndexes from '@src/db/mongo/admin/getIndexes'
+import { COLLECTION } from '@app/_lib/data/mongo/constants'
+import getIndexes from '@app/_lib/data/mongo/admin/getIndexes'
+import getSystemOption from '@app/_lib/data/mongo/admin/getSystemOption'
+import Header from '@app/admin/_components/Header'
+import { Row } from '@common/components/layout/Row'
+import { Column } from '@common/components/layout/Column'
 
 export default async function ResetIndex() {
     const indexes = await getIndexes(
-        'post',
-        'spectra',
-        'term',
-        'options',
-        'user',
+        COLLECTION.BACKGROUNDS,
+        COLLECTION.CATEGORY,
+        COLLECTION.TAG,
+        COLLECTION.PAGE,
+        COLLECTION.POST,
+        COLLECTION.OPTIONS,
+        COLLECTION.SPECTRA,
+        COLLECTION.USERS,
     )
+    const version = await getSystemOption('version')
 
     return (
         <>
-            {Object.entries(indexes).map(([collection, data]) => (
-                <article key={`admin-index-${collection}`}>
-                    <h3>{collection}</h3>
-
-                    <Table>
-                        <thead>
-                            <tr>
-                                <th>Key</th>
-                                <th>Value</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {Object.entries(data).map(([key, value]) => (
-                                <tr key={`admin-index-${collection}-${key}`}>
-                                    <td>{key}</td>
-                                    <td>{JSON.stringify(value)}</td>
+            <Header title={`DB Index: ${version}`} />
+            <Row>
+                {Object.entries(indexes).map(([collection, data]) => (
+                    <Column gap key={`admin-index-${collection}`}>
+                        <h2>{collection}</h2>
+                        <Table>
+                            <thead>
+                                <tr>
+                                    <th>Key</th>
+                                    <th>Value</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </Table>
-                </article>
-            ))}
-            <Link href="/admin/reset-index">Reset Index</Link>
+                            </thead>
+                            <tbody>
+                                {Object.entries(data).map(([key, value]) => (
+                                    <tr
+                                        key={`admin-index-${collection}-${key}`}
+                                    >
+                                        <td>{key}</td>
+                                        <td>{JSON.stringify(value)}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </Table>
+                    </Column>
+                ))}
+            </Row>
         </>
     )
 }

@@ -33,3 +33,12 @@
     display: flex;
     justify-content: center;
 }
+
+.table--full-width {
+    .table__container {
+        min-width: 100%;
+    }
+    table {
+        min-width: 100%;
+    }
+}

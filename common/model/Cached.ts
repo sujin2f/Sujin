@@ -3,6 +3,7 @@ import type NodeCache from 'node-cache'
 import type { Nullable } from '../types'
 import { Singleton } from './Singleton'
 import { WEEK_IN_SECONDS } from '../constants/datetime'
+import Logger from './Logger'
 
 /**
  * Node Cache
@@ -15,7 +16,7 @@ export default class Cached extends Singleton<Cached>() {
             return cache as NodeCache
         }
 
-        console.log('NodeCache is not set.')
+        Logger.server('NodeCache is not set.')
         const newCache = await this.init()
         if (!newCache) {
             console.error('NodeCache cannot be set.')

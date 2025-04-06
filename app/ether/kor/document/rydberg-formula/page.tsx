@@ -1,26 +1,26 @@
 import Link from 'next/link'
 import { InlineMath } from 'react-katex'
 /* Components */
-import { Image } from '@common/components/containers/image'
+import { NextImage } from '@common/components/containers/NextImage'
 import { Table } from '@common/components/containers/Table'
-import { Latex } from '@components/wordpress/single/Latex'
-import { PrevNext } from '@components/wordpress/single/PrevNext'
-import ScrollToTop from '@components/ScrollToTop'
+import { Latex } from '@app/(single)/_components/Latex'
+import { PrevNext } from '@app/(single)/_components/PrevNext'
+import ScrollToTop from '@common/components/ScrollToTop'
 /* Types */
-import type { Post } from '@src/types/wordpress'
+import type { PostType } from '@app/_lib/data/mysql/types'
 /* Assets */
-import pic9 from '@src/images/ether/pic9.png'
-import pic10 from '@src/images/ether/pic10.png'
-import pic55 from '@src/images/ether/pic55.png'
-import pic56 from '@src/images/ether/pic56.png'
-import pic57 from '@src/images/ether/pic57.png'
-import pic58 from '@src/images/ether/pic58.png'
-import pic59 from '@src/images/ether/pic59.png'
-import pic92 from '@src/images/ether/pic92.jpeg'
-import pic93 from '@src/images/ether/pic93.jpeg'
-import pic94 from '@src/images/ether/pic94.png'
-import pic95 from '@src/images/ether/pic95.png'
-import pic113 from '@src/images/ether/pic113.png'
+import pic9 from '@app/_lib/images/ether/pic9.png'
+import pic10 from '@app/_lib/images/ether/pic10.png'
+import pic55 from '@app/_lib/images/ether/pic55.png'
+import pic56 from '@app/_lib/images/ether/pic56.png'
+import pic57 from '@app/_lib/images/ether/pic57.png'
+import pic58 from '@app/_lib/images/ether/pic58.png'
+import pic59 from '@app/_lib/images/ether/pic59.png'
+import pic92 from '@app/_lib/images/ether/pic92.jpeg'
+import pic93 from '@app/_lib/images/ether/pic93.jpeg'
+import pic94 from '@app/_lib/images/ether/pic94.png'
+import pic95 from '@app/_lib/images/ether/pic95.png'
+import pic113 from '@app/_lib/images/ether/pic113.png'
 import 'katex/dist/katex.min.css'
 
 export default function RydbergFormula() {
@@ -37,7 +37,7 @@ export default function RydbergFormula() {
                 전자는 활률적으로 존재한다.
             </p>
 
-            <Image
+            <NextImage
                 src={pic9}
                 alt="전자 오비탈"
                 caption={
@@ -53,6 +53,7 @@ export default function RydbergFormula() {
                     </>
                 }
                 center
+                width={600}
             />
 
             <h2>가설: 오비탈의 마디는 광자-에테르</h2>
@@ -81,7 +82,7 @@ export default function RydbergFormula() {
                 해석해 보겠다.
             </p>
 
-            <Image
+            <NextImage
                 src={pic10}
                 alt="에테르의 관점으로 본 오비탈"
                 caption={
@@ -91,6 +92,7 @@ export default function RydbergFormula() {
                     </>
                 }
                 center
+                width={600}
             />
 
             <p>
@@ -113,7 +115,7 @@ export default function RydbergFormula() {
                 나타난 형상이 바로 오비탈인 것이다.
             </p>
 
-            <Image
+            <NextImage
                 src={pic92}
                 alt="오비탈에서 마디의 모양"
                 width="300"
@@ -168,7 +170,7 @@ export default function RydbergFormula() {
                 변화이다.
             </p>
 
-            <Image
+            <NextImage
                 src={pic55}
                 alt="수소와 헬륨의 원형 에테르"
                 caption={
@@ -192,7 +194,7 @@ export default function RydbergFormula() {
 
             <h2>그래프의 이동</h2>
 
-            <Image
+            <NextImage
                 src={pic56}
                 alt="헬륨의 s, p 오비탈"
                 caption="헬륨의 s, p 오비탈"
@@ -233,7 +235,7 @@ export default function RydbergFormula() {
                 헬륨의 높이에 맞추어 뤼드베리 방정식을 상하로 이동해준 것이다.
             </p>
 
-            <Image
+            <NextImage
                 src={pic57}
                 alt="뤼드베리 방정식을 헬륨에 맞추어 상하이동한 그래프"
                 caption="뤼드베리 방정식을 헬륨에 맞추어 상하이동한 그래프"
@@ -283,7 +285,7 @@ export default function RydbergFormula() {
                 대입해서 헬륨 I의 s, p 오비탈의 그래프를 그려보면 아래와 같다.
             </p>
 
-            <Image
+            <NextImage
                 src={pic58}
                 alt="헬륨의 s, p 오비탈의 그래프"
                 caption={
@@ -313,7 +315,7 @@ export default function RydbergFormula() {
 
             <Latex>{`R^{3.1}_{2S.1/2}(x) = R(x, 13.60676328, 5.39114472, 2, 3.373129)`}</Latex>
 
-            <Image
+            <NextImage
                 src={pic59}
                 alt="리튬 I의 s 오비탈의 그래프"
                 caption={
@@ -417,10 +419,11 @@ export default function RydbergFormula() {
                 될 것이다.
             </p>
 
-            <Image
+            <NextImage
                 src={pic93}
                 alt="헬륨 오비탈 값의 좌우 이동"
                 caption="헬륨 오비탈 값의 좌우 이동"
+                width={600}
             />
 
             <p>
@@ -441,7 +444,12 @@ export default function RydbergFormula() {
             <Latex>{`\\to k_{s} = \\sqrt{\\dfrac{13.60676328}{24.58556828 - 20.6157751334}} - 1 - 1`}</Latex>
             <Latex caption="모든 점을 x축 방향으로 이만큼 옮겨주면 기준 뤼드베리 방정식에 붙을 것이다">{`\\to k_{s} = −0.148628918071`}</Latex>
 
-            <Image src={pic113} alt="s, p, d의 배치" caption="s, p, d의 배치" />
+            <NextImage
+                src={pic113}
+                alt="s, p, d의 배치"
+                caption="s, p, d의 배치"
+                width={600}
+            />
 
             <p>
                 s 오비탈은 값이 낮고 (그래프가 오른쪽), 선형 에테르가 포함된 p,
@@ -566,7 +574,7 @@ export default function RydbergFormula() {
 
             <p>이를 그래프에 얹으면 아래와 같다.</p>
 
-            <Image
+            <NextImage
                 src={pic94}
                 alt="헬륨 오비탈 값의 좌우 이동 그래프"
                 caption="헬륨 오비탈 값의 좌우 이동 그래프"
@@ -670,7 +678,7 @@ export default function RydbergFormula() {
 
             <p>이를 그래프에 옮겨 보자.</p>
 
-            <Image
+            <NextImage
                 src={pic95}
                 alt="헬륨 오비탈 값의 변화"
                 caption="헬륨 오비탈 값의 변화"
@@ -691,11 +699,11 @@ export default function RydbergFormula() {
                     {
                         title: '가설의 검증(1): 고전 물리학',
                         link: '/ether/kor/document/classic-physics',
-                    } as Post,
+                    } as PostType,
                     {
                         title: '가설의 검증(3): 방출 에너지 분석',
                         link: '/ether/kor/document/analysis',
-                    } as Post,
+                    } as PostType,
                 ]}
             ></PrevNext>
         </div>

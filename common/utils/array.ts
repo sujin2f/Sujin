@@ -156,7 +156,7 @@ export const average = (items: unknown[]): number => {
  * @param {unknown[]} input - The array to shuffle.
  * @returns {unknown[]} The shuffled array.
  */
-export const shuffle = (input: unknown[]): unknown[] => {
+export const shuffle = <T>(input: T[]): T[] => {
     for (let i = input.length - 1; i > 0; i--) {
         const randomIndex = getRandomInt(i + 1)
         ;[input[i], input[randomIndex]] = [input[randomIndex], input[i]]

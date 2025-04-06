@@ -1,27 +1,27 @@
 'use client'
 import { Fragment, useEffect, useState } from 'react'
 /* Components */
-import { Table } from '@components/ether/table'
-import ScrollToTop from '@components/ScrollToTop'
+import { Table } from '@app/ether/data/_components/Table'
+import ScrollToTop from '@common/components/ScrollToTop'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
-import { Chart } from '@components/ether/chart'
+import { Chart } from '@app/ether/data/_components/Chart'
 /* Types */
 import type { Nullable } from '@common/types'
-import type { ISpectrum } from '@src/types/ether'
+import type { ISpectrum } from '@app/ether/data/types'
 /* Utils */
 import { fetchGQL } from '@common/data/graphql/fetchGQL'
-import { queryMongoSpectra, spectraOpr } from '@src/constants/graphql'
+import GQL from '@app/api/graphql/constants'
 /* Models */
-import { DataContainer } from '@src/models/DataContainer'
+import { DataContainer } from '@app/ether/data/models/DataContainer'
 
 export default function DataPage() {
     const [spectra, setSpectra] = useState<Nullable<ISpectrum[]>>()
 
     useEffect(() => {
         fetchGQL(
-            queryMongoSpectra,
-            spectraOpr,
+            GQL.queryMongoSpectra,
+            GQL.spectraOpr,
             0,
             encodeURIComponent(JSON.stringify({ ionReverse: 1, orbital: 's' })),
         )

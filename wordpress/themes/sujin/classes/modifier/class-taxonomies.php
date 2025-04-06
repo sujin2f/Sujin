@@ -55,8 +55,18 @@ class Taxonomies {
 	 * @param int $term_id Term ID.
 	 */
 	public function term_updated( int $term_id): void {
+		$term     = get_term( $term_id );
 		$graphql  = new GraphQL();
-		$response = $graphql->update_term( $term_id );
+		$response = '';
+		
+		if ( $term->taxonomy === 'category' ) {
+			$response = $graphql->update_category( $term->slug );
+		}
+
+		if ( $term->taxonomy === 'post_tag' ) {
+			$response = $graphql->update_tag( $term->slug );
+		}
+
 		update_option( 'last-gql-response', $response );
 	}
 }

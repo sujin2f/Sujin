@@ -2,18 +2,18 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 /* Components */
-import { DataHeader } from '@components/ether/data-header'
-import ScrollToTop from '@components/ScrollToTop'
+import { DataHeader } from '@app/ether/data/_components/DataHeader'
+import ScrollToTop from '@common/components/ScrollToTop'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
-import { Chart } from '@components/ether/chart'
-import { Table } from '@components/ether/table'
+import { Chart } from '@app/ether/data/_components/Chart'
+import { Table } from '@app/ether/data/_components/Table'
 /* Helpers */
 import type { Nullable } from '@common/types'
-import type { ISpectrum } from '@src/types/ether'
+import type { ISpectrum } from '@app/ether/data/types'
 import { fetchGQL } from '@common/data/graphql/fetchGQL'
-import { querySpectra, spectraOpr } from '@src/constants/graphql'
-import { DataContainer } from '@src/models/DataContainer'
+import GQL from '@app/api/graphql/constants'
+import { DataContainer } from '@app/ether/data/models/DataContainer'
 
 export default function DataPage() {
     const params = useParams<EtherDataProps>()
@@ -28,7 +28,7 @@ export default function DataPage() {
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
-        fetchGQL(querySpectra, spectraOpr, 0, atom, ion)
+        fetchGQL(GQL.querySpectra, GQL.spectraOpr, 0, atom, ion)
             .then((result) => setSpectra(result))
             .catch(() => setSpectra([]))
         // eslint-disable-next-line react-hooks/exhaustive-deps

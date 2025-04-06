@@ -1,6 +1,9 @@
 /**
  * DO NOT USE THIS FROM FRONTEND
+ *
+ * @deprecated Deprecated in Next.js
  */
+
 import path from 'path'
 import fs from 'fs'
 /* Constants */

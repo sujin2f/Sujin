@@ -30,35 +30,39 @@ services:
             WORDPRESS_DEBUG: 0
             TZ: America/Toronto
             MONGO: mongo
-            NEXT_PUBLIC_BASE_URL: ${NEXT_PUBLIC_BASE_URL}
             NODE_ENV: development
+            VERSION: ${NEXT_PUBLIC_VERSION}
         volumes:
             - ./wordpress/plugins/2d-tag-cloud:/var/www/html/wp-content/plugins/2d-tag-cloud
             - ./wordpress/themes/sujin:/var/www/html/wp-content/themes/sujin
             - ./wordpress/uploads:/var/www/html/wp-content/uploads
         ports:
             - 9000:80
-    # sujin:
-    #     container_name: sujin
-    #     image: nextjs-docker
-    #     depends_on:
-    #         - mysql
-    #         - mongo
-    #     environment:
-    #         MYSQL: mysql
-    #         MYSQL_USER: ${MYSQL_USER}
-    #         MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    #         MYSQL_DB: ${MYSQL_DB}
-    #         MONGO: mongo
-    #         PORT: 80
-    #         TITLE: ${TITLE}
-    #         EXCERPT: ${EXCERPT}
-    #         FRONTEND: ${FRONTEND}
-    #         WORDPRESS: ${WORDPRESS}
-    #         FLICKR_ID: ${FLICKR_ID}
-    #         NEXT_PUBLIC_GOOGLE_AD_CLIENT: ${NEXT_PUBLIC_GOOGLE_AD_CLIENT}
-    #         NEXT_PUBLIC_GOOGLE_AD_CLIENT: ${NEXT_PUBLIC_GOOGLE_AD_CLIENT}
-    #         SERVER_SECRET: ${SERVER_SECRET}
-    #         VERSION: ${VERSION}
-    #     ports:
-    #         - 80:80
+    sujin:
+        container_name: sujin
+        image: sujin2f/sujin:${NEXT_PUBLIC_VERSION}
+        depends_on:
+            - mysql
+            - mongo
+        environment:
+            NEXT_PUBLIC_VERSION: ${NEXT_PUBLIC_VERSION}
+            NEXT_PUBLIC_TITLE: ${NEXT_PUBLIC_TITLE}
+            NEXT_PUBLIC_EXCERPT: ${NEXT_PUBLIC_EXCERPT}
+            NEXT_PUBLIC_BASE_URL: ${NEXT_PUBLIC_BASE_URL}
+            MYSQL: mysql
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_DB: ${MYSQL_DB}
+            MONGO: mongo
+            MONGO_DATABASE: sujin-stage
+            GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+            GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+            NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+            NEXTAUTH_URL: ${NEXTAUTH_URL}
+            ADMIN_EMAIL: ${ADMIN_EMAIL}
+            GRAPHQL_ALLOW_ORIGINS: ${GRAPHQL_ALLOW_ORIGINS}
+            PORT: 80
+        volumes:
+            - ./wordpress/uploads:/app/public/wp-content/uploads
+        ports:
+            - 80:80

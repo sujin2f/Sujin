@@ -1,27 +1,27 @@
 import Link from 'next/link'
 import { InlineMath } from 'react-katex'
 /* Components */
-import { Image } from '@common/components/containers/image'
+import { NextImage } from '@common/components/containers/NextImage'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
-import { Latex } from '@components/wordpress/single/Latex'
-import { PrevNext } from '@components/wordpress/single/PrevNext'
-import ScrollToTop from '@components/ScrollToTop'
+import { Latex } from '@app/(single)/_components/Latex'
+import { PrevNext } from '@app/(single)/_components/PrevNext'
+import ScrollToTop from '@common/components/ScrollToTop'
 /* Types */
-import type { Post } from '@src/types/wordpress'
+import type { PostType } from '@app/_lib/data/mysql/types'
 /* Assets */
-import pic58 from '@src/images/ether/pic58.png'
-import pic114 from '@src/images/ether/pic114.png'
-import pic115 from '@src/images/ether/pic115.png'
-import pic116 from '@src/images/ether/pic116.png'
-import pic117 from '@src/images/ether/pic117.png'
-import pic118 from '@src/images/ether/pic118.png'
-import pic119 from '@src/images/ether/pic119.png'
-import pic120 from '@src/images/ether/pic120.png'
-import pic121 from '@src/images/ether/pic121.png'
-import pic122 from '@src/images/ether/pic122.png'
-import pic123 from '@src/images/ether/pic123.png'
-import pic125 from '@src/images/ether/pic125.png'
+import pic58 from '@app/_lib/images/ether/pic58.png'
+import pic114 from '@app/_lib/images/ether/pic114.png'
+import pic115 from '@app/_lib/images/ether/pic115.png'
+import pic116 from '@app/_lib/images/ether/pic116.png'
+import pic117 from '@app/_lib/images/ether/pic117.png'
+import pic118 from '@app/_lib/images/ether/pic118.png'
+import pic119 from '@app/_lib/images/ether/pic119.png'
+import pic120 from '@app/_lib/images/ether/pic120.png'
+import pic121 from '@app/_lib/images/ether/pic121.png'
+import pic122 from '@app/_lib/images/ether/pic122.png'
+import pic123 from '@app/_lib/images/ether/pic123.png'
+import pic125 from '@app/_lib/images/ether/pic125.png'
 import 'katex/dist/katex.min.css'
 
 export default function Between() {
@@ -37,7 +37,7 @@ export default function Between() {
                 같다. 다시 헬륨에서의 값들의 배치를 보자.
             </p>
 
-            <Image
+            <NextImage
                 src={pic58}
                 alt="헬륨의 s, p 오비탈의 그래프"
                 caption="헬륨의 s, p 오비탈의 그래프"
@@ -67,7 +67,7 @@ export default function Between() {
                 을 사용할 것이다.
             </p>
 
-            <Image
+            <NextImage
                 src={pic125}
                 alt="아래쪽 그래프들이 기준이 된다"
                 caption="아래쪽 그래프들이 기준이 된다"
@@ -94,7 +94,7 @@ export default function Between() {
 
             <Row fullWidth>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic122}
                         alt="수소 오비탈 값의 Between"
                         caption={
@@ -103,10 +103,11 @@ export default function Between() {
                                 Between
                             </>
                         }
+                        width={600}
                     />
                 </Column>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic123}
                         alt="수소 에테르 값의 Between"
                         caption={
@@ -115,6 +116,7 @@ export default function Between() {
                                 Between
                             </>
                         }
+                        width={600}
                     />
                 </Column>
             </Row>
@@ -136,7 +138,7 @@ export default function Between() {
 
             <Row fullWidth>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic114}
                         alt="헬륨 오비탈 값의 Between"
                         caption={
@@ -145,10 +147,11 @@ export default function Between() {
                                 Between
                             </>
                         }
+                        width={600}
                     />
                 </Column>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic115}
                         alt="헬륨 에테르 값의 Between"
                         caption={
@@ -157,6 +160,7 @@ export default function Between() {
                                 Between
                             </>
                         }
+                        width={600}
                     />
                 </Column>
             </Row>
@@ -171,7 +175,7 @@ export default function Between() {
 
             <Row fullWidth>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic116}
                         alt="베릴륨 오비탈 값의 Between"
                         caption={
@@ -180,10 +184,11 @@ export default function Between() {
                                 Between
                             </>
                         }
+                        width={600}
                     />
                 </Column>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic117}
                         alt="베릴륨 에테르 값의 Between"
                         caption={
@@ -192,13 +197,14 @@ export default function Between() {
                                 Between
                             </>
                         }
+                        width={600}
                     />
                 </Column>
             </Row>
 
             <Row fullWidth>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic118}
                         alt="소디움 오비탈 값의 Between"
                         caption={
@@ -207,10 +213,11 @@ export default function Between() {
                                 Between
                             </>
                         }
+                        width={600}
                     />
                 </Column>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic119}
                         alt="소디움 에테르 값의 Between"
                         caption={
@@ -219,13 +226,14 @@ export default function Between() {
                                 Between
                             </>
                         }
+                        width={600}
                     />
                 </Column>
             </Row>
 
             <Row fullWidth>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic120}
                         alt="세슘 오비탈 값의 Between"
                         caption={
@@ -234,10 +242,11 @@ export default function Between() {
                                 Between
                             </>
                         }
+                        width={600}
                     />
                 </Column>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic121}
                         alt="세슘 에테르 값의 Between"
                         caption={
@@ -246,6 +255,7 @@ export default function Between() {
                                 Between
                             </>
                         }
+                        width={600}
                     />
                 </Column>
             </Row>
@@ -272,11 +282,11 @@ export default function Between() {
                     {
                         title: '가설의 검증(3): 방출 에너지 분석',
                         link: '/ether/kor/document/analysis',
-                    } as Post,
+                    } as PostType,
                     {
                         title: '결론',
                         link: '/ether/kor/document/conclusion',
-                    } as Post,
+                    } as PostType,
                 ]}
             ></PrevNext>
         </div>

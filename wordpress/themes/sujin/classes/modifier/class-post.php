@@ -36,6 +36,7 @@ class Post {
 	 */
 	protected function __construct() {
 		add_action( 'save_post', array( $this, 'post_updated' ), 100, 2 );
+		add_action( 'edit_attachment', array( $this, 'attachment_updated' ), 100, 1 );
 
 		Meta_Box::get_instance( 'Images' )
 			->append_to( Post_Type::get_instance( 'Post' ) )
@@ -56,7 +57,39 @@ class Post {
 	 */
 	public function post_updated( int $post_id, \WP_Post $post ): void {
 		$graphql  = new GraphQL();
-		$response = $graphql->update_post( $post );
+		$response = '';
+		
+		if ( $post->post_type === 'post' ) {
+			$response = $graphql->update_post( $post );
+		}
+
+		if ( $post->post_type === 'page' ) {
+			$response = $graphql->update_page( $post );
+		}
+
 		update_option( 'last-gql-response', $response );
+	}
+
+	/**
+	 * Update mongo document
+	 *
+	 * @param int $post_id Post ID.
+	 */
+	public function attachment_updated( int $post_id ): void {
+		$categories = array();
+		$the_cats   = get_the_category( $post_id );
+		if ( is_array( $the_cats ) ) {
+			foreach ( $the_cats as  $category ) {
+				array_push( $categories, $category->slug );
+			}
+		}
+		$is_background = in_array('background', $categories) ? 1 : 0;
+
+		if ( $is_background ) {
+			$graphql    = new GraphQL();
+			$response   = $graphql->update_background();
+	
+			update_option( 'last-gql-response', $response );
+		}
 	}
 }

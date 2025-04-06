@@ -1,10 +1,9 @@
 import type { Metadata } from 'next'
 /* Components */
-import Banner from '@components/header/Banner'
-import ArchiveRecent from '@components/NotFoundArticles'
-/* Helpers */
-import { getPathName } from '@src/utils/server'
-import { getMenuNameFromPath } from '@src/utils/system'
+import { Banner } from '@app/_components/header/Banner'
+import Articles from '@app/NotFoundClient'
+import { Header } from '@app/_components/header'
+import { Footer } from '@app/_components/footer'
 
 export const metadata: Metadata = {
     robots: {
@@ -14,20 +13,21 @@ export const metadata: Metadata = {
     },
 }
 
-export default async function NotFound() {
-    const path = await getPathName()
-    const menu = getMenuNameFromPath(path)
+export default async function Wrapper() {
     return (
-        <main>
-            <Banner
-                menu={menu}
-                banner={{
-                    title: '404 Not Found',
-                    excerpt:
-                        'We cannot find the result. See below for recent articles.',
-                }}
-            />
-            <ArchiveRecent />
-        </main>
+        <>
+            <Header />
+            <main>
+                <Banner
+                    banner={{
+                        title: '404 Not Found',
+                        excerpt:
+                            'We cannot find the result. See below for recent articles.',
+                    }}
+                />
+                <Articles />
+            </main>
+            <Footer />
+        </>
     )
 }

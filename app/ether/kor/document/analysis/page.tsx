@@ -1,37 +1,37 @@
 import Link from 'next/link'
 import { InlineMath } from 'react-katex'
 /* Components */
-import { Image } from '@common/components/containers/image'
+import { NextImage } from '@common/components/containers/NextImage'
 import { Table } from '@common/components/containers/Table'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
-import { Latex } from '@components/wordpress/single/Latex'
-import { PrevNext } from '@components/wordpress/single/PrevNext'
-import ScrollToTop from '@components/ScrollToTop'
+import { Latex } from '@app/(single)/_components/Latex'
+import { PrevNext } from '@app/(single)/_components/PrevNext'
+import ScrollToTop from '@common/components/ScrollToTop'
 /* Types */
-import type { Post } from '@src/types/wordpress'
+import type { PostType } from '@app/_lib/data/mysql/types'
 /* Assets */
-import pic29 from '@src/images/ether/pic29.png'
-import pic42 from '@src/images/ether/pic42.png'
-import pic65 from '@src/images/ether/pic65.png'
-import pic86 from '@src/images/ether/pic86.png'
-import pic96 from '@src/images/ether/pic96.png'
-import pic97 from '@src/images/ether/pic97.png'
-import pic98 from '@src/images/ether/pic98.png'
-import pic99 from '@src/images/ether/pic99.png'
-import pic100 from '@src/images/ether/pic100.png'
-import pic101 from '@src/images/ether/pic101.png'
-import pic102 from '@src/images/ether/pic102.png'
-import pic103 from '@src/images/ether/pic103.png'
-import pic104 from '@src/images/ether/pic104.png'
-import pic105 from '@src/images/ether/pic105.png'
-import pic106 from '@src/images/ether/pic106.png'
-import pic107 from '@src/images/ether/pic107.png'
-import pic108 from '@src/images/ether/pic108.png'
-import pic109 from '@src/images/ether/pic109.png'
-import pic110 from '@src/images/ether/pic110.png'
-import pic111 from '@src/images/ether/pic111.png'
-import pic112 from '@src/images/ether/pic112.png'
+import pic29 from '@app/_lib/images/ether/pic29.png'
+import pic42 from '@app/_lib/images/ether/pic42.png'
+import pic65 from '@app/_lib/images/ether/pic65.png'
+import pic86 from '@app/_lib/images/ether/pic86.png'
+import pic96 from '@app/_lib/images/ether/pic96.png'
+import pic97 from '@app/_lib/images/ether/pic97.png'
+import pic98 from '@app/_lib/images/ether/pic98.png'
+import pic99 from '@app/_lib/images/ether/pic99.png'
+import pic100 from '@app/_lib/images/ether/pic100.png'
+import pic101 from '@app/_lib/images/ether/pic101.png'
+import pic102 from '@app/_lib/images/ether/pic102.png'
+import pic103 from '@app/_lib/images/ether/pic103.png'
+import pic104 from '@app/_lib/images/ether/pic104.png'
+import pic105 from '@app/_lib/images/ether/pic105.png'
+import pic106 from '@app/_lib/images/ether/pic106.png'
+import pic107 from '@app/_lib/images/ether/pic107.png'
+import pic108 from '@app/_lib/images/ether/pic108.png'
+import pic109 from '@app/_lib/images/ether/pic109.png'
+import pic110 from '@app/_lib/images/ether/pic110.png'
+import pic111 from '@app/_lib/images/ether/pic111.png'
+import pic112 from '@app/_lib/images/ether/pic112.png'
 import 'katex/dist/katex.min.css'
 
 export default function Analysis() {
@@ -44,7 +44,7 @@ export default function Analysis() {
                 약간 보완해서 다시 가져오겠다.
             </p>
 
-            <Image
+            <NextImage
                 src={pic96}
                 alt="헬륨 오비탈 값의 변화"
                 caption="헬륨 오비탈 값의 변화"
@@ -71,7 +71,7 @@ export default function Analysis() {
                 있지 않은가? 아직 희망을 버리기에는 이르다.
             </p>
 
-            <Image
+            <NextImage
                 src={pic97}
                 alt="헬륨 오비탈 값의 변화 + 선형 에테르"
                 caption="헬륨 오비탈 값의 변화 + 선형 에테르"
@@ -132,7 +132,7 @@ export default function Analysis() {
 
             <p>값들을 재정렬하자.</p>
 
-            <Image
+            <NextImage
                 src={pic98}
                 alt="원형이 먼저다"
                 caption="원형이 먼저다!"
@@ -174,17 +174,19 @@ export default function Analysis() {
 
             <Row fullWidth>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic100}
                         alt="헬륨 오비탈 값의 변화"
                         caption="헬륨 오비탈 값의 변화"
+                        width={600}
                     />
                 </Column>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic99}
                         alt="헬륨 에테르 값의 변화"
                         caption="헬륨 에테르 값의 변화"
+                        width={600}
                     />
                 </Column>
             </Row>
@@ -201,17 +203,19 @@ export default function Analysis() {
 
             <Row fullWidth>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic102}
                         alt="수소 오비탈 값의 변화"
                         caption="수소 오비탈 값의 변화"
+                        width={600}
                     />
                 </Column>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic101}
                         alt="수소 에테르 값의 변화"
                         caption="수소 에테르 값의 변화"
+                        width={600}
                     />
                 </Column>
             </Row>
@@ -242,7 +246,7 @@ export default function Analysis() {
 
             <Row fullWidth>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic103}
                         alt="수소 오비탈 값의 변화"
                         caption={
@@ -251,10 +255,11 @@ export default function Analysis() {
                                 <sub>1/2</sub>
                             </>
                         }
+                        width={600}
                     />
                 </Column>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic104}
                         alt="수소 에테르 값의 변화"
                         caption={
@@ -263,6 +268,7 @@ export default function Analysis() {
                                 <sub>1/2</sub>
                             </>
                         }
+                        width={600}
                     />
                 </Column>
             </Row>
@@ -286,7 +292,7 @@ export default function Analysis() {
             <Latex>{`D(x) = \\dfrac{v_2 - v_1 - (R(x+1+k_{2}) - R(x+k_{1}))}{R(x+1+k_{2}) - R(x+k_{1})} `}</Latex>
             <Latex caption="뒤로 갈 수록 가중치를 주어 보기 편하게 만든 결과 D(x)">{`D(x) = \\dfrac{v_2 - v_1}{ R(x+1+k_{2}) - R(x+k_{1}) } - 1`}</Latex>
 
-            <Image
+            <NextImage
                 src={pic105}
                 alt="가중치 D(x)를 사용한 수소 에테르 값의 변화"
                 caption={
@@ -313,7 +319,7 @@ export default function Analysis() {
 
             <Row fullWidth>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic112}
                         alt="헬륨 오비탈 값의 변화"
                         caption={
@@ -321,10 +327,11 @@ export default function Analysis() {
                                 헬륨 오비탈 <sup>1</sup>S<sub>0</sub> 값의 변화
                             </>
                         }
+                        width={600}
                     />
                 </Column>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic99}
                         alt="헬륨 에테르 값의 변화"
                         caption={
@@ -332,6 +339,7 @@ export default function Analysis() {
                                 헬륨 에테르 <sup>1</sup>S<sub>0</sub> 값의 변화
                             </>
                         }
+                        width={600}
                     />
                 </Column>
             </Row>
@@ -355,7 +363,7 @@ export default function Analysis() {
 
             <Row fullWidth>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic106}
                         alt="리튬 오비탈 값의 변화"
                         caption={
@@ -364,10 +372,11 @@ export default function Analysis() {
                                 변화
                             </>
                         }
+                        width={600}
                     />
                 </Column>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic107}
                         alt="리튬 에테르 값의 변화"
                         caption={
@@ -376,6 +385,7 @@ export default function Analysis() {
                                 변화
                             </>
                         }
+                        width={600}
                     />
                 </Column>
             </Row>
@@ -455,7 +465,7 @@ export default function Analysis() {
                 배일까?
             </p>
 
-            <Image
+            <NextImage
                 src={pic29}
                 alt="0.75의 몇 배일까?"
                 caption={
@@ -495,7 +505,7 @@ export default function Analysis() {
                 도해하면 아래와 같다.
             </p>
 
-            <Image
+            <NextImage
                 src={pic42}
                 alt="상하 이동의 예측"
                 caption="상하 이동의 예측"
@@ -503,7 +513,7 @@ export default function Analysis() {
                 center
             />
 
-            <Image
+            <NextImage
                 src={pic65}
                 alt="가설에 따라 리튬 그래프를 만들고 리튬의 점들을 이동시킨 결과"
                 caption={
@@ -539,7 +549,7 @@ export default function Analysis() {
 
             <Row>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic108}
                         alt="베릴륨 오비탈 값의 변화"
                         caption={
@@ -548,10 +558,11 @@ export default function Analysis() {
                                 변화
                             </>
                         }
+                        width={600}
                     />
                 </Column>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic109}
                         alt="베릴륨 에테르 값의 변화"
                         caption={
@@ -560,6 +571,7 @@ export default function Analysis() {
                                 변화
                             </>
                         }
+                        width={600}
                     />
                 </Column>
             </Row>
@@ -592,7 +604,11 @@ export default function Analysis() {
             <Row fullWidth>
                 <Column small={4}></Column>
                 <Column small={3}>
-                    <Image src={pic86} alt="리튬의 에너지 분포" />
+                    <NextImage
+                        src={pic86}
+                        alt="리튬의 에너지 분포"
+                        width={600}
+                    />
                 </Column>
             </Row>
 
@@ -650,7 +666,7 @@ export default function Analysis() {
 
             <Row fullWidth>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic110}
                         alt="소디움 오비탈 값의 변화"
                         caption={
@@ -659,10 +675,11 @@ export default function Analysis() {
                                 변화
                             </>
                         }
+                        width={600}
                     />
                 </Column>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic111}
                         alt="소디움 에테르 값의 변화"
                         caption={
@@ -671,6 +688,7 @@ export default function Analysis() {
                                 변화
                             </>
                         }
+                        width={600}
                     />
                 </Column>
             </Row>
@@ -680,11 +698,11 @@ export default function Analysis() {
                     {
                         title: '가설의 검증(2): 뤼드베리 방정식의 재정립',
                         link: '/ether/kor/document/rydberg-formula',
-                    } as Post,
+                    } as PostType,
                     {
                         title: '가설의 검증(4): 비교기준, Between',
                         link: '/ether/kor/document/between',
-                    } as Post,
+                    } as PostType,
                 ]}
             ></PrevNext>
         </div>

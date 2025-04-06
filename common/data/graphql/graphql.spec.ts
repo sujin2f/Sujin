@@ -65,7 +65,6 @@ describe('graphql', () => {
             operation1.includes('{"query":"{\\ngetList(id: 32)'),
         ).toBeTruthy()
         const operation2 = addUser.toOperation('id', 32)
-        console.log(operation1, operation2)
         expect(
             operation2.includes('{"mutation":"{\\naddUser(id: 32)'),
         ).toBeTruthy()

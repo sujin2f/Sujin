@@ -1,18 +1,18 @@
 import Link from 'next/link'
 /* Components */
-import { Image } from '@common/components/containers/image'
-import { PrevNext } from '@components/wordpress/single/PrevNext'
-import ScrollToTop from '@components/ScrollToTop'
+import { NextImage } from '@common/components/containers/NextImage'
+import { PrevNext } from '@app/(single)/_components/PrevNext'
+import ScrollToTop from '@common/components/ScrollToTop'
 /* Types */
-import type { Post } from '@src/types/wordpress'
+import type { PostType } from '@app/_lib/data/mysql/types'
 /* Assets */
-import pic1 from '@src/images/ether/pic1_eng.png'
-import pic2 from '@src/images/ether/pic2_eng.png'
-import pic3 from '@src/images/ether/pic3_eng.png'
-import pic4 from '@src/images/ether/pic4_eng.png'
-import pic7 from '@src/images/ether/pic7_eng.png'
-import pic8 from '@src/images/ether/pic8_eng.png'
-import pic91 from '@src/images/ether/pic91.jpeg'
+import pic1 from '@app/_lib/images/ether/pic1_eng.png'
+import pic2 from '@app/_lib/images/ether/pic2_eng.png'
+import pic3 from '@app/_lib/images/ether/pic3_eng.png'
+import pic4 from '@app/_lib/images/ether/pic4_eng.png'
+import pic7 from '@app/_lib/images/ether/pic7_eng.png'
+import pic8 from '@app/_lib/images/ether/pic8_eng.png'
+import pic91 from '@app/_lib/images/ether/pic91.jpeg'
 
 export default function Hypothesis() {
     return (
@@ -26,7 +26,7 @@ export default function Hypothesis() {
                 that have?
             </p>
 
-            <Image
+            <NextImage
                 src={pic3}
                 width={570}
                 alt="Hypothesis"
@@ -69,7 +69,7 @@ export default function Hypothesis() {
                 be considered a probability space with mass.
             </p>
 
-            <Image
+            <NextImage
                 src={pic8}
                 width={570}
                 alt="The differences between the photon and electron"
@@ -87,7 +87,7 @@ export default function Hypothesis() {
                 than this
             </p>
 
-            <Image
+            <NextImage
                 src={pic7}
                 alt="Name it!"
                 caption={
@@ -96,6 +96,7 @@ export default function Hypothesis() {
                     </>
                 }
                 center
+                width={600}
             />
 
             <p>
@@ -118,10 +119,11 @@ export default function Hypothesis() {
                 universe is not expanding but rather emerging.
             </p>
 
-            <Image
+            <NextImage
                 src={pic91}
                 alt="Emerging and shrinking of universe"
                 center
+                width={600}
             />
 
             <p>
@@ -153,7 +155,7 @@ export default function Hypothesis() {
                 results in the formation of diffraction patterns.
             </p>
 
-            <Image
+            <NextImage
                 src={pic4}
                 alt="Applying the hypothesis to the double-slit experiment"
                 caption={
@@ -209,7 +211,7 @@ export default function Hypothesis() {
                 let&apos;s examine Niels Bohr&apos;s atomic model.
             </p>
 
-            <Image
+            <NextImage
                 src={pic1}
                 alt="Classic Physics: Bohr Model"
                 caption={
@@ -245,7 +247,7 @@ export default function Hypothesis() {
                 Ether where Sparkles do not exist.
             </p>
 
-            <Image
+            <NextImage
                 src={pic2}
                 alt="Reconstruction Bohr Model by Ether-Sparkle Hypothesis"
                 caption="Reconstruction Bohr Model by Ether-Sparkle Hypothesis"
@@ -283,11 +285,11 @@ export default function Hypothesis() {
                     {
                         title: 'Introduction',
                         link: '/ether',
-                    } as Post,
+                    } as PostType,
                     {
                         title: 'Proof(1): Classic Physics',
                         link: '/ether/document/classic-physics',
-                    } as Post,
+                    } as PostType,
                 ]}
             ></PrevNext>
         </div>

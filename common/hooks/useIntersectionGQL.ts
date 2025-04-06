@@ -25,11 +25,11 @@ const useIntersectionGQL = <A extends ScalarJSType[], T>(
     ...args: A
 ): [RefObject<HTMLElement | null>, Nullable<T[]>] => {
     const ref = useRef<HTMLElement>(null)
-    const [result, setTagCloud] = useState<Nullable<T[]>>()
+    const [result, setResult] = useState<Nullable<T[]>>()
     useIntersectionObserver(ref, () => {
         fetchGQL(query, fields, ttl, ...args)
-            .then((result) => setTagCloud(result))
-            .catch(() => setTagCloud([]))
+            .then((result) => setResult(result))
+            .catch(() => setResult([]))
     })
     return [ref, result]
 }

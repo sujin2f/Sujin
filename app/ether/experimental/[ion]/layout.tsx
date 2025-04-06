@@ -1,8 +1,8 @@
 import React, { type PropsWithChildren } from 'react'
 /* Components */
-import Header from '@components/header'
+import { Header } from '@app/_components/header'
 /* Helpers */
-import { MenuNames } from '@src/constants/mysql-query'
+import { MenuNames } from '@app/_lib/data/mysql/constants'
 
 export default async function Layout({ children }: PropsWithChildren) {
     return (

@@ -1,9 +1,35 @@
-export const post = {
-    id: 2,
-    slug: 'sample-page',
-    title: 'Sample Page',
-    excerpt: '',
-    date: '2022-11-23T12:34:52.000Z',
+import {
+    ARCHIVE,
+    POST_STATUS,
+    type TermType,
+    type PageType,
+    ImageBlockType,
+    CategoryType,
+    TagType,
+} from '@app/_lib/data/mysql/types'
+
+export const imageBlock: ImageBlockType = {
+    mimeType: 'image/jpeg',
+    title: 'Test Image',
+    url: '/wp-content/uploads/2025/04/463789214_8486095158174815_2317925829133014056_n.jpg',
+    width: 1,
+    height: 1,
+    sizes: {
+        medium: {
+            url: '/wp-content/uploads/2025/04/463789214_8486095158174815_2317925829133014056_n-225x300.jpg',
+            width: 225,
+            height: 300,
+            mimeType: 'image/jpeg',
+        },
+    },
+}
+
+export const page: PageType = {
+    id: 14253,
+    slug: '%ea%b2%b0%ea%b5%ad%ec%9d%80-%ec%8b%a4%ed%8c%a8%ed%95%b4%eb%b2%84%eb%a6%b0-%ec%84%b1%ea%b3%b5%ed%9a%8c',
+    title: '김조광수 감독의 교훈 없는 승리',
+    excerpt: '밑은 없지만 끝은 있는 성공회의 결론',
+    date: new Date() as unknown as number,
     content:
         '<!-- wp:paragraph -->\n' +
         "<p>This is an example page. It's different from a blog post because it will stay in one place and will show up in your site navigation (in most themes). Most people start with an About page that introduces them to potential site visitors. It might say something like this:</p>\n" +
@@ -24,20 +50,49 @@ export const post = {
         '<!-- wp:paragraph -->\n' +
         '<p>As a new WordPress user, you should go to <a href="http://localhost:8000/wp-admin/">your dashboard</a> to delete this page and create new pages for your content. Have fun!</p>\n' +
         '<!-- /wp:paragraph -->',
-    parent: 0,
-    type: 'post',
-    menuOrder: 0,
-    status: 'publish',
-    link: 'http://localhost:8000/?page_id=2',
-    mimeType: '',
+    status: POST_STATUS.PUBLISH,
+    link: '/blog/%ea%b2%b0%ea%b5%ad%ec%9d%80-%ec%8b%a4%ed%8c%a8%ed%95%b4%eb%b2%84%eb%a6%b0-%ec%84%b1%ea%b3%b5%ed%9a%8c',
+    images: {
+        thumbnail: imageBlock,
+    },
+    meta: {
+        useBackgroundColor: false,
+        backgroundColor: '#000000',
+    },
 }
-export const term = {
+export const post = {
+    ...page,
+    terms: [
+        {
+            id: 5818,
+            title: 'Blog',
+            slug: 'blog',
+            type: 'category',
+        },
+    ],
+}
+export const term: TermType = {
     id: 1,
     title: 'Uncategorized',
     slug: 'uncategorized',
-    type: 'category',
-    excerpt: '',
-    total: 1,
+    type: ARCHIVE.CATEGORY,
+}
+export const category: CategoryType = {
+    id: 1,
+    title: 'Category Title',
+    slug: 'category',
+    excerpt: 'Category',
+    image: imageBlock,
+    total: 3,
+}
+export const tag: TagType = {
+    id: 1,
+    title: 'Tag Title',
+    slug: 'tag',
+    excerpt: 'Tag',
+    image: imageBlock,
+    total: 3,
+    hits: 40,
 }
 export const tagCloud = {
     id: 4,

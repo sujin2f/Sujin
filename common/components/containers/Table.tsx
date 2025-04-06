@@ -8,6 +8,7 @@ import '../../scss/table.scss'
 type Props = PropsWithChildren<{
     readonly scroll?: boolean
     readonly center?: boolean
+    readonly fullWidth?: boolean
     readonly caption?: ReactNode
     readonly className?: string
 }>
@@ -18,6 +19,7 @@ type Props = PropsWithChildren<{
  * @param {ReactNode} [props.children] - The content to display in the table.
  * @param {boolean} [props.scroll] - Whether the table should be scrollable.
  * @param {boolean} [props.center] - Whether the table should be centered.
+ * @param {boolean} [props.full-width] - Set min-width 100%
  * @param {ReactNode} [props.caption] - The caption for the table.
  * @param {string} [props.className] - Additional class names for the table.
  * @example <Table scroll center><thead><tr><th>...</th></tr></thead></Table>
@@ -28,6 +30,7 @@ export const Table = ({
     caption,
     className,
     children,
+    fullWidth,
 }: Props) => {
     return (
         <div
@@ -35,6 +38,7 @@ export const Table = ({
                 'table',
                 scroll && 'table--scroll',
                 center && 'table--center',
+                fullWidth && 'table--full-width',
                 className && `table--${className}`,
             )}
         >

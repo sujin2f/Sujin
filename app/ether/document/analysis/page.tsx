@@ -1,37 +1,37 @@
 import { InlineMath } from 'react-katex'
 import Link from 'next/link'
 /* Components */
-import { Image } from '@common/components/containers/image'
+import { NextImage } from '@common/components/containers/NextImage'
 import { Table } from '@common/components/containers/Table'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
-import { Latex } from '@components/wordpress/single/Latex'
-import { PrevNext } from '@components/wordpress/single/PrevNext'
-import ScrollToTop from '@components/ScrollToTop'
+import { Latex } from '@app/(single)/_components/Latex'
+import { PrevNext } from '@app/(single)/_components/PrevNext'
+import ScrollToTop from '@common/components/ScrollToTop'
 /* Types */
-import type { Post } from '@src/types/wordpress'
+import type { PostType } from '@app/_lib/data/mysql/types'
 /* Assets */
-import pic29 from '@src/images/ether/pic29.png'
-import pic42 from '@src/images/ether/pic42.png'
-import pic65 from '@src/images/ether/pic65.png'
-import pic86 from '@src/images/ether/pic86.png'
-import pic96 from '@src/images/ether/pic96.png'
-import pic97 from '@src/images/ether/pic97.png'
-import pic98 from '@src/images/ether/pic98.png'
-import pic99 from '@src/images/ether/pic99.png'
-import pic100 from '@src/images/ether/pic100.png'
-import pic101 from '@src/images/ether/pic101.png'
-import pic102 from '@src/images/ether/pic102.png'
-import pic103 from '@src/images/ether/pic103.png'
-import pic104 from '@src/images/ether/pic104.png'
-import pic105 from '@src/images/ether/pic105.png'
-import pic106 from '@src/images/ether/pic106.png'
-import pic107 from '@src/images/ether/pic107.png'
-import pic108 from '@src/images/ether/pic108.png'
-import pic109 from '@src/images/ether/pic109.png'
-import pic110 from '@src/images/ether/pic110.png'
-import pic111 from '@src/images/ether/pic111.png'
-import pic112 from '@src/images/ether/pic112.png'
+import pic29 from '@app/_lib/images/ether/pic29.png'
+import pic42 from '@app/_lib/images/ether/pic42.png'
+import pic65 from '@app/_lib/images/ether/pic65.png'
+import pic86 from '@app/_lib/images/ether/pic86.png'
+import pic96 from '@app/_lib/images/ether/pic96.png'
+import pic97 from '@app/_lib/images/ether/pic97.png'
+import pic98 from '@app/_lib/images/ether/pic98.png'
+import pic99 from '@app/_lib/images/ether/pic99.png'
+import pic100 from '@app/_lib/images/ether/pic100.png'
+import pic101 from '@app/_lib/images/ether/pic101.png'
+import pic102 from '@app/_lib/images/ether/pic102.png'
+import pic103 from '@app/_lib/images/ether/pic103.png'
+import pic104 from '@app/_lib/images/ether/pic104.png'
+import pic105 from '@app/_lib/images/ether/pic105.png'
+import pic106 from '@app/_lib/images/ether/pic106.png'
+import pic107 from '@app/_lib/images/ether/pic107.png'
+import pic108 from '@app/_lib/images/ether/pic108.png'
+import pic109 from '@app/_lib/images/ether/pic109.png'
+import pic110 from '@app/_lib/images/ether/pic110.png'
+import pic111 from '@app/_lib/images/ether/pic111.png'
+import pic112 from '@app/_lib/images/ether/pic112.png'
 import 'katex/dist/katex.min.css'
 
 export default function Analysis() {
@@ -44,7 +44,7 @@ export default function Analysis() {
                 some enhancements.
             </p>
 
-            <Image
+            <NextImage
                 src={pic96}
                 alt="Changes in the Helium Orbital Values"
                 caption="Changes in the Helium Orbital Values"
@@ -76,7 +76,7 @@ export default function Analysis() {
                 hope.
             </p>
 
-            <Image
+            <NextImage
                 src={pic97}
                 alt="Changes in the Helium Orbital Values + Linear Ether"
                 caption="Changes in the Helium Orbital Values + Linear Ether"
@@ -141,7 +141,7 @@ export default function Analysis() {
 
             <p>Let&apos;s rearrange the values.</p>
 
-            <Image
+            <NextImage
                 src={pic98}
                 alt="Circle comes first!"
                 caption="Circle comes first!"
@@ -190,17 +190,19 @@ export default function Analysis() {
 
             <Row fullWidth>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic100}
                         alt="Changes in the Helium Orbital Values"
                         caption="Changes in the Helium Orbital Values"
+                        width={600}
                     />
                 </Column>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic99}
                         alt="Changes in the Helium Ether Values"
                         caption="Changes in the Helium Ether Values"
+                        width={600}
                     />
                 </Column>
             </Row>
@@ -217,17 +219,19 @@ export default function Analysis() {
 
             <Row fullWidth>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic102}
                         alt="Changes in the Hydrogen Orbital Values"
                         caption="Changes in the Hydrogen Orbital Values"
+                        width={600}
                     />
                 </Column>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic101}
                         alt="Changes in the Hydrogen Ether Values"
                         caption="Changes in the Hydrogen Ether Values"
+                        width={600}
                     />
                 </Column>
             </Row>
@@ -261,7 +265,7 @@ export default function Analysis() {
 
             <Row fullWidth>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic103}
                         alt="Changes in the Hydrogen Orbital Values"
                         caption={
@@ -270,10 +274,11 @@ export default function Analysis() {
                                 <sup>2</sup>S<sub>1/2</sub>
                             </>
                         }
+                        width={600}
                     />
                 </Column>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic104}
                         alt="Changes in the Hydrogen Ether Values"
                         caption={
@@ -282,6 +287,7 @@ export default function Analysis() {
                                 <sup>2</sup>S<sub>1/2</sub>
                             </>
                         }
+                        width={600}
                     />
                 </Column>
             </Row>
@@ -305,7 +311,7 @@ export default function Analysis() {
             >{`D(x) = v_2 - v_1 - (R(x+1+k_{2}) - R(x+k_{1}))`}</Latex>
             <Latex caption="The result D(x), where weights are applied to make it easier to see as you go backward">{`D(x) = \\dfrac{v_2 - v_1 - (R(x+1+k_{2}) - R(x+k_{1}))}{R(x+1+k_{2}) - R(x+k_{1})} `}</Latex>
 
-            <Image
+            <NextImage
                 src={pic105}
                 alt="Changes in the Hydrogen Ether Values with D(x)"
                 caption={
@@ -335,7 +341,7 @@ export default function Analysis() {
 
             <Row fullWidth>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic112}
                         alt="Changes in the Helium Orbital Values"
                         caption={
@@ -344,10 +350,11 @@ export default function Analysis() {
                                 <sup>1</sup>S<sub>0</sub>
                             </>
                         }
+                        width={600}
                     />
                 </Column>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic99}
                         alt="Changes in the Helium Ether Values"
                         caption={
@@ -356,6 +363,7 @@ export default function Analysis() {
                                 <sub>0</sub>
                             </>
                         }
+                        width={600}
                     />
                 </Column>
             </Row>
@@ -380,7 +388,7 @@ export default function Analysis() {
 
             <Row fullWidth>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic106}
                         alt="Changes in the Lithium Orbital Values"
                         caption={
@@ -389,10 +397,11 @@ export default function Analysis() {
                                 <sup>2</sup>S<sub>1/2</sub>
                             </>
                         }
+                        width={600}
                     />
                 </Column>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic107}
                         alt="Changes in the Lithium Ether Values"
                         caption={
@@ -401,6 +410,7 @@ export default function Analysis() {
                                 S<sub>1/2</sub>
                             </>
                         }
+                        width={600}
                     />
                 </Column>
             </Row>
@@ -486,7 +496,7 @@ export default function Analysis() {
                 of 0.75?
             </p>
 
-            <Image
+            <NextImage
                 src={pic29}
                 alt="How Many Times of 0.75?"
                 caption={
@@ -531,7 +541,7 @@ export default function Analysis() {
                 it would look like the following.
             </p>
 
-            <Image
+            <NextImage
                 src={pic42}
                 alt="Prediction of Vertical Shifts"
                 caption="Prediction of Vertical Shifts"
@@ -539,7 +549,7 @@ export default function Analysis() {
                 center
             />
 
-            <Image
+            <NextImage
                 src={pic65}
                 alt="Result of Shifting Lithium's points by the Hypothesis"
                 caption={
@@ -577,7 +587,7 @@ export default function Analysis() {
 
             <Row fullWidth>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic108}
                         alt="Changes in the Beryllium Orbital Values"
                         caption={
@@ -586,10 +596,11 @@ export default function Analysis() {
                                 <sup>1</sup>S<sub>0</sub>
                             </>
                         }
+                        width={600}
                     />
                 </Column>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic109}
                         alt="Changes in the Beryllium Ether Values"
                         caption={
@@ -598,6 +609,7 @@ export default function Analysis() {
                                 <sup>1</sup>S<sub>0</sub>
                             </>
                         }
+                        width={600}
                     />
                 </Column>
             </Row>
@@ -635,7 +647,11 @@ export default function Analysis() {
             <Row fullWidth>
                 <Column small={4}></Column>
                 <Column small={3}>
-                    <Image src={pic86} alt="Energy Distribution of Lithium" />
+                    <NextImage
+                        src={pic86}
+                        alt="Energy Distribution of Lithium"
+                        width={600}
+                    />
                 </Column>
             </Row>
 
@@ -695,7 +711,7 @@ export default function Analysis() {
 
             <Row fullWidth>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic110}
                         alt="Changes in the Sodium Orbital Values"
                         caption={
@@ -704,10 +720,11 @@ export default function Analysis() {
                                 <sup>2</sup>S<sub>1/2</sub>
                             </>
                         }
+                        width={600}
                     />
                 </Column>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic111}
                         alt="Changes in the Sodium Ether Values"
                         caption={
@@ -716,6 +733,7 @@ export default function Analysis() {
                                 <sub>1/2</sub>
                             </>
                         }
+                        width={600}
                     />
                 </Column>
             </Row>
@@ -725,11 +743,11 @@ export default function Analysis() {
                     {
                         title: 'Proof(2): Reinterpretation of Rydberg Formula',
                         link: '/ether/document/rydberg-formula',
-                    } as Post,
+                    } as PostType,
                     {
                         title: 'Proof(4): Between Comparison',
                         link: '/ether/document/between',
-                    } as Post,
+                    } as PostType,
                 ]}
             ></PrevNext>
         </div>

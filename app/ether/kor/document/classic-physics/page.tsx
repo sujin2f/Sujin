@@ -1,15 +1,15 @@
 'use client'
 import { InlineMath } from 'react-katex'
 /* Components */
-import { Image } from '@common/components/containers/image'
-import ScrollToTop from '@components/ScrollToTop'
+import { NextImage } from '@common/components/containers/NextImage'
+import ScrollToTop from '@common/components/ScrollToTop'
 import { Table } from '@common/components/containers/Table'
-import { Latex } from '@components/wordpress/single/Latex'
-import { PrevNext } from '@components/wordpress/single/PrevNext'
+import { Latex } from '@app/(single)/_components/Latex'
+import { PrevNext } from '@app/(single)/_components/PrevNext'
 /* Types */
-import type { Post } from '@src/types/wordpress'
+import type { PostType } from '@app/_lib/data/mysql/types'
 /* Assets */
-import pic5 from '@src/images/ether/pic5_eng.png'
+import pic5 from '@app/_lib/images/ether/pic5_eng.png'
 import 'katex/dist/katex.min.css'
 
 export default function ClassicPhysics() {
@@ -335,7 +335,7 @@ export default function ClassicPhysics() {
                 </tbody>
             </Table>
 
-            <Image
+            <NextImage
                 src={pic5}
                 alt="광자 에테르의 뤼드베리 값"
                 caption={
@@ -391,11 +391,11 @@ export default function ClassicPhysics() {
                     {
                         title: '가설 제시',
                         link: '/ether/kor/document/hypothesis',
-                    } as Post,
+                    } as PostType,
                     {
                         title: '가설의 검증(2): 뤼드베리 방정식의 재정립',
                         link: '/ether/kor/document/rydberg-formula',
-                    } as Post,
+                    } as PostType,
                 ]}
             ></PrevNext>
         </div>

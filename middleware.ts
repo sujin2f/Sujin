@@ -29,7 +29,7 @@ const graphqlCors = (
     pathname: string,
     origin: string,
 ): NextResponse<unknown> | void => {
-    if (pathname !== '/api/graphql') {
+    if (pathname.indexOf('/api/graphql') === -1) {
         return
     }
 

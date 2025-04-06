@@ -19,6 +19,8 @@ type Props = PropsWithChildren<{
     readonly className?: string
     readonly id?: string
     readonly dom?: string | React.ElementType
+    readonly push?: boolean
+    readonly gap?: boolean
 }>
 
 /**
@@ -63,6 +65,8 @@ export const Column = (props: Props) => {
                 mediumOffset,
                 largeOffset,
                 largerOffset,
+                props.push && 'column--push',
+                props.gap && 'column--gap',
             ),
             id: props.id,
         },

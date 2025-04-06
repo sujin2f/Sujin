@@ -19,8 +19,24 @@ $width: calc((100% - (12 * var(--gap))) / 12);
         padding: 0;
     }
 
+    &.row--align-center {
+        align-items: center;
+    }
+
+    &.row--gap {
+        margin-bottom: var(--gap);
+    }
+
     .column {
         margin-right: var(--gap);
+
+        &.column--push {
+            margin-left: auto;
+        }
+
+        &.column--gap {
+            margin-bottom: var(--gap);
+        }
 
         @for $i from 1 through 12 {
             &.small-#{$i} {

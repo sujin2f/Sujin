@@ -1,14 +1,14 @@
 {
     "name": "sujin",
-    "version": "10.2.0",
+    "version": "10.2.6",
     "description": "React + Node + WordPress theme for sujinc.com",
     "license": "MIT",
     "scripts": {
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "test": "MONGO_DATABASE=test jest --no-cache --forceExit --coverage",
-        "lint": "eslint ./src/**/*.ts ./src/**/*.tsx ./app/**/*.tsx ./common/**/*.ts ./common/**/*.tsx ./components/**/*.tsx"
+        "test": "jest --no-cache --forceExit --coverage",
+        "lint": "eslint ./app/**/*.tsx ./common/**/*.ts ./common/**/*.tsx"
     },
     "dependencies": {
         "@apollo/server": "^4.11.3",

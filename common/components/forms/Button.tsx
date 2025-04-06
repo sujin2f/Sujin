@@ -1,3 +1,4 @@
+'use client'
 import React, { useCallback, useMemo, PropsWithChildren } from 'react'
 import { redirect } from 'next/navigation'
 

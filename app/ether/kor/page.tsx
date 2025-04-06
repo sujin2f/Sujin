@@ -1,8 +1,8 @@
 /* Components */
-import ScrollToTop from '@components/ScrollToTop'
-import { PrevNext } from '@components/wordpress/single/PrevNext'
+import ScrollToTop from '@common/components/ScrollToTop'
+import { PrevNext } from '@app/(single)/_components/PrevNext'
 /* Types */
-import type { Post } from '@src/types/wordpress'
+import type { PostType } from '@app/_lib/data/mysql/types'
 
 export default function Intro() {
     return (
@@ -46,7 +46,7 @@ export default function Intro() {
                     {
                         title: '가설 제시',
                         link: '/ether/kor/document/hypothesis',
-                    } as Post,
+                    } as PostType,
                 ]}
             ></PrevNext>
         </>

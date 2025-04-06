@@ -1,15 +1,15 @@
 import Link from 'next/link'
 /* Components */
-import { Image } from '@common/components/containers/image'
-import { PrevNext } from '@components/wordpress/single/PrevNext'
-import ScrollToTop from '@components/ScrollToTop'
+import { NextImage } from '@common/components/containers/NextImage'
+import { PrevNext } from '@app/(single)/_components/PrevNext'
+import ScrollToTop from '@common/components/ScrollToTop'
 /* Types */
-import type { Post } from '@src/types/wordpress'
+import type { PostType } from '@app/_lib/data/mysql/types'
 /* Assets */
-import pic13 from '@src/images/ether/pic13_eng.png'
-import pic14 from '@src/images/ether/pic14_eng.png'
-import pic15 from '@src/images/ether/pic15.png'
-import pic124 from '@src/images/ether/pic124.jpeg'
+import pic13 from '@app/_lib/images/ether/pic13_eng.png'
+import pic14 from '@app/_lib/images/ether/pic14_eng.png'
+import pic15 from '@app/_lib/images/ether/pic15.png'
+import pic124 from '@app/_lib/images/ether/pic124.jpeg'
 
 export default function Conclusion() {
     return (
@@ -101,7 +101,7 @@ export default function Conclusion() {
                 에테르가 없는 자유 스파클이다.
             </p>
 
-            <Image
+            <NextImage
                 src={pic14}
                 alt="에테르-스파클 관점으로 본 시간지연"
                 caption={
@@ -111,6 +111,7 @@ export default function Conclusion() {
                     </>
                 }
                 center
+                width={600}
             />
 
             <p>
@@ -137,11 +138,12 @@ export default function Conclusion() {
                 우주에서 가장 시간이 빠르게 가는 곳이다.
             </p>
 
-            <Image
+            <NextImage
                 src={pic124}
                 alt="절대 시간 찾기"
                 caption="절대 시간 찾기"
                 center
+                width={600}
             />
 
             <p>
@@ -165,7 +167,7 @@ export default function Conclusion() {
 
             <h2>(2) 이중 터널</h2>
 
-            <Image
+            <NextImage
                 src={pic13}
                 alt="이중 터널 실험"
                 caption={
@@ -205,7 +207,7 @@ export default function Conclusion() {
 
             <h2>(3) 양자 얽힘은 분리된 에테르?</h2>
 
-            <Image
+            <NextImage
                 src={pic15}
                 alt="에테르-스파클 관점으로 본 양자 얽힘"
                 caption={
@@ -215,6 +217,7 @@ export default function Conclusion() {
                     </>
                 }
                 center
+                width={600}
             />
 
             <p>
@@ -233,7 +236,7 @@ export default function Conclusion() {
                     {
                         title: '가설의 검증(4): 비교기준, Between',
                         link: '/ether/kor/document/between',
-                    } as Post,
+                    } as PostType,
                     undefined,
                 ]}
             ></PrevNext>

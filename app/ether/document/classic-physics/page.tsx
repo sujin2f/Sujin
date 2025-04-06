@@ -1,13 +1,13 @@
 import { InlineMath } from 'react-katex'
 /* Components */
-import { Image } from '@common/components/containers/image'
-import ScrollToTop from '@components/ScrollToTop'
+import { NextImage } from '@common/components/containers/NextImage'
+import ScrollToTop from '@common/components/ScrollToTop'
 import { Table } from '@common/components/containers/Table'
-import { Latex } from '@components/wordpress/single/Latex'
-import { PrevNext } from '@components/wordpress/single/PrevNext'
-import { Post } from '@src/types/wordpress'
+import { Latex } from '@app/(single)/_components/Latex'
+import { PrevNext } from '@app/(single)/_components/PrevNext'
+import { PostType } from '@app/_lib/data/mysql/types'
 /* Assets */
-import pic5 from '@src/images/ether/pic5_eng.png'
+import pic5 from '@app/_lib/images/ether/pic5_eng.png'
 import 'katex/dist/katex.min.css'
 
 export default function ClassicPhysics() {
@@ -355,7 +355,7 @@ export default function ClassicPhysics() {
                 </tbody>
             </Table>
 
-            <Image
+            <NextImage
                 src={pic5}
                 alt="Rydberg of Photon-Ether"
                 caption={
@@ -414,11 +414,11 @@ export default function ClassicPhysics() {
                     {
                         title: 'Hypothesis',
                         link: '/ether/document/hypothesis',
-                    } as Post,
+                    } as PostType,
                     {
                         title: 'Proof(2): Reinterpretation of Rydberg Formula',
                         link: '/ether/document/rydberg-formula',
-                    } as Post,
+                    } as PostType,
                 ]}
             ></PrevNext>
         </div>

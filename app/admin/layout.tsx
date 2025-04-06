@@ -1,15 +1,15 @@
 import React, { type PropsWithChildren } from 'react'
 import { notFound } from 'next/navigation'
-import Link from 'next/link'
 import { getServerSession } from 'next-auth'
 /* Components */
-import Header from '@components/header'
+import { Header } from '@app/_components/header'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
-/* Utils */
-import authOptions from '@app/api/auth/[...nextauth]/authOptions'
-
-import '@src/scss/admin.scss'
+import { Menu } from '@common/components/layout/Menu'
+/* Constants */
+import { authOptions } from '@app/api/auth/constants'
+/* Assets */
+import './style.scss'
 
 /**
  * Layout component that wraps the application with admin layout elements.
@@ -23,30 +23,57 @@ export default async function AppLayout({ children }: PropsWithChildren) {
     if (session.user?.email !== process.env.ADMIN_EMAIL) {
         notFound()
     }
+
     return (
         <>
             <Header />
             <main className="admin">
                 <Row>
-                    <Column small={3}>
-                        <nav>
-                            <ul>
-                                <li>
-                                    <Link href="/admin/post/1">Post</Link>
-                                </li>
-                                <li>
-                                    <Link href="/admin/term/1">Term</Link>
-                                </li>
-                                <li>
-                                    <Link href="/admin/index">Index</Link>
-                                </li>
-                                <li>
-                                    <Link href="/admin/cache">Cache</Link>
-                                </li>
-                            </ul>
-                        </nav>
+                    <Column small={2}>
+                        <Menu
+                            className="menu--admin"
+                            items={[
+                                {
+                                    title: 'Home',
+                                    link: '/admin',
+                                },
+                                {
+                                    title: 'Pages',
+                                    link: '/admin/pages/1',
+                                },
+                                {
+                                    title: 'Categories',
+                                    link: '/admin/categories/1',
+                                },
+                                {
+                                    title: 'Tags',
+                                    link: '/admin/tags/1',
+                                },
+                                {
+                                    title: 'Backgrounds',
+                                    link: '/admin/backgrounds/1',
+                                },
+                                {
+                                    title: 'Collections',
+                                    link: '/admin/collections',
+                                },
+                                {
+                                    title: 'Index',
+                                    link: '/admin/index',
+                                },
+                                {
+                                    title: 'Schema',
+                                    link: '/admin/schema',
+                                },
+                                {
+                                    title: 'Cache',
+                                    link: '/admin/cache',
+                                },
+                            ]}
+                            direction="vertical"
+                        />
                     </Column>
-                    <Column small={9}>{children}</Column>
+                    <Column small={10}>{children}</Column>
                 </Row>
             </main>
         </>
