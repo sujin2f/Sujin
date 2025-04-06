@@ -1,5 +1,4 @@
 import { MONGO_DATABASE, VERSION } from '@common/constants/helper'
-import getSystemOption from '@app/_lib/data/mongo/admin/getSystemOption'
 /* Components */
 import FrontPage from './FrontPage'
 /* Models */
@@ -10,7 +9,7 @@ import client from '@common/data/mongo/mongo-client'
 import migration from '@app/_lib/migration'
 /* Utils */
 import { compareVersions } from '@common/utils/system'
-import setSystemOption from '@app/_lib/data/mongo/admin/setSystemOption'
+import { getSystemOption, setSystemOption } from '@app/_lib/data/mongo/admin'
 
 export default async function Admin() {
     const current = (await getSystemOption('version')) || '0.0.0'

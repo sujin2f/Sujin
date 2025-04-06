@@ -5,6 +5,7 @@
  */
 
 import type { IMAGE_SIZE, POST_TYPE } from '@app/_lib/data/mysql/types'
+import { TAXONOMY } from '@app/_lib/data/types'
 
 /**
  * Making a formatted string
@@ -155,7 +156,7 @@ const GET_TAG_COUNT = `
         LEFT JOIN wp_posts as post ON post.ID = relationship.object_ID
         LEFT JOIN wp_terms_hit as count ON count.term_id = terms.term_id
     WHERE
-        taxonomy.taxonomy="post_tag" AND
+        taxonomy.taxonomy="${TAXONOMY.POST_TAG}" AND
         count<>0
     GROUP BY terms.term_id
     ORDER BY count DESC LIMIT 20
@@ -174,7 +175,7 @@ const GET_TAG_HIT = `
         LEFT JOIN wp_posts as post ON post.ID = relationship.object_ID
         LEFT JOIN wp_terms_hit as count ON count.term_id = terms.term_id
     WHERE
-        taxonomy.taxonomy="post_tag" AND
+        taxonomy.taxonomy="${TAXONOMY.POST_TAG}" AND
         count<>0
     GROUP BY terms.term_id
     ORDER BY hit DESC LIMIT 20

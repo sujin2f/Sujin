@@ -31,6 +31,5 @@ export async function register() {
         GRAPHQL_ALLOW_ORIGINS: process.env.GRAPHQL_ALLOW_ORIGINS,
     }
 
-    Logger.server(`Server started with env variables:`)
-    console.log(env)
+    Logger.server('Server started with env variables:', env)
 }

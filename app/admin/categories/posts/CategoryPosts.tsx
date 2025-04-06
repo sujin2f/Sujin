@@ -11,7 +11,7 @@ import {
     updateArchivePosts,
 } from '@app/_lib/data/mongo/wordpress/post'
 /* Types */
-import { ARCHIVE } from '@app/_lib/data/mysql/types'
+import { ARCHIVE } from '@app/_lib/data/types'
 
 type Props = {
     params: Promise<{

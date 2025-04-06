@@ -5,10 +5,10 @@ import { VERSION } from '@common/constants/helper'
 import { clearMongo, backgroundFactory } from '@jest/helpers'
 import { getCachedBackgrounds } from './background'
 import Mongo from '@common/data/mongo/mongo'
-import { COLLECTION } from '@app/_lib/data/mongo/constants'
 import migration from '@app/_lib/migration'
-import setSystemOption from '@app/_lib/data/mongo/admin/setSystemOption'
 import { imageBlock } from '@jest/fixture'
+import { COLLECTION } from '@app/_lib/data/types'
+import { setSystemOption } from '../admin'
 
 const mockQuery = jest.fn()
 jest.mock('../../mysql/media', () => ({

@@ -9,7 +9,7 @@ import type {
     PostType,
 } from '@app/_lib/data/mysql/types'
 import { category, imageBlock, page, post, tag } from './fixture'
-import { COLLECTION } from '@app/_lib/data/mongo/constants'
+import { COLLECTION } from '@app/_lib/data/types'
 
 export const clearMongo = async (...collections: string[]) =>
     await client.then(async (client) => {
@@ -100,6 +100,7 @@ export const backgroundFactory = async (
     const id = getRandomInt(10000)
     const document = {
         ...imageBlock,
+        url: `/wp-content/uploads/test-${id}.jpg`,
         title: `Background ${id}`,
         ...input,
     } satisfies ImageBlockType

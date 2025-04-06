@@ -1,10 +1,9 @@
 import { Table } from '@common/components/containers/Table'
-import { COLLECTION } from '@app/_lib/data/mongo/constants'
-import getIndexes from '@app/_lib/data/mongo/admin/getIndexes'
-import getSystemOption from '@app/_lib/data/mongo/admin/getSystemOption'
+import { COLLECTION } from '@app/_lib/data/types'
 import Header from '@app/admin/_components/Header'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
+import { getIndexes, getSystemOption } from '@app/_lib/data/mongo/admin'
 
 export default async function ResetIndex() {
     const indexes = await getIndexes(

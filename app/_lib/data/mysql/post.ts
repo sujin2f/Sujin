@@ -3,7 +3,6 @@ import Logger from '@common/model/Logger'
 import MySQL from '@app/_lib/data/mysql'
 /* Types */
 import {
-    ARCHIVE,
     type MySQLPostType,
     type POST_TYPE,
     type PostMetaType,
@@ -16,6 +15,7 @@ import { autop } from '@app/_lib/data/mysql/utils'
 import { unserialize } from '@app/_lib/data/mysql/utils'
 import { getTermsByPost } from '@app/_lib/data/mysql/term'
 import { getPostImages } from '@app/_lib/data/mysql/media'
+import { ARCHIVE, TAXONOMY } from '@app/_lib/data/types'
 
 export const getAllPostMeta = async (
     postId: number,
@@ -150,8 +150,8 @@ export const getPostsBy = async (
             meta,
             content: autop(post.content),
             terms: terms.map((term) =>
-                term.type.toString() === 'post_tag'
-                    ? { ...term, type: ARCHIVE.TAG }
+                term.type.toString() === TAXONOMY.POST_TAG
+                    ? { ...term, type: TAXONOMY.TAG }
                     : term,
             ),
             link: post.type === 'page' ? `/${post.slug}` : `/blog/${post.slug}`,

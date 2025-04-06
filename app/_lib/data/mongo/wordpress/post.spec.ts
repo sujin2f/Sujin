@@ -2,7 +2,6 @@
 //
 import { VERSION } from '@common/constants/helper'
 import migration from '@app/_lib/migration'
-import setSystemOption from '@app/_lib/data/mongo/admin/setSystemOption'
 import {
     clearMongo,
     categoryFactory,
@@ -19,9 +18,10 @@ import {
     updateArchivePosts,
 } from './post'
 import Mongo from '@common/data/mongo/mongo'
-import { COLLECTION } from '@app/_lib/data/mongo/constants'
-import { ARCHIVE, POST_STATUS } from '@app/_lib/data/mysql/types'
+import { POST_STATUS } from '@app/_lib/data/mysql/types'
 import Cached from '@common/model/Cached'
+import { ARCHIVE, COLLECTION } from '@app/_lib/data/types'
+import { setSystemOption } from '../admin'
 
 const mockQuery = jest.fn()
 jest.mock('promise-mysql', () => ({

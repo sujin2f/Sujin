@@ -4,7 +4,7 @@
 import Mongo from '@common/data/mongo/mongo'
 import Cached from '@common/model/Cached'
 /* Types */
-import { ARCHIVE, type TagType } from '@app/_lib/data/mysql/types'
+import { type TagType } from '@app/_lib/data/mysql/types'
 import type { MutationResultType } from '@app/api/graphql/constants'
 /* Utils */
 import {
@@ -16,9 +16,9 @@ import {
 } from '@app/_lib/data/mongo/wordpress/archive'
 import { getCacheKey } from '@app/_lib/utils'
 /* Constants */
-import { COLLECTION } from '@app/_lib/data/mongo/constants'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { shuffle } from '@common/utils/array'
+import { ARCHIVE } from '@app/_lib/data/types'
 
 export const getCachedTag = async (slug: string): Promise<TagType> =>
     await getCachedArchive<TagType>(slug, ARCHIVE.TAG)
@@ -39,15 +39,15 @@ export const removeTag = async (slug: string) =>
     await removeArchive(slug, ARCHIVE.TAG)
 
 export const updateHits = async (slug: string) =>
-    await Mongo.updateOne(COLLECTION.TAG, { slug }, { $inc: { hits: 1 } })
+    await Mongo.updateOne(ARCHIVE.TAG, { slug }, { $inc: { hits: 1 } })
 
 export const getTagCloud = async (): Promise<TagType[]> =>
     await Cached.getInstance().getOrExecute(
-        getCacheKey(COLLECTION.TAG, 'tag-cloud'),
+        getCacheKey(ARCHIVE.TAG, 'tag-cloud'),
         async () => {
             const tags: Record<string, TagType> = {}
             await Mongo.findMany<TagType>(
-                COLLECTION.TAG,
+                ARCHIVE.TAG,
                 {},
                 { sort: { total: -1 }, limit: 20 },
             ).then((result) => {
@@ -60,7 +60,7 @@ export const getTagCloud = async (): Promise<TagType[]> =>
                 })
             })
             await Mongo.findMany<TagType>(
-                COLLECTION.TAG,
+                ARCHIVE.TAG,
                 {},
                 { sort: { hits: -1 }, limit: 20 },
             ).then((result) => {

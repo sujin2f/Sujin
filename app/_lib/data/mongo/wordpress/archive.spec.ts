@@ -9,13 +9,12 @@ import {
     getArchives,
 } from './archive'
 import Mongo from '@common/data/mongo/mongo'
-import { COLLECTION } from '@app/_lib/data/mongo/constants'
 import migration from '@app/_lib/migration'
-import setSystemOption from '@app/_lib/data/mongo/admin/setSystemOption'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
-import { ARCHIVE } from '@app/_lib/data/mysql/types'
+import { ARCHIVE, COLLECTION } from '@app/_lib/data/types'
 import Cached from '@common/model/Cached'
-import { tag } from '@jest/fixture'
+import { category, tag } from '@jest/fixture'
+import { setSystemOption } from '../admin'
 
 const mockQuery = jest.fn()
 jest.mock('../../mysql/term', () => ({
@@ -47,7 +46,7 @@ describe('archive.spec.ts', () => {
         expect(result.id).toEqual(category.id)
     })
 
-    test('updateArchive(): New', async () => {
+    test('updateArchive(): tag, New', async () => {
         const slug = 'test-slug'
 
         mockQuery.mockImplementation(() =>
@@ -61,7 +60,25 @@ describe('archive.spec.ts', () => {
         expect(result.title).toBe('Changed')
     })
 
-    test('updateArchive(): existing Mongo', async () => {
+    test('updateArchive(): category, New', async () => {
+        const slug = 'test-slug'
+
+        mockQuery.mockImplementation(() =>
+            Promise.resolve({
+                ...category,
+                slug,
+                title: 'Changed',
+            }),
+        )
+
+        await updateArchive(slug, ARCHIVE.CATEGORY)
+        const result = await Mongo.findOne(ARCHIVE.CATEGORY, {
+            slug,
+        })
+        expect(result.title).toBe('Changed')
+    })
+
+    test('updateArchive(): tag, existing Mongo', async () => {
         const { slug } = await tagFactory()
 
         mockQuery.mockImplementation(() =>

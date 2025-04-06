@@ -4,7 +4,7 @@ import { VERSION } from '@common/constants/helper'
 import { clearMongo } from '@jest/helpers'
 import migration from './migration'
 import Mongo from '@common/data/mongo/mongo'
-import { COLLECTION } from '@app/_lib/data/mongo/constants'
+import { COLLECTION } from '@app/_lib/data/types'
 import Cached from '@common/model/Cached'
 import { getCachedCategory } from './data/mongo/wordpress/category'
 

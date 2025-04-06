@@ -10,11 +10,11 @@ import {
     getPages,
 } from './page'
 import Mongo from '@common/data/mongo/mongo'
-import { COLLECTION } from '@app/_lib/data/mongo/constants'
+import { COLLECTION } from '@app/_lib/data/types'
 import migration from '@app/_lib/migration'
-import setSystemOption from '@app/_lib/data/mongo/admin/setSystemOption'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 import Cached from '@common/model/Cached'
+import { setSystemOption } from '../admin'
 
 const mockQuery = jest.fn()
 jest.mock('promise-mysql', () => ({

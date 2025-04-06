@@ -1,5 +1,4 @@
 import {
-    ARCHIVE,
     POST_STATUS,
     type TermType,
     type PageType,
@@ -7,16 +6,53 @@ import {
     CategoryType,
     TagType,
 } from '@app/_lib/data/mysql/types'
+import { ARCHIVE } from '@app/_lib/data/types'
 
 export const imageBlock: ImageBlockType = {
     mimeType: 'image/jpeg',
     title: 'Test Image',
-    url: '/wp-content/uploads/2025/04/463789214_8486095158174815_2317925829133014056_n.jpg',
+    url: '/wp-content/uploads/test.jpg',
     width: 1,
     height: 1,
     sizes: {
         medium: {
-            url: '/wp-content/uploads/2025/04/463789214_8486095158174815_2317925829133014056_n-225x300.jpg',
+            url: '/wp-content/uploads/test-medium.jpg',
+            width: 225,
+            height: 300,
+            mimeType: 'image/jpeg',
+        },
+        thumbnail: {
+            url: '/wp-content/uploads/test-thumbnail.jpg',
+            width: 225,
+            height: 300,
+            mimeType: 'image/jpeg',
+        },
+        mediumLarge: {
+            url: '/wp-content/uploads/test-mediumLarge.jpg',
+            width: 225,
+            height: 300,
+            mimeType: 'image/jpeg',
+        },
+        large: {
+            url: '/wp-content/uploads/test-large.jpg',
+            width: 225,
+            height: 300,
+            mimeType: 'image/jpeg',
+        },
+        postThumbnail: {
+            url: '/wp-content/uploads/test-postThumbnail.jpg',
+            width: 225,
+            height: 300,
+            mimeType: 'image/jpeg',
+        },
+        relatedPost: {
+            url: '/wp-content/uploads/test-relatedPost.jpg',
+            width: 225,
+            height: 300,
+            mimeType: 'image/jpeg',
+        },
+        recentPost: {
+            url: '/wp-content/uploads/test-recentPost.jpg',
             width: 225,
             height: 300,
             mimeType: 'image/jpeg',

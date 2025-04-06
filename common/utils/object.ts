@@ -75,3 +75,17 @@ export const mongoIdToString = <T>(...object: MongoObject<T>[]) => {
             } as T),
     )
 }
+
+export const omit = <T>(
+    obj: Record<string, T>,
+    ...target: string[]
+): Record<string, T> => {
+    const [key, ...keys] = target
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { [key]: _, ...rest } = obj
+
+    if (keys.length === 0) {
+        return rest
+    }
+    return omit(rest, ...keys)
+}

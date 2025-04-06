@@ -6,9 +6,9 @@ import {
 } from '@app/_lib/constants'
 import { MenuNames } from '@app/_lib/data/mysql/constants'
 import type { Nullable } from '@common/types'
-import { ARCHIVE, type MenuItem } from '@app/_lib/data/mysql/types'
-import { COLLECTION } from '@app/_lib/data/mongo/constants'
+import { type MenuItem } from '@app/_lib/data/mysql/types'
 import { VERSION } from '@common/constants/helper'
+import { COLLECTION } from '@app/_lib/data/types'
 
 export const getMenuNameFromPath = (path: Nullable<string>) => {
     if (!path) {
@@ -46,7 +46,7 @@ export const getMenu = (menu: MenuNames): MenuItem[] => {
  * @returns {string}
  */
 export const getCacheKey = (
-    collection: COLLECTION | ARCHIVE,
+    collection: COLLECTION,
     ...suffixes: (string | number)[]
 ): string => {
     const suffix = suffixes?.join('-')
@@ -56,10 +56,8 @@ export const getCacheKey = (
             return `${VERSION}-post-${suffix}`
         case COLLECTION.PAGE:
             return `${VERSION}-page-${suffix}`
-        case ARCHIVE.CATEGORY:
         case COLLECTION.CATEGORY:
             return `${VERSION}-category-${suffix}`
-        case ARCHIVE.TAG:
         case COLLECTION.TAG:
             return `${VERSION}-tag-${suffix}`
         case COLLECTION.BACKGROUNDS:

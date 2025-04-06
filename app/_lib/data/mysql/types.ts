@@ -1,7 +1,4 @@
-export enum ARCHIVE {
-    CATEGORY = 'category',
-    TAG = 'tag',
-}
+import type { ARCHIVE } from '@app/_lib/data/types'
 
 export enum POST_STATUS {
     PUBLISH = 'publish',
@@ -19,6 +16,7 @@ export enum IMAGE_SIZE {
     MEDIUM = 'medium',
     THUMBNAIL = 'thumbnail',
     MEDIUM_LARGE = 'mediumLarge',
+    LARGE = 'large',
     POST_THUMBNAIL = 'postThumbnail',
     RELATED_POST = 'relatedPost',
     RECENT_POST = 'recentPost',

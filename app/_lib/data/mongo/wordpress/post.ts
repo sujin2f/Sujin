@@ -11,10 +11,8 @@ import { getCacheKey } from '@app/_lib/utils'
 import { updateCategory } from '@app/_lib/data/mongo/wordpress/category'
 import { getOption, removeOption } from '@app/_lib/data/mysql/option'
 import { MutationResultType } from '@app/api/graphql/constants'
-import { getCollectionName } from './archive'
 /* Types */
 import {
-    ARCHIVE,
     POST_STATUS,
     POST_TYPE,
     IMAGE_TYPE,
@@ -22,10 +20,10 @@ import {
     type MySQLPostType,
 } from '@app/_lib/data/mysql/types'
 /* Constants */
-import { COLLECTION } from '@app/_lib/data/mongo/constants'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV } from '@common/constants/helper'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
+import { ARCHIVE, COLLECTION } from '@app/_lib/data/types'
 
 const format = (
     page: WithId<PostType> | PostType | MySQLPostType,
@@ -136,9 +134,8 @@ export const updateArchivePosts = async (
     slug: string,
     page: number,
 ): Promise<PostType[]> => {
-    const collection = getCollectionName(type)
     Cached.getInstance().flush(getCacheKey(COLLECTION.POST))
-    Cached.getInstance().flush(getCacheKey(collection, slug))
+    Cached.getInstance().flush(getCacheKey(type, slug))
 
     return await getPostsBy(type, POST_TYPE.POST, slug, page).then(
         async (result) => {

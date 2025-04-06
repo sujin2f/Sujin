@@ -8,7 +8,8 @@ import type {
     ArchiveType,
 } from '@app/_lib/data/mysql/types'
 import type { OptionType } from '@app/_lib/data/mongo/types'
-import { ARCHIVE, POST_STATUS } from '@app/_lib/data/mysql/types'
+import { POST_STATUS } from '@app/_lib/data/mysql/types'
+import { ARCHIVE } from '@app/_lib/data/types'
 
 const image: { [key in keyof ImageType]: object } = {
     url: {

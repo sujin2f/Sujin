@@ -3,7 +3,7 @@ import type { Migration } from '@common/data/mongo/mongo'
 import type { PostType, TermType } from '@app/_lib/data/mysql/types'
 /* Constants */
 import { MONGO_DATABASE } from '@common/constants/helper'
-import { COLLECTION } from '@app/_lib/data/mongo/constants'
+import { COLLECTION } from '@app/_lib/data/types'
 import SCHEMA from '@app/_lib/schema'
 /* Models */
 import Cached from '@common/model/Cached'

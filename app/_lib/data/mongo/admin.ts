@@ -1,8 +1,11 @@
 import { MONGO_DATABASE } from '@common/constants/helper'
 import client from '@common/data/mongo/mongo-client'
 import type { Document, IndexDescriptionCompact } from 'mongodb'
+import Mongo from '@common/data/mongo/mongo'
+import type { OptionType } from '@app/_lib/data/mongo/types'
+import { COLLECTION } from '@app/_lib/data/types'
 
-const getIndexes = async (...collections: string[]) => {
+export const getIndexes = async (...collections: string[]) => {
     const indexes: Record<string, IndexDescriptionCompact> = {}
     await client.then(async (client) => {
         const database = client.db(MONGO_DATABASE)
@@ -19,8 +22,6 @@ const getIndexes = async (...collections: string[]) => {
     })
     return indexes
 }
-
-export default getIndexes
 
 export const getSchema = async (...collections: string[]) => {
     const schema: Record<string, Document> = {}
@@ -46,3 +47,29 @@ export const getSchema = async (...collections: string[]) => {
     })
     return schema
 }
+
+/**
+ * Get site-wide system options.
+ *
+ * @param {string} key - The key of the option.
+ * @returns {Promise<string>} Value
+ */
+export const getSystemOption = async (key: string): Promise<string> =>
+    await Mongo.findOne<OptionType>(COLLECTION.OPTIONS, { key })
+        .catch(() => ({ value: '' }))
+        .then((result) => result.value)
+
+/**
+ * Set site-wide system options.
+ *
+ * @param {string} key - The key of the option.
+ * @param {string} value - The value of the option.
+ */
+export const setSystemOption = async (key: string, value: string) =>
+    await Mongo.findOne<OptionType>(COLLECTION.OPTIONS, { key })
+        .then(async () => {
+            await Mongo.replaceOne(COLLECTION.OPTIONS, { key }, { key, value })
+        })
+        .catch(async () => {
+            await Mongo.insertOne(COLLECTION.OPTIONS, { key, value })
+        })
