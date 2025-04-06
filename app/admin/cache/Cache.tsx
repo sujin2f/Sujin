@@ -1,42 +1,16 @@
-import Link from 'next/link'
 import Cached from '@common/model/Cached'
-import { Table } from '@common/components/containers/Table'
+import { CacheClient } from './CacheClient'
 
 export default async function Cache() {
     const caches = await Cached.getInstance().list()
-    const removeCache = async (key: string) => {
+    const removeCache = async (key?: string) => {
         'use server'
-        Cached.getInstance().flush(key)
+        if (key) {
+            Cached.getInstance().flush(key)
+        } else {
+            Cached.getInstance().flush()
+        }
     }
 
-    return (
-        <>
-            <h2>Cache</h2>
-            <article>
-                <Table>
-                    <thead>
-                        <tr>
-                            <th>Key</th>
-                            <th>Remove</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {caches.map((cache) => (
-                            <tr key={`admin-cache-${cache}`}>
-                                <td>{cache}</td>
-                                <td>
-                                    <Link
-                                        href="#"
-                                        onClick={() => removeCache(cache)}
-                                    >
-                                        Remove
-                                    </Link>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </Table>
-            </article>
-        </>
-    )
+    return <CacheClient caches={caches} removeCache={removeCache} />
 }

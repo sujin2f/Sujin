@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 /* Components */
 import { DataHeader } from '@app/ether/data/_components/DataHeader'
-import { ScrollToTop } from '@app/_components/ScrollToTop'
+import ScrollToTop from '@common/components/ScrollToTop'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 import { Chart } from '@app/ether/data/_components/Chart'

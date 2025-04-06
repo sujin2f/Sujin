@@ -1,12 +1,12 @@
 import Link from 'next/link'
 import { InlineMath } from 'react-katex'
 /* Components */
-import { Image } from '@common/components/containers/image'
+import { NextImage } from '@common/components/containers/NextImage'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 import { Latex } from '@app/(single)/_components/Latex'
 import { PrevNext } from '@app/(single)/_components/PrevNext'
-import { ScrollToTop } from '@app/_components/ScrollToTop'
+import ScrollToTop from '@common/components/ScrollToTop'
 /* Types */
 import type { PostType } from '@app/_lib/data/mysql/types'
 /* Assets */
@@ -37,7 +37,7 @@ export default function Between() {
                 같다. 다시 헬륨에서의 값들의 배치를 보자.
             </p>
 
-            <Image
+            <NextImage
                 src={pic58}
                 alt="헬륨의 s, p 오비탈의 그래프"
                 caption="헬륨의 s, p 오비탈의 그래프"
@@ -67,7 +67,7 @@ export default function Between() {
                 을 사용할 것이다.
             </p>
 
-            <Image
+            <NextImage
                 src={pic125}
                 alt="아래쪽 그래프들이 기준이 된다"
                 caption="아래쪽 그래프들이 기준이 된다"
@@ -94,7 +94,7 @@ export default function Between() {
 
             <Row fullWidth>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic122}
                         alt="수소 오비탈 값의 Between"
                         caption={
@@ -103,10 +103,11 @@ export default function Between() {
                                 Between
                             </>
                         }
+                        width={600}
                     />
                 </Column>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic123}
                         alt="수소 에테르 값의 Between"
                         caption={
@@ -115,6 +116,7 @@ export default function Between() {
                                 Between
                             </>
                         }
+                        width={600}
                     />
                 </Column>
             </Row>
@@ -136,7 +138,7 @@ export default function Between() {
 
             <Row fullWidth>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic114}
                         alt="헬륨 오비탈 값의 Between"
                         caption={
@@ -145,10 +147,11 @@ export default function Between() {
                                 Between
                             </>
                         }
+                        width={600}
                     />
                 </Column>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic115}
                         alt="헬륨 에테르 값의 Between"
                         caption={
@@ -157,6 +160,7 @@ export default function Between() {
                                 Between
                             </>
                         }
+                        width={600}
                     />
                 </Column>
             </Row>
@@ -171,7 +175,7 @@ export default function Between() {
 
             <Row fullWidth>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic116}
                         alt="베릴륨 오비탈 값의 Between"
                         caption={
@@ -180,10 +184,11 @@ export default function Between() {
                                 Between
                             </>
                         }
+                        width={600}
                     />
                 </Column>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic117}
                         alt="베릴륨 에테르 값의 Between"
                         caption={
@@ -192,13 +197,14 @@ export default function Between() {
                                 Between
                             </>
                         }
+                        width={600}
                     />
                 </Column>
             </Row>
 
             <Row fullWidth>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic118}
                         alt="소디움 오비탈 값의 Between"
                         caption={
@@ -207,10 +213,11 @@ export default function Between() {
                                 Between
                             </>
                         }
+                        width={600}
                     />
                 </Column>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic119}
                         alt="소디움 에테르 값의 Between"
                         caption={
@@ -219,13 +226,14 @@ export default function Between() {
                                 Between
                             </>
                         }
+                        width={600}
                     />
                 </Column>
             </Row>
 
             <Row fullWidth>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic120}
                         alt="세슘 오비탈 값의 Between"
                         caption={
@@ -234,10 +242,11 @@ export default function Between() {
                                 Between
                             </>
                         }
+                        width={600}
                     />
                 </Column>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic121}
                         alt="세슘 에테르 값의 Between"
                         caption={
@@ -246,6 +255,7 @@ export default function Between() {
                                 Between
                             </>
                         }
+                        width={600}
                     />
                 </Column>
             </Row>

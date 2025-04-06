@@ -12,7 +12,6 @@ import './style.scss'
 
 export const generateMetadata = async (): Promise<Metadata> => {
     const metadata = await getMetaData()
-    const metadataBase = new URL(metadata.openGraph.url)
 
     return {
         ...metadata,
@@ -20,7 +19,6 @@ export const generateMetadata = async (): Promise<Metadata> => {
         openGraph: {
             title: `Sujin | ${metadata}`,
         },
-        metadataBase,
     }
 }
 

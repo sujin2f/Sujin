@@ -3,7 +3,26 @@ import {
     POST_STATUS,
     type TermType,
     type PageType,
+    ImageBlockType,
+    CategoryType,
+    TagType,
 } from '@app/_lib/data/mysql/types'
+
+export const imageBlock: ImageBlockType = {
+    mimeType: 'image/jpeg',
+    title: 'Test Image',
+    url: '/wp-content/uploads/2025/04/463789214_8486095158174815_2317925829133014056_n.jpg',
+    width: 1,
+    height: 1,
+    sizes: {
+        medium: {
+            url: '/wp-content/uploads/2025/04/463789214_8486095158174815_2317925829133014056_n-225x300.jpg',
+            width: 225,
+            height: 300,
+            mimeType: 'image/jpeg',
+        },
+    },
+}
 
 export const page: PageType = {
     id: 14253,
@@ -34,12 +53,7 @@ export const page: PageType = {
     status: POST_STATUS.PUBLISH,
     link: '/blog/%ea%b2%b0%ea%b5%ad%ec%9d%80-%ec%8b%a4%ed%8c%a8%ed%95%b4%eb%b2%84%eb%a6%b0-%ec%84%b1%ea%b3%b5%ed%9a%8c',
     images: {
-        thumbnail: {
-            mimeType: 'image/jpeg',
-            title: '눈 가리고 야옹',
-            sizes: [],
-            url: '/wp-content/uploads/2015/02/Eye-Covering-Cat.jpg',
-        },
+        thumbnail: imageBlock,
     },
     meta: {
         useBackgroundColor: false,
@@ -62,6 +76,23 @@ export const term: TermType = {
     title: 'Uncategorized',
     slug: 'uncategorized',
     type: ARCHIVE.CATEGORY,
+}
+export const category: CategoryType = {
+    id: 1,
+    title: 'Category Title',
+    slug: 'category',
+    excerpt: 'Category',
+    image: imageBlock,
+    total: 3,
+}
+export const tag: TagType = {
+    id: 1,
+    title: 'Tag Title',
+    slug: 'tag',
+    excerpt: 'Tag',
+    image: imageBlock,
+    total: 3,
+    hits: 40,
 }
 export const tagCloud = {
     id: 4,

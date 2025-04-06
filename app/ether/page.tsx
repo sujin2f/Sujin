@@ -1,5 +1,5 @@
 /* Components */
-import { ScrollToTop } from '@app/_components/ScrollToTop'
+import ScrollToTop from '@common/components/ScrollToTop'
 import { PrevNext } from '@app/(single)/_components/PrevNext'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'

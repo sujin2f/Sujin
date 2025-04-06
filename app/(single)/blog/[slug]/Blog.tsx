@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation'
 import { unstable_cache } from 'next/cache'
 /* Components */
 import { Banner } from '@app/_components/header/Banner'
-import { ScrollToTop } from '@app/_components/ScrollToTop'
+import ScrollToTop from '@common/components/ScrollToTop'
 import { Tags } from '@app/(single)/_components/Tags'
 import { PrevNextWithPost } from '@app/(single)/_components/PrevNext'
 import { RelatedPosts } from '@app/(single)/_components/RelatedPosts'
@@ -15,6 +15,7 @@ import { GoogleAdvert } from '@app/_components/GoogleAdvert'
 /* Constants */
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV, VERSION } from '@common/constants/helper'
+import { IMAGE_SIZE } from '@app/_lib/data/mysql/types'
 /* Utils */
 import { getCachedPost } from '@app/_lib/data/mongo/wordpress/post'
 import { updateHits } from '@app/_lib/data/mongo/wordpress/tag'
@@ -37,7 +38,7 @@ export default async function Blog(props: Props) {
         },
     )
     const post = await requestPost(slug.toLowerCase()).catch(() => notFound())
-    const thumbnail = getThumbnailFromPost(post)
+    const thumbnail = getThumbnailFromPost(post, IMAGE_SIZE.MEDIUM_LARGE)
     const tags = post.terms.filter((term) => term.type === 'tag')
 
     // Update Tag Cloud

@@ -9,6 +9,8 @@ type Props = PropsWithChildren<{
     readonly className?: string
     readonly dom?: JSX.ElementType
     readonly fullWidth?: boolean
+    readonly alignCenter?: boolean
+    readonly gap?: boolean
 }>
 
 /**
@@ -24,12 +26,16 @@ export function Row({
     dom,
     fullWidth,
     children,
+    alignCenter,
+    gap,
 }: Props) {
     const type = dom || 'div'
     const className = joinClassNames(
         'row',
         propClassName,
         fullWidth && 'row--full-width',
+        alignCenter && 'row--align-center',
+        gap && 'row--gap',
     )
 
     return createElement(

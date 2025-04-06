@@ -1,4 +1,4 @@
-import Pages from '@app/admin/pages/[page]/Pages'
+import Pages from '@app/admin/pages/Pages'
 
 type Props = {
     params: Promise<{

@@ -1,17 +1,16 @@
 import Link from 'next/link'
-/* Components */
-import { PrevNext } from '@app/(single)/_components/PrevNext'
-import { Table } from '@common/components/containers/Table'
-import { Button } from '@common/components/forms/Button'
-/* Constants */
-import { PER_PAGE } from '@app/_lib/data/mysql/constants'
+import Image from 'next/image'
 /* Utils */
 import {
     getBackgrounds,
     updateBackgrounds,
 } from '@app/_lib/data/mongo/wordpress/background'
-/* Types */
-import type { PostType } from '@app/_lib/data/mysql/types'
+/* Components */
+import { Header } from '@app/admin/backgrounds/Header'
+import { PrevNext } from '@app/admin/_components/PrevNext'
+import { Table } from '@common/components/containers/Table'
+import { Row } from '@common/components/layout/Row'
+import { Column } from '@common/components/layout/Column'
 
 type Props = {
     params: Promise<{
@@ -24,21 +23,6 @@ export default async function Backgrounds(props: Props) {
     const page = parseInt(params.page)
     const backgrounds = await getBackgrounds()
 
-    const prev =
-        page !== 1
-            ? ({
-                  title: 'Prev',
-                  link: `/admin/backgrounds/${page - 1}`,
-              } as PostType)
-            : undefined
-    const next =
-        backgrounds.length === PER_PAGE
-            ? ({
-                  title: 'Next',
-                  link: `/admin/backgrounds/${page + 1}`,
-              } as PostType)
-            : undefined
-
     const refresh = async () => {
         'use server'
         await updateBackgrounds()
@@ -46,37 +30,56 @@ export default async function Backgrounds(props: Props) {
 
     return (
         <>
-            <h2>Backgrounds</h2>
-            <div>
-                <Button title="Refresh All" onClick={refresh} />
-            </div>
-            <article>
-                <Table>
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>mimeType</th>
-                            <th>URL</th>
-                            <th>View</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {backgrounds.map((background) => (
-                            <tr key={`admin-background-${background.url}`}>
-                                <td>{background.title}</td>
-                                <td>{background.mimeType}</td>
-                                <td>{background.url}</td>
-                                <td>
-                                    <Link href={background.url} target="_blank">
-                                        View
-                                    </Link>
-                                </td>
+            <Header refresh={refresh} />
+
+            <Row dom="article" fullWidth>
+                <Column small={12}>
+                    <Table fullWidth>
+                        <thead>
+                            <tr>
+                                <th>mimeType</th>
+                                <th>URL</th>
+                                <th>Show</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </Table>
-            </article>
-            <PrevNext posts={[prev, next]} />
+                        </thead>
+                        <tbody>
+                            {backgrounds.map((background) => (
+                                <tr key={`admin-background-${background.url}`}>
+                                    <td>{background.mimeType}</td>
+                                    <td>{background.url}</td>
+                                    <td>
+                                        <Link
+                                            href={background.url}
+                                            target="_blank"
+                                        >
+                                            {background.sizes?.recentPost ? (
+                                                <Image
+                                                    src={
+                                                        background.sizes
+                                                            .recentPost.url
+                                                    }
+                                                    width={88}
+                                                    height={88}
+                                                    alt=""
+                                                />
+                                            ) : (
+                                                'Show'
+                                            )}
+                                        </Link>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                </Column>
+                <Column small={12}>
+                    <PrevNext
+                        page={page}
+                        length={backgrounds.length}
+                        path="backgrounds"
+                    />
+                </Column>
+            </Row>
         </>
     )
 }

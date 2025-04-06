@@ -1,13 +1,14 @@
+/// @todo 태그가 카테고리에 들어감
+
 /* Models */
 import Mongo from '@common/data/mongo/mongo'
 import Cached from '@common/model/Cached'
 /* Types */
-import { ARCHIVE, type ArchiveType } from '@app/_lib/data/mysql/types'
+import { ARCHIVE, type TagType } from '@app/_lib/data/mysql/types'
 import type { MutationResultType } from '@app/api/graphql/constants'
 /* Utils */
 import {
     getCachedArchive,
-    updateArchiveTotal,
     updateArchive,
     secureUpdateArchive,
     getArchives,
@@ -19,16 +20,10 @@ import { COLLECTION } from '@app/_lib/data/mongo/constants'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { shuffle } from '@common/utils/array'
 
-export const getCachedTag = async (
-    slug: string,
-    updateFromMySQL: boolean = false,
-): Promise<ArchiveType> =>
-    await getCachedArchive(slug, ARCHIVE.TAG, updateFromMySQL)
+export const getCachedTag = async (slug: string): Promise<TagType> =>
+    await getCachedArchive<TagType>(slug, ARCHIVE.TAG)
 
-export const updateTagTotal = async (slug: string): Promise<ArchiveType> =>
-    await updateArchiveTotal(slug, ARCHIVE.TAG)
-
-export const updateTag = async (slug: string): Promise<ArchiveType> =>
+export const updateTag = async (slug: string): Promise<TagType> =>
     await updateArchive(slug, ARCHIVE.TAG)
 
 export const mutateTag = async (
@@ -43,30 +38,15 @@ export const getTags = async (page: number = 1) =>
 export const removeTag = async (slug: string) =>
     await removeArchive(slug, ARCHIVE.TAG)
 
-export const updateHits = async (slug: string) => {
-    await getCachedTag(slug, true)
-        .then(async (tag) => {
-            if (tag.total === 0) {
-                await updateTagTotal(tag.slug)
-            }
+export const updateHits = async (slug: string) =>
+    await Mongo.updateOne(COLLECTION.TAG, { slug }, { $inc: { hits: 1 } })
 
-            await Mongo.replaceOne(
-                COLLECTION.TAG,
-                { slug },
-                { ...tag, hits: tag.hits + 1 },
-            )
-        })
-        .catch(() => {
-            // do nothing
-        })
-}
-
-export const getTagCloud = async (): Promise<ArchiveType[]> =>
+export const getTagCloud = async (): Promise<TagType[]> =>
     await Cached.getInstance().getOrExecute(
         getCacheKey(COLLECTION.TAG, 'tag-cloud'),
         async () => {
-            const tags: Record<string, ArchiveType> = {}
-            await Mongo.findMany<ArchiveType>(
+            const tags: Record<string, TagType> = {}
+            await Mongo.findMany<TagType>(
                 COLLECTION.TAG,
                 {},
                 { sort: { total: -1 }, limit: 20 },
@@ -79,7 +59,7 @@ export const getTagCloud = async (): Promise<ArchiveType[]> =>
                     }
                 })
             })
-            await Mongo.findMany<ArchiveType>(
+            await Mongo.findMany<TagType>(
                 COLLECTION.TAG,
                 {},
                 { sort: { hits: -1 }, limit: 20 },

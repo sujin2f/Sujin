@@ -4,7 +4,7 @@ import React, { useState, useMemo } from 'react'
 import { Input } from '@common/components/forms/Input'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
-import { ScrollToTop } from '@app/_components/ScrollToTop'
+import ScrollToTop from '@common/components/ScrollToTop'
 /* Helpers */
 import { map } from '@common/utils/array'
 import { getMaxCols, getRows, sortText } from '@app/dev-tools/utils'

@@ -27,8 +27,9 @@ import { mutateCategory } from '@app/_lib/data/mongo/wordpress/category'
 
 const options = createGQLOptions(
     // Types
-    GQL.ImageSize,
     GQL.Image,
+    GQL.ImageSize,
+    GQL.ImageBlock,
     GQL.Images,
     GQL.PostMeta,
     GQL.Post,

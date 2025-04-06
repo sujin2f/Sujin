@@ -2,7 +2,7 @@
 import { Fragment, useEffect, useState } from 'react'
 /* Components */
 import { Table } from '@app/ether/data/_components/Table'
-import { ScrollToTop } from '@app/_components/ScrollToTop'
+import ScrollToTop from '@common/components/ScrollToTop'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 import { Chart } from '@app/ether/data/_components/Chart'

@@ -10,7 +10,6 @@ import './style.scss'
 
 export const metadata: Metadata = {
     ...METADATA['/ether'],
-    metadataBase: new URL(METADATA['/ether'].openGraph.url),
 }
 
 export default function Layout({ children }: PropsWithChildren) {

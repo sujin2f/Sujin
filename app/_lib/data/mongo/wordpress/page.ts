@@ -14,7 +14,11 @@ import { getCacheKey } from '@app/_lib/utils'
 import { getPostBy } from '@app/_lib/data/mysql/post'
 import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
 /* Types */
-import { type PageType } from '@app/_lib/data/mysql/types'
+import {
+    IMAGE_TYPE,
+    POST_TYPE,
+    type PageType,
+} from '@app/_lib/data/mysql/types'
 import type { MutationResultType } from '@app/api/graphql/constants'
 
 const format = (page: WithId<PageType> | PageType): PageType => ({
@@ -70,11 +74,9 @@ export const mutatePage = async (
  * @returns {Promise<Page>} - The post object
  * @throws {Error} - MySQL page cannot be found
  */
-export const getCachedPage = async (slug: string): Promise<PageType> => {
-    const key = getCacheKey(COLLECTION.PAGE, slug)
-
-    return await Cached.getInstance().getOrExecute(
-        key,
+export const getCachedPage = async (slug: string): Promise<PageType> =>
+    await Cached.getInstance().getOrExecute(
+        getCacheKey(COLLECTION.PAGE, slug),
         async () => {
             const doc: Filter<PageType> = { slug }
             const page = await Mongo.findOne<PageType>(
@@ -86,7 +88,6 @@ export const getCachedPage = async (slug: string): Promise<PageType> => {
         WEEK_IN_SECONDS,
         IS_DEV,
     )
-}
 
 /**
  * Update Mongo Page type from MySQL
@@ -100,26 +101,24 @@ export const updatePage = async (slug: string): Promise<PageType> => {
     // Remove Cache
     await Cached.getInstance().flush(getCacheKey(COLLECTION.PAGE, slug))
 
-    return await getPostBy('slug', slug, 'page')
-        .then(async (result) => {
-            const page = format({
-                ...result,
-                link: `/${slug}`,
-            })
-            Object.keys(page.images).forEach((key) => {
-                page.images[key] = convertImageBlockURL(page.images[key])
-            })
-            await removePage(slug)
-            await Mongo.insertOne(COLLECTION.PAGE, page)
-            Logger.server(`updatePage(): Updated MongoDB post: ${slug}`)
-            return page
-        })
-        .catch(async () => {
+    const result = await getPostBy('slug', slug, POST_TYPE.PAGE).catch(
+        async () => {
             await removePage(slug)
             const message = `updatePage(): Failed to update MongoDB post: ${slug}`
             Logger.server(message)
             throw Error(message)
-        })
+        },
+    )
+
+    const page = format(result)
+    Object.keys(page.images).forEach((key) => {
+        const imageKey = key as IMAGE_TYPE
+        page.images[imageKey] = convertImageBlockURL(page.images[imageKey]!)
+    })
+    await removePage(slug)
+    await Mongo.insertOne(COLLECTION.PAGE, page)
+    Logger.server(`updatePage(): Updated MongoDB post: ${slug}`)
+    return page
 }
 
 /**

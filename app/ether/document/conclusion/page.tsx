@@ -1,8 +1,8 @@
 import Link from 'next/link'
 /* Components */
-import { Image } from '@common/components/containers/image'
+import { NextImage } from '@common/components/containers/NextImage'
 import { PrevNext } from '@app/(single)/_components/PrevNext'
-import { ScrollToTop } from '@app/_components/ScrollToTop'
+import ScrollToTop from '@common/components/ScrollToTop'
 /* Types */
 import type { PostType } from '@app/_lib/data/mysql/types'
 /* Assets */
@@ -119,7 +119,7 @@ export default function Conclusion() {
                 ether. It&apos;s a free sparkle without ether.
             </p>
 
-            <Image
+            <NextImage
                 src={pic14}
                 alt="Time Dilation under Ether-Sparkle Perspective"
                 caption={
@@ -131,6 +131,7 @@ export default function Conclusion() {
                     </>
                 }
                 center
+                width={600}
             />
 
             <p>
@@ -158,11 +159,12 @@ export default function Conclusion() {
                 place in the universe, where time flows the fastest.
             </p>
 
-            <Image
+            <NextImage
                 src={pic124}
                 alt="Finding Absolute Time"
                 caption="Finding Absolute Time"
                 center
+                width={600}
             />
 
             <p>
@@ -189,7 +191,7 @@ export default function Conclusion() {
 
             <h2>(2) Double-Tunnel Experiment</h2>
 
-            <Image
+            <NextImage
                 src={pic13}
                 alt="Double-Tunnel Experiment"
                 caption={
@@ -232,7 +234,7 @@ export default function Conclusion() {
 
             <h2>(3) Separated Ether is Quantum Entanglement?</h2>
 
-            <Image
+            <NextImage
                 src={pic15}
                 alt="The Quantum Entanglement under Ether-Sparkle Perspective"
                 caption={
@@ -245,6 +247,7 @@ export default function Conclusion() {
                     </>
                 }
                 center
+                width={600}
             />
 
             <p>

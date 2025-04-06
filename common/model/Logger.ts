@@ -1,4 +1,4 @@
-import { IS_TEST } from '@common/constants/helper'
+import { IS_DEV, IS_TEST } from '@common/constants/helper'
 
 const styleLog = [
     'background: #fdd663',
@@ -7,17 +7,28 @@ const styleLog = [
     'border-radius: 3px',
 ].join(';')
 
+const log = (message: string) => {
+    console.log(`%cLOG%c ${message}`, styleLog, [])
+}
+
 export default class Logger {
     static client(message: string) {
-        console.log([`%cLOG%c ${message}`, styleLog, []])
+        if (!IS_TEST) {
+            log(message)
+        }
     }
 
-    static server(message: string) {
-        if (IS_TEST) {
-            return
+    static dev(message: string) {
+        if (IS_DEV) {
+            log(message)
         }
-        const date = new Date()
-        const result = `${date.toLocaleDateString()} ${date.toLocaleTimeString()} - ${message}`
-        console.log(result)
+    }
+
+    static server(...message: unknown[]) {
+        if (!IS_TEST) {
+            const date = new Date()
+            const result = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`
+            console.log(result, ...message)
+        }
     }
 }

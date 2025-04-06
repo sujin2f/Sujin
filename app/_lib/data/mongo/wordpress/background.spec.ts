@@ -8,12 +8,11 @@ import Mongo from '@common/data/mongo/mongo'
 import { COLLECTION } from '@app/_lib/data/mongo/constants'
 import migration from '@app/_lib/migration'
 import setSystemOption from '@app/_lib/data/mongo/admin/setSystemOption'
+import { imageBlock } from '@jest/fixture'
 
 const mockQuery = jest.fn()
-jest.mock('promise-mysql', () => ({
-    createConnection: jest.fn(() => ({
-        query: mockQuery,
-    })),
+jest.mock('../../mysql/media', () => ({
+    getBackgrounds: () => mockQuery(),
 }))
 
 describe('background.spec.ts', () => {
@@ -36,29 +35,17 @@ describe('background.spec.ts', () => {
     })
 
     test('getCachedBackgrounds(): empty result', async () => {
-        mockQuery.mockImplementation((arg: string) => {
-            if (
-                arg.includes(
-                    'WHERE terms.slug="background" AND posts.post_status="inherit"',
-                )
-            ) {
-                return Promise.resolve([
-                    { id: 1, title: 'test', mimeType: 'image' },
-                ])
-            }
-
-            if (
-                arg.includes(
-                    'WHERE post_id="1" AND meta_key="_wp_attachment_metadata"',
-                )
-            ) {
-                return Promise.resolve([{ meta_value: 'test' }])
-            }
-            return Promise.resolve([])
+        mockQuery.mockImplementation(() => {
+            return Promise.resolve([
+                {
+                    ...imageBlock,
+                    title: 'test image',
+                },
+            ])
         })
 
         const result = await getCachedBackgrounds()
-        expect(result[0].mimeType).toEqual('image')
+        expect(result[0].title).toEqual('test image')
     })
 
     test('getCachedBackgrounds()', async () => {

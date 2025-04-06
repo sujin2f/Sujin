@@ -46,7 +46,6 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
             title: `Sujin | ${archive.title}`,
             url: url,
         },
-        metadataBase: new URL(url),
     }
 }
 

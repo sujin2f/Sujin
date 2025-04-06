@@ -9,36 +9,60 @@ export enum POST_STATUS {
     TRASH = 'trash',
 }
 
-export enum IMAGE_POSITION {
-    LIST = 'list',
-    HEADER = 'header',
-    ICON = 'icon',
+export enum POST_TYPE {
+    POST = 'post',
+    PAGE = 'page',
+    ATTACHMENT = 'attachment',
 }
 
-export type POST_TYPE = 'post' | 'page' | 'attachment'
+export enum IMAGE_SIZE {
+    MEDIUM = 'medium',
+    THUMBNAIL = 'thumbnail',
+    MEDIUM_LARGE = 'mediumLarge',
+    POST_THUMBNAIL = 'postThumbnail',
+    RELATED_POST = 'relatedPost',
+    RECENT_POST = 'recentPost',
+}
 
 // Image
 export type ImageType = {
-    key: string
-    file: string
+    url: string
+    width: number
+    height: number
+    mimeType: string
 }
+
+export type ImageSizeType = Partial<{
+    [key in IMAGE_SIZE]: ImageType
+}>
 
 export type ImageBlockType = {
+    width: number
+    height: number
+    url: string
     mimeType: string
     title: string
-    sizes: ImageType[]
-    url: string
+    sizes?: ImageSizeType
 }
 
-export type ImageKeysType =
-    | 'list'
-    | 'icon'
-    | 'title'
-    | 'background'
-    | 'thumbnail'
+export enum IMAGE_TYPE {
+    LIST = 'list',
+    ICON = 'icon',
+    TITLE = 'title',
+    BACKGROUND = 'background',
+    THUMBNAIL = 'thumbnail',
+}
 
-export type ImagesType = {
-    [key in ImageKeysType]: ImageBlockType
+export type ImagesType = Partial<{
+    [key in IMAGE_TYPE]: ImageBlockType
+}>
+
+/// @todo use this
+export enum IMAGE_POSITION {
+    BANNER,
+    LIST,
+    ICON,
+    RECENT_POST,
 }
 
 // Term: refers the category, tag as a property of post
@@ -50,12 +74,17 @@ export type TermType = {
     type: ARCHIVE
 }
 
-export type ArchiveType = Omit<TermType, 'type'> & {
+export type CategoryType = Omit<TermType, 'type'> & {
     excerpt: string
     image?: ImageBlockType
     total: number
+}
+
+export type TagType = CategoryType & {
     hits: number
 }
+
+export type ArchiveType = CategoryType
 
 // Post and Page
 export type PostType = {
@@ -67,7 +96,7 @@ export type PostType = {
     date: number
     terms: TermType[]
     link: string
-    images: Record<string, ImageBlockType>
+    images: ImagesType
     meta: {
         useBackgroundColor: boolean
         backgroundColor: string
@@ -77,36 +106,10 @@ export type PostType = {
 
 export type MySQLPostType = PostType & {
     mimeType: string
+    type: string
 }
 
 export type PageType = Omit<PostType, 'terms'>
-
-export const imageSizeMap: {
-    [key in IMAGE_POSITION]: {
-        'recent-post'?: string
-        'post-thumbnail'?: string
-        thumbnail?: string
-        medium?: string
-        medium_large?: string
-        large?: string
-    }
-} = {
-    [IMAGE_POSITION.HEADER]: {
-        // medium: '(max-width: 480px)',
-        medium_large: '(max-width: 768px)',
-        large: '(max-width: 1024px)',
-    },
-    [IMAGE_POSITION.ICON]: {
-        'recent-post': '(max-width: 480px)',
-        'post-thumbnail': '(max-width: 768px)',
-        large: '(max-width: 1024px)',
-    },
-    [IMAGE_POSITION.LIST]: {
-        medium: '(max-width: 480px)',
-        'post-thumbnail': '(max-width: 768px)',
-        large: '(max-width: 1024px)',
-    },
-}
 
 export type OptionType = { option_value: string }
 
@@ -122,7 +125,12 @@ export type MenuItem = {
 
 export type MySQLMediaType = {
     file: string
-    sizes: Record<string, { file: string }>
+    width: number
+    height: number
+    sizes: Record<
+        string,
+        { file: string; width: number; height: number; 'mime-type': string }
+    >
 }
 
 export type PostMetaType = {

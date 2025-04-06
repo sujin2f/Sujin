@@ -6,6 +6,7 @@ import Blog from '@app/(single)/blog/[slug]/Blog'
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
 import { BASE_URL } from '@app/_lib/constants'
 import { VERSION } from '@common/constants/helper'
+import { IMAGE_SIZE } from '@app/_lib/data/mysql/types'
 /* Utils */
 import { getCachedPost } from '@app/_lib/data/mongo/wordpress/post'
 import { getThumbnailFromPost } from '@app/_lib/data/mysql/utils'
@@ -32,7 +33,7 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
     }
 
     const url = `${BASE_URL}/blog/${slug}`
-    const images = getThumbnailFromPost(post)
+    const images = getThumbnailFromPost(post, IMAGE_SIZE.MEDIUM_LARGE)
     const keywords = post.terms.map((term) => term.title)
 
     return {
@@ -44,7 +45,6 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
             url: url,
             images,
         },
-        metadataBase: new URL(url),
     }
 }
 

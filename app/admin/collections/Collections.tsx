@@ -1,43 +1,27 @@
-'use client'
-import Link from 'next/link'
-/* Components */
-import { Table } from '@common/components/containers/Table'
+/* Constants */
+import { MONGO_DATABASE } from '@common/constants/helper'
+/* Models */
+import client from '@common/data/mongo/mongo-client'
+import { CollectionsClient } from './CollectionsClient'
 
-type Props = {
-    collections: {
-        name: string
-        key: string
-    }[]
-    drop: (collection: string) => Promise<void>
-}
+export async function Collections() {
+    const collections = await client.then(async (client) => {
+        const database = client.db(MONGO_DATABASE)
+        return await database.collections().then((collections) =>
+            collections.map((collection) => ({
+                name: collection.collectionName,
+                key: collection.namespace,
+            })),
+        )
+    })
 
-export default function Collections(props: Props) {
-    return (
-        <>
-            <h2>DB collections</h2>
-            <Table>
-                <thead>
-                    <tr>
-                        <th>Collection</th>
-                        <th>Drop</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {props.collections.map((collection) => (
-                        <tr key={`admin-index-${collection.name}`}>
-                            <td>{collection.name}</td>
-                            <td>
-                                <Link
-                                    href="#"
-                                    onClick={() => props.drop(collection.name)}
-                                >
-                                    Drop
-                                </Link>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </Table>
-        </>
-    )
+    const drop = async (collection: string) => {
+        'use server'
+        await client.then(async (client) => {
+            const database = client.db(MONGO_DATABASE)
+            await database.dropCollection(collection)
+        })
+    }
+
+    return <CollectionsClient collections={collections} drop={drop} />
 }

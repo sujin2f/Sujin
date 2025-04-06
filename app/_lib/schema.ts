@@ -11,26 +11,60 @@ import type { OptionType } from '@app/_lib/data/mongo/types'
 import { ARCHIVE, POST_STATUS } from '@app/_lib/data/mysql/types'
 
 const image: { [key in keyof ImageType]: object } = {
-    key: {
+    url: {
         bsonType: 'string',
     },
-    file: {
+    width: {
+        bsonType: 'int',
+    },
+    height: {
+        bsonType: 'int',
+    },
+    mimeType: {
         bsonType: 'string',
     },
 }
 
 const imageBlock: { [key in keyof ImageBlockType]: object } = {
-    mimeType: {
-        bsonType: 'string',
-    },
     title: {
         bsonType: 'string',
     },
+    mimeType: {
+        bsonType: 'string',
+    },
+    width: {
+        bsonType: 'int',
+    },
+    height: {
+        bsonType: 'int',
+    },
     sizes: {
-        bsonType: 'array',
-        items: {
-            bsonType: 'object',
-            properties: image,
+        bsonType: 'object',
+        properties: {
+            medium: {
+                bsonType: 'object',
+                properties: image,
+            },
+            thumbnail: {
+                bsonType: 'object',
+                properties: image,
+            },
+            mediumLarge: {
+                bsonType: 'object',
+                properties: image,
+            },
+            postThumbnail: {
+                bsonType: 'object',
+                properties: image,
+            },
+            relatedPost: {
+                bsonType: 'object',
+                properties: image,
+            },
+            recentPost: {
+                bsonType: 'object',
+                properties: image,
+            },
         },
     },
     url: {
@@ -147,9 +181,6 @@ const archivesProperty: { [key in keyof ArchiveType]: object } = {
     total: {
         bsonType: 'int',
     },
-    hits: {
-        bsonType: 'int',
-    },
 }
 
 const optionsProperty: { [key in keyof OptionType]: object } = {
@@ -175,17 +206,29 @@ const pages = {
     properties: pageProperty,
 }
 
-const archives = {
+const category = {
     bsonType: 'object',
     title: 'Categories and Tags Collection Validation',
-    required: ['id', 'slug', 'title', 'total', 'hits'],
+    required: ['id', 'slug', 'title', 'total'],
     properties: archivesProperty,
+}
+
+const tags = {
+    bsonType: 'object',
+    title: 'Tag Collection Validation',
+    required: ['id', 'slug', 'title', 'total', 'hits'],
+    properties: {
+        ...archivesProperty,
+        hits: {
+            bsonType: 'int',
+        },
+    },
 }
 
 const backgrounds = {
     bsonType: 'object',
     title: 'Backgrounds Collection Validation',
-    required: ['mimeType', 'title', 'url'],
+    required: ['mimeType', 'url'],
     properties: imageBlock,
 }
 
@@ -196,5 +239,20 @@ const options = {
     properties: optionsProperty,
 }
 
-const defaults = { posts, pages, archives, backgrounds, options }
+/**
+ * @deprecated
+ */
+const archives = {
+    ...tags,
+}
+
+const defaults = {
+    posts,
+    pages,
+    archives,
+    category,
+    tags,
+    backgrounds,
+    options,
+}
 export default defaults

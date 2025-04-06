@@ -1,13 +1,13 @@
+import { unserialize as phpUnserialize } from 'php-unserialize' // TODO Do not use module
 import { DEFAULT_THUMBNAIL } from '@app/_lib/constants'
 import {
-    imageSizeMap,
-    IMAGE_POSITION,
-    type ImageType,
     type PostType,
     type PageType,
-    ImageBlockType,
+    type ImageBlockType,
+    IMAGE_SIZE,
 } from '@app/_lib/data/mysql/types'
-import { unserialize as phpUnserialize } from 'php-unserialize' // TODO Do not use module
+import { ImageMap } from '@common/components/containers/Picture'
+import { bannerMediaQuery } from '@app/_lib/data/mysql/constants'
 
 /**
  * The regular expression for an HTML element.
@@ -362,19 +362,32 @@ export const unserialize = <
     return unserialized as T
 }
 
-export const getThumbnailFromPost = (post: PostType | PageType) =>
-    post.images.thumbnail?.url || post.images.list?.url || DEFAULT_THUMBNAIL
+export const getThumbnailFromPost = (
+    post: PostType | PageType,
+    size: IMAGE_SIZE,
+) =>
+    post.images.list?.sizes?.[size]?.url ||
+    post.images.thumbnail?.sizes?.[size]?.url ||
+    DEFAULT_THUMBNAIL
 
-export const getImageMap = (
-    type: IMAGE_POSITION,
-    sizes: ImageType[],
-): ImageType[] => {
-    return sizes
-        .filter((size) => Object.keys(imageSizeMap[type]).includes(size.key))
-        .map((size) => ({
-            key: (imageSizeMap[type] as Record<string, string>)[size.key],
-            file: size.file,
-        }))
+export const getBannerImageMap = (image: ImageBlockType): ImageMap[] => {
+    if (!image.sizes) {
+        return []
+    }
+
+    return Object.keys(image.sizes)
+        .filter((size) => Object.keys(bannerMediaQuery).includes(size))
+        .map((size) => {
+            const key = size as keyof typeof bannerMediaQuery
+            const source = image.sizes![key]!
+            return {
+                src: source.url,
+                media: bannerMediaQuery[key] || '',
+                mimeType: source.mimeType,
+                width: source.width,
+                height: source.height,
+            } satisfies ImageMap
+        })
 }
 
 const replaceURL = (url: string) => {
@@ -397,14 +410,17 @@ const replaceURL = (url: string) => {
 }
 
 export const convertImageBlockURL = (imageBlock: ImageBlockType) => {
+    const sizes = imageBlock.sizes
+
+    if (sizes) {
+        Object.keys(sizes).forEach((size) => {
+            const key = size as IMAGE_SIZE
+            sizes[key]!.url = replaceURL(sizes[key]!.url)
+        })
+    }
+
     return {
         ...imageBlock,
-        sizes: imageBlock.sizes.map((size) => {
-            return {
-                ...size,
-                file: replaceURL(size.file),
-            }
-        }),
         url: replaceURL(imageBlock.url),
     }
 }

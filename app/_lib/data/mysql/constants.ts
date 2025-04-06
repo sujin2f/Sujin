@@ -4,7 +4,7 @@
  * @module constants
  */
 
-import type { POST_TYPE } from '@app/_lib/data/mysql/types'
+import type { IMAGE_SIZE, POST_TYPE } from '@app/_lib/data/mysql/types'
 
 /**
  * Making a formatted string
@@ -32,6 +32,7 @@ const POST_FIELDS = `
     posts.post_content AS content,
     posts.post_status AS status,
     posts.post_mime_type AS mimeType,
+    posts.post_type AS type,
     posts.guid AS link
 `
 export const PER_PAGE = 12
@@ -264,4 +265,11 @@ export enum MenuNames {
 export enum MenuItemTypes {
     POST_TYPE = 'post_type',
     TAXONOMY = 'taxonomy',
+}
+
+export const bannerMediaQuery: {
+    [key in IMAGE_SIZE]?: string
+} = {
+    medium: '(max-width: 300px)',
+    mediumLarge: '(max-width: 768px)',
 }

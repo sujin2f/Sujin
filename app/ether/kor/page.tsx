@@ -1,5 +1,5 @@
 /* Components */
-import { ScrollToTop } from '@app/_components/ScrollToTop'
+import ScrollToTop from '@common/components/ScrollToTop'
 import { PrevNext } from '@app/(single)/_components/PrevNext'
 /* Types */
 import type { PostType } from '@app/_lib/data/mysql/types'

@@ -1,11 +1,11 @@
 import { MONGO_DATABASE, VERSION } from '@common/constants/helper'
 import getSystemOption from '@app/_lib/data/mongo/admin/getSystemOption'
+/* Components */
+import FrontPage from './FrontPage'
 /* Models */
 import Mongo from '@common/data/mongo/mongo'
 import Logger from '@common/model/Logger'
 import client from '@common/data/mongo/mongo-client'
-/* Components */
-import { Button } from '@common/components/forms/Button'
 /* Constants */
 import migration from '@app/_lib/migration'
 /* Utils */
@@ -42,22 +42,13 @@ export default async function Admin() {
     }
 
     return (
-        <>
-            <h2>Admin</h2>
-            <dl>
-                <dt>DB | Code Version</dt>
-                <dd>
-                    {current} | {VERSION}
-                </dd>
-
-                <dt>Mongo Database</dt>
-                <dd>{MONGO_DATABASE}</dd>
-            </dl>
-
-            {compareVersions(VERSION, current) === 1 && (
-                <Button onClick={migrate}>Migrate MongoDB</Button>
-            )}
-            <Button onClick={reset}>Reset MongoDB</Button>
-        </>
+        <FrontPage
+            dbVersion={current}
+            codeVersion={VERSION}
+            showMigrate={compareVersions(VERSION, current) === 1}
+            migrate={migrate}
+            reset={reset}
+            database={MONGO_DATABASE || ''}
+        />
     )
 }

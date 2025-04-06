@@ -1,7 +1,7 @@
 import { InlineMath } from 'react-katex'
 /* Components */
-import { Image } from '@common/components/containers/image'
-import { ScrollToTop } from '@app/_components/ScrollToTop'
+import { NextImage } from '@common/components/containers/NextImage'
+import ScrollToTop from '@common/components/ScrollToTop'
 import { Table } from '@common/components/containers/Table'
 import { Latex } from '@app/(single)/_components/Latex'
 import { PrevNext } from '@app/(single)/_components/PrevNext'
@@ -355,7 +355,7 @@ export default function ClassicPhysics() {
                 </tbody>
             </Table>
 
-            <Image
+            <NextImage
                 src={pic5}
                 alt="Rydberg of Photon-Ether"
                 caption={

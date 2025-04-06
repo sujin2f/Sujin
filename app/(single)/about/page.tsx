@@ -10,7 +10,6 @@ export const metadata: Metadata = {
         title: 'About Sujin Choi',
         url: `${BASE_URL}/about`,
     },
-    metadataBase: new URL(`${BASE_URL}/about`),
 }
 
 export default async function Page() {

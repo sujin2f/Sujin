@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { Input } from '@common/components/forms/Input'
 import { Column } from '@common/components/layout/Column'
 import { Row } from '@common/components/layout/Row'
-import { ScrollToTop } from '@app/_components/ScrollToTop'
+import ScrollToTop from '@common/components/ScrollToTop'
 /* Helpers */
 import { copyText } from '@common/utils/device'
 import {

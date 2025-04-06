@@ -9,6 +9,7 @@ import type {
     DeleteResult,
     UpdateResult,
     MongoClient,
+    UpdateFilter,
 } from 'mongodb'
 /* Models */
 import client from './mongo-client'
@@ -204,6 +205,19 @@ const replaceOne = async <T extends Document>(
     })
 }
 
+const updateOne = async <T extends Document>(
+    collection: string,
+    filter: Filter<T>,
+    update: UpdateFilter<T>,
+): Promise<Document | UpdateResult<T>> => {
+    return await client.then(async (client) => {
+        const database = client.db(MONGO_DATABASE)
+        return await database
+            .collection<T>(collection)
+            .updateOne(filter, update)
+    })
+}
+
 export type Migration = {
     [version: string]: (client: MongoClient) => Promise<void>
 }
@@ -253,6 +267,7 @@ const actions = {
     deleteOne,
     deleteMany,
     replaceOne,
+    updateOne,
     count,
     random,
     migrate,

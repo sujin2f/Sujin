@@ -36,74 +36,50 @@ flowchart
 
 ```mermaid
 flowchart
-    A@{ shape: stadium, label: "Visit Term" } --> G1["getCachedTerm()"]
-    G1 --> G3@{ shape: diamond, label: "getTermBySlug()" }
-    G3 -->|catch| G4@{ shape: diamond, label: "updateTerm()" }
-    G3 -->|then| G5@{ shape: dbl-circ, label: "200" }
-    G4 -.- J6
-    G4 -->|then| G5
-    G4 -->|catch| G8@{ shape: dbl-circ, label: "404" }
+    A@{ shape: stadium, label: "Visit Post" } --> A1["getCachedPost()"]
 
-    B@{ shape: stadium, label: "GQL Term mutation" } --> I1
-    I1["secureUpdateTerm()"] --> I2@{ shape: diamond, label: "nonce" }
-    I2 -->|fail| I3@{ shape: dbl-circ, label: "404" }
-    I2 -->|pass| I4@{ shape: diamond, label: "updateTerm()" }
-    I4 -->|then| I3
-    I4 -->|catch| I5@{ shape: dbl-circ, label: "200" }
+    B@{ shape: stadium, label: "GQL Post mutation" } --> B1["mutatePost()"]
+    B1 --> B2["updatePost()"]
 
-    J1@{ shape: stadium, label: "Admin Visit" } --> J2["getTerms()"]
+    C@{ shape: stadium, label: "Visit Archive" } --> C1["getCachedArchivePosts()"]
 
-    J3@{ shape: stadium, label: "Admin Remove" } --> J4["removeTerm()"]
+    D@{ shape: stadium, label: "Visit Admin Archive" } --> D1["getArchivePosts()"]
 
-    J5@{ shape: stadium, label: "Admin Refresh" } --> J6["updateTerm()" ]
+    E@{ shape: stadium, label: "Admin Refresh" } --> E1["updateArchivePosts()"]
 
-    J6 --> K3@{ shape: diamond, label: "MySQL" }
-    K3 -->|catch| K4["removeTerm()"]
-    K3 -->|then| K5@{ shape: diamond, label: "Mongo" }
-    K5 -->|then| K6["Update"]
-    K5 -->|catch| K7["Insert"]
-    K4 --> K9@{ shape: dbl-circ, label: "Throw" }
+    Z["updateMongoFromMySQL()"] --> Z1["updateTotals()"]
 
-    I4 -.- J6
-
-    K7 --> TERM1["updateTermTotal()"]
+    B2 --> Z
+    E1 --> Z
+    C1 --> D1
 ```
 
 # Archive
 
 ```mermaid
 flowchart
-    A@{ shape: stadium, label: "Visit Archive" } --> G1["getCachedArchive()"]
-    G1 --> G3@{ shape: diamond, label: "getArchiveBySlug()" }
-    G3 -->|catch| G4@{ shape: diamond, label: "updateArchive()" }
-    G3 -->|then| G5@{ shape: dbl-circ, label: "200" }
-    G4 -.- J6
-    G4 -->|then| G5
-    G4 -->|catch| G8@{ shape: dbl-circ, label: "404" }
+    A@{ shape: stadium, label: "Visit Archive" } --> G1@{ shape: diamond, label: "getCachedArchive()" }
+    G1 -->|available| G10@{ shape: dbl-circ, label: "200" }
+    G1 -->|expired| G3@{ shape: diamond, label: "getArchive()" }
+    G3 -->|then| G9["updateTotal()"]
+    G3 -->|catch| J6
+    G9 --> G11@{ shape: dbl-circ, label: "200" }
 
     B@{ shape: stadium, label: "GQL Archive mutation" } --> I1
     I1["secureUpdateArchive()"] --> I2@{ shape: diamond, label: "nonce" }
-    I2 -->|fail| I3@{ shape: dbl-circ, label: "404" }
-    I2 -->|pass| I4@{ shape: diamond, label: "updateArchive()" }
-    I4 -->|then| I3
-    I4 -->|catch| I5@{ shape: dbl-circ, label: "200" }
+    I2 -->|pass| J6
 
     J1@{ shape: stadium, label: "Admin Visit" } --> J2["getArchives()"]
 
     J3@{ shape: stadium, label: "Admin Remove" } --> J4["removeArchive()"]
 
     J5@{ shape: stadium, label: "Admin Refresh" } --> J6["updateArchive()" ]
-
     J6 --> K3@{ shape: diamond, label: "MySQL" }
     K3 -->|catch| K4["removeArchive()"]
     K3 -->|then| K5@{ shape: diamond, label: "Mongo" }
-    K5 -->|then| K6["Update"]
-    K5 -->|catch| K7["Insert"]
+    K5 -->|then| K6["replace"]
+    K5 -->|catch| K7["insert"]
     K4 --> K9@{ shape: dbl-circ, label: "Throw" }
-
-    I4 -.- J6
-
-    K7 --> Archive1["updateArchiveTotal()"]
 ```
 
 # Background

@@ -6,10 +6,11 @@ import { Column } from '@common/components/layout/Column'
 import { Row } from '@common/components/layout/Row'
 import { SocialShare } from '@app/(single)/_components/SocialShare'
 import { Content } from '@app/(single)/_components/Content'
-import { ScrollToTop } from '@app/_components/ScrollToTop'
+import ScrollToTop from '@common/components/ScrollToTop'
 /* Constants */
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV, VERSION } from '@common/constants/helper'
+import { IMAGE_SIZE } from '@app/_lib/data/mysql/types'
 /* Utils */
 import { getCachedPage } from '@app/_lib/data/mongo/wordpress/page'
 import { getThumbnailFromPost } from '@app/_lib/data/mysql/utils'
@@ -25,7 +26,7 @@ export async function About() {
     )
 
     const post = await request().catch(() => notFound())
-    const thumbnail = getThumbnailFromPost(post)
+    const thumbnail = getThumbnailFromPost(post, IMAGE_SIZE.MEDIUM_LARGE)
 
     return (
         <main className="page--page">

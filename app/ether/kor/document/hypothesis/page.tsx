@@ -1,8 +1,8 @@
 import Link from 'next/link'
 /* Components */
-import { Image } from '@common/components/containers/image'
+import { NextImage } from '@common/components/containers/NextImage'
 import { PrevNext } from '@app/(single)/_components/PrevNext'
-import { ScrollToTop } from '@app/_components/ScrollToTop'
+import ScrollToTop from '@common/components/ScrollToTop'
 /* Types */
 import type { PostType } from '@app/_lib/data/mysql/types'
 /* Assets */
@@ -26,7 +26,7 @@ export default function Hypothesis() {
                 존재하지 않을까? 혹시 그 공간이 물질의 일부라면 어떠할까?
             </p>
 
-            <Image
+            <NextImage
                 src={pic3}
                 alt="가설"
                 caption={
@@ -63,7 +63,7 @@ export default function Hypothesis() {
                 공간이라 할 수 있다.
             </p>
 
-            <Image
+            <NextImage
                 src={pic8}
                 alt="가설에 따른 광자와 전자의 차이"
                 caption="가설에 따른 광자와 전자의 차이"
@@ -79,7 +79,7 @@ export default function Hypothesis() {
                 찾을 수가 없다.
             </p>
 
-            <Image
+            <NextImage
                 src={pic7}
                 alt="이름을 지어주마"
                 caption={
@@ -88,6 +88,7 @@ export default function Hypothesis() {
                     </>
                 }
                 center
+                width={600}
             />
 
             <p>
@@ -107,7 +108,7 @@ export default function Hypothesis() {
                 아닌, 생겨나는 것으로 관점을 바꿀 수 있다.
             </p>
 
-            <Image src={pic91} alt="우주 팽창과 수축" center />
+            <NextImage src={pic91} alt="우주 팽창과 수축" center width={600} />
 
             <p>
                 그럼 시간을 되돌려 빅뱅의 초기로 가보자. 우주의 크기가 절대 거리
@@ -135,7 +136,7 @@ export default function Hypothesis() {
                 회절무늬를 형성한다.
             </p>
 
-            <Image
+            <NextImage
                 src={pic4}
                 alt="이중슬릿 실험의 가설 적용"
                 caption={
@@ -184,7 +185,7 @@ export default function Hypothesis() {
                 모형을 살펴보도록 하겠다.
             </p>
 
-            <Image
+            <NextImage
                 src={pic1}
                 alt="고전 물리학: 보어의 원자 모형"
                 caption={
@@ -212,7 +213,7 @@ export default function Hypothesis() {
                 변환되는 것으로 생각하는 것이다.
             </p>
 
-            <Image
+            <NextImage
                 src={pic2}
                 alt="에테르-스파클 가설로 본 보어의 원자 모형"
                 caption="에테르-스파클 가설로 본 보어의 원자 모형"

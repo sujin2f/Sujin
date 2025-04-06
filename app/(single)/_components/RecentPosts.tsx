@@ -5,8 +5,10 @@ import { Row } from '@common/components/layout/Row'
 import Title from '@app/_components/WidgetTitle'
 import { Cards } from '@app/(archive)/_components/cards'
 import { Loading } from '@app/(archive)/_components/loading'
-/* Helpers */
+/* Utils */
 import { useRecentPost } from '@app/_lib/hooks/useRecentPost'
+/* Constants */
+import { IMAGE_SIZE } from '@app/_lib/data/mysql/types'
 /* Assets */
 import './style.scss'
 
@@ -27,6 +29,7 @@ export const RecentPosts = ({ current }: { current: number }) => {
                             .filter((item) => item.id !== current)
                             .slice(0, 4)}
                         keyPrefix="recent"
+                        imageSize={IMAGE_SIZE.RECENT_POST}
                     />
                 </Row>
             )}

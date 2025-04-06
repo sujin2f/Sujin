@@ -8,12 +8,13 @@ import { getPostBy, getPostMeta } from '@app/_lib/data/mysql/post'
 import { MySQLQuery } from '@app/_lib/data/mysql/constants'
 import { MetaKeys } from '@app/_lib/data/mysql/constants'
 /* Types */
-import type {
-    ImageBlockType,
-    MySQLMediaType,
-    ImageType,
-    MySQLPostType,
-    ImageKeysType,
+import {
+    type ImageBlockType,
+    type MySQLMediaType,
+    type MySQLPostType,
+    IMAGE_TYPE,
+    POST_TYPE,
+    IMAGE_SIZE,
 } from '@app/_lib/data/mysql/types'
 import type { Nullable } from '@common/types'
 
@@ -42,10 +43,6 @@ export const getBackgrounds = async (): Promise<ImageBlockType[]> => {
 const getMediaFromPost = async (
     post: MySQLPostType,
 ): Promise<Nullable<ImageBlockType>> => {
-    const result = {} as ImageBlockType
-    result.mimeType = post.mimeType
-    result.title = post.title
-
     const meta = await getPostMeta<MySQLMediaType>(
         post.id,
         MetaKeys.ATTACHMENT_META,
@@ -55,18 +52,42 @@ const getMediaFromPost = async (
         return
     }
 
-    // Map sizes
-    result.sizes = [] as ImageType[]
-    result.url = meta.file
+    const result: ImageBlockType = {
+        mimeType: post.mimeType,
+        title: post.title,
+        url: meta.file,
+        width: meta.width,
+        height: meta.height,
+    }
 
     if (meta.sizes) {
         const urlBase = result.url.replace(/\/[a-zA-Z0-9-_.]+$/, '')
+        result.sizes = {}
 
-        Object.keys(meta.sizes).forEach((key) => {
-            result.sizes.push({
-                key,
-                file: `${urlBase}/${meta.sizes[key].file}`,
-            })
+        Object.keys(meta.sizes).forEach((size) => {
+            const mySQLKey = size as IMAGE_SIZE
+            let key = size as IMAGE_SIZE
+
+            switch (size) {
+                case 'medium_large':
+                    key = IMAGE_SIZE.MEDIUM_LARGE
+                    break
+                case 'post-thumbnail':
+                    key = IMAGE_SIZE.POST_THUMBNAIL
+                    break
+                case 'related-post':
+                    key = IMAGE_SIZE.RELATED_POST
+                    break
+                case 'recent-post':
+                    key = IMAGE_SIZE.RECENT_POST
+                    break
+            }
+            result.sizes![key] = {
+                url: `${urlBase}/${meta.sizes[mySQLKey].file}`,
+                width: meta.sizes[mySQLKey].width,
+                height: meta.sizes[mySQLKey].height,
+                mimeType: meta.sizes[mySQLKey]['mime-type'],
+            }
         })
     }
 
@@ -76,7 +97,7 @@ const getMediaFromPost = async (
 export const getMedia = async (
     postId: number,
 ): Promise<Nullable<ImageBlockType>> => {
-    const post = await getPostBy('id', postId, 'attachment', true)
+    const post = await getPostBy('id', postId, POST_TYPE.ATTACHMENT, true)
     if (!post) {
         return
     }
@@ -96,7 +117,7 @@ export const getPostImages = async (
 ): Promise<getPostImagesReturnType> => {
     const result: getPostImagesReturnType = {}
 
-    const imageIds: Record<ImageKeysType, number> = {
+    const imageIds: Record<IMAGE_TYPE, number> = {
         list: await getPostMeta<number>(post.id, 'list', 0),
         icon: await getPostMeta<number>(post.id, 'icon', 0),
         title: await getPostMeta<number>(post.id, 'title', 0),
@@ -105,13 +126,13 @@ export const getPostImages = async (
     }
 
     for (const imageKey of Object.keys(imageIds)) {
-        if (!imageIds[imageKey as ImageKeysType]) {
+        if (!imageIds[imageKey as IMAGE_TYPE]) {
             continue
         }
-        const image = await getMedia(imageIds[imageKey as ImageKeysType])
+        const image = await getMedia(imageIds[imageKey as IMAGE_TYPE])
 
         if (image) {
-            result[imageKey as ImageKeysType] = image
+            result[imageKey as IMAGE_TYPE] = image
         }
     }
 

@@ -31,6 +31,7 @@ export default async function AppLayout({ children }: PropsWithChildren) {
                 <Row>
                     <Column small={2}>
                         <Menu
+                            className="menu--admin"
                             items={[
                                 {
                                     title: 'Home',
@@ -53,16 +54,16 @@ export default async function AppLayout({ children }: PropsWithChildren) {
                                     link: '/admin/backgrounds/1',
                                 },
                                 {
+                                    title: 'Collections',
+                                    link: '/admin/collections',
+                                },
+                                {
                                     title: 'Index',
                                     link: '/admin/index',
                                 },
                                 {
                                     title: 'Schema',
                                     link: '/admin/schema',
-                                },
-                                {
-                                    title: 'Collections',
-                                    link: '/admin/collections',
                                 },
                                 {
                                     title: 'Cache',

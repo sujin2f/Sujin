@@ -1,12 +1,12 @@
 import { InlineMath } from 'react-katex'
 import Link from 'next/link'
 /* Components */
-import { Image } from '@common/components/containers/image'
+import { NextImage } from '@common/components/containers/NextImage'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 import { Latex } from '@app/(single)/_components/Latex'
 import { PrevNext } from '@app/(single)/_components/PrevNext'
-import { ScrollToTop } from '@app/_components/ScrollToTop'
+import ScrollToTop from '@common/components/ScrollToTop'
 /* Types */
 import type { PostType } from '@app/_lib/data/mysql/types'
 /* Assets */
@@ -37,7 +37,7 @@ export default function Between() {
                 revisit the arrangement of values in helium.
             </p>
 
-            <Image
+            <NextImage
                 src={pic58}
                 alt="s and p Orbital of Helium"
                 caption="s and p Orbital of Helium"
@@ -71,7 +71,7 @@ export default function Between() {
                 <InlineMath>{`1-\\dfrac{1}{(x + 1) ^ 2}`}</InlineMath>.
             </p>
 
-            <Image
+            <NextImage
                 src={pic125}
                 alt="The bottom graphs serve as the reference"
                 caption="The bottom graphs serve as the reference"
@@ -98,7 +98,7 @@ export default function Between() {
 
             <Row fullWidth>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic122}
                         alt="Betweens in the Hydrogen Orbital Values"
                         caption={
@@ -107,10 +107,11 @@ export default function Between() {
                                 <sup>2</sup>S<sub>1/2</sub>
                             </>
                         }
+                        width={600}
                     />
                 </Column>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic123}
                         alt="Betweens in the Hydrogen Ether Values"
                         caption={
@@ -119,6 +120,7 @@ export default function Between() {
                                 <sup>2</sup>S<sub>1/2</sub>
                             </>
                         }
+                        width={600}
                     />
                 </Column>
             </Row>
@@ -141,7 +143,7 @@ export default function Between() {
 
             <Row fullWidth>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic114}
                         alt="Betweens in the Helium Orbital Values"
                         caption={
@@ -150,10 +152,11 @@ export default function Between() {
                                 <sup>1</sup>S<sub>0</sub>
                             </>
                         }
+                        width={600}
                     />
                 </Column>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic115}
                         alt="Betweens in the Helium Ether Values"
                         caption={
@@ -162,6 +165,7 @@ export default function Between() {
                                 S<sub>0</sub>
                             </>
                         }
+                        width={600}
                     />
                 </Column>
             </Row>
@@ -178,7 +182,7 @@ export default function Between() {
 
             <Row fullWidth>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic116}
                         alt="Betweens in the Beryllium Orbital Values"
                         caption={
@@ -187,10 +191,11 @@ export default function Between() {
                                 <sup>1</sup>S<sub>0</sub>
                             </>
                         }
+                        width={600}
                     />
                 </Column>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic117}
                         alt="Betweens in the Beryllium Ether Values"
                         caption={
@@ -199,13 +204,14 @@ export default function Between() {
                                 <sup>1</sup>S<sub>0</sub>
                             </>
                         }
+                        width={600}
                     />
                 </Column>
             </Row>
 
             <Row fullWidth>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic118}
                         alt="Betweens in the Sodium Orbital Values"
                         caption={
@@ -214,10 +220,11 @@ export default function Between() {
                                 <sup>2</sup>S<sub>1/2</sub>
                             </>
                         }
+                        width={600}
                     />
                 </Column>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic119}
                         alt="Betweens in the Sodium Ether Values"
                         caption={
@@ -226,13 +233,14 @@ export default function Between() {
                                 S<sub>1/2</sub>
                             </>
                         }
+                        width={600}
                     />
                 </Column>
             </Row>
 
             <Row fullWidth>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic120}
                         alt="Betweens in the Cesium Orbital Values"
                         caption={
@@ -241,10 +249,11 @@ export default function Between() {
                                 <sup>2</sup>S<sub>1/2</sub>
                             </>
                         }
+                        width={600}
                     />
                 </Column>
                 <Column medium={6} small={12}>
-                    <Image
+                    <NextImage
                         src={pic121}
                         alt="Betweens in the Cesium Ether Values"
                         caption={
@@ -253,6 +262,7 @@ export default function Between() {
                                 S<sub>1/2</sub>
                             </>
                         }
+                        width={600}
                     />
                 </Column>
             </Row>

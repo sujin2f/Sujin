@@ -1,11 +1,11 @@
 /**
  * @jest-environment jsdom
  */
-// yarn test device.spec.ts
+// yarn test dom.spec.ts
 
-import { isMobile, scrollTo } from './device'
+import { isMobile, scrollTo } from './dom'
 
-describe('device.ts', () => {
+describe('dom.ts', () => {
     const dataIsMobile = [
         [
             'Mozilla/5.0 (Linux; Android 8.0.0; SM-G960F Build/R16NW) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.84 Mobile Safari/537.36',

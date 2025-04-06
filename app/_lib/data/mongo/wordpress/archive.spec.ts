@@ -1,10 +1,9 @@
 // yarn test archive.spec.ts
 
 import { VERSION } from '@common/constants/helper'
-import { clearMongo, postFactory, categoryFactory } from '@jest/helpers'
+import { clearMongo, categoryFactory, tagFactory } from '@jest/helpers'
 import {
     getCachedArchive,
-    updateArchiveTotal,
     updateArchive,
     removeArchive,
     getArchives,
@@ -16,12 +15,11 @@ import setSystemOption from '@app/_lib/data/mongo/admin/setSystemOption'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 import { ARCHIVE } from '@app/_lib/data/mysql/types'
 import Cached from '@common/model/Cached'
+import { tag } from '@jest/fixture'
 
 const mockQuery = jest.fn()
-jest.mock('promise-mysql', () => ({
-    createConnection: jest.fn(() => ({
-        query: mockQuery,
-    })),
+jest.mock('../../mysql/term', () => ({
+    getArchiveBySlug: () => mockQuery(),
 }))
 
 describe('archive.spec.ts', () => {
@@ -45,52 +43,34 @@ describe('archive.spec.ts', () => {
 
     test('getCachedArchive()', async () => {
         const category = await categoryFactory()
-        const result = await getCachedArchive(
-            category.slug,
-            ARCHIVE.CATEGORY,
-            true,
-        )
+        const result = await getCachedArchive(category.slug, ARCHIVE.CATEGORY)
         expect(result.id).toEqual(category.id)
     })
 
-    // @todo
-    test.skip('updateArchiveTotal()', async () => {
-        const category = await categoryFactory()
-        await postFactory({
-            terms: [{ ...category, type: ARCHIVE.CATEGORY }],
+    test('updateArchive(): New', async () => {
+        const slug = 'test-slug'
+
+        mockQuery.mockImplementation(() =>
+            Promise.resolve({ ...tag, slug, title: 'Changed' }),
+        )
+
+        await updateArchive(slug, ARCHIVE.TAG)
+        const result = await Mongo.findOne(ARCHIVE.TAG, {
+            slug,
         })
-        await postFactory({
-            terms: [{ ...category, type: ARCHIVE.CATEGORY }],
-        })
-        await postFactory({
-            terms: [{ ...category, type: ARCHIVE.CATEGORY }],
-        })
-        const result = await updateArchiveTotal(category.slug, ARCHIVE.CATEGORY)
-        expect(result.total).toEqual(3)
+        expect(result.title).toBe('Changed')
     })
 
     test('updateArchive(): existing Mongo', async () => {
-        const category = await categoryFactory({ title: 'Changed' })
+        const { slug } = await tagFactory()
 
-        mockQuery.mockImplementation((arg: string) => {
-            if (
-                arg.includes(
-                    'ON taxonomy.term_taxonomy_id = relationships.term_taxonomy_id',
-                )
-            ) {
-                return Promise.resolve([
-                    {
-                        ...category,
-                        title: 'Changed',
-                    },
-                ])
-            }
-            return Promise.resolve([])
-        })
+        mockQuery.mockImplementation(() =>
+            Promise.resolve({ ...tag, slug, title: 'Changed' }),
+        )
 
-        await updateArchive(category.slug, ARCHIVE.CATEGORY)
-        const result = await Mongo.findOne(ARCHIVE.CATEGORY, {
-            id: category.id,
+        await updateArchive(slug, ARCHIVE.TAG)
+        const result = await Mongo.findOne(ARCHIVE.TAG, {
+            slug,
         })
         expect(result.title).toBe('Changed')
     })

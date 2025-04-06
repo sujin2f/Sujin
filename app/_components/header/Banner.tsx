@@ -1,18 +1,20 @@
 'use client'
 import React, { Fragment, type ReactNode } from 'react'
 import { usePathname } from 'next/navigation'
+import Image from 'next/image'
 /* Components */
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 import { Menu } from '@common/components/layout/Menu'
+import NextImage from '@common/components/containers/NextImage'
 /* Helpers */
 import { joinClassNames } from '@common/utils/string'
-import { getImageMap } from '@app/_lib/data/mysql/utils'
+import { getBannerImageMap } from '@app/_lib/data/mysql/utils'
 import { getMenu } from '@app/_lib/utils'
 import { METADATA } from '@app/_lib/constants'
 import { MenuNames } from '@app/_lib/data/mysql/constants'
 /* Types */
-import { IMAGE_POSITION, type ImageBlockType } from '@app/_lib/data/mysql/types'
+import { type ImageBlockType } from '@app/_lib/data/mysql/types'
 
 type Props = {
     banner?: {
@@ -35,6 +37,7 @@ type Props = {
 export function Banner(props: Props) {
     const menu = getMenu(props.menu || MenuNames.MAIN)
     const path = usePathname()
+    const { background, backgroundColor, icon } = props.banner || {}
 
     const title =
         path && METADATA[path] ? METADATA[path].title : props.banner?.title
@@ -43,19 +46,11 @@ export function Banner(props: Props) {
             ? METADATA[path].description
             : props.banner?.excerpt
 
-    const style = props.banner?.backgroundColor
+    const style = backgroundColor
         ? {
-              backgroundColor: props.banner.backgroundColor,
+              backgroundColor,
           }
         : {}
-
-    const imageMapBackground = props.banner?.background
-        ? getImageMap(IMAGE_POSITION.HEADER, props.banner.background.sizes)
-        : null
-
-    const imageMapIcon = props.banner?.icon
-        ? getImageMap(IMAGE_POSITION.ICON, props.banner.icon.sizes)
-        : null
 
     return (
         <Fragment>
@@ -70,24 +65,16 @@ export function Banner(props: Props) {
 
                 <div className="banner__overlay"></div>
 
-                {imageMapBackground && (
-                    <picture className="banner__background">
-                        {imageMapBackground.map((map) => (
-                            <source
-                                key={`header-${map.file}`}
-                                media={map.key}
-                                srcSet={map.file}
-                                type={props.banner!.background!.mimeType}
-                            />
-                        ))}
-
-                        <img
-                            alt=""
-                            role="presentation"
-                            src={props.banner!.background!.url}
-                        />
-                    </picture>
-                )}
+                {background ? (
+                    <NextImage
+                        sources={getBannerImageMap(background)}
+                        src={background.url}
+                        alt=""
+                        width={background.width || 1000}
+                        height={background.height || 700}
+                        className="banner__background"
+                    />
+                ) : null}
 
                 <div
                     className={joinClassNames(
@@ -115,24 +102,18 @@ export function Banner(props: Props) {
                 </div>
             </section>
 
-            {imageMapIcon && (
+            {icon ? (
                 <picture className="banner__icon__container">
-                    {imageMapIcon.map((map) => (
-                        <source
-                            key={`icon-${map.file}`}
-                            media={map.key}
-                            srcSet={map.file}
-                            type={props.banner!.icon!.mimeType}
-                        />
-                    ))}
-
-                    <img
+                    <Image
+                        src={icon.url}
                         alt=""
+                        width={300}
+                        height={300}
                         className="banner__icon"
-                        role="presentation"
-                        src={props.banner!.icon!.url}
                     />
                 </picture>
+            ) : (
+                <></>
             )}
         </Fragment>
     )

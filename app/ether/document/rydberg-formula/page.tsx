@@ -1,11 +1,11 @@
 import Link from 'next/link'
 import { InlineMath } from 'react-katex'
 /* Components */
-import { Image } from '@common/components/containers/image'
+import { NextImage } from '@common/components/containers/NextImage'
 import { Table } from '@common/components/containers/Table'
 import { Latex } from '@app/(single)/_components/Latex'
 import { PrevNext } from '@app/(single)/_components/PrevNext'
-import { ScrollToTop } from '@app/_components/ScrollToTop'
+import ScrollToTop from '@common/components/ScrollToTop'
 /* Types */
 import type { PostType } from '@app/_lib/data/mysql/types'
 /* Assets */
@@ -37,7 +37,7 @@ export default function RydbergFormula() {
                 Within the orbital, the electron exists probabilistically.
             </p>
 
-            <Image
+            <NextImage
                 src={pic9}
                 alt="Electron Orbital"
                 caption={
@@ -53,6 +53,7 @@ export default function RydbergFormula() {
                     </>
                 }
                 center
+                width={600}
             />
 
             <h2>Hypothesis: The nodes of orbitals are photon-Ether</h2>
@@ -87,7 +88,7 @@ export default function RydbergFormula() {
                 photon-Ether.
             </p>
 
-            <Image
+            <NextImage
                 src={pic10}
                 alt="Viewing Orbitals from the Perspective of Ether"
                 caption={
@@ -99,6 +100,7 @@ export default function RydbergFormula() {
                     </>
                 }
                 center
+                width={600}
             />
 
             <p>
@@ -123,7 +125,7 @@ export default function RydbergFormula() {
                 according to the form that manifests as the orbital.
             </p>
 
-            <Image
+            <NextImage
                 src={pic92}
                 alt="The Shape of Nodes in Orbital"
                 width="300"
@@ -182,7 +184,7 @@ export default function RydbergFormula() {
                 on.
             </p>
 
-            <Image
+            <NextImage
                 src={pic55}
                 alt="Hydrogen and Helium's Circular Ether Values"
                 caption={
@@ -212,7 +214,7 @@ export default function RydbergFormula() {
 
             <h2>Shifting a Graph</h2>
 
-            <Image
+            <NextImage
                 src={pic56}
                 alt="Helium's s and p Orbitals"
                 caption="Helium's s and p Orbitals"
@@ -259,7 +261,7 @@ export default function RydbergFormula() {
                 helium
             </p>
 
-            <Image
+            <NextImage
                 src={pic57}
                 alt="the Rydberg Formula Shifted Vertically to Match Helium"
                 caption="the Rydberg Formula Shifted Vertically to Match Helium"
@@ -332,7 +334,7 @@ export default function RydbergFormula() {
                 s and p orbitals of helium looks as follows.
             </p>
 
-            <Image
+            <NextImage
                 src={pic58}
                 alt="The Graphs of Helium's s and p Orbitals"
                 caption={
@@ -366,7 +368,7 @@ export default function RydbergFormula() {
 
             <Latex>{`R^{3.1}_{2S.1/2}(x) = R(x, 13.60676328, 5.39114472, 2, 3.373129)`}</Latex>
 
-            <Image
+            <NextImage
                 src={pic59}
                 alt="The Graphs of Lithium's s Orbital"
                 caption={
@@ -476,7 +478,7 @@ export default function RydbergFormula() {
                 orbitals.
             </p>
 
-            <Image
+            <NextImage
                 src={pic93}
                 alt="Horizontal Shifting of Helium Orbital Values"
                 caption="Horizontal Shifting of Helium Orbital Values"
@@ -500,7 +502,7 @@ export default function RydbergFormula() {
             <Latex>{`\\to k_{s} = \\dfrac{1}{\\sqrt{1 - \\dfrac{20.6157751334 - (24.58556828 - 13.60676328)}{13.60676328}}} - 1 - 1`}</Latex>
             <Latex caption="If we move all points in the x-axis direction by this amount, they will align with the reference Rydberg formula.">{`\\to k_{s} = −0.148628918071`}</Latex>
 
-            <Image
+            <NextImage
                 src={pic113}
                 alt="s, p, and d Orbitals"
                 caption="s, p, and d Orbitals"
@@ -634,7 +636,7 @@ export default function RydbergFormula() {
 
             <p>The result graph is like below:</p>
 
-            <Image
+            <NextImage
                 src={pic94}
                 alt="The Horizontal Shifting Graph of Helium Orbitals"
                 caption="The Horizontal Shifting Graph of Helium Orbitals"
@@ -739,7 +741,7 @@ export default function RydbergFormula() {
 
             <p>Let&apos;s move them to a graph:</p>
 
-            <Image
+            <NextImage
                 src={pic95}
                 alt="Changes in the Helium Orbital Values"
                 caption="Changes in the Helium Orbital Values"

@@ -1,15 +1,15 @@
+import Link from 'next/link'
 /* Components */
-import { PrevNext } from '@app/(single)/_components/PrevNext'
-import CategoriesTable from '@app/admin/categories/[page]/CategoriesTable'
-/* Constants */
-import { PER_PAGE } from '@app/_lib/data/mysql/constants'
+import { PrevNext } from '@app/admin/_components/PrevNext'
+import { Table } from '@common/components/containers/Table'
+import { Header } from './Header'
+import { Row } from '@common/components/layout/Row'
+import { Column } from '@common/components/layout/Column'
 /* Utils */
 import {
     getCategories,
     updateCategory,
 } from '@app/_lib/data/mongo/wordpress/category'
-/* Types */
-import type { PostType } from '@app/_lib/data/mysql/types'
 
 type Props = {
     params: Promise<{
@@ -28,26 +28,46 @@ export default async function Categories(props: Props) {
         await updateCategory(slug)
     }
 
-    const prev =
-        page !== 1
-            ? ({
-                  title: 'Prev',
-                  link: `/admin/categories/${page - 1}`,
-              } as PostType)
-            : undefined
-    const next =
-        terms.length === PER_PAGE
-            ? ({
-                  title: 'Next',
-                  link: `/admin/categories/${page + 1}`,
-              } as PostType)
-            : undefined
-
     return (
         <>
-            <h2>Categories</h2>
-            <CategoriesTable terms={terms} update={update} />
-            <PrevNext posts={[prev, next]} />
+            <Header update={update} />
+            <Row dom="article" fullWidth>
+                <Column small={12}>
+                    <Table fullWidth>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Slug</th>
+                                <th>Show Posts</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {terms.map((term) => (
+                                <tr key={`admin-posts-${term.id}`}>
+                                    <td>{term.id}</td>
+                                    <td>{term.title}</td>
+                                    <td>{term.slug}</td>
+                                    <td>
+                                        <Link
+                                            href={`/admin/categories/posts/${term.slug}/1`}
+                                        >
+                                            Show Posts
+                                        </Link>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                </Column>
+                <Column small={12}>
+                    <PrevNext
+                        page={page}
+                        length={terms.length}
+                        path="categories"
+                    />
+                </Column>
+            </Row>
         </>
     )
 }

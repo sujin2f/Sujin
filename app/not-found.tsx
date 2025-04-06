@@ -1,6 +1,9 @@
 import type { Metadata } from 'next'
-/* Helpers */
-import NotFound from '@app/(archive)/not-found'
+/* Components */
+import { Banner } from '@app/_components/header/Banner'
+import Articles from '@app/NotFoundClient'
+import { Header } from '@app/_components/header'
+import { Footer } from '@app/_components/footer'
 
 export const metadata: Metadata = {
     robots: {
@@ -11,5 +14,20 @@ export const metadata: Metadata = {
 }
 
 export default async function Wrapper() {
-    return <NotFound />
+    return (
+        <>
+            <Header />
+            <main>
+                <Banner
+                    banner={{
+                        title: '404 Not Found',
+                        excerpt:
+                            'We cannot find the result. See below for recent articles.',
+                    }}
+                />
+                <Articles />
+            </main>
+            <Footer />
+        </>
+    )
 }

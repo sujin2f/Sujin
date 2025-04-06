@@ -8,7 +8,7 @@ import type {
     PageType,
     PostType,
 } from '@app/_lib/data/mysql/types'
-import { page, post } from './fixture'
+import { category, imageBlock, page, post, tag } from './fixture'
 import { COLLECTION } from '@app/_lib/data/mongo/constants'
 
 export const clearMongo = async (...collections: string[]) =>
@@ -30,12 +30,10 @@ export const clearMongo = async (...collections: string[]) =>
 export const categoryFactory = async (input: Partial<ArchiveType> = {}) => {
     const id = getRandomInt(10000)
     const document = {
+        ...category,
         id,
         title: `Category ${id}`,
         slug: `category-${id}`,
-        excerpt: '',
-        total: 0,
-        hits: 0,
         ...input,
     }
     const result = await Mongo.insertOne(COLLECTION.CATEGORY, document)
@@ -49,12 +47,10 @@ export const categoryFactory = async (input: Partial<ArchiveType> = {}) => {
 export const tagFactory = async (input: Partial<ArchiveType> = {}) => {
     const id = getRandomInt(10000)
     const document = {
+        ...tag,
         id,
         title: `Tag ${id}`,
         slug: `tag-${id}`,
-        excerpt: '',
-        total: 0,
-        hits: 0,
         ...input,
     }
     const result = await Mongo.insertOne(COLLECTION.TAG, document)
@@ -103,35 +99,8 @@ export const backgroundFactory = async (
 ) => {
     const id = getRandomInt(10000)
     const document = {
+        ...imageBlock,
         title: `Background ${id}`,
-        mimeType: 'image/jpeg',
-        sizes: [
-            {
-                key: 'medium',
-                file: `http://test.test/image-medium-${id}.jpeg`,
-            },
-            {
-                key: 'thumbnail',
-                file: `http://test.test/image-thumbnail-${id}.jpeg`,
-            },
-            {
-                key: 'medium_large',
-                file: `http://test.test/image-medium_large-${id}.jpeg`,
-            },
-            {
-                key: 'post-thumbnail',
-                file: `http://test.test/image-post-thumbnail-${id}.jpeg`,
-            },
-            {
-                key: 'related-post',
-                file: `http://test.test/image-related-post-${id}.jpeg`,
-            },
-            {
-                key: 'recent-post',
-                file: `http://test.test/image-recent-post-${id}.jpeg`,
-            },
-        ],
-        url: `http://test.test/image-${id}.jpeg`,
         ...input,
     } satisfies ImageBlockType
     const result = await Mongo.insertOne(COLLECTION.BACKGROUNDS, document)

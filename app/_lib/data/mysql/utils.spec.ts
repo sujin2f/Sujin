@@ -1,4 +1,4 @@
-// yarn test wordpress.spec.ts
+// yarn test utils.spec.ts
 
 import { unserialize, convertImageBlockURL } from './utils'
 
@@ -8,7 +8,7 @@ jest.mock('php-unserialize', () => ({
     }),
 }))
 
-describe('wordpress.ts', () => {
+describe('utils.ts', () => {
     afterAll(() => {
         jest.clearAllMocks()
     })
@@ -34,63 +34,91 @@ describe('wordpress.ts', () => {
         const result = convertImageBlockURL({
             mimeType: 'image/jpeg',
             title: 'D853005F-BAF2-474B-8EFF-54EDD771729C',
-            sizes: [
-                {
-                    key: 'medium',
-                    file: '2025/01/file.jpeg',
+            width: 1,
+            height: 2,
+            sizes: {
+                medium: {
+                    url: '2025/01/file.jpeg',
+                    width: 1,
+                    height: 2,
+                    mimeType: 'jpg',
                 },
-                {
-                    key: 'thumbnail',
-                    file: '/2025/01/file.jpeg',
+                thumbnail: {
+                    url: '/2025/01/file.jpeg',
+                    width: 1,
+                    height: 2,
+                    mimeType: 'jpg',
                 },
-                {
-                    key: 'medium_large',
-                    file: 'wp-content/uploads/2025/01/file.jpeg',
+                mediumLarge: {
+                    url: 'wp-content/uploads/2025/01/file.jpeg',
+                    width: 1,
+                    height: 2,
+                    mimeType: 'jpg',
                 },
-                {
-                    key: 'post-thumbnail',
-                    file: '/wp-content/uploads/2025/01/file.jpeg',
+                postThumbnail: {
+                    url: '/wp-content/uploads/2025/01/file.jpeg',
+                    width: 1,
+                    height: 2,
+                    mimeType: 'jpg',
                 },
-                {
-                    key: 'related-post',
-                    file: 'http://sujinc.com/wp-content/uploads/2025/01/file.jpeg',
+                relatedPost: {
+                    url: 'http://sujinc.com/wp-content/uploads/2025/01/file.jpeg',
+                    width: 1,
+                    height: 2,
+                    mimeType: 'jpg',
                 },
-                {
-                    key: 'recent-post',
-                    file: 'https://sujinc.com/wp-content/uploads/2025/01/file.jpeg',
+                recentPost: {
+                    url: 'https://sujinc.com/wp-content/uploads/2025/01/file.jpeg',
+                    width: 1,
+                    height: 2,
+                    mimeType: 'jpg',
                 },
-            ],
+            },
             url: '2025/01/file.jpeg',
         })
         expect(result).toStrictEqual({
             mimeType: 'image/jpeg',
             title: 'D853005F-BAF2-474B-8EFF-54EDD771729C',
-            sizes: [
-                {
-                    key: 'medium',
-                    file: '/wp-content/uploads/2025/01/file.jpeg',
+            width: 1,
+            height: 2,
+            sizes: {
+                medium: {
+                    url: '/wp-content/uploads/2025/01/file.jpeg',
+                    width: 1,
+                    height: 2,
+                    mimeType: 'jpg',
                 },
-                {
-                    key: 'thumbnail',
-                    file: '/wp-content/uploads/2025/01/file.jpeg',
+                thumbnail: {
+                    url: '/wp-content/uploads/2025/01/file.jpeg',
+                    width: 1,
+                    height: 2,
+                    mimeType: 'jpg',
                 },
-                {
-                    key: 'medium_large',
-                    file: '/wp-content/uploads/2025/01/file.jpeg',
+                mediumLarge: {
+                    url: '/wp-content/uploads/2025/01/file.jpeg',
+                    width: 1,
+                    height: 2,
+                    mimeType: 'jpg',
                 },
-                {
-                    key: 'post-thumbnail',
-                    file: '/wp-content/uploads/2025/01/file.jpeg',
+                postThumbnail: {
+                    url: '/wp-content/uploads/2025/01/file.jpeg',
+                    width: 1,
+                    height: 2,
+                    mimeType: 'jpg',
                 },
-                {
-                    key: 'related-post',
-                    file: '/wp-content/uploads/2025/01/file.jpeg',
+                relatedPost: {
+                    url: '/wp-content/uploads/2025/01/file.jpeg',
+                    width: 1,
+                    height: 2,
+                    mimeType: 'jpg',
                 },
-                {
-                    key: 'recent-post',
-                    file: '/wp-content/uploads/2025/01/file.jpeg',
+                recentPost: {
+                    url: '/wp-content/uploads/2025/01/file.jpeg',
+                    width: 1,
+                    height: 2,
+                    mimeType: 'jpg',
                 },
-            ],
+            },
             url: '/wp-content/uploads/2025/01/file.jpeg',
         })
     })

@@ -1,6 +1,6 @@
 import type { MenuItem } from '@app/_lib/data/mysql/types'
 
-export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || ''
+export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 export const DEFAULT_THUMBNAIL = `${BASE_URL}/assets/thumbnail.png`
 export const TWITTER_SHARE = 'https://www.twitter.com/intent/tweet'
 export const FACEBOOK_SHARE = 'https://www.facebook.com/sharer/sharer.php'

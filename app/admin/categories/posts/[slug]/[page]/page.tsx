@@ -1,4 +1,4 @@
-import CategoryPosts from '@app/admin/categories/posts/[slug]/[page]/CategoryPosts'
+import CategoryPosts from '@app/admin/categories/posts/CategoryPosts'
 
 type Props = {
     params: Promise<{

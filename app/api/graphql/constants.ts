@@ -18,30 +18,45 @@ import type {
     TermType,
     PostType,
     ArchiveType,
+    ImageSizeType,
+    ImagesType,
+    TagType,
 } from '@app/_lib/data/mysql/types'
 import type { ISpectrum } from '@app/ether/data/types'
 
 const list = true
 const required = true
 
-const ImageSize = new GQLType<ImageType>('ImageSize', {
-    key: { type: GQLString },
-    file: { type: GQLString },
+const Image = new GQLType<ImageType>('Image', {
+    url: { type: GQLString },
+    width: { type: GQLInt },
+    height: { type: GQLInt },
+    mimeType: { type: GQLString },
 })
 
-const Image = new GQLType<ImageBlockType>('Image', {
+const ImageSize = new GQLType<ImageSizeType>('ImageSize', {
+    medium: { type: Image },
+    thumbnail: { type: Image },
+    mediumLarge: { type: Image },
+    postThumbnail: { type: Image },
+    relatedPost: { type: Image },
+    recentPost: { type: Image },
+})
+
+const ImageBlock = new GQLType<ImageBlockType>('ImageBlock', {
     url: { type: GQLString },
     mimeType: { type: GQLString },
-    sizes: { type: ImageSize, list },
+    width: { type: GQLInt },
+    height: { type: GQLInt },
+    sizes: { type: ImageSize },
 })
 
-const Images = new GQLType('Images', {
-    id: { type: GQLInt },
-    list: { type: Image },
-    icon: { type: Image },
-    title: { type: Image },
-    background: { type: Image },
-    thumbnail: { type: Image },
+const Images = new GQLType<ImagesType>('Images', {
+    list: { type: ImageBlock },
+    icon: { type: ImageBlock },
+    title: { type: ImageBlock },
+    background: { type: ImageBlock },
+    thumbnail: { type: ImageBlock },
 })
 
 const PostMeta = new GQLType('PostMeta', {
@@ -119,7 +134,7 @@ const queryFlickr = new GQLQuery<[], TypeFlickrImage[]>(
     },
 )
 
-const queryTagCloud = new GQLQuery<[], ArchiveType[]>(
+const queryTagCloud = new GQLQuery<[], TagType[]>(
     'tagCloud',
     {},
     {
@@ -242,8 +257,9 @@ const mutateTag = new GQLMutation<[string, string], MutationResultType>(
     { type: Result },
 )
 
-const imageOpr = 'url mimeType sizes { key file }'
-const imagesOpr = `id list { ${imageOpr} } icon { ${imageOpr} } title { ${imageOpr} } background { ${imageOpr} } thumbnail { ${imageOpr} }`
+const imageOpr = 'url width height mimeType'
+const imageBlockOpr = `url mimeType width height sizes { medium { ${imageOpr} } thumbnail { ${imageOpr} } mediumLarge { ${imageOpr} } postThumbnail { ${imageOpr} } relatedPost { ${imageOpr} } recentPost { ${imageOpr} } }`
+const imagesOpr = `list { ${imageBlockOpr} } thumbnail { ${imageBlockOpr} }`
 const menuItemOpr = 'id title target link htmlClass'
 const commonOpr = 'id slug title'
 const taxOpr = `${commonOpr} type`
@@ -254,7 +270,7 @@ const postOpr = `${miniPostOpr} date excerpt content
     meta { useBackgroundColor backgroundColor }`
 const tagCloudOpr = 'id title slug total hits'
 const flickrOpr = 'title link media'
-const archiveOpr = `${commonOpr} excerpt total limit pages page type image { ${imageOpr} } posts { ${miniPostOpr} date excerpt tags { ${commonOpr} page type } }`
+const archiveOpr = `${commonOpr} excerpt total limit pages page type image { ${imageBlockOpr} } posts { ${miniPostOpr} date excerpt tags { ${commonOpr} page type } }`
 
 /**
  * Ether
@@ -311,8 +327,9 @@ const queryMongoSpectra = new GQLQuery<[string], ISpectrum[]>(
 const spectraOpr = `number ion energy spin l parity j base conf eConf ionReverse position term orbital`
 
 const defaults = {
-    ImageSize,
     Image,
+    ImageSize,
+    ImageBlock,
     Images,
     PostMeta,
     Post,
@@ -338,7 +355,6 @@ const defaults = {
     mutateCategory,
     mutateTag,
 
-    imageOpr,
     menuItemOpr,
     miniPostOpr,
     menuOpr,

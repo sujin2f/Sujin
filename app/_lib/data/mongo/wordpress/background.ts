@@ -24,6 +24,8 @@ const format = (
     mimeType: image.mimeType,
     sizes: image.sizes,
     url: image.url,
+    width: image.width,
+    height: image.height,
 })
 
 /**
@@ -60,7 +62,6 @@ export const getCachedBackgrounds = async (): Promise<ImageBlockType[]> => {
  */
 export const updateBackgrounds = async (): Promise<ImageBlockType[]> => {
     Cached.getInstance().flush(getCacheKey(COLLECTION.BACKGROUNDS))
-
     Logger.server('Calling MySQL getBackgrounds')
     return await getMySQLBackgrounds().then(async (result) => {
         const backgrounds = result.map((image) =>

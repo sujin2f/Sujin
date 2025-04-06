@@ -26,8 +26,8 @@ export default async function Archive(props: Props) {
     const requestArchive = unstable_cache(
         async (slug) =>
             type === ARCHIVE.CATEGORY
-                ? await getCachedCategory(slug, true)
-                : await getCachedTag(slug, true),
+                ? await getCachedCategory(slug)
+                : await getCachedTag(slug),
         [type, slug, VERSION],
         {
             tags: ['wordpress', 'archive'],

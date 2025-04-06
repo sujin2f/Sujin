@@ -17,17 +17,12 @@ export const generateMetadata = async (): Promise<Metadata> => {
         return {}
     }
 
-    const metadataBase = metadata.openGraph?.url
-        ? new URL(metadata.openGraph?.url)
-        : undefined
-
     return {
         ...metadata,
         title: `Sujin | Ether | ${metadata.title}`,
         openGraph: {
             title: `Sujin | Ether | ${metadata}`,
         },
-        metadataBase,
     }
 }
 

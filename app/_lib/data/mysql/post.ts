@@ -146,14 +146,15 @@ export const getPostsBy = async (
 
         posts.push({
             ...post,
+            images,
+            meta,
             content: autop(post.content),
             terms: terms.map((term) =>
                 term.type.toString() === 'post_tag'
                     ? { ...term, type: ARCHIVE.TAG }
                     : term,
             ),
-            images,
-            meta,
+            link: post.type === 'page' ? `/${post.slug}` : `/blog/${post.slug}`,
         })
     }
 

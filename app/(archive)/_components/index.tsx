@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { notFound } from 'next/navigation'
 /* Components */
-import { ScrollToTop } from '@app/_components/ScrollToTop'
+import ScrollToTop from '@common/components/ScrollToTop'
 import { Cards } from '@app/(archive)/_components/cards'
 import { Paging } from '@app/(archive)/_components/paging'
 import { Row } from '@common/components/layout/Row'
@@ -33,10 +33,9 @@ export default function ArchiveClient({ type, slug, page, total }: Props) {
     return (
         <>
             <ScrollToTop />
-            {/* Loading */}
-            {!posts && <Loading counts={12} large={4} medium={6} small={12} />}
-            {/* Result */}
-            {posts && (
+            {!posts ? (
+                <Loading counts={12} large={4} medium={6} small={12} />
+            ) : (
                 <>
                     <Row>
                         <Cards

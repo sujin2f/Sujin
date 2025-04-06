@@ -16,7 +16,7 @@ import {
     getCachedPrevNext,
     getCachedRecentPosts,
     getCachedRelatedPosts,
-    getMySQLArchivePosts,
+    updateArchivePosts,
 } from './post'
 import Mongo from '@common/data/mongo/mongo'
 import { COLLECTION } from '@app/_lib/data/mongo/constants'
@@ -281,7 +281,7 @@ describe('post.spec.ts', () => {
 
             return Promise.resolve([])
         })
-        const result = await getMySQLArchivePosts(
+        const result = await updateArchivePosts(
             ARCHIVE.CATEGORY,
             'test-post',
             1,

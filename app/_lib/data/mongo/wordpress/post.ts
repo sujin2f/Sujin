@@ -2,34 +2,30 @@ import type { Filter, WithId } from 'mongodb'
 /* Models */
 import Mongo from '@common/data/mongo/mongo'
 import Cached from '@common/model/Cached'
+import Logger from '@common/model/Logger'
 /* Utils */
 import { getPostBy, getPostsBy } from '@app/_lib/data/mysql/post'
-import {
-    getCachedTag,
-    updateTagTotal,
-} from '@app/_lib/data/mongo/wordpress/tag'
+import { updateTag } from '@app/_lib/data/mongo/wordpress/tag'
 import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
 import { getCacheKey } from '@app/_lib/utils'
-import {
-    getCachedCategory,
-    updateCategoryTotal,
-} from '@app/_lib/data/mongo/wordpress/category'
+import { updateCategory } from '@app/_lib/data/mongo/wordpress/category'
+import { getOption, removeOption } from '@app/_lib/data/mysql/option'
+import { MutationResultType } from '@app/api/graphql/constants'
+import { getCollectionName } from './archive'
 /* Types */
 import {
     ARCHIVE,
+    POST_STATUS,
+    POST_TYPE,
+    IMAGE_TYPE,
     type PostType,
     type MySQLPostType,
-    type TermType,
-    POST_STATUS,
 } from '@app/_lib/data/mysql/types'
 /* Constants */
 import { COLLECTION } from '@app/_lib/data/mongo/constants'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV } from '@common/constants/helper'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
-import { MutationResultType } from '@app/api/graphql/constants'
-import { getOption, removeOption } from '@app/_lib/data/mysql/option'
-import Logger from '@common/model/Logger'
 
 const format = (
     page: WithId<PostType> | PostType | MySQLPostType,
@@ -49,80 +45,135 @@ const format = (
     ),
 })
 
-const updateMySQLPost = async (
-    item: MySQLPostType,
-): Promise<[PostType, string[], string[]]> => {
-    const post = format({ ...item, link: `/blog/${item.slug}` })
-    Cached.getInstance().flush(getCacheKey(COLLECTION.POST, post.slug))
-    Object.keys(post.images).forEach((key) => {
-        post.images[key] = convertImageBlockURL(post.images[key])
-    })
+/**
+ * Get single post by slug
+ * This returns the cached result if it exists
+ *
+ * @param {string} slug - Post slug
+ * @param {boolean} ignoreStatus - The flag to ignore status
+ * @returns {Promise<WithId<WPPost>>} - The post object
+ */
+export const getCachedPost = async (
+    slug: string,
+    ignoreStatus: boolean = false,
+): Promise<PostType> => {
+    const doc: Filter<PostType> = { slug }
+    if (!ignoreStatus) {
+        doc.status = POST_STATUS.PUBLISH
+    }
 
-    const tags: string[] = []
-    const categories: string[] = []
-
-    const result = await Mongo.findOne<PostType>(COLLECTION.POST, {
-        slug: post.slug,
-    })
-        .then(async () => {
-            await Mongo.replaceOne(
-                COLLECTION.POST,
-                { slug: post.slug },
-                post,
-            ).catch((e) => {
-                Logger.server(`Failed to update post ${post.slug}`)
-                throw e
-            })
-            return post
-        })
-        .catch(async () => {
-            await Mongo.insertOne(COLLECTION.POST, post).catch((e) => {
-                Logger.server(`Failed to insert post ${post.slug}`)
-                throw e
-            })
-            return post
-        })
-
-    result.terms.map((term: TermType) => {
-        if (term.type === 'tag') {
-            tags.push(term.slug)
-        }
-        if (term.type === 'category') {
-            categories.push(term.slug)
-        }
-    })
-
-    return [result, categories, tags]
+    return await Cached.getInstance().getOrExecute(
+        getCacheKey(COLLECTION.POST, slug),
+        async () =>
+            await Mongo.findOne<PostType>(COLLECTION.POST, doc).then((post) =>
+                format(post),
+            ),
+        WEEK_IN_SECONDS,
+        IS_DEV,
+    )
 }
 
-export const getMySQLArchivePosts = async (
+const updateMongoFromMySQL = async (
+    post: MySQLPostType,
+): Promise<[PostType, string[], string[]]> => {
+    const slug = post.slug
+
+    Cached.getInstance().flush(getCacheKey(COLLECTION.POST, slug))
+    Object.keys(post.images).forEach((key) => {
+        const imageKey = key as IMAGE_TYPE
+        post.images[imageKey] = convertImageBlockURL(post.images[imageKey]!)
+    })
+    const newPost = format(post)
+
+    const categories: string[] = newPost.terms
+        .filter((term) => term.type === ARCHIVE.CATEGORY)
+        .map((term) => term.slug)
+    const tags: string[] = newPost.terms
+        .filter((term) => term.type === ARCHIVE.TAG)
+        .map((term) => term.slug)
+
+    await Mongo.findOne<PostType>(COLLECTION.POST, {
+        slug,
+    })
+        .then((result) => {
+            result.terms
+                .filter((term) => term.type === ARCHIVE.CATEGORY)
+                .forEach((term) => {
+                    categories.push(term.slug)
+                })
+            result.terms
+                .filter((term) => term.type === ARCHIVE.TAG)
+                .forEach((term) => {
+                    tags.push(term.slug)
+                })
+        })
+        .catch(() => null)
+    await Mongo.deleteOne(COLLECTION.POST, { slug })
+    await Mongo.insertOne<PostType>(COLLECTION.POST, format(post))
+
+    return [newPost, categories, tags]
+}
+
+const updateArchives = async (categories: string[], tags: string[]) => {
+    for (const cat of Array.from(new Set(categories))) {
+        await updateCategory(cat)
+    }
+    for (const tag of Array.from(new Set(tags))) {
+        await updateTag(tag)
+    }
+}
+
+export const updatePost = async (slug: string) => {
+    Cached.getInstance().flush(getCacheKey(COLLECTION.POST, slug))
+    await getPostBy('slug', slug, POST_TYPE.POST, true).then(async (post) => {
+        const [, categories, tags] = await updateMongoFromMySQL(post)
+        await updateArchives(categories, tags)
+    })
+}
+
+export const updateArchivePosts = async (
     type: ARCHIVE,
     slug: string,
     page: number,
-) => {
-    Cached.getInstance().flush(getCacheKey(type, slug))
-    const posts: PostType[] = []
-    const tags: string[] = []
-    const categories: string[] = []
+): Promise<PostType[]> => {
+    const collection = getCollectionName(type)
+    Cached.getInstance().flush(getCacheKey(COLLECTION.POST))
+    Cached.getInstance().flush(getCacheKey(collection, slug))
 
-    await getPostsBy(type, 'post', slug, page).then(async (result) => {
-        for (const item of result) {
-            const [post, c, t] = await updateMySQLPost(item)
-            posts.push(post)
-            tags.push(...c)
-            categories.push(...t)
-        }
-    })
+    return await getPostsBy(type, POST_TYPE.POST, slug, page).then(
+        async (result) => {
+            const tags: string[] = []
+            const categories: string[] = []
+            const posts: PostType[] = []
 
-    for (const item of Array.from(new Set(tags))) {
-        await getCachedTag(item, true)
-        await updateTagTotal(item)
-    }
-    for (const item of Array.from(new Set(categories))) {
-        await getCachedCategory(item, true)
-        await updateCategoryTotal(item)
-    }
-    return posts
+            for (const item of result) {
+                const [post, cat, tag] = await updateMongoFromMySQL(item)
+                posts.push(post)
+                categories.push(...cat)
+                tags.push(...tag)
+            }
+            await updateArchives(categories, tags)
+            return posts
+        },
+    )
+}
+
+export const getArchivePosts = async (
+    type: string,
+    slug: string,
+    page: number,
+): Promise<PostType[]> => {
+    return await Mongo.findMany<PostType>(
+        COLLECTION.POST,
+        {
+            terms: { $elemMatch: { slug, type } },
+        },
+        {
+            sort: { date: -1 },
+            limit: PER_PAGE,
+            skip: PER_PAGE * (page - 1),
+        },
+    ).then(async (posts) => posts.map((post) => format(post)))
 }
 
 export const getCachedArchivePosts = async (
@@ -136,48 +187,7 @@ export const getCachedArchivePosts = async (
 
     return await Cached.getInstance().getOrExecute(
         getCacheKey(type, slug, page),
-        async () =>
-            await Mongo.findMany<PostType>(
-                COLLECTION.POST,
-                {
-                    terms: { $elemMatch: { slug, type } },
-                },
-                {
-                    sort: { date: -1 },
-                    limit: PER_PAGE,
-                    skip: PER_PAGE * (page - 1),
-                },
-            ).then(async (posts) => posts.map((post) => format(post))),
-
-        WEEK_IN_SECONDS,
-        IS_DEV,
-    )
-}
-
-/**
- * Get single post by slug
- * This returns the cached result if it exists
- *
- * @param {string} slug - Post slug
- * @param {boolean} ignoreStatus - The flag to ignore status
- * @returns {Promise<WithId<WPPost>>} - The post object
- */
-export const getCachedPost = async (
-    slug: string,
-    ignoreStatus: boolean = false,
-): Promise<PostType> => {
-    const key = getCacheKey(COLLECTION.POST, slug)
-    const doc: Filter<PostType> = { slug }
-    if (!ignoreStatus) {
-        doc.status = POST_STATUS.PUBLISH
-    }
-
-    return await Cached.getInstance().getOrExecute(
-        key,
-        async () =>
-            await Mongo.findOne<PostType>(COLLECTION.POST, doc).then((post) =>
-                format(post),
-            ),
+        async () => await getArchivePosts(type, slug, page),
         WEEK_IN_SECONDS,
         IS_DEV,
     )
@@ -219,7 +229,7 @@ const getPrevNext = async (slug: string): Promise<PostType[]> => {
         },
         { sort: { date: 1 }, limit: 1 },
     )
-    return [format(prev[0]), format(next[0])]
+    return [prev[0] && format(prev[0]), next[0] && format(next[0])]
 }
 
 /**
@@ -377,19 +387,7 @@ export const mutatePost = async (
         throw new Error(message)
     }
 
-    await getPostBy('slug', slug, 'post', true).then(async (result) => {
-        const [, cats, tags] = await updateMySQLPost(result)
-
-        for (const item of tags) {
-            await getCachedTag(item, true)
-            await updateTagTotal(item)
-        }
-        for (const item of cats) {
-            await getCachedCategory(item, true)
-            await updateCategoryTotal(item)
-        }
-    })
-
+    await updatePost(slug)
     Logger.server(`GQL Server mutatePost: ${slug} updated.`)
 
     return {
