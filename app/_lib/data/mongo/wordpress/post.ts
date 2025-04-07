@@ -11,11 +11,11 @@ import { getCacheKey } from '@app/_lib/utils'
 import { updateCategory } from '@app/_lib/data/mongo/wordpress/category'
 import { getOption, removeOption } from '@app/_lib/data/mysql/option'
 import { MutationResultType } from '@app/api/graphql/constants'
+import { formatPostImage } from '@app/_lib/data/mongo/wordpress/util'
 /* Types */
 import {
     POST_STATUS,
     POST_TYPE,
-    IMAGE_TYPE,
     type PostType,
     type MySQLPostType,
 } from '@app/_lib/data/mysql/types'
@@ -23,7 +23,7 @@ import {
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV } from '@common/constants/helper'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
-import { ARCHIVE, COLLECTION } from '@app/_lib/data/types'
+import { ARCHIVE, COLLECTION, POST_IMAGE_LOCATION } from '@app/_lib/data/types'
 
 const format = (
     page: WithId<PostType> | PostType | MySQLPostType,
@@ -34,7 +34,7 @@ const format = (
     excerpt: page.excerpt || '',
     content: page.content,
     date: page.date,
-    images: page.images,
+    images: formatPostImage(page.images),
     meta: page.meta,
     status: page.status,
     link: page.link,
@@ -78,7 +78,7 @@ const updateMongoFromMySQL = async (
 
     Cached.getInstance().flush(getCacheKey(COLLECTION.POST, slug))
     Object.keys(post.images).forEach((key) => {
-        const imageKey = key as IMAGE_TYPE
+        const imageKey = key as POST_IMAGE_LOCATION
         post.images[imageKey] = convertImageBlockURL(post.images[imageKey]!)
     })
     const newPost = format(post)

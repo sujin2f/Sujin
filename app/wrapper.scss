@@ -3,6 +3,9 @@
 @use '@app/_lib/scss/tags';
 @use '@app/_lib/scss/widget';
 
+@use '@common/scss/base';
+@import '@common/scss/normalize.css';
+
 $header-height: 48px;
 
 body {

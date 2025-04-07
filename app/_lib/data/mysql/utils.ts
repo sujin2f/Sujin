@@ -4,10 +4,10 @@ import {
     type PostType,
     type PageType,
     type ImageBlockType,
-    IMAGE_SIZE,
 } from '@app/_lib/data/mysql/types'
 import { ImageMap } from '@common/components/containers/Picture'
 import { bannerMediaQuery } from '@app/_lib/data/mysql/constants'
+import type { IMAGE_SIZE } from '@app/_lib/data/types'
 
 /**
  * The regular expression for an HTML element.

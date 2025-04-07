@@ -7,14 +7,13 @@ import { getPostBy, getPostMeta } from '@app/_lib/data/mysql/post'
 /* Constants */
 import { MySQLQuery } from '@app/_lib/data/mysql/constants'
 import { MetaKeys } from '@app/_lib/data/mysql/constants'
+import { IMAGE_SIZE, POST_IMAGE_LOCATION } from '@app/_lib/data/types'
 /* Types */
 import {
     type ImageBlockType,
     type MySQLMediaType,
     type MySQLPostType,
-    IMAGE_TYPE,
     POST_TYPE,
-    IMAGE_SIZE,
 } from '@app/_lib/data/mysql/types'
 import type { Nullable } from '@common/types'
 
@@ -117,7 +116,7 @@ export const getPostImages = async (
 ): Promise<getPostImagesReturnType> => {
     const result: getPostImagesReturnType = {}
 
-    const imageIds: Record<IMAGE_TYPE, number> = {
+    const imageIds: Record<POST_IMAGE_LOCATION, number> = {
         list: await getPostMeta<number>(post.id, 'list', 0),
         icon: await getPostMeta<number>(post.id, 'icon', 0),
         title: await getPostMeta<number>(post.id, 'title', 0),
@@ -126,13 +125,13 @@ export const getPostImages = async (
     }
 
     for (const imageKey of Object.keys(imageIds)) {
-        if (!imageIds[imageKey as IMAGE_TYPE]) {
+        if (!imageIds[imageKey as POST_IMAGE_LOCATION]) {
             continue
         }
-        const image = await getMedia(imageIds[imageKey as IMAGE_TYPE])
+        const image = await getMedia(imageIds[imageKey as POST_IMAGE_LOCATION])
 
         if (image) {
-            result[imageKey as IMAGE_TYPE] = image
+            result[imageKey as POST_IMAGE_LOCATION] = image
         }
     }
 

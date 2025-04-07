@@ -16,17 +16,11 @@ import { getBackgrounds as getMySQLBackgrounds } from '@app/_lib/data/mysql/medi
 import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
 import { MutationResultType } from '@app/api/graphql/constants'
 import { getOption, removeOption } from '../../mysql/option'
+import { formatImageBlock } from '@app/_lib/data/mongo/wordpress/util'
 
 const format = (
     image: WithId<ImageBlockType> | ImageBlockType,
-): ImageBlockType => ({
-    title: image.title,
-    mimeType: image.mimeType,
-    sizes: image.sizes,
-    url: image.url,
-    width: image.width,
-    height: image.height,
-})
+): ImageBlockType => formatImageBlock(image)
 
 /**
  * Get backgrounds

@@ -1,7 +1,7 @@
 import React from 'react'
 /* Components */
 import FixedHeader from '@app/_components/header/FixedHeader'
-import SessionProvider from '@app/_components/SessionProvider'
+import { SessionProvider } from '@app/_components/session/SessionProvider'
 /* Helpers */
 import { MenuNames } from '@app/_lib/data/mysql/constants'
 /* Assets */

@@ -15,6 +15,7 @@ import { getArchiveBySlug as getMySQLArchive } from '@app/_lib/data/mysql/term'
 import { getCacheKey } from '@app/_lib/utils'
 import { removeOption, getOption } from '@app/_lib/data/mysql/option'
 import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
+import { formatImageBlock } from '@app/_lib/data/mongo/wordpress/util'
 
 const format = <T extends ArchiveType>(
     term: Record<string, unknown>,
@@ -25,7 +26,7 @@ const format = <T extends ArchiveType>(
         title: term.title,
         slug: term.slug,
         excerpt: term.excerpt,
-        image: term.image,
+        image: formatImageBlock(term.image as Record<string, unknown>),
         total: term.total || 0,
     }
 
@@ -143,12 +144,25 @@ export const updateArchive = async <T extends ArchiveType>(
     }
     const formatted = format<T>(term, type)
 
-    await Mongo.deleteOne<ArchiveType>(table, { slug })
-    await Mongo.insertOne<ArchiveType>(table, formatted).catch((e) => {
-        const message = 'updateArchive(): Mongo.insertOne failed'
-        Logger.server(message, formatted)
-        throw e
-    })
+    await Mongo.findOne<ArchiveType>(table, { slug })
+        .then(async () => {
+            await Mongo.replaceOne<ArchiveType>(
+                table,
+                { slug },
+                formatted,
+            ).catch((e) => {
+                const message = 'updateArchive(): Mongo.replaceOne failed'
+                Logger.server(message, formatted)
+                throw e
+            })
+        })
+        .catch(async () => {
+            await Mongo.insertOne<ArchiveType>(table, formatted).catch((e) => {
+                const message = 'updateArchive(): Mongo.insertOne failed'
+                Logger.server(message, formatted)
+                throw e
+            })
+        })
     return formatted
 }
 

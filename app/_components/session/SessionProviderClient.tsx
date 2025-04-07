@@ -7,11 +7,13 @@ type Props = {
     session: Session | null
 }
 
-const SessionProviderClient = ({
+/**
+ * Do not use this component directly.
+ * Wrap with SessionProvider from server component
+ */
+export const SessionProviderClient = ({
     children,
     session,
 }: PropsWithChildren<Props>) => {
     return <SessionProvider session={session}>{children}</SessionProvider>
 }
-
-export default SessionProviderClient

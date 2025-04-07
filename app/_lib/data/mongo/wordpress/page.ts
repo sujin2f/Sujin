@@ -6,19 +6,16 @@ import Logger from '@common/model/Logger'
 /* Constants */
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV } from '@common/constants/helper'
-import { COLLECTION } from '@app/_lib/data/types'
+import { COLLECTION, POST_IMAGE_LOCATION } from '@app/_lib/data/types'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 /* Utils */
 import { removeOption, getOption } from '@app/_lib/data/mysql/option'
 import { getCacheKey } from '@app/_lib/utils'
 import { getPostBy } from '@app/_lib/data/mysql/post'
 import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
+import { formatPostImage } from '@app/_lib/data/mongo/wordpress/util'
 /* Types */
-import {
-    IMAGE_TYPE,
-    POST_TYPE,
-    type PageType,
-} from '@app/_lib/data/mysql/types'
+import { POST_TYPE, type PageType } from '@app/_lib/data/mysql/types'
 import type { MutationResultType } from '@app/api/graphql/constants'
 
 const format = (page: WithId<PageType> | PageType): PageType => ({
@@ -28,7 +25,7 @@ const format = (page: WithId<PageType> | PageType): PageType => ({
     excerpt: page.excerpt || '',
     content: page.content,
     date: page.date,
-    images: page.images,
+    images: formatPostImage(page.images),
     meta: page.meta,
     status: page.status,
     link: page.link,
@@ -112,7 +109,7 @@ export const updatePage = async (slug: string): Promise<PageType> => {
 
     const page = format(result)
     Object.keys(page.images).forEach((key) => {
-        const imageKey = key as IMAGE_TYPE
+        const imageKey = key as POST_IMAGE_LOCATION
         page.images[imageKey] = convertImageBlockURL(page.images[imageKey]!)
     })
     await removePage(slug)

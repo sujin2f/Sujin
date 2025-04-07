@@ -1,4 +1,8 @@
-import type { ARCHIVE } from '@app/_lib/data/types'
+import type {
+    ARCHIVE,
+    IMAGE_SIZE,
+    POST_IMAGE_LOCATION,
+} from '@app/_lib/data/types'
 
 export enum POST_STATUS {
     PUBLISH = 'publish',
@@ -10,16 +14,6 @@ export enum POST_TYPE {
     POST = 'post',
     PAGE = 'page',
     ATTACHMENT = 'attachment',
-}
-
-export enum IMAGE_SIZE {
-    MEDIUM = 'medium',
-    THUMBNAIL = 'thumbnail',
-    MEDIUM_LARGE = 'mediumLarge',
-    LARGE = 'large',
-    POST_THUMBNAIL = 'postThumbnail',
-    RELATED_POST = 'relatedPost',
-    RECENT_POST = 'recentPost',
 }
 
 // Image
@@ -43,16 +37,8 @@ export type ImageBlockType = {
     sizes?: ImageSizeType
 }
 
-export enum IMAGE_TYPE {
-    LIST = 'list',
-    ICON = 'icon',
-    TITLE = 'title',
-    BACKGROUND = 'background',
-    THUMBNAIL = 'thumbnail',
-}
-
 export type ImagesType = Partial<{
-    [key in IMAGE_TYPE]: ImageBlockType
+    [key in POST_IMAGE_LOCATION]: ImageBlockType
 }>
 
 /// @todo use this

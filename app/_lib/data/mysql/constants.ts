@@ -4,8 +4,7 @@
  * @module constants
  */
 
-import type { IMAGE_SIZE, POST_TYPE } from '@app/_lib/data/mysql/types'
-import { TAXONOMY } from '@app/_lib/data/types'
+import { type POST_TYPE, TAXONOMY, type IMAGE_SIZE } from '@app/_lib/data/types'
 
 /**
  * Making a formatted string

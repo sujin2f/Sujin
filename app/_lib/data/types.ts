@@ -37,3 +37,24 @@ export const ARCHIVE_URL = {
     SEARCH: 'search',
 } as const
 export type ARCHIVE_URL = (typeof ARCHIVE_URL)[keyof typeof ARCHIVE_URL]
+
+export const IMAGE_SIZE = {
+    MEDIUM: 'medium',
+    THUMBNAI: 'thumbnail',
+    MEDIUM_LARGE: 'mediumLarge',
+    LARGE: 'large',
+    POST_THUMBNAIL: 'postThumbnail',
+    RELATED_POST: 'relatedPost',
+    RECENT_POST: 'recentPost',
+} as const
+export type IMAGE_SIZE = (typeof IMAGE_SIZE)[keyof typeof IMAGE_SIZE]
+
+export const POST_IMAGE_LOCATION = {
+    LIST: 'list',
+    ICON: 'icon',
+    TITLE: 'title',
+    BACKGROUND: 'background',
+    THUMBNAIL: 'thumbnail',
+} as const
+export type POST_IMAGE_LOCATION =
+    (typeof POST_IMAGE_LOCATION)[keyof typeof POST_IMAGE_LOCATION]

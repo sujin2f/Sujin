@@ -2,7 +2,7 @@
 import React, { RefObject, useRef, useState } from 'react'
 /* Components */
 import { Row } from '@common/components/layout/Row'
-import Title from '@app/_components/WidgetTitle'
+import { WidgetTitle } from '@app/_components/WidgetTitle'
 import { Cards } from '@app/(archive)/_components/cards'
 import { Loading } from '@app/(archive)/_components/loading'
 /* Types */
@@ -26,7 +26,7 @@ export const RelatedPosts = (props: Props) => {
     const posts = useRelatedPosts(props.post, ref)
     return (
         <section className="related-posts" ref={ref}>
-            <Title>Related Posts</Title>
+            <WidgetTitle>Related Posts</WidgetTitle>
 
             {/* Loading */}
             {!posts && <Loading counts={4} small={12} medium={6} fullWidth />}

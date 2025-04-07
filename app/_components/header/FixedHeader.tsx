@@ -1,5 +1,5 @@
 'use client'
-import React, { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 /* Components */
@@ -52,6 +52,8 @@ const FixedHeader = (props: Props) => {
         return () => window.removeEventListener('scroll', handleScrolled)
     }, [handleScrolled])
 
+    const name = session && session.user && session.user.name
+
     return (
         <TopBar fixed fullWidth className={props.className}>
             {/* For Transparent Logo */}
@@ -90,9 +92,9 @@ const FixedHeader = (props: Props) => {
                         >
                             <Facebook />
                         </a>
-                        {session ? (
+                        {name ? (
                             <div className="hide">
-                                <h2>Welcome, {session.user?.name}!</h2>
+                                <h2>Welcome, {name}!</h2>
                                 <button onClick={handleSignOut}>
                                     Sign Out
                                 </button>

@@ -12,7 +12,7 @@ import { getCachedBackgrounds } from '@app/_lib/data/mongo/wordpress/background'
 import Logo from '@app/_lib/images/logo.svg'
 import './front-page.scss'
 
-export default async function FrontPage() {
+export async function FrontPage() {
     const request = unstable_cache(
         async () => await getCachedBackgrounds(),
         ['frontpage', VERSION],

@@ -8,12 +8,12 @@ import MySQL from '@app/_lib/data/mysql'
 import Logger from '@common/model/Logger'
 /* Types */
 import type {
-    ARCHIVE,
     ArchiveType,
     ImageBlockType,
     TermType,
 } from '@app/_lib/data/mysql/types'
 import type { Nullable } from '@common/types'
+import { ARCHIVE } from '../types'
 
 const getMeta = async <T = string>(id: number, metaKey: string): Promise<T> =>
     await MySQL.getInstance().selectOne<T>(MySQLQuery.getTermMeta(id, metaKey))
