@@ -111,3 +111,10 @@ export const MENU_NAMES = {
     ETHER_KOR: 'ether-kor',
 } as const
 export type MENU_NAMES = ConstToType<typeof MENU_NAMES>
+
+export const POST_STATUS = {
+    PUBLISH: 'publish',
+    DRAFT: 'draft',
+    TRASH: 'trash',
+} as const
+export type POST_STATUS = ConstToType<typeof POST_STATUS>

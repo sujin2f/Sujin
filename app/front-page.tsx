@@ -3,7 +3,7 @@ import { unstable_cache } from 'next/cache'
 /* Components */
 import { Banner } from '@app/_components/header/Banner'
 import { Header } from '@app/_components/header'
-/* Constants */
+/* CONSTANTS */
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
 import { VERSION } from '@common/constants/helper'
 /* Utils */

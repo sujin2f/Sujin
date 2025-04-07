@@ -1,8 +1,7 @@
-// @todo Remove unused exports
 /* Models */
 import { GQLMutation } from '@common/data/graphql/mutation'
 import { GQLQuery } from '@common/data/graphql/query'
-/* Constants */
+/* CONSTANTS */
 import {
     GQLBoolean,
     GQLFloat,
@@ -260,17 +259,55 @@ const mutateTag = new GQLMutation<[string, string], MutationResultType>(
 const imageOpr = 'url width height mimeType'
 const imageBlockOpr = `url mimeType width height sizes { medium { ${imageOpr} } thumbnail { ${imageOpr} } mediumLarge { ${imageOpr} } postThumbnail { ${imageOpr} } relatedPost { ${imageOpr} } recentPost { ${imageOpr} } }`
 const imagesOpr = `list { ${imageBlockOpr} } thumbnail { ${imageBlockOpr} }`
-const menuItemOpr = 'id title target link htmlClass'
 const commonOpr = 'id slug title'
 const taxOpr = `${commonOpr} type`
 const miniPostOpr = `${commonOpr} link images { ${imagesOpr} }`
-const menuOpr = `${menuItemOpr} children { ${menuItemOpr} }`
 const postOpr = `${miniPostOpr} date excerpt content
     terms { ${taxOpr} }
     meta { useBackgroundColor backgroundColor }`
-const tagCloudOpr = 'id title slug total hits'
-const flickrOpr = 'title link media'
-const archiveOpr = `${commonOpr} excerpt total limit pages page type image { ${imageBlockOpr} } posts { ${miniPostOpr} date excerpt tags { ${commonOpr} page type } }`
+
+/**
+ * @todo implement image maps
+ */
+export const archivePostsOperator = `
+    id
+    slug
+    title
+    date
+    link
+    images {
+        list {
+            url
+            mimeType
+            width
+            height
+            sizes {
+                medium {
+                    url
+                    width
+                    height
+                    mimeType
+                }
+                thumbnail {}
+                mediumLarge {}
+                postThumbnail {}
+                relatedPost {}
+                recentPost {}
+            }
+        }
+        thumbnail {
+        }
+    }
+    terms {
+        slug
+        title
+        type
+    }
+    meta {
+        useBackgroundColor
+        backgroundColor
+    }
+`
 
 /**
  * Ether
@@ -355,13 +392,7 @@ const defaults = {
     mutateCategory,
     mutateTag,
 
-    menuItemOpr,
-    miniPostOpr,
-    menuOpr,
     postOpr,
-    tagCloudOpr,
-    flickrOpr,
-    archiveOpr,
     spectraOpr,
 }
 

@@ -4,18 +4,18 @@ import MySQL from '@app/_lib/data/mysql'
 /* Types */
 import {
     type MySQLPostType,
-    type POST_TYPE,
     type PostMetaType,
     type TermType,
 } from '@app/_lib/data/mysql/types'
-/* Constants */
+import type { POST_TYPE } from '@app/_lib/types'
+/* CONSTANTS */
 import { MySQLQuery, PER_PAGE } from '@app/_lib/data/mysql/constants'
+import { ARCHIVE, TAXONOMY } from '@app/_lib/types'
 /* Utils */
 import { autop } from '@app/_lib/data/mysql/utils'
 import { unserialize } from '@app/_lib/data/mysql/utils'
 import { getTermsByPost } from '@app/_lib/data/mysql/term'
 import { getPostImages } from '@app/_lib/data/mysql/media'
-import { ARCHIVE, TAXONOMY } from '@app/_lib/types'
 
 export const getAllPostMeta = async (
     postId: number,

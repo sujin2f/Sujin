@@ -3,10 +3,10 @@ import type { Filter, WithId } from 'mongodb'
 import Cached from '@common/model/Cached'
 import Mongo from '@common/data/mongo/mongo'
 import Logger from '@common/model/Logger'
-/* Constants */
+/* CONSTANTS */
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV } from '@common/constants/helper'
-import { COLLECTION, POST_IMAGE_LOCATION } from '@app/_lib/types'
+import { COLLECTION, POST_IMAGE_LOCATION, POST_TYPE } from '@app/_lib/types'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 /* Utils */
 import { removeOption, getOption } from '@app/_lib/data/mysql/option'
@@ -15,7 +15,7 @@ import { getPostBy } from '@app/_lib/data/mysql/post'
 import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
 import { formatPostImage } from '@app/_lib/data/mongo/wordpress/util'
 /* Types */
-import { POST_TYPE, type PageType } from '@app/_lib/data/mysql/types'
+import { type PageType } from '@app/_lib/data/mysql/types'
 import type { MutationResultType } from '@app/api/graphql/constants'
 
 const format = (page: WithId<PageType> | PageType): PageType => ({

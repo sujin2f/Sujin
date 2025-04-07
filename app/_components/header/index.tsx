@@ -2,7 +2,7 @@ import React from 'react'
 /* Components */
 import FixedHeader from '@app/_components/header/FixedHeader'
 import { SessionProvider } from '@app/_components/session/SessionProvider'
-/* Constants */
+/* CONSTANTS */
 import { MENU_NAMES } from '@app/_lib/types'
 /* Assets */
 import '@app/_components/header/style.scss'

@@ -2,7 +2,7 @@
 /* Models */
 import Cached from '@common/model/Cached'
 import Logger from '@common/model/Logger'
-/* Constants */
+/* CONSTANTS */
 import { STATIC_FLICKR } from '@app/_lib/data/flickr/constants'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV } from '@common/constants/helper'

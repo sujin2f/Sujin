@@ -1,8 +1,6 @@
 /* Components */
 import ScrollToTop from '@common/components/ScrollToTop'
 import { PrevNext } from '@app/(single)/_components/PrevNext'
-/* Types */
-import type { PostType } from '@app/_lib/data/mysql/types'
 
 export default function Intro() {
     return (
@@ -41,13 +39,10 @@ export default function Intro() {
             </p>
 
             <PrevNext
-                posts={[
-                    ,
-                    {
-                        title: '가설 제시',
-                        link: '/ether/kor/document/hypothesis',
-                    } as PostType,
-                ]}
+                next={{
+                    title: '가설 제시',
+                    link: '/ether/kor/document/hypothesis',
+                }}
             ></PrevNext>
         </>
     )

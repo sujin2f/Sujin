@@ -6,8 +6,6 @@ import { Table } from '@common/components/containers/Table'
 import { Latex } from '@app/(single)/_components/Latex'
 import { PrevNext } from '@app/(single)/_components/PrevNext'
 import ScrollToTop from '@common/components/ScrollToTop'
-/* Types */
-import type { PostType } from '@app/_lib/data/mysql/types'
 /* Assets */
 import pic9 from '@app/_lib/images/ether/pic9.png'
 import pic10 from '@app/_lib/images/ether/pic10.png'
@@ -695,16 +693,14 @@ export default function RydbergFormula() {
             </p>
 
             <PrevNext
-                posts={[
-                    {
-                        title: '가설의 검증(1): 고전 물리학',
-                        link: '/ether/kor/document/classic-physics',
-                    } as PostType,
-                    {
-                        title: '가설의 검증(3): 방출 에너지 분석',
-                        link: '/ether/kor/document/analysis',
-                    } as PostType,
-                ]}
+                prev={{
+                    title: '가설의 검증(1): 고전 물리학',
+                    link: '/ether/kor/document/classic-physics',
+                }}
+                next={{
+                    title: '가설의 검증(3): 방출 에너지 분석',
+                    link: '/ether/kor/document/analysis',
+                }}
             ></PrevNext>
         </div>
     )

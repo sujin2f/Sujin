@@ -6,7 +6,7 @@ import { Header } from '@app/_components/header'
 import { Footer } from '@app/_components/footer'
 /* Utils */
 import { getMetaData } from '@app/_lib/utils-server'
-/* Constants */
+/* CONSTANTS */
 import { MENU_NAMES } from '@app/_lib/types'
 /* Assets */
 import './style.scss'

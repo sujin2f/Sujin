@@ -15,7 +15,7 @@ import type {
 import client from './mongo-client'
 /* Utils */
 import { compareVersions } from '../../utils/system'
-/* Constants */
+/* CONSTANTS */
 import { MONGO_DATABASE } from '@common/constants/helper'
 import Logger from '@common/model/Logger'
 

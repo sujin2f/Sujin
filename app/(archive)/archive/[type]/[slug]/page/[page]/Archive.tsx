@@ -5,7 +5,7 @@ import { Banner } from '@app/_components/header/Banner'
 import ArchiveClient from '@app/(archive)/_components'
 import { Header } from '@app/_components/header'
 import { Footer } from '@app/_components/footer'
-/* Constants */
+/* CONSTANTS */
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV, VERSION } from '@common/constants/helper'
 import { ARCHIVE } from '@app/_lib/types'

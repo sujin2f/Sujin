@@ -7,7 +7,7 @@ import { Cards } from '@app/(archive)/_components/cards'
 import { Loading } from '@app/(archive)/_components/loading'
 /* Utils */
 import { useRecentPost } from '@app/_lib/hooks/useRecentPost'
-/* Constants */
+/* CONSTANTS */
 import { IMAGE_SIZE } from '@app/_lib/types'
 /* Assets */
 import './style.scss'

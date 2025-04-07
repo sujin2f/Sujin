@@ -1,7 +1,7 @@
 import type { Metadata } from 'next/types'
 /* Components */
 import { About } from '@app/(single)/about/About'
-/* Constants */
+/* CONSTANTS */
 import { BASE_URL } from '@app/_lib/constants'
 
 export const metadata: Metadata = {

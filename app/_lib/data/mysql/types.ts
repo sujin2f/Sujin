@@ -1,16 +1,9 @@
-import type { ARCHIVE, IMAGE_SIZE, POST_IMAGE_LOCATION } from '@app/_lib/types'
-
-export enum POST_STATUS {
-    PUBLISH = 'publish',
-    DRAFT = 'draft',
-    TRASH = 'trash',
-}
-
-export enum POST_TYPE {
-    POST = 'post',
-    PAGE = 'page',
-    ATTACHMENT = 'attachment',
-}
+import type {
+    ARCHIVE,
+    IMAGE_SIZE,
+    POST_IMAGE_LOCATION,
+    POST_STATUS,
+} from '@app/_lib/types'
 
 // Image
 export type ImageType = {
@@ -20,9 +13,7 @@ export type ImageType = {
     mimeType: string
 }
 
-export type ImageSizeType = Partial<{
-    [key in IMAGE_SIZE]: ImageType
-}>
+export type ImageSizeType = Partial<Record<IMAGE_SIZE, ImageType>>
 
 export type ImageBlockType = {
     width: number
@@ -33,9 +24,7 @@ export type ImageBlockType = {
     sizes?: ImageSizeType
 }
 
-export type ImagesType = Partial<{
-    [key in POST_IMAGE_LOCATION]: ImageBlockType
-}>
+export type ImagesType = Partial<Record<POST_IMAGE_LOCATION, ImageBlockType>>
 
 /// @todo use this
 export enum IMAGE_POSITION {
@@ -67,15 +56,18 @@ export type TagType = CategoryType & {
 export type ArchiveType = CategoryType
 
 // Post and Page
-export type PostType = {
+export type TPrevNext = {
+    title: string
+    link: string
+}
+
+export type PostType = TPrevNext & {
     id: number
     slug: string
-    title: string
     excerpt: string
     content: string
     date: number
     terms: TermType[]
-    link: string
     images: ImagesType
     meta: {
         useBackgroundColor: boolean

@@ -2,7 +2,7 @@ import type { Metadata } from 'next/types'
 import { unstable_cache } from 'next/cache'
 /* Components */
 import Archive from './Archive'
-/* Constants */
+/* CONSTANTS */
 import { DAY_IN_SECONDS } from '@common/constants/datetime'
 import { ARCHIVE } from '@app/_lib/types'
 import { BASE_URL } from '@app/_lib/constants'

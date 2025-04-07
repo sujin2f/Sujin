@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from 'react'
 import { notFound } from 'next/navigation'
 import { getServerSession } from 'next-auth'
-/* Constants */
+/* CONSTANTS */
 import { authOptions } from '@app/api/auth/constants'
 
 /**

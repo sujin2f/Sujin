@@ -7,8 +7,6 @@ import { Column } from '@common/components/layout/Column'
 import { Latex } from '@app/(single)/_components/Latex'
 import { PrevNext } from '@app/(single)/_components/PrevNext'
 import ScrollToTop from '@common/components/ScrollToTop'
-/* Types */
-import type { PostType } from '@app/_lib/data/mysql/types'
 /* Assets */
 import pic58 from '@app/_lib/images/ether/pic58.png'
 import pic114 from '@app/_lib/images/ether/pic114.png'
@@ -287,16 +285,14 @@ export default function Between() {
             </p>
 
             <PrevNext
-                posts={[
-                    {
-                        title: 'Proof(3): Emission Energy Analysis',
-                        link: '/ether/document/analysis',
-                    } as PostType,
-                    {
-                        title: 'Conclusion',
-                        link: '/ether/document/conclusion',
-                    } as PostType,
-                ]}
+                prev={{
+                    title: 'Proof(3): Emission Energy Analysis',
+                    link: '/ether/document/analysis',
+                }}
+                next={{
+                    title: 'Conclusion',
+                    link: '/ether/document/conclusion',
+                }}
             ></PrevNext>
         </div>
     )

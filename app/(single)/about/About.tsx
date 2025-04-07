@@ -7,7 +7,7 @@ import { Row } from '@common/components/layout/Row'
 import { SocialShare } from '@app/(single)/_components/SocialShare'
 import { Content } from '@app/(single)/_components/Content'
 import ScrollToTop from '@common/components/ScrollToTop'
-/* Constants */
+/* CONSTANTS */
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV, VERSION } from '@common/constants/helper'
 import { IMAGE_SIZE } from '@app/_lib/types'

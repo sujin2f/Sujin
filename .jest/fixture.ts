@@ -1,12 +1,11 @@
 import {
-    POST_STATUS,
     type TermType,
     type PageType,
     ImageBlockType,
     CategoryType,
     TagType,
 } from '@app/_lib/data/mysql/types'
-import { ARCHIVE } from '@app/_lib/types'
+import { ARCHIVE, POST_STATUS } from '@app/_lib/types'
 
 export const imageBlock: ImageBlockType = {
     mimeType: 'image/jpeg',

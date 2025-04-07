@@ -13,17 +13,18 @@ import { getOption, removeOption } from '@app/_lib/data/mysql/option'
 import { MutationResultType } from '@app/api/graphql/constants'
 import { formatPostImage } from '@app/_lib/data/mongo/wordpress/util'
 /* Types */
-import {
-    POST_STATUS,
-    POST_TYPE,
-    type PostType,
-    type MySQLPostType,
-} from '@app/_lib/data/mysql/types'
-/* Constants */
+import { type PostType, type MySQLPostType } from '@app/_lib/data/mysql/types'
+/* CONSTANTS */
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV } from '@common/constants/helper'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
-import { ARCHIVE, COLLECTION, POST_IMAGE_LOCATION } from '@app/_lib/types'
+import {
+    ARCHIVE,
+    COLLECTION,
+    POST_IMAGE_LOCATION,
+    POST_STATUS,
+    POST_TYPE,
+} from '@app/_lib/types'
 
 const format = (
     page: WithId<PostType> | PostType | MySQLPostType,

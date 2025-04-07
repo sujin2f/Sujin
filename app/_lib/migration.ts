@@ -1,6 +1,6 @@
 /* Types */
 import type { Migration } from '@common/data/mongo/mongo'
-/* Constants */
+/* CONSTANTS */
 import { MONGO_DATABASE } from '@common/constants/helper'
 import { COLLECTION } from '@app/_lib/types'
 import { default as SCHEMA_10_2_6 } from '@app/_lib/schema/10.2.6'

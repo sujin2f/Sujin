@@ -400,21 +400,23 @@ export const getBannerImageMap = (image: ImageBlockType): ImageMap[] => {
 }
 
 const replaceURL = (url: string) => {
-    if (!url) {
-        return ''
-    }
     let pathname: string
+
+    if (!url) return ''
+
     try {
         pathname = new URL(url).pathname
     } catch {
         pathname = url
     }
+
     if (pathname.startsWith('/')) {
         pathname = pathname.slice(1)
     }
     if (!pathname.startsWith('wp-content/uploads')) {
         pathname = `wp-content/uploads/${pathname}`
     }
+
     return `/${pathname}`
 }
 

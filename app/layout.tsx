@@ -2,7 +2,7 @@ import React, { PropsWithChildren } from 'react'
 import { Ubuntu } from 'next/font/google'
 import Script from 'next/script'
 import type { Metadata } from 'next'
-/* Constants */
+/* CONSTANTS */
 import { BASE_URL, DEFAULT_THUMBNAIL } from '@app/_lib/constants'
 /* Assets */
 import './wrapper.scss'

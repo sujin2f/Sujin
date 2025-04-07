@@ -4,16 +4,15 @@ import Logger from '@common/model/Logger'
 /* Utils */
 import { isEmpty } from '@common/utils/object'
 import { getPostBy, getPostMeta } from '@app/_lib/data/mysql/post'
-/* Constants */
+/* CONSTANTS */
 import { MySQLQuery } from '@app/_lib/data/mysql/constants'
 import { MetaKeys } from '@app/_lib/data/mysql/constants'
-import { IMAGE_SIZE, POST_IMAGE_LOCATION } from '@app/_lib/types'
+import { IMAGE_SIZE, POST_IMAGE_LOCATION, POST_TYPE } from '@app/_lib/types'
 /* Types */
 import {
     type ImageBlockType,
     type MySQLMediaType,
     type MySQLPostType,
-    POST_TYPE,
 } from '@app/_lib/data/mysql/types'
 import type { Nullable } from '@common/types'
 

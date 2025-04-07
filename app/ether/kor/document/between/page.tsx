@@ -7,8 +7,6 @@ import { Column } from '@common/components/layout/Column'
 import { Latex } from '@app/(single)/_components/Latex'
 import { PrevNext } from '@app/(single)/_components/PrevNext'
 import ScrollToTop from '@common/components/ScrollToTop'
-/* Types */
-import type { PostType } from '@app/_lib/data/mysql/types'
 /* Assets */
 import pic58 from '@app/_lib/images/ether/pic58.png'
 import pic114 from '@app/_lib/images/ether/pic114.png'
@@ -278,16 +276,14 @@ export default function Between() {
             </p>
 
             <PrevNext
-                posts={[
-                    {
-                        title: '가설의 검증(3): 방출 에너지 분석',
-                        link: '/ether/kor/document/analysis',
-                    } as PostType,
-                    {
-                        title: '결론',
-                        link: '/ether/kor/document/conclusion',
-                    } as PostType,
-                ]}
+                prev={{
+                    title: '가설의 검증(3): 방출 에너지 분석',
+                    link: '/ether/kor/document/analysis',
+                }}
+                next={{
+                    title: '결론',
+                    link: '/ether/kor/document/conclusion',
+                }}
             ></PrevNext>
         </div>
     )

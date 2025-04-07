@@ -3,8 +3,6 @@ import Link from 'next/link'
 import { NextImage } from '@common/components/containers/NextImage'
 import { PrevNext } from '@app/(single)/_components/PrevNext'
 import ScrollToTop from '@common/components/ScrollToTop'
-/* Types */
-import type { PostType } from '@app/_lib/data/mysql/types'
 /* Assets */
 import pic13 from '@app/_lib/images/ether/pic13_eng.png'
 import pic14 from '@app/_lib/images/ether/pic14_eng.png'
@@ -266,13 +264,10 @@ export default function Conclusion() {
             </p>
 
             <PrevNext
-                posts={[
-                    {
-                        title: 'Proof(4): Between Comparison',
-                        link: '/ether/document/between',
-                    } as PostType,
-                    undefined,
-                ]}
+                prev={{
+                    title: 'Proof(4): Between Comparison',
+                    link: '/ether/document/between',
+                }}
             ></PrevNext>
         </div>
     )

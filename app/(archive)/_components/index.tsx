@@ -10,7 +10,7 @@ import { Loading } from '@app/(archive)/_components/loading'
 /* Types */
 import type { PostType } from '@app/_lib/data/mysql/types'
 import type { Nullable } from '@common/types'
-/* Constants */
+/* CONSTANTS */
 import GQL from '@app/api/graphql/constants'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'

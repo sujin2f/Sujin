@@ -11,7 +11,7 @@ import Hamburger from '@app/_components/header/Hamburger'
 import Search from '@app/_components/header/Search'
 /* Utils */
 import { handleSignIn, handleSignOut } from '@app/api/auth/utils'
-/* Constants */
+/* CONSTANTS */
 import { MENUS } from '@app/_lib/constants'
 /* Types */
 import type { MENU_NAMES } from '@app/_lib/types'

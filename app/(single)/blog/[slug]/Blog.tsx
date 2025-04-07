@@ -4,7 +4,7 @@ import { unstable_cache } from 'next/cache'
 import { Banner } from '@app/_components/header/Banner'
 import ScrollToTop from '@common/components/ScrollToTop'
 import { Tags } from '@app/(single)/_components/Tags'
-import { PrevNextWithPost } from '@app/(single)/_components/PrevNext'
+import { PrevNextClient } from '@app/(single)/_components/PrevNextClient'
 import { RelatedPosts } from '@app/(single)/_components/RelatedPosts'
 import { RecentPosts } from '@app/(single)/_components/RecentPosts'
 import { SocialShare } from '@app/(single)/_components/SocialShare'
@@ -12,7 +12,7 @@ import { Column } from '@common/components/layout/Column'
 import { Row } from '@common/components/layout/Row'
 import { Content } from '@app/(single)/_components/Content'
 import { GoogleAdvert } from '@app/_components/GoogleAdvert'
-/* Constants */
+/* CONSTANTS */
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV, VERSION } from '@common/constants/helper'
 import { IMAGE_SIZE } from '@app/_lib/types'
@@ -67,7 +67,7 @@ export default async function Blog(props: Props) {
                             excerpt={post.excerpt}
                             thumbnail={thumbnail}
                         />
-                        <PrevNextWithPost post={post} />
+                        <PrevNextClient slug={post.slug} />
                         <RelatedPosts post={post} />
                     </Content>
                 </Column>

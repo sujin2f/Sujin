@@ -3,7 +3,7 @@ import React from 'react'
 import Link from 'next/link'
 /* Components */
 import { Loading } from '@app/(archive)/_components/loading'
-/* Constants */
+/* CONSTANTS */
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import GQL from '@app/api/graphql/constants'
 /* Utils */
@@ -12,7 +12,7 @@ import useIntersectionGQL from '@common/hooks/useIntersectionGQL'
 const TagCloud = () => {
     const [ref, tagCloud] = useIntersectionGQL(
         GQL.queryTagCloud,
-        GQL.tagCloudOpr,
+        'id title slug total hits',
         WEEK_IN_SECONDS,
     )
 

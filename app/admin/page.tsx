@@ -5,7 +5,7 @@ import FrontPage from './FrontPage'
 import Mongo from '@common/data/mongo/mongo'
 import Logger from '@common/model/Logger'
 import client from '@common/data/mongo/mongo-client'
-/* Constants */
+/* CONSTANTS */
 import migration from '@app/_lib/migration'
 /* Utils */
 import { compareVersions } from '@common/utils/system'

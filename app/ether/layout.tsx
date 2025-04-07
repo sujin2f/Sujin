@@ -3,7 +3,7 @@ import type { PropsWithChildren } from 'react'
 /* Components */
 import { Header } from '@app/_components/header'
 import { Footer } from '@app/_components/footer'
-/* Constants */
+/* CONSTANTS */
 import { MENU_NAMES } from '@app/_lib/types'
 /* Utils */
 import { getMetaData } from '@app/_lib/utils-server'

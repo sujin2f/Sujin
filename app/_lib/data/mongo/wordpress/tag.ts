@@ -15,7 +15,7 @@ import {
     removeArchive,
 } from '@app/_lib/data/mongo/wordpress/archive'
 import { getCacheKey } from '@app/_lib/utils'
-/* Constants */
+/* CONSTANTS */
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { shuffle } from '@common/utils/array'
 import { ARCHIVE } from '@app/_lib/types'

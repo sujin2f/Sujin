@@ -8,8 +8,6 @@ import { Column } from '@common/components/layout/Column'
 import { Latex } from '@app/(single)/_components/Latex'
 import { PrevNext } from '@app/(single)/_components/PrevNext'
 import ScrollToTop from '@common/components/ScrollToTop'
-/* Types */
-import type { PostType } from '@app/_lib/data/mysql/types'
 /* Assets */
 import pic29 from '@app/_lib/images/ether/pic29.png'
 import pic42 from '@app/_lib/images/ether/pic42.png'
@@ -739,16 +737,14 @@ export default function Analysis() {
             </Row>
 
             <PrevNext
-                posts={[
-                    {
-                        title: 'Proof(2): Reinterpretation of Rydberg Formula',
-                        link: '/ether/document/rydberg-formula',
-                    } as PostType,
-                    {
-                        title: 'Proof(4): Between Comparison',
-                        link: '/ether/document/between',
-                    } as PostType,
-                ]}
+                prev={{
+                    title: 'Proof(2): Reinterpretation of Rydberg Formula',
+                    link: '/ether/document/rydberg-formula',
+                }}
+                next={{
+                    title: 'Proof(4): Between Comparison',
+                    link: '/ether/document/between',
+                }}
             ></PrevNext>
         </div>
     )

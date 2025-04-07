@@ -8,8 +8,7 @@ import type {
     ArchiveType,
 } from '@app/_lib/data/mysql/types'
 import type { OptionType } from '@app/_lib/data/mongo/types'
-import { POST_STATUS } from '@app/_lib/data/mysql/types'
-import { ARCHIVE } from '@app/_lib/types'
+import { ARCHIVE, POST_STATUS } from '@app/_lib/types'
 
 const image: { [key in keyof ImageType]: object } = {
     url: {
@@ -133,7 +132,7 @@ const pageProperty: { [key in keyof PageType]: object } = {
     },
     status: {
         bsonType: 'string',
-        enum: [POST_STATUS.PUBLISH, POST_STATUS.DRAFT, POST_STATUS.TRASH],
+        enum: [...Object.values(POST_STATUS)],
     },
     images: {
         bsonType: 'object',

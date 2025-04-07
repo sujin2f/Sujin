@@ -2,7 +2,7 @@ import type { WithId } from 'mongodb'
 /* Models */
 import Cached from '@common/model/Cached'
 import Mongo from '@common/data/mongo/mongo'
-/* Constants */
+/* CONSTANTS */
 import { DAY_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV } from '@common/constants/helper'
 import { COLLECTION } from '@app/_lib/types'

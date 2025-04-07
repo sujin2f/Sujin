@@ -4,10 +4,8 @@ import { PrevNext } from '@app/(single)/_components/PrevNext'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 import { Banner } from '@app/_components/header/Banner'
-/* Constants */
+/* CONSTANTS */
 import { MENU_NAMES } from '@app/_lib/types'
-/* Types */
-import type { PostType } from '@app/_lib/data/mysql/types'
 
 export default function Intro() {
     return (
@@ -59,13 +57,10 @@ export default function Intro() {
                         </p>
 
                         <PrevNext
-                            posts={[
-                                ,
-                                {
-                                    title: 'Hypothesis',
-                                    link: '/ether/document/hypothesis',
-                                } as PostType,
-                            ]}
+                            next={{
+                                title: 'Hypothesis',
+                                link: '/ether/document/hypothesis',
+                            }}
                         ></PrevNext>
                     </Column>
                 </Row>

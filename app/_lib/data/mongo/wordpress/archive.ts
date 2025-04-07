@@ -5,7 +5,7 @@ import Logger from '@common/model/Logger'
 /* Types */
 import type { ArchiveType, TermType } from '@app/_lib/data/mysql/types'
 import type { MutationResultType } from '@app/api/graphql/constants'
-/* Constants */
+/* CONSTANTS */
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV } from '@common/constants/helper'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'

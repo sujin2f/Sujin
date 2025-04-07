@@ -11,7 +11,7 @@ import type { Nullable } from '@common/types'
 /* Utils */
 import { fetchGQL } from '@common/data/graphql/fetchGQL'
 import useIntersectionObserver from '@common/hooks/useIntersectionObserver'
-/* Constants */
+/* CONSTANTS */
 import GQL from '@app/api/graphql/constants'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 /* Assets */
