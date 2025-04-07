@@ -8,7 +8,7 @@ import { Loading } from '@app/(archive)/_components/loading'
 /* Utils */
 import { useRecentPost } from '@app/_lib/hooks/useRecentPost'
 /* Constants */
-import { IMAGE_SIZE } from '@app/_lib/data/types'
+import { IMAGE_SIZE } from '@app/_lib/types'
 /* Assets */
 import './style.scss'
 

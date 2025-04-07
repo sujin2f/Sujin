@@ -5,7 +5,7 @@ import Mongo from '@common/data/mongo/mongo'
 /* Constants */
 import { DAY_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV } from '@common/constants/helper'
-import { COLLECTION } from '@app/_lib/data/types'
+import { COLLECTION } from '@app/_lib/types'
 /* Types */
 import type { ImageBlockType } from '@app/_lib/data/mysql/types'
 /* Utils */

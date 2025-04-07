@@ -8,7 +8,7 @@ import { Footer } from '@app/_components/footer'
 /* Constants */
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV, VERSION } from '@common/constants/helper'
-import { ARCHIVE } from '@app/_lib/data/types'
+import { ARCHIVE } from '@app/_lib/types'
 /* Utils */
 import { getCachedCategory } from '@app/_lib/data/mongo/wordpress/category'
 import { getCachedTag, updateHits } from '@app/_lib/data/mongo/wordpress/tag'

@@ -15,7 +15,7 @@ import { GoogleAdvert } from '@app/_components/GoogleAdvert'
 /* Constants */
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV, VERSION } from '@common/constants/helper'
-import { IMAGE_SIZE } from '@app/_lib/data/types'
+import { IMAGE_SIZE } from '@app/_lib/types'
 /* Utils */
 import { getCachedPost } from '@app/_lib/data/mongo/wordpress/post'
 import { updateHits } from '@app/_lib/data/mongo/wordpress/tag'

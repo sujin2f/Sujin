@@ -1,5 +1,4 @@
-import React, { type PropsWithChildren, type ReactNode } from 'react'
-
+import type { PropsWithChildren, ReactNode } from 'react'
 /* Helpers */
 import { joinClassNames } from '../../utils/string'
 /* Assets */

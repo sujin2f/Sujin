@@ -10,6 +10,7 @@ import { Metadata, METADATA } from '@app/_lib/constants'
  *
  * @async
  * @returns {Promise<Nullable<string>>} The pathname as a string if found, otherwise `undefined`.
+ * @todo Remove this and x-pathname for good
  */
 export const getPathName = async (): Promise<Nullable<string>> =>
     (await headers()).get('x-pathname') || undefined
@@ -25,6 +26,7 @@ export const getPathName = async (): Promise<Nullable<string>> =>
  * @async
  * @returns {Promise<Metadata>} The metadata corresponding to the current pathname.
  * @throws {Error} If the pathname is not found or metadata for the path is missing.
+ * @todo Remove this and x-pathname for good
  */
 export const getMetaData = async (): Promise<Metadata> => {
     const path = await getPathName()

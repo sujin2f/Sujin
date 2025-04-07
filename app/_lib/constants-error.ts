@@ -1,3 +1,6 @@
+/**
+ * @todo Apply Logger
+ */
 export enum ErrorMessage {
     MYSQL_CONNECTION = '[0000] 🤬 MySQL connection failed.',
     POST_NOT_FOUND = '[0010] 🤬 WP post does not exist.',

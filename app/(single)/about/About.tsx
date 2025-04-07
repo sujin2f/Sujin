@@ -10,7 +10,7 @@ import ScrollToTop from '@common/components/ScrollToTop'
 /* Constants */
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV, VERSION } from '@common/constants/helper'
-import { IMAGE_SIZE } from '@app/_lib/data/types'
+import { IMAGE_SIZE } from '@app/_lib/types'
 /* Utils */
 import { getCachedPage } from '@app/_lib/data/mongo/wordpress/page'
 import { getThumbnailFromPost } from '@app/_lib/data/mysql/utils'

@@ -1,13 +1,14 @@
 'use client'
 import React from 'react'
 /* Components */
-import { Column, type OneToTwelve } from '@common/components/layout/Column'
+import { Column } from '@common/components/layout/Column'
 import { Card } from '@common/components/containers/Card'
 import { Tags } from '@app/(single)/_components/Tags'
 /* Helpers */
-import { type PostType } from '@app/_lib/data/mysql/types'
+import type { OneToTwelve } from '@common/components/layout/Column'
+import type { PostType } from '@app/_lib/data/mysql/types'
 import { getThumbnailFromPost } from '@app/_lib/data/mysql/utils'
-import { ARCHIVE, IMAGE_SIZE } from '@app/_lib/data/types'
+import { ARCHIVE, IMAGE_SIZE } from '@app/_lib/types'
 
 type Props = {
     readonly posts: PostType[]

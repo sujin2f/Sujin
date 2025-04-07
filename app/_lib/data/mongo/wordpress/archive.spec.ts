@@ -11,7 +11,7 @@ import {
 import Mongo from '@common/data/mongo/mongo'
 import migration from '@app/_lib/migration'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
-import { ARCHIVE, COLLECTION } from '@app/_lib/data/types'
+import { ARCHIVE, COLLECTION } from '@app/_lib/types'
 import Cached from '@common/model/Cached'
 import { category, tag } from '@jest/fixture'
 import { setSystemOption } from '../admin'

@@ -1,4 +1,4 @@
-import React, { type PropsWithChildren } from 'react'
+import type { PropsWithChildren } from 'react'
 /* Components */
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'

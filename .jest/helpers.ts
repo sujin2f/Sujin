@@ -9,7 +9,7 @@ import type {
     PostType,
 } from '@app/_lib/data/mysql/types'
 import { category, imageBlock, page, post, tag } from './fixture'
-import { COLLECTION } from '@app/_lib/data/types'
+import { COLLECTION } from '@app/_lib/types'
 
 export const clearMongo = async (...collections: string[]) =>
     await client.then(async (client) => {

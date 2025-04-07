@@ -1,52 +1,15 @@
-import {
-    MenuDefault,
-    MenuDevTool,
-    MenuEther,
-    MenuEtherKor,
-} from '@app/_lib/constants'
-import { MenuNames } from '@app/_lib/data/mysql/constants'
-import type { Nullable } from '@common/types'
-import { type MenuItem } from '@app/_lib/data/mysql/types'
 import { VERSION } from '@common/constants/helper'
-import { COLLECTION } from '@app/_lib/data/types'
-
-export const getMenuNameFromPath = (path: Nullable<string>) => {
-    if (!path) {
-        return MenuNames.MAIN
-    }
-    if (path.startsWith('/ether/for')) {
-        return MenuNames.ETHER_KOR
-    }
-    if (path.startsWith('/ether')) {
-        return MenuNames.ETHER
-    }
-    if (path.startsWith('/dev-tools')) {
-        return MenuNames.DEV_TOOL
-    }
-    return MenuNames.MAIN
-}
-
-export const getMenu = (menu: MenuNames): MenuItem[] => {
-    switch (menu) {
-        case MenuNames.ETHER:
-            return MenuEther
-        case MenuNames.ETHER_KOR:
-            return MenuEtherKor
-        case MenuNames.DEV_TOOL:
-            return MenuDevTool
-        default:
-            return MenuDefault
-    }
-}
+import { COLLECTION } from '@app/_lib/types'
+import type { CACHE_KEY } from '@app/_lib/types'
 
 /**
  *
  * @param {COLLECTION} collection
- * @param {string} slug
+ * @param {(string | number)[]} suffixes
  * @returns {string}
  */
 export const getCacheKey = (
-    collection: COLLECTION,
+    collection: CACHE_KEY,
     ...suffixes: (string | number)[]
 ): string => {
     const suffix = suffixes?.join('-')
@@ -63,5 +26,4 @@ export const getCacheKey = (
         case COLLECTION.BACKGROUNDS:
             return `${VERSION}-backgrounds`
     }
-    return ''
 }

@@ -5,7 +5,7 @@ import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 import { Banner } from '@app/_components/header/Banner'
 /* Constants */
-import { MenuNames } from '@app/_lib/data/mysql/constants'
+import { MENU_NAMES } from '@app/_lib/types'
 /* Types */
 import type { PostType } from '@app/_lib/data/mysql/types'
 
@@ -13,7 +13,7 @@ export default function Intro() {
     return (
         <main>
             <ScrollToTop />
-            <Banner menu={MenuNames.ETHER} />
+            <Banner menu={MENU_NAMES.ETHER} />
             <article>
                 <Row>
                     <Column small={12} large={8} largeOffset={2}>

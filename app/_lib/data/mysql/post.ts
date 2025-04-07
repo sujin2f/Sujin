@@ -15,7 +15,7 @@ import { autop } from '@app/_lib/data/mysql/utils'
 import { unserialize } from '@app/_lib/data/mysql/utils'
 import { getTermsByPost } from '@app/_lib/data/mysql/term'
 import { getPostImages } from '@app/_lib/data/mysql/media'
-import { ARCHIVE, TAXONOMY } from '@app/_lib/data/types'
+import { ARCHIVE, TAXONOMY } from '@app/_lib/types'
 
 export const getAllPostMeta = async (
     postId: number,

@@ -1,5 +1,5 @@
 'use client'
-import { type PropsWithChildren } from 'react'
+import type { PropsWithChildren } from 'react'
 import { SessionProvider } from 'next-auth/react'
 import type { Session } from 'next-auth'
 

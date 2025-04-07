@@ -1,4 +1,5 @@
-import { NextResponse, type NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 
 const GRAPHQL_ALLOW_ORIGINS = (process.env.GRAPHQL_ALLOW_ORIGINS || '').split(
     ' ',

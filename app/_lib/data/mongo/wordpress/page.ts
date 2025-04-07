@@ -6,7 +6,7 @@ import Logger from '@common/model/Logger'
 /* Constants */
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV } from '@common/constants/helper'
-import { COLLECTION, POST_IMAGE_LOCATION } from '@app/_lib/data/types'
+import { COLLECTION, POST_IMAGE_LOCATION } from '@app/_lib/types'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 /* Utils */
 import { removeOption, getOption } from '@app/_lib/data/mysql/option'

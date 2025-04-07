@@ -4,7 +4,7 @@ import type { PropsWithChildren } from 'react'
 import { Header } from '@app/_components/header'
 import { Footer } from '@app/_components/footer'
 /* Constants */
-import { MenuNames } from '@app/_lib/data/mysql/constants'
+import { MENU_NAMES } from '@app/_lib/types'
 /* Utils */
 import { getMetaData } from '@app/_lib/utils-server'
 
@@ -29,7 +29,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
 export default async function Layout({ children }: PropsWithChildren) {
     return (
         <>
-            <Header menu={MenuNames.ETHER_KOR} />
+            <Header menu={MENU_NAMES.ETHER_KOR} />
             {children}
             <Footer />
         </>

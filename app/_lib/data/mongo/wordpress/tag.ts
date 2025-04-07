@@ -4,7 +4,7 @@
 import Mongo from '@common/data/mongo/mongo'
 import Cached from '@common/model/Cached'
 /* Types */
-import { type TagType } from '@app/_lib/data/mysql/types'
+import type { TagType } from '@app/_lib/data/mysql/types'
 import type { MutationResultType } from '@app/api/graphql/constants'
 /* Utils */
 import {
@@ -18,7 +18,7 @@ import { getCacheKey } from '@app/_lib/utils'
 /* Constants */
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { shuffle } from '@common/utils/array'
-import { ARCHIVE } from '@app/_lib/data/types'
+import { ARCHIVE } from '@app/_lib/types'
 
 export const getCachedTag = async (slug: string): Promise<TagType> =>
     await getCachedArchive<TagType>(slug, ARCHIVE.TAG)

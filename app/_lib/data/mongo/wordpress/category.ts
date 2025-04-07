@@ -1,7 +1,7 @@
 /* Types */
-import { type CategoryType } from '@app/_lib/data/mysql/types'
+import type { CategoryType } from '@app/_lib/data/mysql/types'
 import type { MutationResultType } from '@app/api/graphql/constants'
-import { ARCHIVE } from '@app/_lib/data/types'
+import { ARCHIVE } from '@app/_lib/types'
 /* Utils */
 import {
     getCachedArchive,

@@ -4,7 +4,7 @@ import { unstable_cache } from 'next/cache'
 import Archive from './Archive'
 /* Constants */
 import { DAY_IN_SECONDS } from '@common/constants/datetime'
-import { ARCHIVE } from '@app/_lib/data/types'
+import { ARCHIVE } from '@app/_lib/types'
 import { BASE_URL } from '@app/_lib/constants'
 import { IS_DEV, VERSION } from '@common/constants/helper'
 /* Utils */

@@ -1,4 +1,4 @@
-import { unserialize as phpUnserialize } from 'php-unserialize' // TODO Do not use module
+import { unserialize as phpUnserialize } from 'php-unserialize' // @todo Do not use module
 import { DEFAULT_THUMBNAIL } from '@app/_lib/constants'
 import {
     type PostType,
@@ -7,7 +7,9 @@ import {
 } from '@app/_lib/data/mysql/types'
 import { ImageMap } from '@common/components/containers/Picture'
 import { bannerMediaQuery } from '@app/_lib/data/mysql/constants'
-import type { IMAGE_SIZE } from '@app/_lib/data/types'
+import type { IMAGE_SIZE } from '@app/_lib/types'
+import { phpUnSerialize } from '@common/utils/string'
+import Logger from '@common/model/Logger'
 
 /**
  * The regular expression for an HTML element.
@@ -352,14 +354,21 @@ export const unserialize = <
         return value as T
     }
 
-    const unserialized = phpUnserialize(value)
-    if (key && typeof unserialized === 'object') {
-        if (Object.keys(unserialized as object).includes(key)) {
-            return (unserialized as Record<string, T>)[key]
+    let result
+    try {
+        result = phpUnSerialize(value)
+    } catch {
+        Logger.server('phpUnSerialize could not parse the value', value)
+        result = phpUnserialize(value)
+    }
+
+    if (key && typeof result === 'object') {
+        if (Object.keys(result as object).includes(key)) {
+            return (result as Record<string, T>)[key]
         }
         return defaultValue
     }
-    return unserialized as T
+    return result as T
 }
 
 export const getThumbnailFromPost = (

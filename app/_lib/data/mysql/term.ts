@@ -13,7 +13,7 @@ import type {
     TermType,
 } from '@app/_lib/data/mysql/types'
 import type { Nullable } from '@common/types'
-import { ARCHIVE } from '../types'
+import { ARCHIVE } from '../../types'
 
 const getMeta = async <T = string>(id: number, metaKey: string): Promise<T> =>
     await MySQL.getInstance().selectOne<T>(MySQLQuery.getTermMeta(id, metaKey))

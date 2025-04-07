@@ -7,7 +7,7 @@ import { getPostBy, getPostMeta } from '@app/_lib/data/mysql/post'
 /* Constants */
 import { MySQLQuery } from '@app/_lib/data/mysql/constants'
 import { MetaKeys } from '@app/_lib/data/mysql/constants'
-import { IMAGE_SIZE, POST_IMAGE_LOCATION } from '@app/_lib/data/types'
+import { IMAGE_SIZE, POST_IMAGE_LOCATION } from '@app/_lib/types'
 /* Types */
 import {
     type ImageBlockType,

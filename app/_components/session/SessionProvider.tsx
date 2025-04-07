@@ -1,5 +1,5 @@
 'use server'
-import { type PropsWithChildren } from 'react'
+import type { PropsWithChildren } from 'react'
 import { getServerSession } from 'next-auth'
 import { SessionProviderClient } from '@app/_components/session/SessionProviderClient'
 import { authOptions } from '@app/api/auth/constants'

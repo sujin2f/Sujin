@@ -1,5 +1,5 @@
 'use client'
-import React, { Fragment, type ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 /* Components */
@@ -7,14 +7,13 @@ import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 import { Menu } from '@common/components/layout/Menu'
 import NextImage from '@common/components/containers/NextImage'
+import { MENU_NAMES } from '@app/_lib/types'
 /* Helpers */
 import { joinClassNames } from '@common/utils/string'
 import { getBannerImageMap } from '@app/_lib/data/mysql/utils'
-import { getMenu } from '@app/_lib/utils'
-import { METADATA } from '@app/_lib/constants'
-import { MenuNames } from '@app/_lib/data/mysql/constants'
+import { MENUS, METADATA } from '@app/_lib/constants'
 /* Types */
-import { type ImageBlockType } from '@app/_lib/data/mysql/types'
+import type { ImageBlockType } from '@app/_lib/data/mysql/types'
 
 type Props = {
     banner?: {
@@ -25,7 +24,7 @@ type Props = {
         background?: ImageBlockType
         backgroundColor?: string
     }
-    menu?: MenuNames
+    menu?: MENU_NAMES
 }
 
 /**
@@ -35,7 +34,7 @@ type Props = {
  * @param {string} props.menu - The menu name to be used in the banner.
  */
 export function Banner(props: Props) {
-    const menu = getMenu(props.menu || MenuNames.MAIN)
+    const menu = MENUS[props.menu || MENU_NAMES.MAIN]
     const path = usePathname()
     const { background, backgroundColor, icon } = props.banner || {}
 
@@ -53,7 +52,7 @@ export function Banner(props: Props) {
         : {}
 
     return (
-        <Fragment>
+        <>
             <section className="banner" style={style}>
                 <div className="show-for-large menu__container--banner">
                     <Row>
@@ -115,6 +114,6 @@ export function Banner(props: Props) {
             ) : (
                 <></>
             )}
-        </Fragment>
+        </>
     )
 }

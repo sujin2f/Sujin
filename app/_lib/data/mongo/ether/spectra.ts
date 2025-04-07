@@ -12,7 +12,7 @@ import { getAtom } from '@app/ether/data/utils'
 /* Constants */
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV } from '@common/constants/helper'
-import { COLLECTION } from '@app/_lib/data/types'
+import { COLLECTION } from '@app/_lib/types'
 
 /**
  * Requests spectra data

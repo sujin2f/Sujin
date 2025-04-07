@@ -23,7 +23,7 @@ import {
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV } from '@common/constants/helper'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
-import { ARCHIVE, COLLECTION, POST_IMAGE_LOCATION } from '@app/_lib/data/types'
+import { ARCHIVE, COLLECTION, POST_IMAGE_LOCATION } from '@app/_lib/types'
 
 const format = (
     page: WithId<PostType> | PostType | MySQLPostType,

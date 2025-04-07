@@ -3,13 +3,13 @@ import Mongo from '@common/data/mongo/mongo'
 import Cached from '@common/model/Cached'
 import Logger from '@common/model/Logger'
 /* Types */
-import { type ArchiveType, type TermType } from '@app/_lib/data/mysql/types'
+import type { ArchiveType, TermType } from '@app/_lib/data/mysql/types'
 import type { MutationResultType } from '@app/api/graphql/constants'
 /* Constants */
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV } from '@common/constants/helper'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
-import { ARCHIVE, COLLECTION } from '@app/_lib/data/types'
+import { ARCHIVE, COLLECTION } from '@app/_lib/types'
 /* Utils */
 import { getArchiveBySlug as getMySQLArchive } from '@app/_lib/data/mysql/term'
 import { getCacheKey } from '@app/_lib/utils'

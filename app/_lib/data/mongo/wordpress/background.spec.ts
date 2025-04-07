@@ -7,7 +7,7 @@ import { getCachedBackgrounds } from './background'
 import Mongo from '@common/data/mongo/mongo'
 import migration from '@app/_lib/migration'
 import { imageBlock } from '@jest/fixture'
-import { COLLECTION } from '@app/_lib/data/types'
+import { COLLECTION } from '@app/_lib/types'
 import { setSystemOption } from '../admin'
 
 const mockQuery = jest.fn()

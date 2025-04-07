@@ -4,7 +4,8 @@
  * @module constants
  */
 
-import { type POST_TYPE, TAXONOMY, type IMAGE_SIZE } from '@app/_lib/data/types'
+import type { POST_TYPE, IMAGE_SIZE } from '@app/_lib/types'
+import { TAXONOMY } from '@app/_lib/types'
 
 /**
  * Making a formatted string
@@ -252,14 +253,6 @@ export enum MetaKeys {
     MENU_ITEM_TYPE = '_menu_item_type',
     MENU_ITEM_URL = '_menu_item_url',
     MENU_ITEM_PARENT = '_menu_item_menu_item_parent',
-}
-
-export enum MenuNames {
-    MAIN = 'main',
-    SOCIAL = 'social-media',
-    DEV_TOOL = 'devtool',
-    ETHER = 'ether',
-    ETHER_KOR = 'ether-kor',
 }
 
 export enum MenuItemTypes {

@@ -1,4 +1,4 @@
-import React, { type PropsWithChildren } from 'react'
+import type { PropsWithChildren } from 'react'
 /* Components */
 import { PrevNext as PrevNextComponent } from '@app/(single)/_components/PrevNext'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'

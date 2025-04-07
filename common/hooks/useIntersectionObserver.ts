@@ -1,5 +1,6 @@
 'use client'
-import { type RefObject, useEffect } from 'react'
+import { useEffect } from 'react'
+import type { RefObject } from 'react'
 
 /**
  * Hook that observes an element and calls a callback when it becomes visible.

@@ -3,7 +3,7 @@ import {
     type ImageBlockType,
     ImagesType,
 } from '@app/_lib/data/mysql/types'
-import { IMAGE_SIZE, POST_IMAGE_LOCATION } from '@app/_lib/data/types'
+import { IMAGE_SIZE, POST_IMAGE_LOCATION } from '@app/_lib/types'
 
 type input = Record<string, unknown>
 

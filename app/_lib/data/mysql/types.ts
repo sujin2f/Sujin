@@ -1,8 +1,4 @@
-import type {
-    ARCHIVE,
-    IMAGE_SIZE,
-    POST_IMAGE_LOCATION,
-} from '@app/_lib/data/types'
+import type { ARCHIVE, IMAGE_SIZE, POST_IMAGE_LOCATION } from '@app/_lib/types'
 
 export enum POST_STATUS {
     PUBLISH = 'publish',
@@ -96,16 +92,6 @@ export type MySQLPostType = PostType & {
 export type PageType = Omit<PostType, 'terms'>
 
 export type OptionType = { option_value: string }
-
-export type MenuItem = {
-    id: number
-    title: string
-    target: string
-    link: string
-    htmlClass: string[]
-    children: MenuItem[]
-    parent: number
-}
 
 export type MySQLMediaType = {
     file: string

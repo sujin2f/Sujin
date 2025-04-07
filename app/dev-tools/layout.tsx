@@ -4,9 +4,10 @@ import type { Metadata } from 'next/types'
 import { Banner } from '@app/_components/header/Banner'
 import { Header } from '@app/_components/header'
 import { Footer } from '@app/_components/footer'
-/* Helpers */
-import { MenuNames } from '@app/_lib/data/mysql/constants'
+/* Utils */
 import { getMetaData } from '@app/_lib/utils-server'
+/* Constants */
+import { MENU_NAMES } from '@app/_lib/types'
 /* Assets */
 import './style.scss'
 
@@ -25,9 +26,9 @@ export const generateMetadata = async (): Promise<Metadata> => {
 export default async function Layout({ children }: PropsWithChildren) {
     return (
         <>
-            <Header menu={MenuNames.DEV_TOOL} />
+            <Header menu={MENU_NAMES.DEV_TOOL} />
             <main>
-                <Banner menu={MenuNames.DEV_TOOL} />
+                <Banner menu={MENU_NAMES.DEV_TOOL} />
                 {children}
             </main>
             <Footer />

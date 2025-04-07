@@ -1,5 +1,5 @@
 import { Table } from '@common/components/containers/Table'
-import { COLLECTION } from '@app/_lib/data/types'
+import { COLLECTION } from '@app/_lib/types'
 import Header from '@app/admin/_components/Header'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'

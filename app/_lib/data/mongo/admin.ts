@@ -3,7 +3,7 @@ import client from '@common/data/mongo/mongo-client'
 import type { Document, IndexDescriptionCompact } from 'mongodb'
 import Mongo from '@common/data/mongo/mongo'
 import type { OptionType } from '@app/_lib/data/mongo/types'
-import { COLLECTION } from '@app/_lib/data/types'
+import { COLLECTION } from '@app/_lib/types'
 
 export const getIndexes = async (...collections: string[]) => {
     const indexes: Record<string, IndexDescriptionCompact> = {}
