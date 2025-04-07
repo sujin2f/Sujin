@@ -13,7 +13,11 @@ import { getOption, removeOption } from '@app/_lib/data/mysql/option'
 import { MutationResultType } from '@app/api/graphql/constants'
 import { formatPostImage } from '@app/_lib/data/mongo/wordpress/util'
 /* Types */
-import { type PostType, type MySQLPostType } from '@app/_lib/data/mysql/types'
+import {
+    type PostType,
+    type MySQLPostType,
+    TPrevNext,
+} from '@app/_lib/data/mysql/types'
 /* CONSTANTS */
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV } from '@common/constants/helper'
@@ -191,7 +195,7 @@ export const getCachedArchivePosts = async (
     )
 }
 
-const getPrevNext = async (slug: string): Promise<PostType[]> => {
+const getPrevNext = async (slug: string): Promise<TPrevNext[]> => {
     const post = await getCachedPost(slug)
     const slugs = post.terms
         .filter((term) => term.type === 'category')
@@ -237,7 +241,7 @@ const getPrevNext = async (slug: string): Promise<PostType[]> => {
  * @param {string} slug - The id of the post
  * @returns {Promise<PostType[]>} A promise that resolves to the recent posts.
  */
-export const getCachedPrevNext = async (slug: string): Promise<PostType[]> =>
+export const getCachedPrevNext = async (slug: string): Promise<TPrevNext[]> =>
     await Cached.getInstance().getOrExecute(
         getCacheKey(COLLECTION.POST, slug, 'prev-next'),
         async () => await getPrevNext(slug),

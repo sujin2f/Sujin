@@ -20,7 +20,6 @@ import {
 import Mongo from '@common/data/mongo/mongo'
 import Cached from '@common/model/Cached'
 import { ARCHIVE, COLLECTION, POST_STATUS } from '@app/_lib/types'
-import { setSystemOption } from '../admin'
 
 const mockQuery = jest.fn()
 jest.mock('promise-mysql', () => ({
@@ -33,11 +32,10 @@ describe('post.spec.ts', () => {
     beforeAll(async () => {
         await clearMongo()
         await Mongo.migrate('0.0.0', VERSION, migration)
-        await setSystemOption('version', VERSION)
     })
 
     afterEach(async () => {
-        Cached.getInstance().flush()
+        await Cached.getInstance().flush()
         await clearMongo(COLLECTION.POST, COLLECTION.CATEGORY, COLLECTION.TAG)
     })
 
@@ -119,6 +117,7 @@ describe('post.spec.ts', () => {
         const category = await categoryFactory()
         await postFactory({
             slug: 'test-post-1',
+            title: 'test-post-1',
             date: new Date('2025-06-04') as unknown as number,
             terms: [
                 {
@@ -143,6 +142,7 @@ describe('post.spec.ts', () => {
         })
         await postFactory({
             slug: 'test-post-4',
+            title: 'test-post-4',
             date: new Date('2025-06-07') as unknown as number,
             terms: [
                 {
@@ -163,8 +163,8 @@ describe('post.spec.ts', () => {
         })
 
         const result1 = await getCachedPrevNext('test-post-3')
-        expect(result1[0].slug).toEqual('test-post-1')
-        expect(result1[1].slug).toEqual('test-post-4')
+        expect(result1[0].title).toEqual('test-post-1')
+        expect(result1[1].title).toEqual('test-post-4')
     })
 
     test('getCachedRecentPosts()', async () => {

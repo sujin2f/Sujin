@@ -8,7 +8,6 @@ import Mongo from '@common/data/mongo/mongo'
 import migration from '@app/_lib/migration'
 import { imageBlock } from '@jest/fixture'
 import { COLLECTION } from '@app/_lib/types'
-import { setSystemOption } from '../admin'
 
 const mockQuery = jest.fn()
 jest.mock('../../mysql/media', () => ({
@@ -19,12 +18,11 @@ describe('background.spec.ts', () => {
     beforeAll(async () => {
         await clearMongo()
         await Mongo.migrate('0.0.0', VERSION, migration)
-        await setSystemOption('version', VERSION)
     })
 
     afterEach(async () => {
         await clearMongo(COLLECTION.BACKGROUNDS)
-        Cached.getInstance().flush()
+        await Cached.getInstance().flush()
     })
 
     afterAll(async () => {

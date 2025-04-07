@@ -20,7 +20,7 @@ interface PostProps {
 export const PrevNextClient = ({ slug }: PostProps) => {
     const posts = usePrevNext(slug)
     if (!posts) return <></>
-    return <PrevNext prev={posts[0]} next={posts[1]} />
+    return <PrevNext prev={posts[0] || false} next={posts[1] || false} />
 }
 
 const usePrevNext = (slug: string): Nullable<TPrevNext[]> => {

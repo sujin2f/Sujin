@@ -95,16 +95,11 @@ const getTotal = async (slug: string, type: ARCHIVE): Promise<number> =>
  * @param {string} slug
  * @param {ARCHIVE} type
  */
-const updateTotal = async (slug: string, type: ARCHIVE) => {
-    await getTotal(slug, type).then(
-        async (total) =>
-            await Mongo.updateOne<TermType>(
-                type,
-                { slug },
-                { $set: { total } },
-            ),
-    )
-}
+const updateTotal = async (slug: string, type: ARCHIVE) =>
+    await getTotal(slug, type).then(async (total) => {
+        await Mongo.updateOne<TermType>(type, { slug }, { $set: { total } })
+        return total
+    })
 
 /**
  * Update archive from WP

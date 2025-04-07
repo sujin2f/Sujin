@@ -20,6 +20,7 @@ import type {
     ImageSizeType,
     ImagesType,
     TagType,
+    TPrevNext,
 } from '@app/_lib/data/mysql/types'
 import type { ISpectrum } from '@app/ether/data/types'
 
@@ -151,7 +152,7 @@ const queryRecent = new GQLQuery<[], PostType[]>(
     },
 )
 
-const queryPrevNext = new GQLQuery<[string], PostType[]>(
+const queryPrevNext = new GQLQuery<[string], TPrevNext[]>(
     'prevNext',
     {
         slug: {

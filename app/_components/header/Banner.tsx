@@ -64,7 +64,7 @@ export function Banner(props: Props) {
 
                 <div className="banner__overlay"></div>
 
-                {background ? (
+                {background && background.url ? (
                     <NextImage
                         sources={getBannerImageMap(background)}
                         src={background.url}
@@ -101,7 +101,7 @@ export function Banner(props: Props) {
                 </div>
             </section>
 
-            {icon ? (
+            {icon && icon.url ? (
                 <picture className="banner__icon__container">
                     <Image
                         src={icon.url}

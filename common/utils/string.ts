@@ -94,12 +94,19 @@ export const phpUnSerialize = (input: string) => {
         if (input.startsWith('}')) {
             return '}'
         }
+        if (input.startsWith('a:{')) {
+            return 'a:{'
+        }
         if (input.startsWith('a')) {
             return 'a'
         }
-        return (
+
+        const matched =
             input.match(/^s:[0-9]+:(.*?);/) || input.match(/^[ibd]:([0-9]+);/)
-        )
+        if (!matched) {
+            return false
+        }
+        return matched
     }
 
     // First, convert all between quotes
@@ -133,10 +140,13 @@ export const phpUnSerialize = (input: string) => {
                 cursor = QuantumBool.TRUE
                 break
             case 'a':
-                const match = converted.match(/^a:[0-9]+:/)
-                if (match) {
-                    converted = converted.replace(match[0], '')
+                const matchA = converted.match(/^a:[0-9]+:/)
+                if (matchA) {
+                    converted = converted.replace(matchA[0], '')
                 }
+                break
+            case 'a:{':
+                converted = converted.replace('a:', '')
                 break
             default:
                 if (Array.isArray(block)) {

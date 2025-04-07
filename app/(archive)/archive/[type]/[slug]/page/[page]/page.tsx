@@ -21,7 +21,7 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
     const params = await props.params
     const { page } = params
     const slug = params.slug.toLowerCase()
-    const type = params.type === 'tag' ? ARCHIVE.CATEGORY : params.type
+    const type = params.type === 'tag' ? ARCHIVE.TAG : params.type
     const requestArchive = unstable_cache(
         async (slug) =>
             type === ARCHIVE.CATEGORY

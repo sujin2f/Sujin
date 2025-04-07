@@ -1,7 +1,12 @@
 // yarn test archive.spec.ts
 
 import { VERSION } from '@common/constants/helper'
-import { clearMongo, categoryFactory, tagFactory } from '@jest/helpers'
+import {
+    clearMongo,
+    categoryFactory,
+    tagFactory,
+    postFactory,
+} from '@jest/helpers'
 import {
     getCachedArchive,
     updateArchive,
@@ -14,7 +19,6 @@ import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 import { ARCHIVE, COLLECTION } from '@app/_lib/types'
 import Cached from '@common/model/Cached'
 import { category, tag } from '@jest/fixture'
-import { setSystemOption } from '../admin'
 
 const mockQuery = jest.fn()
 jest.mock('../../mysql/term', () => ({
@@ -25,11 +29,10 @@ describe('archive.spec.ts', () => {
     beforeAll(async () => {
         await clearMongo()
         await Mongo.migrate('0.0.0', VERSION, migration)
-        await setSystemOption('version', VERSION)
     })
 
     afterEach(async () => {
-        Cached.getInstance().flush()
+        await Cached.getInstance().flush()
         await clearMongo(COLLECTION.CATEGORY, COLLECTION.POST)
     })
 
@@ -42,8 +45,19 @@ describe('archive.spec.ts', () => {
 
     test('getCachedArchive()', async () => {
         const category = await categoryFactory()
+        await postFactory({
+            terms: [
+                {
+                    id: 5818,
+                    title: 'Blog',
+                    slug: category.slug,
+                    type: 'category',
+                },
+            ],
+        })
         const result = await getCachedArchive(category.slug, ARCHIVE.CATEGORY)
         expect(result.id).toEqual(category.id)
+        expect(result.total).toEqual(1)
     })
 
     test('updateArchive(): tag, New', async () => {

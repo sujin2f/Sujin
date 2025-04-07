@@ -6,9 +6,9 @@ export default async function Cache() {
     const removeCache = async (key?: string) => {
         'use server'
         if (key) {
-            Cached.getInstance().flush(key)
+            await Cached.getInstance().flush(key)
         } else {
-            Cached.getInstance().flush()
+            await Cached.getInstance().flush()
         }
     }
 

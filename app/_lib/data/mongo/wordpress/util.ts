@@ -4,6 +4,7 @@ import {
     ImagesType,
 } from '@app/_lib/data/mysql/types'
 import { IMAGE_SIZE, POST_IMAGE_LOCATION } from '@app/_lib/types'
+import { isEmpty } from '@common/utils/object'
 
 type input = Record<string, unknown>
 
@@ -27,19 +28,27 @@ export const formatImageBlock = (image: input): ImageBlockType => {
         Object.keys(obj).forEach((key) => {
             if ((Object.values(IMAGE_SIZE) as string[]).includes(key)) {
                 const image = obj[key] as input
-                sizes[key] = formatImage(image)
+                const formatted = formatImage(image)
+                if (!isEmpty(formatted)) {
+                    sizes[key] = formatImage(image)
+                }
             }
         })
     }
 
-    return {
+    const result = {
         url: image.url,
         width: image.width,
         height: image.height,
         mimeType: image.mimeType,
         title: image.title,
-        sizes,
-    } as ImageBlockType
+    }
+
+    if (isEmpty(sizes)) {
+        return result as ImageBlockType
+    }
+
+    return { ...result, sizes } as ImageBlockType
 }
 
 export const formatPostImage = (images: input): ImagesType => {

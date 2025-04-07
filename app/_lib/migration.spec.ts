@@ -19,7 +19,7 @@ describe('migration.spec.ts', () => {
     })
 
     afterEach(async () => {
-        Cached.getInstance().flush()
+        await Cached.getInstance().flush()
         await clearMongo(COLLECTION.CATEGORY, COLLECTION.POST)
     })
 

@@ -65,6 +65,10 @@ const imageBlock: { [key in keyof ImageBlockType]: object } = {
                 bsonType: 'object',
                 properties: image,
             },
+            large: {
+                bsonType: 'object',
+                properties: image,
+            },
         },
     },
     url: {
@@ -239,17 +243,9 @@ const options = {
     properties: optionsProperty,
 }
 
-/**
- * @deprecated
- */
-const archives = {
-    ...tags,
-}
-
 const defaults = {
     posts,
     pages,
-    archives,
     category,
     tags,
     backgrounds,

@@ -20,7 +20,7 @@ const migration: Migration = {
         })
 
         // Background
-        ;(async () => {
+        await (async () => {
             await database.createCollection(COLLECTION.BACKGROUNDS, {
                 validator: {
                     $jsonSchema: SCHEMA_10_2_6.backgrounds,
@@ -33,10 +33,10 @@ const migration: Migration = {
             await updateBackgrounds().catch(() => {})
         })()
         // Category
-        ;(async () => {
+        await (async () => {
             await database.createCollection(COLLECTION.CATEGORY, {
                 validator: {
-                    $jsonSchema: SCHEMA_10_2_6.archives,
+                    $jsonSchema: SCHEMA_10_2_6.category,
                 },
             })
             // Index
@@ -46,10 +46,10 @@ const migration: Migration = {
             await database.collection(COLLECTION.CATEGORY).createIndex('total')
         })()
         // Tag
-        ;(async () => {
+        await (async () => {
             await database.createCollection(COLLECTION.TAG, {
                 validator: {
-                    $jsonSchema: SCHEMA_10_2_6.archives,
+                    $jsonSchema: SCHEMA_10_2_6.tags,
                 },
             })
             // Index
@@ -60,7 +60,7 @@ const migration: Migration = {
             await database.collection(COLLECTION.TAG).createIndex('hits')
         })()
         // Options
-        ;(async () => {
+        await (async () => {
             await database.createCollection(COLLECTION.OPTIONS, {
                 validator: {
                     $jsonSchema: SCHEMA_10_2_6.options,
@@ -72,7 +72,7 @@ const migration: Migration = {
                 .createIndex('key', { unique: true })
         })()
         // Page
-        ;(async () => {
+        await (async () => {
             await database.createCollection(COLLECTION.PAGE, {
                 validator: {
                     $jsonSchema: SCHEMA_10_2_6.pages,
@@ -84,7 +84,7 @@ const migration: Migration = {
                 .createIndex('slug', { unique: true })
         })()
         // Post
-        ;(async () => {
+        await (async () => {
             await database.createCollection(COLLECTION.POST, {
                 validator: {
                     $jsonSchema: SCHEMA_10_2_6.posts,
@@ -100,7 +100,7 @@ const migration: Migration = {
                 .createIndex(['terms.slug', 'terms.type'])
         })()
         // Spectra
-        ;(async () => {
+        await (async () => {
             await database.createCollection(COLLECTION.SPECTRA)
             // Index
             await database
@@ -108,7 +108,7 @@ const migration: Migration = {
                 .createIndex(['number', 'ion'])
         })()
         // User
-        ;(async () => {
+        await (async () => {
             await database.createCollection(COLLECTION.USERS)
             // Index
             await database.collection(COLLECTION.USERS).createIndex(['email'])
