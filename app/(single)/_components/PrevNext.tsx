@@ -18,29 +18,27 @@ type Props = {
 export const PrevNext = (props: Props) => {
     return (
         <Row dom="nav" fullWidth className="prev-next__container">
-            {Object.keys(props)
-                .filter((v) => v)
-                .map((index) => {
-                    const key = index as 'prev' | 'next'
-                    const item = props[key]
-                    if (!item) return <></>
-
-                    return (
-                        <Column
-                            key={`prev-next-${item.link}`}
-                            small={12}
-                            medium={6}
-                            className={`prev-next prev-next--${key}`}
-                        >
+            {Object.keys(props).map((index) => {
+                const key = index as 'prev' | 'next'
+                const item = props[key]
+                return (
+                    <Column
+                        key={`prev-next-${key}-${JSON.stringify(item)}`}
+                        small={12}
+                        medium={6}
+                        className={`prev-next prev-next--${key}`}
+                    >
+                        {item ? (
                             <Link href={item.link} className="prev-next__link">
                                 <Icon />
                                 <span className="prev-next__link__title">
                                     {item.title}
                                 </span>
                             </Link>
-                        </Column>
-                    )
-                })}
+                        ) : null}
+                    </Column>
+                )
+            })}
         </Row>
     )
 }
