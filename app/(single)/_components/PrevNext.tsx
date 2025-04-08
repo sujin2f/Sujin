@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 /* Types */
-import type { T_PrevNext } from '@app/_lib/data/mysql/types'
+import type { T_PrevNext } from '@app/_lib/types'
 /* Assets */
 import Icon from '@app/_lib/images/prev.svg'
 import './style.scss'

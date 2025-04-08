@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 /* Components */
 import { PrevNext } from '@app/(single)/_components/PrevNext'
 /* Types */
-import type { T_PrevNext } from '@app/_lib/data/mysql/types'
+import type { T_PrevNext } from '@app/_lib/types'
 import type { Nullable } from '@common/types'
 /* CONSTANTS */
 import GQL from '@app/api/graphql/constants'
