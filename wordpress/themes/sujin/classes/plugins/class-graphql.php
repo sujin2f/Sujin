@@ -9,16 +9,33 @@
 
 namespace Sujin\Theme\Plugins;
 
+use Sujin\Wordpress\WP_Express\Fields\Settings\Input;
+
 class GraphQL {
+	private $base_url;
+	private $version;
+
+	public function __construct() {
+		$this->base_url = Input::get_instance( 'GQL Endpoint URL' )->get();
+		$this->version  = '0.0.0';
+		if ( function_exists( 'getenv_docker') ) {
+			$this->version = getenv_docker( 'VERSION', $this->version );
+		}
+	}
+
+	private function request(array $mutation): array {
+		$args     = array(
+			'headers' => array(
+				'Content-Type' => 'application/json',
+			),
+			'body'    => wp_json_encode( $mutation ),
+		);
+		$response = wp_remote_post( $this->base_url . '/api/graphql/' . $this->version, $args );
+		return $response;
+	}
+
 	public function update_background() {
 		$nonce    = wp_create_nonce( 'update_background' );
-		$base_url = get_home_url();
-
-		$version = '0.0.0';
-		if ( function_exists( 'getenv_docker') ) {
-			$version = getenv_docker( 'VERSION', $version );
-		}
-
 		$mutation = array(
 			'query' => '
 				mutation {
@@ -27,131 +44,37 @@ class GraphQL {
 					}
 				}',
 		);
-		$args     = array(
-			'headers' => array(
-				'Content-Type' => 'application/json',
-			),
-			'body'    => wp_json_encode( $mutation ),
-		);
-
 		update_option( 'update_background_' . $nonce, $nonce );
-		$response = wp_remote_post( $base_url . '/api/graphql/' . $version, $args );
-		return $response;
+		return $this->request( $mutation );
+	}
+
+	private function update( string $post_name, string $type ) {
+		$nonce    = wp_create_nonce( 'update_' . $type . '_' . $post_name );
+		$mutation = array(
+			'query' => '
+				mutation {
+					update' . ucfirst( $type ) . '(nonce: "' . $nonce . '", slug: "' . $post_name . '") {
+						result
+					}
+				}',
+		);
+		update_option( 'update_' . $type . '_' . $nonce, $nonce . '-' . $post_name );
+		return $this->request( $mutation );
 	}
 
 	public function update_page( \WP_Post $post ) {
-		$post_id  = $post->ID;
-		$nonce    = wp_create_nonce( 'update_page_' . $post_id );
-		$base_url = get_home_url();
-
-		$version = '0.0.0';
-		if ( function_exists( 'getenv_docker') ) {
-			$version = getenv_docker( 'VERSION', $version );
-		}
-
-		$mutation = array(
-			'query' => '
-				mutation {
-					updatePage(nonce: "' . $nonce . '", slug: "' . $post->post_name . '") {
-						result
-					}
-				}',
-		);
-		$args     = array(
-			'headers' => array(
-				'Content-Type' => 'application/json',
-			),
-			'body'    => wp_json_encode( $mutation ),
-		);
-
-		update_option( 'update_page_' . $nonce, $nonce . '-' . $post->post_name );
-		$response = wp_remote_post( $base_url . '/api/graphql/' . $version, $args );
-		return $response;
+		return $this->update( $post->post_name, 'page');
 	}
 
 	public function update_post( \WP_Post $post ) {
-		$post_id  = $post->ID;
-		$nonce    = wp_create_nonce( 'update_post_' . $post_id );
-		$base_url = get_home_url();
-
-		$version = '0.0.0';
-		if ( function_exists( 'getenv_docker') ) {
-			$version = getenv_docker( 'VERSION', $version );
-		}
-
-		$mutation = array(
-			'query' => '
-				mutation {
-					updatePost(nonce: "' . $nonce . '", slug: "' . $post->post_name . '") {
-						result
-					}
-				}',
-		);
-		$args     = array(
-			'headers' => array(
-				'Content-Type' => 'application/json',
-			),
-			'body'    => wp_json_encode( $mutation ),
-		);
-
-		update_option( 'update_post_' . $nonce, $nonce . '-' . $post->post_name );
-		$response = wp_remote_post( $base_url . '/api/graphql/' . $version, $args );
-		return $response;
+		return $this->update( $post->post_name, 'post');
 	}
 
 	public function update_category( string $slug ) {
-		$nonce    = wp_create_nonce( 'update_term_' . $slug );
-		$base_url = get_home_url();
-		$version  = '0.0.0';
-		if ( function_exists( 'getenv_docker') ) {
-			$version = getenv_docker( 'VERSION', $version );
-		}
-
-		$mutation = array(
-			'query' => '
-				mutation {
-					updateCategory(nonce: "' . $nonce . '", slug: "' . $slug . '") {
-						result
-					}
-				}',
-		);
-		$args     = array(
-			'headers' => array(
-				'Content-Type' => 'application/json',
-			),
-			'body'    => wp_json_encode( $mutation ),
-		);
-
-		update_option( 'update_term_' . $nonce, $nonce . '-' . $slug );
-		$response = wp_remote_post( $base_url . '/api/graphql/' . $version, $args );
-		return $response;
+		return $this->update( $slug, 'category');
 	}
 
 	public function update_tag( string $slug ) {
-		$nonce    = wp_create_nonce( 'update_term_' . $slug );
-		$base_url = get_home_url();
-		$version  = '0.0.0';
-		if ( function_exists( 'getenv_docker') ) {
-			$version = getenv_docker( 'VERSION', $version );
-		}
-
-		$mutation = array(
-			'query' => '
-				mutation {
-					updateTag(nonce: "' . $nonce . '", slug: "' . $slug . '") {
-						result
-					}
-				}',
-		);
-		$args     = array(
-			'headers' => array(
-				'Content-Type' => 'application/json',
-			),
-			'body'    => wp_json_encode( $mutation ),
-		);
-
-		update_option( 'update_term_' . $nonce, $nonce . '-' . $slug );
-		$response = wp_remote_post( $base_url . '/api/graphql/' . $version, $args );
-		return $response;
+		return $this->update( $slug, 'tag');
 	}
 }

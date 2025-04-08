@@ -163,7 +163,7 @@ export const mutateArchive = async <T extends T_Archive>(
     type: ARCHIVE,
     formatter: (term: Record<string, unknown>) => T,
 ): Promise<MutationResultType> => {
-    const optionKey = `update_term_${nonce}`
+    const optionKey = `update_${type}_${nonce}`
     const nonceValue = await getOption(optionKey)
     await removeOption(optionKey)
 
