@@ -1,7 +1,6 @@
 /* Models */
 import Mongo from '@common/data/mongo/mongo'
 import Cached from '@common/model/Cached'
-import Logger from '@common/model/Logger'
 /* Types */
 import type { MutationResultType } from '@app/api/graphql/constants'
 /* CONSTANTS */
@@ -24,6 +23,7 @@ import { removeOption, getOption } from '@app/_lib/data/mysql/option'
 import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
 import { formatImageBlock } from '@app/_lib/data/mongo/wordpress/util'
 import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
+import { isAdmin } from '@app/_lib/utils-server'
 
 export const categoryFormatter = (
     term: Record<string, unknown>,
@@ -47,6 +47,30 @@ export const categoryFormatter = (
 }
 
 /**
+ * @param {string} nonce - WP nonce
+ * @returns {Promise<void>}
+ */
+export const auth = async (
+    nonce?: string,
+    slug?: string,
+    type?: ARCHIVE,
+): Promise<void> => {
+    if (await isAdmin()) return
+
+    if (!nonce) return
+    const optionKey = `update_${type}_${nonce}`
+    const nonceValue = await getOption(optionKey)
+    await removeOption(optionKey)
+    // Nonce validation
+    if (`${nonce}-${slug}` === nonceValue) return
+
+    throw new ServerError(
+        ERROR_MESSAGE.GENERAL.UNAUTHORIZED,
+        'archive.ts::auth()',
+    )
+}
+
+/**
  * Get archive by slug
  *
  * @template {T} T_Archive
@@ -62,14 +86,10 @@ export const getCachedArchive = async <T extends T_Archive>(
     await Cached.getInstance().getOrExecute<T>(
         getCacheKey(type, slug),
         async () =>
-            await getArchive<T>(slug, type, formatter)
-                .then(async (archive) => {
-                    const total = await updateTotal(archive.slug, type)
-                    return formatter({ ...archive, total })
-                })
-                .catch(
-                    async () => await updateArchive<T>(slug, type, formatter),
-                ),
+            await getArchive<T>(slug, type, formatter).then(async (archive) => {
+                const total = await updateTotal(archive.slug, type)
+                return formatter({ ...archive, total })
+            }),
         0,
         IS_DEV,
     )
@@ -126,7 +146,10 @@ export const updateArchive = async <T extends T_Archive>(
     slug: string,
     type: ARCHIVE,
     formatter: (term: Record<string, unknown>) => T,
+    nonce?: string,
 ): Promise<T> => {
+    await auth(nonce, slug, type)
+
     await Cached.getInstance().flush(getCacheKey(type, slug))
     const table = type
 
@@ -164,20 +187,7 @@ export const mutateArchive = async <T extends T_Archive>(
     type: ARCHIVE,
     formatter: (term: Record<string, unknown>) => T,
 ): Promise<MutationResultType> => {
-    const optionKey = `update_${type}_${nonce}`
-    const nonceValue = await getOption(optionKey)
-    await removeOption(optionKey)
-
-    // Nonce validation
-    if (`${nonce}-${slug}` !== nonceValue) {
-        throw new ServerError(
-            ERROR_MESSAGE.GENERAL.NONCE_FAILED,
-            'mutateArchive()',
-        )
-    }
-
-    await updateArchive<T>(slug, type, formatter)
-    Logger.server(`Updated MongoDB ${type}: ${slug}`)
+    await updateArchive<T>(slug, type, formatter, nonce)
     return {
         result: true,
     }
@@ -195,6 +205,7 @@ export const getArchives = async <T extends T_Archive>(
     ).then((terms) => terms.map((term) => formatter(term)))
 
 export const removeArchive = async (slug: string, type: ARCHIVE) => {
+    await auth()
     await Cached.getInstance().flush(getCacheKey(type, slug))
     await Mongo.deleteOne(type, { slug })
 }

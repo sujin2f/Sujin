@@ -8,9 +8,17 @@ import { default as SCHEMA_10_2_6 } from '@app/_lib/schema/10.2.6'
 import Cached from '@common/model/Cached'
 /* Utils */
 import { updateBackgrounds } from '@app/_lib/data/mongo/wordpress/background'
+import { isAdmin } from '@app/_lib/utils-server'
+import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 
 const migration: Migration = {
     '10.2.6': async (client) => {
+        if (!(await isAdmin()))
+            throw new ServerError(
+                ERROR_MESSAGE.GENERAL.UNAUTHORIZED,
+                'migration',
+            )
+
         const database = client.db(MONGO_DATABASE)
         // Drop all collections
         await database.collections().then(async (collections) => {

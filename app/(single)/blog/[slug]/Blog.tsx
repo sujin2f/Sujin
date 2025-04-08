@@ -1,4 +1,3 @@
-import { getServerSession } from 'next-auth'
 import { notFound } from 'next/navigation'
 import { unstable_cache } from 'next/cache'
 /* Components */
@@ -16,13 +15,11 @@ import { GoogleAdvert } from '@app/_components/GoogleAdvert'
 /* CONSTANTS */
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV, VERSION } from '@common/constants/helper'
-import { IMAGE_SIZE, POST_STATUS } from '@app/_lib/types'
+import { IMAGE_SIZE } from '@app/_lib/types'
 /* Utils */
 import { getCachedPost } from '@app/_lib/data/mongo/wordpress/post'
 import { updateHits } from '@app/_lib/data/mongo/wordpress/tag'
 import { getThumbnailFromPost } from '@app/_lib/data/mysql/utils'
-import { isAdmin } from '@app/_lib/utils-server'
-import { authOptions } from '@app/api/auth/constants'
 
 type Props = {
     params: Promise<{
@@ -31,11 +28,9 @@ type Props = {
 }
 
 export default async function Blog(props: Props) {
-    const session = await getServerSession(authOptions)
     const { slug } = await props.params
-    const admin = isAdmin(session?.user?.email)
     const requestPost = unstable_cache(
-        async (slug) => await getCachedPost(slug, admin),
+        async (slug) => await getCachedPost(slug),
         [slug, VERSION],
         {
             tags: ['wordpress', 'post'],
@@ -43,9 +38,6 @@ export default async function Blog(props: Props) {
         },
     )
     const post = await requestPost(slug.toLowerCase()).catch(() => notFound())
-    if (post.status !== POST_STATUS.PUBLISH && !admin) {
-        notFound()
-    }
     const thumbnail = getThumbnailFromPost(post, IMAGE_SIZE.MEDIUM_LARGE)
     const tags = post.terms.filter((term) => term.type === 'tag')
 

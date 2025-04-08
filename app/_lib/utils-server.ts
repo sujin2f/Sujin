@@ -1,6 +1,8 @@
 import { headers } from 'next/headers'
+import { getServerSession } from 'next-auth'
 import type { Nullable } from '@common/types'
 import { Metadata, METADATA } from '@app/_lib/constants'
+import { authOptions } from '@app/api/auth/constants'
 
 /**
  * Retrieves the current pathname from the headers.
@@ -36,6 +38,7 @@ export const getMetaData = async (): Promise<Metadata> => {
     return METADATA[path]
 }
 
-export const isAdmin = (email?: string | null): boolean => {
-    return email === process.env.ADMIN_EMAIL
+export const isAdmin = async (): Promise<boolean> => {
+    const session = await getServerSession(authOptions)
+    return session?.user?.email === process.env.ADMIN_EMAIL
 }

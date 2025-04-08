@@ -2,7 +2,6 @@ import type { Filter, WithId } from 'mongodb'
 /* Models */
 import Mongo from '@common/data/mongo/mongo'
 import Cached from '@common/model/Cached'
-import Logger from '@common/model/Logger'
 /* Utils */
 import { getPostBy, getPostsBy } from '@app/_lib/data/mysql/post'
 import { updateTag } from '@app/_lib/data/mongo/wordpress/tag'
@@ -12,6 +11,7 @@ import { updateCategory } from '@app/_lib/data/mongo/wordpress/category'
 import { getOption, removeOption } from '@app/_lib/data/mysql/option'
 import { MutationResultType } from '@app/api/graphql/constants'
 import { formatPostImage } from '@app/_lib/data/mongo/wordpress/util'
+import { isAdmin } from '@app/_lib/utils-server'
 /* CONSTANTS */
 // import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV } from '@common/constants/helper'
@@ -26,6 +26,7 @@ import {
     T_MySQLPost,
     T_PrevNext,
 } from '@app/_lib/types'
+import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 
 const format = (page: WithId<T_Post> | T_Post | T_MySQLPost): T_Post => ({
     id: page.id,
@@ -44,6 +45,22 @@ const format = (page: WithId<T_Post> | T_Post | T_MySQLPost): T_Post => ({
 })
 
 /**
+ * @param {string} nonce - WP nonce
+ * @returns {Promise<void>}
+ */
+export const auth = async (nonce?: string, slug?: string): Promise<void> => {
+    if (await isAdmin()) return
+
+    if (!nonce) return
+    const nonceKey = `update_post_${nonce}`
+    const nonceValue = await getOption(nonceKey)
+    await removeOption(nonceKey)
+    if (nonceValue === `${nonce}-${slug}`) return
+
+    throw new ServerError(ERROR_MESSAGE.GENERAL.UNAUTHORIZED, 'post.ts::auth()')
+}
+
+/**
  * Get single post by slug
  * This returns the cached result if it exists
  *
@@ -51,12 +68,9 @@ const format = (page: WithId<T_Post> | T_Post | T_MySQLPost): T_Post => ({
  * @param {boolean} ignoreStatus - The flag to ignore status
  * @returns {Promise<WithId<WPPost>>} - The post object
  */
-export const getCachedPost = async (
-    slug: string,
-    ignoreStatus: boolean = false,
-): Promise<T_Post> => {
+export const getCachedPost = async (slug: string): Promise<T_Post> => {
     const doc: Filter<T_Post> = { slug }
-    if (!ignoreStatus) {
+    if (!(await isAdmin())) {
         doc.status = POST_STATUS.PUBLISH
     }
 
@@ -131,7 +145,8 @@ const updateArchives = async (categories: string[], tags: string[]) => {
     }
 }
 
-export const updatePost = async (slug: string) => {
+export const updatePost = async (slug: string, nonce?: string) => {
+    await auth(nonce, slug)
     Cached.getInstance().flush(getCacheKey(COLLECTION.POST, slug))
     await getPostBy('slug', slug, POST_TYPE.POST, true).then(async (post) => {
         const [, categories, tags] = await updateMongoFromMySQL(post)
@@ -144,6 +159,7 @@ export const updateArchivePosts = async (
     slug: string,
     page: number,
 ): Promise<T_Post[]> => {
+    await auth()
     Cached.getInstance().flush(getCacheKey(COLLECTION.POST))
     Cached.getInstance().flush(getCacheKey(type, slug))
 
@@ -169,12 +185,11 @@ export const getArchivePosts = async (
     type: string,
     slug: string,
     page: number,
-    ignoreStatus: boolean = false,
 ): Promise<T_Post[]> => {
     const doc: Filter<T_Post> = {
         terms: { $elemMatch: { slug, type } },
     }
-    if (!ignoreStatus) doc.status = POST_STATUS.PUBLISH
+    if (!(await isAdmin())) doc.status = POST_STATUS.PUBLISH
     return await Mongo.findMany<T_Post>(COLLECTION.POST, doc, {
         sort: { date: -1 },
         limit: PER_PAGE,
@@ -378,20 +393,7 @@ export const mutatePost = async (
     nonce: string,
     slug: string,
 ): Promise<MutationResultType> => {
-    Logger.server('GQL Server mutatePost: started.')
-    const nonceKey = `update_post_${nonce}`
-    const nonceValue = await getOption(nonceKey)
-    await removeOption(nonceKey)
-
-    if (nonceValue !== `${nonce}-${slug}`) {
-        const message = 'GQL Server mutatePost: got invalid nonce.'
-        Logger.server(message)
-        throw new Error(message)
-    }
-
-    await updatePost(slug)
-    Logger.server(`GQL Server mutatePost: ${slug} updated.`)
-
+    await updatePost(slug, nonce)
     return {
         result: true,
     }
