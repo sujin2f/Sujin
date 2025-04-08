@@ -10,8 +10,6 @@ import {
     GQLType,
 } from '@common/data/graphql/type'
 /* Types */
-import type { FlickrImage as TypeFlickrImage } from '@app/_lib/data/flickr/type'
-import type { T_PrevNext } from '@app/_lib/data/mysql/types'
 import type {
     T_Term,
     T_Image,
@@ -21,6 +19,8 @@ import type {
     T_Archive,
     T_Tag,
     T_Post,
+    T_PrevNext,
+    T_FlickrImage,
 } from '@app/_lib/types'
 import type { ISpectrum } from '@app/ether/data/types'
 
@@ -90,7 +90,7 @@ const Term = new GQLType<T_Term>('Term', {
 
 Post.addField('terms', { type: Term, list })
 
-const FlickrImage = new GQLType<TypeFlickrImage>('FlickrImage', {
+const FlickrImage = new GQLType<T_FlickrImage>('FlickrImage', {
     title: { type: GQLString },
     link: { type: GQLString },
     media: { type: GQLString },
@@ -125,7 +125,7 @@ const queryArchivePosts = new GQLQuery<[string, string, number], T_Post[]>(
     },
 )
 
-const queryFlickr = new GQLQuery<[], TypeFlickrImage[]>(
+const queryFlickr = new GQLQuery<[], T_FlickrImage[]>(
     'flickr',
     {},
     {

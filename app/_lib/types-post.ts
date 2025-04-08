@@ -1,4 +1,27 @@
-import { T_Term, T_PostImages, POST_STATUS } from '@app/_lib/types'
+import { ConstToType } from '@common/types'
+import { T_Term, T_PostImages } from '@app/_lib/types'
+
+/**
+ * WP Post types
+ * @enum
+ */
+export const POST_TYPE = {
+    POST: 'post',
+    PAGE: 'page',
+    ATTACHMENT: 'attachment',
+} as const
+export type POST_TYPE = ConstToType<typeof POST_TYPE>
+
+/**
+ * @enum
+ * @todo use this
+ */
+export const POST_STATUS = {
+    PUBLISH: 'publish',
+    DRAFT: 'draft',
+    TRASH: 'trash',
+} as const
+export type POST_STATUS = ConstToType<typeof POST_STATUS>
 
 // Post and Page
 export type T_PrevNext = {
