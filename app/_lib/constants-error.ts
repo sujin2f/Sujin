@@ -1,7 +1,7 @@
 import Logger from '@common/model/Logger'
 import { ConstToType } from '@common/types'
 
-// A.[MO:mongo, MY:mysql].nnnn
+// A.[MO:mongo, MY:mysql].nnnn  🤩 Log 😩 Warn 🤬 Fatal
 export const ERROR_MESSAGE = {
     ATTACHMENT: {
         DELETE_MANY: ['A.MO.0000', '🤬 Failed to delete backgrounds'],

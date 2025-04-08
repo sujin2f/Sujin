@@ -15,7 +15,7 @@ type Props = {
 
 export async function ServerComponent({ slug, ...props }: Props) {
     const page = parseInt(props.page)
-    const posts = await getArchivePosts(ARCHIVE.CATEGORY, slug, page)
+    const posts = await getArchivePosts(ARCHIVE.CATEGORY, slug, page, false)
 
     const update = async (slug: string, page: number) => {
         'use server'

@@ -7,6 +7,6 @@ import { isAdmin } from '@app/_lib/utils-server'
  * Wrapper for admin access
  */
 export async function AdminWrapperServer({ children }: PropsWithChildren) {
-    if (!isAdmin()) notFound()
+    if (!(await isAdmin())) notFound()
     return children
 }

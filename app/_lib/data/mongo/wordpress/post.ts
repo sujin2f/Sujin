@@ -74,6 +74,8 @@ export const getCachedPost = async (slug: string): Promise<T_Post> => {
         doc.status = POST_STATUS.PUBLISH
     }
 
+    console.log(doc)
+
     return await Cached.getInstance().getOrExecute(
         getCacheKey(COLLECTION.POST, slug),
         async () =>
@@ -185,11 +187,14 @@ export const getArchivePosts = async (
     type: string,
     slug: string,
     page: number,
+    pub: boolean = true,
 ): Promise<T_Post[]> => {
     const doc: Filter<T_Post> = {
         terms: { $elemMatch: { slug, type } },
     }
-    if (!(await isAdmin())) doc.status = POST_STATUS.PUBLISH
+
+    if (pub || !(await isAdmin())) doc.status = POST_STATUS.PUBLISH
+
     return await Mongo.findMany<T_Post>(COLLECTION.POST, doc, {
         sort: { date: -1 },
         limit: PER_PAGE,

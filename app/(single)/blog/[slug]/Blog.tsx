@@ -15,7 +15,7 @@ import { GoogleAdvert } from '@app/_components/GoogleAdvert'
 /* CONSTANTS */
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV, VERSION } from '@common/constants/helper'
-import { IMAGE_SIZE } from '@app/_lib/types'
+import { IMAGE_SIZE, POST_STATUS } from '@app/_lib/types'
 /* Utils */
 import { getCachedPost } from '@app/_lib/data/mongo/wordpress/post'
 import { updateHits } from '@app/_lib/data/mongo/wordpress/tag'
@@ -42,7 +42,7 @@ export default async function Blog(props: Props) {
     const tags = post.terms.filter((term) => term.type === 'tag')
 
     // Update Tag Cloud
-    if (tags.length) {
+    if (tags.length && post.status === POST_STATUS.PUBLISH) {
         tags.forEach((tag) => updateHits(tag.slug))
     }
 

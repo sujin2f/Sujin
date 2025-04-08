@@ -8,6 +8,14 @@ import { AdminWrapperServer } from '@app/_components/session/AdminWrapperServer'
 /* Assets */
 import './style.scss'
 
+export const metadata = {
+    robots: {
+        index: false,
+        follow: false,
+        nocache: false,
+    },
+}
+
 /**
  * Layout component that wraps the application with admin layout elements.
  * @param {ReactNode} props.children - The content to be wrapped by the layout.
