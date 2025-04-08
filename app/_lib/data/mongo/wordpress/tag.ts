@@ -21,7 +21,7 @@ import { getCacheKey } from '@app/_lib/utils'
 import { shuffle } from '@common/utils/array'
 import { ARCHIVE } from '@app/_lib/types'
 
-export const formatter = (term: Record<string, unknown>): TagType => {
+const formatter = (term: Record<string, unknown>): TagType => {
     const formatted = {
         ...categoryFormatter(term),
         hits: 0,

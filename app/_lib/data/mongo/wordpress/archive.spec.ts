@@ -12,6 +12,7 @@ import {
     updateArchive,
     removeArchive,
     getArchives,
+    categoryFormatter,
 } from './archive'
 import Mongo from '@common/data/mongo/mongo'
 import migration from '@app/_lib/migration'
@@ -55,7 +56,11 @@ describe('archive.spec.ts', () => {
                 },
             ],
         })
-        const result = await getCachedArchive(category.slug, ARCHIVE.CATEGORY)
+        const result = await getCachedArchive(
+            category.slug,
+            ARCHIVE.CATEGORY,
+            categoryFormatter,
+        )
         expect(result.id).toEqual(category.id)
         expect(result.total).toEqual(1)
     })
@@ -67,7 +72,7 @@ describe('archive.spec.ts', () => {
             Promise.resolve({ ...tag, slug, title: 'Changed' }),
         )
 
-        await updateArchive(slug, ARCHIVE.TAG)
+        await updateArchive(slug, ARCHIVE.TAG, (item) => item)
         const result = await Mongo.findOne(ARCHIVE.TAG, {
             slug,
         })
@@ -85,7 +90,7 @@ describe('archive.spec.ts', () => {
             }),
         )
 
-        await updateArchive(slug, ARCHIVE.CATEGORY)
+        await updateArchive(slug, ARCHIVE.CATEGORY, categoryFormatter)
         const result = await Mongo.findOne(ARCHIVE.CATEGORY, {
             slug,
         })
@@ -99,7 +104,7 @@ describe('archive.spec.ts', () => {
             Promise.resolve({ ...tag, slug, title: 'Changed' }),
         )
 
-        await updateArchive(slug, ARCHIVE.TAG)
+        await updateArchive(slug, ARCHIVE.TAG, (item) => item)
         const result = await Mongo.findOne(ARCHIVE.TAG, {
             slug,
         })
@@ -114,7 +119,7 @@ describe('archive.spec.ts', () => {
             Promise.resolve({ ...category, title: 'Changed' }),
         )
 
-        await updateArchive(category.slug, ARCHIVE.CATEGORY)
+        await updateArchive(category.slug, ARCHIVE.CATEGORY, categoryFormatter)
         const result = await Mongo.findOne(COLLECTION.CATEGORY, {
             id: category.id,
         })
@@ -125,7 +130,7 @@ describe('archive.spec.ts', () => {
         for (let i = 0; i < PER_PAGE + 1; i++) {
             await categoryFactory()
         }
-        const result = await getArchives(2, ARCHIVE.CATEGORY)
+        const result = await getArchives(2, ARCHIVE.CATEGORY, categoryFormatter)
         expect(result.length).toBe(1)
     })
 })

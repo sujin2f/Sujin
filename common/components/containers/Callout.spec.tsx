@@ -6,7 +6,7 @@
 import '@testing-library/jest-dom'
 import React from 'react'
 import { render } from '@testing-library/react'
-import { Callout } from './Callout'
+import Callout from './Callout'
 
 describe('Callout.ts', () => {
     it('Base', async () => {
