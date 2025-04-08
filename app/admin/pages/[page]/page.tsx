@@ -7,5 +7,6 @@ type Props = {
 }
 
 export default async function Page(props: Props) {
-    return <ServerComponent {...props} />
+    const params = await props.params
+    return <ServerComponent {...params} />
 }

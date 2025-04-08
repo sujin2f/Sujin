@@ -10,7 +10,7 @@ import type { MutationResultType } from '@app/api/graphql/constants'
 import {
     getCachedArchive,
     updateArchive,
-    secureUpdateArchive,
+    mutateArchive,
     getArchives,
     removeArchive,
     categoryFormatter,
@@ -44,7 +44,7 @@ export const mutateTag = async (
     nonce: string,
     slug: string,
 ): Promise<MutationResultType> =>
-    await secureUpdateArchive(nonce, slug, ARCHIVE.TAG, formatter)
+    await mutateArchive(nonce, slug, ARCHIVE.TAG, formatter)
 
 export const getTags = async (page: number = 1): Promise<TagType[]> =>
     await getArchives(page, ARCHIVE.TAG, formatter)

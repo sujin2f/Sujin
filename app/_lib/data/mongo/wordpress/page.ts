@@ -103,6 +103,7 @@ export const updatePage = async (slug: string): Promise<PageType> => {
         page.images[imageKey] = convertImageBlockURL(page.images[imageKey]!)
     })
     await Mongo.insertOrReplace(COLLECTION.PAGE, { slug }, page)
+    await Cached.getInstance().set(getCacheKey(COLLECTION.PAGE), page)
     return page
 }
 

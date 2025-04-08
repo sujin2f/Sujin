@@ -7,14 +7,11 @@ import {
 import { ClientComponent } from '@app/admin/backgrounds/backgrounds-client'
 
 type Props = {
-    params: Promise<{
-        page: string
-    }>
+    page: string
 }
 
 export async function ServerComponent(props: Props) {
-    const params = await props.params
-    const page = parseInt(params.page)
+    const page = parseInt(props.page)
     const backgrounds = await getBackgrounds()
 
     const refresh = async () => {

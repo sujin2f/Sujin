@@ -1,4 +1,4 @@
-import Categories from '@app/admin/categories/[page]/Categories'
+import { ServerComponent } from '@app/admin/categories/categories-server'
 
 type Props = {
     params: Promise<{
@@ -7,5 +7,6 @@ type Props = {
 }
 
 export default async function Page(props: Props) {
-    return <Categories {...props} />
+    const params = await props.params
+    return <ServerComponent {...params} />
 }

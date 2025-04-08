@@ -56,7 +56,7 @@ export const getCachedBackgrounds = async (): Promise<T_Background[]> => {
 export const updateBackgrounds = async (): Promise<T_Background[]> => {
     Cached.getInstance().flush(getCacheKey(COLLECTION.BACKGROUNDS))
     Logger.server('Calling MySQL getBackgrounds')
-    return await getMySQLBackgrounds().then(async (result) => {
+    const backgrounds = await getMySQLBackgrounds().then(async (result) => {
         const backgrounds = result.map((image) =>
             format(convertImageBlockURL(format(image))),
         )
@@ -79,6 +79,13 @@ export const updateBackgrounds = async (): Promise<T_Background[]> => {
 
         return backgrounds.map((image) => format(image))
     })
+
+    await Cached.getInstance().set(
+        getCacheKey(COLLECTION.BACKGROUNDS),
+        backgrounds,
+        0,
+    )
+    return backgrounds
 }
 
 export const getBackgrounds = async (page: number = 1) =>

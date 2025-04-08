@@ -21,6 +21,7 @@ import { getCacheKey } from '@app/_lib/utils'
 import { removeOption, getOption } from '@app/_lib/data/mysql/option'
 import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
 import { formatImageBlock } from '@app/_lib/data/mongo/wordpress/util'
+import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 
 export const categoryFormatter = (
     term: Record<string, unknown>,
@@ -142,6 +143,7 @@ export const updateArchive = async <T extends ArchiveType>(
 
     const formatted = formatter(term)
     await Mongo.insertOrReplace<ArchiveType>(table, { slug }, formatted)
+    await Cached.getInstance().set(getCacheKey(type, slug), formatted)
     return formatted as unknown as T
 }
 
@@ -153,7 +155,7 @@ export const updateArchive = async <T extends ArchiveType>(
  * @returns {Promise<MutationResultType>} An object indicating the result of the operation.
  * @throws {Error} Throws an error if the nonce value is invalid.
  */
-export const secureUpdateArchive = async <T extends ArchiveType>(
+export const mutateArchive = async <T extends ArchiveType>(
     nonce: string,
     slug: string,
     type: ARCHIVE,
@@ -165,9 +167,10 @@ export const secureUpdateArchive = async <T extends ArchiveType>(
 
     // Nonce validation
     if (`${nonce}-${slug}` !== nonceValue) {
-        const message = 'secureUpdateTerm got invalid nonce.'
-        Logger.server(message)
-        throw Error(message)
+        throw new ServerError(
+            ERROR_MESSAGE.GENERAL.NONCE_FAILED,
+            'mutateArchive()',
+        )
     }
 
     await updateArchive<T>(slug, type, formatter)

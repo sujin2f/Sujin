@@ -6,7 +6,7 @@ import { ARCHIVE } from '@app/_lib/types'
 import {
     getCachedArchive,
     updateArchive,
-    secureUpdateArchive,
+    mutateArchive,
     getArchives,
     removeArchive,
     categoryFormatter,
@@ -22,7 +22,7 @@ export const mutateCategory = async (
     nonce: string,
     slug: string,
 ): Promise<MutationResultType> =>
-    await secureUpdateArchive(nonce, slug, ARCHIVE.CATEGORY, categoryFormatter)
+    await mutateArchive(nonce, slug, ARCHIVE.CATEGORY, categoryFormatter)
 
 export const getCategories = async (page: number = 1) =>
     await getArchives(page, ARCHIVE.CATEGORY, categoryFormatter)

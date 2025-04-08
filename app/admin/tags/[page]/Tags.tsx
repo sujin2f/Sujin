@@ -8,14 +8,11 @@ import Header from '@app/admin/_components/Header'
 import { getTags } from '@app/_lib/data/mongo/wordpress/tag'
 
 type Props = {
-    params: Promise<{
-        page: string
-    }>
+    page: string
 }
 
 export default async function Tags(props: Props) {
-    const params = await props.params
-    const page = parseInt(params.page)
+    const page = parseInt(props.page)
     const terms = await getTags(page)
 
     return (
@@ -34,7 +31,7 @@ export default async function Tags(props: Props) {
                         <tbody>
                             {terms.map((term) => (
                                 <tr key={`admin-posts-${term.id}`}>
-                                    <td>{term.id}</td>
+                                    <td className="center">{term.id}</td>
                                     <td>{term.title}</td>
                                     <td>{term.slug}</td>
                                 </tr>

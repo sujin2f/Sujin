@@ -12,7 +12,10 @@ export const ERROR_MESSAGE: Record<string, Record<string, [string, string]>> = {
         ],
     },
     POST: {
-        SQL_GET_ONE: ['P.MY.0000', '🤬 Failed to get the post'],
+        SQL_GET_ONE: ['P.MY.0000', '🤬 Failed to get MySQL post'],
+    },
+    ARCHIVE: {
+        SQL_GET_ONE: ['T.MY.0000', '🤬 Failed to get MySQL term'],
     },
     GENERAL: {
         NONCE_FAILED: ['G.0000', '🤬 GQL Server mutatePage: got invalid nonce'],

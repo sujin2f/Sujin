@@ -11,6 +11,7 @@ import Logger from '@common/model/Logger'
 import type { T_ImageBlock } from '@app/_lib/types'
 import type { ArchiveType, TermType } from '@app/_lib/data/mysql/types'
 import type { Nullable } from '@common/types'
+import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 
 const getMeta = async <T = string>(id: number, metaKey: string): Promise<T> =>
     await MySQL.getInstance().selectOne<T>(MySQLQuery.getTermMeta(id, metaKey))
@@ -53,9 +54,12 @@ export const getArchiveBySlug = async (
     const archive = await MySQL.getInstance()
         .selectOne<ArchiveType>(MySQLQuery.getArchiveBy('slug', slug))
         .catch(() => {
-            const message = `Failed to get MySQL archive type: ${type} and slug: ${slug}.`
-            Logger.server(message)
-            throw new Error(message)
+            throw new ServerError(
+                ERROR_MESSAGE.ARCHIVE.SQL_GET_ONE,
+                'getArchiveBySlug()',
+                type,
+                slug,
+            )
         })
 
     const image = await getThumbnail(archive)

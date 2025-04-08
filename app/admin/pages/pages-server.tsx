@@ -8,14 +8,11 @@ import {
 } from '@app/_lib/data/mongo/wordpress/page'
 
 type Props = {
-    params: Promise<{
-        page: string
-    }>
+    page: string
 }
 
 export async function ServerComponent(props: Props) {
-    const params = await props.params
-    const page = parseInt(params.page)
+    const page = parseInt(props.page)
     const pages = await getPages(page)
 
     const remove = async (slug: string): Promise<string> => {
