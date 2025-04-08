@@ -11,18 +11,16 @@ import {
 } from '@common/data/graphql/type'
 /* Types */
 import type { FlickrImage as TypeFlickrImage } from '@app/_lib/data/flickr/type'
+import type { T_PrevNext } from '@app/_lib/data/mysql/types'
 import type {
-    TermType,
-    PostType,
-    ArchiveType,
-    TagType,
-    T_PrevNext,
-} from '@app/_lib/data/mysql/types'
-import type {
+    T_Term,
     T_Image,
     T_ImageSize,
     T_ImageBlock,
     T_PostImages,
+    T_Archive,
+    T_Tag,
+    T_Post,
 } from '@app/_lib/types'
 import type { ISpectrum } from '@app/ether/data/types'
 
@@ -66,7 +64,7 @@ const PostMeta = new GQLType('PostMeta', {
     backgroundColor: { type: GQLString },
 })
 
-const Post = new GQLType<PostType>('Post', {
+const Post = new GQLType<T_Post>('Post', {
     id: { type: GQLInt },
     slug: { type: GQLString },
     title: { type: GQLString },
@@ -83,7 +81,7 @@ const PrevNext = new GQLType('PrevNext', {
     next: { type: Post },
 })
 
-const Term = new GQLType<TermType>('Term', {
+const Term = new GQLType<T_Term>('Term', {
     id: { type: GQLInt },
     title: { type: GQLString },
     slug: { type: GQLString },
@@ -98,7 +96,7 @@ const FlickrImage = new GQLType<TypeFlickrImage>('FlickrImage', {
     media: { type: GQLString },
 })
 
-const TagCloud = new GQLType<ArchiveType>('TagCloud', {
+const TagCloud = new GQLType<T_Archive>('TagCloud', {
     id: { type: GQLInt },
     title: { type: GQLString },
     slug: { type: GQLString },
@@ -106,7 +104,7 @@ const TagCloud = new GQLType<ArchiveType>('TagCloud', {
     hits: { type: GQLInt },
 })
 
-const queryArchivePosts = new GQLQuery<[string, string, number], PostType[]>(
+const queryArchivePosts = new GQLQuery<[string, string, number], T_Post[]>(
     'archivePosts',
     {
         type: {
@@ -136,7 +134,7 @@ const queryFlickr = new GQLQuery<[], TypeFlickrImage[]>(
     },
 )
 
-const queryTagCloud = new GQLQuery<[], TagType[]>(
+const queryTagCloud = new GQLQuery<[], T_Tag[]>(
     'tagCloud',
     {},
     {
@@ -145,7 +143,7 @@ const queryTagCloud = new GQLQuery<[], TagType[]>(
     },
 )
 
-const queryRecent = new GQLQuery<[], PostType[]>(
+const queryRecent = new GQLQuery<[], T_Post[]>(
     'recent',
     {},
     {
@@ -167,7 +165,7 @@ const queryPrevNext = new GQLQuery<[string], T_PrevNext[]>(
     },
 )
 
-const queryRelatedPosts = new GQLQuery<[string], PostType[]>(
+const queryRelatedPosts = new GQLQuery<[string], T_Post[]>(
     'relatedPosts',
     {
         slug: {

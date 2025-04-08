@@ -4,8 +4,7 @@
  * @module constants
  */
 
-import type { POST_TYPE } from '@app/_lib/types'
-import { TAXONOMY } from '@app/_lib/types'
+import { type POST_TYPE, TAXONOMY } from '@app/_lib/types'
 
 /**
  * Making a formatted string
@@ -249,13 +248,4 @@ export const MySQLQuery = {
     deletePostMeta: (postId: number, metaKey: string) => {
         return format(DELETE_POST_META, postId, metaKey)
     },
-}
-
-export enum MetaKeys {
-    ATTACHMENT_META = '_wp_attachment_metadata',
-}
-
-export enum MenuItemTypes {
-    POST_TYPE = 'post_type',
-    TAXONOMY = 'taxonomy',
 }

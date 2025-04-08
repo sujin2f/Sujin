@@ -11,12 +11,12 @@ import { Column } from '@common/components/layout/Column'
 import Header from '@app/admin/_components/Header'
 import Callout from '@common/components/containers/Callout'
 /* Types */
-import { PostType } from '@app/_lib/data/mysql/types'
+import { T_Post } from '@app/_lib/types'
 
 type Props = {
     readonly page: number
     readonly slug: string
-    readonly posts: PostType[]
+    readonly posts: T_Post[]
     readonly update: (slug: string, page: number) => Promise<string>
 }
 

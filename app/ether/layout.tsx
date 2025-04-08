@@ -1,10 +1,7 @@
 import type { Metadata } from 'next/types'
 import type { PropsWithChildren } from 'react'
 /* Components */
-import { Header } from '@app/_components/header'
 import { Footer } from '@app/_components/footer'
-/* CONSTANTS */
-import { MENU_NAMES } from '@app/_lib/types'
 /* Utils */
 import { getMetaData } from '@app/_lib/utils-server'
 
@@ -29,7 +26,6 @@ export const generateMetadata = async (): Promise<Metadata> => {
 export default async function Layout({ children }: PropsWithChildren) {
     return (
         <>
-            <Header menu={MENU_NAMES.ETHER_KOR} />
             {children}
             <Footer />
         </>

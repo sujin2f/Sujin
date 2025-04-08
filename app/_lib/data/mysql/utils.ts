@@ -1,11 +1,12 @@
 import { unserialize as phpUnserialize } from 'php-unserialize' // @todo Do not use module
 import { DEFAULT_THUMBNAIL } from '@app/_lib/constants'
-import { type PostType, type PageType } from '@app/_lib/data/mysql/types'
 import { ImageMap } from '@common/components/containers/Picture'
 import {
     IMAGE_SIZE,
     IMAGE_SIZE_BACKGROUND,
     T_ImageBlock,
+    T_Post,
+    T_Page,
 } from '@app/_lib/types'
 import { entries } from '@common/utils/object'
 // import { phpUnSerialize } from '@common/utils/string'
@@ -371,10 +372,7 @@ export const unserialize = <
     return result as T
 }
 
-export const getThumbnailFromPost = (
-    post: PostType | PageType,
-    size: IMAGE_SIZE,
-) =>
+export const getThumbnailFromPost = (post: T_Post | T_Page, size: IMAGE_SIZE) =>
     post.images.list?.sizes?.[size]?.url ||
     post.images.thumbnail?.sizes?.[size]?.url ||
     DEFAULT_THUMBNAIL

@@ -1,7 +1,7 @@
 // yarn test util.spec.ts
 
 import { IMAGE_SIZE } from '@app/_lib/types-image'
-import { formatImage, formatImageBlock, formatPostImage } from './util'
+import { formatImageBlock, formatPostImage } from './util'
 
 const expected = {
     url: '/wp-content/uploads/test-medium.jpg',
@@ -58,11 +58,6 @@ const requestedPostImage = {
 }
 
 describe('util.spec.ts', () => {
-    test('formatImage()', async () => {
-        const result = formatImage(image)
-        expect(result).toStrictEqual(expected)
-    })
-
     test('formatImageBlock()', async () => {
         const result = formatImageBlock(requestImageBlock, IMAGE_SIZE)
         expect(result).toStrictEqual(expectedImageBlock)

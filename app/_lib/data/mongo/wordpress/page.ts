@@ -5,7 +5,12 @@ import Mongo from '@common/data/mongo/mongo'
 /* CONSTANTS */
 // import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV } from '@common/constants/helper'
-import { COLLECTION, POST_IMAGE_LOCATION, POST_TYPE } from '@app/_lib/types'
+import {
+    COLLECTION,
+    POST_IMAGE_LOCATION,
+    POST_TYPE,
+    T_Page,
+} from '@app/_lib/types'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 /* Utils */
 import { removeOption, getOption } from '@app/_lib/data/mysql/option'
@@ -14,11 +19,10 @@ import { getPostBy } from '@app/_lib/data/mysql/post'
 import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
 import { formatPostImage } from '@app/_lib/data/mongo/wordpress/util'
 /* Types */
-import { type PageType } from '@app/_lib/data/mysql/types'
 import type { MutationResultType } from '@app/api/graphql/constants'
 import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 
-const format = (page: WithId<PageType> | PageType): PageType => ({
+const format = (page: WithId<T_Page> | T_Page): T_Page => ({
     id: page.id,
     slug: page.slug,
     title: page.title,
@@ -65,16 +69,15 @@ export const mutatePage = async (
  * This returns the cached result if it exists
  *
  * @param {string} slug - Post slug
- * @param {boolean} ignoreStatus - The flag to ignore status
- * @returns {Promise<Page>} - The post object
+ * @returns {Promise<T_Page>} - The post object
  * @throws {Error} - MySQL page cannot be found
  */
-export const getCachedPage = async (slug: string): Promise<PageType> =>
+export const getCachedPage = async (slug: string): Promise<T_Page> =>
     await Cached.getInstance().getOrExecute(
         getCacheKey(COLLECTION.PAGE, slug),
         async () => {
-            const doc: Filter<PageType> = { slug }
-            const page = await Mongo.findOne<PageType>(
+            const doc: Filter<T_Page> = { slug }
+            const page = await Mongo.findOne<T_Page>(
                 COLLECTION.PAGE,
                 doc,
             ).catch(async () => await updatePage(slug))
@@ -89,10 +92,10 @@ export const getCachedPage = async (slug: string): Promise<PageType> =>
  * This is also directly used from Admin
  *
  * @param {string} slug - Page slug
- * @returns {Promise<Page>}
+ * @returns {Promise<T_Page>}
  * @throws {Error} - MySQL page cannot be found
  */
-export const updatePage = async (slug: string): Promise<PageType> => {
+export const updatePage = async (slug: string): Promise<T_Page> => {
     // Remove Cache
     await Cached.getInstance().flush(getCacheKey(COLLECTION.PAGE, slug))
 
@@ -111,10 +114,10 @@ export const updatePage = async (slug: string): Promise<PageType> => {
  * Admin get Pages by pagination
  *
  * @param {number} page - Page
- * @returns {Promise<Page[]>}
+ * @returns {Promise<T_Page[]>}
  */
-export const getPages = async (page: number = 1): Promise<PageType[]> =>
-    await Mongo.findMany<PageType>(
+export const getPages = async (page: number = 1): Promise<T_Page[]> =>
+    await Mongo.findMany<T_Page>(
         COLLECTION.PAGE,
         {},
         { sort: { date: -1 }, limit: PER_PAGE, skip: PER_PAGE * (page - 1) },

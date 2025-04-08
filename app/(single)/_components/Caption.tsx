@@ -1,18 +1,18 @@
 import React from 'react'
 
 /* Helpers */
-import type { AttrMatch } from '@app/_lib/data/mysql/types'
 import { joinClassNames } from '@common/utils/string'
 import { replaceQuotes } from '@app/(single)/utils'
+import type { T_ShortcodeAttrMatch } from '@app/_lib/types'
 
 interface Props {
-    value: AttrMatch
+    value: T_ShortcodeAttrMatch
 }
 
 /**
  * Caption component that renders an image with a caption.
  *
- * @param {AttrMatch} props.value - The value containing the attributes for the caption.
+ * @param {T_ShortcodeAttrMatch} props.value - The value containing the attributes for the caption.
  */
 export const Caption = ({ value: { named } }: Props) => {
     const align = replaceQuotes(named, 'align')

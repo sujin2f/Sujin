@@ -3,6 +3,7 @@
  */
 
 import { ConstToType } from '@common/types'
+
 export {
     IMAGE_SIZE_BACKGROUND,
     IMAGE_SIZE,
@@ -15,6 +16,18 @@ export type {
     T_PostImages,
     T_Background,
 } from '@app/_lib/types-image'
+export type {
+    T_Term,
+    T_Archive,
+    T_Category,
+    T_Tag,
+} from '@app/_lib/types-archive'
+export type {
+    T_PrevNext,
+    T_Post,
+    T_MySQLPost,
+    T_Page,
+} from '@app/_lib/types-post'
 
 /**
  * Archive types
@@ -27,6 +40,26 @@ export const ARCHIVE = {
 export type ARCHIVE = ConstToType<typeof ARCHIVE>
 
 /**
+ * WP Taxonomies
+ * @enum
+ */
+export const TAXONOMY = {
+    ...ARCHIVE,
+    POST_TAG: 'post_tag',
+} as const
+export type TAXONOMY = ConstToType<typeof TAXONOMY>
+
+/**
+ * URL path for archives
+ * @enum
+ */
+export const ARCHIVE_URL = {
+    ...ARCHIVE,
+    SEARCH: 'search',
+} as const
+export type ARCHIVE_URL = ConstToType<typeof ARCHIVE_URL>
+
+/**
  * WP Post types
  * @enum
  */
@@ -36,6 +69,17 @@ export const POST_TYPE = {
     ATTACHMENT: 'attachment',
 } as const
 export type POST_TYPE = ConstToType<typeof POST_TYPE>
+
+/**
+ * @enum
+ * @todo use this
+ */
+export const POST_STATUS = {
+    PUBLISH: 'publish',
+    DRAFT: 'draft',
+    TRASH: 'trash',
+} as const
+export type POST_STATUS = ConstToType<typeof POST_STATUS>
 
 /**
  * MongoDB collections
@@ -65,26 +109,6 @@ export const CACHE_KEY = {
 export type CACHE_KEY = ConstToType<typeof CACHE_KEY>
 
 /**
- * WP Taxonomies
- * @enum
- */
-export const TAXONOMY = {
-    ...ARCHIVE,
-    POST_TAG: 'post_tag',
-} as const
-export type TAXONOMY = ConstToType<typeof TAXONOMY>
-
-/**
- * URL path for archives
- * @enum
- */
-export const ARCHIVE_URL = {
-    ...ARCHIVE,
-    SEARCH: 'search',
-} as const
-export type ARCHIVE_URL = ConstToType<typeof ARCHIVE_URL>
-
-/**
  * Menu names
  * @enum
  */
@@ -96,18 +120,13 @@ export const MENU_NAMES = {
 } as const
 export type MENU_NAMES = ConstToType<typeof MENU_NAMES>
 
-/**
- * @enum
- * @todo use this
- */
-export const POST_STATUS = {
-    PUBLISH: 'publish',
-    DRAFT: 'draft',
-    TRASH: 'trash',
-} as const
-export type POST_STATUS = ConstToType<typeof POST_STATUS>
-
 export type T_Option = {
     key: string
     value: string
+}
+
+export type T_ShortcodeNamed = Record<string, string>
+export type T_ShortcodeAttrMatch = {
+    named: T_ShortcodeNamed
+    numeric: string[]
 }

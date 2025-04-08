@@ -1,21 +1,21 @@
 'use client'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useRef, useState } from 'react'
 /* Components */
-import { Button } from '@common/components/forms/Button'
 import HeaderComponent from '@app/admin/_components/Header'
+import { PrevNext } from '@app/admin/_components/PrevNext'
+import { Button } from '@common/components/forms/Button'
 import { Input } from '@common/components/forms/Input'
 import Callout from '@common/components/containers/Callout'
-import { PrevNext } from '@app/admin/_components/PrevNext'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
-
-import { CategoryType } from '@app/_lib/data/mysql/types'
-import Link from 'next/link'
 import Table from '@common/components/containers/Table'
 
+import type { T_Category } from '@app/_lib/types-archive'
+
 type Props = {
-    readonly categories: CategoryType[]
+    readonly categories: T_Category[]
     readonly page: number
     readonly remove: (slug: string) => Promise<string>
     readonly update: (slug: string) => Promise<string>

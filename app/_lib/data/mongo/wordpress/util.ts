@@ -7,7 +7,7 @@ import type {
 import { IMAGE_SIZE, POST_IMAGE_LOCATION } from '@app/_lib/types'
 import { entries, isEmpty } from '@common/utils/object'
 
-export const formatImage = (image: T_Image): T_Image =>
+const formatImage = (image: T_Image): T_Image =>
     (image
         ? {
               url: image.url,

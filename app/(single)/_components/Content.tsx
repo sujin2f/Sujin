@@ -2,10 +2,10 @@
 import React, { Fragment, PropsWithChildren } from 'react'
 /* Helpers */
 import { parseContent } from '@app/(single)/utils'
-import type { PostType, PageType } from '@app/_lib/data/mysql/types'
+import type { T_Post, T_Page } from '@app/_lib/types'
 
 type Props = {
-    post: PostType | PageType
+    post: T_Post | T_Page
     type: 'page' | 'post'
 }
 

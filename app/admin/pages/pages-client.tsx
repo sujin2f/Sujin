@@ -10,11 +10,11 @@ import { PrevNext } from '@app/admin/_components/PrevNext'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 
-import { PageType } from '@app/_lib/data/mysql/types'
+import { T_Page } from '@app/_lib/types'
 import { Table } from './table'
 
 type Props = {
-    readonly pages: PageType[]
+    readonly pages: T_Page[]
     readonly page: number
     readonly remove: (slug: string) => Promise<string>
     readonly update: (slug: string) => Promise<string>

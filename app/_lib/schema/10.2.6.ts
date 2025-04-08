@@ -1,14 +1,12 @@
 import type {
-    TermType,
-    PostType,
-    PageType,
-    ArchiveType,
-} from '@app/_lib/data/mysql/types'
-import type {
+    T_Term,
+    T_Archive,
     T_Image,
     T_ImageBlock,
     T_Option,
     T_PostImages,
+    T_Post,
+    T_Page,
 } from '@app/_lib/types'
 import { ARCHIVE, POST_STATUS } from '@app/_lib/types'
 
@@ -101,7 +99,7 @@ const images: { [key in keyof T_PostImages]: object } = {
     },
 }
 
-const term: { [key in keyof TermType]: object } = {
+const term: { [key in keyof T_Term]: object } = {
     id: {
         bsonType: 'int',
     },
@@ -117,7 +115,7 @@ const term: { [key in keyof TermType]: object } = {
     },
 }
 
-const pageProperty: { [key in keyof PageType]: object } = {
+const pageProperty: { [key in keyof T_Page]: object } = {
     id: {
         bsonType: 'int',
     },
@@ -156,7 +154,7 @@ const pageProperty: { [key in keyof PageType]: object } = {
     },
 }
 
-const postProperty: { [key in keyof PostType]: object } = {
+const postProperty: { [key in keyof T_Post]: object } = {
     ...pageProperty,
     terms: {
         bsonType: 'array',
@@ -167,7 +165,7 @@ const postProperty: { [key in keyof PostType]: object } = {
     },
 }
 
-const archivesProperty: { [key in keyof ArchiveType]: object } = {
+const archivesProperty: { [key in keyof T_Archive]: object } = {
     id: {
         bsonType: 'int',
     },

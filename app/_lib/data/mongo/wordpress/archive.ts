@@ -3,7 +3,6 @@ import Mongo from '@common/data/mongo/mongo'
 import Cached from '@common/model/Cached'
 import Logger from '@common/model/Logger'
 /* Types */
-import type { ArchiveType, CategoryType } from '@app/_lib/data/mysql/types'
 import type { MutationResultType } from '@app/api/graphql/constants'
 /* CONSTANTS */
 // import { WEEK_IN_SECONDS } from '@common/constants/datetime'
@@ -14,6 +13,8 @@ import {
     COLLECTION,
     IMAGE_SIZE_BACKGROUND,
     T_ImageBlock,
+    T_Archive,
+    T_Category,
 } from '@app/_lib/types'
 /* Utils */
 import { getArchiveBySlug as getMySQLArchive } from '@app/_lib/data/mysql/term'
@@ -25,14 +26,14 @@ import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 
 export const categoryFormatter = (
     term: Record<string, unknown>,
-): CategoryType => {
+): T_Category => {
     const formatted = {
         id: term.id,
         title: term.title,
         slug: term.slug,
         excerpt: term.excerpt,
         total: term.total || 0,
-    } as CategoryType
+    } as T_Category
 
     if (term.image) {
         formatted.image = formatImageBlock(
@@ -47,12 +48,12 @@ export const categoryFormatter = (
 /**
  * Get archive by slug
  *
- * @template {T} ArchiveType
+ * @template {T} T_Archive
  * @param {string} slug
  * @param {ARCHIVE} type
- * @returns {Promise<ArchiveType>}
+ * @returns {Promise<T_Archive>}
  */
-export const getCachedArchive = async <T extends ArchiveType>(
+export const getCachedArchive = async <T extends T_Archive>(
     slug: string,
     type: ARCHIVE,
     formatter: (term: Record<string, unknown>) => T,
@@ -77,9 +78,9 @@ export const getCachedArchive = async <T extends ArchiveType>(
  *
  * @param {string} slug
  * @param {ARCHIVE} type
- * @returns {Promise<ArchiveType>}
+ * @returns {Promise<T_Archive>}
  */
-const getArchive = async <T extends ArchiveType>(
+const getArchive = async <T extends T_Archive>(
     slug: string,
     type: ARCHIVE,
     formatter: (term: Record<string, unknown>) => T,
@@ -117,9 +118,9 @@ const updateTotal = async (slug: string, type: ARCHIVE): Promise<number> =>
  *
  * @param {string} slug
  * @param {ARCHIVE} type
- * @returns {Promise<ArchiveType>} updated archive
+ * @returns {Promise<T_Archive>} updated archive
  */
-export const updateArchive = async <T extends ArchiveType>(
+export const updateArchive = async <T extends T_Archive>(
     slug: string,
     type: ARCHIVE,
     formatter: (term: Record<string, unknown>) => T,
@@ -142,7 +143,7 @@ export const updateArchive = async <T extends ArchiveType>(
     }
 
     const formatted = formatter(term)
-    await Mongo.insertOrReplace<ArchiveType>(table, { slug }, formatted)
+    await Mongo.insertOrReplace<T_Archive>(table, { slug }, formatted)
     await Cached.getInstance().set(getCacheKey(type, slug), formatted)
     return formatted as unknown as T
 }
@@ -155,7 +156,7 @@ export const updateArchive = async <T extends ArchiveType>(
  * @returns {Promise<MutationResultType>} An object indicating the result of the operation.
  * @throws {Error} Throws an error if the nonce value is invalid.
  */
-export const mutateArchive = async <T extends ArchiveType>(
+export const mutateArchive = async <T extends T_Archive>(
     nonce: string,
     slug: string,
     type: ARCHIVE,
@@ -180,7 +181,7 @@ export const mutateArchive = async <T extends ArchiveType>(
     }
 }
 
-export const getArchives = async <T extends ArchiveType>(
+export const getArchives = async <T extends T_Archive>(
     page: number = 1,
     type: ARCHIVE,
     formatter: (term: Record<string, unknown>) => T,

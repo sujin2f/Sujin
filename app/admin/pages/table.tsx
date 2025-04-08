@@ -4,11 +4,11 @@ import Link from 'next/link'
 /* Components */
 import TableComponent from '@common/components/containers/Table'
 /* Types */
-import type { PageType } from '@app/_lib/data/mysql/types'
+import type { T_Page } from '@app/_lib/types'
 import type { Dispatch, SetStateAction } from 'react'
 
 type Props = {
-    pages: PageType[]
+    pages: T_Page[]
     remove: (slug: string) => Promise<string>
     update: (slug: string) => Promise<string>
     setMessage: Dispatch<SetStateAction<string>>

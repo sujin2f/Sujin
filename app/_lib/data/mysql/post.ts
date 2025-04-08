@@ -1,16 +1,15 @@
 /* Models */
 import Logger from '@common/model/Logger'
 import MySQL from '@app/_lib/data/mysql'
-/* Types */
-import {
-    type MySQLPostType,
-    type PostMetaType,
-    type TermType,
-} from '@app/_lib/data/mysql/types'
-import type { POST_TYPE } from '@app/_lib/types'
 /* CONSTANTS */
 import { MySQLQuery, PER_PAGE } from '@app/_lib/data/mysql/constants'
-import { ARCHIVE, TAXONOMY } from '@app/_lib/types'
+import {
+    ARCHIVE,
+    TAXONOMY,
+    type POST_TYPE,
+    type T_Term,
+    type T_MySQLPost,
+} from '@app/_lib/types'
 /* Utils */
 import { autop } from '@app/_lib/data/mysql/utils'
 import { unserialize } from '@app/_lib/data/mysql/utils'
@@ -18,13 +17,18 @@ import { getTermsByPost } from '@app/_lib/data/mysql/term'
 import { getPostImages } from '@app/_lib/data/mysql/media'
 import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 
+type T_PostMeta = {
+    meta_key: string
+    meta_value: string
+}
+
 // @deprecated not used anymore
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getAllPostMeta = async (
     postId: number,
 ): Promise<Record<string, string>> => {
     const query = MySQLQuery.getAllPostMeta(postId)
-    const result = await MySQL.getInstance().select<PostMetaType>(query)
+    const result = await MySQL.getInstance().select<T_PostMeta>(query)
 
     return result.reduce((acc: Record<string, string>, meta) => {
         return {
@@ -43,7 +47,7 @@ export const getPostMeta = async <
 ): Promise<T> => {
     const mysql = MySQL.getInstance()
     const value = await mysql
-        .selectOne<PostMetaType>(MySQLQuery.getPostMeta(postId, metaKey))
+        .selectOne<T_PostMeta>(MySQLQuery.getPostMeta(postId, metaKey))
         .catch(() => undefined)
 
     if (!value) {
@@ -58,7 +62,7 @@ export const getPostBy = async (
     queryValue: string | number,
     type: POST_TYPE,
     ignoreStatus = false,
-): Promise<MySQLPostType> => {
+): Promise<T_MySQLPost> => {
     return await getPostsBy(queryKey, type, queryValue, 1, ignoreStatus).then(
         (result) => {
             if (!result[0]) {
@@ -124,18 +128,18 @@ export const getPostsBy = async (
     queryValue?: string | number,
     page = 1,
     ignoreStatus = false,
-): Promise<MySQLPostType[]> => {
+): Promise<T_MySQLPost[]> => {
     Logger.server(
         `Calling MySQL getPostsBy: ${queryKey}, ${queryValue}, ${type}, and ${ignoreStatus}.`,
     )
 
     const query = getPostQuery(queryKey, type, queryValue, page, ignoreStatus)
-    const result = await MySQL.getInstance().select<MySQLPostType>(query)
+    const result = await MySQL.getInstance().select<T_MySQLPost>(query)
 
     // Create Post from dbResult
-    const posts: MySQLPostType[] = []
+    const posts: T_MySQLPost[] = []
     for await (const post of result) {
-        const terms: TermType[] = await getTermsByPost(post.id)
+        const terms: T_Term[] = await getTermsByPost(post.id)
         const meta = {
             useBackgroundColor: await getPostMeta<boolean>(
                 post.id,

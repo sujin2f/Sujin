@@ -6,13 +6,20 @@ import { isEmpty } from '@common/utils/object'
 import { getPostBy, getPostMeta } from '@app/_lib/data/mysql/post'
 /* CONSTANTS */
 import { MySQLQuery } from '@app/_lib/data/mysql/constants'
-import { MetaKeys } from '@app/_lib/data/mysql/constants'
-import { IMAGE_SIZE, POST_IMAGE_LOCATION, POST_TYPE } from '@app/_lib/types'
+import {
+    IMAGE_SIZE,
+    POST_TYPE,
+    type POST_IMAGE_LOCATION,
+    type T_ImageBlock,
+    type T_MySQLPost,
+} from '@app/_lib/types'
 /* Types */
-import type { T_ImageBlock } from '@app/_lib/types'
-import { type MySQLPostType } from '@app/_lib/data/mysql/types'
 import type { Nullable } from '@common/types'
 import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
+
+enum META_KEYS {
+    ATTACHMENT_META = '_wp_attachment_metadata',
+}
 
 /**
  * Get backgrounds from MySQL
@@ -22,7 +29,7 @@ import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 export const getBackgrounds = async (): Promise<T_ImageBlock[]> => {
     Logger.server('Access MySQL for getting backgrounds.')
     const result = await MySQL.getInstance()
-        .select<MySQLPostType>(MySQLQuery.getBackgrounds())
+        .select<T_MySQLPost>(MySQLQuery.getBackgrounds())
         .then(async (posts) => {
             const result: T_ImageBlock[] = []
             for await (const post of posts) {
@@ -46,7 +53,7 @@ export const getBackgrounds = async (): Promise<T_ImageBlock[]> => {
  * @returns
  * @throws
  */
-const getMediaFromPost = async (post: MySQLPostType): Promise<T_ImageBlock> => {
+const getMediaFromPost = async (post: T_MySQLPost): Promise<T_ImageBlock> => {
     const WP_IMAGE_SIZE = {
         medium_large: IMAGE_SIZE.MEDIUM_LARGE,
         'post-thumbnail': IMAGE_SIZE.POST_THUMBNAIL,
@@ -69,7 +76,7 @@ const getMediaFromPost = async (post: MySQLPostType): Promise<T_ImageBlock> => {
 
     const meta = await getPostMeta<T_WPMedia>(
         post.id,
-        MetaKeys.ATTACHMENT_META,
+        META_KEYS.ATTACHMENT_META,
         {} as T_WPMedia,
     )
     if (isEmpty(meta))
@@ -134,7 +141,7 @@ type getPostImagesReturnType = {
     thumbnail?: T_ImageBlock
 }
 export const getPostImages = async (
-    post: MySQLPostType,
+    post: T_MySQLPost,
 ): Promise<getPostImagesReturnType> => {
     const result: getPostImagesReturnType = {}
 

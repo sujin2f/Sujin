@@ -1,10 +1,12 @@
 import {
-    type TermType,
-    type PageType,
-    CategoryType,
-    TagType,
-} from '@app/_lib/data/mysql/types'
-import { ARCHIVE, POST_STATUS, T_ImageBlock } from '@app/_lib/types'
+    ARCHIVE,
+    POST_STATUS,
+    T_ImageBlock,
+    T_Term,
+    T_Tag,
+    T_Category,
+    T_Page,
+} from '@app/_lib/types'
 
 export const imageBlock: T_ImageBlock = {
     mimeType: 'image/jpeg',
@@ -58,7 +60,7 @@ export const imageBlock: T_ImageBlock = {
     },
 }
 
-export const page: PageType = {
+export const page: T_Page = {
     id: 14253,
     slug: '%ea%b2%b0%ea%b5%ad%ec%9d%80-%ec%8b%a4%ed%8c%a8%ed%95%b4%eb%b2%84%eb%a6%b0-%ec%84%b1%ea%b3%b5%ed%9a%8c',
     title: '김조광수 감독의 교훈 없는 승리',
@@ -105,13 +107,13 @@ export const post = {
         },
     ],
 }
-export const term: TermType = {
+export const term: T_Term = {
     id: 1,
     title: 'Uncategorized',
     slug: 'uncategorized',
     type: ARCHIVE.CATEGORY,
 }
-export const category: CategoryType = {
+export const category: T_Category = {
     id: 1,
     title: 'Category Title',
     slug: 'category',
@@ -119,7 +121,7 @@ export const category: CategoryType = {
     image: imageBlock,
     total: 3,
 }
-export const tag: TagType = {
+export const tag: T_Tag = {
     id: 1,
     title: 'Tag Title',
     slug: 'tag',

@@ -7,19 +7,19 @@ import { Button } from '@common/components/forms/Button'
 /* Helpers */
 import { removeURLProtocol } from '@common/utils/string'
 import { getPrev, getNext } from '@common/utils/array'
-import type { AttrMatch } from '@app/_lib/data/mysql/types'
+import type { T_ShortcodeAttrMatch } from '@app/_lib/types'
 /* Assets */
 import Arrow from '@app/_lib/images/prev.svg'
 import './style.scss'
 
 interface Props {
-    value: AttrMatch
+    value: T_ShortcodeAttrMatch
 }
 
 /**
  * Carousel component that renders a carousel of images with navigation buttons.
  *
- * @param {AttrMatch} props.value - The value containing the attributes for the carousel.
+ * @param {T_ShortcodeAttrMatch} props.value - The value containing the attributes for the carousel.
  */
 export const Carousel = ({ value: { named } }: Props) => {
     const [index, setIndex] = useState(0)
