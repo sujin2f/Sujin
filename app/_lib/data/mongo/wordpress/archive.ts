@@ -99,7 +99,8 @@ const getArchive = async <T extends T_Archive>(
  */
 const getTotal = async (slug: string, type: ARCHIVE): Promise<number> =>
     await Mongo.count(COLLECTION.POST, {
-        terms: { $elemMatch: { slug, type, statue: POST_STATUS.PUBLISH } },
+        terms: { $elemMatch: { slug, type } },
+        status: POST_STATUS.PUBLISH,
     })
 
 /**
