@@ -16,10 +16,10 @@ import { formatPostImage } from '@app/_lib/data/mongo/wordpress/util'
 import {
     type PostType,
     type MySQLPostType,
-    TPrevNext,
+    T_PrevNext,
 } from '@app/_lib/data/mysql/types'
 /* CONSTANTS */
-import { WEEK_IN_SECONDS } from '@common/constants/datetime'
+// import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV } from '@common/constants/helper'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 import {
@@ -71,7 +71,7 @@ export const getCachedPost = async (
             await Mongo.findOne<PostType>(COLLECTION.POST, doc).then((post) =>
                 format(post),
             ),
-        WEEK_IN_SECONDS,
+        0,
         IS_DEV,
     )
 }
@@ -98,7 +98,8 @@ const updateMongoFromMySQL = async (
     await Mongo.findOne<PostType>(COLLECTION.POST, {
         slug,
     })
-        .then((result) => {
+        // Post exist: update archive and replace the post
+        .then(async (result) => {
             result.terms
                 .filter((term) => term.type === ARCHIVE.CATEGORY)
                 .forEach((term) => {
@@ -109,10 +110,19 @@ const updateMongoFromMySQL = async (
                 .forEach((term) => {
                     tags.push(term.slug)
                 })
+            await Mongo.insertOrReplace<PostType>(
+                COLLECTION.POST,
+                {
+                    slug,
+                },
+                format(post),
+            )
         })
-        .catch(() => null)
-    await Mongo.deleteOne(COLLECTION.POST, { slug })
-    await Mongo.insertOne<PostType>(COLLECTION.POST, format(post))
+        // New post
+        .catch(
+            async () =>
+                await Mongo.insertOne<PostType>(COLLECTION.POST, format(post)),
+        )
 
     return [newPost, categories, tags]
 }
@@ -190,12 +200,12 @@ export const getCachedArchivePosts = async (
     return await Cached.getInstance().getOrExecute(
         getCacheKey(type, slug, page),
         async () => await getArchivePosts(type, slug, page),
-        WEEK_IN_SECONDS,
+        0,
         IS_DEV,
     )
 }
 
-const getPrevNext = async (slug: string): Promise<TPrevNext[]> => {
+const getPrevNext = async (slug: string): Promise<T_PrevNext[]> => {
     const post = await getCachedPost(slug)
     const slugs = post.terms
         .filter((term) => term.type === 'category')
@@ -241,11 +251,11 @@ const getPrevNext = async (slug: string): Promise<TPrevNext[]> => {
  * @param {string} slug - The id of the post
  * @returns {Promise<PostType[]>} A promise that resolves to the recent posts.
  */
-export const getCachedPrevNext = async (slug: string): Promise<TPrevNext[]> =>
+export const getCachedPrevNext = async (slug: string): Promise<T_PrevNext[]> =>
     await Cached.getInstance().getOrExecute(
         getCacheKey(COLLECTION.POST, slug, 'prev-next'),
         async () => await getPrevNext(slug),
-        WEEK_IN_SECONDS,
+        0,
         IS_DEV,
     )
 
@@ -271,7 +281,7 @@ export const getCachedRecentPosts = async (): Promise<PostType[]> =>
     await Cached.getInstance().getOrExecute(
         getCacheKey(COLLECTION.POST, 'recent'),
         async () => await getRecentPosts(),
-        WEEK_IN_SECONDS,
+        0,
         IS_DEV,
     )
 
@@ -370,7 +380,7 @@ export const getCachedRelatedPosts = async (
     await Cached.getInstance().getOrExecute(
         getCacheKey(COLLECTION.POST, slug, 'related'),
         async () => await getRelatedPosts(slug),
-        WEEK_IN_SECONDS,
+        0,
         IS_DEV,
     )
 

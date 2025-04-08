@@ -8,11 +8,8 @@ import { getMedia } from '@app/_lib/data/mysql/media'
 import MySQL from '@app/_lib/data/mysql'
 import Logger from '@common/model/Logger'
 /* Types */
-import type {
-    ArchiveType,
-    ImageBlockType,
-    TermType,
-} from '@app/_lib/data/mysql/types'
+import type { T_ImageBlock } from '@app/_lib/types'
+import type { ArchiveType, TermType } from '@app/_lib/data/mysql/types'
 import type { Nullable } from '@common/types'
 
 const getMeta = async <T = string>(id: number, metaKey: string): Promise<T> =>
@@ -24,11 +21,11 @@ export const getTermsByPost = async (id: number): Promise<TermType[]> =>
 /**
  * Get archive image.
  * @param {Term} archive Term.
- * @return {Promise<Nullable<ImageBlockType>>} Image.
+ * @return {Promise<Nullable<T_ImageBlock>>} Image.
  */
 const getThumbnail = async (
     archive: ArchiveType,
-): Promise<Nullable<ImageBlockType>> =>
+): Promise<Nullable<T_ImageBlock>> =>
     await getMeta<{ value: string }>(archive.id, 'thumbnail')
         .then(async (data) =>
             data && data.value

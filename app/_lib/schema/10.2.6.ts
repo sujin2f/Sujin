@@ -1,16 +1,18 @@
 import type {
-    ImageType,
-    ImageBlockType,
-    ImagesType,
     TermType,
     PostType,
     PageType,
     ArchiveType,
 } from '@app/_lib/data/mysql/types'
-import type { OptionType } from '@app/_lib/data/mongo/types'
+import type {
+    T_Image,
+    T_ImageBlock,
+    T_Option,
+    T_PostImages,
+} from '@app/_lib/types'
 import { ARCHIVE, POST_STATUS } from '@app/_lib/types'
 
-const image: { [key in keyof ImageType]: object } = {
+const image: { [key in keyof T_Image]: object } = {
     url: {
         bsonType: 'string',
     },
@@ -25,7 +27,7 @@ const image: { [key in keyof ImageType]: object } = {
     },
 }
 
-const imageBlock: { [key in keyof ImageBlockType]: object } = {
+const imageBlock: { [key in keyof T_ImageBlock]: object } = {
     title: {
         bsonType: 'string',
     },
@@ -76,7 +78,7 @@ const imageBlock: { [key in keyof ImageBlockType]: object } = {
     },
 }
 
-const images: { [key in keyof ImagesType]: object } = {
+const images: { [key in keyof T_PostImages]: object } = {
     list: {
         bsonType: 'object',
         properties: imageBlock,
@@ -187,7 +189,7 @@ const archivesProperty: { [key in keyof ArchiveType]: object } = {
     },
 }
 
-const optionsProperty: { [key in keyof OptionType]: object } = {
+const optionsProperty: { [key in keyof T_Option]: object } = {
     key: {
         bsonType: 'string',
     },

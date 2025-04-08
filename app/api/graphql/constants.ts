@@ -12,29 +12,31 @@ import {
 /* Types */
 import type { FlickrImage as TypeFlickrImage } from '@app/_lib/data/flickr/type'
 import type {
-    ImageType,
-    ImageBlockType,
     TermType,
     PostType,
     ArchiveType,
-    ImageSizeType,
-    ImagesType,
     TagType,
-    TPrevNext,
+    T_PrevNext,
 } from '@app/_lib/data/mysql/types'
+import type {
+    T_Image,
+    T_ImageSize,
+    T_ImageBlock,
+    T_PostImages,
+} from '@app/_lib/types'
 import type { ISpectrum } from '@app/ether/data/types'
 
 const list = true
 const required = true
 
-const Image = new GQLType<ImageType>('Image', {
+const Image = new GQLType<T_Image>('Image', {
     url: { type: GQLString },
     width: { type: GQLInt },
     height: { type: GQLInt },
     mimeType: { type: GQLString },
 })
 
-const ImageSize = new GQLType<ImageSizeType>('ImageSize', {
+const ImageSize = new GQLType<T_ImageSize>('ImageSize', {
     medium: { type: Image },
     thumbnail: { type: Image },
     mediumLarge: { type: Image },
@@ -43,7 +45,7 @@ const ImageSize = new GQLType<ImageSizeType>('ImageSize', {
     recentPost: { type: Image },
 })
 
-const ImageBlock = new GQLType<ImageBlockType>('ImageBlock', {
+const ImageBlock = new GQLType<T_ImageBlock>('ImageBlock', {
     url: { type: GQLString },
     mimeType: { type: GQLString },
     width: { type: GQLInt },
@@ -51,7 +53,7 @@ const ImageBlock = new GQLType<ImageBlockType>('ImageBlock', {
     sizes: { type: ImageSize },
 })
 
-const Images = new GQLType<ImagesType>('Images', {
+const Images = new GQLType<T_PostImages>('Images', {
     list: { type: ImageBlock },
     icon: { type: ImageBlock },
     title: { type: ImageBlock },
@@ -152,7 +154,7 @@ const queryRecent = new GQLQuery<[], PostType[]>(
     },
 )
 
-const queryPrevNext = new GQLQuery<[string], TPrevNext[]>(
+const queryPrevNext = new GQLQuery<[string], T_PrevNext[]>(
     'prevNext',
     {
         slug: {

@@ -5,14 +5,14 @@ import Link from 'next/link'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 /* Types */
-import type { TPrevNext } from '@app/_lib/data/mysql/types'
+import type { T_PrevNext } from '@app/_lib/data/mysql/types'
 /* Assets */
 import Icon from '@app/_lib/images/prev.svg'
 import './style.scss'
 
 type Props = {
-    readonly prev?: TPrevNext | false
-    readonly next?: TPrevNext | false
+    readonly prev?: T_PrevNext | false
+    readonly next?: T_PrevNext | false
 }
 
 export const PrevNext = (props: Props) => {

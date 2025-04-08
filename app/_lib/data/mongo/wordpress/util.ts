@@ -1,14 +1,13 @@
-import {
-    type ImageType,
-    type ImageBlockType,
-    ImagesType,
-} from '@app/_lib/data/mysql/types'
+import type {
+    T_Image,
+    T_ImageBlock,
+    T_ImageSize,
+    T_PostImages,
+} from '@app/_lib/types'
 import { IMAGE_SIZE, POST_IMAGE_LOCATION } from '@app/_lib/types'
-import { isEmpty } from '@common/utils/object'
+import { entries, isEmpty } from '@common/utils/object'
 
-type input = Record<string, unknown>
-
-export const formatImage = (image: input): ImageType =>
+export const formatImage = (image: T_Image): T_Image =>
     (image
         ? {
               url: image.url,
@@ -16,21 +15,25 @@ export const formatImage = (image: input): ImageType =>
               height: image.height,
               mimeType: image.mimeType,
           }
-        : {}) as ImageType
+        : {}) as T_Image
 
-export const formatImageBlock = (image: input): ImageBlockType => {
+export const formatImageBlock = <
+    T extends T_ImageBlock,
+    U extends Partial<typeof IMAGE_SIZE>,
+>(
+    image: T,
+    sizeType: U,
+): T => {
     if (!image) {
-        return {} as ImageBlockType
+        return {} as T
     }
-    const sizes: input = {}
+    const sizes: T_ImageSize = {}
     if (image && 'sizes' in image) {
-        const obj = image.sizes as input
-        Object.keys(obj).forEach((key) => {
-            if ((Object.values(IMAGE_SIZE) as string[]).includes(key)) {
-                const image = obj[key] as input
-                const formatted = formatImage(image)
+        entries(image.sizes!).forEach(([key, value]) => {
+            if (Object.values(sizeType).includes(key)) {
+                const formatted = formatImage(value)
                 if (!isEmpty(formatted)) {
-                    sizes[key] = formatImage(image)
+                    sizes[key] = formatImage(value)
                 }
             }
         })
@@ -45,20 +48,19 @@ export const formatImageBlock = (image: input): ImageBlockType => {
     }
 
     if (isEmpty(sizes)) {
-        return result as ImageBlockType
+        return result as T
     }
 
-    return { ...result, sizes } as ImageBlockType
+    return { ...result, sizes } as T
 }
 
-export const formatPostImage = (images: input): ImagesType => {
-    const result: input = {}
-    Object.keys(images).forEach((key) => {
-        if ((Object.values(POST_IMAGE_LOCATION) as string[]).includes(key)) {
-            const block = images[key] as input
-            result[key] = formatImageBlock(block)
+export const formatPostImage = (images: T_PostImages): T_PostImages => {
+    const result: T_PostImages = {}
+    entries(images).forEach(([key, value]) => {
+        if (Object.values(POST_IMAGE_LOCATION).includes(key)) {
+            result[key] = formatImageBlock(value, IMAGE_SIZE)
         }
     })
 
-    return result as ImagesType
+    return result
 }

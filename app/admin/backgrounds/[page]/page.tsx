@@ -1,4 +1,4 @@
-import Backgrounds from '@app/admin/backgrounds/[page]/Backgrounds'
+import { ServerComponent } from '@app/admin/backgrounds/backgrounds-server'
 
 type Props = {
     params: Promise<{
@@ -7,5 +7,5 @@ type Props = {
 }
 
 export default async function Page(props: Props) {
-    return <Backgrounds {...props} />
+    return <ServerComponent {...props} />
 }

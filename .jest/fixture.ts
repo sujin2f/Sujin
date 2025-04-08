@@ -1,13 +1,12 @@
 import {
     type TermType,
     type PageType,
-    ImageBlockType,
     CategoryType,
     TagType,
 } from '@app/_lib/data/mysql/types'
-import { ARCHIVE, POST_STATUS } from '@app/_lib/types'
+import { ARCHIVE, POST_STATUS, T_ImageBlock } from '@app/_lib/types'
 
-export const imageBlock: ImageBlockType = {
+export const imageBlock: T_ImageBlock = {
     mimeType: 'image/jpeg',
     title: 'Test Image',
     url: '/wp-content/uploads/test.jpg',
@@ -1331,72 +1330,4 @@ export const FlickrResponse = `{
 			"tags": "aquarium coex"
 	   }
         ]
-}`
-
-export const phpSerialized = `
-a:6:{
-    s:5:"width";
-    i:800;
-    s:6:"height";
-    i:582;
-    s:4:"file";
-    s:49:"2025/01/D853005F-BAF2-474B-8EFF-54EDD771729C.jpeg";
-    s:8:"filesize";
-    i:50332;
-    s:5:"sizes";
-    a:6:{
-        s:6:"medium";
-        a:5:{
-            s:4:"file";
-            s:49:"D853005F-BAF2-474B-8EFF-54EDD771729C-300x218.jpeg";
-            s:5:"width";
-            i:300;
-            s:6:"height";
-            i:218;
-            s:9:"mime-type";
-            s:10:"image/jpeg";
-            s:8:"filesize";
-            i:20469;
-        }
-        s:9:"thumbnail";
-        a:5:{
-            s:4:"file";
-            s:49:"D853005F-BAF2-474B-8EFF-54EDD771729C-150x150.jpeg";
-            s:5:"width";
-            i:150;
-            s:6:"height";
-            i:150;
-            s:9:"mime-type";
-            s:10:"image/jpeg";
-            s:8:"filesize";
-            i:16505;
-        }
-    }
-    s:10:"image_meta";
-    a:12:{
-        s:8:"aperture";
-        s:1:"0";
-        s:6:"credit";
-        s:0:"";
-        s:6:"camera";
-        s:0:"";
-        s:7:"caption";
-        s:0:"";
-        s:17:"created_timestamp";
-        s:1:"0";
-        s:9:"copyright";
-        s:0:"";
-        s:12:"focal_length";
-        s:1:"0";
-        s:3:"iso";
-        s:1:"0";
-        s:13:"shutter_speed";
-        s:1:"0";
-        s:5:"title";
-        s:0:"";
-        s:11:"orientation";
-        s:1:"0";
-        s:8:"keywords";
-        a:0:{}
-    }
 }`

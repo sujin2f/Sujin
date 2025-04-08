@@ -1,6 +1,11 @@
 // yarn test string.spec.ts
 
-import { phpSerialized } from '@jest/fixture'
+import {
+    phpSerialized1,
+    phpSerialized2,
+    phpSerialized3,
+    phpSerialized4,
+} from '../.jest/fixture'
 import { toNumber, generateUUID, phpUnSerialize } from './string'
 
 describe('string.ts', () => {
@@ -16,9 +21,9 @@ describe('string.ts', () => {
         expect(generateUUID()).not.toEqual(generateUUID())
     })
 
-    test('phpUnSerialize()', () => {
+    test('phpUnSerialize(): 1', () => {
         const result = phpUnSerialize(
-            phpSerialized.replaceAll(' ', '').replaceAll('\n', ''),
+            phpSerialized1.replaceAll(' ', '').replaceAll('\n', ''),
         )
         expect(result).toStrictEqual({
             width: 800,
@@ -56,5 +61,13 @@ describe('string.ts', () => {
                 keywords: {},
             },
         })
+    })
+
+    test('phpUnSerialize(): 2', () => {
+        let result = phpUnSerialize(phpSerialized2)
+        result = phpUnSerialize(phpSerialized3)
+        expect(result).toBeTruthy()
+        result = phpUnSerialize(phpSerialized4)
+        expect(result).toBeTruthy()
     })
 })

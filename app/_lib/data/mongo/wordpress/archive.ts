@@ -3,13 +3,18 @@ import Mongo from '@common/data/mongo/mongo'
 import Cached from '@common/model/Cached'
 import Logger from '@common/model/Logger'
 /* Types */
-import type { ArchiveType, TermType } from '@app/_lib/data/mysql/types'
+import type { ArchiveType, CategoryType } from '@app/_lib/data/mysql/types'
 import type { MutationResultType } from '@app/api/graphql/constants'
 /* CONSTANTS */
-import { WEEK_IN_SECONDS } from '@common/constants/datetime'
+// import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV } from '@common/constants/helper'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
-import { ARCHIVE, COLLECTION } from '@app/_lib/types'
+import {
+    ARCHIVE,
+    COLLECTION,
+    IMAGE_SIZE_BACKGROUND,
+    T_ImageBlock,
+} from '@app/_lib/types'
 /* Utils */
 import { getArchiveBySlug as getMySQLArchive } from '@app/_lib/data/mysql/term'
 import { getCacheKey } from '@app/_lib/utils'
@@ -17,24 +22,25 @@ import { removeOption, getOption } from '@app/_lib/data/mysql/option'
 import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
 import { formatImageBlock } from '@app/_lib/data/mongo/wordpress/util'
 
-const format = <T extends ArchiveType>(
+export const categoryFormatter = (
     term: Record<string, unknown>,
-    type: ARCHIVE,
-): T => {
-    const formatted: Record<string, unknown> = {
+): CategoryType => {
+    const formatted = {
         id: term.id,
         title: term.title,
         slug: term.slug,
         excerpt: term.excerpt,
-        image: formatImageBlock(term.image as Record<string, unknown>),
         total: term.total || 0,
+    } as CategoryType
+
+    if (term.image) {
+        formatted.image = formatImageBlock(
+            term.image as T_ImageBlock,
+            IMAGE_SIZE_BACKGROUND,
+        )
     }
 
-    if (type === ARCHIVE.TAG) {
-        formatted.hits = term.hits
-    }
-
-    return formatted as T
+    return formatted
 }
 
 /**
@@ -48,17 +54,20 @@ const format = <T extends ArchiveType>(
 export const getCachedArchive = async <T extends ArchiveType>(
     slug: string,
     type: ARCHIVE,
+    formatter: (term: Record<string, unknown>) => T,
 ): Promise<T> =>
     await Cached.getInstance().getOrExecute<T>(
         getCacheKey(type, slug),
         async () =>
-            await getArchive(slug, type)
+            await getArchive<T>(slug, type, formatter)
                 .then(async (archive) => {
                     const total = await updateTotal(archive.slug, type)
-                    return format<T>({ ...archive, total }, type)
+                    return formatter({ ...archive, total })
                 })
-                .catch(async () => await updateArchive(slug, type)),
-        WEEK_IN_SECONDS,
+                .catch(
+                    async () => await updateArchive<T>(slug, type, formatter),
+                ),
+        0,
         IS_DEV,
     )
 
@@ -72,9 +81,10 @@ export const getCachedArchive = async <T extends ArchiveType>(
 const getArchive = async <T extends ArchiveType>(
     slug: string,
     type: ARCHIVE,
+    formatter: (term: Record<string, unknown>) => T,
 ): Promise<T> =>
-    await Mongo.findOne<ArchiveType>(type, { slug }).then((term) =>
-        format<T>(term, type),
+    await Mongo.findOne(type, { slug }).then(
+        (term) => formatter(term) as unknown as T,
     )
 
 /**
@@ -95,9 +105,9 @@ const getTotal = async (slug: string, type: ARCHIVE): Promise<number> =>
  * @param {string} slug
  * @param {ARCHIVE} type
  */
-const updateTotal = async (slug: string, type: ARCHIVE) =>
+const updateTotal = async (slug: string, type: ARCHIVE): Promise<number> =>
     await getTotal(slug, type).then(async (total) => {
-        await Mongo.updateOne<TermType>(type, { slug }, { $set: { total } })
+        await Mongo.updateOne(type, { slug }, { $set: { total } })
         return total
     })
 
@@ -111,54 +121,28 @@ const updateTotal = async (slug: string, type: ARCHIVE) =>
 export const updateArchive = async <T extends ArchiveType>(
     slug: string,
     type: ARCHIVE,
+    formatter: (term: Record<string, unknown>) => T,
 ): Promise<T> => {
     await Cached.getInstance().flush(getCacheKey(type, slug))
     const table = type
 
-    const wp = await getMySQLArchive(slug, type).catch(async () => {
-        await removeArchive(slug, type)
-        // Remove tag cloud cache
-        await Cached.getInstance().flush(getCacheKey(ARCHIVE.TAG, 'tag-cloud'))
-        const message = `updateArchive(): Cannot find term from MySQL ${slug}, ${type}`
-        Logger.server(message)
-        throw Error(message)
-    })
-
-    const mongo = await Mongo.findOne<ArchiveType>(table, {
+    const wp = await getMySQLArchive(slug, type)
+    const mongo = await Mongo.findOne(table, {
         slug,
     }).catch(() => null)
-
-    const term: Record<string, unknown> = {
+    const term = {
         ...wp,
         image: wp.image ? convertImageBlockURL(wp.image) : undefined,
         total: await getTotal(slug, type).catch(() => 0),
     }
 
-    if (type === ARCHIVE.TAG) {
+    if (type === ARCHIVE.TAG && 'hits' in term) {
         term.hits = (mongo && 'hits' in mongo && mongo.hits) || 0
     }
-    const formatted = format<T>(term, type)
 
-    await Mongo.findOne<ArchiveType>(table, { slug })
-        .then(async () => {
-            await Mongo.replaceOne<ArchiveType>(
-                table,
-                { slug },
-                formatted,
-            ).catch((e) => {
-                const message = 'updateArchive(): Mongo.replaceOne failed'
-                Logger.server(message, formatted)
-                throw e
-            })
-        })
-        .catch(async () => {
-            await Mongo.insertOne<ArchiveType>(table, formatted).catch((e) => {
-                const message = 'updateArchive(): Mongo.insertOne failed'
-                Logger.server(message, formatted)
-                throw e
-            })
-        })
-    return formatted
+    const formatted = formatter(term)
+    await Mongo.insertOrReplace<ArchiveType>(table, { slug }, formatted)
+    return formatted as unknown as T
 }
 
 /**
@@ -169,10 +153,11 @@ export const updateArchive = async <T extends ArchiveType>(
  * @returns {Promise<MutationResultType>} An object indicating the result of the operation.
  * @throws {Error} Throws an error if the nonce value is invalid.
  */
-export const secureUpdateArchive = async (
+export const secureUpdateArchive = async <T extends ArchiveType>(
     nonce: string,
     slug: string,
     type: ARCHIVE,
+    formatter: (term: Record<string, unknown>) => T,
 ): Promise<MutationResultType> => {
     const optionKey = `update_term_${nonce}`
     const nonceValue = await getOption(optionKey)
@@ -185,8 +170,7 @@ export const secureUpdateArchive = async (
         throw Error(message)
     }
 
-    await updateArchive(slug, type)
-
+    await updateArchive<T>(slug, type, formatter)
     Logger.server(`Updated MongoDB ${type}: ${slug}`)
     return {
         result: true,
@@ -196,12 +180,13 @@ export const secureUpdateArchive = async (
 export const getArchives = async <T extends ArchiveType>(
     page: number = 1,
     type: ARCHIVE,
+    formatter: (term: Record<string, unknown>) => T,
 ) =>
     await Mongo.findMany<T>(
         type,
         {},
         { limit: PER_PAGE, skip: PER_PAGE * (page - 1) },
-    ).then((terms) => terms.map((term) => format(term, type)))
+    ).then((terms) => terms.map((term) => formatter(term)))
 
 export const removeArchive = async (slug: string, type: ARCHIVE) => {
     await Cached.getInstance().flush(getCacheKey(type, slug))

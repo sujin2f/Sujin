@@ -1,15 +1,15 @@
 import { unserialize as phpUnserialize } from 'php-unserialize' // @todo Do not use module
 import { DEFAULT_THUMBNAIL } from '@app/_lib/constants'
-import {
-    type PostType,
-    type PageType,
-    type ImageBlockType,
-} from '@app/_lib/data/mysql/types'
+import { type PostType, type PageType } from '@app/_lib/data/mysql/types'
 import { ImageMap } from '@common/components/containers/Picture'
-import { bannerMediaQuery } from '@app/_lib/data/mysql/constants'
-import type { IMAGE_SIZE } from '@app/_lib/types'
-import { phpUnSerialize } from '@common/utils/string'
-import Logger from '@common/model/Logger'
+import {
+    IMAGE_SIZE,
+    IMAGE_SIZE_BACKGROUND,
+    T_ImageBlock,
+} from '@app/_lib/types'
+import { entries } from '@common/utils/object'
+// import { phpUnSerialize } from '@common/utils/string'
+// import Logger from '@common/model/Logger'
 
 /**
  * The regular expression for an HTML element.
@@ -354,13 +354,13 @@ export const unserialize = <
         return value as T
     }
 
-    let result
+    const result = phpUnserialize(value)
     try {
-        result = phpUnSerialize(value)
+        // result = phpUnSerialize(value)
     } catch {
-        Logger.server('phpUnSerialize could not parse the value', value)
-        result = phpUnserialize(value)
+        // Logger.server('phpUnSerialize could not parse the value', value)
     }
+    // result = phpUnserialize(value)
 
     if (key && typeof result === 'object') {
         if (Object.keys(result as object).includes(key)) {
@@ -379,22 +379,27 @@ export const getThumbnailFromPost = (
     post.images.thumbnail?.sizes?.[size]?.url ||
     DEFAULT_THUMBNAIL
 
-export const getBannerImageMap = (image: ImageBlockType): ImageMap[] => {
+export const getBannerImageMap = (image: T_ImageBlock): ImageMap[] => {
     if (!image.sizes) {
         return []
     }
 
-    return Object.keys(image.sizes)
-        .filter((size) => Object.keys(bannerMediaQuery).includes(size))
-        .map((size) => {
-            const key = size as keyof typeof bannerMediaQuery
-            const source = image.sizes![key]!
+    const bannerMediaQueries: Record<IMAGE_SIZE_BACKGROUND, string> = {
+        [IMAGE_SIZE_BACKGROUND.MEDIUM]: '(max-width: 300px)',
+        [IMAGE_SIZE_BACKGROUND.MEDIUM_LARGE]: '(max-width: 768px)',
+        [IMAGE_SIZE_BACKGROUND.LARGE]: '(max-width: 1024px)',
+    }
+
+    return entries(image.sizes)
+        .filter(([size]) => Object.keys(bannerMediaQueries).includes(size))
+        .map(([size, value]) => {
+            const key = size as IMAGE_SIZE_BACKGROUND
             return {
-                src: source.url,
-                media: bannerMediaQuery[key] || '',
-                mimeType: source.mimeType,
-                width: source.width,
-                height: source.height,
+                src: value.url,
+                media: bannerMediaQueries[key] || '',
+                mimeType: value.mimeType,
+                width: value.width,
+                height: value.height,
             } satisfies ImageMap
         })
 }
@@ -420,7 +425,7 @@ const replaceURL = (url: string) => {
     return `/${pathname}`
 }
 
-export const convertImageBlockURL = (imageBlock: ImageBlockType) => {
+export const convertImageBlockURL = (imageBlock: T_ImageBlock) => {
     const sizes = imageBlock.sizes
 
     if (sizes) {

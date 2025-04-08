@@ -16,8 +16,11 @@ import { autop } from '@app/_lib/data/mysql/utils'
 import { unserialize } from '@app/_lib/data/mysql/utils'
 import { getTermsByPost } from '@app/_lib/data/mysql/term'
 import { getPostImages } from '@app/_lib/data/mysql/media'
+import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 
-export const getAllPostMeta = async (
+// @deprecated not used anymore
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const getAllPostMeta = async (
     postId: number,
 ): Promise<Record<string, string>> => {
     const query = MySQLQuery.getAllPostMeta(postId)
@@ -59,8 +62,11 @@ export const getPostBy = async (
     return await getPostsBy(queryKey, type, queryValue, 1, ignoreStatus).then(
         (result) => {
             if (!result[0]) {
-                throw Error(
-                    `Fail to get post with queryKey: ${queryKey} and queryValue ${queryValue}`,
+                throw new ServerError(
+                    ERROR_MESSAGE.POST.SQL_GET_ONE,
+                    'getPostBy()',
+                    queryKey,
+                    queryValue,
                 )
             }
             return result[0]

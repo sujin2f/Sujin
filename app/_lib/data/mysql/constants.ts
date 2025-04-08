@@ -4,7 +4,7 @@
  * @module constants
  */
 
-import type { POST_TYPE, IMAGE_SIZE } from '@app/_lib/types'
+import type { POST_TYPE } from '@app/_lib/types'
 import { TAXONOMY } from '@app/_lib/types'
 
 /**
@@ -73,6 +73,7 @@ const GET_POST_META = `
     LIMIT 1
 `
 
+// @deprecated
 const GET_ALL_POST_META = `
     SELECT meta_key, meta_value
     FROM wp_postmeta
@@ -199,6 +200,7 @@ export const MySQLQuery = {
         return format(GET_ARCHIVE_BY, newKey, value)
     },
     getBackgrounds: () => format(GET_TERM_ITEMS, 'background', 'inherit', ''),
+    // @deprecated
     getAllPostMeta: (postId: number) => format(GET_ALL_POST_META, postId),
     // @deprecated
     getTermItems: (termSlug: string, offset: number) =>
@@ -237,9 +239,13 @@ export const MySQLQuery = {
     getTaxonomies: (postId: number) => format(GET_TAXONOMIES, postId),
     getTermMeta: (id: number, metaKey: string) =>
         format(GET_TERM_META, id, metaKey),
+    // @deprecated
     getTagCount: () => format(GET_TAG_COUNT),
+    // @deprecated
     getTagHit: () => format(GET_TAG_HIT),
+    // @deprecated
     updateTagHit: (termId: number) => format(UPDATE_TAG_HIT, termId),
+    // @deprecated
     deletePostMeta: (postId: number, metaKey: string) => {
         return format(DELETE_POST_META, postId, metaKey)
     },
@@ -247,22 +253,9 @@ export const MySQLQuery = {
 
 export enum MetaKeys {
     ATTACHMENT_META = '_wp_attachment_metadata',
-    MENU_ITEM_CLASSES = '_menu_item_classes',
-    MENU_ITEM_OBJECT_ID = '_menu_item_object_id',
-    MENU_ITEM_TARGET = '_menu_item_target',
-    MENU_ITEM_TYPE = '_menu_item_type',
-    MENU_ITEM_URL = '_menu_item_url',
-    MENU_ITEM_PARENT = '_menu_item_menu_item_parent',
 }
 
 export enum MenuItemTypes {
     POST_TYPE = 'post_type',
     TAXONOMY = 'taxonomy',
-}
-
-export const bannerMediaQuery: {
-    [key in IMAGE_SIZE]?: string
-} = {
-    medium: '(max-width: 300px)',
-    mediumLarge: '(max-width: 768px)',
 }

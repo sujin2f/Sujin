@@ -1,13 +1,13 @@
-import type { WithId } from 'mongodb'
 /* Models */
 import Cached from '@common/model/Cached'
 import Mongo from '@common/data/mongo/mongo'
 /* CONSTANTS */
-import { DAY_IN_SECONDS } from '@common/constants/datetime'
+// import { DAY_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV } from '@common/constants/helper'
 import { COLLECTION } from '@app/_lib/types'
+import { IMAGE_SIZE_BACKGROUND } from '@app/_lib/types'
 /* Types */
-import type { ImageBlockType } from '@app/_lib/data/mysql/types'
+import type { T_Background } from '@app/_lib/types'
 /* Utils */
 import { getCacheKey } from '@app/_lib/utils'
 import Logger from '@common/model/Logger'
@@ -17,24 +17,24 @@ import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
 import { MutationResultType } from '@app/api/graphql/constants'
 import { getOption, removeOption } from '../../mysql/option'
 import { formatImageBlock } from '@app/_lib/data/mongo/wordpress/util'
+import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 
-const format = (
-    image: WithId<ImageBlockType> | ImageBlockType,
-): ImageBlockType => formatImageBlock(image)
+const format = (image: T_Background): T_Background =>
+    formatImageBlock(image, IMAGE_SIZE_BACKGROUND)
 
 /**
  * Get backgrounds
  * This returns the cached result if it exists
  *
- * @returns {Promise<ImageBlockType[]>} - The background array
+ * @returns {Promise<T_Background[]>} - The background array
  */
-export const getCachedBackgrounds = async (): Promise<ImageBlockType[]> => {
+export const getCachedBackgrounds = async (): Promise<T_Background[]> => {
     const key = getCacheKey(COLLECTION.BACKGROUNDS)
 
     return await Cached.getInstance().getOrExecute(
         key,
         async () =>
-            await Mongo.random<ImageBlockType>(COLLECTION.BACKGROUNDS, 10).then(
+            await Mongo.random<T_Background>(COLLECTION.BACKGROUNDS, 10).then(
                 async (backgrounds) => {
                     if (backgrounds.length) {
                         return backgrounds.map((image) => format(image))
@@ -43,32 +43,46 @@ export const getCachedBackgrounds = async (): Promise<ImageBlockType[]> => {
                     return result.map((image) => format(image))
                 },
             ),
-        DAY_IN_SECONDS,
+        0,
         IS_DEV,
     )
 }
 
 /**
  * Update backgrounds from MySQL
- *
- * @returns {Promise<ImageBlockType[]>} - The background array
- * @todo update one background
+ * @returns {Promise<T_Background[]>} - The background array
+ * @throws
  */
-export const updateBackgrounds = async (): Promise<ImageBlockType[]> => {
+export const updateBackgrounds = async (): Promise<T_Background[]> => {
     Cached.getInstance().flush(getCacheKey(COLLECTION.BACKGROUNDS))
     Logger.server('Calling MySQL getBackgrounds')
     return await getMySQLBackgrounds().then(async (result) => {
         const backgrounds = result.map((image) =>
-            convertImageBlockURL(format(image)),
+            format(convertImageBlockURL(format(image))),
         )
-        await Mongo.deleteMany(COLLECTION.BACKGROUNDS, {})
-        await Mongo.insertMany(COLLECTION.BACKGROUNDS, backgrounds)
-        return backgrounds
+        await Mongo.deleteMany(COLLECTION.BACKGROUNDS, {}).catch(() => {
+            throw new ServerError(
+                ERROR_MESSAGE.ATTACHMENT.DELETE_MANY,
+                'updateBackgrounds()',
+                backgrounds,
+            )
+        })
+        await Mongo.insertMany(COLLECTION.BACKGROUNDS, backgrounds).catch(
+            () => {
+                throw new ServerError(
+                    ERROR_MESSAGE.ATTACHMENT.INSERT_MANY,
+                    'updateBackgrounds()',
+                    backgrounds,
+                )
+            },
+        )
+
+        return backgrounds.map((image) => format(image))
     })
 }
 
 export const getBackgrounds = async (page: number = 1) =>
-    await Mongo.findMany<ImageBlockType>(
+    await Mongo.findMany<T_Background>(
         COLLECTION.BACKGROUNDS,
         {},
         { limit: PER_PAGE, skip: PER_PAGE * (page - 1) },

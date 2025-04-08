@@ -2,8 +2,7 @@ import { MONGO_DATABASE } from '@common/constants/helper'
 import client from '@common/data/mongo/mongo-client'
 import type { Document, IndexDescriptionCompact } from 'mongodb'
 import Mongo from '@common/data/mongo/mongo'
-import type { OptionType } from '@app/_lib/data/mongo/types'
-import { COLLECTION } from '@app/_lib/types'
+import { COLLECTION, T_Option } from '@app/_lib/types'
 
 export const getIndexes = async (...collections: string[]) => {
     const indexes: Record<string, IndexDescriptionCompact> = {}
@@ -55,7 +54,7 @@ export const getSchema = async (...collections: string[]) => {
  * @returns {Promise<string>} Value
  */
 export const getSystemOption = async (key: string): Promise<string> =>
-    await Mongo.findOne<OptionType>(COLLECTION.OPTIONS, { key })
+    await Mongo.findOne<T_Option>(COLLECTION.OPTIONS, { key })
         .catch(() => ({ value: '' }))
         .then((result) => result.value)
 
@@ -66,10 +65,8 @@ export const getSystemOption = async (key: string): Promise<string> =>
  * @param {string} value - The value of the option.
  */
 export const setSystemOption = async (key: string, value: string) =>
-    await Mongo.findOne<OptionType>(COLLECTION.OPTIONS, { key })
-        .then(async () => {
-            await Mongo.replaceOne(COLLECTION.OPTIONS, { key }, { key, value })
-        })
-        .catch(async () => {
-            await Mongo.insertOne(COLLECTION.OPTIONS, { key, value })
-        })
+    await Mongo.insertOrReplace<T_Option>(
+        COLLECTION.OPTIONS,
+        { key },
+        { key, value },
+    )

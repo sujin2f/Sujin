@@ -2,9 +2,8 @@ import type { Filter, WithId } from 'mongodb'
 /* Models */
 import Cached from '@common/model/Cached'
 import Mongo from '@common/data/mongo/mongo'
-import Logger from '@common/model/Logger'
 /* CONSTANTS */
-import { WEEK_IN_SECONDS } from '@common/constants/datetime'
+// import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV } from '@common/constants/helper'
 import { COLLECTION, POST_IMAGE_LOCATION, POST_TYPE } from '@app/_lib/types'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
@@ -17,6 +16,7 @@ import { formatPostImage } from '@app/_lib/data/mongo/wordpress/util'
 /* Types */
 import { type PageType } from '@app/_lib/data/mysql/types'
 import type { MutationResultType } from '@app/api/graphql/constants'
+import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 
 const format = (page: WithId<PageType> | PageType): PageType => ({
     id: page.id,
@@ -43,20 +43,18 @@ export const mutatePage = async (
     slug: string,
 ): Promise<MutationResultType> => {
     // Nonce validation
-    Logger.server('GQL Server mutatePage: started.')
     const optionKey = `update_page_${nonce}`
     const nonceValue = await getOption(optionKey)
     await removeOption(optionKey)
 
     if (`${nonce}-${slug}` !== nonceValue) {
-        const message = 'GQL Server mutatePage: got invalid nonce.'
-        Logger.server(message)
-        throw Error(message)
+        throw new ServerError(
+            ERROR_MESSAGE.GENERAL.NONCE_FAILED,
+            'mutatePage()',
+        )
     }
 
     await updatePage(slug)
-
-    Logger.server(`GQL Server mutatePage: ${slug} updated.`)
     return {
         result: true,
     }
@@ -82,7 +80,7 @@ export const getCachedPage = async (slug: string): Promise<PageType> =>
             ).catch(async () => await updatePage(slug))
             return format(page)
         },
-        WEEK_IN_SECONDS,
+        0,
         IS_DEV,
     )
 
@@ -98,23 +96,13 @@ export const updatePage = async (slug: string): Promise<PageType> => {
     // Remove Cache
     await Cached.getInstance().flush(getCacheKey(COLLECTION.PAGE, slug))
 
-    const result = await getPostBy('slug', slug, POST_TYPE.PAGE).catch(
-        async () => {
-            await removePage(slug)
-            const message = `updatePage(): Failed to update MongoDB post: ${slug}`
-            Logger.server(message)
-            throw Error(message)
-        },
-    )
-
+    const result = await getPostBy('slug', slug, POST_TYPE.PAGE)
     const page = format(result)
     Object.keys(page.images).forEach((key) => {
         const imageKey = key as POST_IMAGE_LOCATION
         page.images[imageKey] = convertImageBlockURL(page.images[imageKey]!)
     })
-    await removePage(slug)
-    await Mongo.insertOne(COLLECTION.PAGE, page)
-    Logger.server(`updatePage(): Updated MongoDB post: ${slug}`)
+    await Mongo.insertOrReplace(COLLECTION.PAGE, { slug }, page)
     return page
 }
 
@@ -140,5 +128,4 @@ export const getPages = async (page: number = 1): Promise<PageType[]> =>
 export const removePage = async (slug: string): Promise<void> => {
     await Cached.getInstance().flush(getCacheKey(COLLECTION.PAGE, slug))
     await Mongo.deleteOne(COLLECTION.PAGE, { slug })
-    Logger.server(`Page removed ${slug}`)
 }

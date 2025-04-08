@@ -13,15 +13,15 @@ import { joinClassNames } from '@common/utils/string'
 import { getBannerImageMap } from '@app/_lib/data/mysql/utils'
 import { MENUS, METADATA } from '@app/_lib/constants'
 /* Types */
-import type { ImageBlockType } from '@app/_lib/data/mysql/types'
+import type { T_ImageBlock } from '@app/_lib/types'
 
 type Props = {
     banner?: {
         title?: string | ReactNode
         excerpt?: string
-        icon?: ImageBlockType
+        icon?: T_ImageBlock
         prefix?: string
-        background?: ImageBlockType
+        background?: T_ImageBlock
         backgroundColor?: string
     }
     menu?: MENU_NAMES

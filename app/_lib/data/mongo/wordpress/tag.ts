@@ -13,27 +13,41 @@ import {
     secureUpdateArchive,
     getArchives,
     removeArchive,
+    categoryFormatter,
 } from '@app/_lib/data/mongo/wordpress/archive'
 import { getCacheKey } from '@app/_lib/utils'
 /* CONSTANTS */
-import { WEEK_IN_SECONDS } from '@common/constants/datetime'
+// import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { shuffle } from '@common/utils/array'
 import { ARCHIVE } from '@app/_lib/types'
 
+export const formatter = (term: Record<string, unknown>): TagType => {
+    const formatted = {
+        ...categoryFormatter(term),
+        hits: 0,
+    } as TagType
+
+    if ('hits' in term) {
+        formatted.hits = term.hits as number
+    }
+
+    return formatted
+}
+
 export const getCachedTag = async (slug: string): Promise<TagType> =>
-    await getCachedArchive<TagType>(slug, ARCHIVE.TAG)
+    await getCachedArchive(slug, ARCHIVE.TAG, formatter)
 
 export const updateTag = async (slug: string): Promise<TagType> =>
-    await updateArchive(slug, ARCHIVE.TAG)
+    await updateArchive(slug, ARCHIVE.TAG, formatter)
 
 export const mutateTag = async (
     nonce: string,
     slug: string,
 ): Promise<MutationResultType> =>
-    await secureUpdateArchive(nonce, slug, ARCHIVE.TAG)
+    await secureUpdateArchive(nonce, slug, ARCHIVE.TAG, formatter)
 
-export const getTags = async (page: number = 1) =>
-    await getArchives(page, ARCHIVE.TAG)
+export const getTags = async (page: number = 1): Promise<TagType[]> =>
+    await getArchives(page, ARCHIVE.TAG, formatter)
 
 export const removeTag = async (slug: string) =>
     await removeArchive(slug, ARCHIVE.TAG)
@@ -82,5 +96,5 @@ export const getTagCloud = async (): Promise<TagType[]> =>
             })
             return shuffle(Object.values(tags))
         },
-        WEEK_IN_SECONDS,
+        0,
     )

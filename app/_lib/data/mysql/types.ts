@@ -1,38 +1,6 @@
-import type {
-    ARCHIVE,
-    IMAGE_SIZE,
-    POST_IMAGE_LOCATION,
-    POST_STATUS,
-} from '@app/_lib/types'
-
-// Image
-export type ImageType = {
-    url: string
-    width: number
-    height: number
-    mimeType: string
-}
-
-export type ImageSizeType = Partial<Record<IMAGE_SIZE, ImageType>>
-
-export type ImageBlockType = {
-    width: number
-    height: number
-    url: string
-    mimeType: string
-    title: string
-    sizes?: ImageSizeType
-}
-
-export type ImagesType = Partial<Record<POST_IMAGE_LOCATION, ImageBlockType>>
-
-/// @todo use this
-export enum IMAGE_POSITION {
-    BANNER,
-    LIST,
-    ICON,
-    RECENT_POST,
-}
+// @todo move to parent since it's used across the service
+import type { ARCHIVE, POST_STATUS } from '@app/_lib/types'
+import type { T_ImageBlock, T_PostImages } from '@app/_lib/types-image'
 
 // Term: refers the category, tag as a property of post
 // Archive: refers the archive page
@@ -45,7 +13,7 @@ export type TermType = {
 
 export type CategoryType = Omit<TermType, 'type'> & {
     excerpt: string
-    image?: ImageBlockType
+    image?: T_ImageBlock
     total: number
 }
 
@@ -56,19 +24,19 @@ export type TagType = CategoryType & {
 export type ArchiveType = CategoryType
 
 // Post and Page
-export type TPrevNext = {
+export type T_PrevNext = {
     title: string
     link: string
 }
 
-export type PostType = TPrevNext & {
+export type PostType = T_PrevNext & {
     id: number
     slug: string
     excerpt: string
     content: string
     date: number
     terms: TermType[]
-    images: ImagesType
+    images: T_PostImages
     meta: {
         useBackgroundColor: boolean
         backgroundColor: string
@@ -84,16 +52,6 @@ export type MySQLPostType = PostType & {
 export type PageType = Omit<PostType, 'terms'>
 
 export type OptionType = { option_value: string }
-
-export type MySQLMediaType = {
-    file: string
-    width: number
-    height: number
-    sizes: Record<
-        string,
-        { file: string; width: number; height: number; 'mime-type': string }
-    >
-}
 
 export type PostMetaType = {
     meta_key: string

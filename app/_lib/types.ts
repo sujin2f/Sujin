@@ -3,6 +3,18 @@
  */
 
 import { ConstToType } from '@common/types'
+export {
+    IMAGE_SIZE_BACKGROUND,
+    IMAGE_SIZE,
+    POST_IMAGE_LOCATION,
+} from '@app/_lib/types-image'
+export type {
+    T_Image,
+    T_ImageSize,
+    T_ImageBlock,
+    T_PostImages,
+    T_Background,
+} from '@app/_lib/types-image'
 
 /**
  * Archive types
@@ -73,34 +85,6 @@ export const ARCHIVE_URL = {
 export type ARCHIVE_URL = ConstToType<typeof ARCHIVE_URL>
 
 /**
- * Wordpress supported image sizes
- * @enum
- */
-export const IMAGE_SIZE = {
-    MEDIUM: 'medium',
-    THUMBNAI: 'thumbnail',
-    MEDIUM_LARGE: 'mediumLarge',
-    LARGE: 'large',
-    POST_THUMBNAIL: 'postThumbnail',
-    RELATED_POST: 'relatedPost',
-    RECENT_POST: 'recentPost',
-} as const
-export type IMAGE_SIZE = ConstToType<typeof IMAGE_SIZE>
-
-/**
- * Type of embed images from Wordpress Post
- * @enum
- */
-export const POST_IMAGE_LOCATION = {
-    LIST: 'list',
-    ICON: 'icon',
-    TITLE: 'title',
-    BACKGROUND: 'background',
-    THUMBNAIL: 'thumbnail',
-} as const
-export type POST_IMAGE_LOCATION = ConstToType<typeof POST_IMAGE_LOCATION>
-
-/**
  * Menu names
  * @enum
  */
@@ -112,9 +96,18 @@ export const MENU_NAMES = {
 } as const
 export type MENU_NAMES = ConstToType<typeof MENU_NAMES>
 
+/**
+ * @enum
+ * @todo use this
+ */
 export const POST_STATUS = {
     PUBLISH: 'publish',
     DRAFT: 'draft',
     TRASH: 'trash',
 } as const
 export type POST_STATUS = ConstToType<typeof POST_STATUS>
+
+export type T_Option = {
+    key: string
+    value: string
+}
