@@ -118,6 +118,7 @@ const getPostQuery = (
                 : MySQLQuery.getTermItems(
                       queryValue.toString(),
                       (page - 1) * PER_PAGE,
+                      ignoreStatus,
                   )
     }
 }

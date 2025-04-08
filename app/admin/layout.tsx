@@ -4,9 +4,9 @@ import { Header } from '@app/_components/header'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 import { Menu } from '@common/components/layout/Menu'
+import { AdminWrapperServer } from '@app/_components/session/AdminWrapperServer'
 /* Assets */
 import './style.scss'
-import { AdminWrapperServer } from '@app/_components/session/AdminWrapperServer'
 
 /**
  * Layout component that wraps the application with admin layout elements.

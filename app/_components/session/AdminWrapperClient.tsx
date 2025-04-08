@@ -1,6 +1,7 @@
 import { useSession } from 'next-auth/react'
 import type { PropsWithChildren } from 'react'
 import { useRouter } from 'next/navigation'
+import { isAdmin } from '@app/_lib/utils-server'
 
 /**
  * Wrapper for admin access
@@ -19,7 +20,7 @@ export function AdminWrapperClient({ children }: PropsWithChildren) {
     const { data: session } = useSession()
     const router = useRouter()
 
-    if (session && session.user?.email !== process.env.ADMIN_EMAIL) {
+    if (session && !isAdmin(session.user?.email)) {
         router.replace('/')
     }
 

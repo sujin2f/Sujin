@@ -15,6 +15,7 @@ import {
     T_ImageBlock,
     T_Archive,
     T_Category,
+    POST_STATUS,
 } from '@app/_lib/types'
 /* Utils */
 import { getArchiveBySlug as getMySQLArchive } from '@app/_lib/data/mysql/term'
@@ -98,7 +99,7 @@ const getArchive = async <T extends T_Archive>(
  */
 const getTotal = async (slug: string, type: ARCHIVE): Promise<number> =>
     await Mongo.count(COLLECTION.POST, {
-        terms: { $elemMatch: { slug, type } },
+        terms: { $elemMatch: { slug, type, statue: POST_STATUS.PUBLISH } },
     })
 
 /**

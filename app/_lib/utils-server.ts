@@ -35,3 +35,7 @@ export const getMetaData = async (): Promise<Metadata> => {
     }
     return METADATA[path]
 }
+
+export const isAdmin = (email?: string | null): boolean => {
+    return email === process.env.ADMIN_EMAIL
+}

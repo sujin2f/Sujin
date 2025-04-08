@@ -147,7 +147,7 @@ export const updateArchivePosts = async (
     Cached.getInstance().flush(getCacheKey(COLLECTION.POST))
     Cached.getInstance().flush(getCacheKey(type, slug))
 
-    return await getPostsBy(type, POST_TYPE.POST, slug, page).then(
+    return await getPostsBy(type, POST_TYPE.POST, slug, page, true).then(
         async (result) => {
             const tags: string[] = []
             const categories: string[] = []
@@ -169,18 +169,17 @@ export const getArchivePosts = async (
     type: string,
     slug: string,
     page: number,
+    ignoreStatus: boolean = false,
 ): Promise<T_Post[]> => {
-    return await Mongo.findMany<T_Post>(
-        COLLECTION.POST,
-        {
-            terms: { $elemMatch: { slug, type } },
-        },
-        {
-            sort: { date: -1 },
-            limit: PER_PAGE,
-            skip: PER_PAGE * (page - 1),
-        },
-    ).then(async (posts) => posts.map((post) => format(post)))
+    const doc: Filter<T_Post> = {
+        terms: { $elemMatch: { slug, type } },
+    }
+    if (!ignoreStatus) doc.status = POST_STATUS.PUBLISH
+    return await Mongo.findMany<T_Post>(COLLECTION.POST, doc, {
+        sort: { date: -1 },
+        limit: PER_PAGE,
+        skip: PER_PAGE * (page - 1),
+    }).then(async (posts) => posts.map((post) => format(post)))
 }
 
 export const getCachedArchivePosts = async (

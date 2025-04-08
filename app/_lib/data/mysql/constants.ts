@@ -116,7 +116,7 @@ const GET_TERM_ITEMS = `
         ON taxonomy.term_taxonomy_id = relationships.term_taxonomy_id
     INNER JOIN wp_terms AS terms
         ON terms.term_id = taxonomy.term_id
-    WHERE terms.slug="{0}" AND posts.post_status="{1}"
+    WHERE terms.slug="{0}" {1}
     {2}
 `
 
@@ -198,15 +198,21 @@ export const MySQLQuery = {
         const newKey = key === 'id' ? 'terms.term_id' : 'terms.slug'
         return format(GET_ARCHIVE_BY, newKey, value)
     },
-    getBackgrounds: () => format(GET_TERM_ITEMS, 'background', 'inherit', ''),
+    getBackgrounds: () =>
+        format(
+            GET_TERM_ITEMS,
+            'background',
+            'AND posts.post_status="inherit"',
+            '',
+        ),
     // @deprecated
     getAllPostMeta: (postId: number) => format(GET_ALL_POST_META, postId),
     // @deprecated
-    getTermItems: (termSlug: string, offset: number) =>
+    getTermItems: (termSlug: string, offset: number, ignoreStatus: boolean) =>
         format(
             GET_TERM_ITEMS,
             termSlug,
-            'publish',
+            ignoreStatus ? '' : 'AND posts.post_status="publish"',
             `ORDER BY posts.ID DESC LIMIT ${PER_PAGE} OFFSET ${offset}`,
         ),
     getOption: (optionName: string) => format(GET_OPTION, optionName),
