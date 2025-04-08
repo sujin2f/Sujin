@@ -25,7 +25,7 @@ const Picture = ({
     children,
 }: PropsWithChildren<Props>) => {
     return (
-        <picture className={className}>
+        <picture className={`image__container__picture ${className}`}>
             {sources.map((source, index) => (
                 <source
                     key={`source-${source.src}-${index}`}
