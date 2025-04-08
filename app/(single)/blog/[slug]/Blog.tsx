@@ -20,6 +20,7 @@ import { IMAGE_SIZE, POST_STATUS } from '@app/_lib/types'
 import { getCachedPost } from '@app/_lib/data/mongo/wordpress/post'
 import { updateHits } from '@app/_lib/data/mongo/wordpress/tag'
 import { getThumbnailFromPost } from '@app/_lib/data/mysql/utils'
+import { isAdmin } from '@app/_lib/utils-server'
 
 type Props = {
     params: Promise<{
@@ -38,6 +39,9 @@ export default async function Blog(props: Props) {
         },
     )
     const post = await requestPost(slug.toLowerCase()).catch(() => notFound())
+    if (!(await isAdmin()) && post.status !== POST_STATUS.PUBLISH) {
+        notFound()
+    }
     const thumbnail = getThumbnailFromPost(post, IMAGE_SIZE.MEDIUM_LARGE)
     const tags = post.terms.filter((term) => term.type === 'tag')
 
