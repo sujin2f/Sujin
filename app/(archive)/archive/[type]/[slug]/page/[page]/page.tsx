@@ -75,6 +75,9 @@ export default async function Page({ params }: Props) {
         notFound()
     }
 
+    if (type === ARCHIVE.SEARCH) {
+        return <SearchServer page={page} type={type} slug={slug} />
+    }
 
     return <ArchiveServer page={page} type={type} slug={slug} />
 }

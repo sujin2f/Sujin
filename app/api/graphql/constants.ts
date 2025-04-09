@@ -64,7 +64,7 @@ const PostMeta = new GQLType('PostMeta', {
     backgroundColor: { type: GQLString },
 })
 
-const PostArchive = new GQLType<T_PostArchive>('Post', {
+const PostArchive = new GQLType<T_PostArchive>('PostArchive', {
     id: { type: GQLInt },
     slug: { type: GQLString },
     title: { type: GQLString },
@@ -240,9 +240,8 @@ const imagesOpr = `list { ${imageBlockOpr} } thumbnail { ${imageBlockOpr} }`
 const commonOpr = 'id slug title'
 const taxOpr = `${commonOpr} type`
 const miniPostOpr = `${commonOpr} link images { ${imagesOpr} }`
-const postOpr = `${miniPostOpr} date excerpt content
-    terms { ${taxOpr} }
-    meta { useBackgroundColor backgroundColor }`
+const postOpr = `${miniPostOpr} date excerpt 
+    terms { ${taxOpr} }`
 
 /**
  * @todo implement image maps

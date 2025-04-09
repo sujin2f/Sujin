@@ -197,6 +197,34 @@ export const getArchivePosts = async (
     }).then(async (posts) => posts.map((post) => formatArchivePost(post)))
 }
 
+export const getCachedSearchPosts = async (
+    keyword: string,
+    page: number,
+): Promise<{ total: number; posts: T_PostArchive[] }> =>
+    await Cached.getInstance().getOrExecute(
+        getCacheKey(ARCHIVE.SEARCH, keyword, page),
+        async () => {
+            const doc = {
+                $text: { $search: keyword },
+                status: POST_STATUS.PUBLISH,
+            }
+            const total = await Mongo.count(COLLECTION.POST, doc)
+            const posts = await Mongo.findMany<T_Post>(COLLECTION.POST, doc, {
+                sort: { date: -1 },
+                limit: PER_PAGE,
+                skip: PER_PAGE * (page - 1),
+            }).then(async (posts) =>
+                posts.map((post) => formatArchivePost(post)),
+            )
+            return {
+                posts,
+                total,
+            }
+        },
+        0,
+        IS_DEV,
+    )
+
 export const getCachedArchivePosts = async (
     type: ARCHIVE,
     slug: string,
