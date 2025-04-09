@@ -359,15 +359,7 @@ export const unserialize = <
     try {
         result = phpUnSerialize(value)
     } catch (e) {
-        if (e instanceof Error) {
-            Logger.server(
-                'phpUnSerialize could not parse the value',
-                value,
-                e.message,
-            )
-        } else {
-            Logger.server('phpUnSerialize could not parse the value', value, e)
-        }
+        Logger.server('phpUnSerialize could not parse the value', value, e)
         result = phpUnserialize(value)
     }
 

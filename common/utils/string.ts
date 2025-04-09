@@ -171,10 +171,6 @@ export const phpUnSerialize = (input: string) => {
         result = result.slice(0, -1)
     }
 
-    console.log(quotes)
-    console.log(replaceQuote)
-    console.log(result)
-
     // Convert %quote% back to string
     Array.from(quotes).forEach((quote) => {
         result = result.replace(replaceQuote, quote[0])
