@@ -12,11 +12,11 @@ import {
 } from './data/mongo/wordpress/archive'
 
 jest.mock('next-auth', () => ({
-    getServerSession: () => ({
+    getServerSession: jest.fn(() => ({
         user: {
             email: process.env.ADMIN_EMAIL,
         },
-    }),
+    })),
 }))
 
 describe('migration.spec.ts', () => {

@@ -3,9 +3,8 @@
 import { auth } from '@app/_lib/utils-server'
 import { POST_TYPE } from './types-post'
 
-const mockSession = jest.fn()
 jest.mock('next-auth', () => ({
-    getServerSession: () => mockSession,
+    getServerSession: jest.fn(() => null),
 }))
 
 jest.mock('./data/mysql/option', () => ({
@@ -20,7 +19,6 @@ describe('utils.ts & utils-server.ts', () => {
 
     describe('auth()', () => {
         test('auth(): nonce pass', async () => {
-            mockSession.mockResolvedValue(null)
             const result = await auth(POST_TYPE.POST, 'nonce').then(
                 () => 'test pass',
             )
@@ -28,7 +26,6 @@ describe('utils.ts & utils-server.ts', () => {
         })
 
         test('auth(): nonce failed', async () => {
-            mockSession.mockResolvedValue(null)
             const result = await auth(POST_TYPE.POST).catch(() => 'test pass')
             expect(result).toBe('test pass')
         })
