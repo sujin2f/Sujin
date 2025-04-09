@@ -113,7 +113,7 @@ export const phpUnSerialize = (input: string) => {
     const regexQuote = new RegExp(/"(.*?)"/g)
     const replaceQuote = '$%quote%$'
     const quotes = input.matchAll(regexQuote)
-    let converted = input.replaceAll(regexQuote, replaceQuote)
+    let converted = input.trim().replaceAll(regexQuote, replaceQuote)
     let result = ''
 
     // Remove first array identifier
@@ -176,5 +176,9 @@ export const phpUnSerialize = (input: string) => {
         result = result.replace(replaceQuote, quote[0])
     })
 
-    return JSON.parse(result)
+    try {
+        return JSON.parse(result)
+    } catch {
+        throw Error(result)
+    }
 }
