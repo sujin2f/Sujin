@@ -9,8 +9,8 @@ import {
     T_Page,
 } from '@app/_lib/types'
 import { entries } from '@common/utils/object'
-// import { phpUnSerialize } from '@common/utils/string'
-// import Logger from '@common/model/Logger'
+import { phpUnSerialize } from '@common/utils/string'
+import Logger from '@common/model/Logger'
 
 /**
  * The regular expression for an HTML element.
@@ -355,13 +355,13 @@ export const unserialize = <
         return value as T
     }
 
-    const result = phpUnserialize(value)
+    let result
     try {
-        // result = phpUnSerialize(value)
+        result = phpUnSerialize(value)
     } catch {
-        // Logger.server('phpUnSerialize could not parse the value', value)
+        Logger.server('phpUnSerialize could not parse the value', value)
+        result = phpUnserialize(value)
     }
-    // result = phpUnserialize(value)
 
     if (key && typeof result === 'object') {
         if (Object.keys(result as object).includes(key)) {
