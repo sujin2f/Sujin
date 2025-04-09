@@ -21,10 +21,8 @@ import Mongo from '@common/data/mongo/mongo'
 import Cached from '@common/model/Cached'
 import { ARCHIVE, COLLECTION, POST_STATUS } from '@app/_lib/types'
 
-const mockIsAdmin = jest.fn()
-mockIsAdmin.mockResolvedValue(true)
 jest.mock('../../../utils-server', () => ({
-    isAdmin: jest.fn(() => mockIsAdmin),
+    auth: () => true,
 }))
 
 const mockQuery = jest.fn()

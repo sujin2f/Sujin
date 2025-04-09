@@ -4,9 +4,12 @@ import { VERSION } from '@common/constants/helper'
 import { categoryFactory, clearMongo } from '@jest/helpers'
 import migration from './migration'
 import Mongo from '@common/data/mongo/mongo'
-import { COLLECTION } from '@app/_lib/types'
+import { ARCHIVE, COLLECTION } from '@app/_lib/types'
 import Cached from '@common/model/Cached'
-import { getCachedCategory } from './data/mongo/wordpress/category'
+import {
+    categoryFormatter,
+    getCachedArchive,
+} from './data/mongo/wordpress/archive'
 
 jest.mock('./utils-server', () => ({
     isAdmin: jest.fn(() => true),
@@ -32,7 +35,11 @@ describe('migration.spec.ts', () => {
     test('Mongo.migration(): Check Validation Error', async () => {
         await Mongo.migrate('0.0.0', VERSION, migration)
         await categoryFactory({ slug: 'blog' })
-        const result = await getCachedCategory('blog')
+        const result = await getCachedArchive(
+            'blog',
+            ARCHIVE.CATEGORY,
+            categoryFormatter,
+        )
         expect(result).toBeTruthy()
     })
 })

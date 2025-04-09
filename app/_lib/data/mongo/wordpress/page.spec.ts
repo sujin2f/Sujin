@@ -16,7 +16,7 @@ import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 import Cached from '@common/model/Cached'
 
 jest.mock('../../../utils-server', () => ({
-    isAdmin: jest.fn(() => true),
+    auth: () => true,
 }))
 
 const mockQuery = jest.fn()
