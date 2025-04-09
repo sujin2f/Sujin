@@ -22,11 +22,13 @@ import Cached from '@common/model/Cached'
 import { ARCHIVE, COLLECTION, POST_STATUS } from '@app/_lib/types'
 
 jest.mock('next-auth', () => ({
-    getServerSession: jest.fn(() => ({
-        user: {
-            email: process.env.ADMIN_EMAIL,
-        },
-    })),
+    getServerSession: jest.fn(async () =>
+        Promise.resolve({
+            user: {
+                email: process.env.ADMIN_EMAIL,
+            },
+        }),
+    ),
 }))
 
 const mockQuery = jest.fn()

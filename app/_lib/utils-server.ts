@@ -45,6 +45,8 @@ export const getMetaData = async (): Promise<Metadata> => {
 
 export const isAdmin = async (): Promise<boolean> => {
     const session = await getServerSession(authOptions)
+    console.log(3)
+    console.log(session)
     return session?.user?.email === process.env.ADMIN_EMAIL
 }
 
@@ -63,7 +65,6 @@ export const auth = async (
     slug?: string,
 ): Promise<void> => {
     console.log(1)
-    console.log(await isAdmin())
     if (await isAdmin()) return
 
     console.log(2)

@@ -4,12 +4,12 @@ import { auth } from '@app/_lib/utils-server'
 import { POST_TYPE } from './types-post'
 
 jest.mock('next-auth', () => ({
-    getServerSession: jest.fn(() => null),
+    getServerSession: jest.fn(async () => Promise.resolve(null)),
 }))
 
 jest.mock('./data/mysql/option', () => ({
-    getOption: jest.fn(async () => true),
-    removeOption: jest.fn(async () => true),
+    getOption: jest.fn(async () => Promise.resolve(true)),
+    removeOption: jest.fn(async () => Promise.resolve(true)),
 }))
 
 describe('utils.ts & utils-server.ts', () => {
