@@ -21,8 +21,12 @@ import Mongo from '@common/data/mongo/mongo'
 import Cached from '@common/model/Cached'
 import { ARCHIVE, COLLECTION, POST_STATUS } from '@app/_lib/types'
 
-jest.mock('../../../utils-server', () => ({
-    auth: () => true,
+jest.mock('next-auth', () => ({
+    getServerSession: jest.fn(() => ({
+        user: {
+            email: process.env.ADMIN_EMAIL,
+        },
+    })),
 }))
 
 const mockQuery = jest.fn()

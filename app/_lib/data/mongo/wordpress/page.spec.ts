@@ -15,8 +15,12 @@ import migration from '@app/_lib/migration'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 import Cached from '@common/model/Cached'
 
-jest.mock('../../../utils-server', () => ({
-    auth: () => true,
+jest.mock('next-auth', () => ({
+    getServerSession: jest.fn(() => ({
+        user: {
+            email: process.env.ADMIN_EMAIL,
+        },
+    })),
 }))
 
 const mockQuery = jest.fn()
