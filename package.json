@@ -22,7 +22,6 @@
         "next-auth": "^4.24.11",
         "next-images": "^1.8.5",
         "node-cache": "^5.1.2",
-        "php-unserialize": "^0.0.1",
         "promise-mysql": "^5.2.0",
         "quartic": "^0.0.2",
         "react": "^19.0.0",
