@@ -29,7 +29,6 @@ services:
             WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
             WORDPRESS_DEBUG: 0
             TZ: America/Toronto
-            MONGO: mongo
             NODE_ENV: development
             VERSION: ${NEXT_PUBLIC_VERSION}
         volumes:
@@ -54,7 +53,7 @@ services:
             MYSQL_PASSWORD: ${MYSQL_PASSWORD}
             MYSQL_DB: ${MYSQL_DB}
             MONGO: mongo
-            MONGO_DATABASE: sujin-stage
+            MONGO_DATABASE: sujin-docker
             GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
             GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
             NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}

@@ -10,28 +10,62 @@ import migration from '@app/_lib/migration'
 /* Utils */
 import { compareVersions } from '@common/utils/system'
 import { getSystemOption, setSystemOption } from '@app/_lib/data/mongo/admin'
+import { isAdmin } from '@app/_lib/utils-server'
+import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
+import Cached from '@common/model/Cached'
 
 export async function FrontPageServer() {
     const current = (await getSystemOption('version')) || '0.0.0'
 
-    const migrate = async () => {
+    const migrate = async (current: string) => {
         'use server'
+        if (!(await isAdmin()))
+            throw new ServerError(
+                ERROR_MESSAGE.GENERAL.UNAUTHORIZED,
+                'migration',
+            )
+
         // Migrate MongoDB indexes
         if (compareVersions(VERSION, current) === 1) {
             Logger.server(`Migrate MongoDB: current ${current}, new ${VERSION}`)
-            const result = await Mongo.migrate(current, VERSION, migration)
+            const result = await Mongo.migrate(
+                current,
+                VERSION,
+                migration,
+            ).catch((e) => {
+                console.log(e)
+                return e.message
+            })
             if (result.length !== 0) {
                 Logger.server(`MongoDB Migrated: ${JSON.stringify(result)}`)
             }
-            await setSystemOption('version', VERSION)
+            await setSystemOption('version', VERSION).catch((e) => e.message)
+            return 'Done.'
         }
+        return 'Nothing to migrate.'
     }
 
     const reset = async () => {
         'use server'
-        await client.then(async () => {
-            await setSystemOption('version', '0.0.0')
+        if (!(await isAdmin()))
+            throw new ServerError(
+                ERROR_MESSAGE.GENERAL.UNAUTHORIZED,
+                'migration',
+            )
+
+        await client.then(async (client) => {
+            const database = client.db(MONGO_DATABASE)
+            // Drop all collections
+            await database.collections().then(async (collections) => {
+                for (let i = 0; i < collections.length; i++) {
+                    await collections[i]
+                        .drop()
+                        .catch((e) => JSON.parse(e.message))
+                }
+            })
+            await Cached.getInstance().flush()
         })
+        return 'Done.'
     }
 
     return (

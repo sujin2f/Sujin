@@ -3,29 +3,22 @@ import type { Migration } from '@common/data/mongo/mongo'
 /* CONSTANTS */
 import { MONGO_DATABASE } from '@common/constants/helper'
 import { COLLECTION } from '@app/_lib/types'
-import { default as SCHEMA_10_2_6 } from '@app/_lib/schema/10.2.6'
+import { default as SCHEMA_10_2_6 } from '@app/_lib/data/mongo/schema/10.2.6'
 /* Models */
 import Cached from '@common/model/Cached'
 /* Utils */
 import { updateBackgrounds } from '@app/_lib/data/mongo/wordpress/background'
-import { isAdmin } from '@app/_lib/utils-server'
-import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 
 const migration: Migration = {
-    '10.2.6': async (client) => {
-        if (!(await isAdmin()))
-            throw new ServerError(
-                ERROR_MESSAGE.GENERAL.UNAUTHORIZED,
-                'migration',
-            )
-
+    '10.3.0': async (client) => {
         const database = client.db(MONGO_DATABASE)
-        // Drop all collections
-        await database.collections().then(async (collections) => {
-            for (let i = 0; i < collections.length; i++) {
-                await collections[i].drop()
-            }
-        })
+        // Add text index to post.content for search
+        await database
+            .collection(COLLECTION.POST)
+            .createIndex({ content: 'text' })
+    },
+    '10.2.6': async (client) => {
+        const database = client.db(MONGO_DATABASE)
 
         // Background
         await (async () => {

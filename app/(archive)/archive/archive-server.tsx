@@ -2,40 +2,40 @@ import { notFound } from 'next/navigation'
 import { unstable_cache } from 'next/cache'
 /* Components */
 import { Banner } from '@app/_components/header/Banner'
-import ArchiveClient from '@app/(archive)/_components'
 import { Header } from '@app/_components/header'
 import { Footer } from '@app/_components/footer'
+import ArchiveClient from '@app/(archive)/_components'
 /* CONSTANTS */
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV, VERSION } from '@common/constants/helper'
 import { ARCHIVE } from '@app/_lib/types'
 /* Utils */
-import { getCachedCategory } from '@app/_lib/data/mongo/wordpress/category'
-import { getCachedTag, updateHits } from '@app/_lib/data/mongo/wordpress/tag'
+import {
+    categoryFormatter,
+    getCachedArchive,
+} from '@app/_lib/data/mongo/wordpress/archive'
+import { updateHits } from '@app/_lib/data/mongo/wordpress/tag'
 /* Types */
 import type { ArchiveProp } from '@app/(archive)/types'
 
-type Props = {
-    params: Promise<ArchiveProp>
-}
-
-export default async function Archive(props: Props) {
-    const params = await props.params
-    const { page } = params
-    const slug = params.slug.toLowerCase()
-    const type = params.type === 'tag' ? ARCHIVE.TAG : params.type
+export async function ArchiveServer({ page, type, slug }: ArchiveProp) {
     const requestArchive = unstable_cache(
         async (slug) =>
-            type === ARCHIVE.CATEGORY
-                ? await getCachedCategory(slug)
-                : await getCachedTag(slug),
+            await getCachedArchive(slug, type, categoryFormatter, page),
         [type, slug, VERSION],
         {
             tags: ['wordpress', 'archive'],
             revalidate: IS_DEV ? false : HOUR_IN_SECONDS,
         },
     )
-    const archive = await requestArchive(slug).catch(() => notFound())
+    const archive = await requestArchive(slug)
+        .then((archive) => {
+            if (!archive.posts || archive.posts.length === 0) {
+                notFound()
+            }
+            return archive
+        })
+        .catch(() => notFound())
     const { title, excerpt, image } = archive
 
     // Update Tag Cloud
@@ -48,12 +48,10 @@ export default async function Archive(props: Props) {
             <Header />
             <main>
                 <Banner
-                    banner={{
-                        title: title,
-                        excerpt: excerpt,
-                        prefix: type,
-                        background: image,
-                    }}
+                    title={title}
+                    excerpt={excerpt}
+                    prefix={type}
+                    background={image}
                 />
 
                 <ArchiveClient
@@ -61,6 +59,7 @@ export default async function Archive(props: Props) {
                     slug={slug}
                     page={page}
                     total={archive.total}
+                    posts={archive.posts!}
                 />
             </main>
             <Footer />

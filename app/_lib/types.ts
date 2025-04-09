@@ -24,6 +24,7 @@ export { ARCHIVE, TAXONOMY, ARCHIVE_URL } from '@app/_lib/types-archive'
 export type {
     T_PrevNext,
     T_Post,
+    T_PostArchive,
     T_MySQLPost,
     T_Page,
 } from '@app/_lib/types-post'

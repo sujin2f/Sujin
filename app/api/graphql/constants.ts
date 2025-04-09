@@ -18,7 +18,7 @@ import type {
     T_PostImages,
     T_Archive,
     T_Tag,
-    T_Post,
+    T_PostArchive,
     T_PrevNext,
     T_FlickrImage,
 } from '@app/_lib/types'
@@ -64,21 +64,19 @@ const PostMeta = new GQLType('PostMeta', {
     backgroundColor: { type: GQLString },
 })
 
-const Post = new GQLType<T_Post>('Post', {
+const PostArchive = new GQLType<T_PostArchive>('PostArchive', {
     id: { type: GQLInt },
     slug: { type: GQLString },
     title: { type: GQLString },
     excerpt: { type: GQLString },
-    content: { type: GQLString },
     date: { type: GQLFloat },
     link: { type: GQLString },
     images: { type: Images },
-    meta: { type: PostMeta },
 })
 
 const PrevNext = new GQLType('PrevNext', {
-    prev: { type: Post },
-    next: { type: Post },
+    prev: { type: PostArchive },
+    next: { type: PostArchive },
 })
 
 const Term = new GQLType<T_Term>('Term', {
@@ -88,7 +86,7 @@ const Term = new GQLType<T_Term>('Term', {
     type: { type: GQLString },
 })
 
-Post.addField('terms', { type: Term, list })
+PostArchive.addField('terms', { type: Term, list })
 
 const FlickrImage = new GQLType<T_FlickrImage>('FlickrImage', {
     title: { type: GQLString },
@@ -103,27 +101,6 @@ const TagCloud = new GQLType<T_Archive>('TagCloud', {
     total: { type: GQLInt },
     hits: { type: GQLInt },
 })
-
-const queryArchivePosts = new GQLQuery<[string, string, number], T_Post[]>(
-    'archivePosts',
-    {
-        type: {
-            type: GQLString,
-            required,
-        },
-        slug: {
-            type: GQLString,
-            required,
-        },
-        page: {
-            type: GQLInt,
-        },
-    },
-    {
-        type: Post,
-        list,
-    },
-)
 
 const queryFlickr = new GQLQuery<[], T_FlickrImage[]>(
     'flickr',
@@ -143,11 +120,11 @@ const queryTagCloud = new GQLQuery<[], T_Tag[]>(
     },
 )
 
-const queryRecent = new GQLQuery<[], T_Post[]>(
+const queryRecent = new GQLQuery<[], T_PostArchive[]>(
     'recent',
     {},
     {
-        type: Post,
+        type: PostArchive,
         list,
     },
 )
@@ -160,12 +137,12 @@ const queryPrevNext = new GQLQuery<[string], T_PrevNext[]>(
         },
     },
     {
-        type: Post,
+        type: PostArchive,
         list,
     },
 )
 
-const queryRelatedPosts = new GQLQuery<[string], T_Post[]>(
+const queryRelatedPosts = new GQLQuery<[string], T_PostArchive[]>(
     'relatedPosts',
     {
         slug: {
@@ -173,7 +150,7 @@ const queryRelatedPosts = new GQLQuery<[string], T_Post[]>(
         },
     },
     {
-        type: Post,
+        type: PostArchive,
         list,
     },
 )
@@ -187,7 +164,7 @@ const Result = new GQLType<boolean>('Result', {
 })
 
 const mutatePost = new GQLMutation<[string, string], MutationResultType>(
-    'updatePost',
+    'mutatePost',
     {
         nonce: {
             type: GQLString,
@@ -202,7 +179,7 @@ const mutatePost = new GQLMutation<[string, string], MutationResultType>(
 )
 
 const mutatePage = new GQLMutation<[string, string], MutationResultType>(
-    'updatePage',
+    'mutatePage',
     {
         nonce: {
             type: GQLString,
@@ -217,7 +194,7 @@ const mutatePage = new GQLMutation<[string, string], MutationResultType>(
 )
 
 const mutateBackground = new GQLMutation<[string], MutationResultType>(
-    'updateBackground',
+    'mutateBackground',
     {
         nonce: {
             type: GQLString,
@@ -228,7 +205,7 @@ const mutateBackground = new GQLMutation<[string], MutationResultType>(
 )
 
 const mutateCategory = new GQLMutation<[string, string], MutationResultType>(
-    'updateCategory',
+    'mutateCategory',
     {
         nonce: {
             type: GQLString,
@@ -243,7 +220,7 @@ const mutateCategory = new GQLMutation<[string, string], MutationResultType>(
 )
 
 const mutateTag = new GQLMutation<[string, string], MutationResultType>(
-    'updateTag',
+    'mutateTag',
     {
         nonce: {
             type: GQLString,
@@ -263,9 +240,8 @@ const imagesOpr = `list { ${imageBlockOpr} } thumbnail { ${imageBlockOpr} }`
 const commonOpr = 'id slug title'
 const taxOpr = `${commonOpr} type`
 const miniPostOpr = `${commonOpr} link images { ${imagesOpr} }`
-const postOpr = `${miniPostOpr} date excerpt content
-    terms { ${taxOpr} }
-    meta { useBackgroundColor backgroundColor }`
+const postOpr = `${miniPostOpr} date excerpt 
+    terms { ${taxOpr} }`
 
 /**
  * @todo implement image maps
@@ -370,7 +346,7 @@ const defaults = {
     ImageBlock,
     Images,
     PostMeta,
-    Post,
+    PostArchive,
     PrevNext,
     Term,
     FlickrImage,
@@ -383,7 +359,6 @@ const defaults = {
     queryRecent,
     queryPrevNext,
     queryRelatedPosts,
-    queryArchivePosts,
     querySpectra,
     queryMongoSpectra,
 

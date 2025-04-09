@@ -7,7 +7,6 @@ import Cached from '@common/model/Cached'
 import type { MutationResultType } from '@app/api/graphql/constants'
 /* Utils */
 import {
-    getCachedArchive,
     updateArchive,
     mutateArchive,
     getArchives,
@@ -32,9 +31,6 @@ const formatter = (term: Record<string, unknown>): T_Tag => {
 
     return formatted
 }
-
-export const getCachedTag = async (slug: string): Promise<T_Tag> =>
-    await getCachedArchive(slug, ARCHIVE.TAG, formatter)
 
 export const updateTag = async (slug: string): Promise<T_Tag> =>
     await updateArchive(slug, ARCHIVE.TAG, formatter)

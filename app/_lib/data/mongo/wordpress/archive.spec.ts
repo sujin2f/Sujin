@@ -21,8 +21,14 @@ import { ARCHIVE, COLLECTION, T_Category } from '@app/_lib/types'
 import Cached from '@common/model/Cached'
 import { category, tag } from '@jest/fixture'
 
-jest.mock('../../../utils-server', () => ({
-    isAdmin: jest.fn(() => true),
+jest.mock('next-auth', () => ({
+    getServerSession: jest.fn(async () =>
+        Promise.resolve({
+            user: {
+                email: process.env.ADMIN_EMAIL,
+            },
+        }),
+    ),
 }))
 
 const mockQuery = jest.fn()

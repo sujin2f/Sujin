@@ -13,28 +13,25 @@ import {
     IMAGE_SIZE_BACKGROUND,
     T_ImageBlock,
     T_Archive,
-    T_Category,
     POST_STATUS,
+    T_PostArchive,
 } from '@app/_lib/types'
 /* Utils */
 import { getArchiveBySlug as getMySQLArchive } from '@app/_lib/data/mysql/term'
 import { getCacheKey } from '@app/_lib/utils'
-import { removeOption, getOption } from '@app/_lib/data/mysql/option'
 import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
 import { formatImageBlock } from '@app/_lib/data/mongo/wordpress/util'
-import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
-import { isAdmin } from '@app/_lib/utils-server'
+import { auth } from '@app/_lib/utils-server'
+import { getCachedArchivePosts } from './post'
 
-export const categoryFormatter = (
-    term: Record<string, unknown>,
-): T_Category => {
+export const categoryFormatter = (term: Record<string, unknown>): T_Archive => {
     const formatted = {
         id: term.id,
         title: term.title,
         slug: term.slug,
         excerpt: term.excerpt,
         total: term.total || 0,
-    } as T_Category
+    } as T_Archive
 
     if (term.image) {
         formatted.image = formatImageBlock(
@@ -43,31 +40,15 @@ export const categoryFormatter = (
         )
     }
 
+    if (term.page) {
+        formatted.page = term.page as number
+    }
+
+    if (term.posts) {
+        formatted.posts = term.posts as T_PostArchive[]
+    }
+
     return formatted
-}
-
-/**
- * @param {string} nonce - WP nonce
- * @returns {Promise<void>}
- */
-export const auth = async (
-    nonce?: string,
-    slug?: string,
-    type?: ARCHIVE,
-): Promise<void> => {
-    if (await isAdmin()) return
-
-    if (!nonce) return
-    const optionKey = `update_${type}_${nonce}`
-    const nonceValue = await getOption(optionKey)
-    await removeOption(optionKey)
-    // Nonce validation
-    if (`${nonce}-${slug}` === nonceValue) return
-
-    throw new ServerError(
-        ERROR_MESSAGE.GENERAL.UNAUTHORIZED,
-        'archive.ts::auth()',
-    )
 }
 
 /**
@@ -76,18 +57,26 @@ export const auth = async (
  * @template {T} T_Archive
  * @param {string} slug
  * @param {ARCHIVE} type
+ * @param {(term: Record<string, unknown>) => T} formatter
+ * @param {number} page If exist, return with posts
  * @returns {Promise<T_Archive>}
  */
 export const getCachedArchive = async <T extends T_Archive>(
     slug: string,
     type: ARCHIVE,
     formatter: (term: Record<string, unknown>) => T,
+    page?: number,
 ): Promise<T> =>
     await Cached.getInstance().getOrExecute<T>(
-        getCacheKey(type, slug),
+        getCacheKey(type, slug, 'archive', page),
         async () =>
             await getArchive<T>(slug, type, formatter).then(async (archive) => {
                 const total = await updateTotal(archive.slug, type)
+
+                if (page) {
+                    const posts = await getCachedArchivePosts(type, slug, page)
+                    return formatter({ ...archive, total, page, posts })
+                }
                 return formatter({ ...archive, total })
             }),
         0,
@@ -148,7 +137,7 @@ export const updateArchive = async <T extends T_Archive>(
     formatter: (term: Record<string, unknown>) => T,
     nonce?: string,
 ): Promise<T> => {
-    await auth(nonce, slug, type)
+    await auth(type, nonce, slug)
 
     await Cached.getInstance().flush(getCacheKey(type, slug))
     const table = type

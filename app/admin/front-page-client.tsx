@@ -1,15 +1,17 @@
 'use client'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 /* Components */
 import { Button } from '@common/components/forms/Button'
+import Callout from '@common/components/containers/Callout'
 
 type Props = {
     dbVersion: string
     codeVersion: string
     database: string
     showMigrate: boolean
-    migrate: () => Promise<void>
-    reset: () => Promise<void>
+    migrate: (current: string) => Promise<string>
+    reset: () => Promise<string>
 }
 
 export function FrontPageClient({
@@ -20,6 +22,7 @@ export function FrontPageClient({
     migrate,
     reset,
 }: Props) {
+    const [message, setMessage] = useState('')
     const router = useRouter()
     return (
         <>
@@ -33,12 +36,16 @@ export function FrontPageClient({
                 <dt>Mongo Database</dt>
                 <dd>{database}</dd>
             </dl>
+            {message ? <Callout>{message}</Callout> : null}
             {showMigrate && (
                 <Button
                     onClick={() =>
-                        migrate().then(() => {
-                            router.refresh()
-                        })
+                        migrate(dbVersion)
+                            .then((message) => {
+                                setMessage(message)
+                                router.refresh()
+                            })
+                            .catch(() => setMessage('Failed'))
                     }
                 >
                     Migrate MongoDB
@@ -46,9 +53,12 @@ export function FrontPageClient({
             )}{' '}
             <Button
                 onClick={() =>
-                    reset().then(() => {
-                        router.refresh()
-                    })
+                    reset()
+                        .then((message) => {
+                            setMessage(message)
+                            router.refresh()
+                        })
+                        .catch(() => setMessage('Failed'))
                 }
             >
                 Reset Version

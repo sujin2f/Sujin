@@ -5,7 +5,7 @@ import {
     IMAGE_SIZE,
     IMAGE_SIZE_BACKGROUND,
     T_ImageBlock,
-    T_Post,
+    T_PostArchive,
     T_Page,
 } from '@app/_lib/types'
 import { entries } from '@common/utils/object'
@@ -358,8 +358,8 @@ export const unserialize = <
     let result
     try {
         result = phpUnSerialize(value)
-    } catch {
-        Logger.server('phpUnSerialize could not parse the value', value)
+    } catch (e) {
+        Logger.server('phpUnSerialize could not parse the value', value, e)
         result = phpUnserialize(value)
     }
 
@@ -372,7 +372,10 @@ export const unserialize = <
     return result as T
 }
 
-export const getThumbnailFromPost = (post: T_Post | T_Page, size: IMAGE_SIZE) =>
+export const getThumbnailFromPost = (
+    post: T_PostArchive | T_Page,
+    size: IMAGE_SIZE,
+) =>
     post.images.list?.sizes?.[size]?.url ||
     post.images.thumbnail?.sizes?.[size]?.url ||
     DEFAULT_THUMBNAIL

@@ -5,7 +5,7 @@ import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 /* CONSTANTS */
 // import { DAY_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV } from '@common/constants/helper'
-import { COLLECTION } from '@app/_lib/types'
+import { COLLECTION, POST_TYPE } from '@app/_lib/types'
 import { IMAGE_SIZE_BACKGROUND } from '@app/_lib/types'
 /* Types */
 import type { T_Background } from '@app/_lib/types'
@@ -16,31 +16,11 @@ import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 import { getBackgrounds as getMySQLBackgrounds } from '@app/_lib/data/mysql/media'
 import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
 import { MutationResultType } from '@app/api/graphql/constants'
-import { getOption, removeOption } from '@app/_lib/data/mysql/option'
 import { formatImageBlock } from '@app/_lib/data/mongo/wordpress/util'
-import { isAdmin } from '@app/_lib/utils-server'
+import { auth } from '@app/_lib/utils-server'
 
 const format = (image: T_Background): T_Background =>
     formatImageBlock(image, IMAGE_SIZE_BACKGROUND)
-
-/**
- * @param {string} nonce - WP nonce
- * @returns {Promise<void>}
- */
-export const auth = async (nonce?: string): Promise<void> => {
-    if (await isAdmin()) return
-
-    if (!nonce) return
-    const optionKey = `update_background_${nonce}`
-    const nonceValue = await getOption(optionKey)
-    await removeOption(optionKey)
-    if (nonce === nonceValue) return
-
-    throw new ServerError(
-        ERROR_MESSAGE.GENERAL.UNAUTHORIZED,
-        'background.ts::auth()',
-    )
-}
 
 /**
  * Get backgrounds
@@ -68,7 +48,7 @@ export const getCachedBackgrounds = async (): Promise<T_Background[]> => {
 export const updateBackgrounds = async (
     nonce?: string,
 ): Promise<T_Background[]> => {
-    await auth(nonce)
+    await auth(POST_TYPE.ATTACHMENT, nonce)
 
     Cached.getInstance().flush(getCacheKey(COLLECTION.BACKGROUNDS))
     Logger.server('Calling MySQL getBackgrounds')

@@ -1,6 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
-import { notFound } from 'next/navigation'
+import React from 'react'
 /* Components */
 import ScrollToTop from '@common/components/ScrollToTop'
 import { Cards } from '@app/(archive)/_components/cards'
@@ -8,27 +7,24 @@ import { Paging } from '@app/(archive)/_components/paging'
 import { Row } from '@common/components/layout/Row'
 import { Loading } from '@app/(archive)/_components/loading'
 /* Types */
-import type { Nullable } from '@common/types'
-import type { T_Post } from '@app/_lib/types-post'
+import type { T_PostArchive } from '@app/_lib/types'
 import type { ArchiveProp } from '@app/(archive)/types'
 /* CONSTANTS */
-import GQL from '@app/api/graphql/constants'
-import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
-/* Utils */
-import { fetchGQL } from '@common/data/graphql/fetchGQL'
 
 interface Props extends ArchiveProp {
     total: number
+    posts: T_PostArchive[]
 }
 
-export default function ArchiveClient({ type, slug, page, total }: Props) {
-    const posts = useArchive(type, slug, page)
+export default function ArchiveClient({
+    type,
+    slug,
+    posts,
+    page,
+    total,
+}: Props) {
     const pages = Math.ceil(total / PER_PAGE)
-
-    if (posts && posts.length === 0) {
-        notFound()
-    }
 
     return (
         <>
@@ -55,23 +51,4 @@ export default function ArchiveClient({ type, slug, page, total }: Props) {
             )}
         </>
     )
-}
-
-const useArchive = (type: string, slug: string, page: number) => {
-    const [posts, setPosts] = useState<Nullable<T_Post[]>>()
-
-    useEffect(() => {
-        fetchGQL(
-            GQL.queryArchivePosts,
-            GQL.postOpr,
-            WEEK_IN_SECONDS,
-            type,
-            slug,
-            parseInt(page.toString(), 10),
-        )
-            .then((result) => setPosts(result))
-            .catch(() => setPosts([]))
-    }, [page, slug, type])
-
-    return posts
 }

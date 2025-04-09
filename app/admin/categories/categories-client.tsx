@@ -12,7 +12,7 @@ import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 import Table from '@common/components/containers/Table'
 
-import type { T_Category } from '@app/_lib/types-archive'
+import type { T_Category } from '@app/_lib/types'
 
 type Props = {
     readonly categories: T_Category[]

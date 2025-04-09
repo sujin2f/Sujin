@@ -19,11 +19,8 @@ export default async function Wrapper() {
             <Header />
             <main>
                 <Banner
-                    banner={{
-                        title: '404 Not Found',
-                        excerpt:
-                            'We cannot find the result. See below for recent articles.',
-                    }}
+                    title="404 Not Found"
+                    excerpt="We cannot find the result. See below for recent articles."
                 />
                 <NotFoundClient />
             </main>

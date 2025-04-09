@@ -30,7 +30,7 @@ export default function Search() {
             }
 
             if (keyword) {
-                const to = `/search/${keyword}`
+                const to = `/archive/search/${keyword}/page/1/`
                 router.push(to)
                 setKeyword('')
             }

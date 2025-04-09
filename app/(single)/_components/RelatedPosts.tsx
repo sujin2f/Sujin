@@ -6,7 +6,7 @@ import { WidgetTitle } from '@app/_components/WidgetTitle'
 import { Cards } from '@app/(archive)/_components/cards'
 import { Loading } from '@app/(archive)/_components/loading'
 /* Types */
-import type { T_Post } from '@app/_lib/types'
+import type { T_Post, T_PostArchive } from '@app/_lib/types'
 import type { Nullable } from '@common/types'
 /* Utils */
 import { fetchGQL } from '@common/data/graphql/fetchGQL'
@@ -48,8 +48,8 @@ export const RelatedPosts = (props: Props) => {
 const useRelatedPosts = (
     post: T_Post,
     ref: RefObject<HTMLElement | null>,
-): Nullable<T_Post[]> => {
-    const [posts, setPosts] = useState<Nullable<T_Post[]>>()
+): Nullable<T_PostArchive[]> => {
+    const [posts, setPosts] = useState<Nullable<T_PostArchive[]>>()
     useIntersectionObserver(ref, () => {
         fetchGQL(GQL.queryRelatedPosts, GQL.postOpr, WEEK_IN_SECONDS, post.slug)
             .then((result) => setPosts(result))

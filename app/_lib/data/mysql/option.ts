@@ -16,7 +16,6 @@ export const getOption = async (key: string): Promise<string> =>
     await MySQL.getInstance()
         .selectOne<T_Option>(MySQLQuery.getOption(key))
         .then((option) => option.option_value)
-        .catch(() => '')
 
 export const removeOption = async (key: string): Promise<void> =>
     await MySQL.getInstance().update(MySQLQuery.deleteOption(key))
