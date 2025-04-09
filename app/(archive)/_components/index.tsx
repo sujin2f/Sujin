@@ -9,7 +9,7 @@ import { Row } from '@common/components/layout/Row'
 import { Loading } from '@app/(archive)/_components/loading'
 /* Types */
 import type { Nullable } from '@common/types'
-import type { T_Post } from '@app/_lib/types-post'
+import type { T_PostArchive } from '@app/_lib/types'
 import type { ArchiveProp } from '@app/(archive)/types'
 /* CONSTANTS */
 import GQL from '@app/api/graphql/constants'
@@ -58,7 +58,7 @@ export default function ArchiveClient({ type, slug, page, total }: Props) {
 }
 
 const useArchive = (type: string, slug: string, page: number) => {
-    const [posts, setPosts] = useState<Nullable<T_Post[]>>()
+    const [posts, setPosts] = useState<Nullable<T_PostArchive[]>>()
 
     useEffect(() => {
         fetchGQL(

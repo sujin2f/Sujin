@@ -29,19 +29,22 @@ export type T_PrevNext = {
     link: string
 }
 
-export type T_Post = T_PrevNext & {
+export type T_PostArchive = T_PrevNext & {
     id: number
     slug: string
     excerpt: string
-    content: string
     date: number
     terms: T_Term[]
     images: T_PostImages
+    status: POST_STATUS
+}
+
+export type T_Post = T_PostArchive & {
+    content: string
     meta: {
         useBackgroundColor: boolean
         backgroundColor: string
     }
-    status: POST_STATUS
 }
 
 export type T_MySQLPost = T_Post & {

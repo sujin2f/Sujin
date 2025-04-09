@@ -7,10 +7,10 @@ import { Tags } from '@app/(single)/_components/Tags'
 /* Helpers */
 import type { OneToTwelve } from '@common/components/layout/Column'
 import { getThumbnailFromPost } from '@app/_lib/data/mysql/utils'
-import { ARCHIVE, IMAGE_SIZE, T_Post } from '@app/_lib/types'
+import { ARCHIVE, IMAGE_SIZE, T_PostArchive } from '@app/_lib/types'
 
 type Props = {
-    readonly posts: T_Post[]
+    readonly posts: T_PostArchive[]
     readonly keyPrefix: string
     readonly large?: OneToTwelve
     readonly medium?: OneToTwelve
@@ -26,7 +26,7 @@ export const Cards = ({
     small,
     imageSize = IMAGE_SIZE.POST_THUMBNAIL,
 }: Props) => {
-    return posts.map((post: T_Post, index: number) => {
+    return posts.map((post: T_PostArchive, index: number) => {
         const tags = post.terms.filter((term) => term.type === ARCHIVE.TAG)
         return (
             <Column

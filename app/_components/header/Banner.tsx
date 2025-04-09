@@ -16,15 +16,13 @@ import { MENUS, METADATA } from '@app/_lib/constants'
 import type { T_ImageBlock } from '@app/_lib/types'
 
 type Props = {
-    banner?: {
-        title?: string | ReactNode
-        excerpt?: string
-        icon?: T_ImageBlock
-        prefix?: string
-        background?: T_ImageBlock
-        backgroundColor?: string
-    }
-    menu?: MENU_NAMES
+    readonly title?: string | ReactNode
+    readonly excerpt?: string
+    readonly icon?: T_ImageBlock
+    readonly prefix?: string
+    readonly background?: T_ImageBlock
+    readonly backgroundColor?: string
+    readonly menu?: MENU_NAMES
 }
 
 /**
@@ -33,17 +31,19 @@ type Props = {
  * @param {BannerType} props.banner - The banner data.
  * @param {string} props.menu - The menu name to be used in the banner.
  */
-export function Banner(props: Props) {
+export function Banner({
+    icon,
+    background,
+    backgroundColor,
+    prefix,
+    ...props
+}: Props) {
     const menu = MENUS[props.menu || MENU_NAMES.MAIN]
     const path = usePathname()
-    const { background, backgroundColor, icon } = props.banner || {}
 
-    const title =
-        path && METADATA[path] ? METADATA[path].title : props.banner?.title
+    const title = path && METADATA[path] ? METADATA[path].title : props.title
     const excerpt =
-        path && METADATA[path]
-            ? METADATA[path].description
-            : props.banner?.excerpt
+        path && METADATA[path] ? METADATA[path].description : props.excerpt
 
     const style = backgroundColor
         ? {
@@ -78,15 +78,15 @@ export function Banner(props: Props) {
                 <div
                     className={joinClassNames(
                         'banner__header',
-                        props.banner?.icon && 'banner__header--with-icon',
+                        icon && 'banner__header--with-icon',
                     )}
                 >
                     <Row>
                         <Column small={12} className="column--banner__title">
                             <h1 className="banner__title">
-                                {props.banner?.prefix ? (
+                                {prefix ? (
                                     <span className="banner__title__tag">
-                                        {props.banner.prefix}
+                                        {prefix}
                                     </span>
                                 ) : null}
 

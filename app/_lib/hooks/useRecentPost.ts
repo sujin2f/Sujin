@@ -6,10 +6,10 @@ import GQL from '@app/api/graphql/constants'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 /* Types */
 import type { Nullable } from '@common/types'
-import { T_Post } from '../types-post'
+import type { T_PostArchive } from '@app/_lib/types'
 
-export const useRecentPost = (): Nullable<T_Post[]> => {
-    const [posts, setPosts] = useState<Nullable<T_Post[]>>()
+export const useRecentPost = (): Nullable<T_PostArchive[]> => {
+    const [posts, setPosts] = useState<Nullable<T_PostArchive[]>>()
     useEffect(() => {
         fetchGQL(GQL.queryRecent, GQL.postOpr, WEEK_IN_SECONDS)
             .then((result) => setPosts(result))

@@ -1,15 +1,20 @@
+import { notFound } from 'next/navigation'
 import type { Metadata } from 'next/types'
 import { unstable_cache } from 'next/cache'
 /* Components */
-import Archive from './Archive'
+// import Archive from './Archive'
+import { SearchServer } from '@app/(archive)/archive/search-server'
+import { ArchiveServer } from '@app/(archive)/archive/archive-server'
 /* CONSTANTS */
 import { DAY_IN_SECONDS } from '@common/constants/datetime'
-import { ARCHIVE } from '@app/_lib/types'
+import { ARCHIVE, ARCHIVE_URL } from '@app/_lib/types'
 import { BASE_URL } from '@app/_lib/constants'
 import { IS_DEV, VERSION } from '@common/constants/helper'
 /* Utils */
-import { getCachedCategory } from '@app/_lib/data/mongo/wordpress/category'
-import { getCachedTag } from '@app/_lib/data/mongo/wordpress/tag'
+import {
+    categoryFormatter,
+    getCachedArchive,
+} from '@app/_lib/data/mongo/wordpress/archive'
 /* Types */
 import type { ArchiveProp } from '@app/(archive)/types'
 
@@ -17,16 +22,29 @@ type Props = {
     params: Promise<ArchiveProp>
 }
 
-export const generateMetadata = async (props: Props): Promise<Metadata> => {
-    const params = await props.params
-    const { page } = params
-    const slug = params.slug.toLowerCase()
-    const type = params.type === 'tag' ? ARCHIVE.TAG : params.type
+export const generateMetadata = async ({
+    params,
+}: Props): Promise<Metadata> => {
+    // Param
+    const { page, type, slug: title } = await params
+    const slug = title.toLowerCase()
+    if (Object.keys(ARCHIVE_URL).includes(type)) {
+        return {}
+    }
+
+    if (type === ARCHIVE_URL.SEARCH) {
+        return {
+            title: `Sujin | Search result | ${title}`,
+            robots: {
+                index: false,
+                follow: false,
+                nocache: false,
+            },
+        }
+    }
+
     const requestArchive = unstable_cache(
-        async (slug) =>
-            type === ARCHIVE.CATEGORY
-                ? await getCachedCategory(slug)
-                : await getCachedTag(slug),
+        async (slug) => await getCachedArchive(slug, type, categoryFormatter),
         [type, slug, VERSION],
         {
             tags: ['wordpress', 'archive'],
@@ -50,6 +68,13 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
     }
 }
 
-export default async function Page(props: Props) {
-    return <Archive {...props} />
+export default async function Page({ params }: Props) {
+    const { page, type, slug: title } = await params
+    const slug = title.toLowerCase()
+    if (Object.keys(ARCHIVE_URL).includes(type)) {
+        notFound()
+    }
+
+
+    return <ArchiveServer page={page} type={type} slug={slug} />
 }

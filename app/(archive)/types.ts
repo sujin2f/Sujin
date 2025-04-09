@@ -1,7 +1,7 @@
-import type { ARCHIVE } from '@app/_lib/types'
+import type { ARCHIVE_URL } from '@app/_lib/types'
 
 export type ArchiveProp = {
-    type: ARCHIVE
+    type: ARCHIVE_URL
     slug: string
     page: number
 }

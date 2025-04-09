@@ -53,13 +53,11 @@ export default async function Blog(props: Props) {
     return (
         <main>
             <Banner
-                banner={{
-                    title: post.title,
-                    excerpt: post.excerpt,
-                    icon: post.images.icon,
-                    background: post.images.background,
-                    backgroundColor: post.meta.backgroundColor,
-                }}
+                title={post.title}
+                excerpt={post.excerpt}
+                icon={post.images.icon}
+                background={post.images.background}
+                backgroundColor={post.meta.backgroundColor}
             />
             <Row>
                 <ScrollToTop />

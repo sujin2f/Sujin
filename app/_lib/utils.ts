@@ -26,4 +26,7 @@ export const getCacheKey = (
         case COLLECTION.BACKGROUNDS:
             return `${VERSION}-backgrounds`
     }
+
+    // @todo throw
+    return ''
 }

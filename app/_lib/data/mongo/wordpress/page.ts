@@ -13,15 +13,13 @@ import {
 } from '@app/_lib/types'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 /* Utils */
-import { removeOption, getOption } from '@app/_lib/data/mysql/option'
 import { getCacheKey } from '@app/_lib/utils'
 import { getPostBy } from '@app/_lib/data/mysql/post'
 import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
 import { formatPostImage } from '@app/_lib/data/mongo/wordpress/util'
-import { isAdmin } from '@app/_lib/utils-server'
+import { auth } from '@app/_lib/utils-server'
 /* Types */
 import type { MutationResultType } from '@app/api/graphql/constants'
-import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 
 const format = (page: WithId<T_Page> | T_Page): T_Page => ({
     id: page.id,
@@ -35,22 +33,6 @@ const format = (page: WithId<T_Page> | T_Page): T_Page => ({
     status: page.status,
     link: page.link,
 })
-
-/**
- * @param {string} nonce - WP nonce
- * @returns {Promise<void>}
- */
-export const auth = async (nonce?: string, slug?: string): Promise<void> => {
-    if (await isAdmin()) return
-
-    if (!nonce) return
-    const optionKey = `update_page_${nonce}`
-    const nonceValue = await getOption(optionKey)
-    await removeOption(optionKey)
-    if (`${nonce}-${slug}` === nonceValue) return
-
-    throw new ServerError(ERROR_MESSAGE.GENERAL.UNAUTHORIZED, 'page.ts::auth()')
-}
 
 /**
  * Update Mongo Post type from MySQL for GraphQL
@@ -97,7 +79,7 @@ export const updatePage = async (
     slug: string,
     nonce?: string,
 ): Promise<T_Page> => {
-    await auth(nonce, slug)
+    await auth(POST_TYPE.PAGE, nonce, slug)
     await Cached.getInstance().flush(getCacheKey(COLLECTION.PAGE, slug))
 
     const result = await getPostBy('slug', slug, POST_TYPE.PAGE)

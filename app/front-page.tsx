@@ -31,16 +31,14 @@ export async function FrontPage() {
             <Header />
             <main className="page--frontpage">
                 <Banner
-                    banner={{
-                        title: (
-                            <Logo
-                                aria-label={process.env.NEXT_PUBLIC_TITLE}
-                                className="banner__logo"
-                            />
-                        ),
-                        excerpt: process.env.NEXT_PUBLIC_EXCERPT,
-                        background,
-                    }}
+                    title={
+                        <Logo
+                            aria-label={process.env.NEXT_PUBLIC_TITLE}
+                            className="banner__logo"
+                        />
+                    }
+                    excerpt={process.env.NEXT_PUBLIC_EXCERPT}
+                    background={background}
                 />
             </main>
         </>

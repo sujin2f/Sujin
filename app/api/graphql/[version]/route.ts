@@ -32,7 +32,7 @@ const options = createGQLOptions(
     GQL.ImageBlock,
     GQL.Images,
     GQL.PostMeta,
-    GQL.Post,
+    GQL.PostArchive,
     GQL.PrevNext,
     GQL.Term,
     GQL.FlickrImage,

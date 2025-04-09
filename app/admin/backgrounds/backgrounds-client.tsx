@@ -9,7 +9,7 @@ import Callout from '@common/components/containers/Callout'
 import { PrevNext } from '@app/admin/_components/PrevNext'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
-import type { T_Background } from '@app/_lib/types-image'
+import type { T_Background } from '@app/_lib/types'
 
 type Props = {
     readonly refresh: () => Promise<T_Background[] | string>

@@ -19,11 +19,9 @@ import {
 /* Utils */
 import { getArchiveBySlug as getMySQLArchive } from '@app/_lib/data/mysql/term'
 import { getCacheKey } from '@app/_lib/utils'
-import { removeOption, getOption } from '@app/_lib/data/mysql/option'
 import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
 import { formatImageBlock } from '@app/_lib/data/mongo/wordpress/util'
-import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
-import { isAdmin } from '@app/_lib/utils-server'
+import { auth } from '@app/_lib/utils-server'
 
 export const categoryFormatter = (
     term: Record<string, unknown>,
@@ -44,30 +42,6 @@ export const categoryFormatter = (
     }
 
     return formatted
-}
-
-/**
- * @param {string} nonce - WP nonce
- * @returns {Promise<void>}
- */
-export const auth = async (
-    nonce?: string,
-    slug?: string,
-    type?: ARCHIVE,
-): Promise<void> => {
-    if (await isAdmin()) return
-
-    if (!nonce) return
-    const optionKey = `update_${type}_${nonce}`
-    const nonceValue = await getOption(optionKey)
-    await removeOption(optionKey)
-    // Nonce validation
-    if (`${nonce}-${slug}` === nonceValue) return
-
-    throw new ServerError(
-        ERROR_MESSAGE.GENERAL.UNAUTHORIZED,
-        'archive.ts::auth()',
-    )
 }
 
 /**
@@ -148,7 +122,7 @@ export const updateArchive = async <T extends T_Archive>(
     formatter: (term: Record<string, unknown>) => T,
     nonce?: string,
 ): Promise<T> => {
-    await auth(nonce, slug, type)
+    await auth(type, nonce, slug)
 
     await Cached.getInstance().flush(getCacheKey(type, slug))
     const table = type

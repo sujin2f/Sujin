@@ -1,5 +1,6 @@
 import { ConstToType } from '@common/types'
-import type { T_ImageBlock } from '@app/_lib/types'
+import type { T_ImageBlock } from '@app/_lib/types-image'
+import type { T_PostArchive } from '@app/_lib/types-post'
 
 /**
  * Archive types
@@ -8,6 +9,7 @@ import type { T_ImageBlock } from '@app/_lib/types'
 export const ARCHIVE = {
     CATEGORY: 'category',
     TAG: 'tag',
+    SEARCH: 'search',
 } as const
 export type ARCHIVE = ConstToType<typeof ARCHIVE>
 
@@ -27,7 +29,6 @@ export type TAXONOMY = ConstToType<typeof TAXONOMY>
  */
 export const ARCHIVE_URL = {
     ...ARCHIVE,
-    SEARCH: 'search',
 } as const
 export type ARCHIVE_URL = ConstToType<typeof ARCHIVE_URL>
 // Term: refers the category, tag as a property of post
@@ -43,6 +44,8 @@ export type T_Category = Omit<T_Term, 'type'> & {
     excerpt: string
     image?: T_ImageBlock
     total: number
+    page?: number
+    posts?: T_PostArchive[]
 }
 
 export type T_Tag = T_Category & {

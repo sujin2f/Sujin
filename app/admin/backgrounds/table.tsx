@@ -4,7 +4,7 @@ import Image from 'next/image'
 /* Components */
 import TableComponent from '@common/components/containers/Table'
 import { entries } from '@common/utils/object'
-import type { T_Background } from '@app/_lib/types-image'
+import type { T_Background } from '@app/_lib/types'
 
 type Props = {
     readonly backgrounds: T_Background[]

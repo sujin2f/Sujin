@@ -35,30 +35,35 @@ class GraphQL {
 	}
 
 	public function update_background() {
-		$nonce    = wp_create_nonce( 'update_background' );
-		$mutation = array(
+		$key         = 'mutate_attachment';
+		$nonce       = wp_create_nonce( $key );
+		$mutation    = array(
 			'query' => '
 				mutation {
-					updateBackground(nonce: "' . $nonce . '") {
+					mutateBackground(nonce: "' . $nonce . '") {
 						result
 					}
 				}',
 		);
-		update_option( 'update_background_' . $nonce, $nonce );
+		$nonce_value = hash( 'sha256',  $nonce . json_encode( $mutation ) );
+
+		update_option( $key . '_' . $nonce, $nonce_value );
 		return $this->request( $mutation );
 	}
 
-	private function update( string $post_name, string $type ) {
-		$nonce    = wp_create_nonce( 'update_' . $type . '_' . $post_name );
-		$mutation = array(
+	private function update( string $slug, string $type ) {
+		$key         =  'mutate_' . $type . '_' . $slug ;
+		$nonce       = wp_create_nonce( $key );
+		$mutation    = array(
 			'query' => '
 				mutation {
-					update' . ucfirst( $type ) . '(nonce: "' . $nonce . '", slug: "' . $post_name . '") {
+					mutate' . ucfirst( $type ) . '(nonce: "' . $nonce . '", slug: "' . $slug . '") {
 						result
 					}
 				}',
 		);
-		update_option( 'update_' . $type . '_' . $nonce, $nonce . '-' . $post_name );
+		$nonce_value = hash( 'sha256',  $nonce . json_encode( $mutation ) );
+		update_option( $key . '_' . $nonce, $nonce_value );
 		return $this->request( $mutation );
 	}
 

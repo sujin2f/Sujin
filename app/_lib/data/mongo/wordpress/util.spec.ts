@@ -1,6 +1,6 @@
 // yarn test util.spec.ts
 
-import { IMAGE_SIZE } from '@app/_lib/types-image'
+import { IMAGE_SIZE } from '@app/_lib/types'
 import { formatImageBlock, formatPostImage } from './util'
 
 const expected = {
