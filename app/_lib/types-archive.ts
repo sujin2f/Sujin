@@ -40,7 +40,7 @@ export type T_Term = {
     type: ARCHIVE
 }
 
-export type T_Category = Omit<T_Term, 'type'> & {
+export type T_Archive = Omit<T_Term, 'type'> & {
     excerpt: string
     image?: T_ImageBlock
     total: number
@@ -48,8 +48,8 @@ export type T_Category = Omit<T_Term, 'type'> & {
     posts?: T_PostArchive[]
 }
 
-export type T_Tag = T_Category & {
+export type T_Tag = T_Archive & {
     hits: number
 }
 
-export type T_Archive = T_Category
+export type T_Category = T_Archive

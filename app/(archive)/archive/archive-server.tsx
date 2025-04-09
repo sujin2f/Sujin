@@ -20,14 +20,22 @@ import type { ArchiveProp } from '@app/(archive)/types'
 
 export async function ArchiveServer({ page, type, slug }: ArchiveProp) {
     const requestArchive = unstable_cache(
-        async (slug) => await getCachedArchive(slug, type, categoryFormatter),
+        async (slug) =>
+            await getCachedArchive(slug, type, categoryFormatter, page),
         [type, slug, VERSION],
         {
             tags: ['wordpress', 'archive'],
             revalidate: IS_DEV ? false : HOUR_IN_SECONDS,
         },
     )
-    const archive = await requestArchive(slug).catch(() => notFound())
+    const archive = await requestArchive(slug)
+        .then((archive) => {
+            if (!archive.posts || archive.posts.length === 0) {
+                notFound()
+            }
+            return archive
+        })
+        .catch(() => notFound())
     const { title, excerpt, image } = archive
 
     // Update Tag Cloud
@@ -51,6 +59,7 @@ export async function ArchiveServer({ page, type, slug }: ArchiveProp) {
                     slug={slug}
                     page={page}
                     total={archive.total}
+                    posts={archive.posts!}
                 />
             </main>
             <Footer />

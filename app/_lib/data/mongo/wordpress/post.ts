@@ -198,14 +198,10 @@ export const getArchivePosts = async (
 }
 
 export const getCachedArchivePosts = async (
-    type: string,
+    type: ARCHIVE,
     slug: string,
     page: number,
 ): Promise<T_PostArchive[]> => {
-    if (type !== ARCHIVE.CATEGORY && type !== ARCHIVE.TAG) {
-        throw new Error('Invalid type')
-    }
-
     return await Cached.getInstance().getOrExecute(
         getCacheKey(type, slug, page),
         async () => await getArchivePosts(type, slug, page),

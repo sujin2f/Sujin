@@ -102,30 +102,6 @@ const TagCloud = new GQLType<T_Archive>('TagCloud', {
     hits: { type: GQLInt },
 })
 
-const queryArchivePosts = new GQLQuery<
-    [string, string, number],
-    T_PostArchive[]
->(
-    'archivePosts',
-    {
-        type: {
-            type: GQLString,
-            required,
-        },
-        slug: {
-            type: GQLString,
-            required,
-        },
-        page: {
-            type: GQLInt,
-        },
-    },
-    {
-        type: PostArchive,
-        list,
-    },
-)
-
 const queryFlickr = new GQLQuery<[], T_FlickrImage[]>(
     'flickr',
     {},
@@ -384,7 +360,6 @@ const defaults = {
     queryRecent,
     queryPrevNext,
     queryRelatedPosts,
-    queryArchivePosts,
     querySpectra,
     queryMongoSpectra,
 
