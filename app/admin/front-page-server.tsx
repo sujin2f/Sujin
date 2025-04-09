@@ -12,6 +12,7 @@ import { compareVersions } from '@common/utils/system'
 import { getSystemOption, setSystemOption } from '@app/_lib/data/mongo/admin'
 import { isAdmin } from '@app/_lib/utils-server'
 import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
+import Cached from '@common/model/Cached'
 
 export async function FrontPageServer() {
     const current = (await getSystemOption('version')) || '0.0.0'
@@ -62,6 +63,7 @@ export async function FrontPageServer() {
                         .catch((e) => JSON.parse(e.message))
                 }
             })
+            await Cached.getInstance().flush()
         })
         return 'Done.'
     }
