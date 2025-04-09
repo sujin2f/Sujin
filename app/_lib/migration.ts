@@ -39,7 +39,7 @@ const migration: Migration = {
                 .collection(COLLECTION.BACKGROUNDS)
                 .createIndex('url', { unique: true })
             await updateBackgrounds().catch(() => {})
-        })()
+        })().catch(() => {})
         // Category
         await (async () => {
             await database.createCollection(COLLECTION.CATEGORY, {

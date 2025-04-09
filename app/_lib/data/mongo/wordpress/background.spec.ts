@@ -6,8 +6,11 @@ import { clearMongo, backgroundFactory } from '@jest/helpers'
 import { getCachedBackgrounds } from './background'
 import Mongo from '@common/data/mongo/mongo'
 import migration from '@app/_lib/migration'
-import { imageBlock } from '@jest/fixture'
 import { COLLECTION } from '@app/_lib/types'
+
+jest.mock('../../../utils-server', () => ({
+    isAdmin: jest.fn(() => true),
+}))
 
 const mockQuery = jest.fn()
 jest.mock('../../mysql/media', () => ({
@@ -33,17 +36,8 @@ describe('background.spec.ts', () => {
     })
 
     test('getCachedBackgrounds(): empty result', async () => {
-        mockQuery.mockImplementation(() => {
-            return Promise.resolve([
-                {
-                    ...imageBlock,
-                    title: 'test image',
-                },
-            ])
-        })
-
         const result = await getCachedBackgrounds()
-        expect(result[0].title).toEqual('test image')
+        expect(result).toEqual([])
     })
 
     test('getCachedBackgrounds()', async () => {

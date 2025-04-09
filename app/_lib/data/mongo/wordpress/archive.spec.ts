@@ -17,9 +17,13 @@ import {
 import Mongo from '@common/data/mongo/mongo'
 import migration from '@app/_lib/migration'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
-import { ARCHIVE, COLLECTION } from '@app/_lib/types'
+import { ARCHIVE, COLLECTION, T_Category } from '@app/_lib/types'
 import Cached from '@common/model/Cached'
 import { category, tag } from '@jest/fixture'
+
+jest.mock('../../../utils-server', () => ({
+    isAdmin: jest.fn(() => true),
+}))
 
 const mockQuery = jest.fn()
 jest.mock('../../mysql/term', () => ({
@@ -72,7 +76,7 @@ describe('archive.spec.ts', () => {
             Promise.resolve({ ...tag, slug, title: 'Changed' }),
         )
 
-        await updateArchive(slug, ARCHIVE.TAG, (item) => item)
+        await updateArchive(slug, ARCHIVE.TAG, (item) => item as T_Category)
         const result = await Mongo.findOne(ARCHIVE.TAG, {
             slug,
         })
@@ -104,7 +108,7 @@ describe('archive.spec.ts', () => {
             Promise.resolve({ ...tag, slug, title: 'Changed' }),
         )
 
-        await updateArchive(slug, ARCHIVE.TAG, (item) => item)
+        await updateArchive(slug, ARCHIVE.TAG, (item) => item as T_Category)
         const result = await Mongo.findOne(ARCHIVE.TAG, {
             slug,
         })

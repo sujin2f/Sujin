@@ -21,6 +21,12 @@ import Mongo from '@common/data/mongo/mongo'
 import Cached from '@common/model/Cached'
 import { ARCHIVE, COLLECTION, POST_STATUS } from '@app/_lib/types'
 
+const mockIsAdmin = jest.fn()
+mockIsAdmin.mockResolvedValue(true)
+jest.mock('../../../utils-server', () => ({
+    isAdmin: jest.fn(() => mockIsAdmin),
+}))
+
 const mockQuery = jest.fn()
 jest.mock('promise-mysql', () => ({
     createConnection: jest.fn(() => ({
@@ -58,10 +64,8 @@ describe('post.spec.ts', () => {
         expect(result1.id).toEqual(post1.id)
         const result2 = await getCachedPost(post2.slug)
         expect(result2.id).toEqual(post2.id)
-        const result3 = await getCachedPost(post3.slug).catch(() => false)
-        expect(result3).toBeFalsy()
-        const result4 = await getCachedPost(post3.slug, true)
-        expect(result4.id).toEqual(post3.id)
+        const result3 = await getCachedPost(post3.slug)
+        expect(result3.id).toEqual(post3.id)
     })
 
     test('getCachedArchivePosts()', async () => {

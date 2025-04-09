@@ -15,6 +15,10 @@ import migration from '@app/_lib/migration'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 import Cached from '@common/model/Cached'
 
+jest.mock('../../../utils-server', () => ({
+    isAdmin: jest.fn(() => true),
+}))
+
 const mockQuery = jest.fn()
 jest.mock('promise-mysql', () => ({
     createConnection: jest.fn(() => ({
