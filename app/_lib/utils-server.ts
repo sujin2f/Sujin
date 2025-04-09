@@ -65,7 +65,10 @@ export const auth = async (
     slug?: string,
 ): Promise<void> => {
     console.log(1)
-    if (await isAdmin()) return
+    const admin = await isAdmin()
+    console.log(2)
+    console.log(admin)
+    if (admin) return
 
     console.log(2)
     console.log(type, nonce)
