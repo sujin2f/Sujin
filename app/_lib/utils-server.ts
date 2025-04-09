@@ -47,7 +47,9 @@ export const isAdmin = async (): Promise<boolean> => {
     const session = await getServerSession(authOptions)
     console.log(3)
     console.log(session)
-    return session?.user?.email === process.env.ADMIN_EMAIL
+    const email =
+        session && session.user && session.user.email && session?.user?.email
+    return email === process.env.ADMIN_EMAIL
 }
 
 /**
@@ -67,6 +69,7 @@ export const auth = async (
     console.log(1)
     const admin = await isAdmin()
     console.log(2)
+    console.log(isAdmin)
     console.log(admin)
     if (admin) return
 
