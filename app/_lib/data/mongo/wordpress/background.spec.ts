@@ -8,8 +8,12 @@ import Mongo from '@common/data/mongo/mongo'
 import migration from '@app/_lib/migration'
 import { COLLECTION } from '@app/_lib/types'
 
-jest.mock('../../../utils-server', () => ({
-    isAdmin: jest.fn(() => true),
+jest.mock('next-auth', () => ({
+    getServerSession: () => ({
+        user: {
+            email: process.env.ADMIN_EMAIL,
+        },
+    }),
 }))
 
 const mockQuery = jest.fn()

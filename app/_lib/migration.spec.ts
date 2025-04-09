@@ -11,8 +11,12 @@ import {
     getCachedArchive,
 } from './data/mongo/wordpress/archive'
 
-jest.mock('./utils-server', () => ({
-    isAdmin: jest.fn(() => true),
+jest.mock('next-auth', () => ({
+    getServerSession: () => ({
+        user: {
+            email: process.env.ADMIN_EMAIL,
+        },
+    }),
 }))
 
 describe('migration.spec.ts', () => {
