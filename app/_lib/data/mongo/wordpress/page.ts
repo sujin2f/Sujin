@@ -62,7 +62,10 @@ export const mutatePage = async (
 export const getCachedPage = async (slug: string): Promise<T_Page> =>
     await Cached.getInstance().getOrExecute(
         getCacheKey(COLLECTION.PAGE, slug),
-        async () => await Mongo.findOne<T_Page>(COLLECTION.PAGE, { slug }),
+        async () =>
+            await Mongo.findOne<T_Page>(COLLECTION.PAGE, { slug }).then(
+                (page) => format(page),
+            ),
         0,
         IS_DEV,
     )

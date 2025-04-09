@@ -60,6 +60,11 @@ export async function FrontPageServer() {
                 for (let i = 0; i < collections.length; i++) {
                     await collections[i]
                         .drop()
+                        .then(() => {
+                            Logger.server(
+                                `MongoDB collection ${collections[i].collectionName} dropped`,
+                            )
+                        })
                         .catch((e) => JSON.parse(e.message))
                 }
             })
