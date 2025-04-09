@@ -45,8 +45,6 @@ export const getMetaData = async (): Promise<Metadata> => {
 
 export const isAdmin = async (): Promise<boolean> => {
     const session = await getServerSession(authOptions)
-    console.log(3)
-    console.log(session)
     const email =
         session && session.user && session.user.email && session?.user?.email
     return email === process.env.ADMIN_EMAIL
@@ -66,15 +64,9 @@ export const auth = async (
     nonce?: string,
     slug?: string,
 ): Promise<void> => {
-    console.log(1)
     const admin = await isAdmin()
-    console.log(2)
-    console.log(isAdmin)
-    console.log(admin)
     if (admin) return
 
-    console.log(2)
-    console.log(type, nonce)
     // Nonce validation
     if (!type || !nonce) {
         throw new ServerError(
