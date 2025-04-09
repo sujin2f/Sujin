@@ -1,0 +1,47 @@
+import { MONGO_DATABASE, VERSION } from '@common/constants/helper'
+/* Components */
+import { FrontPageClient } from '@app/admin/front-page-client'
+/* Models */
+import Mongo from '@common/data/mongo/mongo'
+import Logger from '@common/model/Logger'
+import client from '@common/data/mongo/mongo-client'
+/* CONSTANTS */
+import migration from '@app/_lib/migration'
+/* Utils */
+import { compareVersions } from '@common/utils/system'
+import { getSystemOption, setSystemOption } from '@app/_lib/data/mongo/admin'
+
+export async function FrontPageServer() {
+    const current = (await getSystemOption('version')) || '0.0.0'
+
+    const migrate = async () => {
+        'use server'
+        // Migrate MongoDB indexes
+        if (compareVersions(VERSION, current) === 1) {
+            Logger.server(`Migrate MongoDB: current ${current}, new ${VERSION}`)
+            const result = await Mongo.migrate(current, VERSION, migration)
+            if (result.length !== 0) {
+                Logger.server(`MongoDB Migrated: ${JSON.stringify(result)}`)
+            }
+            await setSystemOption('version', VERSION)
+        }
+    }
+
+    const reset = async () => {
+        'use server'
+        await client.then(async () => {
+            await setSystemOption('version', '0.0.0')
+        })
+    }
+
+    return (
+        <FrontPageClient
+            dbVersion={current}
+            codeVersion={VERSION}
+            showMigrate={compareVersions(VERSION, current) === 1}
+            migrate={migrate}
+            reset={reset}
+            database={MONGO_DATABASE || ''}
+        />
+    )
+}

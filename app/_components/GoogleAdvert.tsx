@@ -1,6 +1,6 @@
 import React from 'react'
 import Script from 'next/script'
-/* Constants */
+/* CONSTANTS */
 import { IS_DEV } from '@common/constants/helper'
 
 interface Props {

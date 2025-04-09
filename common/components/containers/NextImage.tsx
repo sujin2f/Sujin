@@ -6,7 +6,8 @@ import {
 import Image from 'next/image'
 import { ReactNode } from 'react'
 import Caption from './Caption'
-import Picture, { type ImageMap } from './Picture'
+import Picture from './Picture'
+import type { ImageMap } from './Picture'
 /* Helpers */
 import { joinClassNames } from '../../utils/string'
 

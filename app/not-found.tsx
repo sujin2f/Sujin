@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 /* Components */
 import { Banner } from '@app/_components/header/Banner'
-import Articles from '@app/NotFoundClient'
+import { NotFoundClient } from '@app/not-found-client'
 import { Header } from '@app/_components/header'
 import { Footer } from '@app/_components/footer'
 
@@ -25,7 +25,7 @@ export default async function Wrapper() {
                             'We cannot find the result. See below for recent articles.',
                     }}
                 />
-                <Articles />
+                <NotFoundClient />
             </main>
             <Footer />
         </>

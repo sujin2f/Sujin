@@ -3,8 +3,6 @@ import Link from 'next/link'
 import { NextImage } from '@common/components/containers/NextImage'
 import { PrevNext } from '@app/(single)/_components/PrevNext'
 import ScrollToTop from '@common/components/ScrollToTop'
-/* Types */
-import type { PostType } from '@app/_lib/data/mysql/types'
 /* Assets */
 import pic13 from '@app/_lib/images/ether/pic13_eng.png'
 import pic14 from '@app/_lib/images/ether/pic14_eng.png'
@@ -232,13 +230,10 @@ export default function Conclusion() {
             <p>Fin</p>
 
             <PrevNext
-                posts={[
-                    {
-                        title: '가설의 검증(4): 비교기준, Between',
-                        link: '/ether/kor/document/between',
-                    } as PostType,
-                    undefined,
-                ]}
+                prev={{
+                    title: '가설의 검증(4): 비교기준, Between',
+                    link: '/ether/kor/document/between',
+                }}
             ></PrevNext>
         </div>
     )

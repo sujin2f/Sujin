@@ -6,8 +6,6 @@ import ScrollToTop from '@common/components/ScrollToTop'
 import { Table } from '@common/components/containers/Table'
 import { Latex } from '@app/(single)/_components/Latex'
 import { PrevNext } from '@app/(single)/_components/PrevNext'
-/* Types */
-import type { PostType } from '@app/_lib/data/mysql/types'
 /* Assets */
 import pic5 from '@app/_lib/images/ether/pic5_eng.png'
 import 'katex/dist/katex.min.css'
@@ -387,16 +385,14 @@ export default function ClassicPhysics() {
             </p>
 
             <PrevNext
-                posts={[
-                    {
-                        title: '가설 제시',
-                        link: '/ether/kor/document/hypothesis',
-                    } as PostType,
-                    {
-                        title: '가설의 검증(2): 뤼드베리 방정식의 재정립',
-                        link: '/ether/kor/document/rydberg-formula',
-                    } as PostType,
-                ]}
+                prev={{
+                    title: '가설 제시',
+                    link: '/ether/kor/document/hypothesis',
+                }}
+                next={{
+                    title: '가설의 검증(2): 뤼드베리 방정식의 재정립',
+                    link: '/ether/kor/document/rydberg-formula',
+                }}
             ></PrevNext>
         </div>
     )

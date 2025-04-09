@@ -1,4 +1,4 @@
-import { ARCHIVE } from '@app/_lib/data/mysql/types'
+import type { ARCHIVE } from '@app/_lib/types'
 
 export type ArchiveProp = {
     type: ARCHIVE

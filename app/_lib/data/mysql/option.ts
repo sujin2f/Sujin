@@ -1,10 +1,10 @@
 'use server'
 /* Models */
 import MySQL from '@app/_lib/data/mysql'
-/* Constants */
+/* CONSTANTS */
 import { MySQLQuery } from '@app/_lib/data/mysql/constants'
-/* Type */
-import type { OptionType } from '@app/_lib/data/mysql/types'
+
+type T_Option = { option_value: string }
 
 /**
  * Retrieves an option value from the database.
@@ -14,7 +14,7 @@ import type { OptionType } from '@app/_lib/data/mysql/types'
  */
 export const getOption = async (key: string): Promise<string> =>
     await MySQL.getInstance()
-        .selectOne<OptionType>(MySQLQuery.getOption(key))
+        .selectOne<T_Option>(MySQLQuery.getOption(key))
         .then((option) => option.option_value)
         .catch(() => '')
 

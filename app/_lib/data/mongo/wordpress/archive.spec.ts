@@ -1,21 +1,29 @@
 // yarn test archive.spec.ts
 
 import { VERSION } from '@common/constants/helper'
-import { clearMongo, categoryFactory, tagFactory } from '@jest/helpers'
+import {
+    clearMongo,
+    categoryFactory,
+    tagFactory,
+    postFactory,
+} from '@jest/helpers'
 import {
     getCachedArchive,
     updateArchive,
     removeArchive,
     getArchives,
+    categoryFormatter,
 } from './archive'
 import Mongo from '@common/data/mongo/mongo'
-import { COLLECTION } from '@app/_lib/data/mongo/constants'
 import migration from '@app/_lib/migration'
-import setSystemOption from '@app/_lib/data/mongo/admin/setSystemOption'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
-import { ARCHIVE } from '@app/_lib/data/mysql/types'
+import { ARCHIVE, COLLECTION, T_Category } from '@app/_lib/types'
 import Cached from '@common/model/Cached'
-import { tag } from '@jest/fixture'
+import { category, tag } from '@jest/fixture'
+
+jest.mock('../../../utils-server', () => ({
+    isAdmin: jest.fn(() => true),
+}))
 
 const mockQuery = jest.fn()
 jest.mock('../../mysql/term', () => ({
@@ -26,11 +34,10 @@ describe('archive.spec.ts', () => {
     beforeAll(async () => {
         await clearMongo()
         await Mongo.migrate('0.0.0', VERSION, migration)
-        await setSystemOption('version', VERSION)
     })
 
     afterEach(async () => {
-        Cached.getInstance().flush()
+        await Cached.getInstance().flush()
         await clearMongo(COLLECTION.CATEGORY, COLLECTION.POST)
     })
 
@@ -43,32 +50,65 @@ describe('archive.spec.ts', () => {
 
     test('getCachedArchive()', async () => {
         const category = await categoryFactory()
-        const result = await getCachedArchive(category.slug, ARCHIVE.CATEGORY)
+        await postFactory({
+            terms: [
+                {
+                    id: 5818,
+                    title: 'Blog',
+                    slug: category.slug,
+                    type: 'category',
+                },
+            ],
+        })
+        const result = await getCachedArchive(
+            category.slug,
+            ARCHIVE.CATEGORY,
+            categoryFormatter,
+        )
         expect(result.id).toEqual(category.id)
+        expect(result.total).toEqual(1)
     })
 
-    test('updateArchive(): New', async () => {
+    test('updateArchive(): tag, New', async () => {
         const slug = 'test-slug'
 
         mockQuery.mockImplementation(() =>
             Promise.resolve({ ...tag, slug, title: 'Changed' }),
         )
 
-        await updateArchive(slug, ARCHIVE.TAG)
+        await updateArchive(slug, ARCHIVE.TAG, (item) => item as T_Category)
         const result = await Mongo.findOne(ARCHIVE.TAG, {
             slug,
         })
         expect(result.title).toBe('Changed')
     })
 
-    test('updateArchive(): existing Mongo', async () => {
+    test('updateArchive(): category, New', async () => {
+        const slug = 'test-slug'
+
+        mockQuery.mockImplementation(() =>
+            Promise.resolve({
+                ...category,
+                slug,
+                title: 'Changed',
+            }),
+        )
+
+        await updateArchive(slug, ARCHIVE.CATEGORY, categoryFormatter)
+        const result = await Mongo.findOne(ARCHIVE.CATEGORY, {
+            slug,
+        })
+        expect(result.title).toBe('Changed')
+    })
+
+    test('updateArchive(): tag, existing Mongo', async () => {
         const { slug } = await tagFactory()
 
         mockQuery.mockImplementation(() =>
             Promise.resolve({ ...tag, slug, title: 'Changed' }),
         )
 
-        await updateArchive(slug, ARCHIVE.TAG)
+        await updateArchive(slug, ARCHIVE.TAG, (item) => item as T_Category)
         const result = await Mongo.findOne(ARCHIVE.TAG, {
             slug,
         })
@@ -83,7 +123,7 @@ describe('archive.spec.ts', () => {
             Promise.resolve({ ...category, title: 'Changed' }),
         )
 
-        await updateArchive(category.slug, ARCHIVE.CATEGORY)
+        await updateArchive(category.slug, ARCHIVE.CATEGORY, categoryFormatter)
         const result = await Mongo.findOne(COLLECTION.CATEGORY, {
             id: category.id,
         })
@@ -94,7 +134,7 @@ describe('archive.spec.ts', () => {
         for (let i = 0; i < PER_PAGE + 1; i++) {
             await categoryFactory()
         }
-        const result = await getArchives(2, ARCHIVE.CATEGORY)
+        const result = await getArchives(2, ARCHIVE.CATEGORY, categoryFormatter)
         expect(result.length).toBe(1)
     })
 })

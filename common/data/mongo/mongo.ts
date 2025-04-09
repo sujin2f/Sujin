@@ -15,7 +15,7 @@ import type {
 import client from './mongo-client'
 /* Utils */
 import { compareVersions } from '../../utils/system'
-/* Constants */
+/* CONSTANTS */
 import { MONGO_DATABASE } from '@common/constants/helper'
 import Logger from '@common/model/Logger'
 
@@ -186,37 +186,39 @@ const deleteMany = async <T extends Document>(
 }
 
 /**
- * Replace a single document into a MongoDB collection.
+ * Replace a single document
  *
  * @template T - The type of the document.
  * @param {string} collection - The name of the collection.
  * @param {Filter<T>} filter - Target.
  * @param {OptionalUnlessRequiredId<T>} filter - The documents to replace.
- * @returns {Promise<Document | UpdateResult<T>>} The result of the replace operation.
+ * @returns {Promise<Document | UpdateResult<T> | InsertOneResult<T>>}
  */
-const replaceOne = async <T extends Document>(
-    collection: string,
-    filter: Filter<T>,
-    doc: OptionalUnlessRequiredId<T>,
-): Promise<Document | UpdateResult<T>> => {
-    return await client.then(async (client) => {
-        const database = client.db(MONGO_DATABASE)
-        return await database.collection<T>(collection).replaceOne(filter, doc)
-    })
-}
-
 const updateOne = async <T extends Document>(
     collection: string,
     filter: Filter<T>,
-    update: UpdateFilter<T>,
-): Promise<Document | UpdateResult<T>> => {
-    return await client.then(async (client) => {
+    doc: UpdateFilter<T>,
+): Promise<Document | UpdateResult<T> | InsertOneResult<T>> =>
+    await client.then(async (client) => {
         const database = client.db(MONGO_DATABASE)
-        return await database
-            .collection<T>(collection)
-            .updateOne(filter, update)
+        return await database.collection<T>(collection).updateOne(filter, doc)
     })
-}
+
+const insertOrReplace = async <T extends Document>(
+    collection: string,
+    filter: Filter<T>,
+    update: OptionalUnlessRequiredId<T>,
+): Promise<Document | UpdateResult<T>> =>
+    await client.then(async (client) => {
+        const database = client.db(MONGO_DATABASE)
+        return await findOne(collection, filter)
+            .then(async () => {
+                return await database
+                    .collection<T>(collection)
+                    .replaceOne(filter, update)
+            })
+            .catch(async () => await insertOne(collection, update))
+    })
 
 export type Migration = {
     [version: string]: (client: MongoClient) => Promise<void>
@@ -266,8 +268,8 @@ const actions = {
     insertMany,
     deleteOne,
     deleteMany,
-    replaceOne,
     updateOne,
+    insertOrReplace,
     count,
     random,
     migrate,

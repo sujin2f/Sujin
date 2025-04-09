@@ -1,3 +1,5 @@
+import { QuantumBool } from '../types'
+
 /**
  * String to number
  * i.g $1, 123, 00.23
@@ -72,3 +74,107 @@ export const joinClassNames = (...input: unknown[]): string =>
  */
 export const removeURLProtocol = (url: string): string =>
     url.replace(/(^\w+:|^)\/\//, '//')
+
+/**
+ * Simple version of PHP un-serializer just for attachment meta values
+ * Needs production testing before it's fully replaced
+ * @todo for array
+ */
+export const phpUnSerialize = (input: string) => {
+    const readBlock = (input: string) => {
+        if (!input) {
+            return false
+        }
+        if (input.startsWith('{}')) {
+            return '{}'
+        }
+        if (input.startsWith('{')) {
+            return '{'
+        }
+        if (input.startsWith('}')) {
+            return '}'
+        }
+        if (input.startsWith('a:{')) {
+            return 'a:{'
+        }
+        if (input.startsWith('a')) {
+            return 'a'
+        }
+
+        const matched =
+            input.match(/^s:[0-9]+:(.*?);/) || input.match(/^[ibd]:([0-9]+);/)
+        if (!matched) {
+            return false
+        }
+        return matched
+    }
+
+    // First, convert all between quotes
+    const regexQuote = new RegExp(/"(.*?)"/g)
+    const replaceQuote = '$%quote%$'
+    const quotes = input.matchAll(regexQuote)
+    let converted = input.replaceAll(regexQuote, replaceQuote)
+    let result = ''
+
+    // Remove first array identifier
+    converted = converted.replace(/^a:[0-9]+:/, '')
+
+    let cursor: QuantumBool = QuantumBool.TRUE
+    while (cursor !== QuantumBool.MOD) {
+        const block = readBlock(converted)
+        switch (block) {
+            case '{}':
+                result += ':{},'
+                converted = converted.slice(2)
+                cursor = QuantumBool.TRUE
+                break
+            case '{':
+                result += ':{'
+                converted = converted.slice(1)
+                cursor = QuantumBool.TRUE
+                break
+            case '}':
+                result = result.slice(0, -1)
+                result += '},'
+                converted = converted.slice(1)
+                cursor = QuantumBool.TRUE
+                break
+            case 'a':
+                const matchA = converted.match(/^a:[0-9]+:/)
+                if (matchA) {
+                    converted = converted.replace(matchA[0], '')
+                }
+                break
+            case 'a:{':
+                converted = converted.replace('a:', '')
+                break
+            default:
+                if (Array.isArray(block)) {
+                    converted = converted.replace(block[0], '')
+                    if (cursor === QuantumBool.TRUE) {
+                        result += block[1]
+                        cursor = QuantumBool.FALSE
+                    } else if (cursor === QuantumBool.FALSE) {
+                        result += `:${block[1]},`
+                        cursor = QuantumBool.TRUE
+                    }
+                } else {
+                    cursor = QuantumBool.MOD
+                }
+        }
+    }
+
+    if (result.startsWith(':')) {
+        result = result.slice(1)
+    }
+    if (result.endsWith(',')) {
+        result = result.slice(0, -1)
+    }
+
+    // Convert %quote% back to string
+    quotes.forEach((quote) => {
+        result = result.replace(replaceQuote, quote[0])
+    })
+
+    return JSON.parse(result)
+}

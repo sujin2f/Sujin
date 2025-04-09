@@ -9,7 +9,7 @@ import {
 /* Helpers */
 import { getRandomInt } from '@common/utils/number'
 import { CHART_COLORS } from '@app/ether/data/constants'
-import { ChartData } from '@app/ether/data/types' // TODO Name
+import { ChartData } from '@app/ether/data/types' // @todo Name
 import { map } from '@common/utils/array'
 
 type Props = { data: ChartData }
@@ -40,7 +40,7 @@ const convertChartData = (
 }
 
 export const Chart = ({ data }: Props) => {
-    const searchParams = useSearchParams() // TODO Changed
+    const searchParams = useSearchParams() // @todo Changed
     const term = (searchParams && searchParams.get('term')) || undefined
     const ref = useRef<HTMLCanvasElement>(null)
     const [chart, setChart] = useState<ChartJS>()

@@ -2,7 +2,6 @@ import type NodeCache from 'node-cache'
 
 import type { Nullable } from '../types'
 import { Singleton } from './Singleton'
-import { WEEK_IN_SECONDS } from '../constants/datetime'
 import Logger from './Logger'
 
 /**
@@ -34,13 +33,13 @@ export default class Cached extends Singleton<Cached>() {
 
     public async init() {
         const NodeCache = (await import('node-cache')).default
-        const cache = new NodeCache({ stdTTL: WEEK_IN_SECONDS })
+        const cache = new NodeCache()
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ;(global as any)['cache'] = cache
         return cache
     }
 
-    public async set<T>(key: string, value: T, ttl = WEEK_IN_SECONDS) {
+    public async set<T>(key: string, value: T, ttl = 0) {
         const cache = await this.getCache()
         cache.set<T>(key, value, ttl)
     }
@@ -53,7 +52,7 @@ export default class Cached extends Singleton<Cached>() {
     public async getOrExecute<T>(
         key: string,
         callback: () => Promise<T>,
-        ttl = WEEK_IN_SECONDS,
+        ttl = 0,
         force = false,
     ): Promise<T> {
         if (force) {

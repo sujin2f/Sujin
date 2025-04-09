@@ -75,3 +75,42 @@ export const mongoIdToString = <T>(...object: MongoObject<T>[]) => {
             } as T),
     )
 }
+
+export const omit = <T>(
+    obj: Record<string, T>,
+    ...target: string[]
+): Record<string, T> => {
+    const [key, ...keys] = target
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { [key]: _, ...rest } = obj
+
+    if (keys.length === 0) {
+        return rest
+    }
+    return omit(rest, ...keys)
+}
+
+export const keys = <T extends string | number | symbol>(
+    object: Partial<Record<T, unknown>>,
+): T[] => {
+    return Object.keys(object) as T[]
+}
+
+/**
+ * Object.entries does not support typing
+ * It makes key as string
+ *
+ * @example
+ * type Keys = 'id' | 'title'
+ * const data: Record<Keys, string> = {
+ *     id: 'string',
+ *     title: 'string'
+ * }
+ * Object.entries(data).map(([key, value]) => {}) // key is string
+ * entries(data).map(([key, value]) => {}) // key is 'id' | 'title'
+ */
+export const entries = <T extends string | number | symbol, U>(
+    object: Partial<Record<T, U>>,
+): [T, U][] => {
+    return Object.entries(object) as [T, U][]
+}

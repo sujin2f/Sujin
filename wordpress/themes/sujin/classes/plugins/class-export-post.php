@@ -23,12 +23,12 @@ class Export_Post {
 			->append(
 				Settings_Section::get_instance( 'Export Posts' )
 					->append( $input )
+					->append( Input::get_instance( 'GQL Endpoint URL' ) )
 			)
 			->position( 'tools' );
 
 		add_action( 'update_option_' . $input->get_id(), array( $this, 'update_option' ), 10, 3 );
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
-
 	}
 
 	public function admin_init(): void {

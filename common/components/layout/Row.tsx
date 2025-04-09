@@ -1,5 +1,5 @@
-import { type JSX, type PropsWithChildren, createElement } from 'react'
-
+import { createElement } from 'react'
+import type { JSX, PropsWithChildren } from 'react'
 /* Helpers */
 import { joinClassNames } from '../../utils/string'
 /* Assets */

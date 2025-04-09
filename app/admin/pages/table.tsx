@@ -2,20 +2,22 @@
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 /* Components */
-import { Table } from '@common/components/containers/Table'
+import TableComponent from '@common/components/containers/Table'
 /* Types */
-import type { PageType } from '@app/_lib/data/mysql/types'
+import type { T_Page } from '@app/_lib/types'
+import type { Dispatch, SetStateAction } from 'react'
 
 type Props = {
-    pages: PageType[]
-    remove: (slug: string) => Promise<void>
-    refresh: (slug: string) => Promise<void>
+    pages: T_Page[]
+    remove: (slug: string) => Promise<string>
+    update: (slug: string) => Promise<string>
+    setMessage: Dispatch<SetStateAction<string>>
 }
 
-export function PagesTable({ pages, remove, refresh }: Props) {
+export function Table({ pages, remove, update, setMessage }: Props) {
     const router = useRouter()
     return (
-        <Table fullWidth>
+        <TableComponent fullWidth>
             <thead>
                 <tr>
                     <th>ID</th>
@@ -30,20 +32,21 @@ export function PagesTable({ pages, remove, refresh }: Props) {
             <tbody>
                 {pages.map((post) => (
                     <tr key={`admin-posts-${post.id}`}>
-                        <td>{post.id}</td>
+                        <td className="center">{post.id}</td>
                         <td>{post.title}</td>
-                        <td>{post.slug}</td>
-                        <td>{post.status}</td>
-                        <td>
+                        <td className="center">{post.slug}</td>
+                        <td className="center">{post.status}</td>
+                        <td className="center">
                             <Link href={post.link} target="_blank">
                                 View
                             </Link>
                         </td>
-                        <td>
+                        <td className="center">
                             <Link
                                 href="#"
                                 onClick={() =>
-                                    remove(post.slug).then(() => {
+                                    remove(post.slug).then((message) => {
+                                        setMessage(message)
                                         router.refresh()
                                     })
                                 }
@@ -51,11 +54,12 @@ export function PagesTable({ pages, remove, refresh }: Props) {
                                 Remove
                             </Link>
                         </td>
-                        <td>
+                        <td className="center">
                             <Link
                                 href="#"
                                 onClick={() =>
-                                    refresh(post.slug).then(() => {
+                                    update(post.slug).then((message) => {
+                                        setMessage(message)
                                         router.refresh()
                                     })
                                 }
@@ -66,6 +70,6 @@ export function PagesTable({ pages, remove, refresh }: Props) {
                     </tr>
                 ))}
             </tbody>
-        </Table>
+        </TableComponent>
     )
 }

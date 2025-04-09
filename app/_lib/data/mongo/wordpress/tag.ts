@@ -4,50 +4,63 @@
 import Mongo from '@common/data/mongo/mongo'
 import Cached from '@common/model/Cached'
 /* Types */
-import { ARCHIVE, type TagType } from '@app/_lib/data/mysql/types'
 import type { MutationResultType } from '@app/api/graphql/constants'
 /* Utils */
 import {
     getCachedArchive,
     updateArchive,
-    secureUpdateArchive,
+    mutateArchive,
     getArchives,
     removeArchive,
+    categoryFormatter,
 } from '@app/_lib/data/mongo/wordpress/archive'
 import { getCacheKey } from '@app/_lib/utils'
-/* Constants */
-import { COLLECTION } from '@app/_lib/data/mongo/constants'
-import { WEEK_IN_SECONDS } from '@common/constants/datetime'
+/* CONSTANTS */
+// import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { shuffle } from '@common/utils/array'
+import { ARCHIVE, T_Tag } from '@app/_lib/types'
 
-export const getCachedTag = async (slug: string): Promise<TagType> =>
-    await getCachedArchive<TagType>(slug, ARCHIVE.TAG)
+const formatter = (term: Record<string, unknown>): T_Tag => {
+    const formatted = {
+        ...categoryFormatter(term),
+        hits: 0,
+    } as T_Tag
 
-export const updateTag = async (slug: string): Promise<TagType> =>
-    await updateArchive(slug, ARCHIVE.TAG)
+    if ('hits' in term) {
+        formatted.hits = term.hits as number
+    }
+
+    return formatted
+}
+
+export const getCachedTag = async (slug: string): Promise<T_Tag> =>
+    await getCachedArchive(slug, ARCHIVE.TAG, formatter)
+
+export const updateTag = async (slug: string): Promise<T_Tag> =>
+    await updateArchive(slug, ARCHIVE.TAG, formatter)
 
 export const mutateTag = async (
     nonce: string,
     slug: string,
 ): Promise<MutationResultType> =>
-    await secureUpdateArchive(nonce, slug, ARCHIVE.TAG)
+    await mutateArchive(nonce, slug, ARCHIVE.TAG, formatter)
 
-export const getTags = async (page: number = 1) =>
-    await getArchives(page, ARCHIVE.TAG)
+export const getTags = async (page: number = 1): Promise<T_Tag[]> =>
+    await getArchives(page, ARCHIVE.TAG, formatter)
 
 export const removeTag = async (slug: string) =>
     await removeArchive(slug, ARCHIVE.TAG)
 
 export const updateHits = async (slug: string) =>
-    await Mongo.updateOne(COLLECTION.TAG, { slug }, { $inc: { hits: 1 } })
+    await Mongo.updateOne(ARCHIVE.TAG, { slug }, { $inc: { hits: 1 } })
 
-export const getTagCloud = async (): Promise<TagType[]> =>
+export const getTagCloud = async (): Promise<T_Tag[]> =>
     await Cached.getInstance().getOrExecute(
-        getCacheKey(COLLECTION.TAG, 'tag-cloud'),
+        getCacheKey(ARCHIVE.TAG, 'tag-cloud'),
         async () => {
-            const tags: Record<string, TagType> = {}
-            await Mongo.findMany<TagType>(
-                COLLECTION.TAG,
+            const tags: Record<string, T_Tag> = {}
+            await Mongo.findMany<T_Tag>(
+                ARCHIVE.TAG,
                 {},
                 { sort: { total: -1 }, limit: 20 },
             ).then((result) => {
@@ -59,8 +72,8 @@ export const getTagCloud = async (): Promise<TagType[]> =>
                     }
                 })
             })
-            await Mongo.findMany<TagType>(
-                COLLECTION.TAG,
+            await Mongo.findMany<T_Tag>(
+                ARCHIVE.TAG,
                 {},
                 { sort: { hits: -1 }, limit: 20 },
             ).then((result) => {
@@ -82,5 +95,5 @@ export const getTagCloud = async (): Promise<TagType[]> =>
             })
             return shuffle(Object.values(tags))
         },
-        WEEK_IN_SECONDS,
+        0,
     )

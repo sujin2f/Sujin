@@ -2,9 +2,9 @@ import type { Metadata } from 'next/types'
 import { unstable_cache } from 'next/cache'
 /* Components */
 import Archive from './Archive'
-/* Constants */
+/* CONSTANTS */
 import { DAY_IN_SECONDS } from '@common/constants/datetime'
-import { ARCHIVE } from '@app/_lib/data/mysql/types'
+import { ARCHIVE } from '@app/_lib/types'
 import { BASE_URL } from '@app/_lib/constants'
 import { IS_DEV, VERSION } from '@common/constants/helper'
 /* Utils */
@@ -21,7 +21,7 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
     const params = await props.params
     const { page } = params
     const slug = params.slug.toLowerCase()
-    const type = params.type === 'tag' ? ARCHIVE.CATEGORY : params.type
+    const type = params.type === 'tag' ? ARCHIVE.TAG : params.type
     const requestArchive = unstable_cache(
         async (slug) =>
             type === ARCHIVE.CATEGORY

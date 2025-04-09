@@ -1,31 +1,28 @@
-import React, { type PropsWithChildren } from 'react'
-import { notFound } from 'next/navigation'
-import { getServerSession } from 'next-auth'
+import type { PropsWithChildren } from 'react'
 /* Components */
 import { Header } from '@app/_components/header'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 import { Menu } from '@common/components/layout/Menu'
-/* Constants */
-import { authOptions } from '@app/api/auth/constants'
+import { AdminWrapperServer } from '@app/_components/session/AdminWrapperServer'
 /* Assets */
 import './style.scss'
+
+export const metadata = {
+    robots: {
+        index: false,
+        follow: false,
+        nocache: false,
+    },
+}
 
 /**
  * Layout component that wraps the application with admin layout elements.
  * @param {ReactNode} props.children - The content to be wrapped by the layout.
  */
 export default async function AppLayout({ children }: PropsWithChildren) {
-    const session = await getServerSession(authOptions)
-    if (!session) {
-        notFound()
-    }
-    if (session.user?.email !== process.env.ADMIN_EMAIL) {
-        notFound()
-    }
-
     return (
-        <>
+        <AdminWrapperServer>
             <Header />
             <main className="admin">
                 <Row>
@@ -76,6 +73,6 @@ export default async function AppLayout({ children }: PropsWithChildren) {
                     <Column small={10}>{children}</Column>
                 </Row>
             </main>
-        </>
+        </AdminWrapperServer>
     )
 }

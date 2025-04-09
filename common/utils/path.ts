@@ -6,7 +6,7 @@
 
 import path from 'path'
 import fs from 'fs'
-/* Constants */
+/* CONSTANTS */
 import { IS_DEV, VERSION } from '@common/constants/helper'
 
 export const rootDir = process.cwd()

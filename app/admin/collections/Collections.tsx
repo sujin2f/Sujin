@@ -1,4 +1,4 @@
-/* Constants */
+/* CONSTANTS */
 import { MONGO_DATABASE } from '@common/constants/helper'
 /* Models */
 import client from '@common/data/mongo/mongo-client'

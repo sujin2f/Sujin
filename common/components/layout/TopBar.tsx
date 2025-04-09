@@ -1,5 +1,4 @@
-import React, { type JSX, type PropsWithChildren } from 'react'
-
+import type { JSX, PropsWithChildren } from 'react'
 /* Components */
 import { Row } from './Row'
 import { Column } from './Column'

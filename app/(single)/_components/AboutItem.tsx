@@ -1,12 +1,12 @@
 import React from 'react'
 /* Helpers */
 import { replaceQuotes, removeExtraParagraph } from '@app/(single)/utils'
-import type { AttrMatch } from '@app/_lib/data/mysql/types'
+import type { T_ShortcodeAttrMatch } from '@app/_lib/types'
 /* Assets */
 import './style.scss'
 
 interface Props {
-    value: AttrMatch
+    value: T_ShortcodeAttrMatch
 }
 
 export const AboutItem = (props: Props) => {

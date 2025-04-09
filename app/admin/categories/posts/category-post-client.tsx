@@ -1,38 +1,43 @@
+'use client'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 /* Components */
+import { Button } from '@common/components/forms/Button'
 import { Table } from '@common/components/containers/Table'
 import { PrevNext } from '@app/admin/_components/PrevNext'
-import { Header } from './Header'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
-/* Utils */
-import {
-    getArchivePosts,
-    updateArchivePosts,
-} from '@app/_lib/data/mongo/wordpress/post'
+import Header from '@app/admin/_components/Header'
+import Callout from '@common/components/containers/Callout'
 /* Types */
-import { ARCHIVE } from '@app/_lib/data/mysql/types'
+import { T_Post } from '@app/_lib/types'
 
 type Props = {
-    params: Promise<{
-        page: string
-        slug: string
-    }>
+    readonly page: number
+    readonly slug: string
+    readonly posts: T_Post[]
+    readonly update: (slug: string, page: number) => Promise<string>
 }
 
-export default async function CategoryPosts(props: Props) {
-    const params = await props.params
-    const page = parseInt(params.page)
-    const posts = await getArchivePosts(ARCHIVE.CATEGORY, params.slug, page)
-
-    const update = async (page: number) => {
-        'use server'
-        await updateArchivePosts(ARCHIVE.CATEGORY, params.slug, page)
-    }
+export function ClientComponent({ page, slug, posts, update }: Props) {
+    const [message, setMessage] = useState('')
+    const router = useRouter()
 
     return (
         <>
-            <Header update={update} page={page} />
+            <Header title={`Category Posts: ${slug}`}>
+                <Button
+                    title="Pull from WP"
+                    onClick={() =>
+                        update(slug, page).then((message) => {
+                            setMessage(message)
+                            router.refresh()
+                        })
+                    }
+                />
+            </Header>
+            {message ? <Callout>{message}</Callout> : null}
             <Row dom="article" fullWidth>
                 <Column small={12}>
                     <Table fullWidth>
@@ -66,7 +71,7 @@ export default async function CategoryPosts(props: Props) {
                     <PrevNext
                         page={page}
                         length={posts.length}
-                        path={`categories/posts/${params.slug}`}
+                        path={`categories/posts/${slug}`}
                     />
                 </Column>
             </Row>

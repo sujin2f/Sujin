@@ -3,8 +3,6 @@ import Link from 'next/link'
 import { NextImage } from '@common/components/containers/NextImage'
 import { PrevNext } from '@app/(single)/_components/PrevNext'
 import ScrollToTop from '@common/components/ScrollToTop'
-/* Types */
-import type { PostType } from '@app/_lib/data/mysql/types'
 /* Assets */
 import pic1 from '@app/_lib/images/ether/pic1_eng.png'
 import pic2 from '@app/_lib/images/ether/pic2_eng.png'
@@ -242,16 +240,14 @@ export default function Hypothesis() {
             </p>
 
             <PrevNext
-                posts={[
-                    {
-                        title: '첫 페이지',
-                        link: '/ether/kor',
-                    } as PostType,
-                    {
-                        title: '가설의 검증(1): 고전 물리학',
-                        link: '/ether/kor/document/classic-physics',
-                    } as PostType,
-                ]}
+                prev={{
+                    title: '첫 페이지',
+                    link: '/ether/kor',
+                }}
+                next={{
+                    title: '가설의 검증(1): 고전 물리학',
+                    link: '/ether/kor/document/classic-physics',
+                }}
             ></PrevNext>
         </div>
     )

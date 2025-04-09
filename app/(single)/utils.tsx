@@ -8,7 +8,7 @@ import { Carousel } from '@app/(single)/_components/Carousel'
 import { Caption } from '@app/(single)/_components/Caption'
 import { Code } from '@app/(single)/_components/Code'
 /* Helpers */
-import type { Named, AttrMatch } from '@app/_lib/data/mysql/types'
+import type { T_ShortcodeNamed, T_ShortcodeAttrMatch } from '@app/_lib/types'
 import { FACEBOOK_SHARE, TWITTER_SHARE } from '@app/_lib/constants'
 
 interface UrlArgs {
@@ -37,7 +37,7 @@ const regexp = (tag: string): RegExp => {
  *
  * @return {any} Parsed shortcode attributes.
  */
-const attrs = (text: string): AttrMatch => {
+const attrs = (text: string): T_ShortcodeAttrMatch => {
     const named: Record<string, string> = {}
     const numeric: string[] = []
 
@@ -105,7 +105,7 @@ const addQueryArgs = (url: string, args: UrlArgs) => {
     return `${parsed.protocol}//${parsed.host}${parsed.pathname}${parsed.search}${parsed.hash}`
 }
 
-export const replaceQuotes = (matched: Named, key: string) => {
+export const replaceQuotes = (matched: T_ShortcodeNamed, key: string) => {
     const regex = /(&#8221;|&#8243;|\/\])/g
     return (matched[key] && matched[key].replace(regex, '')) || ''
 }
@@ -126,7 +126,7 @@ export function parseContent(content: string): JSX.Element[] {
     const str = content
 
     const matched: {
-        [key: string]: AttrMatch
+        [key: string]: T_ShortcodeAttrMatch
     } = {}
     const splitted = (str.split(patternShortcode) || [])
         .filter((v) => v)

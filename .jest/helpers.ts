@@ -2,14 +2,14 @@ import Mongo from '@common/data/mongo/mongo'
 import client from '@common/data/mongo/mongo-client'
 import { getRandomInt } from '@common/utils/number'
 import { MONGO_DATABASE } from '@common/constants/helper'
-import type {
-    ArchiveType,
-    ImageBlockType,
-    PageType,
-    PostType,
-} from '@app/_lib/data/mysql/types'
 import { category, imageBlock, page, post, tag } from './fixture'
-import { COLLECTION } from '@app/_lib/data/mongo/constants'
+import {
+    COLLECTION,
+    T_ImageBlock,
+    T_Archive,
+    T_Post,
+    T_Page,
+} from '@app/_lib/types'
 
 export const clearMongo = async (...collections: string[]) =>
     await client.then(async (client) => {
@@ -27,7 +27,7 @@ export const clearMongo = async (...collections: string[]) =>
         return client
     })
 
-export const categoryFactory = async (input: Partial<ArchiveType> = {}) => {
+export const categoryFactory = async (input: Partial<T_Archive> = {}) => {
     const id = getRandomInt(10000)
     const document = {
         ...category,
@@ -44,7 +44,7 @@ export const categoryFactory = async (input: Partial<ArchiveType> = {}) => {
     }
 }
 
-export const tagFactory = async (input: Partial<ArchiveType> = {}) => {
+export const tagFactory = async (input: Partial<T_Archive> = {}) => {
     const id = getRandomInt(10000)
     const document = {
         ...tag,
@@ -61,7 +61,7 @@ export const tagFactory = async (input: Partial<ArchiveType> = {}) => {
     }
 }
 
-export const postFactory = async (input: Partial<PostType> = {}) => {
+export const postFactory = async (input: Partial<T_Post> = {}) => {
     const id = getRandomInt(10000)
     const document = {
         ...post,
@@ -78,7 +78,7 @@ export const postFactory = async (input: Partial<PostType> = {}) => {
     }
 }
 
-export const pageFactory = async (input: Partial<PageType> = {}) => {
+export const pageFactory = async (input: Partial<T_Page> = {}) => {
     const id = getRandomInt(10000)
     const document = {
         ...page,
@@ -94,15 +94,14 @@ export const pageFactory = async (input: Partial<PageType> = {}) => {
     }
 }
 
-export const backgroundFactory = async (
-    input: Partial<ImageBlockType> = {},
-) => {
+export const backgroundFactory = async (input: Partial<T_ImageBlock> = {}) => {
     const id = getRandomInt(10000)
     const document = {
         ...imageBlock,
+        url: `/wp-content/uploads/test-${id}.jpg`,
         title: `Background ${id}`,
         ...input,
-    } satisfies ImageBlockType
+    } satisfies T_ImageBlock
     const result = await Mongo.insertOne(COLLECTION.BACKGROUNDS, document)
     return {
         ...document,

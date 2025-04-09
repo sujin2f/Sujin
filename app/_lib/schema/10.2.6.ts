@@ -1,16 +1,16 @@
 import type {
-    ImageType,
-    ImageBlockType,
-    ImagesType,
-    TermType,
-    PostType,
-    PageType,
-    ArchiveType,
-} from '@app/_lib/data/mysql/types'
-import type { OptionType } from '@app/_lib/data/mongo/types'
-import { ARCHIVE, POST_STATUS } from '@app/_lib/data/mysql/types'
+    T_Term,
+    T_Archive,
+    T_Image,
+    T_ImageBlock,
+    T_Option,
+    T_PostImages,
+    T_Post,
+    T_Page,
+} from '@app/_lib/types'
+import { ARCHIVE, POST_STATUS } from '@app/_lib/types'
 
-const image: { [key in keyof ImageType]: object } = {
+const image: { [key in keyof T_Image]: object } = {
     url: {
         bsonType: 'string',
     },
@@ -25,7 +25,7 @@ const image: { [key in keyof ImageType]: object } = {
     },
 }
 
-const imageBlock: { [key in keyof ImageBlockType]: object } = {
+const imageBlock: { [key in keyof T_ImageBlock]: object } = {
     title: {
         bsonType: 'string',
     },
@@ -65,6 +65,10 @@ const imageBlock: { [key in keyof ImageBlockType]: object } = {
                 bsonType: 'object',
                 properties: image,
             },
+            large: {
+                bsonType: 'object',
+                properties: image,
+            },
         },
     },
     url: {
@@ -72,7 +76,7 @@ const imageBlock: { [key in keyof ImageBlockType]: object } = {
     },
 }
 
-const images: { [key in keyof ImagesType]: object } = {
+const images: { [key in keyof T_PostImages]: object } = {
     list: {
         bsonType: 'object',
         properties: imageBlock,
@@ -95,7 +99,7 @@ const images: { [key in keyof ImagesType]: object } = {
     },
 }
 
-const term: { [key in keyof TermType]: object } = {
+const term: { [key in keyof T_Term]: object } = {
     id: {
         bsonType: 'int',
     },
@@ -111,7 +115,7 @@ const term: { [key in keyof TermType]: object } = {
     },
 }
 
-const pageProperty: { [key in keyof PageType]: object } = {
+const pageProperty: { [key in keyof T_Page]: object } = {
     id: {
         bsonType: 'int',
     },
@@ -132,7 +136,7 @@ const pageProperty: { [key in keyof PageType]: object } = {
     },
     status: {
         bsonType: 'string',
-        enum: [POST_STATUS.PUBLISH, POST_STATUS.DRAFT, POST_STATUS.TRASH],
+        enum: [...Object.values(POST_STATUS)],
     },
     images: {
         bsonType: 'object',
@@ -150,7 +154,7 @@ const pageProperty: { [key in keyof PageType]: object } = {
     },
 }
 
-const postProperty: { [key in keyof PostType]: object } = {
+const postProperty: { [key in keyof T_Post]: object } = {
     ...pageProperty,
     terms: {
         bsonType: 'array',
@@ -161,7 +165,7 @@ const postProperty: { [key in keyof PostType]: object } = {
     },
 }
 
-const archivesProperty: { [key in keyof ArchiveType]: object } = {
+const archivesProperty: { [key in keyof T_Archive]: object } = {
     id: {
         bsonType: 'int',
     },
@@ -183,7 +187,7 @@ const archivesProperty: { [key in keyof ArchiveType]: object } = {
     },
 }
 
-const optionsProperty: { [key in keyof OptionType]: object } = {
+const optionsProperty: { [key in keyof T_Option]: object } = {
     key: {
         bsonType: 'string',
     },
@@ -239,17 +243,9 @@ const options = {
     properties: optionsProperty,
 }
 
-/**
- * @deprecated
- */
-const archives = {
-    ...tags,
-}
-
 const defaults = {
     posts,
     pages,
-    archives,
     category,
     tags,
     backgrounds,

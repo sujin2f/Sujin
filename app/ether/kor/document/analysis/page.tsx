@@ -8,8 +8,6 @@ import { Column } from '@common/components/layout/Column'
 import { Latex } from '@app/(single)/_components/Latex'
 import { PrevNext } from '@app/(single)/_components/PrevNext'
 import ScrollToTop from '@common/components/ScrollToTop'
-/* Types */
-import type { PostType } from '@app/_lib/data/mysql/types'
 /* Assets */
 import pic29 from '@app/_lib/images/ether/pic29.png'
 import pic42 from '@app/_lib/images/ether/pic42.png'
@@ -694,16 +692,14 @@ export default function Analysis() {
             </Row>
 
             <PrevNext
-                posts={[
-                    {
-                        title: '가설의 검증(2): 뤼드베리 방정식의 재정립',
-                        link: '/ether/kor/document/rydberg-formula',
-                    } as PostType,
-                    {
-                        title: '가설의 검증(4): 비교기준, Between',
-                        link: '/ether/kor/document/between',
-                    } as PostType,
-                ]}
+                prev={{
+                    title: '가설의 검증(2): 뤼드베리 방정식의 재정립',
+                    link: '/ether/kor/document/rydberg-formula',
+                }}
+                next={{
+                    title: '가설의 검증(4): 비교기준, Between',
+                    link: '/ether/kor/document/between',
+                }}
             ></PrevNext>
         </div>
     )

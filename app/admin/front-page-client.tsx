@@ -12,7 +12,7 @@ type Props = {
     reset: () => Promise<void>
 }
 
-export default function FrontPage({
+export function FrontPageClient({
     dbVersion,
     codeVersion,
     database,
@@ -21,7 +21,6 @@ export default function FrontPage({
     reset,
 }: Props) {
     const router = useRouter()
-
     return (
         <>
             <h2>Admin</h2>
@@ -34,7 +33,6 @@ export default function FrontPage({
                 <dt>Mongo Database</dt>
                 <dd>{database}</dd>
             </dl>
-
             {showMigrate && (
                 <Button
                     onClick={() =>
@@ -45,8 +43,7 @@ export default function FrontPage({
                 >
                     Migrate MongoDB
                 </Button>
-            )}
-
+            )}{' '}
             <Button
                 onClick={() =>
                     reset().then(() => {
@@ -54,7 +51,7 @@ export default function FrontPage({
                     })
                 }
             >
-                Reset MongoDB
+                Reset Version
             </Button>
         </>
     )

@@ -1,6 +1,13 @@
 main.admin {
     padding-top: var(--header-height) !important;
     margin-top: var(--header-height) !important;
+    .table__container {
+        .center {
+            > * {
+                display: inline-block;
+            }
+        }
+    }
 }
 
 .menu--admin {

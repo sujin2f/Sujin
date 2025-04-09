@@ -1,6 +1,6 @@
 // yarn test object.spec.ts
 
-import { filterEmpty, isEmpty } from './object'
+import { filterEmpty, isEmpty, omit } from './object'
 
 describe('object.ts', () => {
     it('filterEmpty()', () => {
@@ -32,5 +32,19 @@ describe('object.ts', () => {
     it('isEmpty(): null', () => {
         const result = isEmpty(null)
         expect(result).toBe(true)
+    })
+
+    it('omit(): null', () => {
+        const input = {
+            key1: 'value1',
+            key2: 'value2',
+            key3: 'value3',
+            key4: 'value4',
+        }
+        const result = omit(input, 'key1', 'key2')
+        expect(result).toStrictEqual({
+            key3: 'value3',
+            key4: 'value4',
+        })
     })
 })

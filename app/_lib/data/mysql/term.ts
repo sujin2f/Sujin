@@ -1,34 +1,31 @@
 'use server'
-/* Constants */
+/* CONSTANTS */
 import { MySQLQuery } from '@app/_lib/data/mysql/constants'
+import { ARCHIVE } from '@app/_lib/types'
 /* Utils */
 import { getMedia } from '@app/_lib/data/mysql/media'
 /* Models */
 import MySQL from '@app/_lib/data/mysql'
 import Logger from '@common/model/Logger'
 /* Types */
-import type {
-    ARCHIVE,
-    ArchiveType,
-    ImageBlockType,
-    TermType,
-} from '@app/_lib/data/mysql/types'
+import type { T_ImageBlock, T_Term, T_Archive } from '@app/_lib/types'
 import type { Nullable } from '@common/types'
+import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 
 const getMeta = async <T = string>(id: number, metaKey: string): Promise<T> =>
     await MySQL.getInstance().selectOne<T>(MySQLQuery.getTermMeta(id, metaKey))
 
-export const getTermsByPost = async (id: number): Promise<TermType[]> =>
-    await MySQL.getInstance().select<TermType>(MySQLQuery.getTaxonomies(id))
+export const getTermsByPost = async (id: number): Promise<T_Term[]> =>
+    await MySQL.getInstance().select<T_Term>(MySQLQuery.getTaxonomies(id))
 
 /**
  * Get archive image.
  * @param {Term} archive Term.
- * @return {Promise<Nullable<ImageBlockType>>} Image.
+ * @return {Promise<Nullable<T_ImageBlock>>} Image.
  */
 const getThumbnail = async (
-    archive: ArchiveType,
-): Promise<Nullable<ImageBlockType>> =>
+    archive: T_Archive,
+): Promise<Nullable<T_ImageBlock>> =>
     await getMeta<{ value: string }>(archive.id, 'thumbnail')
         .then(async (data) =>
             data && data.value
@@ -42,23 +39,26 @@ const getThumbnail = async (
  *
  * @param {string} slug
  * @param {ARCHIVE} type
- * @return {Promise<ArchiveType>}
+ * @return {Promise<T_Archive>}
  * @throws {Error} Failed to get the archive.
  */
 export const getArchiveBySlug = async (
     slug: string,
     type: ARCHIVE,
-): Promise<ArchiveType> => {
+): Promise<T_Archive> => {
     Logger.server(
         `Access MySQL for getting archive type: ${type} and slug: ${slug}.`,
     )
 
     const archive = await MySQL.getInstance()
-        .selectOne<ArchiveType>(MySQLQuery.getArchiveBy('slug', slug))
+        .selectOne<T_Archive>(MySQLQuery.getArchiveBy('slug', slug))
         .catch(() => {
-            const message = `Failed to get MySQL archive type: ${type} and slug: ${slug}.`
-            Logger.server(message)
-            throw new Error(message)
+            throw new ServerError(
+                ERROR_MESSAGE.ARCHIVE.SQL_GET_ONE,
+                'getArchiveBySlug()',
+                type,
+                slug,
+            )
         })
 
     const image = await getThumbnail(archive)

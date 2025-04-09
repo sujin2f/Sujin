@@ -1,18 +1,18 @@
 import React from 'react'
 import Link from 'next/link'
 /* Helpers */
-import type { TermType } from '@app/_lib/data/mysql/types'
+import type { T_Term } from '@app/_lib/types'
 
 interface Props {
-    items: TermType[]
+    items: T_Term[]
 }
 
-export const Tags = (props: Props) => {
+export const Tags = ({ items }: Props) => {
     return (
         <>
-            {props.items.length !== 0 && (
+            {items.length !== 0 && (
                 <ul className="tag__container">
-                    {props.items.map((tag: TermType, index: number) => (
+                    {items.map((tag: T_Term, index: number) => (
                         <li key={`tag-${index}-${tag.slug}`}>
                             <Link
                                 href={`/tag/${tag.slug}/page/1`}

@@ -4,7 +4,7 @@
  * @module constants
  */
 
-import type { IMAGE_SIZE, POST_TYPE } from '@app/_lib/data/mysql/types'
+import { type POST_TYPE, TAXONOMY } from '@app/_lib/types'
 
 /**
  * Making a formatted string
@@ -72,6 +72,7 @@ const GET_POST_META = `
     LIMIT 1
 `
 
+// @deprecated
 const GET_ALL_POST_META = `
     SELECT meta_key, meta_value
     FROM wp_postmeta
@@ -115,7 +116,7 @@ const GET_TERM_ITEMS = `
         ON taxonomy.term_taxonomy_id = relationships.term_taxonomy_id
     INNER JOIN wp_terms AS terms
         ON terms.term_id = taxonomy.term_id
-    WHERE terms.slug="{0}" AND posts.post_status="{1}"
+    WHERE terms.slug="{0}" {1}
     {2}
 `
 
@@ -155,7 +156,7 @@ const GET_TAG_COUNT = `
         LEFT JOIN wp_posts as post ON post.ID = relationship.object_ID
         LEFT JOIN wp_terms_hit as count ON count.term_id = terms.term_id
     WHERE
-        taxonomy.taxonomy="post_tag" AND
+        taxonomy.taxonomy="${TAXONOMY.POST_TAG}" AND
         count<>0
     GROUP BY terms.term_id
     ORDER BY count DESC LIMIT 20
@@ -174,7 +175,7 @@ const GET_TAG_HIT = `
         LEFT JOIN wp_posts as post ON post.ID = relationship.object_ID
         LEFT JOIN wp_terms_hit as count ON count.term_id = terms.term_id
     WHERE
-        taxonomy.taxonomy="post_tag" AND
+        taxonomy.taxonomy="${TAXONOMY.POST_TAG}" AND
         count<>0
     GROUP BY terms.term_id
     ORDER BY hit DESC LIMIT 20
@@ -197,14 +198,21 @@ export const MySQLQuery = {
         const newKey = key === 'id' ? 'terms.term_id' : 'terms.slug'
         return format(GET_ARCHIVE_BY, newKey, value)
     },
-    getBackgrounds: () => format(GET_TERM_ITEMS, 'background', 'inherit', ''),
+    getBackgrounds: () =>
+        format(
+            GET_TERM_ITEMS,
+            'background',
+            'AND posts.post_status="inherit"',
+            '',
+        ),
+    // @deprecated
     getAllPostMeta: (postId: number) => format(GET_ALL_POST_META, postId),
     // @deprecated
-    getTermItems: (termSlug: string, offset: number) =>
+    getTermItems: (termSlug: string, offset: number, ignoreStatus: boolean) =>
         format(
             GET_TERM_ITEMS,
             termSlug,
-            'publish',
+            ignoreStatus ? '' : 'AND posts.post_status="publish"',
             `ORDER BY posts.ID DESC LIMIT ${PER_PAGE} OFFSET ${offset}`,
         ),
     getOption: (optionName: string) => format(GET_OPTION, optionName),
@@ -236,40 +244,14 @@ export const MySQLQuery = {
     getTaxonomies: (postId: number) => format(GET_TAXONOMIES, postId),
     getTermMeta: (id: number, metaKey: string) =>
         format(GET_TERM_META, id, metaKey),
+    // @deprecated
     getTagCount: () => format(GET_TAG_COUNT),
+    // @deprecated
     getTagHit: () => format(GET_TAG_HIT),
+    // @deprecated
     updateTagHit: (termId: number) => format(UPDATE_TAG_HIT, termId),
+    // @deprecated
     deletePostMeta: (postId: number, metaKey: string) => {
         return format(DELETE_POST_META, postId, metaKey)
     },
-}
-
-export enum MetaKeys {
-    ATTACHMENT_META = '_wp_attachment_metadata',
-    MENU_ITEM_CLASSES = '_menu_item_classes',
-    MENU_ITEM_OBJECT_ID = '_menu_item_object_id',
-    MENU_ITEM_TARGET = '_menu_item_target',
-    MENU_ITEM_TYPE = '_menu_item_type',
-    MENU_ITEM_URL = '_menu_item_url',
-    MENU_ITEM_PARENT = '_menu_item_menu_item_parent',
-}
-
-export enum MenuNames {
-    MAIN = 'main',
-    SOCIAL = 'social-media',
-    DEV_TOOL = 'devtool',
-    ETHER = 'ether',
-    ETHER_KOR = 'ether-kor',
-}
-
-export enum MenuItemTypes {
-    POST_TYPE = 'post_type',
-    TAXONOMY = 'taxonomy',
-}
-
-export const bannerMediaQuery: {
-    [key in IMAGE_SIZE]?: string
-} = {
-    medium: '(max-width: 300px)',
-    mediumLarge: '(max-width: 768px)',
 }

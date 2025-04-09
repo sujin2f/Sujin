@@ -2,7 +2,6 @@ import type { Filter, WithId } from 'mongodb'
 /* Models */
 import Mongo from '@common/data/mongo/mongo'
 import Cached from '@common/model/Cached'
-import Logger from '@common/model/Logger'
 /* Utils */
 import { getPostBy, getPostsBy } from '@app/_lib/data/mysql/post'
 import { updateTag } from '@app/_lib/data/mongo/wordpress/tag'
@@ -11,32 +10,32 @@ import { getCacheKey } from '@app/_lib/utils'
 import { updateCategory } from '@app/_lib/data/mongo/wordpress/category'
 import { getOption, removeOption } from '@app/_lib/data/mysql/option'
 import { MutationResultType } from '@app/api/graphql/constants'
-import { getCollectionName } from './archive'
-/* Types */
-import {
-    ARCHIVE,
-    POST_STATUS,
-    POST_TYPE,
-    IMAGE_TYPE,
-    type PostType,
-    type MySQLPostType,
-} from '@app/_lib/data/mysql/types'
-/* Constants */
-import { COLLECTION } from '@app/_lib/data/mongo/constants'
-import { WEEK_IN_SECONDS } from '@common/constants/datetime'
+import { formatPostImage } from '@app/_lib/data/mongo/wordpress/util'
+import { isAdmin } from '@app/_lib/utils-server'
+/* CONSTANTS */
+// import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV } from '@common/constants/helper'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
+import {
+    ARCHIVE,
+    COLLECTION,
+    POST_IMAGE_LOCATION,
+    POST_STATUS,
+    POST_TYPE,
+    T_Post,
+    T_MySQLPost,
+    T_PrevNext,
+} from '@app/_lib/types'
+import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 
-const format = (
-    page: WithId<PostType> | PostType | MySQLPostType,
-): PostType => ({
+const format = (page: WithId<T_Post> | T_Post | T_MySQLPost): T_Post => ({
     id: page.id,
     slug: page.slug,
     title: page.title,
     excerpt: page.excerpt || '',
     content: page.content,
     date: page.date,
-    images: page.images,
+    images: formatPostImage(page.images),
     meta: page.meta,
     status: page.status,
     link: page.link,
@@ -46,6 +45,22 @@ const format = (
 })
 
 /**
+ * @param {string} nonce - WP nonce
+ * @returns {Promise<void>}
+ */
+export const auth = async (nonce?: string, slug?: string): Promise<void> => {
+    if (await isAdmin()) return
+
+    if (!nonce) return
+    const nonceKey = `update_post_${nonce}`
+    const nonceValue = await getOption(nonceKey)
+    await removeOption(nonceKey)
+    if (nonceValue === `${nonce}-${slug}`) return
+
+    throw new ServerError(ERROR_MESSAGE.GENERAL.UNAUTHORIZED, 'post.ts::auth()')
+}
+
+/**
  * Get single post by slug
  * This returns the cached result if it exists
  *
@@ -53,34 +68,27 @@ const format = (
  * @param {boolean} ignoreStatus - The flag to ignore status
  * @returns {Promise<WithId<WPPost>>} - The post object
  */
-export const getCachedPost = async (
-    slug: string,
-    ignoreStatus: boolean = false,
-): Promise<PostType> => {
-    const doc: Filter<PostType> = { slug }
-    if (!ignoreStatus) {
-        doc.status = POST_STATUS.PUBLISH
-    }
-
+export const getCachedPost = async (slug: string): Promise<T_Post> => {
+    const doc: Filter<T_Post> = { slug }
     return await Cached.getInstance().getOrExecute(
         getCacheKey(COLLECTION.POST, slug),
         async () =>
-            await Mongo.findOne<PostType>(COLLECTION.POST, doc).then((post) =>
+            await Mongo.findOne<T_Post>(COLLECTION.POST, doc).then((post) =>
                 format(post),
             ),
-        WEEK_IN_SECONDS,
+        0,
         IS_DEV,
     )
 }
 
 const updateMongoFromMySQL = async (
-    post: MySQLPostType,
-): Promise<[PostType, string[], string[]]> => {
+    post: T_MySQLPost,
+): Promise<[T_Post, string[], string[]]> => {
     const slug = post.slug
 
     Cached.getInstance().flush(getCacheKey(COLLECTION.POST, slug))
     Object.keys(post.images).forEach((key) => {
-        const imageKey = key as IMAGE_TYPE
+        const imageKey = key as POST_IMAGE_LOCATION
         post.images[imageKey] = convertImageBlockURL(post.images[imageKey]!)
     })
     const newPost = format(post)
@@ -92,10 +100,11 @@ const updateMongoFromMySQL = async (
         .filter((term) => term.type === ARCHIVE.TAG)
         .map((term) => term.slug)
 
-    await Mongo.findOne<PostType>(COLLECTION.POST, {
+    await Mongo.findOne<T_Post>(COLLECTION.POST, {
         slug,
     })
-        .then((result) => {
+        // Post exist: update archive and replace the post
+        .then(async (result) => {
             result.terms
                 .filter((term) => term.type === ARCHIVE.CATEGORY)
                 .forEach((term) => {
@@ -106,10 +115,19 @@ const updateMongoFromMySQL = async (
                 .forEach((term) => {
                     tags.push(term.slug)
                 })
+            await Mongo.insertOrReplace<T_Post>(
+                COLLECTION.POST,
+                {
+                    slug,
+                },
+                format(post),
+            )
         })
-        .catch(() => null)
-    await Mongo.deleteOne(COLLECTION.POST, { slug })
-    await Mongo.insertOne<PostType>(COLLECTION.POST, format(post))
+        // New post
+        .catch(
+            async () =>
+                await Mongo.insertOne<T_Post>(COLLECTION.POST, format(post)),
+        )
 
     return [newPost, categories, tags]
 }
@@ -123,7 +141,8 @@ const updateArchives = async (categories: string[], tags: string[]) => {
     }
 }
 
-export const updatePost = async (slug: string) => {
+export const updatePost = async (slug: string, nonce?: string) => {
+    await auth(nonce, slug)
     Cached.getInstance().flush(getCacheKey(COLLECTION.POST, slug))
     await getPostBy('slug', slug, POST_TYPE.POST, true).then(async (post) => {
         const [, categories, tags] = await updateMongoFromMySQL(post)
@@ -135,16 +154,16 @@ export const updateArchivePosts = async (
     type: ARCHIVE,
     slug: string,
     page: number,
-): Promise<PostType[]> => {
-    const collection = getCollectionName(type)
+): Promise<T_Post[]> => {
+    await auth()
     Cached.getInstance().flush(getCacheKey(COLLECTION.POST))
-    Cached.getInstance().flush(getCacheKey(collection, slug))
+    Cached.getInstance().flush(getCacheKey(type, slug))
 
-    return await getPostsBy(type, POST_TYPE.POST, slug, page).then(
+    return await getPostsBy(type, POST_TYPE.POST, slug, page, true).then(
         async (result) => {
             const tags: string[] = []
             const categories: string[] = []
-            const posts: PostType[] = []
+            const posts: T_Post[] = []
 
             for (const item of result) {
                 const [post, cat, tag] = await updateMongoFromMySQL(item)
@@ -162,25 +181,24 @@ export const getArchivePosts = async (
     type: string,
     slug: string,
     page: number,
-): Promise<PostType[]> => {
-    return await Mongo.findMany<PostType>(
-        COLLECTION.POST,
-        {
-            terms: { $elemMatch: { slug, type } },
-        },
-        {
-            sort: { date: -1 },
-            limit: PER_PAGE,
-            skip: PER_PAGE * (page - 1),
-        },
-    ).then(async (posts) => posts.map((post) => format(post)))
+    open: boolean = true,
+): Promise<T_Post[]> => {
+    const doc: Filter<T_Post> = {
+        terms: { $elemMatch: { slug, type } },
+    }
+    if (open || !(await isAdmin())) doc.status = POST_STATUS.PUBLISH
+    return await Mongo.findMany<T_Post>(COLLECTION.POST, doc, {
+        sort: { date: -1 },
+        limit: PER_PAGE,
+        skip: PER_PAGE * (page - 1),
+    }).then(async (posts) => posts.map((post) => format(post)))
 }
 
 export const getCachedArchivePosts = async (
     type: string,
     slug: string,
     page: number,
-): Promise<PostType[]> => {
+): Promise<T_Post[]> => {
     if (type !== ARCHIVE.CATEGORY && type !== ARCHIVE.TAG) {
         throw new Error('Invalid type')
     }
@@ -188,18 +206,18 @@ export const getCachedArchivePosts = async (
     return await Cached.getInstance().getOrExecute(
         getCacheKey(type, slug, page),
         async () => await getArchivePosts(type, slug, page),
-        WEEK_IN_SECONDS,
+        0,
         IS_DEV,
     )
 }
 
-const getPrevNext = async (slug: string): Promise<PostType[]> => {
+const getPrevNext = async (slug: string): Promise<T_PrevNext[]> => {
     const post = await getCachedPost(slug)
     const slugs = post.terms
         .filter((term) => term.type === 'category')
         .map((category) => category.slug)
 
-    const prev = await Mongo.findMany<PostType>(
+    const prev = await Mongo.findMany<T_Post>(
         COLLECTION.POST,
         {
             id: { $ne: post.id },
@@ -214,7 +232,7 @@ const getPrevNext = async (slug: string): Promise<PostType[]> => {
         },
         { sort: { date: -1 }, limit: 1 },
     )
-    const next = await Mongo.findMany<PostType>(
+    const next = await Mongo.findMany<T_Post>(
         COLLECTION.POST,
         {
             id: { $ne: post.id },
@@ -237,23 +255,23 @@ const getPrevNext = async (slug: string): Promise<PostType[]> => {
  * This returns the cached result if it exists
  *
  * @param {string} slug - The id of the post
- * @returns {Promise<PostType[]>} A promise that resolves to the recent posts.
+ * @returns {Promise<T_PrevNext[]>} A promise that resolves to the recent posts.
  */
-export const getCachedPrevNext = async (slug: string): Promise<PostType[]> =>
+export const getCachedPrevNext = async (slug: string): Promise<T_PrevNext[]> =>
     await Cached.getInstance().getOrExecute(
         getCacheKey(COLLECTION.POST, slug, 'prev-next'),
         async () => await getPrevNext(slug),
-        WEEK_IN_SECONDS,
+        0,
         IS_DEV,
     )
 
 /**
  * Fetches the recent posts from MongoDB.
  *
- * @returns {Promise<PostType[]>} A promise that resolves to the recent posts.
+ * @returns {Promise<T_Post[]>} A promise that resolves to the recent posts.
  */
-const getRecentPosts = async (): Promise<PostType[]> =>
-    await Mongo.findMany<PostType>(
+const getRecentPosts = async (): Promise<T_Post[]> =>
+    await Mongo.findMany<T_Post>(
         COLLECTION.POST,
         { status: POST_STATUS.PUBLISH },
         { sort: { date: -1 }, limit: PER_PAGE },
@@ -263,26 +281,24 @@ const getRecentPosts = async (): Promise<PostType[]> =>
  * Fetches the recent posts from the cache or MongoDB.
  * It uses a caching mechanism to avoid fetching the posts multiple times within a week.
  *
- * @returns {Promise<PostType[]>} A promise that resolves to the recent posts.
+ * @returns {Promise<T_Post[]>} A promise that resolves to the recent posts.
  */
-export const getCachedRecentPosts = async (): Promise<PostType[]> =>
+export const getCachedRecentPosts = async (): Promise<T_Post[]> =>
     await Cached.getInstance().getOrExecute(
         getCacheKey(COLLECTION.POST, 'recent'),
         async () => await getRecentPosts(),
-        WEEK_IN_SECONDS,
+        0,
         IS_DEV,
     )
 
 /**
  * Fetches the related posts from MongoDB.
- * @param {number} id - The ID of the post.
- * @param {string} categories - The categories of the post.
- * @param {string} tags - The tags of the post.
- * @returns {Promise<WithId<Post>[]>} A promise that resolves to the related posts.
+ * @param {string} slug
+ * @returns {Promise<T_Post[]>} A promise that resolves to the related posts.
  */
-const getRelatedPosts = async (slug: string): Promise<PostType[]> => {
+const getRelatedPosts = async (slug: string): Promise<T_Post[]> => {
     const post = await getCachedPost(slug)
-    const result: Record<number, PostType> = {}
+    const result: Record<number, T_Post> = {}
 
     const categories = post.terms
         .filter((term) => term.type === 'category')
@@ -291,7 +307,7 @@ const getRelatedPosts = async (slug: string): Promise<PostType[]> => {
         .filter((term) => term.type === 'tag')
         .map((tag) => tag.slug)
 
-    await Mongo.findMany<PostType>(
+    await Mongo.findMany<T_Post>(
         COLLECTION.POST,
         {
             id: { $ne: post.id },
@@ -317,7 +333,7 @@ const getRelatedPosts = async (slug: string): Promise<PostType[]> => {
             .slice(0, 4)
     }
 
-    await Mongo.findMany<PostType>(
+    await Mongo.findMany<T_Post>(
         COLLECTION.POST,
         {
             id: { $ne: post.id },
@@ -360,15 +376,13 @@ const getRelatedPosts = async (slug: string): Promise<PostType[]> => {
  * It uses a caching mechanism to avoid fetching the posts multiple times within a week.
  *
  * @param {string} slug
- * @returns {Promise<PostType[]>} A promise that resolves to the related posts.
+ * @returns {Promise<T_Post[]>} A promise that resolves to the related posts.
  */
-export const getCachedRelatedPosts = async (
-    slug: string,
-): Promise<PostType[]> =>
+export const getCachedRelatedPosts = async (slug: string): Promise<T_Post[]> =>
     await Cached.getInstance().getOrExecute(
         getCacheKey(COLLECTION.POST, slug, 'related'),
         async () => await getRelatedPosts(slug),
-        WEEK_IN_SECONDS,
+        0,
         IS_DEV,
     )
 
@@ -376,20 +390,7 @@ export const mutatePost = async (
     nonce: string,
     slug: string,
 ): Promise<MutationResultType> => {
-    Logger.server('GQL Server mutatePost: started.')
-    const nonceKey = `update_post_${nonce}`
-    const nonceValue = await getOption(nonceKey)
-    await removeOption(nonceKey)
-
-    if (nonceValue !== `${nonce}-${slug}`) {
-        const message = 'GQL Server mutatePost: got invalid nonce.'
-        Logger.server(message)
-        throw new Error(message)
-    }
-
-    await updatePost(slug)
-    Logger.server(`GQL Server mutatePost: ${slug} updated.`)
-
+    await updatePost(slug, nonce)
     return {
         result: true,
     }

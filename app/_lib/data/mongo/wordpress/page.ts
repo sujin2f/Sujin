@@ -1,38 +1,56 @@
-import type { Filter, WithId } from 'mongodb'
+import type { WithId } from 'mongodb'
 /* Models */
 import Cached from '@common/model/Cached'
 import Mongo from '@common/data/mongo/mongo'
-import Logger from '@common/model/Logger'
-/* Constants */
-import { WEEK_IN_SECONDS } from '@common/constants/datetime'
+/* CONSTANTS */
+// import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV } from '@common/constants/helper'
-import { COLLECTION } from '@app/_lib/data/mongo/constants'
+import {
+    COLLECTION,
+    POST_IMAGE_LOCATION,
+    POST_TYPE,
+    T_Page,
+} from '@app/_lib/types'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 /* Utils */
 import { removeOption, getOption } from '@app/_lib/data/mysql/option'
 import { getCacheKey } from '@app/_lib/utils'
 import { getPostBy } from '@app/_lib/data/mysql/post'
 import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
+import { formatPostImage } from '@app/_lib/data/mongo/wordpress/util'
+import { isAdmin } from '@app/_lib/utils-server'
 /* Types */
-import {
-    IMAGE_TYPE,
-    POST_TYPE,
-    type PageType,
-} from '@app/_lib/data/mysql/types'
 import type { MutationResultType } from '@app/api/graphql/constants'
+import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 
-const format = (page: WithId<PageType> | PageType): PageType => ({
+const format = (page: WithId<T_Page> | T_Page): T_Page => ({
     id: page.id,
     slug: page.slug,
     title: page.title,
     excerpt: page.excerpt || '',
     content: page.content,
     date: page.date,
-    images: page.images,
+    images: formatPostImage(page.images),
     meta: page.meta,
     status: page.status,
     link: page.link,
 })
+
+/**
+ * @param {string} nonce - WP nonce
+ * @returns {Promise<void>}
+ */
+export const auth = async (nonce?: string, slug?: string): Promise<void> => {
+    if (await isAdmin()) return
+
+    if (!nonce) return
+    const optionKey = `update_page_${nonce}`
+    const nonceValue = await getOption(optionKey)
+    await removeOption(optionKey)
+    if (`${nonce}-${slug}` === nonceValue) return
+
+    throw new ServerError(ERROR_MESSAGE.GENERAL.UNAUTHORIZED, 'page.ts::auth()')
+}
 
 /**
  * Update Mongo Post type from MySQL for GraphQL
@@ -45,21 +63,7 @@ export const mutatePage = async (
     nonce: string,
     slug: string,
 ): Promise<MutationResultType> => {
-    // Nonce validation
-    Logger.server('GQL Server mutatePage: started.')
-    const optionKey = `update_page_${nonce}`
-    const nonceValue = await getOption(optionKey)
-    await removeOption(optionKey)
-
-    if (`${nonce}-${slug}` !== nonceValue) {
-        const message = 'GQL Server mutatePage: got invalid nonce.'
-        Logger.server(message)
-        throw Error(message)
-    }
-
-    await updatePage(slug)
-
-    Logger.server(`GQL Server mutatePage: ${slug} updated.`)
+    await updatePage(slug, nonce)
     return {
         result: true,
     }
@@ -70,22 +74,14 @@ export const mutatePage = async (
  * This returns the cached result if it exists
  *
  * @param {string} slug - Post slug
- * @param {boolean} ignoreStatus - The flag to ignore status
- * @returns {Promise<Page>} - The post object
+ * @returns {Promise<T_Page>} - The post object
  * @throws {Error} - MySQL page cannot be found
  */
-export const getCachedPage = async (slug: string): Promise<PageType> =>
+export const getCachedPage = async (slug: string): Promise<T_Page> =>
     await Cached.getInstance().getOrExecute(
         getCacheKey(COLLECTION.PAGE, slug),
-        async () => {
-            const doc: Filter<PageType> = { slug }
-            const page = await Mongo.findOne<PageType>(
-                COLLECTION.PAGE,
-                doc,
-            ).catch(async () => await updatePage(slug))
-            return format(page)
-        },
-        WEEK_IN_SECONDS,
+        async () => await Mongo.findOne<T_Page>(COLLECTION.PAGE, { slug }),
+        0,
         IS_DEV,
     )
 
@@ -94,30 +90,24 @@ export const getCachedPage = async (slug: string): Promise<PageType> =>
  * This is also directly used from Admin
  *
  * @param {string} slug - Page slug
- * @returns {Promise<Page>}
+ * @returns {Promise<T_Page>}
  * @throws {Error} - MySQL page cannot be found
  */
-export const updatePage = async (slug: string): Promise<PageType> => {
-    // Remove Cache
+export const updatePage = async (
+    slug: string,
+    nonce?: string,
+): Promise<T_Page> => {
+    await auth(nonce, slug)
     await Cached.getInstance().flush(getCacheKey(COLLECTION.PAGE, slug))
 
-    const result = await getPostBy('slug', slug, POST_TYPE.PAGE).catch(
-        async () => {
-            await removePage(slug)
-            const message = `updatePage(): Failed to update MongoDB post: ${slug}`
-            Logger.server(message)
-            throw Error(message)
-        },
-    )
-
+    const result = await getPostBy('slug', slug, POST_TYPE.PAGE)
     const page = format(result)
     Object.keys(page.images).forEach((key) => {
-        const imageKey = key as IMAGE_TYPE
+        const imageKey = key as POST_IMAGE_LOCATION
         page.images[imageKey] = convertImageBlockURL(page.images[imageKey]!)
     })
-    await removePage(slug)
-    await Mongo.insertOne(COLLECTION.PAGE, page)
-    Logger.server(`updatePage(): Updated MongoDB post: ${slug}`)
+    await Mongo.insertOrReplace(COLLECTION.PAGE, { slug }, page)
+    await Cached.getInstance().set(getCacheKey(COLLECTION.PAGE), page)
     return page
 }
 
@@ -125,10 +115,10 @@ export const updatePage = async (slug: string): Promise<PageType> => {
  * Admin get Pages by pagination
  *
  * @param {number} page - Page
- * @returns {Promise<Page[]>}
+ * @returns {Promise<T_Page[]>}
  */
-export const getPages = async (page: number = 1): Promise<PageType[]> =>
-    await Mongo.findMany<PageType>(
+export const getPages = async (page: number = 1): Promise<T_Page[]> =>
+    await Mongo.findMany<T_Page>(
         COLLECTION.PAGE,
         {},
         { sort: { date: -1 }, limit: PER_PAGE, skip: PER_PAGE * (page - 1) },
@@ -141,7 +131,7 @@ export const getPages = async (page: number = 1): Promise<PageType[]> =>
  * @returns {Promise<void>}
  */
 export const removePage = async (slug: string): Promise<void> => {
+    await auth()
     await Cached.getInstance().flush(getCacheKey(COLLECTION.PAGE, slug))
     await Mongo.deleteOne(COLLECTION.PAGE, { slug })
-    Logger.server(`Page removed ${slug}`)
 }

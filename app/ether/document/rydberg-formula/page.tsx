@@ -6,8 +6,6 @@ import { Table } from '@common/components/containers/Table'
 import { Latex } from '@app/(single)/_components/Latex'
 import { PrevNext } from '@app/(single)/_components/PrevNext'
 import ScrollToTop from '@common/components/ScrollToTop'
-/* Types */
-import type { PostType } from '@app/_lib/data/mysql/types'
 /* Assets */
 import pic9 from '@app/_lib/images/ether/pic9.png'
 import pic10 from '@app/_lib/images/ether/pic10.png'
@@ -761,16 +759,14 @@ export default function RydbergFormula() {
             </p>
 
             <PrevNext
-                posts={[
-                    {
-                        title: 'Proof(1): Classic Physics',
-                        link: '/ether/document/classic-physics',
-                    } as PostType,
-                    {
-                        title: 'Proof(3): Emission Energy Analysis',
-                        link: '/ether/document/analysis',
-                    } as PostType,
-                ]}
+                prev={{
+                    title: 'Proof(1): Classic Physics',
+                    link: '/ether/document/classic-physics',
+                }}
+                next={{
+                    title: 'Proof(3): Emission Energy Analysis',
+                    link: '/ether/document/analysis',
+                }}
             ></PrevNext>
         </div>
     )

@@ -1,6 +1,8 @@
 import { headers } from 'next/headers'
+import { getServerSession } from 'next-auth'
 import type { Nullable } from '@common/types'
 import { Metadata, METADATA } from '@app/_lib/constants'
+import { authOptions } from '@app/api/auth/constants'
 
 /**
  * Retrieves the current pathname from the headers.
@@ -10,6 +12,7 @@ import { Metadata, METADATA } from '@app/_lib/constants'
  *
  * @async
  * @returns {Promise<Nullable<string>>} The pathname as a string if found, otherwise `undefined`.
+ * @todo Remove this and x-pathname for good
  */
 export const getPathName = async (): Promise<Nullable<string>> =>
     (await headers()).get('x-pathname') || undefined
@@ -25,6 +28,7 @@ export const getPathName = async (): Promise<Nullable<string>> =>
  * @async
  * @returns {Promise<Metadata>} The metadata corresponding to the current pathname.
  * @throws {Error} If the pathname is not found or metadata for the path is missing.
+ * @todo Remove this and x-pathname for good
  */
 export const getMetaData = async (): Promise<Metadata> => {
     const path = await getPathName()
@@ -32,4 +36,9 @@ export const getMetaData = async (): Promise<Metadata> => {
         throw Error('Cannot get metadata.')
     }
     return METADATA[path]
+}
+
+export const isAdmin = async (): Promise<boolean> => {
+    const session = await getServerSession(authOptions)
+    return session?.user?.email === process.env.ADMIN_EMAIL
 }

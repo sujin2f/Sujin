@@ -1,14 +1,15 @@
-import React, { type PropsWithChildren } from 'react'
+import type { PropsWithChildren } from 'react'
 /* Components */
 import { Header } from '@app/_components/header'
-/* Helpers */
-import { MenuNames } from '@app/_lib/data/mysql/constants'
+import { AdminWrapperServer } from '@app/_components/session/AdminWrapperServer'
+/* CONSTANTS */
+import { MENU_NAMES } from '@app/_lib/types'
 
 export default async function Layout({ children }: PropsWithChildren) {
     return (
-        <>
-            <Header menu={MenuNames.ETHER} />
+        <AdminWrapperServer>
+            <Header menu={MENU_NAMES.ETHER} />
             {children}
-        </>
+        </AdminWrapperServer>
     )
 }

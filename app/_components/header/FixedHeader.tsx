@@ -1,5 +1,5 @@
 'use client'
-import React, { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 /* Components */
@@ -9,10 +9,12 @@ import { Column } from '@common/components/layout/Column'
 import { Row } from '@common/components/layout/Row'
 import Hamburger from '@app/_components/header/Hamburger'
 import Search from '@app/_components/header/Search'
-/* Helpers */
-import { getMenu } from '@app/_lib/utils'
-import { MenuNames } from '@app/_lib/data/mysql/constants'
+/* Utils */
 import { handleSignIn, handleSignOut } from '@app/api/auth/utils'
+/* CONSTANTS */
+import { MENUS } from '@app/_lib/constants'
+/* Types */
+import type { MENU_NAMES } from '@app/_lib/types'
 /* Assets */
 import Logo from '@app/_lib/images/logo-top-bar.svg'
 import Facebook from '@app/_lib/images/facebook.svg'
@@ -21,7 +23,7 @@ import Twitter from '@app/_lib/images/twitter.svg'
 const TOP_MENU_SCROLLED_POSITION = 80
 
 type Props = {
-    menu: MenuNames
+    menu: MENU_NAMES
     className?: string
 }
 
@@ -33,7 +35,7 @@ type Props = {
  */
 const FixedHeader = (props: Props) => {
     const { data: session } = useSession()
-    const menu = getMenu(props.menu)
+    const menu = MENUS[props.menu]
     const [scrolled, setScrolled] = useState('')
 
     const handleScrolled = useCallback(() => {
@@ -51,6 +53,8 @@ const FixedHeader = (props: Props) => {
         window.addEventListener('scroll', handleScrolled)
         return () => window.removeEventListener('scroll', handleScrolled)
     }, [handleScrolled])
+
+    const name = session && session.user && session.user.name
 
     return (
         <TopBar fixed fullWidth className={props.className}>
@@ -90,9 +94,9 @@ const FixedHeader = (props: Props) => {
                         >
                             <Facebook />
                         </a>
-                        {session ? (
+                        {name ? (
                             <div className="hide">
-                                <h2>Welcome, {session.user?.name}!</h2>
+                                <h2>Welcome, {name}!</h2>
                                 <button onClick={handleSignOut}>
                                     Sign Out
                                 </button>

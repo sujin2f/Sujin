@@ -1,8 +1,7 @@
-// @todo Remove unused exports
 /* Models */
 import { GQLMutation } from '@common/data/graphql/mutation'
 import { GQLQuery } from '@common/data/graphql/query'
-/* Constants */
+/* CONSTANTS */
 import {
     GQLBoolean,
     GQLFloat,
@@ -11,30 +10,31 @@ import {
     GQLType,
 } from '@common/data/graphql/type'
 /* Types */
-import type { FlickrImage as TypeFlickrImage } from '@app/_lib/data/flickr/type'
 import type {
-    ImageType,
-    ImageBlockType,
-    TermType,
-    PostType,
-    ArchiveType,
-    ImageSizeType,
-    ImagesType,
-    TagType,
-} from '@app/_lib/data/mysql/types'
+    T_Term,
+    T_Image,
+    T_ImageSize,
+    T_ImageBlock,
+    T_PostImages,
+    T_Archive,
+    T_Tag,
+    T_Post,
+    T_PrevNext,
+    T_FlickrImage,
+} from '@app/_lib/types'
 import type { ISpectrum } from '@app/ether/data/types'
 
 const list = true
 const required = true
 
-const Image = new GQLType<ImageType>('Image', {
+const Image = new GQLType<T_Image>('Image', {
     url: { type: GQLString },
     width: { type: GQLInt },
     height: { type: GQLInt },
     mimeType: { type: GQLString },
 })
 
-const ImageSize = new GQLType<ImageSizeType>('ImageSize', {
+const ImageSize = new GQLType<T_ImageSize>('ImageSize', {
     medium: { type: Image },
     thumbnail: { type: Image },
     mediumLarge: { type: Image },
@@ -43,7 +43,7 @@ const ImageSize = new GQLType<ImageSizeType>('ImageSize', {
     recentPost: { type: Image },
 })
 
-const ImageBlock = new GQLType<ImageBlockType>('ImageBlock', {
+const ImageBlock = new GQLType<T_ImageBlock>('ImageBlock', {
     url: { type: GQLString },
     mimeType: { type: GQLString },
     width: { type: GQLInt },
@@ -51,7 +51,7 @@ const ImageBlock = new GQLType<ImageBlockType>('ImageBlock', {
     sizes: { type: ImageSize },
 })
 
-const Images = new GQLType<ImagesType>('Images', {
+const Images = new GQLType<T_PostImages>('Images', {
     list: { type: ImageBlock },
     icon: { type: ImageBlock },
     title: { type: ImageBlock },
@@ -64,7 +64,7 @@ const PostMeta = new GQLType('PostMeta', {
     backgroundColor: { type: GQLString },
 })
 
-const Post = new GQLType<PostType>('Post', {
+const Post = new GQLType<T_Post>('Post', {
     id: { type: GQLInt },
     slug: { type: GQLString },
     title: { type: GQLString },
@@ -81,7 +81,7 @@ const PrevNext = new GQLType('PrevNext', {
     next: { type: Post },
 })
 
-const Term = new GQLType<TermType>('Term', {
+const Term = new GQLType<T_Term>('Term', {
     id: { type: GQLInt },
     title: { type: GQLString },
     slug: { type: GQLString },
@@ -90,13 +90,13 @@ const Term = new GQLType<TermType>('Term', {
 
 Post.addField('terms', { type: Term, list })
 
-const FlickrImage = new GQLType<TypeFlickrImage>('FlickrImage', {
+const FlickrImage = new GQLType<T_FlickrImage>('FlickrImage', {
     title: { type: GQLString },
     link: { type: GQLString },
     media: { type: GQLString },
 })
 
-const TagCloud = new GQLType<ArchiveType>('TagCloud', {
+const TagCloud = new GQLType<T_Archive>('TagCloud', {
     id: { type: GQLInt },
     title: { type: GQLString },
     slug: { type: GQLString },
@@ -104,7 +104,7 @@ const TagCloud = new GQLType<ArchiveType>('TagCloud', {
     hits: { type: GQLInt },
 })
 
-const queryArchivePosts = new GQLQuery<[string, string, number], PostType[]>(
+const queryArchivePosts = new GQLQuery<[string, string, number], T_Post[]>(
     'archivePosts',
     {
         type: {
@@ -125,7 +125,7 @@ const queryArchivePosts = new GQLQuery<[string, string, number], PostType[]>(
     },
 )
 
-const queryFlickr = new GQLQuery<[], TypeFlickrImage[]>(
+const queryFlickr = new GQLQuery<[], T_FlickrImage[]>(
     'flickr',
     {},
     {
@@ -134,7 +134,7 @@ const queryFlickr = new GQLQuery<[], TypeFlickrImage[]>(
     },
 )
 
-const queryTagCloud = new GQLQuery<[], TagType[]>(
+const queryTagCloud = new GQLQuery<[], T_Tag[]>(
     'tagCloud',
     {},
     {
@@ -143,7 +143,7 @@ const queryTagCloud = new GQLQuery<[], TagType[]>(
     },
 )
 
-const queryRecent = new GQLQuery<[], PostType[]>(
+const queryRecent = new GQLQuery<[], T_Post[]>(
     'recent',
     {},
     {
@@ -152,7 +152,7 @@ const queryRecent = new GQLQuery<[], PostType[]>(
     },
 )
 
-const queryPrevNext = new GQLQuery<[string], PostType[]>(
+const queryPrevNext = new GQLQuery<[string], T_PrevNext[]>(
     'prevNext',
     {
         slug: {
@@ -165,7 +165,7 @@ const queryPrevNext = new GQLQuery<[string], PostType[]>(
     },
 )
 
-const queryRelatedPosts = new GQLQuery<[string], PostType[]>(
+const queryRelatedPosts = new GQLQuery<[string], T_Post[]>(
     'relatedPosts',
     {
         slug: {
@@ -260,17 +260,55 @@ const mutateTag = new GQLMutation<[string, string], MutationResultType>(
 const imageOpr = 'url width height mimeType'
 const imageBlockOpr = `url mimeType width height sizes { medium { ${imageOpr} } thumbnail { ${imageOpr} } mediumLarge { ${imageOpr} } postThumbnail { ${imageOpr} } relatedPost { ${imageOpr} } recentPost { ${imageOpr} } }`
 const imagesOpr = `list { ${imageBlockOpr} } thumbnail { ${imageBlockOpr} }`
-const menuItemOpr = 'id title target link htmlClass'
 const commonOpr = 'id slug title'
 const taxOpr = `${commonOpr} type`
 const miniPostOpr = `${commonOpr} link images { ${imagesOpr} }`
-const menuOpr = `${menuItemOpr} children { ${menuItemOpr} }`
 const postOpr = `${miniPostOpr} date excerpt content
     terms { ${taxOpr} }
     meta { useBackgroundColor backgroundColor }`
-const tagCloudOpr = 'id title slug total hits'
-const flickrOpr = 'title link media'
-const archiveOpr = `${commonOpr} excerpt total limit pages page type image { ${imageBlockOpr} } posts { ${miniPostOpr} date excerpt tags { ${commonOpr} page type } }`
+
+/**
+ * @todo implement image maps
+ */
+export const archivePostsOperator = `
+    id
+    slug
+    title
+    date
+    link
+    images {
+        list {
+            url
+            mimeType
+            width
+            height
+            sizes {
+                medium {
+                    url
+                    width
+                    height
+                    mimeType
+                }
+                thumbnail {}
+                mediumLarge {}
+                postThumbnail {}
+                relatedPost {}
+                recentPost {}
+            }
+        }
+        thumbnail {
+        }
+    }
+    terms {
+        slug
+        title
+        type
+    }
+    meta {
+        useBackgroundColor
+        backgroundColor
+    }
+`
 
 /**
  * Ether
@@ -355,13 +393,7 @@ const defaults = {
     mutateCategory,
     mutateTag,
 
-    menuItemOpr,
-    miniPostOpr,
-    menuOpr,
     postOpr,
-    tagCloudOpr,
-    flickrOpr,
-    archiveOpr,
     spectraOpr,
 }
 

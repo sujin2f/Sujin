@@ -8,15 +8,15 @@ import { Paging } from '@app/(archive)/_components/paging'
 import { Row } from '@common/components/layout/Row'
 import { Loading } from '@app/(archive)/_components/loading'
 /* Types */
-import type { PostType } from '@app/_lib/data/mysql/types'
 import type { Nullable } from '@common/types'
-/* Constants */
+import type { T_Post } from '@app/_lib/types-post'
+import type { ArchiveProp } from '@app/(archive)/types'
+/* CONSTANTS */
 import GQL from '@app/api/graphql/constants'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 /* Utils */
 import { fetchGQL } from '@common/data/graphql/fetchGQL'
-import { ArchiveProp } from '@app/(archive)/types'
 
 interface Props extends ArchiveProp {
     total: number
@@ -58,7 +58,7 @@ export default function ArchiveClient({ type, slug, page, total }: Props) {
 }
 
 const useArchive = (type: string, slug: string, page: number) => {
-    const [posts, setPosts] = useState<Nullable<PostType[]>>()
+    const [posts, setPosts] = useState<Nullable<T_Post[]>>()
 
     useEffect(() => {
         fetchGQL(

@@ -1,6 +1,6 @@
 /* Types */
 import type { Atom } from '@app/ether/data/types'
-/* Constants */
+/* CONSTANTS */
 import { periodicTable } from '@app/ether/data/constants'
 
 /**

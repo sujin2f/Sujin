@@ -21,7 +21,7 @@ type Props = PropsWithChildren<{
  * @param {boolean} [props.closeButton] - Whether to display a close button.
  * @param {string | JSX.ElementType} [props.dom] - The DOM element or component to use for the callout.
  */
-export const Callout = ({ closeButton, dom, className, children }: Props) => {
+const Callout = ({ closeButton, dom, className, children }: Props) => {
     const [closed, setClosed] = useState(false)
 
     const type = dom || 'div'
@@ -39,3 +39,4 @@ export const Callout = ({ closeButton, dom, className, children }: Props) => {
         closeButton && <CloseButton onClick={() => setClosed(true)} />,
     )
 }
+export default Callout

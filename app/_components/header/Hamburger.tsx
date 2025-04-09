@@ -2,9 +2,10 @@
 import React, { useCallback, useState } from 'react'
 /* Components */
 import { Menu } from '@common/components/layout/Menu'
-/* Helpers */
+/* Utils */
 import { useDocumentClick } from '@common/hooks/useDocumentClick'
-import type { MenuItem } from '@app/_lib/data/mysql/types'
+/* Types */
+import type { MenuItem } from '@common/types/menu'
 /* Assets */
 import HamburgerIcon from '@app/_lib/images/hamburger.svg'
 

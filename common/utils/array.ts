@@ -99,7 +99,7 @@ export const filterEmpty = <T>(items: T[]): T[] => {
 export const map = <T, U>(
     length: number,
     callback: (item: T, index: number) => U,
-) => {
+): U[] => {
     return Array(length).fill('').map(callback)
 }
 

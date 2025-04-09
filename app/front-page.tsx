@@ -3,7 +3,7 @@ import { unstable_cache } from 'next/cache'
 /* Components */
 import { Banner } from '@app/_components/header/Banner'
 import { Header } from '@app/_components/header'
-/* Constants */
+/* CONSTANTS */
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
 import { VERSION } from '@common/constants/helper'
 /* Utils */
@@ -12,7 +12,7 @@ import { getCachedBackgrounds } from '@app/_lib/data/mongo/wordpress/background'
 import Logo from '@app/_lib/images/logo.svg'
 import './front-page.scss'
 
-export default async function FrontPage() {
+export async function FrontPage() {
     const request = unstable_cache(
         async () => await getCachedBackgrounds(),
         ['frontpage', VERSION],

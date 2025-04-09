@@ -2,13 +2,13 @@
 import React from 'react'
 /* Components */
 import { Row } from '@common/components/layout/Row'
-import Title from '@app/_components/WidgetTitle'
+import { WidgetTitle } from '@app/_components/WidgetTitle'
 import { Cards } from '@app/(archive)/_components/cards'
 import { Loading } from '@app/(archive)/_components/loading'
 /* Utils */
 import { useRecentPost } from '@app/_lib/hooks/useRecentPost'
-/* Constants */
-import { IMAGE_SIZE } from '@app/_lib/data/mysql/types'
+/* CONSTANTS */
+import { IMAGE_SIZE } from '@app/_lib/types'
 /* Assets */
 import './style.scss'
 
@@ -16,7 +16,7 @@ export const RecentPosts = ({ current }: { current: number }) => {
     const posts = useRecentPost()
     return (
         <section className="recent-posts show-for-large">
-            <Title>Recent Posts</Title>
+            <WidgetTitle>Recent Posts</WidgetTitle>
             {/* Loading */}
             {!posts && (
                 <Loading className="recent" counts={4} small={12} fullWidth />

@@ -5,7 +5,6 @@ import ScrollToTop from '@common/components/ScrollToTop'
 import { Table } from '@common/components/containers/Table'
 import { Latex } from '@app/(single)/_components/Latex'
 import { PrevNext } from '@app/(single)/_components/PrevNext'
-import { PostType } from '@app/_lib/data/mysql/types'
 /* Assets */
 import pic5 from '@app/_lib/images/ether/pic5_eng.png'
 import 'katex/dist/katex.min.css'
@@ -410,16 +409,14 @@ export default function ClassicPhysics() {
             </p>
 
             <PrevNext
-                posts={[
-                    {
-                        title: 'Hypothesis',
-                        link: '/ether/document/hypothesis',
-                    } as PostType,
-                    {
-                        title: 'Proof(2): Reinterpretation of Rydberg Formula',
-                        link: '/ether/document/rydberg-formula',
-                    } as PostType,
-                ]}
+                prev={{
+                    title: 'Hypothesis',
+                    link: '/ether/document/hypothesis',
+                }}
+                next={{
+                    title: 'Proof(2): Reinterpretation of Rydberg Formula',
+                    link: '/ether/document/rydberg-formula',
+                }}
             ></PrevNext>
         </div>
     )

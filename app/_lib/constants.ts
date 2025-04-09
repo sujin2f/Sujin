@@ -1,9 +1,11 @@
-import type { MenuItem } from '@app/_lib/data/mysql/types'
+import { MENU_NAMES } from '@app/_lib/types'
+import type { MenuItem } from '@common/types/menu'
 
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 export const DEFAULT_THUMBNAIL = `${BASE_URL}/assets/thumbnail.png`
 export const TWITTER_SHARE = 'https://www.twitter.com/intent/tweet'
 export const FACEBOOK_SHARE = 'https://www.facebook.com/sharer/sharer.php'
+
 export type Metadata = {
     title: string
     description: string
@@ -141,185 +143,170 @@ export const METADATA: Record<string, Metadata> = {
     },
 }
 
-const menu = {
-    id: 0,
+const menuFixture: MenuItem = {
     title: 'Home',
     target: '',
-    link: '/ether',
-    htmlClass: [],
+    link: '/',
     children: [],
-    parent: 0,
 }
-
-export const MenuDefault: MenuItem[] = [
-    {
-        ...menu,
-        title: 'About',
-        link: '/about',
-    },
-    {
-        ...menu,
-        title: 'Blog',
-        link: '/archive/category/blog/page/1',
-    },
-    {
-        ...menu,
-        title: 'Portfolio',
-        link: '/archive/category/portfolio/page/1',
-    },
-    {
-        ...menu,
-        title: 'Projects',
-        link: '#',
-        children: [
-            {
-                ...menu,
-                title: 'Dev Tool',
-                link: '/dev-tools/case',
-            },
-            {
-                ...menu,
-                title: 'Ether',
-                link: '/ether',
-            },
-        ],
-    },
-]
-
-export const MenuEther: MenuItem[] = [
-    {
-        ...menu,
-        title: 'Home',
-        link: '/ether',
-    },
-    {
-        ...menu,
-        title: 'Document',
-        link: '#',
-        children: [
-            {
-                ...menu,
-                title: 'Hypothesis',
-                link: '/ether/document/hypothesis',
-            },
-            {
-                ...menu,
-                title: 'Proof(1): Classic Physics',
-                link: '/ether/document/classic-physics',
-            },
-            {
-                ...menu,
-                title: 'Proof(2): Reinterpretation of Rydberg Formula',
-                link: '/ether/document/rydberg-formula',
-            },
-            {
-                ...menu,
-                title: 'Proof(3): Emission Energy Analysis',
-                link: '/ether/document/analysis',
-            },
-            {
-                ...menu,
-                title: 'Proof(4): Between Comparison',
-                link: '/ether/document/between',
-            },
-            {
-                ...menu,
-                title: 'Conclusion',
-                link: '/ether/document/conclusion',
-            },
-        ],
-    },
-    {
-        ...menu,
-        title: 'Data',
-        link: '/ether/data/ether/1/1',
-    },
-    {
-        ...menu,
-        title: '🇰🇷 Korean',
-        link: '/ether/kor',
-    },
-]
-
-export const MenuEtherKor: MenuItem[] = [
-    {
-        ...menu,
-        title: 'Home',
-        link: '/ether/kor',
-    },
-    {
-        ...menu,
-        title: '문서',
-        link: '#',
-        children: [
-            {
-                ...menu,
-                title: '가설 제시',
-                link: '/ether/kor/document/hypothesis',
-            },
-            {
-                ...menu,
-                title: '가설의 검증(1): 고전 물리학',
-                link: '/ether/kor/document/classic-physics',
-            },
-            {
-                ...menu,
-                title: '가설의 검증(2): 뤼드베리 방정식의 재정립',
-                link: '/ether/kor/document/rydberg-formula',
-            },
-            {
-                ...menu,
-                title: '가설의 검증(3): 방출 에너지 분석',
-                link: '/ether/kor/document/analysis',
-            },
-            {
-                ...menu,
-                title: '가설의 검증(4): 비교기준, Between',
-                link: '/ether/kor/document/between',
-            },
-            {
-                ...menu,
-                title: '결론',
-                link: '/ether/kor/document/conclusion',
-            },
-        ],
-    },
-    {
-        ...menu,
-        title: 'Data',
-        link: '/ether/data/ether/1/1',
-    },
-    {
-        ...menu,
-        title: 'English',
-        link: '/ether',
-    },
-]
-
-export const MenuDevTool: MenuItem[] = [
-    {
-        ...menu,
-        title: 'Home',
-        link: '/',
-    },
-    {
-        ...menu,
-        title: 'Case Tool',
-        link: '/dev-tools/case',
-    },
-    {
-        ...menu,
-        title: 'Text Sort',
-        link: '/dev-tools/text-sort',
-    },
-]
-
-export enum ErrorMessage {
-    MYSQL_CONNECTION = '[0000] 🤬 MySQL connection failed.',
-    POST_NOT_FOUND = '[0010] 🤬 WP post does not exist.',
-    POST_META_NOT_FOUND = '[0011] 🤬 WP postmeta does not exist.',
-    ATTACHMENT_NOT_FOUND = '[0020] 🤬 WP attachment does not exist.',
-    MENU_EMPTY = '[0030] 🤬 The menu is empty.',
-    TERM_NOT_FOUND = '[0040] 🤬 The term does not exist.',
-    TERM_META_NOT_FOUND = '[0050] 🤬 The term does not exist.',
-}
+export const MENUS: Record<MENU_NAMES, MenuItem[]> = {
+    [MENU_NAMES.MAIN]: [
+        {
+            ...menuFixture,
+            title: 'About',
+            link: '/about',
+        },
+        {
+            ...menuFixture,
+            title: 'Blog',
+            link: '/archive/category/blog/page/1',
+        },
+        {
+            ...menuFixture,
+            title: 'Portfolio',
+            link: '/archive/category/portfolio/page/1',
+        },
+        {
+            ...menuFixture,
+            title: 'Projects',
+            link: '#',
+            children: [
+                {
+                    ...menuFixture,
+                    title: 'Dev Tool',
+                    link: '/dev-tools/case',
+                },
+                {
+                    ...menuFixture,
+                    title: 'Ether',
+                    link: '/ether',
+                },
+            ],
+        },
+    ],
+    [MENU_NAMES.ETHER]: [
+        {
+            ...menuFixture,
+            title: 'Home',
+            link: '/ether',
+        },
+        {
+            ...menuFixture,
+            title: 'Document',
+            link: '#',
+            children: [
+                {
+                    ...menuFixture,
+                    title: 'Hypothesis',
+                    link: '/ether/document/hypothesis',
+                },
+                {
+                    ...menuFixture,
+                    title: 'Proof(1): Classic Physics',
+                    link: '/ether/document/classic-physics',
+                },
+                {
+                    ...menuFixture,
+                    title: 'Proof(2): Reinterpretation of Rydberg Formula',
+                    link: '/ether/document/rydberg-formula',
+                },
+                {
+                    ...menuFixture,
+                    title: 'Proof(3): Emission Energy Analysis',
+                    link: '/ether/document/analysis',
+                },
+                {
+                    ...menuFixture,
+                    title: 'Proof(4): Between Comparison',
+                    link: '/ether/document/between',
+                },
+                {
+                    ...menuFixture,
+                    title: 'Conclusion',
+                    link: '/ether/document/conclusion',
+                },
+            ],
+        },
+        {
+            ...menuFixture,
+            title: 'Data',
+            link: '/ether/data/ether/1/1',
+        },
+        {
+            ...menuFixture,
+            title: '🇰🇷 Korean',
+            link: '/ether/kor',
+        },
+    ],
+    [MENU_NAMES.ETHER_KOR]: [
+        {
+            ...menuFixture,
+            title: 'Home',
+            link: '/ether/kor',
+        },
+        {
+            ...menuFixture,
+            title: '문서',
+            link: '#',
+            children: [
+                {
+                    ...menuFixture,
+                    title: '가설 제시',
+                    link: '/ether/kor/document/hypothesis',
+                },
+                {
+                    ...menuFixture,
+                    title: '가설의 검증(1): 고전 물리학',
+                    link: '/ether/kor/document/classic-physics',
+                },
+                {
+                    ...menuFixture,
+                    title: '가설의 검증(2): 뤼드베리 방정식의 재정립',
+                    link: '/ether/kor/document/rydberg-formula',
+                },
+                {
+                    ...menuFixture,
+                    title: '가설의 검증(3): 방출 에너지 분석',
+                    link: '/ether/kor/document/analysis',
+                },
+                {
+                    ...menuFixture,
+                    title: '가설의 검증(4): 비교기준, Between',
+                    link: '/ether/kor/document/between',
+                },
+                {
+                    ...menuFixture,
+                    title: '결론',
+                    link: '/ether/kor/document/conclusion',
+                },
+            ],
+        },
+        {
+            ...menuFixture,
+            title: 'Data',
+            link: '/ether/data/ether/1/1',
+        },
+        {
+            ...menuFixture,
+            title: 'English',
+            link: '/ether',
+        },
+    ],
+    [MENU_NAMES.DEV_TOOL]: [
+        {
+            ...menuFixture,
+            title: 'Home',
+            link: '/',
+        },
+        {
+            ...menuFixture,
+            title: 'Case Tool',
+            link: '/dev-tools/case',
+        },
+        {
+            ...menuFixture,
+            title: 'Text Sort',
+            link: '/dev-tools/text-sort',
+        },
+    ],
+} as const

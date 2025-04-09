@@ -2,14 +2,14 @@
 /* Models */
 import Cached from '@common/model/Cached'
 import Logger from '@common/model/Logger'
-/* Constants */
+/* CONSTANTS */
 import { STATIC_FLICKR } from '@app/_lib/data/flickr/constants'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV } from '@common/constants/helper'
 /* Types */
-import type { FlickrImage, FlickrResponse } from '@app/_lib/data/flickr/type'
+import type { T_FlickrImage, T_FlickrResponse } from '@app/_lib/types'
 
-export const request = async (): Promise<FlickrImage[]> => {
+export const request = async (): Promise<T_FlickrImage[]> => {
     const defaultValue = STATIC_FLICKR.items.map((item) => ({
         ...item,
         media: item.media.m,
@@ -40,7 +40,7 @@ export const request = async (): Promise<FlickrImage[]> => {
             if (response.status >= 400) {
                 throw Error(`Failed to request Flickr with ${id}`)
             }
-            const json = (await response.json()) as FlickrResponse
+            const json = (await response.json()) as T_FlickrResponse
             return json.items.map((item) => ({
                 ...item,
                 media: item.media.m,

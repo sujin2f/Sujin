@@ -1,5 +1,6 @@
 'use client'
-import { type RefObject, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
+import type { RefObject } from 'react'
 /* Types */
 import type { IQuery, ScalarJSType } from '../data/graphql'
 import type { Nullable } from '../types'

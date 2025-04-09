@@ -2,11 +2,11 @@ import { unstable_cache } from 'next/cache'
 import type { Metadata } from 'next/types'
 /* Components */
 import Blog from '@app/(single)/blog/[slug]/Blog'
-/* Constants */
+/* CONSTANTS */
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
 import { BASE_URL } from '@app/_lib/constants'
 import { VERSION } from '@common/constants/helper'
-import { IMAGE_SIZE } from '@app/_lib/data/mysql/types'
+import { IMAGE_SIZE } from '@app/_lib/types'
 /* Utils */
 import { getCachedPost } from '@app/_lib/data/mongo/wordpress/post'
 import { getThumbnailFromPost } from '@app/_lib/data/mysql/utils'

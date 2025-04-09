@@ -9,10 +9,10 @@ import type { ISpectrum } from '@app/ether/data/types'
 import { request as getNistData } from '@app/_lib/data/ether/request'
 import { insertManyFromCSV } from '@app/_lib/data/mongo/ether/util'
 import { getAtom } from '@app/ether/data/utils'
-/* Constants */
+/* CONSTANTS */
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV } from '@common/constants/helper'
-import { COLLECTION } from '@app/_lib/data/mongo/constants'
+import { COLLECTION } from '@app/_lib/types'
 
 /**
  * Requests spectra data

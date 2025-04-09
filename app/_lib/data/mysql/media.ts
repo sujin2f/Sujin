@@ -4,55 +4,89 @@ import Logger from '@common/model/Logger'
 /* Utils */
 import { isEmpty } from '@common/utils/object'
 import { getPostBy, getPostMeta } from '@app/_lib/data/mysql/post'
-/* Constants */
+/* CONSTANTS */
 import { MySQLQuery } from '@app/_lib/data/mysql/constants'
-import { MetaKeys } from '@app/_lib/data/mysql/constants'
-/* Types */
 import {
-    type ImageBlockType,
-    type MySQLMediaType,
-    type MySQLPostType,
-    IMAGE_TYPE,
-    POST_TYPE,
     IMAGE_SIZE,
-} from '@app/_lib/data/mysql/types'
+    POST_TYPE,
+    type POST_IMAGE_LOCATION,
+    type T_ImageBlock,
+    type T_MySQLPost,
+} from '@app/_lib/types'
+/* Types */
 import type { Nullable } from '@common/types'
+import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 
-export const getBackgrounds = async (): Promise<ImageBlockType[]> => {
+enum META_KEYS {
+    ATTACHMENT_META = '_wp_attachment_metadata',
+}
+
+/**
+ * Get backgrounds from MySQL
+ * @returns {Promise<T_ImageBlock[]>}
+ * @throws
+ */
+export const getBackgrounds = async (): Promise<T_ImageBlock[]> => {
     Logger.server('Access MySQL for getting backgrounds.')
-    const result: ImageBlockType[] = []
-    const posts = await MySQL.getInstance().select<MySQLPostType>(
-        MySQLQuery.getBackgrounds(),
-    )
+    const result = await MySQL.getInstance()
+        .select<T_MySQLPost>(MySQLQuery.getBackgrounds())
+        .then(async (posts) => {
+            const result: T_ImageBlock[] = []
+            for await (const post of posts) {
+                result.push(await getMediaFromPost(post))
+            }
+            return result
+        })
 
-    for await (const post of posts) {
-        const image = await getMediaFromPost(post)
-
-        if (image) {
-            result.push(image)
-        }
-    }
-
-    if (!result.length) {
-        throw Error(`Background is empty.`)
-    }
+    if (!result.length)
+        throw new ServerError(
+            ERROR_MESSAGE.ATTACHMENT.EMPTY_BACKGROUNDS,
+            'getBackgrounds()',
+        )
 
     return result
 }
 
-const getMediaFromPost = async (
-    post: MySQLPostType,
-): Promise<Nullable<ImageBlockType>> => {
-    const meta = await getPostMeta<MySQLMediaType>(
-        post.id,
-        MetaKeys.ATTACHMENT_META,
-        {} as MySQLMediaType,
-    )
-    if (isEmpty(meta)) {
-        return
+/**
+ * Get attachment info from attachment post
+ * @param post
+ * @returns
+ * @throws
+ */
+const getMediaFromPost = async (post: T_MySQLPost): Promise<T_ImageBlock> => {
+    const WP_IMAGE_SIZE = {
+        medium_large: IMAGE_SIZE.MEDIUM_LARGE,
+        'post-thumbnail': IMAGE_SIZE.POST_THUMBNAIL,
+        'related-post': IMAGE_SIZE.RELATED_POST,
+        'recent-post': IMAGE_SIZE.RECENT_POST,
+    } as const
+    type WP_IMAGE_SIZE = keyof typeof WP_IMAGE_SIZE
+    type T_WPMedia = Pick<T_ImageBlock, 'width' | 'height'> & {
+        file: string
+        sizes: Record<
+            string,
+            {
+                file: string
+                width: number
+                height: number
+                'mime-type': string
+            }
+        >
     }
 
-    const result: ImageBlockType = {
+    const meta = await getPostMeta<T_WPMedia>(
+        post.id,
+        META_KEYS.ATTACHMENT_META,
+        {} as T_WPMedia,
+    )
+    if (isEmpty(meta))
+        throw new ServerError(
+            ERROR_MESSAGE.ATTACHMENT.EMPTY_POST_META,
+            'getMediaFromPost()',
+            post.id,
+        )
+
+    const result: Record<string, unknown> = {
         mimeType: post.mimeType,
         title: post.title,
         url: meta.file,
@@ -61,42 +95,36 @@ const getMediaFromPost = async (
     }
 
     if (meta.sizes) {
-        const urlBase = result.url.replace(/\/[a-zA-Z0-9-_.]+$/, '')
-        result.sizes = {}
+        const sizes: Record<string, unknown> = {}
+        const location = (result.url as string).replace(
+            /\/[a-zA-Z0-9-_.]+$/,
+            '',
+        )
 
-        Object.keys(meta.sizes).forEach((size) => {
-            const mySQLKey = size as IMAGE_SIZE
-            let key = size as IMAGE_SIZE
-
-            switch (size) {
-                case 'medium_large':
-                    key = IMAGE_SIZE.MEDIUM_LARGE
-                    break
-                case 'post-thumbnail':
-                    key = IMAGE_SIZE.POST_THUMBNAIL
-                    break
-                case 'related-post':
-                    key = IMAGE_SIZE.RELATED_POST
-                    break
-                case 'recent-post':
-                    key = IMAGE_SIZE.RECENT_POST
-                    break
-            }
-            result.sizes![key] = {
-                url: `${urlBase}/${meta.sizes[mySQLKey].file}`,
-                width: meta.sizes[mySQLKey].width,
-                height: meta.sizes[mySQLKey].height,
-                mimeType: meta.sizes[mySQLKey]['mime-type'],
+        Object.entries(meta.sizes).forEach(([key, image]) => {
+            const mongoSize =
+                key in WP_IMAGE_SIZE ? WP_IMAGE_SIZE[key as WP_IMAGE_SIZE] : key
+            const file = image.file.startsWith('/')
+                ? image.file.slice(1)
+                : image.file
+            sizes[mongoSize] = {
+                url: image.file.includes('/')
+                    ? `/${file}`
+                    : `${location}/${image.file}`,
+                width: image.width,
+                height: image.height,
+                mimeType: image['mime-type'],
             }
         })
+        result.sizes = sizes
     }
 
-    return result
+    return result as T_ImageBlock
 }
 
 export const getMedia = async (
     postId: number,
-): Promise<Nullable<ImageBlockType>> => {
+): Promise<Nullable<T_ImageBlock>> => {
     const post = await getPostBy('id', postId, POST_TYPE.ATTACHMENT, true)
     if (!post) {
         return
@@ -106,18 +134,18 @@ export const getMedia = async (
 }
 
 type getPostImagesReturnType = {
-    list?: ImageBlockType
-    icon?: ImageBlockType
-    title?: ImageBlockType
-    background?: ImageBlockType
-    thumbnail?: ImageBlockType
+    list?: T_ImageBlock
+    icon?: T_ImageBlock
+    title?: T_ImageBlock
+    background?: T_ImageBlock
+    thumbnail?: T_ImageBlock
 }
 export const getPostImages = async (
-    post: MySQLPostType,
+    post: T_MySQLPost,
 ): Promise<getPostImagesReturnType> => {
     const result: getPostImagesReturnType = {}
 
-    const imageIds: Record<IMAGE_TYPE, number> = {
+    const imageIds: Record<POST_IMAGE_LOCATION, number> = {
         list: await getPostMeta<number>(post.id, 'list', 0),
         icon: await getPostMeta<number>(post.id, 'icon', 0),
         title: await getPostMeta<number>(post.id, 'title', 0),
@@ -126,13 +154,13 @@ export const getPostImages = async (
     }
 
     for (const imageKey of Object.keys(imageIds)) {
-        if (!imageIds[imageKey as IMAGE_TYPE]) {
+        if (!imageIds[imageKey as POST_IMAGE_LOCATION]) {
             continue
         }
-        const image = await getMedia(imageIds[imageKey as IMAGE_TYPE])
+        const image = await getMedia(imageIds[imageKey as POST_IMAGE_LOCATION])
 
         if (image) {
-            result[imageKey as IMAGE_TYPE] = image
+            result[imageKey as POST_IMAGE_LOCATION] = image
         }
     }
 

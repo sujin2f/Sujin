@@ -2,7 +2,6 @@
 //
 import { VERSION } from '@common/constants/helper'
 import migration from '@app/_lib/migration'
-import setSystemOption from '@app/_lib/data/mongo/admin/setSystemOption'
 import {
     clearMongo,
     categoryFactory,
@@ -19,9 +18,14 @@ import {
     updateArchivePosts,
 } from './post'
 import Mongo from '@common/data/mongo/mongo'
-import { COLLECTION } from '@app/_lib/data/mongo/constants'
-import { ARCHIVE, POST_STATUS } from '@app/_lib/data/mysql/types'
 import Cached from '@common/model/Cached'
+import { ARCHIVE, COLLECTION, POST_STATUS } from '@app/_lib/types'
+
+const mockIsAdmin = jest.fn()
+mockIsAdmin.mockResolvedValue(true)
+jest.mock('../../../utils-server', () => ({
+    isAdmin: jest.fn(() => mockIsAdmin),
+}))
 
 const mockQuery = jest.fn()
 jest.mock('promise-mysql', () => ({
@@ -34,11 +38,10 @@ describe('post.spec.ts', () => {
     beforeAll(async () => {
         await clearMongo()
         await Mongo.migrate('0.0.0', VERSION, migration)
-        await setSystemOption('version', VERSION)
     })
 
     afterEach(async () => {
-        Cached.getInstance().flush()
+        await Cached.getInstance().flush()
         await clearMongo(COLLECTION.POST, COLLECTION.CATEGORY, COLLECTION.TAG)
     })
 
@@ -61,10 +64,8 @@ describe('post.spec.ts', () => {
         expect(result1.id).toEqual(post1.id)
         const result2 = await getCachedPost(post2.slug)
         expect(result2.id).toEqual(post2.id)
-        const result3 = await getCachedPost(post3.slug).catch(() => false)
-        expect(result3).toBeFalsy()
-        const result4 = await getCachedPost(post3.slug, true)
-        expect(result4.id).toEqual(post3.id)
+        const result3 = await getCachedPost(post3.slug)
+        expect(result3.id).toEqual(post3.id)
     })
 
     test('getCachedArchivePosts()', async () => {
@@ -120,6 +121,7 @@ describe('post.spec.ts', () => {
         const category = await categoryFactory()
         await postFactory({
             slug: 'test-post-1',
+            title: 'test-post-1',
             date: new Date('2025-06-04') as unknown as number,
             terms: [
                 {
@@ -144,6 +146,7 @@ describe('post.spec.ts', () => {
         })
         await postFactory({
             slug: 'test-post-4',
+            title: 'test-post-4',
             date: new Date('2025-06-07') as unknown as number,
             terms: [
                 {
@@ -164,8 +167,8 @@ describe('post.spec.ts', () => {
         })
 
         const result1 = await getCachedPrevNext('test-post-3')
-        expect(result1[0].slug).toEqual('test-post-1')
-        expect(result1[1].slug).toEqual('test-post-4')
+        expect(result1[0].title).toEqual('test-post-1')
+        expect(result1[1].title).toEqual('test-post-4')
     })
 
     test('getCachedRecentPosts()', async () => {

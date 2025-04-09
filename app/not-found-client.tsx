@@ -2,20 +2,20 @@
 import React from 'react'
 /* Components */
 import { Loading } from '@app/(archive)/_components/loading'
-import Title from '@app/_components/WidgetTitle'
+import { WidgetTitle } from '@app/_components/WidgetTitle'
 import { Cards } from '@app/(archive)/_components/cards'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 /* Helpers */
 import { useRecentPost } from '@app/_lib/hooks/useRecentPost'
 
-const NotFoundArticles = (): React.ReactNode => {
+export const NotFoundClient = (): React.ReactNode => {
     const posts = useRecentPost()
     return (
         <main>
             <Row>
                 <Column small={12}>
-                    <Title>Recent Posts</Title>
+                    <WidgetTitle>Recent Posts</WidgetTitle>
                 </Column>
             </Row>
             {/* Loading */}
@@ -43,5 +43,3 @@ const NotFoundArticles = (): React.ReactNode => {
         </main>
     )
 }
-
-export default NotFoundArticles

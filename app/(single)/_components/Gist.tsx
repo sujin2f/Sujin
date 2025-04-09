@@ -1,10 +1,10 @@
 import React from 'react'
 /* Helpers */
 import { replaceQuotes } from '@app/(single)/utils'
-import type { AttrMatch } from '@app/_lib/data/mysql/types'
+import type { T_ShortcodeAttrMatch } from '@app/_lib/types'
 
 interface Props {
-    value: AttrMatch
+    value: T_ShortcodeAttrMatch
 }
 
 export const Gist = (props: Props) => {

@@ -1,4 +1,4 @@
-import Pages from '@app/admin/pages/Pages'
+import { ServerComponent } from '@app/admin/pages/pages-server'
 
 type Props = {
     params: Promise<{
@@ -7,5 +7,6 @@ type Props = {
 }
 
 export default async function Page(props: Props) {
-    return <Pages {...props} />
+    const params = await props.params
+    return <ServerComponent {...params} />
 }
