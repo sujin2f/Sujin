@@ -1,6 +1,5 @@
 /* Models */
 import MySQL from '@app/_lib/data/mysql'
-import Logger from '@common/model/Logger'
 /* Utils */
 import { isEmpty } from '@common/utils/object'
 import { getPostBy, getPostMeta } from '@app/_lib/data/mysql/post'
@@ -27,7 +26,6 @@ enum META_KEYS {
  * @throws
  */
 export const getBackgrounds = async (): Promise<T_ImageBlock[]> => {
-    Logger.server('Access MySQL for getting backgrounds.')
     const result = await MySQL.getInstance()
         .select<T_MySQLPost>(MySQLQuery.getBackgrounds())
         .then(async (posts) => {

@@ -1,5 +1,4 @@
 /* Models */
-import Logger from '@common/model/Logger'
 import MySQL from '@app/_lib/data/mysql'
 /* CONSTANTS */
 import { MySQLQuery, PER_PAGE } from '@app/_lib/data/mysql/constants'
@@ -130,10 +129,6 @@ export const getPostsBy = async (
     page = 1,
     ignoreStatus = false,
 ): Promise<T_MySQLPost[]> => {
-    Logger.server(
-        `Calling MySQL getPostsBy: ${queryKey}, ${queryValue}, ${type}, and ${ignoreStatus}.`,
-    )
-
     const query = getPostQuery(queryKey, type, queryValue, page, ignoreStatus)
     const result = await MySQL.getInstance().select<T_MySQLPost>(query)
 
