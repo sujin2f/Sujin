@@ -62,8 +62,12 @@ export const auth = async (
     nonce?: string,
     slug?: string,
 ): Promise<void> => {
+    console.log(1)
+    console.log(await isAdmin())
     if (await isAdmin()) return
 
+    console.log(2)
+    console.log(type, nonce)
     // Nonce validation
     if (!type || !nonce) {
         throw new ServerError(
