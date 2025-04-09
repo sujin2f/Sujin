@@ -27,17 +27,14 @@ const format = (image: T_Background): T_Background =>
  *
  * @returns {Promise<T_Background[]>} - The background array
  */
-export const getCachedBackgrounds = async (): Promise<T_Background[]> => {
-    const key = getCacheKey(COLLECTION.BACKGROUNDS)
-
-    return await Cached.getInstance().getOrExecute(
-        key,
+export const getCachedBackgrounds = async (): Promise<T_Background[]> =>
+    await Cached.getInstance().getOrExecute(
+        getCacheKey(COLLECTION.BACKGROUNDS),
         async () =>
             await Mongo.random<T_Background>(COLLECTION.BACKGROUNDS, 10),
         0,
         IS_DEV,
     )
-}
 
 /**
  * Update backgrounds from MySQL
@@ -73,12 +70,6 @@ export const updateBackgrounds = async (
 
         return backgrounds.map((image) => format(image))
     })
-
-    await Cached.getInstance().set(
-        getCacheKey(COLLECTION.BACKGROUNDS),
-        backgrounds,
-        0,
-    )
     return backgrounds
 }
 

@@ -71,18 +71,16 @@ const format = (post: Record<string, unknown>): T_Post =>
  * @param {boolean} ignoreStatus - The flag to ignore status
  * @returns {Promise<WithId<WPPost>>} - The post object
  */
-export const getCachedPost = async (slug: string): Promise<T_Post> => {
-    const doc: Filter<T_Post> = { slug }
-    return await Cached.getInstance().getOrExecute(
+export const getCachedPost = async (slug: string): Promise<T_Post> =>
+    await Cached.getInstance().getOrExecute(
         getCacheKey(COLLECTION.POST, slug),
         async () =>
-            await Mongo.findOne<T_Post>(COLLECTION.POST, doc).then((post) =>
-                format(post),
+            await Mongo.findOne<T_Post>(COLLECTION.POST, { slug }).then(
+                (post) => format(post),
             ),
         0,
         IS_DEV,
     )
-}
 
 const updateMongoFromMySQL = async (
     post: T_MySQLPost,
@@ -224,19 +222,6 @@ export const getCachedSearchPosts = async (
         0,
         IS_DEV,
     )
-
-export const getCachedArchivePosts = async (
-    type: ARCHIVE,
-    slug: string,
-    page: number,
-): Promise<T_PostArchive[]> => {
-    return await Cached.getInstance().getOrExecute(
-        getCacheKey(type, slug, page),
-        async () => await getArchivePosts(type, slug, page),
-        0,
-        IS_DEV,
-    )
-}
 
 const getPrevNext = async (slug: string): Promise<T_PrevNext[]> => {
     const post = await getCachedPost(slug)

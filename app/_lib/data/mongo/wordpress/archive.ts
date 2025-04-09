@@ -22,7 +22,7 @@ import { getCacheKey } from '@app/_lib/utils'
 import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
 import { formatImageBlock } from '@app/_lib/data/mongo/wordpress/util'
 import { auth } from '@app/_lib/utils-server'
-import { getCachedArchivePosts } from './post'
+import { getArchivePosts } from '@app/_lib/data/mongo/wordpress/post'
 
 export const categoryFormatter = (term: Record<string, unknown>): T_Archive => {
     const formatted = {
@@ -68,13 +68,13 @@ export const getCachedArchive = async <T extends T_Archive>(
     page?: number,
 ): Promise<T> =>
     await Cached.getInstance().getOrExecute<T>(
-        getCacheKey(type, slug, 'archive', page),
+        getCacheKey(type, slug, page),
         async () =>
             await getArchive<T>(slug, type, formatter).then(async (archive) => {
                 const total = await updateTotal(archive.slug, type)
 
                 if (page) {
-                    const posts = await getCachedArchivePosts(type, slug, page)
+                    const posts = await getArchivePosts(type, slug, page)
                     return formatter({ ...archive, total, page, posts })
                 }
                 return formatter({ ...archive, total })
@@ -158,7 +158,6 @@ export const updateArchive = async <T extends T_Archive>(
 
     const formatted = formatter(term)
     await Mongo.insertOrReplace<T_Archive>(table, { slug }, formatted)
-    await Cached.getInstance().set(getCacheKey(type, slug), formatted)
     return formatted as unknown as T
 }
 

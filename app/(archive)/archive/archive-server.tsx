@@ -22,7 +22,7 @@ export async function ArchiveServer({ page, type, slug }: ArchiveProp) {
     const requestArchive = unstable_cache(
         async (slug) =>
             await getCachedArchive(slug, type, categoryFormatter, page),
-        [type, slug, VERSION],
+        [type, slug, page.toString(), VERSION],
         {
             tags: ['wordpress', 'archive'],
             revalidate: IS_DEV ? false : HOUR_IN_SECONDS,

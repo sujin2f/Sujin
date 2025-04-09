@@ -11,7 +11,7 @@ import {
 import { post } from '@jest/fixture'
 import {
     getCachedPost,
-    getCachedArchivePosts,
+    getArchivePosts,
     getCachedPrevNext,
     getCachedRecentPosts,
     getCachedRelatedPosts,
@@ -72,7 +72,7 @@ describe('post.spec.ts', () => {
         expect(result3.id).toEqual(post3.id)
     })
 
-    test('getCachedArchivePosts()', async () => {
+    test('getArchivePosts()', async () => {
         const category = await categoryFactory()
         const tag = await tagFactory()
         await postFactory({
@@ -105,19 +105,15 @@ describe('post.spec.ts', () => {
         })
         await postFactory()
 
-        const result1 = await getCachedArchivePosts(
+        const result1 = await getArchivePosts(
             ARCHIVE.CATEGORY,
             category.slug,
             1,
         )
         expect(result1.length).toEqual(2)
-        const result2 = await getCachedArchivePosts(ARCHIVE.TAG, tag.slug, 1)
+        const result2 = await getArchivePosts(ARCHIVE.TAG, tag.slug, 1)
         expect(result2.length).toEqual(1)
-        const result3 = await getCachedArchivePosts(
-            ARCHIVE.CATEGORY,
-            tag.slug,
-            1,
-        )
+        const result3 = await getArchivePosts(ARCHIVE.CATEGORY, tag.slug, 1)
         expect(result3.length).toEqual(0)
     })
 

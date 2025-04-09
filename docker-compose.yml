@@ -29,7 +29,6 @@ services:
             WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
             WORDPRESS_DEBUG: 0
             TZ: America/Toronto
-            NODE_ENV: development
             VERSION: ${NEXT_PUBLIC_VERSION}
         volumes:
             - ./wordpress/plugins/2d-tag-cloud:/var/www/html/wp-content/plugins/2d-tag-cloud
