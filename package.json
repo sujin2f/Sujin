@@ -1,6 +1,6 @@
 {
     "name": "sujin",
-    "version": "10.3.0.0",
+    "version": "10.3.0",
     "description": "React + Node + WordPress theme for sujinc.com",
     "license": "MIT",
     "scripts": {

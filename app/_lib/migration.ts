@@ -10,7 +10,7 @@ import Cached from '@common/model/Cached'
 import { updateBackgrounds } from '@app/_lib/data/mongo/wordpress/background'
 
 const migration: Migration = {
-    '10.3.0.0': async (client) => {
+    '10.3.0': async (client) => {
         const database = client.db(MONGO_DATABASE)
         // Add text index to post.content for search
         await database
