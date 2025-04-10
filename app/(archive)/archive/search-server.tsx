@@ -17,7 +17,7 @@ import type { ArchiveProp } from '@app/(archive)/types'
 export async function SearchServer({ page, slug }: ArchiveProp) {
     const requestArchive = unstable_cache(
         async (slug, page) => await getCachedSearchPosts(slug, page),
-        [ARCHIVE.SEARCH, slug, VERSION],
+        [ARCHIVE.SEARCH, slug, page.toString(), VERSION],
         {
             tags: ['wordpress', 'archive'],
             revalidate: IS_DEV ? false : HOUR_IN_SECONDS,

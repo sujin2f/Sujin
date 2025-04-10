@@ -62,7 +62,10 @@ export const mutatePage = async (
 export const getCachedPage = async (slug: string): Promise<T_Page> =>
     await Cached.getInstance().getOrExecute(
         getCacheKey(COLLECTION.PAGE, slug),
-        async () => await Mongo.findOne<T_Page>(COLLECTION.PAGE, { slug }),
+        async () =>
+            await Mongo.findOne<T_Page>(COLLECTION.PAGE, { slug }).then(
+                (page) => format(page),
+            ),
         0,
         IS_DEV,
     )
@@ -89,7 +92,6 @@ export const updatePage = async (
         page.images[imageKey] = convertImageBlockURL(page.images[imageKey]!)
     })
     await Mongo.insertOrReplace(COLLECTION.PAGE, { slug }, page)
-    await Cached.getInstance().set(getCacheKey(COLLECTION.PAGE), page)
     return page
 }
 

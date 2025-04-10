@@ -4,10 +4,6 @@
 // declare module '*.svg'
 // declare module '*.gif'
 
-declare module 'php-unserialize' {
-    export function unserialize(value: string): unknown
-}
-
 declare module 'quartic' {
     export default function (value: number[]): { re: number; im: number }[]
 }

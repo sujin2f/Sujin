@@ -1,4 +1,3 @@
-import { unserialize as phpUnserialize } from 'php-unserialize' // @todo Do not use module
 import { DEFAULT_THUMBNAIL } from '@app/_lib/constants'
 import { ImageMap } from '@common/components/containers/Picture'
 import {
@@ -360,7 +359,7 @@ export const unserialize = <
         result = phpUnSerialize(value)
     } catch (e) {
         Logger.server('phpUnSerialize could not parse the value', value, e)
-        result = phpUnserialize(value)
+        throw Error('phpUnSerialize could not parse the value')
     }
 
     if (key && typeof result === 'object') {

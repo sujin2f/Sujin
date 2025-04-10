@@ -6,7 +6,6 @@ import { ARCHIVE } from '@app/_lib/types'
 import { getMedia } from '@app/_lib/data/mysql/media'
 /* Models */
 import MySQL from '@app/_lib/data/mysql'
-import Logger from '@common/model/Logger'
 /* Types */
 import type { T_ImageBlock, T_Term, T_Archive } from '@app/_lib/types'
 import type { Nullable } from '@common/types'
@@ -46,10 +45,6 @@ export const getArchiveBySlug = async (
     slug: string,
     type: ARCHIVE,
 ): Promise<T_Archive> => {
-    Logger.server(
-        `Access MySQL for getting archive type: ${type} and slug: ${slug}.`,
-    )
-
     const archive = await MySQL.getInstance()
         .selectOne<T_Archive>(MySQLQuery.getArchiveBy('slug', slug))
         .catch(() => {

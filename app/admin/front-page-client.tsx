@@ -61,7 +61,7 @@ export function FrontPageClient({
                         .catch(() => setMessage('Failed'))
                 }
             >
-                Reset Version
+                Reset Mongo
             </Button>
         </>
     )

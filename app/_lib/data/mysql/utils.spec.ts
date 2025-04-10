@@ -2,12 +2,6 @@
 
 import { unserialize, convertImageBlockURL } from './utils'
 
-jest.mock('php-unserialize', () => ({
-    unserialize: () => ({
-        key: 'value',
-    }),
-}))
-
 describe('utils.ts', () => {
     afterAll(() => {
         jest.clearAllMocks()

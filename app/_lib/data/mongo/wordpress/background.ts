@@ -11,7 +11,6 @@ import { IMAGE_SIZE_BACKGROUND } from '@app/_lib/types'
 import type { T_Background } from '@app/_lib/types'
 /* Utils */
 import { getCacheKey } from '@app/_lib/utils'
-import Logger from '@common/model/Logger'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 import { getBackgrounds as getMySQLBackgrounds } from '@app/_lib/data/mysql/media'
 import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
@@ -28,17 +27,14 @@ const format = (image: T_Background): T_Background =>
  *
  * @returns {Promise<T_Background[]>} - The background array
  */
-export const getCachedBackgrounds = async (): Promise<T_Background[]> => {
-    const key = getCacheKey(COLLECTION.BACKGROUNDS)
-
-    return await Cached.getInstance().getOrExecute(
-        key,
+export const getCachedBackgrounds = async (): Promise<T_Background[]> =>
+    await Cached.getInstance().getOrExecute(
+        getCacheKey(COLLECTION.BACKGROUNDS),
         async () =>
             await Mongo.random<T_Background>(COLLECTION.BACKGROUNDS, 10),
         0,
         IS_DEV,
     )
-}
 
 /**
  * Update backgrounds from MySQL
@@ -51,7 +47,6 @@ export const updateBackgrounds = async (
     await auth(POST_TYPE.ATTACHMENT, nonce)
 
     Cached.getInstance().flush(getCacheKey(COLLECTION.BACKGROUNDS))
-    Logger.server('Calling MySQL getBackgrounds')
     const backgrounds = await getMySQLBackgrounds().then(async (result) => {
         const backgrounds = result.map((image) =>
             format(convertImageBlockURL(format(image))),
@@ -75,12 +70,6 @@ export const updateBackgrounds = async (
 
         return backgrounds.map((image) => format(image))
     })
-
-    await Cached.getInstance().set(
-        getCacheKey(COLLECTION.BACKGROUNDS),
-        backgrounds,
-        0,
-    )
     return backgrounds
 }
 

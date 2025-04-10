@@ -16,8 +16,10 @@ import client from './mongo-client'
 /* Utils */
 import { compareVersions } from '../../utils/system'
 /* CONSTANTS */
-import { MONGO_DATABASE } from '@common/constants/helper'
+import { IS_TEST, MONGO_DATABASE } from '@common/constants/helper'
 import Logger from '@common/model/Logger'
+
+const suffix = IS_TEST ? `-${process.env.JEST_WORKER_ID}` : ''
 
 /**
  * Finds a single document in a MongoDB collection.
@@ -34,11 +36,14 @@ const findOne = async <T extends Document>(
 ): Promise<WithId<T>> => {
     return await client.then(async (client) => {
         const database = client.db(MONGO_DATABASE)
-        const result = await database.collection<T>(collection).findOne(doc)
+
+        const result = await database
+            .collection<T>(`${collection}${suffix}`)
+            .findOne(doc)
 
         if (!result) {
             throw Error(
-                `Mongo findOne failed to fetch database collection ${collection} with a document ${JSON.stringify(
+                `Mongo findOne failed to fetch database collection ${collection}${suffix} with a document ${JSON.stringify(
                     doc,
                 )}`,
             )
@@ -69,7 +74,7 @@ const findMany = async <T extends Document>(
 ): Promise<WithId<T>[]> => {
     return await client.then(async (client) => {
         const database = client.db(MONGO_DATABASE)
-        let find = database.collection<T>(collection).find(doc)
+        let find = database.collection<T>(`${collection}${suffix}`).find(doc)
         if (options && options.sort) {
             find = find.sort(options.sort)
         }
@@ -90,7 +95,7 @@ const random = async <T extends Document>(
     return await client.then(async (client) => {
         const database = client.db(MONGO_DATABASE)
         return await database
-            .collection<T>(collection)
+            .collection<T>(`${collection}${suffix}`)
             .aggregate<T>([{ $sample: { size } }])
             .toArray()
     })
@@ -110,7 +115,9 @@ const count = async <T extends Document>(
 ): Promise<number> =>
     await client.then(async (client) => {
         const database = client.db(MONGO_DATABASE)
-        return database.collection<T>(collection).countDocuments(doc)
+        return database
+            .collection<T>(`${collection}${suffix}`)
+            .countDocuments(doc)
     })
 
 /**
@@ -127,7 +134,9 @@ const insertOne = async <T extends Document>(
 ): Promise<InsertOneResult<T>> => {
     return await client.then(async (client) => {
         const database = client.db(MONGO_DATABASE)
-        return await database.collection<T>(collection).insertOne(doc)
+        return await database
+            .collection<T>(`${collection}${suffix}`)
+            .insertOne(doc)
     })
 }
 
@@ -145,7 +154,9 @@ const insertMany = async <T extends Document>(
 ): Promise<InsertManyResult<T>> => {
     return await client.then(async (client) => {
         const database = client.db(MONGO_DATABASE)
-        return await database.collection<T>(collection).insertMany(doc)
+        return await database
+            .collection<T>(`${collection}${suffix}`)
+            .insertMany(doc)
     })
 }
 
@@ -163,7 +174,9 @@ const deleteOne = async <T extends Document>(
 ): Promise<DeleteResult> => {
     return await client.then(async (client) => {
         const database = client.db(MONGO_DATABASE)
-        return await database.collection<T>(collection).deleteOne(doc)
+        return await database
+            .collection<T>(`${collection}${suffix}`)
+            .deleteOne(doc)
     })
 }
 
@@ -181,7 +194,9 @@ const deleteMany = async <T extends Document>(
 ): Promise<DeleteResult> => {
     return await client.then(async (client) => {
         const database = client.db(MONGO_DATABASE)
-        return await database.collection<T>(collection).deleteMany(doc)
+        return await database
+            .collection<T>(`${collection}${suffix}`)
+            .deleteMany(doc)
     })
 }
 
@@ -201,7 +216,9 @@ const updateOne = async <T extends Document>(
 ): Promise<Document | UpdateResult<T> | InsertOneResult<T>> =>
     await client.then(async (client) => {
         const database = client.db(MONGO_DATABASE)
-        return await database.collection<T>(collection).updateOne(filter, doc)
+        return await database
+            .collection<T>(`${collection}${suffix}`)
+            .updateOne(filter, doc)
     })
 
 const insertOrReplace = async <T extends Document>(
@@ -214,7 +231,7 @@ const insertOrReplace = async <T extends Document>(
         return await findOne(collection, filter)
             .then(async () => {
                 return await database
-                    .collection<T>(collection)
+                    .collection<T>(`${collection}${suffix}`)
                     .replaceOne(filter, update)
             })
             .catch(async () => await insertOne(collection, update))
