@@ -1,10 +1,19 @@
 services:
     mongo:
         container_name: mongo
-        image: mongo
+        image: mongo:5.0
         restart: always
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER}
+            MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+            MONGO_USER: ${MONGO_USER}
+            MONGO_PASSWORD: ${MONGO_PASSWORD}
+            MONGO_DATABASE: ${MONGO_DATABASE}
         ports:
             - 27017:27017
+        volumes:
+            - ./mongo-entrypoint:/docker-entrypoint-initdb.d
+            - mongo:/data/db
 
     mysql:
         container_name: mysql
@@ -52,7 +61,9 @@ services:
             MYSQL_PASSWORD: ${MYSQL_PASSWORD}
             MYSQL_DB: ${MYSQL_DB}
             MONGO: mongo
-            MONGO_DATABASE: sujin-docker
+            MONGO_DATABASE: ${MONGO_DATABASE}
+            MONGO_USER: ${MONGO_USER}
+            MONGO_PASSWORD: ${MONGO_PASSWORD}
             GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
             GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
             NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
@@ -64,3 +75,5 @@ services:
             - ./wordpress/uploads:/app/public/wp-content/uploads
         ports:
             - 80:80
+volumes:
+    mongo:
