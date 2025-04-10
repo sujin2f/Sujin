@@ -18,8 +18,8 @@ jobs:
                 ports:
                     - 27017:27017
                 environment:
-                    MONGO_INITDB_ROOT_USERNAME: username
-                    MONGO_INITDB_ROOT_PASSWORD: password
+                    - MONGO_INITDB_ROOT_USERNAME=username
+                    - MONGO_INITDB_ROOT_PASSWORD=password
                 command: 'mongosh --authenticationDatabase admin --host localhost -u username -p password test --eval "db.createUser(''test'', {roles: [{role: ''dbAdmin'', db: ''test''}, {role: ''readWrite'', db: ''test''}]});"'
         steps:
             - name: Git checkout
