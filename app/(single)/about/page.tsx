@@ -43,9 +43,9 @@ export default async function About() {
             largeOffset={2}
             title={post.title}
             excerpt={post.excerpt}
-            icon={post.images.icon}
-            background={post.images.background}
-            backgroundColor={post.meta.backgroundColor}
+            icon={post.images?.icon}
+            background={post.images?.background}
+            backgroundColor={post.meta?.backgroundColor}
         >
             <Content post={post} type="page">
                 <SocialShare

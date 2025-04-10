@@ -4,6 +4,7 @@ import type { Migration } from '@common/data/mongo/mongo'
 import { IS_TEST, MONGO_DATABASE } from '@common/constants/helper'
 import { COLLECTION } from '@app/_lib/types'
 import { default as SCHEMA_10_2_6 } from '@app/_lib/data/mongo/schema/10.2.6'
+import { default as SCHEMA_10_3_2 } from '@app/_lib/data/mongo/schema/10.3.2'
 /* Models */
 import Cached from '@common/model/Cached'
 /* Utils */
@@ -12,6 +13,21 @@ import { updateBackgrounds } from '@app/_lib/data/mongo/wordpress/background'
 const suffix = IS_TEST ? `-${process.env.JEST_WORKER_ID}` : ''
 
 const migration: Migration = {
+    '10.3.2': async (client) => {
+        const database = client.db(MONGO_DATABASE)
+        database.command({
+            collMod: `${COLLECTION.PAGE}${suffix}`,
+            validator: {
+                $jsonSchema: SCHEMA_10_3_2.page,
+            },
+        })
+        database.command({
+            collMod: `${COLLECTION.POST}${suffix}`,
+            validator: {
+                $jsonSchema: SCHEMA_10_3_2.post,
+            },
+        })
+    },
     '10.3.0': async (client) => {
         const database = client.db(MONGO_DATABASE)
         // Add text index to post.content for search

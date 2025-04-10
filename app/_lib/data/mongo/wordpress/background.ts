@@ -3,10 +3,9 @@ import Cached from '@common/model/Cached'
 import Mongo from '@common/data/mongo/mongo'
 import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 /* CONSTANTS */
-// import { DAY_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV } from '@common/constants/helper'
 import { COLLECTION, POST_TYPE } from '@app/_lib/types'
-import { IMAGE_SIZE_BACKGROUND } from '@app/_lib/types'
+import { default as schema } from '@app/_lib/data/mongo/schema/10.3.2'
 /* Types */
 import type { T_Background } from '@app/_lib/types'
 /* Utils */
@@ -15,11 +14,11 @@ import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 import { getBackgrounds as getMySQLBackgrounds } from '@app/_lib/data/mysql/media'
 import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
 import { MutationResultType } from '@app/api/graphql/constants'
-import { formatImageBlock } from '@app/_lib/data/mongo/wordpress/util'
 import { auth } from '@app/_lib/utils-server'
+import { schemaFormatter } from '@common/utils/object'
 
 const format = (image: T_Background): T_Background =>
-    formatImageBlock(image, IMAGE_SIZE_BACKGROUND)
+    schemaFormatter(image, schema.background) as T_Background
 
 /**
  * Get backgrounds

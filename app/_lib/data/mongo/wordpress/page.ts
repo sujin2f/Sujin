@@ -3,7 +3,6 @@ import type { WithId } from 'mongodb'
 import Cached from '@common/model/Cached'
 import Mongo from '@common/data/mongo/mongo'
 /* CONSTANTS */
-// import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV } from '@common/constants/helper'
 import {
     COLLECTION,
@@ -12,27 +11,18 @@ import {
     T_Page,
 } from '@app/_lib/types'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
+import { default as schema } from '@app/_lib/data/mongo/schema/10.3.2'
 /* Utils */
 import { getCacheKey } from '@app/_lib/utils'
 import { getPostBy } from '@app/_lib/data/mysql/post'
 import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
-import { formatPostImage } from '@app/_lib/data/mongo/wordpress/util'
+import { schemaFormatter } from '@common/utils/object'
 import { auth } from '@app/_lib/utils-server'
 /* Types */
 import type { MutationResultType } from '@app/api/graphql/constants'
 
-const format = (page: WithId<T_Page> | T_Page): T_Page => ({
-    id: page.id,
-    slug: page.slug,
-    title: page.title,
-    excerpt: page.excerpt || '',
-    content: page.content,
-    date: page.date,
-    images: formatPostImage(page.images),
-    meta: page.meta,
-    status: page.status,
-    link: page.link,
-})
+const format = (page: WithId<T_Page> | T_Page): T_Page =>
+    schemaFormatter(page, schema.page) as T_Page
 
 /**
  * Update Mongo Post type from MySQL for GraphQL
@@ -87,10 +77,12 @@ export const updatePage = async (
 
     const result = await getPostBy('slug', slug, POST_TYPE.PAGE)
     const page = format(result)
-    Object.keys(page.images).forEach((key) => {
-        const imageKey = key as POST_IMAGE_LOCATION
-        page.images[imageKey] = convertImageBlockURL(page.images[imageKey]!)
-    })
+    if (page.images) {
+        Object.keys(page.images).forEach((key) => {
+            const imageKey = key as POST_IMAGE_LOCATION
+            page.images[imageKey] = convertImageBlockURL(page.images[imageKey]!)
+        })
+    }
     await Mongo.insertOrReplace(COLLECTION.PAGE, { slug }, page)
     return page
 }

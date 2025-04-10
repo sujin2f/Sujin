@@ -40,7 +40,7 @@ export const clearMongo = async (...collections: string[]) =>
     })
 
 export const categoryFactory = async (input: Partial<T_Archive> = {}) => {
-    const id = getRandomInt(10000)
+    const id = getRandomInt(9999999)
     const document = {
         ...category,
         id,
@@ -57,7 +57,7 @@ export const categoryFactory = async (input: Partial<T_Archive> = {}) => {
 }
 
 export const tagFactory = async (input: Partial<T_Archive> = {}) => {
-    const id = getRandomInt(10000)
+    const id = getRandomInt(9999999)
     const document = {
         ...tag,
         id,
@@ -74,7 +74,7 @@ export const tagFactory = async (input: Partial<T_Archive> = {}) => {
 }
 
 export const postFactory = async (input: Partial<T_Post> = {}) => {
-    const id = getRandomInt(10000)
+    const id = getRandomInt(9999999)
     const document = {
         ...post,
         id,
@@ -91,7 +91,7 @@ export const postFactory = async (input: Partial<T_Post> = {}) => {
 }
 
 export const pageFactory = async (input: Partial<T_Page> = {}) => {
-    const id = getRandomInt(10000)
+    const id = getRandomInt(9999999)
     const document = {
         ...page,
         id,
@@ -107,7 +107,7 @@ export const pageFactory = async (input: Partial<T_Page> = {}) => {
 }
 
 export const backgroundFactory = async (input: Partial<T_ImageBlock> = {}) => {
-    const id = getRandomInt(10000)
+    const id = getRandomInt(9999999)
     const document = {
         ...imageBlock,
         url: `/wp-content/uploads/test-${id}.jpg`,

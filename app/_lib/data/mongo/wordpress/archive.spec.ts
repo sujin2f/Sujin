@@ -12,7 +12,6 @@ import {
     updateArchive,
     removeArchive,
     getArchives,
-    categoryFormatter,
 } from './archive'
 import Mongo from '@common/data/mongo/mongo'
 import migration from '@app/_lib/migration'
@@ -20,6 +19,7 @@ import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 import { ARCHIVE, COLLECTION, T_Category } from '@app/_lib/types'
 import Cached from '@common/model/Cached'
 import { category, tag } from '@jest/fixture'
+import { formatter } from './category'
 
 jest.mock('next-auth', () => ({
     getServerSession: jest.fn(async () =>
@@ -69,7 +69,7 @@ describe('archive.spec.ts', () => {
         const result = await getCachedArchive(
             category.slug,
             ARCHIVE.CATEGORY,
-            categoryFormatter,
+            formatter,
         )
         expect(result.id).toEqual(category.id)
         expect(result.total).toEqual(1)
@@ -100,7 +100,7 @@ describe('archive.spec.ts', () => {
             }),
         )
 
-        await updateArchive(slug, ARCHIVE.CATEGORY, categoryFormatter)
+        await updateArchive(slug, ARCHIVE.CATEGORY, formatter)
         const result = await Mongo.findOne(ARCHIVE.CATEGORY, {
             slug,
         })
@@ -129,7 +129,7 @@ describe('archive.spec.ts', () => {
             Promise.resolve({ ...category, title: 'Changed' }),
         )
 
-        await updateArchive(category.slug, ARCHIVE.CATEGORY, categoryFormatter)
+        await updateArchive(category.slug, ARCHIVE.CATEGORY, formatter)
         const result = await Mongo.findOne(COLLECTION.CATEGORY, {
             id: category.id,
         })
@@ -140,7 +140,7 @@ describe('archive.spec.ts', () => {
         for (let i = 0; i < PER_PAGE + 1; i++) {
             await categoryFactory()
         }
-        const result = await getArchives(2, ARCHIVE.CATEGORY, categoryFormatter)
+        const result = await getArchives(2, ARCHIVE.CATEGORY, formatter)
         expect(result.length).toBe(1)
     })
 })

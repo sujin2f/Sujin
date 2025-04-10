@@ -33,6 +33,9 @@ export const isEmpty = <T>(value: T): boolean => {
     if (typeof value === 'number') {
         return isNaN(value)
     }
+    if (value instanceof Date) {
+        return false
+    }
     if (Array.isArray(value)) {
         return value.filter((v) => !isEmpty(v)).length === 0
     }
@@ -113,4 +116,81 @@ export const entries = <T extends string | number | symbol, U>(
     object: Partial<Record<T, U>>,
 ): [T, U][] => {
     return Object.entries(object) as [T, U][]
+}
+
+type T_Object = Record<string, unknown>
+
+const objectFormatter = (input: T_Object, schema: T_Object): T_Object => {
+    if (!schema.properties) {
+        throw Error(
+            `Object schema does not have properties ${JSON.stringify(schema)}`,
+        )
+    }
+
+    const formatted: T_Object = {}
+    const keys = Object.keys(input)
+    Object.entries(schema.properties).forEach(([key, value]) => {
+        if (keys.includes(key) && !isEmpty(input[key])) {
+            const result = schemaFormatter(
+                input[key] as T_Object,
+                value as T_Object,
+            )
+            if (!isEmpty(result)) formatted[key] = result
+        }
+    })
+
+    if (schema.required && Array.isArray(schema.required)) {
+        schema.required.forEach((key) => {
+            if (!Object.keys(formatted).includes(key)) {
+                throw Error(`Required filed ${key} is missing`)
+            }
+        })
+    }
+
+    return formatted
+}
+
+const filterEnum = (input: number | string, schema: T_Object) => {
+    const enumValues = schema.enum
+    if (enumValues && Array.isArray(enumValues))
+        return enumValues.includes(input) ? input : null
+    return input
+}
+
+export const schemaFormatter = (
+    input: T_Object | number | string | Date | T_Object[],
+    schema: T_Object,
+): unknown => {
+    switch (schema.bsonType) {
+        case 'object':
+            if (typeof input === 'object' && !(input instanceof Date))
+                return objectFormatter(input as T_Object, schema)
+
+        case 'array':
+            return Array.isArray(input) && Object.keys(schema).includes('items')
+                ? input.map((item) =>
+                      schemaFormatter(
+                          item,
+                          schema.items as unknown as T_Object,
+                      ),
+                  )
+                : null
+
+        case 'int':
+            if (typeof input !== 'object' && !Array.isArray(input))
+                return typeof input === 'number'
+                    ? filterEnum(input, schema)
+                    : filterEnum(parseInt(input), schema)
+
+        case 'string':
+            return typeof input === 'string' ? filterEnum(input, schema) : null
+
+        case 'date':
+            return input instanceof Date ? input : null
+
+        case 'bool':
+            return typeof input === 'boolean' ? input : null
+    }
+
+    return {}
 }

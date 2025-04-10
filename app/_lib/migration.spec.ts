@@ -6,10 +6,8 @@ import migration from './migration'
 import Mongo from '@common/data/mongo/mongo'
 import { ARCHIVE, COLLECTION } from '@app/_lib/types'
 import Cached from '@common/model/Cached'
-import {
-    categoryFormatter,
-    getCachedArchive,
-} from './data/mongo/wordpress/archive'
+import { getCachedArchive } from './data/mongo/wordpress/archive'
+import { formatter } from './data/mongo/wordpress/category'
 
 jest.mock('next-auth', () => ({
     getServerSession: jest.fn(async () =>
@@ -44,7 +42,7 @@ describe('migration.spec.ts', () => {
         const result = await getCachedArchive(
             'blog',
             ARCHIVE.CATEGORY,
-            categoryFormatter,
+            formatter,
         )
         expect(result).toBeTruthy()
     })

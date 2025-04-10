@@ -375,8 +375,8 @@ export const getThumbnailFromPost = (
     post: T_PostArchive | T_Page,
     size: IMAGE_SIZE,
 ) =>
-    post.images.list?.sizes?.[size]?.url ||
-    post.images.thumbnail?.sizes?.[size]?.url ||
+    post.images?.list?.sizes?.[size]?.url ||
+    post.images?.thumbnail?.sizes?.[size]?.url ||
     DEFAULT_THUMBNAIL
 
 export const getBannerImageMap = (image: T_ImageBlock): ImageMap[] => {

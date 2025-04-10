@@ -1,7 +1,7 @@
 // yarn test utils.spec.ts
 
 import { auth } from '@app/_lib/utils-server'
-import { POST_TYPE } from './types-post'
+import { POST_TYPE } from './types'
 
 jest.mock('next-auth', () => ({
     getServerSession: jest.fn(async () => Promise.resolve(null)),

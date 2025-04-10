@@ -1,5 +1,3 @@
-/// @todo 태그가 카테고리에 들어감
-
 /* Models */
 import Mongo from '@common/data/mongo/mongo'
 import Cached from '@common/model/Cached'
@@ -11,26 +9,16 @@ import {
     mutateArchive,
     getArchives,
     removeArchive,
-    categoryFormatter,
 } from '@app/_lib/data/mongo/wordpress/archive'
 import { getCacheKey } from '@app/_lib/utils'
+import { schemaFormatter } from '@common/utils/object'
 /* CONSTANTS */
-// import { WEEK_IN_SECONDS } from '@common/constants/datetime'
+import { default as schema } from '@app/_lib/data/mongo/schema/10.3.2'
 import { shuffle } from '@common/utils/array'
 import { ARCHIVE, T_Tag } from '@app/_lib/types'
 
-const formatter = (term: Record<string, unknown>): T_Tag => {
-    const formatted = {
-        ...categoryFormatter(term),
-        hits: 0,
-    } as T_Tag
-
-    if ('hits' in term) {
-        formatted.hits = term.hits as number
-    }
-
-    return formatted
-}
+const formatter = (term: Record<string, unknown>): T_Tag =>
+    schemaFormatter(term, schema.tag) as T_Tag
 
 export const updateTag = async (slug: string): Promise<T_Tag> =>
     await updateArchive(slug, ARCHIVE.TAG, formatter)

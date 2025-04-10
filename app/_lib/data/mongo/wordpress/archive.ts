@@ -4,52 +4,15 @@ import Cached from '@common/model/Cached'
 /* Types */
 import type { MutationResultType } from '@app/api/graphql/constants'
 /* CONSTANTS */
-// import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV } from '@common/constants/helper'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
-import {
-    ARCHIVE,
-    COLLECTION,
-    IMAGE_SIZE_BACKGROUND,
-    T_ImageBlock,
-    T_Archive,
-    POST_STATUS,
-    T_PostArchive,
-} from '@app/_lib/types'
+import { ARCHIVE, COLLECTION, T_Archive, POST_STATUS } from '@app/_lib/types'
 /* Utils */
 import { getArchiveBySlug as getMySQLArchive } from '@app/_lib/data/mysql/term'
 import { getCacheKey } from '@app/_lib/utils'
 import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
-import { formatImageBlock } from '@app/_lib/data/mongo/wordpress/util'
 import { auth } from '@app/_lib/utils-server'
 import { getArchivePosts } from '@app/_lib/data/mongo/wordpress/post'
-
-export const categoryFormatter = (term: Record<string, unknown>): T_Archive => {
-    const formatted = {
-        id: term.id,
-        title: term.title,
-        slug: term.slug,
-        excerpt: term.excerpt,
-        total: term.total || 0,
-    } as T_Archive
-
-    if (term.image) {
-        formatted.image = formatImageBlock(
-            term.image as T_ImageBlock,
-            IMAGE_SIZE_BACKGROUND,
-        )
-    }
-
-    if (term.page) {
-        formatted.page = term.page as number
-    }
-
-    if (term.posts) {
-        formatted.posts = term.posts as T_PostArchive[]
-    }
-
-    return formatted
-}
 
 /**
  * Get archive by slug

@@ -9,10 +9,10 @@ import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
 import { getCacheKey } from '@app/_lib/utils'
 import { updateCategory } from '@app/_lib/data/mongo/wordpress/category'
 import { MutationResultType } from '@app/api/graphql/constants'
-import { formatPostImage } from '@app/_lib/data/mongo/wordpress/util'
+import { schemaFormatter } from '@common/utils/object'
 import { auth, isAdmin } from '@app/_lib/utils-server'
 /* CONSTANTS */
-// import { WEEK_IN_SECONDS } from '@common/constants/datetime'
+import { default as schema } from '@app/_lib/data/mongo/schema/10.3.2'
 import { IS_DEV } from '@common/constants/helper'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 import {
@@ -28,40 +28,13 @@ import {
 } from '@app/_lib/types'
 
 const formatPrevNext = (post: Record<string, unknown>): T_PrevNext =>
-    ({
-        title: post.title,
-        link: post.link,
-    } as T_PrevNext)
+    schemaFormatter(post, schema.prevNext) as T_PrevNext
 
-const formatArchivePost = (post: Record<string, unknown>): T_PostArchive => {
-    const formatted = {
-        ...formatPrevNext(post),
-        id: post.id,
-        slug: post.slug,
-        excerpt: post.excerpt || '',
-        date: post.date,
-        status: post.status,
-    } as T_PostArchive
-
-    if (post.images) {
-        formatted.images = formatPostImage(post.images)
-    }
-
-    if (post.terms && Array.isArray(post.terms)) {
-        formatted.terms = post.terms.filter(
-            (term) => term.type === 'category' || term.type === 'tag',
-        )
-    }
-
-    return formatted
-}
+const formatArchivePost = (post: Record<string, unknown>): T_PostArchive =>
+    schemaFormatter(post, schema.archivePost) as T_PostArchive
 
 const format = (post: Record<string, unknown>): T_Post =>
-    ({
-        ...formatArchivePost(post),
-        content: post.content,
-        meta: post.meta,
-    } as T_Post)
+    schemaFormatter(post, schema.post) as T_Post
 
 /**
  * Get single post by slug

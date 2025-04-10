@@ -10,10 +10,8 @@ import { ARCHIVE, ARCHIVE_URL, type ArchiveProp } from '@app/_lib/types'
 import { BASE_URL } from '@app/_lib/constants'
 import { IS_DEV, VERSION } from '@common/constants/helper'
 /* Utils */
-import {
-    categoryFormatter,
-    getCachedArchive,
-} from '@app/_lib/data/mongo/wordpress/archive'
+import { getCachedArchive } from '@app/_lib/data/mongo/wordpress/archive'
+import { formatter } from '@app/_lib/data/mongo/wordpress/category'
 
 type Props = {
     params: Promise<ArchiveProp>
@@ -41,7 +39,7 @@ export const generateMetadata = async ({
     }
 
     const requestArchive = unstable_cache(
-        async (slug) => await getCachedArchive(slug, type, categoryFormatter),
+        async (slug) => await getCachedArchive(slug, type, formatter),
         [type, slug, VERSION],
         {
             tags: ['wordpress', 'archive'],
