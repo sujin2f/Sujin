@@ -14,7 +14,7 @@ import pic91 from '@app/_lib/images/ether/pic91.jpeg'
 
 export default function Hypothesis() {
     return (
-        <Wrapper className="ether" style={{ counterReset: 'fig' }}>
+        <Wrapper style={{ counterReset: 'fig' }}>
             <p>
                 This document begins with a single question. According to
                 quantum physics, matter exists as a probability. However, is the

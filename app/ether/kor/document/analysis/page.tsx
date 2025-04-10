@@ -37,7 +37,6 @@ export default function Analysis() {
     return (
         <Wrapper
             menu={MENU_NAMES.ETHER_KOR}
-            className="ether"
             style={{ counterReset: 'fig 19 tbl 6 equ 7' }}
         >
             <p>

@@ -313,29 +313,22 @@ export const MENUS: Record<MENU_NAMES, MenuItem[]> = {
         {
             ...menuFixture,
             title: 'Home',
-            link: '/design-system',
+            link: '/',
         },
         {
             ...menuFixture,
-            title: 'CSS',
-            link: '/design-system/css',
+            title: 'Elements',
+            link: '/design-system/elements',
         },
         {
             ...menuFixture,
-            title: 'Containers',
-            link: '/design-system/components/containers',
-        },
-        {
-            ...menuFixture,
-            title: 'Pages',
+            title: 'Loading',
             link: '/design-system/pages/loading',
-            children: [
-                {
-                    ...menuFixture,
-                    title: 'Loading',
-                    link: '/design-system/pages/loading',
-                },
-            ],
+        },
+        {
+            ...menuFixture,
+            title: 'Not Found',
+            link: '/design-system/pages/not-found',
         },
     ],
 } as const

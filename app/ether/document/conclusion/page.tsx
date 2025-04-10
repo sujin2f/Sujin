@@ -11,7 +11,7 @@ import pic124 from '@app/_lib/images/ether/pic124.jpeg'
 
 export default function Conclusion() {
     return (
-        <Wrapper className="ether" style={{ counterReset: 'fig 52' }}>
+        <Wrapper style={{ counterReset: 'fig 52' }}>
             <ul>
                 <li>Rydberg is magnificent, sir.</li>
 

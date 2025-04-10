@@ -26,7 +26,6 @@ export default function RydbergFormula() {
     return (
         <Wrapper
             menu={MENU_NAMES.ETHER_KOR}
-            className="ether"
             style={{ counterReset: 'fig 7 tbl 6 equ 2' }}
         >
             <p>

@@ -22,7 +22,7 @@ export const PrevNext = (props: Props) => {
     }
 
     return (
-        <Row dom="nav" fullWidth className="prev-next__container">
+        <Row dom="nav" fullWidth className="prev-next">
             {Object.keys(items).map((index) => {
                 const key = index as 'prev' | 'next'
                 const item = items[key]
@@ -31,7 +31,7 @@ export const PrevNext = (props: Props) => {
                         key={`prev-next-${key}-${JSON.stringify(props)}`}
                         small={12}
                         medium={6}
-                        className={`prev-next prev-next--${key}`}
+                        className={`prev-next__item prev-next__item--${key}`}
                     >
                         {item ? (
                             <Link href={item.link} className="prev-next__link">

@@ -1,10 +1,10 @@
 @use '@common/scss/mixin';
 
-.prev-next__container {
-    margin-top: var(--gap) !important;
+.prev-next {
+    margin-bottom: var(--gap) !important;
 }
 
-.prev-next {
+.prev-next__item {
     background: none;
     text-decoration: none;
 
@@ -38,7 +38,7 @@
     align-items: center;
 }
 
-.prev-next--next {
+.prev-next__item--next {
     .prev-next__link {
         svg {
             transform: rotate(180deg);

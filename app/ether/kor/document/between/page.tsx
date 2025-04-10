@@ -27,7 +27,6 @@ export default function Between() {
     return (
         <Wrapper
             menu={MENU_NAMES.ETHER_KOR}
-            className="ether"
             style={{ counterReset: 'fig 40 tbl 7 equ 9' }}
         >
             <p>

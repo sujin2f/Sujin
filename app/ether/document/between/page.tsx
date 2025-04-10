@@ -24,10 +24,7 @@ import 'katex/dist/katex.min.css'
 
 export default function Between() {
     return (
-        <Wrapper
-            className="ether"
-            style={{ counterReset: 'fig 40 tbl 7 equ 9' }}
-        >
+        <Wrapper style={{ counterReset: 'fig 40 tbl 7 equ 9' }}>
             <p>
                 It raises a question: Is it really appropriate to shift the
                 changes in circular ether towards the s orbital side and the

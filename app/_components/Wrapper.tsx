@@ -6,6 +6,7 @@ import { Row } from '@common/components/layout/Row'
 import { Column, ColumnProps } from '@common/components/layout/Column'
 import { BannerProps } from '@app/_lib/types'
 import ScrollToTop from '@common/components/ScrollToTop'
+import { joinClassNames } from '@common/utils/string'
 
 type Props = ColumnProps &
     PropsWithChildren<BannerProps> & {
@@ -33,8 +34,9 @@ export default function Wrapper({
     prefix,
     background,
     backgroundColor,
-    className,
+    ...props
 }: Props) {
+    const className = joinClassNames('wrapper', props.className)
     return (
         <>
             <ScrollToTop />

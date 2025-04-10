@@ -12,11 +12,7 @@ import pic124 from '@app/_lib/images/ether/pic124.jpeg'
 
 export default function Conclusion() {
     return (
-        <Wrapper
-            menu={MENU_NAMES.ETHER_KOR}
-            className="ether"
-            style={{ counterReset: 'fig 52' }}
-        >
+        <Wrapper menu={MENU_NAMES.ETHER_KOR} style={{ counterReset: 'fig 52' }}>
             <ul>
                 <li>뤼드베리 선생님은 위대하시다.</li>
                 <li>

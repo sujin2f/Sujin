@@ -16,7 +16,7 @@ export default async function Loading({ menu }: Props) {
     return (
         <>
             <Header menu={menu} />
-            <main className="page--frontpage">
+            <main className="wrapper--frontpage">
                 <Banner menu={menu} title={<LoadingImg />} />
             </main>
         </>

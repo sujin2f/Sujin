@@ -29,7 +29,7 @@ export async function FrontPage() {
     return (
         <>
             <Header />
-            <main className="page--frontpage">
+            <main className="wrapper--frontpage">
                 <Banner
                     title={
                         <Logo

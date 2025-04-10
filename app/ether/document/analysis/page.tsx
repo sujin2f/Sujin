@@ -34,10 +34,7 @@ import 'katex/dist/katex.min.css'
 
 export default function Analysis() {
     return (
-        <Wrapper
-            className="ether"
-            style={{ counterReset: 'fig 19 tbl 6 equ 7' }}
-        >
+        <Wrapper style={{ counterReset: 'fig 19 tbl 6 equ 7' }}>
             <p>
                 The formula is ready. Let&apos;s proceed to the comparisons. I
                 will bring back the last graph from the previous section with

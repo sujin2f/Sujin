@@ -15,11 +15,7 @@ import pic91 from '@app/_lib/images/ether/pic91.jpeg'
 
 export default function Hypothesis() {
     return (
-        <Wrapper
-            menu={MENU_NAMES.ETHER_KOR}
-            className="ether"
-            style={{ counterReset: 'fig' }}
-        >
+        <Wrapper menu={MENU_NAMES.ETHER_KOR} style={{ counterReset: 'fig' }}>
             <p>
                 본 문서는 하나의 의문에서 출발한다. 양자물리학에 따르면 입자, 즉
                 물질은 확률로서 존재한다. 그런데 확률 공간은 정말로 의미 없이

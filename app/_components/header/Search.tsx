@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation'
 import { KeyCodes } from '@common/constants/keycode'
 /* Assets */
 import Magnify from '@app/_lib/images/magnify.svg'
+import { joinClassNames } from '@common/utils/string'
 
 export default function Search() {
     const [opened, setOpened] = useState<boolean>(false)
@@ -52,10 +53,10 @@ export default function Search() {
         [handleSubmitSearch],
     )
 
-    const wrapperClass = opened ? 'open' : ''
+    const className = joinClassNames(opened && 'open', 'search')
 
     return (
-        <section className={`${wrapperClass} search`}>
+        <section className={className}>
             <input
                 className="search__input"
                 onChange={handleChangeSearch}

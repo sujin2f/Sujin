@@ -23,10 +23,7 @@ import 'katex/dist/katex.min.css'
 
 export default function RydbergFormula() {
     return (
-        <Wrapper
-            className="ether"
-            style={{ counterReset: 'fig 7 tbl 6 equ 2' }}
-        >
+        <Wrapper style={{ counterReset: 'fig 7 tbl 6 equ 2' }}>
             <p>
                 So far, the hypothesis has been tested based on Bohr&apos;s
                 atomic model. However, Bohr&apos;s atomic model is no longer

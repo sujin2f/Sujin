@@ -14,7 +14,6 @@ export default function ClassicPhysics() {
     return (
         <Wrapper
             menu={MENU_NAMES.ETHER_KOR}
-            className="ether"
             style={{ counterReset: 'fig 6 tbl equ' }}
         >
             <p>

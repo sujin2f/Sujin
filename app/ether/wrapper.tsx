@@ -6,21 +6,19 @@ import GlobalWrapper from '@app/_components/Wrapper'
 import { MENU_NAMES } from '@app/_lib/types'
 
 type Props = {
-    readonly className?: string
     readonly style?: CSSProperties
     readonly menu?: MENU_NAMES
 }
 
 export default async function Wrapper({
     children,
-    className,
     style,
     menu,
 }: PropsWithChildren<Props>) {
     return (
         <GlobalWrapper
             menu={menu || MENU_NAMES.ETHER}
-            className={className}
+            className="wrapper--ether"
             large={8}
             small={12}
             largeOffset={2}

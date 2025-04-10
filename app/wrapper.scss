@@ -136,8 +136,8 @@ body {
             text-align: start;
         }
     }
-}
 
-.page--page {
-    margin-bottom: var(--gap);
+    .card {
+        margin-bottom: calc(var(--gap) / 2);
+    }
 }

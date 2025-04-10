@@ -11,7 +11,7 @@ import 'katex/dist/katex.min.css'
 
 export default function ClassicPhysics() {
     return (
-        <Wrapper className="ether" style={{ counterReset: 'fig 6 tbl equ' }}>
+        <Wrapper style={{ counterReset: 'fig 6 tbl equ' }}>
             <h2>
                 The emitted wavelengths of the Photon-Ether based on Bohr&apos;s
                 atomic model
