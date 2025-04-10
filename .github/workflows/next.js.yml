@@ -25,7 +25,7 @@ jobs:
             - name: Initialize MongoDB
               run: |
                   mongosh --host localhost:27017 -u admin -p admin --authenticationDatabase admin <<EOF
-                      db.createUser({ user: 'test', pwd: 'test', roles: [{ role: 'readWrite', db: 'test' }] });
+                      db.createUser({ user: 'test', pwd: 'test', roles: [{ role: 'readWrite', db: 'test' }, { role: 'dbAdmin', db: 'test' }] });
                   EOF
 
             - name: Git checkout
