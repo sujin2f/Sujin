@@ -1,6 +1,6 @@
 import { ConstToType } from '@common/types'
-import { ARCHIVE } from '@app/_lib/types-archive'
-import { POST_TYPE } from '@app/_lib/types-post'
+import { ARCHIVE } from '@app/_lib/types/archive'
+import { POST_TYPE } from '@app/_lib/types/post'
 
 /**
  * MongoDB collections

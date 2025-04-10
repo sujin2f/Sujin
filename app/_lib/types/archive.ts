@@ -1,6 +1,6 @@
 import { ConstToType } from '@common/types'
-import type { T_ImageBlock } from '@app/_lib/types-image'
-import type { T_PostArchive } from '@app/_lib/types-post'
+import type { T_ImageBlock } from '@app/_lib/types/image'
+import type { T_PostArchive } from '@app/_lib/types/post'
 
 /**
  * Archive types
