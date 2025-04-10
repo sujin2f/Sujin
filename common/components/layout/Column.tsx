@@ -7,7 +7,7 @@ import '../../scss/layout.scss'
 
 export type OneToEleven = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11
 export type OneToTwelve = OneToEleven | 12
-type Props = PropsWithChildren<{
+export type ColumnProps = {
     readonly small?: OneToTwelve
     readonly smallOffset?: OneToEleven
     readonly medium?: OneToTwelve
@@ -16,12 +16,15 @@ type Props = PropsWithChildren<{
     readonly largeOffset?: OneToEleven
     readonly larger?: OneToTwelve
     readonly largerOffset?: OneToEleven
-    readonly className?: string
-    readonly id?: string
-    readonly dom?: string | React.ElementType
-    readonly push?: boolean
-    readonly gap?: boolean
-}>
+}
+type Props = ColumnProps &
+    PropsWithChildren<{
+        readonly className?: string
+        readonly id?: string
+        readonly dom?: string | React.ElementType
+        readonly push?: boolean
+        readonly gap?: boolean
+    }>
 
 /**
  * Column component that renders a responsive column with various size and offset options.

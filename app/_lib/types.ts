@@ -37,3 +37,4 @@ export type {
     T_ShortcodeAttrMatch,
 } from '@app/_lib/types-misc'
 export { COLLECTION, CACHE_KEY, MENU_NAMES } from '@app/_lib/types-misc'
+export * from '@app/_lib/types-props'

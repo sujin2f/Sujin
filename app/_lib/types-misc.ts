@@ -38,6 +38,7 @@ export const MENU_NAMES = {
     DEV_TOOL: 'devtool',
     ETHER: 'ether',
     ETHER_KOR: 'ether-kor',
+    DESIGN_SYSTEM: 'design-system',
 } as const
 export type MENU_NAMES = ConstToType<typeof MENU_NAMES>
 

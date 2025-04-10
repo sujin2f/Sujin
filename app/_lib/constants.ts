@@ -309,4 +309,33 @@ export const MENUS: Record<MENU_NAMES, MenuItem[]> = {
             link: '/dev-tools/text-sort',
         },
     ],
+    [MENU_NAMES.DESIGN_SYSTEM]: [
+        {
+            ...menuFixture,
+            title: 'Home',
+            link: '/design-system',
+        },
+        {
+            ...menuFixture,
+            title: 'CSS',
+            link: '/design-system/css',
+        },
+        {
+            ...menuFixture,
+            title: 'Containers',
+            link: '/design-system/components/containers',
+        },
+        {
+            ...menuFixture,
+            title: 'Pages',
+            link: '/design-system/pages/loading',
+            children: [
+                {
+                    ...menuFixture,
+                    title: 'Loading',
+                    link: '/design-system/pages/loading',
+                },
+            ],
+        },
+    ],
 } as const

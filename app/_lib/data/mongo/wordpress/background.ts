@@ -31,7 +31,9 @@ export const getCachedBackgrounds = async (): Promise<T_Background[]> =>
     await Cached.getInstance().getOrExecute(
         getCacheKey(COLLECTION.BACKGROUNDS),
         async () =>
-            await Mongo.random<T_Background>(COLLECTION.BACKGROUNDS, 10),
+            (
+                await Mongo.random<T_Background>(COLLECTION.BACKGROUNDS, 10)
+            ).map((image) => format(image)),
         0,
         IS_DEV,
     )

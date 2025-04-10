@@ -2,7 +2,7 @@ import Link from 'next/link'
 /* Components */
 import { NextImage } from '@common/components/containers/NextImage'
 import { PrevNext } from '@app/(single)/_components/PrevNext'
-import ScrollToTop from '@common/components/ScrollToTop'
+import Wrapper from '@app/ether/wrapper'
 /* Assets */
 import pic1 from '@app/_lib/images/ether/pic1_eng.png'
 import pic2 from '@app/_lib/images/ether/pic2_eng.png'
@@ -14,8 +14,7 @@ import pic91 from '@app/_lib/images/ether/pic91.jpeg'
 
 export default function Hypothesis() {
     return (
-        <div className="ether" style={{ counterReset: 'fig' }}>
-            <ScrollToTop />
+        <Wrapper className="ether" style={{ counterReset: 'fig' }}>
             <p>
                 This document begins with a single question. According to
                 quantum physics, matter exists as a probability. However, is the
@@ -288,6 +287,6 @@ export default function Hypothesis() {
                     link: '/ether/document/classic-physics',
                 }}
             ></PrevNext>
-        </div>
+        </Wrapper>
     )
 }

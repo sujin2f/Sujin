@@ -1,22 +1,18 @@
 import { notFound } from 'next/navigation'
 import { unstable_cache } from 'next/cache'
 /* Components */
-import { Banner } from '@app/_components/header/Banner'
-import { Header } from '@app/_components/header'
-import { Footer } from '@app/_components/footer'
-import ArchiveClient from '@app/(archive)/_components'
+import ArchiveClient from '@app/_components/archive'
+import Wrapper from '@app/_components/Wrapper'
 /* CONSTANTS */
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV, VERSION } from '@common/constants/helper'
-import { ARCHIVE } from '@app/_lib/types'
+import { ARCHIVE, type ArchiveProp } from '@app/_lib/types'
 /* Utils */
 import {
     categoryFormatter,
     getCachedArchive,
 } from '@app/_lib/data/mongo/wordpress/archive'
 import { updateHits } from '@app/_lib/data/mongo/wordpress/tag'
-/* Types */
-import type { ArchiveProp } from '@app/(archive)/types'
 
 export async function ArchiveServer({ page, type, slug }: ArchiveProp) {
     const requestArchive = unstable_cache(
@@ -44,25 +40,19 @@ export async function ArchiveServer({ page, type, slug }: ArchiveProp) {
     }
 
     return (
-        <>
-            <Header />
-            <main>
-                <Banner
-                    title={title}
-                    excerpt={excerpt}
-                    prefix={type}
-                    background={image}
-                />
-
-                <ArchiveClient
-                    type={type}
-                    slug={slug}
-                    page={page}
-                    total={archive.total}
-                    posts={archive.posts!}
-                />
-            </main>
-            <Footer />
-        </>
+        <Wrapper
+            title={title}
+            excerpt={excerpt}
+            prefix={type}
+            background={image}
+        >
+            <ArchiveClient
+                type={type}
+                slug={slug}
+                page={page}
+                total={archive.total}
+                posts={archive.posts!}
+            />
+        </Wrapper>
     )
 }

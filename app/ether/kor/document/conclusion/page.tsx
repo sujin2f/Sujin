@@ -2,7 +2,8 @@ import Link from 'next/link'
 /* Components */
 import { NextImage } from '@common/components/containers/NextImage'
 import { PrevNext } from '@app/(single)/_components/PrevNext'
-import ScrollToTop from '@common/components/ScrollToTop'
+import Wrapper from '@app/ether/wrapper'
+import { MENU_NAMES } from '@app/_lib/types'
 /* Assets */
 import pic13 from '@app/_lib/images/ether/pic13_eng.png'
 import pic14 from '@app/_lib/images/ether/pic14_eng.png'
@@ -11,9 +12,11 @@ import pic124 from '@app/_lib/images/ether/pic124.jpeg'
 
 export default function Conclusion() {
     return (
-        <div className="ether" style={{ counterReset: 'fig 52' }}>
-            <ScrollToTop />
-
+        <Wrapper
+            menu={MENU_NAMES.ETHER_KOR}
+            className="ether"
+            style={{ counterReset: 'fig 52' }}
+        >
             <ul>
                 <li>뤼드베리 선생님은 위대하시다.</li>
                 <li>
@@ -235,6 +238,6 @@ export default function Conclusion() {
                     link: '/ether/kor/document/between',
                 }}
             ></PrevNext>
-        </div>
+        </Wrapper>
     )
 }

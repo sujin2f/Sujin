@@ -1,9 +1,9 @@
 'use client'
 import React from 'react'
 /* Components */
-import { Loading } from '@app/(archive)/_components/loading'
+import { Loading } from '@app/_components/archive/loading'
 import { WidgetTitle } from '@app/_components/WidgetTitle'
-import { Cards } from '@app/(archive)/_components/cards'
+import { Cards } from '@app/_components/archive/cards'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 /* Helpers */
@@ -18,18 +18,7 @@ export const NotFoundClient = (): React.ReactNode => {
                     <WidgetTitle>Recent Posts</WidgetTitle>
                 </Column>
             </Row>
-            {/* Loading */}
-            {!posts && (
-                <Loading
-                    className="archive"
-                    counts={12}
-                    large={4}
-                    medium={6}
-                    small={12}
-                />
-            )}
-            {/* Result */}
-            {posts && (
+            {posts ? (
                 <Row>
                     <Cards
                         posts={posts}
@@ -39,6 +28,14 @@ export const NotFoundClient = (): React.ReactNode => {
                         small={12}
                     />
                 </Row>
+            ) : (
+                <Loading
+                    className="archive"
+                    counts={12}
+                    large={4}
+                    medium={6}
+                    small={12}
+                />
             )}
         </main>
     )

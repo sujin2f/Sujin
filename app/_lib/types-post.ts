@@ -1,5 +1,6 @@
 import { ConstToType } from '@common/types'
-import { T_Term, T_PostImages } from '@app/_lib/types'
+import { T_Term } from '@app/_lib/types-archive'
+import { T_PostImages } from '@app/_lib/types-image'
 
 /**
  * WP Post types

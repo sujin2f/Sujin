@@ -1,20 +1,22 @@
-'use client'
 import { InlineMath } from 'react-katex'
 /* Components */
 import { NextImage } from '@common/components/containers/NextImage'
-import ScrollToTop from '@common/components/ScrollToTop'
 import { Table } from '@common/components/containers/Table'
 import { Latex } from '@app/(single)/_components/Latex'
 import { PrevNext } from '@app/(single)/_components/PrevNext'
+import Wrapper from '@app/ether/wrapper'
+import { MENU_NAMES } from '@app/_lib/types'
 /* Assets */
 import pic5 from '@app/_lib/images/ether/pic5_eng.png'
 import 'katex/dist/katex.min.css'
 
 export default function ClassicPhysics() {
     return (
-        <div className="ether" style={{ counterReset: 'fig 6 tbl equ' }}>
-            <ScrollToTop />
-
+        <Wrapper
+            menu={MENU_NAMES.ETHER_KOR}
+            className="ether"
+            style={{ counterReset: 'fig 6 tbl equ' }}
+        >
             <p>
                 전자가 방출하는 파장은 뤼드베리 공식을 통해 구할 수 있다. 아래는
                 뤼드베리 공식과 <InlineMath>n \geq 2</InlineMath>에서{' '}
@@ -394,6 +396,6 @@ export default function ClassicPhysics() {
                     link: '/ether/kor/document/rydberg-formula',
                 }}
             ></PrevNext>
-        </div>
+        </Wrapper>
     )
 }

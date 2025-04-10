@@ -5,7 +5,7 @@ import { NextImage } from '@common/components/containers/NextImage'
 import { Table } from '@common/components/containers/Table'
 import { Latex } from '@app/(single)/_components/Latex'
 import { PrevNext } from '@app/(single)/_components/PrevNext'
-import ScrollToTop from '@common/components/ScrollToTop'
+import Wrapper from '@app/ether/wrapper'
 /* Assets */
 import pic9 from '@app/_lib/images/ether/pic9.png'
 import pic10 from '@app/_lib/images/ether/pic10.png'
@@ -23,8 +23,10 @@ import 'katex/dist/katex.min.css'
 
 export default function RydbergFormula() {
     return (
-        <div className="ether" style={{ counterReset: 'fig 7 tbl 6 equ 2' }}>
-            <ScrollToTop />
+        <Wrapper
+            className="ether"
+            style={{ counterReset: 'fig 7 tbl 6 equ 2' }}
+        >
             <p>
                 So far, the hypothesis has been tested based on Bohr&apos;s
                 atomic model. However, Bohr&apos;s atomic model is no longer
@@ -768,6 +770,6 @@ export default function RydbergFormula() {
                     link: '/ether/document/analysis',
                 }}
             ></PrevNext>
-        </div>
+        </Wrapper>
     )
 }

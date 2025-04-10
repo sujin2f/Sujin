@@ -4,7 +4,7 @@ import React from 'react'
 import { Card } from '@common/components/containers/Card'
 import { Column } from '@common/components/layout/Column'
 import { Row } from '@common/components/layout/Row'
-import { Loading } from '@app/(archive)/_components/loading'
+import { Loading } from '@app/_components/archive/loading'
 /* CONSTANTS */
 import GQL from '@app/api/graphql/constants'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'

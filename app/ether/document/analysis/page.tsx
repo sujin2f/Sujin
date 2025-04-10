@@ -7,7 +7,7 @@ import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 import { Latex } from '@app/(single)/_components/Latex'
 import { PrevNext } from '@app/(single)/_components/PrevNext'
-import ScrollToTop from '@common/components/ScrollToTop'
+import Wrapper from '@app/ether/wrapper'
 /* Assets */
 import pic29 from '@app/_lib/images/ether/pic29.png'
 import pic42 from '@app/_lib/images/ether/pic42.png'
@@ -34,8 +34,10 @@ import 'katex/dist/katex.min.css'
 
 export default function Analysis() {
     return (
-        <div className="ether" style={{ counterReset: 'fig 19 tbl 6 equ 7' }}>
-            <ScrollToTop />
+        <Wrapper
+            className="ether"
+            style={{ counterReset: 'fig 19 tbl 6 equ 7' }}
+        >
             <p>
                 The formula is ready. Let&apos;s proceed to the comparisons. I
                 will bring back the last graph from the previous section with
@@ -746,6 +748,6 @@ export default function Analysis() {
                     link: '/ether/document/between',
                 }}
             ></PrevNext>
-        </div>
+        </Wrapper>
     )
 }

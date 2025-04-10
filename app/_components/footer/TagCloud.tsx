@@ -2,7 +2,7 @@
 import React from 'react'
 import Link from 'next/link'
 /* Components */
-import { Loading } from '@app/(archive)/_components/loading'
+import { Loading } from '@app/_components/archive/loading'
 /* CONSTANTS */
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import GQL from '@app/api/graphql/constants'

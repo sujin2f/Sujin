@@ -16,14 +16,19 @@ type Props = {
 }
 
 export const PrevNext = (props: Props) => {
+    const items = {
+        prev: props.prev,
+        next: props.next,
+    }
+
     return (
         <Row dom="nav" fullWidth className="prev-next__container">
-            {Object.keys(props).map((index) => {
+            {Object.keys(items).map((index) => {
                 const key = index as 'prev' | 'next'
-                const item = props[key]
+                const item = items[key]
                 return (
                     <Column
-                        key={`prev-next-${key}-${JSON.stringify(item)}`}
+                        key={`prev-next-${key}-${JSON.stringify(props)}`}
                         small={12}
                         medium={6}
                         className={`prev-next prev-next--${key}`}

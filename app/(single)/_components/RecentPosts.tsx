@@ -3,8 +3,8 @@ import React from 'react'
 /* Components */
 import { Row } from '@common/components/layout/Row'
 import { WidgetTitle } from '@app/_components/WidgetTitle'
-import { Cards } from '@app/(archive)/_components/cards'
-import { Loading } from '@app/(archive)/_components/loading'
+import { Cards } from '@app/_components/archive/cards'
+import { Loading } from '@app/_components/archive/loading'
 /* Utils */
 import { useRecentPost } from '@app/_lib/hooks/useRecentPost'
 /* CONSTANTS */

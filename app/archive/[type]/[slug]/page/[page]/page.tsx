@@ -2,12 +2,11 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next/types'
 import { unstable_cache } from 'next/cache'
 /* Components */
-// import Archive from './Archive'
-import { SearchServer } from '@app/(archive)/archive/search-server'
-import { ArchiveServer } from '@app/(archive)/archive/archive-server'
+import { SearchServer } from '@app/archive/search-server'
+import { ArchiveServer } from '@app/archive/archive-server'
 /* CONSTANTS */
 import { DAY_IN_SECONDS } from '@common/constants/datetime'
-import { ARCHIVE, ARCHIVE_URL } from '@app/_lib/types'
+import { ARCHIVE, ARCHIVE_URL, type ArchiveProp } from '@app/_lib/types'
 import { BASE_URL } from '@app/_lib/constants'
 import { IS_DEV, VERSION } from '@common/constants/helper'
 /* Utils */
@@ -15,8 +14,6 @@ import {
     categoryFormatter,
     getCachedArchive,
 } from '@app/_lib/data/mongo/wordpress/archive'
-/* Types */
-import type { ArchiveProp } from '@app/(archive)/types'
 
 type Props = {
     params: Promise<ArchiveProp>
@@ -75,9 +72,9 @@ export default async function Page({ params }: Props) {
         notFound()
     }
 
-    if (type === ARCHIVE.SEARCH) {
-        return <SearchServer page={page} type={type} slug={slug} />
-    }
-
-    return <ArchiveServer page={page} type={type} slug={slug} />
+    return type === ARCHIVE.SEARCH ? (
+        <SearchServer page={page} type={type} slug={slug} />
+    ) : (
+        <ArchiveServer page={page} type={type} slug={slug} />
+    )
 }
