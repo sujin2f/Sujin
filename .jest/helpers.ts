@@ -1,7 +1,7 @@
 import Mongo from '@common/data/mongo/mongo'
 import client from '@common/data/mongo/mongo-client'
 import { getRandomInt } from '@common/utils/number'
-import { MONGO_DATABASE } from '@common/constants/helper'
+import { IS_TEST, MONGO_DATABASE } from '@common/constants/helper'
 import { category, imageBlock, page, post, tag } from './fixture'
 import {
     COLLECTION,
@@ -11,16 +11,28 @@ import {
     T_Page,
 } from '@app/_lib/types'
 
+const suffix = IS_TEST ? `-${process.env.JEST_WORKER_ID}` : ''
+
 export const clearMongo = async (...collections: string[]) =>
     await client.then(async (client) => {
         const database = client.db(MONGO_DATABASE)
+
         if (collections.length === 0) {
-            await database.dropDatabase()
+            await database.collections().then(async (collections) => {
+                for (const collection in collections) {
+                    if (collections[collection].namespace.includes(suffix)) {
+                        await collections[collection].drop()
+                    }
+                }
+            })
             return client
         }
+
         try {
             for (const collection of collections) {
-                await database.collection(collection).deleteMany({})
+                await database
+                    .collection(`${collection}${suffix}`)
+                    .deleteMany({})
             }
         } catch {}
 
