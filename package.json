@@ -8,6 +8,7 @@
         "build": "next build",
         "start": "next start",
         "test": "jest --no-cache --forceExit --coverage",
+        "test-github": "ENVIRONMENT=github jest --no-cache --forceExit --coverage",
         "lint": "eslint ./app/**/*.tsx ./common/**/*.ts ./common/**/*.tsx"
     },
     "dependencies": {

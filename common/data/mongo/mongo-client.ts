@@ -6,7 +6,10 @@ if (!process.env.MONGO) {
 
 const uri = process.env.MONGO
 const options = { appName: 'devrel.template.nextjs' }
-const connection = `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${uri}:27017/${process.env.MONGO_DATABASE}?authSource=${process.env.MONGO_DATABASE}`
+const connection =
+    process.env.ENVIRONMENT === 'github'
+        ? `mongodb://${uri}:27017/`
+        : `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${uri}:27017/${process.env.MONGO_DATABASE}?authSource=${process.env.MONGO_DATABASE}`
 
 /**
  * @description Create a new MongoClient Promise instance
