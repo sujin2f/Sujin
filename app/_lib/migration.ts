@@ -14,6 +14,12 @@ const suffix = IS_TEST ? `-${process.env.JEST_WORKER_ID}` : ''
 
 const migration: Migration = {
     '10.3.2': async (client) => {
+        /**
+         * Run this first
+         * mongosh --authenticationDatabase admin --host localhost -u $MONGO_INITDB_ROOT_USERNAME -p $MONGO_INITDB_ROOT_PASSWORD $MONGO_DATABASE --eval "db.updateUser('$MONGO_USER', {roles: [{role: 'dbAdmin', db: '$MONGO_DATABASE'}, {role: 'readWrite', db: '$MONGO_DATABASE'}]});"
+         * Then, make user back to non-admin
+         * mongosh --authenticationDatabase admin --host localhost -u $MONGO_INITDB_ROOT_USERNAME -p $MONGO_INITDB_ROOT_PASSWORD $MONGO_DATABASE --eval "db.updateUser('$MONGO_USER', {roles: [{role: 'readWrite', db: '$MONGO_DATABASE'}]});"
+         */
         const database = client.db(MONGO_DATABASE)
         database.command({
             collMod: `${COLLECTION.PAGE}${suffix}`,
