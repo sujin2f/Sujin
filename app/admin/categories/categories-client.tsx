@@ -50,6 +50,7 @@ export function ClientComponent({ categories, page, remove, update }: Props) {
                                 <th>ID</th>
                                 <th>Title</th>
                                 <th>Slug</th>
+                                <th>Total</th>
                                 <th>Show Posts</th>
                                 <th>Update</th>
                                 <th>Remove</th>
@@ -61,6 +62,7 @@ export function ClientComponent({ categories, page, remove, update }: Props) {
                                     <td className="center">{term.id}</td>
                                     <td>{term.title}</td>
                                     <td className="center">{term.slug}</td>
+                                    <td className="center">{term.total}</td>
                                     <td className="center">
                                         <Link
                                             href={`/admin/categories/posts/${term.slug}/1`}

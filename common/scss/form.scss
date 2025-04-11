@@ -162,3 +162,47 @@ fieldset {
         }
     }
 }
+
+.switch {
+    width: 2em;
+    height: 1em;
+    display: block;
+    background-color: var(--gray);
+    padding: 0.5em;
+    cursor: pointer;
+
+    .switch__input {
+        display: none;
+    }
+
+    .switch__paddle {
+        width: 1em;
+        height: 1em;
+        display: block;
+        background-color: var(--white);
+        transition: margin 0.2s ease-out, background-color 0.2s ease-out;
+    }
+
+    &--on {
+        background-color: var(--primary);
+        .switch__paddle {
+            margin-left: 1em;
+        }
+    }
+}
+
+.input-group {
+    display: flex;
+    border: 1px solid var(--gray);
+
+    .form__input {
+        border: none;
+    }
+
+    .input-group__label {
+        align-content: center;
+        background-color: var(--light-gray);
+        padding: 0 0.5em;
+        border-right: 1px solid var(--gray);
+    }
+}

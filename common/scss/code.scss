@@ -13,7 +13,7 @@ pre.code {
     .code__lines {
         counter-reset: line;
         background-color: var(--light-gray);
-        padding: 0 0.5em 0 0;
+        padding: 0.5em 0.5em 0 0;
 
         div::before {
             counter-increment: line;

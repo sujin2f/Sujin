@@ -76,3 +76,5 @@ export const Column = (props: Props) => {
         props.children,
     )
 }
+
+export default Column

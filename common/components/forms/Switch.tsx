@@ -1,13 +1,8 @@
-import React, {
-    Fragment,
-    CSSProperties,
-    RefObject,
-    ChangeEvent,
-    useCallback,
-} from 'react'
+'use client'
+import { CSSProperties, RefObject, useState, useMemo, useCallback } from 'react'
 
 type Props = {
-    id: string
+    id?: string
     checked?: boolean
     title?: string
     style?: CSSProperties
@@ -15,38 +10,45 @@ type Props = {
     ref?: RefObject<HTMLInputElement>
 }
 
-export const Switch = (props: Props) => {
-    const { id, checked, title, style, ref } = props
+export const Switch = ({
+    id,
+    title,
+    style,
+    ref,
+    onChange: onChangeCallback,
+    ...props
+}: Props) => {
+    const [checked, setChecked] = useState(props.checked)
 
     const onChange = useCallback(
-        (e: ChangeEvent<HTMLInputElement>) => {
-            if (props.onChange) {
-                props.onChange(!!e.target.value)
+        (checked: boolean) => {
+            setChecked(checked)
+            if (onChangeCallback) {
+                onChangeCallback(checked)
             }
         },
-        [props],
+        [onChangeCallback],
     )
 
+    const className = useMemo(() => (checked ? 'switch--on' : ''), [checked])
+
     return (
-        <Fragment>
+        <label
+            className={`switch ${className}`}
+            style={style}
+            aria-label={title}
+        >
             <input
-                className="switch-input"
+                className="switch__input"
+                type="checkbox"
                 id={id}
                 ref={ref}
-                type="checkbox"
-                checked={checked}
-                onChange={onChange}
+                onChange={() => onChange(!checked)}
+                defaultChecked={checked}
             />
-            <label
-                className="switch-paddle"
-                htmlFor={id}
-                style={style}
-                aria-label={title}
-            >
-                <span className="show-for-sr">
-                    <span className="hidden">{title}</span>
-                </span>
-            </label>
-        </Fragment>
+            <span className="switch__paddle" />
+        </label>
     )
 }
+
+export default Switch

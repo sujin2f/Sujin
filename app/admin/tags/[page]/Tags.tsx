@@ -26,6 +26,8 @@ export default async function Tags(props: Props) {
                                 <th>ID</th>
                                 <th>Title</th>
                                 <th>Slug</th>
+                                <th>Total</th>
+                                <th>Hits</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -34,6 +36,8 @@ export default async function Tags(props: Props) {
                                     <td className="center">{term.id}</td>
                                     <td>{term.title}</td>
                                     <td>{term.slug}</td>
+                                    <td className="center">{term.total}</td>
+                                    <td className="center">{term.hits}</td>
                                 </tr>
                             ))}
                         </tbody>

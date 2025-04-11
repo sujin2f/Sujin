@@ -1,6 +1,5 @@
 'use client'
-
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import Script from 'next/script'
 
 /* Helpers */
@@ -9,6 +8,8 @@ import { languages } from '../../constants/helper'
 import { map } from '../../utils/array'
 /* Assets */
 import '../../scss/code.scss'
+import { useGlobalState } from '@common/hooks/useGlobalState'
+import { useStyleLoader } from '@common/hooks/useStyleLoader'
 
 type Props = {
     readonly lang?: (typeof languages)[number]
@@ -27,21 +28,30 @@ const highlightVersion = '11.11.1'
  * @see https://highlightjs.org/
  */
 export const Code = ({ lang, children, className }: Props) => {
-    const [languageScript, setLanguageScript] = useState(false)
+    useStyleLoader(
+        `https://cdnjs.cloudflare.com/ajax/libs/highlight.js/${highlightVersion}/styles/default.min.css`,
+    )
+    const [loaded, setLoaded] = useGlobalState('hljs', false)
+    const [scriptLoaded, setScriptLoaded] = useGlobalState(
+        lang ? lang.toString() : 'no-script',
+        false,
+    )
     const lineCount = (children.match(/\n/g) || []).length + 1
+
+    useEffect(() => {
+        setLoaded(true)
+        setScriptLoaded(true)
+    }, [setLoaded, setScriptLoaded])
 
     return (
         <>
-            <link
-                rel="stylesheet"
-                href={`https://cdnjs.cloudflare.com/ajax/libs/highlight.js/${highlightVersion}/styles/default.min.css`}
-            />
-            <Script
-                src={`https://cdnjs.cloudflare.com/ajax/libs/highlight.js/${highlightVersion}/highlight.min.js`}
-                crossOrigin="anonymous"
-                onReady={() => setLanguageScript(true)}
-            />
-            {languageScript && (
+            {loaded && (
+                <Script
+                    src={`https://cdnjs.cloudflare.com/ajax/libs/highlight.js/${highlightVersion}/highlight.min.js`}
+                    crossOrigin="anonymous"
+                />
+            )}
+            {scriptLoaded && (
                 <Script
                     src={`https://cdnjs.cloudflare.com/ajax/libs/highlight.js/${highlightVersion}/languages/${lang}.min.js`}
                     crossOrigin="anonymous"
@@ -60,3 +70,5 @@ export const Code = ({ lang, children, className }: Props) => {
         </>
     )
 }
+
+export default Code

@@ -34,7 +34,7 @@ type InputTypes =
     | 'search'
     | 'textarea'
 
-type Props = {
+export type InputProps = {
     readonly label?: string
     readonly id?: string
     readonly type?: InputTypes
@@ -69,7 +69,7 @@ type Props = {
  * @param {string} [props.placeholder] - The placeholder text for the input field.
  * @param {string} [props.name] - The name of the input field.
  */
-export const Input = (props: Props) => {
+export const Input = (props: InputProps) => {
     const refComp = useRef<HTMLInputElement>(null)
     const ref = useMemo(() => props.ref || refComp, [props.ref, refComp])
     const type = useMemo(() => props.type || 'text', [props.type])
@@ -98,7 +98,7 @@ const LabelComponent = ({
     required,
     id,
     children,
-}: PropsWithChildren<Props>) => {
+}: PropsWithChildren<InputProps>) => {
     return (
         <label
             className={joinClassNames(
@@ -115,11 +115,11 @@ const LabelComponent = ({
     )
 }
 
-const InputContainer = (props: Props) => {
+const InputContainer = (props: InputProps) => {
     const ariaDescribedby = props.helpText ? `${props.id}-help-text` : ''
     return (
         <>
-            <InputComponent {...props} ariaDescribedby={ariaDescribedby} />
+            <InputOnly {...props} ariaDescribedby={ariaDescribedby} />
 
             {props.errorMessage ? (
                 <p className="form__input__error-message">
@@ -136,7 +136,7 @@ const InputContainer = (props: Props) => {
     )
 }
 
-const InputComponent = ({
+export const InputOnly = ({
     defaultValue,
     ref,
     helpText,
@@ -151,7 +151,7 @@ const InputComponent = ({
     id,
     type,
     ariaDescribedby,
-}: Props & { ariaDescribedby: string }) => {
+}: InputProps & { ariaDescribedby?: string }) => {
     const className = joinClassNames(
         'form__input',
         errorMessage && 'form__input--error',
@@ -159,6 +159,7 @@ const InputComponent = ({
     )
     const onKeyDown = useCallback(
         (e: KeyboardEvent<HTMLInputElement>) => {
+            console.log(1)
             if (e.key === 'Enter' && onEnterKeyDown) {
                 onEnterKeyDown()
             }
@@ -191,3 +192,5 @@ const InputComponent = ({
 
     return Element
 }
+
+export default Input

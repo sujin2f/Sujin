@@ -36,7 +36,7 @@ type Props = PropsWithChildren<{
  * @param {string} [props.href] - The URL to redirect to when the button is clicked.
  */
 export const Button = ({
-    title,
+    title = 'Button',
     className,
     onClick: cbClick,
     type,
@@ -81,5 +81,5 @@ export const Button = ({
         return <button {...buttonProps}>{children}</button>
     }
 
-    return <button {...buttonProps}>{title || ''}</button>
+    return <button {...buttonProps}>{title}</button>
 }

@@ -18,7 +18,13 @@ import { shuffle } from '@common/utils/array'
 import { ARCHIVE, T_Tag } from '@app/_lib/types'
 
 const formatter = (term: Record<string, unknown>): T_Tag =>
-    schemaFormatter(term, schema.tag) as T_Tag
+    schemaFormatter(
+        {
+            ...term,
+            hits: term.hits || 0,
+        },
+        schema.tag,
+    ) as T_Tag
 
 export const updateTag = async (slug: string): Promise<T_Tag> =>
     await updateArchive(slug, ARCHIVE.TAG, formatter)
@@ -45,7 +51,7 @@ export const getTagCloud = async (): Promise<T_Tag[]> =>
             const tags: Record<string, T_Tag> = {}
             await Mongo.findMany<T_Tag>(
                 ARCHIVE.TAG,
-                {},
+                { total: { $not: { $eq: 0 } } },
                 { sort: { total: -1 }, limit: 20 },
             ).then((result) => {
                 const step = result.length / 5
@@ -58,7 +64,7 @@ export const getTagCloud = async (): Promise<T_Tag[]> =>
             })
             await Mongo.findMany<T_Tag>(
                 ARCHIVE.TAG,
-                {},
+                { total: { $not: { $eq: 0 } } },
                 { sort: { hits: -1 }, limit: 20 },
             ).then((result) => {
                 const step = result.length / 5
