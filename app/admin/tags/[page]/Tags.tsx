@@ -20,6 +20,9 @@ export default async function Tags(props: Props) {
             <Header title="Tags" />
             <Row dom="article" fullWidth>
                 <Column small={12}>
+                    <PrevNext page={page} length={terms.length} path="tags" />
+                </Column>
+                <Column small={12}>
                     <Table fullWidth>
                         <thead>
                             <tr>

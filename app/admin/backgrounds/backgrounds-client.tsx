@@ -9,6 +9,7 @@ import Callout from '@common/components/containers/Callout'
 import { PrevNext } from '@app/admin/_components/PrevNext'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
+/* T_Types */
 import type { T_Background } from '@app/_lib/types'
 
 type Props = {
@@ -42,6 +43,13 @@ export function ClientComponent({ refresh, page, ...props }: Props) {
             </HeaderComponent>
             {message ? <Callout>{message}</Callout> : null}
             <Row dom="article" fullWidth>
+                <Column small={12}>
+                    <PrevNext
+                        page={page}
+                        length={backgrounds.length}
+                        path="backgrounds"
+                    />
+                </Column>
                 <Column small={12}>
                     <Table backgrounds={backgrounds} />
                 </Column>

@@ -6,7 +6,7 @@ import Logger from '@common/model/Logger'
 import { STATIC_FLICKR } from '@app/_lib/data/flickr/constants'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV } from '@common/constants/helper'
-/* Types */
+/* T_Types */
 import type { T_FlickrImage, T_FlickrResponse } from '@app/_lib/types'
 
 export const request = async (): Promise<T_FlickrImage[]> => {

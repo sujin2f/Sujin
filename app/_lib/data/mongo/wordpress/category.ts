@@ -1,4 +1,4 @@
-/* Types */
+/* T_Types */
 import type { MutationResultType } from '@app/api/graphql/constants'
 import { ARCHIVE, type T_Category, type T_PostArchive } from '@app/_lib/types'
 /* Utils */

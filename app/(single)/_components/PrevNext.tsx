@@ -4,7 +4,7 @@ import Link from 'next/link'
 /* Components */
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
-/* Types */
+/* T_Types */
 import type { T_PrevNext } from '@app/_lib/types'
 /* Assets */
 import Icon from '@app/_lib/images/prev.svg'

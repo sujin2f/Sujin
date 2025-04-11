@@ -5,7 +5,7 @@ import {
     getArchivePosts,
     updateArchivePosts,
 } from '@app/_lib/data/mongo/wordpress/post'
-/* Types */
+/* T_Types */
 import { ARCHIVE } from '@app/_lib/types'
 
 type Props = {

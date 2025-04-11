@@ -1,7 +1,7 @@
 /* Models */
 import Mongo from '@common/data/mongo/mongo'
 import Cached from '@common/model/Cached'
-/* Types */
+/* T_Types */
 import type { MutationResultType } from '@app/api/graphql/constants'
 /* Utils */
 import {

@@ -4,7 +4,7 @@ import { fetchGQL } from '@common/data/graphql/fetchGQL'
 /* CONSTANTS */
 import GQL from '@app/api/graphql/constants'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
-/* Types */
+/* T_Types */
 import type { Nullable } from '@common/types'
 import type { T_PostArchive } from '@app/_lib/types'
 

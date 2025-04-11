@@ -11,7 +11,7 @@ import { MENU_NAMES } from '@app/_lib/types'
 import { joinClassNames } from '@common/utils/string'
 import { getBannerImageMap } from '@app/_lib/data/mysql/utils'
 import { MENUS, METADATA } from '@app/_lib/constants'
-/* Types */
+/* T_Types */
 import { BannerProps } from '@app/_lib/types'
 
 /**

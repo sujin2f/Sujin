@@ -2,7 +2,7 @@ import type { WithId } from 'mongodb'
 /* Models */
 import Mongo from '@common/data/mongo/mongo'
 import Cached from '@common/model/Cached'
-/* Types */
+/* T_Types */
 import type { Atom } from '@app/ether/data/types'
 import type { ISpectrum } from '@app/ether/data/types'
 /* Utils */

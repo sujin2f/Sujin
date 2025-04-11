@@ -18,7 +18,7 @@ import { getPostBy } from '@app/_lib/data/mysql/post'
 import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
 import { schemaFormatter } from '@common/utils/object'
 import { auth } from '@app/_lib/utils-server'
-/* Types */
+/* T_Types */
 import type { MutationResultType } from '@app/api/graphql/constants'
 
 const format = (page: WithId<T_Page> | T_Page): T_Page =>

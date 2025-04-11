@@ -5,13 +5,12 @@ import { useRef, useState } from 'react'
 /* Components */
 import HeaderComponent from '@app/admin/_components/Header'
 import { PrevNext } from '@app/admin/_components/PrevNext'
-import { Button } from '@common/components/forms/Button'
-import { Input } from '@common/components/forms/Input'
 import Callout from '@common/components/containers/Callout'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 import Table from '@common/components/containers/Table'
-
+import InputGroup from '@common/components/forms/InputGroup'
+/* T_Types */
 import type { T_Category } from '@app/_lib/types'
 
 type Props = {
@@ -29,10 +28,11 @@ export function ClientComponent({ categories, page, remove, update }: Props) {
     return (
         <>
             <HeaderComponent title="Categories">
-                <Input label="Pull from Wordpress" ref={ref} />
-                <Button
-                    title="Update"
-                    onClick={() =>
+                <InputGroup
+                    ref={ref}
+                    label="Slug"
+                    button="Update"
+                    onSubmit={() =>
                         update(ref.current?.value || '').then((message) => {
                             ref.current!.value = ''
                             setMessage(message)
@@ -43,6 +43,13 @@ export function ClientComponent({ categories, page, remove, update }: Props) {
             </HeaderComponent>
             {message ? <Callout>{message}</Callout> : null}
             <Row dom="article" fullWidth>
+                <Column small={12}>
+                    <PrevNext
+                        page={page}
+                        length={categories.length}
+                        path="pages"
+                    />
+                </Column>
                 <Column small={12}>
                     <Table fullWidth>
                         <thead>

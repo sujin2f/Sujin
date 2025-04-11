@@ -9,7 +9,7 @@ import {
     GQLString,
     GQLType,
 } from '@common/data/graphql/type'
-/* Types */
+/* T_Types */
 import type {
     T_Term,
     T_Image,

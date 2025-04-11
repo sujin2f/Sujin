@@ -10,7 +10,7 @@ import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 import Header from '@app/admin/_components/Header'
 import Callout from '@common/components/containers/Callout'
-/* Types */
+/* T_Types */
 import { T_PostArchive } from '@app/_lib/types'
 
 type Props = {
@@ -39,6 +39,13 @@ export function ClientComponent({ page, slug, posts, update }: Props) {
             </Header>
             {message ? <Callout>{message}</Callout> : null}
             <Row dom="article" fullWidth>
+                <Column small={12}>
+                    <PrevNext
+                        page={page}
+                        length={posts.length}
+                        path={`categories/posts/${slug}`}
+                    />
+                </Column>
                 <Column small={12}>
                     <Table fullWidth>
                         <thead>

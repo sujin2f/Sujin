@@ -6,7 +6,7 @@ import ScrollToTop from '@common/components/ScrollToTop'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 import { Chart } from '@app/ether/data/_components/Chart'
-/* Types */
+/* T_Types */
 import type { Nullable } from '@common/types'
 import type { ISpectrum } from '@app/ether/data/types'
 /* Utils */

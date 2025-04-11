@@ -13,7 +13,7 @@ import Search from '@app/_components/header/Search'
 import { handleSignIn, handleSignOut } from '@app/api/auth/utils'
 /* CONSTANTS */
 import { MENUS } from '@app/_lib/constants'
-/* Types */
+/* T_Types */
 import type { MENU_NAMES } from '@app/_lib/types'
 /* Assets */
 import Logo from '@app/_lib/images/logo-top-bar.svg'

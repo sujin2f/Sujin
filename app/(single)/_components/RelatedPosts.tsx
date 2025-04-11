@@ -5,7 +5,7 @@ import { Row } from '@common/components/layout/Row'
 import { WidgetTitle } from '@app/_components/WidgetTitle'
 import { Cards } from '@app/_components/archive/cards'
 import { Loading } from '@app/_components/archive/loading'
-/* Types */
+/* T_Types */
 import type { T_Post, T_PostArchive } from '@app/_lib/types'
 import type { Nullable } from '@common/types'
 /* Utils */

@@ -6,7 +6,7 @@ import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 import { IS_DEV } from '@common/constants/helper'
 import { COLLECTION, POST_TYPE } from '@app/_lib/types'
 import { default as schema } from '@app/_lib/data/mongo/schema/10.3.2'
-/* Types */
+/* T_Types */
 import type { T_Background } from '@app/_lib/types'
 /* Utils */
 import { getCacheKey } from '@app/_lib/utils'

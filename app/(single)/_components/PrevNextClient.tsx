@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 /* Components */
 import { PrevNext } from '@app/(single)/_components/PrevNext'
-/* Types */
+/* T_Types */
 import type { T_PrevNext } from '@app/_lib/types'
 import type { Nullable } from '@common/types'
 /* CONSTANTS */

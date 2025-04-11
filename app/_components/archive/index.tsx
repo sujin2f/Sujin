@@ -4,7 +4,7 @@ import React from 'react'
 import { Cards } from '@app/_components/archive/cards'
 import { Paging } from '@app/_components/archive/paging'
 import { Row } from '@common/components/layout/Row'
-/* Types */
+/* T_Types */
 import type { T_PostArchive, ArchiveProp } from '@app/_lib/types'
 /* CONSTANTS */
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'

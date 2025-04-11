@@ -35,20 +35,77 @@ type InputTypes =
     | 'textarea'
 
 export type InputProps = {
-    readonly label?: string
-    readonly id?: string
-    readonly type?: InputTypes
     readonly defaultValue?: string | number
-    readonly ref?: RefObject<HTMLInputElement | null>
-    readonly helpText?: string
-    readonly required?: boolean
     readonly errorMessage?: string
+    readonly helpText?: string
+    readonly id?: string
+    readonly label?: string
     readonly list?: string
-    readonly onEnterKeyDown?: () => void
-    readonly onChange?: ChangeEventHandler<HTMLInputElement>
-    readonly value?: string | number
-    readonly placeholder?: string
     readonly name?: string
+    readonly onChange?: ChangeEventHandler<HTMLInputElement>
+    readonly onEnterKeyDown?: () => void
+    readonly placeholder?: string
+    readonly ref?: RefObject<HTMLInputElement | null>
+    readonly required?: boolean
+    readonly type?: InputTypes
+    readonly value?: string | number
+}
+
+export const InputOnly = ({
+    ariaDescribedby,
+    defaultValue,
+    errorMessage,
+    helpText,
+    id,
+    list,
+    name,
+    onChange,
+    onEnterKeyDown,
+    placeholder,
+    ref,
+    required,
+    type,
+    value,
+}: InputProps & { ariaDescribedby?: string }) => {
+    const className = joinClassNames(
+        'form__input',
+        errorMessage && 'form__input--error',
+        helpText && 'form__input--with-help-text',
+    )
+    const onKeyDown = useCallback(
+        (e: KeyboardEvent<HTMLInputElement>) => {
+            console.log(1)
+            if (e.key === 'Enter' && onEnterKeyDown) {
+                onEnterKeyDown()
+            }
+        },
+        [onEnterKeyDown],
+    )
+    const inputProps = filterEmpty({
+        id,
+        type,
+        defaultValue,
+        ref,
+        'aria-describedby': ariaDescribedby,
+        required,
+        className,
+        list,
+        value,
+        placeholder,
+        name,
+        autoComplete: type === 'password' && 'on',
+    })
+    const Element = createElement(
+        type === 'textarea' ? 'textarea' : 'input',
+        {
+            ...inputProps,
+            onKeyDown,
+            onChange,
+        },
+        type === 'textarea' ? value : undefined,
+    )
+
+    return Element
 }
 
 /**
@@ -134,63 +191,6 @@ const InputContainer = (props: InputProps) => {
             ) : null}
         </>
     )
-}
-
-export const InputOnly = ({
-    defaultValue,
-    ref,
-    helpText,
-    required,
-    errorMessage,
-    list,
-    value,
-    onEnterKeyDown,
-    onChange,
-    placeholder,
-    name,
-    id,
-    type,
-    ariaDescribedby,
-}: InputProps & { ariaDescribedby?: string }) => {
-    const className = joinClassNames(
-        'form__input',
-        errorMessage && 'form__input--error',
-        helpText && 'form__input--with-help-text',
-    )
-    const onKeyDown = useCallback(
-        (e: KeyboardEvent<HTMLInputElement>) => {
-            console.log(1)
-            if (e.key === 'Enter' && onEnterKeyDown) {
-                onEnterKeyDown()
-            }
-        },
-        [onEnterKeyDown],
-    )
-    const inputProps = filterEmpty({
-        id,
-        type,
-        defaultValue,
-        ref,
-        'aria-describedby': ariaDescribedby,
-        required,
-        className,
-        list,
-        value,
-        placeholder,
-        name,
-        autoComplete: type === 'password' && 'on',
-    })
-    const Element = createElement(
-        type === 'textarea' ? 'textarea' : 'input',
-        {
-            ...inputProps,
-            onKeyDown,
-            onChange,
-        },
-        type === 'textarea' ? value : undefined,
-    )
-
-    return Element
 }
 
 export default Input
