@@ -36,7 +36,7 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
         [slug, VERSION],
         {
             tags: ['wordpress', 'post'],
-            revalidate: HOUR_IN_SECONDS,
+            revalidate: IS_DEV ? false : HOUR_IN_SECONDS,
         },
     )
     const post = await requestPost(slug.toLowerCase()).catch(() => null)

@@ -9,13 +9,13 @@ import client from '@common/data/mongo/mongo-client'
 import migration from '@app/_lib/migration'
 /* Utils */
 import { compareVersions } from '@common/utils/system'
-import { getSystemOption, setSystemOption } from '@app/_lib/data/mongo/admin'
+import { getCachedOption, setSystemOption } from '@app/_lib/data/mongo/admin'
 import { isAdmin } from '@app/_lib/utils-server'
 import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 import Cached from '@common/model/Cached'
 
 export async function FrontPageServer() {
-    const current = (await getSystemOption('version')) || '0.0.0'
+    const current = (await getCachedOption('version')) || '0.0.0'
 
     const migrate = async (current: string) => {
         'use server'

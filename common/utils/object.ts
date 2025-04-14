@@ -194,3 +194,11 @@ export const schemaFormatter = (
 
     return {}
 }
+
+export const drop_id = <T extends Record<string, unknown>>(
+    object: T,
+): Omit<T, '_id'> => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { _id, ...result } = object
+    return result
+}

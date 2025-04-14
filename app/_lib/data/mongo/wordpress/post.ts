@@ -9,12 +9,13 @@ import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
 import { getCacheKey } from '@app/_lib/utils'
 import { updateCategory } from '@app/_lib/data/mongo/wordpress/category'
 import { MutationResultType } from '@app/api/graphql/constants'
-import { schemaFormatter } from '@common/utils/object'
+import { drop_id, schemaFormatter } from '@common/utils/object'
 import { auth, isAdmin } from '@app/_lib/utils-server'
 /* CONSTANTS */
 import { default as schema } from '@app/_lib/data/mongo/schema/10.3.2'
 import { IS_DEV } from '@common/constants/helper'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
+import { DAY_IN_SECONDS } from '@common/constants/datetime'
 import {
     ARCHIVE,
     COLLECTION,
@@ -26,9 +27,6 @@ import {
     type T_PrevNext,
     type T_PostArchive,
 } from '@app/_lib/types'
-
-const formatPrevNext = (post: Record<string, unknown>): T_PrevNext =>
-    schemaFormatter(post, schema.prevNext) as T_PrevNext
 
 const formatArchivePost = (post: Record<string, unknown>): T_PostArchive =>
     schemaFormatter(post, schema.archivePost) as T_PostArchive
@@ -49,9 +47,9 @@ export const getCachedPost = async (slug: string): Promise<T_Post> =>
         getCacheKey(COLLECTION.POST, slug),
         async () =>
             await Mongo.findOne<T_Post>(COLLECTION.POST, { slug }).then(
-                (post) => format(post),
+                (post) => drop_id(post),
             ),
-        0,
+        DAY_IN_SECONDS,
         IS_DEV,
     )
 
@@ -94,13 +92,12 @@ const updateMongoFromMySQL = async (
                 {
                     slug,
                 },
-                format(post),
+                newPost,
             )
         })
         // New post
         .catch(
-            async () =>
-                await Mongo.insertOne<T_Post>(COLLECTION.POST, format(post)),
+            async () => await Mongo.insertOne<T_Post>(COLLECTION.POST, newPost),
         )
 
     return [newPost, categories, tags]
@@ -165,7 +162,7 @@ export const getArchivePosts = async (
         sort: { date: -1 },
         limit: PER_PAGE,
         skip: PER_PAGE * (page - 1),
-    }).then(async (posts) => posts.map((post) => formatArchivePost(post)))
+    }).then(async (posts) => posts.map((post) => drop_id(post)))
 }
 
 export const getCachedSearchPosts = async (
@@ -184,15 +181,13 @@ export const getCachedSearchPosts = async (
                 sort: { date: -1 },
                 limit: PER_PAGE,
                 skip: PER_PAGE * (page - 1),
-            }).then(async (posts) =>
-                posts.map((post) => formatArchivePost(post)),
-            )
+            }).then(async (posts) => posts.map((post) => drop_id(post)))
             return {
                 posts,
                 total,
             }
         },
-        0,
+        DAY_IN_SECONDS,
         IS_DEV,
     )
 
@@ -232,10 +227,7 @@ const getPrevNext = async (slug: string): Promise<T_PrevNext[]> => {
         },
         { sort: { date: 1 }, limit: 1 },
     )
-    return [
-        prev[0] && formatPrevNext(prev[0]),
-        next[0] && formatPrevNext(next[0]),
-    ]
+    return [prev[0] && drop_id(prev[0]), next[0] && drop_id(next[0])]
 }
 
 /**
@@ -249,7 +241,7 @@ export const getCachedPrevNext = async (slug: string): Promise<T_PrevNext[]> =>
     await Cached.getInstance().getOrExecute(
         getCacheKey(COLLECTION.POST, slug, 'prev-next'),
         async () => await getPrevNext(slug),
-        0,
+        DAY_IN_SECONDS,
         IS_DEV,
     )
 
@@ -263,7 +255,7 @@ const getRecentPosts = async (): Promise<T_PostArchive[]> =>
         COLLECTION.POST,
         { status: POST_STATUS.PUBLISH },
         { sort: { date: -1 }, limit: PER_PAGE },
-    ).then((posts) => posts.map((post) => formatArchivePost(post)))
+    ).then((posts) => posts.map((post) => drop_id(post)))
 
 /**
  * Fetches the recent posts from the cache or MongoDB.
@@ -275,7 +267,7 @@ export const getCachedRecentPosts = async (): Promise<T_PostArchive[]> =>
     await Cached.getInstance().getOrExecute(
         getCacheKey(COLLECTION.POST, 'recent'),
         async () => await getRecentPosts(),
-        0,
+        DAY_IN_SECONDS,
         IS_DEV,
     )
 
@@ -311,7 +303,7 @@ const getRelatedPosts = async (slug: string): Promise<T_PostArchive[]> => {
     ).then((posts) =>
         posts.forEach((item) => {
             if (item.id !== post.id) {
-                result[item.id] = formatArchivePost(item)
+                result[item.id] = drop_id(item)
             }
         }),
     )
@@ -337,7 +329,7 @@ const getRelatedPosts = async (slug: string): Promise<T_PostArchive[]> => {
     ).then((posts) =>
         posts.forEach((item) => {
             if (item.id !== post.id) {
-                result[item.id] = formatArchivePost(item)
+                result[item.id] = drop_id(item)
             }
         }),
     )
@@ -350,7 +342,7 @@ const getRelatedPosts = async (slug: string): Promise<T_PostArchive[]> => {
     await getCachedRecentPosts().then((posts) =>
         posts.forEach((item) => {
             if (item.id !== post.id) {
-                result[item.id] = formatArchivePost(item)
+                result[item.id] = drop_id(item)
             }
         }),
     )
@@ -372,7 +364,7 @@ export const getCachedRelatedPosts = async (
     await Cached.getInstance().getOrExecute(
         getCacheKey(COLLECTION.POST, slug, 'related'),
         async () => await getRelatedPosts(slug),
-        0,
+        DAY_IN_SECONDS,
         IS_DEV,
     )
 

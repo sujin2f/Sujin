@@ -12,11 +12,12 @@ import {
 } from '@app/_lib/types'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 import { default as schema } from '@app/_lib/data/mongo/schema/10.3.2'
+import { DAY_IN_SECONDS } from '@common/constants/datetime'
 /* Utils */
 import { getCacheKey } from '@app/_lib/utils'
 import { getPostBy } from '@app/_lib/data/mysql/post'
 import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
-import { schemaFormatter } from '@common/utils/object'
+import { drop_id, schemaFormatter } from '@common/utils/object'
 import { auth } from '@app/_lib/utils-server'
 /* T_Types */
 import type { MutationResultType } from '@app/api/graphql/constants'
@@ -54,9 +55,9 @@ export const getCachedPage = async (slug: string): Promise<T_Page> =>
         getCacheKey(COLLECTION.PAGE, slug),
         async () =>
             await Mongo.findOne<T_Page>(COLLECTION.PAGE, { slug }).then(
-                (page) => format(page),
+                (page) => drop_id(page),
             ),
-        0,
+        DAY_IN_SECONDS,
         IS_DEV,
     )
 
@@ -98,7 +99,7 @@ export const getPages = async (page: number = 1): Promise<T_Page[]> =>
         COLLECTION.PAGE,
         {},
         { sort: { date: -1 }, limit: PER_PAGE, skip: PER_PAGE * (page - 1) },
-    ).then((result) => result.map((page) => format(page)))
+    ).then((result) => result.map((page) => drop_id(page)))
 
 /**
  * Admin remove page

@@ -26,6 +26,7 @@ export const CACHE_KEY = {
     POST: POST_TYPE.POST,
     PAGE: POST_TYPE.PAGE,
     BACKGROUNDS: COLLECTION.BACKGROUNDS,
+    OPTIONS: COLLECTION.OPTIONS,
 } as const
 export type CACHE_KEY = ConstToType<typeof CACHE_KEY>
 

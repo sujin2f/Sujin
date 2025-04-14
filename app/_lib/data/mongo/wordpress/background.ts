@@ -6,6 +6,7 @@ import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 import { IS_DEV } from '@common/constants/helper'
 import { COLLECTION, POST_TYPE } from '@app/_lib/types'
 import { default as schema } from '@app/_lib/data/mongo/schema/10.3.2'
+import { DAY_IN_SECONDS } from '@common/constants/datetime'
 /* T_Types */
 import type { T_Background } from '@app/_lib/types'
 /* Utils */
@@ -15,7 +16,7 @@ import { getBackgrounds as getMySQLBackgrounds } from '@app/_lib/data/mysql/medi
 import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
 import { MutationResultType } from '@app/api/graphql/constants'
 import { auth } from '@app/_lib/utils-server'
-import { schemaFormatter } from '@common/utils/object'
+import { drop_id, schemaFormatter } from '@common/utils/object'
 
 const format = (image: T_Background): T_Background =>
     schemaFormatter(image, schema.background) as T_Background
@@ -32,8 +33,8 @@ export const getCachedBackgrounds = async (): Promise<T_Background[]> =>
         async () =>
             (
                 await Mongo.random<T_Background>(COLLECTION.BACKGROUNDS, 10)
-            ).map((image) => format(image)),
-        0,
+            ).map((image) => drop_id(image)),
+        DAY_IN_SECONDS,
         IS_DEV,
     )
 
@@ -79,7 +80,7 @@ export const getBackgrounds = async (page: number = 1) =>
         COLLECTION.BACKGROUNDS,
         {},
         { limit: PER_PAGE, skip: PER_PAGE * (page - 1) },
-    ).then((result) => result.map((image) => format(image)))
+    ).then((result) => result.map((image) => drop_id(image)))
 
 /**
  * Update Mongo Post type from MySQL for GraphQL

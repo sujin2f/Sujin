@@ -3,7 +3,7 @@ import { COLLECTION } from '@app/_lib/types'
 import Header from '@app/admin/_components/Header'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
-import { getIndexes, getSystemOption } from '@app/_lib/data/mongo/admin'
+import { getIndexes, getCachedOption } from '@app/_lib/data/mongo/admin'
 
 export default async function ResetIndex() {
     const indexes = await getIndexes(
@@ -16,7 +16,7 @@ export default async function ResetIndex() {
         COLLECTION.SPECTRA,
         COLLECTION.USERS,
     )
-    const version = await getSystemOption('version')
+    const version = await getCachedOption('version')
 
     return (
         <>

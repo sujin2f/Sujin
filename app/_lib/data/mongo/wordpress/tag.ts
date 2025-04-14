@@ -16,6 +16,8 @@ import { schemaFormatter } from '@common/utils/object'
 import { default as schema } from '@app/_lib/data/mongo/schema/10.3.2'
 import { shuffle } from '@common/utils/array'
 import { ARCHIVE, T_Tag } from '@app/_lib/types'
+import { IS_DEV } from '@common/constants/helper'
+import { DAY_IN_SECONDS } from '@common/constants/datetime'
 
 const formatter = (term: Record<string, unknown>): T_Tag =>
     schemaFormatter(
@@ -36,7 +38,7 @@ export const mutateTag = async (
     await mutateArchive(nonce, slug, ARCHIVE.TAG, formatter)
 
 export const getTags = async (page: number = 1): Promise<T_Tag[]> =>
-    await getArchives(page, ARCHIVE.TAG, formatter)
+    await getArchives<T_Tag>(page, ARCHIVE.TAG)
 
 export const removeTag = async (slug: string) =>
     await removeArchive(slug, ARCHIVE.TAG)
@@ -85,5 +87,6 @@ export const getTagCloud = async (): Promise<T_Tag[]> =>
             })
             return shuffle(Object.values(tags))
         },
-        0,
+        DAY_IN_SECONDS,
+        IS_DEV,
     )

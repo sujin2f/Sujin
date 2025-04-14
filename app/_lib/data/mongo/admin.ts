@@ -1,10 +1,17 @@
-import { MONGO_DATABASE } from '@common/constants/helper'
-import client from '@common/data/mongo/mongo-client'
 import type { Document, IndexDescriptionCompact } from 'mongodb'
+/* Models */
 import Mongo from '@common/data/mongo/mongo'
-import { COLLECTION, T_Option } from '@app/_lib/types'
-import { isAdmin } from '@app/_lib/utils-server'
+import client from '@common/data/mongo/mongo-client'
+import Cached from '@common/model/Cached'
 import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
+/* CONSTANTS */
+import { IS_DEV, MONGO_DATABASE } from '@common/constants/helper'
+import { WEEK_IN_SECONDS } from '@common/constants/datetime'
+/* Utils */
+import { isAdmin } from '@app/_lib/utils-server'
+import { getCacheKey } from '@app/_lib/utils'
+/* T_Types */
+import { CACHE_KEY, COLLECTION, type T_Option } from '@app/_lib/types'
 
 export const getIndexes = async (...collections: string[]) => {
     if (!(await isAdmin()))
@@ -62,15 +69,16 @@ export const getSchema = async (...collections: string[]) => {
  * @param {string} key - The key of the option.
  * @returns {Promise<string>} Value
  */
-export const getSystemOption = async (key: string): Promise<string> => {
-    if (!(await isAdmin()))
-        throw new ServerError(
-            ERROR_MESSAGE.GENERAL.UNAUTHORIZED,
-            'getSystemOption()',
-        )
-    return await Mongo.findOne<T_Option>(COLLECTION.OPTIONS, { key })
-        .catch(() => ({ value: '' }))
-        .then((result) => result.value)
+export const getCachedOption = async (key: string): Promise<string> => {
+    return await Cached.getInstance().getOrExecute(
+        getCacheKey(CACHE_KEY.OPTIONS, key),
+        async () =>
+            await Mongo.findOne<T_Option>(COLLECTION.OPTIONS, { key })
+                .catch(() => ({ value: '' }))
+                .then((result) => result.value),
+        WEEK_IN_SECONDS,
+        IS_DEV,
+    )
 }
 
 /**

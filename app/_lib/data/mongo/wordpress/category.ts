@@ -36,7 +36,7 @@ export const mutateCategory = async (
     await mutateArchive(nonce, slug, ARCHIVE.CATEGORY, formatter)
 
 export const getCategories = async (page: number = 1) =>
-    await getArchives(page, ARCHIVE.CATEGORY, formatter)
+    await getArchives(page, ARCHIVE.CATEGORY)
 
 export const removeCategory = async (slug: string) =>
     await removeArchive(slug, ARCHIVE.CATEGORY)

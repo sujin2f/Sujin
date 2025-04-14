@@ -7,12 +7,14 @@ import type { MutationResultType } from '@app/api/graphql/constants'
 import { IS_DEV } from '@common/constants/helper'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 import { ARCHIVE, COLLECTION, T_Archive, POST_STATUS } from '@app/_lib/types'
+import { DAY_IN_SECONDS } from '@common/constants/datetime'
 /* Utils */
 import { getArchiveBySlug as getMySQLArchive } from '@app/_lib/data/mysql/term'
 import { getCacheKey } from '@app/_lib/utils'
 import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
 import { auth } from '@app/_lib/utils-server'
 import { getArchivePosts } from '@app/_lib/data/mongo/wordpress/post'
+import { drop_id } from '@common/utils/object'
 
 /**
  * Get archive by slug
@@ -20,29 +22,27 @@ import { getArchivePosts } from '@app/_lib/data/mongo/wordpress/post'
  * @template {T} T_Archive
  * @param {string} slug
  * @param {ARCHIVE} type
- * @param {(term: Record<string, unknown>) => T} formatter
  * @param {number} page If exist, return with posts
  * @returns {Promise<T_Archive>}
  */
-export const getCachedArchive = async <T extends T_Archive>(
+export const getCachedArchive = async (
     slug: string,
     type: ARCHIVE,
-    formatter: (term: Record<string, unknown>) => T,
     page?: number,
-): Promise<T> =>
-    await Cached.getInstance().getOrExecute<T>(
+): Promise<T_Archive> =>
+    await Cached.getInstance().getOrExecute<T_Archive>(
         getCacheKey(type, slug, page),
         async () =>
-            await getArchive<T>(slug, type, formatter).then(async (archive) => {
+            await getArchive<T_Archive>(slug, type).then(async (archive) => {
                 const total = await updateTotal(archive.slug, type)
 
                 if (page) {
                     const posts = await getArchivePosts(type, slug, page)
-                    return formatter({ ...archive, total, page, posts })
+                    return drop_id({ ...archive, total, page, posts })
                 }
-                return formatter({ ...archive, total })
+                return drop_id({ ...archive, total })
             }),
-        0,
+        DAY_IN_SECONDS,
         IS_DEV,
     )
 
@@ -56,10 +56,9 @@ export const getCachedArchive = async <T extends T_Archive>(
 const getArchive = async <T extends T_Archive>(
     slug: string,
     type: ARCHIVE,
-    formatter: (term: Record<string, unknown>) => T,
 ): Promise<T> =>
     await Mongo.findOne(type, { slug }).then(
-        (term) => formatter(term) as unknown as T,
+        (term) => drop_id(term) as unknown as T,
     )
 
 /**
@@ -147,13 +146,12 @@ export const mutateArchive = async <T extends T_Archive>(
 export const getArchives = async <T extends T_Archive>(
     page: number = 1,
     type: ARCHIVE,
-    formatter: (term: Record<string, unknown>) => T,
 ) =>
     await Mongo.findMany<T>(
         type,
         {},
         { limit: PER_PAGE, skip: PER_PAGE * (page - 1) },
-    ).then((terms) => terms.map((term) => formatter(term)))
+    ).then((terms) => terms.map((term) => drop_id(term)))
 
 export const removeArchive = async (slug: string, type: ARCHIVE) => {
     await auth()

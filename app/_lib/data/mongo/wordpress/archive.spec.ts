@@ -66,11 +66,7 @@ describe('archive.spec.ts', () => {
                 },
             ],
         })
-        const result = await getCachedArchive(
-            category.slug,
-            ARCHIVE.CATEGORY,
-            formatter,
-        )
+        const result = await getCachedArchive(category.slug, ARCHIVE.CATEGORY)
         expect(result.id).toEqual(category.id)
         expect(result.total).toEqual(1)
     })
@@ -140,7 +136,7 @@ describe('archive.spec.ts', () => {
         for (let i = 0; i < PER_PAGE + 1; i++) {
             await categoryFactory()
         }
-        const result = await getArchives(2, ARCHIVE.CATEGORY, formatter)
+        const result = await getArchives(2, ARCHIVE.CATEGORY)
         expect(result.length).toBe(1)
     })
 })
