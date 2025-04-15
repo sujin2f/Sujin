@@ -309,7 +309,7 @@ const getRecentPosts = async (): Promise<T_PostArchive[]> => {
         .find({ status: POST_STATUS.PUBLISH })
         .sort({ date: -1 })
         .limit(PER_PAGE)
-        .project<T_PostArchive>({ _id: 0, content: 0, meta: 0 })
+        .project<T_PostArchive>({ _id: 0, content: 0, meta: 0, archives: 0 })
         .toArray()
 }
 
