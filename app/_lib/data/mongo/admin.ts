@@ -20,13 +20,10 @@ export const getIndexes = async (...collections: string[]) => {
         )
     const indexes: Record<string, IndexDescriptionCompact> = {}
     for (const name of collections) {
-        const index = await getCollection(name).then(
-            async (collection) =>
-                await collection
-                    .indexInformation()
-                    .catch((e) => console.log(name, e)),
-        )
-
+        const collection = await getCollection(name)
+        const index = await collection
+            .indexInformation()
+            .catch((e) => console.log(name, e))
         if (index) {
             indexes[name] = index
         }
@@ -38,23 +35,23 @@ export const getSchema = async (...collections: string[]) => {
     if (!(await isAdmin()))
         throw new ServerError(ERROR_MESSAGE.GENERAL.UNAUTHORIZED, 'getSchema()')
     const schema: Record<string, Document> = {}
-    for (const name of collections) {
-        await getCollection(name).then(async (collection) => {
-            const info = await collection
-                .options()
-                .then((schema) => {
-                    const { validator } = schema
-                    if (validator) {
-                        return validator.$jsonSchema
-                    }
-                    return {}
-                })
-                .catch((e) => console.log(collection, e))
 
-            if (info) {
-                schema[name] = info
-            }
-        })
+    for (const name of collections) {
+        const collection = await getCollection(name)
+        const info = await collection
+            .options()
+            .then((schema) => {
+                const { validator } = schema
+                if (validator) {
+                    return validator.$jsonSchema
+                }
+                return {}
+            })
+            .catch((e) => console.log(collection, e))
+
+        if (info) {
+            schema[name] = info
+        }
     }
 
     return schema
@@ -69,13 +66,12 @@ export const getSchema = async (...collections: string[]) => {
 export const getCachedOption = async (key: string): Promise<string> => {
     return await Cached.getInstance().getOrExecute(
         getCacheKey(CACHE_KEY.OPTIONS, key),
-        async () =>
-            await getCollection<T_Option>(COLLECTION.OPTIONS).then(
-                async (collection) =>
-                    await collection
-                        .findOne({ key })
-                        .then((result) => (result ? result.value : '')),
-            ),
+        async () => {
+            const collection = await getCollection<T_Option>(COLLECTION.OPTIONS)
+            return await collection
+                .findOne({ key })
+                .then((result) => (result ? result.value : ''))
+        },
         WEEK_IN_SECONDS,
         IS_DEV,
     )
@@ -105,7 +101,4 @@ export const insertAbTest = async (
     name: string,
     type: 'a' | 'b',
     time: number,
-) =>
-    await getCollection('abTest').then(
-        async (collection) => await collection.insertOne({ name, type, time }),
-    )
+) => await (await getCollection('abTest')).insertOne({ name, type, time })

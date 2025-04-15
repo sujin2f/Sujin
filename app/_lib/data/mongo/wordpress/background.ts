@@ -29,13 +29,14 @@ const format = (image: T_Background): T_Background =>
 export const getCachedBackgrounds = async (): Promise<T_Background[]> =>
     await Cached.getInstance().getOrExecute(
         getCacheKey(COLLECTION.BACKGROUNDS),
-        async () =>
-            await getCollection<T_Background>(COLLECTION.BACKGROUNDS).then(
-                async (collection) =>
-                    await collection
-                        .aggregate<T_Background>([{ $sample: { size: 10 } }])
-                        .toArray(),
-            ),
+        async () => {
+            const collection = await getCollection<T_Background>(
+                COLLECTION.BACKGROUNDS,
+            )
+            return await collection
+                .aggregate<T_Background>([{ $sample: { size: 10 } }])
+                .toArray()
+        },
         DAY_IN_SECONDS,
         IS_DEV,
     )
@@ -55,28 +56,25 @@ export const updateBackgrounds = async (
         const backgrounds = result.map((image) =>
             format(convertImageBlockURL(format(image))),
         )
-
-        await getCollection<T_Background>(COLLECTION.BACKGROUNDS).then(
-            async (collection) => {
-                await collection.deleteMany({})
-                await collection.insertMany(backgrounds)
-            },
+        const collection = await getCollection<T_Background>(
+            COLLECTION.BACKGROUNDS,
         )
+        await collection.deleteMany({})
+        await collection.insertMany(backgrounds)
 
         return backgrounds
     })
     return backgrounds
 }
 
-export const getBackgrounds = async (page: number = 1) =>
-    await getCollection<T_Background>(COLLECTION.BACKGROUNDS).then(
-        async (collection) =>
-            await collection
-                .find({})
-                .limit(PER_PAGE)
-                .skip(PER_PAGE * (page - 1))
-                .toArray(),
-    )
+export const getBackgrounds = async (page: number = 1) => {
+    const collection = await getCollection<T_Background>(COLLECTION.BACKGROUNDS)
+    return await collection
+        .find({})
+        .limit(PER_PAGE)
+        .skip(PER_PAGE * (page - 1))
+        .toArray()
+}
 
 /**
  * Update Mongo Post type from MySQL for GraphQL

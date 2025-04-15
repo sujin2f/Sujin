@@ -18,7 +18,11 @@ import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 import { ARCHIVE, COLLECTION, T_Archive } from '@app/_lib/types'
 import Cached from '@common/model/Cached'
 import { category, tag } from '@jest/fixture'
-import { getCollection, migrate } from '@common/data/mongo/mongo'
+import {
+    closeConnection,
+    getCollection,
+    migrate,
+} from '@common/data/mongo/mongo'
 
 jest.mock('next-auth', () => ({
     getServerSession: jest.fn(async () =>
@@ -48,9 +52,8 @@ describe('archive.spec.ts', () => {
 
     afterAll(async () => {
         jest.clearAllMocks()
-        await clearMongo().then(async (client) => {
-            await client.close()
-        })
+        await clearMongo()
+        await closeConnection()
     })
 
     test('getCachedArchive()', async () => {

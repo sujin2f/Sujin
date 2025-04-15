@@ -20,18 +20,20 @@ const connection =
         ? `mongodb://${uri}:27017/`
         : `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${uri}:27017/${process.env.MONGO_DATABASE}?authSource=${process.env.MONGO_DATABASE}`
 
-/**
- * @description Create a new MongoClient Promise instance
- * @see https://mongodb.github.io/node-mongodb-native/4.0/classes/mongoclient.html
- * @deprecated use collection
- */
-const client = MongoClient.connect(connection, options)
-export default client
-
 export const suffix = IS_TEST ? `-${process.env.JEST_WORKER_ID}` : ''
 
+export const closeConnection = async () =>
+    await MongoClient.connect(connection, options).then(
+        async (client) => await client.close(),
+    )
+
+export const getDatabase = async () =>
+    await MongoClient.connect(connection, options).then((client) =>
+        client.db(MONGO_DATABASE),
+    )
+
 export const getCollection = async <T extends Document>(collection: string) =>
-    await MongoClient.connect(connection, options).then(async (client) => {
+    await MongoClient.connect(connection, options).then((client) => {
         const database = client.db(MONGO_DATABASE)
         return database.collection<T>(`${collection}${suffix}`)
     })
@@ -82,15 +84,13 @@ export const insertOrReplace = async <T extends Document>(
     filter: Filter<T>,
     update: OptionalUnlessRequiredId<T>,
 ): Promise<InferIdType<T>> => {
-    return await getCollection<T>(collectionName).then(
-        async (collection) =>
-            await collection.findOne(filter).then(async (doc) => {
-                if (doc) {
-                    await collection.replaceOne(filter, update)
-                    return doc._id
-                }
-                const result = await collection.insertOne(update)
-                return result.insertedId
-            }),
-    )
+    const collection = await getCollection<T>(collectionName)
+    return await collection.findOne(filter).then(async (doc) => {
+        if (doc) {
+            await collection.replaceOne(filter, update)
+            return doc._id
+        }
+        const result = await collection.insertOne(update)
+        return result.insertedId
+    })
 }

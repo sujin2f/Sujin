@@ -1,5 +1,5 @@
 import Cached from '@common/model/Cached'
-import { CacheClient } from './CacheClient'
+import { CacheClient } from '@app/admin/cache/CacheClient'
 
 export default async function Cache() {
     const caches = await Cached.getInstance().list()

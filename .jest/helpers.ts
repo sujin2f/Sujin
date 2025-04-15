@@ -1,6 +1,6 @@
-import client, { getCollection } from '@common/data/mongo/mongo'
+import { getDatabase, getCollection } from '@common/data/mongo/mongo'
 import { getRandomInt } from '@common/utils/number'
-import { IS_TEST, MONGO_DATABASE } from '@common/constants/helper'
+import { IS_TEST } from '@common/constants/helper'
 import { category, imageBlock, page, post, tag } from './fixture'
 import {
     COLLECTION,
@@ -13,9 +13,7 @@ import {
 const suffix = IS_TEST ? `-${process.env.JEST_WORKER_ID}` : ''
 
 export const clearMongo = async (...collections: string[]) =>
-    await client.then(async (client) => {
-        const database = client.db(MONGO_DATABASE)
-
+    await getDatabase().then(async (database) => {
         if (collections.length === 0) {
             await database.collections().then(async (collections) => {
                 for (const collection in collections) {
@@ -24,7 +22,7 @@ export const clearMongo = async (...collections: string[]) =>
                     }
                 }
             })
-            return client
+            return
         }
 
         try {
@@ -35,7 +33,7 @@ export const clearMongo = async (...collections: string[]) =>
             }
         } catch {}
 
-        return client
+        return
     })
 
 export const categoryFactory = async (input: Partial<T_Archive> = {}) => {

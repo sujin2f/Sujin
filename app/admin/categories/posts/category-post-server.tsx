@@ -1,6 +1,6 @@
 /* Components */
 import { getCachedArchive } from '@app/_lib/data/mongo/wordpress/archive'
-import { ClientComponent } from './category-post-client'
+import { ClientComponent } from '@app/admin/categories/posts/category-post-client'
 /* Utils */
 import {
     getArchivePosts,

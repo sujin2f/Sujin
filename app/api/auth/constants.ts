@@ -4,14 +4,10 @@ import { getCollection } from '@common/data/mongo/mongo'
 import { COLLECTION } from '@app/_lib/types'
 
 const addUser = async (user: User) =>
-    await getCollection(COLLECTION.USERS).then(async (collection) => {
-        await collection.insertOne(user)
-    })
+    await (await getCollection(COLLECTION.USERS)).insertOne(user)
 
 const getUser = async (email: string) =>
-    await getCollection(COLLECTION.USERS).then(async (collection) => {
-        await collection.findOne({ email })
-    })
+    await (await getCollection(COLLECTION.USERS)).findOne({ email })
 
 export const authOptions = {
     providers: [

@@ -30,7 +30,7 @@ const TagCloud = () => {
                 tagCloud.slice(0, 20).map((tag) => (
                     <Link
                         className={`tag-cloud tag-cloud--size-${tag.total} tag-cloud--color-${tag.hits}`}
-                        key={`tag-cloud-${tag.id}-${tag.title}-${tag.slug}`}
+                        key={`tag-cloud-${tag.slug}-${tag.title}`}
                         title={tag.title}
                         href={`/tag/${tag.slug}`}
                     >

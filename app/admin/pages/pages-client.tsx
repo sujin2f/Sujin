@@ -7,7 +7,7 @@ import Callout from '@common/components/containers/Callout'
 import { PrevNext } from '@app/admin/_components/PrevNext'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
-import { Table } from './table'
+import { Table } from '@app/admin/pages/table'
 import InputGroup from '@common/components/forms/InputGroup'
 /* T_Types */
 import type { T_Page } from '@app/_lib/types'

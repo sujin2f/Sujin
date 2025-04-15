@@ -15,7 +15,7 @@ import { auth } from '@app/_lib/utils-server'
 import { getCollection, insertOrReplace } from '@common/data/mongo/mongo'
 import { ObjectId, WithId } from 'mongodb'
 import { schemaFormatter } from '@common/utils/object'
-import { convertImageBlockURL } from '../../mysql/utils'
+import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
 
 export const formatter = (term: Record<string, unknown>): T_Archive => {
     const formatted = schemaFormatter(term, schema.archive) as T_Archive
@@ -37,10 +37,12 @@ export const getCachedArchive = async (
 ): Promise<WithId<T_Archive> | null> =>
     await Cached.getInstance().getOrExecute<WithId<T_Archive> | null>(
         getCacheKey(COLLECTION.ARCHIVE, type, slug),
-        async () =>
-            await getCollection<T_Archive>(COLLECTION.ARCHIVE).then(
-                async (collection) => await collection.findOne({ slug, type }),
-            ),
+        async () => {
+            const collection = await getCollection<T_Archive>(
+                COLLECTION.ARCHIVE,
+            )
+            return await collection.findOne({ slug, type })
+        },
         DAY_IN_SECONDS,
         IS_DEV,
     )
@@ -94,36 +96,33 @@ export const mutateArchive = async (
     }
 }
 
-export const getArchives = async (type: ARCHIVE, page: number = 1) =>
-    await getCollection<T_Archive>(COLLECTION.ARCHIVE).then(
-        async (collection) =>
-            await collection
-                .find({ type })
-                .limit(PER_PAGE)
-                .skip(PER_PAGE * (page - 1))
-                .toArray(),
-    )
+export const getArchives = async (type: ARCHIVE, page: number = 1) => {
+    const collection = await getCollection<T_Archive>(COLLECTION.ARCHIVE)
+    return await collection
+        .find({ type })
+        .limit(PER_PAGE)
+        .skip(PER_PAGE * (page - 1))
+        .toArray()
+}
 
 export const removeArchive = async (slug: string, type: ARCHIVE) => {
     await auth()
     await Cached.getInstance().flush(
         getCacheKey(COLLECTION.ARCHIVE, type, slug),
     )
-    await getCollection(COLLECTION.ARCHIVE).then(
-        async (collection) => await collection.deleteOne({ slug, type }),
-    )
+    const collection = await getCollection<T_Archive>(COLLECTION.ARCHIVE)
+    return await collection.deleteOne({ slug, type })
 }
 
 export const updateTotal = async (_ids: ObjectId[]) => {
-    await getCollection(COLLECTION.POST).then(async (post) => {
-        for (const _id of Array.from(new Set(_ids))) {
-            const total = await post.countDocuments({
-                archives: new ObjectId(_id),
-                status: POST_STATUS.PUBLISH,
-            })
-            await getCollection(COLLECTION.ARCHIVE).then(async (archive) =>
-                archive.updateOne({ _id }, { $set: { total } }),
-            )
-        }
-    })
+    const post = await getCollection(COLLECTION.POST)
+    const archive = await getCollection(COLLECTION.ARCHIVE)
+
+    for (const _id of Array.from(new Set(_ids))) {
+        const total = await post.countDocuments({
+            archives: new ObjectId(_id),
+            status: POST_STATUS.PUBLISH,
+        })
+        await archive.updateOne({ _id }, { $set: { total } })
+    }
 }

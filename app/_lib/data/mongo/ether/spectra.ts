@@ -1,6 +1,5 @@
 import type { WithId } from 'mongodb'
 /* Models */
-import Mongo from '@common/data/mongo/mongo-deprecated'
 import Cached from '@common/model/Cached'
 /* T_Types */
 import type { Atom } from '@app/ether/data/types'
@@ -13,6 +12,7 @@ import { getAtom } from '@app/ether/data/utils'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV } from '@common/constants/helper'
 import { COLLECTION } from '@app/_lib/types'
+import { getCollection } from '@common/data/mongo/mongo'
 
 /**
  * Requests spectra data
@@ -26,20 +26,30 @@ const request = async (
     ion: number,
 ): Promise<WithId<ISpectrum>[]> => {
     const number = atom.number
-    const spectra = await Mongo.findMany<ISpectrum>(COLLECTION.SPECTRA, {
-        number,
-        ion,
-    })
+    const spectra = await (
+        await getCollection<ISpectrum>(COLLECTION.SPECTRA)
+    )
+        .find({
+            number,
+            ion,
+        })
+        .toArray()
     if (spectra.length) {
         return spectra
     }
-
     const csv = await getNistData(atom, ion)
     if (!csv) {
         return []
     }
     await insertManyFromCSV(atom.number, ion, csv)
-    return await Mongo.findMany<ISpectrum>(COLLECTION.SPECTRA, { number, ion })
+    return await (
+        await getCollection<ISpectrum>(COLLECTION.SPECTRA)
+    )
+        .find({
+            number,
+            ion,
+        })
+        .toArray()
 }
 
 export const getSpectraFromNIST = async (number: number, ion: number) => {
@@ -58,7 +68,10 @@ export const getSpectraBySchema = async (schema: string) => {
     const value = JSON.parse(decodeURIComponent(schema))
     return await Cached.getInstance().getOrExecute(
         key,
-        async () => await Mongo.findMany<ISpectrum>(COLLECTION.SPECTRA, value),
+        async () =>
+            await (await getCollection<ISpectrum>(COLLECTION.SPECTRA))
+                .find(value)
+                .toArray(),
         WEEK_IN_SECONDS,
         IS_DEV,
     )
@@ -69,7 +82,9 @@ export const findSpectra = async (spectrum: Partial<ISpectrum>) => {
     return await Cached.getInstance().getOrExecute(
         key,
         async () =>
-            await Mongo.findMany<ISpectrum>(COLLECTION.SPECTRA, spectrum),
+            await (await getCollection<ISpectrum>(COLLECTION.SPECTRA))
+                .find(spectrum)
+                .toArray(),
         WEEK_IN_SECONDS,
         IS_DEV,
     )
@@ -78,12 +93,15 @@ export const findSpectra = async (spectrum: Partial<ISpectrum>) => {
 /**
  * Inserts a single spectrum document into the MongoDB collection.
  *
- * @param {Partial<ISpectrum>} rawData - The spectrum data to insert.
+ * @param {ISpectrum} rawData - The spectrum data to insert.
  * @returns {Promise<void>} The result of the insert operation.
  */
 export const insertOne = async (rawData: Partial<ISpectrum>): Promise<void> => {
-    // Prevent duplication
-    await Mongo.findOne(COLLECTION.SPECTRA, { ...rawData }).catch(
-        async () => await Mongo.insertOne(COLLECTION.SPECTRA, rawData),
-    )
+    await getCollection(COLLECTION.SPECTRA).then(async (spectra) => {
+        await spectra.findOne({ ...rawData }).then(async (result) => {
+            if (!result) {
+                await spectra.insertOne(rawData)
+            }
+        })
+    })
 }

@@ -2,17 +2,16 @@ import { MONGO_DATABASE, VERSION } from '@common/constants/helper'
 /* Components */
 import { FrontPageClient } from '@app/admin/front-page-client'
 /* Models */
-import { migrate as runMigration } from '@common/data/mongo/mongo'
 import Logger from '@common/model/Logger'
-import client from '@common/data/mongo/mongo'
+import Cached from '@common/model/Cached'
 /* CONSTANTS */
 import migration from '@app/_lib/migration'
 /* Utils */
+import { getDatabase, migrate as runMigration } from '@common/data/mongo/mongo'
 import { compareVersions } from '@common/utils/system'
 import { getCachedOption, setSystemOption } from '@app/_lib/data/mongo/admin'
 import { isAdmin } from '@app/_lib/utils-server'
 import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
-import Cached from '@common/model/Cached'
 
 export async function FrontPageServer() {
     const current = (await getCachedOption('version')) || '0.0.0'
@@ -46,8 +45,7 @@ export async function FrontPageServer() {
                 'migration',
             )
 
-        await client.then(async (client) => {
-            const database = client.db(MONGO_DATABASE)
+        await getDatabase().then(async (database) => {
             // Drop all collections
             await database.collections().then(async (collections) => {
                 for (let i = 0; i < collections.length; i++) {

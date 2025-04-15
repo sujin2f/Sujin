@@ -9,11 +9,15 @@ import {
     updatePage,
     getPages,
 } from './page'
-import Mongo from '@common/data/mongo/mongo-deprecated'
-import { COLLECTION } from '@app/_lib/types'
+import { COLLECTION, T_Page } from '@app/_lib/types'
 import migration from '@app/_lib/migration'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 import Cached from '@common/model/Cached'
+import {
+    closeConnection,
+    getCollection,
+    migrate,
+} from '@common/data/mongo/mongo'
 
 jest.mock('next-auth', () => ({
     getServerSession: jest.fn(async () =>
@@ -35,7 +39,7 @@ jest.mock('promise-mysql', () => ({
 describe('page.spec.ts', () => {
     beforeAll(async () => {
         await clearMongo()
-        await Mongo.migrate('0.0.0', VERSION, migration)
+        await migrate('0.0.0', VERSION, migration)
     })
 
     afterEach(async () => {
@@ -45,9 +49,8 @@ describe('page.spec.ts', () => {
 
     afterAll(async () => {
         jest.clearAllMocks()
-        await clearMongo().then(async (client) => {
-            await client.close()
-        })
+        await clearMongo()
+        await closeConnection()
     })
 
     test('getCachedPage()', async () => {
@@ -91,25 +94,31 @@ describe('page.spec.ts', () => {
         })
         await mutatePage(nonce, 'test')
 
-        const post = await Mongo.findOne(COLLECTION.PAGE, { id: 1 })
-        expect(post.title).toEqual('Test')
-        expect(post.slug).toEqual('test')
+        const post = await (
+            await getCollection<T_Page>(COLLECTION.PAGE)
+        ).findOne({ id: 1 })
+        expect(post!.title).toEqual('Test')
+        expect(post!.slug).toEqual('test')
     })
 
     test('removePage()', async () => {
         const post = await pageFactory()
         await removePage(post.slug)
-        const result = await Mongo.findOne(COLLECTION.PAGE, {
+        const result = await (
+            await getCollection<T_Page>(COLLECTION.PAGE)
+        ).findOne({
             id: post.id,
-        }).catch(() => false)
+        })
         expect(result).toBeFalsy()
     })
 
     test('removePage(): Nothing to remove, without throwing error', async () => {
         await removePage('none')
-        const result = await Mongo.findOne(COLLECTION.PAGE, {
+        const result = await (
+            await getCollection<T_Page>(COLLECTION.PAGE)
+        ).findOne({
             slug: 'none',
-        }).catch(() => false)
+        })
         expect(result).toBeFalsy()
     })
 
@@ -133,10 +142,12 @@ describe('page.spec.ts', () => {
         })
 
         await updatePage(post.slug)
-        const result = await Mongo.findOne(COLLECTION.PAGE, {
+        const result = await (
+            await getCollection<T_Page>(COLLECTION.PAGE)
+        ).findOne({
             id: post.id,
         })
-        expect(result.title).toBe('Changed')
+        expect(result?.title).toBe('Changed')
     })
 
     test('updatePage(): only from MySQL', async () => {
@@ -160,20 +171,25 @@ describe('page.spec.ts', () => {
         })
 
         await updatePage(post.slug)
-        const result = await Mongo.findOne(COLLECTION.PAGE, {
+        const result = await (
+            await getCollection<T_Page>(COLLECTION.PAGE)
+        ).findOne({
             id: post.id,
         })
-        expect(result.title).toBe('Changed')
+        expect(result?.title).toBe('Changed')
     })
 
     test('updatePage(): does not exist', async () => {
         mockQuery.mockResolvedValue([])
         const result1 = await updatePage('slug').catch(() => 'caught!')
-        const result2 = await Mongo.findOne(COLLECTION.PAGE, {
+        const result2 = await (
+            await getCollection<T_Page>(COLLECTION.PAGE)
+        ).findOne({
             slug: 'slug',
-        }).catch(() => 'caught!')
+        })
+
         expect(result1).toBe('caught!')
-        expect(result2).toBe('caught!')
+        expect(result2).toBeFalsy()
     })
 
     test('getPages()', async () => {

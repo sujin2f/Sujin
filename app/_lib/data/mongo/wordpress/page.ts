@@ -54,14 +54,13 @@ export const mutatePage = async (
 export const getCachedPage = async (slug: string): Promise<T_Page> =>
     await Cached.getInstance().getOrExecute(
         getCacheKey(COLLECTION.PAGE, slug),
-        async () =>
-            await getCollection<T_Page>(COLLECTION.PAGE).then(
-                async (collection) =>
-                    await collection.findOne({ slug }).then((post) => {
-                        if (post) return drop_id(post)
-                        throw new ServerError(ERROR_MESSAGE.PAGE.GET_ONE, slug)
-                    }),
-            ),
+        async () => {
+            const collection = await getCollection<T_Page>(COLLECTION.PAGE)
+            return await collection.findOne({ slug }).then((post) => {
+                if (post) return drop_id(post)
+                throw new ServerError(ERROR_MESSAGE.PAGE.GET_ONE, slug)
+            })
+        },
         DAY_IN_SECONDS,
         IS_DEV,
     )
@@ -99,17 +98,16 @@ export const updatePage = async (
  * @param {number} page - Page
  * @returns {Promise<T_Page[]>}
  */
-export const getPages = async (page: number = 1): Promise<T_Page[]> =>
-    await getCollection<T_Page>(COLLECTION.PAGE).then(
-        async (collection) =>
-            await collection
-                .find({})
-                .sort({ date: -1 })
-                .limit(PER_PAGE)
-                .skip(PER_PAGE * (page - 1))
-                .project<T_Page>({ _id: -1 })
-                .toArray(),
-    )
+export const getPages = async (page: number = 1): Promise<T_Page[]> => {
+    const collection = await getCollection<T_Page>(COLLECTION.PAGE)
+    return await collection
+        .find({})
+        .sort({ date: -1 })
+        .limit(PER_PAGE)
+        .skip(PER_PAGE * (page - 1))
+        .project<T_Page>({ _id: -1 })
+        .toArray()
+}
 
 /**
  * Admin remove page
@@ -120,7 +118,6 @@ export const getPages = async (page: number = 1): Promise<T_Page[]> =>
 export const removePage = async (slug: string): Promise<void> => {
     await auth()
     await Cached.getInstance().flush(getCacheKey(COLLECTION.PAGE, slug))
-    await getCollection<T_Page>(COLLECTION.PAGE).then(
-        async (collection) => await collection.deleteOne({ slug }),
-    )
+    const collection = await getCollection<T_Page>(COLLECTION.PAGE)
+    await collection.deleteOne({ slug })
 }

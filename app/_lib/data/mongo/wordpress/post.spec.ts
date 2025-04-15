@@ -15,9 +15,9 @@ import {
     getCachedRecentPosts,
     getCachedRelatedPosts,
 } from './post'
-import Mongo from '@common/data/mongo/mongo-deprecated'
 import Cached from '@common/model/Cached'
 import { COLLECTION, POST_STATUS } from '@app/_lib/types'
+import { closeConnection, migrate } from '@common/data/mongo/mongo'
 
 jest.mock('next-auth', () => ({
     getServerSession: jest.fn(async () =>
@@ -32,7 +32,7 @@ jest.mock('next-auth', () => ({
 describe('post.spec.ts', () => {
     beforeAll(async () => {
         await clearMongo()
-        await Mongo.migrate('0.0.0', VERSION, migration)
+        await migrate('0.0.0', VERSION, migration)
     })
 
     afterEach(async () => {
@@ -43,9 +43,8 @@ describe('post.spec.ts', () => {
     afterAll(async () => {
         jest.clearAllMocks()
         await clearMongo(COLLECTION.POST, COLLECTION.ARCHIVE)
-        await clearMongo().then(async (client) => {
-            await client.close()
-        })
+        await clearMongo()
+        await closeConnection()
     })
 
     test('getCachedPost()', async () => {

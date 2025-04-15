@@ -4,9 +4,9 @@ import Cached from '@common/model/Cached'
 import { VERSION } from '@common/constants/helper'
 import { clearMongo, backgroundFactory } from '@jest/helpers'
 import { getCachedBackgrounds } from './background'
-import Mongo from '@common/data/mongo/mongo-deprecated'
 import migration from '@app/_lib/migration'
 import { COLLECTION } from '@app/_lib/types'
+import { closeConnection, migrate } from '@common/data/mongo/mongo'
 
 jest.mock('next-auth', () => ({
     getServerSession: jest.fn(async () =>
@@ -26,7 +26,7 @@ jest.mock('../../mysql/media', () => ({
 describe('background.spec.ts', () => {
     beforeAll(async () => {
         await clearMongo()
-        await Mongo.migrate('0.0.0', VERSION, migration)
+        await migrate('0.0.0', VERSION, migration)
     })
 
     afterEach(async () => {
@@ -36,9 +36,8 @@ describe('background.spec.ts', () => {
 
     afterAll(async () => {
         jest.clearAllMocks()
-        await clearMongo().then(async (client) => {
-            await client.close()
-        })
+        await clearMongo()
+        await closeConnection()
     })
 
     test('getCachedBackgrounds(): empty result', async () => {

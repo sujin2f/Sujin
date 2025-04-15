@@ -6,16 +6,7 @@ import { Column } from '@common/components/layout/Column'
 import { getIndexes, getCachedOption } from '@app/_lib/data/mongo/admin'
 
 export default async function ResetIndex() {
-    const indexes = await getIndexes(
-        COLLECTION.BACKGROUNDS,
-        COLLECTION.CATEGORY,
-        COLLECTION.TAG,
-        COLLECTION.PAGE,
-        COLLECTION.POST,
-        COLLECTION.OPTIONS,
-        COLLECTION.SPECTRA,
-        COLLECTION.USERS,
-    )
+    const indexes = await getIndexes(...Object.values(COLLECTION))
     const version = await getCachedOption('version')
 
     return (
