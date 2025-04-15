@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next/types'
 /* Components */
 import Wrapper from '@app/_components/Wrapper'
-import { SocialShare } from '@app/_components/single/SocialShare'
+import { SocialShare } from '@app/_components/single/SocialShare.client'
 import { Content } from '@app/_components/single/Content'
 /* CONSTANTS */
 import { BASE_URL } from '@app/_lib/constants'
