@@ -1,5 +1,5 @@
 /* Components */
-import { PrevNext } from '@app/(single)/_components/PrevNext'
+import { PrevNext } from '@app/_components/single/PrevNext'
 import Wrapper from '@app/ether/wrapper'
 import { MENU_NAMES } from '@app/_lib/types'
 

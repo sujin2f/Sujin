@@ -2,8 +2,8 @@ import { InlineMath } from 'react-katex'
 /* Components */
 import { NextImage } from '@common/components/containers/NextImage'
 import { Table } from '@common/components/containers/Table'
-import { Latex } from '@app/(single)/_components/Latex'
-import { PrevNext } from '@app/(single)/_components/PrevNext'
+import { Latex } from '@app/_components/single/Latex'
+import { PrevNext } from '@app/_components/single/PrevNext'
 import Wrapper from '@app/ether/wrapper'
 import { MENU_NAMES } from '@app/_lib/types'
 /* Assets */

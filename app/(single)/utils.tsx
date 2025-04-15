@@ -1,12 +1,12 @@
 import React, { Fragment, JSX, createElement } from 'react'
 
 /* Components */
-import { Gist } from '@app/(single)/_components/Gist'
-import { TweetEmbed } from '@app/(single)/_components/TweetEmbed'
-import { AboutItem } from '@app/(single)/_components/AboutItem'
-import { Carousel } from '@app/(single)/_components/Carousel'
-import { Caption } from '@app/(single)/_components/Caption'
-import { Code } from '@app/(single)/_components/Code'
+import { Gist } from '@app/_components/single/Gist'
+import { TweetEmbed } from '@app/_components/single/TweetEmbed'
+import { AboutItem } from '@app/_components/single/AboutItem'
+import { Carousel } from '@app/_components/single/Carousel'
+import { Caption } from '@app/_components/single/Caption'
+import { Code } from '@app/_components/single/Code'
 /* Helpers */
 import type { T_ShortcodeNamed, T_ShortcodeAttrMatch } from '@app/_lib/types'
 import { FACEBOOK_SHARE, TWITTER_SHARE } from '@app/_lib/constants'

@@ -3,8 +3,8 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next/types'
 /* Components */
 import Wrapper from '@app/_components/Wrapper'
-import { SocialShare } from '@app/(single)/_components/SocialShare'
-import { Content } from '@app/(single)/_components/Content'
+import { SocialShare } from '@app/_components/single/SocialShare'
+import { Content } from '@app/_components/single/Content'
 /* CONSTANTS */
 import { BASE_URL } from '@app/_lib/constants'
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'

@@ -3,14 +3,14 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next/types'
 /* Components */
 import Wrapper from '@app/_components/Wrapper'
-import { Tags } from '@app/(single)/_components/Tags'
-import { PrevNextClient } from '@app/(single)/_components/PrevNextClient'
-import { RelatedPosts } from '@app/(single)/_components/RelatedPosts'
-import { RecentPosts } from '@app/(single)/_components/RecentPosts'
-import { SocialShare } from '@app/(single)/_components/SocialShare'
+import { Tags } from '@app/_components/single/Tags'
+import { PrevNext } from '@app/_components/single/PrevNext.server'
+import { RelatedPosts } from '@app/_components/single/RelatedPosts'
+import { RecentPosts } from '@app/_components/single/RecentPosts'
+import { SocialShare } from '@app/_components/single/SocialShare'
 import { Column } from '@common/components/layout/Column'
 import { Row } from '@common/components/layout/Row'
-import { Content } from '@app/(single)/_components/Content'
+import { Content } from '@app/_components/single/Content'
 import { GoogleAdvert } from '@app/_components/GoogleAdvert'
 /* CONSTANTS */
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
@@ -110,7 +110,7 @@ export default async function Page(props: Props) {
                             excerpt={post.excerpt}
                             thumbnail={thumbnail}
                         />
-                        <PrevNextClient slug={post.slug} />
+                        <PrevNext slug={post.slug} />
                         <RelatedPosts post={post} />
                     </Content>
                 </Column>

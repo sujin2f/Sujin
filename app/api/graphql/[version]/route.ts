@@ -10,7 +10,6 @@ import { createGQLOptions } from '@common/data/graphql/createExpressRouter'
 import { isEmpty } from '@common/utils/object'
 import { getSpectraFromNIST } from '@app/_lib/data/mongo/ether/spectra'
 import {
-    getCachedPrevNext,
     getCachedRecentPosts,
     getCachedRelatedPosts,
     mutatePost,
@@ -41,7 +40,6 @@ const options = createGQLOptions(
     GQL.queryFlickr.setCallback(getFlickr),
     GQL.queryTagCloud.setCallback(getTagCloud),
     GQL.queryRecent.setCallback(getCachedRecentPosts),
-    GQL.queryPrevNext.setCallback(getCachedPrevNext),
     GQL.queryRelatedPosts.setCallback(getCachedRelatedPosts),
     GQL.querySpectra.setCallback(getSpectraFromNIST),
     // Mutations

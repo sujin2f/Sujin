@@ -3,7 +3,7 @@ import React from 'react'
 /* Components */
 import { Column } from '@common/components/layout/Column'
 import { Card } from '@common/components/containers/Card'
-import { Tags } from '@app/(single)/_components/Tags'
+import { Tags } from '@app/_components/single/Tags'
 /* Helpers */
 import type { OneToTwelve } from '@common/components/layout/Column'
 import { getThumbnailFromPost } from '@app/_lib/data/mysql/utils'

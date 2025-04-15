@@ -1,5 +1,4 @@
-'use client'
-import React, { Fragment, PropsWithChildren } from 'react'
+import type { PropsWithChildren } from 'react'
 /* Helpers */
 import { parseContent } from '@app/(single)/utils'
 import type { T_Post, T_Page } from '@app/_lib/types'
@@ -19,7 +18,7 @@ export const Content = (props: PropsWithChildren<Props>) => {
     const contents = [...parseContent(content)]
 
     return (
-        <Fragment>
+        <>
             <article
                 className={`content--${type} content--${decodeURIComponent(
                     slug,
@@ -28,6 +27,6 @@ export const Content = (props: PropsWithChildren<Props>) => {
                 {contents}
             </article>
             <footer className="content__footer">{children}</footer>
-        </Fragment>
+        </>
     )
 }

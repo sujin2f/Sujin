@@ -249,13 +249,13 @@ const getPrevNext = async (slug: string): Promise<T_PrevNext[]> => {
         .filter((archive) => archive.type === 'category')
         .map((category) => (category as WithId<T_Archive>)._id)
 
-    const collection = await getCollection<T_Post>(COLLECTION.POST)
+    const collection = await getCollection<T_MongoPost>(COLLECTION.POST)
     const prev = await collection
         .find({
             id: { $ne: post.id },
             status: POST_STATUS.PUBLISH,
             date: { $lt: post.date },
-            archives: _ids,
+            archives: { $in: _ids },
         })
         .sort({ date: -1 })
         .limit(1)
@@ -270,7 +270,7 @@ const getPrevNext = async (slug: string): Promise<T_PrevNext[]> => {
             id: { $ne: post.id },
             status: POST_STATUS.PUBLISH,
             date: { $gt: post.date },
-            archives: _ids,
+            archives: { $in: _ids },
         })
         .sort({ date: 1 })
         .limit(1)

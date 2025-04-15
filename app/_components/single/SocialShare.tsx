@@ -17,8 +17,7 @@ type Props = {
     thumbnail: string
 }
 
-export const SocialShare = (props: Props) => {
-    const { title, excerpt, thumbnail } = props
+export const SocialShare = ({ title, excerpt, thumbnail }: Props) => {
     const path = `${BASE_URL}${usePathname()}`
 
     return (

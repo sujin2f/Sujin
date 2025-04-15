@@ -17,7 +17,6 @@ import type {
     T_PostImages,
     T_Archive,
     T_PostArchive,
-    T_PrevNext,
     T_FlickrImage,
 } from '@app/_lib/types'
 import type { ISpectrum } from '@app/ether/data/types'
@@ -112,19 +111,6 @@ const queryTagCloud = new GQLQuery<[], T_Archive[]>(
 const queryRecent = new GQLQuery<[], T_PostArchive[]>(
     'recent',
     {},
-    {
-        type: PostArchive,
-        list,
-    },
-)
-
-const queryPrevNext = new GQLQuery<[string], T_PrevNext[]>(
-    'prevNext',
-    {
-        slug: {
-            type: GQLString,
-        },
-    },
     {
         type: PostArchive,
         list,
@@ -345,7 +331,6 @@ const defaults = {
     queryFlickr,
     queryTagCloud,
     queryRecent,
-    queryPrevNext,
     queryRelatedPosts,
     querySpectra,
     queryMongoSpectra,
