@@ -16,12 +16,13 @@ import { GoogleAdvert } from '@app/_components/GoogleAdvert'
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
 import { BASE_URL } from '@app/_lib/constants'
 import { VERSION, IS_DEV } from '@common/constants/helper'
-import { IMAGE_SIZE, POST_STATUS } from '@app/_lib/types'
+import { IMAGE_SIZE, POST_STATUS, T_Archive } from '@app/_lib/types'
 /* Utils */
 import { getCachedPost } from '@app/_lib/data/mongo/wordpress/post'
 import { getThumbnailFromPost } from '@app/_lib/data/mysql/utils'
 import { updateHits } from '@app/_lib/data/mongo/wordpress/tag'
 import { isAdmin } from '@app/_lib/utils-server'
+import { WithId } from 'mongodb'
 
 type Props = {
     params: Promise<{
@@ -36,7 +37,7 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
         [slug, VERSION],
         {
             tags: ['wordpress', 'post'],
-            revalidate: IS_DEV ? false : HOUR_IN_SECONDS,
+            revalidate: IS_DEV ? 1 : HOUR_IN_SECONDS,
         },
     )
     const post = await requestPost(slug.toLowerCase()).catch(() => null)
@@ -46,7 +47,7 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
 
     const url = `${BASE_URL}/blog/${slug}`
     const images = getThumbnailFromPost(post, IMAGE_SIZE.MEDIUM_LARGE)
-    const keywords = post.terms.map((term) => term.title)
+    const keywords = post.archives.map((term) => term.title)
 
     return {
         title: `Sujin | ${post.title}`,
@@ -67,7 +68,7 @@ export default async function Page(props: Props) {
         [slug, VERSION],
         {
             tags: ['wordpress', 'post'],
-            revalidate: IS_DEV ? false : HOUR_IN_SECONDS,
+            revalidate: IS_DEV ? 1 : HOUR_IN_SECONDS,
         },
     )
     const post = await requestPost(slug.toLowerCase()).catch(() => notFound())
@@ -75,12 +76,21 @@ export default async function Page(props: Props) {
         notFound()
     }
     const thumbnail = getThumbnailFromPost(post, IMAGE_SIZE.MEDIUM_LARGE)
-    const tags = post.terms.filter((term) => term.type === 'tag')
+    const tags = post.archives
+        .filter((tag) => tag.type === 'tag')
+        .map((tag) => {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const { _id, ...filtered } = tag as WithId<T_Archive>
+            return filtered
+        })
 
     // Update Tag Cloud
     if (tags.length && post.status === POST_STATUS.PUBLISH) {
         tags.forEach((tag) => updateHits(tag.slug))
     }
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { archives, _id, ...filtered } = post
 
     return (
         <Wrapper
@@ -93,7 +103,7 @@ export default async function Page(props: Props) {
         >
             <Row fullWidth>
                 <Column medium={12} large={7} largeOffset={2}>
-                    <Content post={post} type="post">
+                    <Content post={filtered} type="post">
                         <Tags items={tags} />
                         <SocialShare
                             title={post.title}

@@ -1,7 +1,6 @@
 // yarn test utils.spec.ts
 
 import { auth } from '@app/_lib/utils-server'
-import { POST_TYPE } from './types'
 
 jest.mock('next-auth', () => ({
     getServerSession: jest.fn(async () => Promise.resolve(null)),
@@ -19,14 +18,12 @@ describe('utils.ts & utils-server.ts', () => {
 
     describe('auth()', () => {
         test('auth(): nonce pass', async () => {
-            const result = await auth(POST_TYPE.POST, 'nonce').then(
-                () => 'test pass',
-            )
+            const result = await auth('nonce').then(() => 'test pass')
             expect(result).toBe('test pass')
         })
 
         test('auth(): nonce failed', async () => {
-            const result = await auth(POST_TYPE.POST).catch(() => 'test pass')
+            const result = await auth().catch(() => 'test pass')
             expect(result).toBe('test pass')
         })
     })

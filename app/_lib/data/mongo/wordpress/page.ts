@@ -1,7 +1,6 @@
 import type { WithId } from 'mongodb'
 /* Models */
 import Cached from '@common/model/Cached'
-import Mongo from '@common/data/mongo/mongo'
 /* CONSTANTS */
 import { IS_DEV } from '@common/constants/helper'
 import {
@@ -13,12 +12,14 @@ import {
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 import { default as schema } from '@app/_lib/data/mongo/schema/10.3.2'
 import { DAY_IN_SECONDS } from '@common/constants/datetime'
+import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 /* Utils */
 import { getCacheKey } from '@app/_lib/utils'
 import { getPostBy } from '@app/_lib/data/mysql/post'
 import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
 import { drop_id, schemaFormatter } from '@common/utils/object'
 import { auth } from '@app/_lib/utils-server'
+import { getCollection, insertOrReplace } from '@common/data/mongo/mongo'
 /* T_Types */
 import type { MutationResultType } from '@app/api/graphql/constants'
 
@@ -54,8 +55,12 @@ export const getCachedPage = async (slug: string): Promise<T_Page> =>
     await Cached.getInstance().getOrExecute(
         getCacheKey(COLLECTION.PAGE, slug),
         async () =>
-            await Mongo.findOne<T_Page>(COLLECTION.PAGE, { slug }).then(
-                (page) => drop_id(page),
+            await getCollection<T_Page>(COLLECTION.PAGE).then(
+                async (collection) =>
+                    await collection.findOne({ slug }).then((post) => {
+                        if (post) return drop_id(post)
+                        throw new ServerError(ERROR_MESSAGE.PAGE.GET_ONE, slug)
+                    }),
             ),
         DAY_IN_SECONDS,
         IS_DEV,
@@ -73,7 +78,7 @@ export const updatePage = async (
     slug: string,
     nonce?: string,
 ): Promise<T_Page> => {
-    await auth(POST_TYPE.PAGE, nonce, slug)
+    await auth(nonce, slug)
     await Cached.getInstance().flush(getCacheKey(COLLECTION.PAGE, slug))
 
     const result = await getPostBy('slug', slug, POST_TYPE.PAGE)
@@ -84,7 +89,7 @@ export const updatePage = async (
             page.images[imageKey] = convertImageBlockURL(page.images[imageKey]!)
         })
     }
-    await Mongo.insertOrReplace(COLLECTION.PAGE, { slug }, page)
+    await insertOrReplace(COLLECTION.PAGE, { slug }, page)
     return page
 }
 
@@ -95,11 +100,16 @@ export const updatePage = async (
  * @returns {Promise<T_Page[]>}
  */
 export const getPages = async (page: number = 1): Promise<T_Page[]> =>
-    await Mongo.findMany<T_Page>(
-        COLLECTION.PAGE,
-        {},
-        { sort: { date: -1 }, limit: PER_PAGE, skip: PER_PAGE * (page - 1) },
-    ).then((result) => result.map((page) => drop_id(page)))
+    await getCollection<T_Page>(COLLECTION.PAGE).then(
+        async (collection) =>
+            await collection
+                .find({})
+                .sort({ date: -1 })
+                .limit(PER_PAGE)
+                .skip(PER_PAGE * (page - 1))
+                .project<T_Page>({ _id: -1 })
+                .toArray(),
+    )
 
 /**
  * Admin remove page
@@ -110,5 +120,7 @@ export const getPages = async (page: number = 1): Promise<T_Page[]> =>
 export const removePage = async (slug: string): Promise<void> => {
     await auth()
     await Cached.getInstance().flush(getCacheKey(COLLECTION.PAGE, slug))
-    await Mongo.deleteOne(COLLECTION.PAGE, { slug })
+    await getCollection<T_Page>(COLLECTION.PAGE).then(
+        async (collection) => await collection.deleteOne({ slug }),
+    )
 }

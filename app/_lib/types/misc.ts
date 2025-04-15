@@ -1,5 +1,4 @@
 import { ConstToType } from '@common/types'
-import { ARCHIVE } from '@app/_lib/types/archive'
 import { POST_TYPE } from '@app/_lib/types/post'
 
 /**
@@ -7,13 +6,13 @@ import { POST_TYPE } from '@app/_lib/types/post'
  * @enum
  */
 export const COLLECTION = {
-    ...ARCHIVE,
     POST: POST_TYPE.POST,
     PAGE: POST_TYPE.PAGE,
     BACKGROUNDS: 'background',
     OPTIONS: 'option',
     SPECTRA: 'spectra',
     USERS: 'user',
+    ARCHIVE: 'archive',
 } as const
 export type COLLECTION = ConstToType<typeof COLLECTION>
 
@@ -22,11 +21,11 @@ export type COLLECTION = ConstToType<typeof COLLECTION>
  * @enum
  */
 export const CACHE_KEY = {
-    ...ARCHIVE,
     POST: POST_TYPE.POST,
     PAGE: POST_TYPE.PAGE,
     BACKGROUNDS: COLLECTION.BACKGROUNDS,
     OPTIONS: COLLECTION.OPTIONS,
+    ARCHIVE: COLLECTION.ARCHIVE,
 } as const
 export type CACHE_KEY = ConstToType<typeof CACHE_KEY>
 

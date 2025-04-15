@@ -11,10 +11,10 @@ import { Column } from '@common/components/layout/Column'
 import Table from '@common/components/containers/Table'
 import InputGroup from '@common/components/forms/InputGroup'
 /* T_Types */
-import type { T_Category } from '@app/_lib/types'
+import type { T_Archive } from '@app/_lib/types'
 
 type Props = {
-    readonly categories: T_Category[]
+    readonly categories: (T_Archive & { _id: string })[]
     readonly page: number
     readonly remove: (slug: string) => Promise<string>
     readonly update: (slug: string) => Promise<string>
@@ -54,7 +54,6 @@ export function ClientComponent({ categories, page, remove, update }: Props) {
                     <Table fullWidth>
                         <thead>
                             <tr>
-                                <th>ID</th>
                                 <th>Title</th>
                                 <th>Slug</th>
                                 <th>Total</th>
@@ -65,8 +64,7 @@ export function ClientComponent({ categories, page, remove, update }: Props) {
                         </thead>
                         <tbody>
                             {categories.map((term) => (
-                                <tr key={`admin-posts-${term.id}`}>
-                                    <td className="center">{term.id}</td>
+                                <tr key={`admin-posts-${term.slug}`}>
                                     <td>{term.title}</td>
                                     <td className="center">{term.slug}</td>
                                     <td className="center">{term.total}</td>

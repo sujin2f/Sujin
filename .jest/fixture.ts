@@ -2,9 +2,7 @@ import {
     ARCHIVE,
     POST_STATUS,
     T_ImageBlock,
-    T_Term,
-    T_Tag,
-    T_Category,
+    T_Archive,
     T_Page,
 } from '@app/_lib/types'
 
@@ -107,26 +105,21 @@ export const post = {
         },
     ],
 }
-export const term: T_Term = {
-    id: 1,
-    title: 'Uncategorized',
-    slug: 'uncategorized',
-    type: ARCHIVE.CATEGORY,
-}
-export const category: T_Category = {
-    id: 1,
+export const category: T_Archive = {
     title: 'Category Title',
     slug: 'category',
     excerpt: 'Category',
     image: imageBlock,
+    type: ARCHIVE.CATEGORY,
     total: 3,
+    hits: 10,
 }
-export const tag: T_Tag = {
-    id: 1,
+export const tag: T_Archive = {
     title: 'Tag Title',
     slug: 'tag',
     excerpt: 'Tag',
     image: imageBlock,
+    type: ARCHIVE.TAG,
     total: 3,
     hits: 40,
 }

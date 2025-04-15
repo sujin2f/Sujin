@@ -52,7 +52,7 @@ class GraphQL {
 	}
 
 	private function update( string $slug, string $type ) {
-		$key         =  'mutate_' . $type . '_' . $slug ;
+		$key         =  'mutate_' . $slug ;
 		$nonce       = wp_create_nonce( $key );
 		$mutation    = array(
 			'query' => '

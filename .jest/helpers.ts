@@ -1,5 +1,4 @@
-import Mongo from '@common/data/mongo/mongo'
-import client from '@common/data/mongo/mongo-client'
+import client, { getCollection } from '@common/data/mongo/mongo'
 import { getRandomInt } from '@common/utils/number'
 import { IS_TEST, MONGO_DATABASE } from '@common/constants/helper'
 import { category, imageBlock, page, post, tag } from './fixture'
@@ -7,8 +6,8 @@ import {
     COLLECTION,
     T_ImageBlock,
     T_Archive,
-    T_Post,
     T_Page,
+    T_MongoPost,
 } from '@app/_lib/types'
 
 const suffix = IS_TEST ? `-${process.env.JEST_WORKER_ID}` : ''
@@ -43,12 +42,13 @@ export const categoryFactory = async (input: Partial<T_Archive> = {}) => {
     const id = getRandomInt(9999999)
     const document = {
         ...category,
-        id,
         title: `Category ${id}`,
         slug: `category-${id}`,
         ...input,
     }
-    const result = await Mongo.insertOne(COLLECTION.CATEGORY, document)
+    const result = await (
+        await getCollection(COLLECTION.ARCHIVE)
+    ).insertOne(document)
 
     return {
         ...document,
@@ -60,12 +60,13 @@ export const tagFactory = async (input: Partial<T_Archive> = {}) => {
     const id = getRandomInt(9999999)
     const document = {
         ...tag,
-        id,
         title: `Tag ${id}`,
         slug: `tag-${id}`,
         ...input,
     }
-    const result = await Mongo.insertOne(COLLECTION.TAG, document)
+    const result = await (
+        await getCollection(COLLECTION.ARCHIVE)
+    ).insertOne(document)
 
     return {
         ...document,
@@ -73,7 +74,7 @@ export const tagFactory = async (input: Partial<T_Archive> = {}) => {
     }
 }
 
-export const postFactory = async (input: Partial<T_Post> = {}) => {
+export const postFactory = async (input: Partial<T_MongoPost> = {}) => {
     const id = getRandomInt(9999999)
     const document = {
         ...post,
@@ -82,8 +83,9 @@ export const postFactory = async (input: Partial<T_Post> = {}) => {
         slug: `post-${id}`,
         ...input,
     }
-    const result = await Mongo.insertOne(COLLECTION.POST, document)
-
+    const result = await (
+        await getCollection(COLLECTION.POST)
+    ).insertOne(document)
     return {
         ...document,
         _id: result.insertedId,
@@ -99,7 +101,9 @@ export const pageFactory = async (input: Partial<T_Page> = {}) => {
         slug: `page-${id}`,
         ...input,
     }
-    const result = await Mongo.insertOne(COLLECTION.PAGE, document)
+    const result = await (
+        await getCollection(COLLECTION.PAGE)
+    ).insertOne(document)
     return {
         ...document,
         _id: result.insertedId,
@@ -114,7 +118,9 @@ export const backgroundFactory = async (input: Partial<T_ImageBlock> = {}) => {
         title: `Background ${id}`,
         ...input,
     } satisfies T_ImageBlock
-    const result = await Mongo.insertOne(COLLECTION.BACKGROUNDS, document)
+    const result = await (
+        await getCollection(COLLECTION.BACKGROUNDS)
+    ).insertOne(document)
     return {
         ...document,
         _id: result.insertedId,

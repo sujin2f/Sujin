@@ -9,7 +9,7 @@ import {
     updatePage,
     getPages,
 } from './page'
-import Mongo from '@common/data/mongo/mongo'
+import Mongo from '@common/data/mongo/mongo-deprecated'
 import { COLLECTION } from '@app/_lib/types'
 import migration from '@app/_lib/migration'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'

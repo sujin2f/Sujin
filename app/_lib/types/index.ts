@@ -14,16 +14,13 @@ export type {
     T_PostImages,
     T_Background,
 } from '@app/_lib/types/image'
-export type {
-    T_Term,
-    T_Archive,
-    T_Category,
-    T_Tag,
-} from '@app/_lib/types/archive'
+export type { T_Archive, T_MySQLArchive } from '@app/_lib/types/archive'
 export { ARCHIVE, TAXONOMY, ARCHIVE_URL } from '@app/_lib/types/archive'
 export type {
     T_PrevNext,
+    T_MongoPost,
     T_Post,
+    T_MongoPostArchive,
     T_PostArchive,
     T_MySQLPost,
     T_Page,

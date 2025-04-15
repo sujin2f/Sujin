@@ -1,18 +1,20 @@
-import type { Filter } from 'mongodb'
+import { ObjectId, WithId } from 'mongodb'
 /* Models */
-import Mongo from '@common/data/mongo/mongo'
 import Cached from '@common/model/Cached'
 /* Utils */
 import { getPostBy, getPostsBy } from '@app/_lib/data/mysql/post'
-import { updateTag } from '@app/_lib/data/mongo/wordpress/tag'
 import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
 import { getCacheKey } from '@app/_lib/utils'
-import { updateCategory } from '@app/_lib/data/mongo/wordpress/category'
 import { MutationResultType } from '@app/api/graphql/constants'
 import { drop_id, schemaFormatter } from '@common/utils/object'
 import { auth, isAdmin } from '@app/_lib/utils-server'
+import {
+    getCollection,
+    insertOrReplace,
+    suffix,
+} from '@common/data/mongo/mongo'
 /* CONSTANTS */
-import { default as schema } from '@app/_lib/data/mongo/schema/10.3.2'
+import { default as schema } from '@app/_lib/data/mongo/schema/10.3.3'
 import { IS_DEV } from '@common/constants/helper'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 import { DAY_IN_SECONDS } from '@common/constants/datetime'
@@ -26,98 +28,104 @@ import {
     type T_MySQLPost,
     type T_PrevNext,
     type T_PostArchive,
+    T_MongoPost,
+    T_Archive,
 } from '@app/_lib/types'
-
-const formatArchivePost = (post: Record<string, unknown>): T_PostArchive =>
-    schemaFormatter(post, schema.archivePost) as T_PostArchive
+import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
+import { updateTotal, formatter as archiveFormatter } from './archive'
 
 const format = (post: Record<string, unknown>): T_Post =>
     schemaFormatter(post, schema.post) as T_Post
+
+const archiveLookup = [
+    {
+        $lookup: {
+            from: `${COLLECTION.ARCHIVE}${suffix}`,
+            localField: 'archives',
+            foreignField: '_id',
+            as: 'archives',
+        },
+    },
+]
 
 /**
  * Get single post by slug
  * This returns the cached result if it exists
  *
  * @param {string} slug - Post slug
- * @param {boolean} ignoreStatus - The flag to ignore status
- * @returns {Promise<WithId<WPPost>>} - The post object
  */
-export const getCachedPost = async (slug: string): Promise<T_Post> =>
+export const getCachedPost = async (slug: string): Promise<WithId<T_Post>> =>
     await Cached.getInstance().getOrExecute(
         getCacheKey(COLLECTION.POST, slug),
         async () =>
-            await Mongo.findOne<T_Post>(COLLECTION.POST, { slug }).then(
-                (post) => drop_id(post),
+            await getCollection<T_Post>(COLLECTION.POST).then(
+                async (collection) => {
+                    const posts = await collection
+                        .aggregate<WithId<T_Post>>([
+                            {
+                                $match: {
+                                    slug,
+                                },
+                            },
+                            ...archiveLookup,
+                        ])
+                        .toArray()
+                    return posts[0]
+                },
             ),
         DAY_IN_SECONDS,
         IS_DEV,
     )
 
-const updateMongoFromMySQL = async (
-    post: T_MySQLPost,
-): Promise<[T_Post, string[], string[]]> => {
+const updateMongoFromMySQL = async (post: T_MySQLPost) => {
     const slug = post.slug
-
+    const archives: ObjectId[] = []
     Cached.getInstance().flush(getCacheKey(COLLECTION.POST, slug))
+
+    // Image
     Object.keys(post.images).forEach((key) => {
         const imageKey = key as POST_IMAGE_LOCATION
         post.images[imageKey] = convertImageBlockURL(post.images[imageKey]!)
     })
-    const newPost = format(post)
 
-    const categories: string[] = newPost.terms
-        .filter((term) => term.type === ARCHIVE.CATEGORY)
-        .map((term) => term.slug)
-    const tags: string[] = newPost.terms
-        .filter((term) => term.type === ARCHIVE.TAG)
-        .map((term) => term.slug)
-
-    await Mongo.findOne<T_Post>(COLLECTION.POST, {
-        slug,
-    })
-        // Post exist: update archive and replace the post
-        .then(async (result) => {
-            result.terms
-                .filter((term) => term.type === ARCHIVE.CATEGORY)
-                .forEach((term) => {
-                    categories.push(term.slug)
+    for (const term of post.terms.filter(
+        (term) => term.type === ARCHIVE.CATEGORY || term.type === ARCHIVE.TAG,
+    )) {
+        await getCollection<T_Archive>(COLLECTION.ARCHIVE).then(
+            async (collection) => {
+                const archive = await collection.findOne({
+                    slug: term.slug,
+                    type: term.type,
                 })
-            result.terms
-                .filter((term) => term.type === ARCHIVE.TAG)
-                .forEach((term) => {
-                    tags.push(term.slug)
-                })
-            await Mongo.insertOrReplace<T_Post>(
-                COLLECTION.POST,
-                {
-                    slug,
-                },
-                newPost,
-            )
-        })
-        // New post
-        .catch(
-            async () => await Mongo.insertOne<T_Post>(COLLECTION.POST, newPost),
+                if (archive) {
+                    archives.push(archive._id)
+                } else {
+                    const result = await collection.insertOne(
+                        archiveFormatter({ ...term, hits: 0, total: 0 }),
+                    )
+                    archives.push(result.insertedId)
+                }
+            },
         )
-
-    return [newPost, categories, tags]
-}
-
-const updateArchives = async (categories: string[], tags: string[]) => {
-    for (const cat of Array.from(new Set(categories))) {
-        await updateCategory(cat)
     }
-    for (const tag of Array.from(new Set(tags))) {
-        await updateTag(tag)
-    }
+
+    await insertOrReplace<T_Post>(
+        COLLECTION.POST,
+        {
+            slug,
+        },
+        format({ ...post, archives }),
+    )
+
+    return archives
 }
 
 const updatePost = async (slug: string, nonce?: string) => {
-    await auth(POST_TYPE.POST, nonce, slug)
+    await auth(nonce, slug)
     Cached.getInstance().flush(getCacheKey(COLLECTION.POST, slug))
     await getPostBy('slug', slug, POST_TYPE.POST, true).then(async (post) => {
-        const [, categories, tags] = await updateMongoFromMySQL(post)
-        await updateArchives(categories, tags)
+        const archives = await updateMongoFromMySQL(post)
+        await updateTotal(archives)
     })
 }
 
@@ -125,44 +133,88 @@ export const updateArchivePosts = async (
     type: ARCHIVE,
     slug: string,
     page: number,
-): Promise<T_PostArchive[]> => {
+) => {
     await auth()
     Cached.getInstance().flush(getCacheKey(COLLECTION.POST))
-    Cached.getInstance().flush(getCacheKey(type, slug))
+    Cached.getInstance().flush(getCacheKey(COLLECTION.ARCHIVE, type, slug))
 
-    return await getPostsBy(type, POST_TYPE.POST, slug, page, true).then(
+    await getPostsBy(type, POST_TYPE.POST, slug, page, true).then(
         async (result) => {
-            const tags: string[] = []
-            const categories: string[] = []
-            const posts: T_Post[] = []
-
+            const archives: ObjectId[] = []
             for (const item of result) {
-                const [post, cat, tag] = await updateMongoFromMySQL(item)
-                posts.push(post)
-                categories.push(...cat)
-                tags.push(...tag)
+                archives.push(...(await updateMongoFromMySQL(item)))
             }
-            await updateArchives(categories, tags)
-            return posts.map((post) => formatArchivePost(post))
+            await updateTotal(archives)
         },
     )
 }
 
-export const getArchivePosts = async (
-    type: string,
-    slug: string,
+export const getCachedPosts = async (
+    archive: WithId<T_Archive>,
     page: number,
-    open: boolean = true,
-): Promise<T_PostArchive[]> => {
-    const doc: Filter<T_PostArchive> = {
-        terms: { $elemMatch: { slug, type } },
-    }
-    if (open || !(await isAdmin())) doc.status = POST_STATUS.PUBLISH
-    return await Mongo.findMany<T_Post>(COLLECTION.POST, doc, {
-        sort: { date: -1 },
-        limit: PER_PAGE,
-        skip: PER_PAGE * (page - 1),
-    }).then(async (posts) => posts.map((post) => drop_id(post)))
+): Promise<T_Post[]> =>
+    await Cached.getInstance().getOrExecute<T_Post[]>(
+        getCacheKey(COLLECTION.ARCHIVE, archive.type, archive.slug, page),
+        async () =>
+            await getCollection<T_MongoPost>(COLLECTION.POST).then(
+                async (collection) => {
+                    const result = await collection
+                        .aggregate<T_Post>([
+                            {
+                                $match: {
+                                    archives: new ObjectId(archive._id),
+                                    status: POST_STATUS.PUBLISH,
+                                },
+                            },
+                            {
+                                $sort: { date: -1 },
+                            },
+                            {
+                                $skip: PER_PAGE * (page - 1),
+                            },
+                            {
+                                $limit: PER_PAGE,
+                            },
+                            ...archiveLookup,
+                            {
+                                $project: {
+                                    _id: 0,
+                                    'archives._id': 0,
+                                    content: 0,
+                                    meta: 0,
+                                },
+                            },
+                        ])
+                        .toArray()
+                    return result
+                },
+            ),
+        DAY_IN_SECONDS,
+        IS_DEV,
+    )
+
+export const getArchivePosts = async (_id: ObjectId, page: number) => {
+    if (!(await isAdmin()))
+        throw new ServerError(
+            ERROR_MESSAGE.GENERAL.UNAUTHORIZED,
+            'getArchivePosts()',
+        )
+
+    return await getCollection<T_MongoPost>(COLLECTION.POST).then(
+        async (collection) =>
+            await collection
+                .find({ archives: _id })
+                .sort({ date: -1 })
+                .limit(PER_PAGE)
+                .skip(PER_PAGE * (page - 1))
+                .project<T_PostArchive>({
+                    _id: 0,
+                    content: 0,
+                    meta: 0,
+                    archives: 0,
+                })
+                .toArray(),
+    )
 }
 
 export const getCachedSearchPosts = async (
@@ -170,22 +222,31 @@ export const getCachedSearchPosts = async (
     page: number,
 ): Promise<{ total: number; posts: T_PostArchive[] }> =>
     await Cached.getInstance().getOrExecute(
-        getCacheKey(ARCHIVE.SEARCH, keyword, page),
+        getCacheKey(COLLECTION.ARCHIVE, 'search', keyword, page),
         async () => {
             const doc = {
                 $text: { $search: keyword },
                 status: POST_STATUS.PUBLISH,
             }
-            const total = await Mongo.count(COLLECTION.POST, doc)
-            const posts = await Mongo.findMany<T_Post>(COLLECTION.POST, doc, {
-                sort: { date: -1 },
-                limit: PER_PAGE,
-                skip: PER_PAGE * (page - 1),
-            }).then(async (posts) => posts.map((post) => drop_id(post)))
-            return {
-                posts,
-                total,
-            }
+
+            return await getCollection<T_Post>(COLLECTION.POST).then(
+                async (collection) => {
+                    const total = await collection.countDocuments(doc)
+                    const posts = await collection
+                        .find(doc)
+                        .sort({ date: -1 })
+                        .limit(PER_PAGE)
+                        .skip(PER_PAGE * (page - 1))
+                        .project<T_PostArchive>({
+                            _id: 0,
+                            content: 0,
+                            meta: 0,
+                        })
+                        .toArray()
+
+                    return { total, posts }
+                },
+            )
         },
         DAY_IN_SECONDS,
         IS_DEV,
@@ -193,41 +254,47 @@ export const getCachedSearchPosts = async (
 
 const getPrevNext = async (slug: string): Promise<T_PrevNext[]> => {
     const post = await getCachedPost(slug)
-    const slugs = post.terms
-        .filter((term) => term.type === 'category')
-        .map((category) => category.slug)
+    const _ids = post.archives
+        .filter((archive) => archive.type === 'category')
+        .map((category) => (category as WithId<T_Archive>)._id)
 
-    const prev = await Mongo.findMany<T_Post>(
-        COLLECTION.POST,
-        {
-            id: { $ne: post.id },
-            status: POST_STATUS.PUBLISH,
-            date: { $lt: post.date },
-            terms: {
-                $elemMatch: {
-                    slug: { $in: slugs },
-                    type: ARCHIVE.CATEGORY,
-                },
-            },
-        },
-        { sort: { date: -1 }, limit: 1 },
+    const prev = await getCollection<T_Post>(COLLECTION.POST).then(
+        async (collection) =>
+            await collection
+                .find({
+                    id: { $ne: post.id },
+                    status: POST_STATUS.PUBLISH,
+                    date: { $lt: post.date },
+                    archives: _ids,
+                })
+                .sort({ date: -1 })
+                .limit(1)
+                .project<T_PrevNext>({
+                    _id: 0,
+                    title: 1,
+                    link: 1,
+                })
+                .toArray(),
     )
-    const next = await Mongo.findMany<T_Post>(
-        COLLECTION.POST,
-        {
-            id: { $ne: post.id },
-            status: POST_STATUS.PUBLISH,
-            date: { $gt: post.date },
-            terms: {
-                $elemMatch: {
-                    slug: { $in: slugs },
-                    type: ARCHIVE.CATEGORY,
-                },
-            },
-        },
-        { sort: { date: 1 }, limit: 1 },
+    const next = await getCollection<T_Post>(COLLECTION.POST).then(
+        async (collection) =>
+            await collection
+                .find({
+                    id: { $ne: post.id },
+                    status: POST_STATUS.PUBLISH,
+                    date: { $gt: post.date },
+                    archives: _ids,
+                })
+                .sort({ date: 1 })
+                .limit(1)
+                .project<T_PrevNext>({
+                    _id: 0,
+                    title: 1,
+                    link: 1,
+                })
+                .toArray(),
     )
-    return [prev[0] && drop_id(prev[0]), next[0] && drop_id(next[0])]
+    return [prev[0], next[0]]
 }
 
 /**
@@ -251,11 +318,15 @@ export const getCachedPrevNext = async (slug: string): Promise<T_PrevNext[]> =>
  * @returns {Promise<T_Post[]>} A promise that resolves to the recent posts.
  */
 const getRecentPosts = async (): Promise<T_PostArchive[]> =>
-    await Mongo.findMany<T_Post>(
-        COLLECTION.POST,
-        { status: POST_STATUS.PUBLISH },
-        { sort: { date: -1 }, limit: PER_PAGE },
-    ).then((posts) => posts.map((post) => drop_id(post)))
+    await getCollection<T_Post>(COLLECTION.POST).then(
+        async (collection) =>
+            await collection
+                .find({ status: POST_STATUS.PUBLISH })
+                .sort({ date: -1 })
+                .limit(PER_PAGE)
+                .project<T_PostArchive>({ _id: 0, content: 0, meta: 0 })
+                .toArray(),
+    )
 
 /**
  * Fetches the recent posts from the cache or MongoDB.
@@ -280,32 +351,33 @@ const getRelatedPosts = async (slug: string): Promise<T_PostArchive[]> => {
     const post = await getCachedPost(slug)
     const result: Record<number, T_PostArchive> = {}
 
-    const categories = post.terms
-        .filter((term) => term.type === 'category')
-        .map((category) => category.slug)
-    const tags = post.terms
-        .filter((term) => term.type === 'tag')
-        .map((tag) => tag.slug)
+    const category_ids = post.archives
+        .filter((archive) => archive.type === 'category')
+        .map((category) => (category as WithId<T_Archive>)._id)
+    const tag_ids = post.archives
+        .filter((archive) => archive.type === 'tag')
+        .map((tag) => (tag as WithId<T_Archive>)._id)
 
-    await Mongo.findMany<T_Post>(
-        COLLECTION.POST,
-        {
-            id: { $ne: post.id },
-            status: POST_STATUS.PUBLISH,
-            terms: {
-                $elemMatch: {
-                    slug: { $in: categories },
-                    type: ARCHIVE.CATEGORY,
-                },
-            },
-        },
-        { sort: { date: -1 }, limit: 4 },
-    ).then((posts) =>
-        posts.forEach((item) => {
-            if (item.id !== post.id) {
-                result[item.id] = drop_id(item)
-            }
-        }),
+    // Category search
+    await getCollection<T_Post>(COLLECTION.POST).then(
+        async (collection) =>
+            await collection
+                .find({
+                    id: { $ne: post.id },
+                    status: POST_STATUS.PUBLISH,
+                    archives: category_ids,
+                })
+                .sort({ date: -1 })
+                .limit(4)
+                .project<T_PostArchive>({ _id: 0, content: 0, meta: 0 })
+                .toArray()
+                .then((posts) =>
+                    posts.forEach((item) => {
+                        if (item.id !== post.id) {
+                            result[item.id] = item
+                        }
+                    }),
+                ),
     )
     if (Object.keys(result).length >= 4) {
         return Object.values(result)
@@ -313,25 +385,26 @@ const getRelatedPosts = async (slug: string): Promise<T_PostArchive[]> => {
             .slice(0, 4)
     }
 
-    await Mongo.findMany<T_Post>(
-        COLLECTION.POST,
-        {
-            id: { $ne: post.id },
-            status: POST_STATUS.PUBLISH,
-            terms: {
-                $elemMatch: {
-                    slug: { $in: tags },
-                    type: ARCHIVE.TAG,
-                },
-            },
-        },
-        { sort: { date: -1 }, limit: 4 },
-    ).then((posts) =>
-        posts.forEach((item) => {
-            if (item.id !== post.id) {
-                result[item.id] = drop_id(item)
-            }
-        }),
+    // Tag search
+    await getCollection<T_Post>(COLLECTION.POST).then(
+        async (collection) =>
+            await collection
+                .find({
+                    id: { $ne: post.id },
+                    status: POST_STATUS.PUBLISH,
+                    archives: tag_ids,
+                })
+                .sort({ date: -1 })
+                .limit(4)
+                .project<T_PostArchive>({ _id: 0, content: 0, meta: 0 })
+                .toArray()
+                .then((posts) =>
+                    posts.forEach((item) => {
+                        if (item.id !== post.id) {
+                            result[item.id] = item
+                        }
+                    }),
+                ),
     )
     if (Object.keys(result).length >= 4) {
         return Object.values(result)

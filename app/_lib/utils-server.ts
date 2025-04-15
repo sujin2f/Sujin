@@ -3,7 +3,6 @@ import { getServerSession } from 'next-auth'
 import type { Nullable } from '@common/types'
 import { Metadata, METADATA } from '@app/_lib/constants'
 import { authOptions } from '@app/api/auth/constants'
-import type { ARCHIVE, POST_TYPE } from '@app/_lib/types'
 import { getOption, removeOption } from '@app/_lib/data/mysql/option'
 import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 
@@ -55,27 +54,17 @@ export const isAdmin = async (): Promise<boolean> => {
  * @returns {Promise<void>}
  * @throws {ServerError} Failed to access
  */
-export const auth = async (
-    type?: ARCHIVE | POST_TYPE,
-    nonce?: string,
-    slug?: string,
-): Promise<void> => {
+export const auth = async (nonce?: string, slug?: string): Promise<void> => {
     const admin = await isAdmin()
     if (admin) return
 
     // Nonce validation
-    if (!type || !nonce) {
-        throw new ServerError(
-            ERROR_MESSAGE.GENERAL.UNAUTHORIZED,
-            `${type}::auth()`,
-        )
+    if (!nonce) {
+        throw new ServerError(ERROR_MESSAGE.GENERAL.UNAUTHORIZED, 'auth()')
     }
-    const optionKey = ['mutate', type, slug, nonce].join('_')
+    const optionKey = ['mutate', slug, nonce].join('_')
     await getOption(optionKey).catch(() => {
-        throw new ServerError(
-            ERROR_MESSAGE.GENERAL.UNAUTHORIZED,
-            `${type}::auth()`,
-        )
+        throw new ServerError(ERROR_MESSAGE.GENERAL.UNAUTHORIZED, 'auth()')
     })
     await removeOption(optionKey)
 }

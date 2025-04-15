@@ -28,7 +28,7 @@ export default async function About() {
         ['about', VERSION],
         {
             tags: ['wordpress', 'page'],
-            revalidate: IS_DEV ? false : HOUR_IN_SECONDS,
+            revalidate: IS_DEV ? 1 : HOUR_IN_SECONDS,
         },
     )
 

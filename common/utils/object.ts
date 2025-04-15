@@ -190,6 +190,9 @@ export const schemaFormatter = (
 
         case 'bool':
             return typeof input === 'boolean' ? input : null
+
+        case 'objectId':
+            return input
     }
 
     return {}

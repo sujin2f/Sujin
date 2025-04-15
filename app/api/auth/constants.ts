@@ -1,14 +1,17 @@
 import type { User, AuthOptions } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
-
-import Mongo from '@common/data/mongo/mongo'
+import { getCollection } from '@common/data/mongo/mongo'
 import { COLLECTION } from '@app/_lib/types'
 
 const addUser = async (user: User) =>
-    await Mongo.insertOne<User>(COLLECTION.USERS, user)
+    await getCollection(COLLECTION.USERS).then(async (collection) => {
+        await collection.insertOne(user)
+    })
 
 const getUser = async (email: string) =>
-    await Mongo.findOne<User>(COLLECTION.USERS, { email })
+    await getCollection(COLLECTION.USERS).then(async (collection) => {
+        await collection.findOne({ email })
+    })
 
 export const authOptions = {
     providers: [

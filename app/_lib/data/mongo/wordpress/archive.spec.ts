@@ -13,13 +13,12 @@ import {
     removeArchive,
     getArchives,
 } from './archive'
-import Mongo from '@common/data/mongo/mongo'
 import migration from '@app/_lib/migration'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
-import { ARCHIVE, COLLECTION, T_Category } from '@app/_lib/types'
+import { ARCHIVE, COLLECTION, T_Archive } from '@app/_lib/types'
 import Cached from '@common/model/Cached'
 import { category, tag } from '@jest/fixture'
-import { formatter } from './category'
+import { getCollection, migrate } from '@common/data/mongo/mongo'
 
 jest.mock('next-auth', () => ({
     getServerSession: jest.fn(async () =>
@@ -39,12 +38,12 @@ jest.mock('../../mysql/term', () => ({
 describe('archive.spec.ts', () => {
     beforeAll(async () => {
         await clearMongo()
-        await Mongo.migrate('0.0.0', VERSION, migration)
+        await migrate('0.0.0', VERSION, migration)
     })
 
     afterEach(async () => {
         await Cached.getInstance().flush()
-        await clearMongo(COLLECTION.CATEGORY, COLLECTION.POST)
+        await clearMongo(COLLECTION.ARCHIVE, COLLECTION.POST)
     })
 
     afterAll(async () => {
@@ -57,18 +56,10 @@ describe('archive.spec.ts', () => {
     test('getCachedArchive()', async () => {
         const category = await categoryFactory()
         await postFactory({
-            terms: [
-                {
-                    id: 5818,
-                    title: 'Blog',
-                    slug: category.slug,
-                    type: 'category',
-                },
-            ],
+            archives: [category._id],
         })
-        const result = await getCachedArchive(category.slug, ARCHIVE.CATEGORY)
-        expect(result.id).toEqual(category.id)
-        expect(result.total).toEqual(1)
+        const archive = await getCachedArchive(category.slug, ARCHIVE.CATEGORY)
+        expect(archive!._id).toEqual(category._id)
     })
 
     test('updateArchive(): tag, New', async () => {
@@ -78,11 +69,11 @@ describe('archive.spec.ts', () => {
             Promise.resolve({ ...tag, slug, title: 'Changed' }),
         )
 
-        await updateArchive(slug, ARCHIVE.TAG, (item) => item as T_Category)
-        const result = await Mongo.findOne(ARCHIVE.TAG, {
-            slug,
-        })
-        expect(result.title).toBe('Changed')
+        await updateArchive(slug, ARCHIVE.TAG)
+        const result = await (
+            await getCollection<T_Archive>(COLLECTION.ARCHIVE)
+        ).findOne({ slug })
+        expect(result!.title).toBe('Changed')
     })
 
     test('updateArchive(): category, New', async () => {
@@ -96,11 +87,11 @@ describe('archive.spec.ts', () => {
             }),
         )
 
-        await updateArchive(slug, ARCHIVE.CATEGORY, formatter)
-        const result = await Mongo.findOne(ARCHIVE.CATEGORY, {
-            slug,
-        })
-        expect(result.title).toBe('Changed')
+        await updateArchive(slug, ARCHIVE.CATEGORY)
+        const result = await (
+            await getCollection<T_Archive>(COLLECTION.ARCHIVE)
+        ).findOne({ slug })
+        expect(result!.title).toBe('Changed')
     })
 
     test('updateArchive(): tag, existing Mongo', async () => {
@@ -110,11 +101,11 @@ describe('archive.spec.ts', () => {
             Promise.resolve({ ...tag, slug, title: 'Changed' }),
         )
 
-        await updateArchive(slug, ARCHIVE.TAG, (item) => item as T_Category)
-        const result = await Mongo.findOne(ARCHIVE.TAG, {
-            slug,
-        })
-        expect(result.title).toBe('Changed')
+        await updateArchive(slug, ARCHIVE.TAG)
+        const result = await (
+            await getCollection<T_Archive>(COLLECTION.ARCHIVE)
+        ).findOne({ slug })
+        expect(result!.title).toBe('Changed')
     })
 
     test('updateTerm(): only from MySQL', async () => {
@@ -125,18 +116,18 @@ describe('archive.spec.ts', () => {
             Promise.resolve({ ...category, title: 'Changed' }),
         )
 
-        await updateArchive(category.slug, ARCHIVE.CATEGORY, formatter)
-        const result = await Mongo.findOne(COLLECTION.CATEGORY, {
-            id: category.id,
-        })
-        expect(result.title).toBe('Changed')
+        await updateArchive(category.slug, ARCHIVE.CATEGORY)
+        const result = await (
+            await getCollection<T_Archive>(COLLECTION.ARCHIVE)
+        ).findOne({ slug: category.slug })
+        expect(result!.title).toBe('Changed')
     })
 
     test('getTerms()', async () => {
         for (let i = 0; i < PER_PAGE + 1; i++) {
             await categoryFactory()
         }
-        const result = await getArchives(2, ARCHIVE.CATEGORY)
+        const result = await getArchives(ARCHIVE.CATEGORY, 2)
         expect(result.length).toBe(1)
     })
 })

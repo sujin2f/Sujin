@@ -1,14 +1,10 @@
 import type {
-    T_Term,
-    T_Archive,
     T_Image,
     T_ImageBlock,
     T_Option,
     T_PostImages,
-    T_Post,
     T_Page,
     T_PrevNext,
-    T_PostArchive,
 } from '@app/_lib/types'
 import { ARCHIVE, POST_STATUS } from '@app/_lib/types'
 
@@ -101,7 +97,7 @@ const images: { [key in keyof T_PostImages]: object } = {
     },
 }
 
-const term: { [key in keyof T_Term]: object } = {
+const term = {
     id: {
         bsonType: 'int',
     },
@@ -144,9 +140,7 @@ const content = {
     bsonType: 'string',
 }
 
-const archivePostProperty: {
-    [key in keyof Omit<T_PostArchive, 'terms'>]: object
-} = {
+const archivePostProperty = {
     ...prevNextProperty,
     id: {
         bsonType: 'int',
@@ -176,14 +170,14 @@ const pageProperty: { [key in keyof T_Page]: object } = {
     meta,
 }
 
-const postProperty: { [key in keyof T_Post]: object } = {
+const postProperty = {
     ...archivePostProperty,
     content,
     meta,
     terms,
 }
 
-const archivesProperty: { [key in keyof T_Archive]: object } = {
+const archivesProperty = {
     id: {
         bsonType: 'int',
     },

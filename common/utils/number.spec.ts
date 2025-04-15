@@ -1,6 +1,6 @@
 // yarn test number.spec.ts
 
-import { formatCurrency, romanize } from './number'
+import { formatCurrency, romanize, getRandomInt } from './number'
 
 describe('number.ts', () => {
     it('formatCurrency()', () => {
@@ -13,5 +13,13 @@ describe('number.ts', () => {
         expect(romanize(1)).toEqual('I')
         expect(romanize(101)).toEqual('CI')
         expect(romanize(99)).toEqual('XCIX')
+    })
+
+    it('getRandomInt()', () => {
+        expect(getRandomInt(1, 1)).toEqual(1)
+        expect(getRandomInt(1, 1) !== 0).toBeTruthy()
+        expect(getRandomInt(2, 1) !== 3).toBeTruthy()
+        expect(getRandomInt(2, 1) !== 0).toBeTruthy()
+        expect(getRandomInt(2) !== -1).toBeTruthy()
     })
 })

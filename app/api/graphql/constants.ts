@@ -11,13 +11,11 @@ import {
 } from '@common/data/graphql/type'
 /* T_Types */
 import type {
-    T_Term,
     T_Image,
     T_ImageSize,
     T_ImageBlock,
     T_PostImages,
     T_Archive,
-    T_Tag,
     T_PostArchive,
     T_PrevNext,
     T_FlickrImage,
@@ -79,15 +77,6 @@ const PrevNext = new GQLType('PrevNext', {
     next: { type: PostArchive },
 })
 
-const Term = new GQLType<T_Term>('Term', {
-    id: { type: GQLInt },
-    title: { type: GQLString },
-    slug: { type: GQLString },
-    type: { type: GQLString },
-})
-
-PostArchive.addField('terms', { type: Term, list })
-
 const FlickrImage = new GQLType<T_FlickrImage>('FlickrImage', {
     title: { type: GQLString },
     link: { type: GQLString },
@@ -111,7 +100,7 @@ const queryFlickr = new GQLQuery<[], T_FlickrImage[]>(
     },
 )
 
-const queryTagCloud = new GQLQuery<[], T_Tag[]>(
+const queryTagCloud = new GQLQuery<[], T_Archive[]>(
     'tagCloud',
     {},
     {
@@ -348,7 +337,6 @@ const defaults = {
     PostMeta,
     PostArchive,
     PrevNext,
-    Term,
     FlickrImage,
     TagCloud,
     Spectrum,

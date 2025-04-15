@@ -1,7 +1,7 @@
 /* CONSTANTS */
 import { MONGO_DATABASE } from '@common/constants/helper'
 /* Models */
-import client from '@common/data/mongo/mongo-client'
+import client from '@common/data/mongo/mongo'
 import { CollectionsClient } from './CollectionsClient'
 
 export async function Collections() {

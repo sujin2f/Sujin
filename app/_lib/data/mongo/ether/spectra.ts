@@ -1,6 +1,6 @@
 import type { WithId } from 'mongodb'
 /* Models */
-import Mongo from '@common/data/mongo/mongo'
+import Mongo from '@common/data/mongo/mongo-deprecated'
 import Cached from '@common/model/Cached'
 /* T_Types */
 import type { Atom } from '@app/ether/data/types'

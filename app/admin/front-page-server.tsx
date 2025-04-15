@@ -2,9 +2,9 @@ import { MONGO_DATABASE, VERSION } from '@common/constants/helper'
 /* Components */
 import { FrontPageClient } from '@app/admin/front-page-client'
 /* Models */
-import Mongo from '@common/data/mongo/mongo'
+import { migrate as runMigration } from '@common/data/mongo/mongo'
 import Logger from '@common/model/Logger'
-import client from '@common/data/mongo/mongo-client'
+import client from '@common/data/mongo/mongo'
 /* CONSTANTS */
 import migration from '@app/_lib/migration'
 /* Utils */
@@ -28,14 +28,7 @@ export async function FrontPageServer() {
         // Migrate MongoDB indexes
         if (compareVersions(VERSION, current) === 1) {
             Logger.server(`Migrate MongoDB: current ${current}, new ${VERSION}`)
-            const result = await Mongo.migrate(
-                current,
-                VERSION,
-                migration,
-            ).catch((e) => {
-                console.log(e)
-                return e.message
-            })
+            const result = await runMigration(current, VERSION, migration)
             if (result.length !== 0) {
                 Logger.server(`MongoDB Migrated: ${JSON.stringify(result)}`)
             }

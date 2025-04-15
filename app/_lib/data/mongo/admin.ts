@@ -1,17 +1,16 @@
 import type { Document, IndexDescriptionCompact } from 'mongodb'
 /* Models */
-import Mongo from '@common/data/mongo/mongo'
-import client from '@common/data/mongo/mongo-client'
 import Cached from '@common/model/Cached'
 import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 /* CONSTANTS */
-import { IS_DEV, MONGO_DATABASE } from '@common/constants/helper'
+import { IS_DEV } from '@common/constants/helper'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 /* Utils */
 import { isAdmin } from '@app/_lib/utils-server'
 import { getCacheKey } from '@app/_lib/utils'
 /* T_Types */
 import { CACHE_KEY, COLLECTION, type T_Option } from '@app/_lib/types'
+import { getCollection, insertOrReplace } from '@common/data/mongo/mongo'
 
 export const getIndexes = async (...collections: string[]) => {
     if (!(await isAdmin()))
@@ -20,19 +19,18 @@ export const getIndexes = async (...collections: string[]) => {
             'getIndexes()',
         )
     const indexes: Record<string, IndexDescriptionCompact> = {}
-    await client.then(async (client) => {
-        const database = client.db(MONGO_DATABASE)
-        for (const collection of collections) {
-            const index = await database
-                .collection(collection)
-                .indexInformation()
-                .catch((e) => console.log(collection, e))
+    for (const name of collections) {
+        const index = await getCollection(name).then(
+            async (collection) =>
+                await collection
+                    .indexInformation()
+                    .catch((e) => console.log(name, e)),
+        )
 
-            if (index) {
-                indexes[collection] = index
-            }
+        if (index) {
+            indexes[name] = index
         }
-    })
+    }
     return indexes
 }
 
@@ -40,11 +38,9 @@ export const getSchema = async (...collections: string[]) => {
     if (!(await isAdmin()))
         throw new ServerError(ERROR_MESSAGE.GENERAL.UNAUTHORIZED, 'getSchema()')
     const schema: Record<string, Document> = {}
-    await client.then(async (client) => {
-        const database = client.db(MONGO_DATABASE)
-        for (const collection of collections) {
-            const info = await database
-                .collection(collection)
+    for (const name of collections) {
+        await getCollection(name).then(async (collection) => {
+            const info = await collection
                 .options()
                 .then((schema) => {
                     const { validator } = schema
@@ -56,10 +52,11 @@ export const getSchema = async (...collections: string[]) => {
                 .catch((e) => console.log(collection, e))
 
             if (info) {
-                schema[collection] = info
+                schema[name] = info
             }
-        }
-    })
+        })
+    }
+
     return schema
 }
 
@@ -73,9 +70,12 @@ export const getCachedOption = async (key: string): Promise<string> => {
     return await Cached.getInstance().getOrExecute(
         getCacheKey(CACHE_KEY.OPTIONS, key),
         async () =>
-            await Mongo.findOne<T_Option>(COLLECTION.OPTIONS, { key })
-                .catch(() => ({ value: '' }))
-                .then((result) => result.value),
+            await getCollection<T_Option>(COLLECTION.OPTIONS).then(
+                async (collection) =>
+                    await collection
+                        .findOne({ key })
+                        .then((result) => (result ? result.value : '')),
+            ),
         WEEK_IN_SECONDS,
         IS_DEV,
     )
@@ -93,9 +93,19 @@ export const setSystemOption = async (key: string, value: string) => {
             ERROR_MESSAGE.GENERAL.UNAUTHORIZED,
             'setSystemOption()',
         )
-    return await Mongo.insertOrReplace<T_Option>(
+
+    return await insertOrReplace<T_Option>(
         COLLECTION.OPTIONS,
         { key },
         { key, value },
     )
 }
+
+export const insertAbTest = async (
+    name: string,
+    type: 'a' | 'b',
+    time: number,
+) =>
+    await getCollection('abTest').then(
+        async (collection) => await collection.insertOne({ name, type, time }),
+    )

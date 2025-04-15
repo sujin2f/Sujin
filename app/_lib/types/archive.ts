@@ -1,6 +1,5 @@
 import { ConstToType } from '@common/types'
 import type { T_ImageBlock } from '@app/_lib/types/image'
-import type { T_PostArchive } from '@app/_lib/types/post'
 
 /**
  * Archive types
@@ -31,25 +30,17 @@ export const ARCHIVE_URL = {
     ...ARCHIVE,
 } as const
 export type ARCHIVE_URL = ConstToType<typeof ARCHIVE_URL>
-// Term: refers the category, tag as a property of post
-// Archive: refers the archive page
-export type T_Term = {
-    id: number
+
+export type T_Archive = {
     title: string
     slug: string
     type: ARCHIVE
-}
-
-export type T_Archive = Omit<T_Term, 'type'> & {
     excerpt: string
     image?: T_ImageBlock
     total: number
-    page?: number
-    posts?: T_PostArchive[]
-}
-
-export type T_Tag = T_Archive & {
     hits: number
 }
 
-export type T_Category = T_Archive
+export type T_MySQLArchive = T_Archive & {
+    id: number
+}

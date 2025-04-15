@@ -4,8 +4,12 @@ import type {
     T_Option,
     T_PostImages,
     T_Page,
+    T_PrevNext,
+    T_MongoPostArchive,
+    T_Archive,
 } from '@app/_lib/types'
 import { ARCHIVE, POST_STATUS } from '@app/_lib/types'
+import { T_MongoPost } from '@app/_lib/types/post'
 
 const image: { [key in keyof T_Image]: object } = {
     url: {
@@ -96,30 +100,40 @@ const images: { [key in keyof T_PostImages]: object } = {
     },
 }
 
-const term = {
-    id: {
-        bsonType: 'int',
-    },
-    slug: {
-        bsonType: 'string',
-    },
+const prevNextProperty: { [key in keyof T_PrevNext]: object } = {
     title: {
         bsonType: 'string',
     },
-    type: {
+    link: {
         bsonType: 'string',
-        enum: [ARCHIVE.CATEGORY, ARCHIVE.TAG],
     },
 }
 
-const pageProperty: { [key in keyof T_Page]: object } = {
+const archives = {
+    bsonType: 'array',
+    items: {
+        bsonType: 'objectId',
+    },
+}
+const meta = {
+    bsonType: 'object',
+    properties: {
+        useBackgroundColor: { bsonType: 'bool' },
+        backgroundColor: { bsonType: 'string' },
+    },
+}
+const content = {
+    bsonType: 'string',
+}
+
+const archivePostProperty: {
+    [key in keyof Omit<T_MongoPostArchive, 'archives'>]: object
+} = {
+    ...prevNextProperty,
     id: {
         bsonType: 'int',
     },
     slug: {
-        bsonType: 'string',
-    },
-    title: {
         bsonType: 'string',
     },
     excerpt: {
@@ -128,44 +142,30 @@ const pageProperty: { [key in keyof T_Page]: object } = {
     date: {
         bsonType: 'date',
     },
-    content: {
-        bsonType: 'string',
+    images: {
+        bsonType: 'object',
+        properties: images,
     },
     status: {
         bsonType: 'string',
         enum: [...Object.values(POST_STATUS)],
     },
-    images: {
-        bsonType: 'object',
-        properties: images,
-    },
-    meta: {
-        bsonType: 'object',
-        properties: {
-            useBackgroundColor: { bsonType: 'bool' },
-            backgroundColor: { bsonType: 'string' },
-        },
-    },
-    link: {
-        bsonType: 'string',
-    },
 }
 
-const postProperty = {
-    ...pageProperty,
-    terms: {
-        bsonType: 'array',
-        items: {
-            bsonType: 'object',
-            properties: term,
-        },
-    },
+const pageProperty: { [key in keyof T_Page]: object } = {
+    ...archivePostProperty,
+    content,
+    meta,
 }
 
-const archivesProperty = {
-    id: {
-        bsonType: 'int',
-    },
+const postProperty: { [key in keyof T_MongoPost]: object } = {
+    ...archivePostProperty,
+    content,
+    meta,
+    archives,
+}
+
+const archivesProperty: { [key in keyof T_Archive]: object } = {
     slug: {
         bsonType: 'string',
     },
@@ -179,7 +179,14 @@ const archivesProperty = {
         bsonType: 'object',
         properties: imageBlock,
     },
+    type: {
+        bsonType: 'string',
+        enum: [ARCHIVE.CATEGORY, ARCHIVE.TAG],
+    },
     total: {
+        bsonType: 'int',
+    },
+    hits: {
         bsonType: 'int',
     },
 }
@@ -193,59 +200,83 @@ const optionsProperty: { [key in keyof T_Option]: object } = {
     },
 }
 
-const posts = {
+const prevNext = {
     bsonType: 'object',
-    title: 'Posts Collection Validation',
-    required: ['id', 'slug', 'title', 'date', 'content', 'status'],
-    properties: postProperty,
+    required: ['title', 'link'],
+    properties: prevNextProperty,
 }
 
-const pages = {
+const archivePost = {
     bsonType: 'object',
-    title: 'Pages Collection Validation',
-    required: ['id', 'slug', 'title', 'date', 'content', 'status'],
-    properties: pageProperty,
-}
-
-const category = {
-    bsonType: 'object',
-    title: 'Categories and Tags Collection Validation',
-    required: ['id', 'slug', 'title', 'total'],
-    properties: archivesProperty,
-}
-
-const tags = {
-    bsonType: 'object',
-    title: 'Tag Collection Validation',
-    required: ['id', 'slug', 'title', 'total', 'hits'],
+    required: ['title', 'link'],
     properties: {
-        ...archivesProperty,
-        hits: {
-            bsonType: 'int',
-        },
+        ...archivePostProperty,
+        archives,
     },
 }
 
-const backgrounds = {
+const post = {
+    bsonType: 'object',
+    title: 'Posts Collection Validation',
+    required: ['id', 'slug', 'title', 'date', 'content', 'status', 'link'],
+    properties: postProperty,
+}
+
+const page = {
+    bsonType: 'object',
+    title: 'Pages Collection Validation',
+    required: ['id', 'slug', 'title', 'date', 'content', 'status', 'link'],
+    properties: pageProperty,
+}
+
+const archive = {
+    bsonType: 'object',
+    title: 'Archive Collection Validation',
+    required: ['slug', 'title', 'type'],
+    properties: {
+        ...archivesProperty,
+    },
+}
+
+const background = {
     bsonType: 'object',
     title: 'Backgrounds Collection Validation',
     required: ['mimeType', 'url'],
     properties: imageBlock,
 }
 
-const options = {
+const option = {
     bsonType: 'object',
     title: 'Backgrounds Collection Validation',
     required: ['key', 'value'],
     properties: optionsProperty,
 }
 
+const abTest = {
+    bsonType: 'object',
+    required: ['key', 'value'],
+    properties: {
+        name: {
+            bsonType: 'string',
+        },
+        type: {
+            bsonType: 'string',
+            enum: ['a', 'b'],
+        },
+        time: {
+            bsonType: 'float',
+        },
+    },
+}
+
 const defaults = {
-    posts,
-    pages,
-    category,
-    tags,
-    backgrounds,
-    options,
+    prevNext,
+    archivePost,
+    post,
+    page,
+    background,
+    option,
+    archive,
+    abTest,
 }
 export default defaults

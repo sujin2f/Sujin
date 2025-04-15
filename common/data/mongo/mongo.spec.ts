@@ -1,7 +1,7 @@
 // yarn test mongo.spec.ts
 
 import { clearMongo } from '@jest/helpers'
-import Mongo from './mongo'
+import Mongo from './mongo-deprecated'
 
 describe('mongo.ts', () => {
     beforeAll(async () => {

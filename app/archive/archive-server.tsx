@@ -12,6 +12,7 @@ import { BASE_URL } from '@app/_lib/constants'
 /* Utils */
 import { getCachedArchive } from '@app/_lib/data/mongo/wordpress/archive'
 import { updateHits } from '@app/_lib/data/mongo/wordpress/tag'
+import { getCachedPosts } from '@app/_lib/data/mongo/wordpress/post'
 
 export const getMetadata = async ({
     page,
@@ -21,57 +22,72 @@ export const getMetadata = async ({
     // Param
     const slug = title.toLowerCase()
 
-    const requestArchive = unstable_cache(
+    const request = unstable_cache(
         async () => {
-            return await getCachedArchive(slug, type, page)
+            return await getCachedArchive(slug, type)
         },
         [type, slug, VERSION],
         {
             tags: ['wordpress', 'archive'],
-            revalidate: IS_DEV ? false : HOUR_IN_SECONDS,
+            revalidate: IS_DEV ? 1 : HOUR_IN_SECONDS,
         },
     )
 
-    return await requestArchive()
-        .then((archive) => {
-            const url = `${BASE_URL}/archive/${type}/${slug}/page/${page}`
+    const archive = await request()
+    if (!archive) {
+        return {
+            robots: {
+                index: false,
+                follow: false,
+                nocache: false,
+            },
+        }
+    }
+    const url = `${BASE_URL}/archive/${type}/${slug}/page/${page}`
 
-            return {
-                title: `Sujin | ${archive.title}`,
-                description: archive.excerpt,
-                openGraph: {
-                    title: `Sujin | ${archive.title}`,
-                    url: url,
-                },
-            }
-        })
-        .catch(() => ({}))
+    return {
+        title: `Sujin | ${archive.title}`,
+        description: archive.excerpt,
+        openGraph: {
+            title: `Sujin | ${archive.title}`,
+            url: url,
+        },
+    }
 }
 
 export async function ArchiveServer({ page, type, slug }: ArchiveProp) {
     const requestArchive = unstable_cache(
         async () => {
-            return await getCachedArchive(slug, type, page)
+            return await getCachedArchive(slug, type)
+        },
+        [type, slug, VERSION],
+        {
+            tags: ['wordpress', 'archive'],
+            revalidate: IS_DEV ? 1 : HOUR_IN_SECONDS,
+        },
+    )
+    const requestPosts = unstable_cache(
+        async (archive) => {
+            return await getCachedPosts(archive, page)
         },
         [type, slug, page.toString(), VERSION],
         {
-            tags: ['wordpress', 'archive'],
-            revalidate: IS_DEV ? false : HOUR_IN_SECONDS,
+            tags: ['wordpress', 'archive', 'posts'],
+            revalidate: IS_DEV ? 1 : HOUR_IN_SECONDS,
         },
     )
+
     const archive = await requestArchive()
-        .then((archive) => {
-            if (!archive.posts || archive.posts.length === 0) {
-                notFound()
-            }
-            return archive
-        })
-        .catch(() => notFound())
+    if (!archive) notFound()
+    if (!archive.total) notFound()
+    const posts = await requestPosts(archive)
+    if (!posts.length) notFound()
+
     const { title, excerpt, image } = archive
 
     // Update Tag Cloud
     if (type === ARCHIVE.TAG) {
-        updateHits(slug)
+        updateHits(archive.slug)
     }
 
     return (
@@ -86,7 +102,7 @@ export async function ArchiveServer({ page, type, slug }: ArchiveProp) {
                 slug={slug}
                 page={page}
                 total={archive.total}
-                posts={archive.posts!}
+                posts={posts}
             />
         </Wrapper>
     )

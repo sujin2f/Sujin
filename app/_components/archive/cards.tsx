@@ -27,7 +27,9 @@ export const Cards = ({
     imageSize = IMAGE_SIZE.POST_THUMBNAIL,
 }: Props) => {
     return posts.map((post: T_PostArchive, index: number) => {
-        const tags = post.terms.filter((term) => term.type === ARCHIVE.TAG)
+        const tags = post.archives
+            ? post.archives.filter((term) => term.type === ARCHIVE.TAG)
+            : []
         return (
             <Column
                 key={`card-${keyPrefix}-${index}-${post.id}`}

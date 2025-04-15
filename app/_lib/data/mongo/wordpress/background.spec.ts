@@ -4,7 +4,7 @@ import Cached from '@common/model/Cached'
 import { VERSION } from '@common/constants/helper'
 import { clearMongo, backgroundFactory } from '@jest/helpers'
 import { getCachedBackgrounds } from './background'
-import Mongo from '@common/data/mongo/mongo'
+import Mongo from '@common/data/mongo/mongo-deprecated'
 import migration from '@app/_lib/migration'
 import { COLLECTION } from '@app/_lib/types'
 

@@ -16,7 +16,7 @@ export async function SearchServer({ page, slug }: ArchiveProp) {
         [ARCHIVE.SEARCH, slug, page.toString(), VERSION],
         {
             tags: ['wordpress', 'archive'],
-            revalidate: IS_DEV ? false : HOUR_IN_SECONDS,
+            revalidate: IS_DEV ? 1 : HOUR_IN_SECONDS,
         },
     )
 
