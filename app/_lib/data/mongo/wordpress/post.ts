@@ -343,16 +343,16 @@ const getRelatedPosts = async (slug: string): Promise<T_PostArchive[]> => {
         .filter((archive) => archive.type === 'tag')
         .map((tag) => (tag as WithId<T_Archive>)._id)
 
-    const collection = await getCollection<T_Post>(COLLECTION.POST)
+    const collection = await getCollection<T_MongoPost>(COLLECTION.POST)
     await collection
         .find({
             id: { $ne: post.id },
             status: POST_STATUS.PUBLISH,
-            archives: category_ids,
+            archives: { $in: category_ids },
         })
         .sort({ date: -1 })
         .limit(4)
-        .project<T_PostArchive>({ _id: 0, content: 0, meta: 0 })
+        .project<T_PostArchive>({ _id: 0, content: 0, meta: 0, archives: 0 })
         .toArray()
         .then((posts) =>
             posts.forEach((item) => {
@@ -373,11 +373,11 @@ const getRelatedPosts = async (slug: string): Promise<T_PostArchive[]> => {
         .find({
             id: { $ne: post.id },
             status: POST_STATUS.PUBLISH,
-            archives: tag_ids,
+            archives: { $in: tag_ids },
         })
         .sort({ date: -1 })
         .limit(4)
-        .project<T_PostArchive>({ _id: 0, content: 0, meta: 0 })
+        .project<T_PostArchive>({ _id: 0, content: 0, meta: 0, archives: 0 })
         .toArray()
         .then((posts) =>
             posts.forEach((item) => {

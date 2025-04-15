@@ -5,7 +5,7 @@ import type { Metadata } from 'next/types'
 import Wrapper from '@app/_components/Wrapper'
 import { Tags } from '@app/_components/single/Tags'
 import { PrevNext } from '@app/_components/single/PrevNext.server'
-import { RelatedPosts } from '@app/_components/single/RelatedPosts'
+import { RelatedPosts } from '@app/_components/single/RelatedPosts.server'
 import { RecentPosts } from '@app/_components/single/RecentPosts'
 import { SocialShare } from '@app/_components/single/SocialShare'
 import { Column } from '@common/components/layout/Column'
@@ -111,7 +111,7 @@ export default async function Page(props: Props) {
                             thumbnail={thumbnail}
                         />
                         <PrevNext slug={post.slug} />
-                        <RelatedPosts post={post} />
+                        <RelatedPosts slug={post.slug} />
                     </Content>
                 </Column>
 
