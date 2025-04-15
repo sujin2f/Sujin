@@ -1,6 +1,6 @@
 // yarn test object.spec.ts
 
-import { filterEmpty, isEmpty, omit } from './object'
+import { filterEmpty, isEmpty, omit, schemaFormatter } from './object'
 
 describe('object.ts', () => {
     it('filterEmpty()', () => {
@@ -45,6 +45,96 @@ describe('object.ts', () => {
         expect(result).toStrictEqual({
             key3: 'value3',
             key4: 'value4',
+        })
+    })
+
+    describe('formatter()', () => {
+        test('formatter(): 🤩 required failed', async () => {
+            const result = schemaFormatter(
+                { id: 1 },
+                {
+                    bsonType: 'object',
+                    required: ['id'],
+                    properties: {
+                        id: {
+                            bsonType: 'int',
+                        },
+                    },
+                },
+            )
+            expect(result).toBeTruthy()
+        })
+
+        test('formatter(): 🤬 required failed', async () => {
+            try {
+                schemaFormatter(
+                    {},
+                    {
+                        bsonType: 'object',
+                        required: ['id'],
+                        properties: {
+                            id: {
+                                bsonType: 'int',
+                            },
+                        },
+                    },
+                )
+                expect(true).toBeFalsy()
+            } catch {}
+            expect(true).toBeTruthy()
+        })
+
+        test('formatter(): 🤩', async () => {
+            const date = new Date()
+            const result = schemaFormatter(
+                {
+                    id: 1,
+                    title: 'test',
+                    date,
+                    private: false,
+                    terms: [{ id: 1 }],
+                    extra: 1,
+                    level: 9,
+                },
+                {
+                    bsonType: 'object',
+                    required: ['id'],
+                    properties: {
+                        id: {
+                            bsonType: 'int',
+                        },
+                        title: {
+                            bsonType: 'string',
+                        },
+                        date: {
+                            bsonType: 'date',
+                        },
+                        private: {
+                            bsonType: 'bool',
+                        },
+                        terms: {
+                            bsonType: 'array',
+                            items: {
+                                bsonType: 'object',
+                                properties: {
+                                    id: { bsonType: 'int' },
+                                },
+                            },
+                        },
+                        level: {
+                            bsonType: 'int',
+                            enum: [1, 2, 3],
+                        },
+                    },
+                },
+            )
+            expect(result).toStrictEqual({
+                id: 1,
+                title: 'test',
+                date,
+                private: false,
+                terms: [{ id: 1 }],
+            })
         })
     })
 })

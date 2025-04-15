@@ -1,9 +1,7 @@
 import type { WithId } from 'mongodb'
 /* Models */
 import Cached from '@common/model/Cached'
-import Mongo from '@common/data/mongo/mongo'
 /* CONSTANTS */
-// import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV } from '@common/constants/helper'
 import {
     COLLECTION,
@@ -12,27 +10,21 @@ import {
     T_Page,
 } from '@app/_lib/types'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
+import { default as schema } from '@app/_lib/data/mongo/schema/10.3.2'
+import { DAY_IN_SECONDS } from '@common/constants/datetime'
+import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 /* Utils */
 import { getCacheKey } from '@app/_lib/utils'
 import { getPostBy } from '@app/_lib/data/mysql/post'
 import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
-import { formatPostImage } from '@app/_lib/data/mongo/wordpress/util'
+import { drop_id, schemaFormatter } from '@common/utils/object'
 import { auth } from '@app/_lib/utils-server'
-/* Types */
+import { getCollection, insertOrReplace } from '@common/data/mongo/mongo'
+/* T_Types */
 import type { MutationResultType } from '@app/api/graphql/constants'
 
-const format = (page: WithId<T_Page> | T_Page): T_Page => ({
-    id: page.id,
-    slug: page.slug,
-    title: page.title,
-    excerpt: page.excerpt || '',
-    content: page.content,
-    date: page.date,
-    images: formatPostImage(page.images),
-    meta: page.meta,
-    status: page.status,
-    link: page.link,
-})
+const format = (page: WithId<T_Page> | T_Page): T_Page =>
+    schemaFormatter(page, schema.page) as T_Page
 
 /**
  * Update Mongo Post type from MySQL for GraphQL
@@ -62,11 +54,14 @@ export const mutatePage = async (
 export const getCachedPage = async (slug: string): Promise<T_Page> =>
     await Cached.getInstance().getOrExecute(
         getCacheKey(COLLECTION.PAGE, slug),
-        async () =>
-            await Mongo.findOne<T_Page>(COLLECTION.PAGE, { slug }).then(
-                (page) => format(page),
-            ),
-        0,
+        async () => {
+            const collection = await getCollection<T_Page>(COLLECTION.PAGE)
+            return await collection.findOne({ slug }).then((post) => {
+                if (post) return drop_id(post)
+                throw new ServerError(ERROR_MESSAGE.PAGE.GET_ONE, slug)
+            })
+        },
+        DAY_IN_SECONDS,
         IS_DEV,
     )
 
@@ -82,16 +77,18 @@ export const updatePage = async (
     slug: string,
     nonce?: string,
 ): Promise<T_Page> => {
-    await auth(POST_TYPE.PAGE, nonce, slug)
+    await auth(nonce, slug)
     await Cached.getInstance().flush(getCacheKey(COLLECTION.PAGE, slug))
 
     const result = await getPostBy('slug', slug, POST_TYPE.PAGE)
     const page = format(result)
-    Object.keys(page.images).forEach((key) => {
-        const imageKey = key as POST_IMAGE_LOCATION
-        page.images[imageKey] = convertImageBlockURL(page.images[imageKey]!)
-    })
-    await Mongo.insertOrReplace(COLLECTION.PAGE, { slug }, page)
+    if (page.images) {
+        Object.keys(page.images).forEach((key) => {
+            const imageKey = key as POST_IMAGE_LOCATION
+            page.images[imageKey] = convertImageBlockURL(page.images[imageKey]!)
+        })
+    }
+    await insertOrReplace(COLLECTION.PAGE, { slug }, page)
     return page
 }
 
@@ -101,12 +98,16 @@ export const updatePage = async (
  * @param {number} page - Page
  * @returns {Promise<T_Page[]>}
  */
-export const getPages = async (page: number = 1): Promise<T_Page[]> =>
-    await Mongo.findMany<T_Page>(
-        COLLECTION.PAGE,
-        {},
-        { sort: { date: -1 }, limit: PER_PAGE, skip: PER_PAGE * (page - 1) },
-    ).then((result) => result.map((page) => format(page)))
+export const getPages = async (page: number = 1): Promise<T_Page[]> => {
+    const collection = await getCollection<T_Page>(COLLECTION.PAGE)
+    return await collection
+        .find({})
+        .sort({ date: -1 })
+        .limit(PER_PAGE)
+        .skip(PER_PAGE * (page - 1))
+        .project<T_Page>({ _id: -1 })
+        .toArray()
+}
 
 /**
  * Admin remove page
@@ -117,5 +118,6 @@ export const getPages = async (page: number = 1): Promise<T_Page[]> =>
 export const removePage = async (slug: string): Promise<void> => {
     await auth()
     await Cached.getInstance().flush(getCacheKey(COLLECTION.PAGE, slug))
-    await Mongo.deleteOne(COLLECTION.PAGE, { slug })
+    const collection = await getCollection<T_Page>(COLLECTION.PAGE)
+    await collection.deleteOne({ slug })
 }

@@ -2,20 +2,19 @@ import { MONGO_DATABASE, VERSION } from '@common/constants/helper'
 /* Components */
 import { FrontPageClient } from '@app/admin/front-page-client'
 /* Models */
-import Mongo from '@common/data/mongo/mongo'
 import Logger from '@common/model/Logger'
-import client from '@common/data/mongo/mongo-client'
+import Cached from '@common/model/Cached'
 /* CONSTANTS */
 import migration from '@app/_lib/migration'
 /* Utils */
+import { getDatabase, migrate as runMigration } from '@common/data/mongo/mongo'
 import { compareVersions } from '@common/utils/system'
-import { getSystemOption, setSystemOption } from '@app/_lib/data/mongo/admin'
+import { getCachedOption, setSystemOption } from '@app/_lib/data/mongo/admin'
 import { isAdmin } from '@app/_lib/utils-server'
 import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
-import Cached from '@common/model/Cached'
 
 export async function FrontPageServer() {
-    const current = (await getSystemOption('version')) || '0.0.0'
+    const current = (await getCachedOption('version')) || '0.0.0'
 
     const migrate = async (current: string) => {
         'use server'
@@ -28,14 +27,7 @@ export async function FrontPageServer() {
         // Migrate MongoDB indexes
         if (compareVersions(VERSION, current) === 1) {
             Logger.server(`Migrate MongoDB: current ${current}, new ${VERSION}`)
-            const result = await Mongo.migrate(
-                current,
-                VERSION,
-                migration,
-            ).catch((e) => {
-                console.log(e)
-                return e.message
-            })
+            const result = await runMigration(current, VERSION, migration)
             if (result.length !== 0) {
                 Logger.server(`MongoDB Migrated: ${JSON.stringify(result)}`)
             }
@@ -53,8 +45,7 @@ export async function FrontPageServer() {
                 'migration',
             )
 
-        await client.then(async (client) => {
-            const database = client.db(MONGO_DATABASE)
+        await getDatabase().then(async (database) => {
             // Drop all collections
             await database.collections().then(async (collections) => {
                 for (let i = 0; i < collections.length; i++) {

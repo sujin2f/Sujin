@@ -1,13 +1,11 @@
 /* Models */
 import Cached from '@common/model/Cached'
-import Mongo from '@common/data/mongo/mongo'
-import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 /* CONSTANTS */
-// import { DAY_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV } from '@common/constants/helper'
 import { COLLECTION, POST_TYPE } from '@app/_lib/types'
-import { IMAGE_SIZE_BACKGROUND } from '@app/_lib/types'
-/* Types */
+import { default as schema } from '@app/_lib/data/mongo/schema/10.3.2'
+import { DAY_IN_SECONDS } from '@common/constants/datetime'
+/* T_Types */
 import type { T_Background } from '@app/_lib/types'
 /* Utils */
 import { getCacheKey } from '@app/_lib/utils'
@@ -15,11 +13,12 @@ import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 import { getBackgrounds as getMySQLBackgrounds } from '@app/_lib/data/mysql/media'
 import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
 import { MutationResultType } from '@app/api/graphql/constants'
-import { formatImageBlock } from '@app/_lib/data/mongo/wordpress/util'
 import { auth } from '@app/_lib/utils-server'
+import { schemaFormatter } from '@common/utils/object'
+import { getCollection } from '@common/data/mongo/mongo'
 
 const format = (image: T_Background): T_Background =>
-    formatImageBlock(image, IMAGE_SIZE_BACKGROUND)
+    schemaFormatter(image, schema.background) as T_Background
 
 /**
  * Get backgrounds
@@ -30,9 +29,16 @@ const format = (image: T_Background): T_Background =>
 export const getCachedBackgrounds = async (): Promise<T_Background[]> =>
     await Cached.getInstance().getOrExecute(
         getCacheKey(COLLECTION.BACKGROUNDS),
-        async () =>
-            await Mongo.random<T_Background>(COLLECTION.BACKGROUNDS, 10),
-        0,
+        async () => {
+            const collection = await getCollection<T_Background>(
+                COLLECTION.BACKGROUNDS,
+            )
+            return await collection
+                .aggregate<T_Background>([{ $sample: { size: 10 } }])
+                .project<T_Background>({ _id: 0 })
+                .toArray()
+        },
+        DAY_IN_SECONDS,
         IS_DEV,
     )
 
@@ -51,34 +57,25 @@ export const updateBackgrounds = async (
         const backgrounds = result.map((image) =>
             format(convertImageBlockURL(format(image))),
         )
-        await Mongo.deleteMany(COLLECTION.BACKGROUNDS, {}).catch(() => {
-            throw new ServerError(
-                ERROR_MESSAGE.ATTACHMENT.DELETE_MANY,
-                'updateBackgrounds()',
-                backgrounds,
-            )
-        })
-        await Mongo.insertMany(COLLECTION.BACKGROUNDS, backgrounds).catch(
-            () => {
-                throw new ServerError(
-                    ERROR_MESSAGE.ATTACHMENT.INSERT_MANY,
-                    'updateBackgrounds()',
-                    backgrounds,
-                )
-            },
+        const collection = await getCollection<T_Background>(
+            COLLECTION.BACKGROUNDS,
         )
+        await collection.deleteMany({})
+        await collection.insertMany(backgrounds)
 
-        return backgrounds.map((image) => format(image))
+        return backgrounds
     })
     return backgrounds
 }
 
-export const getBackgrounds = async (page: number = 1) =>
-    await Mongo.findMany<T_Background>(
-        COLLECTION.BACKGROUNDS,
-        {},
-        { limit: PER_PAGE, skip: PER_PAGE * (page - 1) },
-    ).then((result) => result.map((image) => format(image)))
+export const getBackgrounds = async (page: number = 1) => {
+    const collection = await getCollection<T_Background>(COLLECTION.BACKGROUNDS)
+    return await collection
+        .find({})
+        .limit(PER_PAGE)
+        .skip(PER_PAGE * (page - 1))
+        .toArray()
+}
 
 /**
  * Update Mongo Post type from MySQL for GraphQL

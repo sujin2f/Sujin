@@ -5,7 +5,7 @@ import { Banner } from '@app/_components/header/Banner'
 import { Header } from '@app/_components/header'
 /* CONSTANTS */
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
-import { VERSION } from '@common/constants/helper'
+import { IS_DEV, VERSION } from '@common/constants/helper'
 /* Utils */
 import { getCachedBackgrounds } from '@app/_lib/data/mongo/wordpress/background'
 /* Assets */
@@ -18,7 +18,7 @@ export async function FrontPage() {
         ['frontpage', VERSION],
         {
             tags: ['wordpress', 'page'],
-            revalidate: HOUR_IN_SECONDS,
+            revalidate: IS_DEV ? 1 : HOUR_IN_SECONDS,
         },
     )
 
@@ -29,7 +29,7 @@ export async function FrontPage() {
     return (
         <>
             <Header />
-            <main className="page--frontpage">
+            <main className="wrapper--frontpage">
                 <Banner
                     title={
                         <Logo

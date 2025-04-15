@@ -12,7 +12,7 @@ import {
     type T_ImageBlock,
     type T_MySQLPost,
 } from '@app/_lib/types'
-/* Types */
+/* T_Types */
 import type { Nullable } from '@common/types'
 import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 

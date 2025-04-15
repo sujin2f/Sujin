@@ -3,9 +3,10 @@ import { InlineMath } from 'react-katex'
 /* Components */
 import { NextImage } from '@common/components/containers/NextImage'
 import { Table } from '@common/components/containers/Table'
-import { Latex } from '@app/(single)/_components/Latex'
-import { PrevNext } from '@app/(single)/_components/PrevNext'
-import ScrollToTop from '@common/components/ScrollToTop'
+import { Latex } from '@app/_components/single/Latex'
+import { PrevNext } from '@app/_components/single/PrevNext'
+import Wrapper from '@app/ether/wrapper'
+import { MENU_NAMES } from '@app/_lib/types'
 /* Assets */
 import pic9 from '@app/_lib/images/ether/pic9.png'
 import pic10 from '@app/_lib/images/ether/pic10.png'
@@ -23,9 +24,10 @@ import 'katex/dist/katex.min.css'
 
 export default function RydbergFormula() {
     return (
-        <div className="ether" style={{ counterReset: 'fig 7 tbl 6 equ 2' }}>
-            <ScrollToTop />
-
+        <Wrapper
+            menu={MENU_NAMES.ETHER_KOR}
+            style={{ counterReset: 'fig 7 tbl 6 equ 2' }}
+        >
             <p>
                 지금까지는 보어의 원자모형을 기준으로 가설을 검증했었다. 그러나
                 보어 원자모형은 더 이상 유효하지 않다. 다전자 원자에서는
@@ -702,6 +704,6 @@ export default function RydbergFormula() {
                     link: '/ether/kor/document/analysis',
                 }}
             ></PrevNext>
-        </div>
+        </Wrapper>
     )
 }

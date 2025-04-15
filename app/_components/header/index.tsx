@@ -8,7 +8,7 @@ import { MENU_NAMES } from '@app/_lib/types'
 import '@app/_components/header/style.scss'
 
 type Props = {
-    menu?: MENU_NAMES
+    readonly menu?: MENU_NAMES
 }
 
 export const Header = (props: Props) => {

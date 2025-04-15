@@ -33,19 +33,11 @@ body {
             padding: 4em 1.2em var(--gap);
             background-color: var(--light-gray);
             margin: 0 0 1.5em;
-
-            :last-child {
-                margin-bottom: 0;
-            }
         }
 
         dl {
             dd {
                 margin-bottom: 0.5em;
-            }
-
-            :last-child {
-                margin-bottom: 0;
             }
         }
 
@@ -136,8 +128,8 @@ body {
             text-align: start;
         }
     }
-}
 
-.page--page {
-    margin-bottom: var(--gap);
+    .card {
+        margin-bottom: calc(var(--gap) / 2);
+    }
 }

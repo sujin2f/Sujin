@@ -67,12 +67,16 @@
 
 .card__title {
     font-size: 1.2rem;
-    margin: 0 0 0.2em;
+    margin: 0 0 calc(var(--gap) / 2);
     line-height: normal;
 
     @include mixin.medium {
         font-size: 1.4rem;
     }
+}
+
+.card__description {
+    margin-bottom: calc(var(--gap) / 2);
 }
 
 .card__link {
@@ -93,7 +97,7 @@
     overflow: hidden;
     border: 1px solid rgba(211, 0, 0, 0);
     transition: border 0.2s ease-out;
-    margin-bottom: 0.5em;
+    margin-bottom: calc(var(--gap) / 2);
 
     @include mixin.hover {
         border: 1px solid rgba(211, 0, 0, 0.4);

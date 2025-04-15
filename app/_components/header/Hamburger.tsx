@@ -4,7 +4,7 @@ import React, { useCallback, useState } from 'react'
 import { Menu } from '@common/components/layout/Menu'
 /* Utils */
 import { useDocumentClick } from '@common/hooks/useDocumentClick'
-/* Types */
+/* T_Types */
 import type { MenuItem } from '@common/types/menu'
 /* Assets */
 import HamburgerIcon from '@app/_lib/images/hamburger.svg'

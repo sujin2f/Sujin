@@ -1,18 +1,17 @@
 import { InlineMath } from 'react-katex'
 /* Components */
 import { NextImage } from '@common/components/containers/NextImage'
-import ScrollToTop from '@common/components/ScrollToTop'
 import { Table } from '@common/components/containers/Table'
-import { Latex } from '@app/(single)/_components/Latex'
-import { PrevNext } from '@app/(single)/_components/PrevNext'
+import { Latex } from '@app/_components/single/Latex'
+import { PrevNext } from '@app/_components/single/PrevNext'
+import Wrapper from '@app/ether/wrapper'
 /* Assets */
 import pic5 from '@app/_lib/images/ether/pic5_eng.png'
 import 'katex/dist/katex.min.css'
 
 export default function ClassicPhysics() {
     return (
-        <div className="ether" style={{ counterReset: 'fig 6 tbl equ' }}>
-            <ScrollToTop />
+        <Wrapper style={{ counterReset: 'fig 6 tbl equ' }}>
             <h2>
                 The emitted wavelengths of the Photon-Ether based on Bohr&apos;s
                 atomic model
@@ -418,6 +417,6 @@ export default function ClassicPhysics() {
                     link: '/ether/document/rydberg-formula',
                 }}
             ></PrevNext>
-        </div>
+        </Wrapper>
     )
 }

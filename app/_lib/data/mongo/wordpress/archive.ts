@@ -1,53 +1,24 @@
 /* Models */
-import Mongo from '@common/data/mongo/mongo'
 import Cached from '@common/model/Cached'
-/* Types */
+/* T_Types */
 import type { MutationResultType } from '@app/api/graphql/constants'
 /* CONSTANTS */
-// import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV } from '@common/constants/helper'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
-import {
-    ARCHIVE,
-    COLLECTION,
-    IMAGE_SIZE_BACKGROUND,
-    T_ImageBlock,
-    T_Archive,
-    POST_STATUS,
-    T_PostArchive,
-} from '@app/_lib/types'
+import { ARCHIVE, COLLECTION, POST_STATUS, T_Archive } from '@app/_lib/types'
+import { DAY_IN_SECONDS } from '@common/constants/datetime'
+import { default as schema } from '@app/_lib/data/mongo/schema/10.3.3'
 /* Utils */
 import { getArchiveBySlug as getMySQLArchive } from '@app/_lib/data/mysql/term'
 import { getCacheKey } from '@app/_lib/utils'
-import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
-import { formatImageBlock } from '@app/_lib/data/mongo/wordpress/util'
 import { auth } from '@app/_lib/utils-server'
-import { getArchivePosts } from '@app/_lib/data/mongo/wordpress/post'
+import { getCollection, insertOrReplace } from '@common/data/mongo/mongo'
+import { ObjectId, WithId } from 'mongodb'
+import { schemaFormatter } from '@common/utils/object'
+import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
 
-export const categoryFormatter = (term: Record<string, unknown>): T_Archive => {
-    const formatted = {
-        id: term.id,
-        title: term.title,
-        slug: term.slug,
-        excerpt: term.excerpt,
-        total: term.total || 0,
-    } as T_Archive
-
-    if (term.image) {
-        formatted.image = formatImageBlock(
-            term.image as T_ImageBlock,
-            IMAGE_SIZE_BACKGROUND,
-        )
-    }
-
-    if (term.page) {
-        formatted.page = term.page as number
-    }
-
-    if (term.posts) {
-        formatted.posts = term.posts as T_PostArchive[]
-    }
-
+export const formatter = (term: Record<string, unknown>): T_Archive => {
+    const formatted = schemaFormatter(term, schema.archive) as T_Archive
     return formatted
 }
 
@@ -57,72 +28,24 @@ export const categoryFormatter = (term: Record<string, unknown>): T_Archive => {
  * @template {T} T_Archive
  * @param {string} slug
  * @param {ARCHIVE} type
- * @param {(term: Record<string, unknown>) => T} formatter
  * @param {number} page If exist, return with posts
  * @returns {Promise<T_Archive>}
  */
-export const getCachedArchive = async <T extends T_Archive>(
+export const getCachedArchive = async (
     slug: string,
     type: ARCHIVE,
-    formatter: (term: Record<string, unknown>) => T,
-    page?: number,
-): Promise<T> =>
-    await Cached.getInstance().getOrExecute<T>(
-        getCacheKey(type, slug, page),
-        async () =>
-            await getArchive<T>(slug, type, formatter).then(async (archive) => {
-                const total = await updateTotal(archive.slug, type)
-
-                if (page) {
-                    const posts = await getArchivePosts(type, slug, page)
-                    return formatter({ ...archive, total, page, posts })
-                }
-                return formatter({ ...archive, total })
-            }),
-        0,
+): Promise<WithId<T_Archive> | null> =>
+    await Cached.getInstance().getOrExecute<WithId<T_Archive> | null>(
+        getCacheKey(COLLECTION.ARCHIVE, type, slug),
+        async () => {
+            const collection = await getCollection<T_Archive>(
+                COLLECTION.ARCHIVE,
+            )
+            return await collection.findOne({ slug, type })
+        },
+        DAY_IN_SECONDS,
         IS_DEV,
     )
-
-/**
- * Get archive by slug
- *
- * @param {string} slug
- * @param {ARCHIVE} type
- * @returns {Promise<T_Archive>}
- */
-const getArchive = async <T extends T_Archive>(
-    slug: string,
-    type: ARCHIVE,
-    formatter: (term: Record<string, unknown>) => T,
-): Promise<T> =>
-    await Mongo.findOne(type, { slug }).then(
-        (term) => formatter(term) as unknown as T,
-    )
-
-/**
- * Get how many posts are in the archive
- *
- * @param {string} slug
- * @param {ARCHIVE} type
- * @returns {Promise<number>}
- */
-const getTotal = async (slug: string, type: ARCHIVE): Promise<number> =>
-    await Mongo.count(COLLECTION.POST, {
-        terms: { $elemMatch: { slug, type } },
-        status: POST_STATUS.PUBLISH,
-    })
-
-/**
- * Update post count
- *
- * @param {string} slug
- * @param {ARCHIVE} type
- */
-const updateTotal = async (slug: string, type: ARCHIVE): Promise<number> =>
-    await getTotal(slug, type).then(async (total) => {
-        await Mongo.updateOne(type, { slug }, { $set: { total } })
-        return total
-    })
 
 /**
  * Update archive from WP
@@ -131,34 +54,27 @@ const updateTotal = async (slug: string, type: ARCHIVE): Promise<number> =>
  * @param {ARCHIVE} type
  * @returns {Promise<T_Archive>} updated archive
  */
-export const updateArchive = async <T extends T_Archive>(
+export const updateArchive = async (
     slug: string,
     type: ARCHIVE,
-    formatter: (term: Record<string, unknown>) => T,
     nonce?: string,
-): Promise<T> => {
-    await auth(type, nonce, slug)
+): Promise<ObjectId> => {
+    await auth(nonce, slug)
 
-    await Cached.getInstance().flush(getCacheKey(type, slug))
-    const table = type
+    await Cached.getInstance().flush(
+        getCacheKey(COLLECTION.ARCHIVE, type, slug),
+    )
 
     const wp = await getMySQLArchive(slug, type)
-    const mongo = await Mongo.findOne(table, {
-        slug,
-    }).catch(() => null)
-    const term = {
-        ...wp,
-        image: wp.image ? convertImageBlockURL(wp.image) : undefined,
-        total: await getTotal(slug, type).catch(() => 0),
+    if (wp.image) {
+        wp.image = convertImageBlockURL(wp.image)
     }
 
-    if (type === ARCHIVE.TAG && 'hits' in term) {
-        term.hits = (mongo && 'hits' in mongo && mongo.hits) || 0
-    }
-
-    const formatted = formatter(term)
-    await Mongo.insertOrReplace<T_Archive>(table, { slug }, formatted)
-    return formatted as unknown as T
+    return await insertOrReplace<T_Archive>(
+        COLLECTION.ARCHIVE,
+        { slug, type },
+        formatter({ ...wp, type, total: 0, hits: 0 }),
+    )
 }
 
 /**
@@ -169,31 +85,44 @@ export const updateArchive = async <T extends T_Archive>(
  * @returns {Promise<MutationResultType>} An object indicating the result of the operation.
  * @throws {Error} Throws an error if the nonce value is invalid.
  */
-export const mutateArchive = async <T extends T_Archive>(
+export const mutateArchive = async (
     nonce: string,
     slug: string,
     type: ARCHIVE,
-    formatter: (term: Record<string, unknown>) => T,
 ): Promise<MutationResultType> => {
-    await updateArchive<T>(slug, type, formatter, nonce)
+    await updateArchive(slug, type, nonce)
     return {
         result: true,
     }
 }
 
-export const getArchives = async <T extends T_Archive>(
-    page: number = 1,
-    type: ARCHIVE,
-    formatter: (term: Record<string, unknown>) => T,
-) =>
-    await Mongo.findMany<T>(
-        type,
-        {},
-        { limit: PER_PAGE, skip: PER_PAGE * (page - 1) },
-    ).then((terms) => terms.map((term) => formatter(term)))
+export const getArchives = async (type: ARCHIVE, page: number = 1) => {
+    const collection = await getCollection<T_Archive>(COLLECTION.ARCHIVE)
+    return await collection
+        .find({ type })
+        .limit(PER_PAGE)
+        .skip(PER_PAGE * (page - 1))
+        .toArray()
+}
 
 export const removeArchive = async (slug: string, type: ARCHIVE) => {
     await auth()
-    await Cached.getInstance().flush(getCacheKey(type, slug))
-    await Mongo.deleteOne(type, { slug })
+    await Cached.getInstance().flush(
+        getCacheKey(COLLECTION.ARCHIVE, type, slug),
+    )
+    const collection = await getCollection<T_Archive>(COLLECTION.ARCHIVE)
+    return await collection.deleteOne({ slug, type })
+}
+
+export const updateTotal = async (_ids: ObjectId[]) => {
+    const post = await getCollection(COLLECTION.POST)
+    const archive = await getCollection(COLLECTION.ARCHIVE)
+
+    for (const _id of Array.from(new Set(_ids))) {
+        const total = await post.countDocuments({
+            archives: new ObjectId(_id),
+            status: POST_STATUS.PUBLISH,
+        })
+        await archive.updateOne({ _id }, { $set: { total } })
+    }
 }

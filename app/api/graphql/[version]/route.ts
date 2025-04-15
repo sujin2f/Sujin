@@ -9,12 +9,7 @@ import { getFlickr } from '@app/_lib/data/flickr/request'
 import { createGQLOptions } from '@common/data/graphql/createExpressRouter'
 import { isEmpty } from '@common/utils/object'
 import { getSpectraFromNIST } from '@app/_lib/data/mongo/ether/spectra'
-import {
-    getCachedPrevNext,
-    getCachedRecentPosts,
-    getCachedRelatedPosts,
-    mutatePost,
-} from '@app/_lib/data/mongo/wordpress/post'
+import { mutatePost } from '@app/_lib/data/mongo/wordpress/post'
 import { getTagCloud, mutateTag } from '@app/_lib/data/mongo/wordpress/tag'
 /* Constants */
 import GQL from '@app/api/graphql/constants'
@@ -26,14 +21,6 @@ import { mutateCategory } from '@app/_lib/data/mongo/wordpress/category'
 
 const options = createGQLOptions(
     // Types
-    GQL.Image,
-    GQL.ImageSize,
-    GQL.ImageBlock,
-    GQL.Images,
-    GQL.PostMeta,
-    GQL.PostArchive,
-    GQL.PrevNext,
-    GQL.Term,
     GQL.FlickrImage,
     GQL.TagCloud,
     GQL.Result,
@@ -41,9 +28,6 @@ const options = createGQLOptions(
     // Queries
     GQL.queryFlickr.setCallback(getFlickr),
     GQL.queryTagCloud.setCallback(getTagCloud),
-    GQL.queryRecent.setCallback(getCachedRecentPosts),
-    GQL.queryPrevNext.setCallback(getCachedPrevNext),
-    GQL.queryRelatedPosts.setCallback(getCachedRelatedPosts),
     GQL.querySpectra.setCallback(getSpectraFromNIST),
     // Mutations
     GQL.mutatePost.setCallback(mutatePost),

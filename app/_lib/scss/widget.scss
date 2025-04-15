@@ -1,5 +1,5 @@
 .widget__heading {
-    margin-bottom: 0.2em;
+    margin-bottom: calc(var(--gap) / 2);
     border-bottom: 1px solid var(--black);
     display: flex;
     font-size: 1.7em;

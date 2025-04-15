@@ -6,16 +6,16 @@ import { ARCHIVE } from '@app/_lib/types'
 import { getMedia } from '@app/_lib/data/mysql/media'
 /* Models */
 import MySQL from '@app/_lib/data/mysql'
-/* Types */
-import type { T_ImageBlock, T_Term, T_Archive } from '@app/_lib/types'
+/* T_Types */
+import type { T_ImageBlock, T_Archive, T_MySQLArchive } from '@app/_lib/types'
 import type { Nullable } from '@common/types'
 import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 
 const getMeta = async <T = string>(id: number, metaKey: string): Promise<T> =>
     await MySQL.getInstance().selectOne<T>(MySQLQuery.getTermMeta(id, metaKey))
 
-export const getTermsByPost = async (id: number): Promise<T_Term[]> =>
-    await MySQL.getInstance().select<T_Term>(MySQLQuery.getTaxonomies(id))
+export const getTermsByPost = async (id: number): Promise<T_Archive[]> =>
+    await MySQL.getInstance().select<T_Archive>(MySQLQuery.getTaxonomies(id))
 
 /**
  * Get archive image.
@@ -23,7 +23,7 @@ export const getTermsByPost = async (id: number): Promise<T_Term[]> =>
  * @return {Promise<Nullable<T_ImageBlock>>} Image.
  */
 const getThumbnail = async (
-    archive: T_Archive,
+    archive: T_MySQLArchive,
 ): Promise<Nullable<T_ImageBlock>> =>
     await getMeta<{ value: string }>(archive.id, 'thumbnail')
         .then(async (data) =>
@@ -46,7 +46,7 @@ export const getArchiveBySlug = async (
     type: ARCHIVE,
 ): Promise<T_Archive> => {
     const archive = await MySQL.getInstance()
-        .selectOne<T_Archive>(MySQLQuery.getArchiveBy('slug', slug))
+        .selectOne<T_MySQLArchive>(MySQLQuery.getArchiveBy('slug', slug))
         .catch(() => {
             throw new ServerError(
                 ERROR_MESSAGE.ARCHIVE.SQL_GET_ONE,

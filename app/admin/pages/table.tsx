@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 /* Components */
 import TableComponent from '@common/components/containers/Table'
-/* Types */
+/* T_Types */
 import type { T_Page } from '@app/_lib/types'
 import type { Dispatch, SetStateAction } from 'react'
 

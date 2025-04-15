@@ -6,7 +6,7 @@ import {
     ARCHIVE,
     TAXONOMY,
     type POST_TYPE,
-    type T_Term,
+    type T_Archive,
     type T_MySQLPost,
 } from '@app/_lib/types'
 /* Utils */
@@ -135,7 +135,7 @@ export const getPostsBy = async (
     // Create Post from dbResult
     const posts: T_MySQLPost[] = []
     for await (const post of result) {
-        const terms: T_Term[] = await getTermsByPost(post.id)
+        const terms: T_Archive[] = await getTermsByPost(post.id)
         const meta = {
             useBackgroundColor: await getPostMeta<boolean>(
                 post.id,

@@ -1,11 +1,8 @@
 import type {
-    T_Term,
-    T_Archive,
     T_Image,
     T_ImageBlock,
     T_Option,
     T_PostImages,
-    T_Post,
     T_Page,
 } from '@app/_lib/types'
 import { ARCHIVE, POST_STATUS } from '@app/_lib/types'
@@ -99,7 +96,7 @@ const images: { [key in keyof T_PostImages]: object } = {
     },
 }
 
-const term: { [key in keyof T_Term]: object } = {
+const term = {
     id: {
         bsonType: 'int',
     },
@@ -154,7 +151,7 @@ const pageProperty: { [key in keyof T_Page]: object } = {
     },
 }
 
-const postProperty: { [key in keyof T_Post]: object } = {
+const postProperty = {
     ...pageProperty,
     terms: {
         bsonType: 'array',
@@ -165,7 +162,7 @@ const postProperty: { [key in keyof T_Post]: object } = {
     },
 }
 
-const archivesProperty: { [key in keyof T_Archive]: object } = {
+const archivesProperty = {
     id: {
         bsonType: 'int',
     },

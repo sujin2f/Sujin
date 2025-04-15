@@ -1,5 +1,5 @@
+'use client'
 import React, { createElement, JSX, PropsWithChildren, useState } from 'react'
-
 /* Components */
 import { CloseButton } from '../forms/CloseButton'
 /* Helpers */

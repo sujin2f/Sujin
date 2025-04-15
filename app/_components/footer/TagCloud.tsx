@@ -2,7 +2,7 @@
 import React from 'react'
 import Link from 'next/link'
 /* Components */
-import { Loading } from '@app/(archive)/_components/loading'
+import { Loading } from '@app/_components/archive/loading'
 /* CONSTANTS */
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import GQL from '@app/api/graphql/constants'
@@ -30,7 +30,7 @@ const TagCloud = () => {
                 tagCloud.slice(0, 20).map((tag) => (
                     <Link
                         className={`tag-cloud tag-cloud--size-${tag.total} tag-cloud--color-${tag.hits}`}
-                        key={`tag-cloud-${tag.id}-${tag.title}-${tag.slug}`}
+                        key={`tag-cloud-${tag.slug}-${tag.title}`}
                         title={tag.title}
                         href={`/tag/${tag.slug}`}
                     >

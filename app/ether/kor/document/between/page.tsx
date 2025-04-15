@@ -4,9 +4,10 @@ import { InlineMath } from 'react-katex'
 import { NextImage } from '@common/components/containers/NextImage'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
-import { Latex } from '@app/(single)/_components/Latex'
-import { PrevNext } from '@app/(single)/_components/PrevNext'
-import ScrollToTop from '@common/components/ScrollToTop'
+import { Latex } from '@app/_components/single/Latex'
+import { PrevNext } from '@app/_components/single/PrevNext'
+import Wrapper from '@app/ether/wrapper'
+import { MENU_NAMES } from '@app/_lib/types'
 /* Assets */
 import pic58 from '@app/_lib/images/ether/pic58.png'
 import pic114 from '@app/_lib/images/ether/pic114.png'
@@ -24,9 +25,10 @@ import 'katex/dist/katex.min.css'
 
 export default function Between() {
     return (
-        <div className="ether" style={{ counterReset: 'fig 40 tbl 7 equ 9' }}>
-            <ScrollToTop />
-
+        <Wrapper
+            menu={MENU_NAMES.ETHER_KOR}
+            style={{ counterReset: 'fig 40 tbl 7 equ 9' }}
+        >
             <p>
                 여기서 하나 의문이 생긴다. 원형 에테르의 변화를 s 오비탈 쪽으로,
                 나머지를 p 오비탈 쪽으로 이동시킨 후 비교하는 것이 과연
@@ -285,6 +287,6 @@ export default function Between() {
                     link: '/ether/kor/document/conclusion',
                 }}
             ></PrevNext>
-        </div>
+        </Wrapper>
     )
 }

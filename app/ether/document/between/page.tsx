@@ -4,9 +4,9 @@ import Link from 'next/link'
 import { NextImage } from '@common/components/containers/NextImage'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
-import { Latex } from '@app/(single)/_components/Latex'
-import { PrevNext } from '@app/(single)/_components/PrevNext'
-import ScrollToTop from '@common/components/ScrollToTop'
+import { Latex } from '@app/_components/single/Latex'
+import { PrevNext } from '@app/_components/single/PrevNext'
+import Wrapper from '@app/ether/wrapper'
 /* Assets */
 import pic58 from '@app/_lib/images/ether/pic58.png'
 import pic114 from '@app/_lib/images/ether/pic114.png'
@@ -24,8 +24,7 @@ import 'katex/dist/katex.min.css'
 
 export default function Between() {
     return (
-        <div className="ether" style={{ counterReset: 'fig 40 tbl 7 equ 9' }}>
-            <ScrollToTop />
+        <Wrapper style={{ counterReset: 'fig 40 tbl 7 equ 9' }}>
             <p>
                 It raises a question: Is it really appropriate to shift the
                 changes in circular ether towards the s orbital side and the
@@ -294,6 +293,6 @@ export default function Between() {
                     link: '/ether/document/conclusion',
                 }}
             ></PrevNext>
-        </div>
+        </Wrapper>
     )
 }

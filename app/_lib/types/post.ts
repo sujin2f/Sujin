@@ -1,0 +1,70 @@
+import type { ObjectId } from 'mongodb'
+import { ConstToType } from '@common/types'
+import type { T_PostImages } from '@app/_lib/types/image'
+import { T_Archive } from '@app/_lib/types/archive'
+
+/**
+ * WP Post types
+ * @enum
+ */
+export const POST_TYPE = {
+    POST: 'post',
+    PAGE: 'page',
+    ATTACHMENT: 'attachment',
+} as const
+export type POST_TYPE = ConstToType<typeof POST_TYPE>
+
+/**
+ * @enum
+ * @todo use this
+ */
+export const POST_STATUS = {
+    PUBLISH: 'publish',
+    DRAFT: 'draft',
+    TRASH: 'trash',
+} as const
+export type POST_STATUS = ConstToType<typeof POST_STATUS>
+
+// Post and Page
+export type T_PrevNext = {
+    title: string
+    link: string
+}
+
+export type T_MongoPostArchive = T_PrevNext & {
+    id: number
+    slug: string
+    excerpt: string
+    date: number
+    archives: ObjectId[]
+    images: T_PostImages
+    status: POST_STATUS
+}
+
+export type T_PostArchive = Omit<T_MongoPostArchive, 'archives'> & {
+    archives: T_Archive[]
+}
+
+export type T_MongoPost = T_MongoPostArchive & {
+    content: string
+    meta: {
+        useBackgroundColor: boolean
+        backgroundColor: string
+    }
+}
+
+export type T_Post = T_PostArchive & {
+    content: string
+    meta: {
+        useBackgroundColor: boolean
+        backgroundColor: string
+    }
+}
+
+export type T_MySQLPost = T_Post & {
+    terms: T_Archive[]
+    mimeType: string
+    type: string
+}
+
+export type T_Page = Omit<T_Post, 'terms' | 'archives'>

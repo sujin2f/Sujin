@@ -2,16 +2,15 @@
 import { useRouter } from 'next/navigation'
 import { useRef, useState } from 'react'
 /* Components */
-import { Button } from '@common/components/forms/Button'
 import HeaderComponent from '@app/admin/_components/Header'
-import { Input } from '@common/components/forms/Input'
 import Callout from '@common/components/containers/Callout'
 import { PrevNext } from '@app/admin/_components/PrevNext'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
-
-import { T_Page } from '@app/_lib/types'
-import { Table } from './table'
+import { Table } from '@app/admin/pages/table'
+import InputGroup from '@common/components/forms/InputGroup'
+/* T_Types */
+import type { T_Page } from '@app/_lib/types'
 
 type Props = {
     readonly pages: T_Page[]
@@ -28,11 +27,13 @@ export function ClientComponent({ pages, page, remove, update }: Props) {
     return (
         <>
             <HeaderComponent title="Pages">
-                <Input label="Pull from Wordpress" ref={ref} />
-                <Button
-                    title="Update"
-                    onClick={() =>
+                <InputGroup
+                    ref={ref}
+                    label="Slug"
+                    button="Update"
+                    onSubmit={() =>
                         update(ref.current?.value || '').then((message) => {
+                            console.log(ref.current?.value)
                             ref.current!.value = ''
                             setMessage(message)
                             router.refresh()
@@ -42,6 +43,9 @@ export function ClientComponent({ pages, page, remove, update }: Props) {
             </HeaderComponent>
             {message ? <Callout>{message}</Callout> : null}
             <Row dom="article" fullWidth>
+                <Column small={12}>
+                    <PrevNext page={page} length={pages.length} path="pages" />
+                </Column>
                 <Column small={12}>
                     <Table
                         pages={pages}

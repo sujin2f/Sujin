@@ -5,17 +5,16 @@ import { useRef, useState } from 'react'
 /* Components */
 import HeaderComponent from '@app/admin/_components/Header'
 import { PrevNext } from '@app/admin/_components/PrevNext'
-import { Button } from '@common/components/forms/Button'
-import { Input } from '@common/components/forms/Input'
 import Callout from '@common/components/containers/Callout'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 import Table from '@common/components/containers/Table'
-
-import type { T_Category } from '@app/_lib/types'
+import InputGroup from '@common/components/forms/InputGroup'
+/* T_Types */
+import type { T_Archive } from '@app/_lib/types'
 
 type Props = {
-    readonly categories: T_Category[]
+    readonly categories: (T_Archive & { _id: string })[]
     readonly page: number
     readonly remove: (slug: string) => Promise<string>
     readonly update: (slug: string) => Promise<string>
@@ -29,10 +28,11 @@ export function ClientComponent({ categories, page, remove, update }: Props) {
     return (
         <>
             <HeaderComponent title="Categories">
-                <Input label="Pull from Wordpress" ref={ref} />
-                <Button
-                    title="Update"
-                    onClick={() =>
+                <InputGroup
+                    ref={ref}
+                    label="Slug"
+                    button="Update"
+                    onSubmit={() =>
                         update(ref.current?.value || '').then((message) => {
                             ref.current!.value = ''
                             setMessage(message)
@@ -44,12 +44,19 @@ export function ClientComponent({ categories, page, remove, update }: Props) {
             {message ? <Callout>{message}</Callout> : null}
             <Row dom="article" fullWidth>
                 <Column small={12}>
+                    <PrevNext
+                        page={page}
+                        length={categories.length}
+                        path="pages"
+                    />
+                </Column>
+                <Column small={12}>
                     <Table fullWidth>
                         <thead>
                             <tr>
-                                <th>ID</th>
                                 <th>Title</th>
                                 <th>Slug</th>
+                                <th>Total</th>
                                 <th>Show Posts</th>
                                 <th>Update</th>
                                 <th>Remove</th>
@@ -57,10 +64,10 @@ export function ClientComponent({ categories, page, remove, update }: Props) {
                         </thead>
                         <tbody>
                             {categories.map((term) => (
-                                <tr key={`admin-posts-${term.id}`}>
-                                    <td className="center">{term.id}</td>
+                                <tr key={`admin-posts-${term.slug}`}>
                                     <td>{term.title}</td>
                                     <td className="center">{term.slug}</td>
+                                    <td className="center">{term.total}</td>
                                     <td className="center">
                                         <Link
                                             href={`/admin/categories/posts/${term.slug}/1`}

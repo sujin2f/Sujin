@@ -8,18 +8,16 @@ import {
     tagFactory,
     postFactory,
 } from '@jest/helpers'
-import { post } from '@jest/fixture'
 import {
     getCachedPost,
     getArchivePosts,
     getCachedPrevNext,
     getCachedRecentPosts,
     getCachedRelatedPosts,
-    updateArchivePosts,
 } from './post'
-import Mongo from '@common/data/mongo/mongo'
 import Cached from '@common/model/Cached'
-import { ARCHIVE, COLLECTION, POST_STATUS } from '@app/_lib/types'
+import { COLLECTION, POST_STATUS } from '@app/_lib/types'
+import { closeConnection, migrate } from '@common/data/mongo/mongo'
 
 jest.mock('next-auth', () => ({
     getServerSession: jest.fn(async () =>
@@ -31,30 +29,22 @@ jest.mock('next-auth', () => ({
     ),
 }))
 
-const mockQuery = jest.fn()
-jest.mock('promise-mysql', () => ({
-    createConnection: jest.fn(() => ({
-        query: mockQuery,
-    })),
-}))
-
 describe('post.spec.ts', () => {
     beforeAll(async () => {
         await clearMongo()
-        await Mongo.migrate('0.0.0', VERSION, migration)
+        await migrate('0.0.0', VERSION, migration)
     })
 
     afterEach(async () => {
         await Cached.getInstance().flush()
-        await clearMongo(COLLECTION.POST, COLLECTION.CATEGORY, COLLECTION.TAG)
+        await clearMongo(COLLECTION.POST, COLLECTION.ARCHIVE)
     })
 
     afterAll(async () => {
         jest.clearAllMocks()
-        await clearMongo(COLLECTION.POST, COLLECTION.CATEGORY, COLLECTION.TAG)
-        await clearMongo().then(async (client) => {
-            await client.close()
-        })
+        await clearMongo(COLLECTION.POST, COLLECTION.ARCHIVE)
+        await clearMongo()
+        await closeConnection()
     })
 
     test('getCachedPost()', async () => {
@@ -77,44 +67,18 @@ describe('post.spec.ts', () => {
         const tag = await tagFactory()
         await postFactory({
             slug: 'test-post-1',
-            terms: [
-                {
-                    id: category.id,
-                    title: category.title,
-                    slug: category.slug,
-                    type: ARCHIVE.CATEGORY,
-                },
-                {
-                    id: tag.id,
-                    title: tag.title,
-                    slug: tag.slug,
-                    type: ARCHIVE.TAG,
-                },
-            ],
+            archives: [category._id, tag._id],
         })
         await postFactory({
             slug: 'test-post-2',
-            terms: [
-                {
-                    id: category.id,
-                    title: category.title,
-                    slug: category.slug,
-                    type: ARCHIVE.CATEGORY,
-                },
-            ],
+            archives: [category._id],
         })
         await postFactory()
 
-        const result1 = await getArchivePosts(
-            ARCHIVE.CATEGORY,
-            category.slug,
-            1,
-        )
+        const result1 = await getArchivePosts(category._id, 1)
         expect(result1.length).toEqual(2)
-        const result2 = await getArchivePosts(ARCHIVE.TAG, tag.slug, 1)
+        const result2 = await getArchivePosts(tag._id, 1)
         expect(result2.length).toEqual(1)
-        const result3 = await getArchivePosts(ARCHIVE.CATEGORY, tag.slug, 1)
-        expect(result3.length).toEqual(0)
     })
 
     test('getCachedPrevNext()', async () => {
@@ -123,12 +87,7 @@ describe('post.spec.ts', () => {
             slug: 'test-post-1',
             title: 'test-post-1',
             date: new Date('2025-06-04') as unknown as number,
-            terms: [
-                {
-                    ...category,
-                    type: ARCHIVE.CATEGORY,
-                },
-            ],
+            archives: [category._id],
         })
         await postFactory({
             slug: 'test-post-2',
@@ -137,33 +96,18 @@ describe('post.spec.ts', () => {
         await postFactory({
             slug: 'test-post-3',
             date: new Date('2025-06-06') as unknown as number,
-            terms: [
-                {
-                    ...category,
-                    type: ARCHIVE.CATEGORY,
-                },
-            ],
+            archives: [category._id],
         })
         await postFactory({
             slug: 'test-post-4',
             title: 'test-post-4',
             date: new Date('2025-06-07') as unknown as number,
-            terms: [
-                {
-                    ...category,
-                    type: ARCHIVE.CATEGORY,
-                },
-            ],
+            archives: [category._id],
         })
         await postFactory({
             slug: 'test-post-5',
             date: new Date('2025-06-08') as unknown as number,
-            terms: [
-                {
-                    ...category,
-                    type: ARCHIVE.CATEGORY,
-                },
-            ],
+            archives: [category._id],
         })
 
         const result1 = await getCachedPrevNext('test-post-3')
@@ -187,22 +131,12 @@ describe('post.spec.ts', () => {
         await postFactory({
             slug: 'test-post-1',
             date: new Date('1977-01-01') as unknown as number,
-            terms: [
-                {
-                    ...category,
-                    type: ARCHIVE.CATEGORY,
-                },
-            ],
+            archives: [category._id],
         })
         await postFactory({
             slug: 'test-post-2',
             date: new Date('1977-01-02') as unknown as number,
-            terms: [
-                {
-                    ...category,
-                    type: ARCHIVE.CATEGORY,
-                },
-            ],
+            archives: [category._id],
         })
         await postFactory({
             slug: 'test-post-3',
@@ -211,22 +145,12 @@ describe('post.spec.ts', () => {
         await postFactory({
             slug: 'test-post-4',
             date: new Date('1977-01-04') as unknown as number,
-            terms: [
-                {
-                    ...category,
-                    type: ARCHIVE.CATEGORY,
-                },
-            ],
+            archives: [category._id],
         })
         await postFactory({
             slug: 'test-post-5',
             date: new Date('1977-01-05') as unknown as number,
-            terms: [
-                {
-                    ...category,
-                    type: ARCHIVE.CATEGORY,
-                },
-            ],
+            archives: [category._id],
         })
 
         const result = await getCachedRelatedPosts('test-post-1')
@@ -240,12 +164,7 @@ describe('post.spec.ts', () => {
         await postFactory({
             slug: 'test-post-6',
             date: new Date('1977-01-06') as unknown as number,
-            terms: [
-                {
-                    ...category,
-                    type: ARCHIVE.CATEGORY,
-                },
-            ],
+            archives: [category._id],
         })
 
         const result2 = await getCachedRelatedPosts('test-post-2')
@@ -255,40 +174,5 @@ describe('post.spec.ts', () => {
             'test-post-4',
             'test-post-1',
         ])
-    })
-
-    test('getMySQLArchivePosts()', async () => {
-        mockQuery.mockImplementation((arg: string) => {
-            if (
-                arg.includes(
-                    'WHERE terms.slug="test-post" AND posts.post_status="publish"',
-                )
-            ) {
-                return Promise.resolve([
-                    {
-                        ...post,
-                    },
-                ])
-            }
-
-            if (arg.includes('taxonomy.taxonomy AS type')) {
-                return Promise.resolve([
-                    {
-                        id: 5845,
-                        title: '김조광수 생각',
-                        slug: '%ea%b9%80%ec%a1%b0%ea%b4%91%ec%88%98-%ec%83%9d%ea%b0%81',
-                        type: 'series',
-                    },
-                ])
-            }
-
-            return Promise.resolve([])
-        })
-        const result = await updateArchivePosts(
-            ARCHIVE.CATEGORY,
-            'test-post',
-            1,
-        )
-        expect(result).toBeTruthy()
     })
 })

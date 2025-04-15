@@ -14,6 +14,8 @@
     --primary: #{variable.$primary};
     --primary-dark: #{variable.$primary-dark};
     --warning: #{variable.$warning};
+    --pastel-red: #{variable.$pastel-red};
+    --pastel-blue: #{variable.$pastel-blue};
 
     /**
      * Font
@@ -152,10 +154,6 @@ article {
     img {
         line-height: 1.8;
         margin-bottom: 1.5em;
-    }
-
-    > *:last-child {
-        margin-bottom: 0;
     }
 
     img {

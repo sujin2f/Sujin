@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react'
+import React, { PropsWithChildren, Suspense } from 'react'
 import { Ubuntu } from 'next/font/google'
 import Script from 'next/script'
 import type { Metadata } from 'next'
@@ -8,6 +8,7 @@ import { BASE_URL, DEFAULT_THUMBNAIL } from '@app/_lib/constants'
 import './wrapper.scss'
 import '@common/scss/normalize.css'
 import '@common/scss/base.scss'
+import Loading from './loading'
 
 export const generateMetadata = async (): Promise<Metadata> => {
     const metadata: Metadata = {
@@ -63,7 +64,9 @@ export default async function AppLayout({ children }: PropsWithChildren) {
     return (
         <html lang="en">
             <head>{adSense}</head>
-            <body className={`wrapper ${ubuntu.className}`}>{children}</body>
+            <body className={`wrapper ${ubuntu.className}`}>
+                <Suspense fallback={<Loading />}>{children}</Suspense>
+            </body>
         </html>
     )
 }

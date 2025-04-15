@@ -1,12 +1,9 @@
-/* CONSTANTS */
-import { MONGO_DATABASE } from '@common/constants/helper'
 /* Models */
-import client from '@common/data/mongo/mongo-client'
-import { CollectionsClient } from './CollectionsClient'
+import { getDatabase } from '@common/data/mongo/mongo'
+import { CollectionsClient } from '@app/admin/collections/CollectionsClient'
 
 export async function Collections() {
-    const collections = await client.then(async (client) => {
-        const database = client.db(MONGO_DATABASE)
+    const collections = await getDatabase().then(async (database) => {
         return await database.collections().then((collections) =>
             collections.map((collection) => ({
                 name: collection.collectionName,
@@ -17,8 +14,7 @@ export async function Collections() {
 
     const drop = async (collection: string) => {
         'use server'
-        await client.then(async (client) => {
-            const database = client.db(MONGO_DATABASE)
+        await getDatabase().then(async (database) => {
             await database.dropCollection(collection)
         })
     }

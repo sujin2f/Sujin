@@ -3,13 +3,10 @@
 import { VERSION } from '@common/constants/helper'
 import { categoryFactory, clearMongo } from '@jest/helpers'
 import migration from './migration'
-import Mongo from '@common/data/mongo/mongo'
 import { ARCHIVE, COLLECTION } from '@app/_lib/types'
 import Cached from '@common/model/Cached'
-import {
-    categoryFormatter,
-    getCachedArchive,
-} from './data/mongo/wordpress/archive'
+import { getCachedArchive } from './data/mongo/wordpress/archive'
+import { closeConnection, migrate } from '@common/data/mongo/mongo'
 
 jest.mock('next-auth', () => ({
     getServerSession: jest.fn(async () =>
@@ -28,24 +25,19 @@ describe('migration.spec.ts', () => {
 
     afterEach(async () => {
         await Cached.getInstance().flush()
-        await clearMongo(COLLECTION.CATEGORY, COLLECTION.POST)
+        await clearMongo(COLLECTION.ARCHIVE, COLLECTION.POST)
     })
 
     afterAll(async () => {
         jest.clearAllMocks()
-        await clearMongo().then(async (client) => {
-            await client.close()
-        })
+        await clearMongo()
+        await closeConnection()
     })
 
     test('Mongo.migration(): Check Validation Error', async () => {
-        await Mongo.migrate('0.0.0', VERSION, migration)
+        await migrate('0.0.0', VERSION, migration)
         await categoryFactory({ slug: 'blog' })
-        const result = await getCachedArchive(
-            'blog',
-            ARCHIVE.CATEGORY,
-            categoryFormatter,
-        )
+        const result = await getCachedArchive('blog', ARCHIVE.CATEGORY)
         expect(result).toBeTruthy()
     })
 })

@@ -5,9 +5,10 @@ import { NextImage } from '@common/components/containers/NextImage'
 import { Table } from '@common/components/containers/Table'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
-import { Latex } from '@app/(single)/_components/Latex'
-import { PrevNext } from '@app/(single)/_components/PrevNext'
-import ScrollToTop from '@common/components/ScrollToTop'
+import { Latex } from '@app/_components/single/Latex'
+import { PrevNext } from '@app/_components/single/PrevNext'
+import Wrapper from '@app/ether/wrapper'
+import { MENU_NAMES } from '@app/_lib/types'
 /* Assets */
 import pic29 from '@app/_lib/images/ether/pic29.png'
 import pic42 from '@app/_lib/images/ether/pic42.png'
@@ -34,9 +35,10 @@ import 'katex/dist/katex.min.css'
 
 export default function Analysis() {
     return (
-        <div className="ether" style={{ counterReset: 'fig 19 tbl 6 equ 7' }}>
-            <ScrollToTop />
-
+        <Wrapper
+            menu={MENU_NAMES.ETHER_KOR}
+            style={{ counterReset: 'fig 19 tbl 6 equ 7' }}
+        >
             <p>
                 공식이 준비되었다. 비교에 들어가보자. 이전 장의 마지막 그래프를
                 약간 보완해서 다시 가져오겠다.
@@ -701,6 +703,6 @@ export default function Analysis() {
                     link: '/ether/kor/document/between',
                 }}
             ></PrevNext>
-        </div>
+        </Wrapper>
     )
 }

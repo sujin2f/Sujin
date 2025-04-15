@@ -1,95 +1,85 @@
-/// @todo 태그가 카테고리에 들어감
-
 /* Models */
-import Mongo from '@common/data/mongo/mongo'
 import Cached from '@common/model/Cached'
-/* Types */
+/* T_Types */
 import type { MutationResultType } from '@app/api/graphql/constants'
 /* Utils */
-import {
-    updateArchive,
-    mutateArchive,
-    getArchives,
-    removeArchive,
-    categoryFormatter,
-} from '@app/_lib/data/mongo/wordpress/archive'
+import { mutateArchive } from '@app/_lib/data/mongo/wordpress/archive'
 import { getCacheKey } from '@app/_lib/utils'
 /* CONSTANTS */
-// import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { shuffle } from '@common/utils/array'
-import { ARCHIVE, T_Tag } from '@app/_lib/types'
-
-const formatter = (term: Record<string, unknown>): T_Tag => {
-    const formatted = {
-        ...categoryFormatter(term),
-        hits: 0,
-    } as T_Tag
-
-    if ('hits' in term) {
-        formatted.hits = term.hits as number
-    }
-
-    return formatted
-}
-
-export const updateTag = async (slug: string): Promise<T_Tag> =>
-    await updateArchive(slug, ARCHIVE.TAG, formatter)
+import { ARCHIVE, COLLECTION, T_Archive } from '@app/_lib/types'
+import { IS_DEV } from '@common/constants/helper'
+import { DAY_IN_SECONDS } from '@common/constants/datetime'
+import { getCollection } from '@common/data/mongo/mongo'
 
 export const mutateTag = async (
     nonce: string,
     slug: string,
-): Promise<MutationResultType> =>
-    await mutateArchive(nonce, slug, ARCHIVE.TAG, formatter)
+): Promise<MutationResultType> => await mutateArchive(nonce, slug, ARCHIVE.TAG)
 
-export const getTags = async (page: number = 1): Promise<T_Tag[]> =>
-    await getArchives(page, ARCHIVE.TAG, formatter)
+export const updateHits = async (slug: string) => {
+    const collection = await getCollection(COLLECTION.ARCHIVE)
+    await collection.updateOne(
+        { slug, type: ARCHIVE.TAG },
+        { $inc: { hits: 1 } },
+    )
+}
 
-export const removeTag = async (slug: string) =>
-    await removeArchive(slug, ARCHIVE.TAG)
-
-export const updateHits = async (slug: string) =>
-    await Mongo.updateOne(ARCHIVE.TAG, { slug }, { $inc: { hits: 1 } })
-
-export const getTagCloud = async (): Promise<T_Tag[]> =>
+export const getTagCloud = async (): Promise<T_Archive[]> =>
     await Cached.getInstance().getOrExecute(
-        getCacheKey(ARCHIVE.TAG, 'tag-cloud'),
+        getCacheKey(COLLECTION.ARCHIVE, 'tag-cloud'),
         async () => {
-            const tags: Record<string, T_Tag> = {}
-            await Mongo.findMany<T_Tag>(
-                ARCHIVE.TAG,
-                {},
-                { sort: { total: -1 }, limit: 20 },
-            ).then((result) => {
-                const step = result.length / 5
-                result.forEach((tag, index) => {
-                    tags[tag.slug] = {
-                        ...tag,
-                        hits: Math.floor(index / step),
-                    }
+            const tags: Record<string, T_Archive> = {}
+            const collection = await getCollection<T_Archive>(
+                COLLECTION.ARCHIVE,
+            )
+
+            await collection
+                .find({
+                    total: { $not: { $eq: 0 } },
+                    type: ARCHIVE.TAG,
                 })
-            })
-            await Mongo.findMany<T_Tag>(
-                ARCHIVE.TAG,
-                {},
-                { sort: { hits: -1 }, limit: 20 },
-            ).then((result) => {
-                const step = result.length / 5
-                result.forEach((tag, index) => {
-                    if (tags[tag.slug]) {
+                .sort({ total: -1 })
+                .limit(20)
+                .toArray()
+                .then((result) => {
+                    const step = result.length / 5
+                    result.forEach((tag, index) => {
                         tags[tag.slug] = {
                             ...tag,
-                            total: Math.floor(index / step),
-                            hits: tags[tag.slug].hits,
+                            hits: Math.floor(index / step),
                         }
-                    } else {
-                        tags[tag.slug] = {
-                            ...tag,
-                            total: Math.floor(index / step),
-                        }
-                    }
+                    })
                 })
-            })
+
+            await collection
+                .find({
+                    total: { $not: { $eq: 0 } },
+                    type: ARCHIVE.TAG,
+                })
+                .sort({ hits: -1 })
+                .limit(20)
+                .toArray()
+                .then((result) => {
+                    const step = result.length / 5
+                    result.forEach((tag, index) => {
+                        if (tags[tag.slug]) {
+                            tags[tag.slug] = {
+                                ...tag,
+                                total: Math.floor(index / step),
+                                hits: tags[tag.slug].hits,
+                            }
+                        } else {
+                            tags[tag.slug] = {
+                                ...tag,
+                                total: Math.floor(index / step),
+                            }
+                        }
+                    })
+                })
+
             return shuffle(Object.values(tags))
         },
-        0,
+        DAY_IN_SECONDS,
+        IS_DEV,
     )

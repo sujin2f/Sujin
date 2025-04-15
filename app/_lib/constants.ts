@@ -309,4 +309,26 @@ export const MENUS: Record<MENU_NAMES, MenuItem[]> = {
             link: '/dev-tools/text-sort',
         },
     ],
+    [MENU_NAMES.DESIGN_SYSTEM]: [
+        {
+            ...menuFixture,
+            title: 'Home',
+            link: '/',
+        },
+        {
+            ...menuFixture,
+            title: 'Elements',
+            link: '/design-system/elements',
+        },
+        {
+            ...menuFixture,
+            title: 'Loading',
+            link: '/design-system/pages/loading',
+        },
+        {
+            ...menuFixture,
+            title: 'Not Found',
+            link: '/design-system/pages/not-found',
+        },
+    ],
 } as const

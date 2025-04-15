@@ -46,3 +46,5 @@ export function Row({
         children,
     )
 }
+
+export default Row

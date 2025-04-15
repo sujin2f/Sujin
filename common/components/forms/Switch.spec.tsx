@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-// yarn test src/client/components/form/Switch.spec.ts
+// yarn test Switch.spec.ts
 
 import '@testing-library/jest-dom'
 import React, { Fragment, useState } from 'react'
@@ -13,11 +13,14 @@ describe('Switch.ts', () => {
         const Component = () => <Switch id="switch" />
         const result = render(<Component />)
 
-        const switchInput = result.container.querySelector('#switch')
-        const switchPaddle = result.container.querySelector('.switch-paddle')
+        const switchInput = result.container.querySelector('.switch')
+        const switchPaddle = result.container.querySelector('.switch__paddle')
+
+        fireEvent.click(switchInput!)
 
         expect(switchInput).toBeTruthy()
         expect(switchPaddle).toBeTruthy()
+        expect(switchInput?.classList.contains('switch--on')).toBeTruthy()
     })
 
     it('onChange', async () => {

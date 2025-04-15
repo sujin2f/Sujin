@@ -1,11 +1,11 @@
 /* Components */
-import ScrollToTop from '@common/components/ScrollToTop'
-import { PrevNext } from '@app/(single)/_components/PrevNext'
+import { PrevNext } from '@app/_components/single/PrevNext'
+import Wrapper from '@app/ether/wrapper'
+import { MENU_NAMES } from '@app/_lib/types'
 
 export default function Intro() {
     return (
-        <>
-            <ScrollToTop />
+        <Wrapper menu={MENU_NAMES.ETHER_KOR}>
             <p>
                 질량 전자기파 합성체로서의 물질과 질량 독립적 전자기파로서의
                 광자, 그리고 전자기파 독립적 질량.
@@ -37,13 +37,12 @@ export default function Intro() {
                 비전공자들도 이해할 수 있도록 최대한의 설명을 곁들여 작성했기
                 때문에 설명이 매우 장황할 수 있다는 것을 밝힌다.
             </p>
-
             <PrevNext
                 next={{
                     title: '가설 제시',
                     link: '/ether/kor/document/hypothesis',
                 }}
             ></PrevNext>
-        </>
+        </Wrapper>
     )
 }

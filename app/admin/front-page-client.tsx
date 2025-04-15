@@ -45,7 +45,7 @@ export function FrontPageClient({
                                 setMessage(message)
                                 router.refresh()
                             })
-                            .catch(() => setMessage('Failed'))
+                            .catch((e) => setMessage(e.message))
                     }
                 >
                     Migrate MongoDB

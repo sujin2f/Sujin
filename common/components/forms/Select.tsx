@@ -1,3 +1,4 @@
+'use client'
 import React, { Fragment, RefObject, ChangeEvent, useCallback } from 'react'
 
 /* Helpers */
@@ -125,3 +126,5 @@ export const Select = ({
         </Fragment>
     )
 }
+
+export default Select
