@@ -35,6 +35,7 @@ export const getCachedBackgrounds = async (): Promise<T_Background[]> =>
             )
             return await collection
                 .aggregate<T_Background>([{ $sample: { size: 10 } }])
+                .project<T_Background>({ _id: 0 })
                 .toArray()
         },
         DAY_IN_SECONDS,
