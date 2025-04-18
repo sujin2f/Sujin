@@ -436,7 +436,7 @@ export default function Analysis() {
                 intuitiveness, so the values are expressed in Rydberg units
             </p>
 
-            <Table scroll caption="Values of the One Circular Ether">
+            <Table caption="Values of the One Circular Ether">
                 <thead>
                     <tr>
                         <th></th>

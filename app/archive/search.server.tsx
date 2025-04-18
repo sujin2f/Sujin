@@ -1,8 +1,9 @@
-import { notFound } from 'next/navigation'
+import { Suspense } from 'react'
 import { unstable_cache } from 'next/cache'
 /* Components */
-import ArchiveClient from '@app/_components/archive'
+import { CardsServer } from '@app/_components/archive/cards.server'
 import Wrapper from '@app/_components/Wrapper'
+import { Loading } from '@app/_components/archive/loading'
 /* CONSTANTS */
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV, VERSION } from '@common/constants/helper'
@@ -20,18 +21,19 @@ export async function SearchServer({ page, slug }: ArchiveProp) {
         },
     )
 
-    const result = await requestArchive(slug, page)
-    if (!result.posts.length) notFound()
-
     return (
         <Wrapper title={`Search Result: ${slug}`} prefix={'Search'}>
-            <ArchiveClient
-                type={ARCHIVE.SEARCH}
-                slug={slug}
-                page={page}
-                posts={result.posts}
-                total={result.total}
-            />
+            <Suspense fallback={<Loading />}>
+                <CardsServer
+                    keyPrefix={`${ARCHIVE.SEARCH}-${slug}-${page}`}
+                    posts={requestArchive(slug, page)}
+                    page={page}
+                    pageURLPrefix={`/${ARCHIVE.SEARCH}/${slug}`}
+                    large={4}
+                    medium={6}
+                    small={12}
+                />
+            </Suspense>
         </Wrapper>
     )
 }

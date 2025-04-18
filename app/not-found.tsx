@@ -2,8 +2,6 @@ import { unstable_cache } from 'next/cache'
 import type { Metadata } from 'next'
 /* Components */
 import Wrapper from '@app/_components/Wrapper'
-import Row from '@common/components/layout/Row'
-import Column from '@common/components/layout/Column'
 import { WidgetTitle } from './_components/WidgetTitle'
 import { Cards } from './_components/archive/cards'
 /* Utils */
@@ -43,18 +41,14 @@ export default async function NotFound({ menu }: Props) {
             menu={menu}
         >
             <main>
-                <Row fullWidth>
-                    <Column small={12}>
-                        <WidgetTitle>Recent Posts</WidgetTitle>
-                        <Cards
-                            posts={posts}
-                            keyPrefix="not-found"
-                            large={4}
-                            medium={6}
-                            small={12}
-                        />
-                    </Column>
-                </Row>
+                <WidgetTitle>Recent Posts</WidgetTitle>
+                <Cards
+                    posts={posts}
+                    keyPrefix="not-found"
+                    large={4}
+                    medium={6}
+                    small={12}
+                />
             </main>
         </Wrapper>
     )

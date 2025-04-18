@@ -6,7 +6,7 @@ import { Input } from '@common/components/forms/Input'
 import { Column } from '@common/components/layout/Column'
 import { Row } from '@common/components/layout/Row'
 /* Helpers */
-import { copyText } from '@common/utils/device'
+import { copyText } from '@common/utils/dom'
 import {
     preserveCase,
     camelCase,

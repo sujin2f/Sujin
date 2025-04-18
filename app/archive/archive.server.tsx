@@ -1,9 +1,11 @@
+import { Suspense } from 'react'
 import { notFound } from 'next/navigation'
 import { unstable_cache } from 'next/cache'
 import type { Metadata } from 'next'
 /* Components */
-import ArchiveClient from '@app/_components/archive'
+import { CardsServer } from '@app/_components/archive/cards.server'
 import Wrapper from '@app/_components/Wrapper'
+import { Loading } from '@app/_components/archive/loading'
 /* CONSTANTS */
 import { IS_DEV, VERSION } from '@common/constants/helper'
 import { ARCHIVE, type ArchiveProp } from '@app/_lib/types'
@@ -66,6 +68,18 @@ export async function ArchiveServer({ page, type, slug }: ArchiveProp) {
             revalidate: IS_DEV ? 1 : HOUR_IN_SECONDS,
         },
     )
+
+    const archive = await requestArchive()
+    if (!archive) notFound()
+    if (!archive.total) notFound()
+
+    const { title, excerpt, image } = archive
+
+    // Update Tag Cloud
+    if (type === ARCHIVE.TAG) {
+        updateHits(archive.slug)
+    }
+
     const requestPosts = unstable_cache(
         async (archive) => {
             return await getCachedPosts(archive, page)
@@ -77,19 +91,6 @@ export async function ArchiveServer({ page, type, slug }: ArchiveProp) {
         },
     )
 
-    const archive = await requestArchive()
-    if (!archive) notFound()
-    if (!archive.total) notFound()
-    const posts = await requestPosts(archive)
-    if (!posts.length) notFound()
-
-    const { title, excerpt, image } = archive
-
-    // Update Tag Cloud
-    if (type === ARCHIVE.TAG) {
-        updateHits(archive.slug)
-    }
-
     return (
         <Wrapper
             title={title}
@@ -97,13 +98,17 @@ export async function ArchiveServer({ page, type, slug }: ArchiveProp) {
             prefix={type}
             background={image}
         >
-            <ArchiveClient
-                type={type}
-                slug={slug}
-                page={page}
-                total={archive.total}
-                posts={posts}
-            />
+            <Suspense fallback={<Loading />}>
+                <CardsServer
+                    keyPrefix={`${type}-${slug}-${page}`}
+                    posts={requestPosts(archive)}
+                    page={page}
+                    pageURLPrefix={`/${type}/${slug}`}
+                    large={4}
+                    medium={6}
+                    small={12}
+                />
+            </Suspense>
         </Wrapper>
     )
 }

@@ -41,7 +41,7 @@ export type T_MongoPostArchive = T_PrevNext & {
     status: POST_STATUS
 }
 
-export type T_PostArchive = Omit<T_MongoPostArchive, 'archives'> & {
+export type T_ArchivePost = Omit<T_MongoPostArchive, 'archives'> & {
     archives: T_Archive[]
 }
 
@@ -53,7 +53,7 @@ export type T_MongoPost = T_MongoPostArchive & {
     }
 }
 
-export type T_Post = T_PostArchive & {
+export type T_Post = T_ArchivePost & {
     content: string
     meta: {
         useBackgroundColor: boolean

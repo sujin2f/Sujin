@@ -4,7 +4,7 @@ import {
     IMAGE_SIZE,
     IMAGE_SIZE_BACKGROUND,
     T_ImageBlock,
-    T_PostArchive,
+    T_ArchivePost,
     T_Page,
 } from '@app/_lib/types'
 import { entries } from '@common/utils/object'
@@ -372,7 +372,7 @@ export const unserialize = <
 }
 
 export const getThumbnailFromPost = (
-    post: T_PostArchive | T_Page,
+    post: T_ArchivePost | T_Page,
     size: IMAGE_SIZE,
 ) =>
     post.images?.list?.sizes?.[size]?.url ||

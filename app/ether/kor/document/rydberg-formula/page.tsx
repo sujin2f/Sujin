@@ -336,7 +336,7 @@ export default function RydbergFormula() {
                 없다. 헬륨 오비탈의 값들을 보자.
             </p>
 
-            <Table scroll>
+            <Table>
                 <thead>
                     <tr>
                         <th>
@@ -463,7 +463,7 @@ export default function RydbergFormula() {
                 다시 그려보자. 이번에는 값 대신 좌표로 표시하겠다.
             </p>
 
-            <Table scroll>
+            <Table>
                 <thead>
                     <tr>
                         <th>
@@ -605,7 +605,7 @@ export default function RydbergFormula() {
 
             <p>같은 식으로 모든 값의 변화를 표로 나타내면 아래와 같다.</p>
 
-            <Table scroll>
+            <Table>
                 <thead>
                     <tr>
                         <th>

@@ -35,7 +35,7 @@ export default function ClassicPhysics() {
                 }
             >{`\\dfrac{1}{\\lambda} = R(\\dfrac{1}{m^2} - \\dfrac{1}{n^2}) \\hspace{10pt} \\{ R=1.0973731568539 \\times 10^7 m^{-1} \\}`}</Latex>
 
-            <Table scroll caption="라이먼 계열의 방출 파장">
+            <Table caption="라이먼 계열의 방출 파장">
                 <thead>
                     <tr>
                         <th>n</th>
@@ -62,7 +62,7 @@ export default function ClassicPhysics() {
                 </tbody>
             </Table>
 
-            <Table scroll caption="파센 계열의 방출 파장">
+            <Table caption="파센 계열의 방출 파장">
                 <thead>
                     <tr>
                         <th>n</th>
@@ -95,7 +95,7 @@ export default function ClassicPhysics() {
                 표현하면 아래와 같다.
             </p>
 
-            <Table scroll caption="라이먼 계열의 방출 파수">
+            <Table caption="라이먼 계열의 방출 파수">
                 <thead>
                     <tr>
                         <th>n</th>
@@ -129,7 +129,7 @@ export default function ClassicPhysics() {
                 이동할 때의 값을 살펴보는 것이다.
             </p>
 
-            <Table scroll caption="라이먼 계열의 파수 차이">
+            <Table caption="라이먼 계열의 파수 차이">
                 <thead>
                     <tr>
                         <th>n</th>
@@ -168,7 +168,7 @@ export default function ClassicPhysics() {
                 </tbody>
             </Table>
 
-            <Table scroll caption="파센 계열의 파수 차이">
+            <Table caption="파센 계열의 파수 차이">
                 <thead>
                     <tr>
                         <th>n</th>
@@ -226,7 +226,7 @@ export default function ClassicPhysics() {
             <Latex>{`E = 1.0973731568539 \\cdot 10^{-7} \\cdot 6.62607015 \\cdot 10^{-34} \\cdot 299792458 \\cdot (\\dfrac{1}{(n - 1)^2} - \\dfrac{1}{n^2}) \\cdot 6.242 \\cdot 10^{32}`}</Latex>
             <Latex caption="뤼드베리 방정식을 이용해 에너지(eV)를 구하는 공식">{`E = 13.60676328 \\cdot (\\dfrac{1}{(n - 1)^2} - \\dfrac{1}{n^2})`}</Latex>
 
-            <Table scroll caption="그렇게 구한 에너지">
+            <Table caption="그렇게 구한 에너지">
                 <thead>
                     <tr>
                         <th>n</th>
@@ -283,7 +283,7 @@ export default function ClassicPhysics() {
 
             <Latex>{`\\frac{ℏ^2}{2 \\mu a_0 ^ 2} (\\dfrac{1}{(n - 1)^2} - \\dfrac{1}{n^2}) \\hspace{10pt} \\{ n \\geqq 2 \\}`}</Latex>
 
-            <Table scroll>
+            <Table>
                 <thead>
                     <tr>
                         <th>n</th>

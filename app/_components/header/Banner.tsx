@@ -32,7 +32,8 @@ export function Banner({
 
     const title = path && METADATA[path] ? METADATA[path].title : props.title
     const excerpt =
-        path && METADATA[path] ? METADATA[path].description : props.excerpt
+        props.excerpt ||
+        (path && METADATA[path] ? METADATA[path].description : null)
 
     const style = backgroundColor
         ? {
@@ -82,8 +83,10 @@ export function Banner({
                                 {title}
                             </h1>
 
-                            {excerpt && (
+                            {excerpt && typeof excerpt === 'string' ? (
                                 <p className="banner__excerpt">{excerpt}</p>
+                            ) : (
+                                excerpt
                             )}
                         </Column>
                     </Row>

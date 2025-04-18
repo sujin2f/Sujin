@@ -27,4 +27,10 @@
     .card__time {
         display: none;
     }
+
+    .loader {
+        .column {
+            aspect-ratio: 10 / 3;
+        }
+    }
 }

@@ -38,7 +38,7 @@ export default function ClassicPhysics() {
                 {`\\dfrac{1}{\\lambda} = R(\\dfrac{1}{m^2} - \\dfrac{1}{n^2}) \\hspace{10pt} \\{ R=1.0973731568539 \\times 10^7 m^{-1} \\}`}
             </Latex>
 
-            <Table scroll caption="Wavelength of the Lyman Series">
+            <Table caption="Wavelength of the Lyman Series">
                 <thead>
                     <tr>
                         <th>n</th>
@@ -65,7 +65,7 @@ export default function ClassicPhysics() {
                 </tbody>
             </Table>
 
-            <Table scroll caption="Wavelength of the Paschen Series">
+            <Table caption="Wavelength of the Paschen Series">
                 <thead>
                     <tr>
                         <th>n</th>
@@ -99,7 +99,7 @@ export default function ClassicPhysics() {
                 wave numbers, it can be represented as follows:
             </p>
 
-            <Table scroll caption="Wave Number of Lyman Series">
+            <Table caption="Wave Number of Lyman Series">
                 <thead>
                     <tr>
                         <th>n</th>
@@ -134,7 +134,7 @@ export default function ClassicPhysics() {
                 and from 4 to 3.
             </p>
 
-            <Table scroll caption="Wave Number Differences of the Lyman Series">
+            <Table caption="Wave Number Differences of the Lyman Series">
                 <thead>
                     <tr>
                         <th>n</th>
@@ -173,10 +173,7 @@ export default function ClassicPhysics() {
                 </tbody>
             </Table>
 
-            <Table
-                scroll
-                caption="Wave Number Differences of the Paschen Series"
-            >
+            <Table caption="Wave Number Differences of the Paschen Series">
                 <thead>
                     <tr>
                         <th>n</th>
@@ -243,7 +240,7 @@ export default function ClassicPhysics() {
             <Latex>{`E = 1.0973731568539 \\cdot 10^{-7} \\cdot 6.62607015 \\cdot 10^{-34} \\cdot 299792458 \\cdot (\\dfrac{1}{(n - 1)^2} - \\dfrac{1}{n^2}) \\cdot 6.242 \\cdot 10^{32}`}</Latex>
             <Latex caption="The formula for calculating energy (in electron volts, eV) using the Rydberg formula">{`E = 13.60676328 \\cdot (\\dfrac{1}{(n - 1)^2} - \\dfrac{1}{n^2})`}</Latex>
 
-            <Table scroll caption="Result Energy from the Formula">
+            <Table caption="Result Energy from the Formula">
                 <thead>
                     <tr>
                         <th>n</th>
@@ -302,7 +299,7 @@ export default function ClassicPhysics() {
 
             <Latex>{`\\frac{ℏ^2}{2 \\mu a_0 ^ 2} (\\dfrac{1}{(n - 1)^2} - \\dfrac{1}{n^2}) \\hspace{10pt} \\{ n \\geqq 2 \\}`}</Latex>
 
-            <Table scroll>
+            <Table>
                 <thead>
                     <tr>
                         <th>n</th>

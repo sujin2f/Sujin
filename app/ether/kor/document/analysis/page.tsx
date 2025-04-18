@@ -409,7 +409,7 @@ export default function Analysis() {
                 직관적이지는 못하기에 Rydberg 값으로 표시하였다.
             </p>
 
-            <Table scroll caption="원형 에테르 하나의 값">
+            <Table caption="원형 에테르 하나의 값">
                 <thead>
                     <tr>
                         <th></th>

@@ -181,6 +181,16 @@ export const MENUS: Record<MENU_NAMES, MenuItem[]> = {
                     title: 'Ether',
                     link: '/ether',
                 },
+                // {
+                //     ...menuFixture,
+                //     title: 'Code Snippet',
+                //     link: '/snippet',
+                // },
+                {
+                    ...menuFixture,
+                    title: 'Design System',
+                    link: '/design-system/elements',
+                },
             ],
         },
     ],
@@ -307,6 +317,25 @@ export const MENUS: Record<MENU_NAMES, MenuItem[]> = {
             ...menuFixture,
             title: 'Text Sort',
             link: '/dev-tools/text-sort',
+        },
+        {
+            ...menuFixture,
+            title: 'External',
+            link: '#',
+            children: [
+                {
+                    ...menuFixture,
+                    title: 'JSON Formatter',
+                    link: 'https://jsonformatter.curiousconcept.com/',
+                    target: '_blank',
+                },
+                {
+                    ...menuFixture,
+                    title: 'Text Diff',
+                    link: 'https://text-compare.com/',
+                    target: '_blank',
+                },
+            ],
         },
     ],
     [MENU_NAMES.DESIGN_SYSTEM]: [

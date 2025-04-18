@@ -5,7 +5,6 @@ import { joinClassNames } from '../../utils/string'
 import '../../scss/table.scss'
 
 type Props = PropsWithChildren<{
-    readonly scroll?: boolean
     readonly center?: boolean
     readonly fullWidth?: boolean
     readonly caption?: ReactNode
@@ -16,15 +15,13 @@ type Props = PropsWithChildren<{
  * Table component that displays a table with optional scrolling, centering, and caption.
  *
  * @param {ReactNode} [props.children] - The content to display in the table.
- * @param {boolean} [props.scroll] - Whether the table should be scrollable.
  * @param {boolean} [props.center] - Whether the table should be centered.
  * @param {boolean} [props.full-width] - Set min-width 100%
  * @param {ReactNode} [props.caption] - The caption for the table.
  * @param {string} [props.className] - Additional class names for the table.
- * @example <Table scroll center><thead><tr><th>...</th></tr></thead></Table>
+ * @example <Table center><thead><tr><th>...</th></tr></thead></Table>
  */
 export const Table = ({
-    scroll,
     center,
     caption,
     className,
@@ -32,17 +29,20 @@ export const Table = ({
     fullWidth,
 }: Props) => {
     return (
-        <div
-            className={joinClassNames(
-                'table',
-                scroll && 'table--scroll',
-                center && 'table--center',
-                fullWidth && 'table--full-width',
-                className && `table--${className}`,
-            )}
-        >
-            <div className="table__container">
-                <table>
+        <>
+            <div
+                className={joinClassNames(
+                    'table__container',
+                    center && 'table__container--center',
+                    fullWidth && 'table__container--full-width',
+                )}
+            >
+                <table
+                    className={joinClassNames(
+                        'table',
+                        className && `table--${className}`,
+                    )}
+                >
                     {caption && (
                         <caption className="caption">
                             <div className="caption__text">{caption}</div>
@@ -51,7 +51,7 @@ export const Table = ({
                     {children}
                 </table>
             </div>
-        </div>
+        </>
     )
 }
 

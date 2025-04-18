@@ -84,28 +84,13 @@ body {
             content: 'Equ. ' counter(equ) ' ';
         }
 
-        .table__container .caption__text::before {
+        .table__container .caption .caption__text::before {
             counter-increment: tbl;
             content: 'Tbl. ' counter(tbl) ' ';
         }
 
         pre.code {
-            overflow-x: scroll;
             margin-bottom: 1.5em;
-            box-sizing: border-box;
-            padding: var(--gap);
-            background-color: var(--light-gray);
-            width: calc(100vw - 2em);
-
-            code.hljs {
-                padding: 0;
-                background-color: transparent;
-            }
-
-            @include mixin.medium {
-                width: 100%;
-                max-width: 100%;
-            }
         }
 
         .twitter-tweet {

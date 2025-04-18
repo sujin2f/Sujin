@@ -21,7 +21,7 @@ export type {
     T_MongoPost,
     T_Post,
     T_MongoPostArchive,
-    T_PostArchive,
+    T_ArchivePost,
     T_MySQLPost,
     T_Page,
 } from '@app/_lib/types/post'
@@ -34,4 +34,4 @@ export type {
     T_ShortcodeAttrMatch,
 } from '@app/_lib/types/misc'
 export { COLLECTION, CACHE_KEY, MENU_NAMES } from '@app/_lib/types/misc'
-export * from '@app/_lib/types/props'
+export type * from '@app/_lib/types/props'

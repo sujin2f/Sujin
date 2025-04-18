@@ -390,7 +390,7 @@ export default function RydbergFormula() {
                 helium orbitals.
             </p>
 
-            <Table scroll>
+            <Table>
                 <thead>
                     <tr>
                         <th>
@@ -522,7 +522,7 @@ export default function RydbergFormula() {
                 represent them in coordinates instead of values.
             </p>
 
-            <Table scroll>
+            <Table>
                 <thead>
                     <tr>
                         <th>
@@ -665,7 +665,7 @@ export default function RydbergFormula() {
 
             <p>The table below is shifting result for all values:</p>
 
-            <Table scroll>
+            <Table>
                 <thead>
                     <tr>
                         <th>

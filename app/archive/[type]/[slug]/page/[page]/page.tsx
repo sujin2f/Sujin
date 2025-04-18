@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next/types'
 /* Components */
-import { SearchServer } from '@app/archive/search-server'
-import { ArchiveServer, getMetadata } from '@app/archive/archive-server'
+import { SearchServer } from '@app/archive/search.server'
+import { ArchiveServer, getMetadata } from '@app/archive/archive.server'
 /* CONSTANTS */
 import { ARCHIVE, ARCHIVE_URL, type ArchiveProp } from '@app/_lib/types'
 

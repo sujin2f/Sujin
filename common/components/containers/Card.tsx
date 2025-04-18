@@ -86,3 +86,5 @@ export const Card = ({
         </section>
     )
 }
+
+export default Card
