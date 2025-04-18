@@ -1,10 +1,4 @@
-import type {
-    T_Image,
-    T_ImageBlock,
-    T_Option,
-    T_PostImages,
-    T_Page,
-} from '@app/_lib/types'
+import type { T_Image, T_ImageBlock, T_PostImages } from '@app/_lib/types'
 import { ARCHIVE, POST_STATUS } from '@app/_lib/types'
 
 const image: { [key in keyof T_Image]: object } = {
@@ -112,7 +106,7 @@ const term = {
     },
 }
 
-const pageProperty: { [key in keyof T_Page]: object } = {
+const pageProperty = {
     id: {
         bsonType: 'int',
     },
@@ -184,7 +178,7 @@ const archivesProperty = {
     },
 }
 
-const optionsProperty: { [key in keyof T_Option]: object } = {
+const optionsProperty = {
     key: {
         bsonType: 'string',
     },

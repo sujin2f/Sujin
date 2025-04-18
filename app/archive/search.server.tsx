@@ -22,13 +22,16 @@ export async function SearchServer({ page, slug }: ArchiveProp) {
     )
 
     return (
-        <Wrapper title={`Search Result: ${slug}`} prefix={'Search'}>
+        <Wrapper
+            title={`Search Result: ${decodeURIComponent(slug)}`}
+            prefix={'Search'}
+        >
             <Suspense fallback={<Loading />}>
                 <CardsServer
                     keyPrefix={`${ARCHIVE.SEARCH}-${slug}-${page}`}
                     posts={requestArchive(slug, page)}
                     page={page}
-                    pageURLPrefix={`/${ARCHIVE.SEARCH}/${slug}`}
+                    pageURLPrefix={`/${ARCHIVE.SEARCH}/${slug}/page`}
                     large={4}
                     medium={6}
                     small={12}

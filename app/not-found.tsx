@@ -1,9 +1,11 @@
+import { Suspense } from 'react'
 import { unstable_cache } from 'next/cache'
 import type { Metadata } from 'next'
 /* Components */
 import Wrapper from '@app/_components/Wrapper'
-import { WidgetTitle } from './_components/WidgetTitle'
-import { Cards } from './_components/archive/cards'
+import { WidgetTitle } from '@app/_components/WidgetTitle'
+import { CardsServer } from '@app/_components/archive/cards.server'
+import { Loading } from '@app/_components/archive/loading'
 /* Utils */
 import { getCachedRecentPosts } from './_lib/data/mongo/wordpress/post'
 /* CONSTANTS */
@@ -32,7 +34,6 @@ export default async function NotFound({ menu }: Props) {
             revalidate: IS_DEV ? 1 : HOUR_IN_SECONDS,
         },
     )
-    const posts = await request()
 
     return (
         <Wrapper
@@ -42,13 +43,15 @@ export default async function NotFound({ menu }: Props) {
         >
             <main>
                 <WidgetTitle>Recent Posts</WidgetTitle>
-                <Cards
-                    posts={posts}
-                    keyPrefix="not-found"
-                    large={4}
-                    medium={6}
-                    small={12}
-                />
+                <Suspense fallback={<Loading />}>
+                    <CardsServer
+                        posts={request()}
+                        keyPrefix="not-found"
+                        large={4}
+                        medium={6}
+                        small={12}
+                    />
+                </Suspense>
             </main>
         </Wrapper>
     )

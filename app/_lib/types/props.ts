@@ -4,7 +4,8 @@ import { MENU_NAMES } from '@app/_lib/types/misc'
 /* T_Types */
 import type { T_ImageBlock } from '@app/_lib/types/image'
 import type { ARCHIVE_URL } from '@app/_lib/types/archive'
-import { T_ArchivePost } from '@app/_lib/types/post'
+import type { T_ArchivePost } from '@app/_lib/types/post'
+import type { T_Snippets } from '@app/_lib/types/snippet'
 
 export type BannerProps = {
     readonly title?: string | ReactNode
@@ -24,5 +25,10 @@ export type ArchiveProp = {
 
 export type ArchivePostsProp = {
     readonly posts: T_ArchivePost[]
+    readonly pages: number
+}
+
+export type SnippetsProp = {
+    readonly snippets: T_Snippets[]
     readonly pages: number
 }

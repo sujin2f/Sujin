@@ -13,14 +13,15 @@ export const ERROR_MESSAGE = {
         ],
     } as const,
     POST: {
-        GET_ONE: ['PO.MO.0000', '🤬 Failed to get MySQL post'],
+        GET_ONE: ['PO.MO.0000', '🤬 Failed to get the post'],
         SQL_GET_ONE: ['PO.MY.0000', '🤬 Failed to get MySQL post'],
     } as const,
     PAGE: {
-        GET_ONE: ['PA.MO.0000', '🤬 Failed to get MySQL page'],
+        GET_ONE: ['PA.MO.0000', '🤬 Failed to get the page'],
         SQL_GET_ONE: ['PA.MY.0000', '🤬 Failed to get MySQL page'],
     } as const,
     ARCHIVE: {
+        GET_ONE: ['T.MY.0000', '🤬 Failed to get the archive'],
         SQL_GET_ONE: ['T.MY.0000', '🤬 Failed to get MySQL term'],
     } as const,
     GENERAL: {

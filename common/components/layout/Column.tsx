@@ -1,4 +1,4 @@
-import { PropsWithChildren, createElement } from 'react'
+import { type PropsWithChildren, createElement } from 'react'
 
 /* Helpers */
 import { joinClassNames } from '../../utils/string'

@@ -1,4 +1,4 @@
-import Tags from '@app/admin/tags/[page]/Tags'
+import Tags from '@app/admin/tags/[page]/tags-server'
 
 type Props = {
     params: Promise<{

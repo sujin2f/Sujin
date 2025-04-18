@@ -2,7 +2,8 @@
  * Common type definition
  */
 
-import { ConstToType } from '@common/types'
+import type { WithId } from 'mongodb'
+import type { ConstToType } from '@common/types'
 
 /**
  * Wordpress supported image sizes
@@ -65,7 +66,9 @@ export type T_ImageBlock = {
     title: string
     sizes?: T_ImageSize
 }
-export type T_Background = T_ImageBlock & {
-    sizes?: Partial<Record<IMAGE_SIZE_BACKGROUND, T_Image>>
-}
+export type T_Background = WithId<
+    T_ImageBlock & {
+        sizes?: Partial<Record<IMAGE_SIZE_BACKGROUND, T_Image>>
+    }
+>
 export type T_PostImages = Partial<Record<POST_IMAGE_LOCATION, T_ImageBlock>>

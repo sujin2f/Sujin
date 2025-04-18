@@ -161,27 +161,27 @@ article {
         height: auto;
         display: block;
     }
+}
 
-    .caption {
-        min-width: 100%;
-        font-size: 0.9em;
-        font-style: italic;
-        margin-bottom: 1.5em;
-        text-align: left;
-        margin-top: var(--gap);
-        caption-side: bottom;
+.caption {
+    min-width: 100%;
+    font-size: 0.9em;
+    font-style: italic;
+    margin-bottom: 1.5em;
+    text-align: left;
+    margin-top: var(--gap);
+    caption-side: bottom;
 
-        img {
-            margin-bottom: 0.7em;
-        }
+    img {
+        margin-bottom: 0.7em;
+    }
 
-        &::before {
-            content: ' ';
-            display: block;
-            border-top: 2px solid var(--primary);
-            width: 30px;
-            padding-top: 0.5em;
-        }
+    &::before {
+        content: ' ';
+        display: block;
+        border-top: 2px solid var(--primary);
+        width: 30px;
+        padding-top: 0.5em;
     }
 }
 

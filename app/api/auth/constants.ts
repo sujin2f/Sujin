@@ -1,13 +1,6 @@
-import type { User, AuthOptions } from 'next-auth'
+import type { AuthOptions } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
-import { getCollection } from '@common/data/mongo/mongo'
-import { COLLECTION } from '@app/_lib/types'
-
-const addUser = async (user: User) =>
-    await (await getCollection(COLLECTION.USERS)).insertOne(user)
-
-const getUser = async (email: string) =>
-    await (await getCollection(COLLECTION.USERS)).findOne({ email })
+import { addUser, getUser } from '@app/_lib/data/mongo/user'
 
 export const authOptions = {
     providers: [
@@ -18,9 +11,18 @@ export const authOptions = {
     ],
     secret: process.env.NEXTAUTH_SECRET,
     callbacks: {
-        async signIn({ user }) {
-            await getUser(user.email || '').catch(async () => {
-                await addUser(user)
+        async signIn({ user: { email, name, image } }) {
+            if (!email) {
+                throw Error('')
+            }
+            await getUser(email).then(async (user) => {
+                if (!user) {
+                    await addUser({
+                        email,
+                        name: name || '',
+                        image: image || '',
+                    })
+                }
             })
             return true
         },

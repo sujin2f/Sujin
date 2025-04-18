@@ -7,8 +7,10 @@ import {
     T_ImageBlock,
     T_Archive,
     T_Page,
-    T_MongoPost,
+    T_Post,
+    T_Background,
 } from '@app/_lib/types'
+import { T_Mongo } from '@common/types/mongo'
 
 const suffix = IS_TEST ? `-${process.env.JEST_WORKER_ID}` : ''
 
@@ -72,7 +74,7 @@ export const tagFactory = async (input: Partial<T_Archive> = {}) => {
     }
 }
 
-export const postFactory = async (input: Partial<T_MongoPost> = {}) => {
+export const postFactory = async (input: Partial<T_Mongo<T_Post>> = {}) => {
     const id = getRandomInt(9999999)
     const document = {
         ...post,
@@ -108,7 +110,7 @@ export const pageFactory = async (input: Partial<T_Page> = {}) => {
     }
 }
 
-export const backgroundFactory = async (input: Partial<T_ImageBlock> = {}) => {
+export const backgroundFactory = async (input: Partial<T_Background> = {}) => {
     const id = getRandomInt(9999999)
     const document = {
         ...imageBlock,

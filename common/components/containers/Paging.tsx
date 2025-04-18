@@ -47,7 +47,7 @@ export const Paging = (props: Props) => {
             aria-label="Navigate to another page"
         >
             {entities.map((entity) => {
-                const url = `${urlPrefix}/page/${entity}`
+                const url = `${urlPrefix}/${entity}`
                 const isCurrent = currentPage.toString() === entity.toString()
 
                 return (

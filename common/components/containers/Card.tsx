@@ -12,7 +12,7 @@ type Props = {
     readonly to: string
     readonly title?: string
     readonly description?: string
-    readonly time?: number
+    readonly time?: Date
     readonly image: string
     readonly className?: string
 }
@@ -24,7 +24,7 @@ type Props = {
  * @param {string} props.to - The URL to link to.
  * @param {string} [props.title] - The title of the card.
  * @param {string} [props.description] - The description of the card.
- * @param {number} [props.time] - The timestamp to display on the card.
+ * @param {Date} [props.time] - The timestamp to display on the card.
  * @param {string} props.image - The URL of the image to display on the card.
  * @param {string} [props.className] - Additional class names for the card.
  */

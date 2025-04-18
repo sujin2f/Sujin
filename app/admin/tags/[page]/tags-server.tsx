@@ -1,8 +1,8 @@
 /* Components */
 import { PrevNext } from '@app/admin/_components/PrevNext'
-import { Table } from '@common/components/containers/Table'
-import { Row } from '@common/components/layout/Row'
-import { Column } from '@common/components/layout/Column'
+import Table from '@common/components/containers/Table'
+import Row from '@common/components/layout/Row'
+import Column from '@common/components/layout/Column'
 import Header from '@app/admin/_components/Header'
 /* Utils */
 import { getArchives } from '@app/_lib/data/mongo/wordpress/archive'
@@ -35,7 +35,7 @@ export default async function Tags(props: Props) {
                         </thead>
                         <tbody>
                             {terms.map((term) => (
-                                <tr key={`admin-posts-${term.slug}`}>
+                                <tr key={`admin-posts-${term._id}`}>
                                     <td>{term.title}</td>
                                     <td>{term.slug}</td>
                                     <td className="center">{term.total}</td>

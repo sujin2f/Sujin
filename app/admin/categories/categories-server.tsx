@@ -13,13 +13,7 @@ type Props = {
 
 export async function ServerComponent(props: Props) {
     const page = parseInt(props.page)
-    const categories = await getArchives(ARCHIVE.CATEGORY, page).then(
-        (categories) =>
-            categories.map((category) => ({
-                ...category,
-                _id: category._id.toString(),
-            })),
-    )
+    const categories = await getArchives(ARCHIVE.CATEGORY, page)
 
     const update = async (slug: string): Promise<string> => {
         'use server'

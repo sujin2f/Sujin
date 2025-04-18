@@ -1,14 +1,14 @@
 'use client'
-import React, {
-    ChangeEventHandler,
-    Fragment,
-    KeyboardEvent,
-    RefObject,
+import {
+    type KeyboardEvent,
+    type RefObject,
+    type PropsWithChildren,
+    type InputHTMLAttributes,
+    type HTMLInputTypeAttribute,
     useCallback,
     useMemo,
     useRef,
     createElement,
-    PropsWithChildren,
 } from 'react'
 
 /* Helpers */
@@ -17,56 +17,25 @@ import { joinClassNames } from '../../utils/string'
 /* Assets */
 import '../../scss/form.scss'
 
-type InputTypes =
-    | 'text'
-    | 'number'
-    | 'checkbox'
-    | 'color'
-    | 'date'
-    | 'email'
-    | 'file'
-    | 'password'
-    | 'radio'
-    | 'range'
-    | 'tel'
-    | 'time'
-    | 'url'
-    | 'search'
-    | 'textarea'
-
-export type InputProps = {
+export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
     readonly defaultValue?: string | number
     readonly errorMessage?: string
     readonly helpText?: string
-    readonly id?: string
     readonly label?: string
     readonly list?: string
-    readonly name?: string
-    readonly onChange?: ChangeEventHandler<HTMLInputElement>
     readonly onEnterKeyDown?: () => void
-    readonly placeholder?: string
+    readonly type?: HTMLInputTypeAttribute | 'textarea'
     readonly ref?: RefObject<HTMLInputElement | null>
-    readonly required?: boolean
-    readonly type?: InputTypes
-    readonly value?: string | number
 }
 
 export const InputOnly = ({
-    ariaDescribedby,
-    defaultValue,
     errorMessage,
     helpText,
-    id,
-    list,
-    name,
-    onChange,
     onEnterKeyDown,
-    placeholder,
-    ref,
-    required,
     type,
     value,
-}: InputProps & { ariaDescribedby?: string }) => {
+    ...props
+}: InputProps) => {
     const className = joinClassNames(
         'form__input',
         errorMessage && 'form__input--error',
@@ -82,25 +51,17 @@ export const InputOnly = ({
         [onEnterKeyDown],
     )
     const inputProps = filterEmpty({
-        id,
-        type,
-        defaultValue,
-        ref,
-        'aria-describedby': ariaDescribedby,
-        required,
+        ...props,
         className,
-        list,
+        onKeyDown,
+        type,
         value,
-        placeholder,
-        name,
         autoComplete: type === 'password' && 'on',
     })
     const Element = createElement(
         type === 'textarea' ? 'textarea' : 'input',
         {
             ...inputProps,
-            onKeyDown,
-            onChange,
         },
         type === 'textarea' ? value : undefined,
     )
@@ -133,7 +94,7 @@ export const Input = (props: InputProps) => {
     const isCheckbox = type === 'checkbox' || type === 'radio'
 
     return (
-        <Fragment>
+        <>
             {props.label && (
                 <LabelComponent {...props} type={type} ref={ref}>
                     {isCheckbox && (
@@ -146,7 +107,7 @@ export const Input = (props: InputProps) => {
             {(!props.label || !isCheckbox) && (
                 <InputContainer {...props} type={type} ref={ref} />
             )}
-        </Fragment>
+        </>
     )
 }
 
@@ -176,7 +137,7 @@ const InputContainer = (props: InputProps) => {
     const ariaDescribedby = props.helpText ? `${props.id}-help-text` : ''
     return (
         <>
-            <InputOnly {...props} ariaDescribedby={ariaDescribedby} />
+            <InputOnly {...props} aria-describedby={ariaDescribedby} />
 
             {props.errorMessage ? (
                 <p className="form__input__error-message">

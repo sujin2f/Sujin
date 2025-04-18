@@ -25,7 +25,7 @@ export function Table({ backgrounds }: Props) {
             </thead>
             <tbody>
                 {backgrounds.map((background) => (
-                    <tr key={`admin-background-${background.url}`}>
+                    <tr key={`admin-background-${background._id}`}>
                         <td className="center">{background.mimeType}</td>
                         <td className="center">{background.width}</td>
                         <td className="center">{background.height}</td>

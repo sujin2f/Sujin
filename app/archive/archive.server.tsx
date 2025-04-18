@@ -70,7 +70,6 @@ export async function ArchiveServer({ page, type, slug }: ArchiveProp) {
     )
 
     const archive = await requestArchive()
-    if (!archive) notFound()
     if (!archive.total) notFound()
 
     const { title, excerpt, image } = archive
@@ -103,7 +102,7 @@ export async function ArchiveServer({ page, type, slug }: ArchiveProp) {
                     keyPrefix={`${type}-${slug}-${page}`}
                     posts={requestPosts(archive)}
                     page={page}
-                    pageURLPrefix={`/${type}/${slug}`}
+                    pageURLPrefix={`/${type}/${slug}/page`}
                     large={4}
                     medium={6}
                     small={12}

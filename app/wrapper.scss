@@ -10,111 +10,109 @@ $header-height: 48px;
 
 body {
     --header-height: 48px;
+}
 
-    main {
-        min-height: calc(100vh);
+main {
+    min-height: calc(100vh);
+}
+
+.paging__container {
+    margin-bottom: 1.5em;
+}
+
+article {
+    h2 {
+        border-left: 9px solid var(--primary);
+        padding-left: 0.3em;
+    }
+}
+
+blockquote {
+    background-image: url('~@app/_lib/images/quote.svg');
+    background-position: center var(--gap);
+    background-repeat: no-repeat;
+    background-size: 2em;
+    padding: 4em 1.2em var(--gap);
+    background-color: var(--light-gray);
+    margin: 0 0 1.5em;
+}
+
+dd {
+    margin-bottom: 0.5em;
+}
+
+.image__container {
+    width: 100%;
+}
+
+.image__container--center {
+    img {
+        margin: 0 auto;
+    }
+}
+
+.image__container,
+.latex__container,
+.table__container {
+    .caption {
+        margin-top: 0.5em;
     }
 
-    .paging__container {
-        margin-bottom: 1.5em;
+    .caption::before {
+        content: ' ';
+        display: block;
+        border-top: 2px solid var(--primary);
+        width: 30px;
+        padding-top: 0.5em;
     }
 
-    article {
-        h2 {
-            border-left: 9px solid var(--primary);
-            padding-left: 0.3em;
-        }
-
-        blockquote {
-            background-image: url('~@app/_lib/images/quote.svg');
-            background-position: center var(--gap);
-            background-repeat: no-repeat;
-            background-size: 2em;
-            padding: 4em 1.2em var(--gap);
-            background-color: var(--light-gray);
-            margin: 0 0 1.5em;
-        }
-
-        dl {
-            dd {
-                margin-bottom: 0.5em;
-            }
-        }
-
-        .image__container {
-            width: 100%;
-        }
-
-        .image__container--center {
-            img {
-                margin: 0 auto;
-            }
-        }
-
-        .image__container,
-        .latex__container,
-        .table__container {
-            .caption {
-                margin-top: 0.5em;
-            }
-
-            .caption::before {
-                content: ' ';
-                display: block;
-                border-top: 2px solid var(--primary);
-                width: 30px;
-                padding-top: 0.5em;
-            }
-
-            .caption__text::before {
-                display: inline;
-                border-top: none;
-                width: auto;
-                padding-top: 0.5em;
-            }
-        }
-
-        .image__container .caption__text::before {
-            counter-increment: fig;
-            content: 'Fig. ' counter(fig) ' ';
-        }
-
-        .latex__container .caption__text::before {
-            counter-increment: equ;
-            content: 'Equ. ' counter(equ) ' ';
-        }
-
-        .table__container .caption .caption__text::before {
-            counter-increment: tbl;
-            content: 'Tbl. ' counter(tbl) ' ';
-        }
-
-        pre.code {
-            margin-bottom: 1.5em;
-        }
-
-        .twitter-tweet {
-            margin-bottom: 1.5em !important;
-        }
-
-        .gist {
-            width: 100%;
-            min-height: calc(100vh - #{$header-height});
-            margin-bottom: 1.5em;
-            border: 1px solid var(--light-gray);
-            padding: 0.5em 0;
-        }
-
-        .katex {
-            font-size: 1em;
-        }
-
-        .latex__container .katex-display > .katex {
-            text-align: start;
-        }
+    .caption__text::before {
+        display: inline;
+        border-top: none;
+        width: auto;
+        padding-top: 0.5em;
     }
+}
 
-    .card {
-        margin-bottom: calc(var(--gap) / 2);
-    }
+.image__container .caption__text::before {
+    counter-increment: fig;
+    content: 'Fig. ' counter(fig) ' ';
+}
+
+.latex__container .caption__text::before {
+    counter-increment: equ;
+    content: 'Equ. ' counter(equ) ' ';
+}
+
+.table__container .caption .caption__text::before {
+    counter-increment: tbl;
+    content: 'Tbl. ' counter(tbl) ' ';
+}
+
+pre.code {
+    margin-bottom: 1.5em;
+}
+
+.twitter-tweet {
+    margin-bottom: 1.5em !important;
+}
+
+.gist {
+    width: 100%;
+    min-height: calc(100vh - #{$header-height});
+    margin-bottom: 1.5em;
+    border: 1px solid var(--light-gray);
+    padding: 0.5em 0;
+}
+
+.katex {
+    font-size: 1em;
+}
+
+.latex__container .katex-display > .katex {
+    text-align: start;
+}
+
+.card {
+    margin-bottom: calc(var(--gap) / 2);
 }

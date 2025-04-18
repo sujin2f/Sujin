@@ -16,7 +16,9 @@ export async function ServerComponent(props: Props) {
 
     const refresh = async () => {
         'use server'
-        return await updateBackgrounds().catch((e) => e.message)
+        return await updateBackgrounds()
+            .then(() => 'Updated')
+            .catch((e) => e.message)
     }
 
     return (

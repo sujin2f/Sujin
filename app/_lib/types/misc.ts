@@ -1,4 +1,5 @@
-import { ConstToType } from '@common/types'
+import type { WithId } from 'mongodb'
+import type { ConstToType } from '@common/types'
 import { POST_TYPE } from '@app/_lib/types/post'
 
 /**
@@ -13,6 +14,8 @@ export const COLLECTION = {
     SPECTRA: 'spectra',
     USERS: 'user',
     ARCHIVE: 'archive',
+    SNIPPET: 'snippet',
+    SNIPPETS: 'snippets',
 } as const
 export type COLLECTION = ConstToType<typeof COLLECTION>
 
@@ -26,6 +29,7 @@ export const CACHE_KEY = {
     BACKGROUNDS: COLLECTION.BACKGROUNDS,
     OPTIONS: COLLECTION.OPTIONS,
     ARCHIVE: COLLECTION.ARCHIVE,
+    SNIPPETS: COLLECTION.SNIPPETS,
 } as const
 export type CACHE_KEY = ConstToType<typeof CACHE_KEY>
 
@@ -42,10 +46,10 @@ export const MENU_NAMES = {
 } as const
 export type MENU_NAMES = ConstToType<typeof MENU_NAMES>
 
-export type T_Option = {
+export type T_Option = WithId<{
     key: string
     value: string
-}
+}>
 
 export type T_ShortcodeNamed = Record<string, string>
 export type T_ShortcodeAttrMatch = {

@@ -1,6 +1,6 @@
 // yarn test utils.spec.ts
 
-import { auth } from '@app/_lib/utils-server'
+import { auth } from '@app/_lib/data/mongo/user'
 
 jest.mock('next-auth', () => ({
     getServerSession: jest.fn(async () => Promise.resolve(null)),

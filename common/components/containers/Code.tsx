@@ -43,8 +43,9 @@ export const Code = ({ lang, children, className }: Props) => {
             <Script
                 src={`https://cdnjs.cloudflare.com/ajax/libs/highlight.js/${highlightVersion}/highlight.min.js`}
                 crossOrigin="anonymous"
+                onReady={() => setHljs(true)}
             />
-            {!hljs && (
+            {hljs && (
                 <Script
                     src={`https://cdnjs.cloudflare.com/ajax/libs/highlight.js/${highlightVersion}/languages/${lang}.min.js`}
                     crossOrigin="anonymous"

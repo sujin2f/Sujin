@@ -1,12 +1,28 @@
 import type {
     T_Image,
     T_ImageBlock,
+    T_Option,
     T_PostImages,
+    T_Page,
     T_PrevNext,
+    T_ArchivePost,
+    T_Archive,
+    T_Snippet,
+    T_Snippet_User,
+    T_Snippets,
+    T_Post,
+    T_Background,
 } from '@app/_lib/types'
 import { ARCHIVE, POST_STATUS } from '@app/_lib/types'
+import { languages } from '@common/constants/helper'
+import type {
+    T_Mongo,
+    T_MongoSchema,
+    T_MongoSchemaProperties,
+} from '@common/types/mongo'
+import type { WithId } from 'mongodb'
 
-const image: { [key in keyof T_Image]: object } = {
+const image: T_MongoSchemaProperties<T_Image> = {
     url: {
         bsonType: 'string',
     },
@@ -21,7 +37,7 @@ const image: { [key in keyof T_Image]: object } = {
     },
 }
 
-const imageBlock: { [key in keyof T_ImageBlock]: object } = {
+const imageBlock: T_MongoSchemaProperties<T_ImageBlock> = {
     title: {
         bsonType: 'string',
     },
@@ -72,7 +88,7 @@ const imageBlock: { [key in keyof T_ImageBlock]: object } = {
     },
 }
 
-const images: { [key in keyof T_PostImages]: object } = {
+const images: T_MongoSchemaProperties<T_PostImages> = {
     list: {
         bsonType: 'object',
         properties: imageBlock,
@@ -95,7 +111,7 @@ const images: { [key in keyof T_PostImages]: object } = {
     },
 }
 
-const prevNextProperty: { [key in keyof T_PrevNext]: object } = {
+const prevNextProperty: T_MongoSchemaProperties<T_PrevNext> = {
     title: {
         bsonType: 'string',
     },
@@ -104,24 +120,9 @@ const prevNextProperty: { [key in keyof T_PrevNext]: object } = {
     },
 }
 
-const archives = {
-    bsonType: 'array',
-    items: {
-        bsonType: 'objectId',
-    },
-}
-const meta = {
-    bsonType: 'object',
-    properties: {
-        useBackgroundColor: { bsonType: 'bool' },
-        backgroundColor: { bsonType: 'string' },
-    },
-}
-const content = {
-    bsonType: 'string',
-}
-
-const archivePostProperty = {
+const archivePostProperty: T_MongoSchemaProperties<
+    Omit<T_ArchivePost, 'archives'>
+> = {
     ...prevNextProperty,
     id: {
         bsonType: 'int',
@@ -145,20 +146,41 @@ const archivePostProperty = {
     },
 }
 
-const pageProperty = {
+const pageProperty: T_MongoSchemaProperties<T_Page> = {
     ...archivePostProperty,
-    content,
-    meta,
+    content: {
+        bsonType: 'string',
+    },
+    meta: {
+        bsonType: 'object',
+        properties: {
+            useBackgroundColor: { bsonType: 'bool' },
+            backgroundColor: { bsonType: 'string' },
+        },
+    },
 }
 
-const postProperty = {
+const postProperty: T_MongoSchemaProperties<T_Mongo<T_Post>> = {
     ...archivePostProperty,
-    content,
-    meta,
-    archives,
+    content: {
+        bsonType: 'string',
+    },
+    meta: {
+        bsonType: 'object',
+        properties: {
+            useBackgroundColor: { bsonType: 'bool' },
+            backgroundColor: { bsonType: 'string' },
+        },
+    },
+    archives: {
+        bsonType: 'array',
+        items: {
+            bsonType: 'objectId',
+        },
+    },
 }
 
-const archivesProperty = {
+const archivesProperty: T_MongoSchemaProperties<T_Archive> = {
     slug: {
         bsonType: 'string',
     },
@@ -184,36 +206,21 @@ const archivesProperty = {
     },
 }
 
-const optionsProperty = {
-    key: {
-        bsonType: 'string',
-    },
-    value: {
-        bsonType: 'string',
-    },
-}
-
-const prevNext = {
-    bsonType: 'object',
-    required: ['title', 'link'],
-    properties: prevNextProperty,
-}
-
-const post = {
+const post: T_MongoSchema<T_Mongo<T_Post>> = {
     bsonType: 'object',
     title: 'Posts Collection Validation',
     required: ['id', 'slug', 'title', 'date', 'content', 'status', 'link'],
     properties: postProperty,
 }
 
-const page = {
+const page: T_MongoSchema<T_Mongo<WithId<T_Page>>> = {
     bsonType: 'object',
     title: 'Pages Collection Validation',
     required: ['id', 'slug', 'title', 'date', 'content', 'status', 'link'],
     properties: pageProperty,
 }
 
-const archive = {
+const archive: T_MongoSchema<T_Mongo<T_Archive>> = {
     bsonType: 'object',
     title: 'Archive Collection Validation',
     required: ['slug', 'title', 'type'],
@@ -222,18 +229,25 @@ const archive = {
     },
 }
 
-const background = {
+const background: T_MongoSchema<T_Mongo<T_Background>> = {
     bsonType: 'object',
     title: 'Backgrounds Collection Validation',
     required: ['mimeType', 'url'],
     properties: imageBlock,
 }
 
-const option = {
+const option: T_MongoSchema<T_Mongo<T_Option>> = {
     bsonType: 'object',
     title: 'Backgrounds Collection Validation',
     required: ['key', 'value'],
-    properties: optionsProperty,
+    properties: {
+        key: {
+            bsonType: 'string',
+        },
+        value: {
+            bsonType: 'string',
+        },
+    },
 }
 
 const abTest = {
@@ -253,13 +267,67 @@ const abTest = {
     },
 }
 
+const snippets: T_MongoSchema<T_Mongo<T_Snippets>> = {
+    bsonType: 'object',
+    required: ['user', 'title', 'snippets'],
+    properties: {
+        user: {
+            bsonType: 'objectId',
+        },
+        title: {
+            bsonType: 'string',
+        },
+        snippets: {
+            bsonType: 'array',
+            items: {
+                bsonType: 'objectId',
+            },
+        },
+        tags: {
+            bsonType: 'array',
+            items: {
+                bsonType: 'string',
+            },
+        },
+    },
+}
+
+const snippet: T_MongoSchema<T_Mongo<T_Snippet>> = {
+    bsonType: 'object',
+    required: ['code', 'type'],
+    properties: {
+        code: {
+            bsonType: 'string',
+        },
+        type: {
+            bsonType: 'string',
+            enum: [...languages],
+        },
+    },
+}
+
+const snippetsUser: T_MongoSchema<T_Mongo<T_Snippet_User>> = {
+    bsonType: 'object',
+    required: ['user', 'snippets'],
+    properties: {
+        user: {
+            bsonType: 'objectId',
+        },
+        snippets: {
+            bsonType: 'objectId',
+        },
+    },
+}
+
 const defaults = {
-    prevNext,
     post,
     page,
     background,
     option,
     archive,
     abTest,
+    snippets,
+    snippet,
+    snippetsUser,
 }
 export default defaults

@@ -1,5 +1,6 @@
 /* Models */
 import MySQL from '@app/_lib/data/mysql'
+import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 /* Utils */
 import { isEmpty } from '@common/utils/object'
 import { getPostBy, getPostMeta } from '@app/_lib/data/mysql/post'
@@ -8,13 +9,13 @@ import { MySQLQuery } from '@app/_lib/data/mysql/constants'
 import {
     IMAGE_SIZE,
     POST_TYPE,
+    type T_Background,
     type POST_IMAGE_LOCATION,
     type T_ImageBlock,
     type T_MySQLPost,
 } from '@app/_lib/types'
 /* T_Types */
 import type { Nullable } from '@common/types'
-import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 
 enum META_KEYS {
     ATTACHMENT_META = '_wp_attachment_metadata',
@@ -25,11 +26,11 @@ enum META_KEYS {
  * @returns {Promise<T_ImageBlock[]>}
  * @throws
  */
-export const getBackgrounds = async (): Promise<T_ImageBlock[]> => {
+export const getBackgrounds = async (): Promise<T_Background[]> => {
     const result = await MySQL.getInstance()
         .select<T_MySQLPost>(MySQLQuery.getBackgrounds())
         .then(async (posts) => {
-            const result: T_ImageBlock[] = []
+            const result: T_Background[] = []
             for await (const post of posts) {
                 result.push(await getMediaFromPost(post))
             }
@@ -51,7 +52,9 @@ export const getBackgrounds = async (): Promise<T_ImageBlock[]> => {
  * @returns
  * @throws
  */
-const getMediaFromPost = async (post: T_MySQLPost): Promise<T_ImageBlock> => {
+const getMediaFromPost = async <T extends T_ImageBlock>(
+    post: T_MySQLPost,
+): Promise<T> => {
     const WP_IMAGE_SIZE = {
         medium_large: IMAGE_SIZE.MEDIUM_LARGE,
         'post-thumbnail': IMAGE_SIZE.POST_THUMBNAIL,
@@ -59,7 +62,7 @@ const getMediaFromPost = async (post: T_MySQLPost): Promise<T_ImageBlock> => {
         'recent-post': IMAGE_SIZE.RECENT_POST,
     } as const
     type WP_IMAGE_SIZE = keyof typeof WP_IMAGE_SIZE
-    type T_WPMedia = Pick<T_ImageBlock, 'width' | 'height'> & {
+    type T_WPMedia = Pick<T, 'width' | 'height'> & {
         file: string
         sizes: Record<
             string,
@@ -117,7 +120,7 @@ const getMediaFromPost = async (post: T_MySQLPost): Promise<T_ImageBlock> => {
         result.sizes = sizes
     }
 
-    return result as T_ImageBlock
+    return result as T
 }
 
 export const getMedia = async (

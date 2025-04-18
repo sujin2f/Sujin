@@ -1,10 +1,9 @@
 import { headers } from 'next/headers'
-import { getServerSession } from 'next-auth'
 import type { Nullable } from '@common/types'
 import { Metadata, METADATA } from '@app/_lib/constants'
-import { authOptions } from '@app/api/auth/constants'
-import { getOption, removeOption } from '@app/_lib/data/mysql/option'
-import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
+import { PER_PAGE } from '@app/_lib/data/mysql/constants'
+import { COLLECTION } from '@app/_lib/types'
+import { suffix } from '@common/data/mongo/mongo'
 
 /**
  * Retrieves the current pathname from the headers.
@@ -15,7 +14,7 @@ import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
  * @async
  * @returns {Promise<Nullable<string>>} The pathname as a string if found, otherwise `undefined`.
  */
-export const getPathName = async (): Promise<Nullable<string>> =>
+const getPathName = async (): Promise<Nullable<string>> =>
     (await headers()).get('x-pathname') || undefined
 
 /**
@@ -38,33 +37,60 @@ export const getMetaData = async (): Promise<Metadata> => {
     return METADATA[path]
 }
 
-export const isAdmin = async (): Promise<boolean> => {
-    const session = await getServerSession(authOptions)
-    const email =
-        session && session.user && session.user.email && session?.user?.email
-    return email === process.env.ADMIN_EMAIL
-}
+export const getAggregation = (
+    key: 'paging' | '_id' | 'expand-archive' | 'to-archive-post',
+    ...arr: (string | number)[]
+) => {
+    switch (key) {
+        case 'paging':
+            if (typeof arr[0] === 'number') {
+                return [
+                    {
+                        $sort: { date: -1 },
+                    },
+                    {
+                        $skip: PER_PAGE * (arr[0] - 1),
+                    },
+                ]
+            }
 
-/**
- * User admin and WP nonce allow to access
- *
- * @param {string} nonce
- * @param {string} slug
- * @param {ARCHIVE | POST_TYPE} type
- * @returns {Promise<void>}
- * @throws {ServerError} Failed to access
- */
-export const auth = async (nonce?: string, slug?: string): Promise<void> => {
-    const admin = await isAdmin()
-    if (admin) return
+        case '_id':
+            return [
+                {
+                    $addFields: {
+                        _id: { $toString: '$_id' },
+                    },
+                },
+            ]
 
-    // Nonce validation
-    if (!nonce) {
-        throw new ServerError(ERROR_MESSAGE.GENERAL.UNAUTHORIZED, 'auth()')
+        case 'expand-archive':
+            return [
+                {
+                    $lookup: {
+                        from: `${COLLECTION.ARCHIVE}${suffix}`,
+                        localField: 'archives',
+                        foreignField: '_id',
+                        as: 'archives',
+                        pipeline: [
+                            {
+                                $addFields: {
+                                    _id: { $toString: '$_id' },
+                                },
+                            },
+                        ],
+                    },
+                },
+            ]
+        case 'to-archive-post':
+            return [
+                {
+                    $project: {
+                        content: 0,
+                        meta: 0,
+                    },
+                },
+            ]
     }
-    const optionKey = ['mutate', slug, nonce].join('_')
-    await getOption(optionKey).catch(() => {
-        throw new ServerError(ERROR_MESSAGE.GENERAL.UNAUTHORIZED, 'auth()')
-    })
-    await removeOption(optionKey)
+
+    return []
 }

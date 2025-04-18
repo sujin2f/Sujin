@@ -184,7 +184,7 @@ export const MENUS: Record<MENU_NAMES, MenuItem[]> = {
                 // {
                 //     ...menuFixture,
                 //     title: 'Code Snippet',
-                //     link: '/snippet',
+                //     link: '/snippet/1',
                 // },
                 {
                     ...menuFixture,
@@ -348,6 +348,18 @@ export const MENUS: Record<MENU_NAMES, MenuItem[]> = {
             ...menuFixture,
             title: 'Elements',
             link: '/design-system/elements',
+            children: [
+                {
+                    ...menuFixture,
+                    title: 'HTML Elements',
+                    link: '/design-system/elements-article',
+                },
+                {
+                    ...menuFixture,
+                    title: 'Components',
+                    link: '/design-system/components',
+                },
+            ],
         },
         {
             ...menuFixture,

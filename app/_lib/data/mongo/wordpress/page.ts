@@ -1,25 +1,25 @@
 import type { WithId } from 'mongodb'
 /* Models */
 import Cached from '@common/model/Cached'
+import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 /* CONSTANTS */
 import { IS_DEV } from '@common/constants/helper'
 import {
     COLLECTION,
     POST_IMAGE_LOCATION,
     POST_TYPE,
-    T_Page,
+    type T_Page,
 } from '@app/_lib/types'
-import { PER_PAGE } from '@app/_lib/data/mysql/constants'
-import { default as schema } from '@app/_lib/data/mongo/schema/10.3.2'
+import { default as schema } from '@app/_lib/data/mongo/schema/10.3.4'
 import { DAY_IN_SECONDS } from '@common/constants/datetime'
-import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 /* Utils */
 import { getCacheKey } from '@app/_lib/utils'
 import { getPostBy } from '@app/_lib/data/mysql/post'
 import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
-import { drop_id, schemaFormatter } from '@common/utils/object'
-import { auth } from '@app/_lib/utils-server'
+import { schemaFormatter } from '@common/utils/object'
+import { auth } from '@app/_lib/data/mongo/user'
 import { getCollection, insertOrReplace } from '@common/data/mongo/mongo'
+import { getAggregation } from '@app/_lib/utils-server'
 /* T_Types */
 import type { MutationResultType } from '@app/api/graphql/constants'
 
@@ -57,7 +57,11 @@ export const getCachedPage = async (slug: string): Promise<T_Page> =>
         async () => {
             const collection = await getCollection<T_Page>(COLLECTION.PAGE)
             return await collection.findOne({ slug }).then((post) => {
-                if (post) return drop_id(post)
+                if (post)
+                    return {
+                        ...post,
+                        _id: post._id.toString(),
+                    } as unknown as T_Page
                 throw new ServerError(ERROR_MESSAGE.PAGE.GET_ONE, slug)
             })
         },
@@ -70,13 +74,13 @@ export const getCachedPage = async (slug: string): Promise<T_Page> =>
  * This is also directly used from Admin
  *
  * @param {string} slug - Page slug
- * @returns {Promise<T_Page>}
+ * @returns {Promise<void>}
  * @throws {Error} - MySQL page cannot be found
  */
 export const updatePage = async (
     slug: string,
     nonce?: string,
-): Promise<T_Page> => {
+): Promise<void> => {
     await auth(nonce, slug)
     await Cached.getInstance().flush(getCacheKey(COLLECTION.PAGE, slug))
 
@@ -89,7 +93,6 @@ export const updatePage = async (
         })
     }
     await insertOrReplace(COLLECTION.PAGE, { slug }, page)
-    return page
 }
 
 /**
@@ -101,11 +104,13 @@ export const updatePage = async (
 export const getPages = async (page: number = 1): Promise<T_Page[]> => {
     const collection = await getCollection<T_Page>(COLLECTION.PAGE)
     return await collection
-        .find({})
-        .sort({ date: -1 })
-        .limit(PER_PAGE)
-        .skip(PER_PAGE * (page - 1))
-        .project<T_Page>({ _id: -1 })
+        .aggregate<T_Page>([
+            {
+                $sort: { date: -1 },
+            },
+            ...getAggregation('paging', page),
+            ...getAggregation('_id'),
+        ])
         .toArray()
 }
 

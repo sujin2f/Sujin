@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation'
 /* Components */
 import { getCachedArchive } from '@app/_lib/data/mongo/wordpress/archive'
 import { ClientComponent } from '@app/admin/categories/posts/category-post-client'
@@ -8,7 +9,6 @@ import {
 } from '@app/_lib/data/mongo/wordpress/post'
 /* T_Types */
 import { ARCHIVE } from '@app/_lib/types'
-import { notFound } from 'next/navigation'
 
 type Props = {
     page: string
@@ -17,8 +17,9 @@ type Props = {
 
 export async function ServerComponent({ slug, ...props }: Props) {
     const page = parseInt(props.page)
-    const archive = await getCachedArchive(slug, ARCHIVE.CATEGORY)
-    if (!archive) notFound()
+    const archive = await getCachedArchive(slug, ARCHIVE.CATEGORY).catch(() =>
+        notFound(),
+    )
     const posts = await getArchivePosts(archive._id, page)
 
     const update = async (slug: string, page: number) => {

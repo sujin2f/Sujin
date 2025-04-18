@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from 'react'
 import { notFound } from 'next/navigation'
 /* Utils */
-import { isAdmin } from '@app/_lib/utils-server'
+import { isAdmin } from '@app/_lib/data/mongo/user'
 
 /**
  * Wrapper for admin access

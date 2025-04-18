@@ -6,7 +6,7 @@ import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 import { IS_DEV } from '@common/constants/helper'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 /* Utils */
-import { isAdmin } from '@app/_lib/utils-server'
+import { isAdmin } from '@app/_lib/data/mongo/user'
 import { getCacheKey } from '@app/_lib/utils'
 /* T_Types */
 import { CACHE_KEY, COLLECTION, type T_Option } from '@app/_lib/types'

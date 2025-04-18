@@ -1,9 +1,7 @@
 import type {
     T_Image,
     T_ImageBlock,
-    T_Option,
     T_PostImages,
-    T_Page,
     T_PrevNext,
 } from '@app/_lib/types'
 import { ARCHIVE, POST_STATUS } from '@app/_lib/types'
@@ -164,7 +162,7 @@ const archivePostProperty = {
     },
 }
 
-const pageProperty: { [key in keyof T_Page]: object } = {
+const pageProperty = {
     ...archivePostProperty,
     content,
     meta,
@@ -199,7 +197,7 @@ const archivesProperty = {
     },
 }
 
-const optionsProperty: { [key in keyof T_Option]: object } = {
+const optionsProperty = {
     key: {
         bsonType: 'string',
     },
@@ -212,15 +210,6 @@ const prevNext = {
     bsonType: 'object',
     required: ['title', 'link'],
     properties: prevNextProperty,
-}
-
-const archivePost = {
-    bsonType: 'object',
-    required: ['title', 'link'],
-    properties: {
-        ...archivePostProperty,
-        terms,
-    },
 }
 
 const post = {
@@ -272,7 +261,6 @@ const option = {
 
 const defaults = {
     prevNext,
-    archivePost,
     post,
     page,
     category,

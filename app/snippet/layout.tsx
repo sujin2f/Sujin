@@ -1,13 +1,19 @@
+import type { PropsWithChildren } from 'react'
 /* Components */
 import GlobalWrapper from '@app/_components/Wrapper'
+import { Excerpt } from '@app/snippet/excerpt'
+import { AdminWrapperServer } from '@app/_components/session/AdminWrapperServer'
 /* CONSTANTS */
 import { MENU_NAMES } from '@app/_lib/types'
-import Link from 'next/link'
-import { PropsWithChildren } from 'react'
+import { authOptions } from '@app/api/auth/constants'
+/* Utils */
+import { getServerSession } from 'next-auth'
+/* Assets */
 import '@app/snippet/style.scss'
-import { AdminWrapperServer } from '@app/_components/session/AdminWrapperServer'
 
 export default async function Wrapper({ children }: PropsWithChildren) {
+    const session = await getServerSession(authOptions)
+
     return (
         <AdminWrapperServer>
             <GlobalWrapper
@@ -16,12 +22,7 @@ export default async function Wrapper({ children }: PropsWithChildren) {
                 large={12}
                 small={12}
                 title="Code Snippet"
-                excerpt={
-                    <div>
-                        Description and Login here{' '}
-                        <Link href="/snippet/your">Go</Link>
-                    </div>
-                }
+                excerpt={<Excerpt name={session?.user?.name || undefined} />}
             >
                 <article>{children}</article>
             </GlobalWrapper>

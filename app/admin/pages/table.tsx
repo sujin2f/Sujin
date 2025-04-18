@@ -31,7 +31,7 @@ export function Table({ pages, remove, update, setMessage }: Props) {
             </thead>
             <tbody>
                 {pages.map((post) => (
-                    <tr key={`admin-posts-${post.id}`}>
+                    <tr key={`admin-posts-${post._id}`}>
                         <td className="center">{post.id}</td>
                         <td>{post.title}</td>
                         <td className="center">{post.slug}</td>

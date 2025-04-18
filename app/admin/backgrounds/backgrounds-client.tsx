@@ -13,14 +13,13 @@ import { Column } from '@common/components/layout/Column'
 import type { T_Background } from '@app/_lib/types'
 
 type Props = {
-    readonly refresh: () => Promise<T_Background[] | string>
+    readonly refresh: () => Promise<string>
     readonly page: number
     readonly backgrounds: T_Background[]
 }
 
-export function ClientComponent({ refresh, page, ...props }: Props) {
+export function ClientComponent({ refresh, page, backgrounds }: Props) {
     const [message, setMessage] = useState('')
-    const [backgrounds, setBackgrounds] = useState(props.backgrounds)
     const router = useRouter()
 
     return (
@@ -30,11 +29,7 @@ export function ClientComponent({ refresh, page, ...props }: Props) {
                     title="Refresh All"
                     onClick={() =>
                         refresh().then((result) => {
-                            if (typeof result === 'string') {
-                                setMessage(result)
-                                return
-                            }
-                            setBackgrounds(result)
+                            setMessage(result)
                             setMessage('Backgrounds successfully updated!')
                             router.refresh()
                         })

@@ -1,13 +1,13 @@
 import React from 'react'
 /* Components */
-import { Column } from '@common/components/layout/Column'
-import { Card } from '@common/components/containers/Card'
+import Row from '@common/components/layout/Row'
+import Column from '@common/components/layout/Column'
+import Card from '@common/components/containers/Card'
 import { Tags } from '@app/_components/single/Tags'
 /* Helpers */
 import type { ColumnProps } from '@common/components/layout/Column'
 import { getThumbnailFromPost } from '@app/_lib/data/mysql/utils'
-import { ARCHIVE, IMAGE_SIZE, T_ArchivePost } from '@app/_lib/types'
-import Row from '@common/components/layout/Row'
+import { ARCHIVE, IMAGE_SIZE, type T_ArchivePost } from '@app/_lib/types'
 
 type Props = ColumnProps & {
     readonly posts: T_ArchivePost[]
@@ -30,9 +30,10 @@ export const Cards = ({
                                 (term) => term.type === ARCHIVE.TAG,
                             )
                           : []
+
                       return (
                           <Column
-                              key={`card-${keyPrefix}-${index}-${post.id}`}
+                              key={`card-${keyPrefix}-${index}-${post._id}`}
                               {...column}
                           >
                               <Card

@@ -14,7 +14,7 @@ import InputGroup from '@common/components/forms/InputGroup'
 import type { T_Archive } from '@app/_lib/types'
 
 type Props = {
-    readonly categories: (T_Archive & { _id: string })[]
+    readonly categories: T_Archive[]
     readonly page: number
     readonly remove: (slug: string) => Promise<string>
     readonly update: (slug: string) => Promise<string>
@@ -64,7 +64,7 @@ export function ClientComponent({ categories, page, remove, update }: Props) {
                         </thead>
                         <tbody>
                             {categories.map((term) => (
-                                <tr key={`admin-posts-${term.slug}`}>
+                                <tr key={`admin-posts-${term._id}`}>
                                     <td>{term.title}</td>
                                     <td className="center">{term.slug}</td>
                                     <td className="center">{term.total}</td>

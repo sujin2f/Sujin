@@ -1,21 +1,22 @@
+import { ObjectId } from 'mongodb'
 /* Models */
 import Cached from '@common/model/Cached'
+import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 /* T_Types */
 import type { MutationResultType } from '@app/api/graphql/constants'
 /* CONSTANTS */
 import { IS_DEV } from '@common/constants/helper'
-import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 import { ARCHIVE, COLLECTION, POST_STATUS, T_Archive } from '@app/_lib/types'
 import { DAY_IN_SECONDS } from '@common/constants/datetime'
-import { default as schema } from '@app/_lib/data/mongo/schema/10.3.3'
+import { default as schema } from '@app/_lib/data/mongo/schema/10.3.4'
 /* Utils */
 import { getArchiveBySlug as getMySQLArchive } from '@app/_lib/data/mysql/term'
 import { getCacheKey } from '@app/_lib/utils'
-import { auth } from '@app/_lib/utils-server'
+import { auth } from '@app/_lib/data/mongo/user'
 import { getCollection, insertOrReplace } from '@common/data/mongo/mongo'
-import { ObjectId, WithId } from 'mongodb'
 import { schemaFormatter } from '@common/utils/object'
 import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
+import { getAggregation } from '@app/_lib/utils-server'
 
 export const formatter = (term: Record<string, unknown>): T_Archive => {
     const formatted = schemaFormatter(term, schema.archive) as T_Archive
@@ -28,20 +29,31 @@ export const formatter = (term: Record<string, unknown>): T_Archive => {
  * @template {T} T_Archive
  * @param {string} slug
  * @param {ARCHIVE} type
- * @param {number} page If exist, return with posts
  * @returns {Promise<T_Archive>}
  */
 export const getCachedArchive = async (
     slug: string,
     type: ARCHIVE,
-): Promise<WithId<T_Archive> | null> =>
-    await Cached.getInstance().getOrExecute<WithId<T_Archive> | null>(
+): Promise<T_Archive> =>
+    await Cached.getInstance().getOrExecute<T_Archive>(
         getCacheKey(COLLECTION.ARCHIVE, type, slug),
         async () => {
             const collection = await getCollection<T_Archive>(
                 COLLECTION.ARCHIVE,
             )
-            return await collection.findOne({ slug, type })
+            return await collection.findOne({ slug, type }).then((result) => {
+                if (!result) {
+                    throw new ServerError(
+                        ERROR_MESSAGE.ARCHIVE.GET_ONE,
+                        type,
+                        slug,
+                    )
+                }
+                return {
+                    ...result,
+                    _id: result._id.toString(),
+                } as unknown as T_Archive
+            })
         },
         DAY_IN_SECONDS,
         IS_DEV,
@@ -58,7 +70,7 @@ export const updateArchive = async (
     slug: string,
     type: ARCHIVE,
     nonce?: string,
-): Promise<ObjectId> => {
+): Promise<void> => {
     await auth(nonce, slug)
 
     await Cached.getInstance().flush(
@@ -70,7 +82,7 @@ export const updateArchive = async (
         wp.image = convertImageBlockURL(wp.image)
     }
 
-    return await insertOrReplace<T_Archive>(
+    await insertOrReplace<T_Archive>(
         COLLECTION.ARCHIVE,
         { slug, type },
         formatter({ ...wp, type, total: 0, hits: 0 }),
@@ -96,12 +108,19 @@ export const mutateArchive = async (
     }
 }
 
-export const getArchives = async (type: ARCHIVE, page: number = 1) => {
+export const getArchives = async (
+    type: ARCHIVE,
+    page: number = 1,
+): Promise<T_Archive[]> => {
     const collection = await getCollection<T_Archive>(COLLECTION.ARCHIVE)
     return await collection
-        .find({ type })
-        .limit(PER_PAGE)
-        .skip(PER_PAGE * (page - 1))
+        .aggregate<T_Archive>([
+            {
+                $match: { type },
+            },
+            ...getAggregation('paging', page),
+            ...getAggregation('_id'),
+        ])
         .toArray()
 }
 

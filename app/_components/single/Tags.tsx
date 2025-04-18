@@ -12,8 +12,8 @@ export const Tags = ({ items }: Props) => {
         <>
             {items.length !== 0 && (
                 <ul className="tag__container">
-                    {items.map((tag: T_Archive, index: number) => (
-                        <li key={`tag-${index}-${tag.slug}`}>
+                    {items.map((tag, index) => (
+                        <li key={`tag-${tag._id}-${index}`}>
                             <Link
                                 href={`/tag/${tag.slug}/page/1`}
                                 className="tag"

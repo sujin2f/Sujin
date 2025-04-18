@@ -10,7 +10,7 @@ type Props = {
 
 export const Content = (props: PropsWithChildren<Props>) => {
     const {
-        post: { id, slug, content },
+        post: { _id, id, slug, content },
         type,
         children,
     } = props
@@ -22,7 +22,7 @@ export const Content = (props: PropsWithChildren<Props>) => {
             <article
                 className={`content--${type} content--${decodeURIComponent(
                     slug,
-                )} content--post-${id} content`}
+                )} content--${type}-${id} content--${_id} content`}
             >
                 {contents}
             </article>

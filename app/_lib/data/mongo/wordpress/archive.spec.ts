@@ -62,7 +62,7 @@ describe('archive.spec.ts', () => {
             archives: [category._id],
         })
         const archive = await getCachedArchive(category.slug, ARCHIVE.CATEGORY)
-        expect(archive!._id).toEqual(category._id)
+        expect(archive!._id.toString()).toEqual(category._id.toString())
     })
 
     test('updateArchive(): tag, New', async () => {
