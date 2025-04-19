@@ -97,8 +97,22 @@ export const getAggregation = (
     return []
 }
 
-const getCryptoKeyAndIv = async () => {
-    const key = await subtle.generateKey(
+export const getKey = async () => {
+    if (!process.env.CRYPT_JWK) {
+        throw new Error('CRYPT_JWK is not defined')
+    }
+
+    const key = {
+        key_ops: ['encrypt', 'decrypt'],
+        ext: true,
+        kty: 'oct',
+        k: process.env.CRYPT_JWK,
+        alg: 'A256CBC',
+    }
+
+    return await subtle.importKey(
+        'jwk',
+        key,
         {
             name: 'AES-CBC',
             length: 256,
@@ -106,39 +120,29 @@ const getCryptoKeyAndIv = async () => {
         true,
         ['encrypt', 'decrypt'],
     )
+}
+
+const getCryptoKeyAndIv = async () => {
     const iv = Buffer.alloc(16, process.env.NEXTAUTH_SECRET || '')
-    return { key, iv }
+    const algorithm = {
+        name: 'AES-CBC',
+        length: 256,
+        iv,
+    }
+    return { algorithm, key: await getKey() }
 }
 
 export const encodeText = async (text: string) => {
     const enc = new TextEncoder()
     const message = enc.encode(text)
-    const { key, iv } = await getCryptoKeyAndIv()
-
-    const encoded = await subtle.encrypt(
-        {
-            name: 'AES-CBC',
-            length: 256,
-            iv,
-        },
-        key,
-        message,
-    )
-
+    const { key, algorithm } = await getCryptoKeyAndIv()
+    const encoded = await subtle.encrypt(algorithm, key, message)
     return Buffer.from(encoded).toString('base64')
 }
 
 export const decodeText = async (text: string) => {
-    const { key, iv } = await getCryptoKeyAndIv()
+    const { key, algorithm } = await getCryptoKeyAndIv()
     const buffer = Buffer.from(text, 'base64')
-    const decoded = await subtle.decrypt(
-        {
-            name: 'AES-CBC',
-            length: 256,
-            iv,
-        },
-        key,
-        buffer,
-    )
+    const decoded = await subtle.decrypt(algorithm, key, buffer)
     return new TextDecoder().decode(decoded)
 }

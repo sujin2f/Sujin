@@ -1,9 +1,11 @@
 // yarn test utils.spec.ts
 
 import { auth } from '@app/_lib/data/mongo/user'
+import { encodeText, decodeText } from './utils-server'
 
+const userMock = jest.fn()
 jest.mock('next-auth', () => ({
-    getServerSession: jest.fn(async () => Promise.resolve(null)),
+    getServerSession: jest.fn(async () => userMock),
 }))
 
 jest.mock('./data/mysql/option', () => ({
@@ -18,13 +20,21 @@ describe('utils.ts & utils-server.ts', () => {
 
     describe('auth()', () => {
         test('auth(): nonce pass', async () => {
+            userMock.mockReturnValueOnce(null)
             const result = await auth('nonce').then(() => 'test pass')
             expect(result).toBe('test pass')
         })
 
         test('auth(): nonce failed', async () => {
+            userMock.mockReturnValueOnce(null)
             const result = await auth().catch(() => 'test pass')
             expect(result).toBe('test pass')
         })
+    })
+
+    test('encodeText() & decodeText()', async () => {
+        const encoded = await encodeText('Sujin Choi')
+        const decoded = await decodeText(encoded)
+        expect(decoded).toBe('Sujin Choi')
     })
 })

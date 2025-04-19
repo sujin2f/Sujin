@@ -1,4 +1,5 @@
 import type { PropsWithChildren } from 'react'
+
 import { Header } from '@app/_components/header'
 import { Footer } from '@app/_components/footer'
 import { Banner } from '@app/_components/header/Banner'
@@ -18,51 +19,21 @@ type Props = ColumnProps &
  * @param {ReactNode} props.children - The content to be wrapped by the layout.
  */
 export default function Wrapper({
-    larger,
-    large,
-    medium,
     small,
-    largerOffset,
-    largeOffset,
-    mediumOffset,
-    smallOffset,
     children,
-    menu,
-    title,
-    excerpt,
-    icon,
-    prefix,
-    background,
-    backgroundColor,
+    className: classNameProp,
     ...props
 }: Props) {
-    const className = joinClassNames('wrapper', props.className)
+    const className = joinClassNames('wrapper', classNameProp)
     return (
         <>
             <ScrollToTop />
-            <Header menu={menu} />
+            <Header menu={props.menu} />
             <main className={className}>
-                <Banner
-                    menu={menu}
-                    title={title}
-                    excerpt={excerpt}
-                    icon={icon}
-                    prefix={prefix}
-                    background={background}
-                    backgroundColor={backgroundColor}
-                />
+                <Banner {...props} />
 
                 <Row>
-                    <Column
-                        larger={larger}
-                        large={large}
-                        medium={medium}
-                        small={small || 12}
-                        largerOffset={largerOffset}
-                        largeOffset={largeOffset}
-                        mediumOffset={mediumOffset}
-                        smallOffset={smallOffset}
-                    >
+                    <Column small={small || 12} {...props}>
                         {children}
                     </Column>
                 </Row>

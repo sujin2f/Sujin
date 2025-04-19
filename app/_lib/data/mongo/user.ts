@@ -7,32 +7,23 @@ import { COLLECTION, type T_User } from '@app/_lib/types'
 import { authOptions } from '@app/api/auth/constants'
 import { getOption, removeOption } from '@app/_lib/data/mysql/option'
 import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
-import { encodeText, decodeText } from '@app/_lib/utils-server'
 
 export const addUser = async (user: WithoutId<T_User>) => {
     const collection = await getCollection(COLLECTION.USERS)
     await collection.insertOne({
         ...user,
         email: hash('sha3-224', user.email),
-        name: await encodeText(user.name),
     })
 }
 
 export const getUser = async (email: string) => {
     const collection = await getCollection(COLLECTION.USERS)
-    return await collection
-        .findOne({ email: hash('sha3-224', email) })
-        .then(async (result) => ({
-            ...result,
-            name: result?.name ? await decodeText(result.name) : 'Anonymous',
-        }))
+    return await collection.findOne({ email: hash('sha3-224', email) })
 }
 
 export const isAdmin = async (): Promise<boolean> => {
     const session = await getServerSession(authOptions)
-    const email =
-        session && session.user && session.user.email && session?.user?.email
-    return email === process.env.ADMIN_EMAIL
+    return session?.user?.email === process.env.ADMIN_EMAIL
 }
 
 /**

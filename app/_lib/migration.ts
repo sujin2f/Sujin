@@ -15,8 +15,12 @@ import { updateBackgrounds } from '@app/_lib/data/mongo/wordpress/background'
 const suffix = IS_TEST ? `-${process.env.JEST_WORKER_ID}` : ''
 
 const migration: T_Migration = {
+    // '10.3.4': async (client) => {
+    //     const database = client.db(MONGO_DATABASE)
+    // },
     '10.3.3': async (client) => {
         /**
+         * Archive collection
          * Run this first
          * mongosh --authenticationDatabase admin --host localhost -u $MONGO_INITDB_ROOT_USERNAME -p $MONGO_INITDB_ROOT_PASSWORD $MONGO_DATABASE --eval "db.updateUser('$MONGO_USER', {roles: [{role: 'dbAdmin', db: '$MONGO_DATABASE'}, {role: 'readWrite', db: '$MONGO_DATABASE'}]});"
          * Then, make user back to non-admin

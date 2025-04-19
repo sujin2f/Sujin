@@ -90,11 +90,17 @@ export const setSystemOption = async (key: string, value: string) => {
             'setSystemOption()',
         )
 
-    return await insertOrReplace<T_Option>(
-        COLLECTION.OPTIONS,
-        { key },
-        { key, value },
-    )
+    return await insertOrReplace(COLLECTION.OPTIONS, { key }, { key, value })
+}
+
+export const getSystemOption = async (key: string) => {
+    const collection = await getCollection<T_Option>(COLLECTION.OPTIONS)
+    return await collection.findOne({ key }).then((result) => {
+        if (!result) {
+            return null
+        }
+        return result.value
+    })
 }
 
 export const insertAbTest = async (

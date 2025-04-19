@@ -54,7 +54,7 @@ const FixedHeader = (props: Props) => {
         return () => window.removeEventListener('scroll', handleScrolled)
     }, [handleScrolled])
 
-    const name = session && session.user && session.user.name
+    const loggedIn = session && session.user && session.user.email
 
     return (
         <TopBar fixed fullWidth className={props.className}>
@@ -94,9 +94,9 @@ const FixedHeader = (props: Props) => {
                         >
                             <Facebook />
                         </a>
-                        {name ? (
+                        {loggedIn ? (
                             <div className="hide">
-                                <h2>Welcome, {name}!</h2>
+                                <h2>Welcome</h2>
                                 <button onClick={handleSignOut}>
                                     Sign Out
                                 </button>

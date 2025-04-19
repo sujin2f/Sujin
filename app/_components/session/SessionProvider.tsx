@@ -11,7 +11,7 @@ import { authOptions } from '@app/api/auth/constants'
  * @example
  * 'use client'
  * const { data: session } = useSession()
- * const name = session && session.user && session.user.name
+ * const email = session && session.user && session.user.email
  */
 export const SessionProvider = async ({ children }: PropsWithChildren) => {
     const session = await getServerSession(authOptions)
