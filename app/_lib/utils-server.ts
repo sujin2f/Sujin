@@ -1,4 +1,6 @@
+import { subtle } from 'node:crypto'
 import { headers } from 'next/headers'
+
 import type { Nullable } from '@common/types'
 import { Metadata, METADATA } from '@app/_lib/constants'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
@@ -93,4 +95,50 @@ export const getAggregation = (
     }
 
     return []
+}
+
+const getCryptoKeyAndIv = async () => {
+    const key = await subtle.generateKey(
+        {
+            name: 'AES-CBC',
+            length: 256,
+        },
+        true,
+        ['encrypt', 'decrypt'],
+    )
+    const iv = Buffer.alloc(16, process.env.NEXTAUTH_SECRET || '')
+    return { key, iv }
+}
+
+export const encodeText = async (text: string) => {
+    const enc = new TextEncoder()
+    const message = enc.encode(text)
+    const { key, iv } = await getCryptoKeyAndIv()
+
+    const encoded = await subtle.encrypt(
+        {
+            name: 'AES-CBC',
+            length: 256,
+            iv,
+        },
+        key,
+        message,
+    )
+
+    return Buffer.from(encoded).toString('base64')
+}
+
+export const decodeText = async (text: string) => {
+    const { key, iv } = await getCryptoKeyAndIv()
+    const buffer = Buffer.from(text, 'base64')
+    const decoded = await subtle.decrypt(
+        {
+            name: 'AES-CBC',
+            length: 256,
+            iv,
+        },
+        key,
+        buffer,
+    )
+    return new TextDecoder().decode(decoded)
 }
