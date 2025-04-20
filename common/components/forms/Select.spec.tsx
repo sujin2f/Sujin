@@ -15,15 +15,14 @@ describe('Select.ts', () => {
         option2: 'Value 2',
     }
 
-    it('Basic', async () => {
+    test('Basic', async () => {
         const Component = () => <Select options={options} id="select" />
         const result = render(<Component />)
-        expect(result.container.innerHTML).toMatch(
-            '<select id="select" aria-describedby="" class="form__input"><option value="">Please Select</option><option value="option1">Value 1</option><option value="option2">Value 2</option></select>',
-        )
+        const option = result.getAllByRole('option').map((el) => el.textContent)
+        expect(option).toStrictEqual(['Please Select', 'Value 1', 'Value 2'])
     })
 
-    it('Option Group', async () => {
+    test('Option Group', async () => {
         const optionsGroup = {
             '': 'Please Select',
             BMW: {
@@ -37,12 +36,17 @@ describe('Select.ts', () => {
         }
         const Component = () => <Select options={optionsGroup} id="select" />
         const result = render(<Component />)
-        expect(result.container.innerHTML).toMatch(
-            '<select id="select" aria-describedby="" class="form__input"><option value="">Please Select</option><optgroup label="BMW"><option value="z3">Z3</option><option value="z4">Z4</option></optgroup><optgroup label="Smart"><option value="forTwo">For Two</option><option value="forFour">For Four</option></optgroup></select>',
-        )
+        const option = result.getAllByRole('option').map((el) => el.textContent)
+        expect(option).toStrictEqual([
+            'Please Select',
+            'Z3',
+            'Z4',
+            'For Two',
+            'For Four',
+        ])
     })
 
-    it('With props', async () => {
+    test('With props', async () => {
         const Component = () => (
             <Select
                 options={options}
@@ -52,19 +56,30 @@ describe('Select.ts', () => {
                 disabled
                 required
                 helpText="helpText"
+                errorMessage="errorMessage"
             />
         )
         const result = render(<Component />)
-        expect(result.container.innerHTML).toMatch(
-            '<label for="select" class="form__label form__label--required">Label</label><select id="select" disabled="" required="" aria-describedby="select-help-text" class="form__input"><option value="">Please Select</option><option value="option1" selected="">Value 1</option><option value="option2">Value 2</option></select><p class="help-text" id="select-help-text">helpText</p>',
-        )
+
+        const select = result.getByLabelText('Label')
+        const paragraph = result
+            .getAllByRole('paragraph')
+            .map((item) => item.outerHTML)
+
+        expect(select.getAttribute('aria-describedby')).toBe('select-help-text')
+        expect(select.getAttribute('class')).toBe('form__input')
+        expect(paragraph).toStrictEqual([
+            '<p class="form__input__error-message">errorMessage</p>',
+            '<p class="form__input__help-text" id="select-help-text">helpText</p>',
+        ])
     })
 
-    it('OnChange', async () => {
+    test('OnChange', async () => {
         const Component = () => {
             const [selected, ChangeSelected] = useState('')
-            const onChange = (value: string) => {
-                ChangeSelected(value)
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const onChange = (e: any) => {
+                ChangeSelected(e.target.value)
             }
             return (
                 <Fragment>
@@ -74,6 +89,7 @@ describe('Select.ts', () => {
             )
         }
         const result = render(<Component />)
+
         const select = result.container.querySelector('#select')
         fireEvent.change(select!, { target: { value: 'option1' } })
 

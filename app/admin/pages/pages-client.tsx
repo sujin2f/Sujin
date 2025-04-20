@@ -33,7 +33,6 @@ export function ClientComponent({ pages, page, remove, update }: Props) {
                     button="Update"
                     onSubmit={() =>
                         update(ref.current?.value || '').then((message) => {
-                            console.log(ref.current?.value)
                             ref.current!.value = ''
                             setMessage(message)
                             router.refresh()
