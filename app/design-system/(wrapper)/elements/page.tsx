@@ -6,10 +6,10 @@ import { MENU_NAMES } from '@app/_lib/types'
 export default async function Page() {
     return (
         <Wrapper
+            className="wrapper--design-system sujin"
             title="HTML Elements"
             prefix="Design System"
             menu={MENU_NAMES.DESIGN_SYSTEM}
-            excerpt="WIP"
         >
             <article>
                 <h2>Heading 2</h2>
@@ -20,7 +20,7 @@ export default async function Page() {
                 <h2>Colors</h2>
                 <Row fullWidth>
                     <Column small={6}>
-                        <div className="design-system__css__item">
+                        <div className="color-block">
                             <div
                                 style={{
                                     backgroundColor: 'var(--black)',
@@ -28,7 +28,7 @@ export default async function Page() {
                             />
                             <h3>--black</h3>
                         </div>
-                        <div className="design-system__css__item">
+                        <div className="color-block">
                             <div
                                 style={{
                                     backgroundColor: 'var(--dark-gray)',
@@ -36,7 +36,7 @@ export default async function Page() {
                             />
                             <h3>--dark-gray</h3>
                         </div>
-                        <div className="design-system__css__item">
+                        <div className="color-block">
                             <div
                                 style={{
                                     backgroundColor: 'var(--gray)',
@@ -44,7 +44,7 @@ export default async function Page() {
                             />
                             <h3>--gray</h3>
                         </div>
-                        <div className="design-system__css__item">
+                        <div className="color-block">
                             <div
                                 style={{
                                     backgroundColor: 'var(--light-gray)',
@@ -52,7 +52,7 @@ export default async function Page() {
                             />
                             <h3>--light-gray</h3>
                         </div>
-                        <div className="design-system__css__item">
+                        <div className="color-block">
                             <div
                                 style={{
                                     backgroundColor: 'var(--lighter-gray)',
@@ -60,7 +60,7 @@ export default async function Page() {
                             />
                             <h3>--lighter-gray</h3>
                         </div>
-                        <div className="design-system__css__item">
+                        <div className="color-block">
                             <div
                                 style={{
                                     backgroundColor: 'var(--white)',
@@ -70,7 +70,7 @@ export default async function Page() {
                         </div>
                     </Column>
                     <Column small={6}>
-                        <div className="design-system__css__item">
+                        <div className="color-block">
                             <div
                                 style={{
                                     backgroundColor: 'var(--primary)',
@@ -78,7 +78,7 @@ export default async function Page() {
                             />
                             <h3>--primary</h3>
                         </div>
-                        <div className="design-system__css__item">
+                        <div className="color-block">
                             <div
                                 style={{
                                     backgroundColor: 'var(--primary-dark)',
@@ -86,7 +86,7 @@ export default async function Page() {
                             />
                             <h3>--primary-dark</h3>
                         </div>
-                        <div className="design-system__css__item">
+                        <div className="color-block">
                             <div
                                 style={{
                                     backgroundColor: 'var(--warning)',
@@ -94,7 +94,7 @@ export default async function Page() {
                             />
                             <h3>--warning</h3>
                         </div>
-                        <div className="design-system__css__item">
+                        <div className="color-block">
                             <div
                                 style={{
                                     backgroundColor: 'var(--pastel-red)',
@@ -102,7 +102,7 @@ export default async function Page() {
                             />
                             <h3>--pastel-red</h3>
                         </div>
-                        <div className="design-system__css__item">
+                        <div className="color-block">
                             <div
                                 style={{
                                     backgroundColor: 'var(--pastel-blue)',

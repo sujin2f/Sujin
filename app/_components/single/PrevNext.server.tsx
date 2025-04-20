@@ -5,8 +5,6 @@ import { PrevNext as Component } from '@app/_components/single/PrevNext'
 import { getCachedPrevNext } from '@app/_lib/data/mongo/wordpress/post'
 import { IS_DEV, VERSION } from '@common/constants/helper'
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
-/* Assets */
-import './style.scss'
 
 interface PostProps {
     slug: string

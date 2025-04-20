@@ -25,12 +25,8 @@
         border-color: var(--black);
     }
 
-    &.form__input--error {
+    .form__input--error & {
         border-color: var(--warning);
-        margin-bottom: 0;
-    }
-
-    &.form__input--with-help-text {
         margin-bottom: 0;
     }
 
@@ -38,6 +34,10 @@
     &[type='checkbox'] {
         width: initial;
         margin-right: 0.5em;
+
+        & + .form__label {
+            display: inline;
+        }
     }
 
     &[multiple] {
@@ -52,18 +52,15 @@
 .form__input__error-message {
     color: var(--warning);
     line-height: 1.3em;
-
-    &:has(+ .form__input__help-text) {
-        margin-bottom: 0;
-    }
+    margin: 0;
 }
 
 .form__input__help-text {
     font-style: italic;
     font-size: 0.9em;
     color: var(--gray);
-    margin-bottom: var(--gap);
     line-height: 1.3em;
+    margin: 0;
 }
 
 fieldset {
@@ -162,6 +159,18 @@ fieldset {
     }
 }
 
+.switch__input {
+    display: none;
+}
+
+.switch__paddle {
+    width: 1em;
+    height: 1em;
+    display: block;
+    background-color: var(--white);
+    transition: margin 0.2s ease-out, background-color 0.2s ease-out;
+}
+
 .switch {
     width: 2em;
     height: 1em;
@@ -169,18 +178,6 @@ fieldset {
     background-color: var(--gray);
     padding: 0.5em;
     cursor: pointer;
-
-    .switch__input {
-        display: none;
-    }
-
-    .switch__paddle {
-        width: 1em;
-        height: 1em;
-        display: block;
-        background-color: var(--white);
-        transition: margin 0.2s ease-out, background-color 0.2s ease-out;
-    }
 
     &--on {
         background-color: var(--primary);
@@ -190,19 +187,20 @@ fieldset {
     }
 }
 
-.input-group {
+.form__input-group label {
     display: flex;
     border: 1px solid var(--gray);
 
-    .form__input {
-        border: none;
-        margin-bottom: 0;
-    }
-
-    .input-group__label {
+    .form__label {
+        display: block;
         align-content: center;
         background-color: var(--light-gray);
         padding: 0 0.5em;
         border-right: 1px solid var(--gray);
+    }
+
+    .form__input {
+        border: none;
+        margin-bottom: 0;
     }
 }

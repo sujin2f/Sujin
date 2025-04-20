@@ -82,11 +82,13 @@ export const updateArchive = async (
         wp.image = convertImageBlockURL(wp.image)
     }
 
-    await insertOrReplace<T_Archive>(
+    const result = await insertOrReplace<T_Archive>(
         COLLECTION.ARCHIVE,
         { slug, type },
         formatter({ ...wp, type, total: 0, hits: 0 }),
     )
+
+    await updateTotal([result])
 }
 
 /**

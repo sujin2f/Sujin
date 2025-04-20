@@ -184,7 +184,7 @@ export const getArchivePosts = async (_id: ObjectId, page: number) => {
         .aggregate<T_ArchivePost>([
             {
                 $match: {
-                    archives: _id,
+                    archives: new ObjectId(_id),
                 },
             },
             {
@@ -193,6 +193,11 @@ export const getArchivePosts = async (_id: ObjectId, page: number) => {
             ...getAggregation('paging', page),
             ...getAggregation('_id'),
             ...getAggregation('to-archive-post'),
+            {
+                $project: {
+                    archives: 0,
+                },
+            },
         ])
         .toArray()
 }

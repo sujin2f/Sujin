@@ -3,7 +3,7 @@ import type { Metadata } from 'next/types'
 /* Utils */
 import { getMetaData } from '@app/_lib/utils-server'
 /* Assets */
-import './style.scss'
+import '@app/scss/dev-tools.scss'
 
 export const generateMetadata = async (): Promise<Metadata> => {
     const metadata = await getMetaData()

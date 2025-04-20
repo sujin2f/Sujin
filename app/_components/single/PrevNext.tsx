@@ -8,7 +8,6 @@ import { Column } from '@common/components/layout/Column'
 import type { T_PrevNext } from '@app/_lib/types'
 /* Assets */
 import Icon from '@app/_lib/images/prev.svg'
-import './style.scss'
 
 type Props = {
     readonly prev?: T_PrevNext | false

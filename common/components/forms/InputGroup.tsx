@@ -1,22 +1,36 @@
 'use client'
-import { InputProps, InputOnly } from './Input'
+import { useCallback } from 'react'
+import { InputProps, Input } from './Input'
 import { Button } from './Button'
 /* Assets */
 import '../../scss/form.scss'
-import { useCallback } from 'react'
 
-export const InputGroup = (
-    props: InputProps & { button?: string; readonly onSubmit?: () => void },
-) => {
-    const onEnterKeyDown = useCallback(() => {
-        if (props.onSubmit) props.onSubmit()
-    }, [props])
+type Props = InputProps<HTMLInputElement> & {
+    button?: string
+    readonly onSubmit?: () => void
+}
+
+export const InputGroup = ({ onSubmit, button, ...props }: Props) => {
+    const ariaDescribedby =
+        props.helpText && props.id
+            ? `${props.id}-help-text`
+            : props['aria-describedby']
+
+    const onKeyDown = useCallback(() => {
+        if (onSubmit) onSubmit()
+    }, [onSubmit])
+
+    const label = props.label || 'Label'
+
     return (
-        <label className="input-group">
-            <span className="input-group__label">{props.label || 'Label'}</span>
-            <InputOnly {...props} onEnterKeyDown={onEnterKeyDown} />
-            <Button title={props.button} onClick={props.onSubmit} />
-        </label>
+        <Input {...props} label={label} className="form__input-group">
+            <input
+                className="form__input"
+                aria-describedby={ariaDescribedby}
+                onKeyDown={onKeyDown}
+            />
+            <Button title={button} onClick={onSubmit} />
+        </Input>
     )
 }
 export default InputGroup

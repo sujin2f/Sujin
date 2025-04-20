@@ -1,17 +1,19 @@
 import type { PropsWithChildren } from 'react'
 
-import { Header } from '@app/_components/header'
+import FixedHeader from '@app/_components/header/FixedHeader'
 import { Footer } from '@app/_components/footer'
 import { Banner } from '@app/_components/header/Banner'
 import { Row } from '@common/components/layout/Row'
 import { Column, ColumnProps } from '@common/components/layout/Column'
-import { BannerProps } from '@app/_lib/types'
+import { BannerProps, MENU_NAMES } from '@app/_lib/types'
 import ScrollToTop from '@common/components/ScrollToTop'
 import { joinClassNames } from '@common/utils/string'
 
 type Props = ColumnProps &
-    PropsWithChildren<BannerProps> & {
+    BannerProps & {
         readonly className?: string
+        readonly footer?: boolean
+        readonly banner?: boolean
     }
 
 /**
@@ -21,16 +23,22 @@ type Props = ColumnProps &
 export default function Wrapper({
     small,
     children,
-    className: classNameProp,
+    footer = true,
+    banner = true,
     ...props
-}: Props) {
-    const className = joinClassNames('wrapper', classNameProp)
+}: PropsWithChildren<Props>) {
+    const className = joinClassNames(
+        'wrapper',
+        !banner && 'wrapper--no-banner',
+        props.className,
+    )
+    const menu = props.menu || MENU_NAMES.MAIN
     return (
-        <>
+        <div className={className}>
             <ScrollToTop />
-            <Header menu={props.menu} />
-            <main className={className}>
-                <Banner {...props} />
+            <FixedHeader menu={menu} />
+            <main>
+                {banner && <Banner menu={menu} {...props} />}
 
                 <Row>
                     <Column small={small || 12} {...props}>
@@ -38,7 +46,7 @@ export default function Wrapper({
                     </Column>
                 </Row>
             </main>
-            <Footer />
-        </>
+            {footer && <Footer />}
+        </div>
     )
 }

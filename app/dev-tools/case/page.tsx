@@ -6,7 +6,7 @@ import { MENU_NAMES } from '@app/_lib/types'
 
 export default function CaseTool() {
     return (
-        <Wrapper menu={MENU_NAMES.DEV_TOOL}>
+        <Wrapper menu={MENU_NAMES.DEV_TOOL} className="sujin">
             <CaseToolClient />
         </Wrapper>
     )

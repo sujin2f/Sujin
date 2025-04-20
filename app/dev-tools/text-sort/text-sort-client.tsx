@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, type ChangeEvent } from 'react'
 /* Components */
 import { Input } from '@common/components/forms/Input'
 import { Row } from '@common/components/layout/Row'
@@ -23,13 +23,17 @@ export function TextSortClient() {
         <article className="text-sort">
             <Input
                 label="Primary Sort after"
-                onChange={(e) => setDivider(e.target.value)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    setDivider(e.target.value)
+                }
                 type="text"
             />
 
             <Input
                 label="Group divided by empty lines"
-                onChange={(e) => setGroupEnter(e.target.checked)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    setGroupEnter(e.target.checked)
+                }
                 type="checkbox"
             />
 

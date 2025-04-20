@@ -1,8 +1,7 @@
 'use server'
 import { unstable_cache } from 'next/cache'
 /* Components */
-import { Banner } from '@app/_components/header/Banner'
-import { Header } from '@app/_components/header'
+import Wrapper from '@app/_components/Wrapper'
 /* CONSTANTS */
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV, VERSION } from '@common/constants/helper'
@@ -10,7 +9,7 @@ import { IS_DEV, VERSION } from '@common/constants/helper'
 import { getCachedBackgrounds } from '@app/_lib/data/mongo/wordpress/background'
 /* Assets */
 import Logo from '@app/_lib/images/logo.svg'
-import './front-page.scss'
+import '@app/scss/front-page.scss'
 
 export async function FrontPage() {
     const request = unstable_cache(
@@ -27,20 +26,17 @@ export async function FrontPage() {
         backgrounds[Math.floor(Math.random() * backgrounds.length)]
 
     return (
-        <>
-            <Header />
-            <main className="wrapper--frontpage">
-                <Banner
-                    title={
-                        <Logo
-                            aria-label={process.env.NEXT_PUBLIC_TITLE}
-                            className="banner__logo"
-                        />
-                    }
-                    excerpt={process.env.NEXT_PUBLIC_EXCERPT}
-                    background={background}
+        <Wrapper
+            footer={false}
+            className="sujin wrapper--frontpage"
+            title={
+                <Logo
+                    aria-label={process.env.NEXT_PUBLIC_TITLE}
+                    className="banner__logo"
                 />
-            </main>
-        </>
+            }
+            excerpt={process.env.NEXT_PUBLIC_EXCERPT}
+            background={background}
+        />
     )
 }

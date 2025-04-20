@@ -1,7 +1,6 @@
 import React from 'react'
 
 /* Helpers */
-import { joinClassNames } from '@common/utils/string'
 import { replaceQuotes } from '@app/(single)/utils'
 import type { T_ShortcodeAttrMatch } from '@app/_lib/types'
 
@@ -15,7 +14,6 @@ interface Props {
  * @param {T_ShortcodeAttrMatch} props.value - The value containing the attributes for the caption.
  */
 export const Caption = ({ value: { named } }: Props) => {
-    const align = replaceQuotes(named, 'align')
     const content = replaceQuotes(named, 'innerContent')
     let image = content
     let text = ''
@@ -26,22 +24,19 @@ export const Caption = ({ value: { named } }: Props) => {
     }
 
     return (
-        <div
-            className={joinClassNames(
-                'caption',
-                align === 'aligncenter' && 'caption--align-center',
-            )}
-        >
+        <figure className="image__container">
             <div
                 className="caption__image"
                 dangerouslySetInnerHTML={{ __html: image }}
             />
             {text && (
-                <div
-                    className="caption__text"
-                    dangerouslySetInnerHTML={{ __html: text }}
-                />
+                <div className="caption">
+                    <div
+                        className="caption__text"
+                        dangerouslySetInnerHTML={{ __html: text }}
+                    />
+                </div>
             )}
-        </div>
+        </figure>
     )
 }

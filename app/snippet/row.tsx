@@ -8,26 +8,39 @@ import { copyText } from '@common/utils/dom'
 
 type Props = {
     readonly snippet: T_Snippets
+    readonly columns?: string[]
+    readonly userId?: string
 }
 
-export default function Row({ snippet: { title, tags, snippets } }: Props) {
+export default function Row({
+    snippet: { user, title, tags, snippets },
+    columns = ['title', 'tags'],
+    userId,
+}: Props) {
     const [opened, setOpened] = useState(false)
     return (
         <>
             <tr>
-                <td>
-                    <Link href="#" onClick={() => setOpened(!opened)}>
-                        {title}
-                    </Link>
-                </td>
-                <td className="center">{tags && tags.length && tags}</td>
+                {columns.includes('title') && (
+                    <td>
+                        <Link href="#" onClick={() => setOpened(!opened)}>
+                            {title}
+                        </Link>
+                    </td>
+                )}
+                {columns.includes('tags') && (
+                    <td className="center">{tags && tags.length && tags}</td>
+                )}
+                {columns.includes('import') && userId !== user.toString() && (
+                    <td className="center">Import</td>
+                )}
             </tr>
             <tr
                 className={`snippet__code__row ${
                     opened && 'snippet__code__row--open'
                 }`}
             >
-                <td colSpan={2}>
+                <td colSpan={columns.length}>
                     {snippets.map(({ code, type }, index) => (
                         <div
                             key={`snippet__code__${index}`}

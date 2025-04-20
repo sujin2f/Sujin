@@ -7,7 +7,7 @@ export const Excerpt = ({ name }: { name?: string }) => {
         return (
             <>
                 <div>Welcome, {name}</div>
-                <Button href="/snippet/your">Go to your Snippets</Button>
+                <Button href="/snippet/yours/1">Go to your Snippets</Button>
                 <Button onClick={handleSignOut}>Sign out</Button>
             </>
         )

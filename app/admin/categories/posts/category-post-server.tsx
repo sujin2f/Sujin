@@ -34,7 +34,7 @@ export async function ServerComponent({ slug, ...props }: Props) {
             page={page}
             posts={posts}
             update={update}
-            slug={archive.slug}
+            archive={archive}
         />
     )
 }

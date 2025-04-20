@@ -153,7 +153,7 @@ article {
     dl,
     img {
         line-height: 1.8;
-        margin-bottom: 1.5em;
+        margin-bottom: var(--gap);
     }
 
     img {
@@ -167,7 +167,6 @@ article {
     min-width: 100%;
     font-size: 0.9em;
     font-style: italic;
-    margin-bottom: 1.5em;
     text-align: left;
     margin-top: var(--gap);
     caption-side: bottom;
@@ -196,10 +195,10 @@ article {
     display: none;
 }
 
-.text--center {
+.--center {
     text-align: center;
 }
-.text--right {
+.--right {
     text-align: right;
 }
 

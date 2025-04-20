@@ -11,26 +11,26 @@ import { Column } from '@common/components/layout/Column'
 import Header from '@app/admin/_components/Header'
 import Callout from '@common/components/containers/Callout'
 /* T_Types */
-import { T_ArchivePost } from '@app/_lib/types'
+import { T_Archive, T_ArchivePost } from '@app/_lib/types'
 
 type Props = {
     readonly page: number
-    readonly slug: string
+    readonly archive: T_Archive
     readonly posts: T_ArchivePost[]
     readonly update: (slug: string, page: number) => Promise<string>
 }
 
-export function ClientComponent({ page, slug, posts, update }: Props) {
+export function ClientComponent({ page, archive, posts, update }: Props) {
     const [message, setMessage] = useState('')
     const router = useRouter()
 
     return (
         <>
-            <Header title={`Category Posts: ${slug}`}>
+            <Header title={`Category Posts: ${archive.slug}  ${archive._id}`}>
                 <Button
                     title="Pull from WP"
                     onClick={() =>
-                        update(slug, page).then((message) => {
+                        update(archive.slug, page).then((message) => {
                             setMessage(message)
                             router.refresh()
                         })
@@ -43,7 +43,7 @@ export function ClientComponent({ page, slug, posts, update }: Props) {
                     <PrevNext
                         page={page}
                         length={posts.length}
-                        path={`categories/posts/${slug}`}
+                        path={`categories/posts/${archive.slug}`}
                     />
                 </Column>
                 <Column small={12}>
@@ -78,7 +78,7 @@ export function ClientComponent({ page, slug, posts, update }: Props) {
                     <PrevNext
                         page={page}
                         length={posts.length}
-                        path={`categories/posts/${slug}`}
+                        path={`categories/posts/${archive.slug}`}
                     />
                 </Column>
             </Row>

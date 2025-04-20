@@ -1,12 +1,12 @@
 import type { PropsWithChildren } from 'react'
 /* Components */
-import { Header } from '@app/_components/header'
+import Wrapper from '@app/_components/Wrapper'
 import { Row } from '@common/components/layout/Row'
 import { Column } from '@common/components/layout/Column'
 import { Menu } from '@common/components/layout/Menu'
 import { AdminWrapperServer } from '@app/_components/session/AdminWrapperServer'
 /* Assets */
-import './style.scss'
+import '@app/scss/admin.scss'
 
 export const metadata = {
     robots: {
@@ -23,56 +23,57 @@ export const metadata = {
 export default async function AppLayout({ children }: PropsWithChildren) {
     return (
         <AdminWrapperServer>
-            <Header />
-            <main className="admin">
-                <Row>
-                    <Column small={2}>
-                        <Menu
-                            className="menu--admin"
-                            items={[
-                                {
-                                    title: 'Home',
-                                    link: '/admin',
-                                },
-                                {
-                                    title: 'Pages',
-                                    link: '/admin/pages/1',
-                                },
-                                {
-                                    title: 'Categories',
-                                    link: '/admin/categories/1',
-                                },
-                                {
-                                    title: 'Tags',
-                                    link: '/admin/tags/1',
-                                },
-                                {
-                                    title: 'Backgrounds',
-                                    link: '/admin/backgrounds/1',
-                                },
-                                {
-                                    title: 'Collections',
-                                    link: '/admin/collections',
-                                },
-                                {
-                                    title: 'Index',
-                                    link: '/admin/index',
-                                },
-                                {
-                                    title: 'Schema',
-                                    link: '/admin/schema',
-                                },
-                                {
-                                    title: 'Cache',
-                                    link: '/admin/cache',
-                                },
-                            ]}
-                            direction="vertical"
-                        />
-                    </Column>
-                    <Column small={10}>{children}</Column>
-                </Row>
-            </main>
+            <Wrapper banner={false} className="sujin wrapper--admin">
+                <main className="admin">
+                    <Row>
+                        <Column small={2}>
+                            <Menu
+                                className="menu--admin"
+                                items={[
+                                    {
+                                        title: 'Home',
+                                        link: '/admin',
+                                    },
+                                    {
+                                        title: 'Pages',
+                                        link: '/admin/pages/1',
+                                    },
+                                    {
+                                        title: 'Categories',
+                                        link: '/admin/categories/1',
+                                    },
+                                    {
+                                        title: 'Tags',
+                                        link: '/admin/tags/1',
+                                    },
+                                    {
+                                        title: 'Backgrounds',
+                                        link: '/admin/backgrounds/1',
+                                    },
+                                    {
+                                        title: 'Collections',
+                                        link: '/admin/collections',
+                                    },
+                                    {
+                                        title: 'Index',
+                                        link: '/admin/index',
+                                    },
+                                    {
+                                        title: 'Schema',
+                                        link: '/admin/schema',
+                                    },
+                                    {
+                                        title: 'Cache',
+                                        link: '/admin/cache',
+                                    },
+                                ]}
+                                direction="vertical"
+                            />
+                        </Column>
+                        <Column small={10}>{children}</Column>
+                    </Row>
+                </main>
+            </Wrapper>
         </AdminWrapperServer>
     )
 }

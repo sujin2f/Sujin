@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from 'react'
 /* Components */
-import { Header } from '@app/_components/header'
+import Wrapper from '@app/_components/Wrapper'
 import { AdminWrapperServer } from '@app/_components/session/AdminWrapperServer'
 /* CONSTANTS */
 import { MENU_NAMES } from '@app/_lib/types'
@@ -8,8 +8,9 @@ import { MENU_NAMES } from '@app/_lib/types'
 export default async function Layout({ children }: PropsWithChildren) {
     return (
         <AdminWrapperServer>
-            <Header menu={MENU_NAMES.ETHER} />
-            {children}
+            <Wrapper menu={MENU_NAMES.ETHER} banner={false}>
+                {children}
+            </Wrapper>
         </AdminWrapperServer>
     )
 }

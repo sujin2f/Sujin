@@ -2,8 +2,6 @@ import React from 'react'
 /* Helpers */
 import { replaceQuotes, removeExtraParagraph } from '@app/(single)/utils'
 import type { T_ShortcodeAttrMatch } from '@app/_lib/types'
-/* Assets */
-import './style.scss'
 
 interface Props {
     value: T_ShortcodeAttrMatch

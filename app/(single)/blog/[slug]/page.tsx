@@ -22,6 +22,8 @@ import { getCachedPost } from '@app/_lib/data/mongo/wordpress/post'
 import { getThumbnailFromPost } from '@app/_lib/data/mysql/utils'
 import { updateHits } from '@app/_lib/data/mongo/wordpress/tag'
 import { isAdmin } from '@app/_lib/data/mongo/user'
+/* Assets */
+import '@app/scss/single.scss'
 
 type Props = {
     params: Promise<{
@@ -84,7 +86,7 @@ export default async function Page(props: Props) {
 
     return (
         <Wrapper
-            className={`post--${slug}`}
+            className={`wrapper--post--${slug} sujin`}
             title={post.title}
             excerpt={post.excerpt}
             icon={post.images?.icon}

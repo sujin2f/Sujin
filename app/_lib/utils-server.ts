@@ -57,6 +57,16 @@ export const getAggregation = (
             }
 
         case '_id':
+            if (arr[0]) {
+                return [
+                    {
+                        $addFields: {
+                            [arr[0]]: { $toString: `$${arr[0]}` },
+                        },
+                    },
+                ]
+            }
+
             return [
                 {
                     $addFields: {

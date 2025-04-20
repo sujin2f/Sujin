@@ -11,7 +11,7 @@ import { getServerSession } from 'next-auth'
 /* Assets */
 import '@app/snippet/style.scss'
 
-export default async function Wrapper({ children }: PropsWithChildren) {
+export default async function LayoutSnippet({ children }: PropsWithChildren) {
     const session = await getServerSession(authOptions)
 
     return (

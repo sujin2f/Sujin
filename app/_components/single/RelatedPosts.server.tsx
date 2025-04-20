@@ -9,8 +9,6 @@ import { getCachedRelatedPosts } from '@app/_lib/data/mongo/wordpress/post'
 /* CONSTANTS */
 import { IS_DEV, VERSION } from '@common/constants/helper'
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
-/* Assets */
-import './style.scss'
 
 interface Props {
     slug: string

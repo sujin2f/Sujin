@@ -1,6 +1,5 @@
 'use client'
 import { useCallback, useEffect, useState } from 'react'
-import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 /* Components */
 import { TopBar } from '@common/components/layout/TopBar'
@@ -9,8 +8,6 @@ import { Column } from '@common/components/layout/Column'
 import { Row } from '@common/components/layout/Row'
 import Hamburger from '@app/_components/header/Hamburger'
 import Search from '@app/_components/header/Search'
-/* Utils */
-import { handleSignIn, handleSignOut } from '@app/api/auth/utils'
 /* CONSTANTS */
 import { MENUS } from '@app/_lib/constants'
 /* T_Types */
@@ -34,7 +31,6 @@ type Props = {
  * @param {string} props.menu - The menu items to be displayed in the top bar.
  */
 const FixedHeader = (props: Props) => {
-    const { data: session } = useSession()
     const menu = MENUS[props.menu]
     const [scrolled, setScrolled] = useState('')
 
@@ -53,8 +49,6 @@ const FixedHeader = (props: Props) => {
         window.addEventListener('scroll', handleScrolled)
         return () => window.removeEventListener('scroll', handleScrolled)
     }, [handleScrolled])
-
-    const loggedIn = session && session.user && session.user.email
 
     return (
         <TopBar fixed fullWidth className={props.className}>
@@ -94,18 +88,6 @@ const FixedHeader = (props: Props) => {
                         >
                             <Facebook />
                         </a>
-                        {loggedIn ? (
-                            <div className="hide">
-                                <h2>Welcome</h2>
-                                <button onClick={handleSignOut}>
-                                    Sign Out
-                                </button>
-                            </div>
-                        ) : (
-                            <button onClick={handleSignIn} className="hide">
-                                Sign in with Google
-                            </button>
-                        )}
                     </nav>
                 </Column>
             </Row>

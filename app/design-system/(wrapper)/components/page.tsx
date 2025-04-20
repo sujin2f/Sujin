@@ -1,3 +1,6 @@
+'use client'
+import { useState } from 'react'
+
 import Wrapper from '@app/_components/Wrapper'
 import Callout from '@common/components/containers/Callout'
 import Table from '@common/components/containers/Table'
@@ -8,14 +11,28 @@ import InputGroup from '@common/components/forms/InputGroup'
 import Code from '@common/components/containers/Code'
 import { MENU_NAMES } from '@app/_lib/types'
 import { Loading } from '@app/_components/archive/loading'
+import { Button } from '@common/components/forms/Button'
 
-export default async function Page() {
+export default function Page() {
+    const [theme, setTheme] = useState('sujin')
     return (
         <Wrapper
+            className={`wrapper--design-system ${theme}`}
             title="Components"
             prefix="Design System"
             menu={MENU_NAMES.DESIGN_SYSTEM}
-            excerpt="WIP"
+            excerpt={
+                <Button
+                    onClick={() => {
+                        if (theme === 'sujin') {
+                            setTheme('')
+                        } else {
+                            setTheme('sujin')
+                        }
+                    }}
+                    title={theme === 'sujin' ? 'Remove Theme' : 'Apply Theme'}
+                />
+            }
         >
             <article>
                 <h2>Code</h2>
@@ -24,7 +41,7 @@ export default async function Page() {
                 <Callout closeButton dom="section">
                     Message
                 </Callout>
-                <h3>Example</h3>
+                <h3>Usage</h3>
                 <Code lang="javascript">{`<Callout closeButton dom="section">
     Message
 </Callout>`}</Code>
@@ -41,7 +58,7 @@ export default async function Page() {
                     <tbody>
                         <tr>
                             <td>Cell</td>
-                            <td>Cell</td>
+                            <td className="--center">Cell</td>
                             <td>Cell</td>
                         </tr>
                         <tr>
@@ -93,7 +110,7 @@ export default async function Page() {
                         </tr>
                     </tbody>
                 </Table>
-                <h3>Code</h3>
+                <h3>Usage</h3>
                 <Code lang="javascript">{`<Table caption="Table Caption" center fullWidth>
     <thead>
         <tr>
@@ -118,7 +135,7 @@ export default async function Page() {
                     errorMessage="Error!"
                     required
                 />
-                <h3>Example</h3>
+                <h3>Usage</h3>
                 <Code lang="javascript">{`<Input
     label="Label"
     placeholder="Input text here..."
@@ -135,6 +152,7 @@ export default async function Page() {
                     helpText="This is helpText"
                     errorMessage="Error!"
                     required
+                    rows={5}
                 />
 
                 <h2>Select</h2>
@@ -142,17 +160,19 @@ export default async function Page() {
                     label="Label"
                     helpText="This is helpText"
                     required
+                    errorMessage="Error!"
                     options={{
                         option1: 'Option 1',
                         option2: 'Option 2',
                         option3: 'Option 3',
                     }}
                 />
-                <h3>Example</h3>
+                <h3>Usage</h3>
                 <Code lang="javascript">{`<Select
     label="Label"
     helpText="This is helpText"
     required
+    errorMessage="Error!"
     options={{
         option1: 'Option 1',
         option2: 'Option 2',
@@ -161,16 +181,16 @@ export default async function Page() {
 />`}</Code>
                 <h2>Switch</h2>
                 <Switch />
-                <h3>Example</h3>
+                <h3>Usage</h3>
                 <Code lang="javascript">{`<Switch />`}</Code>
                 <h2>Input Group</h2>
                 <InputGroup
                     label="Label"
-                    placeholder="Input text here..."
                     helpText="This is helpText"
                     required
+                    errorMessage="Error!"
                 />
-                <h3>Example</h3>
+                <h3>Usage</h3>
                 <Code lang="javascript">{`<InputGroup
     label="Label"
     placeholder="Input text here..."

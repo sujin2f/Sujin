@@ -1,4 +1,4 @@
-import type { ObjectId } from 'mongodb'
+import { ObjectId } from 'mongodb'
 /* Models */
 import Cached from '@common/model/Cached'
 /* Utils */
@@ -25,6 +25,8 @@ export const getCachedAllSnippets = async (
             const total = await collection.countDocuments()
             const snippets = await collection
                 .aggregate<T_Snippets>([
+                    ...getAggregation('_id'),
+                    ...getAggregation('_id', 'user'),
                     ...getAggregation('paging', page),
                     {
                         $lookup: {
@@ -39,11 +41,6 @@ export const getCachedAllSnippets = async (
                                     },
                                 },
                             ],
-                        },
-                    },
-                    {
-                        $project: {
-                            user: 0,
                         },
                     },
                 ])
@@ -58,7 +55,7 @@ export const getCachedAllSnippets = async (
     )
 
 export const getCachedMySnippets = async (
-    userId: ObjectId,
+    userId: string,
     page: number,
 ): Promise<SnippetsProp> =>
     await Cached.getInstance().getOrExecute<SnippetsProp>(
@@ -71,9 +68,11 @@ export const getCachedMySnippets = async (
             const snippets = await collection
                 .aggregate<T_Snippets>([
                     {
-                        $match: { user: userId },
+                        $match: { user: new ObjectId(userId) },
                     },
                     ...getAggregation('paging', page),
+                    ...getAggregation('_id'),
+                    ...getAggregation('_id', 'user'),
                     {
                         $lookup: {
                             from: `${COLLECTION.SNIPPET}${suffix}`,
@@ -87,11 +86,6 @@ export const getCachedMySnippets = async (
                                     },
                                 },
                             ],
-                        },
-                    },
-                    {
-                        $project: {
-                            user: 0,
                         },
                     },
                 ])

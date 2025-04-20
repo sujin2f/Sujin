@@ -40,6 +40,7 @@ export default async function NotFound({ menu }: Props) {
             title="404 Not Found"
             excerpt="We cannot find the result. See below for recent articles."
             menu={menu}
+            className="wrapper--not-found sujin"
         >
             <main>
                 <WidgetTitle>Recent Posts</WidgetTitle>

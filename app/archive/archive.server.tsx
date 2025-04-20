@@ -92,6 +92,7 @@ export async function ArchiveServer({ page, type, slug }: ArchiveProp) {
 
     return (
         <Wrapper
+            className="wrapper--archive sujin"
             title={title}
             excerpt={excerpt}
             prefix={type}

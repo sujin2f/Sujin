@@ -5,7 +5,7 @@ import type { Metadata } from 'next'
 /* CONSTANTS */
 import { BASE_URL, DEFAULT_THUMBNAIL } from '@app/_lib/constants'
 /* Assets */
-import './wrapper.scss'
+import '@app/scss/wrapper.scss'
 import '@common/scss/normalize.css'
 import '@common/scss/base.scss'
 import Loading from './loading'

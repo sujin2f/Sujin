@@ -1,0 +1,46 @@
+.sujin {
+    .case-tool__result {
+        .column {
+            margin-bottom: var(--gap);
+        }
+    }
+
+    .text-sort__container {
+        display: flex;
+        overflow-y: scroll;
+        font-family: monospace;
+        font-size: 1rem;
+        line-height: 1.4;
+    }
+
+    .text-sort__section {
+        width: 100%;
+        height: fit-content;
+        min-height: 100%;
+        overflow-x: scroll;
+    }
+
+    .text-sort__textarea {
+        min-width: 100%;
+        min-height: 100%;
+        resize: none;
+        border: none;
+        outline: none;
+        padding: 0 0 0 0.5em;
+        margin: 0;
+        background-color: var(--lighter-gray);
+        font-family: monospace;
+
+        &:disabled {
+            background-color: var(--light-gray);
+        }
+    }
+
+    .text-sort__line-number {
+        margin-right: 10px;
+
+        div {
+            text-align: right;
+        }
+    }
+}

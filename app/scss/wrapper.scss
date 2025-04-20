@@ -1,0 +1,110 @@
+@use '@common/scss/mixin';
+@use '@app/scss/archive-loading';
+@use '@app/scss/tags';
+@use '@app/scss/widget';
+
+@use '@common/scss/base';
+@use '@app/scss/header';
+@import '@common/scss/normalize.css';
+
+$header-height: 48px;
+
+body {
+    --header-height: 48px;
+}
+
+main {
+    min-height: calc(100vh);
+}
+
+.sujin {
+    article {
+        h2 {
+            border-left: 9px solid var(--primary);
+            padding-left: 0.3em;
+        }
+    }
+
+    blockquote {
+        background-image: url('~@app/_lib/images/quote.svg');
+        background-position: center var(--gap);
+        background-repeat: no-repeat;
+        background-size: 2em;
+        padding: 4em 1.2em var(--gap);
+        background-color: var(--light-gray);
+        margin: 0 0 var(--gap);
+
+        *:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    .image__container {
+        width: 100%;
+    }
+
+    .image__container--center {
+        img {
+            margin: 0 auto;
+        }
+    }
+
+    .image__container,
+    .latex__container,
+    .table__container {
+        margin-bottom: var(--gap);
+
+        .caption {
+            margin-top: 0.5em;
+        }
+
+        .caption::before {
+            content: ' ';
+            display: block;
+            border-top: 2px solid var(--primary);
+            width: 30px;
+            padding-top: 0.5em;
+        }
+
+        .caption__text::before {
+            display: inline;
+            border-top: none;
+            width: auto;
+            padding-top: 0.5em;
+        }
+    }
+
+    .image__container .caption__text::before {
+        counter-increment: fig;
+        content: 'Fig. ' counter(fig) ' ';
+    }
+
+    .latex__container .caption__text::before {
+        counter-increment: equ;
+        content: 'Equ. ' counter(equ) ' ';
+    }
+
+    .table__container .caption .caption__text::before {
+        counter-increment: tbl;
+        content: 'Tbl. ' counter(tbl) ' ';
+    }
+
+    .gist {
+        width: 100%;
+        min-height: calc(100vh - #{$header-height});
+        border: 1px solid var(--light-gray);
+        padding: 0.5em 0;
+    }
+
+    .katex {
+        font-size: 1em;
+    }
+
+    .latex__container .katex-display > .katex {
+        text-align: start;
+    }
+
+    // .card {
+    //     margin-bottom: calc(var(--gap) / 2);
+    // }
+}

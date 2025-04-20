@@ -1,0 +1,386 @@
+@use 'sass:math';
+@use '@common/scss/mixin';
+
+$page-header-height: 20rem;
+$page-header-height-medium: 400px;
+$page-header-height-small: 500px;
+$logo-width: 100px;
+$social-height: 26px;
+
+@mixin fixed-header {
+    position: fixed;
+    z-index: 10000;
+    width: 100%;
+    height: var(--header-height);
+}
+
+.sujin {
+    &.wrapper--no-banner {
+        main {
+            margin-top: calc(var(--header-height) + var(--gap));
+        }
+    }
+
+    /**
+     * Fixed Header
+     */
+    .top-bar {
+        background-color: transparent;
+
+        &.top-bar--fixed + * {
+            margin-top: 0 !important;
+        }
+    }
+
+    .top-bar__menu__container {
+        $elements: 15;
+        @for $i from 0 to $elements {
+            $px: -1 * (50 + ($i * 30));
+
+            .menu__item:nth-child(#{$i}) .menu__link {
+                margin-top: #{$px}px;
+            }
+        }
+
+        .menu__link {
+            height: var(--header-height);
+            background-color: var(--white);
+            transition: ease-out 0.3s background, ease-out 0.3s color,
+                ease-out 0.7s margin;
+            padding: 0 13px;
+
+            @include mixin.hover {
+                background-color: var(--primary);
+                color: var(--white);
+            }
+
+            &.current {
+                background-color: var(--primary);
+                color: var(--white);
+            }
+        }
+
+        &.scrolled .menu__link {
+            margin-top: 0 !important;
+        }
+    }
+
+    .search__input {
+        color: var(--white);
+        font-size: 0.9rem;
+        border: none;
+        margin: 0;
+        padding: 0;
+        width: calc(100% - 35px);
+        box-shadow: none;
+        display: none;
+        background: transparent;
+
+        &:focus {
+            border: none;
+            box-shadow: none;
+            transition: none;
+            outline: none;
+        }
+    }
+
+    .search__button {
+        display: flex;
+        width: $social-height;
+        height: $social-height;
+        align-items: center;
+        justify-content: center;
+
+        svg {
+            width: $social-height;
+            height: $social-height;
+            fill: var(--white);
+        }
+    }
+
+    .search {
+        height: $social-height;
+        display: flex;
+        align-items: center;
+        position: relative;
+        border-radius: 24px;
+        background: var(--primary);
+        overflow: hidden;
+        transition: ease-out width 0.3s;
+        justify-content: flex-end;
+
+        &.open {
+            width: 200px;
+
+            .search__input {
+                display: block;
+            }
+        }
+    }
+
+    .top-bar__logo__container {
+        @include fixed-header;
+        width: $logo-width + 2px;
+        left: calc(50% - (#{$logo-width} + 2px) / 2);
+        overflow: hidden;
+    }
+
+    .top-bar__logo {
+        background-color: rgba(0, 0, 0, 0.1);
+        display: block;
+
+        svg {
+            fill: var(--white);
+            width: $logo-width + 2px;
+        }
+    }
+
+    .top-bar__menu__container--mobile {
+        width: 100%;
+        position: absolute;
+        overflow: hidden;
+        width: 100vw;
+        top: var(--header-height);
+        left: 0;
+
+        .menu__link {
+            transition: background-color 0.3s ease-out;
+            color: var(--white);
+            padding: 20px;
+            background-color: var(--black);
+
+            @include mixin.hover {
+                background-color: var(--primary);
+            }
+        }
+
+        .menu .menu {
+            .menu__link {
+                padding-left: 50px;
+            }
+        }
+    }
+
+    .top-bar__background {
+        @include fixed-header;
+        display: flex;
+    }
+
+    .top-bar__background--white {
+        height: var(--header-height);
+        background: var(--white);
+        width: calc(50% - #{$logo-width} / 2);
+    }
+
+    .top-bar__background--transparent {
+        height: var(--header-height);
+        background: transparent;
+        width: $logo-width;
+    }
+
+    .top-bar__main {
+        @include fixed-header;
+        position: relative;
+        padding: 0 var(--gap) !important;
+
+        .column {
+            align-items: center;
+        }
+    }
+
+    .hamburger {
+        width: var(--header-height);
+        height: var(--header-height);
+        padding: 0;
+        display: flex;
+        align-items: center;
+
+        svg {
+            width: 100%;
+            fill: var(--primary);
+        }
+
+        @include mixin.hover {
+            svg {
+                fill: var(--black);
+            }
+        }
+    }
+
+    .social-media {
+        display: flex;
+        align-items: center;
+
+        a {
+            margin-left: 0.3em;
+
+            svg {
+                display: block;
+                border-radius: 6px;
+                width: $social-height;
+                height: auto;
+                fill: var(--primary);
+            }
+        }
+    }
+
+    /**
+     * Banner
+     */
+    .banner {
+        background-color: var(--black);
+        background-size: cover;
+        background-position: center;
+        margin-bottom: 3em;
+        position: relative;
+        min-height: $page-header-height;
+    }
+
+    .banner__overlay {
+        position: absolute;
+        background: transparent
+            url('~@app/_lib/images/dotted-dark-foreground.png');
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: cover;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+    }
+
+    .banner__background {
+        position: absolute;
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+
+        .image__container__picture {
+            width: 100%;
+            height: 100%;
+        }
+
+        img {
+            height: inherit;
+            object-fit: cover;
+            object-position: center center;
+            transition: transform 0.2s ease-out;
+            width: 100%;
+        }
+    }
+
+    .banner__header {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        min-height: $page-header-height;
+        color: var(--white);
+        padding: calc(var(--header-height) + 3em) 0 2em;
+        z-index: 2;
+    }
+
+    .banner__header--with-icon {
+        padding-bottom: 4.5em;
+    }
+
+    .column--banner__title {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+
+        *:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    .banner__title__tag {
+        font-size: 0.4em;
+        font-weight: 200;
+        background-color: var(--white);
+        color: var(--black);
+        padding: 0 0.4em 0.1em;
+        margin-bottom: 0.5em !important;
+    }
+
+    .banner__title {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        font-size: 2em;
+        margin-bottom: 0.5em;
+        line-height: 1;
+        text-align: center;
+
+        @include mixin.medium {
+            font-size: 3em;
+        }
+    }
+
+    .banner__excerpt {
+        background-color: var(--white);
+        color: var(--black);
+        font-size: 1em;
+        font-weight: 400;
+        padding: 0.2em;
+        text-align: center;
+        width: fit-content;
+
+        @include mixin.medium {
+            font-size: 1.3em;
+        }
+    }
+
+    .menu__container--banner {
+        position: absolute;
+        width: 100%;
+        top: var(--header-height);
+        justify-content: flex-end;
+        overflow: visible;
+        z-index: 1000;
+
+        .menu__container {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .menu__link {
+            color: var(--white);
+            font-weight: 500;
+            text-transform: uppercase;
+            background-color: transparent;
+            transition: background-color ease-out 0.3s;
+            border-bottom: 6px solid transparent;
+            height: 4em;
+            padding: 0 var(--gap);
+
+            @include mixin.hover {
+                background-color: var(--primary);
+                border-bottom: 6px solid var(--primary-dark);
+            }
+        }
+
+        .menu .menu .menu__link {
+            background-color: rgba(0, 0, 0, 0.5);
+            @include mixin.hover {
+                background-color: var(--primary);
+                border-bottom: 6px solid var(--primary-dark);
+            }
+        }
+    }
+
+    .banner__icon {
+        border-radius: 100%;
+        height: 9em;
+        margin: -7.5em auto 2em;
+        width: 9em;
+        position: relative;
+        z-index: 3;
+    }
+
+    .banner__icon__container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+}

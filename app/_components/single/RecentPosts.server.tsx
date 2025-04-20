@@ -10,8 +10,6 @@ import { getCachedRecentPosts } from '@app/_lib/data/mongo/wordpress/post'
 import { IMAGE_SIZE } from '@app/_lib/types'
 import { IS_DEV, VERSION } from '@common/constants/helper'
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
-/* Assets */
-import './style.scss'
 
 export const RecentPosts = async ({ current }: { current: number }) => {
     const request = unstable_cache(

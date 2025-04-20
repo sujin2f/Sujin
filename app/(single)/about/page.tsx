@@ -13,6 +13,8 @@ import { IMAGE_SIZE } from '@app/_lib/types'
 /* Utils */
 import { getCachedPage } from '@app/_lib/data/mongo/wordpress/page'
 import { getThumbnailFromPost } from '@app/_lib/data/mysql/utils'
+/* Assets */
+import '@app/scss/single.scss'
 
 export const metadata: Metadata = {
     title: 'About Sujin Choi',
@@ -37,7 +39,7 @@ export default async function About() {
 
     return (
         <Wrapper
-            className="page--about"
+            className="wrapper--page--about sujin"
             medium={12}
             large={8}
             largeOffset={2}
