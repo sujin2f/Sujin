@@ -51,6 +51,7 @@ export default async function NotFound({ menu }: Props) {
                         large={4}
                         medium={6}
                         small={12}
+                        showNotFound={false}
                     />
                 </Suspense>
             </main>

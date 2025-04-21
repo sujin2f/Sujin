@@ -1,6 +1,6 @@
 /* Components */
-import { Collections } from '@app/admin/collections/Collections'
+import { CollectionsServer } from '@app/admin/collections/server'
 
 export default async function Page() {
-    return <Collections />
+    return <CollectionsServer />
 }

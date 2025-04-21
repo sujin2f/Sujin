@@ -12,16 +12,25 @@ type Props = ColumnProps & {
     readonly imageSize?: IMAGE_SIZE
     readonly page?: number
     readonly pageURLPrefix?: string
+    readonly showNotFound?: boolean
 }
 
 export const CardsServer = async ({
     posts: postsPromise,
     page,
     pageURLPrefix,
+    showNotFound = true,
     ...props
 }: Props) => {
-    const { posts, pages } = await postsPromise
-    if (!posts.length) notFound()
+    const { posts, pages } = await postsPromise.catch(() => {
+        if (showNotFound) notFound()
+        return { posts: [], pages: 0 }
+    })
+
+    if (!posts.length) {
+        if (showNotFound) notFound()
+        return <></>
+    }
     return (
         <>
             <Cards posts={posts} {...props} />

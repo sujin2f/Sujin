@@ -26,9 +26,6 @@ module.exports = {
 
         return {
             ...config,
-            optimization: {
-                minimize: false,
-            },
             resolve: {
                 ...config.resolve,
                 fallback: {

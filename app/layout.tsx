@@ -1,7 +1,9 @@
-import React, { PropsWithChildren, Suspense } from 'react'
+import React, { type PropsWithChildren, Suspense } from 'react'
 import { Ubuntu } from 'next/font/google'
 import Script from 'next/script'
 import type { Metadata } from 'next'
+import { ErrorBoundary } from 'next/dist/client/components/error-boundary'
+import Error from '@app/global-error'
 /* CONSTANTS */
 import { BASE_URL, DEFAULT_THUMBNAIL } from '@app/_lib/constants'
 /* Assets */
@@ -65,7 +67,11 @@ export default async function AppLayout({ children }: PropsWithChildren) {
         <html lang="en">
             <head>{adSense}</head>
             <body className={`wrapper ${ubuntu.className}`}>
-                <Suspense fallback={<Loading />}>{children}</Suspense>
+                <Suspense fallback={<Loading />}>
+                    <ErrorBoundary errorComponent={Error}>
+                        {children}
+                    </ErrorBoundary>
+                </Suspense>
             </body>
         </html>
     )

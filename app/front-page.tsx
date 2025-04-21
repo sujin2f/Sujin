@@ -21,7 +21,7 @@ export async function FrontPage() {
         },
     )
 
-    const backgrounds = await request()
+    const backgrounds = await request().catch(() => [])
     const background =
         backgrounds[Math.floor(Math.random() * backgrounds.length)]
 

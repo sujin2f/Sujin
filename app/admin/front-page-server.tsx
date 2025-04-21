@@ -14,7 +14,9 @@ import { isAdmin } from '@app/_lib/data/mongo/user'
 import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 
 export async function FrontPageServer() {
-    const current = (await getCachedOption('version')) || '0.0.0'
+    const current = await getCachedOption('version')
+        .then((version) => version || '0.0.0')
+        .catch(() => '0.0.0')
 
     const migrate = async (current: string) => {
         'use server'
