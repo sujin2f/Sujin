@@ -1,7 +1,18 @@
 import type { WithId } from 'mongodb'
 import type { ConstToType } from '@common/types'
 
-const UNITS = ['g', 'ml', 'tbsp', 'tsp', 'cup', 'oz', 'lb'] as const
+export const UNITS = [
+    'kg',
+    'g',
+    'ml',
+    'l',
+    'tbsp',
+    'tsp',
+    'cup',
+    'oz',
+    'lb',
+    'ea',
+] as const
 export type UNITS = ConstToType<typeof UNITS>
 
 export type T_Recipe = WithId<{

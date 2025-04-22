@@ -9,7 +9,7 @@ import { MENU_NAMES } from '@app/_lib/types'
 // /* Utils */
 // import { getServerSession } from 'next-auth'
 /* Assets */
-// import '@app/snippet/style.scss'
+import './style.scss'
 
 export default async function Layout({ children }: PropsWithChildren) {
     // const session = await getServerSession(authOptions)

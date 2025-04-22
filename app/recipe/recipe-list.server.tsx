@@ -5,6 +5,9 @@ import Table from '@common/components/containers/Table'
 import { Button } from '@common/components/forms/Button'
 import Input from '@common/components/forms/Input'
 import Select from '@common/components/forms/Select'
+import { UNITS } from '@app/_lib/types/recipe'
+import Row from '@common/components/layout/Row'
+import Column from '@common/components/layout/Column'
 
 type Props = {
     page: number
@@ -22,14 +25,6 @@ export function RecipeListServer({ page }: Props) {
         { title: 'baking powder', amount: 0.5, unit: 'ts' },
     ]
     const [converted, setConverted] = useState(data)
-    const options: Record<string, string> = {
-        '': 'Select Unit',
-        g: 'g',
-        ml: 'ml',
-        tbs: 'tbs',
-        ts: 'ts',
-        ea: 'ea',
-    }
     const onChange = (index: number, value: number) => {
         if (!value || isNaN(value)) {
             return
@@ -50,21 +45,43 @@ export function RecipeListServer({ page }: Props) {
             <h2>input</h2>
             <form method="post">
                 <Input label="Title" />
+                <Input label="URL" />
+                <fieldset>
+                    <legend>Choose your favorite monster</legend>
+
+                    <Row>
+                        <Column small={4}>
+                            <Input label="Ingredient" />
+                        </Column>
+                        <Column small={4}>
+                            <Input label="Amount" />
+                        </Column>
+                        <Column small={4}>
+                            <Select
+                                label="Unit"
+                                options={UNITS as unknown as string[]}
+                            />
+                        </Column>
+                    </Row>
+                </fieldset>
                 <Button>Submit</Button>
             </form>
             <div>{page}</div>
 
             <h2>https://preppykitchen.com/pound-cake/#recipe</h2>
 
-            <Table fullWidth>
+            <Table>
                 <tbody>
                     {converted.map((item, index) => (
                         <tr key={item.title}>
-                            <th>{item.title}</th>
+                            <th className="--right">{item.title}</th>
                             <td>
                                 <Input
+                                    className="recipe__amount"
                                     type="number"
-                                    value={item.amount}
+                                    value={parseFloat(
+                                        item.amount.toString(),
+                                    ).toFixed(2)}
                                     onChange={(
                                         e: ChangeEvent<HTMLInputElement>,
                                     ) => {
@@ -76,12 +93,7 @@ export function RecipeListServer({ page }: Props) {
                                     }}
                                 />
                             </td>
-                            <td>
-                                <Select
-                                    options={options}
-                                    defaultValue={item.unit}
-                                />
-                            </td>
+                            <td>{item.unit}</td>
                         </tr>
                     ))}
                 </tbody>

@@ -11,13 +11,16 @@ type Props = {
         key: string
     }[]
     drop: (collection: string) => Promise<void>
+    totalSize: number
 }
 
-export function CollectionsClient({ collections, drop }: Props) {
+export function CollectionsClient({ collections, totalSize, drop }: Props) {
     const router = useRouter()
     return (
         <>
-            <Header title="DB collections" />
+            <Header
+                title={`DB collections (${(totalSize / 100000).toFixed(2)}Mb)`}
+            />
             <Table>
                 <thead>
                     <tr>

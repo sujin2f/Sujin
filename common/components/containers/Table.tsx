@@ -1,15 +1,17 @@
-import type { PropsWithChildren, ReactNode } from 'react'
+import type { ReactNode, DetailedHTMLProps, TableHTMLAttributes } from 'react'
 /* Helpers */
 import { joinClassNames } from '../../utils/string'
 /* Assets */
 import '../../scss/table.scss'
 
-type Props = PropsWithChildren<{
+type Props = DetailedHTMLProps<
+    TableHTMLAttributes<HTMLTableElement>,
+    HTMLTableElement
+> & {
     readonly center?: boolean
     readonly fullWidth?: boolean
     readonly caption?: ReactNode
-    readonly className?: string
-}>
+}
 
 /**
  * Table component that displays a table with optional scrolling, centering, and caption.
@@ -27,6 +29,7 @@ export const Table = ({
     className,
     children,
     fullWidth,
+    ...props
 }: Props) => {
     return (
         <>
@@ -35,14 +38,10 @@ export const Table = ({
                     'table__container',
                     center && 'table__container--center',
                     fullWidth && 'table__container--full-width',
+                    className && `table__container--${className}`,
                 )}
             >
-                <table
-                    className={joinClassNames(
-                        'table',
-                        className && `table--${className}`,
-                    )}
-                >
+                <table className="table" {...props}>
                     {caption && (
                         <caption className="caption">
                             <div className="caption__text">{caption}</div>

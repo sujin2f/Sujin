@@ -47,6 +47,8 @@ export const Select = ({
         options = optionsProp
     }
 
+    console.log('options', optionsProp)
+
     return (
         <Input {...props} helpText={helpText} errorMessage={errorMessage}>
             <select
