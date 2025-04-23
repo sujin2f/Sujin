@@ -1,4 +1,4 @@
-import type { Filter } from 'mongodb'
+import type { Filter, WithoutId } from 'mongodb'
 /* Models */
 import Cached from '@common/model/Cached'
 /* T_Types */
@@ -50,4 +50,27 @@ export const getCachedRecipe = async (
         DAY_IN_SECONDS,
         IS_DEV,
     )
+}
+
+export const insertRecipe = async (
+    recipe: WithoutId<Omit<T_Recipe, 'user'>>,
+) => {
+    const session = await getServerSession(authOptions)
+    const email = session?.user?.email
+    if (!email) {
+        throw Error('!')
+    }
+    console.log(email)
+    const userId = await getUser(email).then((user) => (user ? user._id : null))
+    if (!userId) {
+        throw Error('!')
+    }
+
+    const collection = await getCollection<WithoutId<T_Mongo<T_Recipe>>>(
+        COLLECTION.RECIPE,
+    )
+    collection.insertOne({
+        ...recipe,
+        user: userId,
+    })
 }

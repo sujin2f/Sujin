@@ -1,5 +1,5 @@
 'use client'
-import { useCallback, useState } from 'react'
+import { FormEvent, useCallback, useState } from 'react'
 
 import Button from '@common/components/forms/Button'
 import Input from '@common/components/forms/Input'
@@ -19,7 +19,10 @@ export function NewRecipe({ addRecipe }: Props) {
     const [errors, setErrors] = useState<string[]>([])
 
     const onSubmit = useCallback(
-        async (formData: FormData) => {
+        async (e: FormEvent<HTMLFormElement>) => {
+            e.preventDefault()
+            const formData = new FormData(e.currentTarget)
+
             const title = formData.get('title')?.toString().trim()
             if (!title) {
                 setErrors(['Title is required'])
@@ -43,7 +46,6 @@ export function NewRecipe({ addRecipe }: Props) {
                     ?.toString()
                     .trim()
                 const unit = formData.get(`unit[${index}]`)?.toString()
-                console.log(ingredient, amount, unit)
 
                 if (ingredient && amount && unit) {
                     recipe.recipe.push({
@@ -55,7 +57,7 @@ export function NewRecipe({ addRecipe }: Props) {
                     recipe.ingredients += ` ${ingredient} `
                 }
             })
-            console.log(recipe.recipe)
+
             if (!recipe.recipe.length) {
                 setErrors(['', 'Ingredients are required'])
                 return
@@ -69,11 +71,8 @@ export function NewRecipe({ addRecipe }: Props) {
         <>
             <h2>input</h2>
             <form
-                // action={onSubmit}
                 onSubmit={(e) => {
-                    e.preventDefault()
-                    const formData = new FormData(e.currentTarget)
-                    onSubmit(formData)
+                    onSubmit(e)
                 }}
                 onChange={(e) => {
                     e.preventDefault()
@@ -118,6 +117,7 @@ export function NewRecipe({ addRecipe }: Props) {
                                 <Input
                                     label="Amount"
                                     type="number"
+                                    step="0.01"
                                     name={`amount[${index}]`}
                                 />
                             </Column>

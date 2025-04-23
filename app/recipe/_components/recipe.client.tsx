@@ -7,12 +7,16 @@ import { T_Mongo } from '@common/types/mongo'
 import GQL from '@app/api/graphql/constants'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 import { fetchGQL } from '@common/data/graphql/fetchGQL'
+import Switch from '@common/components/forms/Switch'
+import { NewRecipe } from '@app/recipe/_components/new-recipe'
 
 type Props = {
     readonly page: number
+    addRecipe: (recipe: Omit<T_Recipe, '_id' | 'user'>) => Promise<void>
 }
 
-export function List({ page }: Props) {
+export function RecipeClient({ page, addRecipe }: Props) {
+    const [my, setMy] = useState(false)
     const [list, setList] = useState<
         PropWithPages<T_Mongo<T_Recipe>> | boolean
     >(false)
@@ -24,7 +28,7 @@ export function List({ page }: Props) {
                 GQL.queryRecipe,
                 'list {title} pages',
                 WEEK_IN_SECONDS,
-                false,
+                my,
                 page,
             )
                 .then((result) => {
@@ -34,13 +38,21 @@ export function List({ page }: Props) {
                     setList(true)
                 })
         }
-    }, [list, page])
+    }, [list, my, page])
 
     console.log(list)
 
     return (
         <>
-            {/* <h2>https://preppykitchen.com/pound-cake/#recipe</h2>
+            <NewRecipe addRecipe={addRecipe} />
+
+            <Switch
+                onChange={(e) => {
+                    setList(false)
+                    setMy(e)
+                }}
+            />
+            {/*
 
             <Table>
                 <tbody>
