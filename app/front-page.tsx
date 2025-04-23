@@ -1,5 +1,6 @@
 'use server'
 import { unstable_cache } from 'next/cache'
+import { PHASE_PRODUCTION_BUILD } from 'next/constants'
 /* Components */
 import Wrapper from '@app/_components/Wrapper'
 /* CONSTANTS */
@@ -12,12 +13,16 @@ import Logo from '@app/_lib/images/logo.svg'
 import '@app/scss/front-page.scss'
 
 export async function FrontPage() {
+    const revalidate =
+        IS_DEV || process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD
+            ? 1
+            : HOUR_IN_SECONDS
     const request = unstable_cache(
         async () => await getCachedBackgrounds(),
         ['frontpage', VERSION],
         {
             tags: ['wordpress', 'page'],
-            revalidate: IS_DEV ? 1 : HOUR_IN_SECONDS,
+            revalidate,
         },
     )
 

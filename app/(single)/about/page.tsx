@@ -1,3 +1,4 @@
+import { PHASE_PRODUCTION_BUILD } from 'next/constants'
 import { unstable_cache } from 'next/cache'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next/types'
@@ -25,12 +26,16 @@ export const metadata: Metadata = {
 }
 
 export default async function About() {
+    const revalidate =
+        IS_DEV || process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD
+            ? 1
+            : HOUR_IN_SECONDS
     const request = unstable_cache(
         async () => await getCachedPage('about'),
         ['about', VERSION],
         {
             tags: ['wordpress', 'page'],
-            revalidate: IS_DEV ? 1 : HOUR_IN_SECONDS,
+            revalidate,
         },
     )
 
