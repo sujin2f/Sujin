@@ -12,6 +12,7 @@ import type {
     T_Snippets,
     T_Post,
     T_Background,
+    T_User,
 } from '@app/_lib/types'
 import { ARCHIVE, POST_STATUS } from '@app/_lib/types'
 import { languages } from '@common/constants/helper'
@@ -319,6 +320,22 @@ const snippetsUser: T_MongoSchema<T_Mongo<T_Snippet_User>> = {
     },
 }
 
+const users: T_MongoSchema<T_Mongo<T_User>> = {
+    bsonType: 'object',
+    required: ['email'],
+    properties: {
+        email: {
+            bsonType: 'binData',
+        },
+        name: {
+            bsonType: 'binData',
+        },
+        image: {
+            bsonType: 'string',
+        },
+    },
+}
+
 const defaults = {
     post,
     page,
@@ -329,5 +346,6 @@ const defaults = {
     snippets,
     snippet,
     snippetsUser,
+    users,
 }
 export default defaults

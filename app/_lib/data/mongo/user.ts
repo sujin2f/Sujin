@@ -1,5 +1,5 @@
 import { getServerSession } from 'next-auth'
-import type { WithoutId } from 'mongodb'
+import { Binary, type WithoutId } from 'mongodb'
 import { hash } from 'node:crypto'
 
 import { getCollection } from '@common/data/mongo/mongo'
@@ -7,18 +7,39 @@ import { COLLECTION, type T_User } from '@app/_lib/types'
 import { authOptions } from '@app/api/auth/constants'
 import { getOption, removeOption } from '@app/_lib/data/mysql/option'
 import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
+import { decodeText, encodeText } from '@app/_lib/utils-server'
 
-export const addUser = async (user: WithoutId<T_User>) => {
-    const collection = await getCollection(COLLECTION.USERS)
+export const addUser = async (email: string, name: string, image: string) => {
+    const collection = await getCollection<WithoutId<T_User>>(COLLECTION.USERS)
     await collection.insertOne({
-        ...user,
-        email: hash('md5', user.email),
+        name: new Binary(Buffer.from(await encodeText(name))),
+        email: new Binary(Buffer.from(hash('md5', email)), Binary.SUBTYPE_MD5),
+        image,
     })
 }
 
 export const getUser = async (email: string) => {
-    const collection = await getCollection(COLLECTION.USERS)
-    return await collection.findOne({ email: hash('md5', email) })
+    const collection = await getCollection<WithoutId<T_User>>(COLLECTION.USERS)
+    const user = await collection
+        .findOne({
+            email: new Binary(
+                Buffer.from(hash('md5', email)),
+                Binary.SUBTYPE_MD5,
+            ),
+        })
+        .then(async (user) => {
+            if (!user) {
+                return null
+            }
+
+            const name = await decodeText(user.name.buffer)
+            return {
+                _id: user._id,
+                name,
+                image: user.image,
+            }
+        })
+    return user
 }
 
 export const isAdmin = async (): Promise<boolean> => {

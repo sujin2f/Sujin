@@ -9,7 +9,7 @@ import migration from '@app/_lib/migration'
 /* Utils */
 import { getDatabase, migrate as runMigration } from '@common/data/mongo/mongo'
 import { compareVersions } from '@common/utils/system'
-import { getCachedOption, setSystemOption } from '@app/_lib/data/mongo/admin'
+import { getCachedOption } from '@app/_lib/data/mongo/admin'
 import { isAdmin } from '@app/_lib/data/mongo/user'
 import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 
@@ -33,7 +33,6 @@ export async function FrontPageServer() {
             if (result.length !== 0) {
                 Logger.server(`MongoDB Migrated: ${JSON.stringify(result)}`)
             }
-            await setSystemOption('version', VERSION).catch((e) => e.message)
             return 'Done.'
         }
         return 'Nothing to migrate.'

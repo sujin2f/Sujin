@@ -149,12 +149,11 @@ export const encodeText = async (text: string) => {
     const message = enc.encode(text)
     const { key, algorithm } = await getCryptoKeyAndIv()
     const encoded = await subtle.encrypt(algorithm, key, message)
-    return Buffer.from(encoded).toString('base64')
+    return encoded
 }
 
-export const decodeText = async (text: string) => {
+export const decodeText = async (buffer: BufferSource) => {
     const { key, algorithm } = await getCryptoKeyAndIv()
-    const buffer = Buffer.from(text, 'base64')
     const decoded = await subtle.decrypt(algorithm, key, buffer)
     return new TextDecoder().decode(decoded)
 }

@@ -11,16 +11,13 @@ export const authOptions = {
     ],
     secret: process.env.NEXTAUTH_SECRET,
     callbacks: {
-        async signIn({ user: { email, image } }) {
+        async signIn({ user: { email, name, image } }) {
             if (!email) {
                 throw Error('')
             }
             await getUser(email).then(async (user) => {
                 if (!user) {
-                    await addUser({
-                        email,
-                        image: image || '',
-                    })
+                    await addUser(email, name || 'Unknown User', image || '')
                 }
             })
             return true

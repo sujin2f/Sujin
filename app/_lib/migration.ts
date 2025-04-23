@@ -7,12 +7,45 @@ import { ARCHIVE, COLLECTION, T_Archive, T_Post } from '@app/_lib/types'
 import { default as SCHEMA_10_2_6 } from '@app/_lib/data/mongo/schema/10.2.6'
 import { default as SCHEMA_10_3_2 } from '@app/_lib/data/mongo/schema/10.3.2'
 import { default as SCHEMA_10_3_3 } from '@app/_lib/data/mongo/schema/10.3.3'
+import { default as SCHEMA_10_3_4 } from '@app/_lib/data/mongo/schema/10.3.4'
 /* Models */
 import Cached from '@common/model/Cached'
 /* Utils */
 import { updateBackgrounds } from '@app/_lib/data/mongo/wordpress/background'
+import { setSystemOption } from '@app/_lib/data/mongo/admin'
 
 const migration: T_Migration = {
+    '10.3.4': async (client) => {
+        const database = client.db(MONGO_DATABASE)
+        const session = client.startSession()
+
+        try {
+            await session.withTransaction(async () => {
+                // Add text index to post.content for search
+                await database
+                    .dropCollection(COLLECTION.USERS)
+                    .catch(() => true)
+
+                await database
+                    .command({
+                        collMod: COLLECTION.USERS,
+                        validator: {
+                            $jsonSchema: SCHEMA_10_3_4.users,
+                        },
+                    })
+                    .then(async () => {
+                        await database
+                            .collection(COLLECTION.USERS)
+                            .createIndex('email')
+                    })
+
+                await setSystemOption('version', '10.3.4')
+            })
+        } finally {
+            await session.endSession()
+            await client.close()
+        }
+    },
     '10.3.3': async (client) => {
         /**
          * Archive collection
