@@ -1,3 +1,9 @@
+// yarn test playground.spec.ts
+
+import { Binary } from 'mongodb'
+import { hash } from 'node:crypto'
+import { getDatabase } from '@common/data/mongo/mongo'
+
 function a(data: string) {
     const color = parseInt(data, 16)
     const red = (color >> 16) & 0xff
@@ -38,7 +44,7 @@ function perform(data: string[], ...callback: ((data: string) => unknown)[]) {
 describe('Performance Test', () => {
     const testData: string[] = []
 
-    test('performance', async () => {
+    test.skip('performance', async () => {
         const white = parseInt('FFFFFF', 16)
         Array(white)
             .fill(0)
@@ -50,8 +56,8 @@ describe('Performance Test', () => {
         expect(true).toBeTruthy()
     })
 
-    test.only('playground', async () => {
-        // const permissions = ['admin', 'write', 'read']
+    test.skip('playground', async () => {
+        // Permissions
         const userPermission = parseInt('111', 2)
         const isAdmin = (userPermission >> 2) & 1
         const isWrite = (userPermission >> 1) & 1
@@ -76,6 +82,39 @@ describe('Performance Test', () => {
         const isRead4 = userPermission4 & 1
         console.log(isAdmin4, isWrite4, isRead4)
 
+        // md5 and binary field in mongo binData
+        await getDatabase().then(async (db) => {
+            await db.createCollection('test', {
+                validator: {
+                    $jsonSchema: {
+                        bsonType: 'object',
+                        properties: {
+                            value: {
+                                bsonType: 'binData',
+                            },
+                        },
+                    },
+                },
+            })
+
+            const h = hash('md5', 'sujin.2f@sujinc.com')
+
+            const inserted = await db.collection('test').insertOne({
+                value: new Binary(Buffer.from(h), Binary.SUBTYPE_MD5),
+            })
+
+            const result = await db
+                .collection('test')
+                .findOne({ _id: inserted.insertedId })
+            console.log(result!.value.toString('utf8'), h)
+
+            await db.dropDatabase()
+        })
+
+        expect(true).toBeTruthy()
+    })
+
+    test('to prevent empty test error', async () => {
         expect(true).toBeTruthy()
     })
 })

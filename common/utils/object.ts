@@ -193,6 +193,9 @@ export const schemaFormatter = (
 
         case 'objectId':
             return input
+
+        default:
+            return input
     }
 
     return {}

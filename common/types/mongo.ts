@@ -1,4 +1,4 @@
-import type { ObjectId, WithId, Document } from 'mongodb'
+import type { ObjectId, WithId, Document, Binary } from 'mongodb'
 
 /**
  * Type for MongoDB and its relational result
@@ -70,6 +70,8 @@ export type T_MongoSchema<T> = T extends unknown[] // Array
     ? { bsonType: 'int' } | { bsonType: 'float' }
     : T extends Date | undefined // date
     ? { bsonType: 'date' }
+    : T extends Binary | undefined // boolean
+    ? { bsonType: 'binData' }
     : T extends boolean | undefined // boolean
     ? { bsonType: 'bool' }
     : T extends object
