@@ -15,9 +15,6 @@ import { updateBackgrounds } from '@app/_lib/data/mongo/wordpress/background'
 const suffix = IS_TEST ? `-${process.env.JEST_WORKER_ID}` : ''
 
 const migration: T_Migration = {
-    // '10.3.4': async (client) => {
-    //     const database = client.db(MONGO_DATABASE)
-    // },
     '10.3.3': async (client) => {
         /**
          * Archive collection

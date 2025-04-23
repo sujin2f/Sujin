@@ -1,14 +1,3 @@
-function data() {
-    const data: string[] = []
-    const white = parseInt('FFFFFF', 16)
-    Array(white)
-        .fill(0)
-        .forEach((_, i) => {
-            data.push(i.toString(16).padStart(6, '0'))
-        })
-    return data
-}
-
 function a(data: string) {
     const color = parseInt(data, 16)
     const red = (color >> 16) & 0xff
@@ -46,8 +35,18 @@ function perform(data: string[], ...callback: ((data: string) => unknown)[]) {
     })
 }
 
-test('test-function(): test case', async () => {
-    const testData = data()
-    perform(testData, a, b, c)
-    expect(true).toBeTruthy()
+describe('Performance Test', () => {
+    const testData: string[] = []
+    beforeAll(() => {
+        const white = parseInt('FFFFFF', 16)
+        Array(white)
+            .fill(0)
+            .forEach((_, i) => {
+                testData.push(i.toString(16).padStart(6, '0'))
+            })
+    })
+    test('test-function(): test case', async () => {
+        perform(testData, a, b, c)
+        expect(true).toBeTruthy()
+    })
 })
