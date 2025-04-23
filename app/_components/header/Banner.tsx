@@ -2,8 +2,8 @@
 import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 /* Components */
-import { Row } from '@common/components/layout/Row'
-import { Column } from '@common/components/layout/Column'
+import Row from '@common/components/layout/Row'
+import Column from '@common/components/layout/Column'
 import { Menu } from '@common/components/layout/Menu'
 import NextImage from '@common/components/containers/NextImage'
 import { MENU_NAMES } from '@app/_lib/types'

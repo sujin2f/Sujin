@@ -2,8 +2,8 @@
 import React from 'react'
 import Link from 'next/link'
 /* Components */
-import { Row } from '@common/components/layout/Row'
-import { Column } from '@common/components/layout/Column'
+import Row from '@common/components/layout/Row'
+import Column from '@common/components/layout/Column'
 /* T_Types */
 import type { T_PrevNext } from '@app/_lib/types'
 /* Assets */

@@ -27,7 +27,7 @@ type Props = DetailedHTMLProps<
  * @param {string} [props.label] - The label for the input field.
  * @param {RefObject<HTMLSelectElement>} [props.ref] - The ref object for the select field.
  */
-export const Select = ({
+const Select = ({
     options: optionsProp,
     helpText,
     errorMessage,
@@ -46,8 +46,6 @@ export const Select = ({
     } else {
         options = optionsProp
     }
-
-    console.log('options', optionsProp)
 
     return (
         <Input {...props} helpText={helpText} errorMessage={errorMessage}>

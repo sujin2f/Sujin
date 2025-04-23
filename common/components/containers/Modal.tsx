@@ -6,7 +6,7 @@ import React, {
 } from 'react'
 
 import { CloseButton } from '../forms/CloseButton'
-import { Button } from '../forms/Button'
+import Button from '../forms/Button'
 import { Overlay } from '../containers/Overlay'
 import { MouseEventCallback } from '../../types/react'
 

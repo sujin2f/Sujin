@@ -21,8 +21,11 @@ export const ERROR_MESSAGE = {
         SQL_GET_ONE: ['PA.MY.0000', '🤬 Failed to get MySQL page'],
     } as const,
     ARCHIVE: {
-        GET_ONE: ['T.MY.0000', '🤬 Failed to get the archive'],
+        GET_ONE: ['T.MO.0000', '🤬 Failed to get the archive'],
         SQL_GET_ONE: ['T.MY.0000', '🤬 Failed to get MySQL term'],
+    } as const,
+    RECIPE: {
+        GET: ['R.MO.0000', '🤬 Failed to get recipes'],
     } as const,
     GENERAL: {
         NONCE_FAILED: ['G.0000', '🤬 GQL Server mutatePage: got invalid nonce'],
@@ -35,6 +38,7 @@ type ERROR_MESSAGE =
     | ConstToType<typeof ERROR_MESSAGE.PAGE>
     | ConstToType<typeof ERROR_MESSAGE.ARCHIVE>
     | ConstToType<typeof ERROR_MESSAGE.GENERAL>
+    | ConstToType<typeof ERROR_MESSAGE.RECIPE>
 
 export class ServerError extends Error {
     public code: string | undefined

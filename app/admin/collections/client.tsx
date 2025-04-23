@@ -2,7 +2,7 @@
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 /* Components */
-import { Table } from '@common/components/containers/Table'
+import Table from '@common/components/containers/Table'
 import Header from '@app/admin/_components/Header'
 
 type Props = {
@@ -19,7 +19,9 @@ export function CollectionsClient({ collections, totalSize, drop }: Props) {
     return (
         <>
             <Header
-                title={`DB collections (${(totalSize / 100000).toFixed(2)}Mb)`}
+                title={`DB collections (${(totalSize / Math.pow(2, 20)).toFixed(
+                    2,
+                )}Mb)`}
             />
             <Table>
                 <thead>

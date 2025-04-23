@@ -6,7 +6,7 @@
 import '@testing-library/jest-dom'
 import React, { Fragment, useState } from 'react'
 import { render, act, screen, fireEvent } from '@testing-library/react'
-import { Select } from './Select'
+import Select from './Select'
 
 describe('Select.ts', () => {
     const options = {

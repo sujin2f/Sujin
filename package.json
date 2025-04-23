@@ -7,9 +7,10 @@
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "test": "jest --no-cache --forceExit --coverage",
-        "test-github": "ENVIRONMENT=github jest --no-cache --forceExit --coverage",
-        "lint": "eslint ./app/**/*.tsx ./common/**/*.ts ./common/**/*.tsx"
+        "test": "jest --no-cache --forceExit --coverage ./app/**/*.spec.ts ./common/**/*.spec.ts",
+        "test-performance": "jest --no-cache --forceExit ./.jest/performance.spec.ts",
+        "test-github": "ENVIRONMENT=github jest --no-cache --forceExit --coverage  ./app/**/*.spec.ts ./common/**/*.spec.ts",
+        "lint": "eslint ./app/**/*.tsx ./app/**/*.ts ./common/**/*.ts ./common/**/*.tsx"
     },
     "dependencies": {
         "@apollo/server": "^4.11.3",

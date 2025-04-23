@@ -6,8 +6,10 @@ export async function CollectionsServer() {
     let totalSize = 0
     const collections = await getDatabase()
         .then(async (database) => {
-            const stat = await database.stats()
-            totalSize = stat.totalSize
+            const stats = await database.stats({
+                collation: { locale: 'en_US' },
+            })
+            totalSize = stats.totalSize
             return await database.collections().then((collections) =>
                 collections.map((collection) => ({
                     name: collection.collectionName,

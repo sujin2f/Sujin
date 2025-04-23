@@ -9,9 +9,10 @@ import Select from '@common/components/forms/Select'
 import Switch from '@common/components/forms/Switch'
 import InputGroup from '@common/components/forms/InputGroup'
 import Code from '@common/components/containers/Code'
-import { MENU_NAMES } from '@app/_lib/types'
+import Button from '@common/components/forms/Button'
 import { Loading } from '@app/_components/archive/loading'
-import { Button } from '@common/components/forms/Button'
+import { MENU_NAMES } from '@app/_lib/types'
+import ButtonGroup from '@common/components/forms/ButtonGroup'
 
 export default function Page() {
     const [theme, setTheme] = useState('sujin')
@@ -197,6 +198,11 @@ export default function Page() {
     helpText="This is helpText"
     required
 />`}</Code>
+                <h2>Button Group</h2>
+                <ButtonGroup>
+                    <Button hollow />
+                    <Button />
+                </ButtonGroup>
 
                 <h2>Article Cards (Loading)</h2>
                 <Loading counts={6} />

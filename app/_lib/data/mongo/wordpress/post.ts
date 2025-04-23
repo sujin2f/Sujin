@@ -31,7 +31,7 @@ import {
     type T_PrevNext,
     type T_ArchivePost,
     type T_Archive,
-    type ArchivePostsProp,
+    type PropWithPages,
 } from '@app/_lib/types'
 /* T_Types */
 import type { T_Mongo } from '@common/types/mongo'
@@ -141,12 +141,14 @@ export const updateArchivePosts = async (
 export const getCachedPosts = async (
     archive: WithId<T_Archive>,
     page: number,
-): Promise<ArchivePostsProp> =>
-    await Cached.getInstance().getOrExecute<ArchivePostsProp>(
+): Promise<PropWithPages<T_ArchivePost>> => {
+    return await Cached.getInstance().getOrExecute(
         getCacheKey(COLLECTION.ARCHIVE, archive.type, archive.slug, page),
         async () => {
-            const collection = await getCollection<T_Post>(COLLECTION.POST)
-            const result = await collection
+            const collection = await getCollection<T_ArchivePost>(
+                COLLECTION.POST,
+            )
+            const list = await collection
                 .aggregate<T_ArchivePost>([
                     {
                         $match: {
@@ -164,13 +166,14 @@ export const getCachedPosts = async (
                 ])
                 .toArray()
             return {
-                posts: result,
+                list,
                 pages: Math.ceil(archive.total / PER_PAGE),
-            } satisfies ArchivePostsProp
+            } satisfies PropWithPages<T_ArchivePost>
         },
         DAY_IN_SECONDS,
         IS_DEV,
     )
+}
 
 export const getArchivePosts = async (_id: ObjectId, page: number) => {
     if (!(await isAdmin()))
@@ -205,7 +208,7 @@ export const getArchivePosts = async (_id: ObjectId, page: number) => {
 export const getCachedSearchPosts = async (
     keyword: string,
     page: number,
-): Promise<ArchivePostsProp> =>
+): Promise<PropWithPages<T_ArchivePost>> =>
     await Cached.getInstance().getOrExecute(
         getCacheKey(COLLECTION.ARCHIVE, 'search', keyword, page),
         async () => {
@@ -218,7 +221,7 @@ export const getCachedSearchPosts = async (
                 COLLECTION.POST,
             )
             const total = await collection.countDocuments(doc)
-            const posts = await collection
+            const list = await collection
                 .aggregate<T_ArchivePost>([
                     {
                         $match: doc,
@@ -234,9 +237,9 @@ export const getCachedSearchPosts = async (
                 .toArray()
 
             return {
-                posts,
+                list,
                 pages: Math.ceil(total / PER_PAGE),
-            } satisfies ArchivePostsProp
+            }
         },
         DAY_IN_SECONDS,
         IS_DEV,
@@ -326,16 +329,18 @@ const getRecentPosts = async (): Promise<T_ArchivePost[]> => {
  *
  * @returns {Promise<T_Post[]>} A promise that resolves to the recent posts.
  */
-export const getCachedRecentPosts = async (): Promise<ArchivePostsProp> =>
-    await Cached.getInstance().getOrExecute<ArchivePostsProp>(
+export const getCachedRecentPosts = async (): Promise<
+    PropWithPages<T_ArchivePost>
+> =>
+    await Cached.getInstance().getOrExecute<PropWithPages<T_ArchivePost>>(
         getCacheKey(COLLECTION.POST, 'recent'),
         async () =>
             await getRecentPosts().then(
-                (posts) =>
+                (list) =>
                     ({
-                        posts,
+                        list,
                         pages: 0,
-                    } satisfies ArchivePostsProp),
+                    } satisfies PropWithPages<T_ArchivePost>),
             ),
         DAY_IN_SECONDS,
         IS_DEV,
@@ -386,7 +391,7 @@ const getRelatedPosts = async (slug: string): Promise<T_ArchivePost[]> => {
     }
 
     await getCachedRecentPosts().then((recent) =>
-        recent.posts.forEach((item) => {
+        recent.list.forEach((item) => {
             if (item.id !== post.id) {
                 result[item.id] = item
             }
@@ -404,16 +409,16 @@ const getRelatedPosts = async (slug: string): Promise<T_ArchivePost[]> => {
  */
 export const getCachedRelatedPosts = async (
     slug: string,
-): Promise<ArchivePostsProp> =>
-    await Cached.getInstance().getOrExecute<ArchivePostsProp>(
+): Promise<PropWithPages<T_ArchivePost>> =>
+    await Cached.getInstance().getOrExecute<PropWithPages<T_ArchivePost>>(
         getCacheKey(COLLECTION.POST, slug, 'related'),
         async () =>
             await getRelatedPosts(slug).then(
-                (posts) =>
+                (list) =>
                     ({
-                        posts,
+                        list,
                         pages: 0,
-                    } satisfies ArchivePostsProp),
+                    } satisfies PropWithPages<T_ArchivePost>),
             ),
         DAY_IN_SECONDS,
         IS_DEV,

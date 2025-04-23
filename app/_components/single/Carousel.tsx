@@ -3,7 +3,7 @@
 import React, { MouseEvent, useState, useCallback, useMemo } from 'react'
 
 /* Components */
-import { Button } from '@common/components/forms/Button'
+import Button from '@common/components/forms/Button'
 /* Helpers */
 import { removeURLProtocol } from '@common/utils/string'
 import { getPrev, getNext } from '@common/utils/array'

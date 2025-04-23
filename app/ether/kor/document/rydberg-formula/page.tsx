@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { InlineMath } from 'react-katex'
 /* Components */
 import { NextImage } from '@common/components/containers/NextImage'
-import { Table } from '@common/components/containers/Table'
+import Table from '@common/components/containers/Table'
 import { Latex } from '@app/_components/single/Latex'
 import { PrevNext } from '@app/_components/single/PrevNext'
 import Wrapper from '@app/ether/wrapper'

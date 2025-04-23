@@ -7,7 +7,7 @@ import { Suspense } from 'react'
 import { getUser } from '@app/_lib/data/mongo/user'
 import { notFound } from 'next/navigation'
 import Input from '@common/components/forms/Input'
-import { Button } from '@common/components/forms/Button'
+import Button from '@common/components/forms/Button'
 import Select from '@common/components/forms/Select'
 
 type Props = {

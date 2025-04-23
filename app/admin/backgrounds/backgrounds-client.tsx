@@ -2,13 +2,13 @@
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 /* Components */
-import { Button } from '@common/components/forms/Button'
+import Button from '@common/components/forms/Button'
 import HeaderComponent from '@app/admin/_components/Header'
 import { Table } from '@app/admin/backgrounds/table'
 import Callout from '@common/components/containers/Callout'
 import { PrevNext } from '@app/admin/_components/PrevNext'
-import { Row } from '@common/components/layout/Row'
-import { Column } from '@common/components/layout/Column'
+import Row from '@common/components/layout/Row'
+import Column from '@common/components/layout/Column'
 /* T_Types */
 import type { T_Background } from '@app/_lib/types'
 

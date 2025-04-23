@@ -2,7 +2,7 @@
 import React from 'react'
 import { usePathname } from 'next/navigation'
 /* Components */
-import { Button } from '@common/components/forms/Button'
+import Button from '@common/components/forms/Button'
 /* Helpers */
 import { shareTwitter, shareFacebook } from '@app/(single)/utils'
 import { BASE_URL } from '@app/_lib/constants'

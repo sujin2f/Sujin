@@ -1,7 +1,7 @@
 'use client'
 import { useCallback } from 'react'
-import { InputProps, Input } from './Input'
-import { Button } from './Button'
+import Input, { type InputProps } from './Input'
+import Button from './Button'
 /* Assets */
 import '../../scss/form.scss'
 

@@ -109,7 +109,7 @@ export function middleware(request: NextRequest) {
     }
     // Recipe
     if (pathname === '/recipe') {
-        return NextResponse.redirect(new URL('/recipe/list/1'))
+        return NextResponse.redirect(new URL(`${origin}/recipe/1`))
     }
 
     // Add pathname header

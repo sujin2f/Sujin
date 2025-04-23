@@ -53,6 +53,9 @@ export const getAggregation = (
                     {
                         $skip: PER_PAGE * (arr[0] - 1),
                     },
+                    {
+                        $limit: PER_PAGE,
+                    },
                 ]
             }
 

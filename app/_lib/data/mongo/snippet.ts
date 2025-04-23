@@ -11,19 +11,19 @@ import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 import { COLLECTION } from '@app/_lib/types'
 import { DAY_IN_SECONDS } from '@common/constants/datetime'
 /* T_Types */
-import type { SnippetsProp, T_Snippets } from '@app/_lib/types'
+import type { PropWithPages, T_Snippets } from '@app/_lib/types'
 
 export const getCachedAllSnippets = async (
     page: number,
-): Promise<SnippetsProp> =>
-    await Cached.getInstance().getOrExecute<SnippetsProp>(
+): Promise<PropWithPages<T_Snippets>> =>
+    await Cached.getInstance().getOrExecute<PropWithPages<T_Snippets>>(
         getCacheKey(COLLECTION.SNIPPETS, 'all', page),
         async () => {
             const collection = await getCollection<T_Snippets>(
                 COLLECTION.SNIPPETS,
             )
             const total = await collection.countDocuments()
-            const snippets = await collection
+            const list = await collection
                 .aggregate<T_Snippets>([
                     ...getAggregation('_id'),
                     ...getAggregation('_id', 'user'),
@@ -46,9 +46,9 @@ export const getCachedAllSnippets = async (
                 ])
                 .toArray()
             return {
-                snippets,
+                list,
                 pages: Math.ceil(total / PER_PAGE),
-            } satisfies SnippetsProp
+            } satisfies PropWithPages<T_Snippets>
         },
         DAY_IN_SECONDS,
         IS_DEV,
@@ -57,15 +57,15 @@ export const getCachedAllSnippets = async (
 export const getCachedMySnippets = async (
     userId: string,
     page: number,
-): Promise<SnippetsProp> =>
-    await Cached.getInstance().getOrExecute<SnippetsProp>(
+): Promise<PropWithPages<T_Snippets>> =>
+    await Cached.getInstance().getOrExecute<PropWithPages<T_Snippets>>(
         getCacheKey(COLLECTION.SNIPPETS, page),
         async () => {
             const collection = await getCollection<T_Snippets>(
                 COLLECTION.SNIPPETS,
             )
             const total = await collection.countDocuments()
-            const snippets = await collection
+            const list = await collection
                 .aggregate<T_Snippets>([
                     {
                         $match: { user: new ObjectId(userId) },
@@ -91,9 +91,9 @@ export const getCachedMySnippets = async (
                 ])
                 .toArray()
             return {
-                snippets,
+                list,
                 pages: Math.ceil(total / PER_PAGE),
-            } satisfies SnippetsProp
+            } satisfies PropWithPages<T_Snippets>
         },
         DAY_IN_SECONDS,
         IS_DEV,

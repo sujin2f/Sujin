@@ -42,7 +42,7 @@ type Props = ColumnProps &
  * @param {string} [props.id] - The id of the column.
  * @param {string | React.ElementType} [props.dom] - The DOM element or component to use for the column.
  */
-export const Column = (props: Props) => {
+const Column = (props: Props) => {
     const small = props.small && `small-${props.small}`
     const medium = props.medium && `medium-${props.medium}`
     const large = props.large && `large-${props.large}`

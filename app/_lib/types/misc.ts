@@ -16,6 +16,7 @@ export const COLLECTION = {
     ARCHIVE: 'archive',
     SNIPPET: 'snippet',
     SNIPPETS: 'snippets',
+    RECIPE: 'recipe',
 } as const
 export type COLLECTION = ConstToType<typeof COLLECTION>
 
@@ -30,6 +31,7 @@ export const CACHE_KEY = {
     OPTIONS: COLLECTION.OPTIONS,
     ARCHIVE: COLLECTION.ARCHIVE,
     SNIPPETS: COLLECTION.SNIPPETS,
+    RECIPE: COLLECTION.RECIPE,
 } as const
 export type CACHE_KEY = ConstToType<typeof CACHE_KEY>
 

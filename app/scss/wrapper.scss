@@ -108,3 +108,27 @@ main {
     //     margin-bottom: calc(var(--gap) / 2);
     // }
 }
+
+.--loader--text::before {
+    content: 'Loding';
+    display: block;
+    color: transparent;
+    width: 1%;
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0),
+        rgba(0, 0, 0, 0.5)
+    );
+    animation: 1s linear 0s infinite loader;
+}
+
+@keyframes loader {
+    from {
+        /* pushes the sun down past the viewport */
+        width: 1%;
+    }
+    to {
+        /* returns the sun to its default position */
+        width: 100%;
+    }
+}

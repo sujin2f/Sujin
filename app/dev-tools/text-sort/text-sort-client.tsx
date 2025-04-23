@@ -1,9 +1,9 @@
 'use client'
 import React, { useState, useMemo, type ChangeEvent } from 'react'
 /* Components */
-import { Input } from '@common/components/forms/Input'
-import { Row } from '@common/components/layout/Row'
-import { Column } from '@common/components/layout/Column'
+import Input from '@common/components/forms/Input'
+import Row from '@common/components/layout/Row'
+import Column from '@common/components/layout/Column'
 /* Helpers */
 import { map } from '@common/utils/array'
 import { getMaxCols, getRows, sortText } from '@app/dev-tools/utils'

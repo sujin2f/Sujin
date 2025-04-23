@@ -6,7 +6,7 @@
 import '@testing-library/jest-dom'
 import React from 'react'
 import { render } from '@testing-library/react'
-import { Column } from './Column'
+import Column from './Column'
 
 describe('Column.ts', () => {
     it('Basic', async () => {

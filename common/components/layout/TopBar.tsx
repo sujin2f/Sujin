@@ -1,7 +1,7 @@
 import type { JSX, PropsWithChildren } from 'react'
 /* Components */
-import { Row } from './Row'
-import { Column } from './Column'
+import Row from './Row'
+import Column from './Column'
 /* Helpers */
 import { joinClassNames } from '../../utils/string'
 /* Assets */

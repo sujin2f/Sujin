@@ -122,7 +122,7 @@ describe('post.spec.ts', () => {
         await postFactory()
 
         const result = await getCachedRecentPosts()
-        expect(result.posts.length).toEqual(5)
+        expect(result.list.length).toEqual(5)
     })
 
     test('getCachedRelatedPosts()', async () => {
@@ -153,7 +153,7 @@ describe('post.spec.ts', () => {
         })
 
         const result = await getCachedRelatedPosts('test-post-1')
-        expect(result.posts.map((post) => post.slug).sort()).toEqual(
+        expect(result.list.map((post) => post.slug).sort()).toEqual(
             ['test-post-3', 'test-post-4', 'test-post-2', 'test-post-5'].sort(),
         )
 
@@ -164,7 +164,7 @@ describe('post.spec.ts', () => {
         })
 
         const result2 = await getCachedRelatedPosts('test-post-2')
-        expect(result2.posts.map((post) => post.slug).sort()).toEqual(
+        expect(result2.list.map((post) => post.slug).sort()).toEqual(
             ['test-post-6', 'test-post-1', 'test-post-4', 'test-post-5'].sort(),
         )
     })

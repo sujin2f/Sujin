@@ -23,7 +23,7 @@ type Props = DetailedHTMLProps<
  * @param {string} [props.className] - Additional class names for the table.
  * @example <Table center><thead><tr><th>...</th></tr></thead></Table>
  */
-export const Table = ({
+const Table = ({
     center,
     caption,
     className,

@@ -4,8 +4,8 @@ import Link from 'next/link'
 /* Components */
 import { TopBar } from '@common/components/layout/TopBar'
 import { Menu } from '@common/components/layout/Menu'
-import { Column } from '@common/components/layout/Column'
-import { Row } from '@common/components/layout/Row'
+import Column from '@common/components/layout/Column'
+import Row from '@common/components/layout/Row'
 import Hamburger from '@app/_components/header/Hamburger'
 import Search from '@app/_components/header/Search'
 /* CONSTANTS */

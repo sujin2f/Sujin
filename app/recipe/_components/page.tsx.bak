@@ -1,6 +1,6 @@
 'use client'
 
-import { Table } from '@common/components/diagram/Table'
+import Table from '@common/components/diagram/Table'
 import { TimeLine } from '@common/components/diagram/TimeLine'
 import { useEffect, useState } from 'react'
 

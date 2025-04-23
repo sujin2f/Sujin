@@ -37,7 +37,7 @@ export type InputProps<T extends HTMLElement> = PropsWithChildren<
  * @param {string} [props.errorMessage] - The error message for the input field.
  * @param {() => void} [props.onEnterKeyDown] - Callback function to handle Enter key down events.
  */
-export const Input = <T extends HTMLElement>({
+const Input = <T extends HTMLElement>({
     errorMessage,
     className,
     helpText,
@@ -63,9 +63,10 @@ export const Input = <T extends HTMLElement>({
         [onEnterKeyDown],
     )
     const inputProps = filterEmpty({
-        ...props,
         onKeyDown,
         type,
+        'aria-describedby': ariaDescribedby,
+        className: 'form__input',
         autoComplete: type === 'password' && 'on',
     })
     if (type === 'textarea' && rows) {
@@ -77,8 +78,7 @@ export const Input = <T extends HTMLElement>({
             type === 'textarea' ? 'textarea' : 'input',
             {
                 ...inputProps,
-                'aria-describedby': ariaDescribedby,
-                className: 'form__input',
+                ...props,
             },
             type === 'textarea' ? props.value : undefined,
         )

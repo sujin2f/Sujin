@@ -2,8 +2,8 @@
 
 import React from 'react'
 
-import { Row } from '@common/components/layout/Row'
-import { Column, ColumnProps } from '@common/components/layout/Column'
+import Row from '@common/components/layout/Row'
+import Column, { type ColumnProps } from '@common/components/layout/Column'
 import { map } from '@common/utils/array'
 import { joinClassNames } from '@common/utils/string'
 

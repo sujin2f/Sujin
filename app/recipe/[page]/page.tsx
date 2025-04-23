@@ -1,4 +1,4 @@
-import { RecipeListServer } from '@app/recipe/recipe-list.server'
+import { RecipeServer } from '@app/recipe/_components/recipe.server'
 
 type Props = {
     params: Promise<{
@@ -11,5 +11,5 @@ export default async function List(props: Props) {
     const params = await props.params
     const page = parseInt(params.page)
 
-    return <RecipeListServer page={page} />
+    return <RecipeServer page={page} />
 }

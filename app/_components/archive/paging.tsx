@@ -1,5 +1,5 @@
-import { Row } from '@common/components/layout/Row'
-import { Column } from '@common/components/layout/Column'
+import Row from '@common/components/layout/Row'
+import Column from '@common/components/layout/Column'
 import { Paging as PagingComponent } from '@common/components/containers/Paging'
 
 type Props = {

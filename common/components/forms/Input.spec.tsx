@@ -6,7 +6,7 @@
 import '@testing-library/jest-dom'
 import React from 'react'
 import { render } from '@testing-library/react'
-import { Input } from './Input'
+import Input from './Input'
 
 describe('Input.ts', () => {
     it('Basic', async () => {

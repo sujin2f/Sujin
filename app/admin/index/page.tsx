@@ -1,8 +1,8 @@
-import { Table } from '@common/components/containers/Table'
+import Table from '@common/components/containers/Table'
 import { COLLECTION } from '@app/_lib/types'
 import Header from '@app/admin/_components/Header'
-import { Row } from '@common/components/layout/Row'
-import { Column } from '@common/components/layout/Column'
+import Row from '@common/components/layout/Row'
+import Column from '@common/components/layout/Column'
 import { getIndexes, getCachedOption } from '@app/_lib/data/mongo/admin'
 
 export default async function ResetIndex() {
