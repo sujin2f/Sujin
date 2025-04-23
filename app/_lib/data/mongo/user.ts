@@ -12,13 +12,13 @@ export const addUser = async (user: WithoutId<T_User>) => {
     const collection = await getCollection(COLLECTION.USERS)
     await collection.insertOne({
         ...user,
-        email: hash('sha3-224', user.email),
+        email: hash('md5', user.email),
     })
 }
 
 export const getUser = async (email: string) => {
     const collection = await getCollection(COLLECTION.USERS)
-    return await collection.findOne({ email: hash('sha3-224', email) })
+    return await collection.findOne({ email: hash('md5', email) })
 }
 
 export const isAdmin = async (): Promise<boolean> => {

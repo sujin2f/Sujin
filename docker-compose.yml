@@ -15,6 +15,13 @@ services:
             - ./mongo-entrypoint:/docker-entrypoint-initdb.d
             - mongo:/data/db
 
+    mongo-test:
+        container_name: mongo-test
+        image: mongo:5.0
+        restart: 'no'
+        ports:
+            - 27018:27017
+
     mysql:
         container_name: mysql
         image: mariadb:10.5
@@ -45,6 +52,7 @@ services:
             - ./wordpress/uploads:/var/www/html/wp-content/uploads
         ports:
             - 9000:80
+
     sujin:
         container_name: sujin
         image: sujin2f/sujin:${NEXT_PUBLIC_VERSION}
@@ -75,5 +83,6 @@ services:
             - ./wordpress/uploads:/app/public/wp-content/uploads
         ports:
             - 80:80
+
 volumes:
     mongo:

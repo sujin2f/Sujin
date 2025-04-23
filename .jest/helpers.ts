@@ -1,6 +1,5 @@
 import { getDatabase, getCollection } from '@common/data/mongo/mongo'
 import { getRandomInt } from '@common/utils/number'
-import { IS_TEST } from '@common/constants/helper'
 import { category, imageBlock, page, post, tag } from './fixture'
 import {
     COLLECTION,
@@ -12,16 +11,12 @@ import {
 } from '@app/_lib/types'
 import { T_Mongo } from '@common/types/mongo'
 
-const suffix = IS_TEST ? `-${process.env.JEST_WORKER_ID}` : ''
-
 export const clearMongo = async (...collections: string[]) =>
     await getDatabase().then(async (database) => {
         if (collections.length === 0) {
             await database.collections().then(async (collections) => {
                 for (const collection in collections) {
-                    if (collections[collection].namespace.includes(suffix)) {
-                        await collections[collection].drop()
-                    }
+                    await collections[collection].drop()
                 }
             })
             return
@@ -29,9 +24,7 @@ export const clearMongo = async (...collections: string[]) =>
 
         try {
             for (const collection of collections) {
-                await database
-                    .collection(`${collection}${suffix}`)
-                    .deleteMany({})
+                await database.collection(collection).deleteMany({})
             }
         } catch {}
 

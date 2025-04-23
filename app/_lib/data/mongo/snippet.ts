@@ -3,7 +3,7 @@ import { ObjectId } from 'mongodb'
 import Cached from '@common/model/Cached'
 /* Utils */
 import { getCacheKey } from '@app/_lib/utils'
-import { getCollection, suffix } from '@common/data/mongo/mongo'
+import { getCollection } from '@common/data/mongo/mongo'
 import { getAggregation } from '@app/_lib/utils-server'
 /* CONSTANTS */
 import { IS_DEV } from '@common/constants/helper'
@@ -30,7 +30,7 @@ export const getCachedAllSnippets = async (
                     ...getAggregation('paging', page),
                     {
                         $lookup: {
-                            from: `${COLLECTION.SNIPPET}${suffix}`,
+                            from: COLLECTION.SNIPPET,
                             localField: 'snippets',
                             foreignField: '_id',
                             as: 'snippets',
@@ -75,7 +75,7 @@ export const getCachedMySnippets = async (
                     ...getAggregation('_id', 'user'),
                     {
                         $lookup: {
-                            from: `${COLLECTION.SNIPPET}${suffix}`,
+                            from: COLLECTION.SNIPPET,
                             localField: 'snippets',
                             foreignField: '_id',
                             as: 'snippets',

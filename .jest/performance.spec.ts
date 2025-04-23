@@ -37,16 +37,45 @@ function perform(data: string[], ...callback: ((data: string) => unknown)[]) {
 
 describe('Performance Test', () => {
     const testData: string[] = []
-    beforeAll(() => {
+
+    test('performance', async () => {
         const white = parseInt('FFFFFF', 16)
         Array(white)
             .fill(0)
             .forEach((_, i) => {
                 testData.push(i.toString(16).padStart(6, '0'))
             })
-    })
-    test('test-function(): test case', async () => {
+
         perform(testData, a, b, c)
+        expect(true).toBeTruthy()
+    })
+
+    test.only('playground', async () => {
+        // const permissions = ['admin', 'write', 'read']
+        const userPermission = parseInt('111', 2)
+        const isAdmin = (userPermission >> 2) & 1
+        const isWrite = (userPermission >> 1) & 1
+        const isRead = userPermission & 1
+        console.log(isAdmin, isWrite, isRead)
+
+        const userPermission2 = parseInt('011', 2)
+        const isAdmin2 = (userPermission2 >> 2) & 1
+        const isWrite2 = (userPermission2 >> 1) & 1
+        const isRead2 = userPermission2 & 1
+        console.log(isAdmin2, isWrite2, isRead2)
+
+        const userPermission3 = parseInt('001', 2)
+        const isAdmin3 = (userPermission3 >> 2) & 1
+        const isWrite3 = (userPermission3 >> 1) & 1
+        const isRead3 = userPermission3 & 1
+        console.log(isAdmin3, isWrite3, isRead3)
+
+        const userPermission4 = parseInt('000', 2)
+        const isAdmin4 = (userPermission4 >> 2) & 1
+        const isWrite4 = (userPermission4 >> 1) & 1
+        const isRead4 = userPermission4 & 1
+        console.log(isAdmin4, isWrite4, isRead4)
+
         expect(true).toBeTruthy()
     })
 })

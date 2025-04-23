@@ -16,7 +16,7 @@ jobs:
             mongodb:
                 image: mongo
                 ports:
-                    - 27017:27017
+                    - 27018:27018
         steps:
             - name: Git checkout
               uses: actions/checkout@v3
@@ -34,9 +34,4 @@ jobs:
             - name: Test
               uses: borales/actions-yarn@v3.0.0
               with:
-                  cmd: test-github # will run `yarn test-github` command
-              env:
-                  MONGO: mongodb
-                  MONGO_DATABASE: test
-                  MONGO_USER: test
-                  MONGO_PASSWORD: test
+                  cmd: test

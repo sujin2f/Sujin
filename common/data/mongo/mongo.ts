@@ -15,12 +15,9 @@ if (!process.env.MONGO) {
 
 const uri = process.env.MONGO
 const options = { appName: 'devrel.template.nextjs' }
-const connection =
-    process.env.ENVIRONMENT === 'github'
-        ? `mongodb://${uri}:27017/`
-        : `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${uri}:27017/${process.env.MONGO_DATABASE}?authSource=${process.env.MONGO_DATABASE}`
-
-export const suffix = IS_TEST ? `-${process.env.JEST_WORKER_ID}` : ''
+const connection = IS_TEST
+    ? `mongodb://${uri}:27018/${process.env.MONGO_DATABASE}`
+    : `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${uri}:27017/${process.env.MONGO_DATABASE}?authSource=${process.env.MONGO_DATABASE}`
 
 export const closeConnection = async () =>
     await MongoClient.connect(connection, options).then(
@@ -35,7 +32,7 @@ export const getDatabase = async () =>
 export const getCollection = async <T extends Document>(collection: string) =>
     await MongoClient.connect(connection, options).then((client) => {
         const database = client.db(MONGO_DATABASE)
-        return database.collection<T>(`${collection}${suffix}`)
+        return database.collection<T>(collection)
     })
 
 export type T_Migration = {
