@@ -31,7 +31,7 @@ export type {
     T_ShortcodeNamed,
     T_ShortcodeAttrMatch,
 } from '@app/_lib/types/misc'
-export { COLLECTION, CACHE_KEY, MENU_NAMES } from '@app/_lib/types/misc'
+export { COLLECTION, MENU_NAMES } from '@app/_lib/types/misc'
 export type * from '@app/_lib/types/props'
 export type * from '@app/_lib/types/user'
 export type * from '@app/_lib/types/snippet'

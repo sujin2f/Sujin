@@ -1,4 +1,4 @@
-import type { ObjectId, WithId, Document, Binary } from 'mongodb'
+import type { ObjectId, WithId, Binary, Document } from 'mongodb'
 
 /**
  * Type for MongoDB and its relational result
@@ -13,20 +13,53 @@ import type { ObjectId, WithId, Document, Binary } from 'mongodb'
  * }>
  *
  * // Automatically converts user to ObjectId
- * type MongoPost = Mongo<Post>
+ * type MongoPost = T_Mongo<Post>
  * same with: {
  *     _id: ObjectId
  *     user: ObjectId
  *     users: ObjectId[]
  * }
+ *
+ * // Add exception
+ * type MongoPost = T_Mongo<Post, 'user'>
+ * same with: {
+ *     _id: ObjectId
+ *     user: User
+ *     users: ObjectId[]
+ * }
+ *
+ * // ObjectId to string
+ * type MongoPost = T_Stringify<Post, 'user'>
+ * same with: {
+ *     _id: string
+ *     user: User
+ *     users: string[]
+ * }
  */
-export type T_Mongo<T extends WithId<Document>> = {
-    [P in keyof T]: T[P] extends WithId<Document> | undefined
-        ? ObjectId
+export type T_Mongo<
+    T extends WithId<Document>,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    K extends keyof any = '',
+    I = ObjectId,
+> = {
+    [P in keyof T]: P extends K
+        ? T[P]
+        : P extends K[]
+        ? T[P]
+        : T[P] extends WithId<Document> | undefined
+        ? I
         : T[P] extends WithId<Document>[] | undefined
-        ? ObjectId[]
+        ? I[]
+        : T[P] extends ObjectId
+        ? I
         : T[P]
 }
+
+export type T_Stringify<
+    T extends WithId<Document>,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    K extends keyof any = '',
+> = T_Mongo<T, K, string>
 
 /**
  * Get type of array member

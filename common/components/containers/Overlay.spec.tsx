@@ -6,7 +6,7 @@
 import '@testing-library/jest-dom'
 import React, { Fragment, useState } from 'react'
 import { render, screen, act, fireEvent } from '@testing-library/react'
-import { Overlay } from './Overlay'
+import Overlay from './Overlay'
 
 describe('useOverlay.ts', () => {
     it('Open and Close', async () => {

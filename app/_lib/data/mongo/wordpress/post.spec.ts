@@ -1,12 +1,8 @@
 // yarn test post.spec.ts
 import { VERSION } from '@common/constants/helper'
 import migration from '@app/_lib/migration'
-import {
-    clearMongo,
-    categoryFactory,
-    tagFactory,
-    postFactory,
-} from '@jest/helpers'
+import { categoryFactory, tagFactory, postFactory } from '@jest/helpers'
+import { clearMongo } from '@common/.jest/helpers'
 import {
     getCachedPost,
     getArchivePosts,

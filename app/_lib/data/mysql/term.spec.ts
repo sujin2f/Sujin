@@ -1,7 +1,6 @@
 // yarn test term.spec.ts
 
 import { getArchiveBySlug } from './term'
-import { ARCHIVE } from '@app/_lib/types'
 
 const mockQuery = jest.fn()
 
@@ -25,7 +24,7 @@ describe('getTermBy.ts', () => {
                 type: 'category',
             },
         ])
-        await getArchiveBySlug('test', ARCHIVE.CATEGORY)
+        await getArchiveBySlug('test')
 
         // if MySQL query is called the slug in lowercase
         expect(mockQuery).toHaveBeenNthCalledWith(

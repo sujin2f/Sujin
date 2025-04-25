@@ -5,3 +5,8 @@ export type T_User = WithId<{
     name: Binary
     image: string
 }>
+
+export type T_UserParsed = WithId<{
+    name: string
+    image: string
+}>

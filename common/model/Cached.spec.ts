@@ -27,8 +27,7 @@ describe('Cached.ts', () => {
         expect(await cache.get('html')).toBe('<body></body>')
         expect(await cache.get('simple-text')).toBe('Simple Text')
 
-        await cache.del('html')
-        await cache.del('simple-text')
+        await cache.flush('html', 'simple-text')
 
         expect(await cache.get('html')).toBeFalsy()
         expect(await cache.get('simple-text')).toBeFalsy()

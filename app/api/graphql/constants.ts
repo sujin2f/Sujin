@@ -10,14 +10,8 @@ import {
     GQLType,
 } from '@common/data/graphql/type'
 /* T_Types */
-import type {
-    PropWithPages,
-    T_Archive,
-    T_FlickrImage,
-    T_Recipe,
-} from '@app/_lib/types'
+import type { T_Archive, T_FlickrImage } from '@app/_lib/types'
 import type { ISpectrum } from '@app/ether/data/types'
-import { T_Mongo } from '@common/types/mongo'
 
 const list = true
 const required = true
@@ -134,52 +128,6 @@ const mutateTag = new GQLMutation<[string, string], MutationResultType>(
 )
 
 /**
- * Recipe
- */
-
-const RecipeDetail = new GQLType<T_Recipe>('RecipeDetail', {
-    title: { type: GQLString },
-    amount: { type: GQLFloat },
-    unit: { type: GQLString },
-})
-
-const Recipe = new GQLType<T_Recipe>('Recipe', {
-    title: { type: GQLString },
-    url: { type: GQLString },
-    recipe: {
-        type: RecipeDetail,
-        list,
-    },
-    user: { type: GQLString },
-})
-
-const RecipeReturn = new GQLType<PropWithPages<T_Mongo<T_Recipe>>>(
-    'RecipeReturn',
-    {
-        list: { type: Recipe, list },
-        pages: { type: GQLInt },
-    },
-)
-
-const queryRecipe = new GQLQuery<
-    [boolean, number],
-    PropWithPages<T_Mongo<T_Recipe>>
->(
-    'recipe',
-    {
-        my: {
-            type: GQLBoolean,
-        },
-        page: {
-            type: GQLInt,
-        },
-    },
-    {
-        type: RecipeReturn,
-    },
-)
-
-/**
  * Ether
  */
 const Spectrum = new GQLType<ISpectrum>('Spectrum', {
@@ -251,11 +199,6 @@ const defaults = {
     mutateTag,
 
     spectraOpr,
-
-    Recipe,
-    RecipeDetail,
-    RecipeReturn,
-    queryRecipe,
 }
 
 export default defaults

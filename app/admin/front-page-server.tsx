@@ -4,6 +4,7 @@ import { FrontPageClient } from '@app/admin/front-page-client'
 /* Models */
 import Logger from '@common/model/Logger'
 import Cached from '@common/model/Cached'
+import { PermissionError } from '@common/model/Error'
 /* CONSTANTS */
 import migration from '@app/_lib/migration'
 /* Utils */
@@ -11,7 +12,7 @@ import { getDatabase, migrate as runMigration } from '@common/data/mongo/mongo'
 import { compareVersions } from '@common/utils/system'
 import { getCachedOption } from '@app/_lib/data/mongo/admin'
 import { isAdmin } from '@app/_lib/data/mongo/user'
-import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
+import { ERROR_MESSAGE } from '@app/_lib/constants-error'
 
 export async function FrontPageServer() {
     const current = await getCachedOption('version')
@@ -21,10 +22,7 @@ export async function FrontPageServer() {
     const migrate = async (current: string) => {
         'use server'
         if (!(await isAdmin()))
-            throw new ServerError(
-                ERROR_MESSAGE.GENERAL.UNAUTHORIZED,
-                'migration',
-            )
+            throw new PermissionError(ERROR_MESSAGE.UNAUTHORIZED, 'migrate()')
 
         // Migrate MongoDB indexes
         if (compareVersions(VERSION, current) === 1) {
@@ -41,10 +39,7 @@ export async function FrontPageServer() {
     const reset = async () => {
         'use server'
         if (!(await isAdmin()))
-            throw new ServerError(
-                ERROR_MESSAGE.GENERAL.UNAUTHORIZED,
-                'migration',
-            )
+            throw new PermissionError(ERROR_MESSAGE.UNAUTHORIZED, 'reset()')
 
         await getDatabase().then(async (database) => {
             // Drop all collections

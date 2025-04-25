@@ -1,23 +1,21 @@
 import type { Document, IndexDescriptionCompact } from 'mongodb'
 /* Models */
 import Cached from '@common/model/Cached'
-import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
+import { PermissionError } from '@common/model/Error'
 /* CONSTANTS */
+import { ERROR_MESSAGE } from '@app/_lib/constants-error'
 import { IS_DEV } from '@common/constants/helper'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 /* Utils */
 import { isAdmin } from '@app/_lib/data/mongo/user'
 import { getCacheKey } from '@app/_lib/utils'
 /* T_Types */
-import { CACHE_KEY, COLLECTION, type T_Option } from '@app/_lib/types'
+import { COLLECTION, type T_Option } from '@app/_lib/types'
 import { getCollection, insertOrReplace } from '@common/data/mongo/mongo'
 
 export const getIndexes = async (...collections: string[]) => {
     if (!(await isAdmin()))
-        throw new ServerError(
-            ERROR_MESSAGE.GENERAL.UNAUTHORIZED,
-            'getIndexes()',
-        )
+        throw new PermissionError(ERROR_MESSAGE.UNAUTHORIZED, 'getIndexes()')
     const indexes: Record<string, IndexDescriptionCompact> = {}
     for (const name of collections) {
         const collection = await getCollection(name)
@@ -33,7 +31,7 @@ export const getIndexes = async (...collections: string[]) => {
 
 export const getSchema = async (...collections: string[]) => {
     if (!(await isAdmin()))
-        throw new ServerError(ERROR_MESSAGE.GENERAL.UNAUTHORIZED, 'getSchema()')
+        throw new PermissionError(ERROR_MESSAGE.UNAUTHORIZED, 'getSchema()')
     const schema: Record<string, Document> = {}
 
     for (const name of collections) {
@@ -65,7 +63,7 @@ export const getSchema = async (...collections: string[]) => {
  */
 export const getCachedOption = async (key: string): Promise<string> => {
     return await Cached.getInstance().getOrExecute(
-        getCacheKey(CACHE_KEY.OPTIONS, key),
+        getCacheKey(COLLECTION.OPTIONS, key),
         async () => {
             const collection = await getCollection<T_Option>(COLLECTION.OPTIONS)
             return await collection
@@ -85,10 +83,7 @@ export const getCachedOption = async (key: string): Promise<string> => {
  */
 export const setSystemOption = async (key: string, value: string) => {
     if (!(await isAdmin()))
-        throw new ServerError(
-            ERROR_MESSAGE.GENERAL.UNAUTHORIZED,
-            'setSystemOption()',
-        )
+        throw new PermissionError(ERROR_MESSAGE.UNAUTHORIZED, 'getSchema()')
 
     return await insertOrReplace(COLLECTION.OPTIONS, { key }, { key, value })
 }

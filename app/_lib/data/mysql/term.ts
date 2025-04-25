@@ -1,15 +1,14 @@
 'use server'
 /* CONSTANTS */
 import { MySQLQuery } from '@app/_lib/data/mysql/constants'
-import { ARCHIVE } from '@app/_lib/types'
 /* Utils */
 import { getMedia } from '@app/_lib/data/mysql/media'
 /* Models */
 import MySQL from '@app/_lib/data/mysql'
+import { FetchError } from '@common/model/Error'
 /* T_Types */
 import type { T_ImageBlock, T_Archive, T_MySQLArchive } from '@app/_lib/types'
 import type { Nullable } from '@common/types'
-import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 
 const getMeta = async <T = string>(id: number, metaKey: string): Promise<T> =>
     await MySQL.getInstance().selectOne<T>(MySQLQuery.getTermMeta(id, metaKey))
@@ -37,23 +36,14 @@ const getThumbnail = async (
  * Get archive by slug.
  *
  * @param {string} slug
- * @param {ARCHIVE} type
  * @return {Promise<T_Archive>}
- * @throws {Error} Failed to get the archive.
+ * @throws {FetchError} Failed to get the archive.
  */
-export const getArchiveBySlug = async (
-    slug: string,
-    type: ARCHIVE,
-): Promise<T_Archive> => {
+export const getArchiveBySlug = async (slug: string): Promise<T_Archive> => {
     const archive = await MySQL.getInstance()
         .selectOne<T_MySQLArchive>(MySQLQuery.getArchiveBy('slug', slug))
         .catch(() => {
-            throw new ServerError(
-                ERROR_MESSAGE.ARCHIVE.SQL_GET_ONE,
-                'getArchiveBySlug()',
-                type,
-                slug,
-            )
+            throw new FetchError(`Failed to find MySQL term with: ${slug}`)
         })
 
     const image = await getThumbnail(archive)

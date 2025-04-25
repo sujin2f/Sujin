@@ -1,7 +1,6 @@
 import { ObjectId } from 'mongodb'
 /* Models */
 import Cached from '@common/model/Cached'
-import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 /* T_Types */
 import type { MutationResultType } from '@app/api/graphql/constants'
 /* CONSTANTS */
@@ -13,7 +12,11 @@ import { default as schema } from '@app/_lib/data/mongo/schema/10.3.4'
 import { getArchiveBySlug as getMySQLArchive } from '@app/_lib/data/mysql/term'
 import { getCacheKey } from '@app/_lib/utils'
 import { auth } from '@app/_lib/data/mongo/user'
-import { getCollection, insertOrReplace } from '@common/data/mongo/mongo'
+import {
+    findOne,
+    getCollection,
+    insertOrReplace,
+} from '@common/data/mongo/mongo'
 import { schemaFormatter } from '@common/utils/object'
 import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
 import { getAggregation } from '@app/_lib/utils-server'
@@ -38,22 +41,7 @@ export const getCachedArchive = async (
     await Cached.getInstance().getOrExecute<T_Archive>(
         getCacheKey(COLLECTION.ARCHIVE, type, slug),
         async () => {
-            const collection = await getCollection<T_Archive>(
-                COLLECTION.ARCHIVE,
-            )
-            return await collection.findOne({ slug, type }).then((result) => {
-                if (!result) {
-                    throw new ServerError(
-                        ERROR_MESSAGE.ARCHIVE.GET_ONE,
-                        type,
-                        slug,
-                    )
-                }
-                return {
-                    ...result,
-                    _id: result._id.toString(),
-                } as unknown as T_Archive
-            })
+            return await findOne<T_Archive>(COLLECTION.ARCHIVE, { slug, type })
         },
         DAY_IN_SECONDS,
         IS_DEV,
@@ -77,7 +65,7 @@ export const updateArchive = async (
         getCacheKey(COLLECTION.ARCHIVE, type, slug),
     )
 
-    const wp = await getMySQLArchive(slug, type)
+    const wp = await getMySQLArchive(slug)
     if (wp.image) {
         wp.image = convertImageBlockURL(wp.image)
     }
@@ -97,7 +85,6 @@ export const updateArchive = async (
  * @param {string} nonce - The nonce value used to validate the update request.
  * @param {string} slug - The ID of the term.
  * @returns {Promise<MutationResultType>} An object indicating the result of the operation.
- * @throws {Error} Throws an error if the nonce value is invalid.
  */
 export const mutateArchive = async (
     nonce: string,

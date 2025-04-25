@@ -47,7 +47,7 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
     }
 
     const url = `${BASE_URL}/blog/${slug}`
-    const images = getThumbnailFromPost(post, IMAGE_SIZE.MEDIUM_LARGE)
+    const images = getThumbnailFromPost(post.images, IMAGE_SIZE.MEDIUM_LARGE)
     const keywords = post.archives.map((term) => term.title)
 
     return {
@@ -76,7 +76,7 @@ export default async function Page(props: Props) {
     if (!(await isAdmin()) && post.status !== POST_STATUS.PUBLISH) {
         notFound()
     }
-    const thumbnail = getThumbnailFromPost(post, IMAGE_SIZE.MEDIUM_LARGE)
+    const thumbnail = getThumbnailFromPost(post.images, IMAGE_SIZE.MEDIUM_LARGE)
     const tags = post.archives.filter((tag) => tag.type === 'tag')
 
     // Update Tag Cloud

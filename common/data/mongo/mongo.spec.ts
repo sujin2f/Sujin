@@ -1,11 +1,25 @@
 // yarn test mongo.spec.ts
 
-import { clearMongo } from '@jest/helpers'
-import { migrate, closeConnection } from './mongo'
+import { clearMongo } from '@common/.jest/helpers'
+import { migrate, closeConnection, getDatabase, findWithCount } from './mongo'
 
 describe('mongo.ts', () => {
     beforeAll(async () => {
         await clearMongo('test', 'options')
+        const database = await getDatabase()
+        await database.createCollection('test', {
+            validator: {
+                $jsonSchema: {
+                    bsonType: 'object',
+                    required: ['value'],
+                    properties: {
+                        value: {
+                            bsonType: 'string',
+                        },
+                    },
+                },
+            },
+        })
     })
 
     afterAll(async () => {
@@ -30,5 +44,13 @@ describe('mongo.ts', () => {
         expect(callback3).toHaveBeenCalled()
         expect(callback4).not.toHaveBeenCalled()
         expect(result).toStrictEqual(['0.1.5', '0.2.0'])
+    })
+
+    test('findWithCount(): check if any error raised', async () => {
+        const result = await findWithCount('test', { test: 'test' })
+        const found = await result.find.toArray()
+
+        expect(result.count).toBe(0)
+        expect(found.length).toBe(0)
     })
 })

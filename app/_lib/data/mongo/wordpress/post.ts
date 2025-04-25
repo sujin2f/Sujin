@@ -1,7 +1,7 @@
 import { ObjectId, WithId } from 'mongodb'
 /* Models */
 import Cached from '@common/model/Cached'
-import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
+import { DatabaseError, PermissionError } from '@common/model/Error'
 /* Utils */
 import { getPostBy, getPostsBy } from '@app/_lib/data/mysql/post'
 import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
@@ -17,6 +17,7 @@ import {
 } from '@app/_lib/data/mongo/wordpress/archive'
 /* CONSTANTS */
 import { default as schema } from '@app/_lib/data/mongo/schema/10.3.4'
+import { ERROR_MESSAGE } from '@app/_lib/constants-error'
 import { IS_DEV } from '@common/constants/helper'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 import { DAY_IN_SECONDS } from '@common/constants/datetime'
@@ -34,7 +35,7 @@ import {
     type PropWithPages,
 } from '@app/_lib/types'
 /* T_Types */
-import type { T_Mongo } from '@common/types/mongo'
+import type { T_Mongo, T_Stringify } from '@common/types/mongo'
 
 const format = (post: Record<string, unknown>): T_Post =>
     schemaFormatter(post, schema.post) as T_Post
@@ -45,13 +46,15 @@ const format = (post: Record<string, unknown>): T_Post =>
  *
  * @param {string} slug - Post slug
  */
-export const getCachedPost = async (slug: string): Promise<T_Post> =>
+export const getCachedPost = async (
+    slug: string,
+): Promise<T_Stringify<T_Post, 'archives'>> =>
     await Cached.getInstance().getOrExecute(
         getCacheKey(COLLECTION.POST, slug),
         async () => {
             const collection = await getCollection<T_Post>(COLLECTION.POST)
             const posts = await collection
-                .aggregate<T_Post>([
+                .aggregate<T_Stringify<T_Post, 'archives'>>([
                     {
                         $match: {
                             slug,
@@ -62,7 +65,7 @@ export const getCachedPost = async (slug: string): Promise<T_Post> =>
                 ])
                 .toArray()
             if (!posts.length)
-                throw new ServerError(ERROR_MESSAGE.PAGE.GET_ONE, slug)
+                throw new DatabaseError('Post cannot be found.', slug)
             return posts[0]
         },
         DAY_IN_SECONDS,
@@ -177,10 +180,7 @@ export const getCachedPosts = async (
 
 export const getArchivePosts = async (_id: ObjectId, page: number) => {
     if (!(await isAdmin()))
-        throw new ServerError(
-            ERROR_MESSAGE.GENERAL.UNAUTHORIZED,
-            'getArchivePosts()',
-        )
+        throw new PermissionError(ERROR_MESSAGE.UNAUTHORIZED, 'getIndexes()')
 
     const collection = await getCollection<T_Mongo<T_Post>>(COLLECTION.POST)
     return await collection

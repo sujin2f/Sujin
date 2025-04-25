@@ -1,6 +1,12 @@
 // yarn test utils.spec.ts
 
-import { unserialize, convertImageBlockURL } from './utils'
+import { T_PostImages } from '@app/_lib/types'
+import {
+    unserialize,
+    convertImageBlockURL,
+    getThumbnailFromPost,
+} from './utils'
+import { DEFAULT_THUMBNAIL } from '@app/_lib/constants'
 
 describe('utils.ts', () => {
     afterAll(() => {
@@ -115,5 +121,13 @@ describe('utils.ts', () => {
             },
             url: '/wp-content/uploads/2025/01/file.jpeg',
         })
+    })
+
+    test('getThumbnailFromPost()', () => {
+        const result = getThumbnailFromPost(
+            null as unknown as T_PostImages,
+            'thumbnail',
+        )
+        expect(result).toBe(DEFAULT_THUMBNAIL)
     })
 })

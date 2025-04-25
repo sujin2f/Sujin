@@ -1,6 +1,6 @@
-import type { WithId } from 'mongodb'
 import type { ConstToType } from '@common/types'
-import { T_User } from './user'
+import type { T_User } from './user'
+import type { WithId } from 'mongodb'
 
 export const UNITS = [
     'kg',
@@ -13,7 +13,7 @@ export const UNITS = [
     'oz',
     'lb',
     'ea',
-]
+] as const
 export type UNITS = ConstToType<typeof UNITS>
 
 export type T_Recipe = WithId<{

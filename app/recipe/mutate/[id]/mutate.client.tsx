@@ -1,20 +1,23 @@
 'use client'
-import { FormEvent, useCallback, useState } from 'react'
-
+import { type FormEvent, useCallback, useState } from 'react'
+/* Components */
 import Button from '@common/components/forms/Button'
 import Input from '@common/components/forms/Input'
 import Select from '@common/components/forms/Select'
 import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
 import ButtonGroup from '@common/components/forms/ButtonGroup'
+/* T_Types */
 import { type T_Recipe, UNITS } from '@app/_lib/types'
+/* Utils */
 import { map } from '@common/utils/array'
 
 type Props = {
-    addRecipe: (recipe: Omit<T_Recipe, '_id' | 'user'>) => Promise<void>
+    addRecipe: (recipe: Partial<T_Recipe>) => Promise<void>
+    recipe?: Promise<T_Recipe | null>
 }
 
-export function NewRecipe({ addRecipe }: Props) {
+export function MutateRecipeClient({ addRecipe }: Props) {
     const [numFields, setNumFields] = useState(1)
     const [errors, setErrors] = useState<string[]>([])
 
@@ -22,54 +25,22 @@ export function NewRecipe({ addRecipe }: Props) {
         async (e: FormEvent<HTMLFormElement>) => {
             e.preventDefault()
             const formData = new FormData(e.currentTarget)
-
-            const title = formData.get('title')?.toString().trim()
-            if (!title) {
-                setErrors(['Title is required'])
+            const { error, result } = validate(
+                formData,
+                Array(numFields).fill(''),
+            )
+            if (error) {
+                setErrors(error)
                 return
             }
-            const url = formData.get('url')?.toString().trim() || ''
-            const recipe: Omit<T_Recipe, '_id' | 'user'> = {
-                title,
-                url,
-                ingredients: '',
-                recipe: [],
-            }
-
-            map(numFields, (_, index) => {
-                const ingredient = formData
-                    .get(`ingredient[${index}]`)
-                    ?.toString()
-                    .trim()
-                const amount = formData
-                    .get(`amount[${index}]`)
-                    ?.toString()
-                    .trim()
-                const unit = formData.get(`unit[${index}]`)?.toString()
-
-                if (ingredient && amount && unit) {
-                    recipe.recipe.push({
-                        title: ingredient,
-                        amount: parseFloat(amount),
-                        unit: unit as UNITS,
-                    })
-
-                    recipe.ingredients += ` ${ingredient} `
-                }
-            })
-
-            if (!recipe.recipe.length) {
-                setErrors(['', 'Ingredients are required'])
-                return
-            }
-
-            await addRecipe(recipe)
+            await addRecipe(result)
         },
         [addRecipe, numFields],
     )
+
     return (
         <>
-            <h2>input</h2>
+            <h2>New Recipe</h2>
             <form
                 onSubmit={(e) => {
                     onSubmit(e)
@@ -138,4 +109,49 @@ export function NewRecipe({ addRecipe }: Props) {
             </form>
         </>
     )
+}
+
+const validate = (formData: FormData, fields: unknown[]) => {
+    const title = formData.get('title')?.toString().trim()
+    if (!title) {
+        return { error: ['Title is required'] }
+    }
+    const url = formData.get('url')?.toString().trim() || ''
+    const recipe: Partial<T_Recipe> = {
+        title,
+        url,
+        ingredients: '',
+        recipe: [],
+    }
+    const detail: T_Recipe['recipe'] = []
+
+    fields.forEach((_, index) => {
+        const ingredient = formData
+            .get(`ingredient[${index}]`)
+            ?.toString()
+            .trim()
+        const amount = formData.get(`amount[${index}]`)?.toString().trim()
+        const unit = formData.get(`unit[${index}]`)?.toString()
+
+        if (ingredient && amount && unit) {
+            detail.push({
+                title: ingredient,
+                amount: parseFloat(amount),
+                unit: unit as UNITS,
+            })
+
+            recipe.ingredients += ` ${ingredient} `
+        }
+    })
+
+    if (!detail.length) {
+        return { error: ['', 'Ingredients are required'] }
+    }
+
+    return {
+        result: {
+            ...recipe,
+            recipe: detail,
+        },
+    }
 }

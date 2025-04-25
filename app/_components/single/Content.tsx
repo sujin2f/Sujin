@@ -2,9 +2,10 @@ import type { PropsWithChildren } from 'react'
 /* Helpers */
 import { parseContent } from '@app/(single)/utils'
 import type { T_Post, T_Page } from '@app/_lib/types'
+import { T_Stringify } from '@common/types/mongo'
 
 type Props = {
-    post: T_Post | T_Page
+    post: T_Stringify<T_Post | T_Page>
     type: 'page' | 'post'
 }
 

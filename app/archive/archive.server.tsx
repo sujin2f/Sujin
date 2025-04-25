@@ -35,7 +35,7 @@ export const getMetadata = async ({
         },
     )
 
-    const archive = await request()
+    const archive = await request().catch(() => null)
     if (!archive) {
         return {
             robots: {
@@ -69,7 +69,7 @@ export async function ArchiveServer({ page, type, slug }: ArchiveProp) {
         },
     )
 
-    const archive = await requestArchive()
+    const archive = await requestArchive().catch(() => notFound())
     if (!archive.total) notFound()
 
     const { title, excerpt, image } = archive

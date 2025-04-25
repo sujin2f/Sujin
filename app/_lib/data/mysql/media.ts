@@ -1,6 +1,6 @@
 /* Models */
 import MySQL from '@app/_lib/data/mysql'
-import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
+import { FetchError } from '@common/model/Error'
 /* Utils */
 import { isEmpty } from '@common/utils/object'
 import { getPostBy, getPostMeta } from '@app/_lib/data/mysql/post'
@@ -37,11 +37,7 @@ export const getBackgrounds = async (): Promise<T_Background[]> => {
             return result
         })
 
-    if (!result.length)
-        throw new ServerError(
-            ERROR_MESSAGE.ATTACHMENT.EMPTY_BACKGROUNDS,
-            'getBackgrounds()',
-        )
+    if (!result.length) throw new FetchError('MySQL Background is empty')
 
     return result
 }
@@ -81,10 +77,8 @@ const getMediaFromPost = async <T extends T_ImageBlock>(
         {} as T_WPMedia,
     )
     if (isEmpty(meta))
-        throw new ServerError(
-            ERROR_MESSAGE.ATTACHMENT.EMPTY_POST_META,
-            'getMediaFromPost()',
-            post.id,
+        throw new FetchError(
+            `Failed to find MySQL attached media with post ID: ${post.id}`,
         )
 
     const result: Record<string, unknown> = {

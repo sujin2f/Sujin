@@ -21,21 +21,6 @@ export const COLLECTION = {
 export type COLLECTION = ConstToType<typeof COLLECTION>
 
 /**
- * Cache prefixes
- * @enum
- */
-export const CACHE_KEY = {
-    POST: POST_TYPE.POST,
-    PAGE: POST_TYPE.PAGE,
-    BACKGROUNDS: COLLECTION.BACKGROUNDS,
-    OPTIONS: COLLECTION.OPTIONS,
-    ARCHIVE: COLLECTION.ARCHIVE,
-    SNIPPETS: COLLECTION.SNIPPETS,
-    RECIPE: COLLECTION.RECIPE,
-} as const
-export type CACHE_KEY = ConstToType<typeof CACHE_KEY>
-
-/**
  * Menu names
  * @enum
  */

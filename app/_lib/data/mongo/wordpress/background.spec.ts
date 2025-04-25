@@ -2,7 +2,8 @@
 
 import Cached from '@common/model/Cached'
 import { VERSION } from '@common/constants/helper'
-import { clearMongo, backgroundFactory } from '@jest/helpers'
+import { backgroundFactory } from '@jest/helpers'
+import { clearMongo } from '@common/.jest/helpers'
 import { getCachedBackgrounds } from './background'
 import migration from '@app/_lib/migration'
 import { COLLECTION } from '@app/_lib/types'

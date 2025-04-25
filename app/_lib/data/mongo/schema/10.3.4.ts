@@ -13,8 +13,9 @@ import type {
     T_Post,
     T_Background,
     T_User,
+    T_Recipe,
 } from '@app/_lib/types'
-import { ARCHIVE, POST_STATUS } from '@app/_lib/types'
+import { ARCHIVE, POST_STATUS, UNITS } from '@app/_lib/types'
 import { languages } from '@common/constants/helper'
 import type {
     T_Mongo,
@@ -336,6 +337,43 @@ const users: T_MongoSchema<T_Mongo<T_User>> = {
     },
 }
 
+const recipe: T_MongoSchema<T_Mongo<T_Recipe>> = {
+    bsonType: 'object',
+    required: ['title', 'user'],
+    properties: {
+        title: {
+            bsonType: 'string',
+        },
+        url: {
+            bsonType: 'string',
+        },
+        ingredients: {
+            bsonType: 'string',
+        },
+        recipe: {
+            bsonType: 'array',
+            items: {
+                bsonType: 'object',
+                properties: {
+                    title: {
+                        bsonType: 'string',
+                    },
+                    amount: {
+                        bsonType: 'float',
+                    },
+                    unit: {
+                        bsonType: 'string',
+                        enum: [...UNITS],
+                    },
+                },
+            },
+        },
+        user: {
+            bsonType: 'objectId',
+        },
+    },
+}
+
 const defaults = {
     post,
     page,
@@ -347,5 +385,6 @@ const defaults = {
     snippet,
     snippetsUser,
     users,
+    recipe,
 }
 export default defaults

@@ -18,7 +18,6 @@ import { MINUTE_IN_SECONDS } from '@common/constants/datetime'
 import { mutatePage } from '@app/_lib/data/mongo/wordpress/page'
 import { mutateBackground } from '@app/_lib/data/mongo/wordpress/background'
 import { mutateCategory } from '@app/_lib/data/mongo/wordpress/category'
-import { getCachedRecipe } from '@app/_lib/data/mongo/recipe'
 
 const options = createGQLOptions(
     // Types
@@ -26,14 +25,10 @@ const options = createGQLOptions(
     GQL.TagCloud,
     GQL.Result,
     GQL.Spectrum,
-    GQL.Recipe,
-    GQL.RecipeDetail,
-    GQL.RecipeReturn,
     // Queries
     GQL.queryFlickr.setCallback(getFlickr),
     GQL.queryTagCloud.setCallback(getTagCloud),
     GQL.querySpectra.setCallback(getSpectraFromNIST),
-    GQL.queryRecipe.setCallback(getCachedRecipe),
     // Mutations
     GQL.mutatePost.setCallback(mutatePost),
     GQL.mutatePage.setCallback(mutatePage),

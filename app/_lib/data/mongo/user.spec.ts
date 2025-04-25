@@ -1,7 +1,7 @@
 // yarn test user.spec.ts
 
 import { VERSION } from '@common/constants/helper'
-import { clearMongo } from '@jest/helpers'
+import { clearMongo } from '@common/.jest/helpers'
 import { addUser, getUser } from './user'
 import migration from '@app/_lib/migration'
 import { COLLECTION } from '@app/_lib/types'

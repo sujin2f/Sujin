@@ -41,7 +41,10 @@ export const Cards = ({
                                   description={post.excerpt}
                                   to={post.link}
                                   time={post.date}
-                                  image={getThumbnailFromPost(post, imageSize)}
+                                  image={getThumbnailFromPost(
+                                      post.images,
+                                      imageSize,
+                                  )}
                               >
                                   <Tags items={tags} />
                               </Card>

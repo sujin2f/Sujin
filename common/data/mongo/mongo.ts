@@ -1,39 +1,32 @@
-import {
-    type Filter,
+import type {
     MongoClient,
-    type OptionalUnlessRequiredId,
-    type InferIdType,
-    type Document,
+    Filter,
+    OptionalUnlessRequiredId,
+    InferIdType,
+    Document,
+    InsertOneOptions,
+    FindOptions,
 } from 'mongodb'
-import { IS_TEST, MONGO_DATABASE } from '../../constants/helper'
+import { MONGO_DATABASE } from '../../constants/helper'
 import { compareVersions } from '../../utils/system'
 import Logger from '../../model/Logger'
+import getClient from './connection'
+import { DatabaseError } from '@common/model/Error'
 
-if (!process.env.MONGO) {
-    throw new Error('Invalid/Missing environment variable: "MONGO"')
+export const closeConnection = async () => {
+    const client = await getClient()
+    await client.close()
 }
 
-const uri = process.env.MONGO
-const options = { appName: 'devrel.template.nextjs' }
-const connection = IS_TEST
-    ? `mongodb://${uri}:27018/${process.env.MONGO_DATABASE}`
-    : `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${uri}:27017/${process.env.MONGO_DATABASE}?authSource=${process.env.MONGO_DATABASE}`
+export const getDatabase = async () => {
+    const client = await getClient()
+    return client.db(MONGO_DATABASE)
+}
 
-export const closeConnection = async () =>
-    await MongoClient.connect(connection, options).then(
-        async (client) => await client.close(),
-    )
-
-export const getDatabase = async () =>
-    await MongoClient.connect(connection, options).then((client) =>
-        client.db(MONGO_DATABASE),
-    )
-
-export const getCollection = async <T extends Document>(collection: string) =>
-    await MongoClient.connect(connection, options).then((client) => {
-        const database = client.db(MONGO_DATABASE)
-        return database.collection<T>(collection)
-    })
+export const getCollection = async <T extends Document>(collection: string) => {
+    const database = await getDatabase()
+    return database.collection<T>(collection)
+}
 
 export type T_Migration = {
     [version: string]: (client: MongoClient) => Promise<void>
@@ -67,13 +60,50 @@ export const migrate = async (
             versions,
         )}`,
     )
+    const client = await getClient()
     for (const version of versions) {
-        await MongoClient.connect(connection, options).then(async (client) => {
-            await migration[version](client)
-        })
+        await migration[version](client)
     }
 
     return versions
+}
+
+export const findOne = async <T extends Document>(
+    collectionName: string,
+    doc: Filter<T>,
+    options?: Omit<FindOptions, 'timeoutMode'>,
+) => {
+    const collection = await getCollection<T>(collectionName)
+    return await collection.findOne(doc, options).then((result) => {
+        if (!result) {
+            throw new DatabaseError(
+                'Mongo findOne does not have any result.',
+                collectionName,
+                doc,
+            )
+        }
+        return result
+    })
+}
+
+export const insertOne = async <T extends Document>(
+    collectionName: string,
+    doc: OptionalUnlessRequiredId<T>,
+    options?: InsertOneOptions,
+) => {
+    const collection = await getCollection<T>(collectionName)
+    return await collection.insertOne(doc, options)
+}
+
+export const findWithCount = async <T extends Document>(
+    collectionName: string,
+    filter: Filter<T>,
+) => {
+    const collection = await getCollection<T>(collectionName)
+    const find = collection.find(filter)
+    const count = await collection.countDocuments(filter)
+
+    return { find, count }
 }
 
 export const insertOrReplace = async <T extends Document>(

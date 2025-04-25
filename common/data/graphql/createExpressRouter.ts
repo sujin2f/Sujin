@@ -1,3 +1,4 @@
+import { IOError } from '../../model/Error'
 import type { IQuery, IType, ScalarJSType } from '.'
 import { OperationType } from './constants'
 
@@ -28,7 +29,7 @@ export const createGQLOptions = (
 
     const queryResolver = queryArr.reduce((acc, query) => {
         if (!query.callback) {
-            throw Error(
+            throw new IOError(
                 `Please assign callback to ${query.name} in order to use router`,
             )
         }
@@ -41,7 +42,7 @@ export const createGQLOptions = (
 
     const mutationResolver = mutationArr.reduce((acc, query) => {
         if (!query.callback) {
-            throw Error(
+            throw new IOError(
                 `Please assign callback to ${query.name} in order to use router`,
             )
         }

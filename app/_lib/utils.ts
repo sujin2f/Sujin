@@ -1,5 +1,5 @@
 import { VERSION } from '@common/constants/helper'
-import type { CACHE_KEY } from '@app/_lib/types'
+import type { COLLECTION } from '@app/_lib/types'
 
 /**
  *
@@ -8,6 +8,6 @@ import type { CACHE_KEY } from '@app/_lib/types'
  * @returns {string}
  */
 export const getCacheKey = (
-    collection: CACHE_KEY,
+    collection: COLLECTION,
     ...suffixes: (string | number | undefined)[]
 ): string => [VERSION, collection, ...suffixes].filter((v) => v).join('-')

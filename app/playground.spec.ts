@@ -2,58 +2,68 @@
 
 import { Binary } from 'mongodb'
 import { hash } from 'node:crypto'
-import { getDatabase } from '@common/data/mongo/mongo'
+import { getCollection, getDatabase } from '@common/data/mongo/mongo'
+import { COLLECTION, T_Archive } from './_lib/types'
+import { getAggregation } from '@app/_lib/utils-server'
+import { PER_PAGE } from './_lib/data/mysql/constants'
+import { categoryFactory } from '@jest/helpers'
 
-function a(data: string) {
-    const color = parseInt(data, 16)
-    const red = (color >> 16) & 0xff
-    const green = (color >> 8) & 0xff
-    const blue = color & 0xff
-
-    return [red, green, blue]
+async function a() {
+    const collection = await getCollection<T_Archive>(COLLECTION.ARCHIVE)
+    await collection
+        .aggregate<T_Archive>([
+            {
+                $match: { type: 'category' },
+            },
+            ...getAggregation('paging', 2),
+            ...getAggregation('_id'),
+        ])
+        .toArray()
 }
 
-function b(data: string) {
-    const color = parseInt(data, 16)
-    const blue = color % 256
-    const green = Math.floor((color - blue) / 256) % 256
-    const red = Math.floor((color - green) / 65536) % 256
-
-    return [red, green, blue]
+async function b() {
+    const collection = await getCollection<T_Archive>(COLLECTION.ARCHIVE)
+    await collection
+        .find({ type: 'category' })
+        .skip(PER_PAGE * (2 - 1))
+        .limit(PER_PAGE)
+        .toArray()
+        .then((items) =>
+            items.map((item) => ({ ...item, _id: item._id.toString() })),
+        )
 }
 
-function c(data: string) {
-    const red = parseInt(data.slice(0, 2), 16)
-    const green = parseInt(data.slice(2, 4), 16)
-    const blue = parseInt(data.slice(4, 6), 16)
+// function perform(data: string[], ...callback: (() => unknown)[]) {
+//     callback.forEach((cb) => {
+//         const startTime = performance.now()
+//         data.forEach(() => cb())
+//         const endTime = performance.now()
+//         console.log(
+//             `Call to doSomething took ${endTime - startTime} milliseconds`,
+//         )
+//     })
+// }
 
-    return [red, green, blue]
-}
+describe('Performance Test', () => {
+    // const testData: string[] = Array(999).fill('')
 
-function perform(data: string[], ...callback: ((data: string) => unknown)[]) {
-    callback.forEach((cb) => {
+    test.skip('performance', async () => {
+        for (let i = 0; i < 30; i++) {
+            await categoryFactory()
+        }
+
         const startTime = performance.now()
-        data.forEach((item) => cb(item))
+        for (let i = 0; i < 300; i++) {
+            await a()
+            await b()
+        }
         const endTime = performance.now()
         console.log(
             `Call to doSomething took ${endTime - startTime} milliseconds`,
         )
-    })
-}
 
-describe('Performance Test', () => {
-    const testData: string[] = []
-
-    test.skip('performance', async () => {
-        const white = parseInt('FFFFFF', 16)
-        Array(white)
-            .fill(0)
-            .forEach((_, i) => {
-                testData.push(i.toString(16).padStart(6, '0'))
-            })
-
-        perform(testData, a, b, c)
         expect(true).toBeTruthy()
+        // perform(testData, a)
     })
 
     test.skip('playground', async () => {

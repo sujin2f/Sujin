@@ -40,7 +40,7 @@ export default async function About() {
     )
 
     const post = await request().catch(() => notFound())
-    const thumbnail = getThumbnailFromPost(post, IMAGE_SIZE.MEDIUM_LARGE)
+    const thumbnail = getThumbnailFromPost(post.images, IMAGE_SIZE.MEDIUM_LARGE)
 
     return (
         <Wrapper

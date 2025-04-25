@@ -1,7 +1,8 @@
 // yarn test page.spec.ts
 
 import { VERSION } from '@common/constants/helper'
-import { clearMongo, pageFactory } from '@jest/helpers'
+import { pageFactory } from '@jest/helpers'
+import { clearMongo } from '@common/.jest/helpers'
 import {
     getCachedPage,
     mutatePage,

@@ -4,8 +4,7 @@ import {
     IMAGE_SIZE,
     IMAGE_SIZE_BACKGROUND,
     T_ImageBlock,
-    T_ArchivePost,
-    T_Page,
+    T_PostImages,
 } from '@app/_lib/types'
 import { entries } from '@common/utils/object'
 import { phpUnSerialize } from '@common/utils/string'
@@ -372,12 +371,16 @@ export const unserialize = <
 }
 
 export const getThumbnailFromPost = (
-    post: T_ArchivePost | T_Page,
+    images: T_PostImages,
     size: IMAGE_SIZE,
-) =>
-    post.images?.list?.sizes?.[size]?.url ||
-    post.images?.thumbnail?.sizes?.[size]?.url ||
-    DEFAULT_THUMBNAIL
+) => {
+    if (!images) return DEFAULT_THUMBNAIL
+    return (
+        images.list?.sizes?.[size]?.url ||
+        images.thumbnail?.sizes?.[size]?.url ||
+        DEFAULT_THUMBNAIL
+    )
+}
 
 export const getBannerImageMap = (image: T_ImageBlock): ImageMap[] => {
     if (!image.sizes) {

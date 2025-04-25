@@ -1,55 +1,28 @@
-type ErrorLevel = 'info' | 'log' | 'warn' | 'error'
+import Logger from './Logger'
 
-interface ErrorOptions2 extends ErrorOptions {
-    code?: string
-    source?: string
-    level?: ErrorLevel
-}
-
-/**
- * @deprecated Use Logger and global Error
- */
-class MyError extends Error {
-    public code?: string
-    public source?: string
-    public level?: ErrorLevel
-
-    constructor(message?: string, options?: ErrorOptions2) {
-        const _options = {
-            cause: options?.cause,
-        }
-        super(message, _options)
-        this.code = options?.code
-        this.source = options?.source
-        this.level = options?.level
-
-        if (this.level) {
-            this.echo(this.level)
-        }
+export abstract class A_Error extends Error {
+    constructor(message: string, ...data: unknown[]) {
+        super(message)
+        Logger.server(
+            `🤬 ${message}`,
+            ...data.map((data) => {
+                if (typeof data === 'object' || Array.isArray(data))
+                    return JSON.stringify(data)
+                return data
+            }),
+        )
     }
 
-    public echo(level: ErrorLevel) {
-        const code = this.code ? `[${this.code}]: ` : ''
-        const msg = this.message ? this.message : ''
-        const source = this.source ? ` @ ${this.source}` : ''
-        const date = new Date()
-        const result = `${date.toLocaleDateString()} ${date.toLocaleTimeString()} - ${code}${msg}${source}`
-
-        switch (level) {
-            case 'info':
-                console.info(result)
-                break
-            case 'log':
-                console.log(result)
-                break
-            case 'warn':
-                console.warn(result)
-                break
-            default:
-                console.error(result)
-        }
+    public options(cause: unknown) {
+        this.cause = cause
+        return this
     }
 }
-export { MyError as Error }
 
-export const isCustomError = (e: unknown) => e instanceof MyError
+export class IOError extends A_Error {}
+export class InternalError extends A_Error {}
+export class NodeModuleError extends InternalError {}
+export class EnvironmentError extends InternalError {}
+export class DatabaseError extends InternalError {}
+export class FetchError extends A_Error {}
+export class PermissionError extends A_Error {}

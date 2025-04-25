@@ -1,6 +1,7 @@
 import { DAY_IN_SECONDS } from '@common/constants/datetime'
 import type { IQuery, ScalarJSType } from '.'
 import { VERSION } from '../../constants/helper'
+import { FetchError } from '../../model/Error'
 
 export const fetchGQL = <A extends ScalarJSType[], R>(
     query: IQuery<A, R>,
@@ -17,8 +18,8 @@ export const fetchGQL = <A extends ScalarJSType[], R>(
     })
         .then((response) => {
             if (response.status >= 400) {
-                throw Error(
-                    `GraphQL query failed for query ${query.name} and ${args}`,
+                throw new FetchError(
+                    `GraphQL query failed for query ${query.name} and ${args} with response of ${response.status}`,
                 )
             }
             return response.json()
@@ -26,8 +27,8 @@ export const fetchGQL = <A extends ScalarJSType[], R>(
         .then((data) => {
             const value = data.data[query.name]
             if (!value) {
-                throw Error(
-                    `GraphQL query failed for query ${query.name} and ${args}`,
+                throw new FetchError(
+                    `GraphQL query failed for query ${query.name} and ${args} due to an empty value`,
                 )
             }
             return value as R

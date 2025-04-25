@@ -1,7 +1,6 @@
 import type { WithId } from 'mongodb'
 /* Models */
 import Cached from '@common/model/Cached'
-import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 /* CONSTANTS */
 import { IS_DEV } from '@common/constants/helper'
 import {
@@ -18,10 +17,15 @@ import { getPostBy } from '@app/_lib/data/mysql/post'
 import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
 import { schemaFormatter } from '@common/utils/object'
 import { auth } from '@app/_lib/data/mongo/user'
-import { getCollection, insertOrReplace } from '@common/data/mongo/mongo'
+import {
+    findOne,
+    getCollection,
+    insertOrReplace,
+} from '@common/data/mongo/mongo'
 import { getAggregation } from '@app/_lib/utils-server'
 /* T_Types */
 import type { MutationResultType } from '@app/api/graphql/constants'
+import type { T_Stringify } from '@common/types/mongo'
 
 const format = (page: WithId<T_Page> | T_Page): T_Page =>
     schemaFormatter(page, schema.page) as T_Page
@@ -49,21 +53,20 @@ export const mutatePage = async (
  *
  * @param {string} slug - Post slug
  * @returns {Promise<T_Page>} - The post object
- * @throws {Error} - MySQL page cannot be found
  */
-export const getCachedPage = async (slug: string): Promise<T_Page> =>
+export const getCachedPage = async (
+    slug: string,
+): Promise<T_Stringify<T_Page>> =>
     await Cached.getInstance().getOrExecute(
         getCacheKey(COLLECTION.PAGE, slug),
         async () => {
-            const collection = await getCollection<T_Page>(COLLECTION.PAGE)
-            return await collection.findOne({ slug }).then((post) => {
-                if (post)
-                    return {
+            return await findOne<T_Page>(COLLECTION.PAGE, { slug }).then(
+                (post) =>
+                    ({
                         ...post,
                         _id: post._id.toString(),
-                    } as unknown as T_Page
-                throw new ServerError(ERROR_MESSAGE.PAGE.GET_ONE, slug)
-            })
+                    } satisfies T_Stringify<T_Page>),
+            )
         },
         DAY_IN_SECONDS,
         IS_DEV,
@@ -75,7 +78,6 @@ export const getCachedPage = async (slug: string): Promise<T_Page> =>
  *
  * @param {string} slug - Page slug
  * @returns {Promise<void>}
- * @throws {Error} - MySQL page cannot be found
  */
 export const updatePage = async (
     slug: string,

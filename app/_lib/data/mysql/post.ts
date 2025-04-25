@@ -1,5 +1,6 @@
 /* Models */
 import MySQL from '@app/_lib/data/mysql'
+import { FetchError } from '@common/model/Error'
 /* CONSTANTS */
 import { MySQLQuery, PER_PAGE } from '@app/_lib/data/mysql/constants'
 import {
@@ -14,7 +15,6 @@ import { autop } from '@app/_lib/data/mysql/utils'
 import { unserialize } from '@app/_lib/data/mysql/utils'
 import { getTermsByPost } from '@app/_lib/data/mysql/term'
 import { getPostImages } from '@app/_lib/data/mysql/media'
-import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
 
 type T_PostMeta = {
     meta_key: string
@@ -64,14 +64,10 @@ export const getPostBy = async (
 ): Promise<T_MySQLPost> => {
     return await getPostsBy(queryKey, type, queryValue, 1, ignoreStatus).then(
         (result) => {
-            if (!result[0]) {
-                throw new ServerError(
-                    ERROR_MESSAGE.POST.SQL_GET_ONE,
-                    'getPostBy()',
-                    queryKey,
-                    queryValue,
+            if (!result[0])
+                throw new FetchError(
+                    `Failed to find MySQL post with: ${queryKey}, ${queryValue}, and ${type}`,
                 )
-            }
             return result[0]
         },
     )

@@ -3,11 +3,12 @@ import { Binary, type WithoutId } from 'mongodb'
 import { hash } from 'node:crypto'
 
 import { getCollection } from '@common/data/mongo/mongo'
-import { COLLECTION, type T_User } from '@app/_lib/types'
+import { COLLECTION, T_UserParsed, type T_User } from '@app/_lib/types'
 import { authOptions } from '@app/api/auth/constants'
 import { getOption, removeOption } from '@app/_lib/data/mysql/option'
-import { ERROR_MESSAGE, ServerError } from '@app/_lib/constants-error'
+import { ERROR_MESSAGE } from '@app/_lib/constants-error'
 import { decodeText, encodeText } from '@app/_lib/utils-server'
+import { PermissionError } from '@common/model/Error'
 
 export const addUser = async (email: string, name: string, image: string) => {
     const collection = await getCollection<WithoutId<T_User>>(COLLECTION.USERS)
@@ -18,7 +19,7 @@ export const addUser = async (email: string, name: string, image: string) => {
     })
 }
 
-export const getUser = async (email: string) => {
+export const getUser = async (email: string): Promise<T_UserParsed | null> => {
     const collection = await getCollection<WithoutId<T_User>>(COLLECTION.USERS)
     const user = await collection
         .findOne({
@@ -29,7 +30,7 @@ export const getUser = async (email: string) => {
         })
         .then(async (user) => {
             if (!user) {
-                return null
+                throw Error('')
             }
 
             const name = await decodeText(user.name.buffer)
@@ -40,6 +41,16 @@ export const getUser = async (email: string) => {
             }
         })
     return user
+}
+
+export const getLoggedInUser = async (): Promise<T_UserParsed> => {
+    const session = await getServerSession(authOptions)
+    return await getUser(session?.user?.email || '').then((user) => {
+        if (!user) {
+            throw Error('')
+        }
+        return user
+    })
 }
 
 export const isAdmin = async (): Promise<boolean> => {
@@ -54,7 +65,7 @@ export const isAdmin = async (): Promise<boolean> => {
  * @param {string} slug
  * @param {ARCHIVE | POST_TYPE} type
  * @returns {Promise<void>}
- * @throws {ServerError} Failed to access
+ * @throws {PermissionError} Failed to access
  */
 export const auth = async (nonce?: string, slug?: string): Promise<void> => {
     const admin = await isAdmin()
@@ -62,11 +73,11 @@ export const auth = async (nonce?: string, slug?: string): Promise<void> => {
 
     // Nonce validation
     if (!nonce) {
-        throw new ServerError(ERROR_MESSAGE.GENERAL.UNAUTHORIZED, 'auth()')
+        throw new PermissionError(ERROR_MESSAGE.NONCE_FAILED)
     }
     const optionKey = ['mutate', slug, nonce].join('_')
     await getOption(optionKey).catch(() => {
-        throw new ServerError(ERROR_MESSAGE.GENERAL.UNAUTHORIZED, 'auth()')
+        throw new PermissionError(ERROR_MESSAGE.NONCE_FAILED)
     })
     await removeOption(optionKey)
 }

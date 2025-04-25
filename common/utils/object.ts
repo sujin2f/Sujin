@@ -1,3 +1,5 @@
+import { IOError } from '../model/Error'
+
 /**
  * Remove empty nodes
  */
@@ -122,9 +124,10 @@ type T_Object = Record<string, unknown>
 
 const objectFormatter = (input: T_Object, schema: T_Object): T_Object => {
     if (!schema.properties) {
-        throw Error(
-            `Object schema does not have properties ${JSON.stringify(schema)}`,
-        )
+        throw new IOError(
+            'Object schema does not have properties',
+            schema,
+        ).options(objectFormatter)
     }
 
     const formatted: T_Object = {}
@@ -142,7 +145,10 @@ const objectFormatter = (input: T_Object, schema: T_Object): T_Object => {
     if (schema.required && Array.isArray(schema.required)) {
         schema.required.forEach((key) => {
             if (!Object.keys(formatted).includes(key)) {
-                throw Error(`Required filed ${key} is missing`)
+                throw new IOError(
+                    `Required filed ${key} is missing`,
+                    schema,
+                ).options(objectFormatter)
             }
         })
     }

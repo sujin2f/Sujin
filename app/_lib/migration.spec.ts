@@ -1,7 +1,8 @@
 // yarn test migration.spec.ts
 
 import { VERSION } from '@common/constants/helper'
-import { categoryFactory, clearMongo } from '@jest/helpers'
+import { clearMongo } from '@common/.jest/helpers'
+import { categoryFactory } from '@jest/helpers'
 import migration from './migration'
 import { ARCHIVE, COLLECTION } from '@app/_lib/types'
 import Cached from '@common/model/Cached'

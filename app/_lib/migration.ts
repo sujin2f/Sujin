@@ -39,6 +39,17 @@ const migration: T_Migration = {
                             .createIndex('email')
                     })
 
+                // Recipe Collection
+                await database.createCollection(COLLECTION.RECIPE, {
+                    validator: {
+                        $jsonSchema: SCHEMA_10_3_4.recipe,
+                    },
+                })
+
+                await database
+                    .collection(COLLECTION.RECIPE)
+                    .createIndex({ ingredients: 'text' })
+
                 await setSystemOption('version', '10.3.4')
             })
         } finally {

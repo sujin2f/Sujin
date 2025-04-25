@@ -1,4 +1,4 @@
-import { getDatabase, getCollection } from '@common/data/mongo/mongo'
+import { getCollection } from '@common/data/mongo/mongo'
 import { getRandomInt } from '@common/utils/number'
 import { category, imageBlock, page, post, tag } from './fixture'
 import {
@@ -10,26 +10,6 @@ import {
     T_Background,
 } from '@app/_lib/types'
 import { T_Mongo } from '@common/types/mongo'
-
-export const clearMongo = async (...collections: string[]) =>
-    await getDatabase().then(async (database) => {
-        if (collections.length === 0) {
-            await database.collections().then(async (collections) => {
-                for (const collection in collections) {
-                    await collections[collection].drop()
-                }
-            })
-            return
-        }
-
-        try {
-            for (const collection of collections) {
-                await database.collection(collection).deleteMany({})
-            }
-        } catch {}
-
-        return
-    })
 
 export const categoryFactory = async (input: Partial<T_Archive> = {}) => {
     const id = getRandomInt(9999999)

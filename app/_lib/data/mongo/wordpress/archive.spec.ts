@@ -1,12 +1,8 @@
 // yarn test archive.spec.ts
 
 import { VERSION } from '@common/constants/helper'
-import {
-    clearMongo,
-    categoryFactory,
-    tagFactory,
-    postFactory,
-} from '@jest/helpers'
+import { categoryFactory, tagFactory, postFactory } from '@jest/helpers'
+import { clearMongo } from '@common/.jest/helpers'
 import {
     getCachedArchive,
     updateArchive,
