@@ -7,7 +7,7 @@
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "test": "jest --no-cache --forceExit --coverage",
+        "test": "NODE_ENV=test jest --no-cache --forceExit --coverage",
         "lint": "eslint ./app/**/*.tsx ./app/**/*.ts ./common/**/*.ts ./common/**/*.tsx"
     },
     "dependencies": {
