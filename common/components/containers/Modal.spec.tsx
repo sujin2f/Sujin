@@ -11,10 +11,10 @@ import Modal from './Modal'
 describe('Modal.ts', () => {
     it('Base', async () => {
         const Component = () => {
-            return <Modal />
+            return <Modal show />
         }
         const result = render(<Component />)
-        const reveal = result.container.querySelector('.reveal')
+        const reveal = result.container.querySelector('.modal__wrapper')
         expect(reveal).toBeTruthy()
     })
 })

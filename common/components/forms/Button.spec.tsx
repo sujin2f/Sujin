@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-// yarn test src/client/components/form/Button.spec.ts
+// yarn test Button.spec.ts
 
 import '@testing-library/jest-dom'
 import React from 'react'
@@ -13,7 +13,7 @@ describe('Button.ts', () => {
         const Component = () => <Button title="Submit" />
         const result = render(<Component />)
         expect(result.container.innerHTML).toMatch(
-            '<button class="button button--primary" aria-label="Submit" type="button">Submit</button>',
+            '<button class="button button--primary" aria-label="Submit">Submit</button>',
         )
     })
 })

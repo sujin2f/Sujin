@@ -49,7 +49,7 @@ export default class Cached extends Singleton<Cached>() {
         try {
             const cache = await this.getCache()
             return cache.get<T>(key)
-        } finally {
+        } catch {
             return undefined
         }
     }
@@ -97,7 +97,7 @@ export default class Cached extends Singleton<Cached>() {
         try {
             const cache = await this.getCache()
             return cache.keys()
-        } finally {
+        } catch {
             return []
         }
     }
