@@ -69,6 +69,8 @@ export const isAdmin = async (): Promise<boolean> => {
  */
 export const auth = async (nonce?: string, slug?: string): Promise<void> => {
     const admin = await isAdmin()
+    console.log('auth.admin', admin)
+    console.log('auth.nonce', nonce)
     if (admin) return
 
     // Nonce validation
