@@ -26,6 +26,7 @@ describe('utils.ts & utils-server.ts', () => {
         })
 
         test('auth(): nonce failed', async () => {
+            console.log('auth(): nonce failed')
             userMock.mockReturnValueOnce(null)
             const result = await auth().catch((e) => {
                 console.log(e)

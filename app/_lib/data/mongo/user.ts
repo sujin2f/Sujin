@@ -73,6 +73,8 @@ export const auth = async (nonce?: string, slug?: string): Promise<void> => {
     console.log('auth.nonce', nonce)
     if (admin) return
 
+    console.log('isAdmin() passed')
+
     // Nonce validation
     if (!nonce) {
         throw new PermissionError(ERROR_MESSAGE.NONCE_FAILED)
