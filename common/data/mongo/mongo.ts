@@ -19,7 +19,6 @@ export const closeConnection = async () => {
 }
 
 export const getDatabase = async () => {
-    console.log(MONGO_DATABASE)
     const client = await getClient()
     return client.db(MONGO_DATABASE)
 }

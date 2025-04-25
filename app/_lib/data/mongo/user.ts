@@ -77,7 +77,7 @@ export const auth = async (nonce?: string, slug?: string): Promise<void> => {
     }
     const optionKey = ['mutate', slug, nonce].join('_')
     await getOption(optionKey).catch(() => {
-        throw new PermissionError(ERROR_MESSAGE.NONCE_FAILED)
+        throw new PermissionError(`Failed to get MySQL option: ${optionKey}`)
     })
     await removeOption(optionKey)
 }
