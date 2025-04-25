@@ -39,3 +39,4 @@ jobs:
                   MONGO: mongodb
                   MONGO_TEST_PORT: 27017
                   CRYPT_JWK: dJiIIitCDeULqrHq5DBhP0QMZKHXZ2kqQpEjG2hLP3s
+                  ADMIN_EMAIL: test@test.com
