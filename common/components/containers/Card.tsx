@@ -7,6 +7,7 @@ import { removeURLProtocol } from '../../utils/string'
 import { ShortMonthNames } from '../../constants/datetime'
 /* Assets */
 import '../../scss/card.scss'
+import Image from 'next/image'
 
 type Props = {
     readonly to: string
@@ -61,10 +62,10 @@ export const Card = ({
                         </time>
                     )}
                     <picture className="card__image__container">
-                        <img
+                        <Image
                             src={removeURLProtocol(image)}
                             role="presentation"
-                            alt={title}
+                            alt={title || ''}
                             className="card__image"
                         />
                     </picture>

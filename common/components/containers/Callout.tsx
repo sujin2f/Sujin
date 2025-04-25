@@ -1,5 +1,12 @@
 'use client'
-import React, { createElement, JSX, PropsWithChildren, useState } from 'react'
+import {
+    type HTMLAttributes,
+    type DetailedHTMLProps,
+    type JSX,
+    type PropsWithChildren,
+    createElement,
+    useState,
+} from 'react'
 /* Components */
 import { CloseButton } from '../forms/CloseButton'
 /* Helpers */
@@ -7,11 +14,12 @@ import { joinClassNames } from '../../utils/string'
 /* Assets */
 import '../../scss/callout.scss'
 
-type Props = PropsWithChildren<{
-    readonly className?: string
-    readonly closeButton?: boolean
-    readonly dom?: string | JSX.ElementType
-}>
+type Props = DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement> &
+    PropsWithChildren<{
+        readonly className?: string
+        readonly closeButton?: boolean
+        readonly dom?: string | JSX.ElementType
+    }>
 
 /**
  * Callout component that displays a container with optional close button.
@@ -21,19 +29,24 @@ type Props = PropsWithChildren<{
  * @param {boolean} [props.closeButton] - Whether to display a close button.
  * @param {string | JSX.ElementType} [props.dom] - The DOM element or component to use for the callout.
  */
-const Callout = ({ closeButton, dom, className, children }: Props) => {
+const Callout = ({
+    closeButton,
+    dom = 'div',
+    className,
+    children,
+    ...props
+}: Props) => {
     const [closed, setClosed] = useState(false)
-
-    const type = dom || 'div'
 
     if (closed) {
         return
     }
 
     return createElement(
-        type,
+        dom,
         {
             className: joinClassNames('callout', className),
+            ...props,
         },
         children,
         closeButton && <CloseButton onClick={() => setClosed(true)} />,

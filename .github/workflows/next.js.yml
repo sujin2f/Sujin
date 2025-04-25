@@ -37,3 +37,4 @@ jobs:
                   cmd: test
               env:
                   MONGO: mongodb
+                  MONGO_DATABASE: test
