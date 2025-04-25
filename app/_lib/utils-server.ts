@@ -5,6 +5,7 @@ import type { Nullable } from '@common/types'
 import { Metadata, METADATA } from '@app/_lib/constants'
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 import { COLLECTION } from '@app/_lib/types'
+import { EnvironmentError } from '@common/model/Error'
 
 /**
  * Retrieves the current pathname from the headers.
@@ -111,7 +112,7 @@ export const getAggregation = (
 
 export const getKey = async () => {
     if (!process.env.CRYPT_JWK) {
-        throw new Error('CRYPT_JWK is not defined')
+        throw new EnvironmentError('CRYPT_JWK is not defined')
     }
 
     const key = {

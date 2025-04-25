@@ -8,10 +8,10 @@ if (!process.env.MONGO) {
 
 const uri = process.env.MONGO
 const options = { appName: 'devrel.template.nextjs' }
-const port = process.env.MONGO_PORT || '27017'
+const port = process.env.MONGO_TEST_PORT || '27018'
 const connection = IS_TEST
     ? `mongodb://${uri}:${port}`
-    : `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${uri}:${port}/${process.env.MONGO_DATABASE}?authSource=${process.env.MONGO_DATABASE}`
+    : `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${uri}:27017/${process.env.MONGO_DATABASE}?authSource=${process.env.MONGO_DATABASE}`
 
 const getClient = async () => await MongoClient.connect(connection, options)
 console.log(connection)

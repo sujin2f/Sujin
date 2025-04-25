@@ -34,7 +34,8 @@ jobs:
             - name: Test
               uses: borales/actions-yarn@v3.0.0
               with:
-                  cmd: test-github
+                  cmd: test
               env:
                   MONGO: mongodb
-                  MONGO_DATABASE: test
+                  MONGO_TEST_PORT: 27017
+                  CRYPT_JWK: dJiIIitCDeULqrHq5DBhP0QMZKHXZ2kqQpEjG2hLP3s

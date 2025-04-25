@@ -7,8 +7,7 @@
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "test": "MONGO_PORT=27018 jest --no-cache --forceExit --coverage",
-        "test-github": "jest --no-cache --forceExit --coverage",
+        "test": "jest --no-cache --forceExit --coverage",
         "lint": "eslint ./app/**/*.tsx ./app/**/*.ts ./common/**/*.ts ./common/**/*.tsx"
     },
     "dependencies": {
