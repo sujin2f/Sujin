@@ -13,4 +13,5 @@ const connection = IS_TEST
     : `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${uri}:27017/${process.env.MONGO_DATABASE}?authSource=${process.env.MONGO_DATABASE}`
 
 const getClient = async () => await MongoClient.connect(connection, options)
+console.log(connection)
 export default getClient

@@ -21,7 +21,9 @@ jest.mock('next-auth', () => ({
 
 describe('migration.spec.ts', () => {
     beforeAll(async () => {
-        await clearMongo()
+        await clearMongo().catch((e) => {
+            console.error(e)
+        })
     })
 
     afterEach(async () => {
