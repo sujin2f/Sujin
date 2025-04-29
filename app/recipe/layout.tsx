@@ -1,30 +1,27 @@
 import type { PropsWithChildren } from 'react'
-import { getServerSession } from 'next-auth'
 /* Components */
 import Wrapper from '@app/_components/Wrapper'
-import { Excerpt } from '@app/recipe/excerpt'
-import { AdminWrapperServer } from '@app/_components/session/AdminWrapperServer'
+import { Excerpt } from '@app/recipe/_components/Excerpt'
 /* CONSTANTS */
 import { MENU_NAMES } from '@app/_lib/types'
-import { authOptions } from '@app/api/auth/constants'
+/* Utils */
+import { getCurrentUser } from '@app/_lib/data/mongo/user'
 /* Assets */
 import './style.scss'
 
 export default async function Layout({ children }: PropsWithChildren) {
-    const session = await getServerSession(authOptions)
+    const user = await getCurrentUser().catch(() => undefined)
     return (
-        <AdminWrapperServer>
-            <Wrapper
-                menu={MENU_NAMES.MAIN}
-                className="wrapper--recipe sujin"
-                large={8}
-                largeOffset={2}
-                small={12}
-                title="Recipe"
-                excerpt={<Excerpt name={session?.user?.name || undefined} />}
-            >
-                <article>{children}</article>
-            </Wrapper>
-        </AdminWrapperServer>
+        <Wrapper
+            menu={MENU_NAMES.MAIN}
+            className="wrapper--recipe sujin"
+            large={8}
+            largeOffset={2}
+            small={12}
+            title="Recipe"
+            excerpt={<Excerpt user={user} />}
+        >
+            <article className="--gap__bottom">{children}</article>
+        </Wrapper>
     )
 }

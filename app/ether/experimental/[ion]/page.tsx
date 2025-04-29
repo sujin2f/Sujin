@@ -11,7 +11,7 @@ import type { Nullable } from '@common/types'
 import type { ISpectrum } from '@app/ether/data/types'
 /* Utils */
 import { fetchGQL } from '@common/data/graphql/fetchGQL'
-import GQL from '@app/api/graphql/constants'
+import GQL from '@app/api/graphql/_lib/constants'
 /* Models */
 import { DataContainer } from '@app/ether/data/models/DataContainer'
 

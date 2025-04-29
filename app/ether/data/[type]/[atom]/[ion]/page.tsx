@@ -12,7 +12,7 @@ import { Table } from '@app/ether/data/_components/Table'
 import type { Nullable } from '@common/types'
 import type { ISpectrum } from '@app/ether/data/types'
 import { fetchGQL } from '@common/data/graphql/fetchGQL'
-import GQL from '@app/api/graphql/constants'
+import GQL from '@app/api/graphql/_lib/constants'
 import { DataContainer } from '@app/ether/data/models/DataContainer'
 
 export default function DataPage() {

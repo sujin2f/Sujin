@@ -6,6 +6,9 @@ import type {
     Document,
     InsertOneOptions,
     FindOptions,
+    Collection,
+    UpdateOptions,
+    DeleteOptions,
 } from 'mongodb'
 import { MONGO_DATABASE } from '../../constants/helper'
 import { compareVersions } from '../../utils/system'
@@ -68,17 +71,26 @@ export const migrate = async (
     return versions
 }
 
+/**
+ * @param collection
+ * @param doc
+ * @param options
+ * @throws {DatabaseError} Could not find the result
+ */
 export const findOne = async <T extends Document>(
-    collectionName: string,
+    collection: string | Collection<T>,
     doc: Filter<T>,
     options?: Omit<FindOptions, 'timeoutMode'>,
 ) => {
-    const collection = await getCollection<T>(collectionName)
-    return await collection.findOne(doc, options).then((result) => {
+    const table =
+        typeof collection === 'string'
+            ? await getCollection<T>(collection)
+            : collection
+    return await table.findOne(doc, options).then((result) => {
         if (!result) {
             throw new DatabaseError(
                 'Mongo findOne does not have any result.',
-                collectionName,
+                table.collectionName,
                 doc,
             )
         }
@@ -87,37 +99,71 @@ export const findOne = async <T extends Document>(
 }
 
 export const insertOne = async <T extends Document>(
-    collectionName: string,
+    collection: string | Collection<T>,
     doc: OptionalUnlessRequiredId<T>,
     options?: InsertOneOptions,
 ) => {
-    const collection = await getCollection<T>(collectionName)
-    return await collection.insertOne(doc, options)
+    const table =
+        typeof collection === 'string'
+            ? await getCollection<T>(collection)
+            : collection
+    return await table.insertOne(doc, options)
+}
+
+export const updateOne = async <T extends Document>(
+    collection: string | Collection<T>,
+    filter: Filter<T>,
+    doc: T,
+    options?: UpdateOptions,
+) => {
+    const table =
+        typeof collection === 'string'
+            ? await getCollection<T>(collection)
+            : collection
+    return await table.updateOne(filter, doc, options)
+}
+
+export const deleteOne = async <T extends Document>(
+    collection: string | Collection<T>,
+    filter: Filter<T>,
+    options?: DeleteOptions,
+) => {
+    const table =
+        typeof collection === 'string'
+            ? await getCollection<T>(collection)
+            : collection
+    return await table.deleteOne(filter, options)
 }
 
 export const findWithCount = async <T extends Document>(
-    collectionName: string,
+    collection: string | Collection<T>,
     filter: Filter<T>,
 ) => {
-    const collection = await getCollection<T>(collectionName)
-    const find = collection.find(filter)
-    const count = await collection.countDocuments(filter)
+    const table =
+        typeof collection === 'string'
+            ? await getCollection<T>(collection)
+            : collection
+    const find = table.find(filter)
+    const count = await table.countDocuments(filter)
 
     return { find, count }
 }
 
 export const insertOrReplace = async <T extends Document>(
-    collectionName: string,
+    collection: string | Collection<T>,
     filter: Filter<T>,
     update: OptionalUnlessRequiredId<T>,
 ): Promise<InferIdType<T>> => {
-    const collection = await getCollection<T>(collectionName)
-    return await collection.findOne(filter).then(async (doc) => {
+    const table =
+        typeof collection === 'string'
+            ? await getCollection<T>(collection)
+            : collection
+    return await table.findOne(filter).then(async (doc) => {
         if (doc) {
-            await collection.replaceOne(filter, update)
+            await table.replaceOne(filter, update)
             return doc._id
         }
-        const result = await collection.insertOne(update)
+        const result = await table.insertOne(update)
         return result.insertedId
     })
 }

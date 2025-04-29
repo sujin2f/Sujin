@@ -127,6 +127,10 @@ dd {
     padding: 0;
 }
 
+fieldset {
+    margin: 0;
+}
+
 code:not(.hljs),
 kbd {
     font-family: monospace;
@@ -198,8 +202,19 @@ article {
 .--center {
     text-align: center;
 }
+
 .--right {
     text-align: right;
+}
+
+.--fit-content {
+    width: 1% !important;
+    min-width: fit-content !important;
+    white-space: nowrap;
+}
+
+.--gap__bottom {
+    margin-bottom: var(--gap) !important;
 }
 
 /**

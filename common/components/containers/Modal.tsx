@@ -5,7 +5,7 @@ import { CloseButton } from '../forms/CloseButton'
 import Button from '../forms/Button'
 import Overlay from '../containers/Overlay'
 import { MouseEventCallback } from '../../types/react'
-import { KeyCodes } from '@common/constants/keycode'
+import { KeyCodes } from '../../constants/keycode'
 
 type Props = {
     closeModal?: MouseEventCallback
@@ -66,8 +66,8 @@ const Modal = ({
 
     return (
         <Overlay onClick={close} className={className}>
-            <div className="modal__wrapper">
-                <div className="modal">{children}</div>
+            <div className="modal --fit-content">
+                {children}
 
                 {closeButton && (
                     <Button

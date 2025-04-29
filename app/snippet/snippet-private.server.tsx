@@ -4,7 +4,7 @@ import { HOUR_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV, languages, VERSION } from '@common/constants/helper'
 import { Table } from '@app/snippet/snippet-table'
 import { Suspense } from 'react'
-import { getUser } from '@app/_lib/data/mongo/user'
+import { getCurrentUser } from '@app/_lib/data/mongo/user'
 import { notFound } from 'next/navigation'
 import Input from '@common/components/forms/Input'
 import Button from '@common/components/forms/Button'
@@ -12,17 +12,12 @@ import Select from '@common/components/forms/Select'
 
 type Props = {
     page: number
-    email: string
 }
 
-export async function PrivateServer({ page, email }: Props) {
-    const userId = await getUser(email).then((user) => {
-        if (!user) return undefined
-        return user._id.toString()
-    })
-    if (!userId) {
-        return notFound()
-    }
+export async function PrivateServer({ page }: Props) {
+    const userId = await getCurrentUser()
+        .then((user) => user._id)
+        .catch(() => notFound())
 
     const request = unstable_cache(
         async (page) => await getCachedMySnippets(userId, page),

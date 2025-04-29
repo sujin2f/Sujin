@@ -1,13 +1,6 @@
 /* Components */
-import Wrapper from '@app/_components/Wrapper'
-import { CaseToolClient } from '@app/dev-tools/case/case-tool-client'
-/* CONSTANTS */
-import { MENU_NAMES } from '@app/_lib/types'
+import { CaseToolClient } from '@app/dev-tools/_components/case-tool-client'
 
 export default function CaseTool() {
-    return (
-        <Wrapper menu={MENU_NAMES.DEV_TOOL} className="sujin">
-            <CaseToolClient />
-        </Wrapper>
-    )
+    return <CaseToolClient />
 }

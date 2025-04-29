@@ -14,7 +14,7 @@ describe('Modal.ts', () => {
             return <Modal show />
         }
         const result = render(<Component />)
-        const reveal = result.container.querySelector('.modal__wrapper')
+        const reveal = result.container.querySelector('.modal')
         expect(reveal).toBeTruthy()
     })
 })

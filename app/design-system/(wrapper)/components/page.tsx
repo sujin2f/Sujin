@@ -10,14 +10,17 @@ import Switch from '@common/components/forms/Switch'
 import InputGroup from '@common/components/forms/InputGroup'
 import Code from '@common/components/containers/Code'
 import Button from '@common/components/forms/Button'
-import { Loading } from '@app/_components/archive/loading'
+import { Loading } from '@app/archive/_components/Loading'
 import { MENU_NAMES } from '@app/_lib/types'
 import ButtonGroup from '@common/components/forms/ButtonGroup'
 import Modal from '@common/components/containers/Modal'
+import { QuantumBool } from '@common/types'
+import Confirm from '@common/components/containers/Confirm'
 
 export default function Page() {
     const [theme, setTheme] = useState('sujin')
-    const [showModal, setShowModal] = useState(false)
+    const [modal, setModal] = useState(false)
+    const [confirm, setConfirm] = useState<QuantumBool>(QuantumBool.FALSE)
     return (
         <Wrapper
             className={`wrapper--design-system ${theme}`}
@@ -207,12 +210,23 @@ export default function Page() {
                 </ButtonGroup>
 
                 <h2>Modal</h2>
-                <Button onClick={() => setShowModal(!showModal)}>
-                    Open Modal
-                </Button>
-                <Modal show={showModal}>
+                <Button onClick={() => setModal(!modal)}>Open Modal</Button>
+                <Modal show={modal}>
                     <p>Modal</p>
                 </Modal>
+                <h3>Usage</h3>
+                <Code lang="javascript">{`<Modal show={true} closeButton={true} esc={false}>
+    <p>Content</p>
+</Modal>
+`}</Code>
+
+                <h2>Confirm</h2>
+                <Button onClick={() => setConfirm(QuantumBool.MOD)}>
+                    {confirm === QuantumBool.TRUE ? 'Confirmed' : 'Confirm'}
+                </Button>
+                <Confirm callback={setConfirm} value={confirm}>
+                    <p>Do you really want to do this?</p>
+                </Confirm>
                 <h3>Usage</h3>
                 <Code lang="javascript">{`<Modal show={true} closeButton={true} esc={false}>
     <p>Content</p>

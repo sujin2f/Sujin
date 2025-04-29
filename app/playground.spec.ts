@@ -2,35 +2,45 @@
 
 import { Binary } from 'mongodb'
 import { hash } from 'node:crypto'
-import { getCollection, getDatabase } from '@common/data/mongo/mongo'
-import { COLLECTION, T_Archive } from './_lib/types'
-import { getAggregation } from '@app/_lib/utils-server'
-import { PER_PAGE } from './_lib/data/mysql/constants'
-import { categoryFactory } from '@jest/helpers'
+import { findOne, getCollection, getDatabase } from '@common/data/mongo/mongo'
+import { COLLECTION, T_Archive, T_Post } from './_lib/types'
+import { getAggregation } from '@app/_lib/utils/server'
+// import { PER_PAGE } from './_lib/data/mysql/constants'
+import { categoryFactory, postFactory } from '@jest/helpers'
+import { T_Mongo, T_Stringify } from '@common/types/mongo'
 
-async function a() {
-    const collection = await getCollection<T_Archive>(COLLECTION.ARCHIVE)
-    await collection
-        .aggregate<T_Archive>([
+async function a(slug: string) {
+    const collection = await getCollection<T_Post>(COLLECTION.POST)
+    const result = await collection
+        .aggregate<T_Stringify<T_Post, 'archives'>>([
             {
-                $match: { type: 'category' },
+                $match: {
+                    slug,
+                },
             },
-            ...getAggregation('paging', 2),
             ...getAggregation('_id'),
+            ...getAggregation('expand-archive'),
         ])
         .toArray()
+    return result[0]
 }
 
-async function b() {
-    const collection = await getCollection<T_Archive>(COLLECTION.ARCHIVE)
-    await collection
-        .find({ type: 'category' })
-        .skip(PER_PAGE * (2 - 1))
-        .limit(PER_PAGE)
-        .toArray()
-        .then((items) =>
-            items.map((item) => ({ ...item, _id: item._id.toString() })),
-        )
+async function b(slug: string) {
+    return await findOne<T_Mongo<T_Post>>(COLLECTION.POST, {
+        slug,
+    }).then(async (post) => {
+        const collection = await getCollection<T_Archive>(COLLECTION.ARCHIVE)
+        const archives = await collection
+            .find({ _id: { $in: post.archives } })
+            .map((archive) => ({ ...archive, _id: archive._id.toString() }))
+            .toArray()
+
+        return {
+            ...post,
+            _id: post._id.toString(),
+            archives,
+        }
+    })
 }
 
 // function perform(data: string[], ...callback: (() => unknown)[]) {
@@ -45,17 +55,37 @@ async function b() {
 // }
 
 describe('Performance Test', () => {
-    // const testData: string[] = Array(999).fill('')
-
     test.skip('performance', async () => {
-        for (let i = 0; i < 30; i++) {
-            await categoryFactory()
+        const category1 = await categoryFactory()
+        const category2 = await categoryFactory()
+        const category3 = await categoryFactory()
+        const category4 = await categoryFactory()
+        const category5 = await categoryFactory()
+
+        const testData: string[] = []
+
+        for (let i = 0; i < 100; i++) {
+            const post = await postFactory({
+                archives: [
+                    category1._id,
+                    category2._id,
+                    category3._id,
+                    category4._id,
+                    category5._id,
+                ],
+            })
+            testData.push(post.slug)
         }
 
+        // for (let i = 0; i < 30; i++) {
+        //     await categoryFactory()
+        // }
+
+        await a(testData[0])
         const startTime = performance.now()
-        for (let i = 0; i < 300; i++) {
-            await a()
-            await b()
+        for (let i = 0; i < 100; i++) {
+            // await a(testData[i])
+            await b(testData[i])
         }
         const endTime = performance.now()
         console.log(

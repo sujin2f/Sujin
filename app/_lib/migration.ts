@@ -4,15 +4,15 @@ import type { T_Migration } from '@common/data/mongo/mongo'
 /* CONSTANTS */
 import { MONGO_DATABASE } from '@common/constants/helper'
 import { ARCHIVE, COLLECTION, T_Archive, T_Post } from '@app/_lib/types'
-import { default as SCHEMA_10_2_6 } from '@app/_lib/data/mongo/schema/10.2.6'
-import { default as SCHEMA_10_3_2 } from '@app/_lib/data/mongo/schema/10.3.2'
-import { default as SCHEMA_10_3_3 } from '@app/_lib/data/mongo/schema/10.3.3'
-import { default as SCHEMA_10_3_4 } from '@app/_lib/data/mongo/schema/10.3.4'
+import { default as SCHEMA_10_2_6 } from '@app/_lib/schema/10.2.6'
+import { default as SCHEMA_10_3_2 } from '@app/_lib/schema/10.3.2'
+import { default as SCHEMA_10_3_3 } from '@app/_lib/schema/10.3.3'
+import { default as SCHEMA_10_3_4 } from '@app/_lib/schema/10.3.4'
 /* Models */
 import Cached from '@common/model/Cached'
 /* Utils */
-import { updateBackgrounds } from '@app/_lib/data/mongo/wordpress/background'
-import { setSystemOption } from '@app/_lib/data/mongo/admin'
+import { setOption } from '@app/admin/_lib/options'
+import { updateBackgrounds } from '@app/admin/_lib/updateBackgrounds'
 
 const migration: T_Migration = {
     '10.3.4': async (client) => {
@@ -48,9 +48,9 @@ const migration: T_Migration = {
 
                 await database
                     .collection(COLLECTION.RECIPE)
-                    .createIndex({ ingredients: 'text' })
+                    .createIndex({ search: 'text' })
 
-                await setSystemOption('version', '10.3.4')
+                await setOption('version', '10.3.4')
             })
         } finally {
             await session.endSession()

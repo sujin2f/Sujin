@@ -180,6 +180,6 @@ export const phpUnSerialize = (input: string) => {
     try {
         return JSON.parse(result)
     } catch {
-        throw new IOError(result).options(phpUnSerialize)
+        throw new IOError(result).setCause(phpUnSerialize)
     }
 }

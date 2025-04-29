@@ -9,7 +9,7 @@ import Column from '@common/components/layout/Column'
 import Select from '@common/components/forms/Select'
 /* Helpers */
 import { periodicTable } from '@app/ether/data/constants'
-import { getAtom } from '@app/ether/data/utils'
+import { getAtom } from '@app/ether/_lib/client'
 import { romanize } from '@common/utils/number'
 import type { Atom } from '@app/ether/data/models/Atom'
 

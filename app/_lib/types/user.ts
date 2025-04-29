@@ -6,7 +6,9 @@ export type T_User = WithId<{
     image: string
 }>
 
-export type T_UserParsed = WithId<{
+export type T_SessionUser = {
+    _id: string
     name: string
-    image: string
-}>
+    email: string
+    image?: string
+}

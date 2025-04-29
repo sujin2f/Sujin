@@ -5,19 +5,22 @@ import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/dis
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default'
 import type { NextRequest } from 'next/server'
 /* Utils */
-import { getFlickr } from '@app/_lib/data/flickr/request'
 import { createGQLOptions } from '@common/data/graphql/createExpressRouter'
 import { isEmpty } from '@common/utils/object'
-import { getSpectraFromNIST } from '@app/_lib/data/mongo/ether/spectra'
-import { mutatePost } from '@app/_lib/data/mongo/wordpress/post'
-import { getTagCloud, mutateTag } from '@app/_lib/data/mongo/wordpress/tag'
+import { getFlickr } from '@app/api/graphql/_lib/flickr/request'
+import { getTagCloud } from '@app/api/graphql/_lib/getTagCloud'
+import { getSpectraFromNIST } from '@app/ether/_lib/spectra'
+import {
+    mutateTag,
+    mutatePost,
+    mutatePage,
+    mutateBackground,
+    mutateCategory,
+} from '@app/api/graphql/_lib/wp-mutates'
 /* Constants */
-import GQL from '@app/api/graphql/constants'
+import GQL from '@app/api/graphql/_lib/constants'
 import { IS_DEV, VERSION } from '@common/constants/helper'
 import { MINUTE_IN_SECONDS } from '@common/constants/datetime'
-import { mutatePage } from '@app/_lib/data/mongo/wordpress/page'
-import { mutateBackground } from '@app/_lib/data/mongo/wordpress/background'
-import { mutateCategory } from '@app/_lib/data/mongo/wordpress/category'
 
 const options = createGQLOptions(
     // Types

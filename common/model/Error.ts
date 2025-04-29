@@ -1,20 +1,45 @@
+import { isEmpty } from '../utils/object'
 import Logger from './Logger'
 
 export abstract class A_Error extends Error {
-    constructor(message: string, ...data: unknown[]) {
+    public messages: unknown[] = []
+
+    constructor(public message: string, ...messages: unknown[]) {
         super(message)
-        Logger.server(
-            `🤬 ${message}`,
-            ...data.map((data) => {
-                if (typeof data === 'object' || Array.isArray(data))
-                    return JSON.stringify(data)
-                return data
-            }),
-        )
+        this.messages = messages
     }
 
-    public options(cause: unknown) {
+    public setCause(cause: unknown) {
         this.cause = cause
+        return this
+    }
+
+    public log() {
+        const message = this.stack || this.message
+        const messages = this.messages
+            .map((data) => {
+                if (
+                    (typeof data === 'object' || Array.isArray(data)) &&
+                    !isEmpty(data)
+                )
+                    return JSON.stringify(data)
+                return data
+            })
+            .filter((v) => v)
+
+        if (messages.length) {
+            Logger.server(`🤬 ${message}`, messages)
+        } else {
+            Logger.server(`🤬 ${message}`)
+        }
+
+        if (this.cause) {
+            if (this.cause instanceof A_Error) {
+                this.cause.log()
+            } else if (this.cause instanceof Error) {
+                Logger.server(this.cause.message)
+            }
+        }
         return this
     }
 }
@@ -24,5 +49,13 @@ export class InternalError extends A_Error {}
 export class NodeModuleError extends InternalError {}
 export class EnvironmentError extends InternalError {}
 export class DatabaseError extends InternalError {}
+export class NoContentError extends DatabaseError {
+    name = '204 No Content'
+}
 export class FetchError extends A_Error {}
-export class PermissionError extends A_Error {}
+export class UnauthorizedError extends A_Error {
+    name = '401 Unauthorized'
+}
+export class ForbiddenError extends A_Error {
+    name = '403 Forbidden'
+}

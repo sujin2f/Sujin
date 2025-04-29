@@ -7,7 +7,7 @@ import Wrapper from '@app/_components/Wrapper'
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV, VERSION } from '@common/constants/helper'
 /* Utils */
-import { getCachedBackgrounds } from '@app/_lib/data/mongo/wordpress/background'
+import { getCachedBackgrounds } from '@app/_lib/data/mongo/background'
 /* Assets */
 import Logo from '@app/_lib/images/logo.svg'
 import '@app/scss/front-page.scss'

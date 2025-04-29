@@ -2,7 +2,7 @@
 import type { PropsWithChildren } from 'react'
 import { getServerSession } from 'next-auth'
 import { SessionProviderClient } from '@app/_components/session/SessionProviderClient'
-import { authOptions } from '@app/api/auth/constants'
+import { authOptions } from '@app/api/auth/_lib/constants'
 
 /**
  * Wrap with this component to use your client component could use the session

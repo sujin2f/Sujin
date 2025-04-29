@@ -1,7 +1,11 @@
 import type { PropsWithChildren } from 'react'
 import type { Metadata } from 'next/types'
+/* Components */
+import Wrapper from '@app/_components/Wrapper'
 /* Utils */
-import { getMetaData } from '@app/_lib/utils-server'
+import { getMetaData } from '@app/_lib/utils/server'
+/* CONSTANTS */
+import { MENU_NAMES } from '@app/_lib/types'
 /* Assets */
 import '@app/scss/dev-tools.scss'
 
@@ -18,5 +22,9 @@ export const generateMetadata = async (): Promise<Metadata> => {
 }
 
 export default async function Layout({ children }: PropsWithChildren) {
-    return children
+    return (
+        <Wrapper menu={MENU_NAMES.DEV_TOOL} className="sujin">
+            {children}
+        </Wrapper>
+    )
 }

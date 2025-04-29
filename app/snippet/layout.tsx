@@ -5,7 +5,7 @@ import { Excerpt } from '@app/snippet/excerpt'
 import { AdminWrapperServer } from '@app/_components/session/AdminWrapperServer'
 /* CONSTANTS */
 import { MENU_NAMES } from '@app/_lib/types'
-import { authOptions } from '@app/api/auth/constants'
+import { authOptions } from '@app/api/auth/_lib/constants'
 /* Utils */
 import { getServerSession } from 'next-auth'
 /* Assets */

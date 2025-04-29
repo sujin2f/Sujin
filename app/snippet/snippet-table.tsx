@@ -1,6 +1,6 @@
 import Component from '@common/components/containers/Table'
 import Row from '@app/snippet/row'
-import { Paging } from '@app/_components/archive/paging'
+import { Paging } from '@app/_components/Paging'
 import { PropWithPages, T_Snippets } from '@app/_lib/types'
 
 type Props = {

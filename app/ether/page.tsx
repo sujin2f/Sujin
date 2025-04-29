@@ -1,5 +1,5 @@
 /* Components */
-import { PrevNext } from '@app/_components/single/PrevNext'
+import { PrevNext } from '@app/(single)/_components/PrevNext'
 import Wrapper from '@app/ether/wrapper'
 
 export default function Intro() {

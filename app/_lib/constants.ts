@@ -1,4 +1,7 @@
+import { PHASE_PRODUCTION_BUILD } from 'next/constants'
 import { MENU_NAMES } from '@app/_lib/types'
+import { HOUR_IN_SECONDS } from '@common/constants/datetime'
+import { IS_DEV } from '@common/constants/helper'
 import type { MenuItem } from '@common/types/menu'
 
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
@@ -373,3 +376,8 @@ export const MENUS: Record<MENU_NAMES, MenuItem[]> = {
         },
     ],
 } as const
+
+export const revalidate =
+    IS_DEV || process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD
+        ? 1
+        : HOUR_IN_SECONDS

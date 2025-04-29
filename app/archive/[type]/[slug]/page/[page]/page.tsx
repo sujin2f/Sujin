@@ -1,20 +1,26 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next/types'
 /* Components */
-import { SearchServer } from '@app/archive/search.server'
-import { ArchiveServer, getMetadata } from '@app/archive/archive.server'
+import { SearchServer } from '@app/archive/_components/Search.server'
+import { ArchiveServer } from '@app/archive/_components/Archive.server'
 /* CONSTANTS */
-import { ARCHIVE, ARCHIVE_URL, type ArchiveProp } from '@app/_lib/types'
+import { ARCHIVE, ARCHIVE_URL } from '@app/_lib/types'
+/* Utils */
+import { getMetadata } from '@app/archive/_lib/getMetadata'
 
 type Props = {
-    params: Promise<ArchiveProp>
+    params: Promise<{
+        type: string
+        slug: string
+        page: string
+    }>
 }
 
-export const generateMetadata = async ({
-    params,
-}: Props): Promise<Metadata> => {
-    // Param
-    const { page, type, slug } = await params
+export const generateMetadata = async (props: Props): Promise<Metadata> => {
+    const { type, ...params } = await props.params
+    const slug = params.slug.toLowerCase()
+    const page = parseInt(params.page)
+
     if (Object.keys(ARCHIVE_URL).includes(type)) {
         return {}
     }
@@ -30,19 +36,20 @@ export const generateMetadata = async ({
         }
     }
 
-    return getMetadata({ page, type, slug })
+    return getMetadata({ page, type: type as ARCHIVE_URL, slug })
 }
 
-export default async function Page({ params }: Props) {
-    const { page, type, slug: title } = await params
-    const slug = title.toLowerCase()
+export default async function Archive(props: Props) {
+    const { type, ...params } = await props.params
+    const slug = params.slug.toLowerCase()
+    const page = parseInt(params.page)
     if (Object.keys(ARCHIVE_URL).includes(type)) {
         notFound()
     }
 
     return type === ARCHIVE.SEARCH ? (
-        <SearchServer page={page} type={type} slug={slug} />
+        <SearchServer page={page} slug={slug} />
     ) : (
-        <ArchiveServer page={page} type={type} slug={slug} />
+        <ArchiveServer page={page} type={type as ARCHIVE_URL} slug={slug} />
     )
 }

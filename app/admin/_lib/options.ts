@@ -1,0 +1,57 @@
+import sanitize from 'mongo-sanitize'
+/* Models */
+import Cached from '@common/model/Cached'
+import { UnauthorizedError } from '@common/model/Error'
+/* CONSTANTS */
+import { ERROR_MESSAGE } from '@app/_lib/constants-error'
+/* Utils */
+import { isAdmin } from '@app/_lib/data/mongo/user'
+import { getCacheKey } from '@app/_lib/utils/cache'
+import { cachedRequest } from '@app/_lib/utils/cache'
+/* T_Types */
+import { COLLECTION } from '@app/_lib/types'
+import { findOne, insertOrReplace } from '@common/data/mongo/mongo'
+
+/**
+ * Get site-wide system options.
+ *
+ * @param {string} _key - The key of the option.
+ * @returns {Promise<string>} Value
+ */
+export const getCachedOption = async (_key: string): Promise<string> => {
+    const key = sanitize(_key)
+    let error: Error | null = null
+    const value = await cachedRequest(
+        COLLECTION.OPTIONS,
+        [key],
+        async () =>
+            await findOne(COLLECTION.OPTIONS, { key })
+                .then((result) => result.value)
+                .catch((e) => {
+                    // Failed to find the post, cache false
+                    error = e
+                    return false
+                }),
+    )
+    if (error) {
+        throw error
+    }
+    return value
+}
+
+/**
+ * Set site-wide system options.
+ *
+ * @param {string} _key - The key of the option.
+ * @param {string} _value - The value of the option.
+ */
+export const setOption = async (_key: string, _value: string) => {
+    const key = sanitize(_key)
+    const value = sanitize(_value)
+
+    if (!(await isAdmin()))
+        throw new UnauthorizedError(ERROR_MESSAGE.UNAUTHORIZED)
+
+    await Cached.getInstance().flush(getCacheKey(COLLECTION.OPTIONS, key))
+    return await insertOrReplace(COLLECTION.OPTIONS, { key }, { key, value })
+}

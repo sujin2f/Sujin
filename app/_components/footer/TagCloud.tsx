@@ -2,10 +2,10 @@
 import React from 'react'
 import Link from 'next/link'
 /* Components */
-import { Loading } from '@app/_components/archive/loading'
+import { Loading } from '@app/archive/_components/Loading'
 /* CONSTANTS */
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
-import GQL from '@app/api/graphql/constants'
+import GQL from '@app/api/graphql/_lib/constants'
 /* Utils */
 import useIntersectionGQL from '@common/hooks/useIntersectionGQL'
 

@@ -1,19 +1,17 @@
+import { Suspense } from 'react'
 import { unstable_cache } from 'next/cache'
+
 import { getCachedAllSnippets } from '@app/_lib/data/mongo/snippet'
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV, VERSION } from '@common/constants/helper'
 import { Table } from '@app/snippet/snippet-table'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@app/api/auth/constants'
-import { Suspense } from 'react'
-import { getUser } from '@app/_lib/data/mongo/user'
+import { getCurrentUser } from '@app/_lib/data/mongo/user'
 
 type Props = {
     page: number
 }
 
 export async function PublicServer({ page }: Props) {
-    const session = await getServerSession(authOptions)
     const request = unstable_cache(
         async (page) => await getCachedAllSnippets(page),
         [page.toString(), VERSION],
@@ -23,13 +21,9 @@ export async function PublicServer({ page }: Props) {
         },
     )
 
-    let userId: string | undefined = undefined
-    if (session?.user?.email) {
-        userId = await getUser(session?.user?.email).then((user) => {
-            if (!user) return undefined
-            return user._id.toString()
-        })
-    }
+    const userId = await getCurrentUser()
+        .then((user) => user._id)
+        .catch(() => undefined)
 
     const columns = userId ? ['title', 'tags', 'import'] : ['title', 'tags']
 

@@ -4,10 +4,10 @@ import type { Metadata } from 'next'
 /* Components */
 import Wrapper from '@app/_components/Wrapper'
 import { WidgetTitle } from '@app/_components/WidgetTitle'
-import { CardsServer } from '@app/_components/archive/cards.server'
-import { Loading } from '@app/_components/archive/loading'
+import { CardsServer } from '@app/archive/_components/Cards.server'
+import { Loading } from '@app/archive/_components/Loading'
 /* Utils */
-import { getCachedRecentPosts } from './_lib/data/mongo/wordpress/post'
+import { getCachedRecentPosts } from '@app/(single)/_lib/getCachedRecentPosts'
 /* CONSTANTS */
 import { MENU_NAMES } from '@app/_lib/types'
 import { IS_DEV, VERSION } from '@common/constants/helper'
@@ -51,7 +51,6 @@ export default async function NotFound({ menu }: Props) {
                         large={4}
                         medium={6}
                         small={12}
-                        showNotFound={false}
                     />
                 </Suspense>
             </main>

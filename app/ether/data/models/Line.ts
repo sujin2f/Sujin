@@ -1,7 +1,7 @@
 import { default as quartic } from 'quartic'
 
 import { Spectrum } from '@app/ether/data/models/Spectrum'
-import { getAtom } from '@app/ether/data/utils'
+import { getAtom } from '@app/ether/_lib/client'
 import { jouleToEv, ROW_HEAD } from '@app/ether/data/constants'
 
 export class Line {

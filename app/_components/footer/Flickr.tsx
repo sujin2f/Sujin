@@ -4,9 +4,9 @@ import React from 'react'
 import { Card } from '@common/components/containers/Card'
 import Column from '@common/components/layout/Column'
 import Row from '@common/components/layout/Row'
-import { Loading } from '@app/_components/archive/loading'
+import { Loading } from '@app/archive/_components/Loading'
 /* CONSTANTS */
-import GQL from '@app/api/graphql/constants'
+import GQL from '@app/api/graphql/_lib/constants'
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 /* Utils */
 import useIntersectionGQL from '@common/hooks/useIntersectionGQL'

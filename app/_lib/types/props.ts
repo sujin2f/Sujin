@@ -18,7 +18,7 @@ export type BannerProps = {
 export type ArchiveProp = {
     type: ARCHIVE_URL
     slug: string
-    page: number
+    page: string
 }
 
 export type PropWithPages<T> = {

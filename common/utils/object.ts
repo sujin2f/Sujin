@@ -127,7 +127,7 @@ const objectFormatter = (input: T_Object, schema: T_Object): T_Object => {
         throw new IOError(
             'Object schema does not have properties',
             schema,
-        ).options(objectFormatter)
+        ).setCause(objectFormatter)
     }
 
     const formatted: T_Object = {}
@@ -148,7 +148,7 @@ const objectFormatter = (input: T_Object, schema: T_Object): T_Object => {
                 throw new IOError(
                     `Required filed ${key} is missing`,
                     schema,
-                ).options(objectFormatter)
+                ).setCause(objectFormatter)
             }
         })
     }

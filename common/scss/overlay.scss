@@ -10,30 +10,18 @@
     left: 0;
     z-index: 11000;
     padding: var(--gap);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.modal__wrapper {
+.modal {
     background-color: var(--white);
-    height: 100%;
-    width: 100%;
+    max-height: 100%;
     margin: 0 auto;
-    position: relative;
     overflow-y: scroll;
-
-    @include mixin.large {
-        width: variable.$large;
-    }
-
-    @include mixin.extra-large {
-        width: variable.$extra-large;
-    }
-
-    .modal {
-        height: calc(100% - 2 * var(--gap));
-        width: calc(100% - 3 * var(--gap));
-        overflow-y: scroll;
-        margin: var(--gap);
-    }
+    position: relative;
+    padding: 0.5em 3em 0.5em 0.5em;
 
     .button.button--close {
         position: absolute;
@@ -44,4 +32,10 @@
             font-size: 2.5em;
         }
     }
+}
+
+.confirm {
+    background-color: var(--white);
+    padding: var(--gap);
+    margin: auto;
 }

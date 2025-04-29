@@ -19,7 +19,7 @@ export type UNITS = ConstToType<typeof UNITS>
 export type T_Recipe = WithId<{
     title: string
     url: string
-    ingredients: string
-    recipe: { title: string; amount: number; unit: UNITS }[]
+    search: string
+    ingredients: { title: string; amount: number; unit: UNITS }[]
     user: T_User
 }>
