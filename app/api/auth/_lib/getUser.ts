@@ -1,6 +1,6 @@
 'use server'
 import { Binary } from 'mongodb'
-import { hash } from 'node:crypto'
+import { createHash } from 'node:crypto'
 import sanitize from 'mongo-sanitize'
 
 import { findOne } from '@common/data/mongo/mongo'
@@ -18,7 +18,10 @@ export const getUser = async (
 ): Promise<Partial<T_SessionUser>> => {
     const email = sanitize(_email)
     const user = await findOne(COLLECTION.USERS, {
-        email: new Binary(Buffer.from(hash('md5', email)), Binary.SUBTYPE_MD5),
+        email: new Binary(
+            Buffer.from(createHash('md5').update(email).digest('hex')),
+            Binary.SUBTYPE_MD5,
+        ),
     }).then(async (user) => {
         const name = await decodeText(user.name.buffer)
         return {

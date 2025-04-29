@@ -1,7 +1,7 @@
 // yarn test playground.spec.ts
 
 import { Binary } from 'mongodb'
-import { hash } from 'node:crypto'
+import { createHash } from 'node:crypto'
 import { findOne, getCollection, getDatabase } from '@common/data/mongo/mongo'
 import { COLLECTION, T_Archive, T_Post } from './_lib/types'
 import { getAggregation } from '@app/_lib/utils/server'
@@ -137,7 +137,9 @@ describe('Performance Test', () => {
                 },
             })
 
-            const h = hash('md5', 'sujin.2f@sujinc.com')
+            const h = createHash('md5')
+                .update('sujin.2f@sujinc.com')
+                .digest('hex')
 
             const inserted = await db.collection('test').insertOne({
                 value: new Binary(Buffer.from(h), Binary.SUBTYPE_MD5),
