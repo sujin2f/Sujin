@@ -1,7 +1,4 @@
 import { ObjectId } from 'mongodb'
-import { notFound } from 'next/navigation'
-/* Models */
-import { A_Error, NoContentError } from '@common/model/Error'
 /* Components */
 import { PostsComponent } from '@app/admin/_components/Posts-client'
 /* Utils */
@@ -17,19 +14,10 @@ type Props = {
 }
 
 export async function PostsServer({ slug, page }: Props) {
-    const archive = await getCachedArchive(slug, ARCHIVE.CATEGORY).catch(
-        (e) => {
-            if (e instanceof NoContentError) {
-                e.log()
-                notFound()
-            }
-            if (e instanceof A_Error) {
-                e.log()
-            }
-            throw e
-        },
+    const archive = await getCachedArchive(slug, ARCHIVE.CATEGORY, true)
+    const posts = await getArchivePosts(new ObjectId(archive._id), page).catch(
+        () => [],
     )
-    const posts = await getArchivePosts(new ObjectId(archive._id), page)
 
     const update = async (slug: string, page: number) => {
         'use server'

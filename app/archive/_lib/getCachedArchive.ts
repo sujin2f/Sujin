@@ -1,7 +1,7 @@
 'use server'
 import sanitize from 'mongo-sanitize'
 /* Models */
-import { A_Error, NoContentError } from '@common/model/Error'
+import { NoContentError } from '@common/model/Error'
 /* CONSTANTS */
 import { ARCHIVE, COLLECTION, T_Archive } from '@app/_lib/types'
 /* Utils */
@@ -20,6 +20,7 @@ import { T_Stringify } from '@common/types/mongo'
 export const getCachedArchive = async (
     _slug: string,
     _type: ARCHIVE,
+    ignoreEmpty: boolean = false,
 ): Promise<T_Stringify<T_Archive>> => {
     const slug = sanitize(_slug)
     const type = sanitize(_type)
@@ -31,7 +32,7 @@ export const getCachedArchive = async (
         async () =>
             await findOne<T_Archive>(COLLECTION.ARCHIVE, { slug, type })
                 .then((archive) => {
-                    if (!archive.total) {
+                    if (!archive.total && !ignoreEmpty) {
                         // Failed to find the post, cache false
                         error = new NoContentError(
                             'Archive is empty.',
@@ -47,14 +48,7 @@ export const getCachedArchive = async (
                 })
                 .catch((e) => {
                     // Failed to find the post, cache false
-                    error =
-                        e instanceof A_Error
-                            ? new NoContentError(
-                                  'Archive cannot be found.',
-                                  slug,
-                                  type,
-                              ).setCause(e)
-                            : e
+                    error = e
                     return false
                 }),
     )

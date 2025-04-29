@@ -1,7 +1,8 @@
 'use client'
-import { useCallback } from 'react'
+import { useCallback, type KeyboardEvent } from 'react'
 import Input, { type InputProps } from './Input'
 import Button from './Button'
+import { KeyCodes } from '../../constants/keycode'
 /* Assets */
 import '../../scss/form.scss'
 
@@ -16,9 +17,12 @@ export const InputGroup = ({ onSubmit, button, ...props }: Props) => {
             ? `${props.id}-help-text`
             : props['aria-describedby']
 
-    const onKeyDown = useCallback(() => {
-        if (onSubmit) onSubmit()
-    }, [onSubmit])
+    const onKeyDown = useCallback(
+        (e: KeyboardEvent<HTMLInputElement>) => {
+            if (onSubmit && e.key === KeyCodes.ENTER) onSubmit()
+        },
+        [onSubmit],
+    )
 
     const label = props.label || 'Label'
 
@@ -27,7 +31,8 @@ export const InputGroup = ({ onSubmit, button, ...props }: Props) => {
             <input
                 className="form__input"
                 aria-describedby={ariaDescribedby}
-                onKeyDown={onKeyDown}
+                onKeyDown={(e) => onKeyDown(e)}
+                {...props}
             />
             <Button title={button} onClick={onSubmit} />
         </Input>
