@@ -51,7 +51,7 @@ export const getCachedRecentPosts = async (): Promise<
                 (list) =>
                     ({
                         list,
-                        pages: 0,
+                        pages: 1,
                     } satisfies PropWithPages<T_ArchivePost>),
             ),
     )

@@ -1,5 +1,5 @@
 import { revalidateTag } from 'next/cache'
-import { ObjectId } from 'mongodb'
+import { Double, ObjectId } from 'mongodb'
 /* Models */
 import Cached from '@common/model/Cached'
 import { UnauthorizedError } from '@common/model/Error'
@@ -29,7 +29,14 @@ export const mutateRecipe = async (recipe: Partial<T_Stringify<T_Recipe>>) => {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { _id, user, ...doc } = recipe
+    const { _id, user, ...doc } = {
+        ...recipe,
+        ingredients: recipe.ingredients!.map((item) => ({
+            ...item,
+            amount: new Double(item.amount),
+        })),
+    }
+    // @todo logging
     if (recipe._id) {
         await updateOne(
             COLLECTION.RECIPE,
@@ -43,8 +50,6 @@ export const mutateRecipe = async (recipe: Partial<T_Stringify<T_Recipe>>) => {
         })
     }
 
-    await Cached.getInstance().flush(
-        getCacheKey(COLLECTION.RECIPE, userId.toString()),
-    )
+    await Cached.getInstance().flush(getCacheKey(COLLECTION.RECIPE))
     revalidateTag('recipe')
 }

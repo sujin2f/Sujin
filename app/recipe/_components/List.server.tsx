@@ -29,7 +29,7 @@ type Props = {
 export async function ListServer({ title = 'Recipes', page, userId }: Props) {
     const user = await getCurrentUser().catch(() => undefined)
     const mine = !!userId
-    if (mine && userId.toString() !== user?._id) {
+    if (mine && !user) {
         throw new ForbiddenError('You must log-in for this service.').log()
     }
 

@@ -10,8 +10,8 @@ import { Loading } from '@app/archive/_components/Loading'
 import { getCachedRecentPosts } from '@app/(single)/_lib/getCachedRecentPosts'
 /* CONSTANTS */
 import { MENU_NAMES } from '@app/_lib/types'
-import { IS_DEV, VERSION } from '@common/constants/helper'
-import { HOUR_IN_SECONDS } from '@common/constants/datetime'
+import { VERSION } from '@common/constants/helper'
+import { revalidate } from '@app/_lib/constants'
 
 export const metadata: Metadata = {
     robots: {
@@ -31,7 +31,7 @@ export default async function NotFound({ menu }: Props) {
         [VERSION],
         {
             tags: ['wordpress', 'post', 'recent-posts'],
-            revalidate: IS_DEV ? 1 : HOUR_IN_SECONDS,
+            revalidate,
         },
     )
 

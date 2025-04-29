@@ -15,11 +15,13 @@ export const LoadingTable = ({
 }: Props) => {
     return (
         <Table className={className} fullWidth={fullWidth}>
-            {map(rows, (_, index) => (
-                <tr key={`loader-${index}`}>
-                    <td className="--loader--text"></td>
-                </tr>
-            ))}
+            <tbody>
+                {map(rows, (_, index) => (
+                    <tr key={`loader-${index}`}>
+                        <td className="--loader--text"></td>
+                    </tr>
+                ))}
+            </tbody>
         </Table>
     )
 }

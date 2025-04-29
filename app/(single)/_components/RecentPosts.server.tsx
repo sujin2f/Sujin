@@ -16,7 +16,7 @@ export const RecentPosts = async ({ current }: { current: number }) => {
         async () =>
             await getCachedRecentPosts().then((recent) => ({
                 ...recent,
-                posts: recent.list
+                list: recent.list
                     .filter((item) => item.id !== current)
                     .slice(0, 4),
             })),

@@ -355,7 +355,7 @@ export const MENUS: Record<MENU_NAMES, MenuItem[]> = {
                 {
                     ...menuFixture,
                     title: 'HTML Elements',
-                    link: '/design-system/elements-article',
+                    link: '/design-system/elements',
                 },
                 {
                     ...menuFixture,

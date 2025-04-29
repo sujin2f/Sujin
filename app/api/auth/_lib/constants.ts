@@ -23,9 +23,9 @@ export const authOptions = {
             })
             return true
         },
-        async jwt({ token, user, account }) {
-            if (account && user && user.email) {
-                token._id = await getUser(user.email).then((user) => user._id)
+        async jwt({ token }) {
+            if (token && token.email && !token._id) {
+                token._id = await getUser(token.email).then((user) => user._id)
             }
             return token
         },
@@ -34,7 +34,7 @@ export const authOptions = {
                 ...session,
                 user: {
                     ...session.user,
-                    _id: token.id as string,
+                    _id: token._id as string,
                 } as T_SessionUser,
             }
         },
