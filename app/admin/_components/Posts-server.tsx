@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb'
 import { notFound } from 'next/navigation'
 /* Models */
 import { A_Error, NoContentError } from '@common/model/Error'
@@ -28,7 +29,7 @@ export async function PostsServer({ slug, page }: Props) {
             throw e
         },
     )
-    const posts = await getArchivePosts(archive._id, page)
+    const posts = await getArchivePosts(new ObjectId(archive._id), page)
 
     const update = async (slug: string, page: number) => {
         'use server'

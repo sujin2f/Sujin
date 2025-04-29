@@ -100,7 +100,7 @@ export type T_MongoSchema<T> = T extends unknown[] // Array
     : T extends string | undefined // string
     ? { bsonType: 'string'; enum?: string[] }
     : T extends number | undefined // number
-    ? { bsonType: 'int' } | { bsonType: 'float' }
+    ? { bsonType: 'int' } | { bsonType: 'double' }
     : T extends Date | undefined // date
     ? { bsonType: 'date' }
     : T extends Binary | undefined // boolean

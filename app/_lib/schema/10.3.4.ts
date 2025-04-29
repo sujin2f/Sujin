@@ -264,7 +264,7 @@ const abTest = {
             enum: ['a', 'b'],
         },
         time: {
-            bsonType: 'float',
+            bsonType: 'double',
         },
     },
 }
@@ -359,7 +359,7 @@ const recipe: T_MongoSchema<T_Mongo<T_Recipe>> = {
                         bsonType: 'string',
                     },
                     amount: {
-                        bsonType: 'float',
+                        bsonType: 'double',
                     },
                     unit: {
                         bsonType: 'string',

@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 export default function Layout({ children }: PropsWithChildren) {
     return (
         <>
-            <Wrapper menu={MENU_NAMES.ETHER} banner={false}>
+            <Wrapper menu={MENU_NAMES.ETHER} banner={false} className="sujin">
                 {children}
             </Wrapper>
         </>

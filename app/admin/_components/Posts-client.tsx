@@ -11,11 +11,12 @@ import Column from '@common/components/layout/Column'
 import Header from '@app/admin/_components/Header'
 import Callout from '@common/components/containers/Callout'
 /* T_Types */
-import { T_Archive, T_ArchivePost } from '@app/_lib/types'
+import type { T_Archive, T_ArchivePost } from '@app/_lib/types'
+import type { T_Stringify } from '@common/types/mongo'
 
 type Props = {
     readonly page: number
-    readonly archive: T_Archive
+    readonly archive: T_Stringify<T_Archive>
     readonly posts: T_ArchivePost[]
     readonly update: (slug: string, page: number) => Promise<string>
 }

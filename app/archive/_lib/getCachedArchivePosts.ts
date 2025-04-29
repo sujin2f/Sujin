@@ -12,10 +12,11 @@ import {
     type T_Archive,
     type PropWithPages,
 } from '@app/_lib/types'
-import type { T_Mongo } from '@common/types/mongo'
+import type { T_Stringify } from '@common/types/mongo'
+import { ObjectId } from 'mongodb'
 
 export const getCachedArchivePosts = async (
-    archive: T_Mongo<T_Archive>,
+    archive: T_Stringify<T_Archive>,
     _page: number,
 ): Promise<PropWithPages<T_ArchivePost>> => {
     const page = sanitize(_page)
@@ -25,7 +26,7 @@ export const getCachedArchivePosts = async (
         [archive.type, archive.slug, page],
         async () => {
             const list: false | T_ArchivePost[] = await getArchivePosts(
-                archive._id,
+                new ObjectId(archive._id),
                 page,
                 POST_STATUS.PUBLISH,
             ).catch((e) => {

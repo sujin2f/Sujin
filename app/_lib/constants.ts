@@ -184,15 +184,15 @@ export const MENUS: Record<MENU_NAMES, MenuItem[]> = {
                     title: 'Ether',
                     link: '/ether',
                 },
-                // {
-                //     ...menuFixture,
-                //     title: 'Code Snippet',
-                //     link: '/snippet/1',
-                // },
                 {
                     ...menuFixture,
                     title: 'Design System',
                     link: '/design-system/elements',
+                },
+                {
+                    ...menuFixture,
+                    title: 'Recipe',
+                    link: '/recipe/1',
                 },
             ],
         },

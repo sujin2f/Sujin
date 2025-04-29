@@ -27,28 +27,29 @@ const migration: T_Migration = {
                     .catch(() => true)
 
                 await database
-                    .command({
-                        collMod: COLLECTION.USERS,
+                    .collection(COLLECTION.USERS)
+                    .createIndex('email')
+                    .then(async () => {
+                        await database.command({
+                            collMod: COLLECTION.USERS,
+                            validator: {
+                                $jsonSchema: SCHEMA_10_3_4.users,
+                            },
+                        })
+                    })
+
+                // Recipe Collection
+                await database
+                    .createCollection(COLLECTION.RECIPE, {
                         validator: {
-                            $jsonSchema: SCHEMA_10_3_4.users,
+                            $jsonSchema: SCHEMA_10_3_4.recipe,
                         },
                     })
                     .then(async () => {
                         await database
-                            .collection(COLLECTION.USERS)
-                            .createIndex('email')
+                            .collection(COLLECTION.RECIPE)
+                            .createIndex({ search: 'text' })
                     })
-
-                // Recipe Collection
-                await database.createCollection(COLLECTION.RECIPE, {
-                    validator: {
-                        $jsonSchema: SCHEMA_10_3_4.recipe,
-                    },
-                })
-
-                await database
-                    .collection(COLLECTION.RECIPE)
-                    .createIndex({ search: 'text' })
 
                 await setOption('version', '10.3.4')
             })

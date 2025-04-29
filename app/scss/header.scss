@@ -19,6 +19,10 @@ $social-height: 26px;
         main {
             margin-top: calc(var(--header-height) + var(--gap));
         }
+
+        .menu__link {
+            margin-top: 0 !important;
+        }
     }
 
     /**
