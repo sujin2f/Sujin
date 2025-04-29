@@ -82,10 +82,10 @@ export default class Cached extends Singleton<Cached>() {
                 cache.flushAll()
                 return
             }
-            cache.keys().forEach((v) =>
+            cache.keys().forEach((key) =>
                 keys.forEach((del) => {
-                    if (v.startsWith(del)) {
-                        cache.del(del)
+                    if (key.startsWith(del)) {
+                        cache.del(key)
                     }
                 }),
             )

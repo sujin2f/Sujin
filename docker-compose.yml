@@ -78,6 +78,7 @@ services:
             NEXTAUTH_URL: ${NEXTAUTH_URL}
             ADMIN_EMAIL: ${ADMIN_EMAIL}
             GRAPHQL_ALLOW_ORIGINS: ${GRAPHQL_ALLOW_ORIGINS}
+            CRYPT_JWK: ${CRYPT_JWK}
             PORT: 80
         volumes:
             - ./wordpress/uploads:/app/public/wp-content/uploads

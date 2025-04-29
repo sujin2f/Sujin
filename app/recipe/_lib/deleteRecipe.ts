@@ -24,13 +24,13 @@ export const deleteRecipe = async (_id: ObjectId) => {
 
     if (recipe.user.toString() !== userId) {
         throw new UnauthorizedError(
-            `Not Authorized in deleteRecipe() for ${recipe._id} ${recipe.user}`,
+            `Not Authorized in deleteRecipe() for ${_id.toString()} ${
+                recipe.user
+            }`,
         )
     }
 
     await deleteOne(collection, { _id })
-    await Cached.getInstance().flush(
-        getCacheKey(COLLECTION.RECIPE, userId.toString()),
-    )
+    await Cached.getInstance().flush(getCacheKey(COLLECTION.RECIPE))
     revalidateTag('recipe')
 }

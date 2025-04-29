@@ -2,9 +2,8 @@
 import { unstable_cache } from 'next/cache'
 import type { Metadata } from 'next'
 /* CONSTANTS */
-import { IS_DEV, VERSION } from '@common/constants/helper'
-import { HOUR_IN_SECONDS } from '@common/constants/datetime'
-import { BASE_URL } from '@app/_lib/constants'
+import { VERSION } from '@common/constants/helper'
+import { BASE_URL, revalidate } from '@app/_lib/constants'
 import { ARCHIVE_URL } from '@app/_lib/types'
 /* Utils */
 import { getCachedArchive } from '@app/archive/_lib/getCachedArchive'
@@ -27,7 +26,7 @@ export const getMetadata = async ({
         [type, slug, VERSION],
         {
             tags: ['wordpress', 'archive'],
-            revalidate: IS_DEV ? 1 : HOUR_IN_SECONDS,
+            revalidate,
         },
     )
 

@@ -9,8 +9,8 @@ import { getCachedRecipe } from '@app/recipe/_lib/getCachedRecipe'
 import { mutateRecipe } from '@app/recipe/_lib/mutateRecipe'
 import { getCurrentUser } from '@app/_lib/data/mongo/user'
 /* CONSTANTS */
-import { HOUR_IN_SECONDS } from '@common/constants/datetime'
-import { IS_DEV, VERSION } from '@common/constants/helper'
+import { VERSION } from '@common/constants/helper'
+import { revalidate } from '@app/_lib/constants'
 /* T_Type */
 import type { T_Stringify } from '@common/types/mongo'
 import type { T_Recipe } from '@app/_lib/types'
@@ -40,7 +40,7 @@ export async function MutateServer({ _id }: Props) {
         [_id.toString(), VERSION],
         {
             tags: ['recipe', 'single'],
-            revalidate: IS_DEV ? 1 : HOUR_IN_SECONDS,
+            revalidate,
         },
     )
     const recipe = _id === 'new' ? undefined : await request(_id)

@@ -70,8 +70,8 @@ export async function ListServer({ title = 'Recipes', page, userId }: Props) {
             <Suspense fallback={<LoadingTable />}>
                 <ListRequest
                     page={page}
-                    request={request(page, userId)}
                     mine={mine && user}
+                    request={request(page, userId)}
                 />
             </Suspense>
         </>
@@ -80,8 +80,8 @@ export async function ListServer({ title = 'Recipes', page, userId }: Props) {
 
 type PropsListRequest = {
     readonly page: number
-    readonly request: ReturnType<typeof getCachedRecipes>
     readonly mine?: T_SessionUser | false
+    readonly request: ReturnType<typeof getCachedRecipes>
 }
 
 async function ListRequest({ page, mine, request }: PropsListRequest) {
@@ -89,10 +89,6 @@ async function ListRequest({ page, mine, request }: PropsListRequest) {
 
     const remove = async (id: string) => {
         'use server'
-        if (!mine) {
-            return
-        }
-
         await deleteRecipe(new ObjectId(id)).catch((e) => {
             if (e instanceof A_Error) {
                 e.log()

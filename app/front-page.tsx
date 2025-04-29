@@ -1,11 +1,10 @@
 'use server'
 import { unstable_cache } from 'next/cache'
-import { PHASE_PRODUCTION_BUILD } from 'next/constants'
 /* Components */
 import Wrapper from '@app/_components/Wrapper'
 /* CONSTANTS */
-import { HOUR_IN_SECONDS } from '@common/constants/datetime'
-import { IS_DEV, VERSION } from '@common/constants/helper'
+import { VERSION } from '@common/constants/helper'
+import { revalidate } from '@app/_lib/constants'
 /* Utils */
 import { getCachedBackgrounds } from '@app/_lib/data/mongo/background'
 /* Assets */
@@ -13,10 +12,6 @@ import Logo from '@app/_lib/images/logo.svg'
 import '@app/scss/front-page.scss'
 
 export async function FrontPage() {
-    const revalidate =
-        IS_DEV || process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD
-            ? 1
-            : HOUR_IN_SECONDS
     const request = unstable_cache(
         async () => await getCachedBackgrounds(),
         ['frontpage', VERSION],
