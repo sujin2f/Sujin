@@ -7,7 +7,7 @@ import { A_Error, NoContentError } from '@common/model/Error'
 import { ItemClient } from '@app/recipe/_components/Item.client'
 /* Utils */
 import { getCachedRecipe } from '@app/recipe/_lib/getCachedRecipe'
-import { getCurrentUser } from '@app/_lib/data/mongo/user'
+import { getCurrentUser } from '@app/api/auth/_lib/utils-server'
 import { deleteRecipe } from '@app/recipe/_lib/deleteRecipe'
 /* CONSTANTS */
 import { VERSION } from '@common/constants/helper'

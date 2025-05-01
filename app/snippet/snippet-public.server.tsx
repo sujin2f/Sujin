@@ -5,7 +5,7 @@ import { getCachedAllSnippets } from '@app/_lib/data/mongo/snippet'
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV, VERSION } from '@common/constants/helper'
 import { Table } from '@app/snippet/snippet-table'
-import { getCurrentUser } from '@app/_lib/data/mongo/user'
+import { getCurrentUser } from '@app/api/auth/_lib/utils-server'
 
 type Props = {
     page: number

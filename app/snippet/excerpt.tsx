@@ -1,6 +1,6 @@
 'use client'
 import Button from '@common/components/forms/Button'
-import { handleSignIn, handleSignOut } from '@app/api/auth/_lib/utils'
+import { handleSignIn, handleSignOut } from '@app/api/auth/_lib/utils-client'
 
 export const Excerpt = ({ name }: { name?: string }) => {
     if (name) {

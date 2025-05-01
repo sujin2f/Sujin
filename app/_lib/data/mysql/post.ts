@@ -13,28 +13,13 @@ import {
 /* Utils */
 import { autop } from '@app/_lib/data/mysql/utils'
 import { unserialize } from '@app/_lib/data/mysql/utils'
-import { getTermsByPost } from '@app/_lib/data/mysql/term'
-import { getPostImages } from '@app/_lib/data/mysql/media'
+/* T_Types */
+import { type POST_IMAGE_LOCATION, type T_ImageBlock } from '@app/_lib/types'
+import { getMedia } from './getMedia'
 
 type T_PostMeta = {
     meta_key: string
     meta_value: string
-}
-
-// @deprecated not used anymore
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const getAllPostMeta = async (
-    postId: number,
-): Promise<Record<string, string>> => {
-    const query = MySQLQuery.getAllPostMeta(postId)
-    const result = await MySQL.getInstance().select<T_PostMeta>(query)
-
-    return result.reduce((acc: Record<string, string>, meta) => {
-        return {
-            ...acc,
-            [meta.meta_key]: meta.meta_value,
-        }
-    }, {})
 }
 
 export const getPostMeta = async <
@@ -46,7 +31,8 @@ export const getPostMeta = async <
 ): Promise<T> => {
     const mysql = MySQL.getInstance()
     const value = await mysql
-        .selectOne<T_PostMeta>(MySQLQuery.getPostMeta(postId, metaKey))
+        .select<T_PostMeta>(MySQLQuery.getPostMeta(postId, metaKey))
+        .then((value) => value[0])
         .catch(() => undefined)
 
     if (!value) {
@@ -162,3 +148,40 @@ export const getPostsBy = async (
 
     return posts
 }
+
+type getPostImagesReturnType = {
+    list?: T_ImageBlock
+    icon?: T_ImageBlock
+    title?: T_ImageBlock
+    background?: T_ImageBlock
+    thumbnail?: T_ImageBlock
+}
+const getPostImages = async (
+    post: T_MySQLPost,
+): Promise<getPostImagesReturnType> => {
+    const result: getPostImagesReturnType = {}
+
+    const imageIds: Record<POST_IMAGE_LOCATION, number> = {
+        list: await getPostMeta<number>(post.id, 'list', 0),
+        icon: await getPostMeta<number>(post.id, 'icon', 0),
+        title: await getPostMeta<number>(post.id, 'title', 0),
+        background: await getPostMeta<number>(post.id, 'background', 0),
+        thumbnail: await getPostMeta<number>(post.id, '_thumbnail_id', 0),
+    }
+
+    for (const imageKey of Object.keys(imageIds)) {
+        if (!imageIds[imageKey as POST_IMAGE_LOCATION]) {
+            continue
+        }
+        const image = await getMedia(imageIds[imageKey as POST_IMAGE_LOCATION])
+
+        if (image) {
+            result[imageKey as POST_IMAGE_LOCATION] = image
+        }
+    }
+
+    return result
+}
+
+const getTermsByPost = async (id: number): Promise<T_Archive[]> =>
+    await MySQL.getInstance().select<T_Archive>(MySQLQuery.getTaxonomies(id))

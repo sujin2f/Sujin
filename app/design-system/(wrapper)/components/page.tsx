@@ -208,6 +208,11 @@ export default function Page() {
                     <Button hollow />
                     <Button />
                 </ButtonGroup>
+                <h3>Button Group with gap</h3>
+                <ButtonGroup gap>
+                    <Button />
+                    <Button />
+                </ButtonGroup>
 
                 <h2>Modal</h2>
                 <Button onClick={() => setModal(!modal)}>Open Modal</Button>

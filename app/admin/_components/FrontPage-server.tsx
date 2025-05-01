@@ -10,8 +10,7 @@ import migration from '@app/_lib/migration'
 /* Utils */
 import { getDatabase, migrate as runMigration } from '@common/data/mongo/mongo'
 import { compareVersions } from '@common/utils/system'
-import { isAdmin } from '@app/_lib/data/mongo/user'
-import { ERROR_MESSAGE } from '@app/_lib/constants-error'
+import { isAdmin } from '@app/api/auth/_lib/utils-server'
 import { getCachedOption } from '@app/admin/_lib/options'
 
 export async function FrontPageServer() {
@@ -28,8 +27,7 @@ export async function FrontPageServer() {
 
     const migrate = async (current: string) => {
         'use server'
-        if (!(await isAdmin()))
-            throw new UnauthorizedError(ERROR_MESSAGE.UNAUTHORIZED, 'migrate()')
+        if (!(await isAdmin())) throw new UnauthorizedError()
 
         // Migrate MongoDB indexes
         if (compareVersions(VERSION, current) === 1) {
@@ -45,8 +43,7 @@ export async function FrontPageServer() {
 
     const reset = async () => {
         'use server'
-        if (!(await isAdmin()))
-            throw new UnauthorizedError(ERROR_MESSAGE.UNAUTHORIZED, 'reset()')
+        if (!(await isAdmin())) throw new UnauthorizedError()
 
         await getDatabase().then(async (database) => {
             // Drop all collections

@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from 'react'
 import type { Metadata } from 'next'
 /* Assets */
-import '@app/scss/design-system.scss'
+import '@app/design-system/style.scss'
 
 export const metadata: Metadata = {
     robots: {

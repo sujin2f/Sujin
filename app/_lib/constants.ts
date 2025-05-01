@@ -6,8 +6,6 @@ import type { MenuItem } from '@common/types/menu'
 
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 export const DEFAULT_THUMBNAIL = `${BASE_URL}/assets/thumbnail.png`
-export const TWITTER_SHARE = 'https://www.twitter.com/intent/tweet'
-export const FACEBOOK_SHARE = 'https://www.facebook.com/sharer/sharer.php'
 
 export type Metadata = {
     title: string

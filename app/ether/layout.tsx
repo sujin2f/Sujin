@@ -2,8 +2,6 @@ import type { Metadata } from 'next/types'
 import type { PropsWithChildren } from 'react'
 /* Utils */
 import { getMetaData } from '@app/_lib/utils/server'
-/* Assets */
-import '@app/scss/single.scss'
 
 export const generateMetadata = async (): Promise<Metadata> => {
     let metadata: Metadata

@@ -2,7 +2,7 @@
 /* Components */
 import Button from '@common/components/forms/Button'
 /* Utils */
-import { handleSignIn, handleSignOut } from '@app/api/auth/_lib/utils'
+import { handleSignIn, handleSignOut } from '@app/api/auth/_lib/utils-client'
 /* T_Types */
 import type { T_SessionUser } from '@app/_lib/types'
 
@@ -10,7 +10,7 @@ export const Excerpt = ({ user }: { user?: T_SessionUser }) => {
     if (user) {
         return (
             <>
-                <div>Welcome, {user.name}</div>
+                <div className="--gap--bottom">Welcome, {user.name}</div>
                 <Button onClick={handleSignOut}>Sign out</Button>
             </>
         )

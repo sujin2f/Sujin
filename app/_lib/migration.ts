@@ -14,8 +14,20 @@ import Cached from '@common/model/Cached'
 import { setOption } from '@app/admin/_lib/options'
 import { updateBackgrounds } from '@app/admin/_lib/updateBackgrounds'
 
+/**
+ * Run this to create a user
+ * mongosh --authenticationDatabase admin --host localhost -u $MONGO_INITDB_ROOT_USERNAME -p $MONGO_INITDB_ROOT_PASSWORD $MONGO_DATABASE --eval "db.createUser({user: '$MONGO_USER', pwd: '$MONGO_PASSWORD', roles: [{role: 'readWrite', db: '$MONGO_DATABASE'}]});"
+ * mongosh --authenticationDatabase admin --host localhost -u $MONGO_INITDB_ROOT_USERNAME -p $MONGO_INITDB_ROOT_PASSWORD $MONGO_DATABASE --eval "db.updateUser('$MONGO_USER', {roles: [{role: 'dbAdmin', db: '$MONGO_DATABASE'}, {role: 'readWrite', db: '$MONGO_DATABASE'}]});"
+ */
 const migration: T_Migration = {
     '10.3.4': async (client) => {
+        /**
+         * Run this first
+         * mongosh --authenticationDatabase admin --host localhost -u $MONGO_INITDB_ROOT_USERNAME -p $MONGO_INITDB_ROOT_PASSWORD $MONGO_DATABASE --eval "db.updateUser('$MONGO_USER', {roles: [{role: 'dbAdmin', db: '$MONGO_DATABASE'}, {role: 'readWrite', db: '$MONGO_DATABASE'}]});"
+         * Then, make user back to non-admin
+         * mongosh --authenticationDatabase admin --host localhost -u $MONGO_INITDB_ROOT_USERNAME -p $MONGO_INITDB_ROOT_PASSWORD $MONGO_DATABASE --eval "db.updateUser('$MONGO_USER', {roles: [{role: 'readWrite', db: '$MONGO_DATABASE'}]});"
+         */
+
         const database = client.db(MONGO_DATABASE)
         const session = client.startSession()
 

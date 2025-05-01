@@ -1,16 +1,27 @@
 import sanitize from 'mongo-sanitize'
 /* Models */
 import Cached from '@common/model/Cached'
+import MySQL from '@app/_lib/data/mysql'
+import { FetchError } from '@common/model/Error'
 /* CONSTANTS */
-import { ARCHIVE, COLLECTION, T_Archive } from '@app/_lib/types'
+import {
+    ARCHIVE,
+    COLLECTION,
+    type T_Archive,
+    type T_ImageBlock,
+    type T_MySQLArchive,
+} from '@app/_lib/types'
 import { default as schema } from '@app/_lib/schema/10.3.4'
+import { MySQLQuery } from '@app/_lib/data/mysql/constants'
 /* Utils */
-import { getArchiveBySlug as getMySQLArchive } from '@app/_lib/data/mysql/term'
 import { getCacheKey } from '@app/_lib/utils/cache'
 import { insertOrReplace } from '@common/data/mongo/mongo'
 import { schemaFormatter } from '@common/utils/object'
 import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
 import { updateTotal } from '@app/admin/_lib/updateTotal'
+import { getMedia } from '@app/_lib/data/mysql/getMedia'
+/* T_Types */
+import type { Nullable } from '@common/types'
 
 export const formatter = (term: Record<string, unknown>): T_Archive => {
     const formatted = schemaFormatter(term, schema.archive) as T_Archive
@@ -35,7 +46,7 @@ export const updateArchive = async (
         getCacheKey(COLLECTION.ARCHIVE, type, slug),
     )
 
-    const wp = await getMySQLArchive(slug)
+    const wp = await getMySQLArchiveBySlug(slug)
     if (wp.image) {
         wp.image = convertImageBlockURL(wp.image)
     }
@@ -47,4 +58,48 @@ export const updateArchive = async (
     )
 
     await updateTotal([result])
+}
+
+const getMeta = async <T = string>(id: number, metaKey: string): Promise<T> =>
+    await MySQL.getInstance()
+        .select<T>(MySQLQuery.getTermMeta(id, metaKey))
+        .then((value) => value[0])
+
+/**
+ * Get archive image.
+ * @param {Term} archive Term.
+ * @return {Promise<Nullable<T_ImageBlock>>} Image.
+ */
+const getThumbnail = async (
+    archive: T_MySQLArchive,
+): Promise<Nullable<T_ImageBlock>> =>
+    await getMeta<{ value: string }>(archive.id, 'thumbnail')
+        .then(async (data) =>
+            data && data.value
+                ? await getMedia(parseInt(data.value))
+                : undefined,
+        )
+        .catch(() => undefined)
+
+/**
+ * Get archive by slug.
+ *
+ * @param {string} slug
+ * @return {Promise<T_Archive>}
+ * @throws {FetchError} Failed to get the archive.
+ */
+const getMySQLArchiveBySlug = async (slug: string): Promise<T_Archive> => {
+    const archive = await MySQL.getInstance()
+        .select<T_MySQLArchive>(MySQLQuery.getArchiveBy('slug', slug))
+        .then((value) => value[0])
+        .catch(() => {
+            throw new FetchError(`Failed to find MySQL term with: ${slug}`)
+        })
+
+    const image = await getThumbnail(archive)
+
+    return {
+        ...archive,
+        image,
+    }
 }

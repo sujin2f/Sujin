@@ -1,7 +1,7 @@
 // yarn test media.spec.ts
 
 import { post } from '@jest/fixture'
-import { getMedia } from './media'
+import { getMedia } from './getMedia'
 // import { ARCHIVE } from '@app/_lib/types'
 
 const mockQueryPost = jest.fn()

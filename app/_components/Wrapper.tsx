@@ -2,10 +2,10 @@ import type { PropsWithChildren } from 'react'
 
 import FixedHeader from '@app/_components/header/FixedHeader'
 import { Footer } from '@app/_components/footer'
-import { Banner } from '@app/_components/header/Banner'
+import { Banner, BannerProps } from '@app/_components/header/Banner'
 import Row from '@common/components/layout/Row'
 import Column, { type ColumnProps } from '@common/components/layout/Column'
-import { BannerProps, MENU_NAMES } from '@app/_lib/types'
+import { MENU_NAMES } from '@app/_lib/types'
 import ScrollToTop from '@common/components/ScrollToTop'
 import { joinClassNames } from '@common/utils/string'
 

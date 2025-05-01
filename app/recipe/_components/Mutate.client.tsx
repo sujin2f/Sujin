@@ -13,7 +13,6 @@ import { type T_Recipe, type T_SessionUser, UNITS } from '@app/_lib/types'
 import type { T_Stringify } from '@common/types/mongo'
 /* Utils */
 import { map } from '@common/utils/array'
-import { validate } from '@app/recipe/_lib/validate'
 
 type Props = {
     mutate: (recipe: Partial<T_Stringify<T_Recipe>>) => Promise<void>
@@ -74,16 +73,16 @@ export function MutateClient({ mutate, recipe, user }: Props) {
                     required
                     errorMessage={errors[0]}
                     defaultValue={recipe?.title}
-                    className="--gap__bottom"
+                    className="--gap--bottom"
                 />
                 <Input
                     label="URL"
                     type="url"
                     name="url"
                     defaultValue={recipe?.url}
-                    className="--gap__bottom"
+                    className="--gap--bottom"
                 />
-                <fieldset className="--gap__bottom">
+                <fieldset className="--gap--bottom">
                     <legend>Ingredients</legend>
 
                     {errors[1] && (
@@ -132,7 +131,7 @@ export function MutateClient({ mutate, recipe, user }: Props) {
                         </Row>
                     ))}
                 </fieldset>
-                <ButtonGroup className="--gap__bottom">
+                <ButtonGroup className="--gap--bottom">
                     <Button hollow onClick={() => router.back()} type="button">
                         Cancel
                     </Button>
@@ -141,4 +140,49 @@ export function MutateClient({ mutate, recipe, user }: Props) {
             </form>
         </>
     )
+}
+
+const validate = (formData: FormData, fields: unknown[]) => {
+    const title = formData.get('title')?.toString().trim()
+    if (!title) {
+        return { error: ['Title is required'] }
+    }
+    const url = formData.get('url')?.toString().trim() || ''
+    const recipe: Partial<T_Stringify<T_Recipe>> = {
+        title,
+        url,
+        search: '',
+        ingredients: [],
+    }
+    const detail: T_Recipe['ingredients'] = []
+
+    fields.forEach((_, index) => {
+        const ingredient = formData
+            .get(`ingredient[${index}]`)
+            ?.toString()
+            .trim()
+        const amount = formData.get(`amount[${index}]`)?.toString().trim()
+        const unit = formData.get(`unit[${index}]`)?.toString()
+
+        if (ingredient && amount && unit) {
+            detail.push({
+                title: ingredient,
+                amount: parseFloat(amount),
+                unit: unit as UNITS,
+            })
+
+            recipe.search += ` ${ingredient} `
+        }
+    })
+
+    if (!detail.length) {
+        return { error: ['', 'Ingredients are required'] }
+    }
+
+    return {
+        result: {
+            ...recipe,
+            ingredients: detail,
+        } satisfies Partial<T_Stringify<T_Recipe>>,
+    }
 }

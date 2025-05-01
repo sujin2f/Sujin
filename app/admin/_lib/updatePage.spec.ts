@@ -8,11 +8,11 @@ import migration from '@app/_lib/migration'
 import Cached from '@common/model/Cached'
 import {
     closeConnection,
+    deleteOne,
     getCollection,
     migrate,
 } from '@common/data/mongo/mongo'
 import { updatePage } from './updatePage'
-import { removePage } from './removePage'
 
 jest.mock('next-auth', () => ({
     getServerSession: jest.fn(async () =>
@@ -78,7 +78,7 @@ describe('updatePage.spec.ts', () => {
 
     test('updatePage(): only from MySQL', async () => {
         const post = await pageFactory()
-        await removePage(post.slug)
+        await deleteOne(COLLECTION.POST, { _id: post._id })
 
         mockQuery.mockImplementation((arg: string) => {
             if (

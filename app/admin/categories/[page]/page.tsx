@@ -1,4 +1,4 @@
-import { CategoriesServer } from '@app/admin/_components/Categories-server'
+import { CategoriesServer } from '@app/admin/_components/Categories.server'
 
 type Props = {
     params: Promise<{

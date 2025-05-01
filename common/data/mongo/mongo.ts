@@ -149,6 +149,17 @@ export const findWithCount = async <T extends Document>(
     return { find, count }
 }
 
+export const count = async <T extends Document>(
+    collection: string | Collection<T>,
+    filter: Filter<T>,
+) => {
+    const table =
+        typeof collection === 'string'
+            ? await getCollection<T>(collection)
+            : collection
+    return await table.countDocuments(filter)
+}
+
 export const insertOrReplace = async <T extends Document>(
     collection: string | Collection<T>,
     filter: Filter<T>,

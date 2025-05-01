@@ -3,10 +3,11 @@ import Logger from './Logger'
 
 export abstract class A_Error extends Error {
     public messages: unknown[] = []
+    public message: string = ''
 
-    constructor(public message: string, ...messages: unknown[]) {
+    constructor(message?: string, ...messages: unknown[]) {
         super(message)
-        this.messages = messages
+        if (messages) this.messages = messages
     }
 
     public setCause(cause: unknown) {
@@ -55,6 +56,7 @@ export class NoContentError extends DatabaseError {
 export class FetchError extends A_Error {}
 export class UnauthorizedError extends A_Error {
     name = '401 Unauthorized'
+    message = 'You are not authorized to access here.'
 }
 export class ForbiddenError extends A_Error {
     name = '403 Forbidden'

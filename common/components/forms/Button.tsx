@@ -7,7 +7,7 @@ import {
     type DetailedHTMLProps,
 } from 'react'
 import { redirect } from 'next/navigation'
-/* Helpers */
+/* Utils */
 import { filterEmpty } from '../../utils/object'
 import { joinClassNames } from '../../utils/string'
 /* Assets */

@@ -7,7 +7,7 @@ import { getMetaData } from '@app/_lib/utils/server'
 /* CONSTANTS */
 import { MENU_NAMES } from '@app/_lib/types'
 /* Assets */
-import '@app/scss/dev-tools.scss'
+import '@app/dev-tools/style.scss'
 
 export const generateMetadata = async (): Promise<Metadata> => {
     const metadata = await getMetaData()

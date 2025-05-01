@@ -10,6 +10,7 @@ import { getPrev, getNext } from '@common/utils/array'
 import type { T_ShortcodeAttrMatch } from '@app/_lib/types'
 /* Assets */
 import Arrow from '@app/_lib/images/prev.svg'
+import '@app/(single)/_components/carousel.scss'
 
 interface Props {
     value: T_ShortcodeAttrMatch

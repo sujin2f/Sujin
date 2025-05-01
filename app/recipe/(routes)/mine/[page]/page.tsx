@@ -4,7 +4,7 @@ import { ListServer } from '@app/recipe/_components/List.server'
 /* Models */
 import { A_Error, ForbiddenError, UnauthorizedError } from '@common/model/Error'
 /* Utils */
-import { getCurrentUser } from '@app/_lib/data/mongo/user'
+import { getCurrentUser } from '@app/api/auth/_lib/utils-server'
 
 type Props = {
     params: Promise<{

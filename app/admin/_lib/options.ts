@@ -2,10 +2,8 @@ import sanitize from 'mongo-sanitize'
 /* Models */
 import Cached from '@common/model/Cached'
 import { UnauthorizedError } from '@common/model/Error'
-/* CONSTANTS */
-import { ERROR_MESSAGE } from '@app/_lib/constants-error'
 /* Utils */
-import { isAdmin } from '@app/_lib/data/mongo/user'
+import { isAdmin } from '@app/api/auth/_lib/utils-server'
 import { getCacheKey } from '@app/_lib/utils/cache'
 import { cachedRequest } from '@app/_lib/utils/cache'
 /* T_Types */
@@ -49,8 +47,7 @@ export const setOption = async (_key: string, _value: string) => {
     const key = sanitize(_key)
     const value = sanitize(_value)
 
-    if (!(await isAdmin()))
-        throw new UnauthorizedError(ERROR_MESSAGE.UNAUTHORIZED)
+    if (!(await isAdmin())) throw new UnauthorizedError()
 
     await Cached.getInstance().flush(getCacheKey(COLLECTION.OPTIONS, key))
     return await insertOrReplace(COLLECTION.OPTIONS, { key }, { key, value })

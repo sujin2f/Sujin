@@ -26,9 +26,6 @@ module.exports = {
 
         return {
             ...config,
-            optimization: {
-                minimize: false, // @todo MySQL module: find another module
-            },
             resolve: {
                 ...config.resolve,
                 fallback: {

@@ -3,7 +3,7 @@ import sanitize from 'mongo-sanitize'
 /* T_Types */
 import type { MutationResultType } from '@app/api/graphql/_lib/constants'
 /* Utils */
-import { auth } from '@app/_lib/data/mongo/user'
+import { auth } from '@app/api/auth/_lib/utils-mysql'
 import { updateArchive } from '@app/admin/_lib/updateArchive'
 import { updatePost } from '@app/admin/_lib/update-post'
 import { updatePage } from '@app/admin/_lib/updatePage'

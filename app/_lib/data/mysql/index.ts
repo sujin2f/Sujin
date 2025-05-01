@@ -1,73 +1,65 @@
-import { default as mysqld } from 'promise-mysql'
-import type { Nullable } from '@common/types'
+import mysqld, { type ProcedureCallPacket } from 'mysql2/promise'
 import { isEmpty } from '@common/utils/object'
+import { DatabaseError } from '@common/model/Error'
+import Logger from '@common/model/Logger'
 
 export default class MySQL {
-    private mysql: Nullable<mysqld.Connection>
+    private mysql?: Promise<mysqld.Connection>
     private static _instance: MySQL
     public static getInstance(): MySQL {
         return this._instance || (this._instance = new this())
     }
 
     private async init(): Promise<mysqld.Connection> {
-        return await mysqld.createConnection({
+        if (this.mysql) return this.mysql
+
+        this.mysql = mysqld.createConnection({
             host: process.env.MYSQL || 'localhost',
             user: process.env.MYSQL_USER || 'MYSQL_USER',
             password: process.env.MYSQL_PASSWORD || 'MYSQL_PASSWORD',
             database: process.env.MYSQL_DB || 'wordpress',
             port: 3306,
         })
+
+        if (!this.mysql) throw new DatabaseError('🤬 Failed to connect MySQL')
+        return this.mysql
     }
 
-    public async select<T>(
-        query: string,
-        defaultValue: T[] = [],
-    ): Promise<T[]> {
-        if (!this.mysql) {
-            this.mysql = await this.init().catch((e) => {
-                console.error('🤬 MySQL connection failed.')
-                console.error(e)
-                return undefined
-            })
+    public async select<T>(query: string) {
+        const mysql = await this.init().catch((e) => {
+            Logger.server(e.message)
+            return undefined
+        })
+
+        if (!mysql) {
+            return []
         }
 
-        if (!this.mysql) {
-            return defaultValue
-        }
-
-        const result = await this.mysql
-            .query<T[]>(query)
+        const [[result]] = await mysql
+            .query<ProcedureCallPacket<T>>(query)
             .then((data) => {
                 if (isEmpty(data)) {
-                    return defaultValue
+                    return [[[]]]
                 }
-                return data
+                return [data]
             })
             .catch(() => {
-                return defaultValue
+                return [[[]]]
             })
 
-        return result
-    }
-
-    public async selectOne<T>(query: string): Promise<T> {
-        const selection = await this.select<T>(query).then((result) => {
-            if (isEmpty(result)) {
-                throw Error(
-                    `🤬 MySQL selectOne is failed because the result is empty.`,
-                )
-            }
-            return result[0]
-        })
-        return selection
+        return result as T[]
     }
 
     public async update(query: string): Promise<void> {
-        if (!this.mysql) {
-            this.mysql = await this.init().catch(() => {
-                throw new Error('🤬 MySQL connection failed.')
-            })
+        const mysql = await this.init().catch((e) => {
+            Logger.server(e.message)
+            return undefined
+        })
+
+        if (!mysql) {
+            return
         }
-        await this.mysql.query(query)
+
+        await mysql.query(query)
     }
 }

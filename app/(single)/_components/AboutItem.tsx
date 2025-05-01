@@ -1,7 +1,9 @@
 import React from 'react'
 /* Helpers */
-import { replaceQuotes, removeExtraParagraph } from '@app/(single)/_lib/utils'
+import { removeExtraParagraph, replaceQuotes } from '@app/(single)/_lib/utils'
 import type { T_ShortcodeAttrMatch } from '@app/_lib/types'
+/* Assets */
+import '@app/(single)/_components/about-item.scss'
 
 interface Props {
     value: T_ShortcodeAttrMatch

@@ -213,8 +213,12 @@ article {
     white-space: nowrap;
 }
 
-.--gap__bottom {
+.--gap--bottom {
     margin-bottom: var(--gap) !important;
+}
+
+.--gap--top {
+    margin-top: var(--gap) !important;
 }
 
 /**

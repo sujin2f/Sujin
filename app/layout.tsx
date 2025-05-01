@@ -7,7 +7,7 @@ import Error from '@app/global-error'
 /* CONSTANTS */
 import { BASE_URL, DEFAULT_THUMBNAIL } from '@app/_lib/constants'
 /* Assets */
-import '@app/scss/wrapper.scss'
+import '@app/style.scss'
 import '@common/scss/normalize.css'
 import '@common/scss/base.scss'
 import Loading from './loading'

@@ -1,4 +1,5 @@
 'use client'
+import type { ReactNode } from 'react'
 import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 /* Components */
@@ -12,7 +13,17 @@ import { joinClassNames } from '@common/utils/string'
 import { getBannerImageMap } from '@app/_lib/data/mysql/utils'
 import { MENUS, METADATA } from '@app/_lib/constants'
 /* T_Types */
-import { BannerProps } from '@app/_lib/types'
+import type { T_ImageBlock } from '@app/_lib/types/image'
+
+export type BannerProps = {
+    readonly title?: string | ReactNode
+    readonly excerpt?: string | ReactNode
+    readonly icon?: T_ImageBlock
+    readonly prefix?: string
+    readonly background?: T_ImageBlock
+    readonly backgroundColor?: string
+    readonly menu?: MENU_NAMES
+}
 
 /**
  * Banner component that renders a banner with a title, excerpt, icon, and background image.

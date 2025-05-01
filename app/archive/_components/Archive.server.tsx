@@ -1,20 +1,31 @@
 import { Suspense } from 'react'
 import { notFound } from 'next/navigation'
 import { unstable_cache } from 'next/cache'
+import { ObjectId } from 'mongodb'
+import sanitize from 'mongo-sanitize'
 /* Models */
 import { A_Error, NoContentError } from '@common/model/Error'
 /* Components */
-import { CardsServer } from '@app/archive/_components/Cards.server'
+import { Cards } from '@app/archive/_components/Cards'
 import Wrapper from '@app/_components/Wrapper'
 import { Loading } from '@app/archive/_components/Loading'
 /* CONSTANTS */
 import { VERSION } from '@common/constants/helper'
-import { ARCHIVE, T_Archive } from '@app/_lib/types'
 import { revalidate } from '@app/_lib/constants'
+import { PER_PAGE } from '@app/_lib/data/mysql/constants'
+import {
+    ARCHIVE,
+    COLLECTION,
+    POST_STATUS,
+    type T_ArchivePost,
+    type T_Archive,
+    type PropWithPages,
+} from '@app/_lib/types'
 /* Utils */
 import { getCachedArchive } from '@app/archive/_lib/getCachedArchive'
 import { updateHits } from '@app/archive/_lib/updateHits'
-import { getCachedArchivePosts } from '@app/archive/_lib/getCachedArchivePosts'
+import { cachedRequest } from '@app/_lib/utils/cache'
+import { getArchivePosts } from '@app/archive/_lib/getArchivePosts'
 /* T_Type */
 import type { T_Stringify } from '@common/types/mongo'
 
@@ -82,7 +93,7 @@ export async function ArchiveServer({ type, slug, page }: Props) {
             background={image}
         >
             <Suspense fallback={<Loading />}>
-                <CardsServer
+                <Cards
                     keyPrefix={`${type}-${slug}-${page}`}
                     posts={requestPosts(archive, page)}
                     page={page}
@@ -94,4 +105,38 @@ export async function ArchiveServer({ type, slug, page }: Props) {
             </Suspense>
         </Wrapper>
     )
+}
+
+const getCachedArchivePosts = async (
+    archive: T_Stringify<T_Archive>,
+    _page: number,
+): Promise<PropWithPages<T_ArchivePost>> => {
+    const page = sanitize(_page)
+    let error: Error | null = null
+    const posts = await cachedRequest(
+        COLLECTION.ARCHIVE,
+        [archive.type, archive.slug, page],
+        async () => {
+            const list: false | T_ArchivePost[] = await getArchivePosts(
+                new ObjectId(archive._id),
+                page,
+                POST_STATUS.PUBLISH,
+            ).catch((e) => {
+                // Failed to find the post, cache false
+                error = e
+                return false
+            })
+            if (!list) {
+                return false
+            }
+            return {
+                list,
+                pages: Math.ceil(archive.total / PER_PAGE),
+            } satisfies PropWithPages<T_ArchivePost>
+        },
+    )
+    if (error) {
+        throw error
+    }
+    return posts as PropWithPages<T_ArchivePost>
 }

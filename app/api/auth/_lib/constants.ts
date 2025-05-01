@@ -1,7 +1,6 @@
 import type { AuthOptions } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
-import { addUser } from '@app/api/auth/_lib/addUser'
-import { getUser } from '@app/api/auth/_lib/getUser'
+import { addUser, getUser } from '@app/api/auth/_lib/utils-mongo'
 import { UnauthorizedError } from '@common/model/Error'
 import type { T_SessionUser } from '@app/_lib/types'
 

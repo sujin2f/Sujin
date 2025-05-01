@@ -6,7 +6,7 @@ import Column from '@common/components/layout/Column'
 import { Menu } from '@common/components/layout/Menu'
 import { AdminWrapperServer } from '@app/_components/session/AdminWrapperServer'
 /* Assets */
-import '@app/scss/admin.scss'
+import '@app/admin/style.scss'
 
 export const metadata = {
     robots: {
@@ -49,6 +49,10 @@ export default async function AppLayout({ children }: PropsWithChildren) {
                                     {
                                         title: 'Backgrounds',
                                         link: '/admin/backgrounds/1',
+                                    },
+                                    {
+                                        title: 'Users',
+                                        link: '/admin/users/1',
                                     },
                                     {
                                         title: 'Collections',

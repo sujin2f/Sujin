@@ -53,7 +53,7 @@ const Confirm = ({
             <div className="confirm --fit-content">
                 {children}
 
-                <ButtonGroup className="--center">
+                <ButtonGroup className="--center --gap--top">
                     <Button
                         hollow
                         onClick={() => callback(QuantumBool.FALSE)}

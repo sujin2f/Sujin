@@ -1,21 +1,24 @@
 'use client'
 import Link from 'next/link'
-import { useCallback, useState } from 'react'
+import { use, useCallback, useState } from 'react'
 /* Components */
 import Table from '@common/components/containers/Table'
 import Confirm from '@common/components/containers/Confirm'
 /* T_Types */
-import type { T_Recipe, T_SessionUser } from '@app/_lib/types'
+import type { PropWithPages, T_Recipe, T_SessionUser } from '@app/_lib/types'
 import type { T_Stringify } from '@common/types/mongo'
 import { QuantumBool } from '@common/types'
+import { Paging } from '@app/_components/Paging'
 
 type Props = {
-    readonly list: T_Stringify<T_Recipe>[]
+    readonly page: number
     readonly mine?: T_SessionUser | false
     readonly remove: (_id: string) => Promise<void>
+    readonly request: Promise<PropWithPages<T_Stringify<T_Recipe>>>
 }
 
-export function ListClient({ list, mine, remove }: Props) {
+export function ListClient({ mine, page, remove, request }: Props) {
+    const { list, pages } = use(request)
     const [confirm, setConfirm] = useState<QuantumBool>(QuantumBool.FALSE)
     const [_id, set_id] = useState<string>('')
 
@@ -74,6 +77,11 @@ export function ListClient({ list, mine, remove }: Props) {
                     ))}
                 </tbody>
             </Table>
+            <Paging
+                pages={pages}
+                page={page}
+                urlPrefix={`/recipe/${mine ? 'mine' : ''}`}
+            />
         </>
     )
 }

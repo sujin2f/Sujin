@@ -1,6 +1,7 @@
 import type { PropsWithChildren } from 'react'
 /* Components */
 import { PrevNext as PrevNextComponent } from '@app/(single)/_components/PrevNext'
+/* CONSTANTS */
 import { PER_PAGE } from '@app/_lib/data/mysql/constants'
 
 type Props = {

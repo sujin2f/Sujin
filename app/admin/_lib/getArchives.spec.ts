@@ -1,4 +1,4 @@
-// yarn test archive.spec.ts
+// yarn test getArchives.spec.ts
 
 import { VERSION } from '@common/constants/helper'
 import { categoryFactory } from '@jest/helpers'
@@ -20,12 +20,7 @@ jest.mock('next-auth', () => ({
     ),
 }))
 
-const mockQuery = jest.fn()
-jest.mock('../../_lib/data/mysql/term', () => ({
-    getArchiveBySlug: () => mockQuery(),
-}))
-
-describe('archive.spec.ts', () => {
+describe('getArchives.spec.ts', () => {
     beforeAll(async () => {
         await clearMongo()
         await migrate('0.0.0', VERSION, migration)

@@ -1,4 +1,5 @@
-import { PagesServer } from '@app/admin/_components/Pages-server'
+'use server'
+import { PagesServer } from '@app/admin/_components/Pages.server'
 
 type Props = {
     params: Promise<{

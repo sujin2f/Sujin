@@ -2,7 +2,7 @@ import { Suspense } from 'react'
 import { unstable_cache } from 'next/cache'
 /* Components */
 import { WidgetTitle } from '@app/_components/WidgetTitle'
-import { CardsServer } from '@app/archive/_components/Cards.server'
+import { Cards } from '@app/archive/_components/Cards'
 import { Loading } from '@app/archive/_components/Loading'
 /* Utils */
 import { getCachedRecentPosts } from '@app/(single)/_lib/getCachedRecentPosts'
@@ -10,6 +10,8 @@ import { getCachedRecentPosts } from '@app/(single)/_lib/getCachedRecentPosts'
 import { IMAGE_SIZE } from '@app/_lib/types'
 import { VERSION } from '@common/constants/helper'
 import { revalidate } from '@app/_lib/constants'
+/* Assets */
+import '@app/(single)/_components/recent-posts.scss'
 
 export const RecentPosts = async ({ current }: { current: number }) => {
     const request = unstable_cache(
@@ -31,7 +33,7 @@ export const RecentPosts = async ({ current }: { current: number }) => {
         <section className="recent-posts show-for-large">
             <WidgetTitle>Recent Posts</WidgetTitle>
             <Suspense fallback={<Loading small={12} counts={4} />}>
-                <CardsServer
+                <Cards
                     posts={request()}
                     keyPrefix="recent"
                     imageSize={IMAGE_SIZE.RECENT_POST}

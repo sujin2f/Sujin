@@ -202,3 +202,15 @@ fieldset {
         margin-bottom: 0;
     }
 }
+
+.button--group {
+    &.button--group__gap {
+        > * {
+            margin-right: 1px;
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+    }
+}

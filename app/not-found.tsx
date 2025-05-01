@@ -4,7 +4,7 @@ import type { Metadata } from 'next'
 /* Components */
 import Wrapper from '@app/_components/Wrapper'
 import { WidgetTitle } from '@app/_components/WidgetTitle'
-import { CardsServer } from '@app/archive/_components/Cards.server'
+import { Cards } from '@app/archive/_components/Cards'
 import { Loading } from '@app/archive/_components/Loading'
 /* Utils */
 import { getCachedRecentPosts } from '@app/(single)/_lib/getCachedRecentPosts'
@@ -45,7 +45,7 @@ export default async function NotFound({ menu }: Props) {
             <main>
                 <WidgetTitle>Recent Posts</WidgetTitle>
                 <Suspense fallback={<Loading />}>
-                    <CardsServer
+                    <Cards
                         posts={request()}
                         keyPrefix="not-found"
                         large={4}

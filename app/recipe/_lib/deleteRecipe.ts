@@ -8,7 +8,7 @@ import { COLLECTION } from '@app/_lib/types'
 /* Utils */
 import { getCacheKey } from '@app/_lib/utils/cache'
 import { deleteOne, findOne, getCollection } from '@common/data/mongo/mongo'
-import { getCurrentUser } from '@app/_lib/data/mongo/user'
+import { getCurrentUser } from '@app/api/auth/_lib/utils-server'
 
 export const deleteRecipe = async (_id: ObjectId) => {
     const collection = await getCollection(COLLECTION.RECIPE)

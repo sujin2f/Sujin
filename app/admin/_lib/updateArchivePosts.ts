@@ -5,7 +5,7 @@ import Cached from '@common/model/Cached'
 /* Utils */
 import { getPostsBy } from '@app/_lib/data/mysql/post'
 import { getCacheKey } from '@app/_lib/utils/cache'
-import { auth } from '@app/_lib/data/mongo/user'
+import { auth } from '@app/api/auth/_lib/utils-mysql'
 import { updateTotal } from '@app/admin/_lib/updateTotal'
 import { updateMongoFromMySQL } from '@app/admin/_lib/update-post'
 /* CONSTANTS */

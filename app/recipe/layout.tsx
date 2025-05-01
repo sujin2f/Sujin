@@ -5,7 +5,7 @@ import { Excerpt } from '@app/recipe/_components/Excerpt'
 /* CONSTANTS */
 import { MENU_NAMES } from '@app/_lib/types'
 /* Utils */
-import { getCurrentUser } from '@app/_lib/data/mongo/user'
+import { getCurrentUser } from '@app/api/auth/_lib/utils-server'
 /* Assets */
 import './style.scss'
 
@@ -21,7 +21,7 @@ export default async function Layout({ children }: PropsWithChildren) {
             title="Recipe"
             excerpt={<Excerpt user={user} />}
         >
-            <article className="--gap__bottom">{children}</article>
+            <article className="--gap--bottom">{children}</article>
         </Wrapper>
     )
 }

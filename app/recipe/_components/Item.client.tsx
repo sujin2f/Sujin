@@ -104,7 +104,7 @@ export function ItemClient({ recipe, user, remove }: Props) {
                 </Column>
                 <Column className="--right" large={6}>
                     {user?._id === recipe.user && (
-                        <ButtonGroup>
+                        <ButtonGroup gap>
                             <Button
                                 href={`/recipe/mutate/${recipe._id}`}
                                 title="Edit"

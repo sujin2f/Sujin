@@ -1,18 +1,21 @@
-import { joinClassNames } from '@common/utils/string'
 import type { DetailedHTMLProps, HTMLAttributes } from 'react'
+import { joinClassNames } from '@common/utils/string'
+/* Assets */
+import '../../scss/form.scss'
 
 type Props = DetailedHTMLProps<
     HTMLAttributes<HTMLDivElement>,
     HTMLDivElement
 > & {
-    readonly color?: 'primary' | 'secondary' | 'success' | 'alert' | 'warning'
-    readonly hollow?: boolean
-    readonly vanilla?: boolean
-    readonly href?: string
+    readonly gap?: boolean
 }
 
-const ButtonGroup = ({ children, className, ...props }: Props) => {
-    const classNames = joinClassNames(className, 'button--group')
+const ButtonGroup = ({ gap = false, children, ...props }: Props) => {
+    const classNames = joinClassNames(
+        props.className,
+        'button--group',
+        gap && 'button--group__gap',
+    )
     return (
         <div className={classNames} {...props}>
             {children}
