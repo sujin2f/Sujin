@@ -6,7 +6,7 @@ import { clearMongo } from '@common/.jest/helpers'
 import { getCachedPost } from './getCachedPost'
 import Cached from '@common/model/Cached'
 import { COLLECTION, POST_STATUS } from '@app/_lib/types'
-import { closeConnection, migrate } from '@common/data/mongo/mongo'
+import { migrate } from '@common/data/mongo/mongo'
 import { getCacheKey } from '@app/_lib/utils/cache'
 
 jest.mock('next-auth', () => ({
@@ -34,7 +34,6 @@ describe('getCachedPost.spec.ts', () => {
         jest.clearAllMocks()
         await clearMongo(COLLECTION.POST, COLLECTION.ARCHIVE)
         await clearMongo()
-        await closeConnection()
     })
 
     test('getCachedPost()', async () => {

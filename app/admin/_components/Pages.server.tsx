@@ -10,7 +10,7 @@ import { COLLECTION, type T_Page } from '@app/_lib/types'
 /* Utils */
 import { getCacheKey } from '@app/_lib/utils/cache'
 import { deleteOne } from '@common/data/mongo/mongo'
-import { updatePage } from '@app/admin/_lib/updatePage'
+import { updatePage } from '@app/_lib/utils/mongo/updatePage'
 import { getCollection } from '@common/data/mongo/mongo'
 import { getAggregation } from '@app/_lib/utils/server'
 

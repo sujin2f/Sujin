@@ -7,7 +7,7 @@ import migration from './migration'
 import { ARCHIVE, COLLECTION } from '@app/_lib/types'
 import Cached from '@common/model/Cached'
 import { getCachedArchive } from '@app/archive/_lib/getCachedArchive'
-import { closeConnection, migrate } from '@common/data/mongo/mongo'
+import { migrate } from '@common/data/mongo/mongo'
 
 jest.mock('next-auth', () => ({
     getServerSession: jest.fn(async () =>
@@ -32,7 +32,6 @@ describe('migration.spec.ts', () => {
     afterAll(async () => {
         jest.clearAllMocks()
         await clearMongo()
-        await closeConnection()
     })
 
     test('Mongo.migration(): Check Validation Error', async () => {

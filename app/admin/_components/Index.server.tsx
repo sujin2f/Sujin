@@ -8,7 +8,7 @@ import Column from '@common/components/layout/Column'
 import { UnauthorizedError, A_Error, NoContentError } from '@common/model/Error'
 /* Utils */
 import { isAdmin } from '@app/api/auth/_lib/utils-server'
-import { getCachedOption } from '@app/admin/_lib/options'
+import { getCachedOption } from '@app/_lib/utils/mongo/options'
 /* T_Types */
 import { getCollection } from '@common/data/mongo/mongo'
 /* CONSTANTS */

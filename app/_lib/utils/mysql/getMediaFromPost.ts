@@ -2,7 +2,7 @@
 import { FetchError } from '@common/model/Error'
 /* Utils */
 import { isEmpty } from '@common/utils/object'
-import { getPostMeta } from '@app/_lib/data/mysql/post'
+import { getPostMeta } from '@app/_lib/utils/mysql/getPostMeta'
 /* CONSTANTS */
 import {
     IMAGE_SIZE,

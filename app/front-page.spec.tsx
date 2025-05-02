@@ -9,7 +9,7 @@ import { clearMongo } from '@common/.jest/helpers'
 import { FrontPage } from './front-page'
 import migration from '@app/_lib/migration'
 import { COLLECTION } from '@app/_lib/types'
-import { closeConnection, migrate } from '@common/data/mongo/mongo'
+import { migrate } from '@common/data/mongo/mongo'
 
 jest.mock('next/cache', () => ({
     unstable_cache: (fn: unknown) => fn,
@@ -47,7 +47,6 @@ describe('front-page.spec.tsx', () => {
     afterAll(async () => {
         jest.clearAllMocks()
         await clearMongo()
-        await closeConnection()
     })
 
     test('<FrontPage /> has background', async () => {

@@ -14,7 +14,7 @@ import {
     type T_ArchivePost,
 } from '@app/_lib/types'
 /* Utils */
-import { getThumbnailFromPost } from '@app/_lib/data/mysql/utils'
+import { getThumbnailFromPost } from '@app/_lib/utils/clients'
 
 type Props = ColumnProps & {
     readonly posts: Promise<PropWithPages<T_ArchivePost>>

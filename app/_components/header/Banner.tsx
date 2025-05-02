@@ -5,15 +5,17 @@ import Image from 'next/image'
 /* Components */
 import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
-import { Menu } from '@common/components/layout/Menu'
+import Menu from '@common/components/layout/Menu'
 import NextImage from '@common/components/containers/NextImage'
 import { MENU_NAMES } from '@app/_lib/types'
-/* Helpers */
-import { joinClassNames } from '@common/utils/string'
-import { getBannerImageMap } from '@app/_lib/data/mysql/utils'
+/* CONSTANTS */
 import { MENUS, METADATA } from '@app/_lib/constants'
+/* Utils */
+import { entries } from '@common/utils/object'
+import { joinClassNames } from '@common/utils/string'
 /* T_Types */
-import type { T_ImageBlock } from '@app/_lib/types/image'
+import { IMAGE_SIZE_BACKGROUND, T_ImageBlock } from '@app/_lib/types'
+import type { ImageMap } from '@common/components/containers/Picture'
 
 export type BannerProps = {
     readonly title?: string | ReactNode
@@ -119,4 +121,29 @@ export function Banner({
             )}
         </>
     )
+}
+
+const getBannerImageMap = (image: T_ImageBlock): ImageMap[] => {
+    if (!image.sizes) {
+        return []
+    }
+
+    const bannerMediaQueries: Record<IMAGE_SIZE_BACKGROUND, string> = {
+        [IMAGE_SIZE_BACKGROUND.MEDIUM]: '(max-width: 300px)',
+        [IMAGE_SIZE_BACKGROUND.MEDIUM_LARGE]: '(max-width: 768px)',
+        [IMAGE_SIZE_BACKGROUND.LARGE]: '(max-width: 1024px)',
+    }
+
+    return entries(image.sizes)
+        .filter(([size]) => Object.keys(bannerMediaQueries).includes(size))
+        .map(([size, value]) => {
+            const key = size as IMAGE_SIZE_BACKGROUND
+            return {
+                src: value.url,
+                media: bannerMediaQueries[key] || '',
+                mimeType: value.mimeType,
+                width: value.width,
+                height: value.height,
+            } satisfies ImageMap
+        })
 }

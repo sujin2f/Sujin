@@ -1,11 +1,22 @@
 import { Suspense } from 'react'
 import { unstable_cache } from 'next/cache'
-
-import { getCachedAllSnippets } from '@app/_lib/data/mongo/snippet'
+/* Models */
+import Cached from '@common/model/Cached'
+/* CONSTANTS */
 import { HOUR_IN_SECONDS } from '@common/constants/datetime'
 import { IS_DEV, VERSION } from '@common/constants/helper'
+import { PER_PAGE } from '@app/_lib/constants'
+import { COLLECTION } from '@app/_lib/types'
+import { DAY_IN_SECONDS } from '@common/constants/datetime'
+/* Components */
 import { Table } from '@app/snippet/snippet-table'
+/* Utils */
 import { getCurrentUser } from '@app/api/auth/_lib/utils-server'
+import { getCacheKey } from '@app/_lib/utils/cache'
+import { getCollection } from '@common/data/mongo/mongo'
+import { getAggregation } from '@app/_lib/utils/server'
+/* T_Types */
+import type { PropWithPages, T_Snippets } from '@app/_lib/types'
 
 type Props = {
     page: number
@@ -41,3 +52,44 @@ export async function PublicServer({ page }: Props) {
         </>
     )
 }
+
+const getCachedAllSnippets = async (
+    page: number,
+): Promise<PropWithPages<T_Snippets>> =>
+    await Cached.getInstance().getOrExecute<PropWithPages<T_Snippets>>(
+        getCacheKey(COLLECTION.SNIPPETS, 'all', page),
+        async () => {
+            const collection = await getCollection<T_Snippets>(
+                COLLECTION.SNIPPETS,
+            )
+            const total = await collection.countDocuments()
+            const list = await collection
+                .aggregate<T_Snippets>([
+                    ...getAggregation('_id'),
+                    ...getAggregation('_id', 'user'),
+                    ...getAggregation('paging', page),
+                    {
+                        $lookup: {
+                            from: COLLECTION.SNIPPET,
+                            localField: 'snippets',
+                            foreignField: '_id',
+                            as: 'snippets',
+                            pipeline: [
+                                {
+                                    $addFields: {
+                                        _id: { $toString: '$_id' },
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ])
+                .toArray()
+            return {
+                list,
+                pages: Math.ceil(total / PER_PAGE),
+            } satisfies PropWithPages<T_Snippets>
+        },
+        DAY_IN_SECONDS,
+        IS_DEV,
+    )

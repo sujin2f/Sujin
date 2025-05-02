@@ -13,16 +13,11 @@ import type {
 import { MONGO_DATABASE } from '../../constants/helper'
 import { compareVersions } from '../../utils/system'
 import Logger from '../../model/Logger'
-import getClient from './connection'
+import Mongo from './connection'
 import { DatabaseError } from '@common/model/Error'
 
-export const closeConnection = async () => {
-    const client = await getClient()
-    await client.close()
-}
-
 export const getDatabase = async () => {
-    const client = await getClient()
+    const client = await Mongo()
     return client.db(MONGO_DATABASE)
 }
 
@@ -63,7 +58,7 @@ export const migrate = async (
             versions,
         )}`,
     )
-    const client = await getClient()
+    const client = await Mongo()
     for (const version of versions) {
         await migration[version](client)
     }

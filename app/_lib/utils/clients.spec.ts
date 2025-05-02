@@ -1,33 +1,12 @@
-// yarn test utils.spec.ts
+// yarn test clients.spec.ts
 
 import { T_PostImages } from '@app/_lib/types'
-import {
-    unserialize,
-    convertImageBlockURL,
-    getThumbnailFromPost,
-} from './utils'
+import { getThumbnailFromPost, convertImageBlockURL } from './clients'
 import { DEFAULT_THUMBNAIL } from '@app/_lib/constants'
 
-describe('utils.ts', () => {
+describe('clients.ts', () => {
     afterAll(() => {
         jest.clearAllMocks()
-    })
-
-    describe('unserialize()', () => {
-        it('Empty', () => {
-            const result = unserialize('', 'You are welcome')
-            expect(result).toBe('You are welcome')
-        })
-
-        it('Not Serialized Text', () => {
-            const result = unserialize('Thank you', 'You are welcome')
-            expect(result).toBe('Thank you')
-        })
-
-        it('Key does not exist', () => {
-            const result = unserialize('a:{}', 'You are welcome', 'lock')
-            expect(result).toBe('You are welcome')
-        })
     })
 
     test('ensureImage()', () => {

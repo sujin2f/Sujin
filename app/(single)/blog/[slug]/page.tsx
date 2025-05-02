@@ -7,7 +7,7 @@ import { BASE_URL } from '@app/_lib/constants'
 import { VERSION } from '@common/constants/helper'
 import { IMAGE_SIZE } from '@app/_lib/types'
 /* Utils */
-import { getThumbnailFromPost } from '@app/_lib/data/mysql/utils'
+import { getThumbnailFromPost } from '@app/_lib/utils/clients'
 import { revalidate } from '@app/_lib/constants'
 import { getCachedPost } from '@app/(single)/_lib/getCachedPost'
 

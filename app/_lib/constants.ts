@@ -6,6 +6,7 @@ import type { MenuItem } from '@common/types/menu'
 
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 export const DEFAULT_THUMBNAIL = `${BASE_URL}/assets/thumbnail.png`
+export const PER_PAGE = 12
 
 export type Metadata = {
     title: string

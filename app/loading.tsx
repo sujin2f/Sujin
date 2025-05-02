@@ -5,7 +5,7 @@ import Wrapper from '@app/_components/Wrapper'
 import { MENU_NAMES } from '@app/_lib/types'
 /* Assets */
 import LoadingImg from '@app/_lib/images/loading.svg'
-import '@app/scss/front-page.scss'
+import '@app/front-page.scss'
 
 type Props = {
     readonly menu?: MENU_NAMES

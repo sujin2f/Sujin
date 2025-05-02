@@ -7,7 +7,7 @@ import { getCachedArchive } from '@app/archive/_lib/getCachedArchive'
 import migration from '@app/_lib/migration'
 import { ARCHIVE, COLLECTION } from '@app/_lib/types'
 import Cached from '@common/model/Cached'
-import { closeConnection, migrate } from '@common/data/mongo/mongo'
+import { migrate } from '@common/data/mongo/mongo'
 
 jest.mock('next-auth', () => ({
     getServerSession: jest.fn(async () =>
@@ -33,7 +33,6 @@ describe('archive.spec.ts', () => {
     afterAll(async () => {
         jest.clearAllMocks()
         await clearMongo()
-        await closeConnection()
     })
 
     test('getCachedArchive()', async () => {

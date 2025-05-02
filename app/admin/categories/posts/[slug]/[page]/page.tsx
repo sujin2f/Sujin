@@ -1,4 +1,4 @@
-import { PostsServer } from '@app/admin/_components/Posts-server'
+import { PostsServer } from '@app/admin/_components/Posts.server'
 
 type Props = {
     params: Promise<{

@@ -6,8 +6,10 @@ import { getMedia } from './getMedia'
 
 const mockQueryPost = jest.fn()
 const mockQueryMeta = jest.fn()
-jest.mock('./post', () => ({
+jest.mock('./getPostBy', () => ({
     getPostBy: () => mockQueryPost(),
+}))
+jest.mock('./getPostMeta', () => ({
     getPostMeta: () => mockQueryMeta(),
 }))
 

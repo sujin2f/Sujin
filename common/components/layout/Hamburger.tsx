@@ -1,9 +1,9 @@
 import React, { useCallback, useState } from 'react'
 
 /* Components */
-import { Menu } from './Menu'
-/* Helpers */
+import Menu from './Menu'
 import { MenuItem } from '../../types/menu'
+/* Helpers */
 import { joinClassNames } from '../../utils/string'
 import { useDocumentClick } from '../../hooks/useDocumentClick'
 import { useKeyDown } from '../../hooks/useKeyDown'

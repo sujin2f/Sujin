@@ -13,8 +13,8 @@ import {
 import { default as schema } from '@app/_lib/schema/10.3.4'
 /* Utils */
 import { getCacheKey } from '@app/_lib/utils/cache'
-import { getPostBy } from '@app/_lib/data/mysql/post'
-import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
+import { getPostBy } from '@app/_lib/utils/mysql/getPostBy'
+import { convertImageBlockURL } from '@app/_lib/utils/clients'
 import { schemaFormatter } from '@common/utils/object'
 import { insertOrReplace } from '@common/data/mongo/mongo'
 

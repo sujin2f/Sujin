@@ -19,7 +19,7 @@ import { cachedRequest } from '@app/_lib/utils/cache'
 import { VERSION } from '@common/constants/helper'
 import { revalidate } from '@app/_lib/constants'
 import { COLLECTION, type PropWithPages, type T_Recipe } from '@app/_lib/types'
-import { PER_PAGE } from '@app/_lib/data/mysql/constants'
+import { PER_PAGE } from '@app/_lib/constants'
 /* T_Types */
 import type { T_Mongo, T_Stringify } from '@common/types/mongo'
 

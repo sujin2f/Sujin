@@ -5,6 +5,7 @@
  */
 
 import { type POST_TYPE, TAXONOMY } from '@app/_lib/types'
+import { PER_PAGE } from '@app/_lib/constants'
 
 /**
  * Making a formatted string
@@ -35,7 +36,6 @@ const POST_FIELDS = `
     posts.post_type AS type,
     posts.guid AS link
 `
-export const PER_PAGE = 12
 
 const GET_OPTION = `
     SELECT option_value

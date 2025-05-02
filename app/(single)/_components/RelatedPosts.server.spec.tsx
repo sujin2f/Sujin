@@ -9,7 +9,7 @@ import { clearMongo } from '@common/.jest/helpers'
 import { RelatedPosts } from './RelatedPosts.server'
 import migration from '@app/_lib/migration'
 import { COLLECTION } from '@app/_lib/types'
-import { closeConnection, migrate } from '@common/data/mongo/mongo'
+import { migrate } from '@common/data/mongo/mongo'
 import { act } from 'react'
 
 jest.mock('next/cache', () => ({
@@ -48,7 +48,6 @@ describe('RelatedPosts.server.spec.tsx', () => {
     afterAll(async () => {
         jest.clearAllMocks()
         await clearMongo()
-        await closeConnection()
     })
 
     test('<PrevNext /> has result', async () => {

@@ -29,7 +29,7 @@ type Props = {
  * @param {() => void} [props.callback] - Callback function to handle menu item clicks.
  * @param {React.Ref<HTMLDivElement>} [props.ref] - The ref object for the menu container.
  */
-export function Menu({
+export default function Menu({
     items,
     direction: propDirection,
     dropdown: propDropdown,
@@ -55,6 +55,7 @@ export function Menu({
                 direction={direction}
                 dropdown={dropdown}
                 items={items}
+                depth={1}
             />
         </nav>
     )
@@ -65,11 +66,18 @@ type BlockProps = {
     readonly dropdown?: 'hover' | 'click'
     readonly direction: 'vertical' | 'horizontal'
     readonly callback?: () => void
+    readonly depth: number
 }
 
-function MenuBlock({ items, dropdown, direction, callback }: BlockProps) {
+function MenuBlock({
+    items,
+    dropdown,
+    direction,
+    depth,
+    callback,
+}: BlockProps) {
     return (
-        <ul className="menu">
+        <ul className={`menu menu--depth-${depth}`}>
             {items.map((menu, index) => (
                 <MenuItem
                     callback={callback}
@@ -77,6 +85,7 @@ function MenuBlock({ items, dropdown, direction, callback }: BlockProps) {
                     dropdown={dropdown}
                     item={menu}
                     key={`menu-${menu.title}-${index}`}
+                    depth={depth}
                 />
             ))}
         </ul>
@@ -88,9 +97,10 @@ type ItemProps = {
     readonly dropdown?: 'hover' | 'click'
     readonly direction: 'vertical' | 'horizontal'
     readonly callback?: () => void
+    readonly depth: number
 }
 
-function MenuItem({ item, dropdown, direction, callback }: ItemProps) {
+function MenuItem({ item, dropdown, direction, depth, callback }: ItemProps) {
     const hasChildren = item.children && item.children.length > 0
     const [closed, changeClosed] = useState(
         hasChildren && dropdown ? true : false,
@@ -120,11 +130,11 @@ function MenuItem({ item, dropdown, direction, callback }: ItemProps) {
         }
         return item.link
     }, [item.link, hasChildren])
-
     return (
         <li
             className={joinClassNames(
                 'menu__item',
+                `menu__item--depth-${depth}`,
                 closed && 'menu__item--closed',
                 hasChildren && !closed && 'menu__item--opened',
                 hasChildren && 'menu__item--children',
@@ -152,6 +162,7 @@ function MenuItem({ item, dropdown, direction, callback }: ItemProps) {
                     callback={callback}
                     direction={direction}
                     items={item.children || []}
+                    depth={depth + 1}
                 />
             ) : null}
         </li>

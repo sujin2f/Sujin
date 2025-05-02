@@ -1,5 +1,5 @@
 /* Utils */
-import { getPostBy } from '@app/_lib/data/mysql/post'
+import { getPostBy } from '@app/_lib/utils/mysql/getPostBy'
 import { getMediaFromPost } from './getMediaFromPost'
 /* CONSTANTS */
 import { POST_TYPE, type T_ImageBlock } from '@app/_lib/types'

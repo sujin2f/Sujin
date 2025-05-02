@@ -6,7 +6,7 @@ import { addUser, getUser } from './utils-mongo'
 import migration from '@app/_lib/migration'
 import { COLLECTION } from '@app/_lib/types'
 import Cached from '@common/model/Cached'
-import { closeConnection, migrate } from '@common/data/mongo/mongo'
+import { migrate } from '@common/data/mongo/mongo'
 
 jest.mock('next-auth', () => ({
     getServerSession: jest.fn(async () =>
@@ -32,7 +32,6 @@ describe('utils-mongo.spec.ts', () => {
     afterAll(async () => {
         jest.clearAllMocks()
         await clearMongo()
-        await closeConnection()
     })
 
     test('addUser()', async () => {

@@ -11,7 +11,7 @@ import migration from '@app/_lib/migration'
 import { getDatabase, migrate as runMigration } from '@common/data/mongo/mongo'
 import { compareVersions } from '@common/utils/system'
 import { isAdmin } from '@app/api/auth/_lib/utils-server'
-import { getCachedOption } from '@app/admin/_lib/options'
+import { getCachedOption } from '@app/_lib/utils/mongo/options'
 
 export async function FrontPageServer() {
     const current = await getCachedOption('version')

@@ -5,7 +5,7 @@ import { clearMongo } from '@common/.jest/helpers'
 import { getCachedRecipe } from './getCachedRecipe'
 import Cached from '@common/model/Cached'
 import { COLLECTION } from '@app/_lib/types'
-import { closeConnection, migrate } from '@common/data/mongo/mongo'
+import { migrate } from '@common/data/mongo/mongo'
 import { ObjectId } from 'mongodb'
 
 jest.mock('next-auth', () => ({
@@ -33,7 +33,6 @@ describe('getCachedRecipe.spec.ts', () => {
         jest.clearAllMocks()
         await clearMongo(COLLECTION.POST, COLLECTION.ARCHIVE)
         await clearMongo()
-        await closeConnection()
     })
 
     test('getCachedRecipe()', async () => {

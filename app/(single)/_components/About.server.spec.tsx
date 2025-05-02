@@ -9,7 +9,7 @@ import { clearMongo } from '@common/.jest/helpers'
 import { AboutServer } from './About.server'
 import migration from '@app/_lib/migration'
 import { COLLECTION } from '@app/_lib/types'
-import { closeConnection, migrate } from '@common/data/mongo/mongo'
+import { migrate } from '@common/data/mongo/mongo'
 
 jest.mock('next/cache', () => ({
     unstable_cache: (fn: unknown) => fn,
@@ -47,7 +47,6 @@ describe('About.server.spec.tsx', () => {
     afterAll(async () => {
         jest.clearAllMocks()
         await clearMongo()
-        await closeConnection()
     })
 
     test('<AboutServer /> has heading', async () => {

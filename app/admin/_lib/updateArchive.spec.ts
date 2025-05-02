@@ -1,23 +1,21 @@
 // yarn test updateArchive.spec.ts
 
-import MySQL from '@app/_lib/data/mysql'
 import { VERSION } from '@common/constants/helper'
 import { categoryFactory, tagFactory } from '@jest/helpers'
 import { clearMongo } from '@common/.jest/helpers'
 import migration from '@app/_lib/migration'
 import { ARCHIVE, COLLECTION, T_Archive } from '@app/_lib/types'
 import Cached from '@common/model/Cached'
-import {
-    closeConnection,
-    deleteOne,
-    getCollection,
-    migrate,
-} from '@common/data/mongo/mongo'
+import { deleteOne, getCollection, migrate } from '@common/data/mongo/mongo'
 import { updateArchive } from './updateArchive'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const selectOne = jest.fn(async (_: string): Promise<unknown> => '')
-jest.spyOn(MySQL.prototype, 'selectOne').mockImplementation(selectOne)
+const query = jest.fn(async (_: string): Promise<unknown[]> => [['']])
+jest.mock('mysql2/promise', () => ({
+    createConnection: () => ({
+        query,
+    }),
+}))
 
 jest.mock('next-auth', () => ({
     getServerSession: jest.fn(async () =>
@@ -43,14 +41,13 @@ describe('updateArchive.spec.ts', () => {
     afterAll(async () => {
         jest.clearAllMocks()
         await clearMongo()
-        await closeConnection()
     })
 
     test('updateArchive(): tag, New', async () => {
         const slug = 'test-slug'
         const tag = await tagFactory({ slug, title: 'Changed' })
         await deleteOne(COLLECTION.ARCHIVE, { _id: tag._id })
-        selectOne.mockResolvedValue(tag)
+        query.mockResolvedValue([[tag]])
 
         await updateArchive(slug, ARCHIVE.TAG)
         const result = await (
@@ -63,7 +60,7 @@ describe('updateArchive.spec.ts', () => {
         const slug = 'test-slug'
         const category = await categoryFactory({ slug, title: 'Changed' })
         await deleteOne(COLLECTION.ARCHIVE, { _id: category._id })
-        selectOne.mockResolvedValue(category)
+        query.mockResolvedValue([[category]])
 
         await updateArchive(slug, ARCHIVE.CATEGORY)
         const result = await (
@@ -74,7 +71,7 @@ describe('updateArchive.spec.ts', () => {
 
     test('updateArchive(): tag, existing Mongo', async () => {
         const tag = await tagFactory()
-        selectOne.mockResolvedValue({ ...tag, title: 'Changed' })
+        query.mockResolvedValue([[{ ...tag, title: 'Changed' }]])
 
         await updateArchive(tag.slug, ARCHIVE.TAG)
         const result = await (

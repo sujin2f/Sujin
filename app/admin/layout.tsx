@@ -3,7 +3,7 @@ import type { PropsWithChildren } from 'react'
 import Wrapper from '@app/_components/Wrapper'
 import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
-import { Menu } from '@common/components/layout/Menu'
+import Menu from '@common/components/layout/Menu'
 import { AdminWrapperServer } from '@app/_components/session/AdminWrapperServer'
 /* Assets */
 import '@app/admin/style.scss'

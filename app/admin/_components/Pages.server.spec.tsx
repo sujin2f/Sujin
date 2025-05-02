@@ -9,7 +9,7 @@ import { clearMongo } from '@common/.jest/helpers'
 import { PagesServer } from './Pages.server'
 import migration from '@app/_lib/migration'
 import { COLLECTION } from '@app/_lib/types'
-import { closeConnection, count, migrate } from '@common/data/mongo/mongo'
+import { count, migrate } from '@common/data/mongo/mongo'
 import { act } from 'react'
 
 jest.mock('next/cache', () => ({
@@ -63,7 +63,6 @@ describe('Pages.server.spec.tsx', () => {
     afterAll(async () => {
         jest.clearAllMocks()
         await clearMongo()
-        await closeConnection()
     })
 
     test('<PagesServer /> has result', async () => {

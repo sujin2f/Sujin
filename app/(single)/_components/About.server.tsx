@@ -13,7 +13,7 @@ import { VERSION } from '@common/constants/helper'
 import { revalidate } from '@app/_lib/constants'
 import { IMAGE_SIZE, COLLECTION, type T_Page } from '@app/_lib/types'
 /* Utils */
-import { getThumbnailFromPost } from '@app/_lib/data/mysql/utils'
+import { getThumbnailFromPost } from '@app/_lib/utils/clients'
 import { findOne } from '@common/data/mongo/mongo'
 import { cachedRequest } from '@app/_lib/utils/cache'
 /* T_Types */

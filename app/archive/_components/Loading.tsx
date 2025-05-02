@@ -1,11 +1,12 @@
 'use client'
-
-import React from 'react'
-
+/* Components */
 import Row from '@common/components/layout/Row'
 import Column, { type ColumnProps } from '@common/components/layout/Column'
+/* Utils */
 import { map } from '@common/utils/array'
 import { joinClassNames } from '@common/utils/string'
+/* Assets */
+import '@app/archive/_components/loading.scss'
 
 type Props = ColumnProps & {
     readonly className?: string

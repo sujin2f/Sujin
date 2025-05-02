@@ -3,7 +3,6 @@
 import { clearMongo } from '@common/.jest/helpers'
 import { NISTresponseH } from '@jest/fixture'
 import { getSpectraFromNIST } from './spectra'
-import { closeConnection } from '@common/data/mongo/mongo'
 
 global.fetch = jest.fn(() =>
     Promise.resolve({
@@ -19,7 +18,6 @@ describe('spectra.spec.ts', () => {
     afterAll(async () => {
         jest.clearAllMocks()
         await clearMongo('spectra')
-        await closeConnection()
     })
 
     test('request', async () => {

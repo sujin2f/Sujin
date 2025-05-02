@@ -1,7 +1,7 @@
 // yarn test mongo.spec.ts
 
 import { clearMongo } from '@common/.jest/helpers'
-import { migrate, closeConnection, getDatabase, findWithCount } from './mongo'
+import { migrate, getDatabase, findWithCount } from './mongo'
 
 describe('mongo.ts', () => {
     beforeAll(async () => {
@@ -24,7 +24,6 @@ describe('mongo.ts', () => {
 
     afterAll(async () => {
         await clearMongo('test', 'options')
-        await closeConnection()
     })
 
     test('migrate()', async () => {

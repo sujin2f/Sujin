@@ -7,7 +7,7 @@ import type { T_Background } from '@app/_lib/types'
 /* Utils */
 import { getCollection } from '@common/data/mongo/mongo'
 import { getAggregation } from '@app/_lib/utils/server'
-import { updateBackgrounds } from '@app/admin/_lib/updateBackgrounds'
+import { updateBackgrounds } from '@app/_lib/utils/mongo/updateBackgrounds'
 
 type Props = {
     page: number

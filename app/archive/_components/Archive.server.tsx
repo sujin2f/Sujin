@@ -12,7 +12,7 @@ import { Loading } from '@app/archive/_components/Loading'
 /* CONSTANTS */
 import { VERSION } from '@common/constants/helper'
 import { revalidate } from '@app/_lib/constants'
-import { PER_PAGE } from '@app/_lib/data/mysql/constants'
+import { PER_PAGE } from '@app/_lib/constants'
 import {
     ARCHIVE,
     COLLECTION,

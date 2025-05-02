@@ -16,7 +16,7 @@ import { VERSION } from '@common/constants/helper'
 import { IMAGE_SIZE, POST_STATUS } from '@app/_lib/types'
 import { revalidate } from '@app/_lib/constants'
 /* Utils */
-import { getThumbnailFromPost } from '@app/_lib/data/mysql/utils'
+import { getThumbnailFromPost } from '@app/_lib/utils/clients'
 import { isAdmin } from '@app/api/auth/_lib/utils-server'
 import { updateHits } from '@app/archive/_lib/updateHits'
 import { getCachedPost } from '@app/(single)/_lib/getCachedPost'

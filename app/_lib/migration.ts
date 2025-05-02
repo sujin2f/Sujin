@@ -11,8 +11,8 @@ import { default as SCHEMA_10_3_4 } from '@app/_lib/schema/10.3.4'
 /* Models */
 import Cached from '@common/model/Cached'
 /* Utils */
-import { setOption } from '@app/admin/_lib/options'
-import { updateBackgrounds } from '@app/admin/_lib/updateBackgrounds'
+import { setOption } from '@app/_lib/utils/mongo/options'
+import { updateBackgrounds } from '@app/_lib/utils/mongo/updateBackgrounds'
 
 /**
  * Run this to create a user
@@ -67,7 +67,6 @@ const migration: T_Migration = {
             })
         } finally {
             await session.endSession()
-            await client.close()
         }
     },
     '10.3.3': async (client) => {

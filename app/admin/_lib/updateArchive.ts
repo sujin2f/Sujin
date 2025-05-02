@@ -1,7 +1,7 @@
 import sanitize from 'mongo-sanitize'
 /* Models */
 import Cached from '@common/model/Cached'
-import MySQL from '@app/_lib/data/mysql'
+import { select } from '@common/data/mysql'
 import { FetchError } from '@common/model/Error'
 /* CONSTANTS */
 import {
@@ -12,14 +12,14 @@ import {
     type T_MySQLArchive,
 } from '@app/_lib/types'
 import { default as schema } from '@app/_lib/schema/10.3.4'
-import { MySQLQuery } from '@app/_lib/data/mysql/constants'
+import { MySQLQuery } from '@app/_lib/utils/mysql/constants'
 /* Utils */
 import { getCacheKey } from '@app/_lib/utils/cache'
 import { insertOrReplace } from '@common/data/mongo/mongo'
 import { schemaFormatter } from '@common/utils/object'
-import { convertImageBlockURL } from '@app/_lib/data/mysql/utils'
-import { updateTotal } from '@app/admin/_lib/updateTotal'
-import { getMedia } from '@app/_lib/data/mysql/getMedia'
+import { convertImageBlockURL } from '@app/_lib/utils/clients'
+import { updateTotal } from '@app/_lib/utils/mongo/updateTotal'
+import { getMedia } from '@app/_lib/utils/mysql/getMedia'
 /* T_Types */
 import type { Nullable } from '@common/types'
 
@@ -61,9 +61,9 @@ export const updateArchive = async (
 }
 
 const getMeta = async <T = string>(id: number, metaKey: string): Promise<T> =>
-    await MySQL.getInstance()
-        .select<T>(MySQLQuery.getTermMeta(id, metaKey))
-        .then((value) => value[0])
+    await select<T>(MySQLQuery.getTermMeta(id, metaKey)).then(
+        (value) => value[0],
+    )
 
 /**
  * Get archive image.
@@ -89,8 +89,9 @@ const getThumbnail = async (
  * @throws {FetchError} Failed to get the archive.
  */
 const getMySQLArchiveBySlug = async (slug: string): Promise<T_Archive> => {
-    const archive = await MySQL.getInstance()
-        .select<T_MySQLArchive>(MySQLQuery.getArchiveBy('slug', slug))
+    const archive = await select<T_MySQLArchive>(
+        MySQLQuery.getArchiveBy('slug', slug),
+    )
         .then((value) => value[0])
         .catch(() => {
             throw new FetchError(`Failed to find MySQL term with: ${slug}`)

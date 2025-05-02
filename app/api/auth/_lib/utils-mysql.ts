@@ -1,9 +1,9 @@
 'use server'
 /* Models */
-import MySQL from '@app/_lib/data/mysql'
+import { select, update } from '@common/data/mysql'
 import { ForbiddenError } from '@common/model/Error'
 /* CONSTANTS */
-import { MySQLQuery } from '@app/_lib/data/mysql/constants'
+import { MySQLQuery } from '@app/_lib/utils/mysql/constants'
 /* Utils */
 import { isAdmin } from '@app/api/auth/_lib/utils-server'
 
@@ -39,9 +39,9 @@ type T_Option = { option_value: string }
  * @returns {Promise<string>} The value of the option.
  */
 const getOption = async (key: string): Promise<string> =>
-    await MySQL.getInstance()
-        .select<T_Option>(MySQLQuery.getOption(key))
-        .then((option) => option[0].option_value)
+    await select<T_Option>(MySQLQuery.getOption(key)).then(
+        (option) => option[0].option_value,
+    )
 
 const removeOption = async (key: string): Promise<void> =>
-    await MySQL.getInstance().update(MySQLQuery.deleteOption(key))
+    await update(MySQLQuery.deleteOption(key))

@@ -14,7 +14,7 @@ import { getCollection } from '@common/data/mongo/mongo'
 import type { T_Background } from '@app/_lib/types'
 /* Assets */
 import Logo from '@app/_lib/images/logo.svg'
-import '@app/scss/front-page.scss'
+import '@app/front-page.scss'
 
 export async function FrontPage() {
     const request = unstable_cache(

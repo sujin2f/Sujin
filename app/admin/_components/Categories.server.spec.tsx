@@ -9,7 +9,7 @@ import { clearMongo } from '@common/.jest/helpers'
 import { CategoriesServer } from './Categories.server'
 import migration from '@app/_lib/migration'
 import { COLLECTION } from '@app/_lib/types'
-import { closeConnection, count, migrate } from '@common/data/mongo/mongo'
+import { count, migrate } from '@common/data/mongo/mongo'
 import { act } from 'react'
 
 jest.mock('next/cache', () => ({
@@ -54,7 +54,6 @@ describe('Categories.server.spec.tsx', () => {
     afterAll(async () => {
         jest.clearAllMocks()
         await clearMongo()
-        await closeConnection()
     })
 
     test('<CategoriesServer /> has result', async () => {
@@ -80,13 +79,12 @@ describe('Categories.server.spec.tsx', () => {
             if (remove.length) fireEvent.click(remove[1])
         })
 
-        waitFor(() => {
+        await waitFor(async () => {
             expect(refresh).toHaveBeenCalled()
+            const result = await count(COLLECTION.ARCHIVE, {})
+            expect(result).toBe(2)
         }).catch(() => {
             expect(false).toBeTruthy()
         })
-
-        const result = await count(COLLECTION.ARCHIVE, {})
-        expect(result).toBe(2)
     })
 })

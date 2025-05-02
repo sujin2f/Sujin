@@ -1,17 +1,13 @@
 // yarn test updatePage.spec.ts
 
+// import { select } from '../../../..common/data/mysql'
 import { VERSION } from '@common/constants/helper'
 import { pageFactory } from '@jest/helpers'
 import { clearMongo } from '@common/.jest/helpers'
 import { COLLECTION, T_Page } from '@app/_lib/types'
 import migration from '@app/_lib/migration'
 import Cached from '@common/model/Cached'
-import {
-    closeConnection,
-    deleteOne,
-    getCollection,
-    migrate,
-} from '@common/data/mongo/mongo'
+import { deleteOne, getCollection, migrate } from '@common/data/mongo/mongo'
 import { updatePage } from './updatePage'
 
 jest.mock('next-auth', () => ({
@@ -24,11 +20,12 @@ jest.mock('next-auth', () => ({
     ),
 }))
 
-const mockQuery = jest.fn()
-jest.mock('promise-mysql', () => ({
-    createConnection: jest.fn(() => ({
-        query: mockQuery,
-    })),
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const query = jest.fn(async (_: string): Promise<unknown[]> => [['']])
+jest.mock('mysql2/promise', () => ({
+    createConnection: () => ({
+        query,
+    }),
 }))
 
 describe('updatePage.spec.ts', () => {
@@ -45,26 +42,27 @@ describe('updatePage.spec.ts', () => {
     afterAll(async () => {
         jest.clearAllMocks()
         await clearMongo()
-        await closeConnection()
     })
 
     test('updatePage(): existing Mongo page', async () => {
         const post = await pageFactory()
 
-        mockQuery.mockImplementation((arg: string) => {
+        query.mockImplementation((arg: string) => {
             if (
                 arg.includes(
                     'AND posts.post_type="page" AND posts.post_status="publish',
                 )
             ) {
                 return Promise.resolve([
-                    {
-                        ...post,
-                        title: 'Changed',
-                    },
+                    [
+                        {
+                            ...post,
+                            title: 'Changed',
+                        },
+                    ],
                 ])
             }
-            return Promise.resolve([])
+            return Promise.resolve([[]])
         })
 
         await updatePage(post.slug)
@@ -80,20 +78,22 @@ describe('updatePage.spec.ts', () => {
         const post = await pageFactory()
         await deleteOne(COLLECTION.POST, { _id: post._id })
 
-        mockQuery.mockImplementation((arg: string) => {
+        query.mockImplementation((arg: string) => {
             if (
                 arg.includes(
                     'AND posts.post_type="page" AND posts.post_status="publish',
                 )
             ) {
                 return Promise.resolve([
-                    {
-                        ...post,
-                        title: 'Changed',
-                    },
+                    [
+                        {
+                            ...post,
+                            title: 'Changed',
+                        },
+                    ],
                 ])
             }
-            return Promise.resolve([])
+            return Promise.resolve([[]])
         })
 
         await updatePage(post.slug)
@@ -106,7 +106,7 @@ describe('updatePage.spec.ts', () => {
     })
 
     test('updatePage(): does not exist', async () => {
-        mockQuery.mockResolvedValue([])
+        query.mockResolvedValue([[]])
         const result1 = await updatePage('slug').catch(() => 'caught!')
         const result2 = await (
             await getCollection<T_Page>(COLLECTION.PAGE)
