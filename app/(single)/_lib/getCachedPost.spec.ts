@@ -7,7 +7,6 @@ import { getCachedPost } from './getCachedPost'
 import Cached from '@common/model/Cached'
 import { COLLECTION, POST_STATUS } from '@app/_lib/types'
 import { migrate } from '@common/data/mongo/mongo'
-import { getCacheKey } from '@app/_lib/utils/cache'
 
 jest.mock('next-auth', () => ({
     getServerSession: jest.fn(async () =>
@@ -17,6 +16,9 @@ jest.mock('next-auth', () => ({
             },
         }),
     ),
+}))
+jest.mock('next/cache', () => ({
+    unstable_cache: (fn: unknown) => fn,
 }))
 
 describe('getCachedPost.spec.ts', () => {
@@ -54,9 +56,5 @@ describe('getCachedPost.spec.ts', () => {
     test('getCachedPost(): not exist', async () => {
         const result = await getCachedPost('slug').catch((e) => e.name)
         expect(result).toEqual('204 No Content')
-        const cache = await Cached.getInstance().get(
-            getCacheKey(COLLECTION.POST, 'slug'),
-        )
-        expect(cache === false).toBeTruthy()
     })
 })

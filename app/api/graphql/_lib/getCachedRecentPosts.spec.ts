@@ -1,4 +1,4 @@
-// yarn test post.spec.ts
+// yarn test getCachedRecentPosts.spec.ts
 import { VERSION } from '@common/constants/helper'
 import migration from '@app/_lib/migration'
 import { postFactory } from '@jest/helpers'
@@ -16,6 +16,9 @@ jest.mock('next-auth', () => ({
             },
         }),
     ),
+}))
+jest.mock('next/cache', () => ({
+    unstable_cache: (fn: unknown) => fn,
 }))
 
 describe('post.spec.ts', () => {

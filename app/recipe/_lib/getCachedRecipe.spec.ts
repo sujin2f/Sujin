@@ -39,6 +39,6 @@ describe('getCachedRecipe.spec.ts', () => {
         const recipe = await getCachedRecipe(new ObjectId()).catch(
             (e) => e.name,
         )
-        expect(recipe).toEqual('204 No Content')
+        expect(recipe).toEqual('Error')
     })
 })

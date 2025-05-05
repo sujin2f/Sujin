@@ -18,6 +18,9 @@ jest.mock('next-auth', () => ({
         }),
     ),
 }))
+jest.mock('next/cache', () => ({
+    unstable_cache: (fn: unknown) => fn,
+}))
 
 describe('migration.spec.ts', () => {
     beforeAll(async () => {
