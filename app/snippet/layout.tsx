@@ -2,7 +2,7 @@ import type { PropsWithChildren } from 'react'
 /* Components */
 import GlobalWrapper from '@app/_components/Wrapper'
 import { Excerpt } from '@app/snippet/excerpt'
-import { AdminWrapperServer } from '@app/_components/session/AdminWrapperServer'
+import { AdminWrapperServer } from '@app/_components/AdminWrapperServer'
 /* CONSTANTS */
 import { MENU_NAMES } from '@app/_lib/types'
 import { authOptions } from '@app/api/auth/_lib/constants'
@@ -18,7 +18,6 @@ export default async function LayoutSnippet({ children }: PropsWithChildren) {
         <AdminWrapperServer>
             <GlobalWrapper
                 menu={MENU_NAMES.MAIN}
-                className="wrapper--snippet"
                 large={12}
                 small={12}
                 title="Code Snippet"

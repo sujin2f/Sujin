@@ -18,23 +18,14 @@ import { findOne, insertOrReplace } from '@common/data/mongo/mongo'
  */
 export const getCachedOption = async (_key: string): Promise<string> => {
     const key = sanitize(_key)
-    let error: Error | null = null
-    const value = await cachedRequest(
-        COLLECTION.OPTIONS,
-        [key],
-        async () =>
-            await findOne(COLLECTION.OPTIONS, { key })
-                .then((result) => result.value)
-                .catch((e) => {
-                    // Failed to find the post, cache false
-                    error = e
-                    return false
-                }),
+    const request = cachedRequest(
+        async (key: string) =>
+            await findOne(COLLECTION.OPTIONS, { key }).then(
+                (result) => result.value,
+            ),
+        getCacheKey(COLLECTION.OPTIONS, 'key'),
     )
-    if (error) {
-        throw error
-    }
-    return value
+    return await request(key)
 }
 
 /**

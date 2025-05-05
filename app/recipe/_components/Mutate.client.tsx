@@ -9,7 +9,12 @@ import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
 import ButtonGroup from '@common/components/forms/ButtonGroup'
 /* T_Types */
-import { type T_Recipe, type T_SessionUser, UNITS } from '@app/_lib/types'
+import {
+    type T_Recipe,
+    type T_SessionUser,
+    UNITS,
+    UNITS_SELECTION,
+} from '@app/_lib/types'
 import type { T_Stringify } from '@common/types/mongo'
 /* Utils */
 import { map } from '@common/utils/array'
@@ -51,7 +56,6 @@ export function MutateClient({ mutate, recipe, user }: Props) {
 
     return (
         <>
-            <h2>New Recipe</h2>
             <form
                 onSubmit={(e) => {
                     onSubmit(e)
@@ -120,7 +124,7 @@ export function MutateClient({ mutate, recipe, user }: Props) {
                             <Column small={4}>
                                 <Select
                                     label="Unit"
-                                    options={UNITS as unknown as string[]}
+                                    options={UNITS_SELECTION}
                                     name={`unit[${index}]`}
                                     defaultValue={
                                         recipe?.ingredients[index]

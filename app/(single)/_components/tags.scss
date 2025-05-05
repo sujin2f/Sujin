@@ -1,26 +1,24 @@
 @use '@common/scss/mixin';
 
-.sujin {
-    .tag__container {
-        list-style: none;
-        display: flex;
-        flex-wrap: wrap;
-        margin: 0 0 var(--gap);
-        padding: 0;
-    }
+.tag__container {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 0 var(--gap);
+    padding: 0;
+}
 
-    .tag {
-        display: inline-block;
-        background-color: var(--black);
-        color: var(--white);
-        padding: 0.25em 0.5em 0.42em;
-        margin: 0 calc(var(--gap) / 2) calc(var(--gap) / 2) 0;
-        border-radius: 2px;
-        transition: background-color ease-out 0.2s;
+.tag {
+    display: inline-block;
+    background-color: var(--black);
+    color: var(--white);
+    padding: 0.25em 0.5em 0.42em;
+    margin: 0 calc(var(--gap) / 2) calc(var(--gap) / 2) 0;
+    border-radius: 2px;
+    transition: background-color ease-out 0.2s;
 
-        @include mixin.hover {
-            background-color: var(--primary);
-            text-decoration: none;
-        }
+    @include mixin.hover {
+        background-color: var(--primary);
+        text-decoration: none;
     }
 }

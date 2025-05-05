@@ -363,7 +363,7 @@ const recipe: T_MongoSchema<T_Mongo<T_Recipe>> = {
                     },
                     unit: {
                         bsonType: 'string',
-                        enum: [...UNITS],
+                        enum: UNITS,
                     },
                 },
             },

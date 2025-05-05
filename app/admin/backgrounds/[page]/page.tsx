@@ -1,4 +1,4 @@
-import { BackgroundsServer } from '@app/admin/_components/Backgrounds-server'
+import { BackgroundsServer } from '@app/admin/_components/Backgrounds.server'
 
 type Props = {
     params: Promise<{

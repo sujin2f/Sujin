@@ -12,10 +12,10 @@ export const metadata: Metadata = {
     ...METADATA['/ether'],
 }
 
-export default function Layout({ children }: PropsWithChildren) {
+export default async function Layout({ children }: PropsWithChildren) {
     return (
         <>
-            <Wrapper menu={MENU_NAMES.ETHER} banner={false} className="sujin">
+            <Wrapper menu={MENU_NAMES.ETHER} banner={false}>
                 {children}
             </Wrapper>
         </>

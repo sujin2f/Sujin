@@ -1,3 +1,5 @@
+import type { WithId, Document } from 'mongodb'
+import type { T_Stringify } from '../types/mongo'
 import { IOError } from '../model/Error'
 
 /**
@@ -205,4 +207,19 @@ export const schemaFormatter = (
     }
 
     return {}
+}
+
+export const mongoStringify = <T extends WithId<Document>, K extends string[]>(
+    document: T,
+    ...excludes: K
+): T_Stringify<T, keyof K> => {
+    return Object.entries(document).reduce((acc, [key, value]) => {
+        return {
+            ...acc,
+            [key]:
+                !excludes.includes(key) && value._bsontype
+                    ? JSON.parse(JSON.stringify(value))
+                    : value,
+        }
+    }, {}) as T_Stringify<T, keyof K>
 }

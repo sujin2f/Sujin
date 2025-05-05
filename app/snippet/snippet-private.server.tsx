@@ -1,9 +1,9 @@
 import { ObjectId } from 'mongodb'
 import { unstable_cache } from 'next/cache'
 import { Suspense } from 'react'
-import { notFound } from 'next/navigation'
 /* Models */
 import Cached from '@common/model/Cached'
+import { ForbiddenError } from '@common/model/Error'
 /* Utils */
 import { getCacheKey } from '@app/_lib/utils/cache'
 import { getCollection } from '@common/data/mongo/mongo'
@@ -27,9 +27,14 @@ type Props = {
 }
 
 export async function PrivateServer({ page }: Props) {
-    const userId = await getCurrentUser()
-        .then((user) => user._id)
-        .catch(() => notFound())
+    const userId = await getCurrentUser().then((user) => {
+        if (!user) {
+            throw new ForbiddenError(
+                'You need to log in for adding or modifying a recipe.',
+            )
+        }
+        return user._id
+    })
 
     const request = unstable_cache(
         async (page) => await getCachedMySnippets(userId, page),
@@ -67,47 +72,46 @@ export async function PrivateServer({ page }: Props) {
     )
 }
 
+const query = async (userId: string, page: number) => {
+    const collection = await getCollection<T_Snippets>(COLLECTION.SNIPPETS)
+    const total = await collection.countDocuments()
+    const list = await collection
+        .aggregate<T_Snippets>([
+            {
+                $match: { user: new ObjectId(userId) },
+            },
+            ...getAggregation('paging', page),
+            ...getAggregation('_id'),
+            ...getAggregation('_id', 'user'),
+            {
+                $lookup: {
+                    from: COLLECTION.SNIPPET,
+                    localField: 'snippets',
+                    foreignField: '_id',
+                    as: 'snippets',
+                    pipeline: [
+                        {
+                            $addFields: {
+                                _id: { $toString: '$_id' },
+                            },
+                        },
+                    ],
+                },
+            },
+        ])
+        .toArray()
+    return {
+        list,
+        pages: Math.ceil(total / PER_PAGE),
+    } satisfies PropWithPages<T_Snippets>
+}
+
 export const getCachedMySnippets = async (
     userId: string,
     page: number,
 ): Promise<PropWithPages<T_Snippets>> =>
     await Cached.getInstance().getOrExecute<PropWithPages<T_Snippets>>(
         getCacheKey(COLLECTION.SNIPPETS, page),
-        async () => {
-            const collection = await getCollection<T_Snippets>(
-                COLLECTION.SNIPPETS,
-            )
-            const total = await collection.countDocuments()
-            const list = await collection
-                .aggregate<T_Snippets>([
-                    {
-                        $match: { user: new ObjectId(userId) },
-                    },
-                    ...getAggregation('paging', page),
-                    ...getAggregation('_id'),
-                    ...getAggregation('_id', 'user'),
-                    {
-                        $lookup: {
-                            from: COLLECTION.SNIPPET,
-                            localField: 'snippets',
-                            foreignField: '_id',
-                            as: 'snippets',
-                            pipeline: [
-                                {
-                                    $addFields: {
-                                        _id: { $toString: '$_id' },
-                                    },
-                                },
-                            ],
-                        },
-                    },
-                ])
-                .toArray()
-            return {
-                list,
-                pages: Math.ceil(total / PER_PAGE),
-            } satisfies PropWithPages<T_Snippets>
-        },
-        DAY_IN_SECONDS,
-        IS_DEV,
+        query(userId, page),
+        { ttl: DAY_IN_SECONDS, force: IS_DEV },
     )

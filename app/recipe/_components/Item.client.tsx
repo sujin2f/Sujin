@@ -1,6 +1,6 @@
 'use client'
 import { type ChangeEvent, useCallback, useState } from 'react'
-import { redirect } from 'next/navigation'
+import { notFound } from 'next/navigation'
 /* Components */
 import Link from 'next/link'
 import Table from '@common/components/containers/Table'
@@ -9,79 +9,100 @@ import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
 import Button from '@common/components/forms/Button'
 import ButtonGroup from '@common/components/forms/ButtonGroup'
-import Confirm from '@common/components/containers/Confirm'
 /* T_Types */
-import type { T_Recipe, T_SessionUser } from '@app/_lib/types'
+import type { T_Recipe } from '@app/_lib/types'
 import type { T_Stringify } from '@common/types/mongo'
+/* CONSTANTS */
 import { QuantumBool } from '@common/types'
+/* Utils */
+import { useDelete } from '@app/recipe/_lib/useDelete'
+import { useSession } from 'next-auth/react'
 
 type Props = {
     readonly recipe: T_Stringify<T_Recipe>
-    readonly user: T_SessionUser | undefined
-    readonly remove: (_id: string) => Promise<void>
 }
 
-export function ItemClient({ recipe, user, remove }: Props) {
-    const { title, url, ingredients } = recipe
-    const [converted, setConverted] = useState(ingredients)
-    const [confirm, setConfirm] = useState<QuantumBool>(QuantumBool.FALSE)
+export function ItemClient({ recipe }: Props) {
+    const { setConfirm, isPending, Confirm } = useDelete(
+        recipe._id,
+        '/recipe/mine/1',
+    )
+    const session = useSession()
+    const userId = session?.data?.user
+        ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (session?.data?.user as any)._id
+        : undefined
+    const [converted, setConverted] = useState(recipe?.ingredients || [])
+    const [focused, setFocused] = useState<false | number>(false)
 
     const onChange = useCallback(
         (index: number, value: number) => {
-            if (!value || isNaN(value)) {
+            if (isNaN(value)) {
                 return
             }
-            const ratio = value / converted[index].amount
+
+            const ratio = (value || 0) / converted[index].amount
             setConverted(
                 converted.map((item, i) => {
                     if (i === index) {
-                        return { ...item, amount: value }
+                        return { ...item, amount: value || 0 }
                     }
-                    return { ...item, amount: item.amount * ratio }
+                    return {
+                        ...item,
+                        amount: item.amount * ratio,
+                    }
                 }),
             )
         },
         [converted],
     )
 
-    const confirmDelete = useCallback(
-        async (value: QuantumBool) => {
-            setConfirm(value)
-            if (value === QuantumBool.TRUE) {
-                await remove(recipe._id)
-                redirect('/recipe/mine/1')
-            }
-        },
-        [remove, recipe._id],
-    )
+    if (!isPending && !recipe) notFound()
+    if (!recipe) return <></>
 
     return (
         <>
-            <h2>{title}</h2>
+            {Confirm}
+
             <h3>
-                <Link href={url} target="_blank">
-                    {url}
+                <Link href={recipe.url} target="_blank">
+                    {recipe.url}
                 </Link>
             </h3>
 
-            <Table fullWidth>
+            <Table fullWidth className="recipe__single">
                 <tbody>
                     {converted.map((item, index) => (
                         <tr key={item.title}>
-                            <th className="--right">{item.title}</th>
+                            <th className="recipe__ingredient --right">
+                                {item.title}
+                            </th>
                             <td className="recipe__amount">
                                 <Input
                                     type="number"
-                                    value={parseFloat(
-                                        item.amount.toString(),
-                                    ).toFixed(2)}
+                                    value={
+                                        focused !== index
+                                            ? parseFloat(
+                                                  item.amount.toString(),
+                                              ).toFixed(2)
+                                            : item.amount
+                                    }
                                     onChange={(
                                         e: ChangeEvent<HTMLInputElement>,
                                     ) => {
-                                        e.preventDefault()
+                                        setFocused(index)
                                         onChange(
                                             index,
-                                            parseInt(e.target.value),
+                                            parseFloat(e.target.value),
+                                        )
+                                    }}
+                                    onBlur={(
+                                        e: ChangeEvent<HTMLInputElement>,
+                                    ) => {
+                                        setFocused(false)
+                                        onChange(
+                                            index,
+                                            parseFloat(e.target.value),
                                         )
                                     }}
                                 />
@@ -96,25 +117,34 @@ export function ItemClient({ recipe, user, remove }: Props) {
 
             <Row fullWidth>
                 <Column large={6}>
-                    {user ? (
-                        <Button href="/recipe/mine/1" title="My Recipes" />
+                    {userId ? (
+                        <Button
+                            href="/recipe/mine/1"
+                            title="My Recipes"
+                            disabled={isPending}
+                        />
                     ) : (
-                        <Button href="/recipe/1" title="Public Recipes" />
+                        <Button
+                            href="/recipe/1"
+                            title="Public Recipes"
+                            disabled={isPending}
+                        />
                     )}
                 </Column>
                 <Column className="--right" large={6}>
-                    {user?._id === recipe.user && (
+                    {userId === recipe.user && (
                         <ButtonGroup gap>
                             <Button
                                 href={`/recipe/mutate/${recipe._id}`}
                                 title="Edit"
+                                disabled={isPending}
                             />
-                            <Confirm callback={confirmDelete} value={confirm}>
-                                Do you really want to delete this?
-                            </Confirm>
                             <Button
-                                onClick={() => setConfirm(QuantumBool.MOD)}
+                                onClick={() => {
+                                    setConfirm(QuantumBool.MOD)
+                                }}
                                 title="Delete"
+                                disabled={isPending}
                             />
                         </ButtonGroup>
                     )}

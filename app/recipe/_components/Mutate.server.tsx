@@ -1,8 +1,14 @@
 import { Double, ObjectId } from 'mongodb'
-import { unstable_cache, revalidateTag } from 'next/cache'
+import { revalidateTag } from 'next/cache'
 /* Models */
 import Cached from '@common/model/Cached'
-import { A_Error, UnauthorizedError } from '@common/model/Error'
+import {
+    A_Error,
+    UnauthorizedError,
+    NoContentError,
+    ForbiddenError,
+} from '@common/model/Error'
+import Logger from '@common/model/Logger'
 /* Components */
 import { MutateClient } from '@app/recipe/_components/Mutate.client'
 /* Utils */
@@ -10,69 +16,84 @@ import { getCachedRecipe } from '@app/recipe/_lib/getCachedRecipe'
 import { getCurrentUser } from '@app/api/auth/_lib/utils-server'
 import { getCacheKey } from '@app/_lib/utils/cache'
 import { insertOne, updateOne } from '@common/data/mongo/mongo'
+import { mongoStringify } from '@common/utils/object'
 /* CONSTANTS */
-import { VERSION } from '@common/constants/helper'
-import { revalidate } from '@app/_lib/constants'
-import { COLLECTION, type T_Recipe } from '@app/_lib/types'
+import { COLLECTION, MENU_NAMES, type T_Recipe } from '@app/_lib/types'
 /* T_Type */
 import type { T_Stringify } from '@common/types/mongo'
+import Wrapper from '@app/_components/Wrapper'
 
 type Props = {
-    _id: ObjectId | 'new'
+    _id?: ObjectId
 }
 
 export async function MutateServer({ _id }: Props) {
-    const user = await getCurrentUser().catch((e) => {
-        if (e instanceof A_Error) {
-            new UnauthorizedError('You need to log in for adding a recipe.')
-                .setCause(e)
-                .log()
+    const user = await getCurrentUser().then((user) => {
+        if (!user) {
+            throw new ForbiddenError(
+                'You need to log in for adding or modifying a recipe.',
+            ).log()
         }
-        throw e
+        return user
     })
 
-    const request = unstable_cache(
-        async (id: ObjectId) =>
-            await getCachedRecipe(id).catch((e) => {
-                if (e instanceof A_Error) {
-                    e.log()
+    const recipe =
+        _id &&
+        (await getCachedRecipe(_id)
+            .then((item) => {
+                console.log(item.user, _id)
+                if (item.user.toString() !== user._id) {
+                    throw new ForbiddenError(
+                        `Invalid access: This is not your recipe`,
+                        _id,
+                        user._id,
+                    ).log()
                 }
+                return mongoStringify(item)
+            })
+            .catch((e) => {
+                if (e instanceof A_Error) {
+                    throw new NoContentError(
+                        'Recipe cannot be found.',
+                        _id.toString(),
+                    )
+                        .setCause(e)
+                        .log()
+                }
+                Logger.server(e)
                 throw e
-            }),
-        [_id.toString(), VERSION],
-        {
-            tags: ['recipe', 'single'],
-            revalidate,
-        },
-    )
-    const recipe = _id === 'new' ? undefined : await request(_id)
-    const mutate = async (recipe: Partial<T_Stringify<T_Recipe>>) => {
-        'use server'
-        await mutateRecipe(recipe).catch((e) => {
-            if (e instanceof A_Error) {
-                e.log()
-            }
-            throw e
-        })
-    }
+            }))
 
-    return <MutateClient mutate={mutate} recipe={recipe} user={user} />
+    return (
+        <Wrapper
+            menu={MENU_NAMES.MAIN}
+            large={8}
+            largeOffset={2}
+            small={12}
+            title={recipe ? `Edit: ${recipe.title}` : 'New Recipe'}
+            excerpt=""
+            prefix="Recipe"
+        >
+            <MutateClient mutate={mutate} recipe={recipe} user={user} />
+        </Wrapper>
+    )
 }
 
-const mutateRecipe = async (recipe: Partial<T_Stringify<T_Recipe>>) => {
-    const userId = await getCurrentUser()
-        .then((user) => user._id)
-        .catch((e) => {
-            if (e instanceof UnauthorizedError) {
-                throw new UnauthorizedError('You need to ').setCause(e)
-            }
-            throw e
-        })
+const mutate = async (recipe: Partial<T_Stringify<T_Recipe>>) => {
+    'use server'
+    const userId = await getCurrentUser().then((user) => {
+        if (!user) {
+            throw new ForbiddenError(
+                'You need to log in for adding or modifying a recipe.',
+            ).log()
+        }
+        return user._id
+    })
 
     if (recipe._id && recipe.user && recipe.user !== userId) {
         throw new UnauthorizedError(
             `Not Authorized in insertRecipe() for ${recipe._id} ${recipe.user}`,
-        )
+        ).log()
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -89,11 +110,17 @@ const mutateRecipe = async (recipe: Partial<T_Stringify<T_Recipe>>) => {
             COLLECTION.RECIPE,
             { _id: new ObjectId(recipe._id) },
             { $set: doc },
-        )
+        ).catch((e) => {
+            Logger.server(e)
+            throw e
+        })
     } else {
         await insertOne(COLLECTION.RECIPE, {
             ...doc,
             user: new ObjectId(user),
+        }).catch((e) => {
+            Logger.server(e)
+            throw e
         })
     }
 

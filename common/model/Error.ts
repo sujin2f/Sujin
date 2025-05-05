@@ -4,6 +4,7 @@ import Logger from './Logger'
 export abstract class A_Error extends Error {
     public messages: unknown[] = []
     public message: string = ''
+    public metadata: unknown
 
     constructor(message?: string, ...messages: unknown[]) {
         super(message)
@@ -12,6 +13,11 @@ export abstract class A_Error extends Error {
 
     public setCause(cause: unknown) {
         this.cause = cause
+        return this
+    }
+
+    public setMetadata(metadata: unknown) {
+        this.metadata = metadata
         return this
     }
 
@@ -45,15 +51,27 @@ export abstract class A_Error extends Error {
     }
 }
 
-export class IOError extends A_Error {}
-export class InternalError extends A_Error {}
-export class NodeModuleError extends InternalError {}
-export class EnvironmentError extends InternalError {}
-export class DatabaseError extends InternalError {}
+export class IOError extends A_Error {
+    name = 'IOError'
+}
+export class InternalError extends A_Error {
+    name = 'InternalError'
+}
+export class NodeModuleError extends InternalError {
+    name = 'NodeModuleError'
+}
+export class EnvironmentError extends InternalError {
+    name = 'EnvironmentError'
+}
+export class DatabaseError extends InternalError {
+    name = 'DatabaseError'
+}
 export class NoContentError extends DatabaseError {
     name = '204 No Content'
 }
-export class FetchError extends A_Error {}
+export class FetchError extends A_Error {
+    name = 'FetchError'
+}
 export class UnauthorizedError extends A_Error {
     name = '401 Unauthorized'
     message = 'You are not authorized to access here.'

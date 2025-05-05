@@ -2,18 +2,21 @@ import { ObjectId } from 'mongodb'
 import sanitize from 'mongo-sanitize'
 /* Models */
 import Cached from '@common/model/Cached'
+import { A_Error, NoContentError } from '@common/model/Error'
 /* Components */
-import { PostsComponent } from '@app/admin/_components/Posts-client'
+import { PostsComponent } from '@app/admin/_components/Posts.client'
 /* Utils */
-import { getCachedArchive } from '@app/archive/_lib/getCachedArchive'
-import { getArchivePosts } from '@app/archive/_lib/getArchivePosts'
+import { getCachedArchive } from '@app/_lib/utils/mongo/getCachedArchive'
+import { getArchivePosts } from '@app/_lib/utils/mongo/getArchivePosts'
 import { getPostsBy } from '@app/_lib/utils/mysql/getPostsBy'
 import { getCacheKey } from '@app/_lib/utils/cache'
 import { auth } from '@app/api/auth/_lib/utils-mysql'
 import { updateTotal } from '@app/_lib/utils/mongo/updateTotal'
 import { updateFromMySQL } from '@app/_lib/utils/mongo/updateFromMySQL'
 /* CONSTANTS */
-import { ARCHIVE, COLLECTION, POST_TYPE } from '@app/_lib/types'
+import { ARCHIVE, COLLECTION, POST_TYPE, type T_Archive } from '@app/_lib/types'
+/* T_Types */
+import { mongoStringify } from '@common/utils/object'
 
 type Props = {
     page: number
@@ -21,7 +24,17 @@ type Props = {
 }
 
 export async function PostsServer({ slug, page }: Props) {
-    const archive = await getCachedArchive(slug, ARCHIVE.CATEGORY, true)
+    const archive = await getCachedArchive(slug, ARCHIVE.CATEGORY).catch(
+        (e) => {
+            if (e instanceof NoContentError) {
+                return e.metadata as T_Archive
+            }
+            if (e instanceof A_Error) {
+                e.log()
+            }
+            throw e
+        },
+    )
     const posts = await getArchivePosts(new ObjectId(archive._id), page).catch(
         () => [],
     )
@@ -36,9 +49,9 @@ export async function PostsServer({ slug, page }: Props) {
     return (
         <PostsComponent
             page={page}
-            posts={posts}
+            posts={posts.map((v) => mongoStringify(v))}
             update={update}
-            archive={archive}
+            archive={mongoStringify(archive)}
         />
     )
 }

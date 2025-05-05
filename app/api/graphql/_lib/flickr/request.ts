@@ -9,12 +9,12 @@ import { IS_DEV } from '@common/constants/helper'
 /* T_Types */
 import type { T_FlickrImage, T_FlickrResponse } from '@app/_lib/types'
 
-export const request = async (): Promise<T_FlickrImage[]> => {
-    const defaultValue = STATIC_FLICKR.items.map((item) => ({
-        ...item,
-        media: item.media.m,
-    }))
+const defaultValue = STATIC_FLICKR.items.map((item) => ({
+    ...item,
+    media: item.media.m,
+}))
 
+export const request = async (): Promise<T_FlickrImage[]> => {
     if (IS_DEV) {
         return defaultValue
     }
@@ -54,9 +54,8 @@ export const request = async (): Promise<T_FlickrImage[]> => {
         })
 }
 
-export const getFlickr = async () =>
-    await Cached.getInstance().getOrExecute(
-        'flickr',
-        async () => await request(),
-        WEEK_IN_SECONDS,
-    )
+export const getFlickr = async () => {
+    return await Cached.getInstance().getOrExecute('flickr', request(), {
+        ttl: WEEK_IN_SECONDS,
+    })
+}

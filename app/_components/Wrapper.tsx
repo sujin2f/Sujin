@@ -11,9 +11,10 @@ import { joinClassNames } from '@common/utils/string'
 
 type Props = ColumnProps &
     BannerProps & {
-        readonly className?: string
         readonly footer?: boolean
         readonly banner?: boolean
+        readonly style?: Record<string, string>
+        readonly className?: string
     }
 
 /**
@@ -25,20 +26,26 @@ export default function Wrapper({
     children,
     footer = true,
     banner = true,
+    style,
+    className,
     ...props
 }: PropsWithChildren<Props>) {
-    const className = joinClassNames(
-        'wrapper',
-        !banner && 'wrapper--no-banner',
-        props.className,
-    )
     const menu = props.menu || MENU_NAMES.MAIN
+
     return (
-        <div className={className}>
+        <div
+            className={joinClassNames(
+                'wrapper',
+                className,
+                style?.wrapper,
+                !banner && 'wrapper--no-banner',
+            )}
+        >
             <ScrollToTop />
-            <FixedHeader menu={menu} />
-            <main>
-                {banner && <Banner menu={menu} {...props} />}
+            <FixedHeader menu={menu} style={style} />
+
+            <main className={joinClassNames('main', style?.main)}>
+                {banner && <Banner menu={menu} {...props} style={style} />}
 
                 <Row>
                     <Column small={small || 12} {...props}>

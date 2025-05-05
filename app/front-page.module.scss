@@ -1,0 +1,45 @@
+@use '@common/scss/mixin';
+
+.wrapper {
+    .banner {
+        height: 100vh;
+        margin: 0;
+        overflow: hidden;
+
+        .banner__overlay {
+            height: 100vh;
+        }
+
+        .banner__header {
+            height: 100vh;
+        }
+
+        .banner__title {
+            width: 100%;
+        }
+
+        .banner__logo {
+            width: 50vw;
+
+            @include mixin.medium {
+                width: 20rem;
+            }
+
+            @include mixin.extra-large {
+                width: 20vw;
+            }
+        }
+
+        .banner__excerpt {
+            width: fit-content;
+        }
+
+        .banner__background {
+            height: 100vh;
+        }
+    }
+
+    .main::after {
+        display: none;
+    }
+}

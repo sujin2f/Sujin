@@ -11,11 +11,12 @@ import { AboutItem } from '@app/(single)/_components/AboutItem'
 import { Carousel } from '@app/(single)/_components/Carousel'
 import { Caption } from '@app/(single)/_components/Caption'
 import { Code } from '@app/(single)/_components/Code'
-/* Helpers */
+/* Utils */
+import { removeEmptyParagraphs } from '@common/utils/string'
+/* T_Types */
 import type { T_Post, T_Page } from '@app/_lib/types'
-import { T_Stringify } from '@common/types/mongo'
+import type { T_Stringify } from '@common/types/mongo'
 import type { T_ShortcodeAttrMatch } from '@app/_lib/types'
-import { removeExtraParagraph } from '../_lib/utils'
 
 type Props = {
     post: T_Stringify<T_Post | T_Page>
@@ -75,7 +76,7 @@ function parseContent(content: string): ReactNode[] {
             }
         }
 
-        const section = removeExtraParagraph(value)
+        const section = removeEmptyParagraphs(value)
 
         if (section) {
             return (

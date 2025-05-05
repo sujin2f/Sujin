@@ -23,15 +23,6 @@ export const TAXONOMY = {
 } as const
 export type TAXONOMY = ConstToType<typeof TAXONOMY>
 
-/**
- * URL path for archives
- * @enum
- */
-export const ARCHIVE_URL = {
-    ...ARCHIVE,
-} as const
-export type ARCHIVE_URL = ConstToType<typeof ARCHIVE_URL>
-
 export type T_Archive = WithId<{
     title: string
     slug: string

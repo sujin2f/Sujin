@@ -79,12 +79,10 @@ export const getSpectraFromNIST = async (_number: number, _ion: number) => {
     const ion = sanitize(_ion)
     const atom = getAtom(number)
     const key = `spectra-${number}-${ion}`
-    return await Cached.getInstance().getOrExecute(
-        key,
-        async () => await request(atom, ion),
-        WEEK_IN_SECONDS,
-        IS_DEV,
-    )
+    return await Cached.getInstance().getOrExecute(key, request(atom, ion), {
+        ttl: WEEK_IN_SECONDS,
+        force: IS_DEV,
+    })
 }
 
 export const getSpectraBySchema = async (schema: string) => {
@@ -92,12 +90,10 @@ export const getSpectraBySchema = async (schema: string) => {
     const value = JSON.parse(decodeURIComponent(schema))
     return await Cached.getInstance().getOrExecute(
         key,
-        async () =>
-            await (await getCollection<ISpectrum>(COLLECTION.SPECTRA))
-                .find(value)
-                .toArray(),
-        WEEK_IN_SECONDS,
-        IS_DEV,
+        (await getCollection<ISpectrum>(COLLECTION.SPECTRA))
+            .find(value)
+            .toArray(),
+        { ttl: WEEK_IN_SECONDS, force: IS_DEV },
     )
 }
 
@@ -111,12 +107,10 @@ export const findSpectra = async (spectrum: Partial<ISpectrum>) => {
     const key = `spectra-${JSON.stringify(spectrum)}`
     return await Cached.getInstance().getOrExecute(
         key,
-        async () =>
-            await (await getCollection<ISpectrum>(COLLECTION.SPECTRA))
-                .find(spectrum)
-                .toArray(),
-        WEEK_IN_SECONDS,
-        IS_DEV,
+        (await getCollection<ISpectrum>(COLLECTION.SPECTRA))
+            .find(spectrum)
+            .toArray(),
+        { ttl: WEEK_IN_SECONDS, force: IS_DEV },
     )
 }
 

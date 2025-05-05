@@ -6,7 +6,6 @@ import { MENU_NAMES } from '@app/_lib/types'
 export default async function Page() {
     return (
         <Wrapper
-            className="wrapper--design-system sujin"
             title="HTML Elements"
             prefix="Design System"
             menu={MENU_NAMES.DESIGN_SYSTEM}

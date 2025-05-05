@@ -183,3 +183,11 @@ export const phpUnSerialize = (input: string) => {
         throw new IOError(result).setCause(phpUnSerialize)
     }
 }
+
+export const removeEmptyParagraphs = (value: string) => {
+    return value
+        .replace(/<p>$/, '')
+        .replace(/^<\/p>/, '')
+        .replace('/n', '')
+        .trim()
+}

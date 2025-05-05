@@ -24,7 +24,6 @@ type Props = PropsWithChildren<{
  * @param {string} [props.className] - Additional class names for the top bar.
  * @param {boolean} [props.fullWidth] - Whether the top bar should span the full width of the container.
  * @param {boolean} [props.fixed] - Whether the top bar should be fixed at the top of the page.
- * @returns {JSX.Element} The rendered TopBar component.
  */
 export function TopBar({
     left,

@@ -1,104 +1,103 @@
 @use '@common/scss/mixin';
-.sujin {
-    .carousel {
-        background: var(--light-gray);
-        display: flex;
-        flex-direction: row-reverse;
-        transition: height 0.5s ease;
-        margin-bottom: 1.5em;
 
-        img {
-            margin-bottom: 0;
+.carousel {
+    background: var(--light-gray);
+    display: flex;
+    flex-direction: row-reverse;
+    transition: height 0.5s ease;
+    margin-bottom: 1.5em;
+
+    img {
+        margin-bottom: 0;
+    }
+}
+
+.carousel__picture {
+    padding: 10px;
+    width: calc(100% - (100px + 20px));
+    height: auto;
+    overflow: hidden;
+}
+
+.carousel__nav {
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    padding: 10px 0 10px 10px;
+    width: calc(100px + 20px);
+    scroll-behavior: smooth;
+
+    img {
+        cursor: pointer;
+        max-width: 100px;
+        height: auto;
+        margin-bottom: 10px;
+        border: 2px solid var(--light-gray);
+        transition: border 0.5s ease;
+
+        &.current {
+            border-color: var(--primary);
+        }
+
+        &:last-child {
+            margin-bottom: 0px;
         }
     }
+}
 
+$arrow-size: 3em;
+
+.carousel__arrow__container {
+    position: absolute;
+    display: none;
+    left: 50%;
+    transform: translate(-50%, 0);
+    align-items: stretch;
+    height: $arrow-size;
+}
+
+.carousel__arrow {
+    background: var(--primary) !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: $arrow-size;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+        width: calc(#{$arrow-size} - var(--gap));
+        height: calc(#{$arrow-size} - var(--gap));
+        fill: var(--white);
+    }
+}
+
+.carousel__arrow__next svg {
+    transform: rotate(180deg);
+}
+
+.carousel__arrow__number {
+    display: flex;
+    background: var(--black);
+    color: var(--white);
+    min-width: $arrow-size;
+    height: $arrow-size;
+    justify-content: center;
+    align-items: center;
+}
+
+@include mixin.medium {
     .carousel__picture {
-        padding: 10px;
-        width: calc(100% - (100px + 20px));
-        height: auto;
-        overflow: hidden;
+        width: 100%;
     }
 
     .carousel__nav {
-        display: flex;
-        flex-direction: column;
-        overflow-y: scroll;
-        padding: 10px 0 10px 10px;
-        width: calc(100px + 20px);
-        scroll-behavior: smooth;
-
-        img {
-            cursor: pointer;
-            max-width: 100px;
-            height: auto;
-            margin-bottom: 10px;
-            border: 2px solid var(--light-gray);
-            transition: border 0.5s ease;
-
-            &.current {
-                border-color: var(--primary);
-            }
-
-            &:last-child {
-                margin-bottom: 0px;
-            }
-        }
+        display: none;
     }
-
-    $arrow-size: 3em;
 
     .carousel__arrow__container {
-        position: absolute;
-        display: none;
-        left: 50%;
-        transform: translate(-50%, 0);
-        align-items: stretch;
-        height: $arrow-size;
-    }
-
-    .carousel__arrow {
-        background: var(--primary) !important;
-        border: none !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        width: $arrow-size;
-        height: auto;
         display: flex;
-        align-items: center;
-        justify-content: center;
-
-        svg {
-            width: calc(#{$arrow-size} - var(--gap));
-            height: calc(#{$arrow-size} - var(--gap));
-            fill: var(--white);
-        }
-    }
-
-    .carousel__arrow__next svg {
-        transform: rotate(180deg);
-    }
-
-    .carousel__arrow__number {
-        display: flex;
-        background: var(--black);
-        color: var(--white);
-        min-width: $arrow-size;
-        height: $arrow-size;
-        justify-content: center;
-        align-items: center;
-    }
-
-    @include mixin.medium {
-        .carousel__picture {
-            width: 100%;
-        }
-
-        .carousel__nav {
-            display: none;
-        }
-
-        .carousel__arrow__container {
-            display: flex;
-        }
     }
 }

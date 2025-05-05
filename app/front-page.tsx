@@ -1,39 +1,43 @@
-'use server'
-import { unstable_cache } from 'next/cache'
-import type { WithoutId } from 'mongodb'
+'use client'
 /* Components */
 import Wrapper from '@app/_components/Wrapper'
 /* CONSTANTS */
-import { VERSION } from '@common/constants/helper'
-import { COLLECTION } from '@app/_lib/types'
-import { revalidate } from '@app/_lib/constants'
+import { WEEK_IN_SECONDS } from '@common/constants/datetime'
+import GQL from '@app/api/graphql/_lib/constants'
+import { Context } from '@app/_lib/constants.store'
 /* Utils */
-import { cachedRequest } from '@app/_lib/utils/cache'
-import { getCollection } from '@common/data/mongo/mongo'
+import useGQLStore from '@common/hooks/useGQLStore'
 /* T_Types */
-import type { T_Background } from '@app/_lib/types'
 /* Assets */
 import Logo from '@app/_lib/images/logo.svg'
-import '@app/front-page.scss'
+import style from '@app/front-page.module.scss'
 
-export async function FrontPage() {
-    const request = unstable_cache(
-        async () => await getCachedBackgrounds(),
-        ['frontpage', VERSION],
-        {
-            tags: ['wordpress', 'page'],
-            revalidate,
-        },
+export function FrontPage() {
+    const { items, pending, error } = useGQLStore(
+        'backgrounds',
+        Context,
+        GQL.queryBackgrounds,
+        `
+        width height url mimeType
+        sizes {
+            medium { url width height mimeType }
+            mediumLarge { url width height mimeType }
+            large { url width height mimeType }
+        }
+        `,
+        WEEK_IN_SECONDS,
     )
 
-    const backgrounds = await request().catch(() => [])
     const background =
-        backgrounds[Math.floor(Math.random() * backgrounds.length)]
+        !pending && !error
+            ? items[Math.floor(Math.random() * items.length)]
+            : undefined
 
     return (
         <Wrapper
             footer={false}
-            className="sujin wrapper--frontpage"
+            style={style}
+            className={style.wrapper}
             title={
                 <Logo
                     aria-label={process.env.NEXT_PUBLIC_TITLE}
@@ -45,20 +49,3 @@ export async function FrontPage() {
         />
     )
 }
-
-/**
- * Get backgrounds
- * This returns the cached result if it exists
- *
- * @returns {Promise<WithoutId<T_Background>[]>} - The background array
- */
-const getCachedBackgrounds = async (): Promise<WithoutId<T_Background>[]> =>
-    await cachedRequest(COLLECTION.BACKGROUNDS, [], async () => {
-        const collection = await getCollection<T_Background>(
-            COLLECTION.BACKGROUNDS,
-        )
-        return await collection
-            .aggregate<T_Background>([{ $sample: { size: 10 } }])
-            .project<WithoutId<T_Background>>({ _id: 0 })
-            .toArray()
-    })

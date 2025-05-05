@@ -1,20 +1,48 @@
-import type { ConstToType } from '@common/types'
 import type { T_User } from './user'
 import type { WithId } from 'mongodb'
 
+export const UNITS_SELECTION = {
+    weight: {
+        g: 'g',
+        kg: 'kg',
+        lb: 'lb',
+    },
+    volume: {
+        ml: 'ml',
+        l: 'l',
+        oz: 'oz',
+    },
+    measure: {
+        tbsp: 'tbsp',
+        tsp: 'tsp',
+        cup: 'cup',
+    },
+    ea: 'ea',
+}
 export const UNITS = [
-    'kg',
     'g',
+    'kg',
+    'lb',
     'ml',
     'l',
+    'oz',
     'tbsp',
     'tsp',
     'cup',
-    'oz',
-    'lb',
     'ea',
-] as const
-export type UNITS = ConstToType<typeof UNITS>
+]
+
+export type UNITS =
+    | 'g'
+    | 'kg'
+    | 'lb'
+    | 'ml'
+    | 'l'
+    | 'oz'
+    | 'tbsp'
+    | 'tsp'
+    | 'cup'
+    | 'ea'
 
 export type T_Recipe = WithId<{
     title: string

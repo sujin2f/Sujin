@@ -3,14 +3,19 @@ import { Ubuntu } from 'next/font/google'
 import Script from 'next/script'
 import type { Metadata } from 'next'
 import { ErrorBoundary } from 'next/dist/client/components/error-boundary'
-import Error from '@app/global-error'
 /* CONSTANTS */
 import { BASE_URL, DEFAULT_THUMBNAIL } from '@app/_lib/constants'
+import { INITIAL_STATE, Context } from '@app/_lib/constants.store'
+/* Components */
+import Error from '@app/global-error'
+import { SessionProvider } from '@app/_components/SessionProvider'
+import Loading from '@app/loading'
+import { Store } from '@common/components/Store'
+/* Utils */
+import { getSession } from '@app/api/auth/_lib/utils-server'
 /* Assets */
-import '@app/style.scss'
-import '@common/scss/normalize.css'
+import '@app/layout.scss'
 import '@common/scss/base.scss'
-import Loading from './loading'
 
 export const generateMetadata = async (): Promise<Metadata> => {
     const metadata: Metadata = {
@@ -54,6 +59,7 @@ const ubuntu = Ubuntu({
  * @param {ReactNode} props.children - The content to be wrapped by the layout.
  */
 export default async function AppLayout({ children }: PropsWithChildren) {
+    const session = await getSession()
     const adSense = process.env.NEXT_PUBLIC_GOOGLE_AD_CLIENT ? (
         <Script
             async
@@ -66,11 +72,15 @@ export default async function AppLayout({ children }: PropsWithChildren) {
     return (
         <html lang="en">
             <head>{adSense}</head>
-            <body className={`wrapper ${ubuntu.className}`}>
+            <body className={ubuntu.className}>
                 <Suspense fallback={<Loading />}>
-                    <ErrorBoundary errorComponent={Error}>
-                        {children}
-                    </ErrorBoundary>
+                    <Store Context={Context} INITIAL_STATE={INITIAL_STATE}>
+                        <SessionProvider session={session}>
+                            <ErrorBoundary errorComponent={Error}>
+                                {children}
+                            </ErrorBoundary>
+                        </SessionProvider>
+                    </Store>
                 </Suspense>
             </body>
         </html>

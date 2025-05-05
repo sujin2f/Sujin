@@ -6,7 +6,7 @@ import { categoryFactory } from '@jest/helpers'
 import migration from './migration'
 import { ARCHIVE, COLLECTION } from '@app/_lib/types'
 import Cached from '@common/model/Cached'
-import { getCachedArchive } from '@app/archive/_lib/getCachedArchive'
+import { getCachedArchive } from '@app/_lib/utils/mongo/getCachedArchive'
 import { migrate } from '@common/data/mongo/mongo'
 
 jest.mock('next-auth', () => ({

@@ -1,4 +1,4 @@
-import { CacheServer } from '@app/admin/_components/CacheServer'
+import { CacheServer } from '@app/admin/_components/Cache.server'
 
 export default async function Page() {
     return <CacheServer />

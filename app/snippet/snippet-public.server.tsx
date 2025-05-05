@@ -32,11 +32,9 @@ export async function PublicServer({ page }: Props) {
         },
     )
 
-    const userId = await getCurrentUser()
-        .then((user) => user._id)
-        .catch(() => undefined)
+    const user = await getCurrentUser()
 
-    const columns = userId ? ['title', 'tags', 'import'] : ['title', 'tags']
+    const columns = user?._id ? ['title', 'tags', 'import'] : ['title', 'tags']
 
     return (
         <>
@@ -45,7 +43,7 @@ export async function PublicServer({ page }: Props) {
                 <Table
                     request={request(page)}
                     page={page}
-                    userId={userId}
+                    userId={user?._id}
                     columns={columns}
                 />
             </Suspense>
@@ -56,9 +54,9 @@ export async function PublicServer({ page }: Props) {
 const getCachedAllSnippets = async (
     page: number,
 ): Promise<PropWithPages<T_Snippets>> =>
-    await Cached.getInstance().getOrExecute<PropWithPages<T_Snippets>>(
+    (await Cached.getInstance().getOrExecute<PropWithPages<T_Snippets>>(
         getCacheKey(COLLECTION.SNIPPETS, 'all', page),
-        async () => {
+        (async () => {
             const collection = await getCollection<T_Snippets>(
                 COLLECTION.SNIPPETS,
             )
@@ -89,7 +87,6 @@ const getCachedAllSnippets = async (
                 list,
                 pages: Math.ceil(total / PER_PAGE),
             } satisfies PropWithPages<T_Snippets>
-        },
-        DAY_IN_SECONDS,
-        IS_DEV,
-    )
+        })(),
+        { ttl: DAY_IN_SECONDS, force: IS_DEV },
+    )) as PropWithPages<T_Snippets>

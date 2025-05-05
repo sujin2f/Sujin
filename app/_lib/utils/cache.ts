@@ -28,16 +28,18 @@ export const getCacheKey = (
  * @throws {NoContentError}
  */
 
-export const cachedRequest = async <T>(
-    collection: COLLECTION,
-    keys: (string | number | undefined)[],
-    callback: () => Promise<T>,
-    ttl: number = DAY_IN_SECONDS,
-    force: boolean = IS_DEV,
-): Promise<T> =>
-    await Cached.getInstance().getOrExecute(
-        getCacheKey(collection, ...keys),
-        callback,
-        ttl,
-        force,
-    )
+export const cachedRequest = <P extends unknown[], R>(
+    callback: (...args: P) => Promise<R>,
+    cacheKey: string,
+    option: { ttl?: number; force?: boolean } = {
+        ttl: DAY_IN_SECONDS,
+        force: IS_DEV,
+    },
+): ((...args: P) => Promise<R>) => {
+    return async (...args: P) =>
+        await Cached.getInstance().getOrExecute(
+            cacheKey,
+            callback(...args),
+            option,
+        )
+}

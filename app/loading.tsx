@@ -5,7 +5,7 @@ import Wrapper from '@app/_components/Wrapper'
 import { MENU_NAMES } from '@app/_lib/types'
 /* Assets */
 import LoadingImg from '@app/_lib/images/loading.svg'
-import '@app/front-page.scss'
+import style from '@app/front-page.module.scss'
 
 type Props = {
     readonly menu?: MENU_NAMES
@@ -16,8 +16,8 @@ export default async function Loading({ menu }: Props) {
         <Wrapper
             footer={false}
             menu={menu}
-            className="sujin wrapper--loading"
             title={<LoadingImg />}
+            style={style}
         />
     )
 }

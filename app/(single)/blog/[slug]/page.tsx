@@ -1,14 +1,11 @@
-import { unstable_cache } from 'next/cache'
 import type { Metadata } from 'next/types'
 /* Components */
 import { PostServer } from '@app/(single)/_components/Post.server'
 /* CONSTANTS */
 import { BASE_URL } from '@app/_lib/constants'
-import { VERSION } from '@common/constants/helper'
 import { IMAGE_SIZE } from '@app/_lib/types'
 /* Utils */
 import { getThumbnailFromPost } from '@app/_lib/utils/clients'
-import { revalidate } from '@app/_lib/constants'
 import { getCachedPost } from '@app/(single)/_lib/getCachedPost'
 
 type Props = {
@@ -20,15 +17,7 @@ type Props = {
 export const generateMetadata = async (props: Props): Promise<Metadata> => {
     const params = await props.params
     const slug = params.slug.toLowerCase()
-    const request = unstable_cache(
-        async (slug) => await getCachedPost(slug).catch(() => undefined),
-        [slug, VERSION],
-        {
-            tags: ['wordpress', 'post'],
-            revalidate,
-        },
-    )
-    const post = await request(slug)
+    const post = await getCachedPost(slug).catch(() => undefined)
     if (!post) {
         return {}
     }

@@ -6,7 +6,7 @@ import Column, { type ColumnProps } from '@common/components/layout/Column'
 import { map } from '@common/utils/array'
 import { joinClassNames } from '@common/utils/string'
 /* Assets */
-import '@app/archive/_components/loading.scss'
+import '@app/archive/_components/Loading.scss'
 
 type Props = ColumnProps & {
     readonly className?: string

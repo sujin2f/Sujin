@@ -2,7 +2,7 @@ import React from 'react'
 /* Components */
 import { Code as CodeComponent } from '@common/components/containers/Code'
 /* Helpers */
-import { replaceQuotes } from '@app/(single)/_lib/utils'
+import { replaceQuotes } from '@app/(single)/_lib/replaceQuotes'
 import { languages } from '@common/constants/helper'
 import type { T_ShortcodeAttrMatch } from '@app/_lib/types'
 

@@ -14,9 +14,10 @@ describe('Cached.ts', () => {
     })
 
     test('getOrExecute', async () => {
-        const text = await cache.getOrExecute('simple-text', async () => {
-            return 'Simple Text'
-        })
+        const text = await cache.getOrExecute(
+            'simple-text',
+            new Promise((resolve) => resolve('Simple Text')),
+        )
         expect(text).toBe('Simple Text')
     })
 

@@ -1,4 +1,4 @@
-import { TagsServer } from '@app/admin/_components/Tags-server'
+import { TagsServer } from '@app/admin/_components/Tags.server'
 
 type Props = {
     params: Promise<{

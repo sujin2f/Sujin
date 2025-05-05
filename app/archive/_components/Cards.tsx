@@ -1,4 +1,3 @@
-import { use } from 'react'
 /* Components */
 import { Paging } from '@app/_components/Paging'
 import Row from '@common/components/layout/Row'
@@ -17,7 +16,7 @@ import {
 import { getThumbnailFromPost } from '@app/_lib/utils/clients'
 
 type Props = ColumnProps & {
-    readonly posts: Promise<PropWithPages<T_ArchivePost>>
+    readonly posts: PropWithPages<T_ArchivePost>
     readonly keyPrefix: string
     readonly imageSize?: IMAGE_SIZE
     readonly page?: number
@@ -25,14 +24,14 @@ type Props = ColumnProps & {
 }
 
 export const Cards = ({
-    posts: postsPromise,
+    posts,
     page,
     pageURLPrefix,
     keyPrefix,
     imageSize = IMAGE_SIZE.POST_THUMBNAIL,
     ...props
 }: Props) => {
-    const { list, pages } = use(postsPromise)
+    const { list, pages } = posts
     return (
         <>
             <Row fullWidth>

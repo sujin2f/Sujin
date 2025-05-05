@@ -9,7 +9,7 @@ import Flickr from '@app/_components/footer/Flickr'
 import { FooterBottom } from '@app/_components/footer/FooterBottom'
 import { WidgetTitle } from '@app/_components/WidgetTitle'
 /* Assets */
-import '@app/_components/footer/style.scss'
+import '@app/_components/footer/index.scss'
 
 export const Footer = () => {
     return (

@@ -3,7 +3,7 @@ import Link from 'next/link'
 /* T_Types */
 import type { T_Archive } from '@app/_lib/types'
 /* Assets */
-import '@app/(single)/_components/tags.scss'
+import '@app/(single)/_components/Tags.scss'
 
 interface Props {
     items: T_Archive[]

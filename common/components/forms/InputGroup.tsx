@@ -11,9 +11,15 @@ type Props = InputProps<HTMLInputElement> & {
     readonly onSubmit?: () => void
 }
 
-export const InputGroup = ({ onSubmit, button, ...props }: Props) => {
+export const InputGroup = ({
+    onSubmit,
+    button,
+    helpText,
+    errorMessage,
+    ...props
+}: Props) => {
     const ariaDescribedby =
-        props.helpText && props.id
+        helpText && props.id
             ? `${props.id}-help-text`
             : props['aria-describedby']
 
@@ -27,7 +33,13 @@ export const InputGroup = ({ onSubmit, button, ...props }: Props) => {
     const label = props.label || 'Label'
 
     return (
-        <Input {...props} label={label} className="form__input-group">
+        <Input
+            {...props}
+            label={label}
+            helpText={helpText}
+            errorMessage={errorMessage}
+            className="form__input-group"
+        >
             <input
                 className="form__input"
                 aria-describedby={ariaDescribedby}

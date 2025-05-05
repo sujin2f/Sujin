@@ -56,12 +56,14 @@ export default class Cached extends Singleton<Cached>() {
 
     public async getOrExecute<T>(
         key: string,
-        callback: () => Promise<T>,
-        ttl = 0,
-        force = false,
+        callback: Promise<T>,
+        option: { ttl?: number; force?: boolean } = {
+            ttl: 0,
+            force: false,
+        },
     ): Promise<T> {
-        if (force) {
-            return await callback()
+        if (option.force) {
+            return await callback
         }
 
         const get = await this.get<T>(key)
@@ -69,9 +71,8 @@ export default class Cached extends Singleton<Cached>() {
             return get
         }
 
-        const result = await callback()
-
-        await this.set(key, result, ttl)
+        const result = await callback
+        await this.set(key, result, option.ttl)
         return result
     }
 

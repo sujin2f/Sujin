@@ -18,7 +18,6 @@ export default async function Wrapper({
     return (
         <GlobalWrapper
             menu={menu || MENU_NAMES.ETHER}
-            className="wrapper--ether sujin"
             large={8}
             small={12}
             largeOffset={2}

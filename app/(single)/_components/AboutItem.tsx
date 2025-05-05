@@ -1,9 +1,10 @@
-import React from 'react'
-/* Helpers */
-import { removeExtraParagraph, replaceQuotes } from '@app/(single)/_lib/utils'
+/* Utils */
+import { replaceQuotes } from '@app/(single)/_lib/replaceQuotes'
+import { removeEmptyParagraphs } from '@common/utils/string'
+/* T_Types */
 import type { T_ShortcodeAttrMatch } from '@app/_lib/types'
 /* Assets */
-import '@app/(single)/_components/about-item.scss'
+import '@app/(single)/_components/AboutItem.scss'
 
 interface Props {
     value: T_ShortcodeAttrMatch
@@ -28,7 +29,7 @@ export const AboutItem = (props: Props) => {
             <div
                 className="about-item__detail"
                 dangerouslySetInnerHTML={{
-                    __html: removeExtraParagraph(content),
+                    __html: removeEmptyParagraphs(content),
                 }}
             ></div>
         </div>

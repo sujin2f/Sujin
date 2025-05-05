@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from 'react'
 /* Components */
 import Wrapper from '@app/_components/Wrapper'
-import { AdminWrapperServer } from '@app/_components/session/AdminWrapperServer'
+import { AdminWrapperServer } from '@app/_components/AdminWrapperServer'
 /* CONSTANTS */
 import { MENU_NAMES } from '@app/_lib/types'
 

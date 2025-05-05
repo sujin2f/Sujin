@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from 'react'
 /* Assets */
-import '@app/_components/widget-title.scss'
+import '@app/_components/WidgetTitle.scss'
 
 export const WidgetTitle = (props: PropsWithChildren) => {
     return (
