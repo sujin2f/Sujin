@@ -49,34 +49,6 @@ const Select = <T extends Options>({
                 {...props}
             >
                 <Options options={props.options} />
-                {/* {Object.entries(options).map(([value, label], index) => {
-                    if (typeof label === 'string') {
-                        return (
-                            <option
-                                value={value}
-                                key={`option-${index}-${value}`}
-                            >
-                                {label}
-                            </option>
-                        )
-                    }
-
-                    return (
-                        <optgroup
-                            label={value}
-                            key={`optgroup-${index}-${value}`}
-                        >
-                            {Object.entries(label).map(([gValue, gLabel]) => (
-                                <option
-                                    value={gValue}
-                                    key={`option-${index}-${value}-${gValue}`}
-                                >
-                                    {gLabel}
-                                </option>
-                            ))}
-                        </optgroup>
-                    )
-                })} */}
             </select>
         </Input>
     )
@@ -89,6 +61,7 @@ const Options = ({
     options: Options
     depth?: number
 }) => {
+    // ['Option']
     if (Array.isArray(options)) {
         return (
             <>
@@ -108,18 +81,27 @@ const Options = ({
 
     return (
         <>
-            {Object.entries(options).map(([label, option], index) => (
-                <optgroup
-                    label={label}
-                    key={`optgroup-${depth}-${index}-${label}`}
-                >
-                    {typeof option === 'string' ? (
-                        <option value={option}>{option}</option>
-                    ) : (
+            {Object.entries(options).map(([label, option], index) => {
+                // { option: 'Option' }
+                if (typeof option === 'string') {
+                    return (
+                        <option
+                            key={`optgroup-${depth}-${index}-${option}-${label}`}
+                            value={label}
+                        >
+                            {option}
+                        </option>
+                    )
+                }
+                return (
+                    <optgroup
+                        label={label}
+                        key={`optgroup-${depth}-${index}-${label}`}
+                    >
                         <Options options={option} depth={depth + 1} />
-                    )}
-                </optgroup>
-            ))}
+                    </optgroup>
+                )
+            })}
         </>
     )
 }

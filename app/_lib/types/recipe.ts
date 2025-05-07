@@ -17,7 +17,7 @@ export const UNITS_SELECTION = {
     weight: UNITS_WEIGHT,
     volume: UNITS_VOLUMES,
     measure: UNITS_MEASURE,
-    count: 'ea',
+    ea: 'ea',
 }
 
 export type T_Recipe = WithId<{

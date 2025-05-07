@@ -44,6 +44,10 @@ describe('Select.ts', () => {
             'For Two',
             'For Four',
         ])
+        const optgroup = result.container.querySelectorAll('optgroup')
+        expect(optgroup.length).toBe(2)
+        expect(optgroup.item(0).getAttribute('label')).toBe('BMW')
+        expect(optgroup.item(1).getAttribute('label')).toBe('Smart')
     })
 
     test('With props', async () => {
