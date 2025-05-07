@@ -1,13 +1,6 @@
 @use 'sass:math';
 @use '@common/scss/mixin';
 
-$header-height: 48px;
-$page-header-height: 20rem;
-$page-header-height-medium: 400px;
-$page-header-height-small: 500px;
-$logo-width: 100px;
-$social-height: 26px;
-
 html:root {
     --header-height: 48px;
 }
@@ -17,7 +10,7 @@ html:root {
 
     &::after {
         content: '';
-        margin: var(--gap) 0 calc(var(--gap) * 2);
+        margin: calc(var(--gap) * 2) 0;
         display: block;
         --c: var(--light-gray) 100%, var(--white);
         background: radial-gradient(circle closest-side, var(--c))
@@ -26,84 +19,6 @@ html:root {
                 calc(100% / 2 + 0.8em) 0 no-repeat;
         background-size: 1em;
         height: 1em;
-    }
-}
-
-article {
-    h2 {
-        border-left: 9px solid var(--primary);
-        padding-left: 0.3em;
-    }
-
-    .gist {
-        width: 100%;
-        min-height: calc(100vh - #{$header-height});
-        border: 1px solid var(--light-gray);
-        padding: 0.5em 0;
-    }
-
-    blockquote {
-        background-image: url('~@app/_lib/images/quote.svg');
-        background-position: center var(--gap);
-        background-repeat: no-repeat;
-        background-size: 2em;
-        padding: 4em 1.2em var(--gap);
-        background-color: var(--light-gray);
-        margin: 0 0 var(--gap);
-
-        *:last-child {
-            margin-bottom: 0;
-        }
-    }
-
-    .image__container {
-        width: 100%;
-    }
-
-    .image__container--center {
-        img {
-            margin: 0 auto;
-        }
-    }
-
-    .image__container,
-    .latex__container,
-    .table__container {
-        margin-bottom: var(--gap);
-
-        .caption {
-            margin-top: 0.5em;
-        }
-
-        .caption::before {
-            content: ' ';
-            display: block;
-            border-top: 2px solid var(--primary);
-            width: 30px;
-            padding-top: 0.5em;
-        }
-
-        .caption__text::before {
-            display: inline;
-            border-top: none;
-            width: auto;
-            padding-top: 0.5em;
-        }
-    }
-
-    .image__container .caption__text::before {
-        counter-increment: fig;
-        content: 'Fig. ' counter(fig) ' ';
-    }
-
-    .latex__container .caption__text::before {
-        counter-increment: equ;
-        content: 'Equ. ' counter(equ) ' ';
-    }
-
-    .table__container .caption .caption__text::before {
-        counter-increment: tbl;
-        content: 'Tbl. ' counter(tbl) ' ';
     }
 }
 

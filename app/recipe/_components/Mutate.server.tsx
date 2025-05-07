@@ -41,7 +41,6 @@ export async function MutateServer({ _id }: Props) {
         _id &&
         (await getCachedRecipe(_id)
             .then((item) => {
-                console.log(item.user, _id)
                 if (item.user.toString() !== user._id) {
                     throw new ForbiddenError(
                         `Invalid access: This is not your recipe`,

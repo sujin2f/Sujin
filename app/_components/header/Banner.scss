@@ -1,17 +1,17 @@
 @use '@common/scss/mixin';
 
-$header-height: 48px;
 $page-header-height: 20rem;
-$page-header-height-medium: 400px;
-$page-header-height-small: 500px;
 
 .banner {
-    background-color: var(--black);
+    // --c: var(--pastel-red), var(--primary);
+    --c: var(--dark-gray), var(--black);
+    background: linear-gradient(var(--c));
     background-size: cover;
     background-position: center;
     margin-bottom: 3em;
     position: relative;
     min-height: $page-header-height;
+    transition: height 0.5s ease-in;
 }
 
 .banner__overlay {
@@ -23,6 +23,8 @@ $page-header-height-small: 500px;
     width: 100%;
     height: 100%;
     z-index: 1;
+    opacity: 0;
+    transition: opacity 0.5s ease-in;
 }
 
 .banner__background {
@@ -30,6 +32,8 @@ $page-header-height-small: 500px;
     overflow: hidden;
     width: 100%;
     height: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease-in;
 
     .image__container__picture {
         width: 100%;
@@ -42,6 +46,17 @@ $page-header-height-small: 500px;
         object-position: center center;
         transition: transform 0.2s ease-out;
         width: 100%;
+    }
+
+    &.banner__background--show {
+        opacity: 1;
+    }
+}
+
+.banner--show {
+    .banner__overlay,
+    .banner__background {
+        opacity: 1;
     }
 }
 

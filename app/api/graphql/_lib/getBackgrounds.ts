@@ -10,12 +10,10 @@ import { getCollection } from '@common/data/mongo/mongo'
 import type { T_Background } from '@app/_lib/types'
 
 export const getBackgrounds = async () => {
-    console.log(1)
     const request = unstable_cache(cached, ['backgrounds', VERSION], {
         tags: ['wordpress', 'backgrounds'],
         revalidate,
     })
-    console.log(await request())
     return await request()
 }
 

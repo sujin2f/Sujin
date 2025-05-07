@@ -13,6 +13,7 @@ import ButtonGroup from '@common/components/forms/ButtonGroup'
 import Modal from '@common/components/containers/Modal'
 import Confirm from '@common/components/containers/Confirm'
 import { Loading } from '@app/archive/_components/Loading'
+import { Paging } from '@app/_components/Paging'
 /* CONSTANTS */
 import { QuantumBool } from '@common/types'
 
@@ -221,6 +222,9 @@ export function ComponentsClient() {
 
             <h2>Article Cards (Loading)</h2>
             <Loading counts={6} />
+
+            <h2>Paging</h2>
+            <Paging pages={20} page={10} urlPrefix={'#'} />
         </article>
     )
 }

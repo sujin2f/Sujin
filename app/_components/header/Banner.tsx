@@ -1,5 +1,5 @@
 'use client'
-import type { ReactNode } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 /* Components */
@@ -13,6 +13,7 @@ import { MENUS, METADATA } from '@app/_lib/constants'
 /* Utils */
 import { entries } from '@common/utils/object'
 import { joinClassNames } from '@common/utils/string'
+import { debounce } from '@common/utils/dom'
 /* T_Types */
 import { IMAGE_SIZE_BACKGROUND, T_ImageBlock } from '@app/_lib/types'
 import type { ImageMap } from '@common/components/containers/Picture'
@@ -46,6 +47,7 @@ export function Banner({
 }: BannerProps) {
     const menu = MENUS[props.menu || MENU_NAMES.MAIN]
     const path = usePathname()
+    const [isBackground, setIsBackground] = useState(false)
 
     const title = path && METADATA[path] ? METADATA[path].title : props.title
     const excerpt =
@@ -58,10 +60,22 @@ export function Banner({
           }
         : {}
 
+    useEffect(() => {
+        if (background) {
+            debounce(() => {
+                setIsBackground(true)
+            }, 0.05)
+        }
+    }, [background])
+
     return (
         <>
             <section
-                className={joinClassNames(style?.banner, 'banner')}
+                className={joinClassNames(
+                    style?.banner,
+                    'banner',
+                    isBackground && 'banner--show',
+                )}
                 style={styleBg}
             >
                 <div className="show-for-large menu__container--banner">
@@ -72,13 +86,14 @@ export function Banner({
                     </Row>
                 </div>
 
-                <div
-                    className={joinClassNames(
-                        style?.banner__overlay,
-                        'banner__overlay',
-                    )}
-                ></div>
-
+                {background && background.url && (
+                    <div
+                        className={joinClassNames(
+                            style?.banner__overlay,
+                            'banner__overlay',
+                        )}
+                    />
+                )}
                 {background && background.url ? (
                     <NextImage
                         sources={getBannerImageMap(background)}
@@ -96,6 +111,7 @@ export function Banner({
                 <div
                     className={joinClassNames(
                         'banner__header',
+                        'loader--banner',
                         icon && 'banner__header--with-icon',
                         style?.banner__header,
                     )}
@@ -163,7 +179,10 @@ const getBannerImageMap = (image: T_ImageBlock): ImageMap[] => {
     }
 
     return entries(image.sizes)
-        .filter(([size]) => Object.keys(bannerMediaQueries).includes(size))
+        .filter(
+            ([size, value]) =>
+                Object.keys(bannerMediaQueries).includes(size) && value,
+        )
         .map(([size, value]) => {
             const key = size as IMAGE_SIZE_BACKGROUND
             return {

@@ -32,8 +32,6 @@ export const TextBox = (props: Props) => {
         props.update(props.id, width, height)
     }, [paddings, props, fontSize, textWidth])
 
-    // console.log(textHeight)
-
     return (
         <g id={props.id}>
             {/* Box */}

@@ -46,12 +46,12 @@ export const Paging = (props: Props) => {
             role="navigation"
             aria-label="Navigate to another page"
         >
-            {entities.map((entity) => {
+            {entities.map((entity, index) => {
                 const url = `${urlPrefix}/${entity}`
                 const isCurrent = currentPage.toString() === entity.toString()
 
                 return (
-                    <Fragment key={`paging-${entity}`}>
+                    <Fragment key={`paging-${entity}-${index}`}>
                         {isCurrent && (
                             <span className="paging paging--active">
                                 {entity}

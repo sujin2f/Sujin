@@ -69,7 +69,7 @@ export async function ListServer({ title = 'Recipes', page, mine }: Props) {
                         </Column>
                         <Column className="--right" large={6}>
                             <Button
-                                href="/recipe/mutate/new"
+                                href="/recipe/add"
                                 title="Add a New Recipe"
                             />
                         </Column>
