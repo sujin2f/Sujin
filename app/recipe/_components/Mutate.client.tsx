@@ -20,7 +20,7 @@ import type { T_Stringify } from '@common/types/mongo'
 import { map } from '@common/utils/array'
 
 type Props = {
-    mutate: (recipe: Partial<T_Stringify<T_Recipe>>) => Promise<void>
+    mutate: (recipe: Partial<T_Stringify<T_Recipe>>) => Promise<string>
     recipe?: T_Stringify<T_Recipe> | undefined
     user: T_SessionUser
 }
@@ -48,8 +48,9 @@ export function MutateClient({ mutate, recipe, user }: Props) {
             if (recipe?._id) {
                 result._id = recipe._id
             }
-            await mutate(result)
-            redirect('/recipe/mine/1')
+            await mutate(result).then((id) => {
+                redirect(`/recipe/item/${id}`)
+            })
         },
         [mutate, numFields, recipe?._id, user._id],
     )

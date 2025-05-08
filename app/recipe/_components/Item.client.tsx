@@ -9,8 +9,16 @@ import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
 import Button from '@common/components/forms/Button'
 import ButtonGroup from '@common/components/forms/ButtonGroup'
+import Select from '@common/components/forms/Select'
 /* T_Types */
-import type { T_Recipe } from '@app/_lib/types'
+import {
+    type T_Recipe,
+    type UNITS,
+    UNITS_WEIGHT,
+    UNITS_VOLUMES,
+    CONVERT_WEIGHT,
+    CONVERT_VOLUMES,
+} from '@app/_lib/types'
 import type { T_Stringify } from '@common/types/mongo'
 /* CONSTANTS */
 import { QuantumBool } from '@common/types'
@@ -35,7 +43,7 @@ export function ItemClient({ recipe }: Props) {
     const [converted, setConverted] = useState(recipe?.ingredients || [])
     const [focused, setFocused] = useState<false | number>(false)
 
-    const onChange = useCallback(
+    const onQuantityChange = useCallback(
         (index: number, value: number) => {
             if (isNaN(value)) {
                 return
@@ -53,6 +61,27 @@ export function ItemClient({ recipe }: Props) {
                     }
                 }),
             )
+        },
+        [converted],
+    )
+
+    const onUnitChange = useCallback(
+        (index: number, value: UNITS) => {
+            const result = [...converted]
+            const unit = result[index].unit
+            const conversion: Record<string, number> = Object.keys(
+                CONVERT_VOLUMES,
+            ).includes(unit)
+                ? CONVERT_VOLUMES
+                : CONVERT_WEIGHT
+
+            if (conversion[unit] && conversion[value]) {
+                result[index].amount =
+                    (result[index].amount * conversion[unit]) /
+                    conversion[value]
+                result[index].unit = value
+            }
+            setConverted(result)
         },
         [converted],
     )
@@ -91,7 +120,7 @@ export function ItemClient({ recipe }: Props) {
                                         e: ChangeEvent<HTMLInputElement>,
                                     ) => {
                                         setFocused(index)
-                                        onChange(
+                                        onQuantityChange(
                                             index,
                                             parseFloat(e.target.value),
                                         )
@@ -100,7 +129,7 @@ export function ItemClient({ recipe }: Props) {
                                         e: ChangeEvent<HTMLInputElement>,
                                     ) => {
                                         setFocused(false)
-                                        onChange(
+                                        onQuantityChange(
                                             index,
                                             parseFloat(e.target.value),
                                         )
@@ -108,7 +137,41 @@ export function ItemClient({ recipe }: Props) {
                                 />
                             </td>
                             <td className="recipe__unit">
-                                {item.unit as string}
+                                {item.unit === 'ea' && (
+                                    <>{item.unit as string}</>
+                                )}
+                                {(UNITS_WEIGHT as unknown as string[]).includes(
+                                    item.unit,
+                                ) && (
+                                    <Select
+                                        options={
+                                            UNITS_WEIGHT as unknown as string[]
+                                        }
+                                        value={item.unit}
+                                        onChange={(e) =>
+                                            onUnitChange(
+                                                index,
+                                                e.target.value as UNITS,
+                                            )
+                                        }
+                                    />
+                                )}
+                                {(
+                                    UNITS_VOLUMES as unknown as string[]
+                                ).includes(item.unit) && (
+                                    <Select
+                                        options={
+                                            UNITS_VOLUMES as unknown as string[]
+                                        }
+                                        value={item.unit}
+                                        onChange={(e) =>
+                                            onUnitChange(
+                                                index,
+                                                e.target.value as UNITS,
+                                            )
+                                        }
+                                    />
+                                )}
                             </td>
                         </tr>
                     ))}

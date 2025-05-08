@@ -80,6 +80,7 @@ export async function MutateServer({ _id }: Props) {
 
 const mutate = async (recipe: Partial<T_Stringify<T_Recipe>>) => {
     'use server'
+    let recipeId: string | undefined
     const userId = await getCurrentUser().then((user) => {
         if (!user) {
             throw new ForbiddenError(
@@ -113,16 +114,19 @@ const mutate = async (recipe: Partial<T_Stringify<T_Recipe>>) => {
             Logger.server(e)
             throw e
         })
+        recipeId = recipe._id
     } else {
-        await insertOne(COLLECTION.RECIPE, {
+        const result = await insertOne(COLLECTION.RECIPE, {
             ...doc,
             user: new ObjectId(user),
         }).catch((e) => {
             Logger.server(e)
             throw e
         })
+        recipeId = result.insertedId.toString()
     }
 
     await Cached.getInstance().flush(getCacheKey(COLLECTION.RECIPE))
     revalidateTag('recipe')
+    return recipeId
 }
