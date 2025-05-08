@@ -4,7 +4,7 @@ import type { WithId } from 'mongodb'
 export const UNITS_WEIGHT = ['g', 'kg', 'lb'] as const
 export const UNITS_VOLUMES = ['ml', 'l', 'oz', 'tbsp', 'tsp', 'cup'] as const
 export const UNITS = [...UNITS_WEIGHT, ...UNITS_VOLUMES, 'ea'] as const
-type UNITS = (typeof UNITS)[number]
+export type UNITS = (typeof UNITS)[number]
 
 export const CONVERT_WEIGHT: Record<(typeof UNITS_WEIGHT)[number], number> = {
     g: 1,
