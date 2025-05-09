@@ -95,7 +95,7 @@ describe('Performance Test', () => {
         // perform(testData, a)
     })
 
-    test.skip('playground', async () => {
+    test.skip('permission', async () => {
         // Permissions
         const userPermission = parseInt('111', 2)
         const isAdmin = (userPermission >> 2) & 1
