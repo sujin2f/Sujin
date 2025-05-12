@@ -14,7 +14,7 @@ import { getCachedPost } from '@app/(single)/_lib/getCachedPost'
 import { getCachedRecentPosts } from '@app/api/graphql/_lib/getCachedRecentPosts'
 /* CONSTANTS */
 import { VERSION } from '@common/constants/helper'
-import { PER_PAGE, revalidate } from '@app/_lib/constants'
+import { revalidate } from '@app/_lib/constants'
 import {
     COLLECTION,
     POST_STATUS,
@@ -99,10 +99,12 @@ const query = async (slug: string): Promise<T_ArchivePost[]> => {
         return Object.values(result)
     }
 
-    await getCachedRecentPosts(PER_PAGE, post._id).then((recent) =>
-        recent.forEach((item) => {
-            result[item.id] = item
-        }),
+    await getCachedRecentPosts().then((recent) =>
+        recent
+            .filter((item) => item.slug !== slug)
+            .forEach((item) => {
+                result[item.id] = item
+            }),
     )
     return Object.values(result).slice(0, 4)
 }

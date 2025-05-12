@@ -17,7 +17,7 @@ import {
     mutateBackground,
     mutateCategory,
 } from '@app/api/graphql/_lib/wp-mutates'
-import { getBackgrounds } from '@app/api/graphql/_lib/getBackgrounds'
+import { getCachedBackgrounds } from '@app/api/graphql/_lib/getCachedBackgrounds'
 import { getCachedRecentPosts } from '@app/api/graphql/_lib/getCachedRecentPosts'
 /* Constants */
 import GQL from '@app/api/graphql/_lib/constants'
@@ -39,7 +39,7 @@ const options = createGQLOptions(
     GQL.Archive,
     // Queries
     GQL.queryRecent.setCallback(getCachedRecentPosts),
-    GQL.queryBackgrounds.setCallback(getBackgrounds),
+    GQL.queryBackgrounds.setCallback(getCachedBackgrounds),
     GQL.queryFlickr.setCallback(getFlickr),
     GQL.queryTagCloud.setCallback(getTagCloud),
     GQL.querySpectra.setCallback(getSpectraFromNIST),

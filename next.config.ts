@@ -1,7 +1,11 @@
-module.exports = {
+import type { NextConfig } from 'next'
+
+const nextConfig: NextConfig = {
     output: 'standalone',
+    /* config options here */
     webpack(config) {
-        const fileLoaderRule = config.module.rules.find((rule) =>
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const fileLoaderRule = config.module.rules.find((rule: any) =>
             rule.test?.test?.('.svg'),
         )
 
@@ -24,16 +28,8 @@ module.exports = {
 
         fileLoaderRule.exclude = /\.svg$/i
 
-        return {
-            ...config,
-            resolve: {
-                ...config.resolve,
-                fallback: {
-                    fs: false,
-                    path: false,
-                    net: false,
-                },
-            },
-        }
+        return config
     },
 }
+
+export default nextConfig

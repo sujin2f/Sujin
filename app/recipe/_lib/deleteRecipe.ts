@@ -21,7 +21,7 @@ export const deleteRecipe = async (id: string) => {
                 'You need to log in for adding or modifying a recipe.',
             )
         }
-        return user
+        return user._id
     })
     const recipe = await findOne(collection, { _id }).catch((e) => {
         if (e instanceof A_Error) {

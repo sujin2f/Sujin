@@ -26,7 +26,7 @@ export function ListClient({ mine, page, request }: Props) {
         : undefined
     const { list, pages } = use(request)
     const [_id, set_id] = useState<string>('')
-    const { setConfirm, Confirm } = useDelete(_id, '')
+    const { setConfirm, Confirm } = useDelete(_id, '/recipe/1')
 
     return (
         <>

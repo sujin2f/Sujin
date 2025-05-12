@@ -10,6 +10,7 @@ import {
     type T_Post,
     type T_ArchivePost,
 } from '@app/_lib/types'
+import { VERSION } from '@common/constants/helper'
 import { revalidate } from '@app/_lib/constants'
 
 /**
@@ -40,7 +41,7 @@ const query = async (): Promise<T_ArchivePost[]> => {
  *
  * @returns {Promise<T_Post[]>} A promise that resolves to the recent posts.
  */
-export const cached = async (): Promise<T_ArchivePost[]> => {
+const cached = async (): Promise<T_ArchivePost[]> => {
     const request = cachedRequest(
         query,
         getCacheKey(COLLECTION.ARCHIVE, 'recent'),
@@ -49,8 +50,8 @@ export const cached = async (): Promise<T_ArchivePost[]> => {
 }
 
 export const getCachedRecentPosts = async (): Promise<T_ArchivePost[]> => {
-    const request = unstable_cache(cached, ['recent-posts'], {
-        tags: ['wordpress', 'post', 'recent-posts'],
+    const request = unstable_cache(cached, [VERSION], {
+        tags: ['wordpress', 'recent'],
         revalidate,
     })
     return await request()

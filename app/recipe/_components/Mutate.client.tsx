@@ -125,7 +125,12 @@ export function MutateClient({ mutate, recipe, user }: Props) {
                             <Column small={4}>
                                 <Select
                                     label="Unit"
-                                    options={UNITS_SELECTION}
+                                    options={
+                                        UNITS_SELECTION as unknown as Record<
+                                            string,
+                                            string | string[]
+                                        >
+                                    }
                                     name={`unit[${index}]`}
                                     defaultValue={
                                         recipe?.ingredients[index]

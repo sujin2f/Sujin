@@ -62,7 +62,7 @@ export async function SearchServer({ slug, page }: Props) {
     )
 }
 
-export const request = async (
+const request = async (
     text: string,
     page: number,
 ): Promise<PropWithPages<T_ArchivePost>> => {
@@ -77,7 +77,7 @@ export const request = async (
     return await request(text, page)
 }
 
-export const cached = async (
+const cached = async (
     text: string,
     page: number,
 ): Promise<PropWithPages<T_ArchivePost>> => {

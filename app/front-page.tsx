@@ -7,7 +7,6 @@ import GQL from '@app/api/graphql/_lib/constants'
 import { Context } from '@app/_lib/constants.store'
 /* Utils */
 import useGQLStore from '@common/hooks/useGQLStore'
-/* T_Types */
 /* Assets */
 import Logo from '@app/_lib/images/logo.svg'
 import style from '@app/front-page.module.scss'

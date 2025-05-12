@@ -9,7 +9,7 @@ import { getCollection } from '@common/data/mongo/mongo'
 /* T_Types */
 import type { T_Background } from '@app/_lib/types'
 
-export const getBackgrounds = async () => {
+export const getCachedBackgrounds = async () => {
     const request = unstable_cache(cached, ['backgrounds', VERSION], {
         tags: ['wordpress', 'backgrounds'],
         revalidate,
