@@ -1,10 +1,7 @@
-/**
- * Testing library for diagram build
- */
+import type { PropsWithChildren } from 'react'
+/* Assets */
+import '@app/recipe/layout.scss'
 
-import { AdminWrapperServer } from '@app/_components/session/AdminWrapperServer'
-import { PropsWithChildren } from 'react'
-
-export default function Layout({ children }: PropsWithChildren) {
-    return <AdminWrapperServer>{children}</AdminWrapperServer>
+export default async function Layout({ children }: PropsWithChildren) {
+    return children
 }

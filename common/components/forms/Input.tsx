@@ -1,14 +1,13 @@
 'use client'
-import React, {
-    ChangeEventHandler,
-    Fragment,
-    KeyboardEvent,
-    RefObject,
+import {
+    type KeyboardEvent,
+    type RefObject,
+    type InputHTMLAttributes,
+    type HTMLInputTypeAttribute,
+    type DetailedHTMLProps,
+    type PropsWithChildren,
     useCallback,
-    useMemo,
-    useRef,
     createElement,
-    PropsWithChildren,
 } from 'react'
 
 /* Helpers */
@@ -17,64 +16,46 @@ import { joinClassNames } from '../../utils/string'
 /* Assets */
 import '../../scss/form.scss'
 
-type InputTypes =
-    | 'text'
-    | 'number'
-    | 'checkbox'
-    | 'color'
-    | 'date'
-    | 'email'
-    | 'file'
-    | 'password'
-    | 'radio'
-    | 'range'
-    | 'tel'
-    | 'time'
-    | 'url'
-    | 'search'
-    | 'textarea'
-
-export type InputProps = {
-    readonly defaultValue?: string | number
+export type InputProps<T extends HTMLElement> = PropsWithChildren<
+    DetailedHTMLProps<InputHTMLAttributes<T>, T>
+> & {
     readonly errorMessage?: string
     readonly helpText?: string
-    readonly id?: string
     readonly label?: string
-    readonly list?: string
-    readonly name?: string
-    readonly onChange?: ChangeEventHandler<HTMLInputElement>
     readonly onEnterKeyDown?: () => void
-    readonly placeholder?: string
-    readonly ref?: RefObject<HTMLInputElement | null>
-    readonly required?: boolean
-    readonly type?: InputTypes
-    readonly value?: string | number
+    readonly type?: HTMLInputTypeAttribute | 'textarea'
+    readonly ref?: RefObject<T | null>
+    readonly rows?: number
 }
 
-export const InputOnly = ({
-    ariaDescribedby,
-    defaultValue,
+/**
+ * Input component that renders an input field with various styles and behaviors.
+ *
+ * @param {string} [props.label] - The label for the input field.
+ * @param {HTMLInputTypeAttribute | 'textarea'} [props.type] - The type of the input field.
+ * @param {string} [props.helpText] - The help text for the input field.
+ * @param {string} [props.errorMessage] - The error message for the input field.
+ * @param {() => void} [props.onEnterKeyDown] - Callback function to handle Enter key down events.
+ */
+const Input = <T extends HTMLElement>({
     errorMessage,
+    className,
     helpText,
-    id,
-    list,
-    name,
-    onChange,
     onEnterKeyDown,
-    placeholder,
-    ref,
-    required,
-    type,
-    value,
-}: InputProps & { ariaDescribedby?: string }) => {
-    const className = joinClassNames(
-        'form__input',
-        errorMessage && 'form__input--error',
-        helpText && 'form__input--with-help-text',
-    )
+    label,
+    rows,
+    children,
+    ...props
+}: InputProps<T>) => {
+    const type = props.type || 'text'
+    const isCheckbox = type === 'checkbox' || type === 'radio'
+    const ariaDescribedby =
+        helpText && props.id
+            ? `${props.id}-help-text`
+            : props['aria-describedby']
+
     const onKeyDown = useCallback(
         (e: KeyboardEvent<HTMLInputElement>) => {
-            console.log(1)
             if (e.key === 'Enter' && onEnterKeyDown) {
                 onEnterKeyDown()
             }
@@ -82,115 +63,61 @@ export const InputOnly = ({
         [onEnterKeyDown],
     )
     const inputProps = filterEmpty({
-        id,
+        onKeyDown,
         type,
-        defaultValue,
-        ref,
         'aria-describedby': ariaDescribedby,
-        required,
-        className,
-        list,
-        value,
-        placeholder,
-        name,
+        className: 'form__input',
         autoComplete: type === 'password' && 'on',
     })
-    const Element = createElement(
-        type === 'textarea' ? 'textarea' : 'input',
-        {
-            ...inputProps,
-            onKeyDown,
-            onChange,
-        },
-        type === 'textarea' ? value : undefined,
-    )
-
-    return Element
-}
-
-/**
- * Input component that renders an input field with various styles and behaviors.
- *
- * @param {string} [props.label] - The label for the input field.
- * @param {string} [props.id] - The id of the input field.
- * @param {InputTypes} [props.type] - The type of the input field.
- * @param {string | number} [props.defaultValue] - The default value of the input field.
- * @param {RefObject<HTMLInputElement | null>} [props.ref] - The ref object for the input field.
- * @param {string} [props.helpText] - The help text for the input field.
- * @param {boolean} [props.required] - Whether the input field is required.
- * @param {string} [props.errorMessage] - The error message for the input field.
- * @param {string} [props.list] - The list attribute for the input field.
- * @param {() => void} [props.onEnterKeyDown] - Callback function to handle Enter key down events.
- * @param {ChangeEventHandler<HTMLInputElement>} [props.onChange] - Callback function to handle change events.
- * @param {string | number} [props.value] - The value of the input field.
- * @param {string} [props.placeholder] - The placeholder text for the input field.
- * @param {string} [props.name] - The name of the input field.
- */
-export const Input = (props: InputProps) => {
-    const refComp = useRef<HTMLInputElement>(null)
-    const ref = useMemo(() => props.ref || refComp, [props.ref, refComp])
-    const type = useMemo(() => props.type || 'text', [props.type])
-    const isCheckbox = type === 'checkbox' || type === 'radio'
+    if (type === 'textarea' && rows) {
+        inputProps.rows = rows
+    }
+    const Element =
+        children ||
+        createElement(
+            type === 'textarea' ? 'textarea' : 'input',
+            {
+                ...inputProps,
+                ...props,
+            },
+            type === 'textarea' ? props.value : undefined,
+        )
 
     return (
-        <Fragment>
-            {props.label && (
-                <LabelComponent {...props} type={type} ref={ref}>
-                    {isCheckbox && (
-                        <InputContainer {...props} type={type} ref={ref} />
-                    )}
-                    {props.label}
-                </LabelComponent>
-            )}
-
-            {(!props.label || !isCheckbox) && (
-                <InputContainer {...props} type={type} ref={ref} />
-            )}
-        </Fragment>
-    )
-}
-
-const LabelComponent = ({
-    ref,
-    required,
-    id,
-    children,
-}: PropsWithChildren<InputProps>) => {
-    return (
-        <label
+        <div
             className={joinClassNames(
-                'form__label',
-                required && 'form__label--required',
+                'form__input__container',
+                errorMessage && 'form__input--error',
+                className,
             )}
-            htmlFor={id}
-            onClick={() => {
-                ref?.current?.focus()
-            }}
         >
-            {children}
-        </label>
-    )
-}
+            {label ? (
+                <label htmlFor={props.id}>
+                    {isCheckbox && Element}
+                    <span
+                        className={joinClassNames(
+                            'form__label',
+                            props.required && 'form__label--required',
+                        )}
+                    >
+                        {label}
+                    </span>
+                    {!isCheckbox && Element}
+                </label>
+            ) : (
+                Element
+            )}
 
-const InputContainer = (props: InputProps) => {
-    const ariaDescribedby = props.helpText ? `${props.id}-help-text` : ''
-    return (
-        <>
-            <InputOnly {...props} ariaDescribedby={ariaDescribedby} />
-
-            {props.errorMessage ? (
-                <p className="form__input__error-message">
-                    {props.errorMessage}
-                </p>
+            {errorMessage ? (
+                <p className="form__input__error-message">{errorMessage}</p>
             ) : null}
 
-            {props.helpText ? (
+            {helpText ? (
                 <p className="form__input__help-text" id={ariaDescribedby}>
-                    {props.helpText}
+                    {helpText}
                 </p>
             ) : null}
-        </>
+        </div>
     )
 }
-
 export default Input

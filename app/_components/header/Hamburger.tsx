@@ -1,7 +1,7 @@
 'use client'
 import React, { useCallback, useState } from 'react'
 /* Components */
-import { Menu } from '@common/components/layout/Menu'
+import Menu from '@common/components/layout/Menu'
 /* Utils */
 import { useDocumentClick } from '@common/hooks/useDocumentClick'
 /* T_Types */

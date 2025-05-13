@@ -1,0 +1,18 @@
+.wrapper {
+    margin-top: calc(var(--header-height) * 1.5);
+
+    :global {
+        .main {
+            min-height: 0;
+        }
+    }
+}
+
+.menu {
+    :global {
+        .menu__link {
+            padding: var(--gap);
+            background: var(--light-gray);
+        }
+    }
+}

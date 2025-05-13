@@ -2,11 +2,11 @@ import Link from 'next/link'
 import { InlineMath } from 'react-katex'
 /* Components */
 import { NextImage } from '@common/components/containers/NextImage'
-import { Table } from '@common/components/containers/Table'
-import { Row } from '@common/components/layout/Row'
-import { Column } from '@common/components/layout/Column'
-import { Latex } from '@app/_components/single/Latex'
-import { PrevNext } from '@app/_components/single/PrevNext'
+import Table from '@common/components/containers/Table'
+import Row from '@common/components/layout/Row'
+import Column from '@common/components/layout/Column'
+import { Latex } from '@app/(single)/_components/Latex'
+import { PrevNext } from '@app/(single)/_components/PrevNext'
 import Wrapper from '@app/ether/wrapper'
 import { MENU_NAMES } from '@app/_lib/types'
 /* Assets */
@@ -409,7 +409,7 @@ export default function Analysis() {
                 직관적이지는 못하기에 Rydberg 값으로 표시하였다.
             </p>
 
-            <Table scroll caption="원형 에테르 하나의 값">
+            <Table caption="원형 에테르 하나의 값">
                 <thead>
                     <tr>
                         <th></th>

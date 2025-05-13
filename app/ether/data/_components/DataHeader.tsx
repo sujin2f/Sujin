@@ -1,15 +1,15 @@
 'use client'
-import React, { useMemo } from 'react'
+import React, { type ChangeEventHandler, useMemo } from 'react'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 /* Components */
-import { Button } from '@common/components/forms/Button'
-import { Row } from '@common/components/layout/Row'
-import { Column } from '@common/components/layout/Column'
-import { Select } from '@common/components/forms/Select'
+import Button from '@common/components/forms/Button'
+import Row from '@common/components/layout/Row'
+import Column from '@common/components/layout/Column'
+import Select from '@common/components/forms/Select'
 /* Helpers */
 import { periodicTable } from '@app/ether/data/constants'
-import { getAtom } from '@app/ether/data/utils'
+import { getAtom } from '@app/ether/_lib/client'
 import { romanize } from '@common/utils/number'
 import type { Atom } from '@app/ether/data/models/Atom'
 
@@ -33,7 +33,8 @@ export const DataHeader = (props: Props) => {
     }, [atom.number])
     const next = useMemo(() => getAtom(atom.number + 1), [atom.number])
 
-    const onTermChange = (term: string) => {
+    const onTermChange: ChangeEventHandler<HTMLSelectElement> = (e) => {
+        const term = e.target.value
         const url = `/ether/data/${type}/${atom.number}/${ion}`
         if (!term) {
             redirect(url)
@@ -53,11 +54,11 @@ export const DataHeader = (props: Props) => {
                     )}
                 </Column>
                 <Column small={4}>
-                    <h1 className="text--center">
+                    <h1 className="--center">
                         {periodicTable[atom.number - 1].name} {romanize(ion)}
                     </h1>
                 </Column>
-                <Column small={4} className="text--right">
+                <Column small={4} className="--right">
                     {next && (
                         <Link href={`/ether/data/${type}/${next.number}/1`}>
                             {next.name}
@@ -67,7 +68,7 @@ export const DataHeader = (props: Props) => {
             </Row>
             {/* Type / Term Selection */}
             <Row dom="nav" className="header--ether__type">
-                <Column small={6} className="text--right">
+                <Column small={6} className="--right">
                     <Button
                         title="Orbital"
                         href={`/ether/data/orbital/${atom.number}/${ion}`}

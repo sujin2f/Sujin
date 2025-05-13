@@ -15,6 +15,7 @@ export const config = {
         '/:year/:month/:date/:slug',
         '/dev-tools/:slug',
         '/ether(.*)',
+        '/recipe',
         '/api/graphql',
     ],
 }
@@ -105,6 +106,10 @@ export function middleware(request: NextRequest) {
     const responseSingle = redirectSingle(pathname, origin)
     if (responseSingle) {
         return responseSingle
+    }
+    // Recipe
+    if (pathname === '/recipe') {
+        return NextResponse.redirect(new URL(`${origin}/recipe/1`))
     }
 
     // Add pathname header

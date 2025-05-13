@@ -1,18 +1,14 @@
-import React, {
-    useRef,
-    MouseEvent,
-    PropsWithChildren,
-    CSSProperties,
-    useCallback,
-} from 'react'
+import { useRef, MouseEvent, PropsWithChildren, useCallback } from 'react'
 
 /* Helpers */
 import { MouseEventCallback } from '../../types/react'
 import { joinClassNames } from '../../utils/string'
 
+/* Assets */
+import '../../scss/overlay.scss'
+
 type Props = PropsWithChildren<{
     className?: string
-    style?: CSSProperties
     onClick?: MouseEventCallback
 }>
 
@@ -23,26 +19,21 @@ type Props = PropsWithChildren<{
  * @param {string} [props.className] - Additional class names for the overlay.
  * @param {CSSProperties} [props.style] - Inline styles for the overlay.
  * @param {MouseEventCallback} [props.onClick] - Callback function to handle click events.
- * @returns {JSX.Element} The rendered Overlay component.
- * @see https://get.foundation/sites/docs/reveal.html
  */
-export const Overlay = ({ children, className, style, onClick }: Props) => {
+const Overlay = ({ children, className, onClick }: Props) => {
     const overlayRef = useRef<HTMLDivElement>(null)
 
     const close = useCallback(
         (e: MouseEvent) => {
-            if (e.target !== overlayRef.current || !onClick) {
-                return
-            }
-            onClick()
+            if (e.target !== overlayRef.current) return
+            if (onClick) onClick()
         },
         [onClick],
     )
 
     return (
         <div
-            className={joinClassNames('reveal-overlay', className)}
-            style={style}
+            className={joinClassNames('overlay', className)}
             ref={overlayRef}
             onClick={(e) => close(e)}
             data-testid="overlay"
@@ -51,3 +42,4 @@ export const Overlay = ({ children, className, style, onClick }: Props) => {
         </div>
     )
 }
+export default Overlay

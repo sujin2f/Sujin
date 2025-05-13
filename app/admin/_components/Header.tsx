@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from 'react'
 /* Components */
-import { Row } from '@common/components/layout/Row'
-import { Column } from '@common/components/layout/Column'
+import Row from '@common/components/layout/Row'
+import Column from '@common/components/layout/Column'
 
 type Props = {
     title: string
@@ -9,7 +9,7 @@ type Props = {
 
 export const Header = ({ title, children }: PropsWithChildren<Props>) => {
     return (
-        <Row fullWidth alignCenter gap>
+        <Row fullWidth>
             <Column small={12}>
                 <h1>{title}</h1>
             </Column>

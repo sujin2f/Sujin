@@ -2,6 +2,7 @@ import type { IQueryArgs, IQuery, ScalarJSType, QueryReturnType } from '.'
 import { isEmpty } from '../../utils/object'
 import { OperationType } from './constants'
 import { fieldToString } from './util'
+import { IOError } from '../../model/Error'
 
 /**
  * GQL Query
@@ -61,7 +62,9 @@ export class GQLQuery<A extends ScalarJSType[], R> implements IQuery<A, R> {
 
     get callback() {
         if (!this._callback) {
-            throw Error('Callback does not assigned.')
+            throw new IOError(
+                `Callback does not assigned for GQLQuery ${this.name}.`,
+            )
         }
         return (_: unknown, args: Record<string, ScalarJSType>) => {
             if (args) {

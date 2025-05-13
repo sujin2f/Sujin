@@ -1,50 +1,75 @@
-import React, {
-    PropsWithChildren,
-    useCallback,
-    useState,
-    Fragment,
-} from 'react'
+'use client'
+import { type PropsWithChildren, useCallback, useEffect, useState } from 'react'
 
 import { CloseButton } from '../forms/CloseButton'
-import { Button } from '../forms/Button'
-import { Overlay } from '../containers/Overlay'
+import Button from '../forms/Button'
+import Overlay from '../containers/Overlay'
 import { MouseEventCallback } from '../../types/react'
+import { KeyCodes } from '../../constants/keycode'
 
 type Props = {
     closeModal?: MouseEventCallback
-    hideCloseButton?: boolean
+    closeButton?: boolean
     className?: string
+    show?: boolean
+    esc?: boolean
 }
 
-/*
- * Reveal Component in Foundation Site
- * @ref https://get.foundation/sites/docs/reveal.html
- */
-export const Modal = (props: PropsWithChildren<Props>) => {
-    const [opened, changeOpened] = useState<boolean>(true)
+const Modal = ({
+    closeModal,
+    className,
+    closeButton,
+    show: showProp = false,
+    esc = true,
+    children,
+}: PropsWithChildren<Props>) => {
+    const [show, changeShow] = useState<boolean>(showProp)
 
     const close = useCallback(() => {
-        if (!props.closeModal) {
-            changeOpened(false)
-            return
-        }
-        props.closeModal()
-    }, [props])
+        changeShow(showProp)
+        if (closeModal) closeModal()
+    }, [closeModal, showProp])
 
-    if (!opened) {
-        return <Fragment></Fragment>
+    // ESC to close
+    const escClose = useCallback(
+        (e: KeyboardEvent) => {
+            if (e.key === KeyCodes.ESC && show !== showProp) {
+                close()
+            }
+        },
+        [close, show, showProp],
+    )
+
+    useEffect(() => {
+        const document = window.document
+        if (esc) {
+            document.addEventListener('keydown', escClose)
+        }
+
+        return () => {
+            if (document) {
+                document.removeEventListener('keydown', escClose)
+            }
+        }
+    }, [esc, escClose])
+
+    useEffect(() => {
+        if (showProp) {
+            changeShow(!showProp)
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    if (show === showProp) {
+        return null
     }
 
     return (
-        <Overlay
-            style={{ display: 'block' }}
-            onClick={close}
-            className={props.className}
-        >
-            <div className="reveal" style={{ display: 'block' }}>
-                {props.children}
+        <Overlay onClick={close} className={className}>
+            <div className="modal --fit-content">
+                {children}
 
-                {!props.hideCloseButton && (
+                {closeButton && (
                     <Button
                         className="secondary"
                         onClick={close}
@@ -57,3 +82,5 @@ export const Modal = (props: PropsWithChildren<Props>) => {
         </Overlay>
     )
 }
+
+export default Modal

@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from 'react'
 import type { Metadata } from 'next/types'
 /* Components */
-import { Header } from '@app/_components/header'
+import Wrapper from '@app/_components/Wrapper'
 /* CONSTANTS */
 import { METADATA } from '@app/_lib/constants'
 import { MENU_NAMES } from '@app/_lib/types'
@@ -12,11 +12,12 @@ export const metadata: Metadata = {
     ...METADATA['/ether'],
 }
 
-export default function Layout({ children }: PropsWithChildren) {
+export default async function Layout({ children }: PropsWithChildren) {
     return (
         <>
-            <Header menu={MENU_NAMES.ETHER} />
-            <main>{children}</main>
+            <Wrapper menu={MENU_NAMES.ETHER} banner={false}>
+                {children}
+            </Wrapper>
         </>
     )
 }

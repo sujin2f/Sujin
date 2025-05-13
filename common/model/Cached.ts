@@ -2,7 +2,7 @@ import type NodeCache from 'node-cache'
 
 import type { Nullable } from '../types'
 import { Singleton } from './Singleton'
-import Logger from './Logger'
+import { NodeModuleError } from './Error'
 
 /**
  * Node Cache
@@ -15,11 +15,9 @@ export default class Cached extends Singleton<Cached>() {
             return cache as NodeCache
         }
 
-        Logger.server('NodeCache is not set.')
         const newCache = await this.init()
         if (!newCache) {
-            console.error('NodeCache cannot be set.')
-            throw Error('NodeCache cannot be set.')
+            throw new NodeModuleError('NodeCache cannot be set.')
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ;(global as any)['cache'] = newCache
@@ -40,23 +38,32 @@ export default class Cached extends Singleton<Cached>() {
     }
 
     public async set<T>(key: string, value: T, ttl = 0) {
-        const cache = await this.getCache()
-        cache.set<T>(key, value, ttl)
+        try {
+            const cache = await this.getCache()
+            cache.set<T>(key, value, ttl)
+        } finally {
+        }
     }
 
     public async get<T>(key: string): Promise<Nullable<T>> {
-        const cache = await this.getCache()
-        return cache.get<T>(key)
+        try {
+            const cache = await this.getCache()
+            return cache.get<T>(key)
+        } catch {
+            return undefined
+        }
     }
 
     public async getOrExecute<T>(
         key: string,
-        callback: () => Promise<T>,
-        ttl = 0,
-        force = false,
+        callback: Promise<T>,
+        option: { ttl?: number; force?: boolean } = {
+            ttl: 0,
+            force: false,
+        },
     ): Promise<T> {
-        if (force) {
-            return await callback()
+        if (option.force) {
+            return await callback
         }
 
         const get = await this.get<T>(key)
@@ -64,34 +71,35 @@ export default class Cached extends Singleton<Cached>() {
             return get
         }
 
-        const result = await callback()
-
-        await this.set(key, result, ttl)
+        const result = await callback
+        await this.set(key, result, option.ttl)
         return result
     }
 
-    public async del(key: string): Promise<void> {
-        const cache = await this.getCache()
-        cache.del(key)
-    }
-
     public async flush(...keys: string[]): Promise<void> {
-        const cache = await this.getCache()
-        if (keys.length === 0) {
-            cache.flushAll()
-            return
+        try {
+            const cache = await this.getCache()
+            if (keys.length === 0) {
+                cache.flushAll()
+                return
+            }
+            cache.keys().forEach((key) =>
+                keys.forEach((del) => {
+                    if (key.startsWith(del)) {
+                        cache.del(key)
+                    }
+                }),
+            )
+        } finally {
         }
-        cache.keys().forEach((v) =>
-            keys.forEach((del) => {
-                if (v.startsWith(del)) {
-                    cache.del(del)
-                }
-            }),
-        )
     }
 
     public async list(): Promise<string[]> {
-        const cache = await this.getCache()
-        return cache.keys()
+        try {
+            const cache = await this.getCache()
+            return cache.keys()
+        } catch {
+            return []
+        }
     }
 }

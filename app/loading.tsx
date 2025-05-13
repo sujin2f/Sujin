@@ -1,12 +1,11 @@
 import React from 'react'
 /* Components */
-import { Banner } from '@app/_components/header/Banner'
-import { Header } from '@app/_components/header'
+import Wrapper from '@app/_components/Wrapper'
 /* CONSTANTS */
 import { MENU_NAMES } from '@app/_lib/types'
 /* Assets */
 import LoadingImg from '@app/_lib/images/loading.svg'
-import './front-page.scss'
+import style from '@app/front-page.module.scss'
 
 type Props = {
     readonly menu?: MENU_NAMES
@@ -14,11 +13,11 @@ type Props = {
 
 export default async function Loading({ menu }: Props) {
     return (
-        <>
-            <Header menu={menu} />
-            <main className="wrapper--frontpage">
-                <Banner menu={menu} title={<LoadingImg />} />
-            </main>
-        </>
+        <Wrapper
+            footer={false}
+            menu={menu}
+            title={<LoadingImg />}
+            style={style}
+        />
     )
 }

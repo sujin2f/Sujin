@@ -1,7 +1,9 @@
 export const VERSION = process.env.NEXT_PUBLIC_VERSION || '0.0.0'
 export const IS_DEV = process.env.NODE_ENV === 'development'
 export const IS_TEST = process.env.NODE_ENV === 'test'
-export const MONGO_DATABASE = process.env.MONGO_DATABASE
+export const MONGO_DATABASE = IS_TEST
+    ? `test-${process.env.JEST_WORKER_ID}`
+    : process.env.MONGO_DATABASE
 export const nums: Record<number, string> = {
     1: 'one',
     2: 'two',

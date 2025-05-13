@@ -41,7 +41,6 @@ export class DataContainer {
         const data: ChartData = {}
         this.map((atom) => {
             Object.entries(atom.chartData).forEach(([key, value]) => {
-                console.log(key, value)
                 data[`${atom.toString()} ${key}`] = value as number[]
             })
         })

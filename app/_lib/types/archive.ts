@@ -1,4 +1,5 @@
-import { ConstToType } from '@common/types'
+import type { WithId } from 'mongodb'
+import type { ConstToType } from '@common/types'
 import type { T_ImageBlock } from '@app/_lib/types/image'
 
 /**
@@ -22,16 +23,7 @@ export const TAXONOMY = {
 } as const
 export type TAXONOMY = ConstToType<typeof TAXONOMY>
 
-/**
- * URL path for archives
- * @enum
- */
-export const ARCHIVE_URL = {
-    ...ARCHIVE,
-} as const
-export type ARCHIVE_URL = ConstToType<typeof ARCHIVE_URL>
-
-export type T_Archive = {
+export type T_Archive = WithId<{
     title: string
     slug: string
     type: ARCHIVE
@@ -39,7 +31,7 @@ export type T_Archive = {
     image?: T_ImageBlock
     total: number
     hits: number
-}
+}>
 
 export type T_MySQLArchive = T_Archive & {
     id: number

@@ -1,4 +1,4 @@
-import Tags from '@app/admin/tags/[page]/Tags'
+import { TagsServer } from '@app/admin/_components/Tags.server'
 
 type Props = {
     params: Promise<{
@@ -8,5 +8,6 @@ type Props = {
 
 export default async function Page(props: Props) {
     const params = await props.params
-    return <Tags {...params} />
+    const page = parseInt(params.page)
+    return <TagsServer page={page} />
 }

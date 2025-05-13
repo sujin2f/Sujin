@@ -1,18 +1,35 @@
 'use client'
+import { useEffect, useState, type ReactNode } from 'react'
 import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 /* Components */
-import { Row } from '@common/components/layout/Row'
-import { Column } from '@common/components/layout/Column'
-import { Menu } from '@common/components/layout/Menu'
+import Row from '@common/components/layout/Row'
+import Column from '@common/components/layout/Column'
+import Menu from '@common/components/layout/Menu'
 import NextImage from '@common/components/containers/NextImage'
 import { MENU_NAMES } from '@app/_lib/types'
-/* Helpers */
-import { joinClassNames } from '@common/utils/string'
-import { getBannerImageMap } from '@app/_lib/data/mysql/utils'
+/* CONSTANTS */
 import { MENUS, METADATA } from '@app/_lib/constants'
+/* Utils */
+import { entries } from '@common/utils/object'
+import { joinClassNames } from '@common/utils/string'
+import { debounce } from '@common/utils/dom'
 /* T_Types */
-import { BannerProps } from '@app/_lib/types'
+import { IMAGE_SIZE_BACKGROUND, T_ImageBlock } from '@app/_lib/types'
+import type { ImageMap } from '@common/components/containers/Picture'
+/* Assets */
+import '@app/_components/header/Banner.scss'
+
+export type BannerProps = {
+    readonly title?: string | ReactNode
+    readonly excerpt?: string | ReactNode
+    readonly icon?: T_ImageBlock
+    readonly prefix?: string
+    readonly background?: T_ImageBlock
+    readonly backgroundColor?: string
+    readonly menu?: MENU_NAMES
+    readonly style?: Record<string, string>
+}
 
 /**
  * Banner component that renders a banner with a title, excerpt, icon, and background image.
@@ -25,24 +42,42 @@ export function Banner({
     background,
     backgroundColor,
     prefix,
+    style,
     ...props
 }: BannerProps) {
     const menu = MENUS[props.menu || MENU_NAMES.MAIN]
     const path = usePathname()
+    const [isBackground, setIsBackground] = useState(false)
 
     const title = path && METADATA[path] ? METADATA[path].title : props.title
     const excerpt =
-        path && METADATA[path] ? METADATA[path].description : props.excerpt
+        props.excerpt ||
+        (path && METADATA[path] ? METADATA[path].description : null)
 
-    const style = backgroundColor
+    const styleBg = backgroundColor
         ? {
               backgroundColor,
           }
         : {}
 
+    useEffect(() => {
+        if (background) {
+            debounce(() => {
+                setIsBackground(true)
+            }, 0.05)
+        }
+    }, [background])
+
     return (
         <>
-            <section className="banner" style={style}>
+            <section
+                className={joinClassNames(
+                    style?.banner,
+                    'banner',
+                    isBackground && 'banner--show',
+                )}
+                style={styleBg}
+            >
                 <div className="show-for-large menu__container--banner">
                     <Row>
                         <Column small={12}>
@@ -51,8 +86,14 @@ export function Banner({
                     </Row>
                 </div>
 
-                <div className="banner__overlay"></div>
-
+                {background && background.url && (
+                    <div
+                        className={joinClassNames(
+                            style?.banner__overlay,
+                            'banner__overlay',
+                        )}
+                    />
+                )}
                 {background && background.url ? (
                     <NextImage
                         sources={getBannerImageMap(background)}
@@ -60,19 +101,29 @@ export function Banner({
                         alt=""
                         width={background.width || 1000}
                         height={background.height || 700}
-                        className="banner__background"
+                        className={joinClassNames(
+                            style?.banner__background,
+                            'banner__background',
+                        )}
                     />
                 ) : null}
 
                 <div
                     className={joinClassNames(
                         'banner__header',
+                        'loader--banner',
                         icon && 'banner__header--with-icon',
+                        style?.banner__header,
                     )}
                 >
                     <Row>
                         <Column small={12} className="column--banner__title">
-                            <h1 className="banner__title">
+                            <h1
+                                className={joinClassNames(
+                                    'banner__title',
+                                    style?.banner__title,
+                                )}
+                            >
                                 {prefix ? (
                                     <span className="banner__title__tag">
                                         {prefix}
@@ -82,8 +133,17 @@ export function Banner({
                                 {title}
                             </h1>
 
-                            {excerpt && (
-                                <p className="banner__excerpt">{excerpt}</p>
+                            {excerpt && typeof excerpt === 'string' ? (
+                                <p
+                                    className={joinClassNames(
+                                        'banner__excerpt',
+                                        style?.banner__excerpt,
+                                    )}
+                                >
+                                    {excerpt}
+                                </p>
+                            ) : (
+                                excerpt
                             )}
                         </Column>
                     </Row>
@@ -105,4 +165,32 @@ export function Banner({
             )}
         </>
     )
+}
+
+const getBannerImageMap = (image: T_ImageBlock): ImageMap[] => {
+    if (!image.sizes) {
+        return []
+    }
+
+    const bannerMediaQueries: Record<IMAGE_SIZE_BACKGROUND, string> = {
+        [IMAGE_SIZE_BACKGROUND.MEDIUM]: '(max-width: 300px)',
+        [IMAGE_SIZE_BACKGROUND.MEDIUM_LARGE]: '(max-width: 768px)',
+        [IMAGE_SIZE_BACKGROUND.LARGE]: '(max-width: 1024px)',
+    }
+
+    return entries(image.sizes)
+        .filter(
+            ([size, value]) =>
+                Object.keys(bannerMediaQueries).includes(size) && value,
+        )
+        .map(([size, value]) => {
+            const key = size as IMAGE_SIZE_BACKGROUND
+            return {
+                src: value.url,
+                media: bannerMediaQueries[key] || '',
+                mimeType: value.mimeType,
+                width: value.width,
+                height: value.height,
+            } satisfies ImageMap
+        })
 }

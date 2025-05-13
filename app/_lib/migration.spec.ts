@@ -1,12 +1,13 @@
 // yarn test migration.spec.ts
 
 import { VERSION } from '@common/constants/helper'
-import { categoryFactory, clearMongo } from '@jest/helpers'
+import { clearMongo } from '@common/.jest/helpers'
+import { categoryFactory } from '@jest/helpers'
 import migration from './migration'
 import { ARCHIVE, COLLECTION } from '@app/_lib/types'
 import Cached from '@common/model/Cached'
-import { getCachedArchive } from './data/mongo/wordpress/archive'
-import { closeConnection, migrate } from '@common/data/mongo/mongo'
+import { getCachedArchive } from '@app/_lib/utils/mongo/getCachedArchive'
+import { migrate } from '@common/data/mongo/mongo'
 
 jest.mock('next-auth', () => ({
     getServerSession: jest.fn(async () =>
@@ -16,6 +17,9 @@ jest.mock('next-auth', () => ({
             },
         }),
     ),
+}))
+jest.mock('next/cache', () => ({
+    unstable_cache: (fn: unknown) => fn,
 }))
 
 describe('migration.spec.ts', () => {
@@ -31,7 +35,6 @@ describe('migration.spec.ts', () => {
     afterAll(async () => {
         jest.clearAllMocks()
         await clearMongo()
-        await closeConnection()
     })
 
     test('Mongo.migration(): Check Validation Error', async () => {

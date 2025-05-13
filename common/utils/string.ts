@@ -1,3 +1,4 @@
+import { IOError } from '../model/Error'
 import { QuantumBool } from '../types'
 
 /**
@@ -179,6 +180,14 @@ export const phpUnSerialize = (input: string) => {
     try {
         return JSON.parse(result)
     } catch {
-        throw Error(result)
+        throw new IOError(result).setCause(phpUnSerialize)
     }
+}
+
+export const removeEmptyParagraphs = (value: string) => {
+    return value
+        .replace(/<p>$/, '')
+        .replace(/^<\/p>/, '')
+        .replace('/n', '')
+        .trim()
 }

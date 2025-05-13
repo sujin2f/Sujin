@@ -1,15 +1,19 @@
 import type { PropsWithChildren } from 'react'
-import { Header } from '@app/_components/header'
+
+import FixedHeader from '@app/_components/header/FixedHeader'
 import { Footer } from '@app/_components/footer'
-import { Banner } from '@app/_components/header/Banner'
-import { Row } from '@common/components/layout/Row'
-import { Column, ColumnProps } from '@common/components/layout/Column'
-import { BannerProps } from '@app/_lib/types'
+import { Banner, BannerProps } from '@app/_components/header/Banner'
+import Row from '@common/components/layout/Row'
+import Column, { type ColumnProps } from '@common/components/layout/Column'
+import { MENU_NAMES } from '@app/_lib/types'
 import ScrollToTop from '@common/components/ScrollToTop'
 import { joinClassNames } from '@common/utils/string'
 
 type Props = ColumnProps &
-    PropsWithChildren<BannerProps> & {
+    BannerProps & {
+        readonly footer?: boolean
+        readonly banner?: boolean
+        readonly style?: Record<string, string>
         readonly className?: string
     }
 
@@ -18,56 +22,38 @@ type Props = ColumnProps &
  * @param {ReactNode} props.children - The content to be wrapped by the layout.
  */
 export default function Wrapper({
-    larger,
-    large,
-    medium,
     small,
-    largerOffset,
-    largeOffset,
-    mediumOffset,
-    smallOffset,
     children,
-    menu,
-    title,
-    excerpt,
-    icon,
-    prefix,
-    background,
-    backgroundColor,
+    footer = true,
+    banner = true,
+    style,
+    className,
     ...props
-}: Props) {
-    const className = joinClassNames('wrapper', props.className)
+}: PropsWithChildren<Props>) {
+    const menu = props.menu || MENU_NAMES.MAIN
+
     return (
-        <>
+        <div
+            className={joinClassNames(
+                'wrapper',
+                className,
+                style?.wrapper,
+                !banner && 'wrapper--no-banner',
+            )}
+        >
             <ScrollToTop />
-            <Header menu={menu} />
-            <main className={className}>
-                <Banner
-                    menu={menu}
-                    title={title}
-                    excerpt={excerpt}
-                    icon={icon}
-                    prefix={prefix}
-                    background={background}
-                    backgroundColor={backgroundColor}
-                />
+            <FixedHeader menu={menu} style={style} />
+
+            <main className={joinClassNames('main', style?.main)}>
+                {banner && <Banner menu={menu} {...props} style={style} />}
 
                 <Row>
-                    <Column
-                        larger={larger}
-                        large={large}
-                        medium={medium}
-                        small={small || 12}
-                        largerOffset={largerOffset}
-                        largeOffset={largeOffset}
-                        mediumOffset={mediumOffset}
-                        smallOffset={smallOffset}
-                    >
+                    <Column small={small || 12} {...props}>
                         {children}
                     </Column>
                 </Row>
             </main>
-            <Footer />
-        </>
+            {footer && <Footer />}
+        </div>
     )
 }

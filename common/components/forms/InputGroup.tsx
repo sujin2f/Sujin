@@ -1,22 +1,53 @@
 'use client'
-import { InputProps, InputOnly } from './Input'
-import { Button } from './Button'
+import { useCallback, type KeyboardEvent } from 'react'
+import Input, { type InputProps } from './Input'
+import Button from './Button'
+import { KeyCodes } from '../../constants/keycode'
 /* Assets */
 import '../../scss/form.scss'
-import { useCallback } from 'react'
 
-export const InputGroup = (
-    props: InputProps & { button?: string; readonly onSubmit?: () => void },
-) => {
-    const onEnterKeyDown = useCallback(() => {
-        if (props.onSubmit) props.onSubmit()
-    }, [props])
+type Props = InputProps<HTMLInputElement> & {
+    button?: string
+    readonly onSubmit?: () => void
+}
+
+export const InputGroup = ({
+    onSubmit,
+    button,
+    helpText,
+    errorMessage,
+    ...props
+}: Props) => {
+    const ariaDescribedby =
+        helpText && props.id
+            ? `${props.id}-help-text`
+            : props['aria-describedby']
+
+    const onKeyDown = useCallback(
+        (e: KeyboardEvent<HTMLInputElement>) => {
+            if (onSubmit && e.key === KeyCodes.ENTER) onSubmit()
+        },
+        [onSubmit],
+    )
+
+    const label = props.label || 'Label'
+
     return (
-        <label className="input-group">
-            <span className="input-group__label">{props.label || 'Label'}</span>
-            <InputOnly {...props} onEnterKeyDown={onEnterKeyDown} />
-            <Button title={props.button} onClick={props.onSubmit} />
-        </label>
+        <Input
+            {...props}
+            label={label}
+            helpText={helpText}
+            errorMessage={errorMessage}
+            className="form__input-group"
+        >
+            <input
+                className="form__input"
+                aria-describedby={ariaDescribedby}
+                onKeyDown={(e) => onKeyDown(e)}
+                {...props}
+            />
+            <Button title={button} onClick={onSubmit} />
+        </Input>
     )
 }
 export default InputGroup

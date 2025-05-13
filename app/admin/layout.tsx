@@ -1,12 +1,12 @@
 import type { PropsWithChildren } from 'react'
 /* Components */
-import { Header } from '@app/_components/header'
-import { Row } from '@common/components/layout/Row'
-import { Column } from '@common/components/layout/Column'
-import { Menu } from '@common/components/layout/Menu'
-import { AdminWrapperServer } from '@app/_components/session/AdminWrapperServer'
+import Wrapper from '@app/_components/Wrapper'
+import Row from '@common/components/layout/Row'
+import Column from '@common/components/layout/Column'
+import Menu from '@common/components/layout/Menu'
+import { AdminWrapperServer } from '@app/_components/AdminWrapperServer'
 /* Assets */
-import './style.scss'
+import style from '@app/admin/layout.module.scss'
 
 export const metadata = {
     robots: {
@@ -20,15 +20,14 @@ export const metadata = {
  * Layout component that wraps the application with admin layout elements.
  * @param {ReactNode} props.children - The content to be wrapped by the layout.
  */
-export default async function AppLayout({ children }: PropsWithChildren) {
+export default async function AdminLayout({ children }: PropsWithChildren) {
     return (
         <AdminWrapperServer>
-            <Header />
-            <main className="admin">
+            <Wrapper banner={false} style={style} className={style.wrapper}>
                 <Row>
                     <Column small={2}>
                         <Menu
-                            className="menu--admin"
+                            className={style.menu}
                             items={[
                                 {
                                     title: 'Home',
@@ -49,6 +48,10 @@ export default async function AppLayout({ children }: PropsWithChildren) {
                                 {
                                     title: 'Backgrounds',
                                     link: '/admin/backgrounds/1',
+                                },
+                                {
+                                    title: 'Users',
+                                    link: '/admin/users/1',
                                 },
                                 {
                                     title: 'Collections',
@@ -72,7 +75,7 @@ export default async function AppLayout({ children }: PropsWithChildren) {
                     </Column>
                     <Column small={10}>{children}</Column>
                 </Row>
-            </main>
+            </Wrapper>
         </AdminWrapperServer>
     )
 }

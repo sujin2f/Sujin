@@ -14,9 +14,10 @@ describe('Cached.ts', () => {
     })
 
     test('getOrExecute', async () => {
-        const text = await cache.getOrExecute('simple-text', async () => {
-            return 'Simple Text'
-        })
+        const text = await cache.getOrExecute(
+            'simple-text',
+            new Promise((resolve) => resolve('Simple Text')),
+        )
         expect(text).toBe('Simple Text')
     })
 
@@ -27,8 +28,7 @@ describe('Cached.ts', () => {
         expect(await cache.get('html')).toBe('<body></body>')
         expect(await cache.get('simple-text')).toBe('Simple Text')
 
-        await cache.del('html')
-        await cache.del('simple-text')
+        await cache.flush('html', 'simple-text')
 
         expect(await cache.get('html')).toBeFalsy()
         expect(await cache.get('simple-text')).toBeFalsy()

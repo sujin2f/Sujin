@@ -1,15 +1,13 @@
 'use client'
-import React, { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Script from 'next/script'
-
 /* Helpers */
+import { useStyleLoader } from '@common/hooks/useStyleLoader'
 import { joinClassNames } from '../../utils/string'
 import { languages } from '../../constants/helper'
 import { map } from '../../utils/array'
 /* Assets */
 import '../../scss/code.scss'
-import { useGlobalState } from '@common/hooks/useGlobalState'
-import { useStyleLoader } from '@common/hooks/useStyleLoader'
 
 type Props = {
     readonly lang?: (typeof languages)[number]
@@ -31,32 +29,36 @@ export const Code = ({ lang, children, className }: Props) => {
     useStyleLoader(
         `https://cdnjs.cloudflare.com/ajax/libs/highlight.js/${highlightVersion}/styles/default.min.css`,
     )
-    const [loaded, setLoaded] = useGlobalState('hljs', false)
-    const [scriptLoaded, setScriptLoaded] = useGlobalState(
-        lang ? lang.toString() : 'no-script',
-        false,
-    )
+    const [hljs, setHljs] = useState(false)
     const lineCount = (children.match(/\n/g) || []).length + 1
 
     useEffect(() => {
-        setLoaded(true)
-        setScriptLoaded(true)
-    }, [setLoaded, setScriptLoaded])
+        if (!hljs && window.hljs) {
+            setHljs(true)
+        }
+    }, [hljs])
 
     return (
         <>
-            {loaded && (
-                <Script
-                    src={`https://cdnjs.cloudflare.com/ajax/libs/highlight.js/${highlightVersion}/highlight.min.js`}
-                    crossOrigin="anonymous"
-                />
-            )}
-            {scriptLoaded && (
+            <Script
+                src={`https://cdnjs.cloudflare.com/ajax/libs/highlight.js/${highlightVersion}/highlight.min.js`}
+                crossOrigin="anonymous"
+                onReady={() => setHljs(true)}
+            />
+            {hljs && (
                 <Script
                     src={`https://cdnjs.cloudflare.com/ajax/libs/highlight.js/${highlightVersion}/languages/${lang}.min.js`}
                     crossOrigin="anonymous"
-                    onReady={() => window.hljs.highlightAll()}
-                    onError={() => window.hljs.highlightAll()}
+                    onReady={() =>
+                        window.hljs
+                            ? window.hljs.highlightAll()
+                            : setHljs(false)
+                    }
+                    onError={() =>
+                        window.hljs
+                            ? window.hljs.highlightAll()
+                            : setHljs(false)
+                    }
                 />
             )}
             <pre className={joinClassNames('code', className)}>

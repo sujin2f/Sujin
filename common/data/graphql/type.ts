@@ -1,6 +1,7 @@
 import type { ITypeScalar, GQLField, IType } from '.'
 import { Scalar } from './constants'
 import { fieldToString } from './util'
+import { IOError } from '../../model/Error'
 
 /**
  * Field of GQL Type
@@ -18,7 +19,7 @@ export class GQLType<T> implements IType<T> {
 
         // fields is required
         if (!Object.keys(fields).length) {
-            throw Error('GraphQL Type should contain fields.')
+            throw new IOError('GraphQL Type should contain fields.', name)
         }
 
         this.fields = fields

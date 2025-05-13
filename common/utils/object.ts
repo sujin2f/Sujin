@@ -1,3 +1,7 @@
+import type { WithId, Document } from 'mongodb'
+import type { T_Stringify } from '../types/mongo'
+import { IOError } from '../model/Error'
+
 /**
  * Remove empty nodes
  */
@@ -122,9 +126,10 @@ type T_Object = Record<string, unknown>
 
 const objectFormatter = (input: T_Object, schema: T_Object): T_Object => {
     if (!schema.properties) {
-        throw Error(
-            `Object schema does not have properties ${JSON.stringify(schema)}`,
-        )
+        throw new IOError(
+            'Object schema does not have properties',
+            schema,
+        ).setCause(objectFormatter)
     }
 
     const formatted: T_Object = {}
@@ -142,7 +147,10 @@ const objectFormatter = (input: T_Object, schema: T_Object): T_Object => {
     if (schema.required && Array.isArray(schema.required)) {
         schema.required.forEach((key) => {
             if (!Object.keys(formatted).includes(key)) {
-                throw Error(`Required filed ${key} is missing`)
+                throw new IOError(
+                    `Required filed ${key} is missing`,
+                    schema,
+                ).setCause(objectFormatter)
             }
         })
     }
@@ -193,15 +201,25 @@ export const schemaFormatter = (
 
         case 'objectId':
             return input
+
+        default:
+            return input
     }
 
     return {}
 }
 
-export const drop_id = <T extends Record<string, unknown>>(
-    object: T,
-): Omit<T, '_id'> => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { _id, ...result } = object
-    return result
+export const mongoStringify = <T extends WithId<Document>, K extends string[]>(
+    document: T,
+    ...excludes: K
+): T_Stringify<T, keyof K> => {
+    return Object.entries(document).reduce((acc, [key, value]) => {
+        return {
+            ...acc,
+            [key]:
+                !excludes.includes(key) && value._bsontype
+                    ? JSON.parse(JSON.stringify(value))
+                    : value,
+        }
+    }, {}) as T_Stringify<T, keyof K>
 }

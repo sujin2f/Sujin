@@ -1,25 +1,33 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next/types'
 /* Components */
-import { SearchServer } from '@app/archive/search-server'
-import { ArchiveServer, getMetadata } from '@app/archive/archive-server'
+import { SearchServer } from '@app/archive/_components/Search.server'
+import { ArchiveServer } from '@app/archive/_components/Archive.server'
 /* CONSTANTS */
-import { ARCHIVE, ARCHIVE_URL, type ArchiveProp } from '@app/_lib/types'
+import { ARCHIVE } from '@app/_lib/types'
+import { BASE_URL } from '@app/_lib/constants'
+/* Utils */
+import { getCachedArchive } from '@app/_lib/utils/mongo/getCachedArchive'
 
 type Props = {
-    params: Promise<ArchiveProp>
+    params: Promise<{
+        type: string
+        slug: string
+        page: string
+    }>
 }
 
-export const generateMetadata = async ({
-    params,
-}: Props): Promise<Metadata> => {
-    // Param
-    const { page, type, slug } = await params
-    if (Object.keys(ARCHIVE_URL).includes(type)) {
+export const generateMetadata = async (props: Props): Promise<Metadata> => {
+    const params = await props.params
+    const slug = params.slug.toLowerCase()
+    const page = parseInt(params.page)
+    const type = params.type as ARCHIVE
+
+    if (Object.keys(ARCHIVE).includes(type)) {
         return {}
     }
 
-    if (type === ARCHIVE_URL.SEARCH) {
+    if (type === ARCHIVE.SEARCH) {
         return {
             title: `Sujin | Search result | ${slug}`,
             robots: {
@@ -30,18 +38,39 @@ export const generateMetadata = async ({
         }
     }
 
-    return getMetadata({ page, type, slug })
+    const archive = await getCachedArchive(slug, type)
+    if (!archive) {
+        return {
+            robots: {
+                index: false,
+                follow: false,
+                nocache: false,
+            },
+        }
+    }
+    const url = `${BASE_URL}/archive/${type}/${slug}/page/${page}`
+
+    return {
+        title: `Sujin | ${archive.title}`,
+        description: archive.excerpt,
+        openGraph: {
+            title: `Sujin | ${archive.title}`,
+            url: url,
+        },
+    }
 }
 
-export default async function Page({ params }: Props) {
-    const { page, type, slug: title } = await params
-    const slug = title.toLowerCase()
-    if (Object.keys(ARCHIVE_URL).includes(type)) {
+export default async function Archive(props: Props) {
+    const params = await props.params
+    const slug = params.slug.toLowerCase()
+    const page = parseInt(params.page)
+    const type = params.type as ARCHIVE
+    if (Object.keys(ARCHIVE).includes(type)) {
         notFound()
     }
 
     return type === ARCHIVE.SEARCH ? (
-        <SearchServer page={page} type={type} slug={slug} />
+        <SearchServer page={page} slug={slug} />
     ) : (
         <ArchiveServer page={page} type={type} slug={slug} />
     )

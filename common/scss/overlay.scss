@@ -1,0 +1,41 @@
+@use 'variable';
+@use './mixin';
+
+.overlay {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    top: 0;
+    left: 0;
+    z-index: 11000;
+    padding: var(--gap);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal {
+    background-color: var(--white);
+    max-height: 100%;
+    margin: 0 auto;
+    overflow-y: scroll;
+    position: relative;
+    padding: 0.5em 3em 0.5em 0.5em;
+
+    .button.button--close {
+        position: absolute;
+        right: 0.2em;
+        top: 0;
+
+        span {
+            font-size: 2.5em;
+        }
+    }
+}
+
+.confirm {
+    background-color: var(--white);
+    padding: var(--gap);
+    margin: auto;
+}

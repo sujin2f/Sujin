@@ -19,14 +19,6 @@ $width: calc((100% - (12 * var(--gap))) / 12);
         padding: 0;
     }
 
-    &.row--align-center {
-        align-items: center;
-    }
-
-    &.row--gap {
-        margin-bottom: var(--gap);
-    }
-
     .column {
         margin-right: var(--gap);
 

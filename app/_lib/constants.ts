@@ -1,10 +1,12 @@
+import { PHASE_PRODUCTION_BUILD } from 'next/constants'
 import { MENU_NAMES } from '@app/_lib/types'
+import { HOUR_IN_SECONDS } from '@common/constants/datetime'
+import { IS_DEV } from '@common/constants/helper'
 import type { MenuItem } from '@common/types/menu'
 
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 export const DEFAULT_THUMBNAIL = `${BASE_URL}/assets/thumbnail.png`
-export const TWITTER_SHARE = 'https://www.twitter.com/intent/tweet'
-export const FACEBOOK_SHARE = 'https://www.facebook.com/sharer/sharer.php'
+export const PER_PAGE = 12
 
 export type Metadata = {
     title: string
@@ -181,6 +183,16 @@ export const MENUS: Record<MENU_NAMES, MenuItem[]> = {
                     title: 'Ether',
                     link: '/ether',
                 },
+                {
+                    ...menuFixture,
+                    title: 'Design System',
+                    link: '/design-system/elements',
+                },
+                {
+                    ...menuFixture,
+                    title: 'Recipe',
+                    link: '/recipe/1',
+                },
             ],
         },
     ],
@@ -308,6 +320,25 @@ export const MENUS: Record<MENU_NAMES, MenuItem[]> = {
             title: 'Text Sort',
             link: '/dev-tools/text-sort',
         },
+        {
+            ...menuFixture,
+            title: 'External',
+            link: '#',
+            children: [
+                {
+                    ...menuFixture,
+                    title: 'JSON Formatter',
+                    link: 'https://jsonformatter.curiousconcept.com/',
+                    target: '_blank',
+                },
+                {
+                    ...menuFixture,
+                    title: 'Text Diff',
+                    link: 'https://text-compare.com/',
+                    target: '_blank',
+                },
+            ],
+        },
     ],
     [MENU_NAMES.DESIGN_SYSTEM]: [
         {
@@ -319,6 +350,18 @@ export const MENUS: Record<MENU_NAMES, MenuItem[]> = {
             ...menuFixture,
             title: 'Elements',
             link: '/design-system/elements',
+            children: [
+                {
+                    ...menuFixture,
+                    title: 'HTML Elements',
+                    link: '/design-system/elements',
+                },
+                {
+                    ...menuFixture,
+                    title: 'Components',
+                    link: '/design-system/components',
+                },
+            ],
         },
         {
             ...menuFixture,
@@ -332,3 +375,8 @@ export const MENUS: Record<MENU_NAMES, MenuItem[]> = {
         },
     ],
 } as const
+
+export const revalidate =
+    IS_DEV || process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD
+        ? 1
+        : HOUR_IN_SECONDS

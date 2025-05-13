@@ -2,23 +2,30 @@
 import React from 'react'
 import Link from 'next/link'
 /* Components */
-import { Loading } from '@app/_components/archive/loading'
+import { Loading } from '@app/archive/_components/Loading'
 /* CONSTANTS */
 import { WEEK_IN_SECONDS } from '@common/constants/datetime'
-import GQL from '@app/api/graphql/constants'
+import GQL from '@app/api/graphql/_lib/constants'
+import { Context } from '@app/_lib/constants.store'
 /* Utils */
-import useIntersectionGQL from '@common/hooks/useIntersectionGQL'
+import useIntersectionGQLStore from '@common/hooks/useIntersectionGQLStore'
 
 const TagCloud = () => {
-    const [ref, tagCloud] = useIntersectionGQL(
+    const { items, pending, error, ref } = useIntersectionGQLStore(
+        'tagCloud',
+        Context,
         GQL.queryTagCloud,
         'id title slug total hits',
         WEEK_IN_SECONDS,
     )
 
+    if (error) {
+        return
+    }
+
     return (
         <section className="widget--tag-cloud" ref={ref}>
-            {!tagCloud && (
+            {pending && (
                 <Loading
                     fullWidth
                     className="tag-cloud"
@@ -26,8 +33,8 @@ const TagCloud = () => {
                     small={12}
                 />
             )}
-            {tagCloud &&
-                tagCloud.slice(0, 20).map((tag) => (
+            {items.length &&
+                items.slice(0, 20).map((tag) => (
                     <Link
                         className={`tag-cloud tag-cloud--size-${tag.total} tag-cloud--color-${tag.hits}`}
                         key={`tag-cloud-${tag.slug}-${tag.title}`}
@@ -40,5 +47,4 @@ const TagCloud = () => {
         </section>
     )
 }
-
 export default TagCloud

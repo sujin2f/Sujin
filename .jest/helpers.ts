@@ -1,40 +1,15 @@
-import { getDatabase, getCollection } from '@common/data/mongo/mongo'
+import { getCollection } from '@common/data/mongo/mongo'
 import { getRandomInt } from '@common/utils/number'
-import { IS_TEST } from '@common/constants/helper'
 import { category, imageBlock, page, post, tag } from './fixture'
 import {
     COLLECTION,
     T_ImageBlock,
     T_Archive,
     T_Page,
-    T_MongoPost,
+    T_Post,
+    T_Background,
 } from '@app/_lib/types'
-
-const suffix = IS_TEST ? `-${process.env.JEST_WORKER_ID}` : ''
-
-export const clearMongo = async (...collections: string[]) =>
-    await getDatabase().then(async (database) => {
-        if (collections.length === 0) {
-            await database.collections().then(async (collections) => {
-                for (const collection in collections) {
-                    if (collections[collection].namespace.includes(suffix)) {
-                        await collections[collection].drop()
-                    }
-                }
-            })
-            return
-        }
-
-        try {
-            for (const collection of collections) {
-                await database
-                    .collection(`${collection}${suffix}`)
-                    .deleteMany({})
-            }
-        } catch {}
-
-        return
-    })
+import { T_Mongo } from '@common/types/mongo'
 
 export const categoryFactory = async (input: Partial<T_Archive> = {}) => {
     const id = getRandomInt(9999999)
@@ -72,7 +47,7 @@ export const tagFactory = async (input: Partial<T_Archive> = {}) => {
     }
 }
 
-export const postFactory = async (input: Partial<T_MongoPost> = {}) => {
+export const postFactory = async (input: Partial<T_Mongo<T_Post>> = {}) => {
     const id = getRandomInt(9999999)
     const document = {
         ...post,
@@ -108,7 +83,7 @@ export const pageFactory = async (input: Partial<T_Page> = {}) => {
     }
 }
 
-export const backgroundFactory = async (input: Partial<T_ImageBlock> = {}) => {
+export const backgroundFactory = async (input: Partial<T_Background> = {}) => {
     const id = getRandomInt(9999999)
     const document = {
         ...imageBlock,

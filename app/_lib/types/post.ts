@@ -1,7 +1,7 @@
-import type { ObjectId } from 'mongodb'
-import { ConstToType } from '@common/types'
+import type { WithId } from 'mongodb'
+import type { ConstToType } from '@common/types'
 import type { T_PostImages } from '@app/_lib/types/image'
-import { T_Archive } from '@app/_lib/types/archive'
+import type { T_Archive } from '@app/_lib/types/archive'
 
 /**
  * WP Post types
@@ -31,29 +31,19 @@ export type T_PrevNext = {
     link: string
 }
 
-export type T_MongoPostArchive = T_PrevNext & {
-    id: number
-    slug: string
-    excerpt: string
-    date: number
-    archives: ObjectId[]
-    images: T_PostImages
-    status: POST_STATUS
-}
-
-export type T_PostArchive = Omit<T_MongoPostArchive, 'archives'> & {
-    archives: T_Archive[]
-}
-
-export type T_MongoPost = T_MongoPostArchive & {
-    content: string
-    meta: {
-        useBackgroundColor: boolean
-        backgroundColor: string
+export type T_ArchivePost = WithId<
+    T_PrevNext & {
+        id: number
+        slug: string
+        excerpt: string
+        date: Date
+        images: T_PostImages
+        status: POST_STATUS
+        archives: T_Archive[]
     }
-}
+>
 
-export type T_Post = T_PostArchive & {
+export type T_Post = T_ArchivePost & {
     content: string
     meta: {
         useBackgroundColor: boolean
@@ -67,4 +57,4 @@ export type T_MySQLPost = T_Post & {
     type: string
 }
 
-export type T_Page = Omit<T_Post, 'terms' | 'archives'>
+export type T_Page = Omit<T_Post, 'archives'>

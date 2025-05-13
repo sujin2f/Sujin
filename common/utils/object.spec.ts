@@ -1,6 +1,13 @@
 // yarn test object.spec.ts
 
-import { filterEmpty, isEmpty, omit, schemaFormatter } from './object'
+import { ObjectId } from 'mongodb'
+import {
+    filterEmpty,
+    isEmpty,
+    omit,
+    schemaFormatter,
+    mongoStringify,
+} from './object'
 
 describe('object.ts', () => {
     it('filterEmpty()', () => {
@@ -17,6 +24,20 @@ describe('object.ts', () => {
         const result = filterEmpty(testData)
         expect(Object.keys(result).length).toEqual(1)
         expect(result.a).toEqual('a')
+    })
+
+    it('roundJSON(): ObjectId to string', () => {
+        const date = new Date()
+        const result = mongoStringify({
+            _id: new ObjectId('68166240431077dfd927767a'),
+            date,
+            object: { key: 'value' },
+        })
+        expect(result).toStrictEqual({
+            _id: '68166240431077dfd927767a',
+            date,
+            object: { key: 'value' },
+        })
     })
 
     it('isEmpty(): string, empty', () => {

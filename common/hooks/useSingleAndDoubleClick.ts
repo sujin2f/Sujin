@@ -21,7 +21,7 @@ export const useSingleAndDoubleClick = (
                     break
             }
             clicks.current = 0
-        }, 250)
+        }, 0.25)
     }, [callbackClick, callbackDoubleClick])
 
     // clicks will be 1 when it triggers onClick

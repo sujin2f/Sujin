@@ -2,7 +2,7 @@
 import { Fragment } from 'react'
 import Link from 'next/link'
 /* Components */
-import { Table as TableComponent } from '@common/components/containers/Table'
+import { default as TableComponent } from '@common/components/containers/Table'
 /* Helpers */
 import { Atom } from '@app/ether/data/models/Atom'
 import { ROW_HEAD } from '@app/ether/data/constants'

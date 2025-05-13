@@ -42,16 +42,19 @@ export const scrollTo = (id: Nullable<string>): Nullable<number> => {
 
 /**
  * Delay to execute
+ * @param {() => Promise<void>} callback
+ * @param {number} seconds
  * @example debounce(() => {...}, 300)
  */
-export const debounce = (callback: () => void, wait: number) => {
-    let timeoutId: NodeJS.Timeout | null = null
-    if (timeoutId) {
-        clearTimeout(timeoutId)
-    }
-    timeoutId = setTimeout(() => {
-        callback()
-    }, wait)
+export const debounce = async (
+    callback: () => void | Promise<void>,
+    seconds: number,
+) => {
+    return new Promise((resolve) =>
+        setTimeout(async () => {
+            resolve(await callback())
+        }, seconds * 1000),
+    )
 }
 
 /**

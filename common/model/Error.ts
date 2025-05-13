@@ -1,55 +1,81 @@
-type ErrorLevel = 'info' | 'log' | 'warn' | 'error'
+import { isEmpty } from '../utils/object'
+import Logger from './Logger'
 
-interface ErrorOptions2 extends ErrorOptions {
-    code?: string
-    source?: string
-    level?: ErrorLevel
-}
+export abstract class A_Error extends Error {
+    public messages: unknown[] = []
+    public message: string = ''
+    public metadata: unknown
 
-/**
- * @deprecated Use Logger and global Error
- */
-class MyError extends Error {
-    public code?: string
-    public source?: string
-    public level?: ErrorLevel
-
-    constructor(message?: string, options?: ErrorOptions2) {
-        const _options = {
-            cause: options?.cause,
-        }
-        super(message, _options)
-        this.code = options?.code
-        this.source = options?.source
-        this.level = options?.level
-
-        if (this.level) {
-            this.echo(this.level)
-        }
+    constructor(message?: string, ...messages: unknown[]) {
+        super(message)
+        if (messages) this.messages = messages
     }
 
-    public echo(level: ErrorLevel) {
-        const code = this.code ? `[${this.code}]: ` : ''
-        const msg = this.message ? this.message : ''
-        const source = this.source ? ` @ ${this.source}` : ''
-        const date = new Date()
-        const result = `${date.toLocaleDateString()} ${date.toLocaleTimeString()} - ${code}${msg}${source}`
+    public setCause(cause: unknown) {
+        this.cause = cause
+        return this
+    }
 
-        switch (level) {
-            case 'info':
-                console.info(result)
-                break
-            case 'log':
-                console.log(result)
-                break
-            case 'warn':
-                console.warn(result)
-                break
-            default:
-                console.error(result)
+    public setMetadata(metadata: unknown) {
+        this.metadata = metadata
+        return this
+    }
+
+    public log() {
+        const message = this.stack || this.message
+        const messages = this.messages
+            .map((data) => {
+                if (
+                    (typeof data === 'object' || Array.isArray(data)) &&
+                    !isEmpty(data)
+                )
+                    return JSON.stringify(data)
+                return data
+            })
+            .filter((v) => v)
+
+        if (messages.length) {
+            Logger.server(`🤬 ${message}`, messages)
+        } else {
+            Logger.server(`🤬 ${message}`)
         }
+
+        if (this.cause) {
+            if (this.cause instanceof A_Error) {
+                this.cause.log()
+            } else if (this.cause instanceof Error) {
+                Logger.server(this.cause.message)
+            }
+        }
+        return this
     }
 }
-export { MyError as Error }
 
-export const isCustomError = (e: unknown) => e instanceof MyError
+export class IOError extends A_Error {
+    name = 'IOError'
+}
+export class InternalError extends A_Error {
+    name = 'InternalError'
+}
+export class NodeModuleError extends InternalError {
+    name = 'NodeModuleError'
+}
+export class EnvironmentError extends InternalError {
+    name = 'EnvironmentError'
+}
+export class DatabaseError extends InternalError {
+    name = 'DatabaseError'
+}
+export class NoContentError extends DatabaseError {
+    name = '204 No Content'
+}
+export class FetchError extends A_Error {
+    name = 'FetchError'
+}
+export class UnauthorizedError extends A_Error {
+    name = '401 Unauthorized'
+    message = 'You are not authorized to access here.'
+}
+export class ForbiddenError extends A_Error {
+    name = '403 Forbidden'
+}

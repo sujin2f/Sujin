@@ -1,129 +1,108 @@
 'use client'
-import React, { Fragment, RefObject, ChangeEvent, useCallback } from 'react'
-
-/* Helpers */
+import type { DetailedHTMLProps, RefObject, SelectHTMLAttributes } from 'react'
+/* Components */
+import Input from './Input'
+/* Utils */
 import { joinClassNames } from '../../utils/string'
 /* Assets */
 import '../../scss/form.scss'
 
-type Props = {
-    readonly options: Record<string, string | Record<string, string>>
-    readonly id?: string
-    readonly value?: string
-    readonly defaultValue?: string
-    readonly label?: string
-    readonly multiple?: boolean
-    readonly disabled?: boolean
-    readonly required?: boolean
+type Options =
+    | string[]
+    | { [key: string]: string | Record<string, string> | string[] }
+
+type Props<T extends Options> = DetailedHTMLProps<
+    SelectHTMLAttributes<HTMLSelectElement>,
+    HTMLSelectElement
+> & {
+    readonly options: T
+    readonly errorMessage?: string
     readonly helpText?: string
-    readonly onChange?: (value: string) => void
-    readonly ref?: RefObject<HTMLSelectElement>
+    readonly label?: string
+    readonly ref?: RefObject<HTMLSelectElement | null>
 }
 
 /**
  * Select component that renders a dropdown select field with various styles and behaviors.
  *
  * @param {Record<string, string | Record<string, string>>} props.options - The options for the select field.
- * @param {string} [props.id] - The id of the select field.
- * @param {string} [props.label] - The label for the select field.
- * @param {string} [props.value] - The value of the select field.
- * @param {string} [props.defaultValue] - The default value of the select field.
- * @param {boolean} [props.multiple] - Whether the select field allows multiple selections.
- * @param {boolean} [props.disabled] - Whether the select field is disabled.
- * @param {boolean} [props.required] - Whether the select field is required.
+ * @param {string} [props.errorMessage] - The error message for the input field.
  * @param {string} [props.helpText] - The help text for the select field.
- * @param {(value: string) => void} [props.onChange] - Callback function to handle change events.
+ * @param {string} [props.label] - The label for the input field.
  * @param {RefObject<HTMLSelectElement>} [props.ref] - The ref object for the select field.
  */
-export const Select = ({
-    id,
-    label,
-    options,
-    value,
-    defaultValue,
-    multiple,
-    disabled,
-    required,
+const Select = <T extends Options>({
     helpText,
-    ref,
-    onChange: propsOnChange,
-}: Props) => {
-    const ariaDescribedby = helpText ? `${id}-help-text` : ''
-
-    const onChange = useCallback(
-        (e: ChangeEvent<HTMLSelectElement>) => {
-            if (propsOnChange) {
-                propsOnChange(e.target.value)
-            }
-        },
-        [propsOnChange],
-    )
+    errorMessage,
+    ...props
+}: Props<T>) => {
+    const ariaDescribedby =
+        helpText && props.id
+            ? `${props.id}-help-text`
+            : props['aria-describedby']
 
     return (
-        <Fragment>
-            {label && (
-                <label
-                    htmlFor={id}
-                    className={joinClassNames(
-                        'form__label',
-                        required && 'form__label--required',
-                    )}
-                >
-                    {label}
-                </label>
-            )}
-
+        <Input {...props} helpText={helpText} errorMessage={errorMessage}>
             <select
-                ref={ref}
-                id={id}
-                value={value}
-                defaultValue={defaultValue}
-                multiple={multiple}
-                disabled={disabled}
-                required={required}
                 aria-describedby={ariaDescribedby}
-                onChange={onChange}
-                className="form__input"
+                className={joinClassNames('form__input', props.className)}
+                {...props}
             >
-                {Object.entries(options).map(([optionValue, optionText]) => {
-                    if (typeof optionText === 'string') {
-                        return (
-                            <option
-                                value={optionValue}
-                                key={`option-${id}-${optionValue}`}
-                            >
-                                {optionText}
-                            </option>
-                        )
-                    }
+                <Options options={props.options} />
+            </select>
+        </Input>
+    )
+}
 
-                    const groupLabel = optionValue
-                    const groupOption = optionText
+const Options = ({
+    options,
+    depth = 0,
+}: {
+    options: Options
+    depth?: number
+}) => {
+    // ['Option']
+    if (Array.isArray(options)) {
+        return (
+            <>
+                {options.map((option, index) => {
                     return (
-                        <optgroup
-                            label={groupLabel}
-                            key={`optgroup-${id}-${optionValue}`}
+                        <option
+                            value={option}
+                            key={`option-${depth}-${index}-${option}`}
                         >
-                            {Object.entries(groupOption).map(
-                                ([groupMemberValue, groupMemberText]) => (
-                                    <option
-                                        value={groupMemberValue}
-                                        key={`option-${id}-${groupLabel}-${groupMemberValue}`}
-                                    >
-                                        {groupMemberText as string}
-                                    </option>
-                                ),
-                            )}
-                        </optgroup>
+                            {option}
+                        </option>
                     )
                 })}
-            </select>
-            {helpText && (
-                <p className="help-text" id={ariaDescribedby}>
-                    {helpText}
-                </p>
-            )}
-        </Fragment>
+            </>
+        )
+    }
+
+    return (
+        <>
+            {Object.entries(options).map(([label, option], index) => {
+                // { option: 'Option' }
+                if (typeof option === 'string') {
+                    return (
+                        <option
+                            key={`optgroup-${depth}-${index}-${option}-${label}`}
+                            value={label}
+                        >
+                            {option}
+                        </option>
+                    )
+                }
+                return (
+                    <optgroup
+                        label={label}
+                        key={`optgroup-${depth}-${index}-${label}`}
+                    >
+                        <Options options={option} depth={depth + 1} />
+                    </optgroup>
+                )
+            })}
+        </>
     )
 }
 

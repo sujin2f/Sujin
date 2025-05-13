@@ -2,11 +2,11 @@ import { InlineMath } from 'react-katex'
 import Link from 'next/link'
 /* Components */
 import { NextImage } from '@common/components/containers/NextImage'
-import { Table } from '@common/components/containers/Table'
-import { Row } from '@common/components/layout/Row'
-import { Column } from '@common/components/layout/Column'
-import { Latex } from '@app/_components/single/Latex'
-import { PrevNext } from '@app/_components/single/PrevNext'
+import Table from '@common/components/containers/Table'
+import Row from '@common/components/layout/Row'
+import Column from '@common/components/layout/Column'
+import { Latex } from '@app/(single)/_components/Latex'
+import { PrevNext } from '@app/(single)/_components/PrevNext'
 import Wrapper from '@app/ether/wrapper'
 /* Assets */
 import pic29 from '@app/_lib/images/ether/pic29.png'
@@ -436,7 +436,7 @@ export default function Analysis() {
                 intuitiveness, so the values are expressed in Rydberg units
             </p>
 
-            <Table scroll caption="Values of the One Circular Ether">
+            <Table caption="Values of the One Circular Ether">
                 <thead>
                     <tr>
                         <th></th>

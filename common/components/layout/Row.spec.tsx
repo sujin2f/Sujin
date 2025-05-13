@@ -6,7 +6,7 @@
 import '@testing-library/jest-dom'
 import React from 'react'
 import { render } from '@testing-library/react'
-import { Row } from './Row'
+import Row from './Row'
 
 describe('Row.ts', () => {
     it('Basic', async () => {

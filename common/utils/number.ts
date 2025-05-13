@@ -48,3 +48,13 @@ export const getRandomInt = (max: number, from?: number) => {
     const range = max - from
     return Math.floor(Math.random() * range) + from
 }
+
+export const hexToRgb = (hex: string) => {
+    const color = parseInt(hex, 16)
+    // Hex is 2^4 / two digits hex is 2^8 / moving 16 bits to the right => red
+    const red = (color >> 16) & 0xff
+    const green = (color >> 8) & 0xff
+    const blue = color & 0xff
+
+    return [red, green, blue]
+}
