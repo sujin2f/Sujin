@@ -52,25 +52,25 @@ export abstract class A_Error extends Error {
 }
 
 export class IOError extends A_Error {
-    name = 'IOError'
+    name = 'IO Error'
 }
 export class InternalError extends A_Error {
-    name = 'InternalError'
+    name = 'Internal Error'
 }
 export class NodeModuleError extends InternalError {
-    name = 'NodeModuleError'
+    name = 'NodeModule Error'
 }
 export class EnvironmentError extends InternalError {
-    name = 'EnvironmentError'
+    name = 'Environment Error'
 }
 export class DatabaseError extends InternalError {
-    name = 'DatabaseError'
+    name = 'Database Error'
 }
 export class NoContentError extends DatabaseError {
     name = '204 No Content'
 }
 export class FetchError extends A_Error {
-    name = 'FetchError'
+    name = 'Fetch Error'
 }
 export class UnauthorizedError extends A_Error {
     name = '401 Unauthorized'
