@@ -23,7 +23,7 @@ class GraphQL {
 		}
 	}
 
-	private function request(array $mutation): array {
+	private function request(array $mutation) {
 		$args     = array(
 			'headers' => array(
 				'Content-Type' => 'application/json',
