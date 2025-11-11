@@ -1,5 +1,5 @@
 import type { DetailedHTMLProps, HTMLAttributes } from 'react'
-import { joinClassNames } from '@common/utils/string'
+import { joinClassNames } from '../../utils/string'
 /* Assets */
 import '../../scss/form.scss'
 

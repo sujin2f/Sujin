@@ -1,6 +1,6 @@
 'use client'
 
-import { map, transpose } from '@common/utils/array'
+import { map, transpose } from '../../utils/array'
 import { useEffect, useRef, useState } from 'react'
 
 type Props = {

@@ -4,7 +4,7 @@ import { type PropsWithChildren, useCallback, useEffect } from 'react'
 import Button from '../forms/Button'
 import Overlay from './Overlay'
 import { KeyCodes } from '../../constants/keycode'
-import { QuantumBool } from '@common/types'
+import { QuantumBool } from '../../types'
 import ButtonGroup from '../forms/ButtonGroup'
 
 type Props = {

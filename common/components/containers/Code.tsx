@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import Script from 'next/script'
 /* Helpers */
-import { useStyleLoader } from '@common/hooks/useStyleLoader'
+import { useStyleLoader } from '../../hooks/useStyleLoader'
 import { joinClassNames } from '../../utils/string'
 import { languages } from '../../constants/helper'
 import { map } from '../../utils/array'
