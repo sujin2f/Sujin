@@ -1,4 +1,3 @@
-import sanitize from 'mongo-sanitize'
 /* T_Types */
 import type { MutationResultType } from '@src/types'
 /* CONSTANTS */
@@ -14,5 +13,5 @@ export const mutateCategory = async (
     _: unknown,
     { slug }: Param,
 ): Promise<MutationResultType> => {
-    return await mutateArchive(sanitize(slug), ARCHIVE.CATEGORY)
+    return await mutateArchive(slug, ARCHIVE.CATEGORY)
 }

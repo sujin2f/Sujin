@@ -17,4 +17,4 @@ export const BackgroundSchema = new Schema({
     },
 })
 
-export const Background = model('background', BackgroundSchema)
+export const Background = model('background', BackgroundSchema, 'background')

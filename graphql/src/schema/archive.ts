@@ -26,4 +26,4 @@ const archiveSchema = new Schema({
     hits: Number,
 })
 
-export const Archive = model('archive', archiveSchema)
+export const Archive = model('archive', archiveSchema, 'archive')

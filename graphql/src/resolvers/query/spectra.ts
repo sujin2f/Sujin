@@ -10,7 +10,6 @@
 // /* Utils */
 // import { getAtom } from '@lib/utils/ether'
 // import { romanize } from '@common/utils/number'
-// // import { getCollection } from '@src/utils/mongo'
 // /* CONSTANTS */
 // import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 // import { IS_DEV } from '@common/constants/helper'
@@ -305,11 +304,11 @@
 //  * @returns {Promise<void>} The result of the insert operation.
 //  */
 // export const insertOne = async (rawData: Partial<ISpectrum>): Promise<void> => {
-//     // await getCollection(COLLECTION.SPECTRA).then(async (spectra) => {
-//     //     await spectra.findOne({ ...rawData }).then(async (result) => {
-//     //         if (!result) {
-//     //             await spectra.insertOne(rawData)
-//     //         }
-//     //     })
-//     // })
+//     await getCollection(COLLECTION.SPECTRA).then(async (spectra) => {
+//         await spectra.findOne({ ...rawData }).then(async (result) => {
+//             if (!result) {
+//                 await spectra.insertOne(rawData)
+//             }
+//         })
+//     })
 // }

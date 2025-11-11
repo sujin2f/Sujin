@@ -20,10 +20,7 @@ import { updateTotal } from '@src/utils/mongo/updateTotal'
  * @param {ARCHIVE} type
  * @returns {Promise<T_Archive>} updated archive
  */
-const updateArchive = async (_slug: string, _type: ARCHIVE): Promise<void> => {
-    const slug = sanitize(_slug)
-    const type = sanitize(_type)
-
+const updateArchive = async (slug: string, type: ARCHIVE): Promise<void> => {
     await Cached.getInstance().flush(
         getCacheKey(COLLECTION.ARCHIVE, type, slug),
     )
@@ -33,15 +30,15 @@ const updateArchive = async (_slug: string, _type: ARCHIVE): Promise<void> => {
         wp.image = convertImageBlockURL(wp.image)
     }
 
-    const archive = await Archive.findOne({ slug, type }).then(
-        async (result) => {
-            if (!result) {
-                return await Archive.insertOne({ ...wp, type })
-            }
-
-            return result
-        },
-    )
+    const archive = await Archive.findOneAndReplace(
+        { slug, type },
+        { ...wp, type },
+    ).then(async (result) => {
+        if (!result) {
+            return await Archive.insertOne({ ...wp, type })
+        }
+        return result
+    })
 
     await updateTotal([archive._id])
 }
@@ -57,7 +54,7 @@ export const mutateArchive = async (
     slug: string,
     type: ARCHIVE,
 ): Promise<MutationResultType> => {
-    await updateArchive(slug, type)
+    await updateArchive(sanitize(slug), sanitize(type))
     return {
         result: true,
     }

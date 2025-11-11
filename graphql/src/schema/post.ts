@@ -52,5 +52,5 @@ const PostSchema = new Schema({
 
 PostSchema.index({ content: 'text' })
 
-export const Page = model('page', new Schema(PageSchema))
-export const Post = model('post', PostSchema)
+export const Page = model('page', new Schema(PageSchema), 'page')
+export const Post = model('post', PostSchema, 'post')
