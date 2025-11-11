@@ -10,13 +10,13 @@
 //     UpdateOptions,
 //     DeleteOptions,
 // } from 'mongodb'
-// import { compareVersions } from '@common/utils/system'
-// import Logger from '@common/model/Logger'
-// import { DatabaseError } from '@common/model/Error'
+// import { compareVersions } from '@sujin/common/utils/system'
+// import Logger from '@sujin/common/model/Logger'
+// import { DatabaseError } from '@sujin/common/model/Error'
 
 // // import Mongo from './connection'
-// import { PER_PAGE } from '@lib/constants/index'
-// import { COLLECTION } from '@lib/types'
+// import { PER_PAGE } from '@sujin/lib/constants/index'
+// import { COLLECTION } from '@sujin/lib/types'
 
 // export const getDatabase = async () => {
 //     const client = await Mongo()

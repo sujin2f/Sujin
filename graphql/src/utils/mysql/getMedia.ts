@@ -2,9 +2,9 @@
 import { getPostBy } from '@src/utils/mysql/getPostBy'
 import { getMediaFromPost } from '@src/utils/mysql/getMediaFromPost'
 /* CONSTANTS */
-import { POST_TYPE, type T_ImageBlock } from '@lib/types'
+import { POST_TYPE, type T_ImageBlock } from '@sujin/lib/types'
 /* T_Types */
-import type { Nullable } from '@common/types'
+import type { Nullable } from '@sujin/common/types'
 
 export const getMedia = async (
     postId: number,

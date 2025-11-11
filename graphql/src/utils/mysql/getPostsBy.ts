@@ -1,19 +1,19 @@
 /* Models */
-import { select } from '@common/data/mysql'
+import { select } from '@sujin/common/data/mysql'
 /* CONSTANTS */
 import { MySQLQuery } from '@src/utils/mysql/constants'
-import { PER_PAGE } from '@lib/constants'
+import { PER_PAGE } from '@sujin/lib/constants'
 import {
     ARCHIVE,
     TAXONOMY,
     type POST_TYPE,
     type T_Archive,
     type T_MySQLPost,
-} from '@lib/types'
+} from '@sujin/lib/types'
 /* Utils */
 import { getPostMeta } from '@src/utils/mysql/getPostMeta'
 /* T_Types */
-import { type POST_IMAGE_LOCATION, type T_ImageBlock } from '@lib/types'
+import { type POST_IMAGE_LOCATION, type T_ImageBlock } from '@sujin/lib/types'
 import { getMedia } from './getMedia'
 
 export const getPostsBy = async (

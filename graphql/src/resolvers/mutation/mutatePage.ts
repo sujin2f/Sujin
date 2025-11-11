@@ -2,12 +2,12 @@ import sanitize from 'mongo-sanitize'
 /* T_Types */
 import type { MutationResultType } from '@src/types'
 /* Utils */
-import { getCacheKey } from '@lib/utils/cache'
+import { getCacheKey } from '@sujin/lib/utils/cache'
 import { getPostBy } from '@src/utils/mysql/getPostBy'
 /* Models */
-import Cached from '@common/model/Cached'
+import Cached from '@sujin/common/model/Cached'
 /* CONSTANTS */
-import { COLLECTION, POST_IMAGE_LOCATION, POST_TYPE } from '@lib/types'
+import { COLLECTION, POST_IMAGE_LOCATION, POST_TYPE } from '@sujin/lib/types'
 import { convertImageBlockURL } from '@src/utils/mongo/convertImageBlockURL'
 import { Page } from '@src/schema/post'
 

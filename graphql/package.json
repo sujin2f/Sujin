@@ -1,5 +1,5 @@
 {
-    "name": "express-api",
+    "name": "graphql-api",
     "version": "0.0.1-beta",
     "description": "",
     "main": "src/server.ts",
@@ -28,6 +28,8 @@
         "node-cache": "^5.1.2"
     },
     "devDependencies": {
+        "@sujin/lib": "file:../lib",
+        "@sujin/common": "file:../common",
         "@eslint/js": "^9.39.1",
         "@types/cors": "^2.8.19",
         "@types/express": "^5.0.5",

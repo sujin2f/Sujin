@@ -9,12 +9,10 @@
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
         "paths": {
-            "@common/*": ["../common/*"],
-            "@lib/*": ["../lib/*"],
-            "@jest/*": ["../.jest/*"],
-            "@src/*": ["./src/*"]
+            "@src/*": ["./src/*"],
+            "@jest/*": ["../.jest/*"]
         }
     },
-    "include": ["src/**/*.ts", "src/resolvers/query/spectra.spec.ts"],
+    "include": ["src/**/*.ts"],
     "exclude": ["node_modules"]
 }

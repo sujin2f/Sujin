@@ -1,11 +1,11 @@
 /* Models */
-import Cached from '@common/model/Cached'
+import Cached from '@sujin/common/model/Cached'
 /* CONSTANTS */
-import { IS_DEV } from '@common/constants/helper'
-import { DAY_IN_SECONDS } from '@common/constants/datetime'
-import { VERSION } from '@common/constants/helper'
+import { IS_DEV } from '@sujin/common/constants/helper'
+import { DAY_IN_SECONDS } from '@sujin/common/constants/datetime'
+import { VERSION } from '@sujin/common/constants/helper'
 /* T_Types */
-import type { COLLECTION } from '@lib/types'
+import type { COLLECTION } from '../types'
 
 /**
  *

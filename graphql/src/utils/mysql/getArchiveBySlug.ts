@@ -1,17 +1,17 @@
 /* Models */
-import { select } from '@common/data/mysql'
-import { FetchError } from '@common/model/Error'
+import { select } from '@sujin/common/data/mysql'
+import { FetchError } from '@sujin/common/model/Error'
 /* CONSTANTS */
 import {
     type T_Archive,
     type T_ImageBlock,
     type T_MySQLArchive,
-} from '@lib/types'
+} from '@sujin/lib/types'
 import { MySQLQuery } from '@src/utils/mysql/constants'
 /* Utils */
 import { getMedia } from '@src/utils/mysql/getMedia'
 /* T_Types */
-import type { Nullable } from '@common/types'
+import type { Nullable } from '@sujin/common/types'
 
 const getMeta = async <T = string>(id: number, metaKey: string): Promise<T> =>
     await select<T>(MySQLQuery.getTermMeta(id, metaKey)).then(

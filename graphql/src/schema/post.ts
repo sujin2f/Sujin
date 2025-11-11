@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import { Images } from '@src/schema/images'
-import { POST_STATUS } from '@lib/types'
+import { POST_STATUS } from '@sujin/lib/types'
 
 const { Schema, SchemaTypes, model } = mongoose
 

@@ -1,11 +1,11 @@
 /* Mongoose */
 import { Background } from '@src/schema/background'
 /* CONSTANTS */
-import { COLLECTION } from '@lib/types'
+import { COLLECTION } from '@sujin/lib/types'
 /* Utils */
-import { cachedRequest, getCacheKey } from '@lib/utils/cache'
+import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 /* T_Types */
-import type { T_Background } from '@lib/types'
+import type { T_Background } from '@sujin/lib/types'
 
 /**
  * Get backgrounds

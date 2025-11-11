@@ -2,11 +2,11 @@ import sanitize from 'mongo-sanitize'
 /* Mongoose */
 import { Archive } from '@src/schema/archive'
 /* Models */
-import Cached from '@common/model/Cached'
+import Cached from '@sujin/common/model/Cached'
 /* CONSTANTS */
-import { ARCHIVE, COLLECTION } from '@lib/types'
+import { ARCHIVE, COLLECTION } from '@sujin/lib/types'
 /* Utils */
-import { getCacheKey } from '@lib/utils/cache'
+import { getCacheKey } from '@sujin/lib/utils/cache'
 import { convertImageBlockURL } from '@src/utils/mongo/convertImageBlockURL'
 import { getArchiveBySlug } from '@src/utils/mysql/getArchiveBySlug'
 /* T_Types */

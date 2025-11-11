@@ -1,8 +1,8 @@
 // import sanitize from 'mongo-sanitize'
 // /* Models */
-// import Cached from '@common/model/Cached'
-// import { select } from '@common/data/mysql'
-// import { FetchError } from '@common/model/Error'
+// import Cached from '@sujin/common/model/Cached'
+// import { select } from '@sujin/common/data/mysql'
+// import { FetchError } from '@sujin/common/model/Error'
 // /* CONSTANTS */
 // import {
 //     ARCHIVE,
@@ -10,18 +10,18 @@
 //     type T_Archive,
 //     type T_ImageBlock,
 //     type T_MySQLArchive,
-// } from '@lib/types'
+// } from '@sujin/lib/types'
 // import { default as schema } from '@src/schema/10.3.4'
 // import { MySQLQuery } from '@src/utils/mysql/constants'
 // /* Utils */
-// import { getCacheKey } from '@lib/utils/cache'
+// import { getCacheKey } from '@sujin/lib/utils/cache'
 // import { insertOrReplace } from '@src/utils/mongo'
-// import { schemaFormatter } from '@common/utils/object'
+// import { schemaFormatter } from '@sujin/common/utils/object'
 // import { convertImageBlockURL } from '@src/utils/utils-mongo'
 // import { updateTotal } from '@src/utils/mongo/updateTotal'
 // import { getMedia } from '@src/utils/mysql/getMedia'
 // /* T_Types */
-// import type { Nullable } from '@common/types'
+// import type { Nullable } from '@sujin/common/types'
 
 // export const formatter = (term: Record<string, unknown>): T_Archive => {
 //     const formatted = schemaFormatter(term, schema.archive) as T_Archive

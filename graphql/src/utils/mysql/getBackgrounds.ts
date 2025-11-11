@@ -1,10 +1,10 @@
 /* Models */
-import { select } from '@common/data/mysql'
-import { FetchError } from '@common/model/Error'
+import { select } from '@sujin/common/data/mysql'
+import { FetchError } from '@sujin/common/model/Error'
 /* CONSTANTS */
 import { MySQLQuery } from '@src/utils/mysql/constants'
 /* T_Types */
-import type { T_Background, T_MySQLPost } from '@lib/types'
+import type { T_Background, T_MySQLPost } from '@sujin/lib/types'
 /* Utils */
 import { getMediaFromPost } from '@src/utils/mysql/getMediaFromPost'
 

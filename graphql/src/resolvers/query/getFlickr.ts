@@ -1,12 +1,12 @@
 /* Models */
-import Cached from '@common/model/Cached'
-import Logger from '@common/model/Logger'
+import Cached from '@sujin/common/model/Cached'
+import Logger from '@sujin/common/model/Logger'
 /* CONSTANTS */
-import { WEEK_IN_SECONDS } from '@common/constants/datetime'
-import { IS_DEV } from '@common/constants/helper'
+import { WEEK_IN_SECONDS } from '@sujin/common/constants/datetime'
+import { IS_DEV } from '@sujin/common/constants/helper'
 import { STATIC_FLICKR } from '@src/constants'
 /* T_Types */
-import type { T_FlickrImage, T_FlickrResponse } from '@lib/types'
+import type { T_FlickrImage, T_FlickrResponse } from '@sujin/lib/types'
 
 const defaultValue = STATIC_FLICKR.items.map((item) => ({
     ...item,

@@ -1,13 +1,13 @@
 // // yarn test updatePage.spec.ts
 
 // // import { select } from '../../../..common/data/mysql'
-// import { VERSION } from '@common/constants/helper'
+// import { VERSION } from '@sujin/common/constants/helper'
 // import { pageFactory } from '@jest/helpers'
-// import { clearMongo } from '@common/.jest/helpers'
+// import { clearMongo } from '@sujin/common/.jest/helpers'
 // import { COLLECTION, T_Page } from '@app/_lib/types'
 // import migration from '@app/_lib/migration'
-// import Cached from '@common/model/Cached'
-// import { deleteOne, getCollection, migrate } from '@common/data/mongo/mongo'
+// import Cached from '@sujin/common/model/Cached'
+// import { deleteOne, getCollection, migrate } from '@sujin/common/data/mongo/mongo'
 // import { updatePage } from './updatePage'
 
 // jest.mock('next-auth', () => ({

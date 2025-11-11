@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { EnvironmentError } from '@common/model/Error'
+import { EnvironmentError } from '@sujin/common/model/Error'
 import dotenv from 'dotenv'
 import * as path from 'path'
 

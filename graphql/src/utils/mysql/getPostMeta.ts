@@ -1,10 +1,10 @@
 /* Models */
-import { select } from '@common/data/mysql'
-import Logger from '@common/model/Logger'
+import { select } from '@sujin/common/data/mysql'
+import Logger from '@sujin/common/model/Logger'
 /* CONSTANTS */
 import { MySQLQuery } from '@src/utils/mysql/constants'
 /* Utils */
-import { phpUnSerialize } from '@common/utils/string'
+import { phpUnSerialize } from '@sujin/common/utils/string'
 
 type T_PostMeta = {
     meta_key: string

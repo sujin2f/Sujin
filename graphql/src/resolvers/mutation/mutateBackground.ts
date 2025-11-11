@@ -1,9 +1,9 @@
 /* Models */
-import Cached from '@common/model/Cached'
+import Cached from '@sujin/common/model/Cached'
 /* CONSTANTS */
-import { COLLECTION } from '@lib/types'
+import { COLLECTION } from '@sujin/lib/types'
 /* Utils */
-import { getCacheKey } from '@lib/utils/cache'
+import { getCacheKey } from '@sujin/lib/utils/cache'
 import { getBackgrounds } from '@src/utils/mysql/getBackgrounds'
 
 /* T_Types */

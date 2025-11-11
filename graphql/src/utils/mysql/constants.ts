@@ -4,8 +4,8 @@
  * @module constants
  */
 
-import { type POST_TYPE, TAXONOMY } from '@lib/types'
-import { PER_PAGE } from '@lib/constants'
+import { type POST_TYPE, TAXONOMY } from '@sujin/lib/types'
+import { PER_PAGE } from '@sujin/lib/constants'
 
 /**
  * Making a formatted string

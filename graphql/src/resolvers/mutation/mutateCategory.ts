@@ -1,7 +1,7 @@
 /* T_Types */
 import type { MutationResultType } from '@src/types'
 /* CONSTANTS */
-import { ARCHIVE } from '@lib/types'
+import { ARCHIVE } from '@sujin/lib/types'
 import { mutateArchive } from '@src/resolvers/mutation/mutateArchive'
 
 type Param = {

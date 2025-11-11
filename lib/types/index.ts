@@ -2,11 +2,11 @@
  * Common type definition
  */
 
-export * from '@lib/types/image'
-export * from '@lib/types/archive'
-export * from '@lib/types/post'
-export * from '@lib/types/misc'
-export * from '@lib/types/props'
-export * from '@lib/types/user'
-export * from '@lib/types/snippet'
-export * from '@lib/types/recipe'
+export * from './image'
+export * from './archive'
+export * from './post'
+export * from './misc'
+export * from './props'
+export * from './user'
+export * from './snippet'
+export * from './recipe'

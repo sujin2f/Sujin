@@ -1,7 +1,7 @@
 /* T_Types */
-import type { Atom } from '@lib/types/ether'
+import type { Atom } from '../types/ether'
 /* CONSTANTS */
-import { periodicTable } from '@lib/constants/ether'
+import { periodicTable } from '../constants/ether'
 
 /**
  * Retrieves an atom from the periodic table by its atomic number.

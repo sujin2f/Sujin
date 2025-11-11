@@ -1,5 +1,5 @@
 /* T_Types */
-import { T_ImageBlock, IMAGE_SIZE } from '@lib/types'
+import { T_ImageBlock, IMAGE_SIZE } from '@sujin/lib/types'
 
 const replaceURL = (url: string) => {
     let pathname: string

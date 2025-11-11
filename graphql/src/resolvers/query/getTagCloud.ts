@@ -1,10 +1,10 @@
 /* Mongoose */
 import { Archive } from '@src/schema/archive'
 /* Utils */
-import { cachedRequest, getCacheKey } from '@lib/utils/cache'
-import { shuffle } from '@common/utils/array'
+import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
+import { shuffle } from '@sujin/common/utils/array'
 /* CONSTANTS */
-import { ARCHIVE, COLLECTION, type T_Archive } from '@lib/types'
+import { ARCHIVE, COLLECTION, type T_Archive } from '@sujin/lib/types'
 
 const query = async (): Promise<Omit<T_Archive, '_id'>[]> => {
     const tags: Record<string, Omit<T_Archive, '_id'>> = {}

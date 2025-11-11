@@ -1,10 +1,14 @@
 /* Models */
-import { FetchError } from '@common/model/Error'
+import { FetchError } from '@sujin/common/model/Error'
 /* Utils */
-import { isEmpty } from '@common/utils/object'
+import { isEmpty } from '@sujin/common/utils/object'
 import { getPostMeta } from '@src/utils/mysql/getPostMeta'
 /* CONSTANTS */
-import { IMAGE_SIZE, type T_ImageBlock, type T_MySQLPost } from '@lib/types'
+import {
+    IMAGE_SIZE,
+    type T_ImageBlock,
+    type T_MySQLPost,
+} from '@sujin/lib/types'
 
 enum META_KEYS {
     ATTACHMENT_META = '_wp_attachment_metadata',

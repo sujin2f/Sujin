@@ -1,6 +1,6 @@
 // import sanitize from 'mongo-sanitize'
 // /* CONSTANTS */
-// import { ARCHIVE, COLLECTION } from '@lib/types'
+// import { ARCHIVE, COLLECTION } from '@sujin/lib/types'
 // // import { updateOne } from '@src/utils/mongo'
 
 // export const updateHits = async (_slug: string) => {

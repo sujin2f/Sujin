@@ -1,12 +1,12 @@
 // // yarn test utils-mongo.spec.ts
 
-// import { VERSION } from '@common/constants/helper'
-// import { clearMongo } from '@common/.jest/helpers'
+// import { VERSION } from '@sujin/common/constants/helper'
+// import { clearMongo } from '@sujin/common/.jest/helpers'
 // import { addUser, getUser } from './utils-mongo'
 // import migration from '@app/_lib/migration'
 // import { COLLECTION } from '@app/_lib/types'
-// import Cached from '@common/model/Cached'
-// import { migrate } from '@common/data/mongo/mongo'
+// import Cached from '@sujin/common/model/Cached'
+// import { migrate } from '@sujin/common/data/mongo/mongo'
 
 // jest.mock('next-auth', () => ({
 //     getServerSession: jest.fn(async () =>

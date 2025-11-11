@@ -1,6 +1,6 @@
 // // yarn test spectra.spec.ts
 
-// import { clearMongo } from '@common/.jest/helpers'
+// import { clearMongo } from '@sujin/common/.jest/helpers'
 // import { NISTresponseH } from '@jest/fixture'
 // import { getSpectraFromNIST } from './spectra'
 

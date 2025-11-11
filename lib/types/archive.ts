@@ -1,6 +1,6 @@
 import type { WithId } from 'mongodb'
-import type { ConstToType } from '@common/types'
-import type { T_ImageBlock } from '@lib/types/image'
+import type { ConstToType } from '@sujin/common/types'
+import type { T_ImageBlock } from './image'
 
 /**
  * Archive types

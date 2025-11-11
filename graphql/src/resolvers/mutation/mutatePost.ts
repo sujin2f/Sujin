@@ -1,12 +1,12 @@
 import type { Types } from 'mongoose'
 import sanitize from 'mongo-sanitize'
 /* Models */
-import Cached from '@common/model/Cached'
+import Cached from '@sujin/common/model/Cached'
 /* T_Types */
 import type { MutationResultType } from '@src/types'
 /* Utils */
 import { getPostBy } from '@src/utils/mysql/getPostBy'
-import { getCacheKey } from '@lib/utils/cache'
+import { getCacheKey } from '@sujin/lib/utils/cache'
 import { updateTotal } from '@src/utils/mongo/updateTotal'
 /* CONSTANTS */
 import {
@@ -15,7 +15,7 @@ import {
     POST_IMAGE_LOCATION,
     POST_TYPE,
     T_MySQLPost,
-} from '@lib/types'
+} from '@sujin/lib/types'
 import { Post } from '@src/schema/post'
 import { convertImageBlockURL } from '@src/utils/mongo/convertImageBlockURL'
 import { Archive } from '@src/schema/archive'

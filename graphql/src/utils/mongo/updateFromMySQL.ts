@@ -1,11 +1,11 @@
 // import { ObjectId } from 'mongodb'
 // /* Models */
-// import Cached from '@common/model/Cached'
-// import { DatabaseError } from '@common/model/Error'
+// import Cached from '@sujin/common/model/Cached'
+// import { DatabaseError } from '@sujin/common/model/Error'
 // /* Utils */
 // import { convertImageBlockURL } from '@src/utils/utils-mongo'
-// import { getCacheKey } from '@lib/utils/cache'
-// import { schemaFormatter } from '@common/utils/object'
+// import { getCacheKey } from '@sujin/lib/utils/cache'
+// import { schemaFormatter } from '@sujin/common/utils/object'
 // /* CONSTANTS */
 // import { default as schema } from '@src/schema/10.3.4'
 // import {
@@ -15,7 +15,7 @@
 //     type T_Post,
 //     type T_MySQLPost,
 //     type T_Archive,
-// } from '@lib/types'
+// } from '@sujin/lib/types'
 // import { formatter as archiveFormatter } from '@src/utils/mongo/updateArchive'
 // import { findOne, getCollection, insertOrReplace } from '.'
 

@@ -3,7 +3,7 @@
  */
 
 import type { WithId } from 'mongodb'
-import type { ConstToType } from '@common/types'
+import type { ConstToType } from '@sujin/common/types'
 
 /**
  * Wordpress supported image sizes

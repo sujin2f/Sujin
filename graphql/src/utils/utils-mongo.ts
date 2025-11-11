@@ -3,7 +3,7 @@
 // import sanitize from 'mongo-sanitize'
 // /* Utils */
 // import { getCollection, findOne } from '@src/utils/mongo'
-// import { encodeText, decodeText } from '@lib/utils/crypto'
+// import { encodeText, decodeText } from '@sujin/lib/utils/crypto'
 // /* T_Types */
 // import {
 //     COLLECTION,
@@ -11,7 +11,7 @@
 //     type T_SessionUser,
 //     T_ImageBlock,
 //     IMAGE_SIZE,
-// } from '@lib/types'
+// } from '@sujin/lib/types'
 
 // export const addUser = async (
 //     _email: string,

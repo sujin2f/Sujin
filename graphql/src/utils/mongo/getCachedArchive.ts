@@ -1,11 +1,11 @@
 // import sanitize from 'mongo-sanitize'
 // /* Models */
-// import { NoContentError } from '@common/model/Error'
+// import { NoContentError } from '@sujin/common/model/Error'
 // /* CONSTANTS */
-// import { ARCHIVE, COLLECTION, T_Archive } from '@lib/types'
+// import { ARCHIVE, COLLECTION, T_Archive } from '@sujin/lib/types'
 // /* Utils */
 // import { findOne } from '@src/utils/mongo'
-// import { cachedRequest, getCacheKey } from '@lib/utils/cache'
+// import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 
 // const query = async (_slug: string, _type: ARCHIVE): Promise<T_Archive> => {
 //     const slug = sanitize(_slug)

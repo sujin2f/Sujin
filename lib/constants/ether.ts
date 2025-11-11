@@ -1,4 +1,4 @@
-import type { Atom } from '@lib/types/ether'
+import type { Atom } from '../types/ether'
 
 export const orbitalKeys = [
     's',

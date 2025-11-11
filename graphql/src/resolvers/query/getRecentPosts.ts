@@ -1,10 +1,10 @@
 /* Mongoose */
 import { Post } from '@src/schema/post'
 /* Utils */
-import { cachedRequest, getCacheKey } from '@lib/utils/cache'
+import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 /* CONSTANTS */
-import { COLLECTION, POST_STATUS, type T_ArchivePost } from '@lib/types'
-import { PER_PAGE } from '@lib/constants'
+import { COLLECTION, POST_STATUS, type T_ArchivePost } from '@sujin/lib/types'
+import { PER_PAGE } from '@sujin/lib/constants'
 
 /**
  * Fetches the recent posts from MongoDB.

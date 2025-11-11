@@ -1,7 +1,7 @@
 import type { WithId } from 'mongodb'
-import type { ConstToType } from '@common/types'
-import type { T_PostImages } from '@lib/types/image'
-import type { T_Archive } from '@lib/types/archive'
+import type { ConstToType } from '@sujin/common/types'
+import type { T_PostImages } from './image'
+import type { T_Archive } from './archive'
 
 /**
  * WP Post types

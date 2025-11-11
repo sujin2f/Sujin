@@ -1,4 +1,4 @@
-import { orbitalKeys } from '@lib/constants/ether'
+import { orbitalKeys } from '../constants/ether'
 
 export interface ISpectrum {
     /**

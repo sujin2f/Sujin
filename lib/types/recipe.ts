@@ -1,5 +1,5 @@
 import type { WithId } from 'mongodb'
-import type { T_User } from '@lib/types/user'
+import type { T_User } from './user'
 
 export const UNITS_WEIGHT = ['g', 'kg', 'lb'] as const
 export const UNITS_VOLUMES = ['ml', 'l', 'oz', 'tbsp', 'tsp', 'cup'] as const

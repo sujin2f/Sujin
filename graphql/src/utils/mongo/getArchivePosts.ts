@@ -2,7 +2,7 @@
 // import type { ObjectId, Document } from 'mongodb'
 // import sanitize from 'mongo-sanitize'
 // /* Models */
-// import { NoContentError } from '@common/model/Error'
+// import { NoContentError } from '@sujin/common/model/Error'
 // /* Utils */
 // import { getCollection, getAggregation } from '@src/utils/mongo'
 // /* CONSTANTS */
@@ -11,9 +11,9 @@
 //     COLLECTION,
 //     type T_Post,
 //     type T_ArchivePost,
-// } from '@lib/types'
+// } from '@sujin/lib/types'
 // /* T_Types */
-// import type { T_Mongo } from '@common/types/mongo'
+// import type { T_Mongo } from '@sujin/common/types/mongo'
 
 // export const getArchivePosts = async (
 //     _id: ObjectId,

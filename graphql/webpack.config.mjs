@@ -18,8 +18,6 @@ export default {
         extensions: ['.ts', '.js'],
         alias: {
             '@src': path.resolve(import.meta.dirname, 'src'),
-            '@common': path.resolve(import.meta.dirname, '..', 'common'),
-            '@lib': path.resolve(import.meta.dirname, '..', 'lib'),
         },
     },
     output: {

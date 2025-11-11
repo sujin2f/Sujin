@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { UNITS } from '@lib/types'
+import { UNITS } from '@sujin/lib/types'
 
 const { Schema, SchemaTypes, model } = mongoose
 
