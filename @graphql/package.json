@@ -1,0 +1,53 @@
+{
+    "name": "graphql-api",
+    "version": "0.0.1-beta",
+    "description": "",
+    "main": "src/server.ts",
+    "scripts": {
+        "build": "rimraf .build && webpack --mode production",
+        "start": "node .build/bundle.js",
+        "dev": "concurrently \"yarn dev:webpack\" \"yarn dev:nodemon\"",
+        "dev:webpack": "webpack --watch --mode development",
+        "dev:nodemon": "node --watch .build/bundle.js",
+        "lint": "eslint ./src/**/*.ts"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@apollo/server": "^5.1.0",
+        "@as-integrations/express5": "^1.1.2",
+        "common-lib": "file:../@lib",
+        "common-share": "file:../@common/mysql",
+        "cors": "^2.8.5",
+        "csv-parse": "^6.1.0",
+        "dotenv": "^17.2.3",
+        "express": "^5.1.0",
+        "graphql": "^16.12.0",
+        "mongo-sanitize": "^1.1.0",
+        "mongodb": "^7.0.0",
+        "mongoose": "^8.19.3",
+        "node-cache": "^5.1.2"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.39.1",
+        "@sujin/lib": "file:../@lib",
+        "@sujin/mysql": "file:../@common/mysql",
+        "@sujin/node-cache": "file:../@common/node-cache",
+        "@sujin/share": "file:../@common/share",
+        "@types/cors": "^2.8.19",
+        "@types/express": "^5.0.5",
+        "@types/node": "^24.10.0",
+        "concurrently": "^9.2.1",
+        "eslint": "^9.39.1",
+        "rimraf": "^6.1.0",
+        "ts-loader": "^9.5.4",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.9.3",
+        "typescript-eslint": "^8.46.3",
+        "webpack": "^5.102.1",
+        "webpack-cli": "^6.0.1",
+        "webpack-dev-server": "^5.2.2",
+        "webpack-node-externals": "^3.0.0"
+    }
+}

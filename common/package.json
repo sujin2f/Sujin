@@ -4,5 +4,12 @@
     "description": "",
     "author": "",
     "license": "ISC",
-    "dependencies": {}
+    "dependencies": {
+        "mongodb": "^7.0.0"
+    },
+    "devDependencies": {
+        "@testing-library/jest-dom": "^6.9.1",
+        "@testing-library/react": "^16.3.0",
+        "react": "^19.2.0"
+    }
 }

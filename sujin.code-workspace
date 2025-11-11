@@ -1,0 +1,21 @@
+{
+    "folders": [
+        {
+            "name": "@graphql",
+            "path": "@graphql"
+        },
+        {
+            "name": "@common",
+            "path": "@common"
+        },
+        {
+            "name": "@lib",
+            "path": "@lib"
+        },
+        {
+            "name": "sujin",
+            "path": "."
+        }
+    ],
+    "settings": {}
+}

@@ -1,0 +1,15 @@
+{
+    "name": "common-lib",
+    "version": "0.0.1-beta",
+    "description": "",
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@sujin/node-cache": "file:../@common/node-cache",
+        "@sujin/share": "file:../@common/share"
+    },
+    "dependencies": {
+        "common-share": "file:../@common/node-cache"
+    }
+}
