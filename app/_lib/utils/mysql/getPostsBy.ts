@@ -1,5 +1,5 @@
 /* Models */
-import { select } from '@common/data/mysql'
+import { select } from '@sujin/common/data/mysql'
 /* CONSTANTS */
 import { MySQLQuery } from '@app/_lib/utils/mysql/constants'
 import { PER_PAGE } from '@app/_lib/constants'

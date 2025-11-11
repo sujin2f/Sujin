@@ -1,15 +1,22 @@
-import { MONGO_DATABASE, VERSION } from '@common/constants/helper'
+import { MONGO_DATABASE, VERSION } from '@sujin/common/constants/helper'
 /* Components */
 import { FrontPageClient } from '@app/admin/_components/FrontPage.client'
 /* Models */
-import Logger from '@common/model/Logger'
-import Cached from '@common/model/Cached'
-import { A_Error, NoContentError, UnauthorizedError } from '@common/model/Error'
+import Logger from '@sujin/common/model/Logger'
+import Cached from '@sujin/common/model/Cached'
+import {
+    A_Error,
+    NoContentError,
+    UnauthorizedError,
+} from '@sujin/common/model/Error'
 /* CONSTANTS */
 import migration from '@app/_lib/migration'
 /* Utils */
-import { getDatabase, migrate as runMigration } from '@common/data/mongo/mongo'
-import { compareVersions } from '@common/utils/system'
+import {
+    getDatabase,
+    migrate as runMigration,
+} from '@sujin/common/data/mongo/mongo'
+import { compareVersions } from '@sujin/common/utils/system'
 import { isAdmin } from '@app/api/auth/_lib/utils-server'
 import { getCachedOption } from '@app/_lib/utils/mongo/options'
 

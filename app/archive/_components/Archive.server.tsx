@@ -3,13 +3,13 @@ import { notFound } from 'next/navigation'
 import { unstable_cache } from 'next/cache'
 import { ObjectId } from 'mongodb'
 /* Models */
-import { A_Error, NoContentError } from '@common/model/Error'
+import { A_Error, NoContentError } from '@sujin/common/model/Error'
 /* Components */
 import { Cards } from '@app/archive/_components/Cards.use'
 import Wrapper from '@app/_components/Wrapper'
 import { Loading } from '@app/archive/_components/Loading'
 /* CONSTANTS */
-import { VERSION } from '@common/constants/helper'
+import { VERSION } from '@sujin/common/constants/helper'
 import { revalidate } from '@app/_lib/constants'
 import { PER_PAGE } from '@app/_lib/constants'
 import {

@@ -3,11 +3,13 @@ import type { PropsWithChildren } from 'react'
 import FixedHeader from '@app/_components/header/FixedHeader'
 import { Footer } from '@app/_components/footer'
 import { Banner, BannerProps } from '@app/_components/header/Banner'
-import Row from '@common/components/layout/Row'
-import Column, { type ColumnProps } from '@common/components/layout/Column'
+import Row from '@sujin/common/components/layout/Row'
+import Column, {
+    type ColumnProps,
+} from '@sujin/common/components/layout/Column'
 import { MENU_NAMES } from '@app/_lib/types'
-import ScrollToTop from '@common/components/ScrollToTop'
-import { joinClassNames } from '@common/utils/string'
+import ScrollToTop from '@sujin/common/components/ScrollToTop'
+import { joinClassNames } from '@sujin/common/utils/string'
 
 type Props = ColumnProps &
     BannerProps & {

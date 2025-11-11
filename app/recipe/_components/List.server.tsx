@@ -2,20 +2,20 @@ import { unstable_cache } from 'next/cache'
 import { Suspense } from 'react'
 import { ObjectId } from 'mongodb'
 /* Models */
-import { ForbiddenError } from '@common/model/Error'
+import { ForbiddenError } from '@sujin/common/model/Error'
 /* Components */
 import { LoadingTable } from '@app/_components/LoadingTable'
 import { ListClient } from '@app/recipe/_components/List.client'
-import Row from '@common/components/layout/Row'
-import Column from '@common/components/layout/Column'
-import Button from '@common/components/forms/Button'
+import Row from '@sujin/common/components/layout/Row'
+import Column from '@sujin/common/components/layout/Column'
+import Button from '@sujin/common/components/forms/Button'
 import Wrapper from '@app/_components/Wrapper'
 /* Utils */
 import { getCurrentUser } from '@app/api/auth/_lib/utils-server'
-import { findWithCount } from '@common/data/mongo/mongo'
+import { findWithCount } from '@sujin/common/data/mongo/mongo'
 import { cachedRequest, getCacheKey } from '@app/_lib/utils/cache'
 /* CONSTANTS */
-import { VERSION } from '@common/constants/helper'
+import { VERSION } from '@sujin/common/constants/helper'
 import { revalidate } from '@app/_lib/constants'
 import {
     COLLECTION,
@@ -24,9 +24,9 @@ import {
     type T_Recipe,
 } from '@app/_lib/types'
 import { PER_PAGE } from '@app/_lib/constants'
-import { mongoStringify } from '@common/utils/object'
+import { mongoStringify } from '@sujin/common/utils/object'
 /* T_Types */
-import type { T_Mongo } from '@common/types/mongo'
+import type { T_Mongo } from '@sujin/common/types/mongo'
 
 type Props = {
     page: number

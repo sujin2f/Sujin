@@ -12,10 +12,10 @@ import { Carousel } from '@app/(single)/_components/Carousel'
 import { Caption } from '@app/(single)/_components/Caption'
 import { Code } from '@app/(single)/_components/Code'
 /* Utils */
-import { removeEmptyParagraphs } from '@common/utils/string'
+import { removeEmptyParagraphs } from '@sujin/common/utils/string'
 /* T_Types */
 import type { T_Post, T_Page } from '@app/_lib/types'
-import type { T_Stringify } from '@common/types/mongo'
+import type { T_Stringify } from '@sujin/common/types/mongo'
 import type { T_ShortcodeAttrMatch } from '@app/_lib/types'
 
 type Props = {

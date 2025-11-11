@@ -1,8 +1,8 @@
 import { PHASE_PRODUCTION_BUILD } from 'next/constants'
 import { MENU_NAMES } from '@app/_lib/types'
-import { HOUR_IN_SECONDS } from '@common/constants/datetime'
-import { IS_DEV } from '@common/constants/helper'
-import type { MenuItem } from '@common/types/menu'
+import { HOUR_IN_SECONDS } from '@sujin/common/constants/datetime'
+import { IS_DEV } from '@sujin/common/constants/helper'
+import type { MenuItem } from '@sujin/common/types/menu'
 
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 export const DEFAULT_THUMBNAIL = `${BASE_URL}/assets/thumbnail.png`

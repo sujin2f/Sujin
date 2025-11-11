@@ -1,14 +1,14 @@
 import sanitize from 'mongo-sanitize'
 /* Models */
-import Cached from '@common/model/Cached'
-import { UnauthorizedError } from '@common/model/Error'
+import Cached from '@sujin/common/model/Cached'
+import { UnauthorizedError } from '@sujin/common/model/Error'
 /* Utils */
 import { isAdmin } from '@app/api/auth/_lib/utils-server'
 import { getCacheKey } from '@app/_lib/utils/cache'
 import { cachedRequest } from '@app/_lib/utils/cache'
 /* T_Types */
 import { COLLECTION } from '@app/_lib/types'
-import { findOne, insertOrReplace } from '@common/data/mongo/mongo'
+import { findOne, insertOrReplace } from '@sujin/common/data/mongo/mongo'
 
 /**
  * Get site-wide system options.

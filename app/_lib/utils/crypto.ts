@@ -1,5 +1,5 @@
 import { subtle } from 'node:crypto'
-import { EnvironmentError } from '@common/model/Error'
+import { EnvironmentError } from '@sujin/common/model/Error'
 
 const getKey = async () => {
     if (!process.env.CRYPT_JWK) {

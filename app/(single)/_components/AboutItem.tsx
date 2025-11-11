@@ -1,6 +1,6 @@
 /* Utils */
 import { replaceQuotes } from '@app/(single)/_lib/replaceQuotes'
-import { removeEmptyParagraphs } from '@common/utils/string'
+import { removeEmptyParagraphs } from '@sujin/common/utils/string'
 /* T_Types */
 import type { T_ShortcodeAttrMatch } from '@app/_lib/types'
 /* Assets */

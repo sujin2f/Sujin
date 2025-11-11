@@ -1,11 +1,11 @@
 /* Components */
 import { Paging } from '@app/_components/Paging'
-import Row from '@common/components/layout/Row'
-import Column from '@common/components/layout/Column'
-import Card from '@common/components/containers/Card'
+import Row from '@sujin/common/components/layout/Row'
+import Column from '@sujin/common/components/layout/Column'
+import Card from '@sujin/common/components/containers/Card'
 import { Tags } from '@app/(single)/_components/Tags'
 /* T_Types */
-import type { ColumnProps } from '@common/components/layout/Column'
+import type { ColumnProps } from '@sujin/common/components/layout/Column'
 import {
     ARCHIVE,
     IMAGE_SIZE,

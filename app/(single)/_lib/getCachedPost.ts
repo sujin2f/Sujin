@@ -2,15 +2,15 @@
 import { unstable_cache } from 'next/cache'
 import sanitize from 'mongo-sanitize'
 /* Models */
-import { NoContentError, UnauthorizedError } from '@common/model/Error'
+import { NoContentError, UnauthorizedError } from '@sujin/common/model/Error'
 /* Utils */
-import { getCollection } from '@common/data/mongo/mongo'
+import { getCollection } from '@sujin/common/data/mongo/mongo'
 import { getAggregation } from '@app/_lib/utils/server'
 import { cachedRequest, getCacheKey } from '@app/_lib/utils/cache'
 import { isAdmin } from '@app/api/auth/_lib/utils-server'
 /* CONSTANTS */
 import { COLLECTION, POST_STATUS, type T_Post } from '@app/_lib/types'
-import { VERSION } from '@common/constants/helper'
+import { VERSION } from '@sujin/common/constants/helper'
 import { revalidate } from '@app/_lib/constants'
 
 const query = async (slug: string) => {

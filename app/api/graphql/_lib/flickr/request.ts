@@ -1,11 +1,11 @@
 'use server'
 /* Models */
-import Cached from '@common/model/Cached'
-import Logger from '@common/model/Logger'
+import Cached from '@sujin/common/model/Cached'
+import Logger from '@sujin/common/model/Logger'
 /* CONSTANTS */
 import { STATIC_FLICKR } from '@app/api/graphql/_lib/flickr/constants'
-import { WEEK_IN_SECONDS } from '@common/constants/datetime'
-import { IS_DEV } from '@common/constants/helper'
+import { WEEK_IN_SECONDS } from '@sujin/common/constants/datetime'
+import { IS_DEV } from '@sujin/common/constants/helper'
 /* T_Types */
 import type { T_FlickrImage, T_FlickrResponse } from '@app/_lib/types'
 

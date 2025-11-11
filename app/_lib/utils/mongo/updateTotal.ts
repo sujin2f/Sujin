@@ -2,7 +2,7 @@ import { ObjectId } from 'mongodb'
 /* CONSTANTS */
 import { COLLECTION, POST_STATUS } from '@app/_lib/types'
 /* Utils */
-import { getCollection } from '@common/data/mongo/mongo'
+import { getCollection } from '@sujin/common/data/mongo/mongo'
 
 export const updateTotal = async (_ids: ObjectId[]) => {
     const post = await getCollection(COLLECTION.POST)

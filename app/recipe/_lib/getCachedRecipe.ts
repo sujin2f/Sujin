@@ -1,13 +1,13 @@
 import { unstable_cache } from 'next/cache'
 import { ObjectId } from 'mongodb'
 /* T_Types */
-import type { T_Mongo } from '@common/types/mongo'
+import type { T_Mongo } from '@sujin/common/types/mongo'
 /* CONSTANTS */
 import { COLLECTION, type T_Recipe } from '@app/_lib/types'
-import { VERSION } from '@common/constants/helper'
+import { VERSION } from '@sujin/common/constants/helper'
 import { revalidate } from '@app/_lib/constants'
 /* Utils */
-import { findOne } from '@common/data/mongo/mongo'
+import { findOne } from '@sujin/common/data/mongo/mongo'
 import { cachedRequest, getCacheKey } from '@app/_lib/utils/cache'
 
 const query = async (_id: ObjectId) =>

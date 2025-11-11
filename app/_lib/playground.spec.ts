@@ -2,11 +2,15 @@
 
 import { Binary } from 'mongodb'
 import { createHash } from 'node:crypto'
-import { findOne, getCollection, getDatabase } from '@common/data/mongo/mongo'
+import {
+    findOne,
+    getCollection,
+    getDatabase,
+} from '@sujin/common/data/mongo/mongo'
 import { COLLECTION, T_Archive, T_Post } from './types'
 import { getAggregation } from '@app/_lib/utils/server'
 import { categoryFactory, postFactory } from '@jest/helpers'
-import { T_Mongo, T_Stringify } from '@common/types/mongo'
+import { T_Mongo, T_Stringify } from '@sujin/common/types/mongo'
 
 async function a(slug: string) {
     const collection = await getCollection<T_Post>(COLLECTION.POST)

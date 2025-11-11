@@ -2,15 +2,15 @@
 import { Fragment, useEffect, useState } from 'react'
 /* Components */
 import { Table } from '@app/ether/data/_components/Table'
-import ScrollToTop from '@common/components/ScrollToTop'
-import Row from '@common/components/layout/Row'
-import Column from '@common/components/layout/Column'
+import ScrollToTop from '@sujin/common/components/ScrollToTop'
+import Row from '@sujin/common/components/layout/Row'
+import Column from '@sujin/common/components/layout/Column'
 import { Chart } from '@app/ether/data/_components/Chart'
 /* T_Types */
-import type { Nullable } from '@common/types'
+import type { Nullable } from '@sujin/common/types'
 import type { ISpectrum } from '@app/ether/data/types'
 /* Utils */
-import { fetchGQL } from '@common/data/graphql/fetchGQL'
+import { fetchGQL } from '@sujin/common/data/graphql/fetchGQL'
 import GQL from '@app/api/graphql/_lib/constants'
 /* Models */
 import { DataContainer } from '@app/ether/data/models/DataContainer'

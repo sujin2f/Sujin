@@ -1,8 +1,8 @@
 'use client'
 
 /* Components */
-import Column from '@common/components/layout/Column'
-import Row from '@common/components/layout/Row'
+import Column from '@sujin/common/components/layout/Column'
+import Row from '@sujin/common/components/layout/Row'
 import { GoogleAdvert } from '@app/_components/GoogleAdvert'
 import TagCloud from '@app/_components/footer/TagCloud'
 import Flickr from '@app/_components/footer/Flickr'

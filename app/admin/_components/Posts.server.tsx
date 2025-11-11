@@ -1,8 +1,8 @@
 import { ObjectId } from 'mongodb'
 import sanitize from 'mongo-sanitize'
 /* Models */
-import Cached from '@common/model/Cached'
-import { A_Error, NoContentError } from '@common/model/Error'
+import Cached from '@sujin/common/model/Cached'
+import { A_Error, NoContentError } from '@sujin/common/model/Error'
 /* Components */
 import { PostsComponent } from '@app/admin/_components/Posts.client'
 /* Utils */
@@ -16,7 +16,7 @@ import { updateFromMySQL } from '@app/_lib/utils/mongo/updateFromMySQL'
 /* CONSTANTS */
 import { ARCHIVE, COLLECTION, POST_TYPE, type T_Archive } from '@app/_lib/types'
 /* T_Types */
-import { mongoStringify } from '@common/utils/object'
+import { mongoStringify } from '@sujin/common/utils/object'
 
 type Props = {
     page: number

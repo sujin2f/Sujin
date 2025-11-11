@@ -2,14 +2,14 @@
 
 import '@testing-library/jest-dom'
 import { render, waitFor, screen, fireEvent } from '@testing-library/react'
-import Cached from '@common/model/Cached'
-import { VERSION } from '@common/constants/helper'
+import Cached from '@sujin/common/model/Cached'
+import { VERSION } from '@sujin/common/constants/helper'
 import { pageFactory } from '@jest/helpers'
-import { clearMongo } from '@common/.jest/helpers'
+import { clearMongo } from '@sujin/common/.jest/helpers'
 import { PagesServer } from './Pages.server'
 import migration from '@app/_lib/migration'
 import { COLLECTION } from '@app/_lib/types'
-import { count, migrate } from '@common/data/mongo/mongo'
+import { count, migrate } from '@sujin/common/data/mongo/mongo'
 import { act } from 'react'
 
 jest.mock('next/cache', () => ({

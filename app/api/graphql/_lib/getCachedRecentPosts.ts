@@ -1,6 +1,6 @@
 import { unstable_cache } from 'next/cache'
 /* Utils */
-import { getCollection } from '@common/data/mongo/mongo'
+import { getCollection } from '@sujin/common/data/mongo/mongo'
 import { getAggregation } from '@app/_lib/utils/server'
 import { cachedRequest, getCacheKey } from '@app/_lib/utils/cache'
 /* CONSTANTS */
@@ -10,7 +10,7 @@ import {
     type T_Post,
     type T_ArchivePost,
 } from '@app/_lib/types'
-import { VERSION } from '@common/constants/helper'
+import { VERSION } from '@sujin/common/constants/helper'
 import { revalidate } from '@app/_lib/constants'
 
 /**

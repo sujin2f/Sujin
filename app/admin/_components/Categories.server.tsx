@@ -1,7 +1,7 @@
 import sanitize from 'mongo-sanitize'
 import { Suspense } from 'react'
 /* Models */
-import Cached from '@common/model/Cached'
+import Cached from '@sujin/common/model/Cached'
 import { LoadingTable } from '@app/_components/LoadingTable'
 /* CONSTANTS */
 import { COLLECTION, type T_Archive } from '@app/_lib/types'
@@ -9,7 +9,7 @@ import { ARCHIVE } from '@app/_lib/types'
 /* Utils */
 import { getCacheKey } from '@app/_lib/utils/cache'
 import { auth } from '@app/api/auth/_lib/utils-mysql'
-import { getCollection } from '@common/data/mongo/mongo'
+import { getCollection } from '@sujin/common/data/mongo/mongo'
 import { getArchives } from '@app/admin/_lib/getArchives'
 import { updateArchive } from '@app/admin/_lib/updateArchive'
 /* Components */

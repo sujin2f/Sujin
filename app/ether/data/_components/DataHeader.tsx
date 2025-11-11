@@ -3,14 +3,14 @@ import React, { type ChangeEventHandler, useMemo } from 'react'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 /* Components */
-import Button from '@common/components/forms/Button'
-import Row from '@common/components/layout/Row'
-import Column from '@common/components/layout/Column'
-import Select from '@common/components/forms/Select'
+import Button from '@sujin/common/components/forms/Button'
+import Row from '@sujin/common/components/layout/Row'
+import Column from '@sujin/common/components/layout/Column'
+import Select from '@sujin/common/components/forms/Select'
 /* Helpers */
 import { periodicTable } from '@app/ether/data/constants'
 import { getAtom } from '@app/ether/_lib/client'
-import { romanize } from '@common/utils/number'
+import { romanize } from '@sujin/common/utils/number'
 import type { Atom } from '@app/ether/data/models/Atom'
 
 type Props = {

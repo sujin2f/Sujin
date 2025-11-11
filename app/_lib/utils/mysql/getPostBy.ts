@@ -1,5 +1,5 @@
 /* Models */
-import { FetchError } from '@common/model/Error'
+import { FetchError } from '@sujin/common/model/Error'
 /* CONSTANTS */
 import { type POST_TYPE, type T_MySQLPost } from '@app/_lib/types'
 /* Utils */

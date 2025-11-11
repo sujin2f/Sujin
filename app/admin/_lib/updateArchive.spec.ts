@@ -1,12 +1,16 @@
 // yarn test updateArchive.spec.ts
 
-import { VERSION } from '@common/constants/helper'
+import { VERSION } from '@sujin/common/constants/helper'
 import { categoryFactory, tagFactory } from '@jest/helpers'
-import { clearMongo } from '@common/.jest/helpers'
+import { clearMongo } from '@sujin/common/.jest/helpers'
 import migration from '@app/_lib/migration'
 import { ARCHIVE, COLLECTION, T_Archive } from '@app/_lib/types'
-import Cached from '@common/model/Cached'
-import { deleteOne, getCollection, migrate } from '@common/data/mongo/mongo'
+import Cached from '@sujin/common/model/Cached'
+import {
+    deleteOne,
+    getCollection,
+    migrate,
+} from '@sujin/common/data/mongo/mongo'
 import { updateArchive } from './updateArchive'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

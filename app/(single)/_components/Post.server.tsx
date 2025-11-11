@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 /* Models */
-import { A_Error, NoContentError } from '@common/model/Error'
+import { A_Error, NoContentError } from '@sujin/common/model/Error'
 /* Components */
 import Wrapper from '@app/_components/Wrapper'
 import { Tags } from '@app/(single)/_components/Tags'
@@ -8,8 +8,8 @@ import { PrevNext } from '@app/(single)/_components/PrevNext.server'
 import { RelatedPosts } from '@app/(single)/_components/RelatedPosts.server'
 import { RecentPosts } from '@app/(single)/_components/RecentPosts'
 import { SocialShare } from '@app/(single)/_components/SocialShare.client'
-import Column from '@common/components/layout/Column'
-import Row from '@common/components/layout/Row'
+import Column from '@sujin/common/components/layout/Column'
+import Row from '@sujin/common/components/layout/Row'
 import { Content } from '@app/(single)/_components/Content'
 import { GoogleAdvert } from '@app/_components/GoogleAdvert'
 /* CONSTANTS */
@@ -18,7 +18,7 @@ import { IMAGE_SIZE, POST_STATUS } from '@app/_lib/types'
 import { getThumbnailFromPost } from '@app/_lib/utils/clients'
 import { updateHits } from '@app/_lib/utils/mongo/updateHits'
 import { getCachedPost } from '@app/(single)/_lib/getCachedPost'
-import { mongoStringify } from '@common/utils/object'
+import { mongoStringify } from '@sujin/common/utils/object'
 
 type Props = {
     slug: string

@@ -2,12 +2,12 @@
 import { type FormEvent, useCallback, useState } from 'react'
 import { redirect, useRouter } from 'next/navigation'
 /* Components */
-import Button from '@common/components/forms/Button'
-import Input from '@common/components/forms/Input'
-import Select from '@common/components/forms/Select'
-import Row from '@common/components/layout/Row'
-import Column from '@common/components/layout/Column'
-import ButtonGroup from '@common/components/forms/ButtonGroup'
+import Button from '@sujin/common/components/forms/Button'
+import Input from '@sujin/common/components/forms/Input'
+import Select from '@sujin/common/components/forms/Select'
+import Row from '@sujin/common/components/layout/Row'
+import Column from '@sujin/common/components/layout/Column'
+import ButtonGroup from '@sujin/common/components/forms/ButtonGroup'
 /* T_Types */
 import {
     type T_Recipe,
@@ -15,9 +15,9 @@ import {
     UNITS,
     UNITS_SELECTION,
 } from '@app/_lib/types'
-import type { T_Stringify } from '@common/types/mongo'
+import type { T_Stringify } from '@sujin/common/types/mongo'
 /* Utils */
-import { map } from '@common/utils/array'
+import { map } from '@sujin/common/utils/array'
 
 type Props = {
     mutate: (recipe: Partial<T_Stringify<T_Recipe>>) => Promise<string>

@@ -1,21 +1,21 @@
 'use client'
 import { useState } from 'react'
 /* Components */
-import Callout from '@common/components/containers/Callout'
-import Table from '@common/components/containers/Table'
-import Input from '@common/components/forms/Input'
-import Select from '@common/components/forms/Select'
-import Switch from '@common/components/forms/Switch'
-import InputGroup from '@common/components/forms/InputGroup'
-import Code from '@common/components/containers/Code'
-import Button from '@common/components/forms/Button'
-import ButtonGroup from '@common/components/forms/ButtonGroup'
-import Modal from '@common/components/containers/Modal'
-import Confirm from '@common/components/containers/Confirm'
+import Callout from '@sujin/common/components/containers/Callout'
+import Table from '@sujin/common/components/containers/Table'
+import Input from '@sujin/common/components/forms/Input'
+import Select from '@sujin/common/components/forms/Select'
+import Switch from '@sujin/common/components/forms/Switch'
+import InputGroup from '@sujin/common/components/forms/InputGroup'
+import Code from '@sujin/common/components/containers/Code'
+import Button from '@sujin/common/components/forms/Button'
+import ButtonGroup from '@sujin/common/components/forms/ButtonGroup'
+import Modal from '@sujin/common/components/containers/Modal'
+import Confirm from '@sujin/common/components/containers/Confirm'
 import { Loading } from '@app/archive/_components/Loading'
 import { Paging } from '@app/_components/Paging'
 /* CONSTANTS */
-import { QuantumBool } from '@common/types'
+import { QuantumBool } from '@sujin/common/types'
 
 export function ComponentsClient() {
     const [modal, setModal] = useState(false)

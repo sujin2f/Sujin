@@ -2,11 +2,11 @@
 import { Fragment } from 'react'
 import Link from 'next/link'
 /* Components */
-import { default as TableComponent } from '@common/components/containers/Table'
+import { default as TableComponent } from '@sujin/common/components/containers/Table'
 /* Helpers */
 import { Atom } from '@app/ether/data/models/Atom'
 import { ROW_HEAD } from '@app/ether/data/constants'
-import { map } from '@common/utils/array'
+import { map } from '@sujin/common/utils/array'
 
 type Props = {
     orbital: Atom

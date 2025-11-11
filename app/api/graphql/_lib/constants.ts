@@ -1,6 +1,6 @@
 /* Models */
-import { GQLMutation } from '@common/data/graphql/mutation'
-import { GQLQuery } from '@common/data/graphql/query'
+import { GQLMutation } from '@sujin/common/data/graphql/mutation'
+import { GQLQuery } from '@sujin/common/data/graphql/query'
 /* CONSTANTS */
 import {
     GQLBoolean,
@@ -8,7 +8,7 @@ import {
     GQLInt,
     GQLString,
     GQLType,
-} from '@common/data/graphql/type'
+} from '@sujin/common/data/graphql/type'
 /* T_Types */
 import type {
     T_Archive,

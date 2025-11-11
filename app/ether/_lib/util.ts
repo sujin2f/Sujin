@@ -1,7 +1,7 @@
 import { parse } from 'csv-parse'
 /* T_Types */
 import type { ISpectrum } from '@app/ether/data/types'
-import type { Nullable } from '@common/types'
+import type { Nullable } from '@sujin/common/types'
 /* CONSTANTS */
 import { orbitalKeys } from '@app/ether/data/constants'
 /* Utils */

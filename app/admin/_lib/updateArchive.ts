@@ -1,8 +1,8 @@
 import sanitize from 'mongo-sanitize'
 /* Models */
-import Cached from '@common/model/Cached'
-import { select } from '@common/data/mysql'
-import { FetchError } from '@common/model/Error'
+import Cached from '@sujin/common/model/Cached'
+import { select } from '@sujin/common/data/mysql'
+import { FetchError } from '@sujin/common/model/Error'
 /* CONSTANTS */
 import {
     ARCHIVE,
@@ -15,13 +15,13 @@ import { default as schema } from '@app/_lib/schema/10.3.4'
 import { MySQLQuery } from '@app/_lib/utils/mysql/constants'
 /* Utils */
 import { getCacheKey } from '@app/_lib/utils/cache'
-import { insertOrReplace } from '@common/data/mongo/mongo'
-import { schemaFormatter } from '@common/utils/object'
+import { insertOrReplace } from '@sujin/common/data/mongo/mongo'
+import { schemaFormatter } from '@sujin/common/utils/object'
 import { convertImageBlockURL } from '@app/_lib/utils/clients'
 import { updateTotal } from '@app/_lib/utils/mongo/updateTotal'
 import { getMedia } from '@app/_lib/utils/mysql/getMedia'
 /* T_Types */
-import type { Nullable } from '@common/types'
+import type { Nullable } from '@sujin/common/types'
 
 export const formatter = (term: Record<string, unknown>): T_Archive => {
     const formatted = schemaFormatter(term, schema.archive) as T_Archive

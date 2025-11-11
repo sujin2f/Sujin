@@ -1,11 +1,11 @@
 import { unstable_cache } from 'next/cache'
 /* CONSTANTS */
-import { VERSION } from '@common/constants/helper'
+import { VERSION } from '@sujin/common/constants/helper'
 import { COLLECTION } from '@app/_lib/types'
 import { revalidate } from '@app/_lib/constants'
 /* Utils */
 import { cachedRequest, getCacheKey } from '@app/_lib/utils/cache'
-import { getCollection } from '@common/data/mongo/mongo'
+import { getCollection } from '@sujin/common/data/mongo/mongo'
 /* T_Types */
 import type { T_Background } from '@app/_lib/types'
 

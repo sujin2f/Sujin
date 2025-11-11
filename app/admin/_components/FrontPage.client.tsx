@@ -2,8 +2,8 @@
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 /* Components */
-import Button from '@common/components/forms/Button'
-import Callout from '@common/components/containers/Callout'
+import Button from '@sujin/common/components/forms/Button'
+import Callout from '@sujin/common/components/containers/Callout'
 
 type Props = {
     dbVersion: string

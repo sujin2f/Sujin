@@ -5,7 +5,7 @@ import { COLLECTION } from '@app/_lib/types'
 /* T_Types */
 import type { T_Background } from '@app/_lib/types'
 /* Utils */
-import { getCollection } from '@common/data/mongo/mongo'
+import { getCollection } from '@sujin/common/data/mongo/mongo'
 import { getAggregation } from '@app/_lib/utils/server'
 import { updateBackgrounds } from '@app/_lib/utils/mongo/updateBackgrounds'
 

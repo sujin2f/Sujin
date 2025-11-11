@@ -16,12 +16,12 @@ import type {
     T_Recipe,
 } from '@app/_lib/types'
 import { ARCHIVE, POST_STATUS, UNITS } from '@app/_lib/types'
-import { languages } from '@common/constants/helper'
+import { languages } from '@sujin/common/constants/helper'
 import type {
     T_Mongo,
     T_MongoSchema,
     T_MongoSchemaProperties,
-} from '@common/types/mongo'
+} from '@sujin/common/types/mongo'
 import type { WithId } from 'mongodb'
 
 const image: T_MongoSchemaProperties<T_Image> = {

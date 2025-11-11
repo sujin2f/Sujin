@@ -4,17 +4,17 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 /* Components */
-import Button from '@common/components/forms/Button'
+import Button from '@sujin/common/components/forms/Button'
 import HeaderComponent from '@app/admin/_components/Header'
-import Callout from '@common/components/containers/Callout'
+import Callout from '@sujin/common/components/containers/Callout'
 import { PrevNext } from '@app/admin/_components/PrevNext'
-import Row from '@common/components/layout/Row'
-import Column from '@common/components/layout/Column'
-import Table from '@common/components/containers/Table'
+import Row from '@sujin/common/components/layout/Row'
+import Column from '@sujin/common/components/layout/Column'
+import Table from '@sujin/common/components/containers/Table'
 /* T_Types */
 import type { T_Background } from '@app/_lib/types'
 /* Utils */
-import { entries } from '@common/utils/object'
+import { entries } from '@sujin/common/utils/object'
 
 type Props = {
     readonly refresh: () => Promise<string>

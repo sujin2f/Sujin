@@ -1,11 +1,11 @@
 // yarn test page.spec.ts
 
-import { VERSION } from '@common/constants/helper'
-import { clearMongo } from '@common/.jest/helpers'
+import { VERSION } from '@sujin/common/constants/helper'
+import { clearMongo } from '@sujin/common/.jest/helpers'
 import { COLLECTION, T_Page } from '@app/_lib/types'
 import migration from '@app/_lib/migration'
-import Cached from '@common/model/Cached'
-import { getCollection, migrate } from '@common/data/mongo/mongo'
+import Cached from '@sujin/common/model/Cached'
+import { getCollection, migrate } from '@sujin/common/data/mongo/mongo'
 import { mutatePage } from './wp-mutates'
 
 jest.mock('next-auth', () => ({

@@ -5,11 +5,11 @@ import { use, useRef, useState } from 'react'
 /* Components */
 import HeaderComponent from '@app/admin/_components/Header'
 import { PrevNext } from '@app/admin/_components/PrevNext'
-import Callout from '@common/components/containers/Callout'
-import Row from '@common/components/layout/Row'
-import Column from '@common/components/layout/Column'
-import Table from '@common/components/containers/Table'
-import InputGroup from '@common/components/forms/InputGroup'
+import Callout from '@sujin/common/components/containers/Callout'
+import Row from '@sujin/common/components/layout/Row'
+import Column from '@sujin/common/components/layout/Column'
+import Table from '@sujin/common/components/containers/Table'
+import InputGroup from '@sujin/common/components/forms/InputGroup'
 /* T_Types */
 import type { T_Archive } from '@app/_lib/types'
 

@@ -1,5 +1,5 @@
 /* Models */
-import { getDatabase } from '@common/data/mongo/mongo'
+import { getDatabase } from '@sujin/common/data/mongo/mongo'
 import { CollectionsClient } from '@app/admin/_components/Collections.client'
 
 export async function CollectionsServer() {

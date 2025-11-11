@@ -4,14 +4,14 @@ import sanitize from 'mongo-sanitize'
 import { PagesClient } from '@app/admin/_components/Pages.client'
 import { LoadingTable } from '@app/_components/LoadingTable'
 /* Models */
-import Cached from '@common/model/Cached'
+import Cached from '@sujin/common/model/Cached'
 /* CONSTANTS */
 import { COLLECTION, type T_Page } from '@app/_lib/types'
 /* Utils */
 import { getCacheKey } from '@app/_lib/utils/cache'
-import { deleteOne } from '@common/data/mongo/mongo'
+import { deleteOne } from '@sujin/common/data/mongo/mongo'
 import { updatePage } from '@app/_lib/utils/mongo/updatePage'
-import { getCollection } from '@common/data/mongo/mongo'
+import { getCollection } from '@sujin/common/data/mongo/mongo'
 import { getAggregation } from '@app/_lib/utils/server'
 
 type Props = {

@@ -3,7 +3,7 @@ import { Binary, type WithoutId } from 'mongodb'
 import { createHash } from 'node:crypto'
 import sanitize from 'mongo-sanitize'
 /* Utils */
-import { getCollection, findOne } from '@common/data/mongo/mongo'
+import { getCollection, findOne } from '@sujin/common/data/mongo/mongo'
 import { encodeText, decodeText } from '@app/_lib/utils/crypto'
 /* T_Types */
 import { COLLECTION, type T_User, type T_SessionUser } from '@app/_lib/types'

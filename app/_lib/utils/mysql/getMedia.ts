@@ -4,7 +4,7 @@ import { getMediaFromPost } from './getMediaFromPost'
 /* CONSTANTS */
 import { POST_TYPE, type T_ImageBlock } from '@app/_lib/types'
 /* T_Types */
-import type { Nullable } from '@common/types'
+import type { Nullable } from '@sujin/common/types'
 
 export const getMedia = async (
     postId: number,

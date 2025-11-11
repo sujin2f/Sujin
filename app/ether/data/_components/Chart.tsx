@@ -7,10 +7,10 @@ import {
     type ChartData as ChartJSData,
 } from 'chart.js/auto'
 /* Helpers */
-import { getRandomInt } from '@common/utils/number'
+import { getRandomInt } from '@sujin/common/utils/number'
 import { CHART_COLORS } from '@app/ether/data/constants'
 import { ChartData } from '@app/ether/data/types' // @todo Name
-import { map } from '@common/utils/array'
+import { map } from '@sujin/common/utils/array'
 
 type Props = { data: ChartData }
 

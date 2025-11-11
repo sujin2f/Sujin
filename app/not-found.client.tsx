@@ -3,11 +3,11 @@
 import { Cards } from '@app/archive/_components/Cards'
 import { Loading } from '@app/archive/_components/Loading'
 /* Utils */
-import useGQLStore from '@common/hooks/useGQLStore'
+import useGQLStore from '@sujin/common/hooks/useGQLStore'
 /* CONSTANTS */
 import GQL from '@app/api/graphql/_lib/constants'
 import { Context } from '@app/_lib/constants.store'
-import { WEEK_IN_SECONDS } from '@common/constants/datetime'
+import { WEEK_IN_SECONDS } from '@sujin/common/constants/datetime'
 import { PER_PAGE } from './_lib/constants'
 
 export default function NotFoundClient() {

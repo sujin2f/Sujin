@@ -3,10 +3,10 @@
 import React, { MouseEvent, useState, useCallback, useMemo } from 'react'
 
 /* Components */
-import Button from '@common/components/forms/Button'
+import Button from '@sujin/common/components/forms/Button'
 /* Helpers */
-import { removeURLProtocol } from '@common/utils/string'
-import { getPrev, getNext } from '@common/utils/array'
+import { removeURLProtocol } from '@sujin/common/utils/string'
+import { getPrev, getNext } from '@sujin/common/utils/array'
 import type { T_ShortcodeAttrMatch } from '@app/_lib/types'
 /* Assets */
 import Arrow from '@app/_lib/images/prev.svg'

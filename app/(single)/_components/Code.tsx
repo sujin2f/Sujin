@@ -1,9 +1,9 @@
 import React from 'react'
 /* Components */
-import { Code as CodeComponent } from '@common/components/containers/Code'
+import { Code as CodeComponent } from '@sujin/common/components/containers/Code'
 /* Helpers */
 import { replaceQuotes } from '@app/(single)/_lib/replaceQuotes'
-import { languages } from '@common/constants/helper'
+import { languages } from '@sujin/common/constants/helper'
 import type { T_ShortcodeAttrMatch } from '@app/_lib/types'
 
 interface Props {

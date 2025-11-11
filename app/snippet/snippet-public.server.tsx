@@ -1,19 +1,19 @@
 import { Suspense } from 'react'
 import { unstable_cache } from 'next/cache'
 /* Models */
-import Cached from '@common/model/Cached'
+import Cached from '@sujin/common/model/Cached'
 /* CONSTANTS */
-import { HOUR_IN_SECONDS } from '@common/constants/datetime'
-import { IS_DEV, VERSION } from '@common/constants/helper'
+import { HOUR_IN_SECONDS } from '@sujin/common/constants/datetime'
+import { IS_DEV, VERSION } from '@sujin/common/constants/helper'
 import { PER_PAGE } from '@app/_lib/constants'
 import { COLLECTION } from '@app/_lib/types'
-import { DAY_IN_SECONDS } from '@common/constants/datetime'
+import { DAY_IN_SECONDS } from '@sujin/common/constants/datetime'
 /* Components */
 import { Table } from '@app/snippet/snippet-table'
 /* Utils */
 import { getCurrentUser } from '@app/api/auth/_lib/utils-server'
 import { getCacheKey } from '@app/_lib/utils/cache'
-import { getCollection } from '@common/data/mongo/mongo'
+import { getCollection } from '@sujin/common/data/mongo/mongo'
 import { getAggregation } from '@app/_lib/utils/server'
 /* T_Types */
 import type { PropWithPages, T_Snippets } from '@app/_lib/types'

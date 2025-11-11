@@ -1,9 +1,9 @@
 import { useCallback, useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 /* Components */
-import Confirm from '@common/components/containers/Confirm'
+import Confirm from '@sujin/common/components/containers/Confirm'
 /* CONSTANT */
-import { QuantumBool } from '@common/types'
+import { QuantumBool } from '@sujin/common/types'
 /* Utils */
 import { deleteRecipe } from '@app/recipe/_lib/deleteRecipe'
 

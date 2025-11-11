@@ -4,11 +4,11 @@ import { WidgetTitle } from '@app/_components/WidgetTitle'
 import { Cards } from '@app/archive/_components/Cards'
 import { Loading } from '@app/archive/_components/Loading'
 /* Utils */
-import useGQLStore from '@common/hooks/useGQLStore'
+import useGQLStore from '@sujin/common/hooks/useGQLStore'
 /* CONSTANTS */
 import { IMAGE_SIZE } from '@app/_lib/types'
 import GQL from '@app/api/graphql/_lib/constants'
-import { WEEK_IN_SECONDS } from '@common/constants/datetime'
+import { WEEK_IN_SECONDS } from '@sujin/common/constants/datetime'
 import { Context } from '@app/_lib/constants.store'
 /* Assets */
 import '@app/(single)/_components/RecentPosts.scss'

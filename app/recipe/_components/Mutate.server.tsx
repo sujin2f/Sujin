@@ -1,14 +1,14 @@
 import { Double, ObjectId } from 'mongodb'
 import { revalidateTag } from 'next/cache'
 /* Models */
-import Cached from '@common/model/Cached'
+import Cached from '@sujin/common/model/Cached'
 import {
     A_Error,
     UnauthorizedError,
     NoContentError,
     ForbiddenError,
-} from '@common/model/Error'
-import Logger from '@common/model/Logger'
+} from '@sujin/common/model/Error'
+import Logger from '@sujin/common/model/Logger'
 /* Components */
 import { MutateClient } from '@app/recipe/_components/Mutate.client'
 import Wrapper from '@app/_components/Wrapper'
@@ -16,12 +16,12 @@ import Wrapper from '@app/_components/Wrapper'
 import { getCachedRecipe } from '@app/recipe/_lib/getCachedRecipe'
 import { getCurrentUser } from '@app/api/auth/_lib/utils-server'
 import { getCacheKey } from '@app/_lib/utils/cache'
-import { insertOne, updateOne } from '@common/data/mongo/mongo'
-import { mongoStringify } from '@common/utils/object'
+import { insertOne, updateOne } from '@sujin/common/data/mongo/mongo'
+import { mongoStringify } from '@sujin/common/utils/object'
 /* CONSTANTS */
 import { COLLECTION, MENU_NAMES, type T_Recipe } from '@app/_lib/types'
 /* T_Type */
-import type { T_Stringify } from '@common/types/mongo'
+import type { T_Stringify } from '@sujin/common/types/mongo'
 
 type Props = {
     _id?: ObjectId

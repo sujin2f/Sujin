@@ -1,7 +1,7 @@
 import { InlineMath } from 'react-katex'
 /* Components */
-import { NextImage } from '@common/components/containers/NextImage'
-import Table from '@common/components/containers/Table'
+import { NextImage } from '@sujin/common/components/containers/NextImage'
+import Table from '@sujin/common/components/containers/Table'
 import { Latex } from '@app/(single)/_components/Latex'
 import { PrevNext } from '@app/(single)/_components/PrevNext'
 import Wrapper from '@app/ether/wrapper'

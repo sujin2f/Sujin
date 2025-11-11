@@ -4,11 +4,11 @@ import { ObjectId } from 'mongodb'
 /* Components */
 import { PrevNext as Component } from '@app/(single)/_components/PrevNext'
 /* Utils */
-import { getCollection } from '@common/data/mongo/mongo'
+import { getCollection } from '@sujin/common/data/mongo/mongo'
 import { cachedRequest, getCacheKey } from '@app/_lib/utils/cache'
 import { getCachedPost } from '@app/(single)/_lib/getCachedPost'
 /* CONSTANTS */
-import { VERSION } from '@common/constants/helper'
+import { VERSION } from '@sujin/common/constants/helper'
 import { revalidate } from '@app/_lib/constants'
 /* CONSTANTS */
 import {
@@ -19,7 +19,7 @@ import {
     type T_PrevNext,
 } from '@app/_lib/types'
 /* T_Types */
-import type { T_Mongo } from '@common/types/mongo'
+import type { T_Mongo } from '@sujin/common/types/mongo'
 
 interface PostProps {
     slug: string

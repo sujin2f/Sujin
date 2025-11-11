@@ -1,17 +1,17 @@
 'use server'
 import { ObjectId } from 'mongodb'
 /* Models */
-import Cached from '@common/model/Cached'
-import { DatabaseError } from '@common/model/Error'
+import Cached from '@sujin/common/model/Cached'
+import { DatabaseError } from '@sujin/common/model/Error'
 /* Utils */
 import { convertImageBlockURL } from '@app/_lib/utils/clients'
 import { getCacheKey } from '@app/_lib/utils/cache'
-import { schemaFormatter } from '@common/utils/object'
+import { schemaFormatter } from '@sujin/common/utils/object'
 import {
     findOne,
     getCollection,
     insertOrReplace,
-} from '@common/data/mongo/mongo'
+} from '@sujin/common/data/mongo/mongo'
 /* CONSTANTS */
 import { default as schema } from '@app/_lib/schema/10.3.4'
 import {

@@ -1,7 +1,7 @@
 'use client'
 
-import Table from '@common/components/diagram/Table'
-import { TimeLine } from '@common/components/diagram/TimeLine'
+import Table from '@sujin/common/components/diagram/Table'
+import { TimeLine } from '@sujin/common/components/diagram/TimeLine'
 import { useEffect, useState } from 'react'
 
 const PADDING = 20

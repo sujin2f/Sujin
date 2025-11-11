@@ -3,22 +3,22 @@ import { unstable_cache } from 'next/cache'
 import { notFound } from 'next/navigation'
 import sanitize from 'mongo-sanitize'
 /* Models */
-import { NoContentError, DatabaseError } from '@common/model/Error'
+import { NoContentError, DatabaseError } from '@sujin/common/model/Error'
 /* Components */
 import Wrapper from '@app/_components/Wrapper'
 import { SocialShare } from '@app/(single)/_components/SocialShare.client'
 import { Content } from '@app/(single)/_components/Content'
 /* CONSTANTS */
-import { VERSION } from '@common/constants/helper'
+import { VERSION } from '@sujin/common/constants/helper'
 import { revalidate } from '@app/_lib/constants'
 import { IMAGE_SIZE, COLLECTION, type T_Page } from '@app/_lib/types'
 /* Utils */
 import { getThumbnailFromPost } from '@app/_lib/utils/clients'
-import { findOne } from '@common/data/mongo/mongo'
+import { findOne } from '@sujin/common/data/mongo/mongo'
 import { cachedRequest, getCacheKey } from '@app/_lib/utils/cache'
-import { mongoStringify } from '@common/utils/object'
+import { mongoStringify } from '@sujin/common/utils/object'
 /* T_Types */
-import Logger from '@common/model/Logger'
+import Logger from '@sujin/common/model/Logger'
 
 export async function AboutServer() {
     const post = await getAboutPage().catch((e) => {

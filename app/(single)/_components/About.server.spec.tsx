@@ -2,14 +2,14 @@
 
 import '@testing-library/jest-dom'
 import { render } from '@testing-library/react'
-import Cached from '@common/model/Cached'
-import { VERSION } from '@common/constants/helper'
+import Cached from '@sujin/common/model/Cached'
+import { VERSION } from '@sujin/common/constants/helper'
 import { pageFactory } from '@jest/helpers'
-import { clearMongo } from '@common/.jest/helpers'
+import { clearMongo } from '@sujin/common/.jest/helpers'
 import { AboutServer } from './About.server'
 import migration from '@app/_lib/migration'
 import { COLLECTION } from '@app/_lib/types'
-import { migrate } from '@common/data/mongo/mongo'
+import { migrate } from '@sujin/common/data/mongo/mongo'
 
 jest.mock('next/cache', () => ({
     unstable_cache: (fn: unknown) => fn,

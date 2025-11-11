@@ -10,12 +10,12 @@ import { INITIAL_STATE, Context } from '@app/_lib/constants.store'
 import Error from '@app/global-error'
 import { SessionProvider } from '@app/_components/SessionProvider'
 import Loading from '@app/loading'
-import { Store } from '@common/components/Store'
+import { Store } from '@sujin/common/components/Store'
 /* Utils */
 import { getSession } from '@app/api/auth/_lib/utils-server'
 /* Assets */
 import '@app/layout.scss'
-import '@common/scss/base.scss'
+import '@sujin/common/scss/base.scss'
 
 export const generateMetadata = async (): Promise<Metadata> => {
     const metadata: Metadata = {

@@ -5,8 +5,8 @@ import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/dis
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default'
 import type { NextRequest } from 'next/server'
 /* Utils */
-import { createGQLOptions } from '@common/data/graphql/createExpressRouter'
-import { isEmpty } from '@common/utils/object'
+import { createGQLOptions } from '@sujin/common/data/graphql/createExpressRouter'
+import { isEmpty } from '@sujin/common/utils/object'
 import { getFlickr } from '@app/api/graphql/_lib/flickr/request'
 import { getTagCloud } from '@app/api/graphql/_lib/getTagCloud'
 import { getSpectraFromNIST } from '@app/ether/_lib/spectra'
@@ -21,8 +21,8 @@ import { getCachedBackgrounds } from '@app/api/graphql/_lib/getCachedBackgrounds
 import { getCachedRecentPosts } from '@app/api/graphql/_lib/getCachedRecentPosts'
 /* Constants */
 import GQL from '@app/api/graphql/_lib/constants'
-import { IS_DEV, VERSION } from '@common/constants/helper'
-import { MINUTE_IN_SECONDS } from '@common/constants/datetime'
+import { IS_DEV, VERSION } from '@sujin/common/constants/helper'
+import { MINUTE_IN_SECONDS } from '@sujin/common/constants/datetime'
 
 const options = createGQLOptions(
     // Types

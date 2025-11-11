@@ -1,11 +1,11 @@
 'use client'
 import React, { useState, useMemo, type ChangeEvent } from 'react'
 /* Components */
-import Input from '@common/components/forms/Input'
-import Row from '@common/components/layout/Row'
-import Column from '@common/components/layout/Column'
+import Input from '@sujin/common/components/forms/Input'
+import Row from '@sujin/common/components/layout/Row'
+import Column from '@sujin/common/components/layout/Column'
 /* Helpers */
-import { map } from '@common/utils/array'
+import { map } from '@sujin/common/utils/array'
 
 export function TextSortClient() {
     const [text, setText] = useState('')

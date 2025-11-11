@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import { InlineMath } from 'react-katex'
 /* Components */
-import { NextImage } from '@common/components/containers/NextImage'
-import Row from '@common/components/layout/Row'
-import Column from '@common/components/layout/Column'
+import { NextImage } from '@sujin/common/components/containers/NextImage'
+import Row from '@sujin/common/components/layout/Row'
+import Column from '@sujin/common/components/layout/Column'
 import { Latex } from '@app/(single)/_components/Latex'
 import { PrevNext } from '@app/(single)/_components/PrevNext'
 import Wrapper from '@app/ether/wrapper'

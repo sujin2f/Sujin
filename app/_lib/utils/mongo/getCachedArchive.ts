@@ -2,13 +2,13 @@
 import sanitize from 'mongo-sanitize'
 import { unstable_cache } from 'next/cache'
 /* Models */
-import { NoContentError } from '@common/model/Error'
+import { NoContentError } from '@sujin/common/model/Error'
 /* CONSTANTS */
 import { ARCHIVE, COLLECTION, T_Archive } from '@app/_lib/types'
-import { VERSION } from '@common/constants/helper'
+import { VERSION } from '@sujin/common/constants/helper'
 import { revalidate } from '@app/_lib/constants'
 /* Utils */
-import { findOne } from '@common/data/mongo/mongo'
+import { findOne } from '@sujin/common/data/mongo/mongo'
 import { cachedRequest, getCacheKey } from '@app/_lib/utils/cache'
 
 const query = async (_slug: string, _type: ARCHIVE): Promise<T_Archive> => {

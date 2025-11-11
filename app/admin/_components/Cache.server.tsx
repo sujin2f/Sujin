@@ -1,4 +1,4 @@
-import Cached from '@common/model/Cached'
+import Cached from '@sujin/common/model/Cached'
 import { CacheClient } from '@app/admin/_components/Cache.client'
 
 export async function CacheServer() {

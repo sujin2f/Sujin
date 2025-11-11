@@ -3,20 +3,20 @@ import { useEffect, useState, type ReactNode } from 'react'
 import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 /* Components */
-import Row from '@common/components/layout/Row'
-import Column from '@common/components/layout/Column'
-import Menu from '@common/components/layout/Menu'
-import NextImage from '@common/components/containers/NextImage'
+import Row from '@sujin/common/components/layout/Row'
+import Column from '@sujin/common/components/layout/Column'
+import Menu from '@sujin/common/components/layout/Menu'
+import NextImage from '@sujin/common/components/containers/NextImage'
 import { MENU_NAMES } from '@app/_lib/types'
 /* CONSTANTS */
 import { MENUS, METADATA } from '@app/_lib/constants'
 /* Utils */
-import { entries } from '@common/utils/object'
-import { joinClassNames } from '@common/utils/string'
-import { debounce } from '@common/utils/dom'
+import { entries } from '@sujin/common/utils/object'
+import { joinClassNames } from '@sujin/common/utils/string'
+import { debounce } from '@sujin/common/utils/dom'
 /* T_Types */
 import { IMAGE_SIZE_BACKGROUND, T_ImageBlock } from '@app/_lib/types'
-import type { ImageMap } from '@common/components/containers/Picture'
+import type { ImageMap } from '@sujin/common/components/containers/Picture'
 /* Assets */
 import '@app/_components/header/Banner.scss'
 

@@ -7,7 +7,7 @@ import { Cards } from '@app/archive/_components/Cards.use'
 import Wrapper from '@app/_components/Wrapper'
 import { Loading } from '@app/archive/_components/Loading'
 /* CONSTANTS */
-import { VERSION } from '@common/constants/helper'
+import { VERSION } from '@sujin/common/constants/helper'
 import { PER_PAGE } from '@app/_lib/constants'
 import { revalidate } from '@app/_lib/constants'
 import {
@@ -19,13 +19,13 @@ import {
     type PropWithPages,
 } from '@app/_lib/types'
 /* Models */
-import { A_Error, NoContentError } from '@common/model/Error'
+import { A_Error, NoContentError } from '@sujin/common/model/Error'
 /* Utils */
-import { getCollection } from '@common/data/mongo/mongo'
+import { getCollection } from '@sujin/common/data/mongo/mongo'
 import { getAggregation } from '@app/_lib/utils/server'
 import { cachedRequest, getCacheKey } from '@app/_lib/utils/cache'
 /* T_Types */
-import type { T_Mongo } from '@common/types/mongo'
+import type { T_Mongo } from '@sujin/common/types/mongo'
 
 type Props = {
     slug: string

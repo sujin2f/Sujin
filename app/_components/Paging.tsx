@@ -1,6 +1,6 @@
-import Row from '@common/components/layout/Row'
-import Column from '@common/components/layout/Column'
-import { Paging as PagingComponent } from '@common/components/containers/Paging'
+import Row from '@sujin/common/components/layout/Row'
+import Column from '@sujin/common/components/layout/Column'
+import { Paging as PagingComponent } from '@sujin/common/components/containers/Paging'
 
 type Props = {
     readonly pages: number

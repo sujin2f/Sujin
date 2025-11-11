@@ -1,12 +1,12 @@
 // yarn test getCachedPost.spec.ts
-import { VERSION } from '@common/constants/helper'
+import { VERSION } from '@sujin/common/constants/helper'
 import migration from '@app/_lib/migration'
 import { postFactory } from '@jest/helpers'
-import { clearMongo } from '@common/.jest/helpers'
+import { clearMongo } from '@sujin/common/.jest/helpers'
 import { getCachedPost } from './getCachedPost'
-import Cached from '@common/model/Cached'
+import Cached from '@sujin/common/model/Cached'
 import { COLLECTION, POST_STATUS } from '@app/_lib/types'
-import { migrate } from '@common/data/mongo/mongo'
+import { migrate } from '@sujin/common/data/mongo/mongo'
 
 jest.mock('next-auth', () => ({
     getServerSession: jest.fn(async () =>

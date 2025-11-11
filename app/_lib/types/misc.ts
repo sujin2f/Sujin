@@ -1,5 +1,5 @@
 import type { WithId } from 'mongodb'
-import type { ConstToType } from '@common/types'
+import type { ConstToType } from '@sujin/common/types'
 import { POST_TYPE } from '@app/_lib/types/post'
 
 /**

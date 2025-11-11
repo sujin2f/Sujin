@@ -2,12 +2,12 @@
 import Link from 'next/link'
 import { use, useState } from 'react'
 /* Components */
-import Table from '@common/components/containers/Table'
+import Table from '@sujin/common/components/containers/Table'
 import { Paging } from '@app/_components/Paging'
 /* T_Types */
 import type { PropWithPages, T_Recipe } from '@app/_lib/types'
-import { QuantumBool } from '@common/types'
-import type { T_Stringify } from '@common/types/mongo'
+import { QuantumBool } from '@sujin/common/types'
+import type { T_Stringify } from '@sujin/common/types/mongo'
 /* Utils */
 import { useDelete } from '@app/recipe/_lib/useDelete'
 import { useSession } from 'next-auth/react'

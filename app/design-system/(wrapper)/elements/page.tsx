@@ -1,6 +1,6 @@
 import Wrapper from '@app/_components/Wrapper'
-import Row from '@common/components/layout/Row'
-import Column from '@common/components/layout/Column'
+import Row from '@sujin/common/components/layout/Row'
+import Column from '@sujin/common/components/layout/Column'
 import { MENU_NAMES } from '@app/_lib/types'
 
 export default async function Page() {

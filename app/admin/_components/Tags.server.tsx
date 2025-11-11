@@ -1,8 +1,8 @@
 /* Components */
 import { PrevNext } from '@app/admin/_components/PrevNext'
-import Table from '@common/components/containers/Table'
-import Row from '@common/components/layout/Row'
-import Column from '@common/components/layout/Column'
+import Table from '@sujin/common/components/containers/Table'
+import Row from '@sujin/common/components/layout/Row'
+import Column from '@sujin/common/components/layout/Column'
 import Header from '@app/admin/_components/Header'
 /* Utils */
 import { ARCHIVE } from '@app/_lib/types'

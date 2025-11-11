@@ -2,9 +2,9 @@
 import type { ObjectId, Document } from 'mongodb'
 import sanitize from 'mongo-sanitize'
 /* Models */
-import { NoContentError } from '@common/model/Error'
+import { NoContentError } from '@sujin/common/model/Error'
 /* Utils */
-import { getCollection } from '@common/data/mongo/mongo'
+import { getCollection } from '@sujin/common/data/mongo/mongo'
 import { getAggregation } from '@app/_lib/utils/server'
 /* CONSTANTS */
 import {
@@ -14,7 +14,7 @@ import {
     type T_ArchivePost,
 } from '@app/_lib/types'
 /* T_Types */
-import type { T_Mongo } from '@common/types/mongo'
+import type { T_Mongo } from '@sujin/common/types/mongo'
 
 export const getArchivePosts = async (
     _id: ObjectId,

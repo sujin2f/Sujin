@@ -1,8 +1,8 @@
 'use server'
 /* Utils */
 import { cachedRequest, getCacheKey } from '@app/_lib/utils/cache'
-import { shuffle } from '@common/utils/array'
-import { getCollection } from '@common/data/mongo/mongo'
+import { shuffle } from '@sujin/common/utils/array'
+import { getCollection } from '@sujin/common/data/mongo/mongo'
 /* CONSTANTS */
 import { ARCHIVE, COLLECTION, type T_Archive } from '@app/_lib/types'
 

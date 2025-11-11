@@ -3,14 +3,14 @@ import type { ObjectId } from 'mongodb'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 /* Models */
-import { NoContentError } from '@common/model/Error'
-import Logger from '@common/model/Logger'
+import { NoContentError } from '@sujin/common/model/Error'
+import Logger from '@sujin/common/model/Logger'
 /* Components */
 import { ItemClient } from '@app/recipe/_components/Item.client'
 import Wrapper from '@app/_components/Wrapper'
 /* Utils */
 import { getCachedRecipe } from '@app/recipe/_lib/getCachedRecipe'
-import { mongoStringify } from '@common/utils/object'
+import { mongoStringify } from '@sujin/common/utils/object'
 /* CONSTANTS */
 import { MENU_NAMES } from '@app/_lib/types'
 

@@ -2,12 +2,12 @@
 import React, { useState, useCallback } from 'react'
 import Link from 'next/link'
 /* Components */
-import Input from '@common/components/forms/Input'
-import Column from '@common/components/layout/Column'
-import Row from '@common/components/layout/Row'
+import Input from '@sujin/common/components/forms/Input'
+import Column from '@sujin/common/components/layout/Column'
+import Row from '@sujin/common/components/layout/Row'
 /* Helpers */
-import { copyText } from '@common/utils/dom'
-import { capitalize } from '@common/utils/string'
+import { copyText } from '@sujin/common/utils/dom'
+import { capitalize } from '@sujin/common/utils/string'
 
 /*
  * String to array word by word

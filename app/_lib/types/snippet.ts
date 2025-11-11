@@ -1,5 +1,5 @@
 import type { WithId } from 'mongodb'
-import type { languages } from '@common/constants/helper'
+import type { languages } from '@sujin/common/constants/helper'
 import type { T_User } from '@app/_lib/types/user'
 
 export type T_Snippets = WithId<{

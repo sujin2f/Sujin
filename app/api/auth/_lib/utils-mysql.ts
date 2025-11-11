@@ -1,7 +1,7 @@
 'use server'
 /* Models */
-import { select, update } from '@common/data/mysql'
-import { ForbiddenError } from '@common/model/Error'
+import { select, update } from '@sujin/common/data/mysql'
+import { ForbiddenError } from '@sujin/common/model/Error'
 /* CONSTANTS */
 import { MySQLQuery } from '@app/_lib/utils/mysql/constants'
 /* Utils */

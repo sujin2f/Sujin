@@ -2,8 +2,8 @@
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 /* Components */
-import Button from '@common/components/forms/Button'
-import Table from '@common/components/containers/Table'
+import Button from '@sujin/common/components/forms/Button'
+import Table from '@sujin/common/components/containers/Table'
 import Header from '@app/admin/_components/Header'
 
 type Props = {

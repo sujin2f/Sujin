@@ -1,7 +1,7 @@
 'use server'
 import sanitize from 'mongo-sanitize'
 /* Models */
-import Cached from '@common/model/Cached'
+import Cached from '@sujin/common/model/Cached'
 /* T_Types */
 import type { MutationResultType } from '@app/api/graphql/_lib/constants'
 /* Utils */

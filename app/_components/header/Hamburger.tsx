@@ -1,11 +1,11 @@
 'use client'
 import React, { useCallback, useState } from 'react'
 /* Components */
-import Menu from '@common/components/layout/Menu'
+import Menu from '@sujin/common/components/layout/Menu'
 /* Utils */
-import { useDocumentClick } from '@common/hooks/useDocumentClick'
+import { useDocumentClick } from '@sujin/common/hooks/useDocumentClick'
 /* T_Types */
-import type { MenuItem } from '@common/types/menu'
+import type { MenuItem } from '@sujin/common/types/menu'
 /* Assets */
 import HamburgerIcon from '@app/_lib/images/hamburger.svg'
 

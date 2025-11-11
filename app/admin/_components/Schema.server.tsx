@@ -1,16 +1,20 @@
 import type { Document } from 'mongodb'
 /* Components */
-import Table from '@common/components/containers/Table'
+import Table from '@sujin/common/components/containers/Table'
 import Header from '@app/admin/_components/Header'
-import Row from '@common/components/layout/Row'
-import Column from '@common/components/layout/Column'
+import Row from '@sujin/common/components/layout/Row'
+import Column from '@sujin/common/components/layout/Column'
 /* Models */
-import { UnauthorizedError, A_Error, NoContentError } from '@common/model/Error'
+import {
+    UnauthorizedError,
+    A_Error,
+    NoContentError,
+} from '@sujin/common/model/Error'
 /* Utils */
 import { isAdmin } from '@app/api/auth/_lib/utils-server'
 import { getCachedOption } from '@app/_lib/utils/mongo/options'
 /* T_Types */
-import { getCollection } from '@common/data/mongo/mongo'
+import { getCollection } from '@sujin/common/data/mongo/mongo'
 /* CONSTANTS */
 import { COLLECTION } from '@app/_lib/types'
 

@@ -1,6 +1,6 @@
 import { headers } from 'next/headers'
 
-import type { Nullable } from '@common/types'
+import type { Nullable } from '@sujin/common/types'
 import { Metadata, METADATA } from '@app/_lib/constants'
 import { PER_PAGE } from '@app/_lib/constants'
 import { COLLECTION } from '@app/_lib/types'

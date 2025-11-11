@@ -1,16 +1,16 @@
 'use client'
 import React from 'react'
 /* Components */
-import { Card } from '@common/components/containers/Card'
-import Column from '@common/components/layout/Column'
-import Row from '@common/components/layout/Row'
+import { Card } from '@sujin/common/components/containers/Card'
+import Column from '@sujin/common/components/layout/Column'
+import Row from '@sujin/common/components/layout/Row'
 import { Loading } from '@app/archive/_components/Loading'
 /* CONSTANTS */
 import GQL from '@app/api/graphql/_lib/constants'
-import { WEEK_IN_SECONDS } from '@common/constants/datetime'
+import { WEEK_IN_SECONDS } from '@sujin/common/constants/datetime'
 import { Context } from '@app/_lib/constants.store'
 /* Utils */
-import useIntersectionGQLStore from '@common/hooks/useIntersectionGQLStore'
+import useIntersectionGQLStore from '@sujin/common/hooks/useIntersectionGQLStore'
 
 const Flickr = () => {
     const { items, pending, error, ref } = useIntersectionGQLStore(

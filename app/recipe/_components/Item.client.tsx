@@ -3,13 +3,13 @@ import { type ChangeEvent, useCallback, useState } from 'react'
 import { notFound } from 'next/navigation'
 /* Components */
 import Link from 'next/link'
-import Table from '@common/components/containers/Table'
-import Input from '@common/components/forms/Input'
-import Row from '@common/components/layout/Row'
-import Column from '@common/components/layout/Column'
-import Button from '@common/components/forms/Button'
-import ButtonGroup from '@common/components/forms/ButtonGroup'
-import Select from '@common/components/forms/Select'
+import Table from '@sujin/common/components/containers/Table'
+import Input from '@sujin/common/components/forms/Input'
+import Row from '@sujin/common/components/layout/Row'
+import Column from '@sujin/common/components/layout/Column'
+import Button from '@sujin/common/components/forms/Button'
+import ButtonGroup from '@sujin/common/components/forms/ButtonGroup'
+import Select from '@sujin/common/components/forms/Select'
 /* T_Types */
 import {
     type T_Recipe,
@@ -19,9 +19,9 @@ import {
     CONVERT_WEIGHT,
     CONVERT_VOLUMES,
 } from '@app/_lib/types'
-import type { T_Stringify } from '@common/types/mongo'
+import type { T_Stringify } from '@sujin/common/types/mongo'
 /* CONSTANTS */
-import { QuantumBool } from '@common/types'
+import { QuantumBool } from '@sujin/common/types'
 /* Utils */
 import { useDelete } from '@app/recipe/_lib/useDelete'
 import { useSession } from 'next-auth/react'

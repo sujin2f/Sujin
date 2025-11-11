@@ -1,5 +1,5 @@
 import type { WithId } from 'mongodb'
-import type { ConstToType } from '@common/types'
+import type { ConstToType } from '@sujin/common/types'
 import type { T_PostImages } from '@app/_lib/types/image'
 import type { T_Archive } from '@app/_lib/types/archive'
 

@@ -2,15 +2,19 @@
 import { revalidateTag } from 'next/cache'
 import { ObjectId } from 'mongodb'
 /* Models */
-import Cached from '@common/model/Cached'
-import { A_Error, ForbiddenError } from '@common/model/Error'
+import Cached from '@sujin/common/model/Cached'
+import { A_Error, ForbiddenError } from '@sujin/common/model/Error'
 /* CONSTANTS */
 import { COLLECTION } from '@app/_lib/types'
 /* Utils */
 import { getCacheKey } from '@app/_lib/utils/cache'
-import { deleteOne, findOne, getCollection } from '@common/data/mongo/mongo'
+import {
+    deleteOne,
+    findOne,
+    getCollection,
+} from '@sujin/common/data/mongo/mongo'
 import { getCurrentUser } from '@app/api/auth/_lib/utils-server'
-import Logger from '@common/model/Logger'
+import Logger from '@sujin/common/model/Logger'
 
 export const deleteRecipe = async (id: string) => {
     const _id = new ObjectId(id)

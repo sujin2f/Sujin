@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from 'react'
 /* Components */
-import Row from '@common/components/layout/Row'
-import Column from '@common/components/layout/Column'
+import Row from '@sujin/common/components/layout/Row'
+import Column from '@sujin/common/components/layout/Column'
 
 type Props = {
     title: string

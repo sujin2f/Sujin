@@ -2,7 +2,7 @@
 import React from 'react'
 import { usePathname } from 'next/navigation'
 /* Components */
-import Button from '@common/components/forms/Button'
+import Button from '@sujin/common/components/forms/Button'
 /* Helpers */
 import { BASE_URL } from '@app/_lib/constants'
 /* Assets */

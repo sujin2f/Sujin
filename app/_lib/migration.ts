@@ -1,15 +1,15 @@
 import type { WithId } from 'mongodb'
 /* T_Types */
-import type { T_Migration } from '@common/data/mongo/mongo'
+import type { T_Migration } from '@sujin/common/data/mongo/mongo'
 /* CONSTANTS */
-import { MONGO_DATABASE } from '@common/constants/helper'
+import { MONGO_DATABASE } from '@sujin/common/constants/helper'
 import { ARCHIVE, COLLECTION, T_Archive, T_Post } from '@app/_lib/types'
 import { default as SCHEMA_10_2_6 } from '@app/_lib/schema/10.2.6'
 import { default as SCHEMA_10_3_2 } from '@app/_lib/schema/10.3.2'
 import { default as SCHEMA_10_3_3 } from '@app/_lib/schema/10.3.3'
 import { default as SCHEMA_10_3_4 } from '@app/_lib/schema/10.3.4'
 /* Models */
-import Cached from '@common/model/Cached'
+import Cached from '@sujin/common/model/Cached'
 /* Utils */
 import { setOption } from '@app/_lib/utils/mongo/options'
 import { updateBackgrounds } from '@app/_lib/utils/mongo/updateBackgrounds'

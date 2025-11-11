@@ -3,8 +3,8 @@ import { useState } from 'react'
 import Link from 'next/link'
 import type { T_Snippets } from '@app/_lib/types'
 /* CONSTANTS */
-import Code from '@common/components/containers/Code'
-import { copyText } from '@common/utils/dom'
+import Code from '@sujin/common/components/containers/Code'
+import { copyText } from '@sujin/common/utils/dom'
 
 type Props = {
     readonly snippet: T_Snippets

@@ -1,10 +1,12 @@
 'use client'
 /* Components */
-import Row from '@common/components/layout/Row'
-import Column, { type ColumnProps } from '@common/components/layout/Column'
+import Row from '@sujin/common/components/layout/Row'
+import Column, {
+    type ColumnProps,
+} from '@sujin/common/components/layout/Column'
 /* Utils */
-import { map } from '@common/utils/array'
-import { joinClassNames } from '@common/utils/string'
+import { map } from '@sujin/common/utils/array'
+import { joinClassNames } from '@sujin/common/utils/string'
 /* Assets */
 import '@app/archive/_components/Loading.scss'
 
