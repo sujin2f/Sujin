@@ -1,11 +1,10 @@
 {
-    "name": "common-share",
+    "name": "common-cache",
     "version": "0.0.1-beta",
-    "description": "sharable utility modules across all types of Javascript",
+    "description": "Node Cache module",
     "author": "Sujin Choi",
     "license": "ISC",
     "dependencies": {
-        "common-share": "file:../../@common/share",
         "node-cache": "^5.1.2"
     },
     "scripts": {

@@ -1,5 +1,5 @@
 import { IOError } from '../model/Error'
-import { QuantumBool } from '../types'
+import { QuantumBool } from '../src/types'
 
 /**
  * String to number

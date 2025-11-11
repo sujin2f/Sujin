@@ -17,5 +17,7 @@
             "path": "."
         }
     ],
-    "settings": {}
+    "settings": {
+        "cSpell.words": ["com", "sujin", "sujinc"]
+    }
 }

@@ -483,18 +483,14 @@
 "@sujin/lib@file:../@lib":
   version "0.0.1-beta"
   dependencies:
-    common-share "file:../../../Library/Caches/Yarn/v6/npm-@sujin-lib-0.0.1-beta-36e5f375-8c4c-4465-ae0f-7528563a4a7e-1762894242575/node_modules/@sujin/@common/node-cache"
+    common-share "file:../../../Library/Caches/Yarn/v6/npm-@sujin-lib-0.0.1-beta-08fbba25-36a7-4895-967b-10df29db3b24-1762894960764/node_modules/@sujin/@common/node-cache"
 
 "@sujin/mysql@file:../@common/mysql":
   version "0.0.1-beta"
-  dependencies:
-    common-share "file:../../../Library/Caches/Yarn/v6/npm-@sujin-mysql-0.0.1-beta-af20e03c-8083-414b-8f6f-dd3b62327b63-1762894242576/node_modules/@common/share"
-    node-cache "^5.1.2"
 
 "@sujin/node-cache@file:../@common/node-cache":
   version "0.0.1-beta"
   dependencies:
-    common-share "file:../../../Library/Caches/Yarn/v6/npm-@sujin-node-cache-0.0.1-beta-e94ccf0a-60f4-4970-9538-be6471f25374-1762894242576/node_modules/@common/share"
     node-cache "^5.1.2"
 
 "@sujin/share@file:../@common/share":
@@ -720,13 +716,6 @@
   version "11.0.5"
   resolved "https://registry.yarnpkg.com/@types/whatwg-url/-/whatwg-url-11.0.5.tgz#aaa2546e60f0c99209ca13360c32c78caf2c409f"
   integrity sha512-coYR071JRaHa+xoEvvYqvnIHaVqaYrLPbsufM9BF63HkwI5Lgmy2QR8Q5K/lYDYo5AK82wOvSOS0UsLTpTG7uQ==
-  dependencies:
-    "@types/webidl-conversions" "*"
-
-"@types/whatwg-url@^13.0.0":
-  version "13.0.0"
-  resolved "https://registry.yarnpkg.com/@types/whatwg-url/-/whatwg-url-13.0.0.tgz#2b11e32772fd321c0dedf4d655953ea8ce587b2a"
-  integrity sha512-N8WXpbE6Wgri7KUSvrmQcqrMllKZ9uxkYWMt+mCSGwNc0Hsw9VQTW7ApqI4XNrx6/SaM2QQJCzMPDEXE058s+Q==
   dependencies:
     "@types/webidl-conversions" "*"
 
@@ -1223,11 +1212,6 @@ bson@^6.10.4:
   resolved "https://registry.yarnpkg.com/bson/-/bson-6.10.4.tgz#d530733bb5bb16fb25c162e01a3344fab332fd2b"
   integrity sha512-WIsKqkSC0ABoBJuT1LEX+2HEvNmNKKgnTAyd0fL8qzK4SH2i9NXg+t08YtdZp/V9IZ33cxe3iV4yM0qg8lMQng==
 
-bson@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/bson/-/bson-7.0.0.tgz#2ee7ac8296d61739a8d3d1799724a10d9f8afa8d"
-  integrity sha512-Kwc6Wh4lQ5OmkqqKhYGKIuELXl+EPYSCObVE6bWsp1T/cGkOCBN0I8wF/T44BiuhHyNi1mmKVPXk60d41xZ7kw==
-
 buffer-from@^1.0.0:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/buffer-from/-/buffer-from-1.1.2.tgz#2b146a6fd72e80b4f55d255f35ed59a3a9a41bd5"
@@ -1362,22 +1346,15 @@ commander@^2.20.0:
 "common-lib@file:../@lib":
   version "0.0.1-beta"
   dependencies:
-    common-share "file:../../../Library/Caches/Yarn/v6/npm-common-lib-0.0.1-beta-0fa93cbb-e9fb-43ee-9b6c-7abfa76a88ae-1762894242562/node_modules/@common/node-cache"
+    common-share "file:../../../Library/Caches/Yarn/v6/npm-common-lib-0.0.1-beta-ba6289ed-9524-4c97-9039-1ad0e081ac72-1762894959392/node_modules/@common/node-cache"
 
 "common-share@file:../@common/mysql":
   version "0.0.1-beta"
-  dependencies:
-    common-share "file:../../../Library/Caches/Yarn/v6/npm-common-share-0.0.1-beta-daa8a4be-53cf-4ebc-a6e4-8a57d7df457f-1762894242643/@common/share"
-    node-cache "^5.1.2"
 
 "common-share@file:../@common/node-cache":
   version "0.0.1-beta"
   dependencies:
-    common-share "file:../../../Library/Caches/Yarn/v6/npm-common-share-0.0.1-beta-49b59e6c-5ec1-4717-84d7-83586508dafd-1762894242563/@common/share"
     node-cache "^5.1.2"
-
-"common-share@file:../@common/share":
-  version "0.0.1-beta"
 
 compressible@~2.0.18:
   version "2.0.18"
@@ -2118,11 +2095,6 @@ graphemer@^1.4.0:
   resolved "https://registry.yarnpkg.com/graphemer/-/graphemer-1.4.0.tgz#fb2f1d55e0e3a1849aeffc90c4fa0dd53a0e66c6"
   integrity sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==
 
-graphql@^16.12.0:
-  version "16.12.0"
-  resolved "https://registry.yarnpkg.com/graphql/-/graphql-16.12.0.tgz#28cc2462435b1ac3fdc6976d030cef83a0c13ac7"
-  integrity sha512-DKKrynuQRne0PNpEbzuEdHlYOMksHSUI8Zc9Unei5gTsMNA2/vMpoMz/yKba50pejK56qj98qM0SjYxAKi13gQ==
-
 handle-thing@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/handle-thing/-/handle-thing-2.0.1.tgz#857f79ce359580c340d43081cc648970d0bb234e"
@@ -2678,23 +2650,6 @@ mongodb-connection-string-url@^3.0.2:
   dependencies:
     "@types/whatwg-url" "^11.0.2"
     whatwg-url "^14.1.0 || ^13.0.0"
-
-mongodb-connection-string-url@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/mongodb-connection-string-url/-/mongodb-connection-string-url-7.0.0.tgz#aad7291d191c52e3b5e2765eb9d218b6efcad655"
-  integrity sha512-irhhjRVLE20hbkRl4zpAYLnDMM+zIZnp0IDB9akAFFUZp/3XdOfwwddc7y6cNvF2WCEtfTYRwYbIfYa2kVY0og==
-  dependencies:
-    "@types/whatwg-url" "^13.0.0"
-    whatwg-url "^14.1.0"
-
-mongodb@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-7.0.0.tgz#33b381dc9fdca208a38ea03340d57244c776573f"
-  integrity sha512-vG/A5cQrvGGvZm2mTnCSz1LUcbOPl83hfB6bxULKQ8oFZauyox/2xbZOoGNl+64m8VBrETkdGCDBdOsCr3F3jg==
-  dependencies:
-    "@mongodb-js/saslprep" "^1.3.0"
-    bson "^7.0.0"
-    mongodb-connection-string-url "^7.0.0"
 
 mongodb@~6.20.0:
   version "6.20.0"
@@ -3901,7 +3856,7 @@ whatwg-mimetype@^4.0.0:
   resolved "https://registry.yarnpkg.com/whatwg-mimetype/-/whatwg-mimetype-4.0.0.tgz#bc1bf94a985dc50388d54a9258ac405c3ca2fc0a"
   integrity sha512-QaKxh0eNIi2mE9p2vEdzfagOKHCcj1pJ56EEHGQOVxp8r9/iszLUUV7v89x9O1p/T+NlTM5W7jW6+cz4Fq1YVg==
 
-whatwg-url@^14.1.0, "whatwg-url@^14.1.0 || ^13.0.0":
+"whatwg-url@^14.1.0 || ^13.0.0":
   version "14.2.0"
   resolved "https://registry.yarnpkg.com/whatwg-url/-/whatwg-url-14.2.0.tgz#4ee02d5d725155dae004f6ae95c73e7ef5d95663"
   integrity sha512-De72GdQZzNTUBBChsXueQUnPKDkg/5A5zp7pFDuQAj5UFoENpiACU0wlCvzpAGnTkj++ihpKwKyYewn/XNUbKw==

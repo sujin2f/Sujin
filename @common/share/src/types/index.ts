@@ -8,3 +8,4 @@ export const QuantumBool = {
     TRUE: true,
 } as const
 export type QuantumBool = ConstToType<typeof QuantumBool>
+

@@ -1,7 +1,7 @@
 {
-    "name": "common-lib",
+    "name": "sujin-lib",
     "version": "0.0.1-beta",
-    "description": "",
+    "description": "Shareable Library across sujinc.com project",
     "keywords": [],
     "author": "",
     "license": "ISC",
