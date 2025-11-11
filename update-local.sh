@@ -1,6 +1,7 @@
 #!/bin/sh
 
-( cd @lib ; yarn upgrade file:../@common/share ; yarn upgrade file:../@common/node-cache )
-( cd @common/node-cache ; yarn upgrade file:../../@common/share )
-( cd @common/mysql ; yarn upgrade file:../../@common/share )
-( cd @graphql ; yarn upgrade file:../@common/share ; yarn upgrade file:../@common/node-cache ; yarn upgrade file:../@lib ; yarn upgrade file:../@common/mysql )
+( yarn --cwd ./@common/share build )
+( rm @common/node-cache/yarn.lock ; yarn --cwd ./@common/node-cache ; yarn --cwd ./@common/node-cache build )
+( rm @common/mysql/yarn.lock ; yarn --cwd ./@common/mysql ; yarn --cwd ./@common/mysql build )
+( rm @lib/yarn.lock ; yarn --cwd ./@lib ; yarn --cwd ./@lib build )
+( rm @graphql/yarn.lock ; yarn --cwd ./@graphql )

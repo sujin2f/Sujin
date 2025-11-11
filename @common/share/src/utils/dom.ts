@@ -1,4 +1,4 @@
-import type { Nullable } from '../src/types'
+import type { Nullable } from '../types'
 
 /**
  * Check if the browser is mobile
