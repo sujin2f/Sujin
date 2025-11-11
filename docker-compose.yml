@@ -35,14 +35,14 @@ services:
 
     wordpress:
         container_name: wordpress
-        image: wordpress:latest
+        image: wordpress:6.8.3-php8.1
         restart: always
         environment:
             WORDPRESS_DB_HOST: mysql
             WORDPRESS_DB_NAME: ${MYSQL_DB}
             WORDPRESS_DB_USER: ${MYSQL_USER}
             WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
-            WORDPRESS_DEBUG: 0
+            WORDPRESS_DEBUG: 1
             TZ: America/Toronto
             VERSION: ${NEXT_PUBLIC_VERSION}
         volumes:

@@ -19,11 +19,18 @@
             }
         ],
         "paths": {
+            "@lib/*": ["./lib/*"],
             "@app/*": ["./app/*"],
             "@common/*": ["./common/*"],
             "@jest/*": ["./.jest/*"]
         }
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+    "include": [
+        "next-env.d.ts",
+        "**/*.ts",
+        "**/*.tsx",
+        ".next/types/**/*.ts",
+        "graphql/src/resolvers/query/spectra.spec.ts"
+    ],
     "exclude": ["node_modules", "wordpress"]
 }
