@@ -3,8 +3,6 @@ import { select, update } from '@sujin/mysql'
 import { ForbiddenError } from '@sujin/share/model/Error'
 /* CONSTANTS */
 import { WPQuery } from '@src/utils/mysql/wp-query'
-/* Utils */
-import { isAdmin } from '@src/utils'
 
 /**
  * User admin and WP nonce allow to access
@@ -15,9 +13,6 @@ import { isAdmin } from '@src/utils'
  * @throws {ForbiddenError} Failed to access
  */
 export const auth = async (nonce?: string, slug?: string): Promise<void> => {
-    const admin = await isAdmin()
-    if (admin) return
-
     // Nonce validation
     if (!nonce) {
         throw new ForbiddenError('invalid nonce')
