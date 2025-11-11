@@ -2,7 +2,7 @@
 import { select, update } from '@sujin/mysql'
 import { ForbiddenError } from '@sujin/share/model/Error'
 /* CONSTANTS */
-import { MySQLQuery } from '@src/utils/mysql/constants'
+import { WPQuery } from '@src/utils/mysql/wp-query'
 /* Utils */
 import { isAdmin } from '@src/utils'
 
@@ -39,9 +39,9 @@ type T_Option = { option_value: string }
  * @returns {Promise<string>} The value of the option.
  */
 const getOption = async (key: string): Promise<string> =>
-    await select<T_Option>(MySQLQuery.getOption(key)).then(
+    await select<T_Option>(WPQuery.getOption(key)).then(
         (option: T_Option[]) => option[0].option_value,
     )
 
 const removeOption = async (key: string): Promise<void> =>
-    await update(MySQLQuery.deleteOption(key))
+    await update(WPQuery.deleteOption(key))

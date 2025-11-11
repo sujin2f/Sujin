@@ -22,7 +22,7 @@ const replaceURL = (url: string) => {
     return `/${pathname}`
 }
 
-export const convertImageBlockURL = (imageBlock: T_ImageBlock) => {
+export const convertWPImageURL = (imageBlock: T_ImageBlock) => {
     const sizes = imageBlock.sizes
 
     if (sizes) {

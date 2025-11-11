@@ -1,14 +1,21 @@
-/* Models */
-import { FetchError } from '@sujin/share/model/Error'
 /* Utils */
+import { getPostBy } from '@src/utils/mysql/post'
 import { isEmpty } from '@sujin/share/utils/object'
-import { getPostMeta } from '@src/utils/mysql/getPostMeta'
+import { getPostMeta } from '@src/utils/mysql/post-meta'
+/* Models */
+import { select } from '@sujin/mysql'
+import { FetchError } from '@sujin/share/model/Error'
 /* CONSTANTS */
+import { WPQuery } from '@src/utils/mysql/wp-query'
+/* T_Types */
 import {
-    IMAGE_SIZE,
+    IMAGE_SIZE,POST_TYPE
+,
     type T_ImageBlock,
+    type T_Background,
     type T_MySQLPost,
 } from '@sujin/lib/types'
+import type { Nullable } from '@sujin/share/types'
 
 enum META_KEYS {
     ATTACHMENT_META = '_wp_attachment_metadata',
@@ -20,7 +27,7 @@ enum META_KEYS {
  * @returns
  * @throws
  */
-export const getMediaFromPost = async <T extends T_ImageBlock>(
+const getImageBlockFromPost = async <T extends T_ImageBlock>(
     post: T_MySQLPost,
 ): Promise<T> => {
     const WP_IMAGE_SIZE = {
@@ -87,4 +94,35 @@ export const getMediaFromPost = async <T extends T_ImageBlock>(
     }
 
     return result as T
+}
+
+export const getImageBlockFromAttachmentID = async (
+    postId: number,
+): Promise<Nullable<T_ImageBlock>> => {
+    const post = await getPostBy('id', postId, POST_TYPE.ATTACHMENT, true)
+    if (!post) {
+        return
+    }
+    return getImageBlockFromPost(post)
+}
+
+/**
+ * Get backgrounds from MySQL
+ * @returns {Promise<T_ImageBlock[]>}
+ * @throws
+ */
+export const getBackgrounds = async (): Promise<T_Background[]> => {
+    const result = await select<T_MySQLPost>(WPQuery.getBackgrounds()).then(
+        async (posts: T_MySQLPost[]) => {
+            const result: T_Background[] = []
+            for await (const post of posts) {
+                result.push(await getImageBlockFromPost(post))
+            }
+            return result
+        },
+    )
+
+    if (!result.length) throw new FetchError('MySQL Background is empty')
+
+    return result
 }

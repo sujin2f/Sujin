@@ -1,7 +1,8 @@
 /* Models */
 import { select } from '@sujin/mysql'
+import { FetchError } from '@sujin/share/model/Error'
 /* CONSTANTS */
-import { MySQLQuery } from '@src/utils/mysql/constants'
+import { WPQuery } from '@src/utils/mysql/wp-query'
 import { PER_PAGE } from '@sujin/lib/constants'
 import {
     ARCHIVE,
@@ -11,12 +12,30 @@ import {
     type T_MySQLPost,
 } from '@sujin/lib/types'
 /* Utils */
-import { getPostMeta } from '@src/utils/mysql/getPostMeta'
+import { getPostMeta } from '@src/utils/mysql/post-meta'
+import { getImageBlockFromAttachmentID } from '@src/utils/mysql/media'
 /* T_Types */
 import { type POST_IMAGE_LOCATION, type T_ImageBlock } from '@sujin/lib/types'
-import { getMedia } from './getMedia'
 
-export const getPostsBy = async (
+export const getPostBy = async (
+    queryKey: 'id' | 'slug',
+    queryValue: string | number,
+    type: POST_TYPE,
+    ignoreStatus = false,
+): Promise<T_MySQLPost> => {
+    return await getPostsBy(queryKey, type, queryValue, 1, ignoreStatus).then(
+        (result) => {
+            if (!result[0])
+                throw new FetchError(
+                    `Failed to find MySQL post with: ${queryKey}, ${queryValue}, and ${type}`,
+                )
+            return result[0]
+        },
+    )
+}
+
+
+const getPostsBy = async (
     queryKey: 'search' | 'id' | 'slug' | ARCHIVE,
     type: POST_TYPE,
     queryValue?: string | number,
@@ -72,7 +91,7 @@ const getPostQuery = (
         case 'id':
             return !queryValue
                 ? ''
-                : MySQLQuery.getPostBy(
+                : WPQuery.getPostBy(
                       'posts.ID',
                       queryValue,
                       type,
@@ -82,7 +101,7 @@ const getPostQuery = (
         case 'slug':
             return !queryValue
                 ? ''
-                : MySQLQuery.getPostBy(
+                : WPQuery.getPostBy(
                       'posts.post_name',
                       queryValue,
                       type,
@@ -92,13 +111,13 @@ const getPostQuery = (
         case 'search':
             return !queryValue
                 ? ''
-                : MySQLQuery.getSearch(queryValue, (page - 1) * PER_PAGE)
+                : WPQuery.getSearch(queryValue, (page - 1) * PER_PAGE)
 
         case ARCHIVE.CATEGORY:
         case ARCHIVE.TAG:
             return !queryValue
                 ? ''
-                : MySQLQuery.getTermItems(
+                : WPQuery.getTermItems(
                       queryValue.toString(),
                       (page - 1) * PER_PAGE,
                       ignoreStatus,
@@ -131,7 +150,7 @@ const getPostImages = async (
         if (!imageIds[imageKey as POST_IMAGE_LOCATION]) {
             continue
         }
-        const image = await getMedia(imageIds[imageKey as POST_IMAGE_LOCATION])
+        const image = await getImageBlockFromAttachmentID(imageIds[imageKey as POST_IMAGE_LOCATION])
 
         if (image) {
             result[imageKey] = image
@@ -142,7 +161,7 @@ const getPostImages = async (
 }
 
 const getTermsByPost = async (id: number): Promise<T_Archive[]> =>
-    await select<T_Archive>(MySQLQuery.getTaxonomies(id))
+    await select<T_Archive>(WPQuery.getTaxonomies(id))
 
 /**
  * Replaces double line-breaks with paragraph elements.

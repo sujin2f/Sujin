@@ -2,7 +2,7 @@
 import { select } from '@sujin/mysql'
 import Logger from '@sujin/share/model/Logger'
 /* CONSTANTS */
-import { MySQLQuery } from '@src/utils/mysql/constants'
+import { WPQuery } from '@src/utils/mysql/wp-query'
 /* Utils */
 import { phpUnSerialize } from '@sujin/share/utils/string'
 
@@ -19,7 +19,7 @@ export const getPostMeta = async <
     defaultValue: T,
 ): Promise<T> => {
     const value = await select<T_PostMeta>(
-        MySQLQuery.getPostMeta(postId, metaKey),
+        WPQuery.getPostMeta(postId, metaKey),
     )
         .then((value: T_PostMeta[]) => value[0])
         .catch(() => undefined)

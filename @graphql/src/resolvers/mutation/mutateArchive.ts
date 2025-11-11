@@ -7,8 +7,8 @@ import Cached from '@sujin/node-cache'
 import { ARCHIVE, COLLECTION } from '@sujin/lib/types'
 /* Utils */
 import { getCacheKey } from '@sujin/lib/utils/cache'
-import { convertImageBlockURL } from '@src/utils/mongo/convertImageBlockURL'
-import { getArchiveBySlug } from '@src/utils/mysql/getArchiveBySlug'
+import { convertWPImageURL } from '@src/utils/mongo/convertWPImageURL'
+import { getTermBySlug } from '@src/utils/mysql/term'
 /* T_Types */
 import type { MutationResultType } from '@src/types'
 import { updateTotal } from '@src/utils/mongo/updateTotal'
@@ -25,9 +25,9 @@ const updateArchive = async (slug: string, type: ARCHIVE): Promise<void> => {
         getCacheKey(COLLECTION.ARCHIVE, type, slug),
     )
 
-    const wp = await getArchiveBySlug(slug)
+    const wp = await getTermBySlug(slug)
     if (wp.image) {
-        wp.image = convertImageBlockURL(wp.image)
+        wp.image = convertWPImageURL(wp.image)
     }
 
     const archive = await Archive.findOneAndReplace(

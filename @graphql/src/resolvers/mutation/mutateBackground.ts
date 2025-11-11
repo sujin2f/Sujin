@@ -4,11 +4,11 @@ import Cached from '@sujin/node-cache'
 import { COLLECTION } from '@sujin/lib/types'
 /* Utils */
 import { getCacheKey } from '@sujin/lib/utils/cache'
-import { getBackgrounds } from '@src/utils/mysql/getBackgrounds'
+import { getBackgrounds } from '@src/utils/mysql/media'
 
 /* T_Types */
 import type { MutationResultType } from '@src/types'
-import { convertImageBlockURL } from '@src/utils/mongo/convertImageBlockURL'
+import { convertWPImageURL } from '@src/utils/mongo/convertWPImageURL'
 import { Background } from '@src/schema/background'
 
 /**
@@ -19,7 +19,7 @@ import { Background } from '@src/schema/background'
 export const updateBackgrounds = async (): Promise<void> => {
     Cached.getInstance().flush(getCacheKey(COLLECTION.BACKGROUNDS))
     await getBackgrounds().then(async (result) => {
-        const backgrounds = result.map((image) => convertImageBlockURL(image))
+        const backgrounds = result.map((image) => convertWPImageURL(image))
         await Background.deleteMany({})
         await Background.insertMany(backgrounds)
     })

@@ -3,12 +3,12 @@ import sanitize from 'mongo-sanitize'
 import type { MutationResultType } from '@src/types'
 /* Utils */
 import { getCacheKey } from '@sujin/lib/utils/cache'
-import { getPostBy } from '@src/utils/mysql/getPostBy'
+import { getPostBy } from '@src/utils/mysql/post'
 /* Models */
 import Cached from '@sujin/node-cache'
 /* CONSTANTS */
 import { COLLECTION, POST_IMAGE_LOCATION, POST_TYPE } from '@sujin/lib/types'
-import { convertImageBlockURL } from '@src/utils/mongo/convertImageBlockURL'
+import { convertWPImageURL } from '@src/utils/mongo/convertWPImageURL'
 import { Page } from '@src/schema/post'
 
 /**
@@ -26,7 +26,7 @@ const updatePage = async (_slug: string): Promise<void> => {
     if (page.images) {
         Object.keys(page.images).forEach((key) => {
             const imageKey = key as POST_IMAGE_LOCATION
-            page.images[imageKey] = convertImageBlockURL(page.images[imageKey]!)
+            page.images[imageKey] = convertWPImageURL(page.images[imageKey]!)
         })
     }
 

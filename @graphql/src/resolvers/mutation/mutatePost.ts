@@ -5,7 +5,7 @@ import Cached from '@sujin/node-cache'
 /* T_Types */
 import type { MutationResultType } from '@src/types'
 /* Utils */
-import { getPostBy } from '@src/utils/mysql/getPostBy'
+import { getPostBy } from '@src/utils/mysql/post'
 import { getCacheKey } from '@sujin/lib/utils/cache'
 import { updateTotal } from '@src/utils/mongo/updateTotal'
 /* CONSTANTS */
@@ -18,7 +18,7 @@ import {
     T_MySQLPost,
 } from '@sujin/lib/types'
 import { Post } from '@src/schema/post'
-import { convertImageBlockURL } from '@src/utils/mongo/convertImageBlockURL'
+import { convertWPImageURL } from '@src/utils/mongo/convertWPImageURL'
 import { Archive } from '@src/schema/archive'
 
 export const updatePost = async (post: T_MySQLPost) => {
@@ -30,7 +30,7 @@ export const updatePost = async (post: T_MySQLPost) => {
         // Image
         Object.keys(post.images).forEach((key) => {
             const imageKey = key as POST_IMAGE_LOCATION
-            post.images[imageKey] = convertImageBlockURL(post.images[imageKey]!)
+            post.images[imageKey] = convertWPImageURL(post.images[imageKey]!)
         })
 
         for (const term of post.terms.filter(

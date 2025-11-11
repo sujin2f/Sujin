@@ -7,14 +7,14 @@ import {
     type T_ImageBlock,
     type T_MySQLArchive,
 } from '@sujin/lib/types'
-import { MySQLQuery } from '@src/utils/mysql/constants'
+import { WPQuery } from '@src/utils/mysql/wp-query'
 /* Utils */
-import { getMedia } from '@src/utils/mysql/getMedia'
+import { getImageBlockFromAttachmentID } from '@src/utils/mysql/media'
 /* T_Types */
 import type { Nullable } from '@sujin/share/types'
 
 const getMeta = async <T = string>(id: number, metaKey: string): Promise<T> =>
-    await select<T>(MySQLQuery.getTermMeta(id, metaKey)).then(
+    await select<T>(WPQuery.getTermMeta(id, metaKey)).then(
         (value: T[]) => value[0],
     )
 
@@ -29,7 +29,7 @@ const getThumbnail = async (
     await getMeta<{ value: string }>(archive.id, 'thumbnail')
         .then(async (data) =>
             data && data.value
-                ? await getMedia(parseInt(data.value))
+                ? await getImageBlockFromAttachmentID(parseInt(data.value))
                 : undefined,
         )
         .catch(() => undefined)
@@ -41,9 +41,9 @@ const getThumbnail = async (
  * @return {Promise<T_Archive>}
  * @throws {FetchError} Failed to get the archive.
  */
-export const getArchiveBySlug = async (slug: string): Promise<T_Archive> => {
+export const getTermBySlug = async (slug: string): Promise<T_Archive> => {
     const archive = await select<T_MySQLArchive>(
-        MySQLQuery.getArchiveBy('slug', slug),
+        WPQuery.getArchiveBy('slug', slug),
     )
         .then((value: T_MySQLArchive[]) => value[0])
         .catch(() => {

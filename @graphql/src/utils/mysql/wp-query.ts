@@ -193,7 +193,7 @@ const DELETE_POST_META = `
         meta_key = "{1}"
 `
 
-export const MySQLQuery = {
+export const WPQuery = {
     getArchiveBy: (key: string, value: string) => {
         const newKey = key === 'id' ? 'terms.term_id' : 'terms.slug'
         return format(GET_ARCHIVE_BY, newKey, value)
