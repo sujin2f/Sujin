@@ -5,10 +5,13 @@
     "author": "Sujin Choi",
     "license": "ISC",
     "scripts": {
-        "build": "tsc",
+        "build": "rimraf dist && tsc",
         "test": "jest --no-cache --forceExit --coverage",
-        "lint": "eslint ./**/*.ts"
+        "lint": "eslint ./src/**/*.ts"
     },
+    "type": "module",
+    "main": "dist/index.js",
+    "module": "dist/index.js",
     "devDependencies": {
         "@eslint/js": "^9.39.1",
         "@sujin/share": "file:../../@common/share",
@@ -16,6 +19,7 @@
         "eslint": "^9.39.1",
         "jest": "^30.2.0",
         "jest-environment-jsdom": "^30.2.0",
+        "rimraf": "^6.1.0",
         "ts-jest": "^29.4.5",
         "tsc": "^2.0.4",
         "typescript": "^5.9.3",
@@ -28,7 +32,7 @@
         "coverageProvider": "v8",
         "testEnvironment": "jest-environment-jsdom",
         "testMatch": [
-            "<rootDir>/**/?(*.)+(spec|test).[tj]s?(x)"
+            "<rootDir>/src/**/?(*.)+(spec|test).[tj]s?(x)"
         ],
         "extensionsToTreatAsEsm": [
             ".ts"

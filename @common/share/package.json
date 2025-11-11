@@ -7,12 +7,11 @@
     "scripts": {
         "build": "rimraf dist && tsc",
         "test": "jest --no-cache --forceExit --coverage",
-        "lint": "eslint ./constants/**/*.ts ./model/**/*.ts ./types/**/*.ts ./utils/**/*.ts"
+        "lint": "eslint ./src/**/*.ts"
     },
     "type": "module",
     "main": "dist/index.js",
     "module": "dist/index.js",
-    "dependencies": {},
     "devDependencies": {
         "@eslint/js": "^9.39.1",
         "@testing-library/jest-dom": "^6.9.1",
@@ -32,10 +31,7 @@
         "coverageProvider": "v8",
         "testEnvironment": "jest-environment-jsdom",
         "testMatch": [
-            "<rootDir>/constants/**/?(*.)+(spec|test).[tj]s?(x)",
-            "<rootDir>/model/**/?(*.)+(spec|test).[tj]s?(x)",
-            "<rootDir>/types/**/?(*.)+(spec|test).[tj]s?(x)",
-            "<rootDir>/utils/**/?(*.)+(spec|test).[tj]s?(x)"
+            "<rootDir>/src/**/?(*.)+(spec|test).[tj]s?(x)"
         ],
         "extensionsToTreatAsEsm": [
             ".ts"

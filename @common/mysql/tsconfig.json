@@ -4,11 +4,12 @@
         "moduleResolution": "NodeNext",
         "target": "ES2017",
         "lib": ["dom", "dom.iterable", "esnext"],
+        "outDir": "./dist",
         "strict": true,
         "esModuleInterop": true,
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true
     },
-    "include": ["**/*.ts"],
+    "include": ["src/**/*.ts"],
     "exclude": ["node_modules"]
 }
