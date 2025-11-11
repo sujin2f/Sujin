@@ -9,9 +9,6 @@
         "test": "jest --no-cache --forceExit --coverage",
         "lint": "eslint ./src/**/*.ts"
     },
-    "main": "./dist/index.js",
-    "types": "./dist/index.d.js",
-    "source": "./src/index.ts",
     "devDependencies": {
         "@eslint/js": "^9.39.1",
         "@testing-library/jest-dom": "^6.9.1",
