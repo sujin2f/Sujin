@@ -1,4 +1,4 @@
-import { DAY_IN_SECONDS } from '@common/constants/datetime'
+import { DAY_IN_SECONDS } from '../../constants/datetime'
 import type { IQuery, ScalarJSType } from '.'
 import { VERSION } from '../../constants/helper'
 import { FetchError } from '../../model/Error'

@@ -7,7 +7,7 @@
 import path from 'path'
 import fs from 'fs'
 /* CONSTANTS */
-import { IS_DEV, VERSION } from '@common/constants/helper'
+import { IS_DEV, VERSION } from '../constants/helper'
 
 export const rootDir = process.cwd()
 export const publicDir = path.resolve(rootDir, 'public')

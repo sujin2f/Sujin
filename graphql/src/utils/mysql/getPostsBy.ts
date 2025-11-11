@@ -104,6 +104,7 @@ const getPostQuery = (
                       ignoreStatus,
                   )
     }
+    return ''
 }
 
 type getPostImagesReturnType = {
@@ -116,7 +117,7 @@ type getPostImagesReturnType = {
 const getPostImages = async (
     post: T_MySQLPost,
 ): Promise<getPostImagesReturnType> => {
-    const result: getPostImagesReturnType = {}
+    const result: Record<string, T_ImageBlock> = {}
 
     const imageIds: Record<POST_IMAGE_LOCATION, number> = {
         list: await getPostMeta<number>(post.id, 'list', 0),
@@ -133,7 +134,7 @@ const getPostImages = async (
         const image = await getMedia(imageIds[imageKey as POST_IMAGE_LOCATION])
 
         if (image) {
-            result[imageKey as POST_IMAGE_LOCATION] = image
+            result[imageKey] = image
         }
     }
 

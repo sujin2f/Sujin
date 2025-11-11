@@ -2,9 +2,10 @@
     "name": "common-lib",
     "version": "0.0.1-beta",
     "description": "",
+    "keywords": [],
     "author": "",
     "license": "ISC",
-    "dependencies": {
+    "devDependencies": {
         "@sujin/common": "file:../common"
     }
 }

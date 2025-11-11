@@ -19,11 +19,7 @@
             }
         ],
         "paths": {
-            "@lib/*": ["./lib/*"],
-            "@sujin/lib/*": ["./lib/*"],
             "@app/*": ["./app/*"],
-            "@common/*": ["./common/*"],
-            "@sujin/common/*": ["./common/*"],
             "@jest/*": ["./.jest/*"]
         }
     },

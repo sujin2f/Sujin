@@ -28,9 +28,9 @@
         "node-cache": "^5.1.2"
     },
     "devDependencies": {
-        "@sujin/lib": "file:../lib",
-        "@sujin/common": "file:../common",
         "@eslint/js": "^9.39.1",
+        "@sujin/common": "file:../common",
+        "@sujin/lib": "file:../lib",
         "@types/cors": "^2.8.19",
         "@types/express": "^5.0.5",
         "@types/node": "^24.10.0",

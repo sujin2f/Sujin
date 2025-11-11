@@ -1,4 +1,4 @@
-import { IS_DEV, IS_TEST } from '@common/constants/helper'
+import { IS_DEV, IS_TEST } from '../constants/helper'
 
 const styleLog = [
     'background: #fdd663',
