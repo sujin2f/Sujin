@@ -18,7 +18,6 @@
         "@apollo/server": "^5.1.0",
         "@as-integrations/express5": "^1.1.2",
         "@sujin/lib": "file:../@lib/dist",
-        "@sujin/mysql": "file:../@common/mysql/dist",
         "@sujin/node-cache": "file:../@common/node-cache/dist",
         "@sujin/share": "file:../@common/share/dist",
         "cors": "^2.8.5",

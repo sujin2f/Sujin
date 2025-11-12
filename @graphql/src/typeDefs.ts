@@ -5,6 +5,7 @@ type Query{
     flickr: [FlickrImage]
     tagCloud: [TagCloud]
     spectra(number: Int!, ion: Int!): [Spectrum]
+    post(slug: String!, type: String!): Post
 }
 type Mutation{
     mutatePost(nonce: String!, slug: String!): Result

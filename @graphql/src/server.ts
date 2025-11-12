@@ -24,6 +24,7 @@ import { mutatePage } from '@src/resolvers/mutation/mutatePage'
 import { mutateBackground } from '@src/resolvers/mutation/mutateBackground'
 import { mutateCategory } from '@src/resolvers/mutation/mutateCategory'
 import { mutateTag } from '@src/resolvers/mutation/mutateTag'
+import { getPost } from '@src/resolvers/query/getPost'
 
 dotenv.config({ path: path.resolve(__dirname, '..', '..', '.env') })
 
@@ -36,6 +37,7 @@ const resolvers = {
         flickr: getFlickr,
         tagCloud: getTagCloud,
         spectra: getSpectraFromNIST,
+        post: getPost,
     },
     Mutation: {
         mutatePost,

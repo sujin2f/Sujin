@@ -376,7 +376,7 @@ export const MENUS: Record<MENU_NAMES, MenuItem[]> = {
     ],
 } as const
 
-export const revalidate =
+export const REVALIDATION =
     IS_DEV || process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD
         ? 1
         : HOUR_IN_SECONDS

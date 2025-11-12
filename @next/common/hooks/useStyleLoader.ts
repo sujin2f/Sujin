@@ -1,4 +1,4 @@
-import { LoadingStatus } from '../constants/asset'
+import { LoadingStatus } from '@sujin/share/constants/asset'
 import { useGlobalState } from './useGlobalState'
 import { useEffect } from 'react'
 

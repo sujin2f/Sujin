@@ -1,42 +1,42 @@
-/* Models */
-import { select, update } from '@sujin/mysql'
-import { ForbiddenError } from '@sujin/share/model/Error'
-/* CONSTANTS */
-import { WPQuery } from '@src/utils/mysql/wp-query'
+// /* Models */
+// import { select, update } from '@sujin/mysql'
+// import { ForbiddenError } from '@sujin/share/model/Error'
+// /* CONSTANTS */
+// import { WPQuery } from '@src/utils/mysql/wp-query'
 
-/**
- * User admin and WP nonce allow to access
- *
- * @param {string} nonce
- * @param {string} slug
- * @returns {Promise<void>}
- * @throws {ForbiddenError} Failed to access
- */
-export const auth = async (nonce?: string, slug?: string): Promise<void> => {
-    // Nonce validation
-    if (!nonce) {
-        throw new ForbiddenError('invalid nonce')
-    }
-    const optionKey = ['mutate', slug, nonce].join('_')
-    await getOption(optionKey).catch(() => {
-        throw new Error(`Failed to get MySQL option: ${optionKey}`)
-        // throw new ForbiddenError(`Failed to get MySQL option: ${optionKey}`)
-    })
-    await removeOption(optionKey)
-}
+// /**
+//  * User admin and WP nonce allow to access
+//  *
+//  * @param {string} nonce
+//  * @param {string} slug
+//  * @returns {Promise<void>}
+//  * @throws {ForbiddenError} Failed to access
+//  */
+// export const auth = async (nonce?: string, slug?: string): Promise<void> => {
+//     // Nonce validation
+//     if (!nonce) {
+//         throw new ForbiddenError('invalid nonce')
+//     }
+//     const optionKey = ['mutate', slug, nonce].join('_')
+//     await getOption(optionKey).catch(() => {
+//         throw new Error(`Failed to get MySQL option: ${optionKey}`)
+//         // throw new ForbiddenError(`Failed to get MySQL option: ${optionKey}`)
+//     })
+//     await removeOption(optionKey)
+// }
 
-type T_Option = { option_value: string }
+// type T_Option = { option_value: string }
 
-/**
- * Retrieves an option value from the database.
- *
- * @param {string} key - The key of the option to retrieve.
- * @returns {Promise<string>} The value of the option.
- */
-const getOption = async (key: string): Promise<string> =>
-    await select<T_Option>(WPQuery.getOption(key)).then(
-        (option: T_Option[]) => option[0].option_value,
-    )
+// /**
+//  * Retrieves an option value from the database.
+//  *
+//  * @param {string} key - The key of the option to retrieve.
+//  * @returns {Promise<string>} The value of the option.
+//  */
+// const getOption = async (key: string): Promise<string> =>
+//     await select<T_Option>(WPQuery.getOption(key)).then(
+//         (option: T_Option[]) => option[0].option_value,
+//     )
 
-const removeOption = async (key: string): Promise<void> =>
-    await update(WPQuery.deleteOption(key))
+// const removeOption = async (key: string): Promise<void> =>
+//     await update(WPQuery.deleteOption(key))

@@ -15,6 +15,7 @@
         "@apollo/server": "^4.11.3",
         "@as-integrations/next": "^3.2.0",
         "chart.js": "^4.4.7",
+        "cross-fetch": "^4.1.0",
         "csv-parse": "^5.6.0",
         "graphql": "^16.12.0",
         "mongo-sanitize": "^1.1.0",
@@ -32,7 +33,6 @@
     "devDependencies": {
         "@eslint/eslintrc": "^3",
         "@sujin/lib": "file:../@lib/dist",
-        "@sujin/mysql": "file:../@common/mysql/dist",
         "@sujin/node-cache": "file:../@common/node-cache/dist",
         "@sujin/share": "file:../@common/share/dist",
         "@svgr/webpack": "^8.1.0",

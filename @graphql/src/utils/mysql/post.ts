@@ -1,5 +1,5 @@
 /* Models */
-import { select } from '@sujin/mysql'
+import { select } from '@src/utils/mysql'
 import { FetchError } from '@sujin/share/model/Error'
 /* CONSTANTS */
 import { WPQuery } from '@src/utils/mysql/wp-query'
@@ -33,7 +33,6 @@ export const getPostBy = async (
         },
     )
 }
-
 
 const getPostsBy = async (
     queryKey: 'search' | 'id' | 'slug' | ARCHIVE,
@@ -150,7 +149,9 @@ const getPostImages = async (
         if (!imageIds[imageKey as POST_IMAGE_LOCATION]) {
             continue
         }
-        const image = await getImageBlockFromAttachmentID(imageIds[imageKey as POST_IMAGE_LOCATION])
+        const image = await getImageBlockFromAttachmentID(
+            imageIds[imageKey as POST_IMAGE_LOCATION],
+        )
 
         if (image) {
             result[imageKey] = image
@@ -160,8 +161,9 @@ const getPostImages = async (
     return result
 }
 
-const getTermsByPost = async (id: number): Promise<T_Archive[]> =>
-    await select<T_Archive>(WPQuery.getTaxonomies(id))
+const getTermsByPost = async (id: number): Promise<T_Archive[]> => {
+    return await select<T_Archive>(WPQuery.getTaxonomies(id))
+}
 
 /**
  * Replaces double line-breaks with paragraph elements.

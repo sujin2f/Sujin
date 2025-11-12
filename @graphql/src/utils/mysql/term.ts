@@ -1,5 +1,5 @@
 /* Models */
-import { select } from '@sujin/mysql'
+import { select } from '@src/utils/mysql'
 import { FetchError } from '@sujin/share/model/Error'
 /* CONSTANTS */
 import {
@@ -13,10 +13,11 @@ import { getImageBlockFromAttachmentID } from '@src/utils/mysql/media'
 /* T_Types */
 import type { Nullable } from '@sujin/share/types'
 
-const getMeta = async <T = string>(id: number, metaKey: string): Promise<T> =>
-    await select<T>(WPQuery.getTermMeta(id, metaKey)).then(
+const getMeta = async <T = string>(id: number, metaKey: string): Promise<T> => {
+    return await select<T>(WPQuery.getTermMeta(id, metaKey)).then(
         (value: T[]) => value[0],
     )
+}
 
 /**
  * Get archive image.

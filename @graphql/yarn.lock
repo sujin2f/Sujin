@@ -483,9 +483,6 @@
 "@sujin/lib@file:../@lib/dist":
   version "0.0.0"
 
-"@sujin/mysql@file:../@common/mysql/dist":
-  version "0.0.0"
-
 "@sujin/node-cache@file:../@common/node-cache/dist":
   version "0.0.0"
 
