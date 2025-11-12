@@ -1943,6 +1943,18 @@
   dependencies:
     "@sinonjs/commons" "^3.0.0"
 
+"@sujin/lib@file:../@lib/dist":
+  version "0.0.0"
+
+"@sujin/mysql@file:../@common/mysql/dist":
+  version "0.0.0"
+
+"@sujin/node-cache@file:../@common/node-cache/dist":
+  version "0.0.0"
+
+"@sujin/share@file:../@common/share/dist":
+  version "0.0.0"
+
 "@svgr/babel-plugin-add-jsx-attribute@8.0.0":
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/@svgr/babel-plugin-add-jsx-attribute/-/babel-plugin-add-jsx-attribute-8.0.0.tgz#4001f5d5dd87fa13303e36ee106e3ff3a7eb8b22"
