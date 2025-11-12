@@ -1,10 +1,10 @@
 import React from 'react'
 /* Components */
-import Wrapper from '@app/_components/Wrapper'
+import Wrapper from '@lib/components/Wrapper'
 /* CONSTANTS */
-import { MENU_NAMES } from '@app/_lib/types'
+import { MENU_NAMES } from '@sujin/lib/types'
 /* Assets */
-import LoadingImg from '@app/_lib/images/loading.svg'
+import LoadingImg from '@common/images/loading.svg'
 import style from '@app/front-page.module.scss'
 
 type Props = {

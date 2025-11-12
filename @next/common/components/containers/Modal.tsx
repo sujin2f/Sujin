@@ -5,7 +5,7 @@ import { CloseButton } from '../forms/CloseButton'
 import Button from '../forms/Button'
 import Overlay from '../containers/Overlay'
 import { MouseEventCallback } from '../../types/react'
-import { KeyCodes } from '../../constants/keycode'
+import { KeyCodes } from '@sujin/share/constants/keycode'
 
 type Props = {
     closeModal?: MouseEventCallback

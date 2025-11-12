@@ -3,8 +3,8 @@ import { type PropsWithChildren, useCallback, useEffect } from 'react'
 
 import Button from '../forms/Button'
 import Overlay from './Overlay'
-import { KeyCodes } from '../../constants/keycode'
-import { QuantumBool } from '../../types'
+import { KeyCodes } from '@sujin/share/constants/keycode'
+import { QuantumBool } from '@sujin/share/types'
 import ButtonGroup from '../forms/ButtonGroup'
 
 type Props = {

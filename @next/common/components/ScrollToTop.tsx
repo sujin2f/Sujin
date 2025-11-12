@@ -1,6 +1,6 @@
 'use client'
 import { type PropsWithChildren, useEffect, useState } from 'react'
-import Logger from '../model/Logger'
+import Logger from '@sujin/share/model/Logger'
 
 /**
  * Scroll to browser top

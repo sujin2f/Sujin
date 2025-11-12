@@ -10,7 +10,7 @@ import {
 /* Components */
 import { CloseButton } from '../forms/CloseButton'
 /* Helpers */
-import { joinClassNames } from '../../utils/string'
+import { joinClassNames } from '@sujin/share/utils/string'
 /* Assets */
 import '../../scss/callout.scss'
 

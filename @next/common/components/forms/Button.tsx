@@ -8,10 +8,10 @@ import {
 } from 'react'
 import { redirect } from 'next/navigation'
 /* Utils */
-import { filterEmpty } from '../../utils/object'
-import { joinClassNames } from '../../utils/string'
+import { filterEmpty } from '@sujin/share/utils/object'
+import { joinClassNames } from '@sujin/share/utils/string'
 /* Assets */
-import '../../scss/form.scss'
+import '@common/scss/form.scss'
 
 type Props = DetailedHTMLProps<
     ButtonHTMLAttributes<HTMLButtonElement>,

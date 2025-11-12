@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import type { Fn } from '../types'
+import type { Fn } from '@sujin/share/types'
 
 export const useKeyDown = (key: string, cb: Fn) => {
     useEffect(() => {

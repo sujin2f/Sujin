@@ -9,9 +9,6 @@
         "test": "jest --no-cache --forceExit --coverage",
         "lint": "eslint ./src/**/*.ts"
     },
-    "main": "./dist/index.js",
-    "types": "./dist/index.d.js",
-    "source": "./src/index.ts",
     "dependencies": {
         "@sujin/node-cache": "file:../@common/node-cache/dist",
         "@sujin/share": "file:../@common/share/dist"
@@ -19,6 +16,7 @@
     "devDependencies": {
         "@eslint/js": "^9.39.1",
         "@testing-library/jest-dom": "^6.9.1",
+        "@types/jest": "^30.0.0",
         "eslint": "^9.39.1",
         "jest": "^30.2.0",
         "jest-environment-jsdom": "^30.2.0",
@@ -44,5 +42,18 @@
         "transform": {
             "^.+\\.(ts|tsx)?$": "ts-jest"
         }
+    },
+    "prettier": {
+        "arrowParens": "always",
+        "bracketSpacing": true,
+        "endOfLine": "lf",
+        "printWidth": 80,
+        "proseWrap": "preserve",
+        "quoteProps": "as-needed",
+        "semi": false,
+        "singleQuote": true,
+        "tabWidth": 4,
+        "trailingComma": "all",
+        "useTabs": false
     }
 }

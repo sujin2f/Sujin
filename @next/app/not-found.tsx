@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
 /* Components */
 import NotFoundClient from '@app/not-found.client'
-import Wrapper from '@app/_components/Wrapper'
-import { WidgetTitle } from '@app/_components/WidgetTitle'
+import Wrapper from '@lib/components/Wrapper'
+import { WidgetTitle } from '@lib/components/WidgetTitle'
 /* CONSTANTS */
-import { MENU_NAMES } from '@app/_lib/types'
+import { MENU_NAMES } from '@sujin/lib/types'
 
 export const metadata: Metadata = {
     robots: {

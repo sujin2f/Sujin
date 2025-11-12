@@ -2,9 +2,9 @@
 import { useCallback, type KeyboardEvent } from 'react'
 import Input, { type InputProps } from './Input'
 import Button from './Button'
-import { KeyCodes } from '../../constants/keycode'
+import { KeyCodes } from '@sujin/share/constants/keycode'
 /* Assets */
-import '../../scss/form.scss'
+import '@commonscss/form.scss'
 
 type Props = InputProps<HTMLInputElement> & {
     button?: string

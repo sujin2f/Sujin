@@ -2,12 +2,12 @@ import React, { useCallback, useState } from 'react'
 
 /* Components */
 import Menu from './Menu'
-import { MenuItem } from '../../types/menu'
+import { MenuItem } from '@sujin/lib/types/menu'
 /* Helpers */
-import { joinClassNames } from '../../utils/string'
+import { joinClassNames } from '@sujin/share/utils/string'
 import { useDocumentClick } from '../../hooks/useDocumentClick'
 import { useKeyDown } from '../../hooks/useKeyDown'
-import { KeyCodes } from '../../constants/keycode'
+import { KeyCodes } from '@sujin/share/constants/keycode'
 /* Assets */
 import '../../scss/hamburger.scss'
 

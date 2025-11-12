@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react'
 import Script from 'next/script'
 /* Helpers */
 import { useStyleLoader } from '../../hooks/useStyleLoader'
-import { joinClassNames } from '../../utils/string'
-import { languages } from '../../constants/helper'
-import { map } from '../../utils/array'
+import { joinClassNames } from '@sujin/share/utils/string'
+import { languages } from '@sujin/share/constants/helper'
+import { map } from '@sujin/share/utils/array'
 /* Assets */
 import '../../scss/code.scss'
 

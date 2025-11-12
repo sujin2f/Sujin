@@ -3,9 +3,9 @@ import type { DetailedHTMLProps, RefObject, SelectHTMLAttributes } from 'react'
 /* Components */
 import Input from './Input'
 /* Utils */
-import { joinClassNames } from '../../utils/string'
+import { joinClassNames } from '@sujin/share/utils/string'
 /* Assets */
-import '../../scss/form.scss'
+import '@commonscss/form.scss'
 
 type Options =
     | string[]

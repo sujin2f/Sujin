@@ -1,8 +1,8 @@
 'use client'
 
-import { GlobalState } from '../model/GlobalState'
+import { GlobalState } from '@sujin/share/model/GlobalState'
 import { useEffect, useState } from 'react'
-import { Fn } from '../types'
+import { Fn } from '@sujin/share/types'
 
 /**
  * Hook for Global State

@@ -3,7 +3,7 @@ import type { JSX, PropsWithChildren } from 'react'
 import Row from './Row'
 import Column from './Column'
 /* Helpers */
-import { joinClassNames } from '../../utils/string'
+import { joinClassNames } from '@sujin/share/utils/string'
 /* Assets */
 import '../../scss/top-bar.scss'
 

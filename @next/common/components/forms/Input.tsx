@@ -11,10 +11,10 @@ import {
 } from 'react'
 
 /* Helpers */
-import { filterEmpty } from '../../utils/object'
-import { joinClassNames } from '../../utils/string'
+import { filterEmpty } from '@sujin/share/utils/object'
+import { joinClassNames } from '@sujin/share/utils/string'
 /* Assets */
-import '../../scss/form.scss'
+import '@commonscss/form.scss'
 
 export type InputProps<T extends HTMLElement> = PropsWithChildren<
     DetailedHTMLProps<InputHTMLAttributes<T>, T>

@@ -3,19 +3,20 @@ import { Ubuntu } from 'next/font/google'
 import Script from 'next/script'
 import type { Metadata } from 'next'
 import { ErrorBoundary } from 'next/dist/client/components/error-boundary'
+
 /* CONSTANTS */
-import { BASE_URL, DEFAULT_THUMBNAIL } from '@app/_lib/constants'
-import { INITIAL_STATE, Context } from '@app/_lib/constants.store'
+import { BASE_URL, DEFAULT_THUMBNAIL } from '@lib/constants'
+import { INITIAL_STATE, Context } from '@lib/constants/store'
 /* Components */
 import Error from '@app/global-error'
-import { SessionProvider } from '@app/_components/SessionProvider'
+import { SessionProvider } from '@common/components/SessionProvider'
 import Loading from '@app/loading'
-import { Store } from '@sujin/common/components/Store'
+import { Store } from '@common/components/Store'
 /* Utils */
-import { getSession } from '../.backup/api/auth/_lib/utils-server'
+import { getSession } from '@common/utils/session'
 /* Assets */
 import '@app/layout.scss'
-import '@sujin/common/scss/base.scss'
+import '@common/scss/base.scss'
 
 export const generateMetadata = async (): Promise<Metadata> => {
     const metadata: Metadata = {
@@ -76,9 +77,9 @@ export default async function AppLayout({ children }: PropsWithChildren) {
                 <Suspense fallback={<Loading />}>
                     <Store Context={Context} INITIAL_STATE={INITIAL_STATE}>
                         <SessionProvider session={session}>
-                            <ErrorBoundary errorComponent={Error}>
-                                {children}
-                            </ErrorBoundary>
+                                <ErrorBoundary errorComponent={Error}>
+                                    {children}
+                                </ErrorBoundary>
                         </SessionProvider>
                     </Store>
                 </Suspense>

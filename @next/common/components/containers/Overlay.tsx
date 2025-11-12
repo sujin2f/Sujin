@@ -2,7 +2,7 @@ import { useRef, MouseEvent, PropsWithChildren, useCallback } from 'react'
 
 /* Helpers */
 import { MouseEventCallback } from '../../types/react'
-import { joinClassNames } from '../../utils/string'
+import { joinClassNames } from '@sujin/share/utils/string'
 
 /* Assets */
 import '../../scss/overlay.scss'

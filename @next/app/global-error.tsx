@@ -1,5 +1,5 @@
 'use client'
-import Wrapper from '@app/_components/Wrapper'
+import Wrapper from '@lib/components/Wrapper'
 import style from '@app/front-page.module.scss'
 
 export default function GlobalError({

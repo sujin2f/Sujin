@@ -1,7 +1,7 @@
 import type { DetailedHTMLProps, HTMLAttributes } from 'react'
-import { joinClassNames } from '../../utils/string'
+import { joinClassNames } from '@sujin/share/utils/string'
 /* Assets */
-import '../../scss/form.scss'
+import '@common/scss/form.scss'
 
 type Props = DetailedHTMLProps<
     HTMLAttributes<HTMLDivElement>,

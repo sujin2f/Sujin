@@ -1,6 +1,6 @@
 import type { ReactNode, DetailedHTMLProps, TableHTMLAttributes } from 'react'
 /* Helpers */
-import { joinClassNames } from '../../utils/string'
+import { joinClassNames } from '@sujin/share/utils/string'
 /* Assets */
 import '../../scss/table.scss'
 

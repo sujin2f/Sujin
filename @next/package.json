@@ -4,18 +4,19 @@
     "description": "React + Node + WordPress theme for sujinc.com",
     "license": "MIT",
     "scripts": {
-        "dev": "concurrently \"next dev\" \"yarn --cwd ./express-api dev\"",
+        "dev": "next dev",
         "build": "next build",
         "start": "next start",
         "test": "jest --no-cache --forceExit --coverage",
         "lint": "eslint ./app/**/*.tsx ./app/**/*.ts ./common/**/*.ts ./common/**/*.tsx"
     },
     "dependencies": {
+        "@apollo/client": "^4.0.9",
         "@apollo/server": "^4.11.3",
         "@as-integrations/next": "^3.2.0",
         "chart.js": "^4.4.7",
         "csv-parse": "^5.6.0",
-        "graphql": "^16.6.0",
+        "graphql": "^16.12.0",
         "mongo-sanitize": "^1.1.0",
         "mongodb": "^6.12.0",
         "next": "^15.3.3",
@@ -55,5 +56,18 @@
         "typescript": "^5",
         "typescript-eslint": "^8.19.1",
         "whatwg-fetch": "^3.6.20"
+    },
+    "prettier": {
+        "arrowParens": "always",
+        "bracketSpacing": true,
+        "endOfLine": "lf",
+        "printWidth": 80,
+        "proseWrap": "preserve",
+        "quoteProps": "as-needed",
+        "semi": false,
+        "singleQuote": true,
+        "tabWidth": 4,
+        "trailingComma": "all",
+        "useTabs": false
     }
 }

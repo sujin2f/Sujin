@@ -1,6 +1,6 @@
 import type { PropsWithChildren, ReactNode } from 'react'
 /* Helpers */
-import { joinClassNames } from '../../utils/string'
+import { joinClassNames } from '@sujin/share/utils/string'
 
 type Props = {
     readonly caption: ReactNode

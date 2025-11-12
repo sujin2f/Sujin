@@ -4,8 +4,8 @@ import React, { RefObject, useCallback, useMemo, useState } from 'react'
 import Link from 'next/link'
 
 /* Helpers */
-import type { MenuItem as TypeMenuItem } from '../../types/menu'
-import { joinClassNames } from '../../utils/string'
+import type { MenuItem as TypeMenuItem } from '@sujin/lib/types/menu'
+import { joinClassNames } from '@sujin/share/utils/string'
 /* Assets */
 import Arrow from '../../images/icons/arrow_drop_up.svg'
 import '../../scss/menu.scss'

@@ -9,7 +9,7 @@ import Caption from './Caption'
 import Picture from './Picture'
 import type { ImageMap } from './Picture'
 /* Helpers */
-import { joinClassNames } from '../../utils/string'
+import { joinClassNames } from '@sujin/share/utils/string'
 
 type Props = {
     readonly src: string | StaticImport

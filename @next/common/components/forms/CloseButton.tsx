@@ -1,5 +1,5 @@
 import React from 'react'
-import { MouseEventCallback } from '../../types/react'
+import { MouseEventCallback } from '@common/types/react'
 
 type Props = {
     onClick?: MouseEventCallback
