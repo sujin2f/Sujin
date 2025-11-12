@@ -13,15 +13,9 @@ import { PER_PAGE } from '@sujin/lib/constants'
  */
 const query = async (): Promise<T_ArchivePost[]> => {
     return await Post.aggregate<T_ArchivePost>([
-        {
-            $match: { status: POST_STATUS.PUBLISH },
-        },
-        {
-            $sort: { date: -1 },
-        },
-        {
-            $limit: PER_PAGE,
-        },
+        { $match: { status: POST_STATUS.PUBLISH } },
+        { $sort: { date: -1 } },
+        { $limit: PER_PAGE },
         {
             $lookup: {
                 from: COLLECTION.ARCHIVE,

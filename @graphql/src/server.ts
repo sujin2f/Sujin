@@ -27,6 +27,7 @@ import { mutateTag } from '@src/resolvers/mutation/mutateTag'
 import { getPost } from '@src/resolvers/query/getPost'
 import { getArchive } from '@src/resolvers/query/getArchive'
 import { updateHits } from './resolvers/mutation/updateHits'
+import { getArchivePosts, getNumPosts } from './resolvers/query/getArchivePosts'
 
 dotenv.config({ path: path.resolve(__dirname, '..', '..', '.env') })
 
@@ -41,6 +42,8 @@ const resolvers = {
         spectra: getSpectraFromNIST,
         post: getPost,
         archive: getArchive,
+        list: getArchivePosts,
+        pages: getNumPosts,
     },
     Mutation: {
         mutatePost,

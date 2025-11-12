@@ -43,6 +43,7 @@ const queryArchive = async (slug: string, type: string): Promise<T_Archive> => {
             query: gql`
                 query Archive($slug: String!, $type: String!) {
                     archive(slug: $slug, type: $type) {
+                        _id
                         excerpt
                         hits
                         slug

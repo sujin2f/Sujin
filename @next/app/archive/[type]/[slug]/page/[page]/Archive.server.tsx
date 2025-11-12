@@ -47,7 +47,7 @@ export async function ArchiveServer({ type, slug, page }: Props) {
             <Suspense fallback={<LoadingArchive />}>
                 <Cards
                     keyPrefix={`${type}-${slug}-${page}`}
-                    posts={getPosts(archive, page).catch((e) => {
+                    posts={getPosts(archive._id, page).catch((e) => {
                         if (e instanceof NoContentError) {
                             e.log()
                             notFound()

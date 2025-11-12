@@ -22,17 +22,14 @@
             "@app/*": ["./app/*"],
             "@lib/*": ["./lib/*"],
             "@common/*": ["./common/*"],
-            "@jest/*": ["./.jest/*"],
-            "@sujin/lib/*": ["../@lib/src/*"],
-            "@sujin/node-cache/*": ["../@common/node-cache/src/*"],
-            "@sujin/share/*": ["../@common/share/src/*"]
+            "@jest/*": ["./.jest/*"]
         }
     },
     "include": [
         "@next/next-env.d.ts",
         "**/*.ts",
         "**/*.tsx",
-        ".next/types/**/*.ts"
+        ".next/types/**/*.ts",
     ],
     "exclude": ["node_modules", "wordpress"]
 }

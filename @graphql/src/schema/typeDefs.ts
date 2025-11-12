@@ -7,6 +7,8 @@ type Query{
     spectra(number: Int!, ion: Int!): [Spectrum]
     post(slug: String!, type: String!): Post
     archive(slug: String!, type: String!): Term
+    list(id: String!, page: Int!): [Post]
+    pages(id: String!): Int
 }
 type Mutation{
     mutatePost(nonce: String!, slug: String!): Result

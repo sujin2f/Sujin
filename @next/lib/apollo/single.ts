@@ -10,7 +10,6 @@ import { REVALIDATION } from '@lib/constants'
 import {
     COLLECTION,
     PropWithPages,
-    T_Archive,
     T_ArchivePost,
     type T_Page,
 } from '@sujin/lib/types'
@@ -76,44 +75,40 @@ const querySingle = async (slug: string, type: string): Promise<T_Page> => {
 }
 
 export const getPosts = async (
-    archive: T_Archive,
+    id: string,
     page: number,
 ): Promise<PropWithPages<T_ArchivePost>> => {
     const request = unstable_cache(
         cachedPosts,
-        [archive.type, archive.slug, page.toString(), VERSION],
+        [id, page.toString(), VERSION],
         {
             tags: ['wordpress', 'archive', 'posts'],
             revalidate: REVALIDATION,
         },
     )
-    return await request(archive, page)
+    return await request(id, page)
 }
 
 const cachedPosts = async (
-    archive: T_Archive,
+    id: string,
     page: number,
 ): Promise<PropWithPages<T_ArchivePost>> => {
     const request = cachedRequest(
         queryPosts,
-        getCacheKey(COLLECTION.ARCHIVE, archive.type, archive.slug, page),
+        getCacheKey(COLLECTION.ARCHIVE, id, page),
     )
-    return await request(archive, page)
+    return await request(id, page)
 }
 
 const queryPosts = async (
-    archive: T_Archive,
+    id: string,
     page: number,
 ): Promise<PropWithPages<T_ArchivePost>> => {
     return await client
         .query<PropWithPages<T_ArchivePost>>({
             query: gql`
-                query ArchivePosts(
-                    $slug: String!
-                    $type: String!
-                    $page: Number!
-                ) {
-                    list(slug: $slug, type: $type, page: $page) {
+                query ArchivePosts($id: String!, $page: Number!) {
+                    list(id: $id, page: $page) {
                         id
                         title
                         slug
@@ -123,28 +118,21 @@ const queryPosts = async (
                             backgroundColor
                         }
                     }
-                    pages(slug: $slug, type: $type) {
-                        result
-                    }
+                    pages(id: $id)
                 }
             `,
             variables: {
-                slug: archive.slug,
-                type: archive.type,
+                id,
                 page,
             },
         })
         .then((result) => {
             if (!result || !result.data) {
                 throw new NoContentError(
-                    `Could not find archive posts from ${archive.type} -- ${archive.slug}`,
+                    `Could not find archive posts from ${id}`,
                 ).log()
             }
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const pages = (result.data.pages as any).result as number
-            return {
-                ...result.data,
-                pages,
-            }
+
+            return result.data
         })
 }

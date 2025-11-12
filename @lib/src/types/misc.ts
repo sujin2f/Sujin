@@ -12,7 +12,7 @@ export const COLLECTION = {
     OPTIONS: 'option',
     SPECTRA: 'spectra',
     USERS: 'user',
-    ARCHIVE: 'archive',
+    ARCHIVE: 'archives',
     SNIPPET: 'snippet',
     SNIPPETS: 'snippets',
     RECIPE: 'recipe',
