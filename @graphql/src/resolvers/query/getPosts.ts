@@ -1,22 +1,9 @@
 'use server'
-import type { ObjectId, Document } from 'mongodb'
 import sanitize from 'mongo-sanitize'
-/* Models */
-import { NoContentError } from '@sujin/common/model/Error'
-/* Utils */
-import { getCollection, getAggregation } from '@src/utils/mongo'
 /* CONSTANTS */
-import {
-    POST_STATUS,
-    COLLECTION,
-    type T_Post,
-    type T_ArchivePost,
-} from '@sujin/lib/types'
+import { COLLECTION, type T_ArchivePost } from '@sujin/lib/types'
 /* T_Types */
-import type { T_Mongo } from '@sujin/common/types/mongo'
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
-import { DatabaseError } from '@sujin/share/model/Error'
-import { Post } from '@src/schema/post'
 
 type Param = {
     slug: string

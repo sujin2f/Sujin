@@ -10,10 +10,7 @@
         "forceConsistentCasingInFileNames": true,
         "paths": {
             "@jest/*": ["../.jest/*"],
-            "@src/*": ["./src/*"],
-            "@sujin/lib/*": ["../@lib/src/*"],
-            "@sujin/node-cache/*": ["../@common/node-cache/src/*"],
-            "@sujin/share/*": ["../@common/share/src/*"]
+            "@src/*": ["./src/*"]
         }
     },
     "include": ["src/**/*.ts"],

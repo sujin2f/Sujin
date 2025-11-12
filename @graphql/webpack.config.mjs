@@ -1,7 +1,8 @@
 import * as path from 'path'
 import nodeExternals from 'webpack-node-externals'
 
-export default {
+const config = {
+    mode: process.env.NODE_ENV === 'development' ? 'development' : 'production',
     target: 'node',
     entry: './src/server.ts',
     externals: [nodeExternals()],
@@ -9,7 +10,14 @@ export default {
         rules: [
             {
                 test: /\.ts$/,
-                use: 'ts-loader',
+                use: [
+                    {
+                        loader: 'ts-loader',
+                        options: {
+                            configFile: 'tsconfig.webpack.json',
+                        },
+                    },
+                ],
                 exclude: /node_modules/,
             },
         ],
@@ -25,11 +33,16 @@ export default {
         path: path.resolve(import.meta.dirname, '.build'),
     },
     optimization: {
-        minimize: false, // Disables minification
+        minimize: process.env.NODE_ENV !== 'development', // Disables minification
     },
-    devServer: {
+}
+
+if (process.env.NODE_ENV === 'development') {
+    config.devServer = {
         compress: true,
         port: 4000,
         hot: true, // Enable Hot Module Replacement
-    },
+    }
 }
+
+export default config
