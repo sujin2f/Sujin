@@ -13,7 +13,7 @@ import {
     findOne,
     getCollection,
 } from '@sujin/common/data/mongo/mongo'
-import { getCurrentUser } from '@app/api/auth/_lib/utils-server'
+import { getCurrentUser } from '../../api/auth/_lib/utils-server'
 import Logger from '@sujin/common/model/Logger'
 
 export const deleteRecipe = async (id: string) => {

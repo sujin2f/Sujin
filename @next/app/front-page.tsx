@@ -2,11 +2,11 @@
 /* Components */
 import Wrapper from '@app/_components/Wrapper'
 /* CONSTANTS */
-import { WEEK_IN_SECONDS } from '@sujin/common/constants/datetime'
-import GQL from '@app/api/graphql/_lib/constants'
+import { WEEK_IN_SECONDS } from '@sujin/share/constants/datetime'
+import GQL from '../.backup/api/graphql/_lib/constants'
 import { Context } from '@app/_lib/constants.store'
 /* Utils */
-import useGQLStore from '@sujin/common/hooks/useGQLStore'
+import useGQLStore from '@common/hooks/useGQLStore'
 /* Assets */
 import Logo from '@app/_lib/images/logo.svg'
 import style from '@app/front-page.module.scss'

@@ -1,5 +1,5 @@
-import Cached from '@common/model/Cached'
-import Logger from '@common/model/Logger'
+import Cached from '@sujin/node-cache'
+import Logger from '@sujin/share/model/Logger'
 
 export async function register() {
     if (process.env.NEXT_RUNTIME === 'nodejs') {

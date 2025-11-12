@@ -6,10 +6,10 @@ import { notFound } from 'next/navigation'
 import { NoContentError } from '@sujin/common/model/Error'
 import Logger from '@sujin/common/model/Logger'
 /* Components */
-import { ItemClient } from '@app/recipe/_components/Item.client'
+import { ItemClient } from './Item.client'
 import Wrapper from '@app/_components/Wrapper'
 /* Utils */
-import { getCachedRecipe } from '@app/recipe/_lib/getCachedRecipe'
+import { getCachedRecipe } from '../_lib/getCachedRecipe'
 import { mongoStringify } from '@sujin/common/utils/object'
 /* CONSTANTS */
 import { MENU_NAMES } from '@app/_lib/types'

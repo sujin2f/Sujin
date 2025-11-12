@@ -23,7 +23,7 @@ import type { T_Stringify } from '@sujin/common/types/mongo'
 /* CONSTANTS */
 import { QuantumBool } from '@sujin/common/types'
 /* Utils */
-import { useDelete } from '@app/recipe/_lib/useDelete'
+import { useDelete } from '../_lib/useDelete'
 import { useSession } from 'next-auth/react'
 
 type Props = {

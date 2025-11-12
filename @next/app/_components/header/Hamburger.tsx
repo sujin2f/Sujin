@@ -5,7 +5,7 @@ import Menu from '@sujin/common/components/layout/Menu'
 /* Utils */
 import { useDocumentClick } from '@sujin/common/hooks/useDocumentClick'
 /* T_Types */
-import type { MenuItem } from '@sujin/common/types/menu'
+import type { MenuItem } from '@sujin/lib/types/menu'
 /* Assets */
 import HamburgerIcon from '@app/_lib/images/hamburger.svg'
 

@@ -1,9 +1,0 @@
-@use '@app/(single)/layout';
-
-.katex {
-    font-size: 1em;
-}
-
-.latex__container .katex-display > .katex {
-    text-align: start;
-}

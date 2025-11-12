@@ -7,10 +7,10 @@ import React, {
     useCallback,
 } from 'react'
 import { useRouter } from 'next/navigation'
-import { KeyCodes } from '@sujin/common/constants/keycode'
+import { KeyCodes } from '@sujin/share/constants/keycode'
 /* Assets */
 import Magnify from '@app/_lib/images/magnify.svg'
-import { joinClassNames } from '@sujin/common/utils/string'
+import { joinClassNames } from '@sujin/share/utils/string'
 
 export default function Search() {
     const [opened, setOpened] = useState<boolean>(false)

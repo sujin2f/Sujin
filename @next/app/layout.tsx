@@ -12,7 +12,7 @@ import { SessionProvider } from '@app/_components/SessionProvider'
 import Loading from '@app/loading'
 import { Store } from '@sujin/common/components/Store'
 /* Utils */
-import { getSession } from '@app/api/auth/_lib/utils-server'
+import { getSession } from '../.backup/api/auth/_lib/utils-server'
 /* Assets */
 import '@app/layout.scss'
 import '@sujin/common/scss/base.scss'

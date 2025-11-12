@@ -5,13 +5,13 @@ import { ObjectId } from 'mongodb'
 import { ForbiddenError } from '@sujin/common/model/Error'
 /* Components */
 import { LoadingTable } from '@app/_components/LoadingTable'
-import { ListClient } from '@app/recipe/_components/List.client'
+import { ListClient } from './List.client'
 import Row from '@sujin/common/components/layout/Row'
 import Column from '@sujin/common/components/layout/Column'
 import Button from '@sujin/common/components/forms/Button'
 import Wrapper from '@app/_components/Wrapper'
 /* Utils */
-import { getCurrentUser } from '@app/api/auth/_lib/utils-server'
+import { getCurrentUser } from '../../api/auth/_lib/utils-server'
 import { findWithCount } from '@sujin/common/data/mongo/mongo'
 import { cachedRequest, getCacheKey } from '@app/_lib/utils/cache'
 /* CONSTANTS */

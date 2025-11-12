@@ -9,7 +9,7 @@ import type { PropWithPages, T_Recipe } from '@app/_lib/types'
 import { QuantumBool } from '@sujin/common/types'
 import type { T_Stringify } from '@sujin/common/types/mongo'
 /* Utils */
-import { useDelete } from '@app/recipe/_lib/useDelete'
+import { useDelete } from '../_lib/useDelete'
 import { useSession } from 'next-auth/react'
 
 type Props = {

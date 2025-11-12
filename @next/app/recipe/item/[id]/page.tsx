@@ -1,7 +1,7 @@
 import sanitize from 'mongo-sanitize'
 import { ObjectId } from 'mongodb'
 /* Components */
-import { ItemServer } from '@app/recipe/_components/Item.server'
+import { ItemServer } from '../../_components/Item.server'
 
 type Props = {
     params: Promise<{

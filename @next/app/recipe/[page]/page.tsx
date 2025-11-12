@@ -1,5 +1,5 @@
 /* Components */
-import { ListServer } from '@app/recipe/_components/List.server'
+import { ListServer } from '../_components/List.server'
 
 type Props = {
     params: Promise<{

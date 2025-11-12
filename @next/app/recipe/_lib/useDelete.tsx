@@ -5,7 +5,7 @@ import Confirm from '@sujin/common/components/containers/Confirm'
 /* CONSTANT */
 import { QuantumBool } from '@sujin/common/types'
 /* Utils */
-import { deleteRecipe } from '@app/recipe/_lib/deleteRecipe'
+import { deleteRecipe } from './deleteRecipe'
 
 export const useDelete = (id: string, redirectTo: string) => {
     const router = useRouter()

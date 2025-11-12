@@ -20,6 +20,8 @@
         ],
         "paths": {
             "@app/*": ["./app/*"],
+            "@lib/*": ["./lib/*"],
+            "@common/*": ["./common/*"],
             "@jest/*": ["./.jest/*"]
         }
     },
@@ -28,7 +30,6 @@
         "**/*.ts",
         "**/*.tsx",
         ".next/types/**/*.ts",
-        "graphql/src/resolvers/query/spectra.spec.ts"
     ],
     "exclude": ["node_modules", "wordpress"]
 }

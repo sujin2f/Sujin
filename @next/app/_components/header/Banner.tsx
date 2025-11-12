@@ -11,9 +11,9 @@ import { MENU_NAMES } from '@app/_lib/types'
 /* CONSTANTS */
 import { MENUS, METADATA } from '@app/_lib/constants'
 /* Utils */
-import { entries } from '@sujin/common/utils/object'
-import { joinClassNames } from '@sujin/common/utils/string'
-import { debounce } from '@sujin/common/utils/dom'
+import { entries } from '@sujin/share/utils/object'
+import { joinClassNames } from '@sujin/share/utils/string'
+import { debounce } from '@sujin/share/utils/dom'
 /* T_Types */
 import { IMAGE_SIZE_BACKGROUND, T_ImageBlock } from '@app/_lib/types'
 import type { ImageMap } from '@sujin/common/components/containers/Picture'

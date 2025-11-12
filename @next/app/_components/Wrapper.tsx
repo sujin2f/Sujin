@@ -9,7 +9,7 @@ import Column, {
 } from '@sujin/common/components/layout/Column'
 import { MENU_NAMES } from '@app/_lib/types'
 import ScrollToTop from '@sujin/common/components/ScrollToTop'
-import { joinClassNames } from '@sujin/common/utils/string'
+import { joinClassNames } from '@sujin/share/utils/string'
 
 type Props = ColumnProps &
     BannerProps & {

@@ -1,6 +1,6 @@
 'use client'
 import Table from '@sujin/common/components/containers/Table'
-import { map } from '@sujin/common/utils/array'
+import { map } from '@sujin/share/utils/array'
 
 type Props = {
     readonly className?: string

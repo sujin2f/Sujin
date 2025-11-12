@@ -10,11 +10,11 @@ import {
 } from '@sujin/common/model/Error'
 import Logger from '@sujin/common/model/Logger'
 /* Components */
-import { MutateClient } from '@app/recipe/_components/Mutate.client'
+import { MutateClient } from './Mutate.client'
 import Wrapper from '@app/_components/Wrapper'
 /* Utils */
-import { getCachedRecipe } from '@app/recipe/_lib/getCachedRecipe'
-import { getCurrentUser } from '@app/api/auth/_lib/utils-server'
+import { getCachedRecipe } from '../_lib/getCachedRecipe'
+import { getCurrentUser } from '../../api/auth/_lib/utils-server'
 import { getCacheKey } from '@app/_lib/utils/cache'
 import { insertOne, updateOne } from '@sujin/common/data/mongo/mongo'
 import { mongoStringify } from '@sujin/common/utils/object'

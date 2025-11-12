@@ -1,5 +1,5 @@
 /* Components */
-import { MutateServer } from '@app/recipe/_components/Mutate.server'
+import { MutateServer } from '../_components/Mutate.server'
 
 export default async function AddPage() {
     return <MutateServer />
