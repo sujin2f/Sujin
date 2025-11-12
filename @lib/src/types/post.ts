@@ -26,6 +26,7 @@ export type POST_STATUS = ConstToType<typeof POST_STATUS>
 
 // Post and Page
 export type T_PrevNext = {
+    _id: string
     title: string
     link: string
 }

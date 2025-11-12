@@ -83,6 +83,7 @@ type PostMeta {
     backgroundColor: String
 }
 type Post {
+    _id: String
     id: Int
     slug: String
     title: String

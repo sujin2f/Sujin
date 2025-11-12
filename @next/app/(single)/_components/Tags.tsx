@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 /* T_Types */
-import type { T_Archive } from '@app/_lib/types'
+import type { T_Archive } from '@sujin/lib/types'
 /* Assets */
 import '@app/(single)/_components/Tags.scss'
 

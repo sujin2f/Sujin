@@ -1,3 +1,5 @@
+import { COLLECTION } from '@sujin/lib/types'
+
 export const STATIC_FLICKR = {
     title: 'Uploads from Sujin Choi',
     link: 'https://www.flickr.com/photos/ming-zoo/',
@@ -286,3 +288,25 @@ export const STATIC_FLICKR = {
         },
     ],
 }
+
+export const AGGREGATE_EXPAND_ARCHIVES = [
+    {
+        $lookup: {
+            from: COLLECTION.ARCHIVE,
+            localField: 'archives',
+            foreignField: '_id',
+            as: 'archives',
+            pipeline: [
+                {
+                    $addFields: { _id: { $toString: '$_id' } },
+                },
+            ],
+        },
+    },
+    {
+        $project: {
+            content: 0,
+            meta: 0,
+        },
+    },
+]

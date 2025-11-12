@@ -1,13 +1,13 @@
 import { use } from 'react'
 /* Components */
-import { Cards as CardsComponent } from '@app/archive/_components/Cards'
+import { Cards as CardsComponent } from '@lib/components/archive/Cards'
 /* T_Types */
-import type { ColumnProps } from '@sujin/common/components/layout/Column'
+import type { ColumnProps } from '@common/components/layout/Column'
 import {
     IMAGE_SIZE,
     type PropWithPages,
     type T_ArchivePost,
-} from '@app/_lib/types'
+} from '@sujin/lib/types'
 
 type Props = ColumnProps & {
     readonly posts: Promise<PropWithPages<T_ArchivePost>>

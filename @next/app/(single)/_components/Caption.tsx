@@ -1,7 +1,7 @@
 import React from 'react'
 
 /* Helpers */
-import { replaceQuotes } from '@app/(single)/_lib/replaceQuotes'
+import { replaceQuotes } from '@lib/utils/replaceQuotes'
 import type { T_ShortcodeAttrMatch } from '@sujin/lib/types'
 
 interface Props {

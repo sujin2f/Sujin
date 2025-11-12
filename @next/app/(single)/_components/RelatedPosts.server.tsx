@@ -4,7 +4,7 @@ import { unstable_cache } from 'next/cache'
 import { ObjectId } from 'mongodb'
 /* Components */
 import { WidgetTitle } from '@app/_components/WidgetTitle'
-import { Cards } from '@app/archive/_components/Cards.use'
+import { Cards } from '@lib/components/archive/Cards.use'
 import { Loading } from '@app/archive/_components/Loading'
 /* Utils */
 import { getCollection } from '@sujin/common/data/mongo/mongo'

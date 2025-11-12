@@ -14,7 +14,11 @@ import { entries } from '@sujin/share/utils/object'
 import { joinClassNames } from '@sujin/share/utils/string'
 import { debounce } from '@sujin/share/utils/dom'
 /* T_Types */
-import { MENU_NAMES, IMAGE_SIZE_BACKGROUND, T_ImageBlock } from '@sujin/lib/types'
+import {
+    MENU_NAMES,
+    IMAGE_SIZE_BACKGROUND,
+    T_ImageBlock,
+} from '@sujin/lib/types'
 import type { ImageMap } from '@common/components/containers/Picture'
 /* Assets */
 import './Banner.scss'
@@ -44,7 +48,7 @@ export function Banner({
     style,
     ...props
 }: BannerProps) {
-    const menu = MENUS[props.menu || MENU_NAMES.MAIN]
+    const menu = MENUS[props.menu!]
     const path = usePathname()
     const [isBackground, setIsBackground] = useState(false)
 

@@ -1,7 +1,7 @@
 'use client'
 /* Components */
 import { WidgetTitle } from '@app/_components/WidgetTitle'
-import { Cards } from '@app/archive/_components/Cards'
+import { Cards } from '@lib/components/archive/Cards'
 import { Loading } from '@app/archive/_components/Loading'
 /* Utils */
 import useGQLStore from '@sujin/common/hooks/useGQLStore'

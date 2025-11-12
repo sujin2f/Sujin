@@ -6,9 +6,9 @@ import { POST_TYPE } from './post'
  * @enum
  */
 export const COLLECTION = {
-    POST: POST_TYPE.POST,
-    PAGE: POST_TYPE.PAGE,
-    BACKGROUNDS: 'background',
+    POST: `${POST_TYPE.POST}s`,
+    PAGE: `${POST_TYPE.PAGE}s`,
+    BACKGROUNDS: 'backgrounds',
     OPTIONS: 'option',
     SPECTRA: 'spectra',
     USERS: 'user',

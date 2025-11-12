@@ -26,4 +26,4 @@ const spectraSchema = new Schema({
 })
 spectraSchema.index({ number: 1, ion: 1 })
 
-export const Spectra = model('spectra', spectraSchema)
+export const Spectra = model('spectra', spectraSchema, 'spectra')

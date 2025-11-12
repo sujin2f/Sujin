@@ -26,37 +26,37 @@ import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 export const getSingle = async (
     slug: string,
     type: string,
+    fields: string,
 ): Promise<T_Page> => {
-    const request = unstable_cache(cachedSingle, [slug, type, VERSION], {
-        tags: ['wordpress', 'single'],
-        revalidate: REVALIDATION,
-    })
-    return await request(slug, type)
+    const request = unstable_cache(
+        cachedSingle,
+        [slug, type, fields, VERSION],
+        {
+            tags: ['wordpress', 'single'],
+            revalidate: REVALIDATION,
+        },
+    )
+    return await request(slug, type, fields)
 }
 
-const cachedSingle = async (slug: string, type: string) => {
+const cachedSingle = async (slug: string, type: string, fields: string) => {
     const request = cachedRequest(
         querySingle,
-        getCacheKey(COLLECTION.POST, slug, type),
+        getCacheKey(COLLECTION.POST, slug, type, fields),
     )
-    return await request(slug, type)
+    return await request(slug, type, fields)
 }
 
-const querySingle = async (slug: string, type: string): Promise<T_Page> => {
+const querySingle = async (
+    slug: string,
+    type: string,
+    fields: string,
+): Promise<T_Page> => {
     return await client
         .query<{ post: T_Page }>({
             query: gql`
                 query Post($slug: String!, $type: String!) {
-                    post(slug: $slug, type: $type) {
-                        id
-                        title
-                        slug
-                        content
-                        link
-                        meta {
-                            backgroundColor
-                        }
-                    }
+                    post(slug: $slug, type: $type) { ${fields} }
                 }
             `,
             variables: {
@@ -77,46 +77,42 @@ const querySingle = async (slug: string, type: string): Promise<T_Page> => {
 export const getPosts = async (
     id: string,
     page: number,
+    postFields: string,
 ): Promise<PropWithPages<T_ArchivePost>> => {
     const request = unstable_cache(
         cachedPosts,
-        [id, page.toString(), VERSION],
+        [id, page.toString(), postFields, VERSION],
         {
             tags: ['wordpress', 'archive', 'posts'],
             revalidate: REVALIDATION,
         },
     )
-    return await request(id, page)
+    return await request(id, page, postFields)
 }
 
 const cachedPosts = async (
     id: string,
     page: number,
+    postFields: string,
 ): Promise<PropWithPages<T_ArchivePost>> => {
     const request = cachedRequest(
         queryPosts,
-        getCacheKey(COLLECTION.ARCHIVE, id, page),
+        getCacheKey(COLLECTION.ARCHIVE, id, page, postFields),
     )
-    return await request(id, page)
+    return await request(id, page, postFields)
 }
 
 const queryPosts = async (
     id: string,
     page: number,
+    postFields: string,
 ): Promise<PropWithPages<T_ArchivePost>> => {
     return await client
         .query<PropWithPages<T_ArchivePost>>({
             query: gql`
-                query ArchivePosts($id: String!, $page: Number!) {
+                query ArchivePosts($id: String!, $page: Int!) {
                     list(id: $id, page: $page) {
-                        id
-                        title
-                        slug
-                        content
-                        link
-                        meta {
-                            backgroundColor
-                        }
+                        ${postFields}
                     }
                     pages(id: $id)
                 }

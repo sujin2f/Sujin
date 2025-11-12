@@ -21,33 +21,38 @@ import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 export const getArchive = async (
     slug: string,
     type: string,
+    fields: string,
 ): Promise<T_Archive> => {
-    const request = unstable_cache(cachedArchive, [slug, type, VERSION], {
-        tags: ['wordpress', 'archive'],
-        revalidate: REVALIDATION,
-    })
-    return await request(slug, type)
+    const request = unstable_cache(
+        cachedArchive,
+        [slug, type, fields, VERSION],
+        {
+            tags: ['wordpress', 'archive'],
+            revalidate: REVALIDATION,
+        },
+    )
+    return await request(slug, type, fields)
 }
 
-const cachedArchive = async (slug: string, type: string) => {
+const cachedArchive = async (slug: string, type: string, fields: string) => {
     const request = cachedRequest(
         queryArchive,
-        getCacheKey(COLLECTION.POST, slug, type),
+        getCacheKey(COLLECTION.POST, slug, type, fields),
     )
-    return await request(slug, type)
+    return await request(slug, type, fields)
 }
 
-const queryArchive = async (slug: string, type: string): Promise<T_Archive> => {
+const queryArchive = async (
+    slug: string,
+    type: string,
+    fields: string,
+): Promise<T_Archive> => {
     return await client
         .query<{ archive: T_Archive }>({
             query: gql`
                 query Archive($slug: String!, $type: String!) {
                     archive(slug: $slug, type: $type) {
-                        _id
-                        excerpt
-                        hits
-                        slug
-                        title
+                        ${fields}
                     }
                 }
             `,

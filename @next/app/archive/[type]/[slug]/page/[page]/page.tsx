@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next/types'
 /* Components */
-import { SearchServer } from '@app/archive/_components/Search.server'
+import { SearchServer } from '@app/archive/[type]/[slug]/page/[page]/Search.server'
 import { ArchiveServer } from '@app/archive/[type]/[slug]/page/[page]/Archive.server'
 /* CONSTANTS */
 import { ARCHIVE } from '@sujin/lib/types'
@@ -38,7 +38,9 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
         }
     }
 
-    const archive = await getArchive(slug, type).catch()
+    // TODO thumbnail
+    const fields = 'title excerpt'
+    const archive = await getArchive(slug, type, fields).catch()
     if (!archive) {
         return {
             robots: {

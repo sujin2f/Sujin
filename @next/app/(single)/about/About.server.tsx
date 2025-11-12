@@ -5,13 +5,39 @@ import Wrapper from '@lib/components/Wrapper'
 import { SocialShare } from '@app/(single)/_components/SocialShare.client'
 import { Content } from '@app/(single)/_components/Content'
 /* CONSTANTS */
-import { IMAGE_SIZE } from '@sujin/lib/types'
+import { IMAGE_SIZE, POST_IMAGE_LOCATION } from '@sujin/lib/types'
 /* Utils */
 import { getThumbnailFromPost } from '@lib/utils/client'
 import { getSingle } from '@lib/apollo/single'
+import { IMAGE, PAGE } from '@lib/constants/graphql-fields'
 
 export async function AboutServer() {
-    const post = await getSingle('about', 'page').catch(() => {})
+    const fields = `${PAGE}
+        images {
+            ${POST_IMAGE_LOCATION.ICON} {
+                url
+            }
+            ${POST_IMAGE_LOCATION.BACKGROUND} {
+                ${IMAGE}
+                sizes {
+                    ${IMAGE_SIZE.MEDIUM} { ${IMAGE} }
+                    ${IMAGE_SIZE.MEDIUM_LARGE} { ${IMAGE} }
+                    ${IMAGE_SIZE.LARGE} { ${IMAGE} }
+                }
+            }
+            ${POST_IMAGE_LOCATION.LIST} {
+                sizes {
+                    ${IMAGE_SIZE.MEDIUM_LARGE} { ${IMAGE} }
+                }
+            }
+            ${POST_IMAGE_LOCATION.THUMBNAIL} {
+                sizes {
+                    ${IMAGE_SIZE.MEDIUM_LARGE} { ${IMAGE} }
+                }
+            }
+        }
+    `
+    const post = await getSingle('about', 'page', fields).catch(() => {})
 
     if (!post) {
         notFound()

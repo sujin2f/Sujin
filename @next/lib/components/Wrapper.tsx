@@ -4,9 +4,7 @@ import FixedHeader from '@lib/components/header/FixedHeader'
 import { Footer } from '@lib/components/footer'
 import { Banner, BannerProps } from '@lib/components/header/Banner'
 import Row from '@common/components/layout/Row'
-import Column, {
-    type ColumnProps,
-} from '@common/components/layout/Column'
+import Column, { type ColumnProps } from '@common/components/layout/Column'
 import { MENU_NAMES } from '@sujin/lib/types'
 import ScrollToTop from '@common/components/ScrollToTop'
 import { joinClassNames } from '@sujin/share/utils/string'
@@ -30,10 +28,9 @@ export default function Wrapper({
     banner = true,
     style,
     className,
+    menu = MENU_NAMES.MAIN,
     ...props
 }: PropsWithChildren<Props>) {
-    const menu = props.menu || MENU_NAMES.MAIN
-
     return (
         <div
             className={joinClassNames(

@@ -2,7 +2,7 @@
 import React, { useRef } from 'react'
 import Script from 'next/script'
 /* Helpers */
-import { replaceQuotes } from '@app/(single)/_lib/replaceQuotes'
+import { replaceQuotes } from '@lib/utils/replaceQuotes'
 import type { T_ShortcodeAttrMatch } from '@sujin/lib/types'
 
 interface Props {
