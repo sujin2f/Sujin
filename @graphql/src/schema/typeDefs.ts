@@ -6,6 +6,7 @@ type Query{
     tagCloud: [TagCloud]
     spectra(number: Int!, ion: Int!): [Spectrum]
     post(slug: String!, type: String!): Post
+    archive(slug: String!, type: String!): Term
 }
 type Mutation{
     mutatePost(nonce: String!, slug: String!): Result
@@ -13,6 +14,7 @@ type Mutation{
     mutateBackground(nonce: String!): Result
     mutateCategory(nonce: String!, slug: String!): Result
     mutateTag(nonce: String!, slug: String!): Result
+    updateHits(slug: String!): Result
 }
 type FlickrImage {
     title: String
@@ -91,6 +93,7 @@ type Post {
     archives: [Term]
 }
 type Term {
+    _id: String
     title: String
     slug: String
     type: String

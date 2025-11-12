@@ -10,7 +10,7 @@ import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer'
 import { expressMiddleware } from '@as-integrations/express5'
 
-import { typeDefs } from '@src/typeDefs'
+import { typeDefs } from '@src/schema/typeDefs'
 import { connectToDatabase } from '@src/utils/mongo/connection'
 
 import { getRecentPosts } from '@src/resolvers/query/getRecentPosts'
@@ -25,6 +25,8 @@ import { mutateBackground } from '@src/resolvers/mutation/mutateBackground'
 import { mutateCategory } from '@src/resolvers/mutation/mutateCategory'
 import { mutateTag } from '@src/resolvers/mutation/mutateTag'
 import { getPost } from '@src/resolvers/query/getPost'
+import { getArchive } from '@src/resolvers/query/getArchive'
+import { updateHits } from './resolvers/mutation/updateHits'
 
 dotenv.config({ path: path.resolve(__dirname, '..', '..', '.env') })
 
@@ -38,6 +40,7 @@ const resolvers = {
         tagCloud: getTagCloud,
         spectra: getSpectraFromNIST,
         post: getPost,
+        archive: getArchive,
     },
     Mutation: {
         mutatePost,
@@ -45,6 +48,7 @@ const resolvers = {
         mutateBackground,
         mutateCategory,
         mutateTag,
+        updateHits,
     },
 }
 const app = express()

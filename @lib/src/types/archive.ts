@@ -23,6 +23,7 @@ export const TAXONOMY = {
 export type TAXONOMY = ConstToType<typeof TAXONOMY>
 
 export type T_Archive = {
+    _id: string
     title: string
     slug: string
     type: ARCHIVE
