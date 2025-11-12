@@ -1,18 +1,15 @@
 import { Suspense } from 'react'
 import { notFound } from 'next/navigation'
-/* Models */
-import { A_Error, NoContentError } from '@sujin/share/model/Error'
 /* Components */
-import { Cards } from '@lib/components/archive/Cards.use'
 import Wrapper from '@lib/components/Wrapper'
+import { Cards } from '@lib/components/archive/Cards.use'
 import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
 /* CONSTANTS */
 import { ARCHIVE, IMAGE_SIZE } from '@sujin/lib/types'
-/* Utils */
-import { updateHits } from '@lib/apollo/archives'
-import { getArchive } from '@lib/apollo/archives'
-import { getPosts } from '@lib/apollo/single'
 import { ARCHIVE_POSTS, IMAGE } from '@lib/constants/graphql-fields'
+/* Utils */
+import { updateHits, getArchive } from '@lib/apollo/archives'
+import { getPosts } from '@lib/apollo/single'
 
 type Props = {
     type: ARCHIVE
@@ -32,16 +29,10 @@ const archiveFields = `_id title excerpt
 `
 
 export async function ArchiveServer({ type, slug, page }: Props) {
-    const archive = await getArchive(slug, type, archiveFields).catch((e) => {
-        if (e instanceof NoContentError) {
-            e.log()
-            notFound()
-        }
-        if (e instanceof A_Error) {
-            e.log()
-        }
-        throw e
+    const archive = await getArchive(slug, type, archiveFields).catch(() => {
+        notFound()
     })
+
     const { title, excerpt, image } = archive
 
     // Update Tag Cloud
@@ -60,15 +51,8 @@ export async function ArchiveServer({ type, slug, page }: Props) {
                 <Cards
                     keyPrefix={`${type}-${slug}-${page}`}
                     posts={getPosts(archive._id, page, ARCHIVE_POSTS).catch(
-                        (e) => {
-                            if (e instanceof NoContentError) {
-                                e.log()
-                                notFound()
-                            }
-                            if (e instanceof A_Error) {
-                                e.log()
-                            }
-                            throw e
+                        () => {
+                            return { list: [], pages: 1 }
                         },
                     )}
                     page={page}

@@ -25,5 +25,13 @@
         "cSpell.words": ["Choi", "com", "sujin", "sujinc"],
         "editor.formatOnSave": true,
         "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "extensions": {
+        "recommendations": [
+            "gruntfuggly.todo-tree",
+            "esbenp.prettier-vscode",
+            "streetsidesoftware.code-spell-checker",
+            "eetami.whitespace-formatter"
+        ]
     }
 }

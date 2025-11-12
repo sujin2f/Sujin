@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 /* Components */
-import NotFoundClient from '@app/not-found.client'
 import Wrapper from '@lib/components/Wrapper'
 import { WidgetTitle } from '@lib/components/WidgetTitle'
+import { NotFoundClient } from '@app/not-found.client'
 /* CONSTANTS */
 import { MENU_NAMES } from '@sujin/lib/types'
 

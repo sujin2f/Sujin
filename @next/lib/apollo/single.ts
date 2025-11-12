@@ -1,8 +1,9 @@
 'use server'
+import { GraphQLError } from 'graphql'
 import { gql } from '@apollo/client'
 import { unstable_cache } from 'next/cache'
+import getUuid from 'uuid-by-string'
 /* Models */
-import { NoContentError } from '@sujin/share/model/Error'
 import { client } from '@lib/apollo/server-client'
 /* CONSTANTS */
 import { VERSION } from '@sujin/share/constants/helper'
@@ -30,7 +31,7 @@ export const getSingle = async (
 ): Promise<T_Page> => {
     const request = unstable_cache(
         cachedSingle,
-        [slug, type, fields, VERSION],
+        [slug, type, getUuid(fields), VERSION],
         {
             tags: ['wordpress', 'single'],
             revalidate: REVALIDATION,
@@ -42,7 +43,7 @@ export const getSingle = async (
 const cachedSingle = async (slug: string, type: string, fields: string) => {
     const request = cachedRequest(
         querySingle,
-        getCacheKey(COLLECTION.POST, slug, type, fields),
+        getCacheKey(COLLECTION.POST, slug, type, getUuid(fields)),
     )
     return await request(slug, type, fields)
 }
@@ -66,53 +67,58 @@ const querySingle = async (
         })
         .then((result) => {
             if (!result || !result.data) {
-                throw new NoContentError(
-                    `Could not find the ${type} -- ${slug}`,
-                ).log()
+                throw new GraphQLError(`Cannot find ${type} ${slug}`, {
+                    extensions: {
+                        code: 'NO_CONTENT',
+                    },
+                })
             }
             return result.data.post
+        })
+        .catch((e) => {
+            throw e.errors[0]
         })
 }
 
 export const getPosts = async (
     id: string,
     page: number,
-    postFields: string,
+    fields: string,
 ): Promise<PropWithPages<T_ArchivePost>> => {
     const request = unstable_cache(
         cachedPosts,
-        [id, page.toString(), postFields, VERSION],
+        [id, page.toString(), getUuid(fields), VERSION],
         {
             tags: ['wordpress', 'archive', 'posts'],
             revalidate: REVALIDATION,
         },
     )
-    return await request(id, page, postFields)
+    return await request(id, page, fields)
 }
 
 const cachedPosts = async (
     id: string,
     page: number,
-    postFields: string,
+    fields: string,
 ): Promise<PropWithPages<T_ArchivePost>> => {
     const request = cachedRequest(
         queryPosts,
-        getCacheKey(COLLECTION.ARCHIVE, id, page, postFields),
+        getCacheKey(COLLECTION.ARCHIVE, id, page, getUuid(fields)),
     )
-    return await request(id, page, postFields)
+    return await request(id, page, fields)
 }
 
 const queryPosts = async (
     id: string,
     page: number,
-    postFields: string,
+    fields: string,
 ): Promise<PropWithPages<T_ArchivePost>> => {
     return await client
         .query<PropWithPages<T_ArchivePost>>({
             query: gql`
                 query ArchivePosts($id: String!, $page: Int!) {
                     list(id: $id, page: $page) {
-                        ${postFields}
+                        ${fields}
                     }
                     pages(id: $id)
                 }
@@ -124,11 +130,16 @@ const queryPosts = async (
         })
         .then((result) => {
             if (!result || !result.data) {
-                throw new NoContentError(
-                    `Could not find archive posts from ${id}`,
-                ).log()
+                throw new GraphQLError(`Cannot find archive posts from ${id}`, {
+                    extensions: {
+                        code: 'NO_CONTENT',
+                    },
+                })
             }
 
             return result.data
+        })
+        .catch((e) => {
+            throw e.errors[0]
         })
 }

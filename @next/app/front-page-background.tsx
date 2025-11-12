@@ -13,6 +13,8 @@ import style from '@app/front-page.module.scss'
 const GET_BACKGROUNDS = gql`
     query backgrounds {
         backgrounds {
+            url
+            width
             height
             sizes {
                 large {
@@ -31,8 +33,6 @@ const GET_BACKGROUNDS = gql`
                     url
                 }
             }
-            url
-            width
         }
     }
 `

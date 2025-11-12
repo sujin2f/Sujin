@@ -3,11 +3,11 @@ import type { Metadata } from 'next/types'
 /* Components */
 import { SearchServer } from '@app/archive/[type]/[slug]/page/[page]/Search.server'
 import { ArchiveServer } from '@app/archive/[type]/[slug]/page/[page]/Archive.server'
+/* Utils */
+import { getArchive } from '@lib/apollo/archives'
 /* CONSTANTS */
 import { ARCHIVE } from '@sujin/lib/types'
 import { BASE_URL } from '@lib/constants'
-import { getArchive } from '@lib/apollo/archives'
-/* Utils */
 
 type Props = {
     params: Promise<{
@@ -40,7 +40,7 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
 
     // TODO thumbnail
     const fields = 'title excerpt'
-    const archive = await getArchive(slug, type, fields).catch()
+    const archive = await getArchive(slug, type, fields).catch(() => {})
     if (!archive) {
         return {
             robots: {

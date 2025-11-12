@@ -1,8 +1,8 @@
+import { Document } from 'mongoose'
+import { GraphQLError } from 'graphql'
 import sanitize from 'mongo-sanitize'
 /* Mongoose */
 import { Archive } from '@src/schema/archive'
-/* Module */
-import { DatabaseError } from '@sujin/share/model/Error'
 /* CONSTANTS */
 import { COLLECTION } from '@sujin/lib/types'
 /* Utils */
@@ -32,18 +32,21 @@ export const getArchive = async (
         getCacheKey(COLLECTION.ARCHIVE, slug, type),
     )
 
-    const result = await request(slug, type)
-    if (!result) {
-        throw new DatabaseError('Archive does not exist')
-    }
-    return result
+    return await request(slug, type)
 }
 
-const query = async (slug: string, type: string): Promise<T_Archive | null> => {
-    return await Archive.findOne({ slug, type }).then((result) => {
+const query = async (slug: string, type: string): Promise<T_Archive> => {
+    return await Archive.findOne<Document<string, unknown, T_Archive>>({
+        slug,
+        type,
+    }).then((result) => {
         if (!result) {
-            return null
+            throw new GraphQLError(`Cannot find archive ${slug} ${type}`, {
+                extensions: {
+                    code: 'NO_CONTENT',
+                },
+            })
         }
-        return result.toObject() as T_Archive
+        return result.toObject()
     })
 }

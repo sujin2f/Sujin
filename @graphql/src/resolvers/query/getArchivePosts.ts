@@ -8,6 +8,7 @@ import { Post } from '@src/schema/post'
 import { PER_PAGE } from '@sujin/lib/constants'
 import mongoose from 'mongoose'
 import { AGGREGATE_EXPAND_ARCHIVES } from '@src/constants'
+import { GraphQLError } from 'graphql'
 
 type ParamId = {
     id: string
@@ -64,7 +65,16 @@ const queryArchivePosts = async (
         { $skip: PER_PAGE * (page - 1) },
         { $limit: PER_PAGE },
         ...AGGREGATE_EXPAND_ARCHIVES,
-    ])
+    ]).then((result) => {
+        if (!result || !result.length) {
+            throw new GraphQLError(`Cannot find the post from archive ${id}`, {
+                extensions: {
+                    code: 'NO_CONTENT',
+                },
+            })
+        }
+        return result
+    })
 }
 
 export const getNumPosts = async (_: unknown, { id: _id }: ParamId) => {

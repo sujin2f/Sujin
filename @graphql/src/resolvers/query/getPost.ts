@@ -1,8 +1,8 @@
+import { GraphQLError } from 'graphql'
+import { Document } from 'mongoose'
 import sanitize from 'mongo-sanitize'
 /* Mongoose */
 import { Page, Post } from '@src/schema/post'
-/* Module */
-import { DatabaseError } from '@sujin/share/model/Error'
 /* CONSTANTS */
 import { COLLECTION, POST_STATUS } from '@sujin/lib/types'
 /* Utils */
@@ -32,26 +32,28 @@ export const getPost = async (
         getCacheKey(COLLECTION.POST, slug, type),
     )
 
-    const result = await request(slug, type)
-    if (!result) {
-        throw new DatabaseError('Post does not exist')
-    }
-    return result
+    return await request(slug, type)
 }
 
 const query = async (
     slug: string,
     type: 'page' | 'post',
-): Promise<T_Post | T_Page | null> => {
+): Promise<T_Post | T_Page> => {
     if (type === 'page') {
-        return await Page.findOne({ slug, status: POST_STATUS.PUBLISH }).then(
-            (result) => {
-                if (!result) {
-                    return null
-                }
-                return result.toObject() as T_Page
-            },
-        )
+        return await Page.findOne<Document<string, unknown, T_Page>>({
+            slug,
+            status: POST_STATUS.PUBLISH,
+        }).then((result) => {
+            if (!result) {
+                throw new GraphQLError(`Cannot find the page ${slug}`, {
+                    extensions: {
+                        code: 'NO_CONTENT',
+                    },
+                })
+            }
+
+            return result.toObject()
+        })
     }
 
     return await Post.aggregate<T_Post>([
@@ -81,7 +83,11 @@ const query = async (
         },
     ]).then((result) => {
         if (!result || !result.length) {
-            return null
+            throw new GraphQLError(`Cannot find the post ${slug}`, {
+                extensions: {
+                    code: 'NO_CONTENT',
+                },
+            })
         }
 
         return result[0]

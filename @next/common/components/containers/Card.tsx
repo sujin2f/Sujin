@@ -12,7 +12,7 @@ type Props = {
     readonly to: string
     readonly title?: string
     readonly description?: string
-    readonly time?: Date
+    readonly time?: string
     readonly image: string
     readonly className?: string
 }
@@ -37,7 +37,7 @@ export const Card = ({
     image,
     className,
 }: PropsWithChildren<Props>) => {
-    const datetime = time && new Date(time)
+    const datetime = time && new Date(parseInt(time))
     return (
         <section className={joinClassNames('card', className)}>
             <figure className="card__thumbnail">

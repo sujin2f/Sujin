@@ -1,15 +1,14 @@
 import { Suspense } from 'react'
 import { notFound } from 'next/navigation'
 /* Components */
-import { Cards } from '@lib/components/archive/Cards.use'
 import Wrapper from '@lib/components/Wrapper'
+import { Cards } from '@lib/components/archive/Cards.use'
 import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
 /* CONSTANTS */
 import { ARCHIVE } from '@sujin/lib/types'
-/* Models */
-import { A_Error, NoContentError } from '@sujin/share/model/Error'
-import { getPosts } from '@lib/apollo/single'
 import { ARCHIVE_POSTS } from '@lib/constants/graphql-fields'
+/* Utils */
+import { getPosts } from '@lib/apollo/single'
 
 type Props = {
     slug: string
@@ -29,15 +28,8 @@ export async function SearchServer({ slug, page }: Props) {
                         `search-${slug}`,
                         page,
                         ARCHIVE_POSTS,
-                    ).catch((e) => {
-                        if (e instanceof NoContentError) {
-                            e.log()
-                            notFound()
-                        }
-                        if (e instanceof A_Error) {
-                            e.log()
-                        }
-                        throw e
+                    ).catch(() => {
+                        notFound()
                     })}
                     page={page}
                     pageURLPrefix={`/${ARCHIVE.SEARCH}/${slug}/page`}
