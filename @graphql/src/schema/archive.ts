@@ -25,5 +25,6 @@ const archiveSchema = new Schema({
     total: Number,
     hits: Number,
 })
+archiveSchema.index({ slug: 1, type: 1 })
 
-export const Archive = model('archive', archiveSchema, 'archive')
+export const Archive = model('archive', archiveSchema)

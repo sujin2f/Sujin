@@ -17,7 +17,7 @@ import { getRecentPosts } from '@src/resolvers/query/getRecentPosts'
 import { getBackgrounds } from '@src/resolvers/query/getBackgrounds'
 import { getFlickr } from '@src/resolvers/query/getFlickr'
 import { getTagCloud } from '@src/resolvers/query/getTagCloud'
-// import { getSpectraFromNIST } from '@src/resolvers/query/spectra'
+import { getSpectraFromNIST } from '@src/resolvers/query/spectra'
 
 import { mutatePost } from '@src/resolvers/mutation/mutatePost'
 import { mutatePage } from '@src/resolvers/mutation/mutatePage'
@@ -35,7 +35,7 @@ const resolvers = {
         backgrounds: getBackgrounds,
         flickr: getFlickr,
         tagCloud: getTagCloud,
-        // spectra: getSpectraFromNIST,
+        spectra: getSpectraFromNIST,
     },
     Mutation: {
         mutatePost,

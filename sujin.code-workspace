@@ -18,6 +18,10 @@
         }
     ],
     "settings": {
-        "cSpell.words": ["Choi", "com", "sujin", "sujinc"]
+        "cSpell.words": ["Choi", "com", "sujin", "sujinc"],
+        "editor.formatOnSave": true,
+        "[typescript]": {
+            "editor.defaultFormatter": "esbenp.prettier-vscode"
+        }
     }
 }

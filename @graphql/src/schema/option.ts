@@ -14,5 +14,6 @@ const optionSchema = new Schema({
         required: true,
     },
 })
+optionSchema.index({ key: 1 })
 
 export const Option = model('option', optionSchema)

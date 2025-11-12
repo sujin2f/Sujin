@@ -4,7 +4,7 @@ import { POST_STATUS } from '@sujin/lib/types'
 
 const { Schema, SchemaTypes, model } = mongoose
 
-const PageSchema = {
+const commonSchema = {
     title: {
         type: String,
         required: true,
@@ -40,8 +40,8 @@ const PageSchema = {
     },
 }
 
-const PostSchema = new Schema({
-    ...PageSchema,
+const postSchema = new Schema({
+    ...commonSchema,
     archives: [
         {
             type: SchemaTypes.ObjectId,
@@ -50,7 +50,12 @@ const PostSchema = new Schema({
     ],
 })
 
-PostSchema.index({ content: 'text' })
+postSchema.index({ content: 'text' })
+postSchema.index({ slug: 1 })
+postSchema.index({ date: 1 })
 
-export const Page = model('page', new Schema(PageSchema), 'page')
-export const Post = model('post', PostSchema, 'post')
+const pageSchema = new Schema(commonSchema)
+pageSchema.index({ slug: 1 })
+
+export const Page = model('page', pageSchema)
+export const Post = model('post', postSchema)

@@ -3,7 +3,7 @@ import { ImageBlock } from '@src/schema/image-block'
 
 const { Schema, model } = mongoose
 
-export const BackgroundSchema = new Schema({
+const backgroundSchema = new Schema({
     ...ImageBlock,
     mimeType: {
         ...ImageBlock.mimeType,
@@ -16,5 +16,6 @@ export const BackgroundSchema = new Schema({
         unique: true,
     },
 })
+backgroundSchema.index({ url: 1 })
 
-export const Background = model('background', BackgroundSchema, 'background')
+export const Background = model('background', backgroundSchema)

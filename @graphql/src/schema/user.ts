@@ -12,5 +12,6 @@ const usersSchema = new Schema({
     name: Buffer,
     image: String,
 })
+usersSchema.index({ email: 1 })
 
 export const User = model('user', usersSchema)
