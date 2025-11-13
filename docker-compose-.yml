@@ -1,0 +1,88 @@
+services:
+    mongo:
+        container_name: mongo
+        image: mongo:5.0
+        restart: always
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER}
+            MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+            MONGO_USER: ${MONGO_USER}
+            MONGO_PASSWORD: ${MONGO_PASSWORD}
+            MONGO_DATABASE: ${MONGO_DATABASE}
+        ports:
+            - ${MONGO_PORT}:27017
+        volumes:
+            - mongo:/data/db
+
+    mongo-test:
+        container_name: mongo-test
+        image: mongo:5.0
+        restart: 'no'
+        ports:
+            - 27018:27017
+
+    mysql:
+        container_name: mysql
+        image: mariadb:10.5
+        restart: always
+        environment:
+            MYSQL_DATABASE: ${MYSQL_DB}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+        ports:
+            - 3306:3306
+
+    wordpress:
+        container_name: wordpress
+        image: wordpress:6.8.3-php8.1
+        restart: always
+        environment:
+            WORDPRESS_DB_HOST: mysql
+            WORDPRESS_DB_NAME: ${MYSQL_DB}
+            WORDPRESS_DB_USER: ${MYSQL_USER}
+            WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+            WORDPRESS_DEBUG: 1
+            TZ: America/Toronto
+            VERSION: ${NEXT_PUBLIC_VERSION}
+        volumes:
+            - ./wordpress/plugins/2d-tag-cloud:/var/www/html/wp-content/plugins/2d-tag-cloud
+            - ./wordpress/themes/sujin:/var/www/html/wp-content/themes/sujin
+            - ./wordpress/uploads:/var/www/html/wp-content/uploads
+        ports:
+            - 9000:80
+
+    sujin:
+        container_name: sujin
+        image: sujin2f/sujin:${NEXT_PUBLIC_VERSION}
+        depends_on:
+            - mysql
+            - mongo
+        environment:
+            NEXT_PUBLIC_VERSION: ${NEXT_PUBLIC_VERSION}
+            NEXT_PUBLIC_TITLE: ${NEXT_PUBLIC_TITLE}
+            NEXT_PUBLIC_EXCERPT: ${NEXT_PUBLIC_EXCERPT}
+            NEXT_PUBLIC_BASE_URL: ${NEXT_PUBLIC_BASE_URL}
+            MYSQL: mysql
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_DB: ${MYSQL_DB}
+            MONGO: mongo
+            MONGO_DATABASE: ${MONGO_DATABASE}
+            MONGO_USER: ${MONGO_USER}
+            MONGO_PASSWORD: ${MONGO_PASSWORD}
+            GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+            GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+            NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+            NEXTAUTH_URL: ${NEXTAUTH_URL}
+            ADMIN_EMAIL: ${ADMIN_EMAIL}
+            GRAPHQL_ALLOW_ORIGINS: ${GRAPHQL_ALLOW_ORIGINS}
+            CRYPT_JWK: ${CRYPT_JWK}
+            PORT: 80
+        volumes:
+            - ./wordpress/uploads:/app/public/wp-content/uploads
+        ports:
+            - 80:80
+
+volumes:
+    mongo:

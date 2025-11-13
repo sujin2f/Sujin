@@ -1,7 +1,8 @@
 import { GraphQLError } from 'graphql'
 import { Document } from 'mongoose'
 import sanitize from 'mongo-sanitize'
-/* Mongoose */
+/* Models */
+import Logger from '@src/utils/logger'
 import { Page, Post } from '@src/schema/post'
 /* CONSTANTS */
 import { COLLECTION, POST_STATUS } from '@sujin/lib/types'
@@ -25,14 +26,16 @@ export const getPost = async (
     _: unknown,
     { slug: _slug, type: _type }: Param,
 ): Promise<T_Post | T_Page> => {
+    Logger.info(`🤟 post query has been requested: ${_slug}, ${_type}`)
     const slug = sanitize(_slug)
     const type = sanitize(_type)
     const request = cachedRequest(
         query,
         getCacheKey(COLLECTION.POST, slug, type),
     )
-
-    return await request(slug, type)
+    Logger.info('🤟 post query has been finished')
+    const result = await request(slug, type)
+    return result
 }
 
 const query = async (

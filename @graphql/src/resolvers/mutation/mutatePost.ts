@@ -1,7 +1,9 @@
 import type { Types } from 'mongoose'
 import sanitize from 'mongo-sanitize'
 /* Models */
+import Logger from '@src/utils/logger'
 import Cached from '@sujin/node-cache'
+import { mysqlDisconnect } from '@src/utils/mysql'
 /* T_Types */
 import type { MutationResultType } from '@src/types'
 /* Utils */
@@ -64,6 +66,7 @@ export const updatePost = async (post: T_MySQLPost) => {
 
         await updateTotal(archives)
     })
+    await mysqlDisconnect()
 }
 
 type Param = {
@@ -75,6 +78,7 @@ export const mutatePost = async (
     _: unknown,
     { slug: _slug }: Param,
 ): Promise<MutationResultType> => {
+    Logger.info(`🤟 mutatePost mutation has been requested: ${_slug}`)
     const slug = sanitize(_slug)
 
     Cached.getInstance().flush(getCacheKey(COLLECTION.POST, slug))
@@ -82,6 +86,7 @@ export const mutatePost = async (
         await updatePost(post)
     })
 
+    Logger.info('🤟 mutatePost query has been finished')
     return {
         result: true,
     }

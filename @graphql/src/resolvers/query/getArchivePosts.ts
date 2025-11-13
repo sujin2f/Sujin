@@ -1,14 +1,15 @@
-'use server'
+import mongoose from 'mongoose'
 import sanitize from 'mongo-sanitize'
+import { GraphQLError } from 'graphql'
+/* Models */
+import { Post } from '@src/schema/post'
+import Logger from '@src/utils/logger'
 /* CONSTANTS */
 import { COLLECTION, POST_STATUS, type T_ArchivePost } from '@sujin/lib/types'
+import { PER_PAGE } from '@sujin/lib/constants'
+import { AGGREGATE_EXPAND_ARCHIVES } from '@src/constants'
 /* T_Types */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
-import { Post } from '@src/schema/post'
-import { PER_PAGE } from '@sujin/lib/constants'
-import mongoose from 'mongoose'
-import { AGGREGATE_EXPAND_ARCHIVES } from '@src/constants'
-import { GraphQLError } from 'graphql'
 
 type ParamId = {
     id: string
@@ -33,6 +34,7 @@ export const getArchivePosts = async (
     _: unknown,
     { id: _id, page: _page }: Param,
 ): Promise<T_ArchivePost[]> => {
+    Logger.info(`🤟 list query has been requested: ${_id}, ${_page}`)
     const [id, search] = isSearch(_id)
     const page = sanitize(_page)
 
@@ -40,8 +42,9 @@ export const getArchivePosts = async (
         queryArchivePosts,
         getCacheKey(COLLECTION.ARCHIVE, id, page, search),
     )
-
-    return await request(id, page, search)
+    const result = await request(id, page, search)
+    Logger.info('🤟 list query has been finished')
+    return result
 }
 
 const queryArchivePosts = async (
@@ -78,13 +81,15 @@ const queryArchivePosts = async (
 }
 
 export const getNumPosts = async (_: unknown, { id: _id }: ParamId) => {
+    Logger.info(`🤟 pages query has been requested: ${_id}`)
     const [id, search] = isSearch(_id)
     const request = cachedRequest(
         queryNumPosts,
         getCacheKey(COLLECTION.ARCHIVE, id, search, 'total'),
     )
-
-    return await request(id, search)
+    const result = await request(id, search)
+    Logger.info('🤟 pages query has been finished')
+    return result
 }
 
 const queryNumPosts = async (id: string, search: number): Promise<number> => {

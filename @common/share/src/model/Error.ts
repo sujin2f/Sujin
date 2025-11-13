@@ -1,5 +1,5 @@
-import { isEmpty } from '../utils/object'
-import Logger from './Logger'
+// import { isEmpty } from '../utils/object'
+// import Logger from './Logger'
 
 export abstract class A_Error extends Error {
     public messages: unknown[] = []
@@ -22,29 +22,29 @@ export abstract class A_Error extends Error {
     }
 
     public log() {
-        const message = this.stack || this.message
-        const messages = this.messages
-            .map((data) => {
-                if (
-                    (typeof data === 'object' || Array.isArray(data)) &&
-                    !isEmpty(data)
-                )
-                    return JSON.stringify(data)
-                return data
-            })
-            .filter((v) => v)
+        // const message = this.stack || this.message
+        // const messages = this.messages
+        //     .map((data) => {
+        //         if (
+        //             (typeof data === 'object' || Array.isArray(data)) &&
+        //             !isEmpty(data)
+        //         )
+        //             return JSON.stringify(data)
+        //         return data
+        //     })
+        //     .filter((v) => v)
 
-        if (messages.length) {
-            Logger.server(`🤬 ${message}`, messages)
-        } else {
-            Logger.server(`🤬 ${message}`)
-        }
+        // if (messages.length) {
+        //     Logger.server(`🤬 ${message}`, messages)
+        // } else {
+        //     Logger.server(`🤬 ${message}`)
+        // }
 
         if (this.cause) {
             if (this.cause instanceof A_Error) {
                 this.cause.log()
             } else if (this.cause instanceof Error) {
-                Logger.server(this.cause.message)
+                // Logger.server(this.cause.message)
             }
         }
         return this

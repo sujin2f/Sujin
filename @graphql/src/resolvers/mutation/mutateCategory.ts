@@ -2,6 +2,7 @@
 import type { MutationResultType } from '@src/types'
 /* CONSTANTS */
 import { ARCHIVE } from '@sujin/lib/types'
+/* Utils */
 import { mutateArchive } from '@src/resolvers/mutation/mutateArchive'
 
 type Param = {
@@ -13,5 +14,6 @@ export const mutateCategory = async (
     _: unknown,
     { slug }: Param,
 ): Promise<MutationResultType> => {
-    return await mutateArchive(slug, ARCHIVE.CATEGORY)
+    const result = await mutateArchive(slug, ARCHIVE.CATEGORY)
+    return result
 }

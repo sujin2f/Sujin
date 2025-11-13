@@ -2,7 +2,7 @@ import { parse } from 'csv-parse'
 import sanitize from 'mongo-sanitize'
 /* Models */
 import Cached from '@sujin/node-cache'
-import Logger from '@sujin/share/model/Logger'
+import Logger from '@src/utils/logger'
 /* T_Types */
 import type { Atom, ISpectrum } from '@sujin/lib/types/ether'
 import type { Nullable } from '@sujin/share/types'
@@ -16,7 +16,7 @@ import { orbitalKeys } from '@sujin/lib/constants/ether'
 import { Spectra } from '@src/schema/spectra'
 
 const requestNIST = async (atom: Atom, ion: number) => {
-    Logger.server(`Request NIST -- atom:${atom.number}, ion:${ion}`)
+    Logger.info(`🤟 Request NIST -- atom:${atom.number}, ion:${ion}`)
 
     const ionRoman = romanize(ion)
     const nistUrl = `https://physics.nist.gov/cgi-bin/ASD/lines1.pl?spectra=${atom.symbol}+${ionRoman}&limits_type=0&low_w=&upp_w=&unit=1&de=0&I_scale_type=1&format=2&line_out=0&remove_js=on&en_unit=1&output=0&bibrefs=1&page_size=15&show_obs_wl=1&show_calc_wl=1&unc_out=1&order_out=0&max_low_enrg=&show_av=2&max_upp_enrg=&tsb_value=0&min_str=&A_out=0&intens_out=on&max_str=&allowed_out=1&forbid_out=1&min_accur=&min_intens=&conf_out=on&term_out=on&enrg_out=on&J_out=on&submit=Retrieve+Data`
@@ -25,8 +25,8 @@ const requestNIST = async (atom: Atom, ion: number) => {
         cache: 'force-cache',
     }).then((response) => {
         if (response.status >= 400) {
-            Logger.server(
-                `Failed to request NIST -- atom:${atom.number}, ion:${ion}`,
+            Logger.error(
+                `⛈️ Failed to request NIST -- atom:${atom.number}, ion:${ion}`,
             )
             return ''
         }
@@ -255,15 +255,22 @@ export const getSpectraFromNIST = async (
     _: unknown,
     { number: _number, ion: _ion }: Param,
 ) => {
+    Logger.info(`🤟 spectra query has been requested`)
     const number = sanitize(_number)
     const ion = sanitize(_ion)
     const atom = getAtom(number)
     const key = `spectra-${number}-${ion}`
 
-    return await Cached.getInstance().getOrExecute(key, request(atom, ion), {
-        ttl: WEEK_IN_SECONDS,
-        force: IS_DEV,
-    })
+    const result = await Cached.getInstance().getOrExecute(
+        key,
+        request(atom, ion),
+        {
+            ttl: WEEK_IN_SECONDS,
+            force: IS_DEV,
+        },
+    )
+    Logger.info('🤟 spectra query has been finished')
+    return result
 }
 
 export const getSpectraBySchema = async (schema: string) => {

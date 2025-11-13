@@ -1,8 +1,9 @@
 import sanitize from 'mongo-sanitize'
-/* Mongoose */
-import { Archive } from '@src/schema/archive'
 /* Models */
+import Logger from '@src/utils/logger'
+import { mysqlDisconnect } from '@src/utils/mysql'
 import Cached from '@sujin/node-cache'
+import { Archive } from '@src/schema/archive'
 /* CONSTANTS */
 import { ARCHIVE, COLLECTION } from '@sujin/lib/types'
 /* Utils */
@@ -26,6 +27,8 @@ const updateArchive = async (slug: string, type: ARCHIVE): Promise<void> => {
     )
 
     const wp = await getTermBySlug(slug)
+    await mysqlDisconnect()
+
     if (wp.image) {
         wp.image = convertWPImageURL(wp.image)
     }
@@ -54,7 +57,11 @@ export const mutateArchive = async (
     slug: string,
     type: ARCHIVE,
 ): Promise<MutationResultType> => {
+    Logger.info(
+        `🤟 mutateArchive mutation has been requested: ${slug}, ${type}`,
+    )
     await updateArchive(sanitize(slug), sanitize(type))
+    Logger.info(`🤟 mutateArchive mutation has been finished`)
     return {
         result: true,
     }

@@ -1,9 +1,6 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-const GRAPHQL_ALLOW_ORIGINS = (process.env.GRAPHQL_ALLOW_ORIGINS || '').split(
-    ' ',
-)
 const REGEX_ARCHIVE = /^\/(category|tag|search)\/([^\/]+)(\/page\/(\d+))?$/
 const REGEX_SINGLE = /^\/(\d+)\/(\d+)\/(\d+)\/(.+)$/
 
@@ -16,36 +13,7 @@ export const config = {
         '/dev-tools/:slug',
         '/ether(.*)',
         '/recipe',
-        '/api/graphql',
     ],
-}
-
-/**
- * Allow custom origin URL to access into GQL
- *
- * @param {string} pathname
- * @param {string} origin
- * @returns {NextResponse | void}
- */
-const graphqlCors = (
-    pathname: string,
-    origin: string,
-): NextResponse<unknown> | void => {
-    if (pathname.indexOf('/api/graphql') === -1) {
-        return
-    }
-
-    if (GRAPHQL_ALLOW_ORIGINS.indexOf(origin) === -1) {
-        return
-    }
-
-    const response = new NextResponse()
-    response.headers.set('Access-Control-Allow-Origin', origin)
-    response.headers.set(
-        'Access-Control-Allow-Headers',
-        'Origin, X-Requested-With, Content-Type, Accept',
-    )
-    return response
 }
 
 /**
@@ -92,11 +60,6 @@ export function middleware(request: NextRequest) {
     const pathname = request.nextUrl.pathname
     const origin = request.nextUrl.origin
 
-    // GQL CORS
-    const responseGQL = graphqlCors(pathname, origin)
-    if (responseGQL) {
-        return responseGQL
-    }
     // Archive redirection
     const responseArchive = redirectArchive(pathname, origin)
     if (responseArchive) {

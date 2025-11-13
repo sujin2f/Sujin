@@ -1,5 +1,8 @@
 import * as path from 'path'
 import nodeExternals from 'webpack-node-externals'
+import webpack from 'webpack'
+const { EnvironmentPlugin } = webpack
+import packageJson from './package.json' with { type: 'json' };
 
 const config = {
     mode: process.env.NODE_ENV === 'development' ? 'development' : 'production',
@@ -35,6 +38,13 @@ const config = {
     optimization: {
         minimize: process.env.NODE_ENV !== 'development', // Disables minification
     },
+    plugins: [
+        // These will be converted a value. i.g. if (...IS_BETA === true) => if (true === true)
+        new EnvironmentPlugin({
+            VERSION: packageJson.version,
+            IS_BETA: packageJson.version.includes('beta'),
+        }),
+    ],
 }
 
 if (process.env.NODE_ENV === 'development') {

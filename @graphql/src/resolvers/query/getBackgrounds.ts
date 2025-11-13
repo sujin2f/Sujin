@@ -1,4 +1,5 @@
-/* Mongoose */
+/* Models */
+import Logger from '@src/utils/logger'
 import { Background } from '@src/schema/background'
 /* CONSTANTS */
 import { COLLECTION } from '@sujin/lib/types'
@@ -14,8 +15,11 @@ import type { T_Background } from '@sujin/lib/types'
  * @returns {Promise<T_Background[]>} - The background array
  */
 export const getBackgrounds = async (): Promise<T_Background[]> => {
+    Logger.info(`🤟 backgrounds query has been requested`)
     const request = cachedRequest(query, getCacheKey(COLLECTION.BACKGROUNDS))
-    return await request()
+    const result = await request()
+    Logger.info('🤟 backgrounds query has been finished')
+    return result
 }
 
 const query = async (): Promise<T_Background[]> => {

@@ -1,4 +1,5 @@
-/* Mongoose */
+/* Models */
+import Logger from '@src/utils/logger'
 import { Archive } from '@src/schema/archive'
 /* Utils */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
@@ -59,9 +60,12 @@ const query = async (): Promise<Omit<T_Archive, '_id'>[]> => {
 }
 
 export const getTagCloud = async (): Promise<Omit<T_Archive, '_id'>[]> => {
+    Logger.info(`🤟 tagCloud query has been requested`)
     const request = cachedRequest(
         query,
         getCacheKey(COLLECTION.ARCHIVE, 'tag-cloud'),
     )
-    return await request()
+    const result = await request()
+    Logger.info('🤟 tagCloud query has been finished')
+    return result
 }

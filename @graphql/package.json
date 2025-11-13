@@ -4,8 +4,8 @@
     "description": "",
     "main": "src/server.ts",
     "scripts": {
-        "build": "rimraf .build && webpack",
-        "start": "node .build/bundle.js",
+        "build": "cross-env NODE_ENV=production rimraf .build && webpack",
+        "start": "cross-env NODE_ENV=production node --env-file=.env .build/bundle.js",
         "dev": "concurrently \"yarn dev:webpack\" \"yarn dev:nodemon\"",
         "dev:webpack": "cross-env NODE_ENV=development webpack --watch",
         "dev:nodemon": "cross-env NODE_ENV=development node --env-file=.env --watch .build/bundle.js",
@@ -29,7 +29,8 @@
         "mongo-sanitize": "^1.1.0",
         "mongoose": "^8.19.3",
         "mysql2": "^3.15.3",
-        "node-cache": "^5.1.2"
+        "node-cache": "^5.1.2",
+        "winston": "^3.18.3"
     },
     "devDependencies": {
         "@eslint/js": "^9.39.1",

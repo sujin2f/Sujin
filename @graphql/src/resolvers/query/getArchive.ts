@@ -1,8 +1,10 @@
 import { Document } from 'mongoose'
 import { GraphQLError } from 'graphql'
 import sanitize from 'mongo-sanitize'
-/* Mongoose */
+
+/* Models */
 import { Archive } from '@src/schema/archive'
+import Logger from '@src/utils/logger'
 /* CONSTANTS */
 import { COLLECTION } from '@sujin/lib/types'
 /* Utils */
@@ -25,14 +27,16 @@ export const getArchive = async (
     _: unknown,
     { slug: _slug, type: _type }: Param,
 ): Promise<T_Archive> => {
+    Logger.info(`🤟 archive query has been requested: ${_slug}, ${_type}`)
     const slug = sanitize(_slug)
     const type = sanitize(_type)
     const request = cachedRequest(
         query,
         getCacheKey(COLLECTION.ARCHIVE, slug, type),
     )
-
-    return await request(slug, type)
+    const result = await request(slug, type)
+    Logger.info('🤟 archive query has been finished')
+    return result
 }
 
 const query = async (slug: string, type: string): Promise<T_Archive> => {

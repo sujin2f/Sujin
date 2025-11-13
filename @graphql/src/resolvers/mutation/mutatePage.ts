@@ -4,12 +4,14 @@ import type { MutationResultType } from '@src/types'
 /* Utils */
 import { getCacheKey } from '@sujin/lib/utils/cache'
 import { getPostBy } from '@src/utils/mysql/post'
+import { convertWPImageURL } from '@src/utils/mongo/convertWPImageURL'
 /* Models */
+import Logger from '@src/utils/logger'
 import Cached from '@sujin/node-cache'
+import { mysqlDisconnect } from '@src/utils/mysql'
+import { Page } from '@src/schema/post'
 /* CONSTANTS */
 import { COLLECTION, POST_IMAGE_LOCATION, POST_TYPE } from '@sujin/lib/types'
-import { convertWPImageURL } from '@src/utils/mongo/convertWPImageURL'
-import { Page } from '@src/schema/post'
 
 /**
  * Update Mongo Page type from MySQL
@@ -18,11 +20,11 @@ import { Page } from '@src/schema/post'
  * @param {string} _slug - Page slug
  * @returns {Promise<void>}
  */
-const updatePage = async (_slug: string): Promise<void> => {
-    const slug = sanitize(_slug)
+const updatePage = async (slug: string): Promise<void> => {
     await Cached.getInstance().flush(getCacheKey(COLLECTION.PAGE, slug))
 
     const page = await getPostBy('slug', slug, POST_TYPE.PAGE)
+    await mysqlDisconnect()
     if (page.images) {
         Object.keys(page.images).forEach((key) => {
             const imageKey = key as POST_IMAGE_LOCATION
@@ -51,7 +53,9 @@ export const mutatePage = async (
     _: unknown,
     { slug }: Param,
 ): Promise<MutationResultType> => {
-    await updatePage(slug)
+    Logger.info(`🤟 mutatePage mutation has been requested: ${slug}`)
+    await updatePage(sanitize(slug))
+    Logger.info('🤟 mutatePage query has been finished')
     return {
         result: true,
     }

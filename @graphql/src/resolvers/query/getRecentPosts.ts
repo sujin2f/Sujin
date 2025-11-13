@@ -1,4 +1,5 @@
-/* Mongoose */
+/* Models */
+import Logger from '@src/utils/logger'
 import { Post } from '@src/schema/post'
 /* Utils */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
@@ -28,9 +29,12 @@ const query = async (): Promise<T_ArchivePost[]> => {
  * @returns {Promise<T_Post[]>} A promise that resolves to the recent posts.
  */
 export const getRecentPosts = async (): Promise<T_ArchivePost[]> => {
+    Logger.info(`🤟 recent query has been requested`)
     const request = cachedRequest(
         query,
         getCacheKey(COLLECTION.ARCHIVE, 'recent'),
     )
-    return await request()
+    const result = await request()
+    Logger.info('🤟 recent query has been finished')
+    return result
 }

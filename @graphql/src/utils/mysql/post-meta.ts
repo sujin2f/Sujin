@@ -1,6 +1,6 @@
 /* Models */
 import { select } from '@src/utils/mysql'
-import Logger from '@sujin/share/model/Logger'
+import Logger from '@src/utils/logger'
 /* CONSTANTS */
 import { WPQuery } from '@src/utils/mysql/wp-query'
 /* Utils */
@@ -57,7 +57,9 @@ const unserialize = <
     try {
         result = phpUnSerialize(value)
     } catch (e) {
-        Logger.server('phpUnSerialize could not parse the value', value, e)
+        Logger.error(
+            `⛈️ phpUnSerialize could not parse the value ${value} ${e}`,
+        )
         throw Error('phpUnSerialize could not parse the value')
     }
 

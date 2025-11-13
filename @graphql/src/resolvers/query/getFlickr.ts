@@ -1,6 +1,6 @@
 /* Models */
 import Cached from '@sujin/node-cache'
-import Logger from '@sujin/share/model/Logger'
+import Logger from '@src/utils/logger'
 /* CONSTANTS */
 import { WEEK_IN_SECONDS } from '@sujin/share/constants/datetime'
 import { IS_DEV } from '@sujin/share/constants/helper'
@@ -36,6 +36,7 @@ export const request = async (): Promise<T_FlickrImage[]> => {
     )
         .then(async (response) => {
             if (response.status >= 400) {
+                Logger.error(`⛈️ Failed to request Flickr with ${id}`)
                 throw Error(`Failed to request Flickr with ${id}`)
             }
             const json = (await response.json()) as T_FlickrResponse
@@ -46,14 +47,23 @@ export const request = async (): Promise<T_FlickrImage[]> => {
         })
         .catch((e: Error) => {
             if (e instanceof Error) {
-                Logger.server(e.message)
+                Logger.error(
+                    `⛈️ Fetching from Flickr has been failed: ${e.message}`,
+                )
             }
             return defaultValue
         })
 }
 
 export const getFlickr = async () => {
-    return await Cached.getInstance().getOrExecute('flickr', request(), {
-        ttl: WEEK_IN_SECONDS,
-    })
+    Logger.info(`🤟 flickr query has been requested`)
+    const result = await Cached.getInstance().getOrExecute(
+        'flickr',
+        request(),
+        {
+            ttl: WEEK_IN_SECONDS,
+        },
+    )
+    Logger.info('🤟 flickr query has been finished')
+    return result
 }

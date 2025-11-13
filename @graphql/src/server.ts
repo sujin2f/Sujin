@@ -1,7 +1,8 @@
 import express from 'express'
 import http from 'http'
 import cors from 'cors'
-// import dotenv from 'dotenv'
+
+import Logger from '@src/utils/logger'
 
 import { ApolloServer } from '@apollo/server'
 import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/disabled'
@@ -28,6 +29,7 @@ import { getArchive } from '@src/resolvers/query/getArchive'
 import { updateHits } from './resolvers/mutation/updateHits'
 import { getArchivePosts, getNumPosts } from './resolvers/query/getArchivePosts'
 import { login } from './resolvers/mutation/login'
+import { IS_DEV } from '@sujin/share/constants/helper'
 
 // dotenv.config({ path: path.resolve(__dirname, '..', '..', '.env') })
 
@@ -56,17 +58,15 @@ const resolvers = {
     },
 }
 
-// const myPlugin = {
+// const loggerPlugin = {
 //     async requestDidStart() {
 //         return {
-//             async didResolveOperation(context) {
-//                 console.log(context)
+//             // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//             async didResolveOperation(context: any) {
 //                 if (context.operation.operation === 'mutation') {
-//                     console.log('This is a mutation request!')
-//                     // Perform actions specific to mutations
+//                     Logger.info(`mutation`)
 //                 } else if (context.operation.operation === 'query') {
-//                     console.log('This is a query request!')
-//                     // Perform actions specific to queries
+//                     Logger.info(`query`)
 //                 }
 //             },
 //         }
@@ -83,14 +83,14 @@ const server = new ApolloServer({
         process.env.NODE_ENV === 'development'
             ? ApolloServerPluginLandingPageLocalDefault({ footer: false })
             : ApolloServerPluginLandingPageDisabled(),
-        // myPlugin,
+        // loggerPlugin,
     ],
 })
 
 const corsOptions = {
     origin: ['http://localhost:3000'],
     credentials: true,
-    methods: ['GET', 'POST'],
+    methods: ['POST'],
     allowedHeaders: ['Content-Type', 'Authorization'],
 }
 
@@ -115,11 +115,11 @@ const start = async () => {
             },
         }),
     )
+
+    const port = IS_DEV ? 4000 : 80
     // Modified server startup
-    await new Promise<void>((resolve) =>
-        httpServer.listen({ port: 4000 }, resolve),
-    )
-    console.log(`🚀 Server ready at http://localhost:4000/`)
+    await new Promise<void>((resolve) => httpServer.listen({ port }, resolve))
+    Logger.info(`🚀 Server ready at http://localhost:${port}/`)
     await connectToDatabase()
 }
 
