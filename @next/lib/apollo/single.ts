@@ -24,13 +24,13 @@ import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
  * @param {string} slug - Post slug
  * @returns {Promise<T_Page>} - The post object
  */
-export const getSingle = async (
+export const getSingle = async <T extends T_Page>(
     slug: string,
     type: string,
     fields: string,
-): Promise<T_Page> => {
+): Promise<T> => {
     const request = unstable_cache(
-        cachedSingle,
+        cachedSingle<T>,
         [slug, type, getUuid(fields), VERSION],
         {
             tags: ['wordpress', 'single'],
@@ -40,21 +40,25 @@ export const getSingle = async (
     return await request(slug, type, fields)
 }
 
-const cachedSingle = async (slug: string, type: string, fields: string) => {
+const cachedSingle = async <T extends T_Page>(
+    slug: string,
+    type: string,
+    fields: string,
+) => {
     const request = cachedRequest(
-        querySingle,
+        querySingle<T>,
         getCacheKey(COLLECTION.POST, slug, type, getUuid(fields)),
     )
     return await request(slug, type, fields)
 }
 
-const querySingle = async (
+const querySingle = async <T extends T_Page>(
     slug: string,
     type: string,
     fields: string,
-): Promise<T_Page> => {
+): Promise<T> => {
     return await client
-        .query<{ post: T_Page }>({
+        .query<{ post: T }>({
             query: gql`
                 query Post($slug: String!, $type: String!) {
                     post(slug: $slug, type: $type) { ${fields} }

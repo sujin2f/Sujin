@@ -2,8 +2,8 @@
 import { notFound } from 'next/navigation'
 /* Components */
 import Wrapper from '@lib/components/Wrapper'
-import { SocialShare } from '@app/(single)/_components/SocialShare.client'
-import { Content } from '@app/(single)/_components/Content'
+import { SocialShare } from '@lib/components/single/SocialShare.client'
+import { Content } from '@lib/components/single/Content'
 /* CONSTANTS */
 import { IMAGE_SIZE, POST_IMAGE_LOCATION } from '@sujin/lib/types'
 /* Utils */
@@ -11,32 +11,33 @@ import { getThumbnailFromPost } from '@lib/utils/client'
 import { getSingle } from '@lib/apollo/single'
 import { IMAGE, PAGE } from '@lib/constants/graphql-fields'
 
-export async function AboutServer() {
-    const fields = `${PAGE}
-        images {
-            ${POST_IMAGE_LOCATION.ICON} {
-                url
-            }
-            ${POST_IMAGE_LOCATION.BACKGROUND} {
-                ${IMAGE}
-                sizes {
-                    ${IMAGE_SIZE.MEDIUM} { ${IMAGE} }
-                    ${IMAGE_SIZE.MEDIUM_LARGE} { ${IMAGE} }
-                    ${IMAGE_SIZE.LARGE} { ${IMAGE} }
-                }
-            }
-            ${POST_IMAGE_LOCATION.LIST} {
-                sizes {
-                    ${IMAGE_SIZE.MEDIUM_LARGE} { ${IMAGE} }
-                }
-            }
-            ${POST_IMAGE_LOCATION.THUMBNAIL} {
-                sizes {
-                    ${IMAGE_SIZE.MEDIUM_LARGE} { ${IMAGE} }
-                }
+const fields = `${PAGE}
+    images {
+        ${POST_IMAGE_LOCATION.ICON} {
+            url
+        }
+        ${POST_IMAGE_LOCATION.BACKGROUND} {
+            ${IMAGE}
+            sizes {
+                ${IMAGE_SIZE.MEDIUM} { ${IMAGE} }
+                ${IMAGE_SIZE.MEDIUM_LARGE} { ${IMAGE} }
+                ${IMAGE_SIZE.LARGE} { ${IMAGE} }
             }
         }
-    `
+        ${POST_IMAGE_LOCATION.LIST} {
+            sizes {
+                ${IMAGE_SIZE.MEDIUM_LARGE} { ${IMAGE} }
+            }
+        }
+        ${POST_IMAGE_LOCATION.THUMBNAIL} {
+            sizes {
+                ${IMAGE_SIZE.MEDIUM_LARGE} { ${IMAGE} }
+            }
+        }
+    }
+`
+
+export async function AboutServer() {
     const post = await getSingle('about', 'page', fields).catch(() => {})
 
     if (!post) {

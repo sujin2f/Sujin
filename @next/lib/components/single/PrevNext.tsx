@@ -2,13 +2,13 @@
 import React from 'react'
 import Link from 'next/link'
 /* Components */
-import Row from '@sujin/common/components/layout/Row'
-import Column from '@sujin/common/components/layout/Column'
+import Row from '@common/components/layout/Row'
+import Column from '@common/components/layout/Column'
 /* T_Types */
-import type { T_PrevNext } from '@app/_lib/types'
+import type { T_PrevNext } from '@sujin/lib/types'
 /* Assets */
 import Icon from '@common/images/prev.svg'
-import '@app/(single)/_components/PrevNext.scss'
+import './PrevNext.scss'
 
 type Props = {
     readonly prev?: T_PrevNext | false

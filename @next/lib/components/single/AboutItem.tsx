@@ -4,7 +4,7 @@ import { removeEmptyParagraphs } from '@sujin/share/utils/string'
 /* T_Types */
 import type { T_ShortcodeAttrMatch } from '@sujin/lib/types'
 /* Assets */
-import '@app/(single)/_components/AboutItem.scss'
+import './AboutItem.scss'
 
 interface Props {
     value: T_ShortcodeAttrMatch

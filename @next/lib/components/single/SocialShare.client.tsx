@@ -9,7 +9,7 @@ import { BASE_URL } from '@lib/constants'
 import Twitter from '@common/images/twitter.svg'
 import Facebook from '@common/images/facebook.svg'
 /* Assets */
-import '@app/(single)/_components/SocialShare.scss'
+import './SocialShare.scss'
 
 type Props = {
     title: string

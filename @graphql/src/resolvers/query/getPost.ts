@@ -75,12 +75,6 @@ const query = async (
                 ],
             },
         },
-        {
-            $project: {
-                content: 0,
-                meta: 0,
-            },
-        },
     ]).then((result) => {
         if (!result || !result.length) {
             throw new GraphQLError(`Cannot find the post ${slug}`, {

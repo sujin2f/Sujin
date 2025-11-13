@@ -3,7 +3,7 @@ import { Paging } from '@lib/components/archive/Paging'
 import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
 import Card from '@common/components/containers/Card'
-import { Tags } from '@app/(single)/_components/Tags'
+import { Tags } from '@lib/components/single/Tags'
 /* T_Types */
 import type { ColumnProps } from '@common/components/layout/Column'
 import {

@@ -5,12 +5,12 @@ import {
     type ReactNode,
 } from 'react'
 /* Components */
-import { Gist } from '@app/(single)/_components/Gist'
-import { TweetEmbed } from '@app/(single)/_components/TweetEmbed'
-import { AboutItem } from '@app/(single)/_components/AboutItem'
-import { Carousel } from '@app/(single)/_components/Carousel'
-import { Caption } from '@app/(single)/_components/Caption'
-import { Code } from '@app/(single)/_components/Code'
+import { Gist } from '@lib/components/single/Gist'
+import { TweetEmbed } from '@lib/components/single/TweetEmbed'
+import { AboutItem } from '@lib/components/single/AboutItem'
+import { Carousel } from '@lib/components/single/Carousel'
+import { Caption } from '@lib/components/single/Caption'
+import { Code } from '@lib/components/single/Code'
 /* Utils */
 import { removeEmptyParagraphs } from '@sujin/share/utils/string'
 /* T_Types */

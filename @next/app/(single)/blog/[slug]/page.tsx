@@ -1,12 +1,13 @@
 import type { Metadata } from 'next/types'
 /* Components */
-import { PostServer } from '@app/(single)/_components/Post.server'
+import { PostServer } from '@app/(single)/blog/[slug]/Post.server'
 /* CONSTANTS */
-import { BASE_URL } from '@app/_lib/constants'
-import { IMAGE_SIZE } from '@app/_lib/types'
+import { BASE_URL } from '@lib/constants'
+import { IMAGE_SIZE, POST_IMAGE_LOCATION, T_Post } from '@sujin/lib/types'
 /* Utils */
-import { getThumbnailFromPost } from '@app/_lib/utils/clients'
-import { getCachedPost } from '@app/(single)/_lib/getCachedPost'
+import { getThumbnailFromPost } from '@lib/utils/client'
+import { getSingle } from '@lib/apollo/single'
+import { IMAGE } from '@lib/constants/graphql-fields'
 
 type Props = {
     params: Promise<{
@@ -14,10 +15,25 @@ type Props = {
     }>
 }
 
+const fields = `title excerpt archives { title } images {
+    ${POST_IMAGE_LOCATION.LIST} {
+        sizes {
+            ${IMAGE_SIZE.MEDIUM_LARGE} { ${IMAGE} }
+        }
+    }
+    ${POST_IMAGE_LOCATION.THUMBNAIL} {
+        sizes {
+            ${IMAGE_SIZE.MEDIUM_LARGE} { ${IMAGE} }
+        }
+    }
+}`
+
 export const generateMetadata = async (props: Props): Promise<Metadata> => {
     const params = await props.params
     const slug = params.slug.toLowerCase()
-    const post = await getCachedPost(slug).catch(() => undefined)
+    const post = await getSingle<T_Post>(slug, 'post', fields).catch(
+        () => undefined,
+    )
     if (!post) {
         return {}
     }

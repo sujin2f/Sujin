@@ -1,38 +1,59 @@
 import { notFound } from 'next/navigation'
-/* Models */
-import { A_Error, NoContentError } from '@sujin/share/model/Error'
 /* Components */
 import Wrapper from '@lib/components/Wrapper'
-import { Tags } from '@app/(single)/_components/Tags'
-import { PrevNext } from '@app/(single)/_components/PrevNext.server'
-import { RelatedPosts } from '@app/(single)/_components/RelatedPosts.server'
-import { RecentPosts } from '@app/(single)/_components/RecentPosts'
-import { SocialShare } from '@app/(single)/_components/SocialShare.client'
+import { Tags } from '@lib/components/single/Tags'
+import { PrevNext } from '@lib/components/single/PrevNext.server'
+import { RelatedPosts } from '@lib/components/single/RelatedPosts.server'
+import { RecentPosts } from '@lib/components/single/RecentPosts'
+import { SocialShare } from '@lib/components/single/SocialShare.client'
 import Column from '@common/components/layout/Column'
 import Row from '@common/components/layout/Row'
-import { Content } from '@app/(single)/_components/Content'
+import { Content } from '@lib/components/single/Content'
 import { GoogleAdvert } from '@common/components/GoogleAdvert'
 /* CONSTANTS */
-import { IMAGE_SIZE, POST_STATUS } from '@sujin/lib/types'
+import {
+    IMAGE_SIZE,
+    POST_IMAGE_LOCATION,
+    POST_STATUS,
+    T_Post,
+} from '@sujin/lib/types'
 /* Utils */
 import { getThumbnailFromPost } from '@lib/utils/client'
 import { updateHits } from '@lib/apollo/archives'
 import { getSingle } from '@lib/apollo/single'
+import { IMAGE, POST } from '@lib/constants/graphql-fields'
 
 type Props = {
     slug: string
 }
 
+const fields = `${POST} images {
+    ${POST_IMAGE_LOCATION.ICON} {
+        url
+    }
+    ${POST_IMAGE_LOCATION.BACKGROUND} {
+        ${IMAGE}
+        sizes {
+            ${IMAGE_SIZE.MEDIUM} { ${IMAGE} }
+            ${IMAGE_SIZE.MEDIUM_LARGE} { ${IMAGE} }
+            ${IMAGE_SIZE.LARGE} { ${IMAGE} }
+        }
+    }
+    ${POST_IMAGE_LOCATION.LIST} {
+        sizes {
+            ${IMAGE_SIZE.MEDIUM_LARGE} { ${IMAGE} }
+        }
+    }
+    ${POST_IMAGE_LOCATION.THUMBNAIL} {
+        sizes {
+            ${IMAGE_SIZE.MEDIUM_LARGE} { ${IMAGE} }
+        }
+    }
+}`
+
 export async function PostServer({ slug }: Props) {
-    const post = await getCachedPost(slug).catch((e) => {
-        if (e instanceof NoContentError) {
-            e.log()
-            notFound()
-        }
-        if (e instanceof A_Error) {
-            e.log()
-        }
-        throw e
+    const post = await getSingle<T_Post>(slug, 'post', fields).catch(() => {
+        notFound()
     })
 
     const thumbnail = getThumbnailFromPost(post.images, IMAGE_SIZE.MEDIUM_LARGE)
@@ -53,7 +74,7 @@ export async function PostServer({ slug }: Props) {
         >
             <Row fullWidth>
                 <Column medium={12} large={7} largeOffset={2}>
-                    <Content post={mongoStringify(post)} type="post">
+                    <Content post={post} type="post">
                         <Tags items={tags} />
                         <SocialShare
                             title={post.title}

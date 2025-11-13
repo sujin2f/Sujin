@@ -7,6 +7,7 @@ export const POST_PREV_NEXT = '_id title link'
 export const POST_ARCHIVE = `${POST_PREV_NEXT} id slug excerpt date`
 
 export const PAGE = `${POST_ARCHIVE} content meta {useBackgroundColor backgroundColor}`
+export const POST = `${PAGE} archives { title type }`
 
 export const ARCHIVE_POSTS = `
     ${POST_ARCHIVE}
