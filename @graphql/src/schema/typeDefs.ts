@@ -17,6 +17,7 @@ type Mutation{
     mutateCategory(nonce: String!, slug: String!): Result
     mutateTag(nonce: String!, slug: String!): Result
     updateHits(slug: String!): Result
+    login(email: String!): String
 }
 type FlickrImage {
     title: String

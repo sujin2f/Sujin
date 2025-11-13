@@ -4,13 +4,12 @@ const { Schema, model } = mongoose
 
 const usersSchema = new Schema({
     email: {
-        type: Buffer,
+        type: String,
         index: true,
         required: true,
         unique: true,
     },
-    name: Buffer,
-    image: String,
+    admin: Boolean,
 })
 usersSchema.index({ email: 1 })
 

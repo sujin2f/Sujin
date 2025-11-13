@@ -22,7 +22,7 @@
         }
     ],
     "settings": {
-        "cSpell.words": ["Choi", "com", "sujin", "sujinc"],
+        "cSpell.words": ["Choi", "com", "NEXTAUTH", "sujin", "sujinc"],
         "editor.formatOnSave": true,
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },

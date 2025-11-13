@@ -1,8 +1,7 @@
 import express from 'express'
 import http from 'http'
 import cors from 'cors'
-import dotenv from 'dotenv'
-import * as path from 'path'
+// import dotenv from 'dotenv'
 
 import { ApolloServer } from '@apollo/server'
 import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/disabled'
@@ -28,8 +27,9 @@ import { getPost } from '@src/resolvers/query/getPost'
 import { getArchive } from '@src/resolvers/query/getArchive'
 import { updateHits } from './resolvers/mutation/updateHits'
 import { getArchivePosts, getNumPosts } from './resolvers/query/getArchivePosts'
+import { login } from './resolvers/mutation/login'
 
-dotenv.config({ path: path.resolve(__dirname, '..', '..', '.env') })
+// dotenv.config({ path: path.resolve(__dirname, '..', '..', '.env') })
 
 // Resolvers define how to fetch the types defined in your schema.
 // This resolver retrieves books from the "books" array above.
@@ -52,8 +52,27 @@ const resolvers = {
         mutateCategory,
         mutateTag,
         updateHits,
+        login,
     },
 }
+
+// const myPlugin = {
+//     async requestDidStart() {
+//         return {
+//             async didResolveOperation(context) {
+//                 console.log(context)
+//                 if (context.operation.operation === 'mutation') {
+//                     console.log('This is a mutation request!')
+//                     // Perform actions specific to mutations
+//                 } else if (context.operation.operation === 'query') {
+//                     console.log('This is a query request!')
+//                     // Perform actions specific to queries
+//                 }
+//             },
+//         }
+//     },
+// }
+
 const app = express()
 const httpServer = http.createServer(app)
 const server = new ApolloServer({
@@ -64,11 +83,12 @@ const server = new ApolloServer({
         process.env.NODE_ENV === 'development'
             ? ApolloServerPluginLandingPageLocalDefault({ footer: false })
             : ApolloServerPluginLandingPageDisabled(),
+        // myPlugin,
     ],
 })
 
 const corsOptions = {
-    origin: ['http://localhost:3000', 'https://your-frontend-domain.com'],
+    origin: ['http://localhost:3000'],
     credentials: true,
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type', 'Authorization'],
@@ -82,7 +102,17 @@ const start = async () => {
         cors<cors.CorsRequest>(corsOptions),
         express.json({ limit: '50mb' }),
         expressMiddleware(server, {
-            context: async ({ req }) => ({ token: req.headers.token }),
+            context: async ({ req }) => {
+                // console.log(
+                //     req.host,
+                //     req.hostname,
+                //     req.originalUrl,
+                //     JSON.stringify(req.query),
+                //     req.params,
+                // )
+                // console.log(req.headers.token)
+                return { token: req.headers.token }
+            },
         }),
     )
     // Modified server startup

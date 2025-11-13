@@ -1,11 +1,10 @@
 export type T_User = {
     email: string
-    name: string
-    image: string
+    admin: boolean
 }
 
 export type T_SessionUser = {
-    _id: string
+    gqlToken: string
     name: string
     email: string
     image?: string

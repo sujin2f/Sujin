@@ -193,6 +193,15 @@ const DELETE_POST_META = `
         meta_key = "{1}"
 `
 
+const IS_USER_ADMIN = `
+    SELECT meta.meta_value
+    FROM wp_users as user
+        LEFT JOIN wp_usermeta as meta ON user.ID = meta.user_id
+    WHERE
+        user.user_email = "{0}" AND
+        meta.meta_key = "wp_capabilities"
+`
+
 export const WPQuery = {
     getArchiveBy: (key: string, value: string) => {
         const newKey = key === 'id' ? 'terms.term_id' : 'terms.slug'
@@ -253,5 +262,8 @@ export const WPQuery = {
     // @deprecated
     deletePostMeta: (postId: number, metaKey: string) => {
         return format(DELETE_POST_META, postId, metaKey)
+    },
+    isUserAdmin: (email: string) => {
+        return format(IS_USER_ADMIN, email)
     },
 }

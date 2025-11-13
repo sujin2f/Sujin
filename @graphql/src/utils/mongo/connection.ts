@@ -1,9 +1,5 @@
 import mongoose from 'mongoose'
 import { EnvironmentError } from '@sujin/share/model/Error'
-import dotenv from 'dotenv'
-import * as path from 'path'
-
-dotenv.config({ path: path.resolve(__dirname, '..', '..', '.env') })
 
 if (!process.env.MONGO) {
     throw new EnvironmentError('Invalid/Missing environment variable: "MONGO"')
