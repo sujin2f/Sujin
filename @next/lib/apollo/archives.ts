@@ -4,11 +4,11 @@ import { gql } from '@apollo/client'
 import { unstable_cache } from 'next/cache'
 import getUuid from 'uuid-by-string'
 /* Models */
-import { client } from '@lib/apollo/server-client'
+import { client } from '@lib/apollo/apollo-client-server'
 /* CONSTANTS */
 import { VERSION } from '@sujin/share/constants/helper'
 import { REVALIDATION } from '@lib/constants'
-import { COLLECTION, type T_Archive } from '@sujin/lib/types'
+import { COLLECTION, T_ArchivePost, type T_Archive } from '@sujin/lib/types'
 /* Utils */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 
@@ -91,4 +91,51 @@ export const updateHits = async (slug: string) => {
         })
         // TODO Log
         .catch(() => {})
+}
+
+/**
+ * Get recent posts
+ * This returns the cached result if it exists
+ *
+ * @param {string} slug - Post slug
+ * @returns {Promise<T_Archive>} - The archive object
+ */
+export const getRecent = async (fields: string): Promise<T_ArchivePost[]> => {
+    const request = unstable_cache(cachedRecent, [getUuid(fields), VERSION], {
+        tags: ['wordpress', 'recent'],
+        revalidate: REVALIDATION,
+    })
+    return await request(fields)
+}
+
+const cachedRecent = async (fields: string) => {
+    const request = cachedRequest(
+        queryRecent,
+        getCacheKey(COLLECTION.ARCHIVE, 'recent', getUuid(fields)),
+    )
+    return await request(fields)
+}
+
+const queryRecent = async (fields: string): Promise<T_ArchivePost[]> => {
+    return await client
+        .query<{ recent: T_ArchivePost[] }>({
+            query: gql`
+                query Recent {
+                    recent { ${fields} }
+                }
+            `,
+        })
+        .then((result) => {
+            if (!result.data) {
+                throw new GraphQLError(`Cannot find recent`, {
+                    extensions: {
+                        code: 'NO_CONTENT',
+                    },
+                })
+            }
+            return result.data.recent
+        })
+        .catch((e) => {
+            throw e.errors[0]
+        })
 }

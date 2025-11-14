@@ -15,18 +15,20 @@ type Props = {
     }>
 }
 
-const fields = `title excerpt archives { title } images {
-    ${POST_IMAGE_LOCATION.LIST} {
-        sizes {
-            ${IMAGE_SIZE.MEDIUM_LARGE} { ${IMAGE} }
+const fields = `
+    title excerpt archives { title }
+    images {
+        ${POST_IMAGE_LOCATION.LIST} {
+            sizes {
+                ${IMAGE_SIZE.MEDIUM_LARGE} { ${IMAGE} }
+            }
         }
-    }
-    ${POST_IMAGE_LOCATION.THUMBNAIL} {
-        sizes {
-            ${IMAGE_SIZE.MEDIUM_LARGE} { ${IMAGE} }
+        ${POST_IMAGE_LOCATION.THUMBNAIL} {
+            sizes {
+                ${IMAGE_SIZE.MEDIUM_LARGE} { ${IMAGE} }
+            }
         }
-    }
-}`
+    }`
 
 export const generateMetadata = async (props: Props): Promise<Metadata> => {
     const params = await props.params

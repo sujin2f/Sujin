@@ -11,7 +11,8 @@ import { getThumbnailFromPost } from '@lib/utils/client'
 import { getSingle } from '@lib/apollo/single'
 import { IMAGE, PAGE } from '@lib/constants/graphql-fields'
 
-const fields = `${PAGE}
+const fields = `
+    ${PAGE}
     images {
         ${POST_IMAGE_LOCATION.ICON} {
             url
@@ -34,8 +35,7 @@ const fields = `${PAGE}
                 ${IMAGE_SIZE.MEDIUM_LARGE} { ${IMAGE} }
             }
         }
-    }
-`
+    }`
 
 export async function AboutServer() {
     const post = await getSingle('about', 'page', fields).catch(() => {})

@@ -41,7 +41,7 @@ export const connectToDatabase = async () => {
     const connection = `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO}:${port}/${process.env.MONGO_DATABASE}?authSource=${process.env.MONGO_DATABASE}`
     try {
         await mongoose.connect(connection)
-        Logger.info(`🚀 Successfully connected to MongoDB: ${connection}`)
+        Logger.info(`🚀 Successfully connected to MongoDB`)
     } catch {
         Logger.error(`⛈️ Filed to connect MongoDB server: ${connection}`)
         throw new EnvironmentError('Filed to connect MongoDB')

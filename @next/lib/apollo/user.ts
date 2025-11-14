@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 
-import { client } from '@lib/apollo/server-client'
+import { client } from '@lib/apollo/apollo-client-server'
 
 export const login = async (email: string) => {
     return await client

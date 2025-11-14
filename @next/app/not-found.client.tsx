@@ -1,14 +1,35 @@
 'use client'
+import { use } from 'react'
 /* Components */
-import { NotFoundList } from '@app/not-found.client.list'
+import { Cards } from '@lib/components/archive/Cards'
 /* CONSTANTS */
-import { ApolloProvider } from '@apollo/client/react'
-import { client } from '@lib/apollo/client'
+import { PER_PAGE } from '@lib/constants'
+/* T_Types */
+import { T_ArchivePost } from '@sujin/lib/types'
 
-export function NotFoundClient() {
+type Props = {
+    promise: Promise<T_ArchivePost[]>
+}
+
+export function NotFoundClient({ promise }: Props) {
+    const data = use(promise)
+
+    const posts = {
+        list: data.slice(0, PER_PAGE),
+        pages: 0,
+    }
+
     return (
-        <ApolloProvider client={client}>
-            <NotFoundList />
-        </ApolloProvider>
+        <>
+            {data.length && (
+                <Cards
+                    posts={posts}
+                    keyPrefix="not-found"
+                    large={4}
+                    medium={6}
+                    small={12}
+                />
+            )}
+        </>
     )
 }

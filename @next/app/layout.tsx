@@ -77,9 +77,9 @@ export default async function AppLayout({ children }: PropsWithChildren) {
                 <Suspense fallback={<Loading />}>
                     <Store Context={Context} INITIAL_STATE={INITIAL_STATE}>
                         <SessionProvider session={session}>
-                                <ErrorBoundary errorComponent={Error}>
-                                    {children}
-                                </ErrorBoundary>
+                            <ErrorBoundary errorComponent={Error}>
+                                {children}
+                            </ErrorBoundary>
                         </SessionProvider>
                     </Store>
                 </Suspense>

@@ -4,7 +4,7 @@ import { gql } from '@apollo/client'
 import { unstable_cache } from 'next/cache'
 import getUuid from 'uuid-by-string'
 /* Models */
-import { client } from '@lib/apollo/server-client'
+import { client } from '@lib/apollo/apollo-client-server'
 /* CONSTANTS */
 import { VERSION } from '@sujin/share/constants/helper'
 import { REVALIDATION } from '@lib/constants'

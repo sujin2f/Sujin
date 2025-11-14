@@ -17,39 +17,43 @@ import {
     POST_STATUS,
     T_Post,
 } from '@sujin/lib/types'
+import { ARCHIVE_POSTS, IMAGE, POST } from '@lib/constants/graphql-fields'
 /* Utils */
 import { getThumbnailFromPost } from '@lib/utils/client'
-import { updateHits } from '@lib/apollo/archives'
+import { getRecent, updateHits } from '@lib/apollo/archives'
 import { getSingle } from '@lib/apollo/single'
-import { IMAGE, POST } from '@lib/constants/graphql-fields'
+import { Suspense } from 'react'
+import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
 
 type Props = {
     slug: string
 }
 
-const fields = `${POST} images {
-    ${POST_IMAGE_LOCATION.ICON} {
-        url
-    }
-    ${POST_IMAGE_LOCATION.BACKGROUND} {
-        ${IMAGE}
-        sizes {
-            ${IMAGE_SIZE.MEDIUM} { ${IMAGE} }
-            ${IMAGE_SIZE.MEDIUM_LARGE} { ${IMAGE} }
-            ${IMAGE_SIZE.LARGE} { ${IMAGE} }
+const fields = `
+    ${POST}
+    images {
+        ${POST_IMAGE_LOCATION.ICON} {
+            url
         }
-    }
-    ${POST_IMAGE_LOCATION.LIST} {
-        sizes {
-            ${IMAGE_SIZE.MEDIUM_LARGE} { ${IMAGE} }
+        ${POST_IMAGE_LOCATION.BACKGROUND} {
+            ${IMAGE}
+            sizes {
+                ${IMAGE_SIZE.MEDIUM} { ${IMAGE} }
+                ${IMAGE_SIZE.MEDIUM_LARGE} { ${IMAGE} }
+                ${IMAGE_SIZE.LARGE} { ${IMAGE} }
+            }
         }
-    }
-    ${POST_IMAGE_LOCATION.THUMBNAIL} {
-        sizes {
-            ${IMAGE_SIZE.MEDIUM_LARGE} { ${IMAGE} }
+        ${POST_IMAGE_LOCATION.LIST} {
+            sizes {
+                ${IMAGE_SIZE.MEDIUM_LARGE} { ${IMAGE} }
+            }
         }
-    }
-}`
+        ${POST_IMAGE_LOCATION.THUMBNAIL} {
+            sizes {
+                ${IMAGE_SIZE.MEDIUM_LARGE} { ${IMAGE} }
+            }
+        }
+    }`
 
 export async function PostServer({ slug }: Props) {
     const post = await getSingle<T_Post>(slug, 'post', fields).catch(() => {
@@ -92,7 +96,14 @@ export async function PostServer({ slug }: Props) {
                     className="layout__article__right"
                     dom="aside"
                 >
-                    <RecentPosts id={post.id} />
+                    <Suspense
+                        fallback={<LoadingArchive small={12} counts={4} />}
+                    >
+                        <RecentPosts
+                            id={post.id}
+                            promise={getRecent(ARCHIVE_POSTS)}
+                        />
+                    </Suspense>
                     <GoogleAdvert responsive place="sidebar" />
                 </Column>
             </Row>
