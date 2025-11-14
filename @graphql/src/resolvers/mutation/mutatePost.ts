@@ -23,7 +23,7 @@ import { Post } from '@src/schema/post'
 import { convertWPImageURL } from '@src/utils/mongo/convertWPImageURL'
 import { Archive } from '@src/schema/archive'
 
-export const updatePost = async (post: T_MySQLPost) => {
+const updatePost = async (post: T_MySQLPost) => {
     const slug = post.slug
     const archives: Types.ObjectId[] = []
 
@@ -78,7 +78,6 @@ export const mutatePost = async (
     _: unknown,
     { slug: _slug }: Param,
 ): Promise<MutationResultType> => {
-    Logger.info(`🤟 mutatePost mutation has been requested: ${_slug}`)
     const slug = sanitize(_slug)
 
     Cached.getInstance().flush(getCacheKey(COLLECTION.POST, slug))
@@ -86,7 +85,7 @@ export const mutatePost = async (
         await updatePost(post)
     })
 
-    Logger.info('🤟 mutatePost query has been finished')
+    Logger.info(`🤟 mutatePost mutation has been finished: ${_slug}`)
     return {
         result: true,
     }

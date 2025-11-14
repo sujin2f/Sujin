@@ -36,6 +36,7 @@ import { updateHits } from '@src/resolvers/mutation/updateHits'
 import { login } from '@src/resolvers/mutation/login'
 
 import { IS_DEV } from '@sujin/share/constants/helper'
+import { flushDB } from './resolvers/mutation/flushDB'
 // dotenv.config({ path: path.resolve(__dirname, '..', '..', '.env') })
 
 // Resolvers define how to fetch the types defined in your schema.
@@ -62,6 +63,7 @@ const resolvers = {
         mutateTag,
         updateHits,
         login,
+        flushDB,
     },
 }
 
@@ -101,6 +103,17 @@ const corsOptions = {
     allowedHeaders: ['Content-Type', 'Authorization'],
 }
 
+const authenticateUser = (req: express.Request): string => {
+    if (!process.env.JWT_SECRET) {
+        return ''
+    }
+    const authorizationHeader = req.headers.authorization
+    if (!authorizationHeader || !authorizationHeader.startsWith('Bearer ')) {
+        return ''
+    }
+    return authorizationHeader.replace('Bearer ', '')
+}
+
 const start = async () => {
     await server.start()
 
@@ -110,15 +123,7 @@ const start = async () => {
         express.json({ limit: '50mb' }),
         expressMiddleware(server, {
             context: async ({ req }) => {
-                // console.log(
-                //     req.host,
-                //     req.hostname,
-                //     req.originalUrl,
-                //     JSON.stringify(req.query),
-                //     req.params,
-                // )
-                // console.log(req.headers.token)
-                return { token: req.headers.token }
+                return { token: authenticateUser(req) }
             },
         }),
     )

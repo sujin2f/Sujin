@@ -1,3 +1,4 @@
+'use server'
 import React, { type PropsWithChildren, Suspense } from 'react'
 import { Ubuntu } from 'next/font/google'
 import Script from 'next/script'
@@ -13,7 +14,7 @@ import { SessionProvider } from '@common/components/SessionProvider'
 import Loading from '@app/loading'
 import { Store } from '@common/components/Store'
 /* Utils */
-import { getSession } from '@common/utils/session'
+import { getSession } from '@lib/utils/session'
 /* Assets */
 import '@app/layout.scss'
 import '@common/scss/base.scss'

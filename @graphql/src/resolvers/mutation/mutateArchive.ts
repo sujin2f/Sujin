@@ -57,11 +57,8 @@ export const mutateArchive = async (
     slug: string,
     type: ARCHIVE,
 ): Promise<MutationResultType> => {
-    Logger.info(
-        `🤟 mutateArchive mutation has been requested: ${slug}, ${type}`,
-    )
     await updateArchive(sanitize(slug), sanitize(type))
-    Logger.info(`🤟 mutateArchive mutation has been finished`)
+    Logger.info(`🤟 mutateArchive mutation has been finished: ${slug}, ${type}`)
     return {
         result: true,
     }

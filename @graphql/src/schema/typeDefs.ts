@@ -20,6 +20,7 @@ type Mutation{
     mutateTag(nonce: String!, slug: String!): Result
     updateHits(slug: String!): Result
     login(email: String!): String
+    flushDB: Boolean
 }
 type FlickrImage {
     title: String

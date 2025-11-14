@@ -18,6 +18,7 @@
         "cross-fetch": "^4.1.0",
         "csv-parse": "^5.6.0",
         "graphql": "^16.12.0",
+        "jsonwebtoken": "^9.0.2",
         "mongo-sanitize": "^1.1.0",
         "mongodb": "^6.12.0",
         "next": "^15.3.3",
@@ -40,6 +41,7 @@
         "@testing-library/jest-dom": "^6.6.3",
         "@testing-library/react": "^16.3.0",
         "@types/jest": "^29.5.14",
+        "@types/jsonwebtoken": "^9.0.10",
         "@types/mongo-sanitize": "^1.0.3",
         "@types/node": "^20",
         "@types/react": "^19",
@@ -55,6 +57,7 @@
         "ts-node": "^10.9.2",
         "typescript": "^5",
         "typescript-eslint": "^8.19.1",
+        "webpack": "^5.102.1",
         "whatwg-fetch": "^3.6.20"
     },
     "prettier": {

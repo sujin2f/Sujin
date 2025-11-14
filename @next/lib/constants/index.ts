@@ -160,11 +160,6 @@ export const MENUS: Record<MENU_NAMES, MenuItem[]> = {
         },
         {
             ...menuFixture,
-            title: 'Blog',
-            link: '/archive/category/blog/page/1',
-        },
-        {
-            ...menuFixture,
             title: 'Portfolio',
             link: '/archive/category/portfolio/page/1',
         },

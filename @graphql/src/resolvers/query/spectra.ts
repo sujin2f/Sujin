@@ -231,7 +231,7 @@ const request = async (atom: Atom, ion: number): Promise<ISpectrum[]> => {
         number,
         ion,
     }).then(async (result) => {
-        if (result) {
+        if (result && result.length) {
             return result
         }
         const csv = await requestNIST(atom, ion)

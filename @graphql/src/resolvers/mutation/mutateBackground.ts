@@ -34,9 +34,8 @@ const updateBackgrounds = async (): Promise<void> => {
  * @returns {Promise<MutationResultType>}
  */
 export const mutateBackground = async (): Promise<MutationResultType> => {
-    Logger.info(`🤟 mutateBackground mutation has been requested`)
     await updateBackgrounds()
-    Logger.info(`🤟 mutateBackground mutation has been finished`)
+    Logger.info(`🤟 mutateBackground mutation has been requested`)
     return {
         result: true,
     }

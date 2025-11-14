@@ -1,17 +1,11 @@
-import { subtle } from 'node:crypto'
-// import { EnvironmentError } from '@sujin/common/model/Error'
+import { subtle, createHash as nodeCreateHash } from 'node:crypto'
 
-const getKey = async () => {
-    if (!process.env.CRYPT_JWK) {
-        // throw new EnvironmentError('CRYPT_JWK is not defined')
-        throw new Error('CRYPT_JWK is not defined')
-    }
-
+const getKey = async (secret: string) => {
     const key = {
         key_ops: ['encrypt', 'decrypt'],
         ext: true,
         kty: 'oct',
-        k: process.env.CRYPT_JWK,
+        k: secret,
         alg: 'A256CBC',
     }
 
@@ -27,26 +21,30 @@ const getKey = async () => {
     )
 }
 
-const getCryptoKeyAndIv = async () => {
+const getCryptoKeyAndIv = async (secret: string) => {
     const iv = Buffer.alloc(16, process.env.NEXTAUTH_SECRET || '')
     const algorithm = {
         name: 'AES-CBC',
         length: 256,
         iv,
     }
-    return { algorithm, key: await getKey() }
+    return { algorithm, key: await getKey(secret) }
 }
 
-export const encodeText = async (text: string) => {
+export const encodeText = async (text: string, secret: string) => {
     const enc = new TextEncoder()
     const message = enc.encode(text)
-    const { key, algorithm } = await getCryptoKeyAndIv()
+    const { key, algorithm } = await getCryptoKeyAndIv(secret)
     const encoded = await subtle.encrypt(algorithm, key, message)
     return encoded
 }
 
-export const decodeText = async (buffer: BufferSource) => {
-    const { key, algorithm } = await getCryptoKeyAndIv()
+export const decodeText = async (buffer: BufferSource, secret: string) => {
+    const { key, algorithm } = await getCryptoKeyAndIv(secret)
     const decoded = await subtle.decrypt(algorithm, key, buffer)
     return new TextDecoder().decode(decoded)
+}
+
+export const createHash = (str: string, secret: string) => {
+    return nodeCreateHash('md5').update(str).update(secret).digest('hex')
 }

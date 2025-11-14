@@ -1,9 +1,13 @@
 import type { NextConfig } from 'next'
+import webpack from 'webpack'
+const { EnvironmentPlugin } = webpack
+import packageJson from './package.json'
 
 const nextConfig: NextConfig = {
     output: 'standalone',
     /* config options here */
     webpack(config) {
+        // SVG loader
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const fileLoaderRule = config.module.rules.find((rule: any) =>
             rule.test?.test?.('.svg'),
@@ -27,6 +31,14 @@ const nextConfig: NextConfig = {
         )
 
         fileLoaderRule.exclude = /\.svg$/i
+
+        // env var
+        config.plugins.push(
+            new EnvironmentPlugin({
+                VERSION: packageJson.version,
+                IS_BETA: packageJson.version.includes('beta'),
+            }),
+        )
 
         return config
     },

@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from 'react'
 import { notFound } from 'next/navigation'
 /* Utils */
-import { isAdmin } from '../utils/session'
+import { isAdmin } from '@lib/utils/session'
 import { IS_DEV } from '@sujin/share/constants/helper'
 
 /**

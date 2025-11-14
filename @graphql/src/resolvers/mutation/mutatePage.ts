@@ -53,9 +53,8 @@ export const mutatePage = async (
     _: unknown,
     { slug }: Param,
 ): Promise<MutationResultType> => {
-    Logger.info(`🤟 mutatePage mutation has been requested: ${slug}`)
     await updatePage(sanitize(slug))
-    Logger.info('🤟 mutatePage query has been finished')
+    Logger.info(`🤟 mutatePage mutation has been finished: ${slug}`)
     return {
         result: true,
     }

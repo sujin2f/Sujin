@@ -10,11 +10,10 @@ type Param = {
 }
 
 export const updateHits = async (_: unknown, { slug: _slug }: Param) => {
-    Logger.info(`🤟 updateHits mutation has been requested: ${_slug}`)
     const slug = sanitize(_slug)
     await Archive.updateOne({ slug, type: ARCHIVE.TAG }, { $inc: { hits: 1 } })
 
-    Logger.info(`🤟 updateHits mutation has been finished`)
+    Logger.info(`🤟 updateHits mutation has been finished: ${_slug}`)
     return {
         result: true,
     }
