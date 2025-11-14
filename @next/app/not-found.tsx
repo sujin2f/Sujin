@@ -7,7 +7,6 @@ import { NotFoundClient } from '@app/not-found.client'
 import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
 /* CONSTANTS */
 import { MENU_NAMES } from '@sujin/lib/types'
-import { ARCHIVE_POSTS } from '@lib/constants/graphql-fields'
 /* Utils */
 import { getRecent } from '@lib/apollo/archives'
 
@@ -18,8 +17,6 @@ export const metadata: Metadata = {
         nocache: false,
     },
 }
-
-const fields = ARCHIVE_POSTS
 
 type Props = {
     readonly menu?: MENU_NAMES
@@ -34,7 +31,9 @@ export default async function NotFound({ menu }: Props) {
         >
             <WidgetTitle>Recent Posts</WidgetTitle>
             <Suspense fallback={<LoadingArchive />}>
-                <NotFoundClient promise={getRecent(fields).catch(() => [])} />
+                <NotFoundClient
+                    promise={getRecent('POST_ARCHIVE').catch(() => [])}
+                />
             </Suspense>
         </Wrapper>
     )

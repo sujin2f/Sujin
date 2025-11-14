@@ -303,6 +303,9 @@ export const AGGREGATE_EXPAND_ARCHIVES = [
             ],
         },
     },
+]
+
+export const AGGREGATE_ARCHIVE_POST = [
     {
         $project: {
             content: 0,

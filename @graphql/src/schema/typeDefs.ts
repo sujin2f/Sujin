@@ -10,6 +10,7 @@ type Query{
     list(id: String!, page: Int!): [Post]
     pages(id: String!): Int
     prevNext(slug: String!): [Post]
+    related(slug: String!): [Post]
 }
 type Mutation{
     mutatePost(nonce: String!, slug: String!): Result

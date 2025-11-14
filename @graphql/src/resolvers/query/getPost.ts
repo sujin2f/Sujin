@@ -10,10 +10,11 @@ import { COLLECTION, POST_STATUS } from '@sujin/lib/types'
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 /* T_Types */
 import type { T_Page, T_Post } from '@sujin/lib/types'
+import { AGGREGATE_EXPAND_ARCHIVES } from '@src/constants'
 
 type Param = {
     slug: string
-    type: 'page' | 'post'
+    type: 'page' | 'post' // TODO to enum
 }
 
 /**
@@ -62,21 +63,7 @@ const query = async (
         {
             $match: { status: POST_STATUS.PUBLISH, slug },
         },
-        {
-            $lookup: {
-                from: COLLECTION.ARCHIVE,
-                localField: 'archives',
-                foreignField: '_id',
-                as: 'archives',
-                pipeline: [
-                    {
-                        $addFields: {
-                            _id: { $toString: '$_id' },
-                        },
-                    },
-                ],
-            },
-        },
+        ...AGGREGATE_EXPAND_ARCHIVES,
     ]).then((result) => {
         if (!result || !result.length) {
             throw new GraphQLError(`Cannot find the post ${slug}`, {

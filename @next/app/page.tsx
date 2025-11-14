@@ -5,21 +5,12 @@ import Wrapper from '@lib/components/Wrapper'
 /* Utils */
 import { getBackgrounds } from '@lib/apollo/backgrounds'
 /* CONSTANTS */
-import { IMAGE } from '@lib/constants/graphql-fields'
 /* Assets */
 import Logo from '@common/images/logo.svg'
 import style from '@app/front-page.module.scss'
 
-const fields = `
-    ${IMAGE}
-    sizes {
-        large { ${IMAGE} }
-        medium { ${IMAGE} }
-        mediumLarge { ${IMAGE} }
-    }`
-
 export default async function FrontPage() {
-    const backgrounds = await getBackgrounds(fields).catch(() => {
+    const backgrounds = await getBackgrounds('BACKGROUNDS').catch(() => {
         return []
     })
     const background =

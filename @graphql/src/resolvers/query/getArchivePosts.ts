@@ -7,7 +7,10 @@ import Logger from '@src/utils/logger'
 /* CONSTANTS */
 import { COLLECTION, POST_STATUS, type T_ArchivePost } from '@sujin/lib/types'
 import { PER_PAGE } from '@sujin/lib/constants'
-import { AGGREGATE_EXPAND_ARCHIVES } from '@src/constants'
+import {
+    AGGREGATE_ARCHIVE_POST,
+    AGGREGATE_EXPAND_ARCHIVES,
+} from '@src/constants'
 /* T_Types */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 
@@ -67,6 +70,7 @@ const queryArchivePosts = async (
         { $skip: PER_PAGE * (page - 1) },
         { $limit: PER_PAGE },
         ...AGGREGATE_EXPAND_ARCHIVES,
+        ...AGGREGATE_ARCHIVE_POST,
     ]).then((result) => {
         if (!result || !result.length) {
             throw new GraphQLError(`Cannot find the post from archive ${id}`, {

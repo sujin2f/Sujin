@@ -2,7 +2,6 @@
 import { GraphQLError } from 'graphql'
 import { gql } from '@apollo/client'
 import { unstable_cache } from 'next/cache'
-import getUuid from 'uuid-by-string'
 /* Models */
 import { client } from '@lib/apollo/apollo-client-server'
 /* CONSTANTS */
@@ -11,6 +10,7 @@ import { REVALIDATION } from '@lib/constants'
 import { COLLECTION, T_ArchivePost, type T_Archive } from '@sujin/lib/types'
 /* Utils */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
+import { FIELDS } from '@lib/constants/graphql-fields'
 
 /**
  * Get archive by slug
@@ -22,11 +22,11 @@ import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 export const getArchive = async (
     slug: string,
     type: string,
-    fields: string,
+    fields: FIELDS,
 ): Promise<T_Archive> => {
     const request = unstable_cache(
         cachedArchive,
-        [slug, type, getUuid(fields), VERSION],
+        [slug, type, fields, VERSION],
         {
             tags: ['wordpress', 'archive'],
             revalidate: REVALIDATION,
@@ -35,10 +35,10 @@ export const getArchive = async (
     return await request(slug, type, fields)
 }
 
-const cachedArchive = async (slug: string, type: string, fields: string) => {
+const cachedArchive = async (slug: string, type: string, fields: FIELDS) => {
     const request = cachedRequest(
         queryArchive,
-        getCacheKey(COLLECTION.POST, slug, type, getUuid(fields)),
+        getCacheKey(COLLECTION.POST, slug, type, fields),
     )
     return await request(slug, type, fields)
 }
@@ -46,13 +46,13 @@ const cachedArchive = async (slug: string, type: string, fields: string) => {
 const queryArchive = async (
     slug: string,
     type: string,
-    fields: string,
+    fields: FIELDS,
 ): Promise<T_Archive> => {
     return await client
         .query<{ archive: T_Archive }>({
             query: gql`
                 query Archive($slug: String!, $type: String!) {
-                    archive(slug: $slug, type: $type) { ${fields} }
+                    archive(slug: $slug, type: $type) { ${FIELDS[fields]} }
                 }
             `,
             variables: {
@@ -100,28 +100,28 @@ export const updateHits = async (slug: string) => {
  * @param {string} slug - Post slug
  * @returns {Promise<T_Archive>} - The archive object
  */
-export const getRecent = async (fields: string): Promise<T_ArchivePost[]> => {
-    const request = unstable_cache(cachedRecent, [getUuid(fields), VERSION], {
+export const getRecent = async (fields: FIELDS): Promise<T_ArchivePost[]> => {
+    const request = unstable_cache(cachedRecent, [fields, VERSION], {
         tags: ['wordpress', 'recent'],
         revalidate: REVALIDATION,
     })
     return await request(fields)
 }
 
-const cachedRecent = async (fields: string) => {
+const cachedRecent = async (fields: FIELDS) => {
     const request = cachedRequest(
         queryRecent,
-        getCacheKey(COLLECTION.ARCHIVE, 'recent', getUuid(fields)),
+        getCacheKey(COLLECTION.ARCHIVE, 'recent', fields),
     )
     return await request(fields)
 }
 
-const queryRecent = async (fields: string): Promise<T_ArchivePost[]> => {
+const queryRecent = async (fields: FIELDS): Promise<T_ArchivePost[]> => {
     return await client
         .query<{ recent: T_ArchivePost[] }>({
             query: gql`
                 query Recent {
-                    recent { ${fields} }
+                    recent { ${FIELDS[fields]} }
                 }
             `,
         })

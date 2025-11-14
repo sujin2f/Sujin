@@ -5,8 +5,7 @@ import Wrapper from '@lib/components/Wrapper'
 import { Cards } from '@lib/components/archive/Cards.use'
 import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
 /* CONSTANTS */
-import { ARCHIVE, IMAGE_SIZE } from '@sujin/lib/types'
-import { ARCHIVE_POSTS, IMAGE } from '@lib/constants/graphql-fields'
+import { ARCHIVE } from '@sujin/lib/types'
 /* Utils */
 import { updateHits, getArchive } from '@lib/apollo/archives'
 import { getPosts } from '@lib/apollo/single'
@@ -17,19 +16,8 @@ type Props = {
     page: number
 }
 
-const archiveFields = `_id title excerpt
-    image {
-        ${IMAGE}
-        sizes {
-            ${IMAGE_SIZE.MEDIUM} { ${IMAGE} }
-            ${IMAGE_SIZE.MEDIUM_LARGE} { ${IMAGE} }
-            ${IMAGE_SIZE.LARGE} { ${IMAGE} }
-        }
-    }
-`
-
 export async function ArchiveServer({ type, slug, page }: Props) {
-    const archive = await getArchive(slug, type, archiveFields).catch(() => {
+    const archive = await getArchive(slug, type, 'ARCHIVE').catch(() => {
         notFound()
     })
 
@@ -50,7 +38,7 @@ export async function ArchiveServer({ type, slug, page }: Props) {
             <Suspense fallback={<LoadingArchive />}>
                 <Cards
                     keyPrefix={`${type}-${slug}-${page}`}
-                    posts={getPosts(archive._id, page, ARCHIVE_POSTS).catch(
+                    posts={getPosts(archive._id, page, 'POST_ARCHIVE').catch(
                         () => {
                             return { list: [], pages: 1 }
                         },

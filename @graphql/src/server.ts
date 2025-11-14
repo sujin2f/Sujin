@@ -18,20 +18,24 @@ import { getBackgrounds } from '@src/resolvers/query/getBackgrounds'
 import { getFlickr } from '@src/resolvers/query/getFlickr'
 import { getTagCloud } from '@src/resolvers/query/getTagCloud'
 import { getSpectraFromNIST } from '@src/resolvers/query/spectra'
+import {
+    getArchivePosts,
+    getNumPosts,
+} from '@src/resolvers/query/getArchivePosts'
+import { getPrevNext } from '@src/resolvers/query/getPrevNext'
+import { getRelatedPosts } from '@src/resolvers/query/getRelatedPosts'
+import { getPost } from '@src/resolvers/query/getPost'
+import { getArchive } from '@src/resolvers/query/getArchive'
 
 import { mutatePost } from '@src/resolvers/mutation/mutatePost'
 import { mutatePage } from '@src/resolvers/mutation/mutatePage'
 import { mutateBackground } from '@src/resolvers/mutation/mutateBackground'
 import { mutateCategory } from '@src/resolvers/mutation/mutateCategory'
 import { mutateTag } from '@src/resolvers/mutation/mutateTag'
-import { getPost } from '@src/resolvers/query/getPost'
-import { getArchive } from '@src/resolvers/query/getArchive'
-import { updateHits } from './resolvers/mutation/updateHits'
-import { getArchivePosts, getNumPosts } from './resolvers/query/getArchivePosts'
-import { login } from './resolvers/mutation/login'
-import { IS_DEV } from '@sujin/share/constants/helper'
-import { getPrevNext } from './resolvers/query/getPrevNext'
+import { updateHits } from '@src/resolvers/mutation/updateHits'
+import { login } from '@src/resolvers/mutation/login'
 
+import { IS_DEV } from '@sujin/share/constants/helper'
 // dotenv.config({ path: path.resolve(__dirname, '..', '..', '.env') })
 
 // Resolvers define how to fetch the types defined in your schema.
@@ -48,6 +52,7 @@ const resolvers = {
         list: getArchivePosts,
         pages: getNumPosts,
         prevNext: getPrevNext,
+        related: getRelatedPosts,
     },
     Mutation: {
         mutatePost,

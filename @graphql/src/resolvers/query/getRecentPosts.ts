@@ -6,7 +6,10 @@ import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 /* CONSTANTS */
 import { COLLECTION, POST_STATUS, type T_ArchivePost } from '@sujin/lib/types'
 import { PER_PAGE } from '@sujin/lib/constants'
-import { AGGREGATE_EXPAND_ARCHIVES } from '@src/constants'
+import {
+    AGGREGATE_ARCHIVE_POST,
+    AGGREGATE_EXPAND_ARCHIVES,
+} from '@src/constants'
 
 /**
  * Fetches the recent posts from MongoDB.
@@ -19,6 +22,7 @@ const query = async (): Promise<T_ArchivePost[]> => {
         { $sort: { date: -1 } },
         { $limit: PER_PAGE },
         ...AGGREGATE_EXPAND_ARCHIVES,
+        ...AGGREGATE_ARCHIVE_POST,
     ])
 }
 

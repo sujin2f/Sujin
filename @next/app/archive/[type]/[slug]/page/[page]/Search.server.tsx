@@ -6,7 +6,6 @@ import { Cards } from '@lib/components/archive/Cards.use'
 import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
 /* CONSTANTS */
 import { ARCHIVE } from '@sujin/lib/types'
-import { ARCHIVE_POSTS } from '@lib/constants/graphql-fields'
 /* Utils */
 import { getPosts } from '@lib/apollo/single'
 
@@ -27,7 +26,7 @@ export async function SearchServer({ slug, page }: Props) {
                     posts={getPosts(
                         `search-${slug}`,
                         page,
-                        ARCHIVE_POSTS,
+                        'POST_ARCHIVE',
                     ).catch(() => {
                         notFound()
                     })}

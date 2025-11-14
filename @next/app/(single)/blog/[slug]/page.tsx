@@ -3,11 +3,10 @@ import type { Metadata } from 'next/types'
 import { PostServer } from '@app/(single)/blog/[slug]/Post.server'
 /* CONSTANTS */
 import { BASE_URL } from '@lib/constants'
-import { IMAGE_SIZE, POST_IMAGE_LOCATION, T_Post } from '@sujin/lib/types'
+import { IMAGE_SIZE, T_Post } from '@sujin/lib/types'
 /* Utils */
 import { getThumbnailFromPost } from '@lib/utils/client'
 import { getSingle } from '@lib/apollo/single'
-import { IMAGE } from '@lib/constants/graphql-fields'
 
 type Props = {
     params: Promise<{
@@ -15,25 +14,10 @@ type Props = {
     }>
 }
 
-const fields = `
-    title excerpt archives { title }
-    images {
-        ${POST_IMAGE_LOCATION.LIST} {
-            sizes {
-                ${IMAGE_SIZE.MEDIUM_LARGE} { ${IMAGE} }
-            }
-        }
-        ${POST_IMAGE_LOCATION.THUMBNAIL} {
-            sizes {
-                ${IMAGE_SIZE.MEDIUM_LARGE} { ${IMAGE} }
-            }
-        }
-    }`
-
 export const generateMetadata = async (props: Props): Promise<Metadata> => {
     const params = await props.params
     const slug = params.slug.toLowerCase()
-    const post = await getSingle<T_Post>(slug, 'post', fields).catch(
+    const post = await getSingle<T_Post>(slug, 'post', 'SINGLE_META').catch(
         () => undefined,
     )
     if (!post) {

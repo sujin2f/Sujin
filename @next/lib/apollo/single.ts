@@ -2,7 +2,6 @@
 import { GraphQLError } from 'graphql'
 import { gql } from '@apollo/client'
 import { unstable_cache } from 'next/cache'
-import getUuid from 'uuid-by-string'
 /* Models */
 import { client } from '@lib/apollo/apollo-client-server'
 /* CONSTANTS */
@@ -12,11 +11,11 @@ import {
     COLLECTION,
     PropWithPages,
     T_ArchivePost,
-    T_PrevNext,
     type T_Page,
 } from '@sujin/lib/types'
 /* Utils */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
+import { FIELDS } from '@lib/constants/graphql-fields'
 
 /**
  * Get single page by slug
@@ -28,11 +27,11 @@ import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 export const getSingle = async <T extends T_Page>(
     slug: string,
     type: string,
-    fields: string,
+    fields: FIELDS,
 ): Promise<T> => {
     const request = unstable_cache(
         cachedSingle<T>,
-        [slug, type, getUuid(fields), VERSION],
+        [slug, type, fields, VERSION],
         {
             tags: ['wordpress', 'single'],
             revalidate: REVALIDATION,
@@ -44,11 +43,11 @@ export const getSingle = async <T extends T_Page>(
 const cachedSingle = async <T extends T_Page>(
     slug: string,
     type: string,
-    fields: string,
+    fields: FIELDS,
 ) => {
     const request = cachedRequest(
         querySingle<T>,
-        getCacheKey(COLLECTION.POST, slug, type, getUuid(fields)),
+        getCacheKey(COLLECTION.POST, slug, type, fields),
     )
     return await request(slug, type, fields)
 }
@@ -56,13 +55,13 @@ const cachedSingle = async <T extends T_Page>(
 const querySingle = async <T extends T_Page>(
     slug: string,
     type: string,
-    fields: string,
+    fields: FIELDS,
 ): Promise<T> => {
     return await client
         .query<{ post: T }>({
             query: gql`
                 query Post($slug: String!, $type: String!) {
-                    post(slug: $slug, type: $type) { ${fields} }
+                    post(slug: $slug, type: $type) { ${FIELDS[fields]} }
                 }
             `,
             variables: {
@@ -88,11 +87,11 @@ const querySingle = async <T extends T_Page>(
 export const getPosts = async (
     id: string,
     page: number,
-    fields: string,
+    fields: FIELDS,
 ): Promise<PropWithPages<T_ArchivePost>> => {
     const request = unstable_cache(
         cachedPosts,
-        [id, page.toString(), getUuid(fields), VERSION],
+        [id, page.toString(), fields, VERSION],
         {
             tags: ['wordpress', 'archive', 'posts'],
             revalidate: REVALIDATION,
@@ -104,11 +103,11 @@ export const getPosts = async (
 const cachedPosts = async (
     id: string,
     page: number,
-    fields: string,
+    fields: FIELDS,
 ): Promise<PropWithPages<T_ArchivePost>> => {
     const request = cachedRequest(
         queryPosts,
-        getCacheKey(COLLECTION.ARCHIVE, id, page, getUuid(fields)),
+        getCacheKey(COLLECTION.ARCHIVE, id, page, fields),
     )
     return await request(id, page, fields)
 }
@@ -116,14 +115,14 @@ const cachedPosts = async (
 const queryPosts = async (
     id: string,
     page: number,
-    fields: string,
+    fields: FIELDS,
 ): Promise<PropWithPages<T_ArchivePost>> => {
     return await client
         .query<PropWithPages<T_ArchivePost>>({
             query: gql`
                 query ArchivePosts($id: String!, $page: Int!) {
                     list(id: $id, page: $page) {
-                        ${fields}
+                        ${FIELDS[fields]}
                     }
                     pages(id: $id)
                 }
@@ -143,68 +142,6 @@ const queryPosts = async (
             }
 
             return result.data
-        })
-        .catch((e) => {
-            throw e.errors[0]
-        })
-}
-
-export const getPrevNext = async (
-    slug: string,
-    fields: string,
-): Promise<T_PrevNext[]> => {
-    const request = unstable_cache(
-        cachedPrevNext,
-        [slug, getUuid(fields), VERSION],
-        {
-            tags: ['wordpress', 'single', 'prev-next'],
-            revalidate: REVALIDATION,
-        },
-    )
-    return await request(slug, fields)
-}
-
-const cachedPrevNext = async (
-    slug: string,
-    fields: string,
-): Promise<T_PrevNext[]> => {
-    const request = cachedRequest(
-        queryPrevNext,
-        getCacheKey(COLLECTION.POST, 'prev-next', slug, getUuid(fields)),
-    )
-    return await request(slug, fields)
-}
-
-const queryPrevNext = async (
-    slug: string,
-    fields: string,
-): Promise<T_PrevNext[]> => {
-    return await client
-        .query<{ prevNext: T_PrevNext[] }>({
-            query: gql`
-                query PrevNext($slug: String!) {
-                    prevNext(slug: $slug) {
-                        ${fields}
-                    }
-                }
-            `,
-            variables: {
-                slug,
-            },
-        })
-        .then((result) => {
-            if (!result || !result.data) {
-                throw new GraphQLError(
-                    `Cannot find prev/next posts from ${slug}`,
-                    {
-                        extensions: {
-                            code: 'NO_CONTENT',
-                        },
-                    },
-                )
-            }
-
-            return result.data.prevNext
         })
         .catch((e) => {
             throw e.errors[0]

@@ -39,8 +39,7 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
     }
 
     // TODO thumbnail
-    const fields = 'title excerpt'
-    const archive = await getArchive(slug, type, fields).catch(() => {})
+    const archive = await getArchive(slug, type, 'ARCHIVE_META').catch(() => {})
     if (!archive) {
         return {
             robots: {

@@ -1,62 +1,30 @@
+import { Suspense } from 'react'
 import { notFound } from 'next/navigation'
 /* Components */
 import Wrapper from '@lib/components/Wrapper'
 import { Tags } from '@lib/components/single/Tags'
-import { PrevNext } from '@lib/components/single/PrevNext.server'
-import { RelatedPosts } from '@lib/components/single/RelatedPosts.server'
+import { PrevNextPost } from '@lib/components/single/PrevNext.post'
+import { RelatedPosts } from '@lib/components/single/RelatedPosts'
 import { RecentPosts } from '@lib/components/single/RecentPosts'
 import { SocialShare } from '@lib/components/single/SocialShare.client'
 import Column from '@common/components/layout/Column'
 import Row from '@common/components/layout/Row'
 import { Content } from '@lib/components/single/Content'
 import { GoogleAdvert } from '@common/components/GoogleAdvert'
+import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
 /* CONSTANTS */
-import {
-    IMAGE_SIZE,
-    POST_IMAGE_LOCATION,
-    POST_STATUS,
-    T_Post,
-} from '@sujin/lib/types'
-import { ARCHIVE_POSTS, IMAGE, POST } from '@lib/constants/graphql-fields'
+import { IMAGE_SIZE, POST_STATUS, T_Post } from '@sujin/lib/types'
 /* Utils */
 import { getThumbnailFromPost } from '@lib/utils/client'
 import { getRecent, updateHits } from '@lib/apollo/archives'
-import { getPrevNext, getSingle } from '@lib/apollo/single'
-import { Suspense } from 'react'
-import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
+import { getSingle } from '@lib/apollo/single'
 
 type Props = {
     slug: string
 }
 
-const fields = `
-    ${POST}
-    images {
-        ${POST_IMAGE_LOCATION.ICON} {
-            url
-        }
-        ${POST_IMAGE_LOCATION.BACKGROUND} {
-            ${IMAGE}
-            sizes {
-                ${IMAGE_SIZE.MEDIUM} { ${IMAGE} }
-                ${IMAGE_SIZE.MEDIUM_LARGE} { ${IMAGE} }
-                ${IMAGE_SIZE.LARGE} { ${IMAGE} }
-            }
-        }
-        ${POST_IMAGE_LOCATION.LIST} {
-            sizes {
-                ${IMAGE_SIZE.MEDIUM_LARGE} { ${IMAGE} }
-            }
-        }
-        ${POST_IMAGE_LOCATION.THUMBNAIL} {
-            sizes {
-                ${IMAGE_SIZE.MEDIUM_LARGE} { ${IMAGE} }
-            }
-        }
-    }`
-
 export async function PostServer({ slug }: Props) {
-    const post = await getSingle<T_Post>(slug, 'post', fields).catch(() => {
+    const post = await getSingle<T_Post>(slug, 'post', 'POST').catch(() => {
         notFound()
     })
 
@@ -85,11 +53,7 @@ export async function PostServer({ slug }: Props) {
                             excerpt={post.excerpt}
                             thumbnail={thumbnail}
                         />
-                        <Suspense>
-                            <PrevNext
-                                promise={getPrevNext(slug, 'title link')}
-                            />
-                        </Suspense>
+                        <PrevNextPost slug={slug} />
                         <RelatedPosts slug={slug} />
                     </Content>
                 </Column>
@@ -105,7 +69,7 @@ export async function PostServer({ slug }: Props) {
                     >
                         <RecentPosts
                             id={post.id}
-                            promise={getRecent(ARCHIVE_POSTS)}
+                            promise={getRecent('POST_ARCHIVE')}
                         />
                     </Suspense>
                     <GoogleAdvert responsive place="sidebar" />

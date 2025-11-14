@@ -23,6 +23,7 @@ export const RecentPosts = ({ promise, id }: Props) => {
                 ...item,
                 date: new Date(parseInt(item.date.toString())),
             })),
+
         pages: 0,
     }
 

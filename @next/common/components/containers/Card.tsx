@@ -33,18 +33,27 @@ export const Card = ({
     title,
     description,
     to,
-    time,
+    time = '',
     image,
     className,
 }: PropsWithChildren<Props>) => {
-    const datetime = time && new Date(parseInt(time))
+    let datetime: Date | undefined
+    const timestamp = parseInt(time)
+
+    // ISO
+    if (isNaN(timestamp) && time) {
+        datetime = new Date(time)
+    } else {
+        datetime = new Date(timestamp)
+    }
+
     return (
         <section className={joinClassNames('card', className)}>
             <figure className="card__thumbnail">
                 <Link title={title || ''} href={to}>
                     <div className="card__thumbnail__zoom"></div>
                     <div className="card__thumbnail__shadow"></div>
-                    {datetime && (
+                    {datetime && !isNaN(datetime.getTime()) && (
                         <time
                             className="card__time"
                             dateTime={datetime.toString()}
