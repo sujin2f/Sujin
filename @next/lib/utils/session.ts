@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken'
 import { getServerSession, type AuthOptions } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 /* Utils */
-import { login } from '@lib/apollo/user'
+import { login } from '@lib/apollo/mutation/login'
 /* T_Types */
 import type { T_SessionUser } from '@sujin/lib/types'
 import { DAY_IN_SECONDS } from '@sujin/share/constants/datetime'
@@ -73,16 +73,9 @@ const getCurrentUser = async (): Promise<T_SessionUser | undefined> => {
 }
 
 export const isAdmin = async (): Promise<boolean> =>
-    await getCurrentUser().then((user) => {
-        if (!user) {
-            throw new Error('session is empty')
-        }
-
+    await getToken().then((token) => {
         try {
-            const verify = jwt.verify(
-                user?.gqlToken || '',
-                process.env.JWT_SECRET || '',
-            )
+            const verify = jwt.verify(token, process.env.JWT_SECRET || '')
             return (verify as unknown as { admin: boolean }).admin
         } catch {
             return false

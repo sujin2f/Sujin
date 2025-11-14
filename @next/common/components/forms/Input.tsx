@@ -14,7 +14,7 @@ import {
 import { filterEmpty } from '@sujin/share/utils/object'
 import { joinClassNames } from '@sujin/share/utils/string'
 /* Assets */
-import '@commonscss/form.scss'
+import '@common/scss/form.scss'
 
 export type InputProps<T extends HTMLElement> = PropsWithChildren<
     DetailedHTMLProps<InputHTMLAttributes<T>, T>

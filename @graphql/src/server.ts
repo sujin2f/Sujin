@@ -18,10 +18,7 @@ import { getBackgrounds } from '@src/resolvers/query/getBackgrounds'
 import { getFlickr } from '@src/resolvers/query/getFlickr'
 import { getTagCloud } from '@src/resolvers/query/getTagCloud'
 import { getSpectraFromNIST } from '@src/resolvers/query/spectra'
-import {
-    getArchivePosts,
-    getNumPosts,
-} from '@src/resolvers/query/getArchivePosts'
+import { getArchivePosts } from '@src/resolvers/query/getArchivePosts'
 import { getPrevNext } from '@src/resolvers/query/getPrevNext'
 import { getRelatedPosts } from '@src/resolvers/query/getRelatedPosts'
 import { getPost } from '@src/resolvers/query/getPost'
@@ -37,6 +34,9 @@ import { login } from '@src/resolvers/mutation/login'
 
 import { IS_DEV } from '@sujin/share/constants/helper'
 import { flushDB } from './resolvers/mutation/flushDB'
+import { getPages } from './resolvers/query/getPages'
+import { getNumPages } from './resolvers/query/getNumPages'
+import { removePage } from './resolvers/mutation/removePage'
 // dotenv.config({ path: path.resolve(__dirname, '..', '..', '.env') })
 
 // Resolvers define how to fetch the types defined in your schema.
@@ -50,14 +50,16 @@ const resolvers = {
         spectra: getSpectraFromNIST,
         post: getPost,
         archive: getArchive,
-        list: getArchivePosts,
-        pages: getNumPosts,
+        archivePosts: getArchivePosts,
+        numPages: getNumPages,
         prevNext: getPrevNext,
         related: getRelatedPosts,
+        pages: getPages,
     },
     Mutation: {
         mutatePost,
         mutatePage,
+        removePage,
         mutateBackground,
         mutateCategory,
         mutateTag,

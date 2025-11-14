@@ -5,7 +5,7 @@ import Input from './Input'
 /* Utils */
 import { joinClassNames } from '@sujin/share/utils/string'
 /* Assets */
-import '@commonscss/form.scss'
+import '@common/scss/form.scss'
 
 type Options =
     | string[]

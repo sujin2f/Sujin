@@ -8,7 +8,7 @@ import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
 /* CONSTANTS */
 import { MENU_NAMES } from '@sujin/lib/types'
 /* Utils */
-import { getRecent } from '@lib/apollo/archives'
+import { getRecent } from '@lib/apollo/query/getRecent'
 
 export const metadata: Metadata = {
     robots: {

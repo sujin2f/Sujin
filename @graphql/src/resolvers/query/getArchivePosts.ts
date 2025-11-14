@@ -11,7 +11,8 @@ import {
     AGGREGATE_ARCHIVE_POST,
     AGGREGATE_EXPAND_ARCHIVES,
 } from '@src/constants'
-/* T_Types */
+/* Utils */
+import { isSearch } from '@src/utils/mongo/isSearch'
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 
 type ParamId = {
@@ -20,11 +21,6 @@ type ParamId = {
 
 type Param = ParamId & {
     page: number
-}
-
-const isSearch = (id: string): [string, number] => {
-    const search = id.startsWith('search-')
-    return [sanitize(search ? id.slice(7) : id), search ? 1 : 0]
 }
 
 /**
@@ -81,30 +77,4 @@ const queryArchivePosts = async (
         }
         return result
     })
-}
-
-export const getNumPosts = async (_: unknown, { id: _id }: ParamId) => {
-    const [id, search] = isSearch(_id)
-    const request = cachedRequest(
-        queryNumPosts,
-        getCacheKey(COLLECTION.ARCHIVE, id, search, 'total'),
-    )
-    const result = await request(id, search)
-    Logger.info(`🤟 pages query has been finished: ${_id}`)
-    return result
-}
-
-const queryNumPosts = async (id: string, search: number): Promise<number> => {
-    const filter = search
-        ? {
-              $text: { $search: id },
-              status: POST_STATUS.PUBLISH,
-          }
-        : {
-              archives: { $in: [new mongoose.Types.ObjectId(id)] },
-              status: POST_STATUS.PUBLISH,
-          }
-
-    const total = await Post.countDocuments(filter)
-    return Math.ceil(total / PER_PAGE)
 }

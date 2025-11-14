@@ -7,8 +7,9 @@ import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
 /* CONSTANTS */
 import { ARCHIVE } from '@sujin/lib/types'
 /* Utils */
-import { updateHits, getArchive } from '@lib/apollo/archives'
-import { getPosts } from '@lib/apollo/single'
+import { getArchivePosts } from '@lib/apollo/query/getArchivePosts'
+import { getArchive } from '@lib/apollo/query/getArchive'
+import { updateHits } from '@lib/apollo/mutation/updateHits'
 
 type Props = {
     type: ARCHIVE
@@ -38,11 +39,13 @@ export async function ArchiveServer({ type, slug, page }: Props) {
             <Suspense fallback={<LoadingArchive />}>
                 <Cards
                     keyPrefix={`${type}-${slug}-${page}`}
-                    posts={getPosts(archive._id, page, 'POST_ARCHIVE').catch(
-                        () => {
-                            return { list: [], pages: 1 }
-                        },
-                    )}
+                    posts={getArchivePosts(
+                        archive._id,
+                        page,
+                        'POST_ARCHIVE',
+                    ).catch(() => {
+                        return { list: [], numPages: 1 }
+                    })}
                     page={page}
                     pageURLPrefix={`/${type}/${slug}/page`}
                     large={4}

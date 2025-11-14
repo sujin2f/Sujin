@@ -24,7 +24,7 @@ export const RecentPosts = ({ promise, id }: Props) => {
                 date: new Date(parseInt(item.date.toString())),
             })),
 
-        pages: 0,
+        numPages: 0,
     }
 
     return (

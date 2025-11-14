@@ -82,5 +82,6 @@ export const FIELDS = {
         images { ${IMAGE_META} }`,
     POST,
     PAGE,
+    PAGE_ADMIN: `${POST_RECENT} status`,
 }
 export type FIELDS = keyof typeof FIELDS

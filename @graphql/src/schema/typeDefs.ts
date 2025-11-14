@@ -7,14 +7,16 @@ type Query{
     spectra(number: Int!, ion: Int!): [Spectrum]
     post(slug: String!, type: String!): Post
     archive(slug: String!, type: String!): Term
-    list(id: String!, page: Int!): [Post]
-    pages(id: String!): Int
+    archivePosts(id: String!, page: Int!): [Post]
+    numPages(context: String!, id: String): Int
     prevNext(slug: String!): [Post]
     related(slug: String!): [Post]
+    pages(page: Int!): [Post]
 }
 type Mutation{
     mutatePost(nonce: String!, slug: String!): Result
-    mutatePage(nonce: String!, slug: String!): Result
+    mutatePage(slug: String!): Result
+    removePage(slug: String!): Result
     mutateBackground(nonce: String!): Result
     mutateCategory(nonce: String!, slug: String!): Result
     mutateTag(nonce: String!, slug: String!): Result
@@ -98,6 +100,7 @@ type Post {
     images: Images
     meta: PostMeta
     archives: [Term]
+    status: String
 }
 type Term {
     _id: String

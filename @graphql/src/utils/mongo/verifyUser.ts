@@ -7,6 +7,9 @@ import type { T_User } from '@sujin/lib/types'
 
 export const verifyToken = async (token: string): Promise<T_User> => {
     const failed = { _id: '', email: '', admin: false }
+    if (!token) {
+        return failed
+    }
 
     if (!process.env.JWT_SECRET) {
         return failed
@@ -31,4 +34,9 @@ export const verifyToken = async (token: string): Promise<T_User> => {
     }
 
     return failed
+}
+
+export const verifyAdmin = async (token: string): Promise<boolean> => {
+    const user = await verifyToken(token)
+    return user.admin
 }

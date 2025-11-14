@@ -16,8 +16,9 @@ import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
 import { IMAGE_SIZE, POST_STATUS, T_Post } from '@sujin/lib/types'
 /* Utils */
 import { getThumbnailFromPost } from '@lib/utils/client'
-import { getRecent, updateHits } from '@lib/apollo/archives'
-import { getSingle } from '@lib/apollo/single'
+import { getRecent } from '@lib/apollo/query/getRecent'
+import { getSingle } from '@lib/apollo/query/getSingle'
+import { updateHits } from '@lib/apollo/mutation/updateHits'
 
 type Props = {
     slug: string

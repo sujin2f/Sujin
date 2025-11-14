@@ -4,7 +4,7 @@ import type { Metadata } from 'next/types'
 import { SearchServer } from '@app/archive/[type]/[slug]/page/[page]/Search.server'
 import { ArchiveServer } from '@app/archive/[type]/[slug]/page/[page]/Archive.server'
 /* Utils */
-import { getArchive } from '@lib/apollo/archives'
+import { getArchive } from '@lib/apollo/query/getArchive'
 /* CONSTANTS */
 import { ARCHIVE } from '@sujin/lib/types'
 import { BASE_URL } from '@lib/constants'

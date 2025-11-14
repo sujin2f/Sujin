@@ -42,7 +42,7 @@ export const RelatedPosts = ({ slug }: Props) => {
 
     const posts = {
         list: data.related,
-        pages: 0,
+        numPages: 0,
     }
 
     return (

@@ -31,7 +31,7 @@ export const Cards = ({
     imageSize = IMAGE_SIZE.POST_THUMBNAIL,
     ...props
 }: Props) => {
-    const { list, pages } = posts
+    const { list, numPages } = posts
     return (
         <>
             <Row fullWidth>
@@ -68,7 +68,11 @@ export const Cards = ({
 
             {/* <Cards posts={list} {...props} /> */}
             {page && pageURLPrefix ? (
-                <Paging pages={pages} page={page} urlPrefix={pageURLPrefix} />
+                <Paging
+                    pages={numPages}
+                    page={page}
+                    urlPrefix={pageURLPrefix}
+                />
             ) : null}
         </>
     )

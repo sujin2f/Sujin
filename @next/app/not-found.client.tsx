@@ -16,7 +16,7 @@ export function NotFoundClient({ promise }: Props) {
 
     const posts = {
         list: data.slice(0, PER_PAGE),
-        pages: 0,
+        numPages: 0,
     }
 
     return (

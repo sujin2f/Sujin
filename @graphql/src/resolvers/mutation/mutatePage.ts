@@ -1,10 +1,12 @@
 import sanitize from 'mongo-sanitize'
 /* T_Types */
 import type { MutationResultType } from '@src/types'
+import type { Context } from '@src/types'
 /* Utils */
 import { getCacheKey } from '@sujin/lib/utils/cache'
 import { getPostBy } from '@src/utils/mysql/post'
 import { convertWPImageURL } from '@src/utils/mongo/convertWPImageURL'
+import { verifyAdmin } from '@src/utils/mongo/verifyUser'
 /* Models */
 import Logger from '@src/utils/logger'
 import Cached from '@sujin/node-cache'
@@ -52,7 +54,15 @@ type Param = {
 export const mutatePage = async (
     _: unknown,
     { slug }: Param,
+    context: Context,
 ): Promise<MutationResultType> => {
+    if (!(await verifyAdmin(context.token))) {
+        Logger.error(`⛈️ mutatePage mutation has been called by non admin user`)
+        throw new Error(
+            `⛈️ mutatePage mutation has been called by non admin user`,
+        )
+    }
+
     await updatePage(sanitize(slug))
     Logger.info(`🤟 mutatePage mutation has been finished: ${slug}`)
     return {

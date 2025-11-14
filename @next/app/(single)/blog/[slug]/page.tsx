@@ -6,7 +6,7 @@ import { BASE_URL } from '@lib/constants'
 import { IMAGE_SIZE, T_Post } from '@sujin/lib/types'
 /* Utils */
 import { getThumbnailFromPost } from '@lib/utils/client'
-import { getSingle } from '@lib/apollo/single'
+import { getSingle } from '@lib/apollo/query/getSingle'
 
 type Props = {
     params: Promise<{

@@ -7,7 +7,7 @@ import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
 /* CONSTANTS */
 import { ARCHIVE } from '@sujin/lib/types'
 /* Utils */
-import { getPosts } from '@lib/apollo/single'
+import { getArchivePosts } from '@lib/apollo/query/getArchivePosts'
 
 type Props = {
     slug: string
@@ -23,7 +23,7 @@ export async function SearchServer({ slug, page }: Props) {
             <Suspense fallback={<LoadingArchive />}>
                 <Cards
                     keyPrefix={`${ARCHIVE.SEARCH}-${slug}-${page}`}
-                    posts={getPosts(
+                    posts={getArchivePosts(
                         `search-${slug}`,
                         page,
                         'POST_ARCHIVE',

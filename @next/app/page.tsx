@@ -3,7 +3,7 @@ import React from 'react'
 /* Components */
 import Wrapper from '@lib/components/Wrapper'
 /* Utils */
-import { getBackgrounds } from '@lib/apollo/backgrounds'
+import { getBackgrounds } from '@lib/apollo/query/getBackgrounds'
 /* CONSTANTS */
 /* Assets */
 import Logo from '@common/images/logo.svg'

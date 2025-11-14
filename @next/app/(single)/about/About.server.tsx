@@ -8,7 +8,7 @@ import { Content } from '@lib/components/single/Content'
 import { IMAGE_SIZE } from '@sujin/lib/types'
 /* Utils */
 import { getThumbnailFromPost } from '@lib/utils/client'
-import { getSingle } from '@lib/apollo/single'
+import { getSingle } from '@lib/apollo/query/getSingle'
 
 export async function AboutServer() {
     const post = await getSingle('about', 'page', 'PAGE').catch(() => {})

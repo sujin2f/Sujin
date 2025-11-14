@@ -7,15 +7,10 @@ import { client } from '@lib/apollo/apollo-client-server'
 /* CONSTANTS */
 import { VERSION } from '@sujin/share/constants/helper'
 import { REVALIDATION } from '@lib/constants'
-import {
-    COLLECTION,
-    PropWithPages,
-    T_ArchivePost,
-    type T_Page,
-} from '@sujin/lib/types'
+import { COLLECTION, type T_Page } from '@sujin/lib/types'
+import { FIELDS } from '@lib/constants/graphql-fields'
 /* Utils */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
-import { FIELDS } from '@lib/constants/graphql-fields'
 
 /**
  * Get single page by slug
@@ -78,70 +73,6 @@ const querySingle = async <T extends T_Page>(
                 })
             }
             return result.data.post
-        })
-        .catch((e) => {
-            throw e.errors[0]
-        })
-}
-
-export const getPosts = async (
-    id: string,
-    page: number,
-    fields: FIELDS,
-): Promise<PropWithPages<T_ArchivePost>> => {
-    const request = unstable_cache(
-        cachedPosts,
-        [id, page.toString(), fields, VERSION],
-        {
-            tags: ['wordpress', 'archive', 'posts'],
-            revalidate: REVALIDATION,
-        },
-    )
-    return await request(id, page, fields)
-}
-
-const cachedPosts = async (
-    id: string,
-    page: number,
-    fields: FIELDS,
-): Promise<PropWithPages<T_ArchivePost>> => {
-    const request = cachedRequest(
-        queryPosts,
-        getCacheKey(COLLECTION.ARCHIVE, id, page, fields),
-    )
-    return await request(id, page, fields)
-}
-
-const queryPosts = async (
-    id: string,
-    page: number,
-    fields: FIELDS,
-): Promise<PropWithPages<T_ArchivePost>> => {
-    return await client
-        .query<PropWithPages<T_ArchivePost>>({
-            query: gql`
-                query ArchivePosts($id: String!, $page: Int!) {
-                    list(id: $id, page: $page) {
-                        ${FIELDS[fields]}
-                    }
-                    pages(id: $id)
-                }
-            `,
-            variables: {
-                id,
-                page,
-            },
-        })
-        .then((result) => {
-            if (!result || !result.data) {
-                throw new GraphQLError(`Cannot find archive posts from ${id}`, {
-                    extensions: {
-                        code: 'NO_CONTENT',
-                    },
-                })
-            }
-
-            return result.data
         })
         .catch((e) => {
             throw e.errors[0]
