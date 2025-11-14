@@ -9,6 +9,7 @@ type Query{
     archive(slug: String!, type: String!): Term
     list(id: String!, page: Int!): [Post]
     pages(id: String!): Int
+    prevNext(slug: String!): [Post]
 }
 type Mutation{
     mutatePost(nonce: String!, slug: String!): Result

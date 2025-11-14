@@ -12,6 +12,7 @@ import {
     COLLECTION,
     PropWithPages,
     T_ArchivePost,
+    T_PrevNext,
     type T_Page,
 } from '@sujin/lib/types'
 /* Utils */
@@ -142,6 +143,68 @@ const queryPosts = async (
             }
 
             return result.data
+        })
+        .catch((e) => {
+            throw e.errors[0]
+        })
+}
+
+export const getPrevNext = async (
+    slug: string,
+    fields: string,
+): Promise<T_PrevNext[]> => {
+    const request = unstable_cache(
+        cachedPrevNext,
+        [slug, getUuid(fields), VERSION],
+        {
+            tags: ['wordpress', 'single', 'prev-next'],
+            revalidate: REVALIDATION,
+        },
+    )
+    return await request(slug, fields)
+}
+
+const cachedPrevNext = async (
+    slug: string,
+    fields: string,
+): Promise<T_PrevNext[]> => {
+    const request = cachedRequest(
+        queryPrevNext,
+        getCacheKey(COLLECTION.POST, 'prev-next', slug, getUuid(fields)),
+    )
+    return await request(slug, fields)
+}
+
+const queryPrevNext = async (
+    slug: string,
+    fields: string,
+): Promise<T_PrevNext[]> => {
+    return await client
+        .query<{ prevNext: T_PrevNext[] }>({
+            query: gql`
+                query PrevNext($slug: String!) {
+                    prevNext(slug: $slug) {
+                        ${fields}
+                    }
+                }
+            `,
+            variables: {
+                slug,
+            },
+        })
+        .then((result) => {
+            if (!result || !result.data) {
+                throw new GraphQLError(
+                    `Cannot find prev/next posts from ${slug}`,
+                    {
+                        extensions: {
+                            code: 'NO_CONTENT',
+                        },
+                    },
+                )
+            }
+
+            return result.data.prevNext
         })
         .catch((e) => {
             throw e.errors[0]

@@ -21,7 +21,7 @@ import { ARCHIVE_POSTS, IMAGE, POST } from '@lib/constants/graphql-fields'
 /* Utils */
 import { getThumbnailFromPost } from '@lib/utils/client'
 import { getRecent, updateHits } from '@lib/apollo/archives'
-import { getSingle } from '@lib/apollo/single'
+import { getPrevNext, getSingle } from '@lib/apollo/single'
 import { Suspense } from 'react'
 import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
 
@@ -85,7 +85,11 @@ export async function PostServer({ slug }: Props) {
                             excerpt={post.excerpt}
                             thumbnail={thumbnail}
                         />
-                        <PrevNext slug={slug} />
+                        <Suspense>
+                            <PrevNext
+                                promise={getPrevNext(slug, 'title link')}
+                            />
+                        </Suspense>
                         <RelatedPosts slug={slug} />
                     </Content>
                 </Column>

@@ -30,6 +30,7 @@ import { updateHits } from './resolvers/mutation/updateHits'
 import { getArchivePosts, getNumPosts } from './resolvers/query/getArchivePosts'
 import { login } from './resolvers/mutation/login'
 import { IS_DEV } from '@sujin/share/constants/helper'
+import { getPrevNext } from './resolvers/query/getPrevNext'
 
 // dotenv.config({ path: path.resolve(__dirname, '..', '..', '.env') })
 
@@ -46,6 +47,7 @@ const resolvers = {
         archive: getArchive,
         list: getArchivePosts,
         pages: getNumPosts,
+        prevNext: getPrevNext,
     },
     Mutation: {
         mutatePost,

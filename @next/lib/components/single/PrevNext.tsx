@@ -15,12 +15,7 @@ type Props = {
     readonly next?: T_PrevNext | false
 }
 
-export const PrevNext = (props: Props) => {
-    const items = {
-        prev: props.prev,
-        next: props.next,
-    }
-
+export const PrevNext = (items: Props) => {
     return (
         <Row dom="nav" fullWidth className="prev-next">
             {Object.keys(items).map((index) => {
@@ -28,7 +23,7 @@ export const PrevNext = (props: Props) => {
                 const item = items[key]
                 return (
                     <Column
-                        key={`prev-next-${key}-${JSON.stringify(props)}`}
+                        key={`prev-next-${key}-${JSON.stringify(items)}`}
                         small={12}
                         medium={6}
                         className={`prev-next__item prev-next__item--${key}`}

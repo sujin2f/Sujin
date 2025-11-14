@@ -60,7 +60,6 @@ const query = async (): Promise<Omit<T_Archive, '_id'>[]> => {
 }
 
 export const getTagCloud = async (): Promise<Omit<T_Archive, '_id'>[]> => {
-    Logger.info(`🤟 tagCloud query has been requested`)
     const request = cachedRequest(
         query,
         getCacheKey(COLLECTION.ARCHIVE, 'tag-cloud'),

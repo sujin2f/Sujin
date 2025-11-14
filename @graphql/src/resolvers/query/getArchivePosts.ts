@@ -34,7 +34,6 @@ export const getArchivePosts = async (
     _: unknown,
     { id: _id, page: _page }: Param,
 ): Promise<T_ArchivePost[]> => {
-    Logger.info(`🤟 list query has been requested: ${_id}, ${_page}`)
     const [id, search] = isSearch(_id)
     const page = sanitize(_page)
 
@@ -43,7 +42,7 @@ export const getArchivePosts = async (
         getCacheKey(COLLECTION.ARCHIVE, id, page, search),
     )
     const result = await request(id, page, search)
-    Logger.info('🤟 list query has been finished')
+    Logger.info(`🤟 list query has been finished: ${_id}, ${_page}`)
     return result
 }
 
@@ -81,14 +80,13 @@ const queryArchivePosts = async (
 }
 
 export const getNumPosts = async (_: unknown, { id: _id }: ParamId) => {
-    Logger.info(`🤟 pages query has been requested: ${_id}`)
     const [id, search] = isSearch(_id)
     const request = cachedRequest(
         queryNumPosts,
         getCacheKey(COLLECTION.ARCHIVE, id, search, 'total'),
     )
     const result = await request(id, search)
-    Logger.info('🤟 pages query has been finished')
+    Logger.info(`🤟 pages query has been finished: ${_id}`)
     return result
 }
 

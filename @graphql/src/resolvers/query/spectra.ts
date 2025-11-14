@@ -255,7 +255,6 @@ export const getSpectraFromNIST = async (
     _: unknown,
     { number: _number, ion: _ion }: Param,
 ) => {
-    Logger.info(`🤟 spectra query has been requested`)
     const number = sanitize(_number)
     const ion = sanitize(_ion)
     const atom = getAtom(number)

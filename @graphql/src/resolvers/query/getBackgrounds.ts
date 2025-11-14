@@ -15,10 +15,9 @@ import type { T_Background } from '@sujin/lib/types'
  * @returns {Promise<T_Background[]>} - The background array
  */
 export const getBackgrounds = async (): Promise<T_Background[]> => {
-    Logger.info(`🤟 backgrounds query has been requested`)
     const request = cachedRequest(query, getCacheKey(COLLECTION.BACKGROUNDS))
     const result = await request()
-    Logger.info('🤟 backgrounds query has been finished')
+    Logger.info(`🤟 backgrounds query has been finished`)
     return result
 }
 

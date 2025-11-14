@@ -27,7 +27,6 @@ export const getArchive = async (
     _: unknown,
     { slug: _slug, type: _type }: Param,
 ): Promise<T_Archive> => {
-    Logger.info(`🤟 archive query has been requested: ${_slug}, ${_type}`)
     const slug = sanitize(_slug)
     const type = sanitize(_type)
     const request = cachedRequest(
@@ -35,7 +34,7 @@ export const getArchive = async (
         getCacheKey(COLLECTION.ARCHIVE, slug, type),
     )
     const result = await request(slug, type)
-    Logger.info('🤟 archive query has been finished')
+    Logger.info(`🤟 archive query has been finished: ${_slug}, ${_type}`)
     return result
 }
 

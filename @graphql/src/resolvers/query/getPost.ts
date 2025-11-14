@@ -26,14 +26,13 @@ export const getPost = async (
     _: unknown,
     { slug: _slug, type: _type }: Param,
 ): Promise<T_Post | T_Page> => {
-    Logger.info(`🤟 post query has been requested: ${_slug}, ${_type}`)
     const slug = sanitize(_slug)
     const type = sanitize(_type)
     const request = cachedRequest(
         query,
         getCacheKey(COLLECTION.POST, slug, type),
     )
-    Logger.info('🤟 post query has been finished')
+    Logger.info(`🤟 post query has been finished: ${_slug}, ${_type}`)
     const result = await request(slug, type)
     return result
 }
