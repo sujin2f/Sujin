@@ -11,12 +11,36 @@ import { COLLECTION, PropWithPages, T_ArchivePost } from '@sujin/lib/types'
 import { FIELDS } from '@lib/constants/graphql-fields'
 /* Utils */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
+import { isAdmin } from '@lib/utils/session'
+import { getSessionContext } from '@lib/apollo/admin'
 
-export const getArchivePosts = async (
-    id: string,
-    page: number,
-    fields: FIELDS,
-): Promise<PropWithPages<T_ArchivePost>> => {
+type Props = {
+    id: string
+    page: number
+    fields?: FIELDS
+    query?: string
+    bypassCache?: boolean
+}
+
+export const getArchivePosts = async ({
+    id,
+    page,
+    fields,
+    query,
+    bypassCache,
+}: Props): Promise<PropWithPages<T_ArchivePost, 'archivePosts'>> => {
+    if (bypassCache && !isAdmin()) {
+        throw new Error('You are trying illegal access!')
+    }
+
+    if (bypassCache && query) {
+        return await queryPosts(id, page, query, true)
+    }
+
+    if (!fields) {
+        throw new Error('You are trying illegal access!')
+    }
+
     const request = unstable_cache(
         cachedPosts,
         [id, page.toString(), fields, VERSION],
@@ -25,32 +49,34 @@ export const getArchivePosts = async (
             revalidate: REVALIDATION,
         },
     )
-    return await request(id, page, fields)
+    return await request(id, page, fields, false)
 }
 
 const cachedPosts = async (
     id: string,
     page: number,
     fields: FIELDS,
-): Promise<PropWithPages<T_ArchivePost>> => {
+    bypassCache: boolean,
+): Promise<PropWithPages<T_ArchivePost, 'archivePosts'>> => {
     const request = cachedRequest(
         queryPosts,
         getCacheKey(COLLECTION.ARCHIVE, id, page, fields),
     )
-    return await request(id, page, fields)
+    return await request(id, page, FIELDS[fields], bypassCache)
 }
 
 const queryPosts = async (
     id: string,
     page: number,
-    fields: FIELDS,
-): Promise<PropWithPages<T_ArchivePost>> => {
+    fields: string,
+    bypassCache: boolean,
+): Promise<PropWithPages<T_ArchivePost, 'archivePosts'>> => {
     return await client
-        .query<{ archivePosts: T_ArchivePost[]; numPages: number }>({
+        .query<PropWithPages<T_ArchivePost, 'archivePosts'>>({
             query: gql`
-                query ArchivePosts($id: String!, $page: Int!) {
-                    archivePosts(id: $id, page: $page) {
-                        ${FIELDS[fields]}
+                query ArchivePosts($id: String!, $page: Int!, $bypassCache: Boolean!) {
+                    archivePosts(id: $id, page: $page, bypassCache: $bypassCache) {
+                        ${fields}
                     }
                     numPages(context: "archive-posts", id: $id)
                 }
@@ -58,7 +84,9 @@ const queryPosts = async (
             variables: {
                 id,
                 page,
+                bypassCache,
             },
+            context: await getSessionContext(),
         })
         .then((result) => {
             if (!result || !result.data) {
@@ -69,9 +97,12 @@ const queryPosts = async (
                 })
             }
 
-            return { ...result.data, list: result.data.archivePosts }
+            return result.data
         })
-        .catch((e) => {
-            throw e.errors[0]
+        .catch(() => {
+            return {
+                archivePosts: [],
+                numPages: 1,
+            }
         })
 }

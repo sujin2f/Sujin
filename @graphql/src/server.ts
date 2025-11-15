@@ -37,6 +37,9 @@ import { flushDB } from './resolvers/mutation/flushDB'
 import { getPages } from './resolvers/query/getPages'
 import { getNumPages } from './resolvers/query/getNumPages'
 import { removePage } from './resolvers/mutation/removePage'
+import { getArchives } from './resolvers/query/getArchives'
+import { removeCategory } from './resolvers/mutation/removeCategory'
+import { updatePostsFromWP } from './resolvers/mutation/UpdatePostsFromWP'
 // dotenv.config({ path: path.resolve(__dirname, '..', '..', '.env') })
 
 // Resolvers define how to fetch the types defined in your schema.
@@ -50,6 +53,7 @@ const resolvers = {
         spectra: getSpectraFromNIST,
         post: getPost,
         archive: getArchive,
+        archives: getArchives,
         archivePosts: getArchivePosts,
         numPages: getNumPages,
         prevNext: getPrevNext,
@@ -62,10 +66,12 @@ const resolvers = {
         removePage,
         mutateBackground,
         mutateCategory,
+        removeCategory,
         mutateTag,
         updateHits,
         login,
         flushDB,
+        updatePostsFromWP,
     },
 }
 

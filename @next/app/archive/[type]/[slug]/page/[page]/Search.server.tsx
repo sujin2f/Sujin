@@ -23,13 +23,14 @@ export async function SearchServer({ slug, page }: Props) {
             <Suspense fallback={<LoadingArchive />}>
                 <Cards
                     keyPrefix={`${ARCHIVE.SEARCH}-${slug}-${page}`}
-                    posts={getArchivePosts(
-                        `search-${slug}`,
+                    posts={getArchivePosts({
+                        id: `search-${slug}`,
                         page,
-                        'POST_ARCHIVE',
-                    ).catch(() => {
+                        fields: 'POST_ARCHIVE',
+                    }).catch(() => {
                         notFound()
                     })}
+                    listKey="archivePosts"
                     page={page}
                     pageURLPrefix={`/${ARCHIVE.SEARCH}/${slug}/page`}
                     large={4}

@@ -34,7 +34,7 @@ export const getPostBy = async (
     )
 }
 
-const getPostsBy = async (
+export const getPostsBy = async (
     queryKey: 'search' | 'id' | 'slug' | ARCHIVE,
     type: POST_TYPE,
     queryValue?: string | number,

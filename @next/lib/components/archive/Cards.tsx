@@ -15,23 +15,26 @@ import {
 /* Utils */
 import { getThumbnailFromPost } from '@lib/utils/client'
 
-type Props = ColumnProps & {
-    readonly posts: PropWithPages<T_ArchivePost>
+type Props<T extends string> = ColumnProps & {
+    readonly posts: PropWithPages<T_ArchivePost, T>
+    readonly listKey: T
     readonly keyPrefix: string
     readonly imageSize?: IMAGE_SIZE
     readonly page?: number
     readonly pageURLPrefix?: string
 }
 
-export const Cards = ({
+export const Cards = <T extends string>({
     posts,
     page,
     pageURLPrefix,
     keyPrefix,
+    listKey,
     imageSize = IMAGE_SIZE.POST_THUMBNAIL,
     ...props
-}: Props) => {
-    const { list, numPages } = posts
+}: Props<T>) => {
+    const { numPages } = posts
+    const list = posts[listKey]
     return (
         <>
             <Row fullWidth>

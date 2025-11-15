@@ -7,7 +7,7 @@ import type { Context } from '@src/types'
 import { verifyAdmin } from '@src/utils/mongo/verifyUser'
 /* Models */
 import Logger from '@src/utils/logger'
-import { Page } from '@src/schema/post'
+import { Archive } from '@src/schema/archive'
 
 type Param = {
     slug: string
@@ -18,21 +18,23 @@ type Param = {
  *
  * @returns {Promise<MutationResultType>}
  */
-export const removePage = async (
+export const removeCategory = async (
     _: unknown,
     { slug: _slug }: Param,
     context: Context,
 ): Promise<MutationResultType> => {
     if (!(await verifyAdmin(context.token))) {
-        Logger.error(`⛈️ removePage mutation has been called by non admin user`)
+        Logger.error(
+            `⛈️ removeCategory mutation has been called by non admin user`,
+        )
         throw new Error(
-            `⛈️ removePage mutation has been called by non admin user`,
+            `⛈️ removeCategory mutation has been called by non admin user`,
         )
     }
 
     const slug = sanitize(_slug)
-    await Page.deleteOne({ slug })
-    Logger.info(`🤟 removePage mutation has been finished: ${slug}`)
+    await Archive.deleteOne({ slug, type: 'category' })
+    Logger.info(`🤟 removeCategory mutation has been finished: ${slug}`)
     return {
         result: true,
     }

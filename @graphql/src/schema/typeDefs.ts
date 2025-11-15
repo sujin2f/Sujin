@@ -7,22 +7,25 @@ type Query{
     spectra(number: Int!, ion: Int!): [Spectrum]
     post(slug: String!, type: String!): Post
     archive(slug: String!, type: String!): Term
-    archivePosts(id: String!, page: Int!): [Post]
-    numPages(context: String!, id: String): Int
+    archives(type: String!, page: Int!): [Term]
+    archivePosts(id: String!, page: Int!, bypassCache: Boolean!): [Post]
     prevNext(slug: String!): [Post]
     related(slug: String!): [Post]
     pages(page: Int!): [Post]
+    numPages(context: String!, id: String, type: String): Int
 }
 type Mutation{
     mutatePost(nonce: String!, slug: String!): Result
     mutatePage(slug: String!): Result
     removePage(slug: String!): Result
     mutateBackground(nonce: String!): Result
-    mutateCategory(nonce: String!, slug: String!): Result
+    mutateCategory(slug: String!): Result
+    removeCategory(slug: String!): Result
     mutateTag(nonce: String!, slug: String!): Result
     updateHits(slug: String!): Result
     login(email: String!): String
     flushDB: Boolean
+    updatePostsFromWP(slug: String!, page: Int!): Result
 }
 type FlickrImage {
     title: String

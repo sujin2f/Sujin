@@ -1,3 +1,4 @@
+import sanitize from 'mongo-sanitize'
 /* Models */
 import Logger from '@src/utils/logger'
 /* CONSTANTS */
@@ -14,7 +15,7 @@ type Props = {
 
 export const getPages = async (
     _: unknown,
-    { page }: Props,
+    { page: _page }: Props,
     context: Context,
 ): Promise<T_Page[]> => {
     if (!(await verifyAdmin(context.token))) {
@@ -22,11 +23,11 @@ export const getPages = async (
         throw new Error(`⛈️ flushDB mutation has been called by non admin user`)
     }
 
-    const list = Page.aggregate<T_Page>([
-        { $sort: { date: -1 } },
-        { $skip: PER_PAGE * (page - 1) },
-        { $limit: PER_PAGE },
-    ])
+    const page = sanitize(_page)
+    const list = Page.find<T_Page>()
+        .sort({ date: -1 })
+        .skip(PER_PAGE * (page - 1))
+        .limit(PER_PAGE)
 
     Logger.info(`🤟 getPages query has been finished`)
     return list

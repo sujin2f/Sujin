@@ -10,9 +10,11 @@ import { ARCHIVE, COLLECTION } from '@sujin/lib/types'
 import { getCacheKey } from '@sujin/lib/utils/cache'
 import { convertWPImageURL } from '@src/utils/mongo/convertWPImageURL'
 import { getTermBySlug } from '@src/utils/mysql/term'
+import { verifyAdmin } from '@src/utils/mongo/verifyUser'
+import { updateTotal } from '@src/utils/mongo/updateTotal'
 /* T_Types */
 import type { MutationResultType } from '@src/types'
-import { updateTotal } from '@src/utils/mongo/updateTotal'
+import type { Context } from '@src/types'
 
 /**
  * Update archive from WP
@@ -56,7 +58,17 @@ const updateArchive = async (slug: string, type: ARCHIVE): Promise<void> => {
 export const mutateArchive = async (
     slug: string,
     type: ARCHIVE,
+    context: Context,
 ): Promise<MutationResultType> => {
+    if (!(await verifyAdmin(context.token))) {
+        Logger.error(
+            `⛈️ mutateArchive mutation has been called by non admin user`,
+        )
+        throw new Error(
+            `⛈️ mutateArchive mutation has been called by non admin user`,
+        )
+    }
+
     await updateArchive(sanitize(slug), sanitize(type))
     Logger.info(`🤟 mutateArchive mutation has been finished: ${slug}, ${type}`)
     return {

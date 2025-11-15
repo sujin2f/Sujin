@@ -39,13 +39,14 @@ export async function ArchiveServer({ type, slug, page }: Props) {
             <Suspense fallback={<LoadingArchive />}>
                 <Cards
                     keyPrefix={`${type}-${slug}-${page}`}
-                    posts={getArchivePosts(
-                        archive._id,
+                    posts={getArchivePosts({
+                        id: archive._id,
                         page,
-                        'POST_ARCHIVE',
-                    ).catch(() => {
-                        return { list: [], numPages: 1 }
+                        fields: 'POST_ARCHIVE',
+                    }).catch(() => {
+                        return { archivePosts: [], numPages: 1 }
                     })}
+                    listKey="archivePosts"
                     page={page}
                     pageURLPrefix={`/${type}/${slug}/page`}
                     large={4}

@@ -9,8 +9,10 @@ import { COLLECTION } from '@sujin/lib/types'
 import { getCacheKey } from '@sujin/lib/utils/cache'
 import { getBackgrounds } from '@src/utils/mysql/media'
 import { convertWPImageURL } from '@src/utils/mongo/convertWPImageURL'
+import { verifyAdmin } from '@src/utils/mongo/verifyUser'
 /* T_Types */
 import type { MutationResultType } from '@src/types'
+import type { Context } from '@src/types'
 
 /**
  * Update backgrounds from MySQL
@@ -33,7 +35,20 @@ const updateBackgrounds = async (): Promise<void> => {
  * @param {string} nonce - WP nonce
  * @returns {Promise<MutationResultType>}
  */
-export const mutateBackground = async (): Promise<MutationResultType> => {
+export const mutateBackground = async (
+    _: unknown,
+    __: unknown,
+    context: Context,
+): Promise<MutationResultType> => {
+    if (!(await verifyAdmin(context.token))) {
+        Logger.error(
+            `⛈️ mutateBackground mutation has been called by non admin user`,
+        )
+        throw new Error(
+            `⛈️ mutateBackground mutation has been called by non admin user`,
+        )
+    }
+
     await updateBackgrounds()
     Logger.info(`🤟 mutateBackground mutation has been requested`)
     return {

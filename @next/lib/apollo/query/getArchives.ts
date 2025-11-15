@@ -4,32 +4,34 @@ import { gql } from '@apollo/client'
 /* Models */
 import { client } from '@lib/apollo/apollo-client-server'
 /* T_Types */
-import type { PropWithPages, T_ArchivePost } from '@sujin/lib/types'
+import type { ARCHIVE, PropWithPages, T_Archive } from '@sujin/lib/types'
 /* Utils */
 import { getSessionContext } from '@lib/apollo/admin'
 
-export const getPages = async (
+export const getArchives = async (
     page: number,
+    type: ARCHIVE,
     fields: string,
-): Promise<PropWithPages<T_ArchivePost, 'pages'>> => {
+): Promise<PropWithPages<T_Archive, 'archives'>> => {
     return await client
-        .query<{ pages: T_ArchivePost[]; numPages: number }>({
+        .query<PropWithPages<T_Archive, 'archives'>>({
             query: gql`
-                query QueryPages($page: Int!) {
-                    pages(page: $page) {
+                query QueryArchives($page: Int!, $type: String!) {
+                    archives(page: $page, type: $type) {
                         ${fields}
                     }
-                    numPages(context: "pages")
+                    numPages(context: "archives", type: $type)
                 }
             `,
             variables: {
                 page,
+                type,
             },
             context: await getSessionContext(),
         })
         .then((result) => {
             if (!result || !result.data) {
-                throw new GraphQLError(`Cannot find pages`, {
+                throw new GraphQLError(`Cannot find archive`, {
                     extensions: {
                         code: 'NO_CONTENT',
                     },

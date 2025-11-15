@@ -10,9 +10,10 @@ import { Header } from './Header'
 import { RemoveLink } from './RemoveLink'
 import { RefreshLink } from './RefreshLink'
 /* Utils */
-import { getPages } from '@lib/apollo/query/getPages'
+import { getArchives } from '@lib/apollo/query/getArchives'
 /* CONSTANTS */
 import { PER_PAGE } from '@lib/constants'
+import { ARCHIVE } from '@sujin/lib/types'
 
 type Props = {
     params: Promise<{
@@ -20,12 +21,18 @@ type Props = {
     }>
 }
 
-export default async function PagesServer({ params }: Props) {
+export default async function CategoriesServer({ params }: Props) {
     const { page: _page } = await params
     const page = parseInt(_page)
 
-    const pages = await getPages(page, 'id title slug status link')
-    const length = pages.numPages * PER_PAGE - PER_PAGE + pages.pages.length
+    const categories = await getArchives(
+        page,
+        ARCHIVE.CATEGORY,
+        '_id title slug total',
+    )
+
+    const length =
+        categories.numPages * PER_PAGE - PER_PAGE + categories.archives.length
 
     return (
         <>
@@ -36,35 +43,35 @@ export default async function PagesServer({ params }: Props) {
                     <PrevNextAdmin page={page} length={length} path="pages" />
                 </Column>
                 <Column small={12}>
-                    <Table fullWidth data-testid="admin__pages__table">
+                    <Table fullWidth data-testid="admin__categories__table">
                         <thead>
                             <tr>
-                                <th>ID</th>
                                 <th>Title</th>
                                 <th>Slug</th>
-                                <th>Status</th>
-                                <th>View</th>
+                                <th>Total</th>
+                                <th>Show Posts</th>
+                                <th>Update</th>
                                 <th>Remove</th>
-                                <th>Refresh</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {pages.pages.map((post) => (
-                                <tr key={`admin-posts-${post._id}`}>
-                                    <td className="center">{post.id}</td>
-                                    <td>{post.title}</td>
-                                    <td className="center">{post.slug}</td>
-                                    <td className="center">{post.status}</td>
+                            {categories.archives.map((term) => (
+                                <tr key={`admin-posts-${term._id}`}>
+                                    <td>{term.title}</td>
+                                    <td className="center">{term.slug}</td>
+                                    <td className="center">{term.total}</td>
                                     <td className="center">
-                                        <Link href={post.link} target="_blank">
-                                            View
+                                        <Link
+                                            href={`/admin/categories/posts/${term.slug}/1`}
+                                        >
+                                            Show Posts
                                         </Link>
                                     </td>
                                     <td className="center">
-                                        <RemoveLink slug={post.slug} />
+                                        <RefreshLink slug={term.slug} />
                                     </td>
                                     <td className="center">
-                                        <RefreshLink slug={post.slug} />
+                                        <RemoveLink slug={term.slug} />
                                     </td>
                                 </tr>
                             ))}
