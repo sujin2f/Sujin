@@ -49,10 +49,10 @@ const queryArchive = async (
     fields: FIELDS,
 ): Promise<T_Archive> => {
     return await client
-        .query<{ archive: T_Archive }>({
+        .query<{ archive: T_Archive[] }>({
             query: gql`
-                query Archive($slug: String!, $type: String!) {
-                    archive(slug: $slug, type: $type) { ${FIELDS[fields]} }
+                query Archive($slug: String!, $type: ARCHIVE_TYPE!) {
+                    archive(slug: $slug, archiveType: $type) { ${FIELDS[fields]} }
                 }
             `,
             variables: {
@@ -68,7 +68,7 @@ const queryArchive = async (
                     },
                 })
             }
-            return result.data.archive
+            return result.data.archive[0]
         })
         .catch((e) => {
             throw e.errors[0]

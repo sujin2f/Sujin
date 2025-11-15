@@ -4,6 +4,7 @@ import Logger from '@src/utils/logger'
 import { mysqlDisconnect } from '@src/utils/mysql'
 import Cached from '@sujin/node-cache'
 /* CONSTANTS */
+import { ARCHIVE } from '@sujin/lib/constants'
 import { COLLECTION, POST_TYPE } from '@sujin/lib/types'
 /* Utils */
 import { getCacheKey } from '@sujin/lib/utils/cache'
@@ -50,7 +51,7 @@ export const updatePostsFromWP = async (
         getCacheKey(COLLECTION.ARCHIVE, 'category', slug),
     )
 
-    await getPostsBy('category', POST_TYPE.POST, slug, page, true).then(
+    await getPostsBy(ARCHIVE.CATEGORY, POST_TYPE.POST, slug, page, true).then(
         async (result) => {
             const archives: mongoose.Types.ObjectId[] = []
             for (const item of result) {

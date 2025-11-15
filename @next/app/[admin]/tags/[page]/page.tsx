@@ -7,7 +7,7 @@ import { Header } from '@lib/components/admin/Header'
 /* Utils */
 import { getArchives } from '@lib/apollo/query/getArchives'
 /* CONSTANTS */
-import { ARCHIVE } from '@sujin/lib/types'
+import { ARCHIVE } from '@sujin/lib/constants'
 
 type Props = {
     params: Promise<{

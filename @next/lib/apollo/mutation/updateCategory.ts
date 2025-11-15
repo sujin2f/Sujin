@@ -4,14 +4,12 @@ import { gql } from '@apollo/client'
 import { client } from '@lib/apollo/apollo-client-server'
 import { getSessionContext } from '@lib/apollo/admin'
 
-export const mutateCategory = async (slug: string) => {
+export const updateCategory = async (slug: string) => {
     return await client
         .mutate({
             mutation: gql`
-                mutation MutateCategory($slug: String!) {
-                    mutateCategory(slug: $slug) {
-                        result
-                    }
+                mutation UpdateCategory($slug: String!) {
+                    updateArchive(slug: $slug, archiveType: category)
                 }
             `,
             variables: {

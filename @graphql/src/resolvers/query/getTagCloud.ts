@@ -5,7 +5,8 @@ import { Archive } from '@src/schema/archive'
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 import { shuffle } from '@sujin/share/utils/array'
 /* CONSTANTS */
-import { ARCHIVE, COLLECTION, type T_Archive } from '@sujin/lib/types'
+import { ARCHIVE } from '@sujin/lib/constants'
+import { COLLECTION, type T_Archive } from '@sujin/lib/types'
 
 const query = async (): Promise<Omit<T_Archive, '_id'>[]> => {
     const tags: Record<string, Omit<T_Archive, '_id'>> = {}

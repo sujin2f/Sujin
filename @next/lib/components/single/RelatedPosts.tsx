@@ -41,14 +41,20 @@ export const RelatedPosts = ({ slug }: Props) => {
     }
 
     const posts = {
-        list: data.related,
+        related: data.related,
         numPages: 0,
     }
 
     return (
         <section className="related-posts">
             <WidgetTitle>Related Posts</WidgetTitle>
-            <Cards posts={posts} keyPrefix="related" medium={6} small={12} />
+            <Cards
+                posts={posts}
+                listKey="related"
+                keyPrefix="related"
+                medium={6}
+                small={12}
+            />
         </section>
     )
 }

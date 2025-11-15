@@ -12,7 +12,7 @@ import { RefreshLink } from './RefreshLink'
 /* Utils */
 import { getArchives } from '@lib/apollo/query/getArchives'
 /* CONSTANTS */
-import { ARCHIVE } from '@sujin/lib/types'
+import { ARCHIVE } from '@sujin/lib/constants'
 
 type Props = {
     params: Promise<{
@@ -30,7 +30,7 @@ export default async function Categories({ params }: Props) {
         '_id title slug total',
     )
 
-    const length = categories.archives.length
+    const length = categories.archive.length
 
     return (
         <>
@@ -53,7 +53,7 @@ export default async function Categories({ params }: Props) {
                             </tr>
                         </thead>
                         <tbody>
-                            {categories.archives.map((term) => (
+                            {categories.archive.map((term) => (
                                 <tr key={`admin-posts-${term._id}`}>
                                     <td>{term.title}</td>
                                     <td className="center">{term.slug}</td>

@@ -4,18 +4,13 @@ import { FetchError } from '@sujin/share/model/Error'
 /* CONSTANTS */
 import { WPQuery } from '@src/utils/mysql/wp-query'
 import { PER_PAGE } from '@sujin/lib/constants'
-import {
-    ARCHIVE,
-    TAXONOMY,
-    type POST_TYPE,
-    type T_Archive,
-    type T_MySQLPost,
-} from '@sujin/lib/types'
+import { ARCHIVE, TAXONOMY } from '@sujin/lib/constants'
 /* Utils */
 import { getPostMeta } from '@src/utils/mysql/post-meta'
 import { getImageBlockFromAttachmentID } from '@src/utils/mysql/media'
 /* T_Types */
 import { type POST_IMAGE_LOCATION, type T_ImageBlock } from '@sujin/lib/types'
+import type { POST_TYPE, T_Archive, T_MySQLPost } from '@sujin/lib/types'
 
 export const getPostBy = async (
     queryKey: 'id' | 'slug',
@@ -69,7 +64,7 @@ export const getPostsBy = async (
             content: autop(post.content),
             terms: terms.map((term) =>
                 term.type.toString() === TAXONOMY.POST_TAG
-                    ? { ...term, type: TAXONOMY.TAG }
+                    ? { ...term, type: ARCHIVE.TAG }
                     : term,
             ),
             link: post.type === 'page' ? `/${post.slug}` : `/blog/${post.slug}`,

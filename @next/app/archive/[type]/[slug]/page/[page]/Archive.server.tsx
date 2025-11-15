@@ -5,7 +5,7 @@ import Wrapper from '@lib/components/Wrapper'
 import { Cards } from '@lib/components/archive/Cards.use'
 import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
 /* CONSTANTS */
-import { ARCHIVE } from '@sujin/lib/types'
+import { ARCHIVE } from '@sujin/lib/constants'
 /* Utils */
 import { getArchivePosts } from '@lib/apollo/query/getArchivePosts'
 import { getArchive } from '@lib/apollo/query/getArchive'

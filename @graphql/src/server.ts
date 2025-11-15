@@ -22,14 +22,10 @@ import { getArchivePosts } from '@src/resolvers/query/getArchivePosts'
 import { getPrevNext } from '@src/resolvers/query/getPrevNext'
 import { getRelatedPosts } from '@src/resolvers/query/getRelatedPosts'
 import { getPost } from '@src/resolvers/query/getPost'
-import { getArchive } from '@src/resolvers/query/getArchive'
 
 import { mutatePost } from '@src/resolvers/mutation/mutatePost'
 import { mutatePage } from '@src/resolvers/mutation/mutatePage'
 import { mutateBackgrounds } from '@src/resolvers/mutation/mutateBackgrounds'
-import { mutateCategory } from '@src/resolvers/mutation/mutateCategory'
-import { mutateTag } from '@src/resolvers/mutation/mutateTag'
-import { updateHits } from '@src/resolvers/mutation/updateHits'
 import { login } from '@src/resolvers/mutation/login'
 
 import { IS_DEV } from '@sujin/share/constants/helper'
@@ -37,11 +33,11 @@ import { flushDB } from './resolvers/mutation/flushDB'
 import { getPages } from './resolvers/query/getPages'
 import { getNumPages } from './resolvers/query/getNumPages'
 import { removePage } from './resolvers/mutation/removePage'
-import { getArchives } from './resolvers/query/getArchives'
-import { removeCategory } from './resolvers/mutation/removeCategory'
 import { updatePostsFromWP } from './resolvers/mutation/updatePostsFromWP'
-// import { updatePostsFromWP } from './resolvers/mutation/UpdatePostsFromWP'
-// dotenv.config({ path: path.resolve(__dirname, '..', '..', '.env') })
+import { archive, updateHits } from './resolvers/archive'
+import { GQL_ArchiveArg } from '@sujin/lib/types'
+import { Context } from './types'
+import { GQL_QUERY_TYPE } from '@sujin/lib/constants'
 
 // Resolvers define how to fetch the types defined in your schema.
 // This resolver retrieves books from the "books" array above.
@@ -53,26 +49,53 @@ const resolvers = {
         tagCloud: getTagCloud,
         spectra: getSpectraFromNIST,
         post: getPost,
-        archive: getArchive,
-        archives: getArchives,
         archivePosts: getArchivePosts,
         numPages: getNumPages,
         prevNext: getPrevNext,
         related: getRelatedPosts,
         pages: getPages,
+        // archive
+        archive: async (
+            _: unknown,
+            { slug, archiveType, page }: GQL_ArchiveArg,
+            context: Context,
+        ) => {
+            return await archive(
+                { slug, archiveType, page, query: GQL_QUERY_TYPE.QUERY },
+                context,
+            )
+        },
     },
     Mutation: {
         mutatePost,
         mutatePage,
         removePage,
         mutateBackgrounds,
-        mutateCategory,
-        removeCategory,
-        mutateTag,
-        updateHits,
         login,
         flushDB,
         updatePostsFromWP,
+        // archive
+        updateHits,
+        updateArchive: async (
+            _: unknown,
+            { slug, archiveType }: GQL_ArchiveArg,
+            context: Context,
+        ) => {
+            return await archive(
+                { slug, archiveType, query: GQL_QUERY_TYPE.UPDATE },
+                context,
+            )
+        },
+        removeArchive: async (
+            _: unknown,
+            { slug, archiveType }: GQL_ArchiveArg,
+            context: Context,
+        ) => {
+            return await archive(
+                { slug, archiveType, query: GQL_QUERY_TYPE.REMOVE },
+                context,
+            )
+        },
     },
 }
 

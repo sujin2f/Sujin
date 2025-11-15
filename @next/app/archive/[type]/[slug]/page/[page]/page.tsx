@@ -6,7 +6,7 @@ import { ArchiveServer } from '@app/archive/[type]/[slug]/page/[page]/Archive.se
 /* Utils */
 import { getArchive } from '@lib/apollo/query/getArchive'
 /* CONSTANTS */
-import { ARCHIVE } from '@sujin/lib/types'
+import { ARCHIVE } from '@sujin/lib/constants'
 import { BASE_URL } from '@lib/constants'
 
 type Props = {

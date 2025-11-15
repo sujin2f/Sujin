@@ -4,7 +4,8 @@
  * @module constants
  */
 
-import { type POST_TYPE, TAXONOMY } from '@sujin/lib/types'
+import { TAXONOMY } from '@sujin/lib/constants'
+import { type POST_TYPE } from '@sujin/lib/types'
 import { PER_PAGE } from '@sujin/lib/constants'
 
 /**

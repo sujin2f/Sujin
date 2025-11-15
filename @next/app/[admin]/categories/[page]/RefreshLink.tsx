@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 
 /* Utils */
-import { mutateCategory } from '@lib/apollo/mutation/mutateCategory'
+import { updateCategory } from '@lib/apollo/mutation/updateCategory'
 
 type Props = {
     readonly slug: string
@@ -16,7 +16,7 @@ export function RefreshLink({ slug }: Props) {
         <Link
             href="#"
             onClick={async () => {
-                await mutateCategory(slug)
+                await updateCategory(slug)
                 router.refresh()
             }}
         >

@@ -6,13 +6,13 @@ type Query{
     tagCloud: [TagCloud]
     spectra(number: Int!, ion: Int!): [Spectrum]
     post(slug: String!, type: String!): Post
-    archive(slug: String!, type: String!): Term
     archives(type: String!, page: Int!): [Term]
     archivePosts(id: String!, page: Int!, bypassCache: Boolean!): [Post]
     prevNext(slug: String!): [Post]
     related(slug: String!): [Post]
     pages(page: Int!): [Post]
-    numPages(context: String!, id: String, type: String): Int
+    numPages(context: String!, id: String, type: ARCHIVE_TYPE): Int
+    archive(slug: String, archiveType: ARCHIVE_TYPE!, page: Int): [Term]
 }
 type Mutation{
     mutatePost(nonce: String!, slug: String!): Result
@@ -22,10 +22,17 @@ type Mutation{
     mutateCategory(slug: String!): Result
     removeCategory(slug: String!): Result
     mutateTag(nonce: String!, slug: String!): Result
-    updateHits(slug: String!): Result
     login(email: String!): String
     flushDB: Boolean
+
+    updateHits(slug: String!): Result
     updatePostsFromWP(slug: String!, page: Int!): Result
+    updateArchive(slug: String!, archiveType: ARCHIVE_TYPE!): [Boolean]
+    removeArchive(slug: String!, archiveType: ARCHIVE_TYPE!): [Boolean]
+}
+enum ARCHIVE_TYPE {
+    category
+    tag
 }
 type FlickrImage {
     title: String

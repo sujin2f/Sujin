@@ -9,9 +9,7 @@ export const removeCategory = async (slug: string) => {
         .mutate({
             mutation: gql`
                 mutation RemoveCategory($slug: String!) {
-                    removeCategory(slug: $slug) {
-                        result
-                    }
+                    removeArchive(slug: $slug, archiveType: category)
                 }
             `,
             variables: {

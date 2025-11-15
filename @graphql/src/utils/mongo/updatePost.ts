@@ -5,8 +5,8 @@ import Cached from '@sujin/node-cache'
 /* Utils */
 import { getCacheKey } from '@sujin/lib/utils/cache'
 /* CONSTANTS */
+import { ARCHIVE } from '@sujin/lib/constants'
 import {
-    ARCHIVE,
     COLLECTION,
     POST_IMAGE_LOCATION,
     T_Archive,

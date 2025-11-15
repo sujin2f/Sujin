@@ -7,13 +7,8 @@ import { Post } from '@src/schema/post'
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 import { getPost } from '@src/resolvers/query/getPost'
 /* CONSTANTS */
-import {
-    ARCHIVE,
-    COLLECTION,
-    POST_STATUS,
-    T_Post,
-    T_PrevNext,
-} from '@sujin/lib/types'
+import { ARCHIVE } from '@sujin/lib/constants'
+import { COLLECTION, POST_STATUS, T_Post, T_PrevNext } from '@sujin/lib/types'
 
 /**
  * Fetches the recent posts from MongoDB.

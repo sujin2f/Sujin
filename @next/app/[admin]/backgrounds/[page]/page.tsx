@@ -66,6 +66,7 @@ export default async function Backgrounds() {
                                                             (key as string) ===
                                                             '__typename'
                                                         ) {
+                                                            // TODO remove this from aggregation
                                                             return false
                                                         }
                                                         return value
