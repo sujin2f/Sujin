@@ -5,19 +5,21 @@ import Logger from '@src/utils/logger'
 import { Post } from '@src/schema/post'
 /* Utils */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
-import { getPost } from '@src/resolvers/query/getPost'
+import { post as getPost } from '@src/resolvers/post'
 import { getRecentPosts } from './getRecentPosts'
 /* CONSTANTS */
 import {
-    COLLECTION,
     POST_STATUS,
-    T_ArchivePost,
-    T_Post,
-} from '@sujin/lib/types'
+    COLLECTION,
+    GQL_QUERY_TYPE,
+    POST_TYPE,
+} from '@sujin/lib/constants'
 import {
     AGGREGATE_ARCHIVE_POST,
     AGGREGATE_EXPAND_ARCHIVES,
 } from '@src/constants'
+/* T_Types */
+import type { T_ArchivePost, T_Post } from '@sujin/lib/types'
 
 /**
  * Fetches the related posts from MongoDB.
@@ -25,7 +27,12 @@ import {
  * @returns {Promise<T_Post[]>} A promise that resolves to the related posts.
  */
 const query = async (slug: string): Promise<T_ArchivePost[]> => {
-    const post = (await getPost(null, { slug, type: 'post' })) as T_Post
+    const post = (
+        await getPost(
+            { slug, postType: POST_TYPE.POST, query: GQL_QUERY_TYPE.QUERY },
+            { token: '' },
+        )
+    )[0] as T_Post
     const result: Record<number, T_ArchivePost> = {}
 
     const archive_ids = post.archives.map(

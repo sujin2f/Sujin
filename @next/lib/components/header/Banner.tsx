@@ -9,16 +9,13 @@ import Menu from '@common/components/layout/Menu'
 import NextImage from '@common/components/containers/NextImage'
 /* CONSTANTS */
 import { MENUS, METADATA } from '@lib/constants'
+import { IMAGE_SIZE_BACKGROUND } from '@sujin/lib/constants'
 /* Utils */
 import { entries } from '@sujin/share/utils/object'
 import { joinClassNames } from '@sujin/share/utils/string'
 import { debounce } from '@sujin/share/utils/dom'
 /* T_Types */
-import {
-    MENU_NAMES,
-    IMAGE_SIZE_BACKGROUND,
-    T_ImageBlock,
-} from '@sujin/lib/types'
+import { MENU_NAMES, T_ImageBlock } from '@sujin/lib/types'
 import type { ImageMap } from '@common/components/containers/Picture'
 /* Assets */
 import './Banner.scss'
@@ -175,7 +172,7 @@ const getBannerImageMap = (image: T_ImageBlock): ImageMap[] => {
         return []
     }
 
-    const bannerMediaQueries: Record<IMAGE_SIZE_BACKGROUND, string> = {
+    const bannerMediaQueries: Record<string, string> = {
         [IMAGE_SIZE_BACKGROUND.MEDIUM]: '(max-width: 300px)',
         [IMAGE_SIZE_BACKGROUND.MEDIUM_LARGE]: '(max-width: 768px)',
         [IMAGE_SIZE_BACKGROUND.LARGE]: '(max-width: 1024px)',
@@ -187,7 +184,7 @@ const getBannerImageMap = (image: T_ImageBlock): ImageMap[] => {
                 Object.keys(bannerMediaQueries).includes(size) && value,
         )
         .map(([size, value]) => {
-            const key = size as IMAGE_SIZE_BACKGROUND
+            const key = size
             return {
                 src: value.url,
                 media: bannerMediaQueries[key] || '',

@@ -4,7 +4,7 @@ import Cached from '@sujin/node-cache'
 import { mysqlDisconnect } from '@src/utils/mysql'
 import { Background } from '@src/schema/background'
 /* CONSTANTS */
-import { COLLECTION } from '@sujin/lib/types'
+import { COLLECTION } from '@sujin/lib/constants'
 /* Utils */
 import { getCacheKey } from '@sujin/lib/utils/cache'
 import { getBackgrounds } from '@src/utils/mysql/media'

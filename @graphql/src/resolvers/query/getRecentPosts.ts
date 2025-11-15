@@ -4,12 +4,13 @@ import { Post } from '@src/schema/post'
 /* Utils */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 /* CONSTANTS */
-import { COLLECTION, POST_STATUS, type T_ArchivePost } from '@sujin/lib/types'
-import { PER_PAGE } from '@sujin/lib/constants'
+import { POST_STATUS, COLLECTION, PER_PAGE } from '@sujin/lib/constants'
 import {
     AGGREGATE_ARCHIVE_POST,
     AGGREGATE_EXPAND_ARCHIVES,
 } from '@src/constants'
+/* T_Types */
+import type { T_ArchivePost } from '@sujin/lib/types'
 
 /**
  * Fetches the recent posts from MongoDB.

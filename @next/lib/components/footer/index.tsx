@@ -18,6 +18,7 @@ export const Footer = () => {
         <footer className="footer">
             <Row className="footer__top" dom="aside">
                 <ApolloProvider client={client}>
+                    {/* TODO use state */}
                     <Column dom="section" medium={4} small={12}>
                         <GoogleAdvert responsive place="footer" />
                     </Column>

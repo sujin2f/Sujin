@@ -2,7 +2,7 @@
 import Logger from '@src/utils/logger'
 import { Background } from '@src/schema/background'
 /* CONSTANTS */
-import { COLLECTION } from '@sujin/lib/types'
+import { COLLECTION } from '@sujin/lib/constants'
 /* Utils */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 /* T_Types */

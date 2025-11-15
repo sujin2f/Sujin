@@ -4,8 +4,7 @@ import sanitize from 'mongo-sanitize'
 import { Page, Post } from '@src/schema/post'
 import Logger from '@src/utils/logger'
 /* CONSTANTS */
-import { ARCHIVE } from '@sujin/lib/constants'
-import { COLLECTION, POST_STATUS } from '@sujin/lib/types'
+import { POST_STATUS, COLLECTION, ARCHIVE } from '@sujin/lib/constants'
 import { PER_PAGE } from '@sujin/lib/constants'
 /* Utils */
 import { verifyAdmin } from '@src/utils/mongo/verifyUser'

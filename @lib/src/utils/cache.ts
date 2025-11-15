@@ -5,7 +5,7 @@ import { IS_DEV } from '@sujin/share/constants/helper'
 import { DAY_IN_SECONDS } from '@sujin/share/constants/datetime'
 import { VERSION } from '@sujin/share/constants/helper'
 /* T_Types */
-import type { COLLECTION } from '../types'
+import type { COLLECTION } from '../constants'
 
 /**
  *

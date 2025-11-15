@@ -7,10 +7,12 @@ import { client } from '@lib/apollo/apollo-client-server'
 /* CONSTANTS */
 import { VERSION } from '@sujin/share/constants/helper'
 import { REVALIDATION } from '@lib/constants'
-import { COLLECTION, T_ArchivePost } from '@sujin/lib/types'
+import { COLLECTION } from '@sujin/lib/constants'
 /* Utils */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 import { FIELDS } from '@lib/constants/graphql-fields'
+/* T_Type */
+import type { T_ArchivePost } from '@sujin/lib/types'
 
 /**
  * Get recent posts

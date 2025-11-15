@@ -4,7 +4,9 @@ import { use } from 'react'
 import { WidgetTitle } from '@lib/components/WidgetTitle'
 import { Cards } from '@lib/components/archive/Cards'
 /* CONSTANTS */
-import { IMAGE_SIZE, T_ArchivePost } from '@sujin/lib/types'
+import { IMAGE_SIZE } from '@sujin/lib/constants'
+/* T_Types */
+import type { T_ArchivePost } from '@sujin/lib/types'
 /* Assets */
 import './RecentPosts.scss'
 
@@ -33,6 +35,7 @@ export const RecentPosts = ({ promise, id }: Props) => {
             <Cards
                 posts={posts}
                 keyPrefix="recent"
+                listKey="list"
                 imageSize={IMAGE_SIZE.RECENT_POST}
             />
         </section>

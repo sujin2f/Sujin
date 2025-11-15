@@ -7,12 +7,14 @@ import { client } from '@lib/apollo/apollo-client-server'
 /* CONSTANTS */
 import { VERSION } from '@sujin/share/constants/helper'
 import { REVALIDATION } from '@lib/constants'
-import { COLLECTION, T_Background } from '@sujin/lib/types'
+import { COLLECTION } from '@sujin/lib/constants'
 import { FIELDS } from '@lib/constants/graphql-fields'
 /* Utils */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 import { isAdmin } from '@lib/utils/session'
 import { getSessionContext } from '@lib/apollo/admin'
+/* T_Type */
+import type { T_Background } from '@sujin/lib/types'
 
 type Props = {
     fields?: FIELDS

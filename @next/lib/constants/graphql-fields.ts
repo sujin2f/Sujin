@@ -1,4 +1,4 @@
-import { IMAGE_SIZE, POST_IMAGE_LOCATION } from '@sujin/lib/types'
+import { IMAGE_SIZE, POST_IMAGE_LOCATION } from '@sujin/lib/constants'
 
 const IMAGE = 'width height url mimeType'
 const ARCHIVE = '_id title slug type'

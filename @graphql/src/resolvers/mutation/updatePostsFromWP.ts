@@ -4,8 +4,7 @@ import Logger from '@src/utils/logger'
 import { mysqlDisconnect } from '@src/utils/mysql'
 import Cached from '@sujin/node-cache'
 /* CONSTANTS */
-import { ARCHIVE } from '@sujin/lib/constants'
-import { COLLECTION, POST_TYPE } from '@sujin/lib/types'
+import { COLLECTION, ARCHIVE, POST_TYPE } from '@sujin/lib/constants'
 /* Utils */
 import { getCacheKey } from '@sujin/lib/utils/cache'
 import { verifyAdmin } from '@src/utils/mongo/verifyUser'

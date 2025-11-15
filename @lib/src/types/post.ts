@@ -1,28 +1,5 @@
-import type { ConstToType } from '@sujin/share/types'
-import type { T_PostImages } from './image'
-import type { T_Archive } from './archive'
-
-/**
- * WP Post types
- * @enum
- */
-export const POST_TYPE = {
-    POST: 'post',
-    PAGE: 'page',
-    ATTACHMENT: 'attachment',
-} as const
-export type POST_TYPE = ConstToType<typeof POST_TYPE>
-
-/**
- * @enum
- * @todo use this
- */
-export const POST_STATUS = {
-    PUBLISH: 'publish',
-    DRAFT: 'draft',
-    TRASH: 'trash',
-} as const
-export type POST_STATUS = ConstToType<typeof POST_STATUS>
+import type { GQL_SlugArg, T_PostImages, T_Archive } from '.'
+import { GQL_QUERY_TYPE, POST_TYPE, POST_STATUS } from '../constants'
 
 // Post and Page
 export type T_PrevNext = {
@@ -56,3 +33,10 @@ export type T_MySQLPost = T_Post & {
 }
 
 export type T_Page = Omit<T_Post, 'archives'>
+
+export type GQL_PostArg = Partial<GQL_SlugArg> & {
+    postType?: POST_TYPE.POST | POST_TYPE.PAGE
+    category?: string
+    page?: number
+    query: GQL_QUERY_TYPE
+}

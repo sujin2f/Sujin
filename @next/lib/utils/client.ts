@@ -1,10 +1,7 @@
 import { signIn, signOut } from 'next-auth/react'
 import { DEFAULT_THUMBNAIL } from '@lib/constants'
-import {
-    IMAGE_SIZE,
-    type T_PostImages,
-    type T_ImageBlock,
-} from '@sujin/lib/types'
+import { IMAGE_SIZE } from '@sujin/lib/constants'
+import type { T_PostImages, T_ImageBlock } from '@sujin/lib/types'
 
 export const handleSignIn = () => signIn('google')
 export const handleSignOut = () => signOut() // TODO remove GQL token

@@ -1,37 +1,3 @@
-import type { ConstToType } from '@sujin/share/types'
-import { POST_TYPE } from './post'
-
-/**
- * MongoDB collections
- * @enum
- */
-export const COLLECTION = {
-    POST: `${POST_TYPE.POST}s`,
-    PAGE: `${POST_TYPE.PAGE}s`,
-    BACKGROUNDS: 'backgrounds',
-    OPTIONS: 'option',
-    SPECTRA: 'spectra',
-    USERS: 'user',
-    ARCHIVE: 'archives',
-    SNIPPET: 'snippet',
-    SNIPPETS: 'snippets',
-    RECIPE: 'recipe',
-} as const
-export type COLLECTION = ConstToType<typeof COLLECTION>
-
-/**
- * Menu names
- * @enum
- */
-export const MENU_NAMES = {
-    MAIN: 'main',
-    DEV_TOOL: 'devtool',
-    ETHER: 'ether',
-    ETHER_KOR: 'ether-kor',
-    DESIGN_SYSTEM: 'design-system',
-} as const
-export type MENU_NAMES = ConstToType<typeof MENU_NAMES>
-
 export type T_Option = {
     key: string
     value: string

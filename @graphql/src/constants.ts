@@ -1,4 +1,4 @@
-import { COLLECTION } from '@sujin/lib/types'
+import { COLLECTION } from '@sujin/lib/constants'
 
 export const STATIC_FLICKR = {
     title: 'Uploads from Sujin Choi',

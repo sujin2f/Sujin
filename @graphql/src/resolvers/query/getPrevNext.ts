@@ -5,10 +5,17 @@ import Logger from '@src/utils/logger'
 import { Post } from '@src/schema/post'
 /* Utils */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
-import { getPost } from '@src/resolvers/query/getPost'
+import { post as getPost } from '@src/resolvers/post'
 /* CONSTANTS */
-import { ARCHIVE } from '@sujin/lib/constants'
-import { COLLECTION, POST_STATUS, T_Post, T_PrevNext } from '@sujin/lib/types'
+import {
+    COLLECTION,
+    ARCHIVE,
+    POST_TYPE,
+    GQL_QUERY_TYPE,
+    POST_STATUS,
+} from '@sujin/lib/constants'
+/* T_Types */
+import type { T_Post, T_PrevNext } from '@sujin/lib/types'
 
 /**
  * Fetches the recent posts from MongoDB.
@@ -16,7 +23,12 @@ import { COLLECTION, POST_STATUS, T_Post, T_PrevNext } from '@sujin/lib/types'
  * @returns {Promise<T_Post[]>} A promise that resolves to the recent posts.
  */
 const query = async (slug: string): Promise<T_PrevNext[]> => {
-    const post = (await getPost(null, { slug, type: 'post' })) as T_Post
+    const post = (
+        await getPost(
+            { slug, postType: POST_TYPE.POST, query: GQL_QUERY_TYPE.QUERY },
+            { token: '' },
+        )
+    )[0] as T_Post
     const _ids = post.archives
         .filter((archive) => archive.type === ARCHIVE.CATEGORY)
         .map((category) => new mongoose.Types.ObjectId(category._id))

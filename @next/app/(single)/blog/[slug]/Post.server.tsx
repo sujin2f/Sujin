@@ -13,21 +13,26 @@ import { Content } from '@lib/components/single/Content'
 import { GoogleAdvert } from '@common/components/GoogleAdvert'
 import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
 /* CONSTANTS */
-import { IMAGE_SIZE, POST_STATUS, T_Post } from '@sujin/lib/types'
+import { POST_STATUS, IMAGE_SIZE } from '@sujin/lib/constants'
 /* Utils */
 import { getThumbnailFromPost } from '@lib/utils/client'
 import { getRecent } from '@lib/apollo/query/getRecent'
 import { getSingle } from '@lib/apollo/query/getSingle'
 import { updateHits } from '@lib/apollo/mutation/updateHits'
+import { POST_TYPE } from '@sujin/lib/constants'
+/* T_Types */
+import type { T_Post } from '@sujin/lib/types'
 
 type Props = {
     slug: string
 }
 
 export async function PostServer({ slug }: Props) {
-    const post = await getSingle<T_Post>(slug, 'post', 'POST').catch(() => {
-        notFound()
-    })
+    const post = await getSingle<T_Post>(slug, POST_TYPE.POST, 'POST').catch(
+        () => {
+            notFound()
+        },
+    )
 
     const thumbnail = getThumbnailFromPost(post.images, IMAGE_SIZE.MEDIUM_LARGE)
     const tags = post.archives.filter((tag) => tag.type === 'tag')

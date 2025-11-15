@@ -2,18 +2,18 @@ import sanitize from 'mongo-sanitize'
 /* Models */
 import Logger from '@src/utils/logger'
 import Cached from '@sujin/node-cache'
-import { mysqlDisconnect } from '@src/utils/mysql'
 /* T_Types */
 import type { MutationResultType } from '@src/types'
 import type { Context } from '@src/types'
 /* Utils */
+import { mysqlDisconnect } from '@src/utils/mysql'
 import { getPostBy } from '@src/utils/mysql/post'
 import { getCacheKey } from '@sujin/lib/utils/cache'
 import { verifyAdmin } from '@src/utils/mongo/verifyUser'
 import { updatePost } from '@src/utils/mongo/updatePost'
-/* CONSTANTS */
-import { COLLECTION, POST_TYPE } from '@sujin/lib/types'
 import { updateTotal } from '@src/utils/mongo/updateTotal'
+/* CONSTANTS */
+import { COLLECTION, POST_TYPE } from '@sujin/lib/constants'
 
 type Param = {
     nonce: string

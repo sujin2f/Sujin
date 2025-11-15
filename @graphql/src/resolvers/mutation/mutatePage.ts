@@ -13,7 +13,11 @@ import Logger from '@src/utils/logger'
 import Cached from '@sujin/node-cache'
 import { Page } from '@src/schema/post'
 /* CONSTANTS */
-import { COLLECTION, POST_IMAGE_LOCATION, POST_TYPE } from '@sujin/lib/types'
+import {
+    COLLECTION,
+    POST_TYPE,
+    POST_IMAGE_LOCATION,
+} from '@sujin/lib/constants'
 
 type Param = {
     nonce: string

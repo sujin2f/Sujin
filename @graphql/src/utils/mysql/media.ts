@@ -7,10 +7,9 @@ import { select } from '@src/utils/mysql'
 import { FetchError } from '@sujin/share/model/Error'
 /* CONSTANTS */
 import { WPQuery } from '@src/utils/mysql/wp-query'
+import { POST_TYPE, IMAGE_SIZE } from '@sujin/lib/constants'
 /* T_Types */
 import {
-    IMAGE_SIZE,
-    POST_TYPE,
     type T_ImageBlock,
     type T_Background,
     type T_MySQLPost,

@@ -5,13 +5,15 @@ import Wrapper from '@lib/components/Wrapper'
 import { SocialShare } from '@lib/components/single/SocialShare.client'
 import { Content } from '@lib/components/single/Content'
 /* CONSTANTS */
-import { IMAGE_SIZE } from '@sujin/lib/types'
+import { IMAGE_SIZE, POST_TYPE } from '@sujin/lib/constants'
 /* Utils */
 import { getThumbnailFromPost } from '@lib/utils/client'
 import { getSingle } from '@lib/apollo/query/getSingle'
 
 export async function AboutServer() {
-    const post = await getSingle('about', 'page', 'PAGE').catch(() => {})
+    const post = await getSingle('about', POST_TYPE.PAGE, 'PAGE').catch(
+        () => {},
+    )
 
     if (!post) {
         notFound()

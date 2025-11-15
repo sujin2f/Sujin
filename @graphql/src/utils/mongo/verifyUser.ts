@@ -41,6 +41,7 @@ export const verifyAdmin = async (token: string): Promise<boolean> => {
     return user.admin
 }
 
+// TODO replace
 export const verifyAdmin2 = async (token: string, message: string) => {
     if (!(await verifyAdmin(token))) {
         Logger.error(`⛈️ ${message}`)

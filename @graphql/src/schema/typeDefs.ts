@@ -1,34 +1,45 @@
 export const typeDefs = `
 type Query{
     recent: [Post]
+    prevNext(slug: String!): [Post]
+    related(slug: String!): [Post]
+    
+    post(postType: POST_TYPE!, slug: String, category: String, page: Int): [Post]
+
+
+    archivePosts(id: String!, page: Int!, bypassCache: Boolean!): [Post]
+    pages(page: Int!): [Post]
+
     backgrounds(bypassCache: Boolean!): [ImageBlock]
+
     flickr: [FlickrImage]
     tagCloud: [TagCloud]
     spectra(number: Int!, ion: Int!): [Spectrum]
-    post(slug: String!, type: String!): Post
-    archives(type: String!, page: Int!): [Term]
-    archivePosts(id: String!, page: Int!, bypassCache: Boolean!): [Post]
-    prevNext(slug: String!): [Post]
-    related(slug: String!): [Post]
-    pages(page: Int!): [Post]
+
     numPages(context: String!, id: String, type: ARCHIVE_TYPE): Int
-    archive(slug: String, archiveType: ARCHIVE_TYPE!, page: Int): [Term]
+
+    archive(slug: String, archiveType: ARCHIVE_TYPE!, page: Int): [Archive]
 }
 type Mutation{
+    updatePostsFromWP(slug: String!, page: Int!): Result
+
     mutatePost(nonce: String!, slug: String!): Result
     mutatePage(slug: String!): Result
     removePage(slug: String!): Result
+
     mutateBackgrounds(nonce: String!): Result
-    mutateCategory(slug: String!): Result
-    removeCategory(slug: String!): Result
-    mutateTag(nonce: String!, slug: String!): Result
+
     login(email: String!): String
     flushDB: Boolean
 
+
     updateHits(slug: String!): Result
-    updatePostsFromWP(slug: String!, page: Int!): Result
     updateArchive(slug: String!, archiveType: ARCHIVE_TYPE!): [Boolean]
     removeArchive(slug: String!, archiveType: ARCHIVE_TYPE!): [Boolean]
+}
+enum POST_TYPE {
+    post
+    page
 }
 enum ARCHIVE_TYPE {
     category
@@ -110,14 +121,14 @@ type Post {
     link: String
     images: Images
     meta: PostMeta
-    archives: [Term]
+    archives: [Archive]
     status: String
 }
-type Term {
+type Archive {
     _id: String
     title: String
     slug: String
-    type: String
+    type: ARCHIVE_TYPE
     total: Int
     hits: Int
     excerpt: String

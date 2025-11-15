@@ -5,14 +5,10 @@ import Column from '@common/components/layout/Column'
 import Card from '@common/components/containers/Card'
 import { Tags } from '@lib/components/single/Tags'
 /* CONSTANTS */
-import { ARCHIVE } from '@sujin/lib/constants'
+import { ARCHIVE, IMAGE_SIZE } from '@sujin/lib/constants'
 /* T_Types */
 import type { ColumnProps } from '@common/components/layout/Column'
-import {
-    IMAGE_SIZE,
-    type PropWithPages,
-    type T_ArchivePost,
-} from '@sujin/lib/types'
+import type { PropWithPages, T_ArchivePost } from '@sujin/lib/types'
 /* Utils */
 import { getThumbnailFromPost } from '@lib/utils/client'
 

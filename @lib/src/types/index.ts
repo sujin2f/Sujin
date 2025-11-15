@@ -2,6 +2,10 @@
  * Common type definition
  */
 
+export type GQL_SlugArg = {
+    slug: string
+}
+
 export * from './image'
 export * from './archive'
 export * from './post'

@@ -7,13 +7,16 @@ import { client } from '@lib/apollo/apollo-client-server'
 /* CONSTANTS */
 import { VERSION } from '@sujin/share/constants/helper'
 import { REVALIDATION } from '@lib/constants'
-import { COLLECTION, type T_Page } from '@sujin/lib/types'
+import { COLLECTION } from '@sujin/lib/constants'
 import { FIELDS } from '@lib/constants/graphql-fields'
 /* Utils */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
+import { POST_TYPE } from '@sujin/lib/constants'
+/* T_Type */
+import type { T_Page } from '@sujin/lib/types'
 
 /**
- * Get single page by slug
+ * Get single post/page by slug
  * This returns the cached result if it exists
  *
  * @param {string} slug - Post slug
@@ -21,7 +24,7 @@ import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
  */
 export const getSingle = async <T extends T_Page>(
     slug: string,
-    type: string,
+    type: POST_TYPE,
     fields: FIELDS,
 ): Promise<T> => {
     const request = unstable_cache(
@@ -53,10 +56,10 @@ const querySingle = async <T extends T_Page>(
     fields: FIELDS,
 ): Promise<T> => {
     return await client
-        .query<{ post: T }>({
+        .query<{ post: T[] }>({
             query: gql`
-                query Post($slug: String!, $type: String!) {
-                    post(slug: $slug, type: $type) { ${FIELDS[fields]} }
+                query Single($type: POST_TYPE!, $slug: String) {
+                    post(postType: $type, slug: $slug) { ${FIELDS[fields]} }
                 }
             `,
             variables: {
@@ -72,7 +75,7 @@ const querySingle = async <T extends T_Page>(
                     },
                 })
             }
-            return result.data.post
+            return result.data.post[0]
         })
         .catch((e) => {
             throw e.errors[0]

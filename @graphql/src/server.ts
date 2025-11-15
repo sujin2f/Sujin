@@ -21,7 +21,6 @@ import { getSpectraFromNIST } from '@src/resolvers/query/spectra'
 import { getArchivePosts } from '@src/resolvers/query/getArchivePosts'
 import { getPrevNext } from '@src/resolvers/query/getPrevNext'
 import { getRelatedPosts } from '@src/resolvers/query/getRelatedPosts'
-import { getPost } from '@src/resolvers/query/getPost'
 
 import { mutatePost } from '@src/resolvers/mutation/mutatePost'
 import { mutatePage } from '@src/resolvers/mutation/mutatePage'
@@ -35,7 +34,8 @@ import { getNumPages } from './resolvers/query/getNumPages'
 import { removePage } from './resolvers/mutation/removePage'
 import { updatePostsFromWP } from './resolvers/mutation/updatePostsFromWP'
 import { archive, updateHits } from './resolvers/archive'
-import { GQL_ArchiveArg } from '@sujin/lib/types'
+import { post } from './resolvers/post'
+import { GQL_ArchiveArg, GQL_PostArg } from '@sujin/lib/types'
 import { Context } from './types'
 import { GQL_QUERY_TYPE } from '@sujin/lib/constants'
 
@@ -48,12 +48,24 @@ const resolvers = {
         flickr: getFlickr,
         tagCloud: getTagCloud,
         spectra: getSpectraFromNIST,
-        post: getPost,
+        // post: getPost,
         archivePosts: getArchivePosts,
         numPages: getNumPages,
         prevNext: getPrevNext,
         related: getRelatedPosts,
         pages: getPages,
+
+        // post
+        post: async (
+            _: unknown,
+            { slug, postType, category, page }: GQL_PostArg,
+            context: Context,
+        ) => {
+            return await post(
+                { slug, postType, category, page, query: GQL_QUERY_TYPE.QUERY },
+                context,
+            )
+        },
         // archive
         archive: async (
             _: unknown,
