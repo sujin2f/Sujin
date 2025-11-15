@@ -1,5 +1,5 @@
 import { PHASE_PRODUCTION_BUILD } from 'next/constants'
-import { MENU_NAMES } from '@sujin/lib/types'
+import { MENU_NAMES } from '@sujin/lib/constants'
 import { HOUR_IN_SECONDS } from '@sujin/share/constants/datetime'
 import { IS_DEV } from '@sujin/share/constants/helper'
 import type { MenuItem } from '@sujin/lib/types/menu'

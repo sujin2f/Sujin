@@ -11,14 +11,12 @@ import { getSessionContext } from '@lib/apollo/admin'
 export const getPages = async (
     page: number,
     fields: string,
-): Promise<PropWithPages<T_ArchivePost, 'pages'>> => {
+): Promise<PropWithPages<T_ArchivePost, 'post'>> => {
     return await client
-        .query<{ pages: T_ArchivePost[]; numPages: number }>({
+        .query<{ post: T_ArchivePost[]; numPages: number }>({
             query: gql`
-                query QueryPages($page: Int!) {
-                    pages(page: $page) {
-                        ${fields}
-                    }
+                query ListPages($page: Int!) {
+                    post(postType: page, page: $page) { ${fields} }
                     numPages(context: "pages")
                 }
             `,

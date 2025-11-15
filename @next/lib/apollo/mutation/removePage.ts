@@ -9,9 +9,7 @@ export const removePage = async (slug: string) => {
         .mutate({
             mutation: gql`
                 mutation RemovePage($slug: String!) {
-                    removePage(slug: $slug) {
-                        result
-                    }
+                    removeSingle(postType: page, slug: $slug)
                 }
             `,
             variables: {

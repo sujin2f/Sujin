@@ -1,9 +1,8 @@
 'use client'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-
 /* Utils */
-import { mutatePage } from '@lib/apollo/mutation/mutatePage'
+import { updatePage } from '@lib/apollo/mutation/updatePage'
 
 type Props = {
     readonly slug: string
@@ -16,7 +15,7 @@ export function RefreshLink({ slug }: Props) {
         <Link
             href="#"
             onClick={async () => {
-                await mutatePage(slug)
+                await updatePage(slug)
                 router.refresh()
             }}
         >

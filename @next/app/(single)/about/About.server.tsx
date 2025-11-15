@@ -11,9 +11,9 @@ import { getThumbnailFromPost } from '@lib/utils/client'
 import { getSingle } from '@lib/apollo/query/getSingle'
 
 export async function AboutServer() {
-    const post = await getSingle('about', POST_TYPE.PAGE, 'PAGE').catch(
-        () => {},
-    )
+    const post = await getSingle('about', POST_TYPE.PAGE, 'PAGE').catch(() => {
+        notFound()
+    })
 
     if (!post) {
         notFound()

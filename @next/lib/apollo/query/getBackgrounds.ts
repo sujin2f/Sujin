@@ -34,7 +34,7 @@ export const getBackgrounds = async ({
     query,
     bypassCache,
 }: Props): Promise<T_Background[]> => {
-    if (bypassCache && !isAdmin()) {
+    if (bypassCache && !isAdmin().catch(() => false)) {
         throw new Error('You are trying illegal access!')
     }
 

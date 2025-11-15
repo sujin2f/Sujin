@@ -23,7 +23,7 @@ export default async function Pages({ params }: Props) {
     const page = parseInt(_page)
 
     const pages = await getPages(page, 'id title slug status link')
-    const length = pages.pages.length
+    const length = pages.post.length
 
     return (
         <>
@@ -47,7 +47,7 @@ export default async function Pages({ params }: Props) {
                             </tr>
                         </thead>
                         <tbody>
-                            {pages.pages.map((post) => (
+                            {pages.post.map((post) => (
                                 <tr key={`admin-posts-${post._id}`}>
                                     <td className="center">{post.id}</td>
                                     <td>{post.title}</td>

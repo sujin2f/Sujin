@@ -18,7 +18,7 @@ export const getArchives = async (
     return await client
         .query<PropWithPages<T_Archive, 'archive'>>({
             query: gql`
-                query Archives($page: Int!, $type: ARCHIVE_TYPE!) {
+                query ListArchive($page: Int!, $type: ARCHIVE_TYPE!) {
                     archive(archiveType: $type, page: $page) { ${fields} }
                     numPages(context: "archives", type: $type)
                 }

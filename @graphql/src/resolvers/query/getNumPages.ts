@@ -1,10 +1,15 @@
-import mongoose from 'mongoose'
+import { Types } from 'mongoose'
 import sanitize from 'mongo-sanitize'
 /* Models */
 import { Page, Post } from '@src/schema/post'
 import Logger from '@src/utils/logger'
 /* CONSTANTS */
-import { POST_STATUS, COLLECTION, ARCHIVE } from '@sujin/lib/constants'
+import {
+    POST_STATUS,
+    COLLECTION,
+    ARCHIVE,
+    GQL_QUERY_TYPE,
+} from '@sujin/lib/constants'
 import { PER_PAGE } from '@sujin/lib/constants'
 /* Utils */
 import { verifyAdmin } from '@src/utils/mongo/verifyUser'
@@ -13,29 +18,31 @@ import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 import type { Context } from '@src/types'
 import { isSearch } from '@src/utils/mongo/isSearch'
 import { Archive } from '@src/schema/archive'
+import { archive as getArchive } from '../archive'
 
 type Param = {
     context: string
-    id: string
+    category: string
     type: ARCHIVE
 }
 
 export const getNumPages = async (
     _: unknown,
-    { id: _id, context: _context, type: _type }: Param,
+    { category: _category, context: _context, type: _type }: Param,
     { token }: Context,
 ): Promise<number> => {
     const context = sanitize(_context)
+    const category = sanitize(_category)
 
     let total = 0
 
     if (context === 'archive-posts') {
-        const [id, search] = isSearch(_id)
+        const [id, search] = isSearch(category)
         const request = cachedRequest(
             countArchivePosts,
             getCacheKey(COLLECTION.ARCHIVE, id, search, 'total'),
         )
-        total = await request(id, search)
+        total = await request(id, search, token)
     }
 
     if (context === 'pages') {
@@ -66,18 +73,32 @@ export const getNumPages = async (
 }
 
 const countArchivePosts = async (
-    id: string,
+    slug: string,
     search: number,
+    token: string,
 ): Promise<number> => {
-    const filter = search
-        ? {
-              $text: { $search: id },
-              status: POST_STATUS.PUBLISH,
-          }
-        : {
-              archives: { $in: [new mongoose.Types.ObjectId(id)] },
-              status: POST_STATUS.PUBLISH,
-          }
+    let filter: Record<string, unknown>
+    if (search) {
+        filter = {
+            $text: { $search: slug },
+        }
+    } else {
+        const archive = await getArchive(
+            {
+                slug,
+                archiveType: ARCHIVE.CATEGORY,
+                query: GQL_QUERY_TYPE.QUERY,
+            },
+            { token: '' },
+        )
+        filter = {
+            archives: { $in: [new Types.ObjectId(archive[0]._id)] },
+        }
+    }
+
+    if (!token) {
+        filter.status = POST_STATUS.PUBLISH
+    }
 
     return await Post.countDocuments(filter)
 }

@@ -6,7 +6,7 @@ import HeaderComponent from '@lib/components/admin/Header'
 import Callout from '@common/components/containers/Callout'
 import Button from '@common/components/forms/Button'
 /* Utils */
-import { updatePostsFromWP } from '@lib/apollo/mutation/updatePostsFromWP'
+import { updatePosts } from '@lib/apollo/mutation/updatePosts'
 /* CONSTANTS */
 import { QuantumBool } from '@sujin/share/types'
 /* T_Types */
@@ -20,7 +20,7 @@ export function Header({ archive, page }: Props) {
     const router = useRouter()
 
     const [state, action, pending] = useActionState<QuantumBool>(async () => {
-        return await updatePostsFromWP(archive.slug, page)
+        return await updatePosts(archive.slug, page)
             .then(() => {
                 router.refresh()
                 return QuantumBool.TRUE

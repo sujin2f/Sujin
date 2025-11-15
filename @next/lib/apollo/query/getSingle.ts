@@ -58,7 +58,7 @@ const querySingle = async <T extends T_Page>(
     return await client
         .query<{ post: T[] }>({
             query: gql`
-                query Single($type: POST_TYPE!, $slug: String) {
+                query GetSingle($type: POST_TYPE!, $slug: String) {
                     post(postType: $type, slug: $slug) { ${FIELDS[fields]} }
                 }
             `,

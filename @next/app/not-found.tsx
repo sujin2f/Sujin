@@ -6,7 +6,7 @@ import { WidgetTitle } from '@lib/components/WidgetTitle'
 import { NotFoundClient } from '@app/not-found.client'
 import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
 /* CONSTANTS */
-import { MENU_NAMES } from '@sujin/lib/types'
+import { MENU_NAMES } from '@sujin/lib/constants'
 /* Utils */
 import { getRecent } from '@lib/apollo/query/getRecent'
 

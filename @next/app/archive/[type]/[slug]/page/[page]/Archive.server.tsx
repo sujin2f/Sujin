@@ -7,7 +7,7 @@ import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
 /* CONSTANTS */
 import { ARCHIVE } from '@sujin/lib/constants'
 /* Utils */
-import { getArchivePosts } from '@lib/apollo/query/getArchivePosts'
+import { getPostsByCategory } from '@lib/apollo/query/getPostsByCategory'
 import { getArchive } from '@lib/apollo/query/getArchive'
 import { updateHits } from '@lib/apollo/mutation/updateHits'
 
@@ -39,14 +39,12 @@ export async function ArchiveServer({ type, slug, page }: Props) {
             <Suspense fallback={<LoadingArchive />}>
                 <Cards
                     keyPrefix={`${type}-${slug}-${page}`}
-                    posts={getArchivePosts({
-                        id: archive._id,
+                    posts={getPostsByCategory({
+                        category: archive.slug,
                         page,
                         fields: 'POST_ARCHIVE',
-                    }).catch(() => {
-                        return { archivePosts: [], numPages: 1 }
                     })}
-                    listKey="archivePosts"
+                    listKey="post"
                     page={page}
                     pageURLPrefix={`/${type}/${slug}/page`}
                     large={4}

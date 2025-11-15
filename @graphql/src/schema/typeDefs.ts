@@ -1,37 +1,27 @@
 export const typeDefs = `
 type Query{
-    recent: [Post]
-    prevNext(slug: String!): [Post]
-    related(slug: String!): [Post]
-    
-    post(postType: POST_TYPE!, slug: String, category: String, page: Int): [Post]
-
-
-    archivePosts(id: String!, page: Int!, bypassCache: Boolean!): [Post]
-    pages(page: Int!): [Post]
-
     backgrounds(bypassCache: Boolean!): [ImageBlock]
-
     flickr: [FlickrImage]
     tagCloud: [TagCloud]
     spectra(number: Int!, ion: Int!): [Spectrum]
 
-    numPages(context: String!, id: String, type: ARCHIVE_TYPE): Int
+    recent: [Post]
+    prevNext(slug: String!): [Post]
+    related(slug: String!): [Post]
 
+    post(postType: POST_TYPE!, slug: String, category: String, page: Int): [Post]
     archive(slug: String, archiveType: ARCHIVE_TYPE!, page: Int): [Archive]
+    numPages(context: String!, category: String, type: ARCHIVE_TYPE): Int
 }
 type Mutation{
-    updatePostsFromWP(slug: String!, page: Int!): Result
-
-    mutatePost(nonce: String!, slug: String!): Result
-    mutatePage(slug: String!): Result
-    removePage(slug: String!): Result
-
     mutateBackgrounds(nonce: String!): Result
-
+    
     login(email: String!): String
     flushDB: Boolean
-
+    
+    updatePosts(category: String!, page: Int!): [Boolean]
+    updateSingle(postType: POST_TYPE!, slug: String!): [Boolean]
+    removeSingle(postType: POST_TYPE!, slug: String!): [Boolean]
 
     updateHits(slug: String!): Result
     updateArchive(slug: String!, archiveType: ARCHIVE_TYPE!): [Boolean]

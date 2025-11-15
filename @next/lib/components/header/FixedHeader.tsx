@@ -14,8 +14,7 @@ import Button from '@common/components/forms/Button'
 import { handleSignIn, handleSignOut } from '@lib/utils/client'
 /* CONSTANTS */
 import { MENUS } from '@lib/constants'
-/* T_Types */
-import type { MENU_NAMES } from '@sujin/lib/types'
+import { MENU_NAMES } from '@sujin/lib/constants'
 /* Assets */
 import Logo from '@common/images/logo-top-bar.svg'
 import Facebook from '@common/images/facebook.svg'

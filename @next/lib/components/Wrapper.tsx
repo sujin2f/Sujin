@@ -5,11 +5,11 @@ import { Footer } from '@lib/components/footer'
 import { Banner, BannerProps } from '@lib/components/header/Banner'
 import Row from '@common/components/layout/Row'
 import Column, { type ColumnProps } from '@common/components/layout/Column'
-/* Utils */
 import ScrollToTop from '@common/components/ScrollToTop'
+/* Utils */
 import { joinClassNames } from '@sujin/share/utils/string'
 /* CONSTANTS */
-import { MENU_NAMES } from '@sujin/lib/types'
+import { MENU_NAMES } from '@sujin/lib/constants'
 
 type Props = ColumnProps &
     BannerProps & {

@@ -6,7 +6,7 @@ import HeaderComponent from '@lib/components/admin/Header'
 import Callout from '@common/components/containers/Callout'
 import InputGroup from '@common/components/forms/InputGroup'
 /* Utils */
-import { mutatePage } from '@lib/apollo/mutation/mutatePage'
+import { updatePage } from '@lib/apollo/mutation/updatePage'
 /* CONSTANTS */
 import { QuantumBool } from '@sujin/share/types'
 
@@ -15,7 +15,7 @@ export function Header() {
 
     const [state, action, pending] = useActionState<QuantumBool, string>(
         async (_: QuantumBool, slug: string) => {
-            return await mutatePage(slug)
+            return await updatePage(slug)
                 .then(() => {
                     router.refresh()
                     return QuantumBool.TRUE

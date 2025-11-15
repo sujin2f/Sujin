@@ -53,7 +53,7 @@ const queryArchive = async (
     return await client
         .query<{ archive: T_Archive[] }>({
             query: gql`
-                query Archive($slug: String!, $type: ARCHIVE_TYPE!) {
+                query GetArchive($slug: String!, $type: ARCHIVE_TYPE!) {
                     archive(slug: $slug, archiveType: $type) { ${FIELDS[fields]} }
                 }
             `,

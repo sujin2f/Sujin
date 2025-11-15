@@ -11,32 +11,25 @@ import { COLLECTION } from '@sujin/lib/constants'
 import { FIELDS } from '@lib/constants/graphql-fields'
 /* Utils */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
-import { isAdmin } from '@lib/utils/session'
 import { getSessionContext } from '@lib/apollo/admin'
 /* T_Type */
 import type { PropWithPages, T_ArchivePost } from '@sujin/lib/types'
 
 type Props = {
-    id: string
+    category: string
     page: number
     fields?: FIELDS
     query?: string
-    bypassCache?: boolean
 }
 
-export const getArchivePosts = async ({
-    id,
+export const getPostsByCategory = async ({
+    category,
     page,
     fields,
     query,
-    bypassCache,
-}: Props): Promise<PropWithPages<T_ArchivePost, 'archivePosts'>> => {
-    if (bypassCache && !isAdmin()) {
-        throw new Error('You are trying illegal access!')
-    }
-
-    if (bypassCache && query) {
-        return await queryPosts(id, page, query, true)
+}: Props): Promise<PropWithPages<T_ArchivePost, 'post'>> => {
+    if (query) {
+        return await queryPosts(category, page, query)
     }
 
     if (!fields) {
@@ -45,65 +38,65 @@ export const getArchivePosts = async ({
 
     const request = unstable_cache(
         cachedPosts,
-        [id, page.toString(), fields, VERSION],
+        [category, page.toString(), fields, VERSION],
         {
             tags: ['wordpress', 'archive', 'posts'],
             revalidate: REVALIDATION,
         },
     )
-    return await request(id, page, fields, false)
+    return await request(category, page, fields)
 }
 
 const cachedPosts = async (
-    id: string,
+    category: string,
     page: number,
     fields: FIELDS,
-    bypassCache: boolean,
-): Promise<PropWithPages<T_ArchivePost, 'archivePosts'>> => {
+): Promise<PropWithPages<T_ArchivePost, 'post'>> => {
     const request = cachedRequest(
         queryPosts,
-        getCacheKey(COLLECTION.ARCHIVE, id, page, fields),
+        getCacheKey(COLLECTION.ARCHIVE, category, page, fields),
     )
-    return await request(id, page, FIELDS[fields], bypassCache)
+    return await request(category, page, FIELDS[fields])
 }
 
 const queryPosts = async (
-    id: string,
+    category: string,
     page: number,
     fields: string,
-    bypassCache: boolean,
-): Promise<PropWithPages<T_ArchivePost, 'archivePosts'>> => {
+): Promise<PropWithPages<T_ArchivePost, 'post'>> => {
     return await client
-        .query<PropWithPages<T_ArchivePost, 'archivePosts'>>({
+        .query<PropWithPages<T_ArchivePost, 'post'>>({
             query: gql`
-                query ArchivePosts($id: String!, $page: Int!, $bypassCache: Boolean!) {
-                    archivePosts(id: $id, page: $page, bypassCache: $bypassCache) {
+                query GetPostsByCategory($category: String!, $page: Int!) {
+                    post(postType: post, category: $category, page: $page) {
                         ${fields}
                     }
-                    numPages(context: "archive-posts", id: $id)
+                    numPages(context: "archive-posts", category: $category)
                 }
             `,
             variables: {
-                id,
+                category,
                 page,
-                bypassCache,
             },
             context: await getSessionContext(),
         })
         .then((result) => {
             if (!result || !result.data) {
-                throw new GraphQLError(`Cannot find archive posts from ${id}`, {
-                    extensions: {
-                        code: 'NO_CONTENT',
+                throw new GraphQLError(
+                    `Cannot find archive posts from ${category}`,
+                    {
+                        extensions: {
+                            code: 'NO_CONTENT',
+                        },
                     },
-                })
+                )
             }
 
             return result.data
         })
-        .catch(() => {
+        .catch((e) => {
             return {
-                archivePosts: [],
+                post: [],
                 numPages: 1,
             }
         })
