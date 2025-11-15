@@ -18,43 +18,38 @@ import { getBackgrounds } from '@src/resolvers/query/getBackgrounds'
 import { getFlickr } from '@src/resolvers/query/getFlickr'
 import { getTagCloud } from '@src/resolvers/query/getTagCloud'
 import { getSpectraFromNIST } from '@src/resolvers/query/spectra'
-import { getArchivePosts } from '@src/resolvers/query/getArchivePosts'
 import { getPrevNext } from '@src/resolvers/query/getPrevNext'
 import { getRelatedPosts } from '@src/resolvers/query/getRelatedPosts'
 
-import { mutatePost } from '@src/resolvers/mutation/mutatePost'
-import { mutatePage } from '@src/resolvers/mutation/mutatePage'
 import { mutateBackgrounds } from '@src/resolvers/mutation/mutateBackgrounds'
 import { login } from '@src/resolvers/mutation/login'
 
-import { IS_DEV } from '@sujin/share/constants/helper'
 import { flushDB } from './resolvers/mutation/flushDB'
-import { getPages } from './resolvers/query/getPages'
-import { getNumPages } from './resolvers/query/getNumPages'
-import { removePage } from './resolvers/mutation/removePage'
-import { updatePostsFromWP } from './resolvers/mutation/updatePostsFromWP'
-import { archive, updateHits } from './resolvers/archive'
-import { post } from './resolvers/post'
-import { GQL_ArchiveArg, GQL_PostArg } from '@sujin/lib/types'
-import { Context } from './types'
+
+import { getNumPages } from './resolvers/query/getNumPages' // TODO type context
+
+import { archive, updateHits } from '@src/resolvers/archive'
+import { post } from '@src/resolvers/post'
+
+import { IS_DEV } from '@sujin/share/constants/helper'
 import { GQL_QUERY_TYPE } from '@sujin/lib/constants'
+import type { GQL_ArchiveArg, GQL_PostArg } from '@sujin/lib/types'
+import type { Context } from './types'
 
 // Resolvers define how to fetch the types defined in your schema.
 // This resolver retrieves books from the "books" array above.
 const resolvers = {
     Query: {
-        recent: getRecentPosts,
         backgrounds: getBackgrounds,
         flickr: getFlickr,
         tagCloud: getTagCloud,
         spectra: getSpectraFromNIST,
-        // post: getPost,
-        archivePosts: getArchivePosts,
-        numPages: getNumPages,
+
+        recent: getRecentPosts,
         prevNext: getPrevNext,
         related: getRelatedPosts,
-        pages: getPages,
 
+        numPages: getNumPages,
         // post
         post: async (
             _: unknown,
@@ -79,13 +74,39 @@ const resolvers = {
         },
     },
     Mutation: {
-        mutatePost,
-        mutatePage,
-        removePage,
         mutateBackgrounds,
         login,
         flushDB,
-        updatePostsFromWP,
+        updatePosts: async (
+            _: unknown,
+            { category, page }: GQL_PostArg,
+            context: Context,
+        ) => {
+            return await post(
+                { category, page, query: GQL_QUERY_TYPE.UPDATE },
+                context,
+            )
+        },
+        removeSingle: async (
+            _: unknown,
+            { slug, postType }: GQL_PostArg,
+            context: Context,
+        ) => {
+            return await post(
+                { slug, postType, query: GQL_QUERY_TYPE.REMOVE },
+                context,
+            )
+        },
+        updateSingle: async (
+            _: unknown,
+            { slug, postType }: GQL_PostArg,
+            context: Context,
+        ) => {
+            return await post(
+                { slug, postType, query: GQL_QUERY_TYPE.UPDATE },
+                context,
+            )
+        },
         // archive
         updateHits,
         updateArchive: async (
