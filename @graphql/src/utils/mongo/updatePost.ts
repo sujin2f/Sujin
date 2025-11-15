@@ -44,6 +44,12 @@ export const updatePost = async (post: T_MySQLPost) => {
         })
     }
 
+    try {
+        post.date = (post.date as unknown as Date).getTime()
+    } catch {
+        /* empty */
+    }
+
     await Post.findOneAndReplace({ slug }, { ...post, archives }).then(
         async (result) => {
             if (!result) {

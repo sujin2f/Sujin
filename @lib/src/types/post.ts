@@ -12,7 +12,7 @@ export type T_ArchivePost = T_PrevNext & {
     id: number
     slug: string
     excerpt: string
-    date: Date
+    date: number
     images: T_PostImages
     status: POST_STATUS
     archives: T_Archive[]

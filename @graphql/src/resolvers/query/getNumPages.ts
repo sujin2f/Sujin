@@ -46,23 +46,13 @@ export const getNumPages = async (
     }
 
     if (context === 'pages') {
-        if (!(await verifyAdmin(token))) {
-            Logger.error(`⛈️ numPosts query has been called by non admin user`)
-            throw new Error(
-                `⛈️ numPosts query has been called by non admin user`,
-            )
-        }
+        verifyAdmin(token, 'numPosts query has been called by non admin user')
 
         total = await Page.countDocuments()
     }
 
     if (context === 'archives') {
-        if (!(await verifyAdmin(token))) {
-            Logger.error(`⛈️ numPosts query has been called by non admin user`)
-            throw new Error(
-                `⛈️ numPosts query has been called by non admin user`,
-            )
-        }
+        verifyAdmin(token, 'numPosts query has been called by non admin user')
 
         const type = sanitize(_type)
         total = await Archive.countDocuments({ type })

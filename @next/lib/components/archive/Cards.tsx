@@ -52,7 +52,7 @@ export const Cards = <T extends string>({
                                       title={post.title}
                                       description={post.excerpt}
                                       to={post.link}
-                                      time={post.date.toString()}
+                                      timestamp={post.date}
                                       image={getThumbnailFromPost(
                                           post.images,
                                           imageSize,

@@ -22,7 +22,7 @@ import {
 /* Utils */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 import { isSearch } from '@src/utils/mongo/isSearch'
-import { verifyAdmin2 } from '@src/utils/mongo/verifyUser'
+import { verifyAdmin } from '@src/utils/mongo/verifyUser'
 import { getPostBy, getPostsBy } from '@src/utils/mysql/post'
 import { updatePost as updateMongoPost } from '@src/utils/mongo/updatePost'
 import { updateTotal } from '@src/utils/mongo/updateTotal'
@@ -68,7 +68,9 @@ export const post = async (
     const query = sanitize(_query)
 
     if (query === GQL_QUERY_TYPE.QUERY && slug && type) {
-        return await getSingle(slug, type)
+        const result = await getSingle(slug, type)
+        Logger.info(`🤟 post query done: ${slug}, ${type}`)
+        return result
     }
 
     if (
@@ -77,39 +79,49 @@ export const post = async (
         page &&
         category
     ) {
-        return await getPostList(category, page, context.token)
+        const result = await getPostList(category, page, context.token)
+        Logger.info(`🤟 post list query done: ${page}, ${category}`)
+        return result
     }
 
     if (query === GQL_QUERY_TYPE.QUERY && type === POST_TYPE.PAGE && page) {
-        return await getPageList(page, context.token)
+        const result = await getPageList(page, context.token)
+        Logger.info(`🤟 page list query done: ${page}`)
+        return result
     }
 
     if (query === GQL_QUERY_TYPE.UPDATE && slug && type) {
         switch (type) {
-            case POST_TYPE.POST:
-                return await updatePost(slug, context.token)
-            case POST_TYPE.PAGE:
-                return await updatePage(slug, context.token)
+            case POST_TYPE.POST: {
+                const result = await updatePost(slug, context.token)
+                Logger.info(`🤟 post update done: ${slug}`)
+                return result
+            }
+            case POST_TYPE.PAGE: {
+                const result = await updatePage(slug, context.token)
+                Logger.info(`🤟 page update done: ${slug}`)
+                return result
+            }
         }
     }
 
     if (query === GQL_QUERY_TYPE.UPDATE && category && page) {
-        return await updateMany(category, page, context.token)
+        const result = await updateMany(category, page, context.token)
+        Logger.info(`🤟 posts update done: ${page}, ${category}`)
+        return result
     }
 
     if (query === GQL_QUERY_TYPE.REMOVE && slug && type) {
-        return await remove(slug, type, context.token)
+        const result = await remove(slug, type, context.token)
+        Logger.info(`🤟 post remove done: ${slug}, ${type}`)
+        return result
     }
 
-    Logger.info(
-        `🤟 post query has been finished: ${slug}, ${type}, ${page}, ${category}, ${query}`,
+    Logger.error(
+        `🤬 post query has been called with nothing: ${slug}, ${type}, ${page}, ${category}, ${query}`,
     )
     throw new Error()
 }
-
-// recent: [Post]
-// prevNext(slug: String!): [Post]
-// related(slug: String!): [Post]
 
 /**
  * @returns {Promise<T_Post[]>}
@@ -177,7 +189,7 @@ const getPostList = async (
     let request: typeof queryPostList
 
     if (token) {
-        verifyAdmin2(token, 'post list query has been called by non admin user')
+        verifyAdmin(token, 'post list query has been called by non admin user')
         request = queryPostList
     } else {
         request = cachedRequest(
@@ -242,7 +254,7 @@ const queryPostList = async (
 }
 
 const getPageList = async (page: number, token: string): Promise<T_Page[]> => {
-    verifyAdmin2(token, 'page list query has been called by non admin user')
+    verifyAdmin(token, 'page list query has been called by non admin user')
 
     return Page.find<T_Page>()
         .sort({ date: -1 })
@@ -251,7 +263,7 @@ const getPageList = async (page: number, token: string): Promise<T_Page[]> => {
 }
 
 const updatePost = async (slug: string, token: string): Promise<[]> => {
-    verifyAdmin2(token, 'post update query has been called by non admin user')
+    verifyAdmin(token, 'post update query has been called by non admin user')
 
     Cached.getInstance().flush(getCacheKey(COLLECTION.POST, slug))
     await getPostBy('slug', slug, POST_TYPE.POST, true).then(async (post) => {
@@ -264,7 +276,7 @@ const updatePost = async (slug: string, token: string): Promise<[]> => {
 }
 
 const updatePage = async (slug: string, token: string): Promise<[]> => {
-    verifyAdmin2(token, 'page update query has been called by non admin user')
+    verifyAdmin(token, 'page update query has been called by non admin user')
 
     const page = await getPostBy('slug', slug, POST_TYPE.PAGE)
 
@@ -290,7 +302,7 @@ const updateMany = async (
     page: number,
     token: string,
 ): Promise<[]> => {
-    verifyAdmin2(token, 'posts update query has been called by non admin user')
+    verifyAdmin(token, 'posts update query has been called by non admin user')
 
     Cached.getInstance().flush(getCacheKey(COLLECTION.POST))
     Cached.getInstance().flush(
@@ -320,7 +332,7 @@ const remove = async (
     type: POST_TYPE,
     token: string,
 ): Promise<[]> => {
-    verifyAdmin2(token, 'post remove query has been called by non admin user')
+    verifyAdmin(token, 'post remove query has been called by non admin user')
 
     switch (type) {
         case POST_TYPE.POST:

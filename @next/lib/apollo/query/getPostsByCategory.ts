@@ -94,7 +94,7 @@ const queryPosts = async (
 
             return result.data
         })
-        .catch((e) => {
+        .catch(() => {
             return {
                 post: [],
                 numPages: 1,

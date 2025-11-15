@@ -2,7 +2,6 @@
 import React, { useRef, useState } from 'react'
 import { gql } from '@apollo/client'
 import { useQuery } from '@apollo/client/react'
-
 /* Modules */
 import { client } from '@lib/apollo/apollo-client-frontend'
 /* Components */
@@ -37,7 +36,7 @@ export const RelatedPosts = ({ slug }: Props) => {
     })
 
     if (error || loading || !data) {
-        return <></>
+        return <div ref={ref} />
     }
 
     const posts = {
@@ -58,27 +57,3 @@ export const RelatedPosts = ({ slug }: Props) => {
         </section>
     )
 }
-
-// import { Suspense } from 'react'
-// import { unstable_cache } from 'next/cache'
-// import { ObjectId } from 'mongodb'
-// /* Components */
-// import { WidgetTitle } from '@app/_components/WidgetTitle'
-// import { Cards } from '@lib/components/archive/Cards.use'
-// import { Loading } from '@app/archive/_components/Loading'
-// /* Utils */
-// import { getCollection } from '@sujin/common/data/mongo/mongo'
-// import { getAggregation } from '@app/_lib/utils/server'
-// import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
-// import { getCachedPost } from '@app/(single)/_lib/getCachedPost'
-// import { getCachedRecentPosts } from '@app/api/graphql/_lib/getCachedRecentPosts'
-// /* CONSTANTS */
-// import { VERSION } from '@sujin/share/constants/helper'
-// import { revalidate } from '@app/_lib/constants'
-// import {
-//     COLLECTION,
-//     POST_STATUS,
-//     type T_Post,
-//     type T_ArchivePost,
-// } from '@app/_lib/types'
-/* Assets */

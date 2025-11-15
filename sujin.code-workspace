@@ -22,7 +22,14 @@
         }
     ],
     "settings": {
-        "cSpell.words": ["Choi", "com", "NEXTAUTH", "sujin", "sujinc"],
+        "cSpell.words": [
+            "Choi",
+            "com",
+            "flickr",
+            "NEXTAUTH",
+            "sujin",
+            "sujinc"
+        ],
         "editor.formatOnSave": true,
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },

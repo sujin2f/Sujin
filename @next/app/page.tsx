@@ -9,10 +9,13 @@ import { getBackgrounds } from '@lib/apollo/query/getBackgrounds'
 import Logo from '@common/images/logo.svg'
 import style from '@app/front-page.module.scss'
 
+// TODO height transition start/stop
 export default async function FrontPage() {
-    const backgrounds = await getBackgrounds('BACKGROUNDS').catch(() => {
-        return []
-    })
+    const backgrounds = await getBackgrounds({ fields: 'BACKGROUNDS' }).catch(
+        () => {
+            return []
+        },
+    )
     const background =
         backgrounds[Math.floor(Math.random() * backgrounds.length)]
 

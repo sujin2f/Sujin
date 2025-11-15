@@ -1,8 +1,9 @@
-import React, { PropsWithChildren } from 'react'
+import React, { PropsWithChildren, useMemo } from 'react'
 import Link from 'next/link'
 
-/* Helpers */
+/* Utils */
 import { joinClassNames } from '@sujin/share/utils/string'
+import { formatDate } from '@sujin/share/utils/datetime'
 import { removeURLProtocol } from '@sujin/share/utils/string'
 import { ShortMonthNames } from '@sujin/share/constants/datetime'
 /* Assets */
@@ -12,7 +13,7 @@ type Props = {
     readonly to: string
     readonly title?: string
     readonly description?: string
-    readonly time?: string
+    readonly timestamp?: number
     readonly image: string
     readonly className?: string
 }
@@ -33,19 +34,14 @@ export const Card = ({
     title,
     description,
     to,
-    time = '',
+    timestamp,
     image,
     className,
 }: PropsWithChildren<Props>) => {
-    let datetime: Date | undefined
-    const timestamp = parseInt(time)
-
-    // ISO
-    if (isNaN(timestamp) && time) {
-        datetime = new Date(time)
-    } else {
-        datetime = new Date(timestamp)
-    }
+    const datetime = useMemo(
+        () => timestamp && new Date(timestamp),
+        [timestamp],
+    )
 
     return (
         <section className={joinClassNames('card', className)}>
@@ -56,7 +52,7 @@ export const Card = ({
                     {datetime && !isNaN(datetime.getTime()) && (
                         <time
                             className="card__time"
-                            dateTime={datetime.toString()}
+                            dateTime={formatDate(datetime)}
                         >
                             <span className="card__time__day">
                                 {datetime.getDate()}

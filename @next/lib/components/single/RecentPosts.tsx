@@ -18,14 +18,7 @@ type Props = {
 export const RecentPosts = ({ promise, id }: Props) => {
     const items = use(promise)
     const posts = {
-        list: items
-            .filter((item) => item.id !== id)
-            .slice(0, 4)
-            .map((item) => ({
-                ...item,
-                date: new Date(parseInt(item.date.toString())),
-            })),
-
+        list: items.filter((item) => item.id !== id).slice(0, 4),
         numPages: 0,
     }
 

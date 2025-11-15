@@ -8,10 +8,8 @@ export const mutateBackgrounds = async () => {
     return await client
         .mutate({
             mutation: gql`
-                mutation MutateBackgrounds {
-                    mutateBackgrounds {
-                        result
-                    }
+                mutation {
+                    updateBackground
                 }
             `,
             context: await getSessionContext(),

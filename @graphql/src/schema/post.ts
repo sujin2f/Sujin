@@ -25,7 +25,7 @@ const commonSchema = {
         unique: true,
     },
     excerpt: String,
-    date: { type: Date, required: true },
+    date: { type: Number, required: true },
     images: Images,
     status: {
         type: String,

@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken'
 import sanitize from 'mongo-sanitize'
+import mongoose from 'mongoose'
 /* Models */
 import Logger from '@src/utils/logger'
 import { mysqlDisconnect } from '@src/utils/mysql'
@@ -7,14 +8,28 @@ import { User } from '@src/schema/user'
 /* Utils */
 import { isUserAdmin } from '@src/utils/mysql/isUserAdmin'
 import { createHash } from '@sujin/share/utils/crypto'
+import { verifyAdmin } from '@src/utils/mongo/verifyUser'
 /* CONSTANTS */
+/* T_Type */
 import type { T_User } from '@sujin/lib/types'
+import type { Context } from '@src/types'
 
-type Param = {
-    email: string
+export const flushDB = async (context: Context): Promise<boolean> => {
+    verifyAdmin(
+        context.token,
+        'flushDB mutation has been called by non admin user',
+    )
+
+    // TODO Flush more / use COLLECTION
+    if (mongoose.connection.collections.spectra) {
+        await mongoose.connection.dropCollection('spectra')
+    }
+
+    Logger.info(`🤟 flushDB mutation has been finished`)
+    return true
 }
 
-export const login = async (_: unknown, { email: _email }: Param) => {
+export const login = async (_email: string) => {
     // secure email
     const email = sanitize(_email)
     const emailHash = createHash(email, process.env.CRYPT_JWK || '')

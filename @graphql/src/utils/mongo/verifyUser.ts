@@ -30,21 +30,17 @@ export const verifyToken = async (token: string): Promise<T_User> => {
                 return failed
             })
     } catch (error) {
-        Logger.error(`Invalid token: ${error}`)
+        Logger.error(`🤬 Invalid token: ${error}`)
     }
 
     return failed
 }
 
-export const verifyAdmin = async (token: string): Promise<boolean> => {
-    const user = await verifyToken(token)
-    return user.admin
-}
-
 // TODO replace
-export const verifyAdmin2 = async (token: string, message: string) => {
-    if (!(await verifyAdmin(token))) {
-        Logger.error(`⛈️ ${message}`)
-        throw new Error(`⛈️ ${message}`)
+export const verifyAdmin = async (token: string, message: string) => {
+    const user = await verifyToken(token)
+    if (!user.admin) {
+        Logger.error(`🤬 ${message}`)
+        throw new Error(`🤬 ${message}`)
     }
 }

@@ -1,6 +1,5 @@
 export const typeDefs = `
 type Query{
-    backgrounds(bypassCache: Boolean!): [ImageBlock]
     flickr: [FlickrImage]
     tagCloud: [TagCloud]
     spectra(number: Int!, ion: Int!): [Spectrum]
@@ -9,20 +8,18 @@ type Query{
     prevNext(slug: String!): [Post]
     related(slug: String!): [Post]
 
+    background: [ImageBlock]
     post(postType: POST_TYPE!, slug: String, category: String, page: Int): [Post]
     archive(slug: String, archiveType: ARCHIVE_TYPE!, page: Int): [Archive]
     numPages(context: String!, category: String, type: ARCHIVE_TYPE): Int
 }
 type Mutation{
-    mutateBackgrounds(nonce: String!): Result
-    
     login(email: String!): String
     flushDB: Boolean
-    
+    updateBackground: [Boolean]
     updatePosts(category: String!, page: Int!): [Boolean]
     updateSingle(postType: POST_TYPE!, slug: String!): [Boolean]
     removeSingle(postType: POST_TYPE!, slug: String!): [Boolean]
-
     updateHits(slug: String!): Result
     updateArchive(slug: String!, archiveType: ARCHIVE_TYPE!): [Boolean]
     removeArchive(slug: String!, archiveType: ARCHIVE_TYPE!): [Boolean]
@@ -107,7 +104,7 @@ type Post {
     title: String
     excerpt: String
     content: String
-    date: String
+    date: BigInt
     link: String
     images: Images
     meta: PostMeta
@@ -124,4 +121,5 @@ type Archive {
     excerpt: String
     image: ImageBlock
 }
+scalar BigInt
 `

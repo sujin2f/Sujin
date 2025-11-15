@@ -34,7 +34,6 @@ const query = async (): Promise<T_ArchivePost[]> => {
  * @returns {Promise<T_Post[]>} A promise that resolves to the recent posts.
  */
 export const getRecentPosts = async (): Promise<T_ArchivePost[]> => {
-    Logger.info(`🤟 recent query has been requested`)
     const request = cachedRequest(
         query,
         getCacheKey(COLLECTION.ARCHIVE, 'recent'),

@@ -4,12 +4,13 @@ import { gql } from '@apollo/client'
 import { useQuery } from '@apollo/client/react'
 /* Components */
 import { PrevNext } from '@lib/components/single/PrevNext'
+/* CONSTANTS */
+import { FIELDS } from '@lib/constants/graphql-fields'
 /* Utils */
 import { client } from '@lib/apollo/apollo-client-frontend'
 import useIntersectionObserver from '@common/hooks/useIntersectionObserver'
 /* T_Type */
 import type { T_PrevNext } from '@sujin/lib/types'
-import { FIELDS } from '@lib/constants/graphql-fields'
 
 type Props = {
     slug: string
@@ -30,8 +31,10 @@ export const PrevNextPost = ({ slug }: Props) => {
         setSkip(false)
     })
 
+    console.log(error, loading, data)
+
     if (error || loading || !data) {
-        return <></>
+        return <div ref={ref} />
     }
 
     const [prev, next] = data?.prevNext

@@ -14,22 +14,18 @@ import { typeDefs } from '@src/schema/typeDefs'
 import { connectToDatabase } from '@src/utils/mongo/connection'
 
 import { getRecentPosts } from '@src/resolvers/query/getRecentPosts'
-import { getBackgrounds } from '@src/resolvers/query/getBackgrounds'
 import { getFlickr } from '@src/resolvers/query/getFlickr'
 import { getTagCloud } from '@src/resolvers/query/getTagCloud'
 import { getSpectraFromNIST } from '@src/resolvers/query/spectra'
 import { getPrevNext } from '@src/resolvers/query/getPrevNext'
 import { getRelatedPosts } from '@src/resolvers/query/getRelatedPosts'
 
-import { mutateBackgrounds } from '@src/resolvers/mutation/mutateBackgrounds'
-import { login } from '@src/resolvers/mutation/login'
-
-import { flushDB } from './resolvers/mutation/flushDB'
-
 import { getNumPages } from './resolvers/query/getNumPages' // TODO type context
 
 import { archive, updateHits } from '@src/resolvers/archive'
 import { post } from '@src/resolvers/post'
+import { background } from '@src/resolvers/background'
+import { flushDB, login } from '@src/resolvers/user'
 
 import { IS_DEV } from '@sujin/share/constants/helper'
 import { GQL_QUERY_TYPE } from '@sujin/lib/constants'
@@ -40,7 +36,6 @@ import type { Context } from './types'
 // This resolver retrieves books from the "books" array above.
 const resolvers = {
     Query: {
-        backgrounds: getBackgrounds,
         flickr: getFlickr,
         tagCloud: getTagCloud,
         spectra: getSpectraFromNIST,
@@ -50,6 +45,9 @@ const resolvers = {
         related: getRelatedPosts,
 
         numPages: getNumPages,
+        background: async (_: unknown, __: unknown, context: Context) => {
+            return await background(GQL_QUERY_TYPE.QUERY, context)
+        },
         // post
         post: async (
             _: unknown,
@@ -74,9 +72,16 @@ const resolvers = {
         },
     },
     Mutation: {
-        mutateBackgrounds,
-        login,
-        flushDB,
+        login: async (_: unknown, { email }: { email: string }) => {
+            return await login(email)
+        },
+        flushDB: async (_: unknown, __: unknown, context: Context) => {
+            return await flushDB(context)
+        },
+        updateBackground: async (_: unknown, __: unknown, context: Context) => {
+            return await background(GQL_QUERY_TYPE.UPDATE, context)
+        },
+        //post
         updatePosts: async (
             _: unknown,
             { category, page }: GQL_PostArg,

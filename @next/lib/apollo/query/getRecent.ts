@@ -42,7 +42,7 @@ const queryRecent = async (fields: FIELDS): Promise<T_ArchivePost[]> => {
     return await client
         .query<{ recent: T_ArchivePost[] }>({
             query: gql`
-                query Recent {
+                query {
                     recent { ${FIELDS[fields]} }
                 }
             `,

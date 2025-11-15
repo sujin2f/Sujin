@@ -73,22 +73,6 @@ export default async function AdminLayout({ children, params }: Props) {
                                     link: '/admin/backgrounds/1',
                                 },
                                 {
-                                    title: 'Users',
-                                    link: '/admin/users/1',
-                                },
-                                {
-                                    title: 'Collections',
-                                    link: '/admin/collections',
-                                },
-                                {
-                                    title: 'Index',
-                                    link: '/admin/index',
-                                },
-                                {
-                                    title: 'Schema',
-                                    link: '/admin/schema',
-                                },
-                                {
                                     title: 'Cache',
                                     link: '/admin/cache',
                                 },

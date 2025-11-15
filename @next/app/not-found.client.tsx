@@ -25,6 +25,7 @@ export function NotFoundClient({ promise }: Props) {
                 <Cards
                     posts={posts}
                     keyPrefix="not-found"
+                    listKey="list"
                     large={4}
                     medium={6}
                     small={12}

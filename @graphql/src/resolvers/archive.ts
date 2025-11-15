@@ -6,7 +6,7 @@ import type { Document } from 'mongoose'
 import Logger from '@src/utils/logger'
 import { Archive } from '@src/schema/archive'
 /* Utils */
-import { verifyAdmin2 } from '@src/utils/mongo/verifyUser'
+import { verifyAdmin } from '@src/utils/mongo/verifyUser'
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 /* CONSTANTS */
 import {
@@ -50,23 +50,31 @@ export const archive = async (
     const query = sanitize(_query)
 
     if (query === GQL_QUERY_TYPE.QUERY && slug && type && !page) {
-        return await getSingle(slug, type)
+        const result = await getSingle(slug, type)
+        Logger.info(`🤟 archive query done: ${slug}, ${type}`)
+        return result
     }
 
     if (query === GQL_QUERY_TYPE.QUERY && type && page && !slug) {
-        return await getList(type, page, context.token)
+        const result = await getList(type, page, context.token)
+        Logger.info(`🤟 archives query done: ${type}, ${page}`)
+        return result
     }
 
     if (query === GQL_QUERY_TYPE.UPDATE && slug && type && !page) {
-        return await update(slug, type, context.token)
+        const result = await update(slug, type, context.token)
+        Logger.info(`🤟 archive update done: ${slug}, ${type}`)
+        return result
     }
 
     if (query === GQL_QUERY_TYPE.REMOVE && slug && type && !page) {
-        return await remove(slug, type, context.token)
+        const result = await remove(slug, type, context.token)
+        Logger.info(`🤟 archive remove done: ${slug}, ${type}`)
+        return result
     }
 
-    Logger.info(
-        `🤟 archive query has been finished: ${slug}, ${type}, ${page}, ${query}`,
+    Logger.error(
+        `🤬 archive query has been called with nothing: ${slug}, ${type}, ${page}, ${query}`,
     )
     throw new Error()
 }
@@ -98,7 +106,7 @@ const getSingle = async (slug: string, type: ARCHIVE) => {
 }
 
 const getList = async (type: ARCHIVE, page: number, token: string) => {
-    verifyAdmin2(token, 'archive list query has been called by non admin user')
+    verifyAdmin(token, 'archive list query has been called by non admin user')
     return Archive.find<Document<string, unknown, T_Archive>>({ type })
         .sort({ date: -1 })
         .skip(PER_PAGE * (page - 1))
@@ -109,7 +117,7 @@ const getList = async (type: ARCHIVE, page: number, token: string) => {
 }
 
 const update = async (slug: string, type: ARCHIVE, token: string) => {
-    verifyAdmin2(
+    verifyAdmin(
         token,
         'archive update mutation has been called by non admin user',
     )
@@ -139,7 +147,7 @@ const update = async (slug: string, type: ARCHIVE, token: string) => {
 }
 
 const remove = async (slug: string, type: ARCHIVE, token: string) => {
-    verifyAdmin2(
+    verifyAdmin(
         token,
         'archive remove mutation has been called by non admin user',
     )
