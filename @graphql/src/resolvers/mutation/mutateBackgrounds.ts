@@ -35,22 +35,22 @@ const updateBackgrounds = async (): Promise<void> => {
  * @param {string} nonce - WP nonce
  * @returns {Promise<MutationResultType>}
  */
-export const mutateBackground = async (
+export const mutateBackgrounds = async (
     _: unknown,
     __: unknown,
     context: Context,
 ): Promise<MutationResultType> => {
     if (!(await verifyAdmin(context.token))) {
         Logger.error(
-            `⛈️ mutateBackground mutation has been called by non admin user`,
+            `⛈️ mutateBackgrounds mutation has been called by non admin user`,
         )
         throw new Error(
-            `⛈️ mutateBackground mutation has been called by non admin user`,
+            `⛈️ mutateBackgrounds mutation has been called by non admin user`,
         )
     }
 
     await updateBackgrounds()
-    Logger.info(`🤟 mutateBackground mutation has been requested`)
+    Logger.info(`🤟 mutateBackgrounds mutation has been requested`)
     return {
         result: true,
     }

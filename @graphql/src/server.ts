@@ -26,7 +26,7 @@ import { getArchive } from '@src/resolvers/query/getArchive'
 
 import { mutatePost } from '@src/resolvers/mutation/mutatePost'
 import { mutatePage } from '@src/resolvers/mutation/mutatePage'
-import { mutateBackground } from '@src/resolvers/mutation/mutateBackground'
+import { mutateBackgrounds } from '@src/resolvers/mutation/mutateBackgrounds'
 import { mutateCategory } from '@src/resolvers/mutation/mutateCategory'
 import { mutateTag } from '@src/resolvers/mutation/mutateTag'
 import { updateHits } from '@src/resolvers/mutation/updateHits'
@@ -39,7 +39,8 @@ import { getNumPages } from './resolvers/query/getNumPages'
 import { removePage } from './resolvers/mutation/removePage'
 import { getArchives } from './resolvers/query/getArchives'
 import { removeCategory } from './resolvers/mutation/removeCategory'
-import { updatePostsFromWP } from './resolvers/mutation/UpdatePostsFromWP'
+import { updatePostsFromWP } from './resolvers/mutation/updatePostsFromWP'
+// import { updatePostsFromWP } from './resolvers/mutation/UpdatePostsFromWP'
 // dotenv.config({ path: path.resolve(__dirname, '..', '..', '.env') })
 
 // Resolvers define how to fetch the types defined in your schema.
@@ -64,7 +65,7 @@ const resolvers = {
         mutatePost,
         mutatePage,
         removePage,
-        mutateBackground,
+        mutateBackgrounds,
         mutateCategory,
         removeCategory,
         mutateTag,

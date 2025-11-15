@@ -7,7 +7,7 @@ import {
 } from '@sujin/lib/types'
 
 export const handleSignIn = () => signIn('google')
-export const handleSignOut = () => signOut()
+export const handleSignOut = () => signOut() // TODO remove GQL token
 
 export const getThumbnailFromPost = (
     images: T_PostImages,

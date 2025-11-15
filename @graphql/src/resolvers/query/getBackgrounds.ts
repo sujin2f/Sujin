@@ -7,6 +7,12 @@ import { COLLECTION } from '@sujin/lib/types'
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 /* T_Types */
 import type { T_Background } from '@sujin/lib/types'
+import { Context } from '@src/types'
+import { verifyAdmin } from '@src/utils/mongo/verifyUser'
+
+type Param = {
+    bypassCache: boolean
+}
 
 /**
  * Get backgrounds
@@ -14,10 +20,30 @@ import type { T_Background } from '@sujin/lib/types'
  *
  * @returns {Promise<T_Background[]>} - The background array
  */
-export const getBackgrounds = async (): Promise<T_Background[]> => {
-    const request = cachedRequest(query, getCacheKey(COLLECTION.BACKGROUNDS))
+export const getBackgrounds = async (
+    _: unknown,
+    { bypassCache }: Param,
+    context: Context,
+): Promise<T_Background[]> => {
+    let request: typeof query
+
+    if (bypassCache) {
+        if (!(await verifyAdmin(context.token))) {
+            Logger.error(
+                `⛈️ getBackgrounds query has been called by non admin user`,
+            )
+            throw new Error(
+                `⛈️ getBackgrounds query has been called by non admin user`,
+            )
+        }
+
+        request = query
+    } else {
+        request = cachedRequest(query, getCacheKey(COLLECTION.BACKGROUNDS))
+    }
+
     const result = await request()
-    Logger.info(`🤟 backgrounds query has been finished`)
+    Logger.info(`🤟 getBackgrounds query has been finished`)
     return result
 }
 

@@ -66,6 +66,7 @@ export type T_ImageBlock = {
     sizes?: T_ImageSize
 }
 export type T_Background = T_ImageBlock & {
+    _id: string
     sizes?: Partial<Record<IMAGE_SIZE_BACKGROUND, T_Image>>
 }
 export type T_PostImages = Partial<Record<POST_IMAGE_LOCATION, T_ImageBlock>>

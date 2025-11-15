@@ -11,8 +11,6 @@ import { RemoveLink } from './RemoveLink'
 import { RefreshLink } from './RefreshLink'
 /* Utils */
 import { getPages } from '@lib/apollo/query/getPages'
-/* CONSTANTS */
-import { PER_PAGE } from '@lib/constants'
 
 type Props = {
     params: Promise<{
@@ -20,12 +18,12 @@ type Props = {
     }>
 }
 
-export default async function PagesServer({ params }: Props) {
+export default async function Pages({ params }: Props) {
     const { page: _page } = await params
     const page = parseInt(_page)
 
     const pages = await getPages(page, 'id title slug status link')
-    const length = pages.numPages * PER_PAGE - PER_PAGE + pages.pages.length
+    const length = pages.pages.length
 
     return (
         <>

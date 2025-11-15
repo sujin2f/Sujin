@@ -35,6 +35,7 @@ const cachedRecent = async (fields: FIELDS) => {
     return await request(fields)
 }
 
+// TODO this is called too many times
 const queryRecent = async (fields: FIELDS): Promise<T_ArchivePost[]> => {
     return await client
         .query<{ recent: T_ArchivePost[] }>({

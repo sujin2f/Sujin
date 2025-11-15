@@ -1,7 +1,7 @@
 export const typeDefs = `
 type Query{
     recent: [Post]
-    backgrounds: [ImageBlock]
+    backgrounds(bypassCache: Boolean!): [ImageBlock]
     flickr: [FlickrImage]
     tagCloud: [TagCloud]
     spectra(number: Int!, ion: Int!): [Spectrum]
@@ -18,7 +18,7 @@ type Mutation{
     mutatePost(nonce: String!, slug: String!): Result
     mutatePage(slug: String!): Result
     removePage(slug: String!): Result
-    mutateBackground(nonce: String!): Result
+    mutateBackgrounds(nonce: String!): Result
     mutateCategory(slug: String!): Result
     removeCategory(slug: String!): Result
     mutateTag(nonce: String!, slug: String!): Result
@@ -74,6 +74,7 @@ type ImageSize {
     recentPost: Image
 }
 type ImageBlock {
+    _id: String
     url: String
     mimeType: String
     width: Int

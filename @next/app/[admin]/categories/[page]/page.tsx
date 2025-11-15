@@ -12,7 +12,6 @@ import { RefreshLink } from './RefreshLink'
 /* Utils */
 import { getArchives } from '@lib/apollo/query/getArchives'
 /* CONSTANTS */
-import { PER_PAGE } from '@lib/constants'
 import { ARCHIVE } from '@sujin/lib/types'
 
 type Props = {
@@ -21,7 +20,7 @@ type Props = {
     }>
 }
 
-export default async function CategoriesServer({ params }: Props) {
+export default async function Categories({ params }: Props) {
     const { page: _page } = await params
     const page = parseInt(_page)
 
@@ -31,8 +30,7 @@ export default async function CategoriesServer({ params }: Props) {
         '_id title slug total',
     )
 
-    const length =
-        categories.numPages * PER_PAGE - PER_PAGE + categories.archives.length
+    const length = categories.archives.length
 
     return (
         <>

@@ -5,7 +5,6 @@ import Column from '@common/components/layout/Column'
 import { PrevNextAdmin } from '@lib/components/admin/PrevNextAdmin'
 import Table from '@common/components/containers/Table'
 import { getArchivePosts } from '@lib/apollo/query/getArchivePosts'
-import { PER_PAGE } from '@lib/constants'
 import Link from 'next/link'
 
 type Props = {
@@ -25,8 +24,7 @@ export default async function CategoryPosts(props: Props) {
         query: 'id, title, slug link status',
         bypassCache: true,
     })
-    const length =
-        posts.numPages * PER_PAGE - PER_PAGE + posts.archivePosts.length
+    const length = posts.archivePosts.length
 
     return (
         <>

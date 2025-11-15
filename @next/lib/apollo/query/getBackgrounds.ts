@@ -8,9 +8,17 @@ import { client } from '@lib/apollo/apollo-client-server'
 import { VERSION } from '@sujin/share/constants/helper'
 import { REVALIDATION } from '@lib/constants'
 import { COLLECTION, T_Background } from '@sujin/lib/types'
+import { FIELDS } from '@lib/constants/graphql-fields'
 /* Utils */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
-import { FIELDS } from '@lib/constants/graphql-fields'
+import { isAdmin } from '@lib/utils/session'
+import { getSessionContext } from '@lib/apollo/admin'
+
+type Props = {
+    fields?: FIELDS
+    query?: string
+    bypassCache?: boolean
+}
 
 /**
  * Get single page by slug
@@ -19,32 +27,56 @@ import { FIELDS } from '@lib/constants/graphql-fields'
  * @param {string} slug - Post slug
  * @returns {Promise<T_Page>} - The post object
  */
-export const getBackgrounds = async (
-    fields: FIELDS,
-): Promise<T_Background[]> => {
+export const getBackgrounds = async ({
+    fields,
+    query,
+    bypassCache,
+}: Props): Promise<T_Background[]> => {
+    if (bypassCache && !isAdmin()) {
+        throw new Error('You are trying illegal access!')
+    }
+
+    if (bypassCache && query) {
+        return await queryBackgrounds(query, true)
+    }
+
+    if (!fields) {
+        throw new Error('You are trying illegal access!')
+    }
+
     const request = unstable_cache(cachedBackgrounds, [fields, VERSION], {
         tags: ['wordpress', 'backgrounds'],
         revalidate: REVALIDATION,
     })
-    return await request(fields)
+    return await request(fields, false)
 }
 
-const cachedBackgrounds = async (fields: FIELDS): Promise<T_Background[]> => {
+const cachedBackgrounds = async (
+    fields: FIELDS,
+    bypassCache: boolean,
+): Promise<T_Background[]> => {
     const request = cachedRequest(
         queryBackgrounds,
         getCacheKey(COLLECTION.BACKGROUNDS, fields),
     )
-    return await request(fields)
+    return await request(FIELDS[fields], bypassCache)
 }
 
-const queryBackgrounds = async (fields: FIELDS): Promise<T_Background[]> => {
+const queryBackgrounds = async (
+    fields: string,
+    bypassCache: boolean,
+): Promise<T_Background[]> => {
     return await client
         .query<{ backgrounds: T_Background[] }>({
             query: gql`
-                query Backgrounds {
-                    backgrounds { ${FIELDS[fields]} }
+                query Backgrounds($bypassCache: Boolean!) {
+                    backgrounds(bypassCache: $bypassCache) { ${fields} }
                 }
             `,
+            variables: {
+                bypassCache,
+            },
+            context: await getSessionContext(),
         })
         .then((result) => {
             if (!result || !result.data) {
@@ -57,7 +89,6 @@ const queryBackgrounds = async (fields: FIELDS): Promise<T_Background[]> => {
             return result.data.backgrounds
         })
         .catch((e) => {
-            console.error(e)
             throw e.errors[0]
         })
 }
