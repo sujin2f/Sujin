@@ -1,5 +1,5 @@
 import { Atom } from '@app/ether/data/models/Atom'
-import type { ChartData, ISpectrum, SortType } from '@app/ether/data/types'
+import type { ChartData, ISpectrum, SortType } from '@sujin/lib/types'
 
 /**
  * Data Container that covers various atom states

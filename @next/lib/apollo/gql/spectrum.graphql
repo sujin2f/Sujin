@@ -1,0 +1,18 @@
+query ListSpectrum($number: Int!, $ion: Int!) {
+    spectra(number: $number, ion: $ion) {
+        number
+        ion
+        energy
+        spin
+        l
+        parity
+        j
+        base
+        conf
+        eConf
+        ionReverse
+        position
+        term
+        orbital
+    }
+}

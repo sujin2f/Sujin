@@ -1,4 +1,4 @@
-import { ISpectrum } from '@app/ether/data/types'
+import { ISpectrum } from '@sujin/lib/types'
 
 export class Spectrum {
     spectrum: ISpectrum

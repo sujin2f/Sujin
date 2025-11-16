@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { default as TableComponent } from '@common/components/containers/Table'
 /* Helpers */
 import { Atom } from '@app/ether/data/models/Atom'
-import { ROW_HEAD } from '@app/ether/data/constants'
+import { ROW_HEAD } from '@sujin/lib/constants/ether'
 import { map } from '@sujin/share/utils/array'
 
 type Props = {

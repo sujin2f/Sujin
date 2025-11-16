@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useParams } from 'next/navigation'
 /* Components */
 import { DataHeader } from '@lib/components/ether/DataHeader'
@@ -9,36 +9,70 @@ import Column from '@common/components/layout/Column'
 import { Chart } from '@lib/components/ether/Chart'
 import { Table } from '@lib/components/ether/Table'
 /* Helpers */
-import type { Nullable } from '@sujin/share/types'
-import type { ISpectrum } from '@app/ether/data/types'
-// TODO
-import { fetchGQL } from '@sujin/common/data/graphql/fetchGQL'
-import GQL from '../../../../../api/graphql/_lib/constants'
+import type { ISpectrum } from '@sujin/lib/types'
 import { DataContainer } from '@app/ether/data/models/DataContainer'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '@lib/store'
+import { useQuery } from '@apollo/client/react'
+import { pushSpectrum } from '@lib/store/slices/spectrum'
+/* CONSTANTS */
+import SPECTRUM_QUERY from '@lib/apollo/gql/spectrum.graphql'
+/* Assets */
+import LoadingImg from '@common/images/loading.svg'
 
 export default function DataPage() {
     const params = useParams<EtherDataProps>()
-    const [spectra, setSpectra] = useState<Nullable<ISpectrum[]>>()
-
-    if (!params || !params.atom || !params.ion || !params.type) {
-        return <></>
-    }
 
     const atom = parseInt(params.atom)
     const ion = parseInt(params.ion)
 
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    useEffect(() => {
-        fetchGQL(GQL.querySpectra, GQL.spectraOpr, 0, atom, ion)
-            .then((result) => setSpectra(result))
-            .catch(() => setSpectra([]))
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    // Redux
+    const dispatch = useDispatch()
+    const store = useSelector((state: RootState) => state.spectrum.spectrum)
+    const spectrum = useMemo(
+        () => (store[atom] && store[atom][ion] ? store[atom][ion] : []),
+        [atom, ion, store],
+    )
+    const hasStore = useMemo(() => !!spectrum.length, [spectrum])
 
-    if (!spectra) {
-        return <></>
+    // Read from GraphQL with Intersection Observer & update store
+    const { data, loading } = useQuery<{ spectra: ISpectrum[] }>(
+        SPECTRUM_QUERY,
+        {
+            variables: { number: atom, ion },
+            skip: hasStore,
+        },
+    )
+
+    useEffect(() => {
+        if (!hasStore && data && data.spectra.length) {
+            dispatch(pushSpectrum([atom, ion, data.spectra]))
+        }
+    }, [data, hasStore, dispatch, atom, ion])
+
+    if (loading) {
+        return (
+            <>
+                <ScrollToTop />
+                <DataHeader atom={atom} ion={ion} type={params.type} />
+                <Row>
+                    <Column small={12}>
+                        <LoadingImg />
+                    </Column>
+                </Row>
+            </>
+        )
     }
-    const container = new DataContainer(spectra, params.type)
+    if (!spectrum.length) {
+        return (
+            <>
+                <ScrollToTop />
+                <DataHeader atom={atom} ion={ion} type={params.type} />
+            </>
+        )
+    }
+
+    const container = new DataContainer(spectrum, params.type)
     const orbital = container.get(atom, ion)
 
     return (

@@ -1,8 +1,8 @@
 import { default as quartic } from 'quartic'
 
 import { Spectrum } from '@app/ether/data/models/Spectrum'
-import { getAtom } from '@app/ether/_lib/client'
-import { jouleToEv, ROW_HEAD } from '@app/ether/data/constants'
+import { getAtom } from '@sujin/lib/utils/ether'
+import { jouleToEv, ROW_HEAD } from '@sujin/lib/constants/ether'
 
 export class Line {
     private spectra: Spectrum[] = []

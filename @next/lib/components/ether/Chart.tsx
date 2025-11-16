@@ -8,8 +8,8 @@ import {
 } from 'chart.js/auto'
 /* Helpers */
 import { getRandomInt } from '@sujin/share/utils/number'
-import { CHART_COLORS } from '@app/ether/data/constants'
-import { ChartData } from '@app/ether/data/types' // @todo Name
+import { CHART_COLORS } from '@sujin/lib/constants/ether'
+import { ChartData } from '@sujin/lib/types' // @todo Name
 import { map } from '@sujin/share/utils/array'
 
 type Props = { data: ChartData }

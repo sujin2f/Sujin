@@ -1,6 +1,5 @@
 import { Term } from '@app/ether/data/models/Term'
-import type { ISpectrum, SortType } from '@app/ether/data/types'
-import type { ChartData } from '@app/ether/data/types' // @todo Name
+import type { ISpectrum, SortType, ChartData } from '@sujin/lib/types'
 
 /**
  * Atom Container that holds organized data for ether page
@@ -33,9 +32,15 @@ export class Atom {
         this._items = Object.values(this.terms)
             .filter(
                 // Exclude non-ground based state
-                (term) =>
-                    term.conf.splice(0, -1).join('.') ===
-                    this.ground?.conf.splice(0, -1).join('.'),
+                (term) => {
+                    const conf1 = [...term.conf]
+                    const conf2 = [...this.ground?.conf]
+
+                    return (
+                        conf1.splice(0, -1).join('.') ===
+                        conf2.splice(0, -1).join('.')
+                    )
+                },
             )
             .sort((a, b) => a.energy - b.energy)
         return this._items

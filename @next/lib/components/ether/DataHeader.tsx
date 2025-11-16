@@ -8,13 +8,13 @@ import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
 import Select from '@common/components/forms/Select'
 /* Helpers */
-import { periodicTable } from '@app/ether/data/constants'
-import { getAtom } from '@app/ether/_lib/client'
+import { periodicTable } from '@sujin/lib/constants/ether'
+import { getAtom } from '@sujin/lib/utils/ether'
 import { romanize } from '@sujin/share/utils/number'
 import type { Atom } from '@app/ether/data/models/Atom'
 
 type Props = {
-    container: Atom
+    container?: Atom
     atom: number
     ion: number
     type: string
@@ -81,11 +81,13 @@ export const DataHeader = (props: Props) => {
                     />
                 </Column>
                 <Column small={6}>
-                    <Select
-                        options={{ '': 'Term', ...container.termOptions }}
-                        value={term}
-                        onChange={onTermChange}
-                    />
+                    {container && (
+                        <Select
+                            options={{ '': 'Term', ...container.termOptions }}
+                            value={term}
+                            onChange={onTermChange}
+                        />
+                    )}
                 </Column>
             </Row>
         </aside>

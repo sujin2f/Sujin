@@ -19,6 +19,7 @@ import {
     AGGREGATE_ARCHIVE_POST,
     AGGREGATE_EXPAND_ARCHIVES,
 } from '@src/constants'
+import { DAY_IN_MS } from '@sujin/share/constants/datetime'
 /* Utils */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 import { isSearch } from '@src/utils/mongo/isSearch'
@@ -320,6 +321,7 @@ const updatePost = async (slug: string): Promise<[]> => {
 
 const updatePage = async (slug: string): Promise<[]> => {
     const page = await getPostBy('slug', slug, POST_TYPE.PAGE)
+    const date = Math.trunc(page.date.getTime() / DAY_IN_MS)
 
     await Cached.getInstance().flush(getCacheKey(COLLECTION.PAGE, slug))
     await mysqlDisconnect()
@@ -330,11 +332,13 @@ const updatePage = async (slug: string): Promise<[]> => {
         })
     }
 
-    await Page.findOneAndReplace({ slug }, page).then(async (result) => {
-        if (!result) {
-            await Page.insertOne(page)
-        }
-    })
+    await Page.findOneAndReplace({ slug }, { ...page, date }).then(
+        async (result) => {
+            if (!result) {
+                await Page.insertOne({ ...page, date })
+            }
+        },
+    )
     return []
 }
 
