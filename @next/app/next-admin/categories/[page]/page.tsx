@@ -15,7 +15,7 @@ import { GQLRequest } from '@lib/apollo/GQLRequest'
 import { ARCHIVE } from '@sujin/lib/constants'
 import LIST_QUERY from '@lib/constants/gql/archive.list.graphql'
 /* T_Types */
-import type { PropWithPages, T_Archive } from '@sujin/lib/types'
+import type { T_Archive } from '@sujin/lib/types'
 
 type Props = {
     params: Promise<{
@@ -27,19 +27,17 @@ export default async function Categories({ params }: Props) {
     const { page: _page } = await params
     const page = parseInt(_page)
 
-    const categories = await GQLRequest<PropWithPages<T_Archive, 'archive'>>(
-        LIST_QUERY,
-        { page, type: ARCHIVE.CATEGORY },
-    )
+    const categories = await GQLRequest<{ archive: T_Archive[] }>(LIST_QUERY, {
+        page,
+        type: ARCHIVE.CATEGORY,
+    })
         .then((result) => {
             if (!result || !result.data) {
-                return { archive: [], numPages: 0 }
+                return []
             }
-            return result.data
+            return result.data.archive
         })
-        .catch(() => ({ archive: [], numPages: 0 }))
-
-    const length = categories.archive.length
+        .catch(() => [])
 
     return (
         <>
@@ -47,7 +45,11 @@ export default async function Categories({ params }: Props) {
 
             <Row dom="article" fullWidth>
                 <Column small={12}>
-                    <PrevNextAdmin page={page} length={length} path="pages" />
+                    <PrevNextAdmin
+                        page={page}
+                        length={categories.length}
+                        path="pages"
+                    />
                 </Column>
                 <Column small={12}>
                     <Table fullWidth data-testid="admin__categories__table">
@@ -62,7 +64,7 @@ export default async function Categories({ params }: Props) {
                             </tr>
                         </thead>
                         <tbody>
-                            {categories.archive.map((term) => (
+                            {categories.map((term) => (
                                 <tr key={`admin-posts-${term._id}`}>
                                     <td>{term.title}</td>
                                     <td className="center">{term.slug}</td>
@@ -86,7 +88,11 @@ export default async function Categories({ params }: Props) {
                     </Table>
                 </Column>
                 <Column small={12}>
-                    <PrevNextAdmin page={page} length={length} path="pages" />
+                    <PrevNextAdmin
+                        page={page}
+                        length={categories.length}
+                        path="pages"
+                    />
                 </Column>
             </Row>
         </>

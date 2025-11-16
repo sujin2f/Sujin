@@ -16,10 +16,10 @@ type Props = {
 }
 
 export const PrevNext = (items: Props) => {
+    const iterator = ['prev', 'next'] as unknown[] as (keyof Props)[]
     return (
         <Row dom="nav" fullWidth className="prev-next">
-            {Object.keys(items).map((index) => {
-                const key = index as 'prev' | 'next'
+            {iterator.map((key) => {
                 const item = items[key]
                 return (
                     <Column
@@ -35,7 +35,9 @@ export const PrevNext = (items: Props) => {
                                     {item.title}
                                 </span>
                             </Link>
-                        ) : null}
+                        ) : (
+                            <></>
+                        )}
                     </Column>
                 )
             })}

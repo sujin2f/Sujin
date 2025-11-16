@@ -5,5 +5,4 @@ query ListArchive($page: Int!, $type: ARCHIVE_TYPE!) {
         slug
         total
     }
-    numPages(context: "archives", type: $type)
 }

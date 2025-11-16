@@ -4,6 +4,26 @@ import type { Atom } from '../types/ether'
 import { periodicTable } from '../constants/ether'
 
 /**
+ * Calculates the Rydberg formula for a given ratio, k, and position.
+ *
+ * @param {number} ratio - The ratio value.
+ * @param {number} k - The k, horizontal shifting value.
+ * @param {number} position - The position of spectra.
+ * @returns {number} The calculated Rydberg value.
+ * @deprecated
+ */
+export const getRydberg = (
+    ratio: number,
+    k: number,
+    position: number,
+): number => {
+    return (
+        ratio *
+        (1 / Math.pow(position + k, 2) - 1 / Math.pow(position + 1 + k, 2))
+    )
+}
+
+/**
  * Retrieves an atom from the periodic table by its atomic number.
  *
  * @param {number} number - The atomic number of the atom.

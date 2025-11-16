@@ -3,7 +3,7 @@ import type { PropsWithChildren } from 'react'
 /* Utils */
 import { getMetaData } from '@lib/utils/server'
 /* Assets */
-import '@app/ether/layout.scss'
+import './layout.scss'
 
 export const generateMetadata = async (): Promise<Metadata> => {
     let metadata: Metadata

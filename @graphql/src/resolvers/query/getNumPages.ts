@@ -9,6 +9,7 @@ import {
     COLLECTION,
     ARCHIVE,
     GQL_QUERY_TYPE,
+    NUM_PAGES_CONTEXT,
 } from '@sujin/lib/constants'
 import { PER_PAGE } from '@sujin/lib/constants'
 /* Utils */
@@ -21,7 +22,7 @@ import { Archive } from '@src/schema/archive'
 import { archive as getArchive } from '../archive'
 
 type Param = {
-    context: string
+    context: NUM_PAGES_CONTEXT
     category: string
     type: ARCHIVE
 }
@@ -33,32 +34,44 @@ export const getNumPages = async (
 ): Promise<number> => {
     const context = sanitize(_context)
     const category = sanitize(_category)
+    const type = sanitize(_type)
 
-    let total = 0
+    let total = NaN
 
-    if (context === 'archive-posts') {
-        const [id, search] = isSearch(category)
-        const request = cachedRequest(
-            countArchivePosts,
-            getCacheKey(COLLECTION.ARCHIVE, id, search, 'total'),
-        )
-        total = await request(id, search, token)
+    switch (context) {
+        case NUM_PAGES_CONTEXT.POSTS_BY_CATEGORY: {
+            const [id, search] = isSearch(category)
+            const request = cachedRequest(
+                countArchivePosts,
+                getCacheKey(COLLECTION.ARCHIVE, id, search, 'total'),
+            )
+            total = await request(id, search, token)
+            break
+        }
+        case NUM_PAGES_CONTEXT.PAGE_LIST:
+            verifyAdmin(
+                token,
+                'numPages query has been called by non admin user',
+            )
+            total = await Page.countDocuments()
+            break
+        case NUM_PAGES_CONTEXT.ARCHIVE_LIST: {
+            verifyAdmin(
+                token,
+                'numPages query has been called by non admin user',
+            )
+            total = await Archive.countDocuments({ type })
+            break
+        }
     }
 
-    if (context === 'pages') {
-        verifyAdmin(token, 'numPosts query has been called by non admin user')
-
-        total = await Page.countDocuments()
+    if (isNaN(total)) {
+        const message = `🤬 numPages query failed: ${context}, ${category}, ${type}`
+        Logger.error(message)
+        throw new Error(message)
     }
 
-    if (context === 'archives') {
-        verifyAdmin(token, 'numPosts query has been called by non admin user')
-
-        const type = sanitize(_type)
-        total = await Archive.countDocuments({ type })
-    }
-
-    Logger.info(`🤟 numPosts query has been finished`)
+    Logger.info(`🤟 numPages query has been finished`)
     return Math.ceil(total / PER_PAGE)
 }
 

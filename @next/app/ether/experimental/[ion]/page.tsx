@@ -1,11 +1,11 @@
 'use client'
 import { Fragment, useEffect, useState } from 'react'
 /* Components */
-import { Table } from '@app/ether/data/_components/Table'
+import { Table } from '@lib/components/ether/Table'
 import ScrollToTop from '@common/components/ScrollToTop'
 import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
-import { Chart } from '@app/ether/data/_components/Chart'
+import { Chart } from '@lib/components/ether/Chart'
 /* T_Types */
 import type { Nullable } from '@sujin/share/types'
 import type { ISpectrum } from '@app/ether/data/types'

@@ -11,3 +11,9 @@ export enum GQL_QUERY_TYPE {
     UPDATE = 'update',
     REMOVE = 'remove',
 }
+
+export enum NUM_PAGES_CONTEXT {
+    ARCHIVE_LIST = 'archive_list',
+    POSTS_BY_CATEGORY = 'posts_by_category',
+    PAGE_LIST = 'page_list',
+}

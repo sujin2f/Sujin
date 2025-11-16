@@ -15,7 +15,11 @@ type Query {
         page: Int
     ): [Post]
     archive(slug: String, archiveType: ARCHIVE_TYPE!, page: Int): [Archive]
-    numPages(context: String!, category: String, type: ARCHIVE_TYPE): Int
+    numPages(
+        context: NUM_PAGES_CONTEXT!
+        category: String
+        type: ARCHIVE_TYPE
+    ): Int
 }
 type Mutation {
     login(email: String!): String
@@ -27,6 +31,11 @@ type Mutation {
     updateHits(slug: String!): [Boolean]
     updateArchive(slug: String!, archiveType: ARCHIVE_TYPE!): [Boolean]
     removeArchive(slug: String!, archiveType: ARCHIVE_TYPE!): [Boolean]
+}
+enum NUM_PAGES_CONTEXT {
+    archive_list
+    posts_by_category
+    page_list
 }
 enum POST_TYPE {
     post
@@ -47,9 +56,6 @@ type TagCloud {
     slug: String
     total: Int
     hits: Int
-}
-type Result {
-    result: Boolean
 }
 type Spectrum {
     number: Int

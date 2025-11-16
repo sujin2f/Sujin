@@ -2,12 +2,12 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 /* Components */
-import { DataHeader } from '@app/ether/data/_components/DataHeader'
+import { DataHeader } from '@lib/components/ether/DataHeader'
 import ScrollToTop from '@common/components/ScrollToTop'
 import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
-import { Chart } from '@app/ether/data/_components/Chart'
-import { Table } from '@app/ether/data/_components/Table'
+import { Chart } from '@lib/components/ether/Chart'
+import { Table } from '@lib/components/ether/Table'
 /* Helpers */
 import type { Nullable } from '@sujin/share/types'
 import type { ISpectrum } from '@app/ether/data/types'

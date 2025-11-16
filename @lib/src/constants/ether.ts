@@ -1,5 +1,15 @@
 import type { Atom } from '../types/ether'
 
+export const CHART_COLORS = [
+    '#FF6699',
+    '#FF9933',
+    '#FFCC66',
+    '#66CCCC',
+    '#3399CC',
+    '#9966FF',
+    '#CCCCCC',
+]
+
 export const orbitalKeys = [
     's',
     'p',
@@ -19,6 +29,9 @@ export const orbitalKeys = [
     'u',
     'v',
 ] as const
+
+// 1 KiloJoule Per Mole = 0.0103636 Electron Volt Per Particle
+export const jouleToEv = 0.0103636
 
 // From https://raw.githubusercontent.com/Bowserinator/Periodic-Table-JSON
 // Thank you so much!
@@ -1745,3 +1758,12 @@ export const periodicTable: Atom[] = [
         ionization_energies: [],
     },
 ]
+
+export const ROW_HEAD = [
+    'Conf',
+    'eConf',
+    'Energy',
+    'Diff',
+    'Rydberg',
+    'Comparison',
+] as const

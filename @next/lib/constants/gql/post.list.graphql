@@ -44,5 +44,5 @@ query ListPost($page: Int!, $category: String) {
             type
         }
     }
-    numPages(context: "archive-posts", category: $category)
+    numPages(context: posts_by_category, category: $category)
 }

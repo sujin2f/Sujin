@@ -20,7 +20,7 @@ import { getSpectraFromNIST } from '@src/resolvers/query/spectra'
 import { getPrevNext } from '@src/resolvers/query/getPrevNext'
 import { getRelatedPosts } from '@src/resolvers/query/getRelatedPosts'
 
-import { getNumPages } from './resolvers/query/getNumPages' // TODO type context
+import { getNumPages as numPages } from './resolvers/query/getNumPages'
 
 import { archive, updateHits } from '@src/resolvers/archive'
 import { post } from '@src/resolvers/post'
@@ -44,7 +44,7 @@ const resolvers = {
         prevNext: getPrevNext,
         related: getRelatedPosts,
 
-        numPages: getNumPages,
+        numPages,
         background: async (_: unknown, __: unknown, context: Context) => {
             return await background(GQL_QUERY_TYPE.QUERY, context)
         },
