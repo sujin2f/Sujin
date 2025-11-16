@@ -13,14 +13,14 @@ import { expressMiddleware } from '@as-integrations/express5'
 import typeDefs from '@src/schema/typeDefs.graphql'
 import { connectToDatabase } from '@src/utils/mongo/connection'
 
-import { getRecentPosts } from '@src/resolvers/query/getRecentPosts'
-import { getFlickr } from '@src/resolvers/query/getFlickr'
-import { getTagCloud } from '@src/resolvers/query/getTagCloud'
-import { getSpectraFromNIST } from '@src/resolvers/query/spectra'
-import { getPrevNext } from '@src/resolvers/query/getPrevNext'
-import { getRelatedPosts } from '@src/resolvers/query/getRelatedPosts'
+import { recent } from '@src/resolvers/recent'
+import { flickr } from '@src/resolvers/flickr'
+import { tagCloud } from '@src/resolvers/tagCloud'
+import { spectra } from '@src/resolvers/spectra'
+import { prevNext } from '@src/resolvers/prevNext'
+import { related } from '@src/resolvers/related'
 
-import { getNumPages as numPages } from './resolvers/query/getNumPages'
+import { numPages } from './resolvers/numPages'
 
 import { archive, updateHits } from '@src/resolvers/archive'
 import { post } from '@src/resolvers/post'
@@ -36,14 +36,12 @@ import type { Context } from './types'
 // This resolver retrieves books from the "books" array above.
 const resolvers = {
     Query: {
-        flickr: getFlickr,
-        tagCloud: getTagCloud,
-        spectra: getSpectraFromNIST,
-
-        recent: getRecentPosts,
-        prevNext: getPrevNext,
-        related: getRelatedPosts,
-
+        flickr,
+        tagCloud,
+        spectra,
+        recent,
+        prevNext,
+        related,
         numPages,
         background: async (_: unknown, __: unknown, context: Context) => {
             return await background(GQL_QUERY_TYPE.QUERY, context)

@@ -55,7 +55,7 @@ export const request = async (): Promise<T_FlickrImage[]> => {
         })
 }
 
-export const getFlickr = async () => {
+export const flickr = async () => {
     const result = await Cached.getInstance().getOrExecute(
         'flickr',
         request(),

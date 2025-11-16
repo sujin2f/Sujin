@@ -60,7 +60,7 @@ const query = async (): Promise<Omit<T_Archive, '_id'>[]> => {
     return shuffle(Object.values(tags))
 }
 
-export const getTagCloud = async (): Promise<Omit<T_Archive, '_id'>[]> => {
+export const tagCloud = async (): Promise<Omit<T_Archive, '_id'>[]> => {
     const request = cachedRequest(
         query,
         getCacheKey(COLLECTION.ARCHIVE, 'tag-cloud'),

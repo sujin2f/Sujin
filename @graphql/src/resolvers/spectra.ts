@@ -251,7 +251,7 @@ type Param = {
     ion: number
 }
 
-export const getSpectraFromNIST = async (
+export const spectra = async (
     _: unknown,
     { number: _number, ion: _ion }: Param,
 ) => {

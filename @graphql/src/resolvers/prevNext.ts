@@ -65,7 +65,7 @@ type Param = {
  * @param {string} slug - The id of the post
  * @returns {Promise<T_PrevNext[]>} A promise that resolves to the recent posts.
  */
-export const getPrevNext = async (
+export const prevNext = async (
     _: unknown,
     { slug: _slug }: Param,
 ): Promise<T_PrevNext[]> => {

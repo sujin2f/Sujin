@@ -6,7 +6,7 @@ import { Post } from '@src/schema/post'
 /* Utils */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 import { post as getPost } from '@src/resolvers/post'
-import { getRecentPosts } from './getRecentPosts'
+import { recent } from './recent'
 /* CONSTANTS */
 import {
     POST_STATUS,
@@ -65,7 +65,7 @@ const query = async (slug: string): Promise<T_ArchivePost[]> => {
         return Object.values(result)
     }
 
-    await getRecentPosts().then((recent) =>
+    await recent().then((recent) =>
         recent
             .filter((item) => item.slug !== slug)
             .forEach((item) => {
@@ -86,7 +86,7 @@ type Param = {
  * @param {string} slug - The id of the post
  * @returns {Promise<T_ArchivePost[]>} A promise that resolves to the recent posts.
  */
-export const getRelatedPosts = async (
+export const related = async (
     _: unknown,
     { slug: _slug }: Param,
 ): Promise<T_ArchivePost[]> => {

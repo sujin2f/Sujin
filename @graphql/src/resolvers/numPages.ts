@@ -19,7 +19,7 @@ import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 import type { Context } from '@src/types'
 import { isSearch } from '@src/utils/mongo/isSearch'
 import { Archive } from '@src/schema/archive'
-import { archive as getArchive } from '../archive'
+import { archive as getArchive } from './archive'
 
 type Param = {
     context: NUM_PAGES_CONTEXT
@@ -27,7 +27,7 @@ type Param = {
     type: ARCHIVE
 }
 
-export const getNumPages = async (
+export const numPages = async (
     _: unknown,
     { category: _category, context: _context, type: _type }: Param,
     { token }: Context,
