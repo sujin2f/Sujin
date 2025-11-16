@@ -31,8 +31,6 @@ export const PrevNextPost = ({ slug }: Props) => {
         setSkip(false)
     })
 
-    console.log(error, loading, data)
-
     if (error || loading || !data) {
         return <div ref={ref} />
     }

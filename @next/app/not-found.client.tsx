@@ -1,36 +1,87 @@
 'use client'
-import { use } from 'react'
+import React, { useEffect, useMemo } from 'react'
+import {
+    Provider as ReduxProvider,
+    useDispatch,
+    useSelector,
+} from 'react-redux'
+import { ApolloProvider, useQuery } from '@apollo/client/react'
+import { gql } from '@apollo/client'
+/* Module */
+import { RootState } from '@lib/store'
+import { store } from '@lib/store'
+import { client } from '@lib/apollo/apollo-client-frontend'
 /* Components */
 import { Cards } from '@lib/components/archive/Cards'
+import Wrapper from '@lib/components/Wrapper'
+import { WidgetTitle } from '@lib/components/WidgetTitle'
+import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
 /* CONSTANTS */
-import { PER_PAGE } from '@lib/constants'
+import { MENU_NAMES, PER_PAGE } from '@sujin/lib/constants'
+import { FIELDS } from '@lib/constants/graphql-fields'
+/* Utils */
+import { setRecent } from '@lib/store/slices/recent'
 /* T_Types */
-import { T_ArchivePost } from '@sujin/lib/types'
+import type { T_ArchivePost } from '@sujin/lib/types'
 
-type Props = {
-    promise: Promise<T_ArchivePost[]>
-}
+export const WrapperWithNotFound = () => {
+    // Redux store
+    const recent = useSelector((state: RootState) => state.recent)
+    const dispatch = useDispatch()
+    const hasStore = useMemo(() => !!recent.length, [recent])
 
-export function NotFoundClient({ promise }: Props) {
-    const data = use(promise)
+    // Read from GraphQL with Intersection Observer & update store
+    const { loading, error, data } = useQuery<{ recent: T_ArchivePost[] }>(
+        gql`
+            query {
+                recent { ${FIELDS.POST_ARCHIVE} }
+            }
+        `,
+        { skip: hasStore },
+    )
+    useEffect(() => {
+        if (!hasStore && data && data.recent.length) {
+            dispatch(setRecent(data.recent))
+        }
+    }, [data, hasStore, dispatch])
 
-    const posts = {
-        list: data.slice(0, PER_PAGE),
-        numPages: 0,
+    // Data is not yet ready
+    if (!hasStore && (error || !data)) {
+        return <></>
+    }
+
+    if (loading) {
+        return <LoadingArchive />
     }
 
     return (
-        <>
-            {data.length && (
-                <Cards
-                    posts={posts}
-                    keyPrefix="not-found"
-                    listKey="list"
-                    large={4}
-                    medium={6}
-                    small={12}
-                />
-            )}
-        </>
+        <Wrapper
+            title="404 Not Found"
+            excerpt="We cannot find the result. See below for recent articles."
+            menu={MENU_NAMES.MAIN}
+        >
+            <WidgetTitle>Recent Posts</WidgetTitle>
+            <Cards
+                posts={{
+                    list: recent.slice(0, PER_PAGE),
+                    numPages: 0,
+                }}
+                keyPrefix="not-found"
+                listKey="list"
+                large={4}
+                medium={6}
+                small={12}
+            />
+        </Wrapper>
+    )
+}
+
+export const NotFoundClient = () => {
+    return (
+        <ApolloProvider client={client}>
+            <ReduxProvider store={store}>
+                <WrapperWithNotFound />
+            </ReduxProvider>
+        </ApolloProvider>
     )
 }

@@ -1,4 +1,3 @@
-import { Suspense } from 'react'
 import { notFound } from 'next/navigation'
 /* Components */
 import Wrapper from '@lib/components/Wrapper'
@@ -11,12 +10,10 @@ import Column from '@common/components/layout/Column'
 import Row from '@common/components/layout/Row'
 import { Content } from '@lib/components/single/Content'
 import { GoogleAdvert } from '@common/components/GoogleAdvert'
-import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
 /* CONSTANTS */
 import { POST_STATUS, IMAGE_SIZE } from '@sujin/lib/constants'
 /* Utils */
 import { getThumbnailFromPost } from '@lib/utils/client'
-import { getRecent } from '@lib/apollo/query/getRecent'
 import { getSingle } from '@lib/apollo/query/getSingle'
 import { updateHits } from '@lib/apollo/mutation/updateHits'
 import { POST_TYPE } from '@sujin/lib/constants'
@@ -70,14 +67,7 @@ export async function PostServer({ slug }: Props) {
                     className="layout__article__right"
                     dom="aside"
                 >
-                    <Suspense
-                        fallback={<LoadingArchive small={12} counts={4} />}
-                    >
-                        <RecentPosts
-                            id={post.id}
-                            promise={getRecent('POST_ARCHIVE')}
-                        />
-                    </Suspense>
+                    <RecentPosts id={post.id} />
                     <GoogleAdvert responsive place="sidebar" />
                 </Column>
             </Row>

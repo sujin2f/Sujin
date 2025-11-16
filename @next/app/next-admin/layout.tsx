@@ -18,23 +18,11 @@ export const metadata = {
     },
 }
 
-type Props = PropsWithChildren & {
-    params: Promise<{
-        admin: string
-    }>
-}
-
 /**
  * Layout component that wraps the application with admin layout elements.
  * @param {ReactNode} props.children - The content to be wrapped by the layout.
  */
-export default async function AdminLayout({ children, params }: Props) {
-    // Admin path validation
-    const { admin } = await params
-    if (!admin || admin !== process.env.ADMIN_URL_PATH) {
-        notFound()
-    }
-
+export default async function AdminLayout({ children }: PropsWithChildren) {
     // Admin credential validation
     await isAdmin()
         .then((result) => {

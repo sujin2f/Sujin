@@ -4,15 +4,12 @@ import { Ubuntu } from 'next/font/google'
 import Script from 'next/script'
 import type { Metadata } from 'next'
 import { ErrorBoundary } from 'next/dist/client/components/error-boundary'
-
 /* CONSTANTS */
 import { BASE_URL, DEFAULT_THUMBNAIL } from '@lib/constants'
-import { INITIAL_STATE, Context } from '@lib/constants/store'
 /* Components */
 import Error from '@app/global-error'
 import { SessionProvider } from '@common/components/SessionProvider'
 import Loading from '@app/loading'
-import { Store } from '@common/components/Store'
 /* Utils */
 import { getSession } from '@lib/utils/session'
 /* Assets */
@@ -76,13 +73,11 @@ export default async function AppLayout({ children }: PropsWithChildren) {
             <head>{adSense}</head>
             <body className={ubuntu.className}>
                 <Suspense fallback={<Loading />}>
-                    <Store Context={Context} INITIAL_STATE={INITIAL_STATE}>
-                        <SessionProvider session={session}>
-                            <ErrorBoundary errorComponent={Error}>
-                                {children}
-                            </ErrorBoundary>
-                        </SessionProvider>
-                    </Store>
+                    <SessionProvider session={session}>
+                        <ErrorBoundary errorComponent={Error}>
+                            {children}
+                        </ErrorBoundary>
+                    </SessionProvider>
                 </Suspense>
             </body>
         </html>
