@@ -1,17 +1,12 @@
 'use server'
-import { gql } from '@apollo/client'
-
 import { client } from '@lib/apollo/apollo-client-server'
 import { getSessionContext } from '@lib/apollo/admin'
+import FLUSH_MUTATION from '@lib/constants/gql/flushDB.graphql'
 
 export const flushDB = async () => {
     return await client
         .mutate<{ flushDB: boolean }>({
-            mutation: gql`
-                mutation FlushDB {
-                    flushDB
-                }
-            `,
+            mutation: FLUSH_MUTATION,
             context: await getSessionContext(),
         })
         .then((result) => {

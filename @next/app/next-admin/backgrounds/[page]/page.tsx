@@ -1,30 +1,31 @@
 'use server'
 import Link from 'next/link'
 import Image from 'next/image'
-
 /* Components */
 import Table from '@common/components/containers/Table'
 import Column from '@common/components/layout/Column'
 import Row from '@common/components/layout/Row'
 import { Header } from './Header'
 /* Utils */
-import { getBackgrounds } from '@lib/apollo/query/getBackgrounds'
 import { entries } from '@sujin/share/utils/object'
+import { GQLRequest } from '@lib/apollo/GQLRequest'
+/* CONSTANTS */
+import LIST_QUERY from '@lib/constants/gql/background.list.graphql'
+/* T_Types */
+import type { T_Background } from '@sujin/lib/types'
 
 export default async function Backgrounds() {
-    const backgrounds = await getBackgrounds({
-        query: `
-            _id mimeType width height url
-            sizes {
-                medium { url }
-                thumbnail { url }
-                mediumLarge { url }
-                postThumbnail { url }
-                relatedPost { url }
-                recentPost { url }
-                large { url }
-            }`,
-    })
+    const backgrounds = await GQLRequest<{ background: T_Background[] }>(
+        LIST_QUERY,
+        {},
+    )
+        .then((result) => {
+            if (!result || !result.data) {
+                return []
+            }
+            return result.data.background
+        })
+        .catch(() => [])
 
     return (
         <>

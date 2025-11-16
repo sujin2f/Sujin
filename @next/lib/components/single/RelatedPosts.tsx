@@ -1,6 +1,5 @@
 'use client'
 import React, { useRef, useState } from 'react'
-import { gql } from '@apollo/client'
 import { useQuery } from '@apollo/client/react'
 /* Modules */
 import { client } from '@lib/apollo/apollo-client-frontend'
@@ -10,7 +9,7 @@ import { Cards } from '../archive/Cards'
 /* Utils */
 import useIntersectionObserver from '@common/hooks/useIntersectionObserver'
 /* CONSTANTS */
-import { FIELDS } from '@lib/constants/graphql-fields'
+import RELATED_QUERY from '@lib/constants/gql/related.graphql'
 /* T_Type */
 import type { T_ArchivePost } from '@sujin/lib/types'
 /* Assets */
@@ -24,11 +23,7 @@ export const RelatedPosts = ({ slug }: Props) => {
     const ref = useRef(null)
     const [skip, setSkip] = useState(true)
     const { loading, error, data } = useQuery<{ related: T_ArchivePost[] }>(
-        gql`
-            query Related($slug: String!) {
-                related(slug: $slug) { ${FIELDS['POST_ARCHIVE']} }
-            }
-        `,
+        RELATED_QUERY,
         { skip, client, variables: { slug } },
     )
     useIntersectionObserver(ref, async () => {

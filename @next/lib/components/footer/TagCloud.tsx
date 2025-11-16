@@ -1,6 +1,5 @@
 'use client'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { gql } from '@apollo/client'
 import { useQuery } from '@apollo/client/react'
 import { useDispatch, useSelector } from 'react-redux'
 /* Components */
@@ -10,6 +9,8 @@ import { setTagCloud } from '@lib/store/slices/tag-cloud'
 import { RootState } from '@lib/store'
 /* Utils */
 import useIntersectionObserver from '@common/hooks/useIntersectionObserver'
+/* CONSTANTS */
+import TAGCLOUD_QUERY from '@lib/constants/gql/tagCloud.graphql'
 /* T_Type */
 import type { T_Archive } from '@sujin/lib/types'
 import Link from 'next/link'
@@ -24,16 +25,7 @@ const TagCloud = () => {
     const ref = useRef(null)
     const [skip, setSkip] = useState(true)
     const { loading, error, data } = useQuery<{ tagCloud: T_Archive[] }>(
-        gql`
-            query TagCloud {
-                tagCloud {
-                    slug
-                    title
-                    total
-                    hits
-                }
-            }
-        `,
+        TAGCLOUD_QUERY,
         { skip: skip || hasStore },
     )
     useEffect(() => {

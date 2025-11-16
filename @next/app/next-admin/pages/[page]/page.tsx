@@ -10,7 +10,12 @@ import { Header } from './Header'
 import { RemoveLink } from './RemoveLink'
 import { RefreshLink } from './RefreshLink'
 /* Utils */
-import { getPages } from '@lib/apollo/query/getPages'
+import { GQLRequest } from '@lib/apollo/GQLRequest'
+/* CONSTANTS */
+import LIST_QUERY from '@lib/constants/gql/post.list.admin.graphql'
+import { POST_TYPE } from '@sujin/lib/constants'
+/* T_Types */
+import type { T_ArchivePost } from '@sujin/lib/types'
 
 type Props = {
     params: Promise<{
@@ -22,8 +27,20 @@ export default async function Pages({ params }: Props) {
     const { page: _page } = await params
     const page = parseInt(_page)
 
-    const pages = await getPages(page, 'id title slug status link')
-    const length = pages.post.length
+    const result = await GQLRequest<{ post: T_ArchivePost[] }>(LIST_QUERY, {
+        page,
+        postType: POST_TYPE.PAGE,
+    })
+        .then((result) => {
+            if (!result || !result.data) {
+                return []
+            }
+
+            return result.data.post
+        })
+        .catch(() => [])
+
+    const length = result.length
 
     return (
         <>
@@ -47,7 +64,7 @@ export default async function Pages({ params }: Props) {
                             </tr>
                         </thead>
                         <tbody>
-                            {pages.post.map((post) => (
+                            {result.map((post) => (
                                 <tr key={`admin-posts-${post._id}`}>
                                     <td className="center">{post.id}</td>
                                     <td>{post.title}</td>

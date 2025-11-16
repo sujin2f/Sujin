@@ -4,10 +4,13 @@ import type { Metadata } from 'next/types'
 import { SearchServer } from '@app/archive/[type]/[slug]/page/[page]/Search.server'
 import { ArchiveServer } from '@app/archive/[type]/[slug]/page/[page]/Archive.server'
 /* Utils */
-import { getArchive } from '@lib/apollo/query/getArchive'
+import { cachedGQLRequest } from '@lib/apollo/GQLRequest'
 /* CONSTANTS */
-import { ARCHIVE } from '@sujin/lib/constants'
+import { ARCHIVE, COLLECTION } from '@sujin/lib/constants'
 import { BASE_URL } from '@lib/constants'
+import ARCHIVE_QUERY from '@lib/constants/gql/archive.metadata.graphql'
+/* T_Type */
+import type { T_Archive } from '@sujin/lib/types'
 
 type Props = {
     params: Promise<{
@@ -39,7 +42,19 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
     }
 
     // TODO thumbnail
-    const archive = await getArchive(slug, type, 'ARCHIVE_META').catch(() => {})
+    const archive = await cachedGQLRequest<{ archive: T_Archive[] }>(
+        ARCHIVE_QUERY,
+        { slug, type },
+        [COLLECTION.ARCHIVE, type, slug, 'metadata'],
+    )
+        .then((result) => {
+            if (!result.data || !result.data.archive.length) {
+                return
+            }
+            return result.data.archive[0]
+        })
+        .catch(() => {})
+
     if (!archive) {
         return {
             robots: {

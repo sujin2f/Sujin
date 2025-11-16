@@ -1,0 +1,33 @@
+query Archive($slug: String!, $type: ARCHIVE_TYPE!) {
+    archive(slug: $slug, archiveType: $type) {
+        _id
+        title
+        slug
+        excerpt
+        image {
+            url
+            width
+            height
+            sizes {
+                medium {
+                    url
+                    mimeType
+                    width
+                    height
+                }
+                mediumLarge {
+                    url
+                    mimeType
+                    width
+                    height
+                }
+                large {
+                    url
+                    mimeType
+                    width
+                    height
+                }
+            }
+        }
+    }
+}

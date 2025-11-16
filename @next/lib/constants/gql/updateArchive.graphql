@@ -1,0 +1,3 @@
+mutation UpdateArchive($slug: String!, $archiveType: ARCHIVE_TYPE!) {
+    updateArchive(slug: $slug, archiveType: $archiveType)
+}

@@ -1,0 +1,47 @@
+query {
+    recent {
+        _id
+        title
+        link
+        id
+        slug
+        excerpt
+        date
+        images {
+            list {
+                width
+                height
+                url
+                mimeType
+                sizes {
+                    thumbnail {
+                        width
+                        height
+                        url
+                        mimeType
+                    }
+                }
+            }
+            thumbnail {
+                width
+                height
+                url
+                mimeType
+                sizes {
+                    thumbnail {
+                        width
+                        height
+                        url
+                        mimeType
+                    }
+                }
+            }
+        }
+        archives {
+            _id
+            title
+            slug
+            type
+        }
+    }
+}

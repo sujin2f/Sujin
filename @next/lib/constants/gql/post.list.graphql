@@ -1,0 +1,48 @@
+query ListPost($page: Int!, $category: String) {
+    post(postType: post, category: $category, page: $page) {
+        _id
+        title
+        link
+        id
+        slug
+        excerpt
+        date
+        images {
+            list {
+                width
+                height
+                url
+                mimeType
+                sizes {
+                    thumbnail {
+                        width
+                        height
+                        url
+                        mimeType
+                    }
+                }
+            }
+            thumbnail {
+                width
+                height
+                url
+                mimeType
+                sizes {
+                    thumbnail {
+                        width
+                        height
+                        url
+                        mimeType
+                    }
+                }
+            }
+        }
+        archives {
+            _id
+            title
+            slug
+            type
+        }
+    }
+    numPages(context: "archive-posts", category: $category)
+}

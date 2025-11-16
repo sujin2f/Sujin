@@ -6,7 +6,6 @@ import {
     useSelector,
 } from 'react-redux'
 import { ApolloProvider, useQuery } from '@apollo/client/react'
-import { gql } from '@apollo/client'
 /* Module */
 import { RootState } from '@lib/store'
 import { store } from '@lib/store'
@@ -18,7 +17,7 @@ import { WidgetTitle } from '@lib/components/WidgetTitle'
 import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
 /* CONSTANTS */
 import { MENU_NAMES, PER_PAGE } from '@sujin/lib/constants'
-import { FIELDS } from '@lib/constants/graphql-fields'
+import RECENT_QUERY from '@lib/constants/gql/recent.graphql'
 /* Utils */
 import { setRecent } from '@lib/store/slices/recent'
 /* T_Types */
@@ -32,11 +31,7 @@ export const WrapperWithNotFound = () => {
 
     // Read from GraphQL with Intersection Observer & update store
     const { loading, error, data } = useQuery<{ recent: T_ArchivePost[] }>(
-        gql`
-            query {
-                recent { ${FIELDS.POST_ARCHIVE} }
-            }
-        `,
+        RECENT_QUERY,
         { skip: hasStore },
     )
     useEffect(() => {

@@ -17,11 +17,11 @@ export const PrevNextAdmin = ({
 }: PropsWithChildren<Props>) => {
     const prev = page !== 1 && {
         title: 'Prev',
-        link: `/admin/${path}/${page - 1}`,
+        link: `/next-admin/${path}/${page - 1}`,
     }
     const next = length === PER_PAGE && {
         title: 'Next',
-        link: `/admin/${path}/${page + 1}`,
+        link: `/next-admin/${path}/${page + 1}`,
     }
 
     return <PrevNext prev={prev} next={next} />

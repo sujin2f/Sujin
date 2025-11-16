@@ -19,7 +19,6 @@ const nextConfig: NextConfig = {
                 test: /\.svg$/i,
                 resourceQuery: /url/,
             },
-
             {
                 test: /\.svg$/i,
                 issuer: fileLoaderRule.issuer,
@@ -27,6 +26,11 @@ const nextConfig: NextConfig = {
                     not: [...fileLoaderRule.resourceQuery.not, /url/],
                 },
                 use: ['@svgr/webpack'],
+            },
+            {
+                test: /\.(graphql|gql)$/,
+                exclude: /node_modules/,
+                loader: 'graphql-tag/loader',
             },
         )
 

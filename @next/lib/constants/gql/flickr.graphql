@@ -1,0 +1,7 @@
+query {
+    flickr {
+        link
+        media
+        title
+    }
+}

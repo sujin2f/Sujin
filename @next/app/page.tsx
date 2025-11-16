@@ -7,7 +7,6 @@ import {
 } from 'react-redux'
 import { ApolloProvider } from '@apollo/client/react'
 import { useQuery } from '@apollo/client/react'
-import { gql } from '@apollo/client'
 /* Components */
 import Wrapper from '@lib/components/Wrapper'
 /* Utils */
@@ -17,7 +16,7 @@ import { RootState } from '@lib/store'
 import { store } from '@lib/store'
 import { client } from '@lib/apollo/apollo-client-frontend'
 /* CONSTANTS */
-import { FIELDS } from '@lib/constants/graphql-fields'
+import BACKGROUND_QUERY from '@lib/constants/gql/background.graphql'
 /* T_Types */
 import type { T_Background } from '@sujin/lib/types'
 /* Assets */
@@ -33,11 +32,7 @@ const WrapperWithBackground = () => {
 
     // Read from GraphQL with Intersection Observer & update store
     const { data } = useQuery<{ background: T_Background[] }>(
-        gql`
-            query {
-                background { ${FIELDS.BACKGROUNDS} }
-            }
-        `,
+        BACKGROUND_QUERY,
         { skip: hasStore },
     )
 

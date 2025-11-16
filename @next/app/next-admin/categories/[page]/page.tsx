@@ -10,9 +10,12 @@ import { Header } from './Header'
 import { RemoveLink } from './RemoveLink'
 import { RefreshLink } from './RefreshLink'
 /* Utils */
-import { getArchives } from '@lib/apollo/query/getArchives'
+import { GQLRequest } from '@lib/apollo/GQLRequest'
 /* CONSTANTS */
 import { ARCHIVE } from '@sujin/lib/constants'
+import LIST_QUERY from '@lib/constants/gql/archive.list.graphql'
+/* T_Types */
+import type { PropWithPages, T_Archive } from '@sujin/lib/types'
 
 type Props = {
     params: Promise<{
@@ -24,11 +27,17 @@ export default async function Categories({ params }: Props) {
     const { page: _page } = await params
     const page = parseInt(_page)
 
-    const categories = await getArchives(
-        page,
-        ARCHIVE.CATEGORY,
-        '_id title slug total',
+    const categories = await GQLRequest<PropWithPages<T_Archive, 'archive'>>(
+        LIST_QUERY,
+        { page, type: ARCHIVE.CATEGORY },
     )
+        .then((result) => {
+            if (!result || !result.data) {
+                return { archive: [], numPages: 0 }
+            }
+            return result.data
+        })
+        .catch(() => ({ archive: [], numPages: 0 }))
 
     const length = categories.archive.length
 
@@ -60,7 +69,7 @@ export default async function Categories({ params }: Props) {
                                     <td className="center">{term.total}</td>
                                     <td className="center">
                                         <Link
-                                            href={`/admin/categories/posts/${term.slug}/1`}
+                                            href={`/next-admin/categories/posts/${term.slug}/1`}
                                         >
                                             Show Posts
                                         </Link>

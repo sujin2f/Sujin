@@ -10,17 +10,16 @@ import { updatePosts } from '@lib/apollo/mutation/updatePosts'
 /* CONSTANTS */
 import { QuantumBool } from '@sujin/share/types'
 /* T_Types */
-import type { T_Archive } from '@sujin/lib/types'
 
 type Props = {
-    archive: T_Archive
+    slug: string
     page: number
 }
-export function Header({ archive, page }: Props) {
+export function Header({ slug, page }: Props) {
     const router = useRouter()
 
     const [state, action, pending] = useActionState<QuantumBool>(async () => {
-        return await updatePosts(archive.slug, page)
+        return await updatePosts(slug, page)
             .then(() => {
                 router.refresh()
                 return QuantumBool.TRUE
@@ -30,9 +29,7 @@ export function Header({ archive, page }: Props) {
 
     return (
         <>
-            <HeaderComponent
-                title={`Category Posts: ${archive.slug}  ${archive._id}`}
-            >
+            <HeaderComponent title={`Category Posts: ${slug}`}>
                 <Button
                     title="Pull from WP"
                     onClick={() => startTransition(action)}

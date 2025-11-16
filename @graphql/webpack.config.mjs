@@ -2,7 +2,7 @@ import * as path from 'path'
 import nodeExternals from 'webpack-node-externals'
 import webpack from 'webpack'
 const { EnvironmentPlugin } = webpack
-import packageJson from './package.json' with { type: 'json' };
+import packageJson from './package.json' with { type: 'json' }
 
 const config = {
     mode: process.env.NODE_ENV === 'development' ? 'development' : 'production',
@@ -22,6 +22,11 @@ const config = {
                     },
                 ],
                 exclude: /node_modules/,
+            },
+            {
+                test: /\.(graphql|gql)$/,
+                exclude: /node_modules/,
+                loader: 'graphql-tag/loader',
             },
         ],
     },

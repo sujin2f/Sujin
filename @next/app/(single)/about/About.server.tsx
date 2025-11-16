@@ -5,19 +5,27 @@ import Wrapper from '@lib/components/Wrapper'
 import { SocialShare } from '@lib/components/single/SocialShare.client'
 import { Content } from '@lib/components/single/Content'
 /* CONSTANTS */
-import { IMAGE_SIZE, POST_TYPE } from '@sujin/lib/constants'
+import { COLLECTION, IMAGE_SIZE, POST_TYPE } from '@sujin/lib/constants'
+import POST_QUERY from '@lib/constants/gql/post.graphql'
 /* Utils */
 import { getThumbnailFromPost } from '@lib/utils/client'
-import { getSingle } from '@lib/apollo/query/getSingle'
+import { cachedGQLRequest } from '@lib/apollo/GQLRequest'
+/* T_Types */
+import type { T_Post } from '@sujin/lib/types'
 
 export async function AboutServer() {
-    const post = await getSingle('about', POST_TYPE.PAGE, 'PAGE').catch(() => {
-        notFound()
-    })
-
-    if (!post) {
-        notFound()
-    }
+    const post = await cachedGQLRequest<{ post: T_Post[] }>(
+        POST_QUERY,
+        { slug: 'about', type: POST_TYPE.PAGE },
+        [COLLECTION.PAGE, POST_TYPE.PAGE, 'about'],
+    )
+        .then((result) => {
+            if (!result.data || !result.data.post.length) {
+                notFound()
+            }
+            return result.data.post[0]
+        })
+        .catch(() => notFound())
 
     const thumbnail = getThumbnailFromPost(post.images, IMAGE_SIZE.MEDIUM_LARGE)
 

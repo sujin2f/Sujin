@@ -1,0 +1,9 @@
+query ListPostAdmin($page: Int!, $postType: POST_TYPE!, $category: String) {
+    post(postType: $postType, page: $page, category: $category) {
+        id
+        title
+        slug
+        status
+        link
+    }
+}

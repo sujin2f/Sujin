@@ -11,12 +11,17 @@ import Row from '@common/components/layout/Row'
 import { Content } from '@lib/components/single/Content'
 import { GoogleAdvert } from '@common/components/GoogleAdvert'
 /* CONSTANTS */
-import { POST_STATUS, IMAGE_SIZE } from '@sujin/lib/constants'
+import {
+    COLLECTION,
+    POST_TYPE,
+    POST_STATUS,
+    IMAGE_SIZE,
+} from '@sujin/lib/constants'
+import POST_QUERY from '@lib/constants/gql/post.graphql'
 /* Utils */
 import { getThumbnailFromPost } from '@lib/utils/client'
-import { getSingle } from '@lib/apollo/query/getSingle'
 import { updateHits } from '@lib/apollo/mutation/updateHits'
-import { POST_TYPE } from '@sujin/lib/constants'
+import { cachedGQLRequest } from '@lib/apollo/GQLRequest'
 /* T_Types */
 import type { T_Post } from '@sujin/lib/types'
 
@@ -25,11 +30,18 @@ type Props = {
 }
 
 export async function PostServer({ slug }: Props) {
-    const post = await getSingle<T_Post>(slug, POST_TYPE.POST, 'POST').catch(
-        () => {
-            notFound()
-        },
+    const post = await cachedGQLRequest<{ post: T_Post[] }>(
+        POST_QUERY,
+        { slug, type: POST_TYPE.POST },
+        [COLLECTION.PAGE, POST_TYPE.POST, slug],
     )
+        .then((result) => {
+            if (!result.data || !result.data.post.length) {
+                notFound()
+            }
+            return result.data.post[0]
+        })
+        .catch(() => notFound())
 
     const thumbnail = getThumbnailFromPost(post.images, IMAGE_SIZE.MEDIUM_LARGE)
     const tags = post.archives.filter((tag) => tag.type === 'tag')

@@ -6,8 +6,12 @@ import Column from '@common/components/layout/Column'
 import { PrevNextAdmin } from '@lib/components/admin/PrevNextAdmin'
 import Table from '@common/components/containers/Table'
 /* Utils */
-import { getPostsByCategory } from '@lib/apollo/query/getPostsByCategory'
-import { getArchive } from '@lib/apollo/query/getArchive'
+import { GQLRequest } from '@lib/apollo/GQLRequest'
+/* T_Types */
+import type { T_ArchivePost } from '@sujin/lib/types'
+/* CONSTANTS */
+import { POST_TYPE } from '@sujin/lib/constants'
+import LIST_QUERY from '@lib/constants/gql/post.list.admin.graphql'
 
 type Props = {
     params: Promise<{
@@ -19,17 +23,24 @@ type Props = {
 export default async function CategoryPosts(props: Props) {
     const { page: _page, slug } = await props.params
     const page = parseInt(_page)
-    const archive = await getArchive(slug, 'category', 'ARCHIVE')
-    const posts = await getPostsByCategory({
-        category: archive.slug,
+    const result = await GQLRequest<{ post: T_ArchivePost[] }>(LIST_QUERY, {
         page,
-        query: 'id, title, slug link status',
+        postType: POST_TYPE.POST,
+        category: slug,
     })
-    const length = posts.post.length
+        .then((result) => {
+            if (!result || !result.data) {
+                return []
+            }
+
+            return result.data.post
+        })
+        .catch(() => [])
+    const length = result.length
 
     return (
         <>
-            <Header archive={archive} page={page} />
+            <Header slug={slug} page={page} />
             <Row dom="article" fullWidth>
                 <Column small={12}>
                     <PrevNextAdmin
@@ -50,7 +61,7 @@ export default async function CategoryPosts(props: Props) {
                             </tr>
                         </thead>
                         <tbody>
-                            {posts.post.map((post) => (
+                            {result.map((post) => (
                                 <tr key={`admin-posts-${post.id}`}>
                                     <td>{post.id}</td>
                                     <td>{post.title}</td>

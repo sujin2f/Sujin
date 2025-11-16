@@ -5,11 +5,14 @@ import Wrapper from '@lib/components/Wrapper'
 import { Cards } from '@lib/components/archive/Cards.use'
 import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
 /* CONSTANTS */
-import { ARCHIVE } from '@sujin/lib/constants'
+import { ARCHIVE, COLLECTION } from '@sujin/lib/constants'
+import ARCHIVE_QUERY from '@lib/constants/gql/archive.graphql'
+import POST_LIST_QUERY from '@lib/constants/gql/post.list.graphql'
 /* Utils */
-import { getPostsByCategory } from '@lib/apollo/query/getPostsByCategory'
-import { getArchive } from '@lib/apollo/query/getArchive'
 import { updateHits } from '@lib/apollo/mutation/updateHits'
+import { cachedGQLRequest } from '@lib/apollo/GQLRequest'
+/* T_Types */
+import type { PropWithPages, T_Post, T_Archive } from '@sujin/lib/types'
 
 type Props = {
     type: ARCHIVE
@@ -18,9 +21,18 @@ type Props = {
 }
 
 export async function ArchiveServer({ type, slug, page }: Props) {
-    const archive = await getArchive(slug, type, 'ARCHIVE').catch(() => {
-        notFound()
-    })
+    const archive = await cachedGQLRequest<{ archive: T_Archive[] }>(
+        ARCHIVE_QUERY,
+        { slug, type },
+        [COLLECTION.ARCHIVE, type, slug],
+    )
+        .then((result) => {
+            if (!result.data || !result.data.archive.length) {
+                notFound()
+            }
+            return result.data.archive[0]
+        })
+        .catch(() => notFound())
 
     const { title, excerpt, image } = archive
 
@@ -28,6 +40,25 @@ export async function ArchiveServer({ type, slug, page }: Props) {
     if (type === ARCHIVE.TAG) {
         await updateHits(slug)
     }
+
+    const posts = cachedGQLRequest<PropWithPages<T_Post, 'post'>>(
+        POST_LIST_QUERY,
+        { page, category: slug },
+        [COLLECTION.ARCHIVE, 'posts', type, slug, page.toString()],
+    )
+        .then((result) => {
+            if (!result.data) {
+                return {
+                    post: [],
+                    numPages: 1,
+                }
+            }
+            return result.data
+        })
+        .catch(() => ({
+            post: [],
+            numPages: 1,
+        }))
 
     return (
         <Wrapper
@@ -39,11 +70,7 @@ export async function ArchiveServer({ type, slug, page }: Props) {
             <Suspense fallback={<LoadingArchive />}>
                 <Cards
                     keyPrefix={`${type}-${slug}-${page}`}
-                    posts={getPostsByCategory({
-                        category: archive.slug,
-                        page,
-                        fields: 'POST_ARCHIVE',
-                    })}
+                    posts={posts}
                     listKey="post"
                     page={page}
                     pageURLPrefix={`/${type}/${slug}/page`}

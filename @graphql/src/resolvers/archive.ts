@@ -160,7 +160,5 @@ export const updateHits = async (_: unknown, { slug: _slug }: GQL_SlugArg) => {
     await Archive.updateOne({ slug, type: ARCHIVE.TAG }, { $inc: { hits: 1 } })
 
     Logger.info(`🤟 updateHits mutation has been finished: ${_slug}`)
-    return {
-        result: true,
-    }
+    return []
 }

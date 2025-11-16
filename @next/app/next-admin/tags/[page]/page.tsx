@@ -5,9 +5,12 @@ import Row from '@common/components/layout/Row'
 import { PrevNextAdmin } from '@lib/components/admin/PrevNextAdmin'
 import { Header } from '@lib/components/admin/Header'
 /* Utils */
-import { getArchives } from '@lib/apollo/query/getArchives'
+import { GQLRequest } from '@lib/apollo/GQLRequest'
 /* CONSTANTS */
 import { ARCHIVE } from '@sujin/lib/constants'
+import LIST_QUERY from '@lib/constants/gql/archive.list.graphql'
+/* T_Types */
+import type { PropWithPages, T_Archive } from '@sujin/lib/types'
 
 type Props = {
     params: Promise<{
@@ -19,13 +22,19 @@ export default async function Tags({ params }: Props) {
     const { page: _page } = await params
     const page = parseInt(_page)
 
-    const tags = await getArchives(
-        page,
-        ARCHIVE.TAG,
-        '_id title slug total hits',
+    const tags = await GQLRequest<PropWithPages<T_Archive, 'archive'>>(
+        LIST_QUERY,
+        { page, type: ARCHIVE.TAG },
     )
+        .then((result) => {
+            if (!result || !result.data) {
+                return { archive: [], numPages: 0 }
+            }
+            return result.data
+        })
+        .catch(() => ({ archive: [], numPages: 0 }))
 
-    const length = tags.archives.length
+    const length = tags.archive.length
 
     return (
         <>
@@ -45,7 +54,7 @@ export default async function Tags({ params }: Props) {
                             </tr>
                         </thead>
                         <tbody>
-                            {tags.archives.map((term) => (
+                            {tags.archive.map((term) => (
                                 <tr key={`admin-posts-${term._id}`}>
                                     <td>{term.title}</td>
                                     <td>{term.slug}</td>

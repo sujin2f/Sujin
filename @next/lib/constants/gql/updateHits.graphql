@@ -1,0 +1,3 @@
+mutation UpdateHits($slug: String!) {
+    updateHits(slug: $slug)
+}

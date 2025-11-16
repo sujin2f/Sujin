@@ -3,10 +3,11 @@ import type { Metadata } from 'next/types'
 import { PostServer } from '@app/(single)/blog/[slug]/Post.server'
 /* CONSTANTS */
 import { BASE_URL } from '@lib/constants'
-import { POST_TYPE, IMAGE_SIZE } from '@sujin/lib/constants'
+import { POST_TYPE, IMAGE_SIZE, COLLECTION } from '@sujin/lib/constants'
+import POST_QUERY from '@lib/constants/gql/post.metadata.graphql'
 /* Utils */
 import { getThumbnailFromPost } from '@lib/utils/client'
-import { getSingle } from '@lib/apollo/query/getSingle'
+import { cachedGQLRequest } from '@lib/apollo/GQLRequest'
 /* T_Types */
 import type { T_Post } from '@sujin/lib/types'
 
@@ -19,11 +20,20 @@ type Props = {
 export const generateMetadata = async (props: Props): Promise<Metadata> => {
     const params = await props.params
     const slug = params.slug.toLowerCase()
-    const post = await getSingle<T_Post>(
-        slug,
-        POST_TYPE.POST,
-        'SINGLE_META',
-    ).catch(() => undefined)
+
+    const post = await cachedGQLRequest<{ post: T_Post[] }>(
+        POST_QUERY,
+        { slug, type: POST_TYPE.POST },
+        [COLLECTION.POST, POST_TYPE.POST, slug, 'metadata'],
+    )
+        .then((result) => {
+            if (!result || !result.data) {
+                return
+            }
+            return result.data.post[0]
+        })
+        .catch(() => undefined)
+
     if (!post) {
         return {}
     }

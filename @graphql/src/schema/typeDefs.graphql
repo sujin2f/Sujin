@@ -1,5 +1,4 @@
-export const typeDefs = `
-type Query{
+type Query {
     flickr: [FlickrImage]
     tagCloud: [TagCloud]
     spectra(number: Int!, ion: Int!): [Spectrum]
@@ -9,18 +8,23 @@ type Query{
     related(slug: String!): [Post]
 
     background: [ImageBlock]
-    post(postType: POST_TYPE!, slug: String, category: String, page: Int): [Post]
+    post(
+        postType: POST_TYPE!
+        slug: String
+        category: String
+        page: Int
+    ): [Post]
     archive(slug: String, archiveType: ARCHIVE_TYPE!, page: Int): [Archive]
     numPages(context: String!, category: String, type: ARCHIVE_TYPE): Int
 }
-type Mutation{
+type Mutation {
     login(email: String!): String
     flushDB: Boolean
     updateBackground: [Boolean]
     updatePosts(category: String!, page: Int!): [Boolean]
     updateSingle(postType: POST_TYPE!, slug: String!): [Boolean]
     removeSingle(postType: POST_TYPE!, slug: String!): [Boolean]
-    updateHits(slug: String!): Result
+    updateHits(slug: String!): [Boolean]
     updateArchive(slug: String!, archiveType: ARCHIVE_TYPE!): [Boolean]
     removeArchive(slug: String!, archiveType: ARCHIVE_TYPE!): [Boolean]
 }
@@ -122,4 +126,3 @@ type Archive {
     image: ImageBlock
 }
 scalar BigInt
-`

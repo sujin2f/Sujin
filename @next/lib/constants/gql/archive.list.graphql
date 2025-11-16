@@ -1,0 +1,9 @@
+query ListArchive($page: Int!, $type: ARCHIVE_TYPE!) {
+    archive(archiveType: $type, page: $page) {
+        _id
+        title
+        slug
+        total
+    }
+    numPages(context: "archives", type: $type)
+}

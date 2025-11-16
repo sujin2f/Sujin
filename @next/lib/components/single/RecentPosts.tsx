@@ -7,7 +7,6 @@ import {
 } from 'react-redux'
 import { ApolloProvider } from '@apollo/client/react'
 import { useQuery } from '@apollo/client/react'
-import { gql } from '@apollo/client'
 /* Module */
 import { RootState } from '@lib/store'
 import { store } from '@lib/store'
@@ -20,7 +19,7 @@ import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
 import { setRecent } from '@lib/store/slices/recent'
 /* CONSTANTS */
 import { IMAGE_SIZE } from '@sujin/lib/constants'
-import { FIELDS } from '@lib/constants/graphql-fields'
+import RECENT_QUERY from '@lib/constants/gql/recent.graphql'
 /* T_Types */
 import type { T_ArchivePost } from '@sujin/lib/types'
 /* Assets */
@@ -42,11 +41,7 @@ const RecentPostsComponent = ({ id }: Props) => {
     const ref = useRef(null)
     const [skip, setSkip] = useState(true)
     const { loading, error, data } = useQuery<{ recent: T_ArchivePost[] }>(
-        gql`
-            query {
-                recent { ${FIELDS.POST_ARCHIVE} }
-            }
-        `,
+        RECENT_QUERY,
         { skip: skip || hasStore },
     )
 

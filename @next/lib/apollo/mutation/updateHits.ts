@@ -1,21 +1,15 @@
 'use server'
-import { gql } from '@apollo/client'
 /* Models */
 import { client } from '@lib/apollo/apollo-client-server'
+/* T_Types */
+import type { T_Archive } from '@sujin/lib/types'
 /* CONSTANTS */
-import { type T_Archive } from '@sujin/lib/types'
-/* Utils */
+import HIT_MUTATION from '@lib/constants/gql/updateHits.graphql'
 
 export const updateHits = async (slug: string) => {
     return await client
         .mutate<{ archive: T_Archive }>({
-            mutation: gql`
-                query UpdateHits($slug: String!) {
-                    updateHits(slug: $slug) {
-                        result
-                    }
-                }
-            `,
+            mutation: HIT_MUTATION,
             variables: {
                 slug,
             },

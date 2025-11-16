@@ -1,6 +1,5 @@
 'use client'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { gql } from '@apollo/client'
 import { useQuery } from '@apollo/client/react'
 import { useDispatch, useSelector } from 'react-redux'
 /* Components */
@@ -15,6 +14,8 @@ import { setFlickr } from '@lib/store/slices/flickr'
 import { RootState } from '@lib/store'
 /* T_Type */
 import type { T_FlickrImage } from '@sujin/lib/types'
+/* CONSTANTS */
+import FLICKR_QUERY from '@lib/constants/gql/flickr.graphql'
 
 const Flickr = () => {
     // Redux store
@@ -26,15 +27,7 @@ const Flickr = () => {
     const ref = useRef(null)
     const [skip, setSkip] = useState(true)
     const { loading, error, data } = useQuery<{ flickr: T_FlickrImage[] }>(
-        gql`
-            query {
-                flickr {
-                    link
-                    media
-                    title
-                }
-            }
-        `,
+        FLICKR_QUERY,
         { skip: skip || hasStore },
     )
     useEffect(() => {

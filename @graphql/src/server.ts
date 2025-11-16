@@ -10,7 +10,7 @@ import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer'
 import { expressMiddleware } from '@as-integrations/express5'
 
-import { typeDefs } from '@src/schema/typeDefs'
+import typeDefs from '@src/schema/typeDefs.graphql'
 import { connectToDatabase } from '@src/utils/mongo/connection'
 
 import { getRecentPosts } from '@src/resolvers/query/getRecentPosts'

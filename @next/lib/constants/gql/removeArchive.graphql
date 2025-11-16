@@ -1,0 +1,3 @@
+mutation removeArchive($slug: String!, $archiveType: ARCHIVE_TYPE!) {
+    removeArchive(slug: $slug, archiveType: $archiveType)
+}

@@ -1,19 +1,16 @@
 'use server'
-import { gql } from '@apollo/client'
-
 import { client } from '@lib/apollo/apollo-client-server'
 import { getSessionContext } from '@lib/apollo/admin'
+import SINGLE_MUTATION from '@lib/constants/gql/updateSingle.graphql'
+import { POST_TYPE } from '@sujin/lib/constants'
 
 export const updatePage = async (slug: string) => {
     return await client
         .mutate({
-            mutation: gql`
-                mutation UpdatePage($slug: String!) {
-                    updateSingle(slug: $slug, postType: page)
-                }
-            `,
+            mutation: SINGLE_MUTATION,
             variables: {
                 slug,
+                postType: POST_TYPE.PAGE,
             },
             context: await getSessionContext(),
         })

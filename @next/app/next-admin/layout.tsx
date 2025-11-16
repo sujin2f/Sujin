@@ -42,27 +42,27 @@ export default async function AdminLayout({ children }: PropsWithChildren) {
                             items={[
                                 {
                                     title: 'Home',
-                                    link: '/admin',
+                                    link: '/next-admin',
                                 },
                                 {
                                     title: 'Pages',
-                                    link: '/admin/pages/1',
+                                    link: '/next-admin/pages/1',
                                 },
                                 {
                                     title: 'Categories',
-                                    link: '/admin/categories/1',
+                                    link: '/next-admin/categories/1',
                                 },
                                 {
                                     title: 'Tags',
-                                    link: '/admin/tags/1',
+                                    link: '/next-admin/tags/1',
                                 },
                                 {
                                     title: 'Backgrounds',
-                                    link: '/admin/backgrounds/1',
+                                    link: '/next-admin/backgrounds/1',
                                 },
                                 {
                                     title: 'Cache',
-                                    link: '/admin/cache',
+                                    link: '/next-admin/cache',
                                 },
                             ]}
                             direction="vertical"
