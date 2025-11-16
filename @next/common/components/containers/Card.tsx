@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { joinClassNames } from '@sujin/share/utils/string'
 import { formatDate } from '@sujin/share/utils/datetime'
 import { removeURLProtocol } from '@sujin/share/utils/string'
-import { ShortMonthNames } from '@sujin/share/constants/datetime'
+import { DAY_IN_MS, ShortMonthNames } from '@sujin/share/constants/datetime'
 /* Assets */
 import '../../scss/card.scss'
 
@@ -39,7 +39,7 @@ export const Card = ({
     className,
 }: PropsWithChildren<Props>) => {
     const datetime = useMemo(
-        () => timestamp && new Date(timestamp),
+        () => timestamp && new Date(timestamp * DAY_IN_MS),
         [timestamp],
     )
 

@@ -4,7 +4,7 @@ import { PostServer } from '@app/(single)/blog/[slug]/Post.server'
 /* CONSTANTS */
 import { BASE_URL } from '@lib/constants'
 import { POST_TYPE, IMAGE_SIZE, COLLECTION } from '@sujin/lib/constants'
-import POST_QUERY from '@lib/constants/gql/post.metadata.graphql'
+import POST_QUERY from '@lib/apollo/gql/post.metadata.graphql'
 /* Utils */
 import { getThumbnailFromPost } from '@lib/utils/client'
 import { cachedGQLRequest } from '@lib/apollo/GQLRequest'

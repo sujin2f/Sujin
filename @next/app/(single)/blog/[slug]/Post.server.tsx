@@ -17,7 +17,7 @@ import {
     POST_STATUS,
     IMAGE_SIZE,
 } from '@sujin/lib/constants'
-import POST_QUERY from '@lib/constants/gql/post.graphql'
+import POST_QUERY from '@lib/apollo/gql/post.graphql'
 /* Utils */
 import { getThumbnailFromPost } from '@lib/utils/client'
 import { updateHits } from '@lib/apollo/mutation/updateHits'

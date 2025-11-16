@@ -1,7 +1,7 @@
 'use server'
 import { client } from '@lib/apollo/apollo-client-server'
 import { getSessionContext } from '@lib/apollo/admin'
-import ARCHIVE_MUTATION from '@lib/constants/gql/updateArchive.graphql'
+import ARCHIVE_MUTATION from '@lib/apollo/gql/updateArchive.graphql'
 import { ARCHIVE } from '@sujin/lib/constants'
 
 export const updateCategory = async (slug: string) => {

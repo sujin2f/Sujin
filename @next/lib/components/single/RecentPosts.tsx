@@ -19,7 +19,7 @@ import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
 import { setRecent } from '@lib/store/slices/recent'
 /* CONSTANTS */
 import { IMAGE_SIZE } from '@sujin/lib/constants'
-import RECENT_QUERY from '@lib/constants/gql/recent.graphql'
+import RECENT_QUERY from '@lib/apollo/gql/recent.graphql'
 /* T_Types */
 import type { T_ArchivePost } from '@sujin/lib/types'
 /* Assets */

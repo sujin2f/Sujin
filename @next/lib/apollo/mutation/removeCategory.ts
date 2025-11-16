@@ -1,7 +1,7 @@
 'use server'
 import { client } from '@lib/apollo/apollo-client-server'
 import { getSessionContext } from '@lib/apollo/admin'
-import REMOVE_ARCHIVE_MUTATION from '@lib/constants/gql/removeArchive.graphql'
+import REMOVE_ARCHIVE_MUTATION from '@lib/apollo/gql/removeArchive.graphql'
 import { ARCHIVE } from '@sujin/lib/constants'
 
 export const removeCategory = async (slug: string) => {

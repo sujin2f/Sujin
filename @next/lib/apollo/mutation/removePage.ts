@@ -2,7 +2,7 @@
 import { client } from '@lib/apollo/apollo-client-server'
 import { getSessionContext } from '@lib/apollo/admin'
 import { POST_TYPE } from '@sujin/lib/constants'
-import REMOVE_MUTATION from '@lib/constants/gql/removeSingle.graphql'
+import REMOVE_MUTATION from '@lib/apollo/gql/removeSingle.graphql'
 
 export const removePage = async (slug: string) => {
     return await client

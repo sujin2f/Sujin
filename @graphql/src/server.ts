@@ -46,6 +46,16 @@ const resolvers = {
         background: async (_: unknown, __: unknown, context: Context) => {
             return await background(GQL_QUERY_TYPE.QUERY, context)
         },
+        archive: async (
+            _: unknown,
+            { slug, archiveType, page }: GQL_ArchiveArg,
+            context: Context,
+        ) => {
+            return await archive(
+                { slug, archiveType, page, query: GQL_QUERY_TYPE.QUERY },
+                context,
+            )
+        },
         // post
         post: async (
             _: unknown,
@@ -57,14 +67,19 @@ const resolvers = {
                 context,
             )
         },
-        // archive
-        archive: async (
+        postAdmin: async (
             _: unknown,
-            { slug, archiveType, page }: GQL_ArchiveArg,
+            { slug, postType, category, page }: GQL_PostArg,
             context: Context,
         ) => {
-            return await archive(
-                { slug, archiveType, page, query: GQL_QUERY_TYPE.QUERY },
+            return await post(
+                {
+                    slug,
+                    postType,
+                    category,
+                    page,
+                    query: GQL_QUERY_TYPE.QUERY_ADMIN,
+                },
                 context,
             )
         },

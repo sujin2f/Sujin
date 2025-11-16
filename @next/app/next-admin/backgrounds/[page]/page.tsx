@@ -10,7 +10,7 @@ import { Header } from './Header'
 import { entries } from '@sujin/share/utils/object'
 import { GQLRequest } from '@lib/apollo/GQLRequest'
 /* CONSTANTS */
-import LIST_QUERY from '@lib/constants/gql/background.list.graphql'
+import LIST_QUERY from '@lib/apollo/gql/background.list.graphql'
 /* T_Types */
 import type { T_Background } from '@sujin/lib/types'
 

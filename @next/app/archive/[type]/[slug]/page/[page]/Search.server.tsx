@@ -6,7 +6,7 @@ import { Cards } from '@lib/components/archive/Cards.use'
 import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
 /* CONSTANTS */
 import { ARCHIVE, COLLECTION } from '@sujin/lib/constants'
-import POST_LIST_QUERY from '@lib/constants/gql/post.list.graphql'
+import POST_LIST_QUERY from '@lib/apollo/gql/post.list.graphql'
 /* Utils */
 import { cachedGQLRequest } from '@lib/apollo/GQLRequest'
 /* T_Types */

@@ -12,7 +12,7 @@ import { RefreshLink } from './RefreshLink'
 /* Utils */
 import { GQLRequest } from '@lib/apollo/GQLRequest'
 /* CONSTANTS */
-import LIST_QUERY from '@lib/constants/gql/post.list.admin.graphql'
+import LIST_QUERY from '@lib/apollo/gql/post.list.admin.graphql'
 import { POST_TYPE } from '@sujin/lib/constants'
 /* T_Types */
 import type { T_ArchivePost } from '@sujin/lib/types'
@@ -27,16 +27,19 @@ export default async function Pages({ params }: Props) {
     const { page: _page } = await params
     const page = parseInt(_page)
 
-    const result = await GQLRequest<{ post: T_ArchivePost[] }>(LIST_QUERY, {
-        page,
-        postType: POST_TYPE.PAGE,
-    })
+    const result = await GQLRequest<{ postAdmin: T_ArchivePost[] }>(
+        LIST_QUERY,
+        {
+            page,
+            postType: POST_TYPE.PAGE,
+        },
+    )
         .then((result) => {
             if (!result || !result.data) {
                 return []
             }
 
-            return result.data.post
+            return result.data.postAdmin
         })
         .catch(() => [])
 

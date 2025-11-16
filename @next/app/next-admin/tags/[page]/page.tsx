@@ -8,7 +8,7 @@ import { Header } from '@lib/components/admin/Header'
 import { GQLRequest } from '@lib/apollo/GQLRequest'
 /* CONSTANTS */
 import { ARCHIVE } from '@sujin/lib/constants'
-import LIST_QUERY from '@lib/constants/gql/archive.list.graphql'
+import LIST_QUERY from '@lib/apollo/gql/archive.list.graphql'
 /* T_Types */
 import type { T_Archive } from '@sujin/lib/types'
 

@@ -6,7 +6,7 @@ import { SocialShare } from '@lib/components/single/SocialShare.client'
 import { Content } from '@lib/components/single/Content'
 /* CONSTANTS */
 import { COLLECTION, IMAGE_SIZE, POST_TYPE } from '@sujin/lib/constants'
-import POST_QUERY from '@lib/constants/gql/post.graphql'
+import POST_QUERY from '@lib/apollo/gql/post.graphql'
 /* Utils */
 import { getThumbnailFromPost } from '@lib/utils/client'
 import { cachedGQLRequest } from '@lib/apollo/GQLRequest'

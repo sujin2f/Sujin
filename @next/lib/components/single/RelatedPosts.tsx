@@ -9,7 +9,7 @@ import { Cards } from '../archive/Cards'
 /* Utils */
 import useIntersectionObserver from '@common/hooks/useIntersectionObserver'
 /* CONSTANTS */
-import RELATED_QUERY from '@lib/constants/gql/related.graphql'
+import RELATED_QUERY from '@lib/apollo/gql/related.graphql'
 /* T_Type */
 import type { T_ArchivePost } from '@sujin/lib/types'
 /* Assets */

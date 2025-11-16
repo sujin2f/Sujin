@@ -10,7 +10,7 @@ import { RootState } from '@lib/store'
 /* Utils */
 import useIntersectionObserver from '@common/hooks/useIntersectionObserver'
 /* CONSTANTS */
-import TAGCLOUD_QUERY from '@lib/constants/gql/tagCloud.graphql'
+import TAGCLOUD_QUERY from '@lib/apollo/gql/tagCloud.graphql'
 /* T_Type */
 import type { T_Archive } from '@sujin/lib/types'
 import Link from 'next/link'

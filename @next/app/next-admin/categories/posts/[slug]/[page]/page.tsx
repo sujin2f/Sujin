@@ -11,7 +11,7 @@ import { GQLRequest } from '@lib/apollo/GQLRequest'
 import type { T_ArchivePost } from '@sujin/lib/types'
 /* CONSTANTS */
 import { POST_TYPE } from '@sujin/lib/constants'
-import LIST_QUERY from '@lib/constants/gql/post.list.admin.graphql'
+import LIST_QUERY from '@lib/apollo/gql/post.list.admin.graphql'
 
 type Props = {
     params: Promise<{
@@ -23,17 +23,20 @@ type Props = {
 export default async function CategoryPosts(props: Props) {
     const { page: _page, slug } = await props.params
     const page = parseInt(_page)
-    const result = await GQLRequest<{ post: T_ArchivePost[] }>(LIST_QUERY, {
-        page,
-        postType: POST_TYPE.POST,
-        category: slug,
-    })
+    const result = await GQLRequest<{ postAdmin: T_ArchivePost[] }>(
+        LIST_QUERY,
+        {
+            page,
+            postType: POST_TYPE.POST,
+            category: slug,
+        },
+    )
         .then((result) => {
             if (!result || !result.data) {
                 return []
             }
 
-            return result.data.post
+            return result.data.postAdmin
         })
         .catch(() => [])
     const length = result.length

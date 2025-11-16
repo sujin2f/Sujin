@@ -1,4 +1,4 @@
-import { Document, Types } from 'mongoose'
+import { type Document, Types, type RootFilterQuery } from 'mongoose'
 import { GraphQLError } from 'graphql'
 import sanitize from 'mongo-sanitize'
 /* Models */
@@ -39,15 +39,7 @@ import type {
 } from '@sujin/lib/types'
 
 /**
- * Get post(s)
- *
- * QT: queryType
- * Item: slug & type & QT = QUERY -- (caching)
- * List post: type & page & category & QT = QUERY -- (admin/caching)
- * List page: type & page & QT = QUERY -- (admin/caching)
- * Update one: slug & type & QT = UPDATE -- (admin)
- * Update many: category & page & QT = UPDATE -- (admin)
- * Remove: slug & type & QT = REMOVE -- (admin)
+ * Get/Update/Remove post(s)
  *
  * @returns {Promise<T_Post[]>}
  */
@@ -61,58 +53,111 @@ export const post = async (
     }: GQL_PostArg,
     context: Context,
 ): Promise<(T_Post | T_Page | T_ArchivePost)[]> => {
-    const slug = sanitize(_slug)
-    const type = sanitize(_type)
-    const category = sanitize(_category)
-    const page = sanitize(_page)
     const query = sanitize(_query)
+    const token = context.token
 
-    if (query === GQL_QUERY_TYPE.QUERY && slug && type) {
-        const result = await getSingle(slug, type)
-        Logger.info(`🤟 post query done: ${slug}, ${type}`)
-        return result
+    // Admin Requests
+    if (
+        query === GQL_QUERY_TYPE.QUERY_ADMIN ||
+        query === GQL_QUERY_TYPE.UPDATE ||
+        query === GQL_QUERY_TYPE.REMOVE
+    ) {
+        verifyAdmin(token, 'post query has been called by non admin user')
     }
 
-    if (
-        query === GQL_QUERY_TYPE.QUERY &&
-        type === POST_TYPE.POST &&
-        page &&
-        category
-    ) {
-        const result = await getPostList(category, page, context.token)
+    const slug = sanitize(_slug)
+    const type = sanitize(_type)
+
+    const isPage = type === POST_TYPE.PAGE
+    const isQuery = query === GQL_QUERY_TYPE.QUERY
+    const isAdminQuery = query === GQL_QUERY_TYPE.QUERY_ADMIN
+
+    // get Page (admin)
+    if (isAdminQuery && slug && isPage && token) {
+        const result = await getPage({ slug })
+        Logger.info(`🤟 page query done: ${slug}`)
+        return [result]
+    }
+    // get Page
+    if (isQuery && slug && isPage) {
+        const result = await getPage({
+            slug,
+            status: POST_STATUS.PUBLISH,
+        })
+        Logger.info(`🤟 page query done: ${slug}`)
+        return [result]
+    }
+
+    const isPost = type === POST_TYPE.POST
+
+    // get Post (admin)
+    if (isAdminQuery && slug && isPost && token) {
+        const result = await getPost({ slug })
+        Logger.info(`🤟 post query done: ${slug}`)
+        return [result]
+    }
+    // get Post
+    if (isQuery && slug && isPost) {
+        const result = await getPost({
+            slug,
+            status: POST_STATUS.PUBLISH,
+        })
+        Logger.info(`🤟 post query done: ${slug}`)
+        return [result]
+    }
+
+    const category = sanitize(_category)
+    const page = sanitize(_page)
+
+    // Post List
+    if (isQuery && isPost && page && category) {
+        const doc = await getPostListDoc(category)
+        doc.status = POST_STATUS.PUBLISH
+
+        const result = await getCachedPostList2(doc, category, page)
         Logger.info(`🤟 post list query done: ${page}, ${category}`)
         return result
     }
-
-    if (query === GQL_QUERY_TYPE.QUERY && type === POST_TYPE.PAGE && page) {
-        const result = await getPageList(page, context.token)
+    // Post List (Admin)
+    if (isAdminQuery && isPost && page && category) {
+        const doc = await getPostListDoc(category)
+        const result = await getPostList2(doc, category, page)
+        Logger.info(`🤟 post list query done: ${page}, ${category}`)
+        return result
+    }
+    // Page List (Admin)
+    if (isAdminQuery && isPage && page) {
+        const result = await getPageList(page)
         Logger.info(`🤟 page list query done: ${page}`)
         return result
     }
 
-    if (query === GQL_QUERY_TYPE.UPDATE && slug && type) {
-        switch (type) {
-            case POST_TYPE.POST: {
-                const result = await updatePost(slug, context.token)
-                Logger.info(`🤟 post update done: ${slug}`)
-                return result
-            }
-            case POST_TYPE.PAGE: {
-                const result = await updatePage(slug, context.token)
-                Logger.info(`🤟 page update done: ${slug}`)
-                return result
-            }
-        }
-    }
+    const isUpdate = query === GQL_QUERY_TYPE.UPDATE
 
-    if (query === GQL_QUERY_TYPE.UPDATE && category && page) {
-        const result = await updateMany(category, page, context.token)
+    // Page Update
+    if (isUpdate && slug && isPage) {
+        const result = await updatePage(slug)
+        Logger.info(`🤟 page update done: ${slug}`)
+        return result
+    }
+    // Post Update
+    if (isUpdate && slug && isPost) {
+        const result = await updatePost(slug)
+        Logger.info(`🤟 post update done: ${slug}`)
+        return result
+    }
+    // Post Update by category
+    if (isUpdate && category && page) {
+        const result = await updatePostsByCategory(category, page)
         Logger.info(`🤟 posts update done: ${page}, ${category}`)
         return result
     }
 
-    if (query === GQL_QUERY_TYPE.REMOVE && slug && type) {
-        const result = await remove(slug, type, context.token)
+    const isRemove = query === GQL_QUERY_TYPE.REMOVE
+
+    // Remove one
+    if (isRemove && slug && type) {
+        const result = await removeOne(slug, type)
         Logger.info(`🤟 post remove done: ${slug}, ${type}`)
         return result
     }
@@ -123,42 +168,48 @@ export const post = async (
     throw new Error()
 }
 
+type GetSingleDocType = RootFilterQuery<T_Page> & { slug: string }
+type GetListDocType = RootFilterQuery<T_Page>
+
 /**
- * @returns {Promise<T_Post[]>}
+ * @returns {Promise<T_Post>}
  */
-const getSingle = async (
-    slug: string,
-    type: POST_TYPE,
-): Promise<(T_Post | T_Page)[]> => {
+const getPage = async (doc: GetSingleDocType): Promise<T_Page> => {
     const request = cachedRequest(
-        async (slug: string, type: POST_TYPE): Promise<T_Post | T_Page> => {
-            // Page
-            if (type === POST_TYPE.PAGE) {
-                return await Page.findOne<Document<string, unknown, T_Page>>({
-                    slug,
-                    status: POST_STATUS.PUBLISH,
-                }).then((result) => {
-                    if (!result) {
-                        throw new GraphQLError(`Cannot find the page ${slug}`, {
-                            extensions: {
-                                code: 'NO_CONTENT',
-                            },
-                        })
-                    }
+        async (doc: GetSingleDocType): Promise<T_Page> => {
+            return await Page.findOne<Document<string, unknown, T_Page>>(
+                doc,
+            ).then((result) => {
+                if (!result) {
+                    throw new GraphQLError(`Cannot find the page ${doc.slug}`, {
+                        extensions: {
+                            code: 'NO_CONTENT',
+                        },
+                    })
+                }
 
-                    return result.toObject()
-                })
-            }
+                return result.toObject()
+            })
+        },
+        getCacheKey(COLLECTION.POST, doc.slug, POST_TYPE.PAGE),
+    )
+    return await request(doc)
+}
 
-            // Post
+/**
+ * @returns {Promise<T_Post>}
+ */
+const getPost = async (doc: GetSingleDocType): Promise<T_Post> => {
+    const request = cachedRequest(
+        async (doc: GetSingleDocType): Promise<T_Post> => {
             return await Post.aggregate<T_Post>([
                 {
-                    $match: { status: POST_STATUS.PUBLISH, slug },
+                    $match: doc,
                 },
                 ...AGGREGATE_EXPAND_ARCHIVES,
             ]).then((result) => {
                 if (!result || !result.length) {
-                    throw new GraphQLError(`Cannot find the post ${slug}`, {
+                    throw new GraphQLError(`Cannot find the post ${doc.slug}`, {
                         extensions: {
                             code: 'NO_CONTENT',
                         },
@@ -167,52 +218,17 @@ const getSingle = async (
                 return result[0]
             })
         },
-        getCacheKey(COLLECTION.POST, slug, type),
+        getCacheKey(COLLECTION.POST, doc.slug, POST_TYPE.POST),
     )
-    const result = await request(slug, type)
-    return [result]
+    return await request(doc)
 }
 
-/**
- * Get archive
- * This returns the cached result if it exists
- *
- * @returns {Promise<T_ArchivePost[]>} - The background array
- */
-const getPostList = async (
-    category: string,
-    page: number,
-    token: string,
-): Promise<T_ArchivePost[]> => {
+const getPostListDoc = async (category: string) => {
     const [slug, search] = isSearch(category)
+    const doc: Record<string, unknown> = {}
 
-    let request: typeof queryPostList
-
-    if (token) {
-        verifyAdmin(token, 'post list query has been called by non admin user')
-        request = queryPostList
-    } else {
-        request = cachedRequest(
-            queryPostList,
-            getCacheKey(COLLECTION.ARCHIVE, slug, page, search),
-        )
-    }
-
-    const result = await request(slug, page, search, token)
-    return result
-}
-
-const queryPostList = async (
-    slug: string,
-    page: number,
-    search: number,
-    token: string,
-): Promise<T_ArchivePost[]> => {
-    let $match: Record<string, unknown>
     if (search) {
-        $match = {
-            $text: { $search: slug },
-        }
+        doc['$text'] = { $search: slug }
     } else {
         const archive = await getArchive(
             {
@@ -222,17 +238,32 @@ const queryPostList = async (
             },
             { token: '' },
         )
-        $match = {
-            archives: { $in: [new Types.ObjectId(archive[0]._id)] },
-        }
+        doc.archives = { $in: [new Types.ObjectId(archive[0]._id)] }
     }
+    return doc
+}
 
-    if (!token) {
-        $match.status = POST_STATUS.PUBLISH
-    }
+const getCachedPostList2 = async (
+    doc: GetListDocType,
+    category: string,
+    page: number,
+): Promise<T_ArchivePost[]> => {
+    const request = cachedRequest(
+        getPostList2,
+        getCacheKey(COLLECTION.ARCHIVE, category, page),
+    )
 
+    const result = await request(doc, category, page)
+    return result
+}
+
+const getPostList2 = async (
+    doc: GetListDocType,
+    category: string,
+    page: number,
+): Promise<T_ArchivePost[]> => {
     return await Post.aggregate([
-        { $match },
+        { $match: doc },
         { $sort: { date: -1 } },
         { $skip: PER_PAGE * (page - 1) },
         { $limit: PER_PAGE },
@@ -241,7 +272,7 @@ const queryPostList = async (
     ]).then((result) => {
         if (!result || !result.length) {
             throw new GraphQLError(
-                `Cannot find the post from archive ${slug}`,
+                `Cannot find the post from archive ${category}`,
                 {
                     extensions: {
                         code: 'NO_CONTENT',
@@ -253,18 +284,14 @@ const queryPostList = async (
     })
 }
 
-const getPageList = async (page: number, token: string): Promise<T_Page[]> => {
-    verifyAdmin(token, 'page list query has been called by non admin user')
-
+const getPageList = async (page: number): Promise<T_Page[]> => {
     return Page.find<T_Page>()
         .sort({ date: -1 })
         .skip(PER_PAGE * (page - 1))
         .limit(PER_PAGE)
 }
 
-const updatePost = async (slug: string, token: string): Promise<[]> => {
-    verifyAdmin(token, 'post update query has been called by non admin user')
-
+const updatePost = async (slug: string): Promise<[]> => {
     Cached.getInstance().flush(getCacheKey(COLLECTION.POST, slug))
     await getPostBy('slug', slug, POST_TYPE.POST, true).then(async (post) => {
         const archives = await updateMongoPost(post)
@@ -275,9 +302,7 @@ const updatePost = async (slug: string, token: string): Promise<[]> => {
     return []
 }
 
-const updatePage = async (slug: string, token: string): Promise<[]> => {
-    verifyAdmin(token, 'page update query has been called by non admin user')
-
+const updatePage = async (slug: string): Promise<[]> => {
     const page = await getPostBy('slug', slug, POST_TYPE.PAGE)
 
     await Cached.getInstance().flush(getCacheKey(COLLECTION.PAGE, slug))
@@ -297,13 +322,10 @@ const updatePage = async (slug: string, token: string): Promise<[]> => {
     return []
 }
 
-const updateMany = async (
+const updatePostsByCategory = async (
     category: string,
     page: number,
-    token: string,
 ): Promise<[]> => {
-    verifyAdmin(token, 'posts update query has been called by non admin user')
-
     Cached.getInstance().flush(getCacheKey(COLLECTION.POST))
     Cached.getInstance().flush(
         getCacheKey(COLLECTION.ARCHIVE, 'category', category),
@@ -327,13 +349,7 @@ const updateMany = async (
     return []
 }
 
-const remove = async (
-    slug: string,
-    type: POST_TYPE,
-    token: string,
-): Promise<[]> => {
-    verifyAdmin(token, 'post remove query has been called by non admin user')
-
+const removeOne = async (slug: string, type: POST_TYPE): Promise<[]> => {
     switch (type) {
         case POST_TYPE.POST:
             await Post.deleteOne({ slug })

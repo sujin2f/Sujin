@@ -15,7 +15,7 @@ import { RootState } from '@lib/store'
 /* T_Type */
 import type { T_FlickrImage } from '@sujin/lib/types'
 /* CONSTANTS */
-import FLICKR_QUERY from '@lib/constants/gql/flickr.graphql'
+import FLICKR_QUERY from '@lib/apollo/gql/flickr.graphql'
 
 const Flickr = () => {
     // Redux store

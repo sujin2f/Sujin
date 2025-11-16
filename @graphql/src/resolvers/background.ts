@@ -27,7 +27,9 @@ export const background = async (
     const query = sanitize(_query)
 
     if (query === GQL_QUERY_TYPE.QUERY) {
-        const result = await getList(context.token)
+        const result = await (context.token
+            ? getList(context.token)
+            : getCachedList())
         Logger.info(`🤟 backgrounds query done`)
         return result
     }
@@ -48,21 +50,27 @@ export const background = async (
  *
  * @returns {Promise<T_Background[]>} - The background array
  */
-const getList = async (token: string): Promise<T_Background[]> => {
-    let request: typeof queryList
-
-    if (token) {
-        verifyAdmin(
-            token,
-            'background list query has been called by non admin user',
-        )
-        request = queryList
-    } else {
-        request = cachedRequest(queryList, getCacheKey(COLLECTION.BACKGROUNDS))
-    }
-
+const getCachedList = async (): Promise<T_Background[]> => {
+    const request = cachedRequest(
+        queryList,
+        getCacheKey(COLLECTION.BACKGROUNDS),
+    )
     const result = await request()
     return result
+}
+
+/**
+ * Get backgrounds
+ * This returns the cached result if it exists
+ *
+ * @returns {Promise<T_Background[]>} - The background array
+ */
+const getList = async (token: string): Promise<T_Background[]> => {
+    verifyAdmin(
+        token,
+        'background list query has been called by non admin user',
+    )
+    return await queryList()
 }
 
 const queryList = async (): Promise<T_Background[]> => {

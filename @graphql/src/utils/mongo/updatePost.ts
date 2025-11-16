@@ -10,6 +10,7 @@ import { T_Archive, T_MySQLPost } from '@sujin/lib/types'
 import { Post } from '@src/schema/post'
 import { convertWPImageURL } from '@src/utils/mongo/convertWPImageURL'
 import { Archive } from '@src/schema/archive'
+import { DAY_IN_MS } from '@sujin/share/constants/datetime'
 
 export const updatePost = async (post: T_MySQLPost) => {
     const slug = post.slug
@@ -44,16 +45,12 @@ export const updatePost = async (post: T_MySQLPost) => {
         })
     }
 
-    try {
-        post.date = (post.date as unknown as Date).getTime()
-    } catch {
-        /* empty */
-    }
+    const date = post.date.getTime() / DAY_IN_MS
 
-    await Post.findOneAndReplace({ slug }, { ...post, archives }).then(
+    await Post.findOneAndReplace({ slug }, { ...post, archives, date }).then(
         async (result) => {
             if (!result) {
-                await Post.insertOne({ ...post, archives })
+                await Post.insertOne({ ...post, archives, date })
             }
         },
     )

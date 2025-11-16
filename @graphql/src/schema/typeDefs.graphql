@@ -14,6 +14,12 @@ type Query {
         category: String
         page: Int
     ): [Post]
+    postAdmin(
+        postType: POST_TYPE!
+        slug: String
+        category: String
+        page: Int
+    ): [Post]
     archive(slug: String, archiveType: ARCHIVE_TYPE!, page: Int): [Archive]
     numPages(
         context: NUM_PAGES_CONTEXT!

@@ -17,7 +17,7 @@ import { WidgetTitle } from '@lib/components/WidgetTitle'
 import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
 /* CONSTANTS */
 import { MENU_NAMES, PER_PAGE } from '@sujin/lib/constants'
-import RECENT_QUERY from '@lib/constants/gql/recent.graphql'
+import RECENT_QUERY from '@lib/apollo/gql/recent.graphql'
 /* Utils */
 import { setRecent } from '@lib/store/slices/recent'
 /* T_Types */

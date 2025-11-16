@@ -8,6 +8,7 @@ export const PER_PAGE = 12
 
 export enum GQL_QUERY_TYPE {
     QUERY = 'query',
+    QUERY_ADMIN = 'query_admin',
     UPDATE = 'update',
     REMOVE = 'remove',
 }

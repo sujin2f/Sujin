@@ -8,7 +8,7 @@ import { cachedGQLRequest } from '@lib/apollo/GQLRequest'
 /* CONSTANTS */
 import { ARCHIVE, COLLECTION } from '@sujin/lib/constants'
 import { BASE_URL } from '@lib/constants'
-import ARCHIVE_QUERY from '@lib/constants/gql/archive.metadata.graphql'
+import ARCHIVE_QUERY from '@lib/apollo/gql/archive.metadata.graphql'
 /* T_Type */
 import type { T_Archive } from '@sujin/lib/types'
 

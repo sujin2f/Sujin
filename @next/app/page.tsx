@@ -16,7 +16,7 @@ import { RootState } from '@lib/store'
 import { store } from '@lib/store'
 import { client } from '@lib/apollo/apollo-client-frontend'
 /* CONSTANTS */
-import BACKGROUND_QUERY from '@lib/constants/gql/background.graphql'
+import BACKGROUND_QUERY from '@lib/apollo/gql/background.graphql'
 /* T_Types */
 import type { T_Background } from '@sujin/lib/types'
 /* Assets */

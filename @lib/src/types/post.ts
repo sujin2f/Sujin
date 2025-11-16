@@ -26,7 +26,8 @@ export type T_Post = T_ArchivePost & {
     }
 }
 
-export type T_MySQLPost = T_Post & {
+export type T_MySQLPost = Omit<T_Post, 'date'> & {
+    date: Date
     terms: T_Archive[]
     mimeType: string
     type: string
