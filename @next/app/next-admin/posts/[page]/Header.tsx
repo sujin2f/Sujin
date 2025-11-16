@@ -4,21 +4,20 @@ import { useRouter } from 'next/navigation'
 /* Components */
 import HeaderComponent from '@lib/components/admin/Header'
 import Callout from '@common/components/containers/Callout'
-import Button from '@common/components/forms/Button'
 /* Utils */
-import { updatePosts } from '@lib/apollo/mutation/updatePosts'
 /* CONSTANTS */
 import { QuantumBool } from '@sujin/share/types'
+import Button from '@common/components/forms/Button'
+import { updatePosts } from '@lib/apollo/mutation/updatePosts'
 
 type Props = {
-    slug: string
     page: number
 }
-export function Header({ slug, page }: Props) {
+export function Header({ page }: Props) {
     const router = useRouter()
 
     const [state, action, pending] = useActionState<QuantumBool>(async () => {
-        return await updatePosts(page, slug)
+        return await updatePosts(page)
             .then(() => {
                 router.refresh()
                 return QuantumBool.TRUE

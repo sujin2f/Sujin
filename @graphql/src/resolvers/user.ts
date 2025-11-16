@@ -24,6 +24,9 @@ export const flushDB = async (context: Context): Promise<boolean> => {
     if (mongoose.connection.collections.spectra) {
         await mongoose.connection.dropCollection('spectra')
     }
+    if (mongoose.connection.collections.posts) {
+        await mongoose.connection.dropCollection('posts')
+    }
 
     Logger.info(`🤟 flushDB mutation has been finished`)
     return true

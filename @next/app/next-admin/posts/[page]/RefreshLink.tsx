@@ -17,7 +17,7 @@ export function RefreshLink({ slug }: Props) {
         <Link
             href="#"
             onClick={async () => {
-                await updateSingle(slug, POST_TYPE.PAGE)
+                await updateSingle(slug, POST_TYPE.POST)
                 router.refresh()
             }}
         >

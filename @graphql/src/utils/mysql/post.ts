@@ -79,14 +79,58 @@ export const getPostsBy = async (
     return posts
 }
 
+export const getPosts = async (
+    type: POST_TYPE,
+    page = 1,
+): Promise<T_MySQLPost[]> => {
+    const query = getPostQuery('all', type, '', page, true)
+    const result = await select<T_MySQLPost>(query)
+
+    // Create Post from dbResult
+    const posts: T_MySQLPost[] = []
+    for await (const post of result) {
+        const terms: T_Archive[] = await getTermsByPost(post.id)
+        const meta = {
+            useBackgroundColor: await getPostMeta<boolean>(
+                post.id,
+                'use-background-color',
+                false,
+            ).then((response) => !!response),
+            backgroundColor: await getPostMeta<string>(
+                post.id,
+                'background-color',
+                '',
+            ),
+        }
+        const images = await getPostImages(post)
+
+        posts.push({
+            ...post,
+            images,
+            meta,
+            content: autop(post.content),
+            terms: terms.map((term) =>
+                term.type.toString() === TAXONOMY.POST_TAG
+                    ? { ...term, type: ARCHIVE.TAG }
+                    : term,
+            ),
+            link: post.type === 'page' ? `/${post.slug}` : `/blog/${post.slug}`,
+        })
+    }
+
+    return posts
+}
+
 const getPostQuery = (
-    queryKey: 'search' | 'id' | 'slug' | ARCHIVE,
+    queryKey: 'search' | 'id' | 'slug' | 'all' | ARCHIVE,
     type: POST_TYPE,
     queryValue?: string | number,
     page = 1,
     ignoreStatus = false,
 ): string => {
     switch (queryKey) {
+        case 'all':
+            return WPQuery.getAllPosts(type, (page - 1) * PER_PAGE)
         case 'id':
             return !queryValue
                 ? ''
@@ -149,6 +193,7 @@ const getPostImages = async (
         if (!imageIds[imageKey as POST_IMAGE_LOCATION]) {
             continue
         }
+
         const image = await getImageBlockFromAttachmentID(
             imageIds[imageKey as POST_IMAGE_LOCATION],
         )

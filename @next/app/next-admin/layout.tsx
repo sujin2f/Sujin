@@ -49,6 +49,10 @@ export default async function AdminLayout({ children }: PropsWithChildren) {
                                     link: '/next-admin/pages/1',
                                 },
                                 {
+                                    title: 'Posts',
+                                    link: '/next-admin/posts/1',
+                                },
+                                {
                                     title: 'Categories',
                                     link: '/next-admin/categories/1',
                                 },

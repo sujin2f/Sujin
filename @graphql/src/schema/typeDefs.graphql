@@ -120,7 +120,7 @@ type Post {
     title: String
     excerpt: String
     content: String
-    date: BigInt
+    date: Int
     link: String
     images: Images
     meta: PostMeta
@@ -137,4 +137,3 @@ type Archive {
     excerpt: String
     image: ImageBlock
 }
-scalar BigInt

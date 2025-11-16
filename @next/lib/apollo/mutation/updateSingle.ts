@@ -4,13 +4,13 @@ import { getSessionContext } from '@lib/apollo/admin'
 import SINGLE_MUTATION from '@lib/apollo/gql/updateSingle.graphql'
 import { POST_TYPE } from '@sujin/lib/constants'
 
-export const updatePage = async (slug: string) => {
+export const updateSingle = async (slug: string, postType: POST_TYPE) => {
     return await client
         .mutate({
             mutation: SINGLE_MUTATION,
             variables: {
                 slug,
-                postType: POST_TYPE.PAGE,
+                postType,
             },
             context: await getSessionContext(),
         })

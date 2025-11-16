@@ -1,5 +1,6 @@
 query ListPostAdmin($page: Int!, $postType: POST_TYPE!, $category: String) {
     postAdmin(postType: $postType, page: $page, category: $category) {
+        _id
         id
         title
         slug

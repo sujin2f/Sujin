@@ -51,9 +51,28 @@ const DELETE_OPTION = `
 const GET_POST_BY = `
     SELECT ${POST_FIELDS}
     FROM wp_posts AS posts
-    WHERE {0}="{1}" AND posts.post_type="{2}" {4}
+    WHERE
+        {0}="{1}" AND
+        posts.post_type="{2}" AND
+        CHAR_LENGTH(posts.post_name) > 0 AND
+        CHAR_LENGTH(posts.post_title) > 0 AND
+        LENGTH(posts.post_content) > 0
+        {4}
     ORDER BY posts.ID DESC
     LIMIT ${PER_PAGE} OFFSET {3}
+`
+
+const GET_ALL_POSTS = `
+    SELECT ${POST_FIELDS}
+    FROM wp_posts AS posts
+    WHERE
+        posts.post_type="{0}" AND
+        ( posts.post_status="publish" OR posts.post_status="draft" ) AND
+        CHAR_LENGTH(posts.post_name) > 0 AND
+        CHAR_LENGTH(posts.post_title) > 0 AND
+        CHAR_LENGTH(posts.post_content) <> ""
+    ORDER BY posts.ID DESC
+    LIMIT ${PER_PAGE} OFFSET {1}
 `
 
 const GET_SEARCH = `
@@ -242,6 +261,8 @@ export const WPQuery = {
             offset,
             ignoreStatus ? '' : 'AND posts.post_status="publish"',
         ),
+    getAllPosts: (type: POST_TYPE, offset: number) =>
+        format(GET_ALL_POSTS, type, offset),
     getSearch: (value: string | number, offset: number) =>
         format(GET_SEARCH, value, offset),
     // @deprecated

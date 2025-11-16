@@ -45,7 +45,7 @@ export const updatePost = async (post: T_MySQLPost) => {
         })
     }
 
-    const date = post.date.getTime() / DAY_IN_MS
+    const date = Math.trunc(post.date.getTime() / DAY_IN_MS)
 
     await Post.findOneAndReplace({ slug }, { ...post, archives, date }).then(
         async (result) => {

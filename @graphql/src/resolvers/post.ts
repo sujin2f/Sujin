@@ -23,7 +23,7 @@ import {
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 import { isSearch } from '@src/utils/mongo/isSearch'
 import { verifyAdmin } from '@src/utils/mongo/verifyUser'
-import { getPostBy, getPostsBy } from '@src/utils/mysql/post'
+import { getPostBy, getPosts, getPostsBy } from '@src/utils/mysql/post'
 import { updatePost as updateMongoPost } from '@src/utils/mongo/updatePost'
 import { updateTotal } from '@src/utils/mongo/updateTotal'
 import { mysqlDisconnect } from '@src/utils/mysql'
@@ -53,6 +53,10 @@ export const post = async (
     }: GQL_PostArg,
     context: Context,
 ): Promise<(T_Post | T_Page | T_ArchivePost)[]> => {
+    Logger.info(
+        `👁️‍🗨️ post query triggered: ${_slug}, ${_type}, ${_page}, ${_category}, ${_query}`,
+    )
+
     const query = sanitize(_query)
     const token = context.token
 
@@ -109,19 +113,25 @@ export const post = async (
     const category = sanitize(_category)
     const page = sanitize(_page)
 
-    // Post List
+    // Post List by Category
     if (isQuery && isPost && page && category) {
         const doc = await getPostListDoc(category)
         doc.status = POST_STATUS.PUBLISH
 
-        const result = await getCachedPostList2(doc, category, page)
+        const result = await getCachedPostList(doc, category, page)
         Logger.info(`🤟 post list query done: ${page}, ${category}`)
         return result
     }
-    // Post List (Admin)
+    // Post List by Category (Admin)
     if (isAdminQuery && isPost && page && category) {
         const doc = await getPostListDoc(category)
-        const result = await getPostList2(doc, category, page)
+        const result = await getPostList(doc, category, page)
+        Logger.info(`🤟 post list query done: ${page}, ${category}`)
+        return result
+    }
+    // Post List all (Admin)
+    if (isAdminQuery && isPost && page) {
+        const result = await getPostList({}, 'all', page)
         Logger.info(`🤟 post list query done: ${page}, ${category}`)
         return result
     }
@@ -147,8 +157,14 @@ export const post = async (
         return result
     }
     // Post Update by category
-    if (isUpdate && category && page) {
+    if (isUpdate && category && page && isPost) {
         const result = await updatePostsByCategory(category, page)
+        Logger.info(`🤟 posts update done: ${page}, ${category}`)
+        return result
+    }
+    // Post Update (all)
+    if (isUpdate && page && isPost) {
+        const result = await updatePosts(page)
         Logger.info(`🤟 posts update done: ${page}, ${category}`)
         return result
     }
@@ -243,13 +259,13 @@ const getPostListDoc = async (category: string) => {
     return doc
 }
 
-const getCachedPostList2 = async (
+const getCachedPostList = async (
     doc: GetListDocType,
     category: string,
     page: number,
 ): Promise<T_ArchivePost[]> => {
     const request = cachedRequest(
-        getPostList2,
+        getPostList,
         getCacheKey(COLLECTION.ARCHIVE, category, page),
     )
 
@@ -257,7 +273,7 @@ const getCachedPostList2 = async (
     return result
 }
 
-const getPostList2 = async (
+const getPostList = async (
     doc: GetListDocType,
     category: string,
     page: number,
@@ -346,6 +362,21 @@ const updatePostsByCategory = async (
     })
     await mysqlDisconnect()
 
+    return []
+}
+
+const updatePosts = async (page: number): Promise<[]> => {
+    Cached.getInstance().flush(getCacheKey(COLLECTION.POST))
+    Cached.getInstance().flush(getCacheKey(COLLECTION.ARCHIVE))
+
+    await getPosts(POST_TYPE.POST, page).then(async (result) => {
+        const archives: Types.ObjectId[] = []
+        for (const item of result) {
+            archives.push(...(await updateMongoPost(item)))
+        }
+        await updateTotal(archives)
+    })
+    await mysqlDisconnect()
     return []
 }
 

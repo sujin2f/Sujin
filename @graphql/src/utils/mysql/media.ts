@@ -98,7 +98,12 @@ const getImageBlockFromPost = async <T extends T_ImageBlock>(
 export const getImageBlockFromAttachmentID = async (
     postId: number,
 ): Promise<Nullable<T_ImageBlock>> => {
-    const post = await getPostBy('id', postId, POST_TYPE.ATTACHMENT, true)
+    const post = await getPostBy(
+        'id',
+        postId,
+        POST_TYPE.ATTACHMENT,
+        true,
+    ).catch(() => null)
     if (!post) {
         return
     }

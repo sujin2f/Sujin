@@ -28,7 +28,7 @@ import { background } from '@src/resolvers/background'
 import { flushDB, login } from '@src/resolvers/user'
 
 import { IS_DEV } from '@sujin/share/constants/helper'
-import { GQL_QUERY_TYPE } from '@sujin/lib/constants'
+import { GQL_QUERY_TYPE, POST_TYPE } from '@sujin/lib/constants'
 import type { GQL_ArchiveArg, GQL_PostArg } from '@sujin/lib/types'
 import type { Context } from './types'
 
@@ -101,7 +101,12 @@ const resolvers = {
             context: Context,
         ) => {
             return await post(
-                { category, page, query: GQL_QUERY_TYPE.UPDATE },
+                {
+                    category,
+                    page,
+                    postType: POST_TYPE.POST,
+                    query: GQL_QUERY_TYPE.UPDATE,
+                },
                 context,
             )
         },
