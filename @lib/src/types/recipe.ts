@@ -1,5 +1,3 @@
-import type { T_User } from './user'
-
 export const UNITS_WEIGHT = ['g', 'kg', 'lb'] as const
 export const UNITS_VOLUMES = ['ml', 'l', 'oz', 'tbsp', 'tsp', 'cup'] as const
 export const UNITS = [...UNITS_WEIGHT, ...UNITS_VOLUMES, 'ea'] as const
@@ -26,9 +24,10 @@ export const UNITS_SELECTION = {
 }
 
 export type T_Recipe = {
+    _id: string
     title: string
     url: string
     search: string
     ingredients: { title: string; amount: number; unit: UNITS }[]
-    user: T_User
+    user: string
 }

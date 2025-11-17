@@ -8,4 +8,6 @@ export enum MENU_NAMES {
     ETHER = 'ether',
     ETHER_KOR = 'ether-kor',
     DESIGN_SYSTEM = 'design-system',
+    RECIPE = 'recipe',
+    RECIPE_USER = 'recipe-user',
 }

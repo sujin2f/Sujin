@@ -29,8 +29,9 @@ import { flushDB, login } from '@src/resolvers/user'
 
 import { IS_DEV } from '@sujin/share/constants/helper'
 import { GQL_QUERY_TYPE, POST_TYPE } from '@sujin/lib/constants'
-import type { GQL_ArchiveArg, GQL_PostArg } from '@sujin/lib/types'
+import type { GQL_ArchiveArg, GQL_PostArg, T_Recipe } from '@sujin/lib/types'
 import type { Context } from './types'
+import { mutateRecipe, recipe } from './resolvers/recipe'
 
 // Resolvers define how to fetch the types defined in your schema.
 // This resolver retrieves books from the "books" array above.
@@ -43,6 +44,9 @@ const resolvers = {
         prevNext,
         related,
         numPages,
+        recipe: async (_: unknown, { _id }: { _id: string }) => {
+            return await recipe(_id)
+        },
         background: async (_: unknown, __: unknown, context: Context) => {
             return await background(GQL_QUERY_TYPE.QUERY, context)
         },
@@ -151,6 +155,13 @@ const resolvers = {
                 { slug, archiveType, query: GQL_QUERY_TYPE.REMOVE },
                 context,
             )
+        },
+        mutateRecipe: async (
+            _: unknown,
+            { recipe }: { recipe: T_Recipe },
+            context: Context,
+        ) => {
+            return await mutateRecipe(recipe, context)
         },
     },
 }

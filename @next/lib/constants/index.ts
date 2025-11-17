@@ -369,6 +369,40 @@ export const MENUS: Record<MENU_NAMES, MenuItem[]> = {
             link: '/design-system/pages/not-found',
         },
     ],
+    [MENU_NAMES.RECIPE]: [
+        {
+            ...menuFixture,
+            title: 'Home',
+            link: '/recipe',
+        },
+        {
+            ...menuFixture,
+            title: 'Recipes',
+            link: '/recipe/list/1',
+        },
+    ],
+    [MENU_NAMES.RECIPE_USER]: [
+        {
+            ...menuFixture,
+            title: 'Home',
+            link: '/recipe',
+        },
+        {
+            ...menuFixture,
+            title: 'Recipes',
+            link: '/recipe/list/1',
+        },
+        {
+            ...menuFixture,
+            title: 'My Recipes',
+            link: '/recipe/list/1',
+        },
+        {
+            ...menuFixture,
+            title: 'Add',
+            link: '/recipe/add',
+        },
+    ],
 } as const
 
 export const REVALIDATION =

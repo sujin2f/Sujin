@@ -1,12 +1,9 @@
 type Query {
     flickr: [FlickrImage]
     tagCloud: [TagCloud]
-    spectra(number: Int!, ion: Int!): [Spectrum]
-
     recent: [Post]
     prevNext(slug: String!): [Post]
     related(slug: String!): [Post]
-
     background: [ImageBlock]
     post(
         postType: POST_TYPE!
@@ -26,6 +23,8 @@ type Query {
         category: String
         type: ARCHIVE_TYPE
     ): Int
+    spectra(number: Int!, ion: Int!): [Spectrum]
+    recipe(id: String!): [Recipe]
 }
 type Mutation {
     login(email: String!): String
@@ -37,6 +36,7 @@ type Mutation {
     updateHits(slug: String!): [Boolean]
     updateArchive(slug: String!, archiveType: ARCHIVE_TYPE!): [Boolean]
     removeArchive(slug: String!, archiveType: ARCHIVE_TYPE!): [Boolean]
+    mutateRecipe(recipe: RecipeInput!): String
 }
 enum NUM_PAGES_CONTEXT {
     archive_list
@@ -136,4 +136,26 @@ type Archive {
     hits: Int
     excerpt: String
     image: ImageBlock
+}
+type Recipe {
+    _id: String
+    title: String
+    url: String
+    ingredients: [Ingredient]
+}
+type Ingredient {
+    title: String
+    amount: Float
+    unit: String
+}
+input RecipeInput {
+    _id: String
+    title: String!
+    url: String
+    ingredients: [IngredientInput]!
+}
+input IngredientInput {
+    title: String!
+    amount: Float!
+    unit: String!
 }

@@ -8,7 +8,10 @@ import {
 import { ApolloProvider } from '@apollo/client/react'
 import { useQuery } from '@apollo/client/react'
 /* Components */
-import Wrapper from '@lib/components/Wrapper'
+import { WrapperNew } from '@lib/components/WrapperNew'
+import { Main } from '@lib/components/Main'
+import FixedHeader from '@lib/components/header/FixedHeader'
+import { Banner } from '@lib/components/header/Banner'
 /* Utils */
 import { setBackground } from '@lib/store/slices/background'
 /* Module */
@@ -17,11 +20,22 @@ import { store } from '@lib/store'
 import { client } from '@lib/apollo/apollo-client-frontend'
 /* CONSTANTS */
 import BACKGROUND_QUERY from '@lib/apollo/gql/background.graphql'
+import { MENU_NAMES } from '@sujin/lib/constants'
 /* T_Types */
 import type { T_Background } from '@sujin/lib/types'
 /* Assets */
 import Logo from '@common/images/logo.svg'
 import style from './front-page.module.scss'
+
+export default function FrontPage() {
+    return (
+        <ApolloProvider client={client}>
+            <ReduxProvider store={store}>
+                <WrapperWithBackground />
+            </ReduxProvider>
+        </ApolloProvider>
+    )
+}
 
 // TODO height transition start/stop
 const WrapperWithBackground = () => {
@@ -46,28 +60,23 @@ const WrapperWithBackground = () => {
         backgrounds[Math.floor(Math.random() * backgrounds.length)]
 
     return (
-        <Wrapper
-            footer={false}
-            style={style}
-            className={style.wrapper}
-            title={
-                <Logo
-                    aria-label={process.env.NEXT_PUBLIC_TITLE}
-                    className="banner__logo"
-                />
-            }
-            excerpt={process.env.NEXT_PUBLIC_EXCERPT}
-            background={background}
-        />
-    )
-}
+        <WrapperNew style={style} className={style.wrapper}>
+            <FixedHeader menu={MENU_NAMES.MAIN} style={style} />
 
-export default function FrontPage() {
-    return (
-        <ApolloProvider client={client}>
-            <ReduxProvider store={store}>
-                <WrapperWithBackground />
-            </ReduxProvider>
-        </ApolloProvider>
+            <Main style={style}>
+                <Banner
+                    menu={MENU_NAMES.MAIN}
+                    background={background}
+                    style={style}
+                    excerpt={process.env.NEXT_PUBLIC_EXCERPT}
+                    title={
+                        <Logo
+                            aria-label={process.env.NEXT_PUBLIC_TITLE}
+                            className="banner__logo"
+                        />
+                    }
+                />
+            </Main>
+        </WrapperNew>
     )
 }
