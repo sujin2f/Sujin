@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 
 /* Utils */
-import { updateCategory } from '@lib/apollo/mutation/updateCategory'
+import { updateCategory } from '@lib/apollo/mutation/category-update'
 
 type Props = {
     readonly slug: string

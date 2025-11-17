@@ -15,6 +15,27 @@ import { IS_DEV } from '@sujin/share/constants/helper'
 import { orbitalKeys } from '@sujin/lib/constants/ether'
 import { Spectra } from '@src/schema/spectra'
 
+export const spectra = async (
+    _number: number,
+    _ion: number,
+): Promise<ISpectrum[]> => {
+    const number = sanitize(_number)
+    const ion = sanitize(_ion)
+    const atom = getAtom(number)
+    const key = `spectra-${number}-${ion}`
+
+    const result = await Cached.getInstance().getOrExecute(
+        key,
+        request(atom, ion),
+        {
+            ttl: WEEK_IN_SECONDS,
+            force: IS_DEV,
+        },
+    )
+    Logger.info('🤟 spectra query has been finished')
+    return result
+}
+
 const requestNIST = async (atom: Atom, ion: number) => {
     Logger.info(`🤟 Request NIST -- atom:${atom.number}, ion:${ion}`)
 
@@ -246,55 +267,29 @@ const request = async (atom: Atom, ion: number): Promise<ISpectrum[]> => {
     })
 }
 
-type Param = {
-    number: number
-    ion: number
-}
+// const getSpectraBySchema = async (schema: string) => {
+//     const key = `spectra-by-schema-${schema}`
+//     const value = JSON.parse(decodeURIComponent(schema))
+//     return await Cached.getInstance().getOrExecute(key, Spectra.find(value), {
+//         ttl: WEEK_IN_SECONDS,
+//         force: IS_DEV,
+//     })
+// }
 
-export const spectra = async (
-    _: unknown,
-    { number: _number, ion: _ion }: Param,
-) => {
-    const number = sanitize(_number)
-    const ion = sanitize(_ion)
-    const atom = getAtom(number)
-    const key = `spectra-${number}-${ion}`
-
-    const result = await Cached.getInstance().getOrExecute(
-        key,
-        request(atom, ion),
-        {
-            ttl: WEEK_IN_SECONDS,
-            force: IS_DEV,
-        },
-    )
-    Logger.info('🤟 spectra query has been finished')
-    return result
-}
-
-export const getSpectraBySchema = async (schema: string) => {
-    const key = `spectra-by-schema-${schema}`
-    const value = JSON.parse(decodeURIComponent(schema))
-    return await Cached.getInstance().getOrExecute(key, Spectra.find(value), {
-        ttl: WEEK_IN_SECONDS,
-        force: IS_DEV,
-    })
-}
-
-/**
- *
- * @param spectrum
- * @returns
- * @deprecated
- */
-export const findSpectra = async (spectrum: Partial<ISpectrum>) => {
-    const key = `spectra-${JSON.stringify(spectrum)}`
-    return await Cached.getInstance().getOrExecute(
-        key,
-        Spectra.find(spectrum),
-        { ttl: WEEK_IN_SECONDS, force: IS_DEV },
-    )
-}
+// /**
+//  *
+//  * @param spectrum
+//  * @returns
+//  * @deprecated
+//  */
+// const findSpectra = async (spectrum: Partial<ISpectrum>) => {
+//     const key = `spectra-${JSON.stringify(spectrum)}`
+//     return await Cached.getInstance().getOrExecute(
+//         key,
+//         Spectra.find(spectrum),
+//         { ttl: WEEK_IN_SECONDS, force: IS_DEV },
+//     )
+// }
 
 /**
  * Inserts a single spectrum document into the MongoDB collection.
@@ -302,7 +297,7 @@ export const findSpectra = async (spectrum: Partial<ISpectrum>) => {
  * @param {ISpectrum} rawData - The spectrum data to insert.
  * @returns {Promise<void>} The result of the insert operation.
  */
-export const insertOne = async (rawData: Partial<ISpectrum>): Promise<void> => {
+const insertOne = async (rawData: Partial<ISpectrum>): Promise<void> => {
     await Spectra.findOne({ ...rawData }).then(async (result) => {
         if (!result) {
             await Spectra.insertOne(rawData)

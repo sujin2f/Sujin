@@ -13,7 +13,7 @@ const defaultValue = STATIC_FLICKR.items.map((item) => ({
     media: item.media.m,
 }))
 
-export const request = async (): Promise<T_FlickrImage[]> => {
+const request = async (): Promise<T_FlickrImage[]> => {
     if (IS_DEV) {
         return defaultValue
     }
@@ -55,7 +55,7 @@ export const request = async (): Promise<T_FlickrImage[]> => {
         })
 }
 
-export const flickr = async () => {
+export const flickr = async (): Promise<T_FlickrImage[]> => {
     const result = await Cached.getInstance().getOrExecute(
         'flickr',
         request(),

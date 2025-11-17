@@ -6,7 +6,7 @@ import HeaderComponent from '@lib/components/admin/Header'
 import Callout from '@common/components/containers/Callout'
 import Button from '@common/components/forms/Button'
 /* Utils */
-import { mutateBackgrounds } from '@lib/apollo/mutation/mutateBackgrounds'
+import { updateBackgrounds } from '@lib/apollo/mutation/background-update'
 /* CONSTANTS */
 import { QuantumBool } from '@sujin/share/types'
 
@@ -14,7 +14,7 @@ export function Header() {
     const router = useRouter()
 
     const [state, action, pending] = useActionState<QuantumBool>(async () => {
-        return await mutateBackgrounds()
+        return await updateBackgrounds()
             .then(() => {
                 router.refresh()
                 return QuantumBool.TRUE

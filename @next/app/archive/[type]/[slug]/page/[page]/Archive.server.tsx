@@ -9,7 +9,7 @@ import { ARCHIVE, COLLECTION } from '@sujin/lib/constants'
 import ARCHIVE_QUERY from '@lib/apollo/gql/archive.graphql'
 import POST_LIST_QUERY from '@lib/apollo/gql/post.list.graphql'
 /* Utils */
-import { updateHits } from '@lib/apollo/mutation/updateHits'
+import { updateHits } from '@lib/apollo/mutation/hits-update'
 import { cachedGQLRequest } from '@lib/apollo/GQLRequest'
 /* T_Types */
 import type { PropWithPages, T_Post, T_Archive } from '@sujin/lib/types'

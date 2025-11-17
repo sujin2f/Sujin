@@ -13,7 +13,7 @@ import {
 } from '@sujin/lib/constants'
 import { PER_PAGE } from '@sujin/lib/constants'
 /* Utils */
-import { verifyAdmin } from '@src/utils/mongo/verifyUser'
+import { verifyAdmin } from '@src/utils/mongo/security'
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 /* T_Types */
 import type { Context } from '@src/types'

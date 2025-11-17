@@ -2,7 +2,7 @@
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 /* Utils */
-import { updateSingle } from '@lib/apollo/mutation/updateSingle'
+import { updateSingle } from '@lib/apollo/mutation/single-update'
 /* CONSTANTS */
 import { POST_TYPE } from '@sujin/lib/constants'
 

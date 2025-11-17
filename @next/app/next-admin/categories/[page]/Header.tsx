@@ -6,7 +6,7 @@ import HeaderComponent from '@lib/components/admin/Header'
 import Callout from '@common/components/containers/Callout'
 import InputGroup from '@common/components/forms/InputGroup'
 /* Utils */
-import { updateCategory } from '@lib/apollo/mutation/updateCategory'
+import { updateCategory } from '@lib/apollo/mutation/category-update'
 /* CONSTANTS */
 import { QuantumBool } from '@sujin/share/types'
 

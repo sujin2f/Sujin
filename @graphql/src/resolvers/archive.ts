@@ -6,7 +6,7 @@ import type { Document } from 'mongoose'
 import Logger from '@src/utils/logger'
 import { Archive } from '@src/schema/archive'
 /* Utils */
-import { verifyAdmin } from '@src/utils/mongo/verifyUser'
+import { verifyAdmin } from '@src/utils/mongo/security'
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 /* CONSTANTS */
 import {

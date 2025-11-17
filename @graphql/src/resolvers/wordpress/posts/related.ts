@@ -6,7 +6,7 @@ import { Post } from '@src/schema/post'
 /* Utils */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 import { post as getPost } from '@src/resolvers/post'
-import { recent } from './recent'
+import { recent } from '@src/resolvers/wordpress/posts/recent'
 /* CONSTANTS */
 import {
     POST_STATUS,
@@ -75,10 +75,6 @@ const query = async (slug: string): Promise<T_ArchivePost[]> => {
     return Object.values(result).slice(0, 4)
 }
 
-type Param = {
-    slug: string
-}
-
 /**
  * Fetches the recent posts from the cache or MongoDB.
  * This returns the cached result if it exists
@@ -86,10 +82,7 @@ type Param = {
  * @param {string} slug - The id of the post
  * @returns {Promise<T_ArchivePost[]>} A promise that resolves to the recent posts.
  */
-export const related = async (
-    _: unknown,
-    { slug: _slug }: Param,
-): Promise<T_ArchivePost[]> => {
+export const related = async (_slug: string): Promise<T_ArchivePost[]> => {
     const slug = sanitize(_slug)
     const request = cachedRequest(
         query,

@@ -23,7 +23,7 @@ import { DAY_IN_MS } from '@sujin/share/constants/datetime'
 /* Utils */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 import { isSearch } from '@src/utils/mongo/isSearch'
-import { verifyAdmin } from '@src/utils/mongo/verifyUser'
+import { verifyAdmin } from '@src/utils/mongo/security'
 import { getPostBy, getPosts, getPostsBy } from '@src/utils/mysql/post'
 import { updatePost as updateMongoPost } from '@src/utils/mongo/updatePost'
 import { updateTotal } from '@src/utils/mongo/updateTotal'
@@ -95,13 +95,13 @@ export const post = async (
 
     const isPost = type === POST_TYPE.POST
 
-    // get Post (admin)
+    // get Post (admin) !!
     if (isAdminQuery && slug && isPost && token) {
         const result = await getPost({ slug })
         Logger.info(`🤟 post query done: ${slug}`)
         return [result]
     }
-    // get Post
+    // get Post !!
     if (isQuery && slug && isPost) {
         const result = await getPost({
             slug,
@@ -114,7 +114,7 @@ export const post = async (
     const category = sanitize(_category)
     const page = sanitize(_page)
 
-    // Post List by Category
+    // Post List by Category --
     if (isQuery && isPost && page && category) {
         const doc = await getPostListDoc(category)
         doc.status = POST_STATUS.PUBLISH
@@ -123,14 +123,14 @@ export const post = async (
         Logger.info(`🤟 post list query done: ${page}, ${category}`)
         return result
     }
-    // Post List by Category (Admin)
+    // Post List by Category (Admin) --
     if (isAdminQuery && isPost && page && category) {
         const doc = await getPostListDoc(category)
         const result = await getPostList(doc, category, page)
         Logger.info(`🤟 post list query done: ${page}, ${category}`)
         return result
     }
-    // Post List all (Admin)
+    // Post List all (Admin) --
     if (isAdminQuery && isPost && page) {
         const result = await getPostList({}, 'all', page)
         Logger.info(`🤟 post list query done: ${page}, ${category}`)
@@ -151,19 +151,19 @@ export const post = async (
         Logger.info(`🤟 page update done: ${slug}`)
         return result
     }
-    // Post Update
+    // Post Update --
     if (isUpdate && slug && isPost) {
         const result = await updatePost(slug)
         Logger.info(`🤟 post update done: ${slug}`)
         return result
     }
-    // Post Update by category
+    // Post Update by category --
     if (isUpdate && category && page && isPost) {
         const result = await updatePostsByCategory(category, page)
         Logger.info(`🤟 posts update done: ${page}, ${category}`)
         return result
     }
-    // Post Update (all)
+    // Post Update (all) --
     if (isUpdate && page && isPost) {
         const result = await updatePosts(page)
         Logger.info(`🤟 posts update done: ${page}, ${category}`)

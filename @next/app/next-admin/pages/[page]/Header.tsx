@@ -6,7 +6,7 @@ import HeaderComponent from '@lib/components/admin/Header'
 import Callout from '@common/components/containers/Callout'
 import InputGroup from '@common/components/forms/InputGroup'
 /* Utils */
-import { updateSingle } from '@lib/apollo/mutation/updateSingle'
+import { updateSingle } from '@lib/apollo/mutation/single-update'
 /* CONSTANTS */
 import { QuantumBool } from '@sujin/share/types'
 import { POST_TYPE } from '@sujin/lib/constants'

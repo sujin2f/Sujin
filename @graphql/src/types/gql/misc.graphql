@@ -1,0 +1,30 @@
+type Query {
+    flickr: [FlickrImage]
+    spectra(number: Int!, ion: Int!): [Spectrum]
+}
+type Mutation {
+    flushDB: Boolean
+}
+
+type FlickrImage {
+    title: String
+    link: String
+    media: String
+}
+
+type Spectrum {
+    number: Int
+    ion: Int
+    energy: Float
+    spin: Float
+    l: String
+    parity: Boolean
+    j: Float
+    base: Float
+    conf: [String]
+    eConf: [Int]
+    ionReverse: Int
+    position: Int
+    term: String
+    orbital: String
+}

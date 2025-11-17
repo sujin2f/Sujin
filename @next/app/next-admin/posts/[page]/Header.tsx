@@ -8,7 +8,7 @@ import Callout from '@common/components/containers/Callout'
 /* CONSTANTS */
 import { QuantumBool } from '@sujin/share/types'
 import Button from '@common/components/forms/Button'
-import { updatePosts } from '@lib/apollo/mutation/updatePosts'
+import { updatePosts } from '@lib/apollo/mutation/posts-update'
 
 type Props = {
     page: number

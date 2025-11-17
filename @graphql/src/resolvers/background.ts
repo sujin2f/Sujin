@@ -6,7 +6,7 @@ import Cached from '@sujin/node-cache'
 import { GQL_QUERY_TYPE, COLLECTION } from '@sujin/lib/constants'
 /* Utils */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
-import { verifyAdmin } from '@src/utils/mongo/verifyUser'
+import { verifyAdmin } from '@src/utils/mongo/security'
 import { mysqlDisconnect } from '@src/utils/mysql'
 import { convertWPImageURL } from '@src/utils/mongo/convertWPImageURL'
 /* T_Types */

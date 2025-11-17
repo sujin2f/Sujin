@@ -53,8 +53,12 @@ export const getTermBySlug = async (slug: string): Promise<T_Archive> => {
 
     const image = await getThumbnail(archive)
 
-    return {
-        ...archive,
-        image,
+    if (image) {
+        return {
+            ...archive,
+            image,
+        }
     }
+
+    return archive
 }

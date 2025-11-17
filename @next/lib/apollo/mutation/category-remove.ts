@@ -1,16 +1,16 @@
 'use server'
 import { client } from '@lib/apollo/apollo-client-server'
 import { getSessionContext } from '@lib/apollo/admin'
-import SINGLE_MUTATION from '@lib/apollo/gql/updateSingle.graphql'
-import { POST_TYPE } from '@sujin/lib/constants'
+import REMOVE_ARCHIVE_MUTATION from '@lib/apollo/gql/archive.remove.graphql'
+import { ARCHIVE } from '@sujin/lib/constants'
 
-export const updateSingle = async (slug: string, postType: POST_TYPE) => {
+export const removeCategory = async (slug: string) => {
     return await client
         .mutate({
-            mutation: SINGLE_MUTATION,
+            mutation: REMOVE_ARCHIVE_MUTATION,
             variables: {
                 slug,
-                postType,
+                archiveType: ARCHIVE.CATEGORY,
             },
             context: await getSessionContext(),
         })

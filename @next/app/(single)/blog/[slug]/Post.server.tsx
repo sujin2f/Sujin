@@ -20,7 +20,7 @@ import {
 import POST_QUERY from '@lib/apollo/gql/post.graphql'
 /* Utils */
 import { getThumbnailFromPost } from '@lib/utils/client'
-import { updateHits } from '@lib/apollo/mutation/updateHits'
+import { updateHits } from '@lib/apollo/mutation/hits-update'
 import { cachedGQLRequest } from '@lib/apollo/GQLRequest'
 /* T_Types */
 import type { T_Post } from '@sujin/lib/types'

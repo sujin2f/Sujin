@@ -1,16 +1,15 @@
 'use server'
 import { client } from '@lib/apollo/apollo-client-server'
 import { getSessionContext } from '@lib/apollo/admin'
-import { POST_TYPE } from '@sujin/lib/constants'
-import REMOVE_MUTATION from '@lib/apollo/gql/removeSingle.graphql'
+import POSTS_MUTATION from '@lib/apollo/gql/posts.update.graphql'
 
-export const removePage = async (slug: string) => {
+export const updatePosts = async (page: number, category: string = '') => {
     return await client
         .mutate({
-            mutation: REMOVE_MUTATION,
+            mutation: POSTS_MUTATION,
             variables: {
-                slug,
-                postType: POST_TYPE.PAGE,
+                category,
+                page,
             },
             context: await getSessionContext(),
         })

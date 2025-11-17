@@ -54,10 +54,6 @@ const query = async (slug: string): Promise<T_PrevNext[]> => {
     return [prev[0], next[0]]
 }
 
-type Param = {
-    slug: string
-}
-
 /**
  * Fetches the recent posts from the cache or MongoDB.
  * This returns the cached result if it exists
@@ -65,10 +61,7 @@ type Param = {
  * @param {string} slug - The id of the post
  * @returns {Promise<T_PrevNext[]>} A promise that resolves to the recent posts.
  */
-export const prevNext = async (
-    _: unknown,
-    { slug: _slug }: Param,
-): Promise<T_PrevNext[]> => {
+export const prevNext = async (_slug: string): Promise<T_PrevNext[]> => {
     const slug = sanitize(_slug)
     const request = cachedRequest(
         query,

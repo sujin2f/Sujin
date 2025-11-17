@@ -1,0 +1,9 @@
+type Mutation {
+    login(email: String!): Token
+}
+
+type Token {
+    _id: String!
+    token: String!
+    admin: Boolean
+}

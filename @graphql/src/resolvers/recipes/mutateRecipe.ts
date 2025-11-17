@@ -2,12 +2,16 @@ import { Types } from 'mongoose'
 import { Recipe } from '@src/schema/recipe'
 import { Context } from '@src/types'
 import type { T_Recipe } from '@sujin/lib/types'
-import { verifyToken } from '@src/utils/mongo/verifyUser'
+import { verifyToken } from '@src/utils/mongo/security'
 
 export const recipe = async (_id: string): Promise<T_Recipe> => {
-    const recipe = Recipe.findById(_id)
-    console.log(recipe)
-    return {} as T_Recipe
+    const recipe = await Recipe.findOne<T_Recipe>({
+        _id: new Types.ObjectId(_id),
+    })
+
+    if (!recipe) throw new Error()
+
+    return recipe
 }
 
 export const mutateRecipe = async (
@@ -16,10 +20,8 @@ export const mutateRecipe = async (
 ): Promise<string> => {
     // Verify Token
     const user = await verifyToken(context.token)
-    console.log(user)
-    if (!user._id) {
-        throw new Error()
-    }
+
+    if (!user || !user._id) throw new Error()
 
     // Modify
     // if (data._id) {
@@ -45,16 +47,11 @@ export const mutateRecipe = async (
         data.title,
         ...data.ingredients.map((item) => item.title),
     ])
-    const insert = {
+
+    const result = await Recipe.insertOne({
         ...data,
         user: user._id,
         search: Array.from(search).join(' '),
-    }
-    console.log(insert)
-
-    const result = await Recipe.insertOne(insert)
-    console.log(result)
-    // return result._id.toString()
-    console.log(data, context)
-    return 'yes'
+    })
+    return result._id.toString()
 }

@@ -1,9 +1,13 @@
 type Query {
-    flickr: [FlickrImage]
     tagCloud: [TagCloud]
     recent: [Post]
     prevNext(slug: String!): [Post]
     related(slug: String!): [Post]
+    post2(slug: String!, isAdmin: Boolean): Post
+    postByCategory(slug: String!, page: Int!, isAdmin: Boolean): [Post]
+    search(keyword: String!, page: Int!, isAdmin: Boolean): [Post]
+    page(slug: String!): Post
+
     background: [ImageBlock]
     post(
         postType: POST_TYPE!
@@ -23,12 +27,13 @@ type Query {
         category: String
         type: ARCHIVE_TYPE
     ): Int
-    spectra(number: Int!, ion: Int!): [Spectrum]
-    recipe(id: String!): [Recipe]
 }
+
 type Mutation {
-    login(email: String!): String
-    flushDB: Boolean
+    updatePost(slug: String!): [Boolean]
+    updatePage(slug: String!): [Boolean]
+    removePage(slug: String!): [Boolean]
+
     updateBackground: [Boolean]
     updatePosts(category: String!, page: Int!): [Boolean]
     updateSingle(postType: POST_TYPE!, slug: String!): [Boolean]
@@ -36,26 +41,8 @@ type Mutation {
     updateHits(slug: String!): [Boolean]
     updateArchive(slug: String!, archiveType: ARCHIVE_TYPE!): [Boolean]
     removeArchive(slug: String!, archiveType: ARCHIVE_TYPE!): [Boolean]
-    mutateRecipe(recipe: RecipeInput!): String
 }
-enum NUM_PAGES_CONTEXT {
-    archive_list
-    posts_by_category
-    page_list
-}
-enum POST_TYPE {
-    post
-    page
-}
-enum ARCHIVE_TYPE {
-    category
-    tag
-}
-type FlickrImage {
-    title: String
-    link: String
-    media: String
-}
+
 type TagCloud {
     id: Int
     title: String
@@ -63,28 +50,14 @@ type TagCloud {
     total: Int
     hits: Int
 }
-type Spectrum {
-    number: Int
-    ion: Int
-    energy: Float
-    spin: Float
-    l: String
-    parity: Boolean
-    j: Float
-    base: Float
-    conf: [String]
-    eConf: [Int]
-    ionReverse: Int
-    position: Int
-    term: String
-    orbital: String
-}
+
 type Image {
     url: String
     width: Int
     height: Int
     mimeType: String
 }
+
 type ImageSize {
     medium: Image
     mediumLarge: Image
@@ -94,6 +67,7 @@ type ImageSize {
     relatedPost: Image
     recentPost: Image
 }
+
 type ImageBlock {
     _id: String
     url: String
@@ -102,6 +76,7 @@ type ImageBlock {
     height: Int
     sizes: ImageSize
 }
+
 type Images {
     list: ImageBlock
     icon: ImageBlock
@@ -109,10 +84,12 @@ type Images {
     background: ImageBlock
     thumbnail: ImageBlock
 }
+
 type PostMeta {
     useBackgroundColor: Boolean
     backgroundColor: String
 }
+
 type Post {
     _id: String
     id: Int
@@ -127,6 +104,7 @@ type Post {
     archives: [Archive]
     status: String
 }
+
 type Archive {
     _id: String
     title: String
@@ -137,25 +115,19 @@ type Archive {
     excerpt: String
     image: ImageBlock
 }
-type Recipe {
-    _id: String
-    title: String
-    url: String
-    ingredients: [Ingredient]
+
+enum NUM_PAGES_CONTEXT {
+    archive_list
+    posts_by_category
+    page_list
 }
-type Ingredient {
-    title: String
-    amount: Float
-    unit: String
+
+enum POST_TYPE {
+    post
+    page
 }
-input RecipeInput {
-    _id: String
-    title: String!
-    url: String
-    ingredients: [IngredientInput]!
-}
-input IngredientInput {
-    title: String!
-    amount: Float!
-    unit: String!
+
+enum ARCHIVE_TYPE {
+    category
+    tag
 }

@@ -1,0 +1,34 @@
+type Query {
+    recipe(_id: String!): Recipe
+    recipes(page: Int!): [Recipe]
+}
+
+type Mutation {
+    mutateRecipe(recipe: RecipeInput!): String
+}
+
+type Recipe {
+    _id: String
+    title: String
+    url: String
+    ingredients: [Ingredient]
+}
+
+type Ingredient {
+    title: String
+    amount: Float
+    unit: String
+}
+
+input RecipeInput {
+    _id: String
+    title: String!
+    url: String
+    ingredients: [IngredientInput]!
+}
+
+input IngredientInput {
+    title: String
+    amount: Float
+    unit: String
+}

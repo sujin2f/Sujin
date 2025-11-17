@@ -10,43 +10,31 @@ import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer'
 import { expressMiddleware } from '@as-integrations/express5'
 
-import typeDefs from '@src/schema/typeDefs.graphql'
 import { connectToDatabase } from '@src/utils/mongo/connection'
 
-import { recent } from '@src/resolvers/recent'
-import { flickr } from '@src/resolvers/flickr'
+import { Mutation, Query } from '@src/resolvers'
 import { tagCloud } from '@src/resolvers/tagCloud'
-import { spectra } from '@src/resolvers/spectra'
-import { prevNext } from '@src/resolvers/prevNext'
-import { related } from '@src/resolvers/related'
 
 import { numPages } from './resolvers/numPages'
 
 import { archive, updateHits } from '@src/resolvers/archive'
 import { post } from '@src/resolvers/post'
 import { background } from '@src/resolvers/background'
-import { flushDB, login } from '@src/resolvers/user'
 
 import { IS_DEV } from '@sujin/share/constants/helper'
 import { GQL_QUERY_TYPE, POST_TYPE } from '@sujin/lib/constants'
-import type { GQL_ArchiveArg, GQL_PostArg, T_Recipe } from '@sujin/lib/types'
+import type { GQL_ArchiveArg, GQL_PostArg } from '@sujin/lib/types'
 import type { Context } from './types'
-import { mutateRecipe, recipe } from './resolvers/recipe'
+
+import { typeDefs } from '@src/types/gql'
 
 // Resolvers define how to fetch the types defined in your schema.
 // This resolver retrieves books from the "books" array above.
 const resolvers = {
     Query: {
-        flickr,
+        ...Query,
         tagCloud,
-        spectra,
-        recent,
-        prevNext,
-        related,
         numPages,
-        recipe: async (_: unknown, { _id }: { _id: string }) => {
-            return await recipe(_id)
-        },
         background: async (_: unknown, __: unknown, context: Context) => {
             return await background(GQL_QUERY_TYPE.QUERY, context)
         },
@@ -89,12 +77,7 @@ const resolvers = {
         },
     },
     Mutation: {
-        login: async (_: unknown, { email }: { email: string }) => {
-            return await login(email)
-        },
-        flushDB: async (_: unknown, __: unknown, context: Context) => {
-            return await flushDB(context)
-        },
+        ...Mutation,
         updateBackground: async (_: unknown, __: unknown, context: Context) => {
             return await background(GQL_QUERY_TYPE.UPDATE, context)
         },
@@ -156,30 +139,8 @@ const resolvers = {
                 context,
             )
         },
-        mutateRecipe: async (
-            _: unknown,
-            { recipe }: { recipe: T_Recipe },
-            context: Context,
-        ) => {
-            return await mutateRecipe(recipe, context)
-        },
     },
 }
-
-// const loggerPlugin = {
-//     async requestDidStart() {
-//         return {
-//             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-//             async didResolveOperation(context: any) {
-//                 if (context.operation.operation === 'mutation') {
-//                     Logger.info(`mutation`)
-//                 } else if (context.operation.operation === 'query') {
-//                     Logger.info(`query`)
-//                 }
-//             },
-//         }
-//     },
-// }
 
 const app = express()
 const httpServer = http.createServer(app)
@@ -191,7 +152,6 @@ const server = new ApolloServer({
         process.env.NODE_ENV === 'development'
             ? ApolloServerPluginLandingPageLocalDefault({ footer: false })
             : ApolloServerPluginLandingPageDisabled(),
-        // loggerPlugin,
     ],
 })
 

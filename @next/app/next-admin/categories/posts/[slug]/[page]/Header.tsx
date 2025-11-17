@@ -6,7 +6,7 @@ import HeaderComponent from '@lib/components/admin/Header'
 import Callout from '@common/components/containers/Callout'
 import Button from '@common/components/forms/Button'
 /* Utils */
-import { updatePosts } from '@lib/apollo/mutation/updatePosts'
+import { updatePosts } from '@lib/apollo/mutation/posts-update'
 /* CONSTANTS */
 import { QuantumBool } from '@sujin/share/types'
 
