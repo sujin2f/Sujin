@@ -8,6 +8,7 @@ export const recipes = {
     Query: {
         recipe: async (_: unknown, { _id }: { _id: string }) =>
             await recipe(_id),
+        recipes: async () => {},
     },
     Mutation: {
         mutateRecipe: async (
@@ -15,5 +16,6 @@ export const recipes = {
             { recipe }: { recipe: T_Recipe },
             context: Context,
         ) => await mutateRecipe(recipe, context),
+        removeRecipe: async () => {},
     },
 }

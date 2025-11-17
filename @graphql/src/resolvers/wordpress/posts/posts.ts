@@ -19,7 +19,7 @@ import {
 /* Utils */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 import { verifyAdmin } from '@src/utils/mongo/security'
-import { archive as getArchive } from '@src/resolvers/archive'
+import { archive as getArchive } from '@src/resolvers/wordpress/archives/-archive'
 /* T_Types */
 import type { T_Page, T_Post } from '@sujin/lib/types'
 
@@ -28,8 +28,8 @@ import type { T_Page, T_Post } from '@sujin/lib/types'
  *
  * @returns {Promise<T_Post[]>}
  */
-export const postByCategory = async (
-    _slug: string,
+export const posts = async (
+    _slug: string, // TODO when slug is empty
     _page: number,
     isAdmin: boolean,
     token: string,
@@ -40,8 +40,7 @@ export const postByCategory = async (
     type Match = RootFilterQuery<T_Page>
     const $match: Match = {}
 
-    if (isAdmin)
-        verifyAdmin(token, 'postByCategory has been called by non admin user')
+    if (isAdmin) verifyAdmin(token, 'posts has been called by non admin user')
 
     if (!isAdmin) $match.status = POST_STATUS.PUBLISH
 
@@ -82,6 +81,6 @@ export const postByCategory = async (
         : cachedRequest(callback, getCacheKey(COLLECTION.POST, slug, page))
     const result = await request()
 
-    Logger.info(`🤟 postByCategory done: ${slug}, ${page}`)
+    Logger.info(`🤟 posts done: ${slug}, ${page}`)
     return result
 }

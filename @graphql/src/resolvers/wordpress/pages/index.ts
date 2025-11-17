@@ -3,9 +3,10 @@
 export const pages = {
     Query: {
         page: async () => {},
+        pages: async () => {},
     },
     Mutation: {
-        updatePage: async () => {},
+        refreshPage: async () => {},
         removePage: async () => {},
     },
 }

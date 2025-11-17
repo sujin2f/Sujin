@@ -34,7 +34,7 @@ export const search = async (
     const $match: Match = {}
 
     if (isAdmin)
-        verifyAdmin(token, 'postByCategory has been called by non admin user')
+        verifyAdmin(token, 'post search has been called by non admin user')
 
     if (!isAdmin) $match.status = POST_STATUS.PUBLISH
 

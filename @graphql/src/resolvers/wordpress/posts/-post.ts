@@ -29,7 +29,7 @@ import { updatePost as updateMongoPost } from '@src/utils/mongo/updatePost'
 import { updateTotal } from '@src/utils/mongo/updateTotal'
 import { mysqlDisconnect } from '@src/utils/mysql'
 import { convertWPImageURL } from '@src/utils/mongo/convertWPImageURL'
-import { archive as getArchive } from '@src/resolvers/archive'
+import { archive as getArchive } from '@src/resolvers/wordpress/archives/-archive'
 /* T_Types */
 import type { Context } from '@src/types'
 import type {

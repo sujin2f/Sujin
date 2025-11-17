@@ -1,46 +1,44 @@
 type Query {
-    tagCloud: [TagCloud]
+    # page
+    page(slug: String!): Page
+    pages(page: Int!): [Page]
+
+    # post
+    post(slug: String!, isAdmin: Boolean): Post # TODO rename
+    posts(categorySlug: String, page: Int!, isAdmin: Boolean): PostList # category posts or all posts
+    search(keyword: String!, page: Int!, isAdmin: Boolean): PostList
+
+    # post metadata
     recent: [Post]
     prevNext(slug: String!): [Post]
     related(slug: String!): [Post]
-    post2(slug: String!, isAdmin: Boolean): Post
-    postByCategory(slug: String!, page: Int!, isAdmin: Boolean): [Post]
-    search(keyword: String!, page: Int!, isAdmin: Boolean): [Post]
-    page(slug: String!): Post
 
+    # backgrounds
     background: [ImageBlock]
-    post(
-        postType: POST_TYPE!
-        slug: String
-        category: String
-        page: Int
-    ): [Post]
-    postAdmin(
-        postType: POST_TYPE!
-        slug: String
-        category: String
-        page: Int
-    ): [Post]
-    archive(slug: String, archiveType: ARCHIVE_TYPE!, page: Int): [Archive]
-    numPages(
-        context: NUM_PAGES_CONTEXT!
-        category: String
-        type: ARCHIVE_TYPE
-    ): Int
+
+    # archives
+    tagCloud: [TagCloud]
+    category(slug: String): Archive
+    categories(page: Int): [Archive]
+    tag(slug: String): Archive
+    tags(page: Int): [Archive]
 }
 
 type Mutation {
-    updatePost(slug: String!): [Boolean]
-    updatePage(slug: String!): [Boolean]
+    # page
+    refreshPage(slug: String!): [Boolean]
     removePage(slug: String!): [Boolean]
 
-    updateBackground: [Boolean]
-    updatePosts(category: String!, page: Int!): [Boolean]
-    updateSingle(postType: POST_TYPE!, slug: String!): [Boolean]
-    removeSingle(postType: POST_TYPE!, slug: String!): [Boolean]
-    updateHits(slug: String!): [Boolean]
-    updateArchive(slug: String!, archiveType: ARCHIVE_TYPE!): [Boolean]
-    removeArchive(slug: String!, archiveType: ARCHIVE_TYPE!): [Boolean]
+    # post
+    refreshPost(slug: String!): [Boolean]
+    refreshPosts(categorySlug: String, page: Int!): [Boolean] # category posts or all posts
+    # background
+    refreshBackground: [Boolean]
+
+    # archive
+    refreshHits(slug: String!): [Boolean]
+    refreshCategory(slug: String!): [Boolean]
+    removeCategory(slug: String!): [Boolean]
 }
 
 type TagCloud {
@@ -51,6 +49,7 @@ type TagCloud {
     hits: Int
 }
 
+# TODO fragment https://graphql.com/learn/interfaces-and-unions/#fragments
 type Image {
     url: String
     width: Int
@@ -90,7 +89,8 @@ type PostMeta {
     backgroundColor: String
 }
 
-type Post {
+# TODO Simple type
+interface Page {
     _id: String
     id: Int
     slug: String
@@ -101,8 +101,18 @@ type Post {
     link: String
     images: Images
     meta: PostMeta
-    archives: [Archive]
     status: String
+}
+
+type Page implements Page
+
+type Post implements Page {
+    archives: [Archive]
+}
+
+type PostList {
+    items: [Post]
+    numPages: Int
 }
 
 type Archive {
@@ -114,20 +124,4 @@ type Archive {
     hits: Int
     excerpt: String
     image: ImageBlock
-}
-
-enum NUM_PAGES_CONTEXT {
-    archive_list
-    posts_by_category
-    page_list
-}
-
-enum POST_TYPE {
-    post
-    page
-}
-
-enum ARCHIVE_TYPE {
-    category
-    tag
 }

@@ -5,7 +5,7 @@ import Logger from '@src/utils/logger'
 import { Post } from '@src/schema/post'
 /* Utils */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
-import { post as getPost } from '@src/resolvers/post'
+import { post as getPost } from '@src/resolvers/wordpress/posts/-post'
 import { recent } from '@src/resolvers/wordpress/posts/recent'
 /* CONSTANTS */
 import {

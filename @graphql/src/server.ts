@@ -2,144 +2,133 @@ import express from 'express'
 import http from 'http'
 import cors from 'cors'
 
-import Logger from '@src/utils/logger'
-
 import { ApolloServer } from '@apollo/server'
 import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/disabled'
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default'
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer'
 import { expressMiddleware } from '@as-integrations/express5'
 
+import Logger from '@src/utils/logger'
 import { connectToDatabase } from '@src/utils/mongo/connection'
 
 import { Mutation, Query } from '@src/resolvers'
-import { tagCloud } from '@src/resolvers/tagCloud'
-
-import { numPages } from './resolvers/numPages'
-
-import { archive, updateHits } from '@src/resolvers/archive'
-import { post } from '@src/resolvers/post'
-import { background } from '@src/resolvers/background'
+import { typeDefs } from '@src/types/gql'
 
 import { IS_DEV } from '@sujin/share/constants/helper'
-import { GQL_QUERY_TYPE, POST_TYPE } from '@sujin/lib/constants'
-import type { GQL_ArchiveArg, GQL_PostArg } from '@sujin/lib/types'
-import type { Context } from './types'
-
-import { typeDefs } from '@src/types/gql'
 
 // Resolvers define how to fetch the types defined in your schema.
 // This resolver retrieves books from the "books" array above.
 const resolvers = {
-    Query: {
-        ...Query,
-        tagCloud,
-        numPages,
-        background: async (_: unknown, __: unknown, context: Context) => {
-            return await background(GQL_QUERY_TYPE.QUERY, context)
-        },
-        archive: async (
-            _: unknown,
-            { slug, archiveType, page }: GQL_ArchiveArg,
-            context: Context,
-        ) => {
-            return await archive(
-                { slug, archiveType, page, query: GQL_QUERY_TYPE.QUERY },
-                context,
-            )
-        },
-        // post
-        post: async (
-            _: unknown,
-            { slug, postType, category, page }: GQL_PostArg,
-            context: Context,
-        ) => {
-            return await post(
-                { slug, postType, category, page, query: GQL_QUERY_TYPE.QUERY },
-                context,
-            )
-        },
-        postAdmin: async (
-            _: unknown,
-            { slug, postType, category, page }: GQL_PostArg,
-            context: Context,
-        ) => {
-            return await post(
-                {
-                    slug,
-                    postType,
-                    category,
-                    page,
-                    query: GQL_QUERY_TYPE.QUERY_ADMIN,
-                },
-                context,
-            )
-        },
-    },
-    Mutation: {
-        ...Mutation,
-        updateBackground: async (_: unknown, __: unknown, context: Context) => {
-            return await background(GQL_QUERY_TYPE.UPDATE, context)
-        },
-        //post
-        updatePosts: async (
-            _: unknown,
-            { category, page }: GQL_PostArg,
-            context: Context,
-        ) => {
-            return await post(
-                {
-                    category,
-                    page,
-                    postType: POST_TYPE.POST,
-                    query: GQL_QUERY_TYPE.UPDATE,
-                },
-                context,
-            )
-        },
-        removeSingle: async (
-            _: unknown,
-            { slug, postType }: GQL_PostArg,
-            context: Context,
-        ) => {
-            return await post(
-                { slug, postType, query: GQL_QUERY_TYPE.REMOVE },
-                context,
-            )
-        },
-        updateSingle: async (
-            _: unknown,
-            { slug, postType }: GQL_PostArg,
-            context: Context,
-        ) => {
-            return await post(
-                { slug, postType, query: GQL_QUERY_TYPE.UPDATE },
-                context,
-            )
-        },
-        // archive
-        updateHits,
-        updateArchive: async (
-            _: unknown,
-            { slug, archiveType }: GQL_ArchiveArg,
-            context: Context,
-        ) => {
-            return await archive(
-                { slug, archiveType, query: GQL_QUERY_TYPE.UPDATE },
-                context,
-            )
-        },
-        removeArchive: async (
-            _: unknown,
-            { slug, archiveType }: GQL_ArchiveArg,
-            context: Context,
-        ) => {
-            return await archive(
-                { slug, archiveType, query: GQL_QUERY_TYPE.REMOVE },
-                context,
-            )
-        },
-    },
+    Query,
+    // {
+    //     tagCloud,
+    //     numPages,
+    //     background: async (_: unknown, __: unknown, context: Context) => {
+    //         return await background(GQL_QUERY_TYPE.QUERY, context)
+    //     },
+    //     archive: async (
+    //         _: unknown,
+    //         { slug, archiveType, page }: GQL_ArchiveArg,
+    //         context: Context,
+    //     ) => {
+    //         return await archive(
+    //             { slug, archiveType, page, query: GQL_QUERY_TYPE.QUERY },
+    //             context,
+    //         )
+    //     },
+    //     // post
+    //     post: async (
+    //         _: unknown,
+    //         { slug, postType, category, page }: GQL_PostArg,
+    //         context: Context,
+    //     ) => {
+    //         return await post(
+    //             { slug, postType, category, page, query: GQL_QUERY_TYPE.QUERY },
+    //             context,
+    //         )
+    //     },
+    //     postAdmin: async (
+    //         _: unknown,
+    //         { slug, postType, category, page }: GQL_PostArg,
+    //         context: Context,
+    //     ) => {
+    //         return await post(
+    //             {
+    //                 slug,
+    //                 postType,
+    //                 category,
+    //                 page,
+    //                 query: GQL_QUERY_TYPE.QUERY_ADMIN,
+    //             },
+    //             context,
+    //         )
+    //     },
+    // },
+    Mutation,
+    // : {
+    //     ...Mutation,
+    //     updateBackground: async (_: unknown, __: unknown, context: Context) => {
+    //         return await background(GQL_QUERY_TYPE.UPDATE, context)
+    //     },
+    //     //post
+    //     updatePosts: async (
+    //         _: unknown,
+    //         { category, page }: GQL_PostArg,
+    //         context: Context,
+    //     ) => {
+    //         return await post(
+    //             {
+    //                 category,
+    //                 page,
+    //                 postType: POST_TYPE.POST,
+    //                 query: GQL_QUERY_TYPE.UPDATE,
+    //             },
+    //             context,
+    //         )
+    //     },
+    //     removeSingle: async (
+    //         _: unknown,
+    //         { slug, postType }: GQL_PostArg,
+    //         context: Context,
+    //     ) => {
+    //         return await post(
+    //             { slug, postType, query: GQL_QUERY_TYPE.REMOVE },
+    //             context,
+    //         )
+    //     },
+    //     updateSingle: async (
+    //         _: unknown,
+    //         { slug, postType }: GQL_PostArg,
+    //         context: Context,
+    //     ) => {
+    //         return await post(
+    //             { slug, postType, query: GQL_QUERY_TYPE.UPDATE },
+    //             context,
+    //         )
+    //     },
+    //     // archive
+    //     updateHits,
+    //     updateArchive: async (
+    //         _: unknown,
+    //         { slug, archiveType }: GQL_ArchiveArg,
+    //         context: Context,
+    //     ) => {
+    //         return await archive(
+    //             { slug, archiveType, query: GQL_QUERY_TYPE.UPDATE },
+    //             context,
+    //         )
+    //     },
+    //     removeArchive: async (
+    //         _: unknown,
+    //         { slug, archiveType }: GQL_ArchiveArg,
+    //         context: Context,
+    //     ) => {
+    //         return await archive(
+    //             { slug, archiveType, query: GQL_QUERY_TYPE.REMOVE },
+    //             context,
+    //         )
+    //     },
+    // },
 }
 
 const app = express()

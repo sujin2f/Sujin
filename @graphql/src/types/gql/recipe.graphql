@@ -1,10 +1,11 @@
 type Query {
     recipe(_id: String!): Recipe
-    recipes(page: Int!): [Recipe]
+    recipes(page: Int!, mine: Boolean): [Recipe]
 }
 
 type Mutation {
     mutateRecipe(recipe: RecipeInput!): String
+    removeRecipe(id: String!): [Boolean]
 }
 
 type Recipe {
