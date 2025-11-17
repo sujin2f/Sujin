@@ -1,6 +1,6 @@
 type Query {
     flickr: [FlickrImage]
-    spectra(number: Int!, ion: Int!): [Spectrum]
+    spectrum(number: Int!, ion: Int!): [Spectra]
 }
 type Mutation {
     flushDB: Boolean
@@ -12,7 +12,8 @@ type FlickrImage {
     media: String
 }
 
-type Spectrum {
+type Spectra {
+    _id: String
     number: Int
     ion: Int
     energy: Float

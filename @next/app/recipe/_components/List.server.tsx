@@ -20,7 +20,7 @@
 // import {
 //     COLLECTION,
 //     MENU_NAMES,
-//     type PropWithPages,
+//     type WithNumPages,
 //     type T_Recipe,
 // } from '@app/_lib/types'
 // import { PER_PAGE } from '@app/_lib/constants'
@@ -94,13 +94,13 @@ export async function ListServer({ title = 'Recipes', page, mine }: Props) {
     //  *
     //  * @param page
     //  * @param user
-    //  * @returns {Promise<PropWithPages<T_Mongo<T_Recipe>>>}
+    //  * @returns {Promise<WithNumPages<T_Mongo<T_Recipe>>>}
     //  * @throws {NoContentError}
     //  */
     // const getRecipes = async (
     //     page: number,
     //     userId?: ObjectId,
-    // ): Promise<PropWithPages<T_Mongo<T_Recipe>>> => {
+    // ): Promise<WithNumPages<T_Mongo<T_Recipe>>> => {
     //     const request = unstable_cache(
     //         cached,
     //         [page.toString(), userId ? userId.toString() : '', VERSION],

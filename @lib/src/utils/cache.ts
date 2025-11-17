@@ -27,19 +27,18 @@ export const getCacheKey = (
  * @returns {Promise<T>}
  * @throws {NoContentError}
  */
-
+const DEFAULT_CACHE_OPTION = {
+    ttl: DAY_IN_SECONDS,
+    force: IS_DEV,
+}
 export const cachedRequest = <P extends unknown[], R>(
     callback: (...args: P) => Promise<R>,
     cacheKey: string,
-    option: { ttl?: number; force?: boolean } = {
-        ttl: DAY_IN_SECONDS,
-        force: IS_DEV,
-    },
+    option: { ttl?: number; force?: boolean } = DEFAULT_CACHE_OPTION,
 ): ((...args: P) => Promise<R>) => {
     return async (...args: P) =>
-        await Cached.getInstance().getOrExecute(
-            cacheKey,
-            callback(...args),
-            option,
-        )
+        await Cached.getInstance().getOrExecute(cacheKey, callback(...args), {
+            ...DEFAULT_CACHE_OPTION,
+            ...option,
+        })
 }

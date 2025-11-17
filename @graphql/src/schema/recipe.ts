@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import { UNITS } from '@sujin/lib/types'
+import { COLLECTION } from '@sujin/lib/constants'
 
 const { Schema, SchemaTypes, model } = mongoose
 
@@ -20,6 +21,10 @@ const recipeSchema = new Schema({
             },
         },
     ],
+    created: {
+        type: Date,
+        default: Date.now,
+    },
     user: {
         type: SchemaTypes.ObjectId,
         ref: 'user',
@@ -27,4 +32,4 @@ const recipeSchema = new Schema({
 })
 recipeSchema.index({ search: 'text' })
 
-export const Recipe = model('recipe', recipeSchema)
+export const Recipe = model('recipe', recipeSchema, COLLECTION.RECIPE)

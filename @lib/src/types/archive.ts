@@ -1,5 +1,5 @@
-import { ARCHIVE, GQL_QUERY_TYPE } from '../constants'
-import type { GQL_SlugArg, T_ImageBlock } from '.'
+import { ARCHIVE } from '../constants'
+import type { T_ImageBlock } from '.'
 
 export type T_Archive = {
     _id: string
@@ -14,10 +14,4 @@ export type T_Archive = {
 
 export type T_MySQLArchive = T_Archive & {
     id: number
-}
-
-export type GQL_ArchiveArg = Partial<GQL_SlugArg> & {
-    archiveType: ARCHIVE.CATEGORY | ARCHIVE.TAG
-    page?: number
-    query: GQL_QUERY_TYPE
 }

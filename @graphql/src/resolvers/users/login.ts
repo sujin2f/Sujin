@@ -6,9 +6,9 @@ import { User } from '@src/schema/users'
 /* Utils */
 import { isUserAdmin } from '@src/utils/mysql/isUserAdmin'
 import { createHash } from '@sujin/share/utils/crypto'
+import { createToken, getSecret } from '@src/utils/security'
 /* T_Type */
 import type { T_Token, T_User } from '@sujin/lib/types'
-import { createToken, getSecret } from '@src/utils/mongo/security'
 
 /**
  * User Login
@@ -16,7 +16,7 @@ import { createToken, getSecret } from '@src/utils/mongo/security'
  * @param _email
  * @returns
  */
-export const login = async (_email: string): Promise<T_Token> => {
+export const login = async (_email: string): Promise<Partial<T_Token>> => {
     // secure email
     const email = createHash(sanitize(_email), getSecret())
     const user: T_Token = await User.findOne<T_User>({ email }).then(
@@ -45,7 +45,7 @@ export const login = async (_email: string): Promise<T_Token> => {
 
     Logger.info(`🤟 login has been finished: ${email},  ${user._id}`)
     return {
-        ...user,
+        _id: user._id,
         token,
-    } satisfies T_Token
+    } satisfies Partial<T_Token>
 }

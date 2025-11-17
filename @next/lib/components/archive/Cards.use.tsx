@@ -5,10 +5,10 @@ import { Cards as CardsComponent } from '@lib/components/archive/Cards'
 import { IMAGE_SIZE } from '@sujin/lib/constants'
 /* T_Types */
 import type { ColumnProps } from '@common/components/layout/Column'
-import type { PropWithPages, T_ArchivePost } from '@sujin/lib/types'
+import type { WithNumPages, T_ArchivePost } from '@sujin/lib/types'
 
 type Props<T extends string> = ColumnProps & {
-    readonly posts: Promise<PropWithPages<T_ArchivePost, T>>
+    readonly posts: Promise<WithNumPages<T_ArchivePost, T>>
     readonly listKey: T
     readonly keyPrefix: string
     readonly imageSize?: IMAGE_SIZE

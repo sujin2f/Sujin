@@ -5,5 +5,4 @@ type Mutation {
 type Token {
     _id: String!
     token: String!
-    admin: Boolean
 }

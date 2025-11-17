@@ -1,0 +1,15 @@
+query {
+    recipe(_id: "?") {
+        title
+    }
+    recipes(page: 1) {
+        title
+    }
+}
+
+mutation {
+    login(email: "sujin.2f@gmail.com") {
+        _id
+        token
+    }
+}

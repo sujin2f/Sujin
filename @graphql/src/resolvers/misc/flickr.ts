@@ -1,12 +1,14 @@
 /* Models */
-import Cached from '@sujin/node-cache'
 import Logger from '@src/utils/logger'
 /* CONSTANTS */
-import { WEEK_IN_SECONDS } from '@sujin/share/constants/datetime'
+import { DAY_IN_SECONDS } from '@sujin/share/constants/datetime'
 import { IS_DEV } from '@sujin/share/constants/helper'
 import { STATIC_FLICKR } from '@src/constants'
+import { COLLECTION } from '@sujin/lib/constants'
 /* T_Types */
 import type { T_FlickrImage, T_FlickrResponse } from '@sujin/lib/types'
+/* Utils */
+import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 
 const defaultValue = STATIC_FLICKR.items.map((item) => ({
     ...item,
@@ -56,13 +58,15 @@ const request = async (): Promise<T_FlickrImage[]> => {
 }
 
 export const flickr = async (): Promise<T_FlickrImage[]> => {
-    const result = await Cached.getInstance().getOrExecute(
-        'flickr',
-        request(),
+    const cached = cachedRequest(
+        request,
+        getCacheKey(COLLECTION.ARCHIVE, 'tag-cloud'),
         {
-            ttl: WEEK_IN_SECONDS,
+            ttl: DAY_IN_SECONDS * 30,
         },
     )
+
+    const result = await cached()
     Logger.info('🤟 flickr query has been finished')
     return result
 }

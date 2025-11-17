@@ -5,21 +5,34 @@ import Logger from '@src/utils/logger'
 import { Post } from '@src/schema/post'
 /* Utils */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
-import { post as getPost } from '@src/resolvers/wordpress/posts/-post'
+import { post as getPost } from '@src/resolvers/wordpress/posts/post'
 import { recent } from '@src/resolvers/wordpress/posts/recent'
 /* CONSTANTS */
-import {
-    POST_STATUS,
-    COLLECTION,
-    GQL_QUERY_TYPE,
-    POST_TYPE,
-} from '@sujin/lib/constants'
+import { POST_STATUS, COLLECTION } from '@sujin/lib/constants'
 import {
     AGGREGATE_ARCHIVE_POST,
     AGGREGATE_EXPAND_ARCHIVES,
 } from '@src/constants'
 /* T_Types */
-import type { T_ArchivePost, T_Post } from '@sujin/lib/types'
+import type { T_ArchivePost } from '@sujin/lib/types'
+
+/**
+ * Fetches the recent posts from the cache or MongoDB.
+ * This returns the cached result if it exists
+ *
+ * @param {string} slug - The id of the post
+ * @returns {Promise<T_ArchivePost[]>} A promise that resolves to the recent posts.
+ */
+export const related = async (_slug: string): Promise<T_ArchivePost[]> => {
+    const slug = sanitize(_slug)
+    const request = cachedRequest(
+        query,
+        getCacheKey(COLLECTION.POST, slug, 'related'),
+    )
+    const result = await request(slug)
+    Logger.info('🤟 related query has been finished')
+    return result
+}
 
 /**
  * Fetches the related posts from MongoDB.
@@ -27,12 +40,7 @@ import type { T_ArchivePost, T_Post } from '@sujin/lib/types'
  * @returns {Promise<T_Post[]>} A promise that resolves to the related posts.
  */
 const query = async (slug: string): Promise<T_ArchivePost[]> => {
-    const post = (
-        await getPost(
-            { slug, postType: POST_TYPE.POST, query: GQL_QUERY_TYPE.QUERY },
-            { token: '' },
-        )
-    )[0] as T_Post
+    const post = await getPost(slug)
     const result: Record<number, T_ArchivePost> = {}
 
     const archive_ids = post.archives.map(
@@ -73,22 +81,4 @@ const query = async (slug: string): Promise<T_ArchivePost[]> => {
             }),
     )
     return Object.values(result).slice(0, 4)
-}
-
-/**
- * Fetches the recent posts from the cache or MongoDB.
- * This returns the cached result if it exists
- *
- * @param {string} slug - The id of the post
- * @returns {Promise<T_ArchivePost[]>} A promise that resolves to the recent posts.
- */
-export const related = async (_slug: string): Promise<T_ArchivePost[]> => {
-    const slug = sanitize(_slug)
-    const request = cachedRequest(
-        query,
-        getCacheKey(COLLECTION.POST, slug, 'related'),
-    )
-    const result = await request(slug)
-    Logger.info('🤟 related query has been finished')
-    return result
 }

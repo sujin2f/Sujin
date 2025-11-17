@@ -10,7 +10,7 @@ import POST_LIST_QUERY from '@lib/apollo/gql/post.list.graphql'
 /* Utils */
 import { cachedGQLRequest } from '@lib/apollo/GQLRequest'
 /* T_Types */
-import type { PropWithPages, T_Post } from '@sujin/lib/types'
+import type { WithNumPages, T_Post } from '@sujin/lib/types'
 
 type Props = {
     slug: string
@@ -18,7 +18,7 @@ type Props = {
 }
 
 export async function SearchServer({ slug, page }: Props) {
-    const posts = cachedGQLRequest<PropWithPages<T_Post, 'post'>>(
+    const posts = cachedGQLRequest<WithNumPages<T_Post, 'post'>>(
         POST_LIST_QUERY,
         { page, category: `search-${slug}` },
         [COLLECTION.ARCHIVE, 'posts', 'search', slug, page.toString()],

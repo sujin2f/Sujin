@@ -1,22 +1,19 @@
 import { flickr } from '@src/resolvers/misc/flickr'
 import { flushDB } from '@src/resolvers/misc/flushDB'
-import { spectra } from '@src/resolvers/misc/spectra'
+import { spectrum } from '@src/resolvers/misc/spectrum'
 
-import type { Context } from '@src/types'
-
-type Param = {
-    number: number
-    ion: number
-}
+import type { T_Context } from '@src/types'
+import type { T_GQL_Params_Spectrum } from '@sujin/lib/types'
 
 export const misc = {
     Query: {
         flickr,
-        spectra: async (_: unknown, { number, ion }: Param) =>
-            await spectra(number, ion),
+        spectrum: async (_: unknown, { number, ion }: T_GQL_Params_Spectrum) =>
+            await spectrum(number, ion),
     },
     Mutation: {
-        flushDB: async (_: unknown, __: unknown, context: Context) =>
-            await flushDB(context),
+        flushDB: async (_: unknown, __: unknown, context: T_Context) => {
+            await flushDB(context.token)
+        },
     },
 }

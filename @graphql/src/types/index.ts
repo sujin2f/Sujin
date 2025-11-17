@@ -1,7 +1,7 @@
-export type MutationResultType = {
-    result: boolean
+export type Context = {
+    token: string
 }
 
-export type Context = {
+export type T_Context = {
     token: string
 }

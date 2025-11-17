@@ -12,7 +12,7 @@ import Logger from '@src/utils/logger'
 import { connectToDatabase } from '@src/utils/mongo/connection'
 
 import { Mutation, Query } from '@src/resolvers'
-import { typeDefs } from '@src/types/gql'
+import { typeDefs } from '@src/resolvers/typeDefs'
 
 import { IS_DEV } from '@sujin/share/constants/helper'
 
@@ -20,115 +20,7 @@ import { IS_DEV } from '@sujin/share/constants/helper'
 // This resolver retrieves books from the "books" array above.
 const resolvers = {
     Query,
-    // {
-    //     tagCloud,
-    //     numPages,
-    //     background: async (_: unknown, __: unknown, context: Context) => {
-    //         return await background(GQL_QUERY_TYPE.QUERY, context)
-    //     },
-    //     archive: async (
-    //         _: unknown,
-    //         { slug, archiveType, page }: GQL_ArchiveArg,
-    //         context: Context,
-    //     ) => {
-    //         return await archive(
-    //             { slug, archiveType, page, query: GQL_QUERY_TYPE.QUERY },
-    //             context,
-    //         )
-    //     },
-    //     // post
-    //     post: async (
-    //         _: unknown,
-    //         { slug, postType, category, page }: GQL_PostArg,
-    //         context: Context,
-    //     ) => {
-    //         return await post(
-    //             { slug, postType, category, page, query: GQL_QUERY_TYPE.QUERY },
-    //             context,
-    //         )
-    //     },
-    //     postAdmin: async (
-    //         _: unknown,
-    //         { slug, postType, category, page }: GQL_PostArg,
-    //         context: Context,
-    //     ) => {
-    //         return await post(
-    //             {
-    //                 slug,
-    //                 postType,
-    //                 category,
-    //                 page,
-    //                 query: GQL_QUERY_TYPE.QUERY_ADMIN,
-    //             },
-    //             context,
-    //         )
-    //     },
-    // },
     Mutation,
-    // : {
-    //     ...Mutation,
-    //     updateBackground: async (_: unknown, __: unknown, context: Context) => {
-    //         return await background(GQL_QUERY_TYPE.UPDATE, context)
-    //     },
-    //     //post
-    //     updatePosts: async (
-    //         _: unknown,
-    //         { category, page }: GQL_PostArg,
-    //         context: Context,
-    //     ) => {
-    //         return await post(
-    //             {
-    //                 category,
-    //                 page,
-    //                 postType: POST_TYPE.POST,
-    //                 query: GQL_QUERY_TYPE.UPDATE,
-    //             },
-    //             context,
-    //         )
-    //     },
-    //     removeSingle: async (
-    //         _: unknown,
-    //         { slug, postType }: GQL_PostArg,
-    //         context: Context,
-    //     ) => {
-    //         return await post(
-    //             { slug, postType, query: GQL_QUERY_TYPE.REMOVE },
-    //             context,
-    //         )
-    //     },
-    //     updateSingle: async (
-    //         _: unknown,
-    //         { slug, postType }: GQL_PostArg,
-    //         context: Context,
-    //     ) => {
-    //         return await post(
-    //             { slug, postType, query: GQL_QUERY_TYPE.UPDATE },
-    //             context,
-    //         )
-    //     },
-    //     // archive
-    //     updateHits,
-    //     updateArchive: async (
-    //         _: unknown,
-    //         { slug, archiveType }: GQL_ArchiveArg,
-    //         context: Context,
-    //     ) => {
-    //         return await archive(
-    //             { slug, archiveType, query: GQL_QUERY_TYPE.UPDATE },
-    //             context,
-    //         )
-    //     },
-    //     removeArchive: async (
-    //         _: unknown,
-    //         { slug, archiveType }: GQL_ArchiveArg,
-    //         context: Context,
-    //     ) => {
-    //         return await archive(
-    //             { slug, archiveType, query: GQL_QUERY_TYPE.REMOVE },
-    //             context,
-    //         )
-    //     },
-    // },
 }
 
 const app = express()

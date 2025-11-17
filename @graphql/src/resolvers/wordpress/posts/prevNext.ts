@@ -5,17 +5,29 @@ import Logger from '@src/utils/logger'
 import { Post } from '@src/schema/post'
 /* Utils */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
-import { post as getPost } from '@src/resolvers/wordpress/posts/-post'
+import { post as getPost } from '@src/resolvers/wordpress/posts/post'
 /* CONSTANTS */
-import {
-    COLLECTION,
-    ARCHIVE,
-    POST_TYPE,
-    GQL_QUERY_TYPE,
-    POST_STATUS,
-} from '@sujin/lib/constants'
+import { COLLECTION, ARCHIVE, POST_STATUS } from '@sujin/lib/constants'
 /* T_Types */
 import type { T_Post, T_PrevNext } from '@sujin/lib/types'
+
+/**
+ * Fetches the recent posts from the cache or MongoDB.
+ * This returns the cached result if it exists
+ *
+ * @param {string} slug - The id of the post
+ * @returns {Promise<T_PrevNext[]>} A promise that resolves to the recent posts.
+ */
+export const prevNext = async (_slug: string): Promise<T_PrevNext[]> => {
+    const slug = sanitize(_slug)
+    const request = cachedRequest(
+        query,
+        getCacheKey(COLLECTION.POST, slug, 'prev-next'),
+    )
+    const result = await request(slug)
+    Logger.info('🤟 prevNext query has been finished')
+    return result
+}
 
 /**
  * Fetches the recent posts from MongoDB.
@@ -23,12 +35,7 @@ import type { T_Post, T_PrevNext } from '@sujin/lib/types'
  * @returns {Promise<T_Post[]>} A promise that resolves to the recent posts.
  */
 const query = async (slug: string): Promise<T_PrevNext[]> => {
-    const post = (
-        await getPost(
-            { slug, postType: POST_TYPE.POST, query: GQL_QUERY_TYPE.QUERY },
-            { token: '' },
-        )
-    )[0] as T_Post
+    const post = await getPost(slug)
     const _ids = post.archives
         .filter((archive) => archive.type === ARCHIVE.CATEGORY)
         .map((category) => new mongoose.Types.ObjectId(category._id))
@@ -52,22 +59,4 @@ const query = async (slug: string): Promise<T_PrevNext[]> => {
         .limit(1)
 
     return [prev[0], next[0]]
-}
-
-/**
- * Fetches the recent posts from the cache or MongoDB.
- * This returns the cached result if it exists
- *
- * @param {string} slug - The id of the post
- * @returns {Promise<T_PrevNext[]>} A promise that resolves to the recent posts.
- */
-export const prevNext = async (_slug: string): Promise<T_PrevNext[]> => {
-    const slug = sanitize(_slug)
-    const request = cachedRequest(
-        query,
-        getCacheKey(COLLECTION.POST, slug, 'prev-next'),
-    )
-    const result = await request(slug)
-    Logger.info('🤟 prevNext query has been finished')
-    return result
 }

@@ -4,8 +4,9 @@ type Query {
 }
 
 type Mutation {
-    mutateRecipe(recipe: RecipeInput!): String
-    removeRecipe(id: String!): [Boolean]
+    createRecipe(recipe: RecipeInput!): String
+    updateRecipe(recipe: RecipeInput!): String
+    removeRecipe(_id: String!): [Boolean]
 }
 
 type Recipe {

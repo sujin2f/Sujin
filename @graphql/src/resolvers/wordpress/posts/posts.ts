@@ -1,27 +1,20 @@
-import { Types, type RootFilterQuery } from 'mongoose'
+import { Types } from 'mongoose'
 import { GraphQLError } from 'graphql'
 import sanitize from 'mongo-sanitize'
 /* Models */
 import Logger from '@src/utils/logger'
 import { Post } from '@src/schema/post'
 /* CONSTANTS */
-import {
-    ARCHIVE,
-    GQL_QUERY_TYPE,
-    PER_PAGE,
-    COLLECTION,
-    POST_STATUS,
-} from '@sujin/lib/constants'
+import { PER_PAGE, COLLECTION, POST_STATUS } from '@sujin/lib/constants'
 import {
     AGGREGATE_ARCHIVE_POST,
     AGGREGATE_EXPAND_ARCHIVES,
 } from '@src/constants'
 /* Utils */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
-import { verifyAdmin } from '@src/utils/mongo/security'
-import { archive as getArchive } from '@src/resolvers/wordpress/archives/-archive'
+import { category as getCategory } from '@src/resolvers/wordpress/archives/category'
 /* T_Types */
-import type { T_Page, T_Post } from '@sujin/lib/types'
+import type { T_Post, WithNumPages } from '@sujin/lib/types'
 
 /**
  * Get/Update/Remove post(s)
@@ -29,58 +22,49 @@ import type { T_Page, T_Post } from '@sujin/lib/types'
  * @returns {Promise<T_Post[]>}
  */
 export const posts = async (
-    _slug: string, // TODO when slug is empty
+    _slug: string,
     _page: number,
-    isAdmin: boolean,
-    token: string,
-): Promise<T_Post[]> => {
+): Promise<WithNumPages<T_Post, 'items'>> => {
     const slug = sanitize(_slug)
     const page = sanitize(_page)
 
-    type Match = RootFilterQuery<T_Page>
-    const $match: Match = {}
+    const archive = await getCategory(slug)
+    const $match = {
+        archives: { $in: [new Types.ObjectId(archive._id)] },
+        status: POST_STATUS.PUBLISH,
+    }
 
-    if (isAdmin) verifyAdmin(token, 'posts has been called by non admin user')
-
-    if (!isAdmin) $match.status = POST_STATUS.PUBLISH
-
-    const archive = await getArchive(
-        {
-            slug,
-            archiveType: ARCHIVE.CATEGORY,
-            query: GQL_QUERY_TYPE.QUERY,
-        },
-        { token: '' },
-    )
-    $match.archives = { $in: [new Types.ObjectId(archive[0]._id)] }
-
-    const callback = async (): Promise<T_Post[]> =>
-        await Post.aggregate<T_Post>([
-            { $match },
-            { $sort: { date: -1 } },
-            { $skip: PER_PAGE * (page - 1) },
-            { $limit: PER_PAGE },
-            ...AGGREGATE_EXPAND_ARCHIVES,
-            ...AGGREGATE_ARCHIVE_POST,
-        ]).then((result) => {
-            if (!result || !result.length) {
-                throw new GraphQLError(
-                    `Cannot find the post from archive ${slug}`,
-                    {
-                        extensions: {
-                            code: 'NO_CONTENT',
+    const request = cachedRequest(
+        async (): Promise<WithNumPages<T_Post, 'items'>> => {
+            const items = await Post.aggregate<T_Post>([
+                { $match },
+                { $sort: { date: -1 } },
+                { $skip: PER_PAGE * (page - 1) },
+                { $limit: PER_PAGE },
+                ...AGGREGATE_EXPAND_ARCHIVES,
+                ...AGGREGATE_ARCHIVE_POST,
+            ]).then((result) => {
+                if (!result || !result.length) {
+                    throw new GraphQLError(
+                        `Cannot find the post from archive ${slug}`,
+                        {
+                            extensions: {
+                                code: 'NO_CONTENT',
+                            },
                         },
-                    },
-                )
+                    )
+                }
+                return result
+            })
+            const numPages = await Post.countDocuments($match)
+            return {
+                items,
+                numPages,
             }
-            return result
-        })
-
-    const request = isAdmin
-        ? callback
-        : cachedRequest(callback, getCacheKey(COLLECTION.POST, slug, page))
+        },
+        getCacheKey(COLLECTION.POST, 'by-category', slug, page),
+    )
     const result = await request()
-
-    Logger.info(`🤟 posts done: ${slug}, ${page}`)
+    Logger.info(`🤟 posts query done: ${slug}, ${page}`)
     return result
 }

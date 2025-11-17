@@ -1,0 +1,27 @@
+/* Models */
+import { Background } from '@src/schema/background'
+import Logger from '@src/utils/logger'
+/* CONSTANTS */
+import { COLLECTION } from '@sujin/lib/constants'
+/* Utils */
+import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
+/* T_Types */
+import type { T_Background } from '@sujin/lib/types'
+
+/**
+ * Get backgrounds
+ *
+ * @returns {Promise<T_Background[]>}
+ */
+export const backgrounds = async (): Promise<T_Background[]> => {
+    const request = cachedRequest(
+        async (): Promise<T_Background[]> =>
+            await Background.aggregate<T_Background>([
+                { $sample: { size: 10 } },
+            ]),
+        getCacheKey(COLLECTION.BACKGROUNDS),
+    )
+    const result = await request()
+    Logger.info(`🤟 backgrounds query done`)
+    return result
+}

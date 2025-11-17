@@ -8,12 +8,12 @@ import { Tags } from '@lib/components/single/Tags'
 import { ARCHIVE, IMAGE_SIZE } from '@sujin/lib/constants'
 /* T_Types */
 import type { ColumnProps } from '@common/components/layout/Column'
-import type { PropWithPages, T_ArchivePost } from '@sujin/lib/types'
+import type { WithNumPages, T_ArchivePost } from '@sujin/lib/types'
 /* Utils */
 import { getThumbnailFromPost } from '@lib/utils/client'
 
 type Props<T extends string> = ColumnProps & {
-    readonly posts: PropWithPages<T_ArchivePost, T>
+    readonly posts: WithNumPages<T_ArchivePost, T>
     readonly listKey: T
     readonly keyPrefix: string
     readonly imageSize?: IMAGE_SIZE

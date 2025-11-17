@@ -16,7 +16,7 @@ export const updatePost = async (post: T_MySQLPost) => {
     const slug = post.slug
     const archives: Types.ObjectId[] = []
 
-    Cached.getInstance().flush(getCacheKey(COLLECTION.POST, slug))
+    await Cached.getInstance().flush(getCacheKey(COLLECTION.POST, slug))
 
     // Image
     Object.keys(post.images).forEach((key) => {

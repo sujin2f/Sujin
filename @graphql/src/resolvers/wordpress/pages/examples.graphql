@@ -1,0 +1,13 @@
+query {
+    page(slug: "about") {
+        title
+    }
+    pages(page: 1) {
+        title
+    }
+}
+
+mutation {
+    refreshPage(page: 1)
+    removePage(page: 1)
+}

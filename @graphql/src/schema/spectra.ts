@@ -1,8 +1,10 @@
+import { COLLECTION } from '@sujin/lib/constants'
+import { ISpectrum } from '@sujin/lib/types'
 import mongoose from 'mongoose'
 
 const { Schema, model } = mongoose
 
-const spectraSchema = new Schema({
+const spectrumSchema = new Schema<ISpectrum>({
     number: {
         type: Number,
         index: true,
@@ -24,6 +26,6 @@ const spectraSchema = new Schema({
     term: String,
     orbital: String,
 })
-spectraSchema.index({ number: 1, ion: 1 })
+spectrumSchema.index({ number: 1, ion: 1 })
 
-export const Spectra = model('spectra', spectraSchema, 'spectra')
+export const Spectra = model('spectra', spectrumSchema, COLLECTION.SPECTRA)

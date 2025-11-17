@@ -1,6 +1,8 @@
 import { orbitalKeys } from '../constants/ether'
 
+// TODO name change I_Spectra
 export interface ISpectrum {
+    _id: string
     /**
      * Atom number
      */

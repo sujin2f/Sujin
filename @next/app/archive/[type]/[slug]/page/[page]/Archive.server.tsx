@@ -12,7 +12,7 @@ import POST_LIST_QUERY from '@lib/apollo/gql/post.list.graphql'
 import { updateHits } from '@lib/apollo/mutation/hits-update'
 import { cachedGQLRequest } from '@lib/apollo/GQLRequest'
 /* T_Types */
-import type { PropWithPages, T_Post, T_Archive } from '@sujin/lib/types'
+import type { WithNumPages, T_Post, T_Archive } from '@sujin/lib/types'
 
 type Props = {
     type: ARCHIVE
@@ -41,7 +41,7 @@ export async function ArchiveServer({ type, slug, page }: Props) {
         await updateHits(slug)
     }
 
-    const posts = cachedGQLRequest<PropWithPages<T_Post, 'post'>>(
+    const posts = cachedGQLRequest<WithNumPages<T_Post, 'post'>>(
         POST_LIST_QUERY,
         { page, category: slug },
         [COLLECTION.ARCHIVE, 'posts', type, slug, page.toString()],

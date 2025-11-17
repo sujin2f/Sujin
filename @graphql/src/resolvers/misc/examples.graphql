@@ -1,0 +1,12 @@
+query {
+    flickr {
+        title
+    }
+    spectrum(number: 1, ion: 1) {
+        energy
+    }
+}
+
+mutation {
+    flushDB
+}

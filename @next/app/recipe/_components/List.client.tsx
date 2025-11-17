@@ -5,7 +5,7 @@ import { use, useState } from 'react'
 import Table from '@common/components/containers/Table'
 import { Paging } from '@lib/components/archive/Paging'
 /* T_Types */
-import type { PropWithPages, T_Recipe } from '@sujin/lib/types'
+import type { WithNumPages, T_Recipe } from '@sujin/lib/types'
 import { QuantumBool } from '@sujin/share/types'
 
 type Props = {

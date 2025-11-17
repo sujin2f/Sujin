@@ -1,16 +1,44 @@
-// import type { Context } from '@src/types'
+import { tagCloud } from '@src/resolvers/wordpress/archives/tagCloud'
+import { category } from '@src/resolvers/wordpress/archives/category'
+import { categories } from '@src/resolvers/wordpress/archives/categories'
+import { tag } from '@src/resolvers/wordpress/archives/tag'
+import { tags } from '@src/resolvers/wordpress/archives/tags'
+import { refreshHits } from '@src/resolvers/wordpress/archives/refreshHits'
+import { refreshCategory } from '@src/resolvers/wordpress/archives/refreshCategory'
+import { removeCategory } from '@src/resolvers/wordpress/archives/removeCategory'
+
+import type { T_Context } from '@src/types'
+import type { T_GQL_Params_Page, T_GQL_Params_Slug } from '@sujin/lib/types'
 
 export const archives = {
     Query: {
-        tagCloud: async () => {},
-        category: async () => {},
-        categories: async () => {},
-        tag: async () => {},
-        tags: async () => {},
+        tagCloud,
+        category: async (_: unknown, { slug }: T_GQL_Params_Slug) =>
+            await category(slug),
+        categories: async (
+            _: unknown,
+            { page }: T_GQL_Params_Page,
+            context: T_Context,
+        ) => await categories(page, context.token),
+        tag: async (_: unknown, { slug }: T_GQL_Params_Slug) => await tag(slug),
+        tags: async (
+            _: unknown,
+            { page }: T_GQL_Params_Page,
+            context: T_Context,
+        ) => await tags(page, context.token),
     },
     Mutation: {
-        refreshHits: async () => {},
-        refreshCategory: async () => {},
-        removeCategory: async () => {},
+        refreshHits: async (_: unknown, { slug }: T_GQL_Params_Slug) =>
+            await refreshHits(slug),
+        refreshCategory: async (
+            _: unknown,
+            { slug }: T_GQL_Params_Slug,
+            context: T_Context,
+        ) => await refreshCategory(slug, context.token),
+        removeCategory: async (
+            _: unknown,
+            { slug }: T_GQL_Params_Slug,
+            context: T_Context,
+        ) => await removeCategory(slug, context.token),
     },
 }

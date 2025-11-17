@@ -8,8 +8,8 @@ import { shuffle } from '@sujin/share/utils/array'
 import { COLLECTION, ARCHIVE } from '@sujin/lib/constants'
 import type { T_Archive } from '@sujin/lib/types'
 
-const query = async (): Promise<Omit<T_Archive, '_id'>[]> => {
-    const tags: Record<string, Omit<T_Archive, '_id'>> = {}
+const query = async (): Promise<Partial<T_Archive>[]> => {
+    const tags: Record<string, Partial<T_Archive>> = {}
 
     await Archive.find<T_Archive>({
         total: { $not: { $eq: 0 } },
@@ -21,13 +21,10 @@ const query = async (): Promise<Omit<T_Archive, '_id'>[]> => {
             const step = result.length / 5
             result.forEach((tag, index) => {
                 tags[tag.slug] = {
-                    title: tag.title,
-                    slug: tag.slug,
-                    type: tag.type,
-                    excerpt: '',
+                    ...tag,
                     total: 0,
                     hits: Math.floor(index / step),
-                }
+                } satisfies Partial<T_Archive>
             })
         })
 
@@ -47,20 +44,17 @@ const query = async (): Promise<Omit<T_Archive, '_id'>[]> => {
                     }
                 } else {
                     tags[tag.slug] = {
-                        title: tag.title,
-                        slug: tag.slug,
-                        type: tag.type,
-                        excerpt: '',
+                        ...tag,
                         hits: 0,
                         total: Math.floor(index / step),
-                    }
+                    } satisfies Partial<T_Archive>
                 }
             })
         })
     return shuffle(Object.values(tags))
 }
 
-export const tagCloud = async (): Promise<Omit<T_Archive, '_id'>[]> => {
+export const tagCloud = async (): Promise<Partial<T_Archive>[]> => {
     const request = cachedRequest(
         query,
         getCacheKey(COLLECTION.ARCHIVE, 'tag-cloud'),

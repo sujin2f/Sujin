@@ -3,6 +3,10 @@ import { ISpectrum } from '@sujin/lib/types'
 export class Spectrum {
     spectrum: ISpectrum
 
+    get _id() {
+        return this.spectrum._id
+    }
+
     get orbital() {
         return this.spectrum.orbital
     }

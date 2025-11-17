@@ -1,5 +1,5 @@
-import type { GQL_SlugArg, T_PostImages, T_Archive } from '.'
-import { GQL_QUERY_TYPE, POST_TYPE, POST_STATUS } from '../constants'
+import type { T_PostImages, T_Archive } from '.'
+import { POST_STATUS } from '../constants'
 
 // Post and Page
 export type T_PrevNext = {
@@ -35,9 +35,8 @@ export type T_MySQLPost = Omit<T_Post, 'date'> & {
 
 export type T_Page = Omit<T_Post, 'archives'>
 
-export type GQL_PostArg = Partial<GQL_SlugArg> & {
-    postType?: POST_TYPE.POST | POST_TYPE.PAGE
-    category?: string
-    page?: number
-    query: GQL_QUERY_TYPE
+export type WithNumPages<T, N extends string> = {
+    readonly numPages: number
+} & {
+    [key in N]: T[]
 }

@@ -1,39 +1,66 @@
 import { parse } from 'csv-parse'
 import sanitize from 'mongo-sanitize'
 /* Models */
-import Cached from '@sujin/node-cache'
 import Logger from '@src/utils/logger'
+import { Spectra } from '@src/schema/spectra'
 /* T_Types */
 import type { Atom, ISpectrum } from '@sujin/lib/types/ether'
 import type { Nullable } from '@sujin/share/types'
 /* Utils */
 import { getAtom } from '@sujin/lib/utils/ether'
 import { romanize } from '@sujin/share/utils/number'
+import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 /* CONSTANTS */
-import { WEEK_IN_SECONDS } from '@sujin/share/constants/datetime'
-import { IS_DEV } from '@sujin/share/constants/helper'
+import { DAY_IN_SECONDS } from '@sujin/share/constants/datetime'
+import { COLLECTION } from '@sujin/lib/constants'
 import { orbitalKeys } from '@sujin/lib/constants/ether'
-import { Spectra } from '@src/schema/spectra'
 
-export const spectra = async (
+export const spectrum = async (
     _number: number,
     _ion: number,
 ): Promise<ISpectrum[]> => {
     const number = sanitize(_number)
     const ion = sanitize(_ion)
     const atom = getAtom(number)
-    const key = `spectra-${number}-${ion}`
 
-    const result = await Cached.getInstance().getOrExecute(
-        key,
-        request(atom, ion),
+    const request = cachedRequest(
+        find,
+        getCacheKey(COLLECTION.SPECTRA, number, ion),
         {
-            ttl: WEEK_IN_SECONDS,
-            force: IS_DEV,
+            ttl: DAY_IN_SECONDS * 30,
         },
     )
+    const result = await request(atom, ion)
     Logger.info('🤟 spectra query has been finished')
     return result
+}
+
+/**
+ * Requests spectra data
+ *
+ * @param {Atom} atom - The atom object.
+ * @param {number} ion - The ionization state.
+ * @returns {Promise<ISpectrum[]>} The spectra data.
+ */
+const find = async (atom: Atom, ion: number): Promise<ISpectrum[]> => {
+    const number = atom.number
+    return await Spectra.find<ISpectrum>({
+        number,
+        ion,
+    }).then(async (result) => {
+        if (result && result.length) {
+            return result
+        }
+        const csv = await requestNIST(atom, ion)
+        if (!csv) {
+            return []
+        }
+        await insertManyFromCSV(atom.number, ion, csv)
+        return await Spectra.find({
+            number,
+            ion,
+        })
+    })
 }
 
 const requestNIST = async (atom: Atom, ion: number) => {
@@ -240,33 +267,24 @@ const getConfArray = (conf: string): string[] => {
 }
 
 /**
- * Requests spectra data
+ * Inserts a single spectrum document into the MongoDB collection.
  *
- * @param {Atom} atom - The atom object.
- * @param {number} ion - The ionization state.
- * @returns {Promise<ISpectrum[]>} The spectra data.
+ * @param {ISpectrum} rawData - The spectrum data to insert.
+ * @returns {Promise<void>} The result of the insert operation.
  */
-const request = async (atom: Atom, ion: number): Promise<ISpectrum[]> => {
-    const number = atom.number
-    return await Spectra.find<ISpectrum>({
-        number,
-        ion,
-    }).then(async (result) => {
-        if (result && result.length) {
-            return result
+const insertOne = async (rawData: Partial<ISpectrum>): Promise<void> => {
+    await Spectra.findOne({ ...rawData }).then(async (result) => {
+        if (!result) {
+            await Spectra.insertOne(rawData)
         }
-        const csv = await requestNIST(atom, ion)
-        if (!csv) {
-            return []
-        }
-        await insertManyFromCSV(atom.number, ion, csv)
-        return await Spectra.find({
-            number,
-            ion,
-        })
     })
 }
 
+// /**
+//  *
+//  * @param schema
+//  * @returns
+//  */
 // const getSpectraBySchema = async (schema: string) => {
 //     const key = `spectra-by-schema-${schema}`
 //     const value = JSON.parse(decodeURIComponent(schema))
@@ -290,17 +308,3 @@ const request = async (atom: Atom, ion: number): Promise<ISpectrum[]> => {
 //         { ttl: WEEK_IN_SECONDS, force: IS_DEV },
 //     )
 // }
-
-/**
- * Inserts a single spectrum document into the MongoDB collection.
- *
- * @param {ISpectrum} rawData - The spectrum data to insert.
- * @returns {Promise<void>} The result of the insert operation.
- */
-const insertOne = async (rawData: Partial<ISpectrum>): Promise<void> => {
-    await Spectra.findOne({ ...rawData }).then(async (result) => {
-        if (!result) {
-            await Spectra.insertOne(rawData)
-        }
-    })
-}

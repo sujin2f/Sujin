@@ -26,7 +26,7 @@ export const UNITS_SELECTION = {
 export type T_Recipe = {
     _id: string
     title: string
-    url: string
+    url?: string
     search: string
     ingredients: { title: string; amount: number; unit: UNITS }[]
     user: string

@@ -1,0 +1,32 @@
+type Query {
+    tagCloud: [TagCloud]
+    category(slug: String): Archive
+    categories(page: Int): [Archive]
+    tag(slug: String): Archive
+    tags(page: Int): [Archive]
+}
+
+type Mutation {
+    refreshHits(slug: String!): [Boolean]
+    refreshCategory(slug: String!): [Boolean]
+    removeCategory(slug: String!): [Boolean]
+}
+
+type TagCloud {
+    id: Int
+    title: String
+    slug: String
+    total: Int
+    hits: Int
+}
+
+type Archive {
+    _id: String
+    title: String
+    slug: String
+    type: ARCHIVE_TYPE
+    total: Int
+    hits: Int
+    excerpt: String
+    image: ImageBlock
+}
