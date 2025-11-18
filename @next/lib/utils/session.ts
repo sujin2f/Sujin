@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken'
 import { getServerSession, type AuthOptions } from 'next-auth'
+import { cookies } from 'next/headers'
 import GoogleProvider from 'next-auth/providers/google'
 /* Utils */
 import { login } from '@lib/apollo/queries/users/login'
@@ -37,7 +38,15 @@ export const authOptions = {
                     },
                 )
                 const { _id, accessToken } = await login(refreshToken)
-                return { ...nextToken, _id, accessToken, refreshToken }
+                ;(await cookies()).set('sujin-refresh-token', refreshToken, {
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    maxAge: 7 * DAY_IN_SECONDS,
+                    path: '/',
+                    sameSite: 'lax',
+                })
+
+                return { ...nextToken, _id, accessToken }
             }
             return { ...nextToken }
         },
@@ -47,9 +56,8 @@ export const authOptions = {
                 user: {
                     ...session.user,
                     _id: token._id,
+                    accessToken: token.accessToken,
                 } as T_Session,
-                accessToken: token.accessToken,
-                refreshToken: token.refreshToken,
             }
         },
     },
@@ -58,21 +66,21 @@ export const authOptions = {
 export const getSession = async () => await getServerSession(authOptions)
 
 // TODO use refresh token to refresh
-export const getTokens = async (): Promise<string[]> => {
+export const getAccessToken = async (): Promise<string> => {
     const session = await getSession().catch(() => undefined)
-    if (!session || !session.accessToken || !session.refreshToken) return []
-    return [session.accessToken as string, session.refreshToken as string]
+    if (!session || !session.user || !session.user.accessToken) return ''
+    return session.user.accessToken as string
 }
 
 export const getSessionContext = async () => {
-    const token = await getTokens().catch(() => [])
-    if (!token.length) {
+    const token = await getAccessToken().catch(() => false)
+    if (!token) {
         return {}
     }
 
     return {
         headers: {
-            Authorization: `Bearer ${token[0]}`,
+            Authorization: `Bearer ${token}`,
         },
     }
 }

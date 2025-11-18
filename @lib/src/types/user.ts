@@ -38,7 +38,6 @@ export type T_NextToken = {
  */
 export type T_Session = {
     accessToken: string // GQL token
-    refreshToken: string // Next token
     _id: string
     name: string
     email: string

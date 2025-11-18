@@ -186,7 +186,7 @@ export const MENUS: Record<MENU_NAMES, MenuItem[]> = {
                 {
                     ...menuFixture,
                     title: 'Recipe',
-                    link: '/recipe/1',
+                    link: '/recipe',
                 },
             ],
         },
@@ -395,7 +395,7 @@ export const MENUS: Record<MENU_NAMES, MenuItem[]> = {
         {
             ...menuFixture,
             title: 'My Recipes',
-            link: '/recipe/list/1',
+            link: '/recipe/mine/1',
         },
         {
             ...menuFixture,

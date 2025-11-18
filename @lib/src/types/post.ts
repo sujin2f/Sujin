@@ -35,7 +35,7 @@ export type T_MySQLPost = Omit<T_Post, 'date'> & {
 
 export type T_Page = Omit<T_Post, 'archives'>
 
-export type WithNumPages<T, N extends string> = {
+export type WithNumPages<T, N extends string = 'items'> = {
     readonly numPages: number
 } & {
     [key in N]: T[]

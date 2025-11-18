@@ -7,6 +7,8 @@ import { ErrorBoundary } from 'next/dist/client/components/error-boundary'
 /* CONSTANTS */
 import { BASE_URL, DEFAULT_THUMBNAIL } from '@lib/constants'
 /* Components */
+import { ApolloProvider } from '@lib/components/ApolloProvider'
+import { ReduxProvider } from '@lib/components/ReduxProvider'
 import Error from '@app/global-error'
 import { SessionProvider } from '@common/components/SessionProvider'
 import Loading from '@app/loading'
@@ -74,9 +76,13 @@ export default async function AppLayout({ children }: PropsWithChildren) {
             <body className={ubuntu.className}>
                 <Suspense fallback={<Loading />}>
                     <SessionProvider session={session}>
-                        <ErrorBoundary errorComponent={Error}>
-                            {children}
-                        </ErrorBoundary>
+                        <ApolloProvider>
+                            <ReduxProvider>
+                                <ErrorBoundary errorComponent={Error}>
+                                    {children}
+                                </ErrorBoundary>
+                            </ReduxProvider>
+                        </ApolloProvider>
                     </SessionProvider>
                 </Suspense>
             </body>

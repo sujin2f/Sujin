@@ -1,6 +1,6 @@
 type Query {
     recipe(_id: String!): Recipe
-    recipes(page: Int!, mine: Boolean): [Recipe]
+    recipes(page: Int!, mine: Boolean): RecipeList
 }
 
 type Mutation {
@@ -13,6 +13,7 @@ type Recipe {
     _id: String
     title: String
     url: String
+    user: String
     ingredients: [Ingredient]
 }
 
@@ -33,4 +34,9 @@ input IngredientInput {
     title: String
     amount: Float
     unit: String
+}
+
+type RecipeList {
+    items: [Recipe]
+    numPages: Int
 }

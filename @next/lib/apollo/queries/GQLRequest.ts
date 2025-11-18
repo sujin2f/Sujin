@@ -16,24 +16,28 @@ export const cachedGQLRequest = async <T>(
     variables: Record<string, unknown>,
     cacheKeys: string[],
 ) => {
-    const request = unstable_cache(cached, cacheKeys, {
-        revalidate: REVALIDATION,
-    })
+    const request = unstable_cache(
+        async <T>(
+            doc: DocumentNode,
+            variables: Record<string, unknown>,
+            cacheKeys: string[],
+        ) => {
+            const [collection, ...keys] = cacheKeys
+            const request = cachedRequest(
+                GQLRequest,
+                getCacheKey(collection as COLLECTION, ...keys),
+            )
+            return await request<T>(doc, variables)
+        },
+        cacheKeys,
+        {
+            revalidate: REVALIDATION,
+        },
+    )
     return await request<T>(doc, variables, cacheKeys)
 }
 
-const cached = async <T>(
-    doc: DocumentNode,
-    variables: Record<string, unknown>,
-    cacheKeys: string[],
-) => {
-    const [collection, ...keys] = cacheKeys
-    const request = cachedRequest(
-        GQLRequest,
-        getCacheKey(collection as COLLECTION, ...keys),
-    )
-    return await request<T>(doc, variables)
-}
+// const cached =
 
 const GQLRequest = async <T>(
     doc: DocumentNode,
@@ -44,4 +48,31 @@ const GQLRequest = async <T>(
         variables,
         context: await getSessionContext(),
     })
+}
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+export const cachedGQLRequest2 = async <T>(
+    func: (...variables: any[]) => Promise<T>,
+    token: string,
+    cacheKeys: string[],
+    ...variables: any[]
+) => {
+    const request = unstable_cache(cached2, cacheKeys, {
+        revalidate: REVALIDATION,
+    })
+    return await request<T>(func, token, cacheKeys, ...variables)
+}
+
+const cached2 = async <T>(
+    func: (...variables: any[]) => Promise<T>,
+    token: string,
+    cacheKeys: string[],
+    ...variables: any[]
+) => {
+    const [collection, ...keys] = cacheKeys
+    const request = cachedRequest(
+        func,
+        getCacheKey(collection as COLLECTION, ...keys),
+    )
+    return await request(token, ...variables)
 }

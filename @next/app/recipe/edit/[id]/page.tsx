@@ -5,15 +5,36 @@ import { Banner } from '@lib/components/header/Banner'
 import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
 /* CONSTANTS */
-import { MENU_NAMES } from '@sujin/lib/constants'
+import { COLLECTION, MENU_NAMES } from '@sujin/lib/constants'
 /* Utils */
 import { getSession } from '@lib/utils/session'
+import RecipeEditClient from './Edit.client'
+import { cachedGQLRequest2 } from '@lib/apollo/queries/GQLRequest'
+import { recipe as getRecipe } from '@lib/apollo/queries/recipes/recipe'
 
-export default async function LayoutRecipeAdd({ children }: PropsWithChildren) {
+type Props = PropsWithChildren<{
+    params: Promise<{
+        id: string
+    }>
+}>
+
+export default async function PageRecipeEdit({ params }: Props) {
     const session = await getSession()
 
-    const loggedIn = session && session.user
-    if (!loggedIn) {
+    const user = session && session.user
+    if (!user) {
+        notFound()
+    }
+
+    const { id } = await params
+    const recipe = await cachedGQLRequest2(
+        getRecipe,
+        '',
+        [COLLECTION.RECIPE, 'detail', id],
+        id,
+    )
+
+    if (recipe.user !== user._id) {
         notFound()
     }
 
@@ -26,7 +47,7 @@ export default async function LayoutRecipeAdd({ children }: PropsWithChildren) {
             />
             <Row>
                 <Column large={8} largeOffset={2} small={12}>
-                    {children}
+                    <RecipeEditClient recipe={recipe} />
                 </Column>
             </Row>
         </>

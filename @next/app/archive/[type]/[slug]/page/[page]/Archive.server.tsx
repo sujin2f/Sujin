@@ -8,7 +8,7 @@ import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
 import { ARCHIVE, COLLECTION } from '@sujin/lib/constants'
 import CATEGORY_QUERY from '@lib/apollo/queries/wordpress/archives/category.graphql'
 import TAG_QUERY from '@lib/apollo/queries/wordpress/archives/tag.graphql'
-import POST_LIST_QUERY from '@lib/apollo/queries/wordpress/posts/post.list.graphql'
+import POST_LIST_QUERY from '@lib/apollo/queries/wordpress/posts/posts.graphql'
 /* Utils */
 import { updateHits } from '@lib/apollo/queries/wordpress/archives/updateHits'
 import { cachedGQLRequest } from '@lib/apollo/queries/GQLRequest'

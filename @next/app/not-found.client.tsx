@@ -1,15 +1,9 @@
 'use client'
 import React, { useEffect, useMemo } from 'react'
-import {
-    Provider as ReduxProvider,
-    useDispatch,
-    useSelector,
-} from 'react-redux'
-import { ApolloProvider, useQuery } from '@apollo/client/react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useQuery } from '@apollo/client/react'
 /* Module */
 import { RootState } from '@lib/store'
-import { store } from '@lib/store'
-import { client } from '@lib/apollo/apollo-client-frontend'
 /* Components */
 import { Cards } from '@lib/components/archive/Cards'
 import Wrapper from '@lib/components/Wrapper'
@@ -23,7 +17,7 @@ import { setRecent } from '@lib/store/slices/recent'
 /* T_Types */
 import type { T_ArchivePost } from '@sujin/lib/types'
 
-export const WrapperWithNotFound = () => {
+export const NotFoundClient = () => {
     // Redux store
     const recent = useSelector((state: RootState) => state.recent)
     const dispatch = useDispatch()
@@ -71,12 +65,12 @@ export const WrapperWithNotFound = () => {
     )
 }
 
-export const NotFoundClient = () => {
-    return (
-        <ApolloProvider client={client}>
-            <ReduxProvider store={store}>
-                <WrapperWithNotFound />
-            </ReduxProvider>
-        </ApolloProvider>
-    )
-}
+// export const NotFoundClient = () => {
+//     return (
+//         <ApolloProvider client={client}>
+//             <ReduxProvider store={store}>
+//                 <WrapperWithNotFound />
+//             </ReduxProvider>
+//         </ApolloProvider>
+//     )
+// }

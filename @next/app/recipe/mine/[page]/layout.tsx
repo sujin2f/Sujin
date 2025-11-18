@@ -7,17 +7,11 @@ import Column from '@common/components/layout/Column'
 import { MENU_NAMES } from '@sujin/lib/constants'
 /* Utils */
 import { getSession } from '@lib/utils/session'
-import { notFound } from 'next/navigation'
 
-export default async function LayoutRecipeList({
+export default async function LayoutRecipeMyList({
     children,
 }: PropsWithChildren) {
     const session = await getSession()
-    const loggedIn = session && session.user
-    if (!loggedIn) {
-        notFound()
-    }
-
     return (
         <>
             <Banner
@@ -27,7 +21,7 @@ export default async function LayoutRecipeList({
                         : MENU_NAMES.RECIPE
                 }
                 excerpt="Recipe Ex asdf;93"
-                title="Recipe List"
+                title="My Recipes"
             />
             <Row>
                 <Column large={8} largeOffset={2} small={12}>

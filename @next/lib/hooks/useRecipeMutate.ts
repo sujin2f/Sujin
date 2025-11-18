@@ -1,6 +1,5 @@
 import { type FormEvent, useCallback, useState } from 'react'
-import { notFound, useRouter } from 'next/navigation'
-import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 /* T_Types */
 import { type T_Recipe, UNITS } from '@sujin/lib/types'
 /* Utils */
@@ -49,21 +48,11 @@ const toRecipe = (
     }
 }
 
-// const useRecipeMutation = (recipe?: T_Recipe) => {
-export const useRecipeCreate = () => {
+export const useRecipeCreate = (recipe?: T_Recipe) => {
     const router = useRouter()
-    let session
-    try {
-        // eslint-disable-next-line react-hooks/rules-of-hooks -- Error from Error boundary
-        session = useSession()
-    } catch {}
-
-    const email = session?.data?.user?.email
-    if (!email) {
-        notFound()
-    }
-
-    const [numFields, setNumFields] = useState(1)
+    const [numFields, setNumFields] = useState(
+        !recipe ? 1 : recipe.ingredients.length + 1,
+    )
     const [errors, setErrors] = useState<string[]>([])
 
     const onChange = (e: FormEvent<HTMLFormElement>) => {

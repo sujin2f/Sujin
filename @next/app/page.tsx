@@ -1,11 +1,6 @@
 'use client'
 import React, { useEffect, useMemo } from 'react'
-import {
-    Provider as ReduxProvider,
-    useDispatch,
-    useSelector,
-} from 'react-redux'
-import { ApolloProvider } from '@apollo/client/react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useQuery } from '@apollo/client/react'
 /* Components */
 import { WrapperNew } from '@lib/components/WrapperNew'
@@ -16,8 +11,6 @@ import { Banner } from '@lib/components/header/Banner'
 import { setBackground } from '@lib/store/slices/background'
 /* Module */
 import { RootState } from '@lib/store'
-import { store } from '@lib/store'
-import { client } from '@lib/apollo/apollo-client-frontend'
 /* CONSTANTS */
 import LIST_QUERY from '@lib/apollo/queries/wordpress/backgrounds/backgrounds.graphql'
 import { MENU_NAMES } from '@sujin/lib/constants'
@@ -27,18 +20,8 @@ import type { T_Background } from '@sujin/lib/types'
 import Logo from '@common/images/logo.svg'
 import style from './front-page.module.scss'
 
-export default function FrontPage() {
-    return (
-        <ApolloProvider client={client}>
-            <ReduxProvider store={store}>
-                <WrapperWithBackground />
-            </ReduxProvider>
-        </ApolloProvider>
-    )
-}
-
 // TODO height transition start/stop
-const WrapperWithBackground = () => {
+export default function FrontPage() {
     // Redux store
     const backgrounds = useSelector((state: RootState) => state.background)
     const dispatch = useDispatch()
@@ -79,3 +62,6 @@ const WrapperWithBackground = () => {
         </WrapperNew>
     )
 }
+
+// const WrapperWithBackground = () => {
+// }

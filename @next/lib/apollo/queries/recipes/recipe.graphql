@@ -1,7 +1,9 @@
 query QueryRecipe($id: String!) {
     recipe(_id: $id) {
+        _id
         title
         url
+        user
         ingredients {
             title
             amount

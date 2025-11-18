@@ -1,0 +1,16 @@
+query Recipes($page: Int!, $mine: Boolean) {
+    recipes(page: $page, mine: $mine) {
+        items {
+            _id
+            title
+            url
+            user
+            ingredients {
+                title
+                amount
+                unit
+            }
+        }
+        numPages
+    }
+}

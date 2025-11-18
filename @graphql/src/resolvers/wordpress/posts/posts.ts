@@ -65,10 +65,10 @@ export const posts = async (
                 }
                 return result
             })
-            const numPages = await Post.countDocuments($match)
+            const total = await Post.countDocuments($match)
             return {
                 items,
-                numPages,
+                numPages: Math.ceil(total / PER_PAGE),
             }
         },
         getCacheKey(COLLECTION.POST, type, slug, page),

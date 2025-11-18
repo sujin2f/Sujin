@@ -1,16 +1,14 @@
-import { notFound } from 'next/navigation'
 /* Components */
 import { Banner } from '@lib/components/header/Banner'
 import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
+import { DetailClient } from './Detail.client'
 /* CONSTANTS */
 import { COLLECTION, MENU_NAMES } from '@sujin/lib/constants'
-import RECIPE_QUERY from '@lib/apollo/queries/recipes/recipe.graphql'
 /* Utils */
 import { getSession } from '@lib/utils/session'
-import { cachedGQLRequest } from '@lib/apollo/queries/GQLRequest'
-import { T_Recipe } from '@sujin/lib/types'
-import { Detail } from './Detail'
+import { cachedGQLRequest2 } from '@lib/apollo/queries/GQLRequest'
+import { recipe as getRecipe } from '@lib/apollo/queries/recipes/recipe'
 
 type Props = {
     params: Promise<{
@@ -24,19 +22,12 @@ export default async function RecipeDetailLayout({ params }: Props) {
     const session = await getSession()
     const loggedIn = session && session.user
 
-    const recipe = await cachedGQLRequest<{ recipe: T_Recipe[] }>(
-        RECIPE_QUERY,
-        { id },
-        [COLLECTION.RECIPE, id],
+    const recipe = await cachedGQLRequest2(
+        getRecipe,
+        '',
+        [COLLECTION.RECIPE, 'detail', id],
+        id,
     )
-        .then((result) => {
-            if (!result || !result.data || !result.data.recipe.length) {
-                notFound()
-            }
-
-            return result.data.recipe[0]
-        })
-        .catch(() => notFound())
 
     return (
         <>
@@ -47,7 +38,7 @@ export default async function RecipeDetailLayout({ params }: Props) {
             />
             <Row>
                 <Column large={8} largeOffset={2} small={12}>
-                    <Detail recipe={recipe} />
+                    <DetailClient recipe={recipe} />
                 </Column>
             </Row>
         </>

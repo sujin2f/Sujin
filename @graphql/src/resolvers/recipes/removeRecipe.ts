@@ -17,12 +17,13 @@ export const removeRecipe = async (
 ): Promise<string[]> => {
     // Verify Token
     const user = await verifyToken(token)
-    if (!user || !user._id) throw new Error()
+    if (!user || !user._id) throw new Error() // TODO expired?
 
     // Verify Owner
     const _id = sanitize(__id)
     const recipe = await getRecipe(_id)
-    if (recipe.user !== user._id) throw new Error()
+    if (recipe.user.toString() !== user._id)
+        throw new Error('The recipe you are trying to remove is not yours.')
 
     await Recipe.deleteOne({ _id: new Types.ObjectId(_id) })
     await Cached.getInstance().flush(getCacheKey(COLLECTION.RECIPE))

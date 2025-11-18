@@ -18,84 +18,84 @@ import {
     UNITS_VOLUMES,
     CONVERT_WEIGHT,
     CONVERT_VOLUMES,
+    T_User,
 } from '@sujin/lib/types'
 /* CONSTANTS */
 import { QuantumBool } from '@sujin/share/types'
 import { useSession } from 'next-auth/react'
+import { useRecipeDelete } from '@lib/hooks/useRecipeDelete'
 
 type Props = {
     readonly recipe: T_Recipe
 }
 
-export function ItemClient({ recipe }: Props) {
-    return <></>
-    // const { setConfirm, isPending, Confirm } = useDelete(
-    //     recipe._id,
-    //     '/recipe/mine/1',
-    // )
-    // const session = useSession()
-    // const userId = session?.data?.user
-    //     ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    //       (session?.data?.user as any)._id
-    //     : undefined
-    // const [converted, setConverted] = useState(recipe?.ingredients || [])
-    // const [focused, setFocused] = useState<false | number>(false)
+export function DetailClient({ recipe }: Props) {
+    const session = useSession()
+    const userId = session?.data?.user
+        ? (session?.data?.user as T_User)._id
+        : undefined
+    const { setConfirm, pending, Confirm } = useRecipeDelete(recipe._id)
 
-    // const onQuantityChange = useCallback(
-    //     (index: number, value: number) => {
-    //         if (isNaN(value)) {
-    //             return
-    //         }
+    const [converted, setConverted] = useState(recipe?.ingredients || [])
+    const [focused, setFocused] = useState<false | number>(false)
 
-    //         const ratio = (value || 0) / converted[index].amount
-    //         setConverted(
-    //             converted.map((item, i) => {
-    //                 if (i === index) {
-    //                     return { ...item, amount: value || 0 }
-    //                 }
-    //                 return {
-    //                     ...item,
-    //                     amount: item.amount * ratio,
-    //                 }
-    //             }),
-    //         )
-    //     },
-    //     [converted],
-    // )
+    const onQuantityChange = useCallback(
+        (index: number, value: number) => {
+            if (isNaN(value)) {
+                return
+            }
 
-    // const onUnitChange = useCallback(
-    //     (index: number, value: UNITS) => {
-    //         const result = [...converted]
-    //         const unit = result[index].unit
-    //         const conversion: Record<string, number> = Object.keys(
-    //             CONVERT_VOLUMES,
-    //         ).includes(unit)
-    //             ? CONVERT_VOLUMES
-    //             : CONVERT_WEIGHT
+            const ratio = (value || 0) / converted[index].amount
+            setConverted(
+                converted.map((item, i) => {
+                    if (i === index) {
+                        return { ...item, amount: value || 0 }
+                    }
+                    return {
+                        ...item,
+                        amount: item.amount * ratio,
+                    }
+                }),
+            )
+        },
+        [converted],
+    )
 
-    //         if (conversion[unit] && conversion[value]) {
-    //             result[index].amount =
-    //                 (result[index].amount * conversion[unit]) /
-    //                 conversion[value]
-    //             result[index].unit = value
-    //         }
-    //         setConverted(result)
-    //     },
-    //     [converted],
-    // )
+    const onUnitChange = useCallback(
+        (index: number, value: UNITS) => {
+            const result = [...converted]
+            const unit = result[index].unit
+            const conversion: Record<string, number> = Object.keys(
+                CONVERT_VOLUMES,
+            ).includes(unit)
+                ? CONVERT_VOLUMES
+                : CONVERT_WEIGHT
 
-    // if (!isPending && !recipe) notFound()
-    // if (!recipe) return <></>
+            if (conversion[unit] && conversion[value]) {
+                result[index].amount =
+                    (result[index].amount * conversion[unit]) /
+                    conversion[value]
+                result[index].unit = value
+            }
+            setConverted(result)
+        },
+        [converted],
+    )
+
+    if (!pending && !recipe) notFound()
+    if (!recipe) return <></>
 
     return (
         <>
             {Confirm}
 
-            <h3>
-                <Link href={recipe.url} target="_blank">
-                    {recipe.url}
-                </Link>
-            </h3>
+            {recipe.url && (
+                <h3>
+                    <Link href={recipe.url} target="_blank">
+                        {recipe.url}
+                    </Link>
+                </h3>
+            )}
 
             <Table fullWidth className="recipe__single">
                 <tbody>
@@ -182,13 +182,13 @@ export function ItemClient({ recipe }: Props) {
                         <Button
                             href="/recipe/mine/1"
                             title="My Recipes"
-                            disabled={isPending}
+                            disabled={pending}
                         />
                     ) : (
                         <Button
                             href="/recipe/1"
                             title="Public Recipes"
-                            disabled={isPending}
+                            disabled={pending}
                         />
                     )}
                 </Column>
@@ -196,16 +196,16 @@ export function ItemClient({ recipe }: Props) {
                     {userId === recipe.user && (
                         <ButtonGroup gap>
                             <Button
-                                href={`/recipe/deit/${recipe._id}`}
+                                href={`/recipe/edit/${recipe._id}`}
                                 title="Edit"
-                                disabled={isPending}
+                                disabled={pending}
                             />
                             <Button
                                 onClick={() => {
                                     setConfirm(QuantumBool.MOD)
                                 }}
                                 title="Delete"
-                                disabled={isPending}
+                                disabled={pending}
                             />
                         </ButtonGroup>
                     )}
