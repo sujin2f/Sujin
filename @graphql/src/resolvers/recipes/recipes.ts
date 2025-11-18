@@ -4,7 +4,7 @@ import { Types } from 'mongoose'
 import { Recipe } from '@src/schema/recipe'
 import Logger from '@src/utils/logger'
 /* T_Types */
-import type { T_Recipe, T_User } from '@sujin/lib/types'
+import type { T_Recipe, T_Token } from '@sujin/lib/types'
 import type { Nullable } from '@sujin/share/types'
 /* Utils */
 import { verifyToken } from '@src/utils/security'
@@ -21,16 +21,11 @@ export const recipes = async (
         throw new Error()
     }
 
-    let user: Nullable<T_User>
+    let user: Nullable<T_Token>
     if (mine) {
-        await verifyToken(token)
-            .then((result) => {
-                if (!result || !result._id) throw new Error()
-                user = result
-            })
-            .catch(() => {
-                throw new Error()
-            })
+        const result = verifyToken(token)
+        if (!result || !result._id) throw new Error()
+        user = result
     }
 
     const userId = user ? user._id : ''

@@ -1,5 +1,5 @@
-query Single($type: POST_TYPE!, $slug: String) {
-    post(postType: $type, slug: $slug) {
+query Post($slug: String!) {
+    post(slug: $slug) {
         _id
         title
         link

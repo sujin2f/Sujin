@@ -1,5 +1,5 @@
-query Archive($slug: String!, $type: ARCHIVE_TYPE!) {
-    archive(slug: $slug, archiveType: $type) {
+query Category($slug: String!) {
+    archive: category(slug: $slug) {
         _id
         title
         slug

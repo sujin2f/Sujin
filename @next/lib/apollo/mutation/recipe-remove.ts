@@ -1,6 +1,6 @@
 'use server'
 import { client } from '@lib/apollo/apollo-client-server'
-import { getSessionContext } from '@lib/apollo/admin'
+import { getSessionContext } from '@lib/utils/session'
 /* CONSTANTS */
 import RECIPE_REMOVE from '@lib/apollo/gql/recipe.remove.graphql'
 

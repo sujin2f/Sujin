@@ -3,7 +3,7 @@ import { category } from '@src/resolvers/wordpress/archives/category'
 import { categories } from '@src/resolvers/wordpress/archives/categories'
 import { tag } from '@src/resolvers/wordpress/archives/tag'
 import { tags } from '@src/resolvers/wordpress/archives/tags'
-import { refreshHits } from '@src/resolvers/wordpress/archives/refreshHits'
+import { updateHits } from '@src/resolvers/wordpress/archives/updateHits'
 import { refreshCategory } from '@src/resolvers/wordpress/archives/refreshCategory'
 import { removeCategory } from '@src/resolvers/wordpress/archives/removeCategory'
 
@@ -28,8 +28,8 @@ export const archives = {
         ) => await tags(page, context.token),
     },
     Mutation: {
-        refreshHits: async (_: unknown, { slug }: T_GQL_Params_Slug) =>
-            await refreshHits(slug),
+        updateHits: async (_: unknown, { slug }: T_GQL_Params_Slug) =>
+            await updateHits(slug),
         refreshCategory: async (
             _: unknown,
             { slug }: T_GQL_Params_Slug,

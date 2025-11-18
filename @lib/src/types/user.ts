@@ -1,17 +1,46 @@
+/**
+ * Mongo
+ */
+export type T_User = {
+    _id: string // user id
+    email: string // hash string
+}
+
+/**
+ * GQL token
+ */
 export type T_Token = {
-    _id: string
-    token?: string
+    _id: string // user id
+    email: string // hash string
     admin: boolean
 }
 
-export type T_User = Omit<T_Token, 'token'> & {
-    email: string
+/**
+ * result of login mutation
+ */
+export type T_Token_Return = {
+    _id: string // user id
+    accessToken: string // GQL token
 }
 
-export type T_SessionUser = {
-    gqlToken: string
+/**
+ * Token from Google login
+ * for creating GQL token
+ */
+export type T_NextToken = {
+    name: string
+    email: string
+    picture?: string
+}
+
+/**
+ * Next server session
+ */
+export type T_Session = {
+    accessToken: string // GQL token
+    refreshToken: string // Next token
     _id: string
     name: string
     email: string
-    image?: string
+    picture?: string
 }

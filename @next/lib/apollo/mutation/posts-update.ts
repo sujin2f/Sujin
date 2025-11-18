@@ -1,6 +1,6 @@
 'use server'
 import { client } from '@lib/apollo/apollo-client-server'
-import { getSessionContext } from '@lib/apollo/admin'
+import { getSessionContext } from '@lib/utils/session'
 import POSTS_MUTATION from '@lib/apollo/gql/posts.update.graphql'
 
 export const updatePosts = async (page: number, category: string = '') => {

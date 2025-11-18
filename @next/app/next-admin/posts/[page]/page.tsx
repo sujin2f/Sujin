@@ -9,7 +9,7 @@ import { PrevNextAdmin } from '@lib/components/admin/PrevNextAdmin'
 import { Header } from './Header'
 import { RefreshLink } from './RefreshLink'
 /* Utils */
-import { GQLRequest } from '@lib/apollo/GQLRequest'
+import { GQLRequest } from '@lib/apollo/queries/GQLRequest'
 /* CONSTANTS */
 import LIST_QUERY from '@lib/apollo/gql/post.list.admin.graphql'
 import { POST_TYPE } from '@sujin/lib/constants'

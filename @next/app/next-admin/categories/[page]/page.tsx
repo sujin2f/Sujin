@@ -10,7 +10,7 @@ import { Header } from './Header'
 import { RemoveLink } from './RemoveLink'
 import { RefreshLink } from './RefreshLink'
 /* Utils */
-import { GQLRequest } from '@lib/apollo/GQLRequest'
+import { GQLRequest } from '@lib/apollo/queries/GQLRequest'
 /* CONSTANTS */
 import { ARCHIVE } from '@sujin/lib/constants'
 import LIST_QUERY from '@lib/apollo/gql/archive.list.graphql'

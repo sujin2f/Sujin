@@ -9,7 +9,6 @@ const usersSchema = new Schema({
         required: true,
         unique: true,
     },
-    admin: Boolean,
 })
 usersSchema.index({ email: 1 })
 

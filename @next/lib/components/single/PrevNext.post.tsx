@@ -9,7 +9,7 @@ import useIntersectionObserver from '@common/hooks/useIntersectionObserver'
 /* T_Type */
 import type { T_PrevNext } from '@sujin/lib/types'
 /* CONSTANTS */
-import PREV_NEXT_QUERY from '@lib/apollo/gql/prevNext.graphql'
+import PREV_NEXT_QUERY from '@lib/apollo/queries/wordpress/posts/prevNext.graphql'
 
 type Props = {
     slug: string

@@ -1,6 +1,6 @@
 'use server'
 import { client } from '@lib/apollo/apollo-client-server'
-import { getSessionContext } from '@lib/apollo/admin'
+import { getSessionContext } from '@lib/utils/session'
 import SINGLE_MUTATION from '@lib/apollo/gql/single.update.graphql'
 import { POST_TYPE } from '@sujin/lib/constants'
 

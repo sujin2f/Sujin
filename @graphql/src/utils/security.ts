@@ -1,43 +1,24 @@
 import jwt from 'jsonwebtoken'
-import { Types } from 'mongoose'
 /* Modules */
 import Logger from '@src/utils/logger'
-import { User } from '@src/schema/users'
 /* T_Types */
-import type { T_Token, T_User } from '@sujin/lib/types'
-import type { Nullable } from '@sujin/share/types'
-
-export const createToken = (user: T_Token): string => {
-    const secret = getSecret()
-    return jwt.sign(user, secret, { expiresIn: '1h' })
-}
+import type { T_Token } from '@sujin/lib/types'
 
 /**
  * Verify given token from MongoDB user
  *
  * @param token
- * @returns {Promise<Nullable<T_User>>}
+ * @returns {T_Token}
  * @throws
+ *
+ * if message is 'jwt expired', try re-validate token
  */
-export const verifyToken = async (token: string): Promise<Nullable<T_User>> => {
-    if (!token) {
-        return
+export const verifyToken = (gqlToken: string): T_Token => {
+    if (!gqlToken) {
+        throw new Error()
     }
 
-    const secret = getSecret()
-
-    try {
-        const { _id, admin } = jwt.verify(token, secret) as T_Token
-        return await User.findOne<T_User>({
-            _id: new Types.ObjectId(_id),
-            admin,
-        })
-    } catch (e) {
-        Logger.error(`🤬 Invalid token: ${e}`)
-        throw e
-    }
-
-    return
+    return jwt.verify(gqlToken, getSecret('gql')) as T_Token
 }
 
 /**
@@ -47,19 +28,28 @@ export const verifyToken = async (token: string): Promise<Nullable<T_User>> => {
  * @returns
  * @throws
  */
-export const verifyAdmin = async (
-    token: string,
-    message: string,
-): Promise<void> => {
-    const user = await verifyToken(token)
+export const verifyAdmin = (gqlToken: string, message: string) => {
+    const user = verifyToken(gqlToken)
     if (!user || !user.admin) {
         Logger.error(`🤬 ${message}`)
         throw new Error(`🤬 ${message}`)
     }
 }
 
-export const getSecret = (): string => {
-    const secret = process.env.JWT_SECRET
+export const getSecret = (type: 'next' | 'gql' | 'email'): string => {
+    let secret = ''
+    switch (type) {
+        case 'next':
+            secret = process.env.NEXTAUTH_SECRET || ''
+            break
+        case 'gql':
+            secret = process.env.GQL_SECRET || ''
+            break
+        case 'email':
+            secret = process.env.EMAIL_SECRET || ''
+            break
+    }
+
     if (!secret) {
         // TODO
         throw new Error()

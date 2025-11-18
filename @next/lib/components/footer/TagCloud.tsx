@@ -10,7 +10,7 @@ import { RootState } from '@lib/store'
 /* Utils */
 import useIntersectionObserver from '@common/hooks/useIntersectionObserver'
 /* CONSTANTS */
-import TAGCLOUD_QUERY from '@lib/apollo/gql/tagCloud.graphql'
+import TAG_CLOUD_QUERY from '@lib/apollo/queries/wordpress/archives/tagCloud.graphql'
 /* T_Type */
 import type { T_Archive } from '@sujin/lib/types'
 import Link from 'next/link'
@@ -25,7 +25,7 @@ const TagCloud = () => {
     const ref = useRef(null)
     const [skip, setSkip] = useState(true)
     const { loading, error, data } = useQuery<{ tagCloud: T_Archive[] }>(
-        TAGCLOUD_QUERY,
+        TAG_CLOUD_QUERY,
         { skip: skip || hasStore },
     )
     useEffect(() => {

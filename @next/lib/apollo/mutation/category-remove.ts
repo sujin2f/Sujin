@@ -1,6 +1,6 @@
 'use server'
 import { client } from '@lib/apollo/apollo-client-server'
-import { getSessionContext } from '@lib/apollo/admin'
+import { getSessionContext } from '@lib/utils/session'
 import REMOVE_ARCHIVE_MUTATION from '@lib/apollo/gql/archive.remove.graphql'
 import { ARCHIVE } from '@sujin/lib/constants'
 

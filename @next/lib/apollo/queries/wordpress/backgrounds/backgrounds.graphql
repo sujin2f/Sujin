@@ -1,5 +1,5 @@
 query {
-    background {
+    backgrounds {
         width
         height
         url

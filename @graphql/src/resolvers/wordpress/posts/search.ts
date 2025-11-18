@@ -26,7 +26,7 @@ export const search = async (
     const keyword = sanitize(_keyword)
     const page = sanitize(_page)
 
-    const $match = { status: POST_STATUS.PUBLISH, $content: keyword }
+    const $match = { status: POST_STATUS.PUBLISH, $text: { $search: keyword } }
     const request = cachedRequest(
         async (): Promise<WithNumPages<T_Post, 'items'>> => {
             const items = await Post.aggregate<T_Post>([

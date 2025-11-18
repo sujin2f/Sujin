@@ -3,5 +3,4 @@ mutation {
         _id
         accessToken
     }
-    isAdmin
 }

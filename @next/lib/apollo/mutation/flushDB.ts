@@ -1,6 +1,6 @@
 'use server'
 import { client } from '@lib/apollo/apollo-client-server'
-import { getSessionContext } from '@lib/apollo/admin'
+import { getSessionContext } from '@lib/utils/session'
 import FLUSH_MUTATION from '@lib/apollo/gql/flushDB.graphql'
 
 export const flushDB = async () => {

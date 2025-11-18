@@ -1,4 +1,11 @@
 # TODO fragment https://graphql.com/learn/interfaces-and-unions/#fragments
+fragment imageFields on Image {
+    width
+    height
+    url
+    mimeType
+}
+
 type Image {
     url: String
     width: Int
@@ -51,6 +58,11 @@ interface I_Page {
     images: Images
     meta: PostMeta
     status: String
+}
+
+enum POST_TYPE {
+    post
+    page
 }
 
 enum ARCHIVE_TYPE {

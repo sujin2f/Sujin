@@ -4,11 +4,12 @@ import type { Metadata } from 'next/types'
 import { SearchServer } from '@app/archive/[type]/[slug]/page/[page]/Search.server'
 import { ArchiveServer } from '@app/archive/[type]/[slug]/page/[page]/Archive.server'
 /* Utils */
-import { cachedGQLRequest } from '@lib/apollo/GQLRequest'
+import { cachedGQLRequest } from '@lib/apollo/queries/GQLRequest'
 /* CONSTANTS */
 import { ARCHIVE, COLLECTION } from '@sujin/lib/constants'
 import { BASE_URL } from '@lib/constants'
-import ARCHIVE_QUERY from '@lib/apollo/gql/archive.metadata.graphql'
+import CATEGORY_QUERY from '@lib/apollo/queries/wordpress/archives/category.metadata.graphql'
+import TAG_QUERY from '@lib/apollo/queries/wordpress/archives/tag.metadata.graphql'
 /* T_Type */
 import type { T_Archive } from '@sujin/lib/types'
 
@@ -43,7 +44,7 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
 
     // TODO thumbnail
     const archive = await cachedGQLRequest<{ archive: T_Archive[] }>(
-        ARCHIVE_QUERY,
+        type === ARCHIVE.CATEGORY ? CATEGORY_QUERY : TAG_QUERY,
         { slug, type },
         [COLLECTION.ARCHIVE, type, slug, 'metadata'],
     )

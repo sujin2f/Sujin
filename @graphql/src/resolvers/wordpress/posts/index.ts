@@ -11,16 +11,18 @@ import { refreshPosts } from '@src/resolvers/wordpress/posts/refreshPosts'
 import { refreshPostsAll } from '@src/resolvers/wordpress/posts/refreshPostsAll'
 
 import type { Context } from '@src/types'
-import type { T_GQL_Params_Page, T_GQL_Params_Slug } from '@sujin/lib/types'
+import type {
+    T_GQL_Params_Page,
+    T_GQL_Params_Posts,
+    T_GQL_Params_Slug,
+} from '@sujin/lib/types'
 
 export const posts = {
     Query: {
         post: async (_: unknown, { slug }: T_GQL_Params_Slug) =>
             await post(slug),
-        posts: async (
-            _: unknown,
-            { slug, page }: T_GQL_Params_Slug & T_GQL_Params_Page,
-        ) => await getPosts(slug, page),
+        posts: async (_: unknown, { type, slug, page }: T_GQL_Params_Posts) =>
+            await getPosts(type, slug, page),
         postsAdmin: async (
             _: unknown,
             { slug, page }: T_GQL_Params_Slug & T_GQL_Params_Page,

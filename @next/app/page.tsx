@@ -19,7 +19,7 @@ import { RootState } from '@lib/store'
 import { store } from '@lib/store'
 import { client } from '@lib/apollo/apollo-client-frontend'
 /* CONSTANTS */
-import BACKGROUND_QUERY from '@lib/apollo/gql/background.graphql'
+import LIST_QUERY from '@lib/apollo/queries/wordpress/backgrounds/backgrounds.graphql'
 import { MENU_NAMES } from '@sujin/lib/constants'
 /* T_Types */
 import type { T_Background } from '@sujin/lib/types'
@@ -45,14 +45,13 @@ const WrapperWithBackground = () => {
     const hasStore = useMemo(() => !!backgrounds.length, [backgrounds])
 
     // Read from GraphQL with Intersection Observer & update store
-    const { data } = useQuery<{ background: T_Background[] }>(
-        BACKGROUND_QUERY,
-        { skip: hasStore },
-    )
+    const { data } = useQuery<{ backgrounds: T_Background[] }>(LIST_QUERY, {
+        skip: hasStore,
+    })
 
     useEffect(() => {
-        if (!hasStore && data && data.background.length) {
-            dispatch(setBackground(data.background))
+        if (!hasStore && data && data.backgrounds.length) {
+            dispatch(setBackground(data.backgrounds))
         }
     }, [data, hasStore, dispatch])
 

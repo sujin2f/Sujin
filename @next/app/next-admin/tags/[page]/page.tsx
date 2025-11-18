@@ -5,7 +5,7 @@ import Row from '@common/components/layout/Row'
 import { PrevNextAdmin } from '@lib/components/admin/PrevNextAdmin'
 import { Header } from '@lib/components/admin/Header'
 /* Utils */
-import { GQLRequest } from '@lib/apollo/GQLRequest'
+import { GQLRequest } from '@lib/apollo/queries/GQLRequest'
 /* CONSTANTS */
 import { ARCHIVE } from '@sujin/lib/constants'
 import LIST_QUERY from '@lib/apollo/gql/archive.list.graphql'

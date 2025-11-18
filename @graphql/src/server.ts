@@ -44,9 +44,6 @@ const corsOptions = {
 }
 
 const authenticateUser = (req: express.Request): string => {
-    if (!process.env.JWT_SECRET) {
-        return ''
-    }
     const authorizationHeader = req.headers.authorization
     if (!authorizationHeader || !authorizationHeader.startsWith('Bearer ')) {
         return ''

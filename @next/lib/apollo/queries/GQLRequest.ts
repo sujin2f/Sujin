@@ -8,7 +8,7 @@ import { REVALIDATION } from '@lib/constants'
 import { COLLECTION } from '@sujin/lib/constants'
 /* Utils */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
-import { getSessionContext } from '@lib/apollo/admin'
+import { getSessionContext } from '@lib/utils/session'
 
 export const cachedGQLRequest = async <T>(
     doc: DocumentNode,

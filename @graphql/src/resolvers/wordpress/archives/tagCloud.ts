@@ -21,7 +21,8 @@ const query = async (): Promise<Partial<T_Archive>[]> => {
             const step = result.length / 5
             result.forEach((tag, index) => {
                 tags[tag.slug] = {
-                    ...tag,
+                    slug: tag.slug,
+                    title: tag.title,
                     total: 0,
                     hits: Math.floor(index / step),
                 } satisfies Partial<T_Archive>
@@ -44,7 +45,8 @@ const query = async (): Promise<Partial<T_Archive>[]> => {
                     }
                 } else {
                     tags[tag.slug] = {
-                        ...tag,
+                        slug: tag.slug,
+                        title: tag.title,
                         hits: 0,
                         total: Math.floor(index / step),
                     } satisfies Partial<T_Archive>

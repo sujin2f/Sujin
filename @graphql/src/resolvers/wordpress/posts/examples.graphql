@@ -2,7 +2,7 @@ query {
     post(slug: "?") {
         title
     }
-    posts(slug: "?", page: 1) {
+    posts(type: category, slug: "?", page: 1) {
         items {
             title
         }

@@ -11,17 +11,12 @@ import Row from '@common/components/layout/Row'
 import { Content } from '@lib/components/single/Content'
 import { GoogleAdvert } from '@common/components/GoogleAdvert'
 /* CONSTANTS */
-import {
-    COLLECTION,
-    POST_TYPE,
-    POST_STATUS,
-    IMAGE_SIZE,
-} from '@sujin/lib/constants'
-import POST_QUERY from '@lib/apollo/gql/post.graphql'
+import { COLLECTION, POST_STATUS, IMAGE_SIZE } from '@sujin/lib/constants'
+import POST_QUERY from '@lib/apollo/queries/wordpress/posts/post.graphql'
 /* Utils */
 import { getThumbnailFromPost } from '@lib/utils/client'
 import { updateHits } from '@lib/apollo/mutation/hits-update'
-import { cachedGQLRequest } from '@lib/apollo/GQLRequest'
+import { cachedGQLRequest } from '@lib/apollo/queries/GQLRequest'
 /* T_Types */
 import type { T_Post } from '@sujin/lib/types'
 
@@ -30,16 +25,16 @@ type Props = {
 }
 
 export async function PostServer({ slug }: Props) {
-    const post = await cachedGQLRequest<{ post: T_Post[] }>(
+    const post = await cachedGQLRequest<{ post: T_Post }>(
         POST_QUERY,
-        { slug, type: POST_TYPE.POST },
-        [COLLECTION.PAGE, POST_TYPE.POST, slug],
+        { slug },
+        [COLLECTION.POST, slug],
     )
         .then((result) => {
-            if (!result.data || !result.data.post.length) {
+            if (!result.data || !result.data.post) {
                 notFound()
             }
-            return result.data.post[0]
+            return result.data.post
         })
         .catch(() => notFound())
 

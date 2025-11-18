@@ -1,51 +1,69 @@
+import jwt from 'jsonwebtoken'
 import sanitize from 'mongo-sanitize'
 /* Models */
 import Logger from '@src/utils/logger'
-import { mysqlDisconnect } from '@src/utils/mysql'
 import { User } from '@src/schema/users'
 /* Utils */
+import { mysqlDisconnect } from '@src/utils/mysql'
 import { isUserAdmin } from '@src/utils/mysql/isUserAdmin'
 import { createHash } from '@sujin/share/utils/crypto'
-import { createToken, getSecret } from '@src/utils/security'
+import { getSecret } from '@src/utils/security'
 /* T_Type */
-import type { T_Token, T_User } from '@sujin/lib/types'
+import type {
+    T_NextToken,
+    T_Token,
+    T_Token_Return,
+    T_User,
+} from '@sujin/lib/types'
 
 /**
  * User Login
- *
- * @param _email
- * @returns
+ * @param nextToken
+ * @returns {T_Token_Return}
  */
-export const login = async (_email: string): Promise<Partial<T_Token>> => {
-    // secure email
-    const email = createHash(sanitize(_email), getSecret())
-    const user: T_Token = await User.findOne<T_User>({ email }).then(
-        async (result) => {
-            if (result) {
-                return {
-                    _id: result._id.toString(),
-                    admin: result.admin,
-                } satisfies T_Token
-            }
+export const login = async (nextToken: string): Promise<T_Token_Return> => {
+    if (!nextToken) {
+        Logger.error('🤬 Login: token is empty', nextToken)
+        throw new Error('🤬 Login: token is empty')
+    }
 
-            // Find the user is admin from MySQL
-            const admin = await isUserAdmin(email)
-            await mysqlDisconnect()
+    // Get email from Next token
+    const { email: _email } = jwt.verify(
+        nextToken,
+        getSecret('next'),
+    ) as T_NextToken
+    if (!_email) {
+        throw new Error('🤬 Login: email is empty')
+    }
+    const email = createHash(sanitize(_email), getSecret('email'))
 
-            // Create a new user
-            const user = await User.insertOne<T_User>({ email, admin })
+    // Get MongoDB user._id
+    const _id = await User.findOne<T_User>({ email }).then(async (result) => {
+        if (result) {
+            return result._id.toString()
+        }
 
-            return {
-                _id: user._id.toString(),
-                admin: !!user.admin,
-            } satisfies T_Token
-        },
-    )
-    const token = createToken(user)
+        // Create a new user
+        const user = await User.insertOne<T_User>({ email })
+        return user._id.toString()
+    })
 
-    Logger.info(`🤟 login has been finished: ${email},  ${user._id}`)
+    // Find the user is admin from MySQL
+    const admin = await isUserAdmin(email)
+    await mysqlDisconnect()
+
+    const tokenContent: T_Token = {
+        _id,
+        email,
+        admin,
+    }
+
+    const accessToken = jwt.sign(tokenContent, getSecret('gql'), {
+        expiresIn: '1d',
+    })
+    Logger.info(`🤟 login has been finished: ${email}`)
     return {
-        _id: user._id,
-        token,
-    } satisfies Partial<T_Token>
+        _id,
+        accessToken,
+    }
 }

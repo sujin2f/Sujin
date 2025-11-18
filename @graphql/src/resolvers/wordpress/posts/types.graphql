@@ -1,6 +1,6 @@
 type Query {
     post(slug: String!): Post
-    posts(slug: String!, page: Int!): PostList
+    posts(type: ARCHIVE_TYPE!, slug: String!, page: Int!): PostList
     postsAdmin(slug: String!, page: Int!): [Post]
     postsAllAdmin(page: Int!): [Post]
     search(keyword: String!, page: Int!): PostList

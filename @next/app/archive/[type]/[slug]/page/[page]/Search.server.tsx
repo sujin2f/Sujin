@@ -6,11 +6,11 @@ import { Cards } from '@lib/components/archive/Cards.use'
 import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
 /* CONSTANTS */
 import { ARCHIVE, COLLECTION } from '@sujin/lib/constants'
-import POST_LIST_QUERY from '@lib/apollo/gql/post.list.graphql'
+import SEARCH_QUERY from '@lib/apollo/queries/wordpress/posts/search.graphql'
 /* Utils */
-import { cachedGQLRequest } from '@lib/apollo/GQLRequest'
+import { cachedGQLRequest } from '@lib/apollo/queries/GQLRequest'
 /* T_Types */
-import type { WithNumPages, T_Post } from '@sujin/lib/types'
+import type { WithNumPages, T_ArchivePost } from '@sujin/lib/types'
 
 type Props = {
     slug: string
@@ -18,16 +18,21 @@ type Props = {
 }
 
 export async function SearchServer({ slug, page }: Props) {
-    const posts = cachedGQLRequest<WithNumPages<T_Post, 'post'>>(
-        POST_LIST_QUERY,
-        { page, category: `search-${slug}` },
-        [COLLECTION.ARCHIVE, 'posts', 'search', slug, page.toString()],
+    const posts = cachedGQLRequest<{
+        search: WithNumPages<T_ArchivePost, 'items'>
+    }>(
+        SEARCH_QUERY,
+        { keyword: slug, page },
+        [COLLECTION.ARCHIVE, 'posts', 'search', slug, page.toString()], // TODO
     )
         .then((result) => {
             if (!result.data) {
-                notFound()
+                return {
+                    items: [] as T_ArchivePost[],
+                    numPages: 1,
+                }
             }
-            return result.data
+            return result.data.search
         })
         .catch(() => notFound())
 
@@ -40,7 +45,7 @@ export async function SearchServer({ slug, page }: Props) {
                 <Cards
                     keyPrefix={`${ARCHIVE.SEARCH}-${slug}-${page}`}
                     posts={posts}
-                    listKey="post"
+                    listKey="items"
                     page={page}
                     pageURLPrefix={`/${ARCHIVE.SEARCH}/${slug}/page`}
                     large={4}

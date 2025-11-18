@@ -9,7 +9,7 @@ import { COLLECTION, MENU_NAMES } from '@sujin/lib/constants'
 import RECIPE_QUERY from '@lib/apollo/gql/recipe.graphql'
 /* Utils */
 import { getSession } from '@lib/utils/session'
-import { cachedGQLRequest } from '@lib/apollo/GQLRequest'
+import { cachedGQLRequest } from '@lib/apollo/queries/GQLRequest'
 import { T_Recipe } from '@sujin/lib/types'
 import { Detail } from './Detail'
 

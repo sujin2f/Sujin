@@ -1,6 +1,0 @@
-query ArchiveMetadata($slug: String!, $type: ARCHIVE_TYPE!) {
-    archive(slug: $slug, archiveType: $type) {
-        title
-        excerpt
-    }
-}

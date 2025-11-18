@@ -1,4 +1,5 @@
-import { T_Recipe } from './recipe'
+import type { ARCHIVE } from '../constants'
+import type { T_Recipe } from './recipe'
 
 export type T_GQL_Params_Id = {
     _id: string
@@ -6,6 +7,10 @@ export type T_GQL_Params_Id = {
 
 export type T_GQL_Params_Slug = {
     slug: string
+}
+
+export type T_GQL_Params_Archive_Type = {
+    type: ARCHIVE
 }
 
 export type T_GQL_Params_Page = {
@@ -29,6 +34,6 @@ export type T_GQL_Params_Recipe_Mutate = {
     recipe: T_Recipe
 }
 
-export type T_GQL_Params_Login = {
-    email: string
-}
+export type T_GQL_Params_Posts = T_GQL_Params_Archive_Type &
+    T_GQL_Params_Slug &
+    T_GQL_Params_Page

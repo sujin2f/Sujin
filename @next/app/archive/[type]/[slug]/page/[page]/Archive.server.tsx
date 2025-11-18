@@ -6,13 +6,14 @@ import { Cards } from '@lib/components/archive/Cards.use'
 import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
 /* CONSTANTS */
 import { ARCHIVE, COLLECTION } from '@sujin/lib/constants'
-import ARCHIVE_QUERY from '@lib/apollo/gql/archive.graphql'
-import POST_LIST_QUERY from '@lib/apollo/gql/post.list.graphql'
+import CATEGORY_QUERY from '@lib/apollo/queries/wordpress/archives/category.graphql'
+import TAG_QUERY from '@lib/apollo/queries/wordpress/archives/tag.graphql'
+import POST_LIST_QUERY from '@lib/apollo/queries/wordpress/posts/post.list.graphql'
 /* Utils */
 import { updateHits } from '@lib/apollo/mutation/hits-update'
-import { cachedGQLRequest } from '@lib/apollo/GQLRequest'
+import { cachedGQLRequest } from '@lib/apollo/queries/GQLRequest'
 /* T_Types */
-import type { WithNumPages, T_Post, T_Archive } from '@sujin/lib/types'
+import type { WithNumPages, T_Archive, T_ArchivePost } from '@sujin/lib/types'
 
 type Props = {
     type: ARCHIVE
@@ -21,16 +22,16 @@ type Props = {
 }
 
 export async function ArchiveServer({ type, slug, page }: Props) {
-    const archive = await cachedGQLRequest<{ archive: T_Archive[] }>(
-        ARCHIVE_QUERY,
+    const archive = await cachedGQLRequest<{ archive: T_Archive }>(
+        type === ARCHIVE.CATEGORY ? CATEGORY_QUERY : TAG_QUERY,
         { slug, type },
         [COLLECTION.ARCHIVE, type, slug],
     )
         .then((result) => {
-            if (!result.data || !result.data.archive.length) {
+            if (!result.data || !result.data.archive) {
                 notFound()
             }
-            return result.data.archive[0]
+            return result.data.archive
         })
         .catch(() => notFound())
 
@@ -41,22 +42,24 @@ export async function ArchiveServer({ type, slug, page }: Props) {
         await updateHits(slug)
     }
 
-    const posts = cachedGQLRequest<WithNumPages<T_Post, 'post'>>(
+    const posts = cachedGQLRequest<{
+        posts: WithNumPages<T_ArchivePost, 'items'>
+    }>(
         POST_LIST_QUERY,
-        { page, category: slug },
-        [COLLECTION.ARCHIVE, 'posts', type, slug, page.toString()],
+        { type, page, slug },
+        [COLLECTION.ARCHIVE, 'posts', type, slug, page.toString()], // TODO
     )
         .then((result) => {
             if (!result.data) {
                 return {
-                    post: [],
+                    items: [] as T_ArchivePost[],
                     numPages: 1,
                 }
             }
-            return result.data
+            return result.data.posts
         })
         .catch(() => ({
-            post: [],
+            items: [] as T_ArchivePost[],
             numPages: 1,
         }))
 
@@ -71,7 +74,7 @@ export async function ArchiveServer({ type, slug, page }: Props) {
                 <Cards
                     keyPrefix={`${type}-${slug}-${page}`}
                     posts={posts}
-                    listKey="post"
+                    listKey="items"
                     page={page}
                     pageURLPrefix={`/${type}/${slug}/page`}
                     large={4}

@@ -6,7 +6,7 @@ import Column from '@common/components/layout/Column'
 import { PrevNextAdmin } from '@lib/components/admin/PrevNextAdmin'
 import Table from '@common/components/containers/Table'
 /* Utils */
-import { GQLRequest } from '@lib/apollo/GQLRequest'
+import { GQLRequest } from '@lib/apollo/queries/GQLRequest'
 /* T_Types */
 import type { T_ArchivePost } from '@sujin/lib/types'
 /* CONSTANTS */
