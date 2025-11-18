@@ -1,0 +1,9 @@
+type Mutation {
+    login: Token
+    isAdmin: Boolean
+}
+
+type Token {
+    _id: String!
+    accessToken: String!
+}

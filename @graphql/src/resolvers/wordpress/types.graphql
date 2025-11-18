@@ -1,0 +1,71 @@
+# TODO fragment https://graphql.com/learn/interfaces-and-unions/#fragments
+fragment imageFields on Image {
+    width
+    height
+    url
+    mimeType
+}
+
+type Image {
+    url: String
+    width: Int
+    height: Int
+    mimeType: String
+}
+
+type ImageSize {
+    medium: Image
+    mediumLarge: Image
+    large: Image
+    thumbnail: Image
+    postThumbnail: Image
+    relatedPost: Image
+    recentPost: Image
+}
+
+type ImageBlock {
+    _id: String
+    url: String
+    mimeType: String
+    width: Int
+    height: Int
+    sizes: ImageSize
+}
+
+type Images {
+    list: ImageBlock
+    icon: ImageBlock
+    title: ImageBlock
+    background: ImageBlock
+    thumbnail: ImageBlock
+}
+
+type PostMeta {
+    useBackgroundColor: Boolean
+    backgroundColor: String
+}
+
+# TODO Simple type
+interface I_Page {
+    _id: String
+    id: Int
+    slug: String
+    title: String
+    excerpt: String
+    content: String
+    date: Int
+    link: String
+    images: Images
+    meta: PostMeta
+    status: String
+}
+
+enum POST_TYPE {
+    post
+    page
+}
+
+enum ARCHIVE_TYPE {
+    category
+    tag
+}

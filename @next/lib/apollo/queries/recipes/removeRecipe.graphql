@@ -1,0 +1,3 @@
+mutation RemoveRecipe($_id: String!) {
+    removeRecipe(_id: $_id)
+}

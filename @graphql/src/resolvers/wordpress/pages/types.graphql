@@ -1,0 +1,23 @@
+type Query {
+    page(slug: String!): Page
+    pages(page: Int!): [Page]
+}
+
+type Mutation {
+    refreshPage(slug: String!): [Boolean]
+    removePage(slug: String!): [Boolean]
+}
+
+type Page implements I_Page {
+    _id: String
+    id: Int
+    slug: String
+    title: String
+    excerpt: String
+    content: String
+    date: Int
+    link: String
+    images: Images
+    meta: PostMeta
+    status: String
+}

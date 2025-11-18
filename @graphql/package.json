@@ -1,0 +1,87 @@
+{
+    "name": "graphql-api",
+    "version": "0.0.1-beta",
+    "description": "",
+    "main": "src/server.ts",
+    "scripts": {
+        "build": "cross-env NODE_ENV=production rimraf .build && webpack",
+        "start": "cross-env NODE_ENV=production node --env-file=.env .build/bundle.js",
+        "dev": "concurrently \"yarn dev:webpack\" \"yarn dev:nodemon\"",
+        "dev:webpack": "cross-env NODE_ENV=development webpack --watch",
+        "dev:nodemon": "cross-env NODE_ENV=development node --env-file=.env --watch .build/bundle.js",
+        "lint": "eslint ./src/**/*.ts"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@apollo/server": "^5.1.0",
+        "@as-integrations/express5": "^1.1.2",
+        "@graphql-tools/merge": "^9.1.5",
+        "@sujin/lib": "file:../@lib/dist",
+        "@sujin/node-cache": "file:../@common/node-cache/dist",
+        "@sujin/share": "file:../@common/share/dist",
+        "cors": "^2.8.5",
+        "csv-parse": "^6.1.0",
+        "dotenv": "^17.2.3",
+        "express": "^5.1.0",
+        "graphql": "^16.12.0",
+        "jsonwebtoken": "^9.0.2",
+        "mongo-sanitize": "^1.1.0",
+        "mongoose": "^8.19.3",
+        "mysql2": "^3.15.3",
+        "node-cache": "^5.1.2",
+        "winston": "^3.18.3"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.39.1",
+        "@types/cors": "^2.8.19",
+        "@types/express": "^5.0.5",
+        "@types/jsonwebtoken": "^9.0.10",
+        "@types/mongo-sanitize": "^1.0.3",
+        "@types/node": "^24.10.0",
+        "concurrently": "^9.2.1",
+        "cross-env": "^10.1.0",
+        "eslint": "^9.39.1",
+        "graphql-tag": "^2.12.6",
+        "rimraf": "^6.1.0",
+        "ts-loader": "^9.5.4",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.9.3",
+        "typescript-eslint": "^8.46.3",
+        "webpack": "^5.102.1",
+        "webpack-cli": "^6.0.1",
+        "webpack-dev-server": "^5.2.2",
+        "webpack-node-externals": "^3.0.0"
+    },
+    "jest": {
+        "clearMocks": true,
+        "collectCoverage": true,
+        "coverageDirectory": "coverage",
+        "coverageProvider": "v8",
+        "testEnvironment": "jest-environment-jsdom",
+        "testMatch": [
+            "<rootDir>/src/**/?(*.)+(spec|test).[tj]s?(x)"
+        ],
+        "extensionsToTreatAsEsm": [
+            ".ts"
+        ],
+        "preset": "ts-jest",
+        "transform": {
+            "^.+\\.(ts|tsx)?$": "ts-jest"
+        }
+    },
+    "prettier": {
+        "arrowParens": "always",
+        "bracketSpacing": true,
+        "endOfLine": "lf",
+        "printWidth": 80,
+        "proseWrap": "preserve",
+        "quoteProps": "as-needed",
+        "semi": false,
+        "singleQuote": true,
+        "tabWidth": 4,
+        "trailingComma": "all",
+        "useTabs": false
+    }
+}

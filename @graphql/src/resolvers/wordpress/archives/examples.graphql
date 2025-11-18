@@ -1,0 +1,23 @@
+query {
+    tagCloud {
+        title
+    }
+    category(slug: "?") {
+        title
+    }
+    categories(page: 1) {
+        title
+    }
+    tag(slug: "?") {
+        title
+    }
+    tags(page: 1) {
+        title
+    }
+}
+
+mutation {
+    updateHits(slug: "?")
+    refreshCategory(slug: "?")
+    removeCategory(slug: "?")
+}

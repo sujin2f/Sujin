@@ -1,0 +1,7 @@
+type Query {
+    backgrounds: [ImageBlock]
+}
+
+type Mutation {
+    refreshBackgrounds: [Boolean]
+}

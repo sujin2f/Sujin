@@ -1,0 +1,81 @@
+'use client'
+
+import Table from '@sujin/common/components/diagram/Table'
+import { TimeLine } from '@sujin/common/components/diagram/TimeLine'
+import { useEffect, useState } from 'react'
+
+const PADDING = 20
+
+const text = `
+Garlic | 2 | grind
+Olive oil | 2t
+Pasta | 100g
+Water | 100ml
+
+Water -> [Pot]
+[Pot] 5 fire
+Pasta -> [Pot]
+[Pot] drain
+[Pot] -> [Plate]`
+
+export default function Page() {
+    const tools = new Set<string>([])
+    const order: string[] = []
+    const ingredient: string[] = []
+    text.split('\n')
+        .filter((v) => v)
+        .forEach((row) => {
+            const regex = new RegExp(/\[(.*?)\]/g)
+            const result = row.match(regex)
+            if (result) {
+                result.forEach((tool) => {
+                    tools.add(tool)
+                })
+                order.push(row)
+            } else {
+                ingredient.push(row)
+            }
+        })
+
+    const [state, setState] = useState<Record<string, [number, number]>>({})
+    const [width, setWidth] = useState(500)
+    const [height, setHeight] = useState(500)
+
+    const update = (id: string, width: number, height: number) => {
+        state[id] = [width, height]
+        setState(state)
+    }
+
+    useEffect(() => {
+        if (state.ingredient) {
+            setWidth(PADDING * 2 + state.ingredient[0])
+            setHeight(PADDING * 2 + state.ingredient[1])
+        }
+    }, [state, state.ingredient])
+
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height={height}>
+            <Table
+                x={width / 2}
+                y={PADDING}
+                fontSize={14}
+                padding={7}
+                update={update}
+                id="ingredient"
+            >
+                {ingredient.join('\n')}
+            </Table>
+
+            <TimeLine
+                id="pot"
+                x={500}
+                y={40}
+                padding={15}
+                fontSize={29}
+                update={update}
+            >
+                Timeline
+            </TimeLine>
+        </svg>
+    )
+}

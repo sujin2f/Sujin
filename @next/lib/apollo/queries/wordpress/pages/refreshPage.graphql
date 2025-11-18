@@ -1,0 +1,3 @@
+mutation RefreshPage($slug: String!) {
+    refreshPage(slug: $slug)
+}

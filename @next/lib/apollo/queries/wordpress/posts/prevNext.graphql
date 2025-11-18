@@ -1,0 +1,7 @@
+query PrevNext($slug: String!) {
+    prevNext(slug: $slug) {
+        _id
+        title
+        link
+    }
+}

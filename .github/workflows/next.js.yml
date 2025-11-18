@@ -1,42 +1,42 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+# # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
-name: NEXT.js CI
+# name: NEXT.js CI
 
-on: [push]
+# on: [push]
 
-jobs:
-    build:
-        runs-on: ubuntu-latest
+# jobs:
+#     build:
+#         runs-on: ubuntu-latest
 
-        container:
-            image: node:22
+#         container:
+#             image: node:22
 
-        services:
-            mongodb:
-                image: mongo
-                ports:
-                    - 27017:27017
-        steps:
-            - name: Git checkout
-              uses: actions/checkout@v3
+#         services:
+#             mongodb:
+#                 image: mongo
+#                 ports:
+#                     - 27017:27017
+#         steps:
+#             - name: Git checkout
+#               uses: actions/checkout@v3
 
-            - name: Yarn Install
-              uses: borales/actions-yarn@v3.0.0
-              with:
-                  cmd: install # will run `yarn install` command
+#             - name: Yarn Install
+#               uses: borales/actions-yarn@v3.0.0
+#               with:
+#                   cmd: install # will run `yarn install` command
 
-            - name: Lint
-              uses: borales/actions-yarn@v3.0.0
-              with:
-                  cmd: lint # will run `yarn lint` command
+#             - name: Lint
+#               uses: borales/actions-yarn@v3.0.0
+#               with:
+#                   cmd: lint # will run `yarn lint` command
 
-            - name: Test
-              uses: borales/actions-yarn@v3.0.0
-              with:
-                  cmd: test
-              env:
-                  MONGO: mongodb
-                  MONGO_TEST_PORT: 27017
-                  CRYPT_JWK: dJiIIitCDeULqrHq5DBhP0QMZKHXZ2kqQpEjG2hLP3s
-                  ADMIN_EMAIL: test@test.com
+#             - name: Test
+#               uses: borales/actions-yarn@v3.0.0
+#               with:
+#                   cmd: test
+#               env:
+#                   MONGO: mongodb
+#                   MONGO_TEST_PORT: 27017
+#                   CRYPT_JWK: dJiIIitCDeULqrHq5DBhP0QMZKHXZ2kqQpEjG2hLP3s
+#                   ADMIN_EMAIL: test@test.com

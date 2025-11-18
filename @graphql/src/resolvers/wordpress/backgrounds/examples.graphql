@@ -1,0 +1,20 @@
+query {
+    backgrounds {
+        width
+        height
+        url
+        mimeType
+        sizes {
+            large {
+                width
+                height
+                url
+                mimeType
+            }
+        }
+    }
+}
+
+mutation {
+    refreshBackground
+}

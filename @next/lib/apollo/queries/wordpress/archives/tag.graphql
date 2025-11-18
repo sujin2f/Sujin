@@ -1,0 +1,33 @@
+query Tag($slug: String!) {
+    archive: tag(slug: $slug) {
+        _id
+        title
+        slug
+        excerpt
+        image {
+            url
+            width
+            height
+            sizes {
+                medium {
+                    url
+                    mimeType
+                    width
+                    height
+                }
+                mediumLarge {
+                    url
+                    mimeType
+                    width
+                    height
+                }
+                large {
+                    url
+                    mimeType
+                    width
+                    height
+                }
+            }
+        }
+    }
+}
