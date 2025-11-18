@@ -6,7 +6,7 @@ import HeaderComponent from '@lib/components/admin/Header'
 import Callout from '@common/components/containers/Callout'
 import Button from '@common/components/forms/Button'
 /* Utils */
-import { updateBackgrounds } from '@lib/apollo/mutation/background-update'
+import { updateBackgrounds } from '@lib/apollo/queries/wordpress/backgrounds/updateBackgrounds'
 /* CONSTANTS */
 import { QuantumBool } from '@sujin/share/types'
 

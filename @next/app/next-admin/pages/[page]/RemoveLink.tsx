@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 
 /* Utils */
-import { removePage } from '@lib/apollo/mutation/page-remove'
+import { removePage } from '@lib/apollo/queries/wordpress/pages/removePage'
 
 type Props = {
     readonly slug: string

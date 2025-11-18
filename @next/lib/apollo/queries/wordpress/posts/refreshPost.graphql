@@ -1,0 +1,3 @@
+mutation RefreshPost($slug: String!) {
+    refreshPost(slug: $slug)
+}

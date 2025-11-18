@@ -1,4 +1,5 @@
 /* Utils */
+import Logger from '@src/utils/logger'
 import { verifyToken } from '@src/utils/security'
 
 /**
@@ -11,5 +12,6 @@ export const isAdmin = (gqlToken: string): boolean => {
         throw new Error()
     }
     const { admin } = verifyToken(gqlToken)
+    Logger.info(`🤟 isAdmin has been finished`)
     return admin
 }

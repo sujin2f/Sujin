@@ -1,3 +1,0 @@
-mutation UpdatePosts($category: String!, $page: Int!) {
-    updatePosts(category: $category, page: $page)
-}

@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 import { default as ConfirmComponent } from '@common/components/containers/Confirm'
 /* CONSTANT */
 import { QuantumBool } from '@sujin/share/types'
-import { removeRecipe } from '@lib/apollo/mutation/recipe-remove'
+import { removeRecipe } from '@lib/apollo/queries/recipes/removeRecipe'
 /* Utils */
 
 export const useRecipeDelete = (id: string) => {

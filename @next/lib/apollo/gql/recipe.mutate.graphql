@@ -1,3 +1,0 @@
-mutation MutateRecipe($recipe: RecipeInput!) {
-    mutateRecipe(recipe: $recipe)
-}

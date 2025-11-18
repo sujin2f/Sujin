@@ -6,12 +6,7 @@ import Column from '@common/components/layout/Column'
 import { PrevNextAdmin } from '@lib/components/admin/PrevNextAdmin'
 import Table from '@common/components/containers/Table'
 /* Utils */
-import { GQLRequest } from '@lib/apollo/queries/GQLRequest'
-/* T_Types */
-import type { T_ArchivePost } from '@sujin/lib/types'
-/* CONSTANTS */
-import { POST_TYPE } from '@sujin/lib/constants'
-import LIST_QUERY from '@lib/apollo/gql/post.list.admin.graphql'
+import { postsAdmin } from '@lib/apollo/queries/wordpress/posts/postsAdmin'
 
 type Props = {
     params: Promise<{
@@ -23,22 +18,7 @@ type Props = {
 export default async function CategoryPosts(props: Props) {
     const { page: _page, slug } = await props.params
     const page = parseInt(_page)
-    const result = await GQLRequest<{ postAdmin: T_ArchivePost[] }>(
-        LIST_QUERY,
-        {
-            page,
-            postType: POST_TYPE.POST,
-            category: slug,
-        },
-    )
-        .then((result) => {
-            if (!result || !result.data) {
-                return []
-            }
-
-            return result.data.postAdmin
-        })
-        .catch(() => [])
+    const result = await postsAdmin(slug, page)
     const length = result.length
 
     return (

@@ -1,0 +1,3 @@
+mutation RemovePage($slug: String!) {
+    removePage(slug: $slug)
+}

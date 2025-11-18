@@ -2,9 +2,7 @@
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 /* Utils */
-import { updateSingle } from '@lib/apollo/mutation/single-update'
-/* CONSTANTS */
-import { POST_TYPE } from '@sujin/lib/constants'
+import { refreshPost } from '@lib/apollo/queries/wordpress/posts/refreshPost'
 
 type Props = {
     readonly slug: string
@@ -17,7 +15,7 @@ export function RefreshLink({ slug }: Props) {
         <Link
             href="#"
             onClick={async () => {
-                await updateSingle(slug, POST_TYPE.PAGE)
+                await refreshPost(slug)
                 router.refresh()
             }}
         >

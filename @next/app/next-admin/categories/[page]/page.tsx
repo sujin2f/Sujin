@@ -10,12 +10,7 @@ import { Header } from './Header'
 import { RemoveLink } from './RemoveLink'
 import { RefreshLink } from './RefreshLink'
 /* Utils */
-import { GQLRequest } from '@lib/apollo/queries/GQLRequest'
-/* CONSTANTS */
-import { ARCHIVE } from '@sujin/lib/constants'
-import LIST_QUERY from '@lib/apollo/gql/archive.list.graphql'
-/* T_Types */
-import type { T_Archive } from '@sujin/lib/types'
+import { categories as getCategories } from '@lib/apollo/queries/wordpress/archives/categories'
 
 type Props = {
     params: Promise<{
@@ -27,17 +22,7 @@ export default async function Categories({ params }: Props) {
     const { page: _page } = await params
     const page = parseInt(_page)
 
-    const categories = await GQLRequest<{ archive: T_Archive[] }>(LIST_QUERY, {
-        page,
-        type: ARCHIVE.CATEGORY,
-    })
-        .then((result) => {
-            if (!result || !result.data) {
-                return []
-            }
-            return result.data.archive
-        })
-        .catch(() => [])
+    const categories = await getCategories(page)
 
     return (
         <>

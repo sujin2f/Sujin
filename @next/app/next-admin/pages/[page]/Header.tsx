@@ -6,17 +6,16 @@ import HeaderComponent from '@lib/components/admin/Header'
 import Callout from '@common/components/containers/Callout'
 import InputGroup from '@common/components/forms/InputGroup'
 /* Utils */
-import { updateSingle } from '@lib/apollo/mutation/single-update'
+import { refreshPage } from '@lib/apollo/queries/wordpress/pages/refreshPage'
 /* CONSTANTS */
 import { QuantumBool } from '@sujin/share/types'
-import { POST_TYPE } from '@sujin/lib/constants'
 
 export function Header() {
     const router = useRouter()
 
     const [state, action, pending] = useActionState<QuantumBool, string>(
         async (_: QuantumBool, slug: string) => {
-            return await updateSingle(slug, POST_TYPE.PAGE)
+            return await refreshPage(slug)
                 .then(() => {
                     router.refresh()
                     return QuantumBool.TRUE

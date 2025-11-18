@@ -35,18 +35,21 @@ export const login = async (nextToken: string): Promise<T_Token_Return> => {
     if (!_email) {
         throw new Error('🤬 Login: email is empty')
     }
-    const email = createHash(sanitize(_email), getSecret('email'))
+    const email = sanitize(_email)
+    const hashed = createHash(email, getSecret('email'))
 
     // Get MongoDB user._id
-    const _id = await User.findOne<T_User>({ email }).then(async (result) => {
-        if (result) {
-            return result._id.toString()
-        }
+    const _id = await User.findOne<T_User>({ email: hashed }).then(
+        async (result) => {
+            if (result) {
+                return result._id.toString()
+            }
 
-        // Create a new user
-        const user = await User.insertOne<T_User>({ email })
-        return user._id.toString()
-    })
+            // Create a new user
+            const user = await User.insertOne<T_User>({ email: hashed })
+            return user._id.toString()
+        },
+    )
 
     // Find the user is admin from MySQL
     const admin = await isUserAdmin(email)

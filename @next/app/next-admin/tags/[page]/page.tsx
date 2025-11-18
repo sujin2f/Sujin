@@ -5,12 +5,7 @@ import Row from '@common/components/layout/Row'
 import { PrevNextAdmin } from '@lib/components/admin/PrevNextAdmin'
 import { Header } from '@lib/components/admin/Header'
 /* Utils */
-import { GQLRequest } from '@lib/apollo/queries/GQLRequest'
-/* CONSTANTS */
-import { ARCHIVE } from '@sujin/lib/constants'
-import LIST_QUERY from '@lib/apollo/gql/archive.list.graphql'
-/* T_Types */
-import type { T_Archive } from '@sujin/lib/types'
+import { tags as getTags } from '@lib/apollo/queries/wordpress/archives/tags'
 
 type Props = {
     params: Promise<{
@@ -21,18 +16,7 @@ type Props = {
 export default async function Tags({ params }: Props) {
     const { page: _page } = await params
     const page = parseInt(_page)
-
-    const tags = await GQLRequest<{ archive: T_Archive[] }>(LIST_QUERY, {
-        page,
-        type: ARCHIVE.TAG,
-    })
-        .then((result) => {
-            if (!result || !result.data) {
-                return []
-            }
-            return result.data.archive
-        })
-        .catch(() => [])
+    const tags = await getTags(page)
 
     return (
         <>

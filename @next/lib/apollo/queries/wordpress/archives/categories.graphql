@@ -1,0 +1,8 @@
+query Categories($page: Int!) {
+    categories(page: $page) {
+        _id
+        title
+        slug
+        total
+    }
+}

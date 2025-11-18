@@ -9,12 +9,7 @@ import { PrevNextAdmin } from '@lib/components/admin/PrevNextAdmin'
 import { Header } from './Header'
 import { RefreshLink } from './RefreshLink'
 /* Utils */
-import { GQLRequest } from '@lib/apollo/queries/GQLRequest'
-/* CONSTANTS */
-import LIST_QUERY from '@lib/apollo/gql/post.list.admin.graphql'
-import { POST_TYPE } from '@sujin/lib/constants'
-/* T_Types */
-import type { T_ArchivePost } from '@sujin/lib/types'
+import { postsAllAdmin } from '@lib/apollo/queries/wordpress/posts/postsAllAdmin'
 
 type Props = {
     params: Promise<{
@@ -26,21 +21,7 @@ export default async function Posts({ params }: Props) {
     const { page: _page } = await params
     const page = parseInt(_page)
 
-    const result = await GQLRequest<{ postAdmin: T_ArchivePost[] }>(
-        LIST_QUERY,
-        {
-            page,
-            postType: POST_TYPE.POST,
-        },
-    )
-        .then((result) => {
-            if (!result || !result.data) {
-                return []
-            }
-
-            return result.data.postAdmin
-        })
-        .catch(() => [])
+    const result = await postsAllAdmin(page)
 
     return (
         <>

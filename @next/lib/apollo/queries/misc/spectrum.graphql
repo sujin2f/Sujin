@@ -1,5 +1,5 @@
 query ListSpectrum($number: Int!, $ion: Int!) {
-    spectra(number: $number, ion: $ion) {
+    spectrum(number: $number, ion: $ion) {
         number
         ion
         energy

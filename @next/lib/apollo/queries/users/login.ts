@@ -4,7 +4,7 @@ import type { T_Token_Return } from '@sujin/lib/types'
 
 export const login = async (nextToken: string): Promise<T_Token_Return> => {
     return await client
-        .mutate<T_Token_Return>({
+        .mutate<{ login: T_Token_Return }>({
             mutation: LOGIN,
             context: {
                 headers: {
@@ -16,10 +16,6 @@ export const login = async (nextToken: string): Promise<T_Token_Return> => {
             if (!result || !result.data) {
                 throw new Error()
             }
-            return result.data
-        })
-        .catch((e) => {
-            console.log(e)
-            throw e
+            return result.data.login
         })
 }

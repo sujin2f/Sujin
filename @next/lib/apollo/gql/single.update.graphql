@@ -1,3 +1,0 @@
-mutation UpdateSingle($slug: String!, $postType: POST_TYPE!) {
-    updateSingle(slug: $slug, postType: $postType)
-}

@@ -10,7 +10,7 @@ import CATEGORY_QUERY from '@lib/apollo/queries/wordpress/archives/category.grap
 import TAG_QUERY from '@lib/apollo/queries/wordpress/archives/tag.graphql'
 import POST_LIST_QUERY from '@lib/apollo/queries/wordpress/posts/post.list.graphql'
 /* Utils */
-import { updateHits } from '@lib/apollo/mutation/hits-update'
+import { updateHits } from '@lib/apollo/queries/wordpress/archives/updateHits'
 import { cachedGQLRequest } from '@lib/apollo/queries/GQLRequest'
 /* T_Types */
 import type { WithNumPages, T_Archive, T_ArchivePost } from '@sujin/lib/types'

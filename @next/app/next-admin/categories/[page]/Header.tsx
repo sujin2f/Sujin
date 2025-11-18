@@ -6,7 +6,7 @@ import HeaderComponent from '@lib/components/admin/Header'
 import Callout from '@common/components/containers/Callout'
 import InputGroup from '@common/components/forms/InputGroup'
 /* Utils */
-import { updateCategory } from '@lib/apollo/mutation/category-update'
+import { refreshCategory } from '@lib/apollo/queries/wordpress/archives/refreshCategory'
 /* CONSTANTS */
 import { QuantumBool } from '@sujin/share/types'
 
@@ -15,7 +15,7 @@ export function Header() {
 
     const [state, action, pending] = useActionState<QuantumBool, string>(
         async (_: QuantumBool, slug: string) => {
-            return await updateCategory(slug)
+            return await refreshCategory(slug)
                 .then(() => {
                     router.refresh()
                     return QuantumBool.TRUE

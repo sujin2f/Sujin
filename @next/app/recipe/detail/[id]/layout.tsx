@@ -1,4 +1,3 @@
-import type { PropsWithChildren } from 'react'
 import { notFound } from 'next/navigation'
 /* Components */
 import { Banner } from '@lib/components/header/Banner'
@@ -6,7 +5,7 @@ import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
 /* CONSTANTS */
 import { COLLECTION, MENU_NAMES } from '@sujin/lib/constants'
-import RECIPE_QUERY from '@lib/apollo/gql/recipe.graphql'
+import RECIPE_QUERY from '@lib/apollo/queries/recipes/recipe.graphql'
 /* Utils */
 import { getSession } from '@lib/utils/session'
 import { cachedGQLRequest } from '@lib/apollo/queries/GQLRequest'

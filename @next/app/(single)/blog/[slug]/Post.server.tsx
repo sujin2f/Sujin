@@ -15,7 +15,7 @@ import { COLLECTION, POST_STATUS, IMAGE_SIZE } from '@sujin/lib/constants'
 import POST_QUERY from '@lib/apollo/queries/wordpress/posts/post.graphql'
 /* Utils */
 import { getThumbnailFromPost } from '@lib/utils/client'
-import { updateHits } from '@lib/apollo/mutation/hits-update'
+import { updateHits } from '@lib/apollo/queries/wordpress/archives/updateHits'
 import { cachedGQLRequest } from '@lib/apollo/queries/GQLRequest'
 /* T_Types */
 import type { T_Post } from '@sujin/lib/types'

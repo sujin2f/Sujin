@@ -1,17 +1,13 @@
 'use server'
 import { client } from '@lib/apollo/apollo-client-server'
 import { getSessionContext } from '@lib/utils/session'
-import ARCHIVE_MUTATION from '@lib/apollo/gql/archive.update.graphql'
-import { ARCHIVE } from '@sujin/lib/constants'
+import SINGLE_MUTATION from '@lib/apollo/queries/wordpress/posts/refreshPost.graphql'
 
-export const updateCategory = async (slug: string) => {
+export const refreshPost = async (slug: string) => {
     return await client
         .mutate({
-            mutation: ARCHIVE_MUTATION,
-            variables: {
-                slug,
-                archiveType: ARCHIVE.CATEGORY,
-            },
+            mutation: SINGLE_MUTATION,
+            variables: { slug },
             context: await getSessionContext(),
         })
         .then((result) => {

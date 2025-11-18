@@ -10,6 +10,7 @@ import { COLLECTION } from '@sujin/lib/constants'
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 import { getSessionContext } from '@lib/utils/session'
 
+// TODO pass function
 export const cachedGQLRequest = async <T>(
     doc: DocumentNode,
     variables: Record<string, unknown>,
@@ -34,7 +35,7 @@ const cached = async <T>(
     return await request<T>(doc, variables)
 }
 
-export const GQLRequest = async <T>(
+const GQLRequest = async <T>(
     doc: DocumentNode,
     variables: Record<string, unknown>,
 ) => {

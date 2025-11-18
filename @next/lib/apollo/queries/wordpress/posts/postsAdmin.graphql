@@ -1,0 +1,10 @@
+query ListPostsAdmin($page: Int!, $slug: String!) {
+    postsAdmin(slug: $slug, page: $page) {
+        _id
+        id
+        title
+        slug
+        status
+        link
+    }
+}

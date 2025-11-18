@@ -1,0 +1,8 @@
+query Tags($page: Int!) {
+    tags(page: $page) {
+        _id
+        title
+        slug
+        total
+    }
+}

@@ -4,7 +4,7 @@ import { useSession } from 'next-auth/react'
 /* T_Types */
 import { type T_Recipe, UNITS } from '@sujin/lib/types'
 /* Utils */
-import { mutateRecipe } from '@lib/apollo/mutation/recipe-mutate'
+import { createRecipe } from '@lib/apollo/queries/recipes/createRecipe'
 
 const toRecipe = (
     formData: FormData,
@@ -50,7 +50,7 @@ const toRecipe = (
 }
 
 // const useRecipeMutation = (recipe?: T_Recipe) => {
-export const useRecipeMutation = () => {
+export const useRecipeCreate = () => {
     const router = useRouter()
     let session
     try {
@@ -87,7 +87,7 @@ export const useRecipeMutation = () => {
                 return
             }
             if (validation.recipe) {
-                await mutateRecipe(validation.recipe).then((id) =>
+                await createRecipe(validation.recipe).then((id) =>
                     router.push(`/recipe/detail/${id}`),
                 )
             }

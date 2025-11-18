@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 
 /* Utils */
-import { removeCategory } from '@lib/apollo/mutation/category-remove'
+import { removeCategory } from '@lib/apollo/queries/wordpress/archives/removeCategory'
 
 type Props = {
     readonly slug: string

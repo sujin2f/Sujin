@@ -1,22 +1,18 @@
 'use server'
 import { client } from '@lib/apollo/apollo-client-server'
 import { getSessionContext } from '@lib/utils/session'
-import POSTS_MUTATION from '@lib/apollo/gql/posts.update.graphql'
+import FLUSH_MUTATION from '@lib/apollo/queries/misc/flushDB.graphql'
 
-export const updatePosts = async (page: number, category: string = '') => {
+export const flushDB = async () => {
     return await client
-        .mutate({
-            mutation: POSTS_MUTATION,
-            variables: {
-                category,
-                page,
-            },
+        .mutate<{ flushDB: boolean }>({
+            mutation: FLUSH_MUTATION,
             context: await getSessionContext(),
         })
         .then((result) => {
             if (!result.data) {
                 return false
             }
-            return true
+            return result.data.flushDB
         })
 }

@@ -16,7 +16,7 @@ import { RootState } from '@lib/store'
 import { useQuery } from '@apollo/client/react'
 import { pushSpectrum } from '@lib/store/slices/spectrum'
 /* CONSTANTS */
-import SPECTRUM_QUERY from '@lib/apollo/gql/spectrum.graphql'
+import SPECTRUM_QUERY from '@lib/apollo/queries/misc/spectrum.graphql'
 /* Assets */
 import LoadingImg from '@common/images/loading.svg'
 
@@ -36,7 +36,7 @@ export default function DataPage() {
     const hasStore = useMemo(() => !!spectrum.length, [spectrum])
 
     // Read from GraphQL with Intersection Observer & update store
-    const { data, loading } = useQuery<{ spectra: ISpectrum[] }>(
+    const { data, loading } = useQuery<{ spectrum: ISpectrum[] }>(
         SPECTRUM_QUERY,
         {
             variables: { number: atom, ion },
@@ -45,8 +45,8 @@ export default function DataPage() {
     )
 
     useEffect(() => {
-        if (!hasStore && data && data.spectra.length) {
-            dispatch(pushSpectrum([atom, ion, data.spectra]))
+        if (!hasStore && data && data.spectrum.length) {
+            dispatch(pushSpectrum([atom, ion, data.spectrum]))
         }
     }, [data, hasStore, dispatch, atom, ion])
 

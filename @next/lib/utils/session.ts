@@ -24,7 +24,7 @@ export const authOptions = {
     callbacks: {
         async jwt({ token: nextToken }) {
             // Google logged in, but not to GQL
-            if (nextToken && nextToken.email && !nextToken.token) {
+            if (nextToken && nextToken.email && !nextToken.accessToken) {
                 const refreshToken = jwt.sign(
                     {
                         name: nextToken.name,
@@ -46,10 +46,10 @@ export const authOptions = {
                 ...session,
                 user: {
                     ...session.user,
-                    accessToken: token.accessToken,
-                    refreshToken: token.refreshToken,
                     _id: token._id,
                 } as T_Session,
+                accessToken: token.accessToken,
+                refreshToken: token.refreshToken,
             }
         },
     },
@@ -57,51 +57,22 @@ export const authOptions = {
 
 export const getSession = async () => await getServerSession(authOptions)
 
-/**
- *
- * @returns {Promise<T_Stringify<T_Session>>}
- * @throws {UnauthorizedError}
- */
-const getCurrentUser = async (): Promise<T_Session | undefined> => {
+// TODO use refresh token to refresh
+export const getTokens = async (): Promise<string[]> => {
     const session = await getSession().catch(() => undefined)
-    if (!session || !session.user) return
-    return session.user
-}
-
-export const isAdmin = async (): Promise<boolean> =>
-    await getToken().then((token) => {
-        try {
-            // TODO Remove
-            const verify = jwt.verify(token, process.env.JWT_SECRET || '')
-            return (verify as unknown as { admin: boolean }).admin
-        } catch {
-            return false
-        }
-    })
-
-export const getToken = async () => {
-    return await getCurrentUser().then((user) => {
-        if (!user) {
-            throw new Error('session is empty')
-        }
-
-        if (!user.accessToken) {
-            throw new Error('accessToken is empty')
-        }
-
-        return user.accessToken
-    })
+    if (!session || !session.accessToken || !session.refreshToken) return []
+    return [session.accessToken as string, session.refreshToken as string]
 }
 
 export const getSessionContext = async () => {
-    const token = await getToken().catch(() => false)
-    if (!token) {
+    const token = await getTokens().catch(() => [])
+    if (!token.length) {
         return {}
     }
 
     return {
         headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token[0]}`,
         },
     }
 }

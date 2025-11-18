@@ -1,0 +1,3 @@
+mutation RefreshPostsAll($page: Int!) {
+    refreshPostsAll(page: $page)
+}

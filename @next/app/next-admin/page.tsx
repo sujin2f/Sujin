@@ -6,7 +6,7 @@ import Callout from '@common/components/containers/Callout'
 /* CONSTANTS */
 import { VERSION } from '@sujin/share/constants/helper'
 /* Utils */
-import { flushDB } from '@lib/apollo/mutation/flushDB'
+import { flushDB } from '@lib/apollo/queries/misc/flushDB'
 
 export default function FrontPage() {
     const [state, action, pending] = useActionState(flushDB, false)

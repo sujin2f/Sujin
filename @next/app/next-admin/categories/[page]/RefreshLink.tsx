@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 
 /* Utils */
-import { updateCategory } from '@lib/apollo/mutation/category-update'
+import { refreshCategory } from '@lib/apollo/queries/wordpress/archives/refreshCategory'
 
 type Props = {
     readonly slug: string
@@ -16,7 +16,7 @@ export function RefreshLink({ slug }: Props) {
         <Link
             href="#"
             onClick={async () => {
-                await updateCategory(slug)
+                await refreshCategory(slug)
                 router.refresh()
             }}
         >

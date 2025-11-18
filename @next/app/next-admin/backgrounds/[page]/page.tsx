@@ -8,24 +8,10 @@ import Row from '@common/components/layout/Row'
 import { Header } from './Header'
 /* Utils */
 import { entries } from '@sujin/share/utils/object'
-import { GQLRequest } from '@lib/apollo/queries/GQLRequest'
-/* CONSTANTS */
-import LIST_QUERY from '@lib/apollo/queries/wordpress/backgrounds/backgrounds.graphql'
-/* T_Types */
-import type { T_Background } from '@sujin/lib/types'
+import { backgrounds as getBackgrounds } from '@lib/apollo/queries/wordpress/backgrounds/backgrounds'
 
 export default async function Backgrounds() {
-    const backgrounds = await GQLRequest<{ backgrounds: T_Background[] }>(
-        LIST_QUERY,
-        {},
-    )
-        .then((result) => {
-            if (!result || !result.data) {
-                return []
-            }
-            return result.data.backgrounds
-        })
-        .catch(() => [])
+    const backgrounds = await getBackgrounds()
 
     return (
         <>

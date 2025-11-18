@@ -1,16 +1,15 @@
 'use server'
 import { client } from '@lib/apollo/apollo-client-server'
 import { getSessionContext } from '@lib/utils/session'
-import REMOVE_ARCHIVE_MUTATION from '@lib/apollo/gql/archive.remove.graphql'
-import { ARCHIVE } from '@sujin/lib/constants'
+import POSTS_MUTATION from '@lib/apollo/queries/wordpress/posts/refreshPosts.graphql'
 
-export const removeCategory = async (slug: string) => {
+export const refreshPosts = async (page: number, slug: string) => {
     return await client
         .mutate({
-            mutation: REMOVE_ARCHIVE_MUTATION,
+            mutation: POSTS_MUTATION,
             variables: {
                 slug,
-                archiveType: ARCHIVE.CATEGORY,
+                page,
             },
             context: await getSessionContext(),
         })

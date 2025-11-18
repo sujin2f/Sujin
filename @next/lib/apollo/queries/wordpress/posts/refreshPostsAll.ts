@@ -1,16 +1,14 @@
 'use server'
 import { client } from '@lib/apollo/apollo-client-server'
 import { getSessionContext } from '@lib/utils/session'
-import SINGLE_MUTATION from '@lib/apollo/gql/single.update.graphql'
-import { POST_TYPE } from '@sujin/lib/constants'
+import POSTS_MUTATION from '@lib/apollo/queries/wordpress/posts/refreshPostsAll.graphql'
 
-export const updateSingle = async (slug: string, postType: POST_TYPE) => {
+export const refreshPostsAll = async (page: number) => {
     return await client
         .mutate({
-            mutation: SINGLE_MUTATION,
+            mutation: POSTS_MUTATION,
             variables: {
-                slug,
-                postType,
+                page,
             },
             context: await getSessionContext(),
         })

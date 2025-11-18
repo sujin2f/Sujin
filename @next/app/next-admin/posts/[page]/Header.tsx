@@ -8,7 +8,7 @@ import Callout from '@common/components/containers/Callout'
 /* CONSTANTS */
 import { QuantumBool } from '@sujin/share/types'
 import Button from '@common/components/forms/Button'
-import { updatePosts } from '@lib/apollo/mutation/posts-update'
+import { refreshPostsAll } from '@lib/apollo/queries/wordpress/posts/refreshPostsAll'
 
 type Props = {
     page: number
@@ -17,7 +17,7 @@ export function Header({ page }: Props) {
     const router = useRouter()
 
     const [state, action, pending] = useActionState<QuantumBool>(async () => {
-        return await updatePosts(page)
+        return await refreshPostsAll(page)
             .then(() => {
                 router.refresh()
                 return QuantumBool.TRUE

@@ -1,3 +1,0 @@
-mutation RemoveSingle($postType: POST_TYPE!, $slug: String!) {
-    removeSingle(postType: $postType, slug: $slug)
-}

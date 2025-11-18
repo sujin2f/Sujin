@@ -2,6 +2,7 @@ import sanitize from 'mongo-sanitize'
 /* Models */
 import { Archive } from '@src/schema/archive'
 import Cached from '@sujin/node-cache'
+import Logger from '@src/utils/logger'
 /* Utils */
 import { verifyAdmin } from '@src/utils/security'
 import { getCacheKey } from '@sujin/lib/utils/cache'
@@ -30,21 +31,24 @@ export const refreshCategory = async (
         wp.image = convertWPImageURL(wp.image)
     }
 
-    const archive = await Archive.findOneAndReplace({ slug }, { ...wp }).then(
-        async (result) => {
-            if (!result) {
-                return await Archive.insertOne({
-                    ...wp,
-                    type: ARCHIVE.CATEGORY,
-                })
-            }
-            return result
-        },
-    )
+    const archive = await Archive.findOneAndReplace(
+        { slug },
+        { ...wp, type: ARCHIVE.CATEGORY },
+    ).then(async (result) => {
+        if (!result) {
+            return await Archive.insertOne({
+                ...wp,
+                type: ARCHIVE.CATEGORY,
+            })
+        }
+        return result
+    })
 
     await Cached.getInstance().flush(
         getCacheKey(COLLECTION.ARCHIVE, ARCHIVE.CATEGORY, slug),
     )
+    // TODO connect post-category
     await updateTotal([archive._id])
+    Logger.info(`🤟 refreshCategory mutation done: ${slug}`)
     return []
 }

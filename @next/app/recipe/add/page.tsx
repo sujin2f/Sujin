@@ -9,14 +9,13 @@ import Column from '@common/components/layout/Column'
 import ButtonGroup from '@common/components/forms/ButtonGroup'
 /* T_Types */
 import { UNITS_SELECTION } from '@sujin/lib/types'
-// import type { T_Stringify } from '@sujin/common/types/mongo'
 /* Utils */
 import { map } from '@sujin/share/utils/array'
-import { useRecipeMutation } from '@lib/hooks/useRecipeMutation'
+import { useRecipeCreate } from '@lib/hooks/useRecipeMutate'
 
 export default function RecipeAddPage() {
     const router = useRouter()
-    const { numFields, onChange, onSubmit, errors } = useRecipeMutation()
+    const { numFields, onChange, onSubmit, errors } = useRecipeCreate()
 
     return (
         <>

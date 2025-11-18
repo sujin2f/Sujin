@@ -2,6 +2,7 @@ import sanitize from 'mongo-sanitize'
 /* Models */
 import { Archive } from '@src/schema/archive'
 import Cached from '@sujin/node-cache'
+import Logger from '@src/utils/logger'
 /* Utils */
 import { verifyAdmin } from '@src/utils/security'
 import { getCacheKey } from '@sujin/lib/utils/cache'
@@ -22,5 +23,6 @@ export const removeCategory = async (
         getCacheKey(COLLECTION.ARCHIVE, ARCHIVE.CATEGORY, slug),
         getCacheKey(COLLECTION.ARCHIVE, 'tag-cloud'),
     )
+    Logger.info(`🤟 removeCategory mutation done: ${slug}`)
     return []
 }
