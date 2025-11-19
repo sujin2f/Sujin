@@ -36,12 +36,14 @@ const server = new ApolloServer({
     ],
 })
 
-const corsOptions = {
-    origin: ['http://localhost:3000'],
-    credentials: true,
-    methods: ['POST'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-}
+const corsOptions = process.env.CORS_ORIGIN
+    ? {
+          origin: [process.env.CORS_ORIGIN],
+          credentials: true,
+          methods: ['POST'],
+          allowedHeaders: ['Content-Type', 'Authorization'],
+      }
+    : null
 
 const authenticateUser = (req: express.Request): string => {
     const authorizationHeader = req.headers.authorization
@@ -56,7 +58,7 @@ const start = async () => {
 
     app.use(
         '/',
-        cors<cors.CorsRequest>(corsOptions),
+        corsOptions ? cors<cors.CorsRequest>(corsOptions) : () => {},
         express.json({ limit: '50mb' }),
         expressMiddleware(server, {
             context: async ({ req }) => {
@@ -65,7 +67,7 @@ const start = async () => {
         }),
     )
 
-    const port = IS_DEV ? 4000 : 80
+    const port = process.env.SERVER_PORT
     // Modified server startup
     await new Promise<void>((resolve) => httpServer.listen({ port }, resolve))
     Logger.info(`🚀 Server ready at http://localhost:${port}/`)

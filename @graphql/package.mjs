@@ -134,9 +134,10 @@ await modifyFiles()
 console.log('Creating Docker image...')
 exec(
     `docker build -t sujin2f/graphql:${VERSION} .`,
-    (error, stdout, stderr) => {
+    async (error, stdout, stderr) => {
         if (error) {
             console.error(`docker build error: ${error}`)
+            await restoreFiles()
             return
         }
         console.log(`stdout: ${stdout}`)
@@ -146,6 +147,7 @@ exec(
         exec(`docker-compose up -d`, async (error, stdout, stderr) => {
             if (error) {
                 console.error(`docker build error: ${error}`)
+                await restoreFiles()
                 return
             }
             console.log(`stdout: ${stdout}`)

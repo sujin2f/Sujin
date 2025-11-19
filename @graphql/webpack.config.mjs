@@ -33,7 +33,7 @@ const config = {
     resolve: {
         extensions: ['.ts', '.js'],
         alias: {
-            '@src': path.resolve(import.meta.dirname, 'src'),
+            '@src': path.resolve(import.meta.dirname, 'src'), '@sujin': path.resolve(import.meta.dirname, 'internal_modules')
         },
     },
     output: {

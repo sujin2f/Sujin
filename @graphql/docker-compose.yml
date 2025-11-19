@@ -40,8 +40,8 @@ services:
             MONGO: host.docker.internal
             MYSQL: mysql
         depends_on:
-            - mongo
-            - mysql
+            - sujin-mongo-prod
+            - sujin-mysql-prod
         networks:
             - sujin_graphql_bridge
             - internal_access
