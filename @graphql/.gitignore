@@ -2,6 +2,8 @@
 
 # dependencies
 node_modules
+internal_modules
+temp
 
 # testing
 coverage

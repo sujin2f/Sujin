@@ -9,6 +9,7 @@
         "dev": "concurrently \"yarn dev:webpack\" \"yarn dev:nodemon\"",
         "dev:webpack": "cross-env NODE_ENV=development webpack --watch",
         "dev:nodemon": "cross-env NODE_ENV=development node --env-file=.env --watch .build/bundle.js",
+        "package": "rimraf internal_modules temp && node ./deployment/script.mjs",
         "lint": "eslint ./src/**/*.ts",
         "test": "jest --no-cache --forceExit --coverage",
         "prepare": "husky"
@@ -41,7 +42,7 @@
         "@types/jest": "^30.0.0",
         "@types/jsonwebtoken": "^9.0.10",
         "@types/mongo-sanitize": "^1.0.3",
-        "@types/node": "^24.10.0",
+        "@types/node": "^24.10.1",
         "concurrently": "^9.2.1",
         "cross-env": "^10.1.0",
         "eslint": "^9.39.1",
@@ -84,7 +85,7 @@
             "^.+\\.(ts|tsx)?$": [
                 "ts-jest",
                 {
-                    "tsConfig": "tsconfig.jest.json"
+                    "tsConfig": "./.jest/tsconfig.json"
                 }
             ]
         }

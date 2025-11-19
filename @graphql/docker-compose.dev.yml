@@ -1,0 +1,38 @@
+services:
+    # Run this docker-compose -f docker-compose.dev.yml up -d
+    sujin-mongo-dev:
+        container_name: sujin-mongo-dev
+        image: mongo:5.0
+        restart: always
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER}
+            MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+            MONGO_USER: ${MONGO_USER}
+            MONGO_PASSWORD: ${MONGO_PASSWORD}
+            MONGO_DATABASE: ${MONGO_DATABASE}
+        ports:
+            - ${MONGO_PORT}:27017
+        volumes:
+            - mongo:/data/db
+        networks:
+            - graphql-bridge
+
+    sujin-mysql-dev:
+        container_name: sujin-mysql-dev
+        image: mariadb:10.5
+        restart: always
+        environment:
+            MYSQL_DATABASE: ${MYSQL_DB}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+        ports:
+            - ${MYSQL_PORT}:3306
+        networks:
+            - graphql-bridge
+
+volumes:
+    mongo:
+networks:
+    graphql-bridge:
+        driver: bridge

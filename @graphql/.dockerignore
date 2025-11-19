@@ -1,0 +1,13 @@
+**/.build
+**/.jest
+**/.vscode
+**/coverage
+**/deployment
+**/node_modules
+**/temp
+
+**/.dockerignore
+**/docker-compose**
+
+**/**.spec.ts
+yarn.lock

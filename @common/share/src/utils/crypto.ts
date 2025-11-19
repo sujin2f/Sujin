@@ -39,7 +39,7 @@ export const encodeText = async (text: string, secret: string) => {
     return encoded
 }
 
-export const decodeText = async (buffer: BufferSource, secret: string) => {
+export const decodeText = async (buffer: Buffer, secret: string) => {
     const { key, algorithm } = await getCryptoKeyAndIv(secret)
     const decoded = await subtle.decrypt(algorithm, key, buffer)
     return new TextDecoder().decode(decoded)
