@@ -144,16 +144,19 @@ exec(
         console.error(`stderr: ${stderr}`)
 
         console.log('Running docker compose')
-        exec(`docker-compose up -d`, async (error, stdout, stderr) => {
-            if (error) {
-                console.error(`docker build error: ${error}`)
-                await restoreFiles()
-                return
-            }
-            console.log(`stdout: ${stdout}`)
-            console.error(`stderr: ${stderr}`)
+        exec(
+            `docker-compose up -d --remove-orphans`,
+            async (error, stdout, stderr) => {
+                if (error) {
+                    console.error(`docker build error: ${error}`)
+                    await restoreFiles()
+                    return
+                }
+                console.log(`stdout: ${stdout}`)
+                console.error(`stderr: ${stderr}`)
 
-            await restoreFiles()
-        })
+                await restoreFiles()
+            },
+        )
     },
 )
