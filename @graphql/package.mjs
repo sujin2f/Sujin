@@ -1,6 +1,8 @@
 import * as fs from 'node:fs'
 import * as path from 'node:path'
 import { exec } from 'node:child_process'
+import { config } from 'dotenv'
+config()
 
 const dirModule = path.join('internal_modules')
 const dirTemp = path.join('temp')
@@ -133,7 +135,7 @@ await modifyFiles()
 
 console.log('Creating Docker image...')
 exec(
-    `docker build -t sujin2f/graphql:${VERSION} .`,
+    `docker build --build-arg SERVER_PORT=${process.env.SERVER_PORT} -t sujin2f/graphql:${VERSION} .`,
     async (error, stdout, stderr) => {
         if (error) {
             console.error(`docker build error: ${error}`)

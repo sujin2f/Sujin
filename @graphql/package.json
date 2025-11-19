@@ -1,6 +1,6 @@
 {
     "name": "sujin-graphql-api",
-    "version": "0.0.2-beta",
+    "version": "0.0.2-beta-2",
     "description": "GraphQL API for sujinc.com with WP DB and additional MongoDB dataset",
     "main": "src/server.ts",
     "scripts": {
@@ -9,7 +9,7 @@
         "dev": "concurrently \"yarn dev:webpack\" \"yarn dev:nodemon\"",
         "dev:webpack": "cross-env NODE_ENV=development webpack --watch",
         "dev:nodemon": "cross-env NODE_ENV=development node --env-file=.env --watch .build/bundle.js",
-        "package": "rimraf internal_modules temp && node ./package.mjs",
+        "package": "cross-env rimraf internal_modules temp && node ./package.mjs",
         "lint": "eslint ./src/**/*.ts",
         "test": "jest --no-cache --forceExit --coverage",
         "prepare": "husky"
@@ -45,6 +45,7 @@
         "@types/node": "^24.10.1",
         "concurrently": "^9.2.1",
         "cross-env": "^10.1.0",
+        "dotenv": "^17.2.3",
         "eslint": "^9.39.1",
         "graphql-tag": "^2.12.6",
         "husky": "^9.1.7",

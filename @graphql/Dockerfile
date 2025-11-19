@@ -7,5 +7,6 @@ COPY . .
 RUN yarn install
 RUN yarn run build
 
-EXPOSE 3000
+ARG SERVER_PORT
+EXPOSE $SERVER_PORT
 CMD ["yarn", "start"]
