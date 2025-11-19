@@ -1,23 +1,22 @@
 import eslint from '@eslint/js'
 import { defineConfig } from 'eslint/config'
 import tseslint from 'typescript-eslint'
+import globals from 'globals'
 
-export default defineConfig(
-    eslint.configs.recommended,
-    tseslint.configs.recommended,
-    {
-        env: {
-            node: true,
-            es2021: true,
-        },
-        rules: {
-            'no-console': 'error',
-            '@typescript-eslint/no-unused-vars': [
-                'error',
-                {
-                    argsIgnorePattern: '_',
-                },
-            ],
+export default defineConfig(eslint.configs.recommended, tseslint.configs.recommended, {
+    languageOptions: {
+        globals: {
+            ...globals.es2021,
+            ...globals.node,
         },
     },
-)
+    rules: {
+        'no-console': 'error',
+        '@typescript-eslint/no-unused-vars': [
+            'error',
+            {
+                argsIgnorePattern: '_',
+            },
+        ],
+    },
+})

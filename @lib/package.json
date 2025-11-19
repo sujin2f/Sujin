@@ -5,7 +5,7 @@
     "author": "Sujin Choi",
     "license": "ISC",
     "scripts": {
-        "build": "rimraf internal_modules temp && node ./package.mjs",
+        "build": "rimraf internal_modules temp dist && node ./package.mjs",
         "build:tsc": "tsc",
         "test": "jest --no-cache --forceExit --coverage --detectOpenHandles",
         "lint": "eslint ./src/**/*.ts"
@@ -52,5 +52,8 @@
         "tabWidth": 4,
         "trailingComma": "all",
         "useTabs": false
+    },
+    "dependencies": {
+        "node-cache": "^5.1.2"
     }
 }

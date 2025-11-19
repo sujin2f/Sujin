@@ -18,7 +18,7 @@ delete tsConfig.compilerOptions.paths['@sujin/share/*']
 tsConfig.compilerOptions.paths['@sujin/*'] = ['./internal_modules/*']
 
 const createDirectories = async () => {
-    console.log('Creating directories...')
+    console.log('\x1B[32m- Creating directories... \x1B[0m')
     await fs.promises.mkdir(dirModule)
     await fs.promises.mkdir(dirTemp)
 
@@ -31,21 +31,20 @@ const createDirectories = async () => {
 }
 
 const backupFiles = async () => {
-    console.log('Backup files...')
+    console.log('\x1B[32m- Backup files... \x1B[0m')
     // tsconfig.json
     await fs.promises.copyFile(path.join(files.tsConfig), path.join(dirTemp, files.tsConfig))
 }
 
 const modifyFiles = async () => {
-    console.log('Modifying files...')
+    console.log('\x1B[32m- Modifying files... \x1B[0m')
     // tsconfig.json
     await fs.promises.writeFile(path.join(files.tsConfig), JSON.stringify(tsConfig, null, 2))
 }
 
 const restoreFiles = async () => {
-    console.log('Restore files...')
+    console.log('\x1B[32m- Restore files... \x1B[0m')
     await fs.promises.unlink(path.join(files.tsConfig))
-
     await fs.promises.copyFile(path.join(dirTemp, files.tsConfig), path.join(files.tsConfig))
 }
 
@@ -53,10 +52,10 @@ await createDirectories()
 await backupFiles()
 await modifyFiles()
 
-console.log('Build...')
+console.log('\x1B[32m- Building... \x1B[0m')
 exec(`yarn build:tsc`, async (error, stdout, stderr) => {
     if (error) {
-        console.error(`tsc build error: ${error}`)
+        console.log('\x1B[31m- tsc build error: \x1B[0m', error)
         await restoreFiles()
         return
     }

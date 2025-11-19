@@ -1,12 +1,7 @@
 // TODO use winston
 import { IS_DEV, IS_TEST } from '../constants/helper'
 
-const styleLog = [
-    'background: #fdd663',
-    'color: black',
-    'padding: 3px 4px',
-    'border-radius: 3px',
-].join(';')
+const styleLog = ['background: #fdd663', 'color: black', 'padding: 3px 4px', 'border-radius: 3px'].join(';')
 
 /**
  * Internal logging function with styled output.
@@ -14,6 +9,7 @@ const styleLog = [
  * @private
  */
 const log = (message: string) => {
+    // eslint-disable-next-line no-console
     console.log(`%cLOG%c ${message}`, styleLog, [])
 }
 
@@ -49,6 +45,7 @@ export default class Logger {
         if (!IS_TEST) {
             const date = new Date()
             const result = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`
+            // eslint-disable-next-line no-console
             console.log(result, ...message)
         }
     }

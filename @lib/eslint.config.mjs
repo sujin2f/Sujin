@@ -1,11 +1,14 @@
 import eslint from '@eslint/js'
 import { defineConfig } from 'eslint/config'
 import tseslint from 'typescript-eslint'
+import globals from 'globals'
 
 export default defineConfig(eslint.configs.recommended, tseslint.configs.recommended, {
-    env: {
-        node: true,
-        es2021: true,
+    languageOptions: {
+        globals: {
+            ...globals.browser,
+            ...globals.node,
+        },
     },
     rules: {
         'no-console': 'error',

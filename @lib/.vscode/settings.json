@@ -20,5 +20,6 @@
         "scminput": false
     },
     "typescript.updateImportsOnFileMove.enabled": "always",
+    "eslint.useFlatConfig": true,
     "cSpell.words": ["Choi", "flickr", "sujin", "sujinc"]
 }
