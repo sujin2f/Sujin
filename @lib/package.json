@@ -1,12 +1,13 @@
 {
     "name": "sujin-lib",
-    "version": "0.0.1-beta",
+    "version": "1.0.0",
     "description": "Shareable Library across sujinc.com project",
     "author": "Sujin Choi",
     "license": "ISC",
     "scripts": {
-        "build": "rimraf dist && tsc",
-        "test": "jest --no-cache --forceExit --coverage",
+        "build": "rimraf internal_modules temp && node ./package.mjs",
+        "build:tsc": "tsc",
+        "test": "jest --no-cache --forceExit --coverage --detectOpenHandles",
         "lint": "eslint ./src/**/*.ts"
     },
     "dependencies": {
