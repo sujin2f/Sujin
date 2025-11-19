@@ -1,7 +1,7 @@
 import sanitize from 'mongo-sanitize'
 /* Models */
 import Logger from '@src/utils/logger'
-import Cached from '@sujin/node-cache'
+import Cached from '@sujin/share/model/Cache'
 /* CONSTANTS */
 import { POST_TYPE, COLLECTION } from '@sujin/lib/constants'
 /* Utils */

@@ -1,4 +1,4 @@
-import Cached from '@sujin/node-cache'
+import Cached from '@sujin/share/model/Cache'
 // import Logger from '@sujin/share/model/Logger'
 
 export async function register() {

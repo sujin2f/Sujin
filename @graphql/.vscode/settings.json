@@ -1,5 +1,5 @@
 {
-    "editor.formatOnPaste": true,
+    "editor.formatOnPaste": false,
     "editor.fontFamily": "Fira Code",
     "editor.fontLigatures": true,
     "editor.renderWhitespace": "all",
@@ -20,5 +20,6 @@
         "scminput": false
     },
     "typescript.updateImportsOnFileMove.enabled": "always",
+    "eslint.useFlatConfig": true,
     "cSpell.words": ["Choi", "flickr", "sujin", "sujinc"]
 }

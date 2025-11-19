@@ -1,3 +1,5 @@
+// TODO use graphql-tools https://the-guild.dev/graphql/tools/docs/schema-merging#merging-resolvers
+
 import { users } from '@src/resolvers/users'
 import { recipes } from '@src/resolvers/recipes'
 import { misc } from '@src/resolvers/misc'

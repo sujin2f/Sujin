@@ -8,7 +8,7 @@
         "build": "next build",
         "start": "next start",
         "test": "jest --no-cache --forceExit --coverage",
-        "lint": "eslint ./app/**/*.tsx ./app/**/*.ts ./common/**/*.ts ./common/**/*.tsx"
+        "lint": "eslint \"{app,common}/**/*.{js,ts,tsx}\""
     },
     "dependencies": {
         "@apollo/client": "^4.0.9",
@@ -35,9 +35,6 @@
     },
     "devDependencies": {
         "@eslint/eslintrc": "^3",
-        "@sujin/lib": "file:../@lib/dist",
-        "@sujin/node-cache": "file:../@common/node-cache/dist",
-        "@sujin/share": "file:../@common/share/dist",
         "@svgr/webpack": "^8.1.0",
         "@testing-library/dom": "^10.4.0",
         "@testing-library/jest-dom": "^6.6.3",
@@ -67,7 +64,7 @@
         "arrowParens": "always",
         "bracketSpacing": true,
         "endOfLine": "lf",
-        "printWidth": 80,
+        "printWidth": 120,
         "proseWrap": "preserve",
         "quoteProps": "as-needed",
         "semi": false,

@@ -30,20 +30,21 @@ const server = new ApolloServer({
     resolvers,
     plugins: [
         ApolloServerPluginDrainHttpServer({ httpServer }),
-        process.env.NODE_ENV === 'development'
+        IS_DEV
             ? ApolloServerPluginLandingPageLocalDefault({ footer: false })
             : ApolloServerPluginLandingPageDisabled(),
     ],
 })
 
 const corsOptions = {
-    origin: ['http://localhost:3000'],
+    origin: [process.env.CORS_ORIGIN || '*'],
     credentials: true,
     methods: ['POST'],
     allowedHeaders: ['Content-Type', 'Authorization'],
 }
 
 const authenticateUser = (req: express.Request): string => {
+    Logger.info('requested')
     const authorizationHeader = req.headers.authorization
     if (!authorizationHeader || !authorizationHeader.startsWith('Bearer ')) {
         return ''
@@ -65,10 +66,10 @@ const start = async () => {
         }),
     )
 
-    const port = IS_DEV ? 4000 : 80
+    const port = process.env.SERVER_PORT
     // Modified server startup
     await new Promise<void>((resolve) => httpServer.listen({ port }, resolve))
-    Logger.info(`🚀 Server ready at http://localhost:${port}/`)
+    Logger.info(`🚀 Server ready at http://localhost:${port}`)
     await connectToDatabase()
 }
 

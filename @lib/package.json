@@ -1,17 +1,14 @@
 {
     "name": "sujin-lib",
-    "version": "0.0.1-beta",
+    "version": "1.0.0",
     "description": "Shareable Library across sujinc.com project",
     "author": "Sujin Choi",
     "license": "ISC",
     "scripts": {
-        "build": "rimraf dist && tsc",
-        "test": "jest --no-cache --forceExit --coverage",
+        "build": "rimraf internal_modules temp dist && node ./package.mjs",
+        "build:tsc": "tsc",
+        "test": "jest --no-cache --forceExit --coverage --detectOpenHandles",
         "lint": "eslint ./src/**/*.ts"
-    },
-    "dependencies": {
-        "@sujin/node-cache": "file:../@common/node-cache/dist",
-        "@sujin/share": "file:../@common/share/dist"
     },
     "devDependencies": {
         "@eslint/js": "^9.39.1",
@@ -47,7 +44,7 @@
         "arrowParens": "always",
         "bracketSpacing": true,
         "endOfLine": "lf",
-        "printWidth": 80,
+        "printWidth": 120,
         "proseWrap": "preserve",
         "quoteProps": "as-needed",
         "semi": false,
@@ -55,5 +52,8 @@
         "tabWidth": 4,
         "trailingComma": "all",
         "useTabs": false
+    },
+    "dependencies": {
+        "node-cache": "^5.1.2"
     }
 }

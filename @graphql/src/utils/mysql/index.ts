@@ -35,7 +35,7 @@ const mysqlConnect = async (): Promise<mysqld.Connection> => {
         })
         .catch((e) => {
             Logger.error(`⛈️ Failed to connect mySQL ${e.message}`)
-            throw new Error('')
+            throw new Error('⛈️ Failed to connect mySQL')
         })
 
     return global.mysql
