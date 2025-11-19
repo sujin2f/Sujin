@@ -1,6 +1,6 @@
 import type { Types } from 'mongoose'
 /* Models */
-import Cached from '@sujin/node-cache'
+import Cached from '@sujin/share/model/Cache'
 /* T_Types */
 /* Utils */
 import { getCacheKey } from '@sujin/lib/utils/cache'

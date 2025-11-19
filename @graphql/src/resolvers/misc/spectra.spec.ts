@@ -7,6 +7,9 @@ import { Spectra } from '@src/schema/spectra'
 // Mock cache
 import cache from '@test/mocks/cache'
 jest.doMock('@sujin/lib/utils/cache', () => cache)
+// Mock Logger
+import LoggerMock from '@test/mocks/utils/logger'
+jest.doMock('@src/utils/logger', () => LoggerMock)
 // Mock global fetch
 global.fetch = jest.fn(() =>
     Promise.resolve({

@@ -1,5 +1,5 @@
 /* Models */
-import Cached from '@sujin/node-cache'
+import Cached from '@sujin/share/model/Cache'
 /* CONSTANTS */
 import { IS_DEV } from '@sujin/share/constants/helper'
 import { DAY_IN_SECONDS } from '@sujin/share/constants/datetime'
