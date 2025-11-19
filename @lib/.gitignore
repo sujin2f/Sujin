@@ -2,6 +2,8 @@
 
 *.js
 node_modules
+internal_modules
+temp
 coverage
 .DS_Store
 dist

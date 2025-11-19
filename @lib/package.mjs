@@ -83,17 +83,14 @@ await backupFiles()
 await modifyFiles()
 
 console.log('Creating Docker image...')
-exec(
-    `build:tsc`,
-    async (error, stdout, stderr) => {
-        if (error) {
-            console.error(`tsc build error: ${error}`)
-            await restoreFiles()
-            return
-        }
-        console.log(`stdout: ${stdout}`)
-        console.error(`stderr: ${stderr}`)
+exec(`yarn build:tsc`, async (error, stdout, stderr) => {
+    if (error) {
+        console.error(`tsc build error: ${error}`)
+        await restoreFiles()
+        return
+    }
+    console.log(`stdout: ${stdout}`)
+    console.error(`stderr: ${stderr}`)
 
-                await restoreFiles()
-    },
-)
+    await restoreFiles()
+})

@@ -12,8 +12,7 @@ const dirCommonModules = {
 }
 
 const files = {
-    packageJson: 'package.json',
-    tsConfig: 'tsconfig.webpack.json',
+    tsConfig: 'tsconfig.json',
     envDev: '.env',
     envProd: '.env.production',
     webpack: 'webpack.config.mjs',
@@ -21,17 +20,27 @@ const files = {
 
 // Importing file contents
 import packageJson from './package.json' with { type: 'json' }
-delete packageJson.dependencies['@sujin/lib']
-delete packageJson.dependencies['@sujin/share']
+const VERSION = packageJson.version
 
-import tsConfig from './tsconfig.webpack.json' with { type: 'json' }
+import tsConfig from './tsconfig.json' with { type: 'json' }
+delete tsConfig.compilerOptions.paths['@sujin/lib/*']
+delete tsConfig.compilerOptions.paths['@sujin/share/*']
+tsConfig.compilerOptions.paths['@sujin/*'] = ['./internal_modules/*']
+tsConfig.compilerOptions.paths['@sujin/*'] = ['./internal_modules/*']
 tsConfig.compilerOptions.paths['@sujin/*'] = ['./internal_modules/*']
 
 let env = await fs.promises.readFile(path.join(files.envProd))
-const VERSION = packageJson.version
 env += `VERSION=${VERSION}\n\r`
 
 let webpack = await fs.promises.readFile(path.join(files.webpack), 'utf8')
+webpack = webpack.replace(
+    `'@sujin/lib': path.resolve(import.meta.dirname, '..', '@lib', 'src'),`,
+    '',
+)
+webpack = webpack.replace(
+    `'@sujin/share': path.resolve(import.meta.dirname, '..', '@common', 'src'),`,
+    '',
+)
 const target = `'@src': path.resolve(import.meta.dirname, 'src'),`
 const alias = `${target} '@sujin': path.resolve(import.meta.dirname, 'internal_modules')`
 webpack = webpack.replace(target, alias)
@@ -51,12 +60,6 @@ const createDirectories = async () => {
 
 const backupFiles = async () => {
     console.log('Backup files...')
-    // package.json
-    await fs.promises.copyFile(
-        path.join(files.packageJson),
-        path.join(dirTemp, files.packageJson),
-    )
-
     // tsconfig.webpack.json
     await fs.promises.copyFile(
         path.join(files.tsConfig),
@@ -78,12 +81,6 @@ const backupFiles = async () => {
 
 const modifyFiles = async () => {
     console.log('Modifying files...')
-    // package.json
-    await fs.promises.writeFile(
-        path.join(files.packageJson),
-        JSON.stringify(packageJson, null, 2),
-    )
-
     // tsconfig.webpack.json
     await fs.promises.writeFile(
         path.join(files.tsConfig),
@@ -104,15 +101,10 @@ const modifyFiles = async () => {
 
 const restoreFiles = async () => {
     console.log('Restore files...')
-    await fs.promises.unlink(path.join(files.packageJson))
     await fs.promises.unlink(path.join(files.tsConfig))
     await fs.promises.unlink(path.join(files.envDev))
     await fs.promises.unlink(path.join(files.webpack))
 
-    await fs.promises.copyFile(
-        path.join(dirTemp, files.packageJson),
-        path.join(files.packageJson),
-    )
     await fs.promises.copyFile(
         path.join(dirTemp, files.tsConfig),
         path.join(files.tsConfig),

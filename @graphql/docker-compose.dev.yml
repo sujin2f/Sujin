@@ -1,5 +1,5 @@
 services:
-    # Run this docker-compose -f docker-compose.dev.yml up -d  --remove-orphans
+    # docker-compose -f docker-compose.dev.yml up -d  --remove-orphans
     sujin-mongo-dev:
         container_name: sujin-mongo-dev
         image: mongo:5.0

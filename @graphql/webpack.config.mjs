@@ -13,14 +13,7 @@ const config = {
         rules: [
             {
                 test: /\.ts$/,
-                use: [
-                    {
-                        loader: 'ts-loader',
-                        options: {
-                            configFile: 'tsconfig.webpack.json',
-                        },
-                    },
-                ],
+                use: 'ts-loader',
                 exclude: /node_modules/,
             },
             {
@@ -34,6 +27,10 @@ const config = {
         extensions: ['.ts', '.js'],
         alias: {
             '@src': path.resolve(import.meta.dirname, 'src'),
+            // prettier-ignore
+            '@sujin/lib': path.resolve(import.meta.dirname, '..', '@lib', 'src'),
+            // prettier-ignore
+            '@sujin/share': path.resolve(import.meta.dirname, '..', '@common', 'src'),
         },
     },
     output: {
