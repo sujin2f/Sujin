@@ -14,9 +14,14 @@ import { getBackgrounds } from '@src/utils/mysql/media'
 import type { T_Background } from '@sujin/lib/types'
 
 /**
- * Get backgrounds
+ * Refresh background images from MySQL and replace the MongoDB collection.
  *
- * @returns {Promise<T_Background[]>}
+ * - Requires an admin token.
+ * - Fetches backgrounds via `getBackgrounds`, normalizes URLs, replaces the
+ *   `Background` collection and flushes the backgrounds cache.
+ *
+ * @param token - Admin GraphQL JWT.
+ * @returns An empty array on success.
  */
 export const refreshBackgrounds = async (
     token: string,

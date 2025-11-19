@@ -12,11 +12,13 @@ import { COLLECTION, ARCHIVE, POST_STATUS } from '@sujin/lib/constants'
 import type { T_Post, T_PrevNext } from '@sujin/lib/types'
 
 /**
- * Fetches the recent posts from the cache or MongoDB.
- * This returns the cached result if it exists
+ * Get the previous and next post relative to a given post slug within the same
+ * category.
  *
- * @param {string} slug - The id of the post
- * @returns {Promise<T_PrevNext[]>} A promise that resolves to the recent posts.
+ * Results are cached under `getCacheKey(COLLECTION.POST, slug, 'prev-next')`.
+ *
+ * @param _slug - The slug of the reference post.
+ * @returns A tuple-like array `[previous, next]` where either element may be `undefined`.
  */
 export const prevNext = async (_slug: string): Promise<T_PrevNext[]> => {
     const slug = sanitize(_slug)
@@ -30,9 +32,11 @@ export const prevNext = async (_slug: string): Promise<T_PrevNext[]> => {
 }
 
 /**
- * Fetches the recent posts from MongoDB.
+ * Internal query that finds the previous and next posts by date within the
+ * same category archives as the provided post.
  *
- * @returns {Promise<T_Post[]>} A promise that resolves to the recent posts.
+ * @param slug - The reference post slug.
+ * @returns Array with previous and next `T_Post` (may contain undefined values).
  */
 const query = async (slug: string): Promise<T_PrevNext[]> => {
     const post = await getPost(slug)

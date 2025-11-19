@@ -17,9 +17,15 @@ import { verifyAdmin } from '@src/utils/security'
 import type { T_Post } from '@sujin/lib/types'
 
 /**
- * Get/Update/Remove post(s)
+ * Return posts that belong to the category identified by `slug` for admin
+ * interfaces. This resolver enforces that the caller is an admin and uses a
+ * MongoDB aggregation pipeline to expand and format post/archives data.
  *
- * @returns {Promise<T_Post[]>}
+ * @param _slug - Archive/category slug to filter posts by.
+ * @param _page - 1-based page number for pagination (uses `PER_PAGE`).
+ * @param token - Admin GraphQL JWT token; `verifyAdmin` is used to check it.
+ * @returns A page of `T_Post` documents belonging to the archive.
+ * @throws {GraphQLError} When no posts are found for the archive.
  */
 export const postsAdmin = async (
     _slug: string,

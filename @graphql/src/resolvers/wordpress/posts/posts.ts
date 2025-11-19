@@ -23,9 +23,17 @@ import type { T_Post, WithNumPages } from '@sujin/lib/types'
 import { tag } from '../archives/tag'
 
 /**
- * Get/Update/Remove post(s)
+ * Fetch paginated posts for a given archive (category or tag).
  *
- * @returns {Promise<T_Post[]>}
+ * - Resolves the archive (category or tag) by slug.
+ * - Uses an aggregation pipeline to return expanded post documents and
+ *   calculates the total number of pages.
+ * - Throws `GraphQLError` with code `NO_CONTENT` when no posts are found.
+ *
+ * @param _type - Archive type (`ARCHIVE.CATEGORY` or `ARCHIVE.TAG`).
+ * @param _slug - Archive slug to fetch posts for.
+ * @param _page - Page number (1-based).
+ * @returns An object containing `items` (posts) and `numPages`.
  */
 export const posts = async (
     _type: ARCHIVE,

@@ -11,12 +11,23 @@ import { recipe as getRecipe } from '@src/resolvers/recipes/recipe'
 /* CONSTANTS */
 import { COLLECTION } from '@sujin/lib/constants'
 
+/**
+ * Remove a recipe owned by the authenticated user.
+ *
+ * - Verifies the token, ensures the recipe belongs to the caller, deletes
+ *   the recipe and flushes the recipe cache.
+ *
+ * @param __id - The recipe id to remove.
+ * @param token - GraphQL JWT identifying the requesting user.
+ * @returns An empty array on success.
+ * @throws {Error} When verification fails or the caller is not the owner.
+ */
 export const removeRecipe = async (
     __id: string,
     token: string,
 ): Promise<string[]> => {
     // Verify Token
-    const user = await verifyToken(token)
+    const user = verifyToken(token)
     if (!user || !user._id) throw new Error() // TODO expired?
 
     // Verify Owner

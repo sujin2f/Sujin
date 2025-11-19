@@ -1,5 +1,16 @@
 import sanitize from 'mongo-sanitize'
 import Cached from '@sujin/node-cache'
+/**
+ * Increment the hit counter for a tag archive and flush related caches.
+ *
+ * This mutation is typically called when a tag archive page is viewed. It
+ * increments the `hits` field for the Archive document with the given slug
+ * (only when the archive type is `ARCHIVE.TAG`), flushes the tag-cloud cache
+ * and logs the event.
+ *
+ * @param _slug - The slug of the tag whose hit count should be incremented.
+ * @returns An empty array (placeholder) once the mutation completes.
+ */
 /* Models */
 import Logger from '@src/utils/logger'
 import { Archive } from '@src/schema/archive'

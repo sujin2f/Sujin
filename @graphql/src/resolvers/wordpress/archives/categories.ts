@@ -1,4 +1,14 @@
 import sanitize from 'mongo-sanitize'
+/**
+ * Return a paginated list of category archives.
+ *
+ * Requires an admin token. Uses `PER_PAGE` for pagination and returns
+ * `T_Archive[]` documents of type `ARCHIVE.CATEGORY`.
+ *
+ * @param _page - 1-based page index to fetch.
+ * @param token - GraphQL auth token (must belong to an admin user).
+ * @returns An array of `T_Archive` documents for the requested page.
+ */
 /* Models */
 import Logger from '@src/utils/logger'
 import { Archive } from '@src/schema/archive'

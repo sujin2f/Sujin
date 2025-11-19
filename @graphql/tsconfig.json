@@ -9,7 +9,7 @@
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
         "paths": {
-            "@jest/*": ["../.jest/*"],
+            "@test/*": ["./.jest/*"],
             "@src/*": ["./src/*"],
             "@sujin/lib/*": ["../@lib/src/*"],
             "@sujin/node-cache/*": ["../@common/node-cache/src/*"],
@@ -17,5 +17,5 @@
         }
     },
     "include": ["src/**/*.ts"],
-    "exclude": ["node_modules", "src/**/*.spec.ts", "../.jest/*"]
+    "exclude": ["node_modules"]
 }

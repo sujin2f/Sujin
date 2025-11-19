@@ -16,5 +16,5 @@ query {
 }
 
 mutation {
-    refreshBackground
+    refreshBackgrounds
 }

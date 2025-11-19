@@ -9,7 +9,6 @@
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
         "paths": {
-            "@jest/*": ["../.jest/*"],
             "@src/*": ["./src/*"]
         }
     },

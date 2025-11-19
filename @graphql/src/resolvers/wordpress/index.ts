@@ -3,6 +3,11 @@ import { pages } from '@src/resolvers/wordpress/pages'
 import { backgrounds } from '@src/resolvers/wordpress/backgrounds'
 import { archives } from '@src/resolvers/wordpress/archives'
 
+/**
+ * WordPress-related resolver group.
+ *
+ * Aggregates resolvers for `posts`, `pages`, `backgrounds` and `archives`.
+ */
 export const wordpress = {
     Query: {
         ...posts.Query,

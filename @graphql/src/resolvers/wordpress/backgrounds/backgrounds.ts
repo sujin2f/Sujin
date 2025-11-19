@@ -9,9 +9,12 @@ import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 import type { T_Background } from '@sujin/lib/types'
 
 /**
- * Get backgrounds
+ * Return a cached sample of background images.
  *
- * @returns {Promise<T_Background[]>}
+ * Uses a MongoDB aggregation `$sample` to pick 10 backgrounds and caches the
+ * result under the `COLLECTION.BACKGROUNDS` cache key.
+ *
+ * @returns An array of `T_Background` items.
  */
 export const backgrounds = async (): Promise<T_Background[]> => {
     const request = cachedRequest(

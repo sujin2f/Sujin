@@ -8,6 +8,6 @@ query {
 }
 
 mutation {
-    refreshPage(page: 1)
-    removePage(page: 1)
+    refreshPage(slug: "about")
+    removePage(slug: "about")
 }

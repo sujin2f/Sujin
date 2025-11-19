@@ -5,7 +5,7 @@ type Query {
 
 type Mutation {
     createRecipe(recipe: RecipeInput!): String
-    updateRecipe(recipe: RecipeInput!): String
+    replaceRecipe(recipe: RecipeInput!): String
     removeRecipe(_id: String!): [Boolean]
 }
 

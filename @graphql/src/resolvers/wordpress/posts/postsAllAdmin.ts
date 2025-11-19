@@ -15,9 +15,15 @@ import { verifyAdmin } from '@src/utils/security'
 import type { T_Post } from '@sujin/lib/types'
 
 /**
- * Get/Update/Remove post(s)
+ * Return a paginated list of posts for admin interfaces.
  *
- * @returns {Promise<T_Post[]>}
+ * Requires an admin token. Uses aggregation to expand archive references
+ * and applies pagination via `PER_PAGE`.
+ *
+ * @param _page - 1-based page number to fetch.
+ * @param token - Admin GraphQL JWT token; `verifyAdmin` is used to check it.
+ * @returns A page of `T_Post` documents.
+ * @throws {GraphQLError} When no posts are found.
  */
 export const postsAllAdmin = async (
     _page: number,

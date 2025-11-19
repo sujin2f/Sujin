@@ -5,6 +5,12 @@ import { spectrum } from '@src/resolvers/misc/spectrum'
 import type { T_Context } from '@src/types'
 import type { T_GQL_Params_Spectrum } from '@sujin/lib/types'
 
+/**
+ * Miscellaneous resolvers that don't belong to a single feature domain.
+ *
+ * Exports a `misc` object containing `Query` and `Mutation` resolvers used by
+ * the root resolver map.
+ */
 export const misc = {
     Query: {
         flickr,

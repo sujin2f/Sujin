@@ -10,6 +10,12 @@ import { removeCategory } from '@src/resolvers/wordpress/archives/removeCategory
 import type { T_Context } from '@src/types'
 import type { T_GQL_Params_Page, T_GQL_Params_Slug } from '@sujin/lib/types'
 
+/**
+ * Archive-related resolver group (categories & tags).
+ *
+ * Exposes queries for tag cloud, individual category/tag lookups and paginated
+ * listing as well as mutations to update hits, refresh and remove categories.
+ */
 export const archives = {
     Query: {
         tagCloud,

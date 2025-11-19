@@ -13,6 +13,21 @@ import { updatePost as updateMongoPost } from '@src/utils/mongo/updatePost'
 import { updateTotal } from '@src/utils/mongo/updateTotal'
 import { mysqlDisconnect } from '@src/utils/mysql'
 
+/**
+ * Refresh a page of posts for a given category (`slug`) by fetching them
+ * from MySQL and upserting into MongoDB.
+ *
+ * This mutation:
+ * - Validates admin token.
+ * - Retrieves a page of posts from MySQL for the given category and page.
+ * - Updates MongoDB post documents and archive totals.
+ * - Flushes caches and disconnects from MySQL.
+ *
+ * @param _slug - Category slug whose posts should be refreshed.
+ * @param _page - 1-based page number to fetch from MySQL.
+ * @param token - Admin GraphQL JWT token.
+ * @returns An empty boolean array (placeholder) when done.
+ */
 export const refreshPosts = async (
     _slug: string,
     _page: number,

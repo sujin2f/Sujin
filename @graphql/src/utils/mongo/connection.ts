@@ -3,6 +3,13 @@ import { EnvironmentError } from '@sujin/share/model/Error'
 /* Models */
 import Logger from '@src/utils/logger'
 
+/**
+ * Ensure required MongoDB environment variables are present.
+ *
+ * The module logs and throws an `EnvironmentError` at import time if
+ * any of the required variables are missing. This makes failures explicit
+ * early during application startup.
+ */
 if (!process.env.MONGO) {
     Logger.error('⛈️ Invalid/Missing environment variable: "MONGO"')
     throw new EnvironmentError('Invalid/Missing environment variable: "MONGO"')
@@ -36,7 +43,16 @@ if (!process.env.MONGO_DATABASE) {
     )
 }
 
-export const connectToDatabase = async () => {
+/**
+ * Connect to MongoDB using mongoose.
+ *
+ * Builds the connection string from environment variables and attempts to
+ * connect. On success the function logs an informational message; on
+ * failure it logs an error and throws an `EnvironmentError`.
+ *
+ * @throws {EnvironmentError} When the connection attempt fails.
+ */
+export const connectToDatabase = async (): Promise<void> => {
     const port = process.env.MONGO_PORT || '27018'
     const connection = `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO}:${port}/${process.env.MONGO_DATABASE}?authSource=${process.env.MONGO_DATABASE}`
     try {

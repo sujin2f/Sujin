@@ -15,6 +15,18 @@ import { DAY_IN_SECONDS } from '@sujin/share/constants/datetime'
 import { COLLECTION } from '@sujin/lib/constants'
 import { orbitalKeys } from '@sujin/lib/constants/ether'
 
+/**
+ * Public resolver that returns spectra for a given atomic `number` and
+ * ionization state `ion`.
+ *
+ * The function sanitizes inputs, resolves the atomic metadata, and uses a
+ * cached request wrapper around the internal `find` function to avoid
+ * repeated remote requests.
+ *
+ * @param _number - Atomic number.
+ * @param _ion - Ionization state.
+ * @returns Array of `ISpectrum` entries.
+ */
 export const spectrum = async (
     _number: number,
     _ion: number,
@@ -51,10 +63,12 @@ const find = async (atom: Atom, ion: number): Promise<ISpectrum[]> => {
         if (result && result.length) {
             return result
         }
+
         const csv = await requestNIST(atom, ion)
         if (!csv) {
             return []
         }
+
         await insertManyFromCSV(atom.number, ion, csv)
         return await Spectra.find({
             number,
@@ -65,7 +79,6 @@ const find = async (atom: Atom, ion: number): Promise<ISpectrum[]> => {
 
 const requestNIST = async (atom: Atom, ion: number) => {
     Logger.info(`🤟 Request NIST -- atom:${atom.number}, ion:${ion}`)
-
     const ionRoman = romanize(ion)
     const nistUrl = `https://physics.nist.gov/cgi-bin/ASD/lines1.pl?spectra=${atom.symbol}+${ionRoman}&limits_type=0&low_w=&upp_w=&unit=1&de=0&I_scale_type=1&format=2&line_out=0&remove_js=on&en_unit=1&output=0&bibrefs=1&page_size=15&show_obs_wl=1&show_calc_wl=1&unc_out=1&order_out=0&max_low_enrg=&show_av=2&max_upp_enrg=&tsb_value=0&min_str=&A_out=0&intens_out=on&max_str=&allowed_out=1&forbid_out=1&min_accur=&min_intens=&conf_out=on&term_out=on&enrg_out=on&J_out=on&submit=Retrieve+Data`
     return await fetch(nistUrl, {

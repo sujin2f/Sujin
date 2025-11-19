@@ -3,6 +3,12 @@ import { recipes } from '@src/resolvers/recipes'
 import { misc } from '@src/resolvers/misc'
 import { wordpress } from '@src/resolvers/wordpress'
 
+/**
+ * Root GraphQL resolver map assembled from feature-specific resolvers.
+ *
+ * - `Query` merges query resolvers from `recipes`, `misc`, and `wordpress`.
+ * - `Mutation` merges mutation resolvers from `users`, `recipes`, `misc`, and `wordpress`.
+ */
 export const Query = {
     ...recipes.Query,
     ...misc.Query,

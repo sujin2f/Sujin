@@ -4,6 +4,17 @@ import { COLLECTION } from '@sujin/lib/constants'
 
 const { Schema, SchemaTypes, model } = mongoose
 
+/**
+ * Recipe schema stores user-submitted recipes with ingredient lists.
+ *
+ * Fields:
+ * - `title`: recipe title (required)
+ * - `url`: optional original source URL
+ * - `search`: text index field used for searching recipes
+ * - `ingredients`: array of ingredient items with amount and unit
+ * - `created`: creation timestamp
+ * - `user`: reference to the `user` who submitted the recipe
+ */
 const recipeSchema = new Schema({
     title: {
         type: String,
@@ -32,4 +43,8 @@ const recipeSchema = new Schema({
 })
 recipeSchema.index({ search: 'text' })
 
+/**
+ * Exported model `Recipe` stored under the collection name defined in
+ * `COLLECTION.RECIPE`.
+ */
 export const Recipe = model('recipe', recipeSchema, COLLECTION.RECIPE)

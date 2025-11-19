@@ -12,7 +12,19 @@ import { convertWPImageURL } from '@src/utils/mongo/convertWPImageURL'
 import { Archive } from '@src/schema/archive'
 import { DAY_IN_MS } from '@sujin/share/constants/datetime'
 
-export const updatePost = async (post: T_MySQLPost) => {
+/**
+ * Update or insert a post document in MongoDB from a MySQL-post representation.
+ *
+ * - Normalizes image URLs using `convertWPImageURL`.
+ * - Ensures referenced archives (categories/tags) exist and collects their IDs.
+ * - Replaces the existing post document (by `slug`) or inserts a new one.
+ *
+ * @param post - The source post object coming from MySQL (`T_MySQLPost`).
+ * @returns An array of `ObjectId`s for the archives associated with the post.
+ */
+export const updatePost = async (
+    post: T_MySQLPost,
+): Promise<Types.ObjectId[]> => {
     const slug = post.slug
     const archives: Types.ObjectId[] = []
 

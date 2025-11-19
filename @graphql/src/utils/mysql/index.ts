@@ -6,6 +6,15 @@ declare global {
     var mysql: mysqld.Connection | null
 }
 
+/**
+ * Create or reuse a global MySQL connection.
+ *
+ * The connection is cached on the `global` object to avoid reconnecting on
+ * subsequent calls. On successful connection the function logs an info
+ * message. On failure it logs the error and throws.
+ *
+ * @returns A ready `mysql2/promise` `Connection`.
+ */
 const mysqlConnect = async (): Promise<mysqld.Connection> => {
     if (global.mysql) {
         return global.mysql
@@ -32,7 +41,10 @@ const mysqlConnect = async (): Promise<mysqld.Connection> => {
     return global.mysql
 }
 
-export const mysqlDisconnect = async () => {
+/**
+ * Close and clear the cached global MySQL connection if present.
+ */
+export const mysqlDisconnect = async (): Promise<void> => {
     if (!global.mysql) {
         return
     }
@@ -41,7 +53,16 @@ export const mysqlDisconnect = async () => {
     global.mysql = null
 }
 
-export const select = async <T>(query: string) => {
+/**
+ * Execute a SELECT query and return typed results.
+ *
+ * The function manages the MySQL connection and returns an empty array on
+ * failure to connect or when the query returns no rows.
+ *
+ * @param query - The SQL query string to execute.
+ * @returns An array of results typed as `T[]`.
+ */
+export const select = async <T>(query: string): Promise<T[]> => {
     const mysql = await mysqlConnect().catch((e) => {
         Logger.error(`⛈️ Failed to connect mySQL from select() ${e.message}`)
         return undefined
@@ -66,6 +87,11 @@ export const select = async <T>(query: string) => {
     return result as T[]
 }
 
+/**
+ * Execute an UPDATE/INSERT/DELETE or other non-select SQL statement.
+ *
+ * @param query - The SQL query string to execute.
+ */
 export const update = async (query: string): Promise<void> => {
     const mysql = await mysqlConnect().catch((e) => {
         Logger.error(`⛈️ Failed to connect mySQL from update() ${e.message}`)

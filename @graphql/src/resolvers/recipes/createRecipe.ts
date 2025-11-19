@@ -12,12 +12,25 @@ import Cached from '@sujin/node-cache'
 /* CONSTANTS */
 import { COLLECTION } from '@sujin/lib/constants'
 
+/**
+ * Create a new recipe document for the authenticated user.
+ *
+ * - Verifies the provided GraphQL token and associates the new recipe with
+ *   the user's ObjectId.
+ * - Builds a `search` string from the recipe title and ingredients.
+ * - Clears the recipes cache after insertion.
+ *
+ * @param recipe - The recipe payload to insert.
+ * @param token - GraphQL JWT identifying the creating user.
+ * @returns The newly-created recipe `_id` as a string.
+ * @throws {Error} When the token is invalid or missing.
+ */
 export const createRecipe = async (
     recipe: T_Recipe,
     token: string,
 ): Promise<string> => {
     // Verify Token
-    const user = await verifyToken(token)
+    const user = verifyToken(token)
     if (!user || !user._id) throw new Error()
 
     const search = new Set([

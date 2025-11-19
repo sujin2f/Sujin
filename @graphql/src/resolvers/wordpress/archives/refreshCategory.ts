@@ -1,4 +1,20 @@
 import sanitize from 'mongo-sanitize'
+/**
+ * Refresh a WordPress category archive in the MongoDB `Archive` collection.
+ *
+ * This mutation retrieves the WP term by `slug` from MySQL, converts any
+ * WordPress image URLs to the canonical form used by the app, and then
+ * inserts or replaces the corresponding Archive document in MongoDB.
+ *
+ * Side effects:
+ * - Verifies the caller is an admin via `verifyAdmin`.
+ * - Flushes the cache entry for the archive.
+ * - Calls `updateTotal` to update totals that depend on the archive.
+ *
+ * @param _slug - WordPress term slug identifying the category to refresh.
+ * @param token - GraphQL auth token (must belong to an admin user).
+ * @returns A promise that resolves to an array of booleans (placeholder).
+ */
 /* Models */
 import { Archive } from '@src/schema/archive'
 import Cached from '@sujin/node-cache'

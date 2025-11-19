@@ -15,9 +15,14 @@ import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 import type { T_Post, WithNumPages } from '@sujin/lib/types'
 
 /**
- * Get/Update/Remove post(s)
+ * Search posts by text index and return paginated results.
  *
- * @returns {Promise<T_Post[]>}
+ * Uses MongoDB text search and aggregation to return expanded post documents.
+ * Throws a `GraphQLError` with code `NO_CONTENT` when no results are found.
+ *
+ * @param _keyword - Search keyword.
+ * @param _page - Page number (1-based).
+ * @returns Paginated search results with `items` and `numPages`.
  */
 export const search = async (
     _keyword: string,

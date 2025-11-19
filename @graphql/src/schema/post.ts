@@ -6,6 +6,9 @@ import { POST_STATUS } from '@sujin/lib/constants'
 
 const { Schema, SchemaTypes, model } = mongoose
 
+/**
+ * Common fields shared by posts and pages.
+ */
 const commonSchema = {
     title: {
         type: String,
@@ -42,6 +45,9 @@ const commonSchema = {
     },
 }
 
+/**
+ * Post schema extends the common fields and references `Archive` documents.
+ */
 const postSchema = new Schema({
     ...commonSchema,
     archives: [
@@ -56,8 +62,14 @@ postSchema.index({ content: 'text' })
 postSchema.index({ slug: 1 })
 postSchema.index({ date: 1 })
 
+/**
+ * Page schema reuses the common fields but is stored in the `page` collection.
+ */
 const pageSchema = new Schema(commonSchema)
 pageSchema.index({ slug: 1 })
 
+/**
+ * Exported models: `Page` and `Post`.
+ */
 export const Page = model('page', pageSchema)
 export const Post = model('post', postSchema)

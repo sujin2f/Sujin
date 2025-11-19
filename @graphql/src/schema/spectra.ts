@@ -4,6 +4,12 @@ import mongoose from 'mongoose'
 
 const { Schema, model } = mongoose
 
+/**
+ * Mongoose schema for spectral data used by the `spectra` collection.
+ *
+ * The schema matches the `ISpectrum` TypeScript interface and includes
+ * indexes on `number` and `ion` for efficient queries.
+ */
 const spectrumSchema = new Schema<ISpectrum>({
     number: {
         type: Number,
@@ -28,4 +34,7 @@ const spectrumSchema = new Schema<ISpectrum>({
 })
 spectrumSchema.index({ number: 1, ion: 1 })
 
+/**
+ * Exported model `Spectra` stored under `COLLECTION.SPECTRA`.
+ */
 export const Spectra = model('spectra', spectrumSchema, COLLECTION.SPECTRA)

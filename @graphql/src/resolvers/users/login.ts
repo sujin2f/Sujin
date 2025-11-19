@@ -17,9 +17,16 @@ import type {
 } from '@sujin/lib/types'
 
 /**
- * User Login
- * @param nextToken
- * @returns {T_Token_Return}
+ * Exchange a Next.js `nextToken` for an application GraphQL access token.
+ *
+ * - Verifies and decodes the incoming Next token to obtain an email address.
+ * - Creates or finds a corresponding MongoDB user and checks MySQL for admin
+ *   capability.
+ * - Issues a signed GraphQL JWT containing `_id`, `email` and `admin` flag.
+ *
+ * @param nextToken - A JWT issued by NextAuth containing the user's email.
+ * @returns An object containing the created user's `_id` and a new `accessToken`.
+ * @throws {Error} When the incoming token is missing or invalid.
  */
 export const login = async (nextToken: string): Promise<T_Token_Return> => {
     if (!nextToken) {

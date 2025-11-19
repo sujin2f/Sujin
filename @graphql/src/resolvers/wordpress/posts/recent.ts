@@ -13,9 +13,9 @@ import {
 import type { T_ArchivePost } from '@sujin/lib/types'
 
 /**
- * Fetches the recent posts from MongoDB.
+ * Internal aggregation query to fetch the most recent published posts.
  *
- * @returns {Promise<T_Post[]>} A promise that resolves to the recent posts.
+ * @returns A promise resolving to an array of `T_ArchivePost` items.
  */
 const query = async (): Promise<T_ArchivePost[]> => {
     return await Post.aggregate<T_ArchivePost>([
@@ -28,10 +28,11 @@ const query = async (): Promise<T_ArchivePost[]> => {
 }
 
 /**
- * Fetches the recent posts from the cache or MongoDB.
- * It uses a caching mechanism to avoid fetching the posts multiple times within a week.
+ * Public resolver that returns a cached list of recent posts.
  *
- * @returns {Promise<T_Post[]>} A promise that resolves to the recent posts.
+ * Uses `cachedRequest` with `getCacheKey(COLLECTION.ARCHIVE, 'recent')`.
+ *
+ * @returns A promise resolving to an array of recent `T_ArchivePost` items.
  */
 export const recent = async (): Promise<T_ArchivePost[]> => {
     const request = cachedRequest(

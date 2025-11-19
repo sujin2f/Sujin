@@ -3,7 +3,18 @@ import { IMAGE_SIZE } from '@sujin/lib/constants'
 /* T_Types */
 import type { T_ImageBlock } from '@sujin/lib/types'
 
-const replaceURL = (url: string) => {
+/**
+ * Normalize/convert a URL or path value for WordPress-uploaded images.
+ *
+ * The function attempts to parse the incoming `url` as a full URL and
+ * extract its `pathname`. If parsing fails it treats the value as a
+ * pathname already. It then ensures the path is rooted under
+ * `wp-content/uploads` and always returns a leading slash.
+ *
+ * @param url - A full URL or a path-like string.
+ * @returns A normalized path beginning with `/wp-content/uploads/...`.
+ */
+const replaceURL = (url: string): string => {
     let pathname: string
 
     if (!url) return ''
@@ -24,7 +35,14 @@ const replaceURL = (url: string) => {
     return `/${pathname}`
 }
 
-export const convertWPImageURL = (imageBlock: T_ImageBlock) => {
+/**
+ * Convert all image size URLs inside a WordPress image block to normalized
+ * local paths and return a new `T_ImageBlock` with a normalized `url`.
+ *
+ * @param imageBlock - Image block object with optionally multiple `sizes`.
+ * @returns A new `T_ImageBlock` with normalized `url` and `sizes[*].url` values.
+ */
+export const convertWPImageURL = (imageBlock: T_ImageBlock): T_ImageBlock => {
     const sizes = imageBlock.sizes
 
     if (sizes) {

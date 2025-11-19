@@ -9,6 +9,13 @@ import { COLLECTION } from '@sujin/lib/constants'
 import { getCacheKey } from '@sujin/lib/utils/cache'
 import { verifyAdmin } from '@src/utils/security'
 
+/**
+ * Remove a page document. Requires an admin token.
+ *
+ * @param _slug - The slug of the page to remove.
+ * @param token - Admin GraphQL JWT.
+ * @returns An empty array on success.
+ */
 export const removePage = async (
     _slug: string,
     token: string,

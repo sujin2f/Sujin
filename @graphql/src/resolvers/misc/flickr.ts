@@ -10,12 +10,22 @@ import type { T_FlickrImage, T_FlickrResponse } from '@sujin/lib/types'
 /* Utils */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 
+/**
+ * Default set of Flickr items used when the environment is in dev mode or
+ * when a request to Flickr fails.
+ */
 const defaultValue = STATIC_FLICKR.items.map((item) => ({
     ...item,
     media: item.media.m,
 }))
 
-const request = async (): Promise<T_FlickrImage[]> => {
+/**
+ * Internal request to Flickr public feeds. Returns an array of simplified
+ * `T_FlickrImage` objects with `media` normalized to `media.m`.
+ *
+ * @returns {Promise<T_FlickrImage[]>} Promise resolving to an array of `T_FlickrImage`.
+ */
+const requestFlickrImages = async (): Promise<T_FlickrImage[]> => {
     if (IS_DEV) {
         return defaultValue
     }
@@ -57,9 +67,15 @@ const request = async (): Promise<T_FlickrImage[]> => {
         })
 }
 
+/**
+ * Public resolver used by GraphQL. Uses a cached request wrapper and logs
+ * completion. Returns a list of Flickr images.
+ *
+ * @returns {Promise<T_FlickrImage[]>} Promise resolving to `T_FlickrImage[]`.
+ */
 export const flickr = async (): Promise<T_FlickrImage[]> => {
     const cached = cachedRequest(
-        request,
+        requestFlickrImages,
         getCacheKey(COLLECTION.ARCHIVE, 'tag-cloud'),
         {
             ttl: DAY_IN_SECONDS * 30,

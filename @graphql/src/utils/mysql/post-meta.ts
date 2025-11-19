@@ -11,6 +11,20 @@ type T_PostMeta = {
     meta_value: string
 }
 
+/**
+ * Retrieve a post meta value from MySQL and coerce/unserialize it to the
+ * desired type.
+ *
+ * - If the meta value is missing, returns `defaultValue`.
+ * - If the meta value looks like a serialized PHP array/object it will be
+ *   unserialized using `phpUnSerialize`.
+ *
+ * @param postId - The MySQL post ID.
+ * @param metaKey - The meta key to retrieve.
+ * @param defaultValue - Default value to return when the meta is absent or
+ *                       cannot be parsed.
+ * @returns The value parsed as `T`.
+ */
 export const getPostMeta = async <
     T extends Record<string, unknown> | string | number | boolean,
 >(
@@ -29,6 +43,17 @@ export const getPostMeta = async <
     return unserialize<T>(value.meta_value, defaultValue)
 }
 
+/**
+ * Internal helper to coerce / unserialize a stored meta value.
+ *
+ * Handles boolean/number casting when `defaultValue` is not a string.
+ * For string defaults it will attempt to detect PHP serialized arrays (`a:...}`)
+ * and use `phpUnSerialize` to convert them to JS objects.
+ *
+ * @param value - Raw string from the DB.
+ * @param defaultValue - Default fallback typed as `T`.
+ * @param key - Optional key to extract from an object result.
+ */
 const unserialize = <
     T extends Record<string, unknown> | string | number | boolean,
 >(

@@ -12,6 +12,17 @@ import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 /* CONSTANTS */
 import { COLLECTION, PER_PAGE } from '@sujin/lib/constants'
 
+/**
+ * Fetch a paginated list of recipes.
+ *
+ * If `mine` is true the `token` is verified and only recipes created by the
+ * authenticated user are returned.
+ *
+ * @param _page - Page number (1-based).
+ * @param mine - When true, restrict results to the calling user.
+ * @param token - GraphQL JWT used to identify the current user (when `mine` is true).
+ * @returns An object with `items` (recipes) and `numPages` for pagination.
+ */
 export const recipes = async (
     _page: number,
     mine: boolean,

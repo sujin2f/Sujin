@@ -9,6 +9,17 @@ import { verifyAdmin } from '@src/utils/security'
 /* T_Types */
 import type { T_Page } from '@sujin/lib/types'
 
+/**
+ * Admin-only paginated list of pages.
+ *
+ * Verifies the provided token belongs to an admin, then returns a page of
+ * `T_Page` documents.
+ *
+ * @param _page - Page number (1-based).
+ * @param token - GraphQL JWT of the requesting user (must be admin).
+ * @returns An array of `T_Page` documents for the requested page.
+ * @throws {Error} When the caller is not an admin.
+ */
 export const pages = async (
     _page: number,
     token: string,

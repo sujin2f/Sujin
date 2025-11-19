@@ -12,22 +12,29 @@ import type { T_Archive } from '@sujin/lib/types'
 
 export const category = async (_slug: string): Promise<T_Archive> => {
     const slug = sanitize(_slug)
-
-    const request = cachedRequest(async (slug: string): Promise<T_Archive> => {
-        return await Archive.findOne<T_Archive>({
-            type: ARCHIVE.CATEGORY,
-            slug,
-        }).then((result) => {
-            if (!result) {
-                throw new GraphQLError(`Cannot find category ${slug}`, {
-                    extensions: {
-                        code: 'NO_CONTENT',
-                    },
-                })
-            }
-            return result
-        })
-    }, getCacheKey(COLLECTION.ARCHIVE, slug))
+    /**
+     * Load a category archive from MongoDB (cached).
+     *
+     * Throws a GraphQLError with `NO_CONTENT` when the archive is not found.
+     */
+    const request = cachedRequest(
+        async (slug: string): Promise<T_Archive> => {
+            return await Archive.findOne<T_Archive>({
+                type: ARCHIVE.CATEGORY,
+                slug,
+            }).then((result) => {
+                if (!result) {
+                    throw new GraphQLError(`Cannot find category ${slug}`, {
+                        extensions: {
+                            code: 'NO_CONTENT',
+                        },
+                    })
+                }
+                return result
+            })
+        },
+        getCacheKey(COLLECTION.ARCHIVE, slug),
+    )
 
     const result = await request(slug)
     Logger.info(`🤟 category query done: ${slug}`)

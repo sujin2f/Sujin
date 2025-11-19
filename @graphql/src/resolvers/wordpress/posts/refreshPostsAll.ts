@@ -13,6 +13,20 @@ import { updatePost as updateMongoPost } from '@src/utils/mongo/updatePost'
 import { updateTotal } from '@src/utils/mongo/updateTotal'
 import { mysqlDisconnect } from '@src/utils/mysql'
 
+/**
+ * Refresh a page of all posts (no category filter) by pulling data from MySQL
+ * and upserting into MongoDB.
+ *
+ * Steps:
+ * - Verifies admin token.
+ * - Loads a page of posts from MySQL.
+ * - Updates MongoDB posts and archive totals.
+ * - Flushes caches and disconnects from MySQL.
+ *
+ * @param _page - 1-based page number to fetch from MySQL.
+ * @param token - Admin GraphQL JWT token.
+ * @returns An empty boolean array (placeholder) when done.
+ */
 export const refreshPostsAll = async (
     _page: number,
     token: string,

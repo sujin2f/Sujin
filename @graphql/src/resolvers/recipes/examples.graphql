@@ -9,6 +9,6 @@ query {
 
 mutation {
     id: createRecipe(recipe: {})
-    id: updateRecipe(recipe: {})
+    id: replaceRecipe(recipe: {})
     removeRecipe(_id: "?")
 }

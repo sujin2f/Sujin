@@ -17,6 +17,20 @@ import { mysqlDisconnect } from '@src/utils/mysql'
  *
  * @returns {Promise<T_Post[]>}
  */
+/**
+ * Refresh a single post from MySQL into MongoDB.
+ *
+ * Steps performed:
+ * - Verifies the caller is an admin.
+ * - Loads the post from MySQL by `slug`.
+ * - Calls `updatePost` to upsert the post into MongoDB and `updateTotal`
+ *   to refresh archive totals.
+ * - Flushes the post cache and disconnects from MySQL.
+ *
+ * @param _slug - Post slug to refresh.
+ * @param token - Admin GraphQL JWT token.
+ * @returns An empty boolean array (placeholder) when done.
+ */
 export const refreshPost = async (
     _slug: string,
     token: string,

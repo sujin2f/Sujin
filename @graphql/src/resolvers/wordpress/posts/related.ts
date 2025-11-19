@@ -17,11 +17,15 @@ import {
 import type { T_ArchivePost } from '@sujin/lib/types'
 
 /**
- * Fetches the recent posts from the cache or MongoDB.
- * This returns the cached result if it exists
+ * Retrieve related posts for a given post slug.
  *
- * @param {string} slug - The id of the post
- * @returns {Promise<T_ArchivePost[]>} A promise that resolves to the recent posts.
+ * Finds posts that share archives with the reference post and falls back to
+ * recent posts to fill the list up to 4 items.
+ *
+ * Results are cached under `getCacheKey(COLLECTION.POST, slug, 'related')`.
+ *
+ * @param _slug - The slug of the reference post.
+ * @returns An array of related `T_ArchivePost` items (max 4).
  */
 export const related = async (_slug: string): Promise<T_ArchivePost[]> => {
     const slug = sanitize(_slug)
@@ -35,9 +39,11 @@ export const related = async (_slug: string): Promise<T_ArchivePost[]> => {
 }
 
 /**
- * Fetches the related posts from MongoDB.
- * @param {string} slug
- * @returns {Promise<T_Post[]>} A promise that resolves to the related posts.
+ * Internal aggregation that searches for posts sharing archives with the
+ * reference post and returns up to 4 items.
+ *
+ * @param slug - The reference post slug.
+ * @returns An array of `T_ArchivePost` results.
  */
 const query = async (slug: string): Promise<T_ArchivePost[]> => {
     const post = await getPost(slug)

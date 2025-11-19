@@ -1,4 +1,14 @@
 import sanitize from 'mongo-sanitize'
+/**
+ * Return a paginated list of tag archives.
+ *
+ * This resolver requires an admin token and uses simple pagination based on
+ * `PER_PAGE`. It returns `T_Archive[]` documents of type `ARCHIVE.TAG`.
+ *
+ * @param _page - 1-based page index to fetch.
+ * @param token - GraphQL auth token (must belong to an admin user).
+ * @returns An array of `T_Archive` documents for the requested page.
+ */
 /* Models */
 import Logger from '@src/utils/logger'
 import { Archive } from '@src/schema/archive'

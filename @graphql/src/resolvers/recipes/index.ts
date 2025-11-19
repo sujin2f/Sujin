@@ -1,7 +1,7 @@
 import { recipe } from '@src/resolvers/recipes/recipe'
 import { recipes as getRecipes } from '@src/resolvers/recipes/recipes'
 import { createRecipe } from '@src/resolvers/recipes/createRecipe'
-import { updateRecipe } from '@src/resolvers/recipes/updateRecipe'
+import { replaceRecipe } from '@src/resolvers/recipes/replaceRecipe'
 import { removeRecipe } from '@src/resolvers/recipes/removeRecipe'
 
 import type { T_Context } from '@src/types'
@@ -11,6 +11,12 @@ import type {
     T_GQL_Params_Recipes,
 } from '@sujin/lib/types'
 
+/**
+ * Recipe-related GraphQL resolvers.
+ *
+ * Provides `Query` resolvers to fetch recipes and single recipe items, and
+ * `Mutation` resolvers to create, update and remove recipes.
+ */
 export const recipes = {
     Query: {
         recipe: async (_: unknown, { _id }: T_GQL_Params_Id) =>
@@ -27,11 +33,11 @@ export const recipes = {
             { recipe }: T_GQL_Params_Recipe_Mutate,
             context: T_Context,
         ) => await createRecipe(recipe, context.token),
-        updateRecipe: async (
+        replaceRecipe: async (
             _: unknown,
             { recipe }: T_GQL_Params_Recipe_Mutate,
             context: T_Context,
-        ) => await updateRecipe(recipe, context.token),
+        ) => await replaceRecipe(recipe, context.token),
         removeRecipe: async (
             _: unknown,
             { _id }: T_GQL_Params_Id,

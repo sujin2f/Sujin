@@ -17,6 +17,13 @@ import type {
     T_GQL_Params_Slug,
 } from '@sujin/lib/types'
 
+/**
+ * WordPress posts resolvers.
+ *
+ * Provides queries for fetching single posts, lists, admin-only lists and
+ * search-related operations, plus mutations to refresh posts from the
+ * upstream WordPress source.
+ */
 export const posts = {
     Query: {
         post: async (_: unknown, { slug }: T_GQL_Params_Slug) =>
