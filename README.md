@@ -1,82 +1,133 @@
-# Wordpress Theme Sujin
+# Sujin — Personal Portfolio Microservices
 
-![](https://github.com/sujin2f/Sujin/workflows/next.js.yml/badge.svg)
+**Sujin** is a personal portfolio site for https://sujin.com built as a small microservice ecosystem. The stack includes:
 
-The Wordpress Theme which frontend is React from the new WP Editor Gutenberg.
+-   **Next.js** — Frontend (React, SSR/SSG)
+-   **Apollo Server** — API layer
+-   **WordPress** — CMS for posts/pages
+-   **MongoDB** — Serving WP/MySQL posts and additional data store
 
-## Tech Stack
+This repository contains multiple packages/services (Next app, GraphQL server, shared libs) and tooling to run them locally or in containerized environments.
 
-1. Language: ES6, Typescript, SASS
-2. Library: React (from WP)
-3. Bundler: Webpack, Babel
-4. Lint: ESLint, TSLint, PHPCS - WPCS
-5. Test: Jest, PHP Unit
+**Quick Goals**
 
-## Dev Note
+-   Serve content with Next.js (frontend)
+-   Provide a GraphQL API via Apollo to combine WordPress and MongoDB data
+-   Use WordPress as CMS and MongoDB for non-relational data
+-   Next step: Add a dedicated Authentication service (Node.js)
 
-To install this theme in dev mode:
+**Table of Contents**
 
-```shell
-# Install NPM packages
-npm i
+-   **Overview**: Architecture and how pieces interact
+-   **Local Setup**: Install & run instructions
+-   **Databases**: MySQL (WordPress) and MongoDB setup notes
+-   **Environment**: Key env vars and where to configure them
+-   **Next Steps**: Plan for Authentication server
+-   **Security notes** and **License**
 
-# Install composer
-composer install
+**Overview**
 
-# Create Docker Image
-docker build -t nextjs-docker .
+-   The Next.js app is the public frontend that consumes the GraphQL API.
+-   The Apollo server aggregates data from WordPress (MySQL) and MongoDB and exposes a GraphQL schema for the frontend.
+-   WordPress is used for content management (posts, pages, media). It runs with a MySQL backend.
+-   MongoDB is used for specific app data and caching
 
-# Activate docker containers
-cd ./.configs/docker/
-docker-compose -f ./docker-compose.infrastructure.yml -f ./docker-compose.yml up -d
+**Local Setup**
 
-# Install json-schema-to-typescript globally
-npm i -G json-schema-to-typescript
-Create TS interfaces from schema
-npm run schema:build
+1. Clone the repository
+
+```bash
+git clone https://github.com/sujin2f/Sujin.git
+cd Sujin
 ```
 
-### NPM scripts
+2. Install dependencies (root or per-package depending on workspace tooling)
 
-```shell
-# Run NPM
-npm start
+```bash
+# husky
+yarn install
+# or
+# pnpm install
+# yarn install
 
-# Run Jest
-npm run test
-
-# Run PHPCS
-npm run phpcs
-
-# Run PHP Unit
-npm run phpunit
-
-# Bundle Analyzer
-npm run bundle-analyzer
-
-# Build
-npm run build
-
-# Fire all checks
-npm run arson
+# Install dependencies for each services
+yarn install-modules
 ```
 
-### Ignore settings file from your local change
+3. Environment variables
 
-If you want to change for your local environment like password, execute this on your terminal:
+Create `.env` files per service or set environment variables in your shell.
 
-```shell
-git update-index --skip-worktree ./.configs/docker/.env
+Example (@graphql `.env` snippet):
+
+```bash
+MONGO=localhost:27017
+MYSQL_HOST=localhost
+MYSQL_USER=root
+MYSQL_PASSWORD=password
+MYSQL_DATABASE=wordpress
+GRAPHQL_PORT=4000
 ```
 
-### Install PHP x-debug
+4. Start databases (docker)
 
-Code coverage feature needs to install `x-debug` locally. You may already have PHP 7.x in your local. Unfortunately, `brew` doesn't support `x-debug` installation anymore. You should use `pecl` instead. I followed [this instruction](https://javorszky.co.uk/2018/05/03/getting-xdebug-working-on-php-7-2-and-homebrew/). The version could be different on your local. I removed the symlink of `/usr/local/Cellar/php/7.3.1/pecl`, my PHP configuration is in `/usr/local/etc/php/7.3/conf.d/xdebug.ini`, and the `zend_extension` is `/usr/local/Cellar/php/7.3.1/pecl/20180731/xdebug.so`.
+You can run MySQL and MongoDB via Docker.
 
-TODO
+```bash
+# from repo root or package dir containing docker-compose.yml
+cd @graphql && docker-compose -f docker-compose.dev.yml up -d  --remove-orphans
+```
 
-docker run --rm --interactive --tty --volume $PWD:/app composer install
+**Run services (examples)**
 
--   Default image
--   Twitter embed
--   Error handling -- Category not found
+-   Start Next.js (development):
+
+```bash
+# from @next package or repo root depending on scripts
+cd @next && yarn dev
+```
+
+-   Start Apollo GraphQL server (development):
+
+```bash
+cd @graphql && yarn dev
+```
+
+-   Build for production:
+
+```bash
+# Build Docker and start production server
+cd @graphql && yarn package
+```
+
+**Databases**
+
+-   WordPress uses MySQL — follow standard WP installation (import theme, plugins if applicable).
+-   MongoDB stores serving documents like published posts.
+
+**Next Steps — Authentication Server (Node.js)**
+
+Planned: implement a dedicated Auth microservice that provides:
+
+-   User authentication and session management
+-   Token (JWT) issuance and refresh
+-   OAuth connectors (Google)
+-   GraphQL-compatible auth layer (or REST endpoints consumed by Apollo)
+
+Recommendation & checklist:
+
+-   Stack: Node.js + Express for Apollo Server + auth resolvers
+-   Token strategy: JWT (short-lived access tokens + refresh tokens) or session cookies (HTTP-only)
+-   Storage: Users can be stored in MongoDB
+-   Libraries: `passport`/`passport-jwt`, `jsonwebtoken`, `express-session` (if cookie sessions), `oauth` libs if adding social login
+-   GraphQL: integrate with Apollo via a token validation middleware that injects `user` into `context`
+
+**Security notes**
+
+-   Use HTTPS in production
+-   Secure refresh tokens (store server-side or use httpOnly cookies)
+-   Implement token revocation/blacklisting if necessary
+
+**License**
+
+-   This is a personal project — include your preferred license here (e.g., MIT) or keep proprietary notes.
