@@ -17,7 +17,7 @@ import sanitize from 'mongo-sanitize'
  */
 /* Models */
 import { Archive } from '@src/schema/archive'
-import Cached from '@sujin/share/model/Cache'
+import Cached from '@sujin/node-cache'
 import Logger from '@src/utils/logger'
 /* Utils */
 import { verifyAdmin } from '@src/utils/security'

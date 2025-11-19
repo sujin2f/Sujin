@@ -2,7 +2,7 @@
 
 import '@testing-library/jest-dom'
 import { render, waitFor, screen } from '@testing-library/react'
-import Cached from '@sujin/share/model/Cache'
+import Cached from '@sujin/node-cache'
 import { VERSION } from '@sujin/share/constants/helper'
 import { categoryFactory, postFactory } from '@jest/helpers'
 import { clearMongo } from '@sujin/common/.jest/helpers'

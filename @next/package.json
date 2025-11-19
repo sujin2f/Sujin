@@ -36,7 +36,7 @@
     "devDependencies": {
         "@eslint/eslintrc": "^3",
         "@sujin/lib": "file:../@lib/dist",
-        "@sujin/share/model/Cache": "file:../@common/node-cache/dist",
+        "@sujin/node-cache": "file:../@common/node-cache/dist",
         "@sujin/share": "file:../@common/share/dist",
         "@svgr/webpack": "^8.1.0",
         "@testing-library/dom": "^10.4.0",

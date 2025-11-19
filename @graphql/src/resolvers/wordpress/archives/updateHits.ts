@@ -1,5 +1,5 @@
 import sanitize from 'mongo-sanitize'
-import Cached from '@sujin/share/model/Cache'
+import Cached from '@sujin/node-cache'
 /**
  * Increment the hit counter for a tag archive and flush related caches.
  *

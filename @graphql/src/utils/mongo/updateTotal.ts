@@ -6,7 +6,7 @@ import { getCacheKey } from '@sujin/lib/utils/cache'
 /* Models */
 import { Post } from '@src/schema/post'
 import { Archive } from '@src/schema/archive'
-import Cached from '@sujin/share/model/Cache'
+import Cached from '@sujin/node-cache'
 
 /**
  * Recalculate and update the total number of published posts for the given

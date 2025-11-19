@@ -2,7 +2,7 @@ import { Types } from 'mongoose'
 import sanitize from 'mongo-sanitize'
 /* Models */
 import Logger from '@src/utils/logger'
-import Cached from '@sujin/share/model/Cache'
+import Cached from '@sujin/node-cache'
 /* CONSTANTS */
 import { ARCHIVE, POST_TYPE, COLLECTION } from '@sujin/lib/constants'
 /* Utils */

@@ -3,7 +3,7 @@ import { Types } from 'mongoose'
 /* Models */
 import { Recipe } from '@src/schema/recipe'
 import Logger from '@src/utils/logger'
-import Cached from '@sujin/share/model/Cache'
+import Cached from '@sujin/node-cache'
 /* Utils */
 import { getCacheKey } from '@sujin/lib/utils/cache'
 import { verifyToken } from '@src/utils/security'
