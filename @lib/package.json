@@ -10,9 +10,6 @@
         "test": "jest --no-cache --forceExit --coverage --detectOpenHandles",
         "lint": "eslint ./src/**/*.ts"
     },
-    "dependencies": {
-        "@sujin/share": "file:../@common/dist"
-    },
     "devDependencies": {
         "@eslint/js": "^9.39.1",
         "@testing-library/jest-dom": "^6.9.1",
@@ -47,7 +44,7 @@
         "arrowParens": "always",
         "bracketSpacing": true,
         "endOfLine": "lf",
-        "printWidth": 80,
+        "printWidth": 120,
         "proseWrap": "preserve",
         "quoteProps": "as-needed",
         "semi": false,

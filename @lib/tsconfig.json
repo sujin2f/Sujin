@@ -15,10 +15,6 @@
             "@sujin/share/*": ["../@common/src/*"]
         }
     },
-    "include": [
-        "src/constants/**/*.ts",
-        "src/types/**/*.ts",
-        "src/utils/**/*.ts"
-    ],
+    "include": ["src/**/*.ts"],
     "exclude": ["node_modules", "internal_modules", "src/**/*.spec.ts"]
 }

@@ -9,15 +9,12 @@ const dirCommonModules = {
 }
 
 const files = {
-    packageJson: 'package.json',
     tsConfig: 'tsconfig.json',
 }
 
 // Importing file contents
-import packageJson from './package.json' with { type: 'json' }
-delete packageJson.dependencies['@sujin/share']
-
 import tsConfig from './tsconfig.json' with { type: 'json' }
+delete tsConfig.compilerOptions.paths['@sujin/share/*']
 tsConfig.compilerOptions.paths['@sujin/*'] = ['./internal_modules/*']
 
 const createDirectories = async () => {
@@ -35,54 +32,28 @@ const createDirectories = async () => {
 
 const backupFiles = async () => {
     console.log('Backup files...')
-    // package.json
-    await fs.promises.copyFile(
-        path.join(files.packageJson),
-        path.join(dirTemp, files.packageJson),
-    )
-
     // tsconfig.json
-    await fs.promises.copyFile(
-        path.join(files.tsConfig),
-        path.join(dirTemp, files.tsConfig),
-    )
+    await fs.promises.copyFile(path.join(files.tsConfig), path.join(dirTemp, files.tsConfig))
 }
 
 const modifyFiles = async () => {
     console.log('Modifying files...')
-    // package.json
-    await fs.promises.writeFile(
-        path.join(files.packageJson),
-        JSON.stringify(packageJson, null, 2),
-    )
-
     // tsconfig.json
-    await fs.promises.writeFile(
-        path.join(files.tsConfig),
-        JSON.stringify(tsConfig, null, 2),
-    )
+    await fs.promises.writeFile(path.join(files.tsConfig), JSON.stringify(tsConfig, null, 2))
 }
 
 const restoreFiles = async () => {
     console.log('Restore files...')
-    await fs.promises.unlink(path.join(files.packageJson))
     await fs.promises.unlink(path.join(files.tsConfig))
 
-    await fs.promises.copyFile(
-        path.join(dirTemp, files.packageJson),
-        path.join(files.packageJson),
-    )
-    await fs.promises.copyFile(
-        path.join(dirTemp, files.tsConfig),
-        path.join(files.tsConfig),
-    )
+    await fs.promises.copyFile(path.join(dirTemp, files.tsConfig), path.join(files.tsConfig))
 }
 
 await createDirectories()
 await backupFiles()
 await modifyFiles()
 
-console.log('Creating Docker image...')
+console.log('Build...')
 exec(`yarn build:tsc`, async (error, stdout, stderr) => {
     if (error) {
         console.error(`tsc build error: ${error}`)
