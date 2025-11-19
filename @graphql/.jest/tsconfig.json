@@ -13,7 +13,6 @@
             "@test/*": ["./.jest/*"],
             "@src/*": ["./src/*"],
             "@sujin/lib/*": ["../@lib/src/*"],
-            "@sujin/node-cache/*": ["../@common/node-cache/src/*"],
             "@sujin/share/*": ["../@common/share/src/*"]
         }
     },

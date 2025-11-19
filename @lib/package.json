@@ -10,7 +10,6 @@
         "lint": "eslint ./src/**/*.ts"
     },
     "dependencies": {
-        "@sujin/node-cache": "file:../@common/node-cache/dist",
         "@sujin/share": "file:../@common/share/dist"
     },
     "devDependencies": {

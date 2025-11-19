@@ -793,7 +793,7 @@
   dependencies:
     "@sinonjs/commons" "^3.0.1"
 
-"@sujin/node-cache@file:../@common/node-cache/dist":
+"@sujin/share/model/Cache@file:../@common/node-cache/dist":
   version "0.0.0"
 
 "@sujin/share@file:../@common/share/dist":

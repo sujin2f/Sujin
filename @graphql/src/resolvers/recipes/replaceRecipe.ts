@@ -8,7 +8,7 @@ import type { T_Recipe } from '@sujin/lib/types'
 import { verifyToken } from '@src/utils/security'
 import { getCacheKey } from '@sujin/lib/utils/cache'
 /* Models */
-import Cached from '@sujin/node-cache'
+import Cached from '@sujin/share/model/Cache'
 /* CONSTANTS */
 import { COLLECTION } from '@sujin/lib/constants'
 

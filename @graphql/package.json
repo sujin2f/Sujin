@@ -22,7 +22,6 @@
         "@as-integrations/express5": "^1.1.2",
         "@graphql-tools/merge": "^9.1.5",
         "@sujin/lib": "file:../@lib/dist",
-        "@sujin/node-cache": "file:../@common/node-cache/dist",
         "@sujin/share": "file:../@common/share/dist",
         "cors": "^2.8.5",
         "csv-parse": "^6.1.0",
@@ -75,7 +74,6 @@
             "^@test/(.*)$": "<rootDir>/.jest/$1",
             "^@src/(.*)$": "<rootDir>/src/$1",
             "^@sujin/lib/(.*)$": "<rootDir>/../@lib/src/$1",
-            "^@sujin/node-cache/(.*)$": "<rootDir>/../@common/node-cache/src/$1",
             "^@sujin/share/(.*)$": "<rootDir>/../@common/share/src/$1"
         },
         "extensionsToTreatAsEsm": [

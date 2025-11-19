@@ -24,7 +24,6 @@
             "@common/*": ["./common/*"],
             "@jest/*": ["./.jest/*"],
             "@sujin/lib/*": ["../@lib/src/*"],
-            "@sujin/node-cache/*": ["../@common/node-cache/src/*"],
             "@sujin/share/*": ["../@common/share/src/*"]
         }
     },

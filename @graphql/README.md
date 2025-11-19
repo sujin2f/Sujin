@@ -7,8 +7,7 @@ This repository contains the GraphQL API for sujinc.com. It exposes a GraphQL se
 - Language: TypeScript
 - Server entry: `src/server.ts`
 - Main concerns: WordPress → MySQL reads, MongoDB documents, GraphQL resolvers
-- Local packages: `@sujin/lib`, `@sujin/node-cache`, `@sujin/share` are referenced
-  as file dependencies (see `package.json`).
+- Local packages: `@sujin/lib`, `@sujin/share` are referenced as file dependencies (see `package.json`).
 
 **Prerequisites**
 
@@ -48,7 +47,7 @@ Notes:
   values (e.g. Mongo connection vars).
 
 **Install**
-Use `yarn` or `npm` to install dependencies. The repository uses several local file dependencies; ensure the sibling packages (`@sujin/lib`, `@sujin/node-cache`, `@sujin/share`) are available at the paths referenced in `package.json` (relative `../` paths) or update `package.json` to point to published packages.
+Use `yarn` or `npm` to install dependencies. The repository uses several local file dependencies; ensure the sibling packages (`@sujin/lib`, `@sujin/share`) are available at the paths referenced in `package.json` (relative `../` paths) or update `package.json` to point to published packages.
 
 Using Yarn:
 

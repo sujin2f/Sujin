@@ -2,7 +2,7 @@ import sanitize from 'mongo-sanitize'
 /* Models */
 import Logger from '@src/utils/logger'
 import { Page } from '@src/schema/post'
-import Cached from '@sujin/node-cache'
+import Cached from '@sujin/share/model/Cache'
 /* CONSTANTS */
 import {
     POST_TYPE,

@@ -8,7 +8,6 @@ const dirModule = path.join('internal_modules')
 const dirTemp = path.join('temp')
 const dirCommonModules = {
     lib: path.join('..', '@lib', 'src'),
-    'node-cache': path.join('..', '@common', 'node-cache', 'src'),
     share: path.join('..', '@common', 'share', 'src'),
 }
 
@@ -23,7 +22,6 @@ const files = {
 // Importing file contents
 import packageJson from './package.json' with { type: 'json' }
 delete packageJson.dependencies['@sujin/lib']
-delete packageJson.dependencies['@sujin/node-cache']
 delete packageJson.dependencies['@sujin/share']
 
 import tsConfig from './tsconfig.webpack.json' with { type: 'json' }
