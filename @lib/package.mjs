@@ -46,6 +46,9 @@ const restoreFiles = async () => {
     console.log('\x1B[32m- Restore files... \x1B[0m')
     await fs.promises.unlink(path.join(files.tsConfig))
     await fs.promises.copyFile(path.join(dirTemp, files.tsConfig), path.join(files.tsConfig))
+
+    await fs.promises.rm(dirModule, { recursive: true, force: true })
+    await fs.promises.rm(dirTemp, { recursive: true, force: true })
 }
 
 await createDirectories()

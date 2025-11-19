@@ -4,10 +4,13 @@
     "description": "React + Node + WordPress theme for sujinc.com",
     "license": "MIT",
     "scripts": {
-        "dev": "concurrently \"yarn --cwd ./@next dev\" \"yarn --cwd ./@graphql dev\""
+        "install-modules": "yarn --cwd ./@common && yarn --cwd ./@graphql && yarn --cwd ./@lib && yarn --cwd ./@next",
+        "build": "yarn --cwd ./@common build && yarn --cwd ./@lib build",
+        "lint": "yarn --cwd ./@common lint && yarn --cwd ./@graphql lint && yarn --cwd ./@lib lint && yarn --cwd ./@next lint",
+        "test": "yarn --cwd ./@common test && yarn --cwd ./@graphql test",
+        "prepare": "husky"
     },
-    "dependencies": {},
     "devDependencies": {
-        "concurrently": "^9.2.1"
+        "husky": "^9.1.7"
     }
 }

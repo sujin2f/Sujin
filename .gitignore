@@ -1,27 +1,23 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
-
-# testing
-/coverage
-
-# production
-/.build
-/.next
+**/node_modules
+**/internal_modules
+**/temp
+**/coverage
+**/.build
 
 # misc
 .DS_Store
-.env
-.env.*
+**/.env
+**/.env.*
+**/!.env.example
 
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
 
 # Dev mode
-.backup
+**/.backup
+# TODO remove
 /wordpress/uploads/**/*
 /wordpress/themes/sujin/vendor/**/*

@@ -3,18 +3,23 @@
     "editor.fontFamily": "Fira Code",
     "editor.fontLigatures": true,
     "editor.renderWhitespace": "all",
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.codeActionsOnSave": {
         "source.fixAll.tslint": "explicit"
     },
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true,
-    "cSpell.words": [
-        "datetime",
-        "entrypoints",
-        "flickr",
-        "flickrs",
-        "sujin",
-        "twttr"
-    ],
+    "workbench.iconTheme": "material-icon-theme",
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "explorer.confirmDragAndDrop": false,
+    "prettier.tabWidth": 4,
+    "window.zoomLevel": 1,
+    "github.copilot.enable": {
+        "*": false,
+        "plaintext": false,
+        "markdown": false,
+        "scminput": false
+    },
+    "typescript.updateImportsOnFileMove.enabled": "always",
     "eslint.useFlatConfig": true,
+    "cSpell.words": ["Choi", "flickr", "sujin", "sujinc"]
 }
