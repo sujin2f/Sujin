@@ -11,6 +11,7 @@ namespace Sujin\Theme;
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
+use Sujin\Theme\RestAPI\Posts;
 
 /**
  * Secure WP RestAPI
@@ -25,6 +26,7 @@ class RestAPI {
 	 * @visibility public
 	 */
 	public function __construct() {
+		new Posts();
 		add_action( 'rest_pre_dispatch', array( $this, 'validate_token' ), 15, 3 );
 	}
 
@@ -36,8 +38,13 @@ class RestAPI {
 	 * @param mixed            $_       result.
 	 * @param \WP_REST_Server  $__      not used.
 	 * @param \WP_REST_Request $request HTTP Request.
+	 * @throws \WP_Error Error with message.
 	 */
 	public function validate_token( mixed $_, \WP_REST_Server $__, \WP_REST_Request $request ): void {
+		if ( is_dev() ) {
+			return;
+		}
+
 		// Check if the WordPress REST API request.
 		if ( ! defined( 'REST_REQUEST' ) || ! REST_REQUEST ) {
 			return;
@@ -54,12 +61,12 @@ class RestAPI {
 			}
 		}
 
+		// JWT Auth.
 		$headers = $request->get_headers();
 		$header  = $headers['authorization'] ?? $headers['Authorization'];
 
 		if ( ! $header || ( is_array( $header ) && ! $header[0] ) ) {
-			header( 'HTTP/1.1 404 Not Found' );
-			die();
+			not_found( 'JWT Auth header does not exist.' );
 		}
 
 		$token   = $headers['authorization'] ?? $headers['Authorization'];
@@ -69,8 +76,7 @@ class RestAPI {
 		$admin   = get_users( 'role=Administrator' );
 
 		if ( ! $decoded['admin'] || $admin[0]->user_email !== $decoded['email'] ) {
-			header( 'HTTP/1.1 404 Not Found' );
-			die();
+			not_found( 'JWT Auth header does not exist.' );
 		}
 	}
 }

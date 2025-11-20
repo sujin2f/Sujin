@@ -17,7 +17,7 @@
         "workbench.iconTheme": "material-icon-theme",
         "explorer.confirmDragAndDrop": false,
         "editor.formatOnSave": true,
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.defaultFormatter": "valeryanm.vscode-phpsab",
         "window.zoomLevel": 1,
         "github.copilot.enable": {
             "*": false,
@@ -25,16 +25,15 @@
             "markdown": false,
             "scminput": false
         },
-        "php.executablePath": "/usr/local/Cellar/php/8.4.3/bin/php",
+        // "php.executablePath": "/usr/local/Cellar/php/8.4.3/bin/php",
         // "phpcs.enable": true,
-        // "phpcs.executablePath": "{PATH}/vendor/bin/phpcs",
-        // "phpcs.standard": "${workspaceFolder}/.phpcs.xml.dist",
-        // "phpcbf.executablePath": "${workspaceFolder}/vendor/bin/phpcbf",
-
-        "phpsab.standard": "${workspaceFolder}/.phpcs.xml.dist",
+        // "phpcs.executablePath": "vendor/bin/phpcs",
+        // "phpcs.standard": ".phpcs.xml.dist",
+        // "phpcbf.executablePath": "vendor/bin/phpcbf",
+        "phpsab.standard": ".phpcs.xml.dist",
         "phpsab.snifferEnable": true, // disable this if you don't need suggestions
-        "phpsab.executablePathCBF": "${workspaceFolder}/vendor/bin/phpcbf",
-        "phpsab.executablePathCS": "${workspaceFolder}/vendor/bin/phpcs",
+        "phpsab.executablePathCBF": "vendor/bin/phpcbf",
+        "phpsab.executablePathCS": "vendor/bin/phpcs",
         "phpsab.snifferShowSources": true,
         "[php]": {
             "editor.defaultFormatter": "valeryanm.vscode-phpsab"

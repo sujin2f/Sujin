@@ -41,3 +41,15 @@ function is_dev(): bool {
 	$env = getenv_docker( 'ENV', '' );
 	return 'development' === $env;
 }
+
+/**
+ * Terminate with error message
+ *
+ * @param string $message Log message.
+ * @throws \Exception Error with message.
+ */
+function not_found( string $message ): void {
+	header( 'HTTP/1.1 404 Not Found' );
+	error_log( $message ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+	throw new \Exception( esc_attr( $message ) );
+}
