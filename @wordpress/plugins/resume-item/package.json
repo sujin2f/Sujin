@@ -22,6 +22,22 @@
 		"[^.]*"
 	],
 	"devDependencies": {
-		"@wordpress/scripts": "^31.0.0"
+		"@types/wordpress__block-editor": "^14.21.2",
+		"@types/wordpress__blocks": "^12.5.18",
+		"@wordpress/scripts": "^31.0.0",
+		"typescript-eslint": "^8.47.0"
+	},
+	"prettier": {
+		"arrowParens": "always",
+		"bracketSpacing": true,
+		"endOfLine": "lf",
+		"printWidth": 120,
+		"proseWrap": "preserve",
+		"quoteProps": "as-needed",
+		"semi": false,
+		"singleQuote": true,
+		"tabWidth": 4,
+		"trailingComma": "all",
+		"useTabs": false
 	}
 }

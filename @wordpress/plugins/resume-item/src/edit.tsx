@@ -1,11 +1,4 @@
 /**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
- */
-import { __ } from '@wordpress/i18n'
-
-/**
  * React hook that is used to mark the block wrapper element.
  * It provides all the necessary props like the class name.
  *
@@ -13,7 +6,37 @@ import { __ } from '@wordpress/i18n'
  */
 import { useBlockProps, InspectorControls, RichText } from '@wordpress/block-editor'
 import { PanelBody, TextControl, SelectControl, Button } from '@wordpress/components'
-import { Fragment } from '@wordpress/element'
+import { useCallback } from 'react'
+import type { Attributes } from './types'
+
+console.log('edit')
+type Props = {
+    attributes: Attributes
+    setAttributes: (attributes: Partial<Attributes>) => void
+}
+
+const MONTHS = [
+    { label: 'Select...', value: '' },
+    { label: 'January', value: '01' },
+    { label: 'February', value: '02' },
+    { label: 'March', value: '03' },
+    { label: 'April', value: '04' },
+    { label: 'May', value: '05' },
+    { label: 'June', value: '06' },
+    { label: 'July', value: '07' },
+    { label: 'August', value: '08' },
+    { label: 'September', value: '09' },
+    { label: 'October', value: '10' },
+    { label: 'November', value: '11' },
+    { label: 'December', value: '12' },
+]
+
+function generateYears(start = 1995, end = new Date().getFullYear()): { label: string; value: string }[] {
+    const years = new Array(end - start)
+        .fill(0)
+        .map((_, index) => ({ label: (end - index).toString(), value: (end - index).toString() }))
+    return [{ label: 'Select...', value: '' }, ...years]
+}
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -25,138 +48,128 @@ import { Fragment } from '@wordpress/element'
  * @param {Object}   props.attributes    Available block attributes.
  * @param {Function} props.setAttributes Function that updates individual attributes.
  *
- * @return {Element} Element to render.
+ * @return {React.ReactElement} Element to render.
  */
-const MONTHS = [
-	{ label: __('January', 'resume-block'), value: '01' },
-	{ label: __('February', 'resume-block'), value: '02' },
-	{ label: __('March', 'resume-block'), value: '03' },
-	{ label: __('April', 'resume-block'), value: '04' },
-	{ label: __('May', 'resume-block'), value: '05' },
-	{ label: __('June', 'resume-block'), value: '06' },
-	{ label: __('July', 'resume-block'), value: '07' },
-	{ label: __('August', 'resume-block'), value: '08' },
-	{ label: __('September', 'resume-block'), value: '09' },
-	{ label: __('October', 'resume-block'), value: '10' },
-	{ label: __('November', 'resume-block'), value: '11' },
-	{ label: __('December', 'resume-block'), value: '12' },
-]
+export default function Edit({ attributes, setAttributes }: Props): React.ReactElement {
+    const { className, ...blockProps } = useBlockProps()
+    const years = generateYears()
 
-function generateYears(start = 1980, end = new Date().getFullYear() + 5) {
-	const years = []
-	for (let y = end; y >= start; y--) {
-		years.push({ label: String(y), value: String(y) })
-	}
-	return years
-}
+    const addDetails = useCallback(() => {
+        const next = [...(attributes.details || []), '']
+        setAttributes({ details: next })
+    }, [attributes])
+    const updateDetails = useCallback(
+        (index: number, value: string) => {
+            const next = [...(attributes.details || [])]
+            next[index] = value
+            setAttributes({ details: next })
+        },
+        [attributes],
+    )
+    const removeDetails = useCallback(
+        (index: number) => {
+            const next = [...(attributes.details || [])]
+            next.splice(index, 1)
+            setAttributes({ details: next })
+        },
+        [attributes],
+    )
+    const addTag = useCallback(() => {
+        const next = [...(attributes.tags || []), '']
+        setAttributes({ tags: next })
+    }, [attributes])
+    const updateTag = useCallback(
+        (index: number, value: string) => {
+            const next = [...(attributes.tags || [])]
+            next[index] = value
+            setAttributes({ tags: next })
+        },
+        [attributes],
+    )
+    const removeTag = useCallback(
+        (index: number) => {
+            const next = [...(attributes.tags || [])]
+            next.splice(index, 1)
+            setAttributes({ tags: next })
+        },
+        [attributes],
+    )
 
-export default function Edit({ attributes, setAttributes }) {
-	const blockProps = useBlockProps()
+    return (
+        <>
+            <InspectorControls>
+                <PanelBody title="Dates" initialOpen={true}>
+                    <SelectControl
+                        label="Start Month"
+                        value={attributes.startMonth}
+                        options={MONTHS}
+                        onChange={(val) => setAttributes({ startMonth: val })}
+                    />
+                    <SelectControl
+                        label="Start Year"
+                        value={attributes.startYear}
+                        options={years}
+                        onChange={(val) => setAttributes({ startYear: val })}
+                    />
+                    <SelectControl
+                        label="End Month"
+                        value={attributes.endMonth}
+                        options={MONTHS}
+                        onChange={(val) => setAttributes({ endMonth: val })}
+                    />
+                    <SelectControl
+                        label="End Year"
+                        value={attributes.endYear}
+                        options={years}
+                        onChange={(val) => setAttributes({ endYear: val })}
+                    />
+                </PanelBody>
+            </InspectorControls>
 
-	const years = generateYears()
+            <div {...blockProps} className={`${className} components-placeholder`}>
+                <TextControl label="Title" value={attributes.title} onChange={(val) => setAttributes({ title: val })} />
+                <TextControl
+                    label="Sub Heading"
+                    value={attributes.subhead}
+                    onChange={(val) => setAttributes({ subhead: val })}
+                />
 
-	const addDescription = () => {
-		const next = [...(attributes.descriptions || []), '']
-		setAttributes({ descriptions: next })
-	}
+                <section>
+                    <div>Details</div>
+                    {(attributes.details || []).map((details, i) => (
+                        <div key={i} style={{ display: 'flex', gap: '8px', marginTop: '8px', alignItems: 'center' }}>
+                            <RichText
+                                tagName="li" // The tag here is the element output and editable in the admin
+                                allowedFormats={['core/bold', 'core/italic']} // Allow the content to be made bold or italic, but do not allow other formatting options
+                                placeholder="List Item..." // Display this text before any content has been added by the user
+                                value={details}
+                                onChange={(val) => updateDetails(i, val)}
+                            />
+                            <Button isDestructive variant="link" onClick={() => removeDetails(i)}>
+                                Remove
+                            </Button>
+                        </div>
+                    ))}
+                    <Button variant="primary" style={{ marginTop: '8px' }} onClick={addDetails}>
+                        Add new Item
+                    </Button>
+                </section>
 
-	const updateDescription = (index, value) => {
-		const next = [...(attributes.descriptions || [])]
-		next[index] = value
-		setAttributes({ descriptions: next })
-	}
-
-	const removeDescription = (index) => {
-		const next = [...(attributes.descriptions || [])]
-		next.splice(index, 1)
-		setAttributes({ descriptions: next })
-	}
-
-	const addTag = () => {
-		const next = [...(attributes.tags || []), '']
-		setAttributes({ tags: next })
-	}
-
-	const updateTag = (index, value) => {
-		const next = [...(attributes.tags || [])]
-		next[index] = value
-		setAttributes({ tags: next })
-	}
-
-	const removeTag = (index) => {
-		const next = [...(attributes.tags || [])]
-		next.splice(index, 1)
-		setAttributes({ tags: next })
-	}
-
-	return (
-		<Fragment>
-			<InspectorControls>
-				<PanelBody title={__('Dates', 'resume-block')} initialOpen={true}>
-					<SelectControl
-						label={__('Start Month', 'resume-block')}
-						value={attributes.startMonth}
-						options={[{ label: '', value: '' }, ...MONTHS]}
-						onChange={(val) => setAttributes({ startMonth: val })}
-					/>
-					<SelectControl
-						label={__('Start Year', 'resume-block')}
-						value={attributes.startYear}
-						options={[{ label: '', value: '' }, ...years]}
-						onChange={(val) => setAttributes({ startYear: val })}
-					/>
-					<SelectControl
-						label={__('End Month', 'resume-block')}
-						value={attributes.endMonth}
-						options={[{ label: '', value: '' }, ...MONTHS]}
-						onChange={(val) => setAttributes({ endMonth: val })}
-					/>
-					<SelectControl
-						label={__('End Year', 'resume-block')}
-						value={attributes.endYear}
-						options={[{ label: '', value: '' }, ...years]}
-						onChange={(val) => setAttributes({ endYear: val })}
-					/>
-				</PanelBody>
-			</InspectorControls>
-
-			<div {...blockProps}>
-				<TextControl
-					label={__('Title', 'resume-block')}
-					value={attributes.title}
-					onChange={(val) => setAttributes({ title: val })}
-				/>
-
-				<div style={{ marginTop: '12px' }}>
-					<strong>{__('Descriptions', 'resume-block')}</strong>
-					{(attributes.descriptions || []).map((desc, i) => (
-						<div key={i} style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
-							<RichText value={desc} onChange={(val) => updateDescription(i, val)} />
-							<Button isDestructive onClick={() => removeDescription(i)}>
-								{__('Remove', 'resume-block')}
-							</Button>
-						</div>
-					))}
-					<Button isPrimary style={{ marginTop: '8px' }} onClick={addDescription}>
-						{__('Add description', 'resume-block')}
-					</Button>
-				</div>
-
-				<div style={{ marginTop: '12px' }}>
-					<strong>{__('Tags', 'resume-block')}</strong>
-					{(attributes.tags || []).map((tag, i) => (
-						<div key={i} style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
-							<TextControl value={tag} onChange={(val) => updateTag(i, val)} />
-							<Button isDestructive onClick={() => removeTag(i)}>
-								{__('Remove', 'resume-block')}
-							</Button>
-						</div>
-					))}
-					<Button isPrimary style={{ marginTop: '8px' }} onClick={addTag}>
-						{__('Add tag', 'resume-block')}
-					</Button>
-				</div>
-			</div>
-		</Fragment>
-	)
+                <section>
+                    <div>Tags</div>
+                    {(attributes.tags || []).map((tag, i) => (
+                        <div key={i} style={{ display: 'flex', gap: '8px', marginTop: '8px', alignItems: 'center' }}>
+                            <TextControl value={tag} onChange={(val) => updateTag(i, val)} />
+                            <Button isDestructive variant="link" onClick={() => removeTag(i)}>
+                                Remove
+                            </Button>
+                        </div>
+                    ))}
+                    <Button variant="primary" style={{ marginTop: '8px' }} onClick={addTag}>
+                        Add new Tag
+                    </Button>
+                </section>
+            </div>
+        </>
+    )
 }

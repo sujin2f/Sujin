@@ -8,65 +8,56 @@
  *     $block (WP_Block): The block instance.
  *
  * @see https://github.com/WordPress/gutenberg/blob/trunk/docs/reference-guides/block-api/block-metadata.md#render
+ * @package sujinc.com
  */
 
-// Generates a unique id for aria-controls.
-$unique_id = wp_unique_id( 'p-' );
-
-// Adds the global state.
-wp_interactivity_state(
-	'resume-block',
-	array(
-		'isDark'    => false,
-		'darkText'  => esc_html__( 'Switch to Light', 'resume-block' ),
-		'lightText' => esc_html__( 'Switch to Dark', 'resume-block' ),
-		'themeText'	=> esc_html__( 'Switch to Dark', 'resume-block' ),
-	)
-);
-?>
-
-<div
-	<?php echo get_block_wrapper_attributes(); ?>
-</div>
-
-<?php
 // Render attributes safely.
-$rb_title        = isset( $attributes['title'] ) ? $attributes['title'] : '';
-$rb_descriptions = isset( $attributes['descriptions'] ) && is_array( $attributes['descriptions'] ) ? $attributes['descriptions'] : array();
-$rb_start_month  = isset( $attributes['startMonth'] ) ? $attributes['startMonth'] : '';
-$rb_start_year   = isset( $attributes['startYear'] ) ? $attributes['startYear'] : '';
-$rb_end_month    = isset( $attributes['endMonth'] ) ? $attributes['endMonth'] : '';
-$rb_end_year     = isset( $attributes['endYear'] ) ? $attributes['endYear'] : '';
-$rb_tags         = isset( $attributes['tags'] ) && is_array( $attributes['tags'] ) ? $attributes['tags'] : array();
-
+$rb_title       = isset( $attributes['title'] ) ? $attributes['title'] : '';
+$rb_subhead     = isset( $attributes['subhead'] ) ? $attributes['subhead'] : '';
+$rb_details     = isset( $attributes['details'] ) && is_array( $attributes['details'] ) ? $attributes['details'] : array();
+$rb_start_month = isset( $attributes['startMonth'] ) ? $attributes['startMonth'] : '';
+$rb_start_year  = isset( $attributes['startYear'] ) ? $attributes['startYear'] : '';
+$rb_end_month   = isset( $attributes['endMonth'] ) ? $attributes['endMonth'] : '';
+$rb_end_year    = isset( $attributes['endYear'] ) ? $attributes['endYear'] : '';
+$rb_tags        = isset( $attributes['tags'] ) && is_array( $attributes['tags'] ) ? $attributes['tags'] : array();
 ?>
-<div class="wp-block-resume-block-resume-block__content">
+<div class="about-item">
+	<div class="about-item__range">
+		<?php if ( $rb_start_month || $rb_start_year || $rb_end_month || $rb_end_year ) : ?>
+			<time datetime="<?php echo esc_attr( $rb_start_year ); ?>-<?php echo esc_attr( $rb_start_month ); ?>-01">
+				<?php echo esc_html( $rb_start_year ); ?>
+			</time>
+			<time datetime="<?php echo esc_attr( $rb_end_year ); ?>-<?php echo esc_attr( $rb_end_month ); ?>-01">
+				<?php echo esc_html( $rb_end_year ); ?>
+			</time>
+		<?php endif; ?>
+	</div>
+
+	<?php /* title */ ?>
 	<?php if ( $rb_title ) : ?>
-		<h3 class="resume-title"><?php echo esc_html( $rb_title ); ?></h3>
+		<h3 class="about-item__title"><?php echo esc_html( $rb_title ); ?></h3>
 	<?php endif; ?>
 
-	<?php if ( $rb_start_month || $rb_start_year || $rb_end_month || $rb_end_year ) : ?>
-		<div class="resume-period">
-			<span class="resume-start"><?php echo esc_html( trim( $rb_start_month . ' ' . $rb_start_year ) ); ?></span>
-			&nbsp;&mdash;&nbsp;
-			<span class="resume-end"><?php echo esc_html( trim( $rb_end_month . ' ' . $rb_end_year ) ); ?></span>
-		</div>
+	<?php /* sub heading */ ?>
+	<?php if ( $rb_subhead ) : ?>
+		<p class="about-item__subhead"><?php echo esc_html( $rb_subhead ); ?></p>
 	<?php endif; ?>
 
-	<?php if ( ! empty( $rb_descriptions ) ) : ?>
-		<ul class="resume-descriptions">
-			<?php foreach ( $rb_descriptions as $rb_desc ) : ?>
+	<?php /* detail */ ?>
+	<?php if ( ! empty( $rb_details ) ) : ?>
+		<ul class="about-item__details">
+			<?php foreach ( $rb_details as $rb_desc ) : ?>
 				<li><?php echo esc_html( $rb_desc ); ?></li>
 			<?php endforeach; ?>
 		</ul>
 	<?php endif; ?>
 
+	<?php /* detail */ ?>
 	<?php if ( ! empty( $rb_tags ) ) : ?>
-		<div class="resume-tags">
+		<ul class="about-item__tags">
 			<?php foreach ( $rb_tags as $rb_tag ) : ?>
-				<span class="resume-tag"><?php echo esc_html( $rb_tag ); ?></span>
+				<li><?php echo esc_html( $rb_tag ); ?></li>
 			<?php endforeach; ?>
-		</div>
+		</ul>
 	<?php endif; ?>
-
 </div>

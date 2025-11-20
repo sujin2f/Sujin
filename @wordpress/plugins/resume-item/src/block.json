@@ -1,36 +1,34 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
-	"name": "sujin/resume-block",
-	"version": "0.1.0",
-	"title": "Resume",
-	"category": "widgets",
-	"icon": "excerpt-view",
-	"description": "The item block in About page which contains title, description, period, and tags.",
-	"supports": {
-		"interactivity": true
-	},
-	"textdomain": "resume-block",
-	"attributes": {
-		"title": {
-			"type": "string"
-		},
-		"descriptions": {
-			"type": "string"
-		},
-		"startMonth": { "type": "string", "enum": ["large", "small"], "default": "" },
-		"startYear": { "type": "string", "default": "" },
-		"endMonth": { "type": "string", "default": "" },
-		"endYear": { "type": "string", "default": "" },
-		"tags": {
-			"type": "array",
-			"items": { "type": "string" },
-			"default": []
-		}
-	},
-	"editorScript": "file:./index.js",
-	"editorStyle": "file:./index.css",
-	"style": "file:./style-index.css",
-	"render": "file:./render.php",
-	"viewScriptModule": "file:./view.ts"
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "sujin/resume-item",
+    "version": "0.1.0",
+    "title": "Resume",
+    "category": "texts",
+    "icon": "excerpt-view",
+    "description": "The item block in About page which contains title, description, period, and tags.",
+    "supports": {
+        "interactivity": true
+    },
+    "textdomain": "resume-item",
+    "attributes": {
+        "title": { "type": "string" },
+        "subhead": { "type": "string" },
+        "details": {
+            "type": "array",
+            "items": { "type": "string" },
+            "default": []
+        },
+        "startMonth": { "type": "string", "default": "" },
+        "startYear": { "type": "string", "default": "" },
+        "endMonth": { "type": "string", "default": "" },
+        "endYear": { "type": "string", "default": "" },
+        "tags": {
+            "type": "array",
+            "items": { "type": "string" },
+            "default": []
+        }
+    },
+    "editorScript": "file:./index.js",
+    "render": "file:./render.php"
 }

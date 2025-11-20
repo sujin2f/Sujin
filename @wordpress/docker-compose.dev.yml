@@ -15,7 +15,10 @@ services:
         ports:
             - ${WORDPRESS_PORT}:80
         volumes:
-            - ./plugins/resume-item:/var/www/html/wp-content/plugins/resume-item
+            - ${PWD}/wordpress/wp-config.php:/var/www/html/wp-config.php
+            # Recommendation https://lnav.org/
+            - ${PWD}/debug.log:/var/www/html/wp-content/debug.log
+            - ${PWD}/plugins/resume-item:/var/www/html/wp-content/plugins/resume-item
         # - ./theme:/var/www/html/wp-content/themes/sujin
         # - ../@next/public/uploads:/var/www/html/wp-content/uploads
 
