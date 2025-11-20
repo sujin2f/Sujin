@@ -1,0 +1,12 @@
+{
+    "name": "sujin/theme",
+    "description": "A WordPress theme.",
+    "autoload": {
+        "psr-4": {
+            "Sujin\\Theme\\": "classes/"
+        }
+    },
+    "scripts": {
+        "lint": "../vendor/bin/phpcs -s -- --standard=../.phpcs.xml.dist ./classes/Bootstrap.php"
+    }
+}

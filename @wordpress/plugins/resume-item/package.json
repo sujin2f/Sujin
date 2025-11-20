@@ -1,5 +1,5 @@
 {
-    "name": "resume-block",
+    "name": "sujin-resume-block",
     "version": "0.1.0",
     "description": "The item block in About page which contains title, description, period, and tags.",
     "author": "Sujin Choi",
@@ -11,7 +11,6 @@
         "format": "wp-scripts format",
         "lint:css": "wp-scripts lint-style",
         "lint:js": "wp-scripts lint-js",
-        "lint:php": "node php-lint.mjs",
         "packages-update": "wp-scripts packages-update",
         "plugin-zip": "wp-scripts plugin-zip",
         "start": "wp-scripts start --experimental-modules"

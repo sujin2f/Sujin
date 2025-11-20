@@ -19,3 +19,4 @@ debug.log
 
 # Dev mode
 **/.backup
+**/composer.lock

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<ruleset name="Sujin">
+    <description>PHPCS</description>
+
+    <!-- define the php version that should be tested against -->
+    <config name="testVersion" value="7.3-"/>
+
+    <exclude-pattern>*.ts</exclude-pattern>
+    <exclude-pattern>*.tsx</exclude-pattern>
+    <exclude-pattern>*.json</exclude-pattern>
+
+    <rule ref="WordPress">
+        <exclude name="WordPress.Files.FileName.NotHyphenatedLowercase" />
+        <exclude name="WordPress.Files.FileName.InvalidClassFileName" />
+    </rule>
+</ruleset>

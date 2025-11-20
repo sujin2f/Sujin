@@ -1,0 +1,7 @@
+{
+    "name": "sujin/theme",
+    "description": "A WordPress theme.",
+    "scripts": {
+        "lint": "../../vendor/bin/phpcs -s -- --standard=../../.phpcs.xml.dist ./*.php ./src/*.php"
+    }
+}

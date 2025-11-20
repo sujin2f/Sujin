@@ -1,4 +1,0 @@
-<?xml version="1.0"?>
-<ruleset name="CustomRuleset">
-    <rule ref="WordPress"/>
-</ruleset>
