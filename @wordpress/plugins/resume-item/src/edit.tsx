@@ -32,6 +32,7 @@ const MONTHS = [
 ]
 
 function generateYears(start = 1995, end = new Date().getFullYear()): { label: string; value: string }[] {
+    // TODO @common module
     const years = new Array(end - start)
         .fill(0)
         .map((_, index) => ({ label: (end - index).toString(), value: (end - index).toString() }))
@@ -54,6 +55,7 @@ export default function Edit({ attributes, setAttributes }: Props): React.ReactE
     const { className, ...blockProps } = useBlockProps()
     const years = generateYears()
 
+    // TODO custom hook
     const addDetails = useCallback(() => {
         const next = [...(attributes.details || []), '']
         setAttributes({ details: next })

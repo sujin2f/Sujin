@@ -3,6 +3,7 @@ import { defineConfig } from 'eslint/config'
 import tseslint from 'typescript-eslint'
 import globals from 'globals'
 
+// TODO Apply
 export default defineConfig(eslint.configs.recommended, tseslint.configs.recommended, {
     languageOptions: {
         globals: {
