@@ -18,16 +18,8 @@
         "proseWrap": "preserve",
         "quoteProps": "as-needed",
         "tabWidth": 4,
+        "useTabs": true,
+        "singleQuote": true,
         "trailingComma": "all",
-        "overrides": [
-            {
-                "files": "*.php",
-                "options": {
-                    "semi": true,
-                    "useTabs": true,
-                    "singleQuote": false
-                }
-            }
-        ]
     }
 }

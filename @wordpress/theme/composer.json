@@ -7,6 +7,9 @@
         }
     },
     "scripts": {
-        "lint": "../vendor/bin/phpcs -s -- --standard=../.phpcs.xml.dist ./classes/*.php"
+        "lint": "../vendor/bin/phpcbf -s -- --standard=../.phpcs.xml.dist ./classes/*.php"
+    },
+    "require": {
+        "firebase/php-jwt": "^6.11"
     }
 }

@@ -3,8 +3,8 @@
  * Functions
  *
  * @package sujinc.com
- * @since   8.0.0
- * @author  Sujin 수진 Choi http://www.sujinc.com/
+ * @since   1.0.0
+ * @author  Sujin 수진 Choi
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -15,3 +15,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 require_once __DIR__ . '/vendor/autoload.php';
 new Sujin\Theme\Bootstrap();
+
+/**
+ * For Dev: Do not call this from production
+ *
+ * @param mixed $value Log message.
+ * @return void
+ */
+function halp( mixed $value ) {
+	error_log( wp_json_encode( $value ) );
+}

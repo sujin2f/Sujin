@@ -3,40 +3,8 @@
     "editor.fontFamily": "Fira Code",
     "editor.fontLigatures": true,
     "editor.renderWhitespace": "all",
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "workbench.iconTheme": "material-icon-theme",
     "javascript.updateImportsOnFileMove.enabled": "always",
-    "explorer.confirmDragAndDrop": false,
-    "window.zoomLevel": 1,
-    "github.copilot.enable": {
-        "*": false,
-        "plaintext": false,
-        "markdown": false,
-        "scminput": false
-    },
     "typescript.updateImportsOnFileMove.enabled": "always",
     "eslint.useFlatConfig": true,
-    "cSpell.words": ["Choi", "flickr", "sujin", "sujinc"],
-    "php.executablePath": "/usr/local/Cellar/php/8.4.3/bin/php",
-    "phpcs.enable": true,
-    "phpcs.executablePath": "./vendor/bin/phpcs",
-    "phpcs.standard": "WordPress",
-    "phpcbf.executablePath": "./vendor/bin/phpcbf",
-    "[json]": {
-        "editor.tabSize": 4,
-        "editor.insertSpaces": true
-    },
-    "[php]": {
-        "editor.tabSize": 4,
-        "editor.insertSpaces": false,
-        "editor.detectIndentation": false
-    },
-    "[typescript]": {
-        "editor.tabSize": 4,
-        "editor.detectIndentation": false,
-        "editor.codeActionsOnSave": {
-            "source.fixAll.tslint": "explicit"
-        }
-    }
+    "cSpell.words": ["Choi", "flickr", "sujin", "sujinc"]
 }

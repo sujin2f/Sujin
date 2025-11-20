@@ -8,6 +8,7 @@
  */
 
 namespace Sujin\Theme;
+use Sujin\Theme\RestAPI;
 
 /**
  * Entry Point
@@ -19,7 +20,8 @@ class Bootstrap {
 	 * @visibility public
 	 */
 	public function __construct() {
-		add_action('after_setup_theme', array( $this, 'check_plugin_dependency' ) );
+		new RestAPI();
+		add_action( 'after_setup_theme', array( $this, 'check_plugin_dependency' ) );
 	}
 
 	/**
