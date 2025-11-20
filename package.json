@@ -5,8 +5,13 @@
     "license": "MIT",
     "scripts": {
         "install-modules": "yarn --cwd ./@common && yarn --cwd ./@graphql && yarn --cwd ./@lib && yarn --cwd ./@next",
-        "build": "yarn --cwd ./@common build && yarn --cwd ./@lib build",
-        "lint": "yarn --cwd ./@common lint && yarn --cwd ./@graphql lint && yarn --cwd ./@lib lint && yarn --cwd ./@next lint",
+        "build": "yarn --cwd ./@common build && yarn --cwd ./@lib build && yarn --cwd ./@wordpress/plugins/resume-item build",
+        "lint": "yarn lint:common && yarn lint:gql && yarn lint:lib && yarn lint:next && yarn lint:wp-about",
+        "lint:common": "yarn --cwd ./@common lint",
+        "lint:gql": "yarn --cwd ./@graphql lint",
+        "lint:lib": "yarn --cwd ./@lib lint",
+        "lint:next": "yarn --cwd ./@next lint",
+        "lint:wp-about": "yarn --cwd ./@wordpress/plugins/resume-item lint:php",
         "test": "yarn --cwd ./@common test && yarn --cwd ./@graphql test",
         "prepare": "husky"
     },

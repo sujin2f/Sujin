@@ -9,7 +9,6 @@ import { PanelBody, TextControl, SelectControl, Button } from '@wordpress/compon
 import { useCallback } from 'react'
 import type { Attributes } from './types'
 
-console.log('edit')
 type Props = {
     attributes: Attributes
     setAttributes: (attributes: Partial<Attributes>) => void
