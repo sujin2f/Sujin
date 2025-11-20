@@ -15,17 +15,5 @@ services:
         volumes:
             - mongo:/data/db
 
-    sujin-mysql-dev:
-        container_name: sujin-mysql-dev
-        image: mariadb:10.5
-        restart: always
-        environment:
-            MYSQL_DATABASE: ${MYSQL_DB}
-            MYSQL_USER: ${MYSQL_USER}
-            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-            MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
-        ports:
-            - ${MYSQL_PORT}:3306
-
 volumes:
     mongo:

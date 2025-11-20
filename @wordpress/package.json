@@ -1,0 +1,24 @@
+{
+    "name": "sujin-wordpress",
+    "version": "12.0.0",
+    "description": "Wordpress CMS for sujinc.com project",
+    "author": "Sujin Choi",
+    "license": "GPL-2.0-or-later",
+    "scripts": {},
+    "prettier": {
+        "arrowParens": "always",
+        "bracketSpacing": true,
+        "endOfLine": "lf",
+        "printWidth": 120,
+        "proseWrap": "preserve",
+        "quoteProps": "as-needed",
+        "semi": false,
+        "singleQuote": true,
+        "tabWidth": 4,
+        "trailingComma": "all",
+        "useTabs": true
+    },
+    "dependencies": {
+        "@wordpress/interactivity": "^6.35.0"
+    }
+}
