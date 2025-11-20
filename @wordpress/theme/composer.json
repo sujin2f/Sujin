@@ -7,6 +7,6 @@
         }
     },
     "scripts": {
-        "lint": "../vendor/bin/phpcs -s -- --standard=../.phpcs.xml.dist ./classes/Bootstrap.php"
+        "lint": "../vendor/bin/phpcs -s -- --standard=../.phpcs.xml.dist ./classes/*.php"
     }
 }

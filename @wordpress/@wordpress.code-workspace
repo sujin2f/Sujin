@@ -1,0 +1,27 @@
+{
+	"folders": [
+		{
+			"name": "@wordpress",
+			"path": "."
+		},
+		{
+			"name": "resume-item",
+			"path": "plugins/resume-item"
+		},
+		{
+			"path": "theme"
+		}
+	],
+	"settings": {
+		"workbench.iconTheme": "material-icon-theme",
+		"explorer.confirmDragAndDrop": false,
+		"window.zoomLevel": 1,
+		"github.copilot.enable": {
+			"*": false,
+			"plaintext": false,
+			"markdown": false,
+			"scminput": false
+		},
+		"php.executablePath": "/usr/local/Cellar/php/8.4.3/bin/php"
+	}
+}

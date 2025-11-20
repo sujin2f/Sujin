@@ -5,7 +5,6 @@
  * @package sujinc.com
  * @since   8.0.0
  * @author  Sujin 수진 Choi http://www.sujinc.com/
- * @todo    https://developer.wordpress.org/news/2025/09/implementing-namespaces-and-coding-standards-in-wordpress-plugin-development/
  */
 
 namespace Sujin\Theme;
