@@ -33,8 +33,8 @@
 
         "phpsab.standard": "${workspaceFolder}/.phpcs.xml.dist",
         "phpsab.snifferEnable": true, // disable this if you don't need suggestions
-        "phpsab.executablePathCBF": "${workspaceFolder}/vendor/bin/phpcs",
-        "phpsab.executablePathCS": "${workspaceFolder}/vendor/bin/phpcbf",
+        "phpsab.executablePathCBF": "${workspaceFolder}/vendor/bin/phpcbf",
+        "phpsab.executablePathCS": "${workspaceFolder}/vendor/bin/phpcs",
         "phpsab.snifferShowSources": true,
         "[php]": {
             "editor.defaultFormatter": "valeryanm.vscode-phpsab"

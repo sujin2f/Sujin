@@ -38,6 +38,22 @@ class RestAPI {
 	 * @param \WP_REST_Request $request HTTP Request.
 	 */
 	public function validate_token( mixed $_, \WP_REST_Server $__, \WP_REST_Request $request ): void {
+		// Check if the WordPress REST API request.
+		if ( ! defined( 'REST_REQUEST' ) || ! REST_REQUEST ) {
+			return;
+		}
+
+		// Internal request exception like Gutenberg.
+		if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
+			$referer_host = wp_parse_url( wp_unslash( $_SERVER['HTTP_REFERER'] ), PHP_URL_HOST ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			$site_host    = wp_parse_url( home_url(), PHP_URL_HOST );
+
+			// Same domain.
+			if ( $referer_host === $site_host ) {
+				return;
+			}
+		}
+
 		$headers = $request->get_headers();
 		$header  = $headers['authorization'] ?? $headers['Authorization'];
 

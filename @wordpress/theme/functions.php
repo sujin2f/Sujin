@@ -19,9 +19,25 @@ new Sujin\Theme\Bootstrap();
 /**
  * For Dev: Do not call this from production
  *
- * @param mixed $value Log message.
+ * @param mixed ...$value Log message.
  * @return void
+ * @throws \WP_Error Only dev allows this usage.
  */
-function halp( mixed $value ) {
-	error_log( wp_json_encode( $value ) );
+function halp( mixed ...$value ) {
+	if ( ! is_dev() ) {
+		throw new \WP_Error( 'Production should not use halp()' );
+	}
+	foreach ( $value as $item ) {
+		error_log( wp_json_encode( $item ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+	}
+}
+
+/**
+ * For Dev: check if the environment is dev
+ *
+ * @return bool
+ */
+function is_dev(): bool {
+	$env = getenv_docker( 'ENV', '' );
+	return 'development' === $env;
 }

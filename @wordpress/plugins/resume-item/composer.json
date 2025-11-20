@@ -2,6 +2,6 @@
     "name": "sujin/theme",
     "description": "A WordPress theme.",
     "scripts": {
-        "lint": "../../vendor/bin/phpcbf -s -- --standard=../../.phpcs.xml.dist ./*.php ./src/*.php"
+        "lint": "../../vendor/bin/phpcbf -s -w"
     }
 }
