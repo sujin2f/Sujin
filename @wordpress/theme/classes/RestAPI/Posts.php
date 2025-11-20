@@ -34,13 +34,14 @@ class Posts {
 	 * $response->data['link']
 	 * $response->data['status']
 	 * $response->data['type']
+	 * public function modify_post_content_rest( \WP_REST_Response $response, \WP_Post $post ): \WP_REST_Response {
+	 * param  \WP_Post          $post     not used.
 	 *
 	 * @visibility public
 	 * @param  \WP_REST_Response $response result.
-	 * @param  \WP_Post          $post     not used.
 	 * @return \WP_REST_Response Response.
 	 */
-	public function modify_post_content_rest( \WP_REST_Response $response, \WP_Post $post ): \WP_REST_Response {
+	public function modify_post_content_rest( \WP_REST_Response $response ): \WP_REST_Response {
 		// Replacing or New items.
 		$response->data['title']   = $response->data['title']['rendered'];
 		$response->data['date']    = strtotime( $response->data['date'] ) / ( 60 * 60 * 24 ); // seconds to days.

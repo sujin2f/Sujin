@@ -16,6 +16,12 @@
             "composer run lint:about-item"
         ],
         "lint:theme": "composer --working-dir=./theme run-script lint",
-        "lint:about-item": "composer --working-dir=./plugins/resume-item run-script lint"
+        "lint:about-item": "composer --working-dir=./plugins/resume-item run-script lint",
+        "fix": [
+            "composer run fix:theme",
+            "composer run fix:about-item"
+        ],
+        "fix:theme": "composer --working-dir=./theme run-script fix",
+        "fix:about-item": "composer --working-dir=./plugins/resume-item run-script fix"
     }
 }
