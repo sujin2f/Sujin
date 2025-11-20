@@ -11,6 +11,9 @@ namespace Sujin\Theme;
 
 use Sujin\Theme\RestAPI;
 
+/**
+ * Entry Point
+ */
 class Bootstrap {
 	private const IMAGE_SIZE_POST       = 'post-thumbnail';
 	private const POST_THUMBNAIL_WIDTH  = 370;
