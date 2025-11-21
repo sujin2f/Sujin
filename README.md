@@ -9,6 +9,36 @@
 
 This repository contains multiple packages/services (Next app, GraphQL server, shared libs) and tooling to run them locally or in containerized environments.
 
+```graphql
+C4Context
+    System_Ext(google, "Google")
+    Container(next, "Next.JS", "Public")
+    Rel(next, google, "auth")
+
+    Container_Boundary(gql, "GraphQL [JWT/CORS]") {
+        Component(graph, "GraphQL")
+    }
+
+    System_Boundary(db, "Database [Internal Network]") {
+        ContainerDb(mongo, "MongoDB")
+        ContainerDb(mysql, "MySQL")
+    }
+
+
+    Container_Boundary(wordpress, "Wrodpress") {
+        Component(rest, "RestAPI", "[JWT/CORS]")
+        Component(admin, "WP Admin", "Public/TWA")
+        Person(adminUser, "Admin")
+        Rel(adminUser, admin, "Publish")
+    }
+
+    Rel(next, graph, "qeury")
+    Rel(admin, mysql, "Write")
+    Rel(mysql, graph, "Read")
+    Rel(graph, mongo, "Read / Write")
+    Rel(graph, rest, "Read")
+```
+
 **Quick Goals**
 
 -   Serve content with Next.js (frontend)
@@ -131,3 +161,11 @@ Recommendation & checklist:
 **License**
 
 -   This is a personal project — include your preferred license here (e.g., MIT) or keep proprietary notes.
+
+```mermaid
+C4Context
+    title System Context Diagram
+
+    Person(customer, Visitor, $tags="v1.0")
+
+```
