@@ -6,7 +6,7 @@ name: sujinc.com CI
 on: [push]
 
 jobs:
-    build:
+    typescript:
         runs-on: ubuntu-latest
 
         container:

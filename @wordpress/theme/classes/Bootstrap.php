@@ -10,6 +10,7 @@
 namespace Sujin\Theme;
 
 use Sujin\Theme\RestAPI;
+use Sujin\Theme\Post;
 
 /**
  * Entry Point
@@ -34,9 +35,10 @@ class Bootstrap {
 	 */
 	public function __construct() {
 		new RestAPI();
+		new Post();
+
 		add_action( 'after_setup_theme', array( $this, 'check_plugin_dependency' ) );
 		add_action( 'after_setup_theme', array( $this, 'after_setup_theme' ) );
-		add_action( 'pre_post_update', array( $this, 'add_version_to_post' ) );
 	}
 
 	/**
@@ -46,13 +48,6 @@ class Bootstrap {
 	 * @param int $post_id post id.
 	 */
 	public function add_version_to_post( int $post_id ): void {
-		// TODO create a new Post class.
-		// TODO deployment script.
-		$version = getenv_docker( 'VERSION', '' );
-		if ( ! $version ) {
-			return;
-		}
-		update_post_meta( $post_id, 'version', $version );
 	}
 
 	/**

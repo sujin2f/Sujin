@@ -7,5 +7,7 @@
  * @author  Sujin 수진 Choi
  */
 
-// TODO REST endpoint.
+// TODO Gallery
+// TODO Category/Tag to GQL
+// TODO Background to GQL
 // TODO Production.
