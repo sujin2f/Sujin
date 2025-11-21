@@ -12,35 +12,36 @@ This repository contains multiple packages/services (Next app, GraphQL server, s
 ```mermaid
 C4Context
     System_Ext(google, "Google")
-
-    Boundary(web, "Web Layer", "") {
-        Container(next, "sujinc.com", "Next.JS", "Public Web Service")
-
-        Container(auth, "Auth Server", "Node.JS", "Issue Refresh Token")
-        Rel(google, auth, "")
-        BiRel(auth, next, "Token")
-        BiRel(auth, wp, "Token")
-
-        Container(wp, "CMS", "Wordpress", "Headless WP")
-    }
-
-    Boundary(gql_b, "Data Layer", "") {
-        ContainerDb(mongo, "Quick Access Data", "MongoDB")
-
-        Container(gql, "GraphQL", "Apollo Server", "")
-        Rel(gql, next, "content")
-        UpdateRelStyle(gql, next, $offsetY="-40", $offsetX="-50")
-        Rel(wp, gql, "heartbeat")
-        UpdateRelStyle(wp, gql, $offsetY="10", $offsetX="-50")
-        BiRel(gql, mongo, "Read / Write")
-        Rel(gql, auth, "admin validation")
-
-        ContainerDb(mysql, "MySQL")
-        Rel(mysql, gql, "Read")
-        Rel(wp, mysql, "Write")
-    }
-
     UpdateLayoutConfig($c4ShapeInRow="1", $c4BoundaryInRow="4")
+
+    Boundary(private, "Private Network", "") {
+        Boundary(web, "Public Network", "") {
+            Container(next, "sujinc.com", "Next.JS", "Public Web Service")
+
+            Container(auth, "Auth Server", "Node.JS", "Issue Refresh Token")
+            Rel(google, auth, "")
+            BiRel(auth, next, "Token")
+            BiRel(auth, wp, "Token")
+
+            Container(wp, "CMS", "Wordpress", "Headless WP")
+        }
+
+        Boundary(gql_b, "Private", "") {
+            ContainerDb(mongo, "Quick Access Data", "MongoDB")
+
+            Container(gql, "GraphQL", "Apollo Server", "")
+            Rel(gql, next, "content")
+            UpdateRelStyle(gql, next, $offsetY="-40", $offsetX="-50")
+            Rel(wp, gql, "heartbeat")
+            UpdateRelStyle(wp, gql, $offsetY="10", $offsetX="-50")
+            BiRel(gql, mongo, "Read / Write")
+            Rel(gql, auth, "admin validation")
+
+            ContainerDb(mysql, "MySQL")
+            Rel(mysql, gql, "Read")
+            Rel(wp, mysql, "Write")
+        }
+    }
 ```
 
 **Quick Goals**
