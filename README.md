@@ -16,25 +16,13 @@ C4Context
     Boundary(web, "Web Layer", "") {
         Container(next, "sujinc.com", "Next.JS", "Public Web Service")
 
-        Container(gap1, "")
-        UpdateElementStyle(gap1, $fontColor="transparent", $bgColor="transparent", $borderColor="transparent")
-
-        Container(wp, "CMS", "Wordpress", "Headless WP")
-    }
-
-    Boundary(auth, "Auth Layer", "") {
-        Container(gap2, "")
-        UpdateElementStyle(gap2, $fontColor="transparent", $bgColor="transparent", $borderColor="transparent")
-
         Container(auth, "Auth Server", "Node.JS", "Issue Refresh Token")
         Rel(google, auth, "")
         BiRel(auth, next, "Token")
         BiRel(auth, wp, "Token")
 
-        Container(gap3, "")
-        UpdateElementStyle(gap3, $fontColor="transparent", $bgColor="transparent", $borderColor="transparent")
+        Container(wp, "CMS", "Wordpress", "Headless WP")
     }
-
 
     Boundary(gql_b, "Data Layer", "") {
         ContainerDb(mongo, "Quick Access Data", "MongoDB")
@@ -52,7 +40,7 @@ C4Context
         Rel(wp, mysql, "Write")
     }
 
-    UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="4")
+    UpdateLayoutConfig($c4ShapeInRow="1", $c4BoundaryInRow="4")
 ```
 
 **Quick Goals**
