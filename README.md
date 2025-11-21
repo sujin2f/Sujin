@@ -11,11 +11,9 @@ This repository contains multiple packages/services (Next app, GraphQL server, s
 
 ```mermaid
 C4Context
-    Boundary(test2, "External", "") {
-        Person_Ext(user, "User")
-        System_Ext(google, "Google")
-        Person(admin, "Admin")
-    }
+    Person_Ext(user, "User")
+    Person(admin, "Admin")
+    System_Ext(google, "Google")
 
     Boundary(web, "Web Layer", "") {
         Container(next, "sujinc.com", "Next.JS", "Public Web Service")
@@ -58,7 +56,7 @@ C4Context
         Rel(wp, mysql, "Write")
     }
 
-    UpdateLayoutConfig($c4ShapeInRow="1", $c4BoundaryInRow="4")
+    UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="4")
 ```
 
 **Quick Goals**
