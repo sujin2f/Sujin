@@ -11,32 +11,54 @@ This repository contains multiple packages/services (Next app, GraphQL server, s
 
 ```mermaid
 C4Context
-    System_Ext(google, "Google")
-    Container(next, "Next.JS", "Public")
-    Rel(next, google, "auth")
-
-    Container_Boundary(gql, "GraphQL [JWT/CORS]") {
-        Component(graph, "GraphQL")
+    Boundary(test2, "External", "") {
+        Person_Ext(user, "User")
+        System_Ext(google, "Google")
+        Person(admin, "Admin")
     }
 
-    System_Boundary(db, "Database [Internal Network]") {
-        ContainerDb(mongo, "MongoDB")
+    Boundary(web, "Web Layer", "") {
+        Container(next, "sujinc.com", "Next.JS", "Public Web Service")
+        Rel(user, next, "")
+
+        Container(gap1, "")
+        UpdateElementStyle(gap1, $fontColor="transparent", $bgColor="transparent", $borderColor="transparent")
+
+        Container(wp, "CMS", "Wordpress", "Headless WP")
+        Rel(admin, wp, "")
+    }
+
+    Boundary(auth, "Auth Layer", "") {
+        Container(gap2, "")
+        UpdateElementStyle(gap2, $fontColor="transparent", $bgColor="transparent", $borderColor="transparent")
+
+        Container(auth, "Auth Server", "Node.JS", "Issue Refresh Token")
+        Rel(google, auth, "")
+        BiRel(auth, next, "Token")
+        BiRel(auth, wp, "Token")
+
+        Container(gap3, "")
+        UpdateElementStyle(gap3, $fontColor="transparent", $bgColor="transparent", $borderColor="transparent")
+    }
+
+
+    Boundary(gql_b, "Data Layer", "") {
+        ContainerDb(mongo, "Quick Access Data", "MongoDB")
+
+        Container(gql, "GraphQL", "Apollo Server", "")
+        Rel(gql, next, "content")
+        UpdateRelStyle(gql, next, $offsetY="-40", $offsetX="-50")
+        Rel(wp, gql, "heartbeat")
+        UpdateRelStyle(wp, gql, $offsetY="10", $offsetX="-50")
+        BiRel(gql, mongo, "Read / Write")
+        Rel(gql, auth, "admin validation")
+
         ContainerDb(mysql, "MySQL")
+        Rel(mysql, gql, "Read")
+        Rel(wp, mysql, "Write")
     }
 
-
-    Container_Boundary(wordpress, "Wrodpress") {
-        Component(rest, "RestAPI", "[JWT/CORS]")
-        Component(admin, "WP Admin", "Public/TWA")
-        Person(adminUser, "Admin")
-        Rel(adminUser, admin, "Publish")
-    }
-
-    Rel(next, graph, "qeury")
-    Rel(admin, mysql, "Write")
-    Rel(mysql, graph, "Read")
-    Rel(graph, mongo, "Read / Write")
-    Rel(graph, rest, "Read")
+    UpdateLayoutConfig($c4ShapeInRow="1", $c4BoundaryInRow="4")
 ```
 
 **Quick Goals**
