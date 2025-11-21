@@ -7,7 +7,7 @@ export type T_User = {
 }
 
 /**
- * GQL token
+ * Access token
  */
 export type T_Token = {
     _id: string // user id
@@ -20,12 +20,12 @@ export type T_Token = {
  */
 export type T_Token_Return = {
     _id: string // user id
-    accessToken: string // GQL token
+    accessToken: string // Access token
 }
 
 /**
  * Token from Google login
- * for creating GQL token
+ * for creating Access token
  */
 export type T_NextToken = {
     name: string
@@ -37,7 +37,7 @@ export type T_NextToken = {
  * Next server session
  */
 export type T_Session = {
-    accessToken: string // GQL token
+    accessToken: string // Access token
     _id: string
     name: string
     email: string

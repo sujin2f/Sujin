@@ -1,2 +1,4 @@
 yarn lint
 yarn test
+yarn build
+composer --working-dir=./@wordpress run-script lint

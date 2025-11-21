@@ -23,6 +23,7 @@ export type T_Post = T_ArchivePost & {
     meta: {
         useBackgroundColor: boolean
         backgroundColor: string
+        version?: string
     }
 }
 

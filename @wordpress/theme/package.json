@@ -1,0 +1,25 @@
+{
+    "name": "wp-theme",
+    "version": "11.0.0",
+    "description": "WP theme for sujinc.com.",
+    "author": "Sujin Choi",
+    "license": "GPL-2.0-or-later",
+    "homepage": "sujinc.com",
+    "scripts": {},
+    "dependencies": {},
+    "files": [
+        "[^.]*"
+    ],
+    "prettier": {
+        "arrowParens": "always",
+        "bracketSpacing": true,
+        "endOfLine": "lf",
+        "printWidth": 120,
+        "proseWrap": "preserve",
+        "quoteProps": "as-needed",
+        "tabWidth": 4,
+        "useTabs": true,
+        "singleQuote": true,
+        "trailingComma": "all",
+    }
+}

@@ -8,7 +8,7 @@
         "build": "next build",
         "start": "next start",
         "test": "jest --no-cache --forceExit --coverage",
-        "lint": "eslint \"{app,common}/**/*.{js,ts,tsx}\""
+        "lint": "eslint \"{app,common}/**/*.{ts,tsx}\""
     },
     "dependencies": {
         "@apollo/client": "^4.0.9",
