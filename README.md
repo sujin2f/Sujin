@@ -9,7 +9,7 @@
 
 This repository contains multiple packages/services (Next app, GraphQL server, shared libs) and tooling to run them locally or in containerized environments.
 
-```graphql
+```mermaid
 C4Context
     System_Ext(google, "Google")
     Container(next, "Next.JS", "Public")
