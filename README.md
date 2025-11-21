@@ -11,19 +11,15 @@ This repository contains multiple packages/services (Next app, GraphQL server, s
 
 ```mermaid
 C4Context
-    Person_Ext(user, "User")
-    Person(admin, "Admin")
     System_Ext(google, "Google")
 
     Boundary(web, "Web Layer", "") {
         Container(next, "sujinc.com", "Next.JS", "Public Web Service")
-        Rel(user, next, "")
 
         Container(gap1, "")
         UpdateElementStyle(gap1, $fontColor="transparent", $bgColor="transparent", $borderColor="transparent")
 
         Container(wp, "CMS", "Wordpress", "Headless WP")
-        Rel(admin, wp, "")
     }
 
     Boundary(auth, "Auth Layer", "") {
