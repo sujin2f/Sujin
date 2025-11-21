@@ -1,6 +1,6 @@
 /* Models */
 import { select } from '@src/utils/mysql'
-import Logger from '@src/utils/logger'
+import { Logger } from '@sujin/share/model/Logger'
 /* CONSTANTS */
 import { WPQuery } from '@src/utils/mysql/wp-query'
 /* Utils */
@@ -25,9 +25,7 @@ type T_PostMeta = {
  *                       cannot be parsed.
  * @returns The value parsed as `T`.
  */
-export const getPostMeta = async <
-    T extends Record<string, unknown> | string | number | boolean,
->(
+export const getPostMeta = async <T extends Record<string, unknown> | string | number | boolean>(
     postId: number,
     metaKey: string,
     defaultValue: T,
@@ -54,9 +52,7 @@ export const getPostMeta = async <
  * @param defaultValue - Default fallback typed as `T`.
  * @param key - Optional key to extract from an object result.
  */
-const unserialize = <
-    T extends Record<string, unknown> | string | number | boolean,
->(
+const unserialize = <T extends Record<string, unknown> | string | number | boolean>(
     value: string,
     defaultValue: T,
     key?: string,
@@ -82,9 +78,7 @@ const unserialize = <
     try {
         result = phpUnSerialize(value)
     } catch (e) {
-        Logger.error(
-            `⛈️ phpUnSerialize could not parse the value ${value} ${e}`,
-        )
+        Logger.error(`⛈️ phpUnSerialize could not parse the value ${value} ${e}`)
         throw Error('phpUnSerialize could not parse the value')
     }
 

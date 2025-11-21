@@ -1,7 +1,7 @@
 import { GraphQLError } from 'graphql'
 import sanitize from 'mongo-sanitize'
 /* Models */
-import Logger from '@src/utils/logger'
+import { Logger } from '@sujin/share/model/Logger'
 import { Post } from '@src/schema/post'
 /* CONSTANTS */
 import { COLLECTION, POST_STATUS } from '@sujin/lib/constants'

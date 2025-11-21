@@ -1,6 +1,6 @@
 import sanitize from 'mongo-sanitize'
 /* Models */
-import Logger from '@src/utils/logger'
+import { Logger } from '@sujin/share/model/Logger'
 import { Page } from '@src/schema/post'
 /* CONSTANTS */
 import { PER_PAGE } from '@sujin/lib/constants'
@@ -20,11 +20,8 @@ import type { T_Page } from '@sujin/lib/types'
  * @returns An array of `T_Page` documents for the requested page.
  * @throws {Error} When the caller is not an admin.
  */
-export const pages = async (
-    _page: number,
-    token: string,
-): Promise<T_Page[]> => {
-    verifyAdmin(token, 'pages query has been called by non admin user')
+export const pages = async (_page: number, token: string): Promise<T_Page[]> => {
+    await verifyAdmin(token, 'pages query has been called by non admin user')
 
     const page = sanitize(_page)
 

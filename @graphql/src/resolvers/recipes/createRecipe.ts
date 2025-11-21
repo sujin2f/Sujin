@@ -1,7 +1,7 @@
 /* Models */
 import { Recipe } from '@src/schema/recipe'
 import { Types } from 'mongoose'
-import Logger from '@src/utils/logger'
+import { Logger } from '@sujin/share/model/Logger'
 /* T_Types */
 import type { T_Recipe } from '@sujin/lib/types'
 /* Utils */
@@ -25,22 +25,16 @@ import { COLLECTION } from '@sujin/lib/constants'
  * @returns The newly-created recipe `_id` as a string.
  * @throws {Error} When the token is invalid or missing.
  */
-export const createRecipe = async (
-    recipe: T_Recipe,
-    token: string,
-): Promise<string> => {
+export const createRecipe = async (recipe: T_Recipe, _token: string): Promise<string> => {
     // Verify Token
-    const user = verifyToken(token)
-    if (!user || !user._id) throw new Error()
+    const token = verifyToken(_token)
+    if (!token || !token.sub || !token.sub._id) throw new Error()
 
-    const search = new Set([
-        recipe.title,
-        ...recipe.ingredients.map((item) => item.title),
-    ])
+    const search = new Set([recipe.title, ...recipe.ingredients.map((item) => item.title)])
 
     const result = await Recipe.insertOne({
         ...recipe,
-        user: new Types.ObjectId(user._id),
+        user: new Types.ObjectId(token.sub._id),
         search: Array.from(search).join(' '),
     })
     await Cached.getInstance().flush(getCacheKey(COLLECTION.RECIPE))

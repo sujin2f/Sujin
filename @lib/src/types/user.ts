@@ -2,17 +2,34 @@
  * Mongo
  */
 export type T_User = {
-    _id: string // user id
-    email: string // hash string
+    _id: string
+    admin: boolean
+}
+
+export type T_UserSub = T_User & {
+    name: string
+    picture: string
+    email: string
 }
 
 /**
  * Access token
  */
 export type T_Token = {
-    _id: string // user id
-    email: string // hash string
-    admin: boolean
+    iss: string
+    iat: number
+    exp: number
+    sub: string // JSON.stringify(user: T_UserSub)
+}
+
+/**
+ * Access token
+ */
+export type T_Parsed_Token = {
+    iss: string
+    iat: number
+    exp: number
+    sub: T_UserSub
 }
 
 /**

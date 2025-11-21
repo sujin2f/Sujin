@@ -1,5 +1,5 @@
 /* Models */
-import Logger from '@src/utils/logger'
+import { Logger } from '@sujin/share/model/Logger'
 /* CONSTANTS */
 import { DAY_IN_SECONDS } from '@sujin/share/constants/datetime'
 import { IS_DEV } from '@sujin/share/constants/helper'
@@ -59,9 +59,7 @@ const requestFlickrImages = async (): Promise<T_FlickrImage[]> => {
         })
         .catch((e: Error) => {
             if (e instanceof Error) {
-                Logger.error(
-                    `⛈️ Fetching from Flickr has been failed: ${e.message}`,
-                )
+                Logger.error(`⛈️ Fetching from Flickr has been failed: ${e.message}`)
             }
             return defaultValue
         })
@@ -74,13 +72,9 @@ const requestFlickrImages = async (): Promise<T_FlickrImage[]> => {
  * @returns {Promise<T_FlickrImage[]>} Promise resolving to `T_FlickrImage[]`.
  */
 export const flickr = async (): Promise<T_FlickrImage[]> => {
-    const cached = cachedRequest(
-        requestFlickrImages,
-        getCacheKey(COLLECTION.ARCHIVE, 'tag-cloud'),
-        {
-            ttl: DAY_IN_SECONDS * 30,
-        },
-    )
+    const cached = cachedRequest(requestFlickrImages, getCacheKey(COLLECTION.ARCHIVE, 'tag-cloud'), {
+        ttl: DAY_IN_SECONDS * 30,
+    })
 
     const result = await cached()
     Logger.info('🤟 flickr query has been finished')

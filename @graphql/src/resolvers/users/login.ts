@@ -1,7 +1,6 @@
-import jwt from 'jsonwebtoken'
 import sanitize from 'mongo-sanitize'
 /* Models */
-import Logger from '@src/utils/logger'
+import { Logger } from '@sujin/share/model/Logger'
 import { User } from '@src/schema/users'
 /* Utils */
 import { mysqlDisconnect } from '@src/utils/mysql'
@@ -9,12 +8,7 @@ import { isUserAdmin } from '@src/utils/mysql/isUserAdmin'
 import { createHash } from '@sujin/share/utils/crypto'
 import { getSecret } from '@src/utils/security'
 /* T_Type */
-import type {
-    T_NextToken,
-    T_Token,
-    T_Token_Return,
-    T_User,
-} from '@sujin/lib/types'
+import type { T_User } from '@sujin/lib/types'
 
 /**
  * Exchange a Next.js `nextToken` for an application GraphQL access token.
@@ -28,52 +22,31 @@ import type {
  * @returns An object containing the created user's `_id` and a new `accessToken`.
  * @throws {Error} When the incoming token is missing or invalid.
  */
-export const login = async (nextToken: string): Promise<T_Token_Return> => {
-    if (!nextToken) {
-        Logger.error('🤬 Login: token is empty', nextToken)
-        throw new Error('🤬 Login: token is empty')
-    }
-
-    // Get email from Next token
-    const { email: _email } = jwt.verify(
-        nextToken,
-        getSecret('next'),
-    ) as T_NextToken
+export const login = async (_email: string): Promise<T_User> => {
     if (!_email) {
         throw new Error('🤬 Login: email is empty')
     }
     const email = sanitize(_email)
     const hashed = createHash(email, getSecret('email'))
+    const _id = await User.findOne<T_User>({ email: hashed }).then(async (result) => {
+        if (result) {
+            return result._id.toString()
+        }
 
-    // Get MongoDB user._id
-    const _id = await User.findOne<T_User>({ email: hashed }).then(
-        async (result) => {
-            if (result) {
-                return result._id.toString()
-            }
-
-            // Create a new user
-            const user = await User.insertOne<T_User>({ email: hashed })
-            return user._id.toString()
-        },
-    )
+        // Create a new user
+        const user = await User.insertOne<T_User>({ email: hashed })
+        return user._id.toString()
+    })
 
     // Find the user is admin from MySQL
     const admin = await isUserAdmin(email)
     await mysqlDisconnect()
 
-    const tokenContent: T_Token = {
+    const result: T_User = {
         _id,
-        email,
         admin,
     }
 
-    const accessToken = jwt.sign(tokenContent, getSecret('gql'), {
-        expiresIn: '1d',
-    })
     Logger.info(`🤟 login has been finished: ${email}`)
-    return {
-        _id,
-        accessToken,
-    }
+    return result
 }

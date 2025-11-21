@@ -8,7 +8,7 @@ import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer'
 import { expressMiddleware } from '@as-integrations/express5'
 
-import Logger from '@src/utils/logger'
+import { Logger } from '@sujin/share/model/Logger'
 import { connectToDatabase } from '@src/utils/mongo/connection'
 
 import { Mutation, Query } from '@src/resolvers'
@@ -30,9 +30,7 @@ const server = new ApolloServer({
     resolvers,
     plugins: [
         ApolloServerPluginDrainHttpServer({ httpServer }),
-        IS_DEV
-            ? ApolloServerPluginLandingPageLocalDefault({ footer: false })
-            : ApolloServerPluginLandingPageDisabled(),
+        IS_DEV ? ApolloServerPluginLandingPageLocalDefault({ footer: false }) : ApolloServerPluginLandingPageDisabled(),
     ],
 })
 

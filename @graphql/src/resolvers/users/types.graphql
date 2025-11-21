@@ -1,9 +1,9 @@
 type Mutation {
-    login: Token
+    login(email: String!): User
     isAdmin: Boolean
 }
 
-type Token {
+type User {
     _id: String!
-    accessToken: String!
+    admin: Boolean!
 }

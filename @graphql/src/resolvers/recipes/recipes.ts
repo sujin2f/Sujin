@@ -2,9 +2,9 @@ import sanitize from 'mongo-sanitize'
 import { Types } from 'mongoose'
 /* Models */
 import { Recipe } from '@src/schema/recipe'
-import Logger from '@src/utils/logger'
+import { Logger } from '@sujin/share/model/Logger'
 /* T_Types */
-import type { T_Recipe, T_Token, WithNumPages } from '@sujin/lib/types'
+import type { T_Recipe, T_UserSub, WithNumPages } from '@sujin/lib/types'
 import type { Nullable } from '@sujin/share/types'
 /* Utils */
 import { verifyToken } from '@src/utils/security'
@@ -23,19 +23,15 @@ import { COLLECTION, PER_PAGE } from '@sujin/lib/constants'
  * @param token - GraphQL JWT used to identify the current user (when `mine` is true).
  * @returns An object with `items` (recipes) and `numPages` for pagination.
  */
-export const recipes = async (
-    _page: number,
-    mine: boolean,
-    token: string,
-): Promise<WithNumPages<T_Recipe>> => {
-    if (mine && !token) {
+export const recipes = async (_page: number, mine: boolean, _token: string): Promise<WithNumPages<T_Recipe>> => {
+    if (mine && !_token) {
         throw new Error()
     }
-    let user: Nullable<T_Token>
+    let user: Nullable<T_UserSub>
     if (mine) {
-        const result = verifyToken(token)
-        if (!result || !result._id) throw new Error()
-        user = result
+        const token = verifyToken(_token)
+        if (!token || !token.sub || !token.sub._id) throw new Error()
+        user = token.sub
     }
 
     const userId = user ? user._id : ''
@@ -48,10 +44,7 @@ export const recipes = async (
             .limit(PER_PAGE)
     }
 
-    const cached = cachedRequest(
-        request,
-        getCacheKey(COLLECTION.RECIPE, userId, page),
-    )
+    const cached = cachedRequest(request, getCacheKey(COLLECTION.RECIPE, userId, page))
 
     const result = await cached()
     const total = await Recipe.countDocuments(doc)

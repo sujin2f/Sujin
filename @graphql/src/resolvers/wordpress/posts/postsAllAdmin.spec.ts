@@ -12,7 +12,7 @@ jest.doMock('@src/utils/security', () => SecurityMock)
 import { verifyAdmin } from '@src/utils/security'
 // Mock Logger
 import LoggerMock from '@test/mocks/utils/logger'
-jest.doMock('@src/utils/logger', () => LoggerMock)
+jest.doMock('@sujin/share/model/Logger', () => LoggerMock)
 
 import { postsAllAdmin } from '@src/resolvers/wordpress/posts/postsAllAdmin'
 
@@ -28,10 +28,7 @@ describe('postsAllAdmin', () => {
 
         const result = await postsAllAdmin(1, 'admin-token')
 
-        expect(verifyAdmin).toHaveBeenCalledWith(
-            'admin-token',
-            expect.any(String),
-        )
+        expect(verifyAdmin).toHaveBeenCalledWith('admin-token', expect.any(String))
         expect(Post.aggregate).toHaveBeenCalled()
         expect(result).toEqual(fakePosts)
     })
@@ -39,9 +36,7 @@ describe('postsAllAdmin', () => {
     it('throws GraphQLError when no posts found', async () => {
         ;(Post.aggregate as jest.Mock).mockResolvedValue([])
 
-        await expect(postsAllAdmin(1, 'admin-token')).rejects.toThrow(
-            'Cannot find any post',
-        )
+        await expect(postsAllAdmin(1, 'admin-token')).rejects.toThrow('Cannot find any post')
         expect(verifyAdmin).toHaveBeenCalled()
     })
 })

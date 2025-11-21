@@ -1,7 +1,7 @@
 import { parse } from 'csv-parse'
 import sanitize from 'mongo-sanitize'
 /* Models */
-import Logger from '@src/utils/logger'
+import { Logger } from '@sujin/share/model/Logger'
 import { Spectra } from '@src/schema/spectra'
 /* T_Types */
 import type { Atom, ISpectrum } from '@sujin/lib/types/ether'
@@ -27,21 +27,14 @@ import { orbitalKeys } from '@sujin/lib/constants/ether'
  * @param _ion - Ionization state.
  * @returns Array of `ISpectrum` entries.
  */
-export const spectrum = async (
-    _number: number,
-    _ion: number,
-): Promise<ISpectrum[]> => {
+export const spectrum = async (_number: number, _ion: number): Promise<ISpectrum[]> => {
     const number = sanitize(_number)
     const ion = sanitize(_ion)
     const atom = getAtom(number)
 
-    const request = cachedRequest(
-        find,
-        getCacheKey(COLLECTION.SPECTRA, number, ion),
-        {
-            ttl: DAY_IN_SECONDS * 30,
-        },
-    )
+    const request = cachedRequest(find, getCacheKey(COLLECTION.SPECTRA, number, ion), {
+        ttl: DAY_IN_SECONDS * 30,
+    })
     const result = await request(atom, ion)
     Logger.info('🤟 spectra query has been finished')
     return result
@@ -86,9 +79,7 @@ const requestNIST = async (atom: Atom, ion: number) => {
         cache: 'force-cache',
     }).then((response) => {
         if (response.status >= 400) {
-            Logger.error(
-                `⛈️ Failed to request NIST -- atom:${atom.number}, ion:${ion}`,
-            )
+            Logger.error(`⛈️ Failed to request NIST -- atom:${atom.number}, ion:${ion}`)
             return ''
         }
         return response.text()
@@ -226,9 +217,7 @@ const createRawData = (param: {
     const conf = getConfArray(filterValue(param.conf))
     const positionMatch = /[0-9]+/.exec(conf[conf.length - 1])
     const orbitalMatch = /[a-z]+/.exec(conf[conf.length - 1]) || ['@']
-    const orbitalIndex = orbitalKeys.indexOf(
-        orbitalMatch[0] as (typeof orbitalKeys)[number],
-    )
+    const orbitalIndex = orbitalKeys.indexOf(orbitalMatch[0] as (typeof orbitalKeys)[number])
     const orbital = orbitalKeys[orbitalIndex]
 
     if (!positionMatch || !orbital) {

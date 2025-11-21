@@ -1,7 +1,7 @@
 import sanitize from 'mongo-sanitize'
 import mongoose from 'mongoose'
 /* Models */
-import Logger from '@src/utils/logger'
+import { Logger } from '@sujin/share/model/Logger'
 import { Post } from '@src/schema/post'
 /* Utils */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
@@ -9,10 +9,7 @@ import { post as getPost } from '@src/resolvers/wordpress/posts/post'
 import { recent } from '@src/resolvers/wordpress/posts/recent'
 /* CONSTANTS */
 import { POST_STATUS, COLLECTION } from '@sujin/lib/constants'
-import {
-    AGGREGATE_ARCHIVE_POST,
-    AGGREGATE_EXPAND_ARCHIVES,
-} from '@src/constants'
+import { AGGREGATE_ARCHIVE_POST, AGGREGATE_EXPAND_ARCHIVES } from '@src/constants'
 /* T_Types */
 import type { T_ArchivePost } from '@sujin/lib/types'
 
@@ -29,10 +26,7 @@ import type { T_ArchivePost } from '@sujin/lib/types'
  */
 export const related = async (_slug: string): Promise<T_ArchivePost[]> => {
     const slug = sanitize(_slug)
-    const request = cachedRequest(
-        query,
-        getCacheKey(COLLECTION.POST, slug, 'related'),
-    )
+    const request = cachedRequest(query, getCacheKey(COLLECTION.POST, slug, 'related'))
     const result = await request(slug)
     Logger.info('🤟 related query has been finished')
     return result
@@ -49,9 +43,7 @@ const query = async (slug: string): Promise<T_ArchivePost[]> => {
     const post = await getPost(slug)
     const result: Record<number, T_ArchivePost> = {}
 
-    const archive_ids = post.archives.map(
-        (archive) => new mongoose.Types.ObjectId(archive._id),
-    )
+    const archive_ids = post.archives.map((archive) => new mongoose.Types.ObjectId(archive._id))
 
     await Post.aggregate<T_ArchivePost>([
         {

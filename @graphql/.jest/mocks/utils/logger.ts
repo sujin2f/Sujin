@@ -1,3 +1,5 @@
 export default {
-    info: jest.fn(),
+    Logger: {
+        info: jest.fn(),
+    },
 }

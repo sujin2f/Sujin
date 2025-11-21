@@ -1,14 +1,11 @@
 /* Models */
-import Logger from '@src/utils/logger'
+import { Logger } from '@sujin/share/model/Logger'
 import { Post } from '@src/schema/post'
 /* Utils */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 /* CONSTANTS */
 import { POST_STATUS, COLLECTION, PER_PAGE } from '@sujin/lib/constants'
-import {
-    AGGREGATE_ARCHIVE_POST,
-    AGGREGATE_EXPAND_ARCHIVES,
-} from '@src/constants'
+import { AGGREGATE_ARCHIVE_POST, AGGREGATE_EXPAND_ARCHIVES } from '@src/constants'
 /* T_Types */
 import type { T_ArchivePost } from '@sujin/lib/types'
 
@@ -35,10 +32,7 @@ const query = async (): Promise<T_ArchivePost[]> => {
  * @returns A promise resolving to an array of recent `T_ArchivePost` items.
  */
 export const recent = async (): Promise<T_ArchivePost[]> => {
-    const request = cachedRequest(
-        query,
-        getCacheKey(COLLECTION.ARCHIVE, 'recent'),
-    )
+    const request = cachedRequest(query, getCacheKey(COLLECTION.ARCHIVE, 'recent'))
     const result = await request()
     Logger.info('🤟 recent query has been finished')
     return result

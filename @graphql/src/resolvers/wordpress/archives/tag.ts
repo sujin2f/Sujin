@@ -1,7 +1,7 @@
 import sanitize from 'mongo-sanitize'
 import { GraphQLError } from 'graphql'
 /* Models */
-import Logger from '@src/utils/logger'
+import { Logger } from '@sujin/share/model/Logger'
 import { Archive } from '@src/schema/archive'
 /* Utils */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'

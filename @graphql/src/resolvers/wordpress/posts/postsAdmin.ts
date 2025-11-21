@@ -2,14 +2,11 @@ import { Types } from 'mongoose'
 import { GraphQLError } from 'graphql'
 import sanitize from 'mongo-sanitize'
 /* Models */
-import Logger from '@src/utils/logger'
+import { Logger } from '@sujin/share/model/Logger'
 import { Post } from '@src/schema/post'
 /* CONSTANTS */
 import { PER_PAGE } from '@sujin/lib/constants'
-import {
-    AGGREGATE_ARCHIVE_POST,
-    AGGREGATE_EXPAND_ARCHIVES,
-} from '@src/constants'
+import { AGGREGATE_ARCHIVE_POST, AGGREGATE_EXPAND_ARCHIVES } from '@src/constants'
 /* Utils */
 import { category as getCategory } from '@src/resolvers/wordpress/archives/category'
 import { verifyAdmin } from '@src/utils/security'
@@ -27,12 +24,8 @@ import type { T_Post } from '@sujin/lib/types'
  * @returns A page of `T_Post` documents belonging to the archive.
  * @throws {GraphQLError} When no posts are found for the archive.
  */
-export const postsAdmin = async (
-    _slug: string,
-    _page: number,
-    token: string,
-): Promise<T_Post[]> => {
-    verifyAdmin(token, 'postsAdmin query has been called by non admin user')
+export const postsAdmin = async (_slug: string, _page: number, token: string): Promise<T_Post[]> => {
+    await verifyAdmin(token, 'postsAdmin query has been called by non admin user')
 
     const slug = sanitize(_slug)
     const page = sanitize(_page)
@@ -51,14 +44,11 @@ export const postsAdmin = async (
         ...AGGREGATE_ARCHIVE_POST,
     ]).then((result) => {
         if (!result || !result.length) {
-            throw new GraphQLError(
-                `Cannot find the post from archive ${slug}`,
-                {
-                    extensions: {
-                        code: 'NO_CONTENT',
-                    },
+            throw new GraphQLError(`Cannot find the post from archive ${slug}`, {
+                extensions: {
+                    code: 'NO_CONTENT',
                 },
-            )
+            })
         }
         return result
     })

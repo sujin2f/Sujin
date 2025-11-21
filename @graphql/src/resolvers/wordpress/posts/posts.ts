@@ -2,19 +2,11 @@ import { Types } from 'mongoose'
 import { GraphQLError } from 'graphql'
 import sanitize from 'mongo-sanitize'
 /* Models */
-import Logger from '@src/utils/logger'
+import { Logger } from '@sujin/share/model/Logger'
 import { Post } from '@src/schema/post'
 /* CONSTANTS */
-import {
-    PER_PAGE,
-    COLLECTION,
-    POST_STATUS,
-    ARCHIVE,
-} from '@sujin/lib/constants'
-import {
-    AGGREGATE_ARCHIVE_POST,
-    AGGREGATE_EXPAND_ARCHIVES,
-} from '@src/constants'
+import { PER_PAGE, COLLECTION, POST_STATUS, ARCHIVE } from '@sujin/lib/constants'
+import { AGGREGATE_ARCHIVE_POST, AGGREGATE_EXPAND_ARCHIVES } from '@src/constants'
 /* Utils */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 import { category as getCategory } from '@src/resolvers/wordpress/archives/category'
@@ -35,17 +27,12 @@ import { tag } from '../archives/tag'
  * @param _page - Page number (1-based).
  * @returns An object containing `items` (posts) and `numPages`.
  */
-export const posts = async (
-    _type: ARCHIVE,
-    _slug: string,
-    _page: number,
-): Promise<WithNumPages<T_Post, 'items'>> => {
+export const posts = async (_type: ARCHIVE, _slug: string, _page: number): Promise<WithNumPages<T_Post, 'items'>> => {
     const type = sanitize(_type)
     const slug = sanitize(_slug)
     const page = sanitize(_page)
 
-    const archive =
-        type === ARCHIVE.CATEGORY ? await getCategory(slug) : await tag(slug)
+    const archive = type === ARCHIVE.CATEGORY ? await getCategory(slug) : await tag(slug)
     const $match = {
         archives: { $in: [new Types.ObjectId(archive._id)] },
         status: POST_STATUS.PUBLISH,
@@ -62,14 +49,11 @@ export const posts = async (
                 ...AGGREGATE_ARCHIVE_POST,
             ]).then((result) => {
                 if (!result || !result.length) {
-                    throw new GraphQLError(
-                        `Cannot find the post from archive ${slug}`,
-                        {
-                            extensions: {
-                                code: 'NO_CONTENT',
-                            },
+                    throw new GraphQLError(`Cannot find the post from archive ${slug}`, {
+                        extensions: {
+                            code: 'NO_CONTENT',
                         },
-                    )
+                    })
                 }
                 return result
             })

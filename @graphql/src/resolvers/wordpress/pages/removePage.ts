@@ -1,6 +1,6 @@
 import sanitize from 'mongo-sanitize'
 /* Models */
-import Logger from '@src/utils/logger'
+import { Logger } from '@sujin/share/model/Logger'
 import { Page } from '@src/schema/post'
 import Cached from '@sujin/share/model/Cache'
 /* CONSTANTS */
@@ -16,14 +16,8 @@ import { verifyAdmin } from '@src/utils/security'
  * @param token - Admin GraphQL JWT.
  * @returns An empty array on success.
  */
-export const removePage = async (
-    _slug: string,
-    token: string,
-): Promise<boolean[]> => {
-    verifyAdmin(
-        token,
-        'removePage mutation query has been called by non admin user',
-    )
+export const removePage = async (_slug: string, token: string): Promise<boolean[]> => {
+    await verifyAdmin(token, 'removePage mutation query has been called by non admin user')
     const slug = sanitize(_slug)
     await Page.deleteOne({ slug })
     await Cached.getInstance().flush(getCacheKey(COLLECTION.PAGE, slug))
