@@ -1,6 +1,6 @@
 'use server'
 import { client } from '@lib/apollo/apollo-client-server'
-import { getSessionContext } from '@lib/utils/session'
+import { getAuthHeader } from '@lib/utils/server'
 import CATEGORY_MUTATION from '@lib/apollo/queries/wordpress/archives/refreshCategory.graphql'
 
 export const refreshCategory = async (slug: string) => {
@@ -10,7 +10,7 @@ export const refreshCategory = async (slug: string) => {
             variables: {
                 slug,
             },
-            context: await getSessionContext(),
+            context: await getAuthHeader(),
         })
         .then((result) => {
             if (!result.data) {

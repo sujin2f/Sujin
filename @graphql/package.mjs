@@ -89,7 +89,6 @@ const restoreFiles = async () => {
     await fs.promises.copyFile(path.join(dirTemp, files.webpack), path.join(files.webpack))
 
     await fs.promises.rm(dirModule, { recursive: true, force: true })
-    await fs.promises.rm(dirTemp, { recursive: true, force: true })
 }
 
 await createDirectories()

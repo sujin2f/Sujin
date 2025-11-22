@@ -52,19 +52,6 @@ export function middleware(request: NextRequest) {
     const pathname = request.nextUrl.pathname
     const origin = request.nextUrl.origin
 
-    // Login
-    if (pathname.startsWith('/auth/login')) {
-        const headers = new Headers(request.headers)
-        headers.set('x-origin', origin)
-        const response = NextResponse.next({
-            request: {
-                headers,
-            },
-        })
-        response.headers.set('x-origin', origin)
-        return response
-    }
-
     // Archive redirection
     const responseArchive = redirectArchive(pathname, origin)
     if (responseArchive) {

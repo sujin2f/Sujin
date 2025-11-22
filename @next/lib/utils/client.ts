@@ -1,10 +1,6 @@
-import { signIn, signOut } from 'next-auth/react'
 import { DEFAULT_THUMBNAIL } from '@lib/constants'
 import { IMAGE_SIZE } from '@sujin/lib/constants'
 import type { T_PostImages, T_ImageBlock } from '@sujin/lib/types'
-
-export const handleSignIn = () => signIn('sujin')
-export const handleSignOut = () => signOut() // TODO remove GQL token
 
 export const getThumbnailFromPost = (images: T_PostImages, size: IMAGE_SIZE) => {
     if (!images) return DEFAULT_THUMBNAIL

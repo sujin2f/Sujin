@@ -23,11 +23,7 @@ export const metadata: Metadata = {
 }
 
 export default async function AboutPage() {
-    const post = await cachedGQLRequest<{ page: T_Post }>(
-        PAGE_QUERY,
-        { slug: 'about' },
-        [COLLECTION.PAGE, 'about'],
-    )
+    const post = await cachedGQLRequest<{ page: T_Post }>(PAGE_QUERY, { slug: 'about' }, [COLLECTION.PAGE, 'about'])
         .then((result) => {
             if (!result.data || !result.data.page) {
                 notFound()
@@ -50,11 +46,7 @@ export default async function AboutPage() {
             backgroundColor={post.meta?.backgroundColor}
         >
             <Content post={post} type="page">
-                <SocialShare
-                    title={post.title}
-                    excerpt={post.excerpt}
-                    thumbnail={thumbnail}
-                />
+                <SocialShare title={post.title} excerpt={post.excerpt} thumbnail={thumbnail} />
             </Content>
         </Wrapper>
     )

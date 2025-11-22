@@ -3,9 +3,10 @@ import axios from 'axios'
 import jwt from 'jsonwebtoken'
 
 import { Logger } from '@sujin/share/model/Logger'
-import { DAY_IN_SECONDS, HOUR_IN_SECONDS, SECOND_IN_MS } from '@sujin/share/constants/datetime'
+import { SECOND_IN_MS } from '@sujin/share/constants/datetime'
 import { gqlLogin } from '@src/gqlRequest'
 import type { T_Token } from '@sujin/lib/types'
+import { ACCESS_TOKEN_LIFETIME, REFRESH_TOKEN_LIFETIME } from '@sujin/lib/constants'
 
 declare module 'express-session' {
     interface SessionData {
@@ -105,8 +106,8 @@ routes.get(redirectPath, async (req, res) => {
         exp: 0,
     }
 
-    const accessToken = jwt.sign({ ...tokenInfo, exp: iat + 3 * HOUR_IN_SECONDS }, ACCESS_SECRET)
-    const refreshToken = jwt.sign({ ...tokenInfo, exp: iat + 30 * DAY_IN_SECONDS }, REFRESH_SECRET)
+    const accessToken = jwt.sign({ ...tokenInfo, exp: iat + ACCESS_TOKEN_LIFETIME }, ACCESS_SECRET)
+    const refreshToken = jwt.sign({ ...tokenInfo, exp: iat + REFRESH_TOKEN_LIFETIME }, REFRESH_SECRET)
 
     // Redirect to destination
     res.cookie('x-token-at', accessToken, { maxAge: 20 * SECOND_IN_MS })

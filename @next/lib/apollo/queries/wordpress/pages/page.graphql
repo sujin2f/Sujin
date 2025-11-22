@@ -63,9 +63,5 @@ query Page($slug: String!) {
                 }
             }
         }
-        archives {
-            title
-            type
-        }
     }
 }

@@ -27,6 +27,16 @@
             "@sujin/share/*": ["../@common/src/*"]
         }
     },
-    "include": ["**/*.ts", "**/*.tsx", "@next/next-env.d.ts", ".next/types/**/*.ts"],
+    "include": [
+        "**/*.ts",
+        "**/*.tsx",
+        "@next/next-env.d.ts",
+        ".next/types/**/*.ts",
+        "app/auth/login/page.tsx.bak",
+        "app/auth/login/[...referer]/page.tsx.bak",
+        "app/auth/login/[...referer]/Login.client.tsx.bak",
+        "app/auth/redirect/[...referer]/page.tsx.bak",
+        "app/auth/redirect/page.tsx.bak"
+    ],
     "exclude": ["node_modules", "wordpress"]
 }

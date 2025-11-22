@@ -1,6 +1,6 @@
 'use server'
 import { client } from '@lib/apollo/apollo-client-server'
-import { getSessionContext } from '@lib/utils/session'
+import { getAuthHeader } from '@lib/utils/server'
 import SINGLE_MUTATION from '@lib/apollo/queries/wordpress/pages/refreshPage.graphql'
 
 export const refreshPage = async (slug: string) => {
@@ -8,7 +8,7 @@ export const refreshPage = async (slug: string) => {
         .mutate({
             mutation: SINGLE_MUTATION,
             variables: { slug },
-            context: await getSessionContext(),
+            context: await getAuthHeader(),
         })
         .then((result) => {
             if (!result.data) {

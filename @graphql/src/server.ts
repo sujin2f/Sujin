@@ -34,15 +34,15 @@ const server = new ApolloServer({
     ],
 })
 
+const origin = process.env.CORS_ORIGINS ? JSON.parse(process.env.CORS_ORIGINS) : ['*']
 const corsOptions = {
-    origin: [process.env.CORS_ORIGIN || '*'],
+    origin,
     credentials: true,
     methods: ['POST'],
     allowedHeaders: ['Content-Type', 'Authorization'],
 }
 
 const authenticateUser = (req: express.Request): string => {
-    Logger.info('requested')
     const authorizationHeader = req.headers.authorization
     if (!authorizationHeader || !authorizationHeader.startsWith('Bearer ')) {
         return ''

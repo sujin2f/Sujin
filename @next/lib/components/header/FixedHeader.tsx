@@ -1,7 +1,6 @@
 'use client'
 import { useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 /* Components */
 import { TopBar } from '@common/components/layout/TopBar'
@@ -12,7 +11,7 @@ import Hamburger from '@lib/components/header/Hamburger'
 import Search from '@lib/components/header/Search'
 import Button from '@common/components/forms/Button'
 /* Utils */
-// import { handleSignIn, handleSignOut } from '@lib/utils/client'
+import { useUserInfo } from '@lib/hooks/useUserInfo'
 /* CONSTANTS */
 import { MENUS } from '@lib/constants'
 import { MENU_NAMES } from '@sujin/lib/constants'
@@ -38,13 +37,7 @@ type Props = {
  */
 const FixedHeader = ({ className, ...props }: Props) => {
     const router = useRouter()
-
-    // TODO session
-    // const session = null
-    // try {
-    //     // eslint-disable-next-line react-hooks/rules-of-hooks -- Error from Error boundary
-    //     session = useSession()
-    // } catch {}
+    const user = useUserInfo()
     const menu = MENUS[props.menu]
     const [scrolled, setScrolled] = useState('')
 
@@ -63,6 +56,13 @@ const FixedHeader = ({ className, ...props }: Props) => {
         window.addEventListener('scroll', handleScrolled)
         return () => window.removeEventListener('scroll', handleScrolled)
     }, [handleScrolled])
+
+    const pathname =
+        typeof window !== 'undefined'
+            ? !window.location.pathname || window.location.pathname === '/'
+                ? 'root'
+                : window.location.pathname
+            : ''
 
     return (
         <TopBar fixed fullWidth className={className}>
@@ -102,29 +102,17 @@ const FixedHeader = ({ className, ...props }: Props) => {
                         </a>
                     </nav>
 
-                    {/* {session?.data?.user ? ( */}
-                    {false ? (
-                        <></>
+                    {user ? (
+                        <Button className="profile" onClick={() => router.push(`/auth/logout/${encodeURI(pathname)}`)}>
+                            {user.picture && (
+                                <picture>
+                                    <img src={user.picture} alt={'Profile'} width={35} height={35} loading="lazy" />
+                                </picture>
+                            )}
+                            <span>Logout</span>
+                        </Button>
                     ) : (
-                        // <Button className="profile" onClick={handleSignOut}>
-                        //     {session.data.user.image && (
-                        //         <picture>
-                        //             <img
-                        //                 src={session.data.user.image}
-                        //                 alt={'Profile'}
-                        //                 width={35}
-                        //                 height={35}
-                        //                 loading="lazy"
-                        //             />
-                        //         </picture>
-                        //     )}
-                        //     <span>Logout</span>
-                        // </Button>
-                        <Button
-                            className="profile"
-                            onClick={() => router.push(`/auth/login/${encodeURI(window.location.pathname)}`)}
-                        >
-                            {/* onClick={handleSignIn}> */}
+                        <Button className="profile" onClick={() => router.push(`/auth/login/${encodeURI(pathname)}`)}>
                             <picture>
                                 <source
                                     media="(max-width: 599px)"
