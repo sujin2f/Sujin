@@ -167,10 +167,3 @@ Recommendation & checklist:
 
 -   This is a personal project — include your preferred license here (e.g., MIT) or keep proprietary notes.
 
-```mermaid
-C4Context
-    title System Context Diagram
-
-    Person(customer, Visitor, $tags="v1.0")
-
-```
