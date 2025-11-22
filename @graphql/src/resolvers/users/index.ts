@@ -2,7 +2,7 @@ import { login } from '@src/resolvers/users/login'
 import { isAdmin } from '@src/resolvers/users/isAdmin'
 
 import type { T_Context } from '@src/types'
-import { T_GQL_Params_Login } from '@sujin/lib/types/gql'
+import type { T_GoogleUser } from '@sujin/lib/types'
 
 /**
  * User-related GraphQL resolvers.
@@ -11,7 +11,7 @@ import { T_GQL_Params_Login } from '@sujin/lib/types/gql'
  */
 export const users = {
     Mutation: {
-        login: async (_: unknown, { email }: T_GQL_Params_Login) => await login(email),
+        login: async (_: unknown, user: T_GoogleUser, context: T_Context) => await login(user, context.res),
         isAdmin: (_: unknown, __: unknown, context: T_Context) => isAdmin(context.token),
     },
 }

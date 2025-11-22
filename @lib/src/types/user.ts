@@ -6,11 +6,19 @@ export type T_User = {
     admin: boolean
 }
 
-export type T_UserSub = T_User & {
+/**
+ * User info from Google
+ */
+export type T_GoogleUser = {
     name: string
-    picture: string
     email: string
+    picture: string
 }
+
+/**
+ * User info in tokens
+ */
+export type T_UserSub = T_User & T_GoogleUser
 
 /**
  * Access token
@@ -30,33 +38,4 @@ export type T_Parsed_Token = {
     iat: number
     exp: number
     sub: T_UserSub
-}
-
-/**
- * result of login mutation
- */
-export type T_Token_Return = {
-    _id: string // user id
-    accessToken: string // Access token
-}
-
-/**
- * Token from Google login
- * for creating Access token
- */
-export type T_NextToken = {
-    name: string
-    email: string
-    picture?: string
-}
-
-/**
- * Next server session
- */
-export type T_Session = {
-    accessToken: string // Access token
-    _id: string
-    name: string
-    email: string
-    picture?: string
 }

@@ -4,7 +4,9 @@ import { Logger } from '@sujin/share/model/Logger'
 /* Utils */
 import { isUserAdmin } from '@src/utils/mysql/isUserAdmin'
 /* T_Types */
-import type { T_Parsed_Token } from '@sujin/lib/types'
+import type { T_Parsed_Token, T_Token, T_UserSub } from '@sujin/lib/types'
+import { SECOND_IN_MS } from '@sujin/share/constants/datetime'
+import { REFRESH_TOKEN_LIFETIME } from '@sujin/lib/constants'
 
 /**
  * Security helper utilities for JWT verification and secret retrieval.
@@ -12,6 +14,7 @@ import type { T_Parsed_Token } from '@sujin/lib/types'
  * Contains functions used by resolvers and API routes to validate JSON
  * Web Tokens (JWTs) and to fetch secrets from environment variables.
  */
+
 /**
  * Verify a GraphQL JWT and return the decoded token payload.
  *
@@ -88,11 +91,14 @@ export const verifyAdmin = async (gqlToken: string, message: string): Promise<bo
  * @returns The secret string from the environment.
  * @throws {Error} If the requested secret is not set in the environment.
  */
-export const getSecret = (type: 'access' | 'email'): string => {
+export const getSecret = (type: 'access' | 'refresh' | 'email'): string => {
     let secret = ''
     switch (type) {
         case 'access':
             secret = `${process.env.ACCESS_SECRET}`
+            break
+        case 'refresh':
+            secret = `${process.env.REFRESH_SECRET}`
             break
         case 'email':
             secret = `${process.env.EMAIL_SECRET}`
@@ -103,4 +109,15 @@ export const getSecret = (type: 'access' | 'email'): string => {
         throw new Error(`Missing secret for type: ${type}`)
     }
     return secret
+}
+
+export const createRefreshToken = (user: T_UserSub): string => {
+    const iat = new Date().getTime() / SECOND_IN_MS
+    const payload: T_Token = {
+        iss: 'https://sujinc.com',
+        iat,
+        exp: iat + REFRESH_TOKEN_LIFETIME,
+        sub: JSON.stringify(user),
+    }
+    return jwt.sign(payload, getSecret('refresh'))
 }

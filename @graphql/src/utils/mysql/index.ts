@@ -20,12 +20,18 @@ const mysqlConnect = async (): Promise<mysqld.Connection> => {
         return global.mysql
     }
 
+    const host = `${process.env.MYSQL}`
+    const user = `${process.env.MYSQL_USER}`
+    const password = `${process.env.MYSQL_PASSWORD}`
+    const database = `${process.env.MYSQL_DB}`
+    const port = parseInt(process.env.MYSQL_PORT || '3306')
+
     const connection = mysqld.createConnection({
-        host: process.env.MYSQL || 'localhost',
-        user: process.env.MYSQL_USER || 'MYSQL_USER',
-        password: process.env.MYSQL_PASSWORD || 'MYSQL_PASSWORD',
-        database: process.env.MYSQL_DB || 'wordpress',
-        port: 3306,
+        host,
+        user,
+        password,
+        database,
+        port,
     })
 
     global.mysql = await connection
