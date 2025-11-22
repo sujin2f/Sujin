@@ -3,7 +3,7 @@ import axios from 'axios'
 import jwt from 'jsonwebtoken'
 
 import { Logger } from '@sujin/share/model/Logger'
-import { DAY_IN_SECONDS, HOUR_IN_SECONDS, MINUTE_IN_SECONDS, SECOND_IN_MS } from '@sujin/share/constants/datetime'
+import { DAY_IN_SECONDS, HOUR_IN_SECONDS, SECOND_IN_MS } from '@sujin/share/constants/datetime'
 import { gqlLogin } from '@src/gqlRequest'
 import type { T_Token } from '@sujin/lib/types'
 
@@ -16,14 +16,26 @@ declare module 'express-session' {
 const routes = express.Router()
 
 const CLIENT_ID = process.env.GOOGLE_CLIENT_ID
-const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET
+const CLIENT_SECRET = `${process.env.GOOGLE_CLIENT_SECRET}`
+const ACCESS_SECRET = `${process.env.ACCESS_SECRET}`
+const REFRESH_SECRET = `${process.env.REFRESH_SECRET}`
 const REDIRECT_URI = `${process.env.REDIRECT_URI}`
 const OAUTH_URL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=profile email`
 
 routes.get('/auth', (req, res) => {
     // Store redirect URL from request
-    const { redirect } = req.query
-    req.session.redirect = JSON.stringify(redirect)
+    const { redirect, token: _token } = req.query
+    if (!redirect || !_token) {
+        res.status(404).send('You are Sorry.')
+        return
+    }
+
+    // Verify token & save redirect to session
+    // TODO error handling
+    jwt.verify(_token as string, ACCESS_SECRET)
+    req.session.redirect = redirect as string
+
+    Logger.info('🤟 Start user authentication')
     res.redirect(OAUTH_URL)
 })
 
@@ -31,8 +43,12 @@ const redirectPath = new URL(REDIRECT_URI).pathname
 // Callback URL for handling the Google Login response
 routes.get(redirectPath, async (req, res) => {
     const { code } = req.query
-    // // TODO default URL
-    // const redirect = req.session.redirect || 'http://localhost:8000'
+    const redirect = req.session.redirect
+
+    if (!redirect) {
+        res.status(404).send('You are Sorry.')
+        return
+    }
 
     let profile
     try {
@@ -56,18 +72,20 @@ routes.get(redirectPath, async (req, res) => {
     } catch (e) {
         Logger.error('🤬 Fetching Google token has been failed: ', JSON.stringify(e))
         // TODO Error
-        res.redirect('http://localhost:8010')
+        res.redirect(decodeURI(redirect))
         return
     }
 
-    const user = await gqlLogin(profile.email).catch(() => {
+    const user = await gqlLogin(profile.email).catch((e) => {
+        Logger.error('🤬 Fetching GQL has been failed: ', JSON.stringify(e))
         // TODO Error
-        res.redirect('http://localhost:8010')
+        res.redirect(decodeURI(redirect))
     })
 
     if (!user) {
         // TODO Error
-        res.redirect('http://localhost:8010')
+        Logger.error('🤬 User does not exist.')
+        res.redirect(decodeURI(redirect))
         return
     }
 
@@ -83,31 +101,18 @@ routes.get(redirectPath, async (req, res) => {
     const tokenInfo: T_Token = {
         iss: 'https://sujinc.com',
         iat,
-        exp: iat + 3 * HOUR_IN_SECONDS,
         sub,
+        exp: 0,
     }
 
-    const accessToken = jwt.sign(tokenInfo, `${process.env.ACCESS_SECRET}`, {
-        expiresIn: '3h',
-    })
-    const refreshToken = jwt.sign({ ...tokenInfo, exp: iat + 30 * DAY_IN_SECONDS }, `${process.env.REFRESH_SECRET}`, {
-        expiresIn: '30d',
-    })
-    const token = jwt.sign(
-        {
-            accessToken,
-            refreshToken,
-            exp: iat + 10 * MINUTE_IN_SECONDS,
-        },
-        `${process.env.ACCESS_SECRET}`,
-        {
-            expiresIn: '10m',
-        },
-    )
+    const accessToken = jwt.sign({ ...tokenInfo, exp: iat + 3 * HOUR_IN_SECONDS }, ACCESS_SECRET)
+    const refreshToken = jwt.sign({ ...tokenInfo, exp: iat + 30 * DAY_IN_SECONDS }, REFRESH_SECRET)
 
     // Redirect to destination
-    res.setHeader('Authentication', `Bearer ${token}`)
-    res.redirect('http://localhost:8010')
+    res.cookie('x-token-at', accessToken, { maxAge: 20 * SECOND_IN_MS })
+    res.cookie('x-token-rt', refreshToken, { maxAge: 20 * SECOND_IN_MS })
+    Logger.info('🤟 User authentication!')
+    res.redirect(decodeURI(redirect))
 })
 
 export const authRoutes = routes

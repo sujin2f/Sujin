@@ -60,7 +60,6 @@ const ubuntu = Ubuntu({
  * @param {ReactNode} props.children - The content to be wrapped by the layout.
  */
 export default async function AppLayout({ children }: PropsWithChildren) {
-    const session = await getSession()
     const adSense = process.env.NEXT_PUBLIC_GOOGLE_AD_CLIENT ? (
         <Script
             async
@@ -75,15 +74,11 @@ export default async function AppLayout({ children }: PropsWithChildren) {
             <head>{adSense}</head>
             <body className={ubuntu.className}>
                 <Suspense fallback={<Loading />}>
-                    <SessionProvider session={session}>
-                        <ApolloProvider>
-                            <ReduxProvider>
-                                <ErrorBoundary errorComponent={Error}>
-                                    {children}
-                                </ErrorBoundary>
-                            </ReduxProvider>
-                        </ApolloProvider>
-                    </SessionProvider>
+                    <ApolloProvider>
+                        <ReduxProvider>
+                            <ErrorBoundary errorComponent={Error}>{children}</ErrorBoundary>
+                        </ReduxProvider>
+                    </ApolloProvider>
                 </Suspense>
             </body>
         </html>

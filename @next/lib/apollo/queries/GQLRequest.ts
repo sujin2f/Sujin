@@ -1,5 +1,5 @@
 'use server'
-import { DocumentNode } from 'graphql'
+import { DocumentNode } from '@apollo/client'
 import { unstable_cache } from 'next/cache'
 /* Models */
 import { client } from '@lib/apollo/apollo-client-server'

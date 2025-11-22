@@ -5,9 +5,9 @@ import { use, useState } from 'react'
 import { default as TableComponent } from '@common/components/containers/Table'
 import { Paging } from '@lib/components/archive/Paging'
 /* T_Types */
-import type { WithNumPages, T_Recipe, T_User } from '@sujin/lib/types'
+import type { WithNumPages, T_Recipe } from '@sujin/lib/types'
 import { QuantumBool } from '@sujin/share/types'
-import { useSession } from 'next-auth/react'
+// import { useSession } from 'next-auth/react'
 import { useRecipeDelete } from '@lib/hooks/useRecipeDelete'
 
 type Props = {
@@ -17,10 +17,12 @@ type Props = {
 }
 
 export function Table({ promise, mine, page }: Props) {
-    const session = useSession()
-    const userId = session?.data?.user
-        ? (session?.data?.user as T_User)._id
-        : undefined
+    // TODO session
+    // const session = useSession()
+    // const userId = session?.data?.user
+    //     ? (session?.data?.user as T_User)._id
+    //     : undefined
+    const userId = undefined
     const { items, numPages } = use(promise)
     const [_id, set_id] = useState<string>('')
     const { setConfirm, Confirm } = useRecipeDelete(_id)

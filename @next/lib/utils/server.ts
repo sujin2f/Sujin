@@ -2,8 +2,6 @@ import { headers } from 'next/headers'
 
 import type { Nullable } from '@sujin/share/types'
 import { Metadata, METADATA } from '@lib/constants'
-import { PER_PAGE } from '@lib/constants'
-import { COLLECTION } from '@sujin/lib/constants'
 
 /**
  * Retrieves the current pathname from the headers.
@@ -14,8 +12,7 @@ import { COLLECTION } from '@sujin/lib/constants'
  * @async
  * @returns {Promise<Nullable<string>>} The pathname as a string if found, otherwise `undefined`.
  */
-const getPathName = async (): Promise<Nullable<string>> =>
-    (await headers()).get('x-pathname') || undefined
+const getPathName = async (): Promise<Nullable<string>> => (await headers()).get('x-pathname') || undefined
 
 /**
  * Retrieves metadata based on the current pathname.
@@ -35,75 +32,4 @@ export const getMetaData = async (): Promise<Metadata> => {
         throw Error('Cannot get metadata.')
     }
     return METADATA[path]
-}
-
-export const getAggregation = (
-    key: 'paging' | '_id' | 'expand-archive' | 'to-archive-post',
-    ...arr: (string | number)[]
-) => {
-    switch (key) {
-        case 'paging':
-            if (typeof arr[0] === 'number') {
-                return [
-                    {
-                        $sort: { date: -1 },
-                    },
-                    {
-                        $skip: PER_PAGE * (arr[0] - 1),
-                    },
-                    {
-                        $limit: PER_PAGE,
-                    },
-                ]
-            }
-
-        case '_id':
-            if (arr[0]) {
-                return [
-                    {
-                        $addFields: {
-                            [arr[0]]: { $toString: `$${arr[0]}` },
-                        },
-                    },
-                ]
-            }
-
-            return [
-                {
-                    $addFields: {
-                        _id: { $toString: '$_id' },
-                    },
-                },
-            ]
-
-        case 'expand-archive':
-            return [
-                {
-                    $lookup: {
-                        from: COLLECTION.ARCHIVE,
-                        localField: 'archives',
-                        foreignField: '_id',
-                        as: 'archives',
-                        pipeline: [
-                            {
-                                $addFields: {
-                                    _id: { $toString: '$_id' },
-                                },
-                            },
-                        ],
-                    },
-                },
-            ]
-        case 'to-archive-post':
-            return [
-                {
-                    $project: {
-                        content: 0,
-                        meta: 0,
-                    },
-                },
-            ]
-    }
-
-    return []
 }

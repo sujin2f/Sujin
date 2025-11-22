@@ -12,7 +12,7 @@ import type { ISpectrum } from '@app/ether/data/types'
 /* Utils */
 // TODO
 import { fetchGQL } from '@sujin/common/data/graphql/fetchGQL'
-import GQL from '../../../api/graphql/_lib/constants'
+import GQL from '../../../auth/graphql/_lib/constants'
 /* Models */
 import { DataContainer } from '@app/ether/data/models/DataContainer'
 
