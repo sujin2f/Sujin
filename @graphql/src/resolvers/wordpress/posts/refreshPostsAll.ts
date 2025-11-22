@@ -1,7 +1,7 @@
 import { Types } from 'mongoose'
 import sanitize from 'mongo-sanitize'
 /* Models */
-import Logger from '@src/utils/logger'
+import { Logger } from '@sujin/share/model/Logger'
 import Cached from '@sujin/share/model/Cache'
 /* CONSTANTS */
 import { POST_TYPE, COLLECTION } from '@sujin/lib/constants'
@@ -27,14 +27,8 @@ import { mysqlDisconnect } from '@src/utils/mysql'
  * @param token - Admin GraphQL JWT token.
  * @returns An empty boolean array (placeholder) when done.
  */
-export const refreshPostsAll = async (
-    _page: number,
-    token: string,
-): Promise<boolean[]> => {
-    verifyAdmin(
-        token,
-        'refreshPostsAll mutation has been called by non admin user',
-    )
+export const refreshPostsAll = async (_page: number, token: string): Promise<boolean[]> => {
+    await verifyAdmin(token, 'refreshPostsAll mutation has been called by non admin user')
     const page = sanitize(_page)
 
     await getPosts(POST_TYPE.POST, page).then(async (result) => {

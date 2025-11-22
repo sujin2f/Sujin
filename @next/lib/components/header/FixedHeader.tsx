@@ -1,6 +1,6 @@
 'use client'
 import { useCallback, useEffect, useState } from 'react'
-import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 /* Components */
 import { TopBar } from '@common/components/layout/TopBar'
@@ -11,7 +11,7 @@ import Hamburger from '@lib/components/header/Hamburger'
 import Search from '@lib/components/header/Search'
 import Button from '@common/components/forms/Button'
 /* Utils */
-import { handleSignIn, handleSignOut } from '@lib/utils/client'
+import { useUserInfo } from '@lib/hooks/useUserInfo'
 /* CONSTANTS */
 import { MENUS } from '@lib/constants'
 import { MENU_NAMES } from '@sujin/lib/constants'
@@ -36,11 +36,8 @@ type Props = {
  * @param {string} props.menu - The menu items to be displayed in the top bar.
  */
 const FixedHeader = ({ className, ...props }: Props) => {
-    let session
-    try {
-        // eslint-disable-next-line react-hooks/rules-of-hooks -- Error from Error boundary
-        session = useSession()
-    } catch {}
+    const router = useRouter()
+    const user = useUserInfo()
     const menu = MENUS[props.menu]
     const [scrolled, setScrolled] = useState('')
 
@@ -60,6 +57,13 @@ const FixedHeader = ({ className, ...props }: Props) => {
         return () => window.removeEventListener('scroll', handleScrolled)
     }, [handleScrolled])
 
+    const pathname =
+        typeof window !== 'undefined'
+            ? !window.location.pathname || window.location.pathname === '/'
+                ? 'root'
+                : window.location.pathname
+            : ''
+
     return (
         <TopBar fixed fullWidth className={className}>
             {/* For Transparent Logo */}
@@ -73,10 +77,7 @@ const FixedHeader = ({ className, ...props }: Props) => {
                 <Column small={6}>
                     <Hamburger menu={menu} />
 
-                    <Menu
-                        className={`show-for-large top-bar__menu__container ${scrolled}`}
-                        items={menu}
-                    />
+                    <Menu className={`show-for-large top-bar__menu__container ${scrolled}`} items={menu} />
                 </Column>
 
                 <Column className="hide-for-small" small={6}>
@@ -101,23 +102,17 @@ const FixedHeader = ({ className, ...props }: Props) => {
                         </a>
                     </nav>
 
-                    {session?.data?.user ? (
-                        <Button className="profile" onClick={handleSignOut}>
-                            {session.data.user.image && (
+                    {user ? (
+                        <Button className="profile" onClick={() => router.push(`/auth/logout/${encodeURI(pathname)}`)}>
+                            {user.picture && (
                                 <picture>
-                                    <img
-                                        src={session.data.user.image}
-                                        alt={'Profile'}
-                                        width={35}
-                                        height={35}
-                                        loading="lazy"
-                                    />
+                                    <img src={user.picture} alt={'Profile'} width={35} height={35} loading="lazy" />
                                 </picture>
                             )}
                             <span>Logout</span>
                         </Button>
                     ) : (
-                        <Button className="profile" onClick={handleSignIn}>
+                        <Button className="profile" onClick={() => router.push(`/auth/login/${encodeURI(pathname)}`)}>
                             <picture>
                                 <source
                                     media="(max-width: 599px)"

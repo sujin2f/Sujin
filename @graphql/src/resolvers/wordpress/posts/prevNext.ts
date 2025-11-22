@@ -1,7 +1,7 @@
 import sanitize from 'mongo-sanitize'
 import mongoose from 'mongoose'
 /* Models */
-import Logger from '@src/utils/logger'
+import { Logger } from '@sujin/share/model/Logger'
 import { Post } from '@src/schema/post'
 /* Utils */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
@@ -22,10 +22,7 @@ import type { T_Post, T_PrevNext } from '@sujin/lib/types'
  */
 export const prevNext = async (_slug: string): Promise<T_PrevNext[]> => {
     const slug = sanitize(_slug)
-    const request = cachedRequest(
-        query,
-        getCacheKey(COLLECTION.POST, slug, 'prev-next'),
-    )
+    const request = cachedRequest(query, getCacheKey(COLLECTION.POST, slug, 'prev-next'))
     const result = await request(slug)
     Logger.info('🤟 prevNext query has been finished')
     return result

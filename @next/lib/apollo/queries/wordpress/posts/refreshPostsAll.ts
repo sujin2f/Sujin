@@ -1,6 +1,6 @@
 'use server'
 import { client } from '@lib/apollo/apollo-client-server'
-import { getSessionContext } from '@lib/utils/session'
+import { getAuthHeader } from '@lib/utils/server'
 import POSTS_MUTATION from '@lib/apollo/queries/wordpress/posts/refreshPostsAll.graphql'
 
 export const refreshPostsAll = async (page: number) => {
@@ -10,7 +10,7 @@ export const refreshPostsAll = async (page: number) => {
             variables: {
                 page,
             },
-            context: await getSessionContext(),
+            context: await getAuthHeader(),
         })
         .then((result) => {
             if (!result.data) {

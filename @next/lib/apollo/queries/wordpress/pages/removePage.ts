@@ -1,6 +1,6 @@
 'use server'
 import { client } from '@lib/apollo/apollo-client-server'
-import { getSessionContext } from '@lib/utils/session'
+import { getAuthHeader } from '@lib/utils/server'
 import REMOVE_MUTATION from '@lib/apollo/queries/wordpress/pages/removePage.graphql'
 
 export const removePage = async (slug: string) => {
@@ -8,7 +8,7 @@ export const removePage = async (slug: string) => {
         .mutate({
             mutation: REMOVE_MUTATION,
             variables: { slug },
-            context: await getSessionContext(),
+            context: await getAuthHeader(),
         })
         .then((result) => {
             if (!result.data) {

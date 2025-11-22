@@ -6,26 +6,19 @@ import Column from '@common/components/layout/Column'
 /* CONSTANTS */
 import { MENU_NAMES } from '@sujin/lib/constants'
 /* Utils */
-import { getSession } from '@lib/utils/session'
+import { getUserInfo } from '@lib/utils/server'
 import { notFound } from 'next/navigation'
 
-export default async function LayoutRecipeList({
-    children,
-}: PropsWithChildren) {
-    const session = await getSession()
-    const loggedIn = session && session.user
-    if (!loggedIn) {
+export default async function LayoutRecipeList({ children }: PropsWithChildren) {
+    const user = await getUserInfo()
+    if (!user) {
         notFound()
     }
 
     return (
         <>
             <Banner
-                menu={
-                    session && session.user
-                        ? MENU_NAMES.RECIPE_USER
-                        : MENU_NAMES.RECIPE
-                }
+                menu={user ? MENU_NAMES.RECIPE_USER : MENU_NAMES.RECIPE}
                 excerpt="Recipe Ex asdf;93"
                 title="Recipe List"
             />

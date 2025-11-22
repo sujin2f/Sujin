@@ -1,14 +1,11 @@
 import { GraphQLError } from 'graphql'
 import sanitize from 'mongo-sanitize'
 /* Models */
-import Logger from '@src/utils/logger'
+import { Logger } from '@sujin/share/model/Logger'
 import { Post } from '@src/schema/post'
 /* CONSTANTS */
 import { PER_PAGE, COLLECTION, POST_STATUS } from '@sujin/lib/constants'
-import {
-    AGGREGATE_ARCHIVE_POST,
-    AGGREGATE_EXPAND_ARCHIVES,
-} from '@src/constants'
+import { AGGREGATE_ARCHIVE_POST, AGGREGATE_EXPAND_ARCHIVES } from '@src/constants'
 /* Utils */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 /* T_Types */
@@ -24,10 +21,7 @@ import type { T_Post, WithNumPages } from '@sujin/lib/types'
  * @param _page - Page number (1-based).
  * @returns Paginated search results with `items` and `numPages`.
  */
-export const search = async (
-    _keyword: string,
-    _page: number,
-): Promise<WithNumPages<T_Post, 'items'>> => {
+export const search = async (_keyword: string, _page: number): Promise<WithNumPages<T_Post, 'items'>> => {
     const keyword = sanitize(_keyword)
     const page = sanitize(_page)
 
@@ -43,14 +37,11 @@ export const search = async (
                 ...AGGREGATE_ARCHIVE_POST,
             ]).then((result) => {
                 if (!result || !result.length) {
-                    throw new GraphQLError(
-                        `Cannot find the post from search: ${keyword}, ${page}`,
-                        {
-                            extensions: {
-                                code: 'NO_CONTENT',
-                            },
+                    throw new GraphQLError(`Cannot find the post from search: ${keyword}, ${page}`, {
+                        extensions: {
+                            code: 'NO_CONTENT',
                         },
-                    )
+                    })
                 }
                 return result
             })

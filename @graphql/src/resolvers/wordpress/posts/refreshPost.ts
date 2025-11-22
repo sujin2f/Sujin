@@ -1,6 +1,6 @@
 import sanitize from 'mongo-sanitize'
 /* Models */
-import Logger from '@src/utils/logger'
+import { Logger } from '@sujin/share/model/Logger'
 import Cached from '@sujin/share/model/Cache'
 /* CONSTANTS */
 import { POST_TYPE, COLLECTION } from '@sujin/lib/constants'
@@ -31,11 +31,8 @@ import { mysqlDisconnect } from '@src/utils/mysql'
  * @param token - Admin GraphQL JWT token.
  * @returns An empty boolean array (placeholder) when done.
  */
-export const refreshPost = async (
-    _slug: string,
-    token: string,
-): Promise<boolean[]> => {
-    verifyAdmin(token, 'refreshPost mutation has been called by non admin user')
+export const refreshPost = async (_slug: string, token: string): Promise<boolean[]> => {
+    await verifyAdmin(token, 'refreshPost mutation has been called by non admin user')
     const slug = sanitize(_slug)
 
     await getPostBy('slug', slug, POST_TYPE.POST, true).then(async (post) => {

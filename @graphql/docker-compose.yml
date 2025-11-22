@@ -1,55 +1,20 @@
 services:
-    sujin_mongo_prod:
-        container_name: sujin_mongo_prod
-        image: mongo:5.0
-        restart: always
-        environment:
-            MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER}
-            MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
-            MONGO_USER: ${MONGO_USER}
-            MONGO_PASSWORD: ${MONGO_PASSWORD}
-            MONGO_DATABASE: ${MONGO_DATABASE}
-        ports:
-            - ${MONGO_PORT}:27017
-        volumes:
-            - mongo:/data/db
-        networks:
-            - internal_access
-
-    sujin_mysql_prod:
-        container_name: sujin_mysql_prod
-        image: mariadb:10.5
-        restart: always
-        environment:
-            MYSQL_DATABASE: ${MYSQL_DB}
-            MYSQL_USER: ${MYSQL_USER}
-            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-            MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
-        ports:
-            - ${MYSQL_PORT}:3306
-        networks:
-            - internal_access
-
-    sujin_graphql_prod:
-        container_name: sujin-graphql-prod-${VERSION}
+    graphql:
+        container_name: graphql-${VERSION}
         image: sujin2f/graphql:${VERSION}
         restart: always
         ports:
-            - 8000:3000
+            - ${SERVER_PORT}:3000
         environment:
-            MONGO: sujin_mongo_prod
-            MYSQL: sujin_mysql_prod
-        depends_on:
-            - sujin_mongo_prod
-            - sujin_mysql_prod
+            MONGO: mongo
+            MYSQL: mysql
         networks:
-            - sujin_graphql_bridge
-            - internal_access
+            - private
 
 volumes:
     mongo:
+
+# TODO prod secure network
 networks:
-    internal_access:
-        internal: true
-    sujin_graphql_bridge:
-        driver: bridge
+    private:
+        external: true

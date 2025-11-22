@@ -1,6 +1,6 @@
 'use server'
 import { client } from '@lib/apollo/apollo-client-server'
-import { getSessionContext } from '@lib/utils/session'
+import { getAuthHeader } from '@lib/utils/server'
 import REMOVE_MUTATION from '@lib/apollo/queries/wordpress/archives/removeCategory.graphql'
 
 export const removeCategory = async (slug: string) => {
@@ -10,7 +10,7 @@ export const removeCategory = async (slug: string) => {
             variables: {
                 slug,
             },
-            context: await getSessionContext(),
+            context: await getAuthHeader(),
         })
         .then((result) => {
             if (!result.data) {

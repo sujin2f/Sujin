@@ -1,7 +1,7 @@
 import { GraphQLError } from 'graphql'
 import sanitize from 'mongo-sanitize'
 /* Models */
-import Logger from '@src/utils/logger'
+import { Logger } from '@sujin/share/model/Logger'
 import { Page } from '@src/schema/post'
 /* CONSTANTS */
 import { COLLECTION, POST_STATUS } from '@sujin/lib/constants'
@@ -19,6 +19,7 @@ import type { T_Page } from '@sujin/lib/types'
  * @returns The `T_Page` document.
  */
 export const page = async (_slug: string): Promise<T_Page> => {
+    Logger.info(`🤟 preparing page query: ${_slug}`)
     const slug = sanitize(_slug)
 
     const request = cachedRequest(

@@ -28,10 +28,15 @@
         }
     },
     "include": [
-        "@next/next-env.d.ts",
         "**/*.ts",
         "**/*.tsx",
-        ".next/types/**/*.ts"
+        "@next/next-env.d.ts",
+        ".next/types/**/*.ts",
+        "app/auth/login/page.tsx.bak",
+        "app/auth/login/[...referer]/page.tsx.bak",
+        "app/auth/login/[...referer]/Login.client.tsx.bak",
+        "app/auth/redirect/[...referer]/page.tsx.bak",
+        "app/auth/redirect/page.tsx.bak"
     ],
     "exclude": ["node_modules", "wordpress"]
 }

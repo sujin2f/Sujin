@@ -4,7 +4,7 @@
     "description": "React + Node + WordPress theme for sujinc.com",
     "license": "MIT",
     "scripts": {
-        "dev": "next dev",
+        "dev": "next dev -p 8000",
         "build": "next build",
         "start": "next start",
         "test": "jest --no-cache --forceExit --coverage",
@@ -12,18 +12,13 @@
     },
     "dependencies": {
         "@apollo/client": "^4.0.9",
-        "@apollo/server": "^4.11.3",
-        "@as-integrations/next": "^3.2.0",
         "@reduxjs/toolkit": "^2.10.1",
         "chart.js": "^4.4.7",
         "cross-fetch": "^4.1.0",
         "csv-parse": "^5.6.0",
         "graphql": "^16.12.0",
         "jsonwebtoken": "^9.0.2",
-        "mongo-sanitize": "^1.1.0",
-        "mongodb": "^6.12.0",
         "next": "^15.3.3",
-        "next-auth": "^4.24.11",
         "next-images": "^1.8.5",
         "node-cache": "^5.1.2",
         "quartic": "^0.0.2",
@@ -31,7 +26,8 @@
         "react-color": "^2.19.3",
         "react-dom": "^19.0.0",
         "react-katex": "^3.0.1",
-        "react-redux": "^9.2.0"
+        "react-redux": "^9.2.0",
+        "winston": "^3.18.3"
     },
     "devDependencies": {
         "@eslint/eslintrc": "^3",
@@ -41,7 +37,6 @@
         "@testing-library/react": "^16.3.0",
         "@types/jest": "^29.5.14",
         "@types/jsonwebtoken": "^9.0.10",
-        "@types/mongo-sanitize": "^1.0.3",
         "@types/node": "^20",
         "@types/react": "^19",
         "@types/react-color": "^3.0.6",

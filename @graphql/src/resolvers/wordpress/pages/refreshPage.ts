@@ -1,14 +1,10 @@
 import sanitize from 'mongo-sanitize'
 /* Models */
-import Logger from '@src/utils/logger'
+import { Logger } from '@sujin/share/model/Logger'
 import { Page } from '@src/schema/post'
 import Cached from '@sujin/share/model/Cache'
 /* CONSTANTS */
-import {
-    POST_TYPE,
-    POST_IMAGE_LOCATION,
-    COLLECTION,
-} from '@sujin/lib/constants'
+import { POST_TYPE, POST_IMAGE_LOCATION, COLLECTION } from '@sujin/lib/constants'
 import { DAY_IN_MS } from '@sujin/share/constants/datetime'
 /* Utils */
 import { getCacheKey } from '@sujin/lib/utils/cache'
@@ -29,14 +25,8 @@ import { convertWPImageURL } from '@src/utils/mongo/convertWPImageURL'
  * @param token - Admin GraphQL JWT.
  * @returns An empty array on success.
  */
-export const refreshPage = async (
-    _slug: string,
-    token: string,
-): Promise<boolean[]> => {
-    verifyAdmin(
-        token,
-        'refreshPage mutation query has been called by non admin user',
-    )
+export const refreshPage = async (_slug: string, token: string): Promise<boolean[]> => {
+    await verifyAdmin(token, 'refreshPage mutation query has been called by non admin user')
     const slug = sanitize(_slug)
 
     const wpPage = await getPostBy('slug', slug, POST_TYPE.PAGE)
@@ -47,19 +37,15 @@ export const refreshPage = async (
     if (wpPage.images) {
         Object.keys(wpPage.images).forEach((key) => {
             const imageKey = key as POST_IMAGE_LOCATION
-            wpPage.images[imageKey] = convertWPImageURL(
-                wpPage.images[imageKey]!,
-            )
+            wpPage.images[imageKey] = convertWPImageURL(wpPage.images[imageKey]!)
         })
     }
 
-    await Page.findOneAndReplace({ slug }, { ...wpPage, date }).then(
-        async (result) => {
-            if (!result) {
-                await Page.insertOne({ ...wpPage, date })
-            }
-        },
-    )
+    await Page.findOneAndReplace({ slug }, { ...wpPage, date }).then(async (result) => {
+        if (!result) {
+            await Page.insertOne({ ...wpPage, date })
+        }
+    })
 
     await Cached.getInstance().flush(getCacheKey(COLLECTION.PAGE, slug))
     Logger.info(`🤟 refreshPage mutation done: ${slug}`)

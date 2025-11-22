@@ -1,52 +1,36 @@
-// TODO use winston
-import { IS_DEV, IS_TEST } from '../constants/helper'
-
-const styleLog = ['background: #fdd663', 'color: black', 'padding: 3px 4px', 'border-radius: 3px'].join(';')
+import winston from 'winston'
+const { combine, timestamp, printf, colorize, align } = winston.format
 
 /**
- * Internal logging function with styled output.
- * @param {string} message The message to log.
- * @private
+ * Winston logger instance used across the application.
+ *
+ * - The logger uses the `LOG_LEVEL` env var (defaults to `info`).
+ * - Outputs to the console with timestamps and colored levels.
+ *
+ * Usage:
+ * ```ts
+ * import Logger from '@src/utils/logger'
+ * Logger.info('Server started')
+ * ```
  */
-const log = (message: string) => {
-    // eslint-disable-next-line no-console
-    console.log(`%cLOG%c ${message}`, styleLog, [])
-}
-
-/**
- * Logger utility class for client and server-side logging.
- */
-export default class Logger {
-    /**
-     * Logs a message to the client console (not in test mode).
-     * @param {string} message The message to log.
-     */
-    static client(message: string) {
-        if (!IS_TEST) {
-            log(message)
-        }
-    }
-
-    /**
-     * Logs a message only in development mode.
-     * @param {string} message The message to log.
-     */
-    static dev(message: string) {
-        if (IS_DEV) {
-            log(message)
-        }
-    }
-
-    /**
-     * Logs a server-side message with timestamp (not in test mode).
-     * @param {...unknown[]} message The message(s) to log.
-     */
-    static server(...message: unknown[]) {
-        if (!IS_TEST) {
-            const date = new Date()
-            const result = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`
-            // eslint-disable-next-line no-console
-            console.log(result, ...message)
-        }
-    }
-}
+export const Logger = winston.createLogger({
+    level: process.env.LOG_LEVEL || 'info',
+    format: combine(
+        colorize({ all: true }),
+        timestamp({
+            format: 'YYYY-MM-DD hh:mm:ss.SSS A',
+        }),
+        align(),
+        printf((info) => `[${info.timestamp}] ${info.level}: ${info.message}`),
+    ),
+    transports: [new winston.transports.Console()],
+    // TODO production setting
+    //   transports: [
+    //     new winston.transports.File({
+    //       filename: 'combined.log',
+    //     }),
+    //     new winston.transports.File({
+    //       filename: 'app-error.log',
+    //       level: 'error',
+    //     }),
+})

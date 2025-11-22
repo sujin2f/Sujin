@@ -9,7 +9,7 @@ import cache from '@test/mocks/cache'
 jest.doMock('@sujin/lib/utils/cache', () => cache)
 // Mock Logger
 import LoggerMock from '@test/mocks/utils/logger'
-jest.doMock('@src/utils/logger', () => LoggerMock)
+jest.doMock('@sujin/share/model/Logger', () => LoggerMock)
 // Mock global fetch
 global.fetch = jest.fn(() =>
     Promise.resolve({

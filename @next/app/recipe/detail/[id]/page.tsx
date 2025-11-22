@@ -6,7 +6,7 @@ import { DetailClient } from './Detail.client'
 /* CONSTANTS */
 import { COLLECTION, MENU_NAMES } from '@sujin/lib/constants'
 /* Utils */
-import { getSession } from '@lib/utils/session'
+import { getUserInfo } from '@lib/utils/server'
 import { cachedGQLRequest2 } from '@lib/apollo/queries/GQLRequest'
 import { recipe as getRecipe } from '@lib/apollo/queries/recipes/recipe'
 
@@ -18,21 +18,13 @@ type Props = {
 
 export default async function RecipeDetailLayout({ params }: Props) {
     const { id } = await params
-
-    const session = await getSession()
-    const loggedIn = session && session.user
-
-    const recipe = await cachedGQLRequest2(
-        getRecipe,
-        '',
-        [COLLECTION.RECIPE, 'detail', id],
-        id,
-    )
+    const user = await getUserInfo()
+    const recipe = await cachedGQLRequest2(getRecipe, '', [COLLECTION.RECIPE, 'detail', id], id)
 
     return (
         <>
             <Banner
-                menu={loggedIn ? MENU_NAMES.RECIPE_USER : MENU_NAMES.RECIPE}
+                menu={user ? MENU_NAMES.RECIPE_USER : MENU_NAMES.RECIPE}
                 title={recipe.title}
                 excerpt={recipe.url}
             />

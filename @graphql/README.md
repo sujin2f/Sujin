@@ -34,8 +34,7 @@ The app reads several environment variables. Create a `.env` file (not included 
     - `MYSQL_DB` — MySQL database name
 
 - Secrets
-    - `NEXTAUTH_SECRET` — Used by NextAuth integrations (if used)
-    - `GQL_SECRET` — GraphQL JWT secret used by `verifyToken`/`verifyAdmin`
+    - `ACCESS_SECRET` — GraphQL JWT secret used by `verifyToken`/`verifyAdmin`
     - `EMAIL_SECRET` — Email-related secret (if used)
 
 - Optional

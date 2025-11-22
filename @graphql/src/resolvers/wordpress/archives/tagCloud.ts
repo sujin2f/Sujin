@@ -1,5 +1,5 @@
 /* Models */
-import Logger from '@src/utils/logger'
+import { Logger } from '@sujin/share/model/Logger'
 import { Archive } from '@src/schema/archive'
 /* Utils */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
@@ -70,10 +70,7 @@ const query = async (): Promise<Partial<T_Archive>[]> => {
  * This function is cached under the key `COLLECTION.ARCHIVE + 'tag-cloud'`.
  */
 export const tagCloud = async (): Promise<Partial<T_Archive>[]> => {
-    const request = cachedRequest(
-        query,
-        getCacheKey(COLLECTION.ARCHIVE, 'tag-cloud'),
-    )
+    const request = cachedRequest(query, getCacheKey(COLLECTION.ARCHIVE, 'tag-cloud'))
     const result = await request()
     Logger.info('🤟 tagCloud query has been finished')
     return result

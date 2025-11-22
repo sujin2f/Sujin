@@ -1,8 +1,10 @@
 import jwt from 'jsonwebtoken'
 /* Modules */
-import Logger from '@src/utils/logger'
+import { Logger } from '@sujin/share/model/Logger'
+/* Utils */
+import { isUserAdmin } from '@src/utils/mysql/isUserAdmin'
 /* T_Types */
-import type { T_Token } from '@sujin/lib/types'
+import type { T_Parsed_Token } from '@sujin/lib/types'
 
 /**
  * Security helper utilities for JWT verification and secret retrieval.
@@ -19,12 +21,22 @@ import type { T_Token } from '@sujin/lib/types'
  * the underlying `jsonwebtoken` error). If the token is expired, callers may
  * choose to attempt re-validation depending on their flow.
  */
-export const verifyToken = (gqlToken: string): T_Token => {
+export const verifyToken = (gqlToken: string): T_Parsed_Token => {
     if (!gqlToken) {
         throw new Error('Missing token')
     }
 
-    return jwt.verify(gqlToken, getSecret('gql')) as T_Token
+    const token = jwt.verify(gqlToken, getSecret('access'))
+    if (typeof token === 'string') {
+        throw new Error('Token is invalid')
+    }
+
+    if (typeof token.sub !== 'string') {
+        throw new Error('Token is invalid')
+    }
+
+    const sub = JSON.parse(token.sub)
+    return { ...token, sub } as T_Parsed_Token
 }
 
 /**
@@ -37,37 +49,53 @@ export const verifyToken = (gqlToken: string): T_Token => {
  * @throws {Error} If token verification fails or the decoded token does not
  * contain an `admin` truthy flag.
  */
-export const verifyAdmin = (gqlToken: string, message: string): void => {
-    const user = verifyToken(gqlToken)
-    if (!user || !user.admin) {
+export const verifyAdmin = async (gqlToken: string, message: string): Promise<boolean> => {
+    const token = verifyToken(gqlToken)
+    if (!token || !token.sub) {
+        if (!message) {
+            return false
+        }
         Logger.error(`🤬 ${message}`)
         throw new Error(`🤬 ${message}`)
     }
+
+    if (!token.sub.admin) {
+        if (!message) {
+            return false
+        }
+        Logger.error(`🤬 ${message}`)
+        throw new Error(`🤬 ${message}`)
+    }
+
+    if (!(await isUserAdmin(token.sub.email))) {
+        if (!message) {
+            return false
+        }
+        Logger.error(`🤬 ${message}`)
+        throw new Error(`🤬 ${message}`)
+    }
+    return true
 }
 
 /**
  * Get a secret value from environment variables.
  *
  * Supported types:
- * - `'next'`  -> `process.env.NEXTAUTH_SECRET`
- * - `'gql'`   -> `process.env.GQL_SECRET`
+ * - `'access'`   -> `process.env.ACCESS_SECRET`
  * - `'email'` -> `process.env.EMAIL_SECRET`
  *
  * @param type - The kind of secret to retrieve.
  * @returns The secret string from the environment.
  * @throws {Error} If the requested secret is not set in the environment.
  */
-export const getSecret = (type: 'next' | 'gql' | 'email'): string => {
+export const getSecret = (type: 'access' | 'email'): string => {
     let secret = ''
     switch (type) {
-        case 'next':
-            secret = process.env.NEXTAUTH_SECRET || ''
-            break
-        case 'gql':
-            secret = process.env.GQL_SECRET || ''
+        case 'access':
+            secret = `${process.env.ACCESS_SECRET}`
             break
         case 'email':
-            secret = process.env.EMAIL_SECRET || ''
+            secret = `${process.env.EMAIL_SECRET}`
             break
     }
 

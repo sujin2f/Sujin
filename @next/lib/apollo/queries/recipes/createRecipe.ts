@@ -1,6 +1,6 @@
 'use server'
 import { client } from '@lib/apollo/apollo-client-server'
-import { getSessionContext } from '@lib/utils/session'
+import { getAuthHeader } from '@lib/utils/server'
 /* CONSTANTS */
 import RECIPE_CREATE from '@lib/apollo/queries/recipes/createRecipe.graphql'
 import type { T_Recipe } from '@sujin/lib/types'
@@ -10,7 +10,7 @@ export const createRecipe = async (recipe: Partial<T_Recipe>) => {
         .mutate<{ createRecipe: string }>({
             mutation: RECIPE_CREATE,
             variables: { recipe },
-            context: await getSessionContext(),
+            context: await getAuthHeader(),
         })
         .then((result) => {
             if (!result.data || !result.data.createRecipe) {

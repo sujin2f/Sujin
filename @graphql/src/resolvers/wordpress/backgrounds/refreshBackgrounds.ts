@@ -1,5 +1,5 @@
 /* Models */
-import Logger from '@src/utils/logger'
+import { Logger } from '@sujin/share/model/Logger'
 import Cached from '@sujin/share/model/Cache'
 import { Background } from '@src/schema/background'
 /* CONSTANTS */
@@ -23,13 +23,8 @@ import type { T_Background } from '@sujin/lib/types'
  * @param token - Admin GraphQL JWT.
  * @returns An empty array on success.
  */
-export const refreshBackgrounds = async (
-    token: string,
-): Promise<T_Background[]> => {
-    verifyAdmin(
-        token,
-        'refreshBackground mutation has been called by non admin user',
-    )
+export const refreshBackgrounds = async (token: string): Promise<T_Background[]> => {
+    await verifyAdmin(token, 'refreshBackground mutation has been called by non admin user')
     await getBackgrounds().then(async (result) => {
         const backgrounds = result.map((image) => convertWPImageURL(image))
         await Background.deleteMany({})

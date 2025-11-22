@@ -12,6 +12,7 @@ export const config = {
         '/:year/:month/:date/:slug',
         '/dev-tools/:slug',
         '/ether(.*)',
+        '/auth(.*)',
     ],
 }
 
@@ -22,17 +23,12 @@ export const config = {
  * @param {string} origin
  * @returns {NextResponse | void}
  */
-const redirectArchive = (
-    pathname: string,
-    origin: string,
-): NextResponse<unknown> | void => {
+const redirectArchive = (pathname: string, origin: string): NextResponse<unknown> | void => {
     const isArchive = pathname.match(REGEX_ARCHIVE)
     if (!isArchive) {
         return
     }
-    const path = `/archive/${isArchive[1]}/${isArchive[2]}/page/${
-        isArchive[4] || 1
-    }`
+    const path = `/archive/${isArchive[1]}/${isArchive[2]}/page/${isArchive[4] || 1}`
     return NextResponse.redirect(new URL(`${origin}${path}`))
 }
 
@@ -43,10 +39,7 @@ const redirectArchive = (
  * @param {string} origin
  * @returns {NextResponse | void}
  */
-const redirectSingle = (
-    pathname: string,
-    origin: string,
-): NextResponse<unknown> | void => {
+const redirectSingle = (pathname: string, origin: string): NextResponse<unknown> | void => {
     const isSingle = pathname.match(REGEX_SINGLE)
     if (!isSingle) {
         return

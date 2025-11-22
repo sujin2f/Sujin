@@ -1,6 +1,6 @@
 import mysqld, { type ProcedureCallPacket } from 'mysql2/promise'
 import { isEmpty } from '@sujin/share/utils/object'
-import Logger from '@src/utils/logger'
+import { Logger } from '@sujin/share/model/Logger'
 
 declare global {
     var mysql: mysqld.Connection | null

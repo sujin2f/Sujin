@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 /* Models */
-import Logger from '@src/utils/logger'
+import { Logger } from '@sujin/share/model/Logger'
 /* Utils */
 import { verifyAdmin } from '@src/utils/security'
 
@@ -13,7 +13,7 @@ import { verifyAdmin } from '@src/utils/security'
  * @throws {Error} When the caller is not an admin (via `verifyAdmin`).
  */
 export const flushDB = async (token: string): Promise<boolean> => {
-    verifyAdmin(token, 'flushDB mutation has been called by non admin user')
+    await verifyAdmin(token, 'flushDB mutation has been called by non admin user')
 
     // Object.keys(mongoose.connection.collections).
 

@@ -14,9 +14,6 @@ export const Footer = () => {
     return (
         <footer className="footer">
             <Row className="footer__top" dom="aside">
-                {/* <ReduxProvider store={store}> */}
-                {/* <ApolloProvider client={client}> */}
-                {/* TODO use state */}
                 <Column dom="section" medium={4} small={12}>
                     <GoogleAdvert responsive place="footer" />
                 </Column>
@@ -30,8 +27,6 @@ export const Footer = () => {
                     <WidgetTitle>Popular Tags</WidgetTitle>
                     <TagCloud />
                 </Column>
-                {/* </ApolloProvider> */}
-                {/* </ReduxProvider> */}
             </Row>
             <section className="footer__bottom">
                 <FooterBottom />

@@ -1,9 +1,9 @@
 type Query {
     tagCloud: [TagCloud]
-    category(slug: String): Archive
-    categories(page: Int): [Archive]
-    tag(slug: String): Archive
-    tags(page: Int): [Archive]
+    category(slug: String!): Archive
+    categories(page: Int!): [Archive]
+    tag(slug: String!): Archive
+    tags(page: Int!): [Archive]
 }
 
 type Mutation {

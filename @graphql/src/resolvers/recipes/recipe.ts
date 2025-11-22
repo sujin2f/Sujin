@@ -2,7 +2,7 @@ import sanitize from 'mongo-sanitize'
 import { Types } from 'mongoose'
 /* Models */
 import { Recipe } from '@src/schema/recipe'
-import Logger from '@src/utils/logger'
+import { Logger } from '@sujin/share/model/Logger'
 /* T_Types */
 import type { T_Recipe } from '@sujin/lib/types'
 /* Utils */

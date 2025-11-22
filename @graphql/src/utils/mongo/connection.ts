@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import { EnvironmentError } from '@sujin/share/model/Error'
 /* Models */
-import Logger from '@src/utils/logger'
+import { Logger } from '@sujin/share/model/Logger'
 
 /**
  * Ensure required MongoDB environment variables are present.
@@ -17,30 +17,22 @@ if (!process.env.MONGO) {
 
 if (!process.env.MONGO_PORT) {
     Logger.error('⛈️ Invalid/Missing environment variable: "MONGO_PORT"')
-    throw new EnvironmentError(
-        'Invalid/Missing environment variable: "MONGO_PORT"',
-    )
+    throw new EnvironmentError('Invalid/Missing environment variable: "MONGO_PORT"')
 }
 
 if (!process.env.MONGO_USER) {
     Logger.error('⛈️ Invalid/Missing environment variable: "MONGO_USER"')
-    throw new EnvironmentError(
-        'Invalid/Missing environment variable: "MONGO_USER"',
-    )
+    throw new EnvironmentError('Invalid/Missing environment variable: "MONGO_USER"')
 }
 
 if (!process.env.MONGO_PASSWORD) {
     Logger.error('⛈️ Invalid/Missing environment variable: "MONGO_PASSWORD"')
-    throw new EnvironmentError(
-        'Invalid/Missing environment variable: "MONGO_PASSWORD"',
-    )
+    throw new EnvironmentError('Invalid/Missing environment variable: "MONGO_PASSWORD"')
 }
 
 if (!process.env.MONGO_DATABASE) {
     Logger.error('⛈️ Invalid/Missing environment variable: "MONGO_DATABASE"')
-    throw new EnvironmentError(
-        'Invalid/Missing environment variable: "MONGO_DATABASE"',
-    )
+    throw new EnvironmentError('Invalid/Missing environment variable: "MONGO_DATABASE"')
 }
 
 /**

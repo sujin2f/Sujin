@@ -18,11 +18,10 @@ import {
     UNITS_VOLUMES,
     CONVERT_WEIGHT,
     CONVERT_VOLUMES,
-    T_User,
 } from '@sujin/lib/types'
 /* CONSTANTS */
 import { QuantumBool } from '@sujin/share/types'
-import { useSession } from 'next-auth/react'
+// import { useSession } from 'next-auth/react'
 import { useRecipeDelete } from '@lib/hooks/useRecipeDelete'
 
 type Props = {
@@ -30,10 +29,12 @@ type Props = {
 }
 
 export function DetailClient({ recipe }: Props) {
-    const session = useSession()
-    const userId = session?.data?.user
-        ? (session?.data?.user as T_User)._id
-        : undefined
+    // TODO session
+    // const session = useSession()
+    // const userId = session?.data?.user
+    //     ? (session?.data?.user as T_User)._id
+    //     : undefined
+    const userId = undefined
     const { setConfirm, pending, Confirm } = useRecipeDelete(recipe._id)
 
     const [converted, setConverted] = useState(recipe?.ingredients || [])

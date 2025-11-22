@@ -19,5 +19,4 @@
 # Dev mode
 **/.backup
 # TODO remove
-/wordpress/uploads/**/*
-/wordpress/themes/sujin/vendor/**/*
+wordpress
