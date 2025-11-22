@@ -19,7 +19,7 @@ const routes = express.Router()
 const CLIENT_ID = process.env.GOOGLE_CLIENT_ID
 const CLIENT_SECRET = `${process.env.GOOGLE_CLIENT_SECRET}`
 const ACCESS_SECRET = `${process.env.ACCESS_SECRET}`
-const REFRESH_SECRET = `${process.env.REFRESH_SECRET}`
+const REFRESH_SECRET = `${process.env.REFRESH_SECRET}` // TODO Move refresh token to GraphQL
 const REDIRECT_URI = `${process.env.REDIRECT_URI}`
 const OAUTH_URL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=profile email`
 
