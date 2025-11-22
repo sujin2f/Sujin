@@ -9,7 +9,7 @@ import { PER_PAGE } from '@sujin/lib/constants'
 import { AGGREGATE_ARCHIVE_POST, AGGREGATE_EXPAND_ARCHIVES } from '@src/constants'
 /* Utils */
 import { category as getCategory } from '@src/resolvers/wordpress/archives/category'
-import { verifyAdmin } from '@src/utils/security'
+import { verifyAccessToken } from '@src/utils/security'
 /* T_Types */
 import type { T_Post } from '@sujin/lib/types'
 
@@ -20,16 +20,18 @@ import type { T_Post } from '@sujin/lib/types'
  *
  * @param _slug - Archive/category slug to filter posts by.
  * @param _page - 1-based page number for pagination (uses `PER_PAGE`).
- * @param token - Admin GraphQL JWT token; `verifyAdmin` is used to check it.
+ * @param token - Access token.
  * @returns A page of `T_Post` documents belonging to the archive.
  * @throws {GraphQLError} When no posts are found for the archive.
  */
 export const postsAdmin = async (_slug: string, _page: number, token: string): Promise<T_Post[]> => {
-    await verifyAdmin(token, 'postsAdmin query has been called by non admin user')
+    const payload = await verifyAccessToken(token)
+    if (!payload.sub.admin) {
+        throw new Error('🤬 postsAdmin query has been called by non admin user')
+    }
 
     const slug = sanitize(_slug)
     const page = sanitize(_page)
-
     const archive = await getCategory(slug)
     const result = await Post.aggregate<T_Post>([
         {

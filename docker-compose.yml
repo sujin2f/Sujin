@@ -68,6 +68,10 @@ volumes:
     mysql:
 
 # Private is not real private. This is just dev setting.
+# Networking
+#   Private: @graphql, DB
+#   Public:  @auth, @next, @wordpress
+#   GQL:     @auth, @next, @wordpress, @graphql
 networks:
     public:
         driver: bridge

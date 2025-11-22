@@ -1,6 +1,6 @@
 /* Utils */
 import { Logger } from '@sujin/share/model/Logger'
-import { verifyAdmin } from '@src/utils/security'
+import { verifyAccessToken } from '@src/utils/security'
 
 /**
  * Determine whether the provided GraphQL token belongs to an administrator.
@@ -9,11 +9,12 @@ import { verifyAdmin } from '@src/utils/security'
  * @returns `true` when the decoded token contains a truthy `admin` flag.
  * @throws {Error} When the token is missing or invalid.
  */
-export const isAdmin = async (gqlToken: string): Promise<boolean> => {
-    if (!gqlToken) {
-        throw new Error()
+export const isAdmin = async (token: string): Promise<boolean> => {
+    const payload = await verifyAccessToken(token)
+    if (!payload.sub.admin) {
+        throw new Error('🤬 The user is not admin!')
     }
-    const admin = await verifyAdmin(gqlToken, '')
+
     Logger.info(`🤟 isAdmin has been finished`)
-    return admin
+    return true
 }

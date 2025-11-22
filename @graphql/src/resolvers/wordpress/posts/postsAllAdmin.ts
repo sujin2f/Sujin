@@ -7,7 +7,7 @@ import { Post } from '@src/schema/post'
 import { PER_PAGE } from '@sujin/lib/constants'
 import { AGGREGATE_ARCHIVE_POST, AGGREGATE_EXPAND_ARCHIVES } from '@src/constants'
 /* Utils */
-import { verifyAdmin } from '@src/utils/security'
+import { verifyAccessToken } from '@src/utils/security'
 /* T_Types */
 import type { T_Post } from '@sujin/lib/types'
 
@@ -18,12 +18,15 @@ import type { T_Post } from '@sujin/lib/types'
  * and applies pagination via `PER_PAGE`.
  *
  * @param _page - 1-based page number to fetch.
- * @param token - Admin GraphQL JWT token; `verifyAdmin` is used to check it.
+ * @param token - Acess token
  * @returns A page of `T_Post` documents.
  * @throws {GraphQLError} When no posts are found.
  */
 export const postsAllAdmin = async (_page: number, token: string): Promise<T_Post[]> => {
-    await verifyAdmin(token, 'postsAllAdmin query has been called by non admin user')
+    const payload = await verifyAccessToken(token)
+    if (!payload.sub.admin) {
+        throw new Error('🤬 postsAllAdmin query has been called by non admin user')
+    }
 
     const page = sanitize(_page)
 

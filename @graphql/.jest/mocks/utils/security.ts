@@ -1,3 +1,3 @@
 export default {
-    verifyAdmin: jest.fn(),
+    verifyAccessToken: jest.fn(),
 }

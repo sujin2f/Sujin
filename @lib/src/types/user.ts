@@ -21,7 +21,7 @@ export type T_GoogleUser = {
 export type T_UserSub = T_User & T_GoogleUser
 
 /**
- * Access token
+ * Token content
  */
 export type T_Token = {
     iss: string
@@ -31,7 +31,7 @@ export type T_Token = {
 }
 
 /**
- * Access token
+ * Token content: parsed sub
  */
 export type T_Parsed_Token = {
     iss: string
