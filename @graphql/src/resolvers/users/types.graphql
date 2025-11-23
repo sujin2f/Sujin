@@ -1,6 +1,6 @@
 type Mutation {
-    login(email: String!, name: String!, picture: String!): User
-    refresh: User
+    login(email: String!, name: String!, picture: String!): Boolean
+    refresh: Boolean
     isAdmin: Boolean
 }
 

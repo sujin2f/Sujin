@@ -11,11 +11,11 @@ import { HEADER_TOKEN } from '@sujin/lib/constants'
  * @param {string} token - Refresh token.
  * @throws {Error} When the incoming token is missing or invalid.
  */
-export const refresh = async (token: string, res: Response): Promise<undefined> => {
+export const refresh = async (token: string, res: Response): Promise<boolean> => {
     if (!token) {
         throw new Error()
     }
-    const refresh = refreshAccessToken(token)
-    res.setHeader(HEADER_TOKEN, refresh)
-    return
+    const accessToken = refreshAccessToken(token)
+    res.setHeader(HEADER_TOKEN, `Bearer ${accessToken}`)
+    return true
 }

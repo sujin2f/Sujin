@@ -74,13 +74,16 @@ export const refreshAccessToken = (token: string): string => {
         throw new Error('Token is invalid')
     }
 
+    // issue, verify, and return
     const iat = new Date().getTime() / SECOND_IN_MS
-    const access = {
+    const accessPayload = {
         ...payload,
         iat,
         exp: iat + ACCESS_TOKEN_LIFETIME,
     } as T_Token
-    return jwt.sign(access, getSecret('access'))
+    const accessToken = jwt.sign(accessPayload, getSecret('access'))
+    verifyAccessToken(accessToken)
+    return accessToken
 }
 
 /**

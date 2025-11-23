@@ -20,12 +20,14 @@ import { HEADER_TOKEN } from '@sujin/lib/constants'
  *   capability.
  * - Issues a signed GraphQL JWT containing `_id`, `email` and `admin` flag.
  *
+ * // TODO check the request is from @auth
+ *
  * @param {T_GoogleUser} user - A JWT issued by NextAuth containing the user's email.
  * @param {Response} res - Response from express.
  * @returns {T_User}
  * @throws {Error} When the incoming token is missing or invalid.
  */
-export const login = async (user: T_GoogleUser, res: Response): Promise<T_User> => {
+export const login = async (user: T_GoogleUser, res: Response): Promise<boolean> => {
     const email = sanitize(user.email)
 
     if (!email) {
@@ -52,8 +54,8 @@ export const login = async (user: T_GoogleUser, res: Response): Promise<T_User> 
 
     // Refresh Token
     const refreshToken = createRefreshToken({ ...user, ...result })
-    res.setHeader(HEADER_TOKEN, refreshToken)
+    res.setHeader(HEADER_TOKEN, `Bearer ${refreshToken}`)
 
     Logger.info(`🤟 login has been finished: ${email}`)
-    return result
+    return true
 }
