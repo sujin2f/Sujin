@@ -95,7 +95,7 @@ await modifyFiles()
 
 console.log('\x1B[32m- Creating Docker image... \x1B[0m')
 exec(
-    `docker build --build-arg SERVER_PORT=${process.env.SERVER_PORT} -t sujin2f/graphql:${VERSION} .`,
+    `docker build --build-arg SERVER_PORT=${process.env.SERVER_PORT} -t sujin2f/auth:${VERSION} .`,
     async (error, stdout, stderr) => {
         if (error) {
             console.log('\x1B[31m- docker build error: \x1B[0m', error)
@@ -104,18 +104,6 @@ exec(
         }
         console.log(`stdout: ${stdout}`)
         console.error(`stderr: ${stderr}`)
-
-        console.log('\x1B[32m- Running docker compose... \x1B[0m')
-        exec(`docker-compose up -d --remove-orphans`, async (error, stdout, stderr) => {
-            if (error) {
-                console.log('\x1B[31m- docker compose error: \x1B[0m', error)
-                await restoreFiles()
-                return
-            }
-            console.log(`stdout: ${stdout}`)
-            console.error(`stderr: ${stderr}`)
-
-            await restoreFiles()
-        })
+        await restoreFiles()
     },
 )

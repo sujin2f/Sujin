@@ -12,6 +12,8 @@
         "lint:gql": "yarn --cwd ./@graphql lint",
         "lint:lib": "yarn --cwd ./@lib lint",
         "lint:next": "yarn --cwd ./@next lint",
+        "package": "yarn package:auth",
+        "package:auth": "yarn --cwd ./@auth package",
         "test": "yarn --cwd ./@common test && yarn --cwd ./@graphql test",
         "prepare": "husky"
     },
