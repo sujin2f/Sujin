@@ -81,7 +81,11 @@ class Tokens {
 	 * Refresh access token
 	 */
 	private static function refresh_token(): void {
-		$token    = isset( $_SESSION[ self::REFRESH ] ) ? esc_attr( $_SESSION[ self::REFRESH ] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$token = isset( $_SESSION[ self::REFRESH ] ) ? esc_attr( $_SESSION[ self::REFRESH ] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		if ( ! $token ) {
+			$user = wp_get_current_user();
+			self::request_tokens( '', $user );
+		}
 		$query    = wp_json_encode(
 			array(
 				'query' => '

@@ -1,11 +1,15 @@
 import express from 'express'
 import jwt from 'jsonwebtoken'
-
+/* Models */
 import { Logger } from '@sujin/share/model/Logger'
+/* CONSTANTS */
 import { SECOND_IN_MS } from '@sujin/share/constants/datetime'
-import type { T_Token } from '@sujin/lib/types'
 import { ACCESS_TOKEN_LIFETIME } from '@sujin/lib/constants'
+/* T_Types */
+import type { T_Token } from '@sujin/lib/types'
+/* Utils */
 import { fetchGoogleUser, gqlLogin } from '@src/utils'
+import { allowReferer, verifyToken, verifyRedirection } from '@src/middleware'
 
 declare module 'express-session' {
     interface SessionData {
@@ -20,37 +24,21 @@ const ACCESS_SECRET = `${process.env.ACCESS_SECRET}`
 const REDIRECT_URI = `${process.env.REDIRECT_URI}`
 const OAUTH_URL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=profile email`
 
-routes.get('/auth', (req, res) => {
-    // Store redirect URL from request
-    const { redirect, token: _token } = req.query
-    if (!redirect || !_token) {
-        res.status(404).send('You are Sorry.')
-        return
-    }
-
-    // Verify token & save redirect to session
-    // TODO error handling
-    jwt.verify(_token as string, ACCESS_SECRET)
-    req.session.redirect = redirect as string
-
+routes.get('/auth', allowReferer, verifyToken, verifyRedirection, (_, res) => {
     Logger.info('🤟 Start user authentication')
     res.redirect(OAUTH_URL)
 })
 
 const redirectPath = new URL(REDIRECT_URI).pathname
 // Callback URL for handling the Google Login response
-routes.get(redirectPath, async (req, res) => {
+routes.get(redirectPath, verifyRedirection, async (req, res) => {
     const { code } = req.query
-
-    const redirect = req.session.redirect // TODO destroy session
-    if (!redirect) {
-        res.status(404).send('You are Sorry.')
-        return
-    }
+    const redirect = req.session.redirect!.toString()
 
     // Google
     const google = await fetchGoogleUser(code as string).catch(() => null)
     if (!google) {
+        Logger.error('🤬 Fetching Google has been failed')
         res.redirect(decodeURI(redirect))
         return
     }
@@ -58,11 +46,10 @@ routes.get(redirectPath, async (req, res) => {
     // @graphql
     const result = await gqlLogin(google).catch((e) => {
         Logger.error('🤬 Fetching GQL has been failed: ', JSON.stringify(e))
-        // TODO Error
         res.redirect(decodeURI(redirect))
     })
+
     if (!result) {
-        Logger.error('🤬 User does not exist.')
         res.redirect(decodeURI(redirect))
         return
     }

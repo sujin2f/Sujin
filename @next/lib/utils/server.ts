@@ -162,6 +162,7 @@ export const getAuthHeader = async () => {
 
 export const logout = async (): Promise<Nullable<void>> => {
     const cookieStore = await cookies()
+    cookieStore.delete(COOKIE_KEY_USER_INFO)
     cookieStore.delete(COOKIE_KEY_ACCESS_TOKEN)
     cookieStore.delete(COOKIE_KEY_REFRESH_TOKEN)
 }
