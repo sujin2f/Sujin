@@ -1,24 +1,25 @@
 services:
     mongo:
         container_name: mongo
-        image: mongo:5.0
+        image: mongo:8.2
         restart: always
         environment:
             MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER}
             MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+            MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
             MONGO_USER: ${MONGO_USER}
             MONGO_PASSWORD: ${MONGO_PASSWORD}
-            MONGO_DATABASE: ${MONGO_DATABASE}
         ports:
             - ${MONGO_PORT}:27017
         volumes:
+            - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
             - mongo:/data/db
         networks:
             - private
 
     mysql:
         container_name: mysql
-        image: mariadb:10.5
+        image: mariadb:12.1.2-ubi10
         restart: always
         environment:
             MYSQL_DATABASE: ${MYSQL_DB}
@@ -31,10 +32,11 @@ services:
             - mysql:/var/lib/mysql
         networks:
             - private
+            - mysql
 
     wordpress:
         container_name: wordpress
-        image: wordpress:6.8.3-php8.3
+        image: wordpress:6.8-php8.3-fpm-alpine
         restart: always
         environment:
             WORDPRESS_DB_HOST: mysql
@@ -61,21 +63,20 @@ services:
             - mysql
         networks:
             - public
-            - private
+            - gql
+            - mysql
 
 volumes:
     mongo:
     mysql:
 
 # Private is not real private. This is just dev setting.
-# Networking
-#   Private: @graphql, DB
-#   GQL:     @auth, @next, @wordpress, @graphql
-#   mySQL:   @wordpress, mySQL
-#
-#   Public:  @auth, @next, @wordpress
 networks:
     public:
         driver: bridge
     private:
+        driver: bridge
+    gql:
+        driver: bridge
+    mysql:
         driver: bridge
