@@ -27,7 +27,7 @@ import { HEADER_TOKEN } from '@sujin/lib/constants'
  * @returns {T_User}
  * @throws {Error} When the incoming token is missing or invalid.
  */
-export const login = async (user: T_GoogleUser, res: Response): Promise<boolean> => {
+export const login = async (user: T_GoogleUser, res: Response): Promise<T_User> => {
     const email = sanitize(user.email)
 
     if (!email) {
@@ -57,5 +57,5 @@ export const login = async (user: T_GoogleUser, res: Response): Promise<boolean>
     res.setHeader(HEADER_TOKEN, `Bearer ${refreshToken}`)
 
     Logger.info(`🤟 login has been finished: ${email}`)
-    return true
+    return result
 }

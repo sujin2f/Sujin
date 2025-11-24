@@ -1,3 +1,4 @@
+'use server'
 /* Components */
 import { Banner } from '@lib/components/header/Banner'
 import Row from '@common/components/layout/Row'

@@ -1,3 +1,5 @@
+/* Models */
+import { Logger } from '@sujin/share/model/Logger'
 /* Utils */
 import { refreshAccessToken } from '@src/utils/security'
 /* T_Type */
@@ -17,5 +19,6 @@ export const refresh = async (token: string, res: Response): Promise<boolean> =>
     }
     const accessToken = refreshAccessToken(token)
     res.setHeader(HEADER_TOKEN, `Bearer ${accessToken}`)
+    Logger.info(`🤟 refresh has been finished`)
     return true
 }

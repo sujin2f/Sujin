@@ -69,7 +69,7 @@ routes.get(redirectPath, async (req, res) => {
     const { user, refresh } = result
 
     // issue access token
-    const iat = new Date().getTime() / SECOND_IN_MS
+    const iat = Math.trunc(new Date().getTime() / SECOND_IN_MS)
     const sub = JSON.stringify({
         ...google,
         ...user,
@@ -84,7 +84,7 @@ routes.get(redirectPath, async (req, res) => {
 
     // ship to cookie
     res.cookie('x-token-at', access, { maxAge: 10 * SECOND_IN_MS })
-    res.cookie('x-token-rt', refresh, { maxAge: 10 * SECOND_IN_MS })
+    res.cookie('x-token-rt', refresh.slice(7), { maxAge: 10 * SECOND_IN_MS })
 
     Logger.info('🤟 User authentication!')
     res.redirect(decodeURI(redirect))

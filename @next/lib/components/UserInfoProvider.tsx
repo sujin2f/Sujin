@@ -8,6 +8,6 @@ type Prop = PropsWithChildren<{
 }>
 
 export const SessionContext = createContext<Nullable<T_UserSub>>(null)
-export function SessionProvider({ user, children }: Prop) {
+export function UserInfoProvider({ user, children }: Prop) {
     return <SessionContext.Provider value={user}>{children}</SessionContext.Provider>
 }

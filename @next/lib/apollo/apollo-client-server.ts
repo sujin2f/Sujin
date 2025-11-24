@@ -5,23 +5,5 @@ const uri = process.env.NEXT_PUBLIC_GQL_ENDPOINT
 
 export const client = new ApolloClient({
     link: new HttpLink({ uri, fetch }),
-    cache: new InMemoryCache({
-        typePolicies: {
-            Post: {
-                fields: {
-                    images: {
-                        merge(existing, incoming, { mergeObjects }) {
-                            return mergeObjects(existing, incoming)
-                        },
-                    },
-                },
-            },
-        },
-    }),
-    queryDeduplication: false,
-    defaultOptions: {
-        watchQuery: {
-            fetchPolicy: 'cache-and-network',
-        },
-    },
+    cache: new InMemoryCache(),
 })

@@ -52,6 +52,6 @@ export const gqlLogin = async (user: T_GoogleUser): Promise<ReturnTypeLogin> => 
         }`
 
     return (await axios.post(endpoint, { query: query }).then((response) => {
-        return { user: response.data.data, refresh: response.headers[HEADER_TOKEN] }
+        return { user: response.data.data.login, refresh: response.headers[HEADER_TOKEN] }
     })) satisfies ReturnTypeLogin
 }

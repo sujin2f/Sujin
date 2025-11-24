@@ -75,7 +75,7 @@ export const refreshAccessToken = (token: string): string => {
     }
 
     // issue, verify, and return
-    const iat = new Date().getTime() / SECOND_IN_MS
+    const iat = Math.trunc(new Date().getTime() / SECOND_IN_MS)
     const accessPayload = {
         ...payload,
         iat,
@@ -137,7 +137,7 @@ export const getSecret = (type: 'access' | 'refresh' | 'email'): string => {
 }
 
 export const createRefreshToken = (user: T_UserSub): string => {
-    const iat = new Date().getTime() / SECOND_IN_MS
+    const iat = Math.trunc(new Date().getTime() / SECOND_IN_MS)
     const payload: T_Token = {
         iss: 'https://sujinc.com',
         iat,
