@@ -39,26 +39,8 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
 }
 
 export const verifyRedirection = (req: Request, res: Response, next: NextFunction) => {
-    let redirect = req.session.redirect?.toString()
-    let origin: string
-
-    if (!redirect) {
-        redirect = req.query.redirect?.toString()
-    }
-
-    if (!redirect) {
-        Logger.error(`🤬 The request is not with redirection info. ${req.headers.referer}`)
-        res.status(404).send('You are Sorry.')
-        return
-    }
-
-    try {
-        origin = getOrigin(redirect.toString())
-    } catch {
-        Logger.error(`🤬 The redirection info is not valid URL. ${req.headers.referer}`)
-        res.status(404).send('You are Sorry.')
-        return
-    }
+    const redirect = req.query.redirect!.toString()
+    const origin = verifyRedirectionOrigin(redirect, req, res)
 
     if (allowed.indexOf(origin) !== -1) {
         req.session.redirect = redirect.toString()
@@ -68,4 +50,33 @@ export const verifyRedirection = (req: Request, res: Response, next: NextFunctio
 
     Logger.error(`🤬 The redirection is not from allowed referer ${req.headers.referer}`)
     res.status(404).send('You are Sorry')
+}
+
+export const verifyCallbackRedirection = (req: Request, res: Response, next: NextFunction) => {
+    const redirect = req.session.redirect!.toString()
+    const origin = verifyRedirectionOrigin(redirect, req, res)
+
+    if (allowed.indexOf(origin) !== -1) {
+        next()
+        return
+    }
+
+    Logger.error(`🤬 The redirection is not from allowed referer ${req.headers.referer}`)
+    res.status(404).send('You are Sorry')
+}
+
+const verifyRedirectionOrigin = (redirect: string, req: Request, res: Response) => {
+    if (!redirect) {
+        Logger.error(`🤬 The request is not with redirection info. ${req.headers.referer}`)
+        res.status(404).send('You are Sorry.')
+        return
+    }
+
+    try {
+        return getOrigin(redirect.toString())
+    } catch {
+        Logger.error(`🤬 The redirection info is not valid URL. ${req.headers.referer}`)
+        res.status(404).send('You are Sorry.')
+        return
+    }
 }

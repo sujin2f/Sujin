@@ -1,10 +1,14 @@
+import { useContext } from 'react'
 import { useRouter } from 'next/navigation'
-import { COOKIE_KEY_USER_INFO } from '@lib/constants'
+
+import { UserInfoContext } from '@lib/components/UserInfoProvider'
 
 export const useLogInOut = () => {
     const router = useRouter()
+    const { removeUser } = useContext(UserInfoContext)
+
     const logout = (pathname: string) => {
-        localStorage.removeItem(COOKIE_KEY_USER_INFO)
+        removeUser()
         router.push(`/auth/logout/${encodeURI(pathname)}`)
     }
     const login = (pathname: string) => {

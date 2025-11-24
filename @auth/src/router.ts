@@ -9,7 +9,7 @@ import { ACCESS_TOKEN_LIFETIME } from '@sujin/lib/constants'
 import type { T_Token } from '@sujin/lib/types'
 /* Utils */
 import { fetchGoogleUser, gqlLogin } from '@src/utils'
-import { allowReferer, verifyToken, verifyRedirection } from '@src/middleware'
+import { allowReferer, verifyToken, verifyRedirection, verifyCallbackRedirection } from '@src/middleware'
 
 declare module 'express-session' {
     interface SessionData {
@@ -31,7 +31,7 @@ routes.get('/auth', allowReferer, verifyToken, verifyRedirection, (_, res) => {
 
 const redirectPath = new URL(REDIRECT_URI).pathname
 // Callback URL for handling the Google Login response
-routes.get(redirectPath, verifyRedirection, async (req, res) => {
+routes.get(redirectPath, verifyCallbackRedirection, async (req, res) => {
     const { code } = req.query
     const redirect = req.session.redirect!.toString()
 

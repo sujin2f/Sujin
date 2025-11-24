@@ -1,13 +1,23 @@
 'use client'
+import { createContext, type PropsWithChildren, useState } from 'react'
 import { T_UserSub } from '@sujin/lib/types'
 import { Nullable } from '@sujin/share/types'
-import { createContext, PropsWithChildren } from 'react'
 
 type Prop = PropsWithChildren<{
     user: Nullable<T_UserSub>
 }>
 
-export const SessionContext = createContext<Nullable<T_UserSub>>(null)
-export function UserInfoProvider({ user, children }: Prop) {
-    return <SessionContext.Provider value={user}>{children}</SessionContext.Provider>
+export const UserInfoContext = createContext<{ user: Nullable<T_UserSub>; removeUser: () => void }>({
+    user: undefined,
+    removeUser: () => {},
+})
+export function UserInfoProvider({ user: _user, children }: Prop) {
+    const [user, setUser] = useState<Nullable<T_UserSub>>(_user)
+    const removeUser = () => {
+        setUser(undefined) // Reset to the initial default value
+    }
+
+    const contextValue = { user, removeUser }
+
+    return <UserInfoContext.Provider value={contextValue}>{children}</UserInfoContext.Provider>
 }

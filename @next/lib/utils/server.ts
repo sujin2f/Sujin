@@ -48,6 +48,12 @@ export const getMetaData = async (): Promise<Metadata> => {
 
 const ACCESS_SECRET = `${process.env.ACCESS_SECRET}`
 
+/**
+ * Create the temporary token for verifying origin to @auth server
+ *
+ * @param origin
+ * @returns
+ */
 export const createLoginToken = (origin: string) => {
     return jwt.sign({ origin, rand: new Date().getTime() }, ACCESS_SECRET, { expiresIn: '10m' })
 }
