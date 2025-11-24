@@ -17,8 +17,6 @@ namespace Sujin\Theme;
 class RestAPI {
 	/**
 	 * Constructor
-	 *
-	 * @visibility public
 	 */
 	public function __construct() {
 		add_action( 'rest_pre_dispatch', array( $this, 'block_rest_endpoint' ) );
@@ -27,7 +25,6 @@ class RestAPI {
 	/**
 	 * Access Control, only same domain can access to RestAPI
 	 *
-	 * @visibility public
 	 * @throws \WP_Error Error with message.
 	 */
 	public function block_rest_endpoint(): void {

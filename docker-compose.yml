@@ -34,7 +34,7 @@ services:
 
     wordpress:
         container_name: wordpress
-        image: wordpress:6.8.3-php8.1
+        image: wordpress:6.8.3-php8.3
         restart: always
         environment:
             WORDPRESS_DB_HOST: mysql

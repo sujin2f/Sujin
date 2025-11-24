@@ -13,6 +13,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
 
+if ( ! session_id() ) {
+	session_start();
+}
+
 require_once __DIR__ . '/vendor/autoload.php';
 new Sujin\Theme\Bootstrap();
 

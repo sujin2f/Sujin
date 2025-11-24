@@ -11,6 +11,7 @@
         "fix": "phpcbf"
     },
     "require": {
-        "firebase/php-jwt": "^6.11"
+        "firebase/php-jwt": "^6.11",
+        "carnage/php-graphql-client": "^1.14"
     }
 }
