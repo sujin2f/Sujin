@@ -6,7 +6,7 @@ import { Background } from '@src/schema/background'
 import { COLLECTION } from '@sujin/lib/constants'
 /* Utils */
 import { getCacheKey } from '@sujin/lib/utils/cache'
-import { verifyAdmin } from '@src/utils/security'
+import { verifyAccessToken } from '@src/utils/security'
 import { mysqlDisconnect } from '@src/utils/mysql'
 import { convertWPImageURL } from '@src/utils/mongo/convertWPImageURL'
 import { getBackgrounds } from '@src/utils/mysql/media'
@@ -24,7 +24,11 @@ import type { T_Background } from '@sujin/lib/types'
  * @returns An empty array on success.
  */
 export const refreshBackgrounds = async (token: string): Promise<T_Background[]> => {
-    await verifyAdmin(token, 'refreshBackground mutation has been called by non admin user')
+    const payload = await verifyAccessToken(token)
+    if (!payload.sub.admin) {
+        throw new Error('🤬 refreshBackground mutation has been called by non admin user')
+    }
+
     await getBackgrounds().then(async (result) => {
         const backgrounds = result.map((image) => convertWPImageURL(image))
         await Background.deleteMany({})

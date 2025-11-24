@@ -7,7 +7,7 @@ import { Logger } from '@sujin/share/model/Logger'
 import type { T_Recipe, T_UserSub, WithNumPages } from '@sujin/lib/types'
 import type { Nullable } from '@sujin/share/types'
 /* Utils */
-import { verifyToken } from '@src/utils/security'
+import { verifyAccessToken } from '@src/utils/security'
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 /* CONSTANTS */
 import { COLLECTION, PER_PAGE } from '@sujin/lib/constants'
@@ -18,20 +18,20 @@ import { COLLECTION, PER_PAGE } from '@sujin/lib/constants'
  * If `mine` is true the `token` is verified and only recipes created by the
  * authenticated user are returned.
  *
- * @param _page - Page number (1-based).
- * @param mine - When true, restrict results to the calling user.
- * @param token - GraphQL JWT used to identify the current user (when `mine` is true).
- * @returns An object with `items` (recipes) and `numPages` for pagination.
+ * @param   {number}  _page          Page number (1-based).
+ * @param   {boolean} mine           When true, restrict results to the calling user.
+ * @param   {token}   token          Access token.
+ * @returns {WithNumPages<T_Recipe>} An object with `items` (recipes) and `numPages` for pagination.
  */
-export const recipes = async (_page: number, mine: boolean, _token: string): Promise<WithNumPages<T_Recipe>> => {
-    if (mine && !_token) {
+export const recipes = async (_page: number, mine: boolean, token: string): Promise<WithNumPages<T_Recipe>> => {
+    if (mine && !token) {
         throw new Error()
     }
     let user: Nullable<T_UserSub>
     if (mine) {
-        const token = verifyToken(_token)
-        if (!token || !token.sub || !token.sub._id) throw new Error()
-        user = token.sub
+        const payload = await verifyAccessToken(token)
+        if (!payload || !payload.sub || !payload.sub._id) throw new Error()
+        user = payload.sub
     }
 
     const userId = user ? user._id : ''

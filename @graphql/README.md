@@ -34,7 +34,8 @@ The app reads several environment variables. Create a `.env` file (not included 
     - `MYSQL_DB` — MySQL database name
 
 - Secrets
-    - `ACCESS_SECRET` — GraphQL JWT secret used by `verifyToken`/`verifyAdmin`
+    - `ACCESS_SECRET` — GraphQL JWT secret used by `verifyAccessToken`
+    - `REFRESH_SECRET` — GraphQL JWT secret used by `refreshAccessToken`
     - `EMAIL_SECRET` — Email-related secret (if used)
 
 - Optional

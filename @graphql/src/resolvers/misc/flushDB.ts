@@ -2,18 +2,20 @@ import mongoose from 'mongoose'
 /* Models */
 import { Logger } from '@sujin/share/model/Logger'
 /* Utils */
-import { verifyAdmin } from '@src/utils/security'
+import { verifyAccessToken } from '@src/utils/security'
 
 /**
  * Mutation that flushes selected MongoDB collections. Requires an admin
- * token — `verifyAdmin` is used to guard the operation.
  *
  * @param token - Admin JWT token used to authorize the operation.
  * @returns `true` when operation completes.
- * @throws {Error} When the caller is not an admin (via `verifyAdmin`).
+ * @throws {Error} When the caller is not an admin.
  */
 export const flushDB = async (token: string): Promise<boolean> => {
-    await verifyAdmin(token, 'flushDB mutation has been called by non admin user')
+    const payload = await verifyAccessToken(token)
+    if (!payload.sub.admin) {
+        throw new Error('🤬 flushDB mutation has been called by non admin user')
+    }
 
     // Object.keys(mongoose.connection.collections).
 

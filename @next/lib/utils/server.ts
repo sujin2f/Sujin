@@ -1,7 +1,6 @@
 'server-only'
-import jwt from 'jsonwebtoken'
+import jwt, { TokenExpiredError } from 'jsonwebtoken'
 import { headers, cookies } from 'next/headers'
-import type { ResponseCookie } from 'next/dist/compiled/@edge-runtime/cookies'
 
 import {
     COOKIE_KEY_ACCESS_TOKEN,
@@ -13,6 +12,8 @@ import {
 import { DAY_IN_SECONDS, HOUR_IN_SECONDS } from '@sujin/share/constants/datetime'
 import type { Nullable } from '@sujin/share/types'
 import type { T_Token, T_UserSub } from '@sujin/lib/types'
+import { HEADER_TOKEN } from '@sujin/lib/constants'
+import { refresh } from '@lib/apollo/queries/users/refresh'
 
 /**
  * Retrieves the current pathname from the headers.
@@ -47,12 +48,14 @@ export const getMetaData = async (): Promise<Metadata> => {
 
 const ACCESS_SECRET = `${process.env.ACCESS_SECRET}`
 
+/**
+ * Create the temporary token for verifying origin to @auth server
+ *
+ * @param origin
+ * @returns
+ */
 export const createLoginToken = (origin: string) => {
     return jwt.sign({ origin, rand: new Date().getTime() }, ACCESS_SECRET, { expiresIn: '10m' })
-}
-
-export const verifyAccessToken = <T>(token: string) => {
-    return jwt.verify(token, ACCESS_SECRET) as T
 }
 
 export const setCookies = async () => {
@@ -65,25 +68,9 @@ export const setCookies = async () => {
         return
     }
 
-    const token = verifyAccessToken<T_Token>(accessToken)
-    const sub = JSON.parse(token.sub)
-    const userInfo = JSON.stringify({ ...token, sub })
-    const options: Partial<ResponseCookie> = {
-        httpOnly: true,
-        secure: true,
-        maxAge: 3 * HOUR_IN_SECONDS,
-        sameSite: 'lax',
-        path: '/',
-    }
-
-    cookie.set(COOKIE_KEY_USER_INFO, userInfo, options)
-    cookie.set(COOKIE_KEY_ACCESS_TOKEN, accessToken, options)
-    cookie.set(COOKIE_KEY_REFRESH_TOKEN, refreshToken, {
-        ...options,
-        maxAge: 30 * DAY_IN_SECONDS,
-        sameSite: 'strict',
-        path: '/auth/refresh',
-    })
+    await storeAccessToken(accessToken)
+    await storeUserInfo(accessToken)
+    await storeRefreshToken(refreshToken)
 }
 
 export const getUserInfo = async (): Promise<Nullable<T_UserSub>> => {
@@ -91,9 +78,7 @@ export const getUserInfo = async (): Promise<Nullable<T_UserSub>> => {
     if (!cookie || !cookie.value) {
         return
     }
-
-    const token = JSON.parse(cookie.value)
-    return token.sub
+    return JSON.parse(cookie.value)
 }
 
 export const getAccessToken = async (): Promise<Nullable<string>> => {
@@ -104,15 +89,81 @@ export const getAccessToken = async (): Promise<Nullable<string>> => {
     return cookie.value
 }
 
-// TODO run on background
-export const requestRefresh = async () => {}
+const verifyAccessToken = async (): Promise<Nullable<string>> => {
+    const token = await getAccessToken()
+    if (!token) {
+        return
+    }
+    try {
+        jwt.verify(token, ACCESS_SECRET) as T_Token
+        return token
+    } catch (e) {
+        if (!(e instanceof TokenExpiredError)) {
+            await removeAccessToken()
+            throw e
+        }
+
+        await refresh().catch(async () => {
+            await removeAccessToken()
+        })
+        const token = await getAccessToken()
+        return token
+    }
+}
+
+export const getRefreshToken = async (): Promise<Nullable<string>> => {
+    const cookie = (await cookies()).get(COOKIE_KEY_REFRESH_TOKEN)
+    if (!cookie || !cookie.value) {
+        return
+    }
+    return cookie.value
+}
+
+export const storeAccessToken = async (token: string) => {
+    const cookie = await cookies()
+    cookie.set(COOKIE_KEY_ACCESS_TOKEN, token, {
+        httpOnly: true,
+        secure: true,
+        maxAge: 3 * HOUR_IN_SECONDS,
+        sameSite: 'lax',
+        path: '/',
+    })
+}
+
+export const storeUserInfo = async (token: string) => {
+    const payload = jwt.verify(token, ACCESS_SECRET) as T_Token
+    const cookie = await cookies()
+    cookie.set(COOKIE_KEY_USER_INFO, payload.sub, {
+        httpOnly: true,
+        secure: true,
+        maxAge: 30 * DAY_IN_SECONDS,
+        sameSite: 'lax',
+        path: '/',
+    })
+}
+
+export const removeAccessToken = async () => {
+    const cookie = await cookies()
+    cookie.delete(COOKIE_KEY_REFRESH_TOKEN)
+}
+
+export const storeRefreshToken = async (token: string) => {
+    const cookie = await cookies()
+    cookie.set(COOKIE_KEY_REFRESH_TOKEN, token, {
+        httpOnly: true,
+        secure: true,
+        maxAge: 30 * DAY_IN_SECONDS,
+        sameSite: 'strict',
+        path: '/',
+    })
+}
 
 export const getAuthHeader = async () => {
-    const token = await getAccessToken().catch(() => false)
+    const token = await verifyAccessToken()
     if (!token) {
         return {}
     }
-    return { headers: { Authorization: `Bearer ${token}` } }
+    return { headers: { [HEADER_TOKEN]: `Bearer ${token}` } }
 }
 
 export const logout = async (): Promise<Nullable<void>> => {

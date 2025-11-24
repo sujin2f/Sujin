@@ -5,7 +5,7 @@ import { Logger } from '@sujin/share/model/Logger'
 /* T_Types */
 import type { T_Recipe } from '@sujin/lib/types'
 /* Utils */
-import { verifyToken } from '@src/utils/security'
+import { verifyAccessToken } from '@src/utils/security'
 import { getCacheKey } from '@sujin/lib/utils/cache'
 /* Models */
 import Cached from '@sujin/share/model/Cache'
@@ -20,21 +20,21 @@ import { COLLECTION } from '@sujin/lib/constants'
  * - Builds a `search` string from the recipe title and ingredients.
  * - Clears the recipes cache after insertion.
  *
- * @param recipe - The recipe payload to insert.
- * @param token - GraphQL JWT identifying the creating user.
- * @returns The newly-created recipe `_id` as a string.
- * @throws {Error} When the token is invalid or missing.
+ * @param   {T_Recipe} recipe The recipe payload to insert.
+ * @param   {string}   token  Access token.
+ * @returns {string}          The newly-created recipe `_id` as a string.
+ * @throws  {Error}           When the token is invalid or missing.
  */
-export const createRecipe = async (recipe: T_Recipe, _token: string): Promise<string> => {
+export const createRecipe = async (recipe: T_Recipe, token: string): Promise<string> => {
     // Verify Token
-    const token = verifyToken(_token)
-    if (!token || !token.sub || !token.sub._id) throw new Error()
+    const payload = await verifyAccessToken(token)
+    if (!payload || !payload.sub || !payload.sub._id) throw new Error()
 
     const search = new Set([recipe.title, ...recipe.ingredients.map((item) => item.title)])
 
     const result = await Recipe.insertOne({
         ...recipe,
-        user: new Types.ObjectId(token.sub._id),
+        user: new Types.ObjectId(payload.sub._id),
         search: Array.from(search).join(' '),
     })
     await Cached.getInstance().flush(getCacheKey(COLLECTION.RECIPE))

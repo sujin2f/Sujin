@@ -7,7 +7,7 @@ import sanitize from 'mongo-sanitize'
  * inserts or replaces the corresponding Archive document in MongoDB.
  *
  * Side effects:
- * - Verifies the caller is an admin via `verifyAdmin`.
+ * - Verifies the caller is an admin.
  * - Flushes the cache entry for the archive.
  * - Calls `updateTotal` to update totals that depend on the archive.
  *
@@ -20,7 +20,7 @@ import { Archive } from '@src/schema/archive'
 import Cached from '@sujin/share/model/Cache'
 import { Logger } from '@sujin/share/model/Logger'
 /* Utils */
-import { verifyAdmin } from '@src/utils/security'
+import { verifyAccessToken } from '@src/utils/security'
 import { getCacheKey } from '@sujin/lib/utils/cache'
 import { getTermBySlug } from '@src/utils/mysql/term'
 import { mysqlDisconnect } from '@src/utils/mysql'
@@ -30,10 +30,12 @@ import { updateTotal } from '@src/utils/mongo/updateTotal'
 import { COLLECTION, ARCHIVE } from '@sujin/lib/constants'
 
 export const refreshCategory = async (_slug: string, token: string): Promise<boolean[]> => {
+    const payload = await verifyAccessToken(token)
+    if (!payload.sub.admin) {
+        throw new Error('🤬 refreshCategory mutation has been called by non admin user')
+    }
+
     const slug = sanitize(_slug)
-
-    await verifyAdmin(token, 'refreshCategory mutation has been called by non admin user')
-
     const wp = await getTermBySlug(slug)
     await mysqlDisconnect()
 

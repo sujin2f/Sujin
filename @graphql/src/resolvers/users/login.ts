@@ -6,9 +6,11 @@ import { User } from '@src/schema/users'
 import { mysqlDisconnect } from '@src/utils/mysql'
 import { isUserAdmin } from '@src/utils/mysql/isUserAdmin'
 import { createHash } from '@sujin/share/utils/crypto'
-import { getSecret } from '@src/utils/security'
+import { createRefreshToken, getSecret } from '@src/utils/security'
 /* T_Type */
-import type { T_User } from '@sujin/lib/types'
+import type { T_GoogleUser, T_User } from '@sujin/lib/types'
+import type { Response } from '@src/types'
+import { HEADER_TOKEN } from '@sujin/lib/constants'
 
 /**
  * Exchange a Next.js `nextToken` for an application GraphQL access token.
@@ -18,21 +20,24 @@ import type { T_User } from '@sujin/lib/types'
  *   capability.
  * - Issues a signed GraphQL JWT containing `_id`, `email` and `admin` flag.
  *
- * @param nextToken - A JWT issued by NextAuth containing the user's email.
- * @returns An object containing the created user's `_id` and a new `accessToken`.
+ * // TODO check the request is from @auth
+ *
+ * @param {T_GoogleUser} user - A JWT issued by NextAuth containing the user's email.
+ * @param {Response} res - Response from express.
+ * @returns {T_User}
  * @throws {Error} When the incoming token is missing or invalid.
  */
-export const login = async (_email: string): Promise<T_User> => {
-    if (!_email) {
+export const login = async (user: T_GoogleUser, res: Response): Promise<T_User> => {
+    const email = sanitize(user.email)
+
+    if (!email) {
         throw new Error('🤬 Login: email is empty')
     }
-    const email = sanitize(_email)
     const hashed = createHash(email, getSecret('email'))
     const _id = await User.findOne<T_User>({ email: hashed }).then(async (result) => {
         if (result) {
             return result._id.toString()
         }
-
         // Create a new user
         const user = await User.insertOne<T_User>({ email: hashed })
         return user._id.toString()
@@ -46,6 +51,10 @@ export const login = async (_email: string): Promise<T_User> => {
         _id,
         admin,
     }
+
+    // Refresh Token
+    const refreshToken = createRefreshToken({ ...user, ...result })
+    res.setHeader(HEADER_TOKEN, `Bearer ${refreshToken}`)
 
     Logger.info(`🤟 login has been finished: ${email}`)
     return result

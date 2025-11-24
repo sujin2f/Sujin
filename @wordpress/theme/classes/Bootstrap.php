@@ -11,6 +11,7 @@ namespace Sujin\Theme;
 
 use Sujin\Theme\RestAPI;
 use Sujin\Theme\Post;
+use Sujin\Theme\Tokens;
 
 /**
  * Entry Point
@@ -30,31 +31,19 @@ class Bootstrap {
 
 	/**
 	 * Constructor
-	 *
-	 * @visibility public
 	 */
 	public function __construct() {
 		new RestAPI();
 		new Post();
+		new Tokens();
 
 		add_action( 'after_setup_theme', array( $this, 'check_plugin_dependency' ) );
 		add_action( 'after_setup_theme', array( $this, 'after_setup_theme' ) );
 	}
 
 	/**
-	 * Add version postmeta on post
-	 *
-	 * @visibility public
-	 * @param int $post_id post id.
-	 */
-	public function add_version_to_post( int $post_id ): void {
-	}
-
-	/**
 	 * Dependency checking
 	 * The theme requires ACF
-	 *
-	 * @visibility public
 	 */
 	public function check_plugin_dependency(): void {
 		if ( ! is_plugin_active( 'advanced-custom-fields/acf.php' ) ) {
@@ -66,13 +55,11 @@ class Bootstrap {
 	/**
 	 * Dependency checking
 	 * The theme requires ACF
-	 *
-	 * @visibility public
 	 */
 	public function missing_plugin_dependency_acf(): void {
 		?>
 		<div class="notice notice-error is-dismissible">
-			<p>Your theme requires the "My Required Plugin" to function correctly. Please install and activate it.</p>
+			<p>This theme requires the "Advanced Custom Fields" to function correctly. Please install and activate it.</p>
 		</div>
 		<?php
 	}
@@ -88,8 +75,6 @@ class Bootstrap {
 	/**
 	 * Theme supports
 	 * Post thumbnail, HTML5, Widgets, Feeds, Title, and Excerpt for page type.
-	 *
-	 * @visibility private
 	 */
 	private function add_theme_support(): void {
 		add_theme_support( 'post-thumbnails' );
@@ -102,8 +87,6 @@ class Bootstrap {
 
 	/**
 	 * Register Thumbnail sizes
-	 *
-	 * @visibility private
 	 */
 	private function set_post_thumbnail(): void {
 		add_image_size(

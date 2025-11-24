@@ -11,11 +11,12 @@ import { ApolloProvider } from '@lib/components/ApolloProvider'
 import { ReduxProvider } from '@lib/components/ReduxProvider'
 import Error from '@app/global-error'
 import Loading from '@app/loading'
+import { UserInfoProvider } from '@lib/components/UserInfoProvider'
+/* Utils */
+import { getUserInfo } from '@lib/utils/server'
 /* Assets */
 import '@app/layout.scss'
 import '@common/scss/base.scss'
-import { getUserInfo } from '@lib/utils/server'
-import { SessionProvider } from '@lib/components/header/SessionProvider'
 
 export const generateMetadata = async (): Promise<Metadata> => {
     const metadata: Metadata = {
@@ -59,7 +60,7 @@ const ubuntu = Ubuntu({
  * @param {ReactNode} props.children - The content to be wrapped by the layout.
  */
 export default async function AppLayout({ children }: PropsWithChildren) {
-    const user = await getUserInfo()
+    const user = await getUserInfo().catch(() => null)
     const adSense = process.env.NEXT_PUBLIC_GOOGLE_AD_CLIENT ? (
         <Script
             async
@@ -76,9 +77,9 @@ export default async function AppLayout({ children }: PropsWithChildren) {
                 <Suspense fallback={<Loading />}>
                     <ApolloProvider>
                         <ReduxProvider>
-                            <SessionProvider user={user}>
+                            <UserInfoProvider user={user}>
                                 <ErrorBoundary errorComponent={Error}>{children}</ErrorBoundary>
-                            </SessionProvider>
+                            </UserInfoProvider>
                         </ReduxProvider>
                     </ApolloProvider>
                 </Suspense>

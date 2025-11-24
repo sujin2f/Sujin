@@ -1,7 +1,7 @@
-import { SessionContext } from '@lib/components/header/SessionProvider'
 import { useContext } from 'react'
+import { UserInfoContext } from '@lib/components/UserInfoProvider'
 
 export const useUserInfo = () => {
-    const user = useContext(SessionContext)
+    const { user } = useContext(UserInfoContext)
     return user
 }

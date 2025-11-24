@@ -1,6 +1,6 @@
 <?php
 /**
- * Rest API
+ * Post management
  *
  * @package sujinc.com
  * @since   12.0.0
@@ -10,6 +10,10 @@
 namespace Sujin\Theme;
 
 use Firebase\JWT\JWT;
+use GraphQL\Client;
+use GraphQL\Query;
+use GraphQL\Mutation;
+use GraphQL\Variable;
 
 /**
  * Post controller
@@ -17,8 +21,6 @@ use Firebase\JWT\JWT;
 class Post {
 	/**
 	 * Constructor
-	 *
-	 * @visibility public
 	 */
 	public function __construct() {
 		add_action( 'save_post', array( $this, 'save_post' ), 15, 2 );
@@ -30,7 +32,6 @@ class Post {
 	 * 2. Version
 	 * 3. Request GQL to update MongoDB
 	 *
-	 * @visibility public
 	 * @param int      $post_id Post ID.
 	 * @param \WP_Post $post    Post instance.
 	 */
@@ -38,17 +39,16 @@ class Post {
 		if ( 'publish' === $post->post_status ) {
 			$this->save_content( $post_id, $post->post_content );
 			$this->update_version( $post_id, );
-			$this->request_gql( $post->post_name, $post->post_type );
+			$this->gql_refresh_post( $post->post_name, $post->post_type );
 		} else {
 			delete_post_meta( $post_id, 'the_content' );
-			$this->request_gql( $post->post_name, $post->post_type );
+			$this->gql_refresh_post( $post->post_name, $post->post_type );
 		}
 	}
 
 	/**
 	 * Save parsed HTML post to metadata for published post.
 	 *
-	 * @visibility public
 	 * @param int    $post_id      Post ID.
 	 * @param string $post_content Post content.
 	 */
@@ -61,7 +61,6 @@ class Post {
 	 * Update content version for GQL to process content differently
 	 * // TODO create deployment script to update VERSION env from package.json.
 	 *
-	 * @visibility public
 	 * @param int $post_id Post ID.
 	 */
 	private function update_version( int $post_id ): void {
@@ -75,37 +74,20 @@ class Post {
 	/**
 	 * Send refreshPost/Page to GQL
 	 *
-	 * @visibility public
 	 * @param string $slug      Post slug.
 	 * @param string $post_type post or page.
 	 */
-	private function request_gql( string $slug, string $post_type ): void {
-		$gql_server = getenv_docker( 'GQL_ENDPOINT', '' );
-		if ( ! $gql_server ) {
-			return;
-		}
-		$query    = 'post' === $post_type ? 'refreshPost' : 'refreshPage';
-		$mutation = array(
-			'query' => 'mutation {
-					' . $query . '(slug: "' . $slug . '")
-				}',
-		);
-		$secret   = getenv_docker( 'NEXTAUTH_SECRET', '' );
-		$payload  = array(
-			'' => '',
-		);
-		$token    = JWT::encode( $payload, $secret, 'HS256' );
-		$args     = array(
-			'headers' => array(
-				'Content-Type'  => 'application/json',
-				'Authorization' => 'Bearer ' . $token,
-			),
-			'body'    => wp_json_encode( $mutation ),
-		);
+	private function gql_refresh_post( string $slug, string $post_type ): void {
+		$client = new Client( getenv_docker( 'GQL_ENDPOINT', '' ), array( 'authorization' => 'Bearer ' . Tokens::get_token() ) );
+		$query  = 'post' === $post_type ? 'refreshPost' : 'refreshPage';
+		$gql    = ( new Mutation( $query ) )
+			->setVariables( array( new Variable( 'slug', 'String', true ) ) )
+			->setArguments( array( 'slug' => '$slug' ) );
 
-		/**
-		 * // TODO Finish up
-		 * $response = wp_remote_post( $gql_server, $args );
-		*/
+		$client->runQuery(
+			$gql,
+			true,
+			array( 'slug' => $slug )
+		);
 	}
 }

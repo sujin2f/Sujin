@@ -1,10 +1,6 @@
 import type { ARCHIVE } from '../constants'
 import type { T_Recipe } from './recipe'
 
-export type T_GQL_Params_Login = {
-    email: string
-}
-
 export type T_GQL_Params_Id = {
     _id: string
 }

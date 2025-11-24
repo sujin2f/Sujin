@@ -9,7 +9,7 @@ import { Post } from '@src/schema/post'
 // Mock security.ts
 import SecurityMock from '@test/mocks/utils/security'
 jest.doMock('@src/utils/security', () => SecurityMock)
-import { verifyAdmin } from '@src/utils/security'
+import { verifyAccessToken } from '@src/utils/security'
 // Mock Logger
 import LoggerMock from '@test/mocks/utils/logger'
 jest.doMock('@sujin/share/model/Logger', () => LoggerMock)
@@ -25,18 +25,20 @@ describe('postsAllAdmin', () => {
         expect(true).toBe(true)
         const fakePosts = [{ id: 1, title: 'Hello' }]
         ;(Post.aggregate as jest.Mock).mockResolvedValue(fakePosts)
+        ;(verifyAccessToken as jest.Mock).mockResolvedValue({ sub: { admin: true } })
 
         const result = await postsAllAdmin(1, 'admin-token')
 
-        expect(verifyAdmin).toHaveBeenCalledWith('admin-token', expect.any(String))
+        expect(verifyAccessToken).toHaveBeenCalledWith('admin-token')
         expect(Post.aggregate).toHaveBeenCalled()
         expect(result).toEqual(fakePosts)
     })
 
     it('throws GraphQLError when no posts found', async () => {
         ;(Post.aggregate as jest.Mock).mockResolvedValue([])
+        ;(verifyAccessToken as jest.Mock).mockResolvedValue({ sub: { admin: true } })
 
         await expect(postsAllAdmin(1, 'admin-token')).rejects.toThrow('Cannot find any post')
-        expect(verifyAdmin).toHaveBeenCalled()
+        expect(verifyAccessToken).toHaveBeenCalled()
     })
 })

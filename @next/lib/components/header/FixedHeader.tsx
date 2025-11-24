@@ -1,6 +1,5 @@
 'use client'
-import { useCallback, useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 /* Components */
 import { TopBar } from '@common/components/layout/TopBar'
@@ -11,6 +10,8 @@ import Hamburger from '@lib/components/header/Hamburger'
 import Search from '@lib/components/header/Search'
 import Button from '@common/components/forms/Button'
 /* Utils */
+import { useNextClient } from '@lib/hooks/useNextClient'
+import { useLogInOut } from '@lib/hooks/useLogInOut'
 import { useUserInfo } from '@lib/hooks/useUserInfo'
 /* CONSTANTS */
 import { MENUS } from '@lib/constants'
@@ -36,10 +37,11 @@ type Props = {
  * @param {string} props.menu - The menu items to be displayed in the top bar.
  */
 const FixedHeader = ({ className, ...props }: Props) => {
-    const router = useRouter()
-    const user = useUserInfo()
+    const isClient = useNextClient()
+    const { login, logout } = useLogInOut()
     const menu = MENUS[props.menu]
     const [scrolled, setScrolled] = useState('')
+    const user = useUserInfo()
 
     const handleScrolled = useCallback(() => {
         if (window.scrollY > TOP_MENU_SCROLLED_POSITION && !scrolled) {
@@ -57,12 +59,12 @@ const FixedHeader = ({ className, ...props }: Props) => {
         return () => window.removeEventListener('scroll', handleScrolled)
     }, [handleScrolled])
 
-    const pathname =
-        typeof window !== 'undefined'
-            ? !window.location.pathname || window.location.pathname === '/'
-                ? 'root'
-                : window.location.pathname
-            : ''
+    const pathname = useMemo<string>(() => {
+        if (!isClient) {
+            return ''
+        }
+        return window.location.pathname === '/' ? 'root' : window.location.pathname
+    }, [isClient])
 
     return (
         <TopBar fixed fullWidth className={className}>
@@ -103,7 +105,7 @@ const FixedHeader = ({ className, ...props }: Props) => {
                     </nav>
 
                     {user ? (
-                        <Button className="profile" onClick={() => router.push(`/auth/logout/${encodeURI(pathname)}`)}>
+                        <Button className="profile" onClick={() => logout(pathname)}>
                             {user.picture && (
                                 <picture>
                                     <img src={user.picture} alt={'Profile'} width={35} height={35} loading="lazy" />
@@ -112,7 +114,7 @@ const FixedHeader = ({ className, ...props }: Props) => {
                             <span>Logout</span>
                         </Button>
                     ) : (
-                        <Button className="profile" onClick={() => router.push(`/auth/login/${encodeURI(pathname)}`)}>
+                        <Button className="profile" onClick={() => login(pathname)}>
                             <picture>
                                 <source
                                     media="(max-width: 599px)"

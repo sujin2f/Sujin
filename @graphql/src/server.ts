@@ -15,6 +15,7 @@ import { Mutation, Query } from '@src/resolvers'
 import { typeDefs } from '@src/resolvers/typeDefs'
 
 import { IS_DEV } from '@sujin/share/constants/helper'
+import { HEADER_TOKEN } from '@sujin/lib/constants'
 
 // Resolvers define how to fetch the types defined in your schema.
 // This resolver retrieves books from the "books" array above.
@@ -39,11 +40,11 @@ const corsOptions = {
     origin,
     credentials: true,
     methods: ['POST'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    allowedHeaders: ['Content-Type', HEADER_TOKEN],
 }
 
 const authenticateUser = (req: express.Request): string => {
-    const authorizationHeader = req.headers.authorization
+    const authorizationHeader = req.headers[HEADER_TOKEN]
     if (!authorizationHeader || !authorizationHeader.startsWith('Bearer ')) {
         return ''
     }
@@ -58,8 +59,8 @@ const start = async () => {
         cors<cors.CorsRequest>(corsOptions),
         express.json({ limit: '50mb' }),
         expressMiddleware(server, {
-            context: async ({ req }) => {
-                return { token: authenticateUser(req) }
+            context: async ({ req, res }) => {
+                return { token: authenticateUser(req), res }
             },
         }),
     )

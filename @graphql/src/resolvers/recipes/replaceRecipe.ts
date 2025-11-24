@@ -5,7 +5,7 @@ import { Logger } from '@sujin/share/model/Logger'
 /* T_Types */
 import type { T_Recipe } from '@sujin/lib/types'
 /* Utils */
-import { verifyToken } from '@src/utils/security'
+import { verifyAccessToken } from '@src/utils/security'
 import { getCacheKey } from '@sujin/lib/utils/cache'
 /* Models */
 import Cached from '@sujin/share/model/Cache'
@@ -18,15 +18,15 @@ import { COLLECTION } from '@sujin/lib/constants'
  * - Verifies the caller's token and ensures the caller owns the recipe.
  * - Replaces the recipe in the database and flushes the recipe cache.
  *
- * @param _recipe - The recipe payload (must include `_id`).
- * @param token - GraphQL JWT identifying the requesting user.
- * @returns The updated recipe `_id` as a string.
- * @throws {Error} When verification fails, the recipe is missing, or the caller is not the owner.
+ * @param   {T_Recipe} _recipe The recipe payload (must include `_id`).
+ * @param   {string}   token   GraphQL JWT identifying the requesting user.
+ * @returns {string}           The updated recipe `_id` as a string.
+ * @throws  {Error}            When verification fails, the recipe is missing, or the caller is not the owner.
  */
-export const replaceRecipe = async (_recipe: T_Recipe, _token: string): Promise<string> => {
+export const replaceRecipe = async (_recipe: T_Recipe, token: string): Promise<string> => {
     // Verify Token
-    const token = verifyToken(_token)
-    if (!token || !token.sub || !token.sub._id) throw new Error()
+    const payload = await verifyAccessToken(token)
+    if (!payload || !payload.sub || !payload.sub._id) throw new Error()
 
     if (!_recipe._id) throw new Error()
 
@@ -37,7 +37,7 @@ export const replaceRecipe = async (_recipe: T_Recipe, _token: string): Promise<
     if (!recipe) {
         throw new Error()
     }
-    if (recipe.user.toString() !== token.sub._id) {
+    if (recipe.user.toString() !== payload.sub._id) {
         throw new Error()
     }
 
