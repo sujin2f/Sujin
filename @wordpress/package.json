@@ -4,5 +4,10 @@
 	"description": "Wordpress CMS for sujinc.com project",
 	"author": "Sujin Choi",
 	"license": "GPL-2.0-or-later",
-	"scripts": {}
+	"scripts": {
+		"package": "node ./package.mjs"
+	},
+	"devDependencies": {
+		"dotenv": "^17.2.3"
+	}
 }

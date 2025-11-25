@@ -1,0 +1,41 @@
+services:
+    sujin_wordpress:
+        container_name: sujin_wordpress
+        image: wordpress:6.8.3-php8.3
+        restart: always
+        environment:
+            WORDPRESS_DB_HOST: sujin_mysql
+            WORDPRESS_DB_NAME: ${MYSQL_DB}
+            WORDPRESS_DB_USER: ${MYSQL_USER}
+            WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+            WORDPRESS_DEBUG: 1
+            TZ: America/Toronto
+            ACCESS_SECRET: ${ACCESS_SECRET}
+            GQL_ENDPOINT: ${GQL_ENDPOINT}
+            VERSION: ${VERSION}
+            ENV: ${ENV}
+        ports:
+            - ${SERVER_PORT}:80
+        volumes:
+            # Debug purpose
+            # Logger Recommendation https://lnav.org/
+            - ./wordpress/wp-config.php:/var/www/html/wp-config.php
+            - ./debug.log:/var/www/html/wp-content/debug.log
+            - ./plugins/resume-item:/var/www/html/wp-content/plugins/resume-item
+            - ./theme:/var/www/html/wp-content/themes/sujin
+            - ../@next/public/uploads:/var/www/html/wp-content/uploads
+        networks:
+            - sujin_public
+            - sujin_wordpress
+            - sujin_graphql
+
+networks:
+    sujin_public:
+        external: true
+        internal: false
+    sujin_graphql:
+        external: true
+        internal: true
+    sujin_wordpress:
+        external: true
+        internal: true
