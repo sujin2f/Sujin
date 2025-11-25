@@ -5,3 +5,8 @@ npm-debug.log
 README.md
 .next
 .git
+coverage
+temp
+.backup
+.jest
+.vscode

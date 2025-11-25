@@ -1,0 +1,28 @@
+services:
+    sujin_next:
+        container_name: sujin_next
+        image: sujin2f/next:${VERSION}
+        restart: always
+        environment:
+            NEXT_PUBLIC_TITLE: ${NEXT_PUBLIC_TITLE}
+            NEXT_PUBLIC_EXCERPT: ${NEXT_PUBLIC_EXCERPT}
+            NEXT_PUBLIC_BASE_URL: ${NEXT_PUBLIC_BASE_URL}
+            NEXT_PUBLIC_GOOGLE_AD_CLIENT: ${NEXT_PUBLIC_GOOGLE_AD_CLIENT}
+            NEXT_PUBLIC_FOOTER_GOOGLE_AD_SLOT: ${NEXT_PUBLIC_FOOTER_GOOGLE_AD_SLOT}
+            NEXT_PUBLIC_SIDEBAR_GOOGLE_AD_SLOT: ${NEXT_PUBLIC_SIDEBAR_GOOGLE_AD_SLOT}
+            NEXT_PUBLIC_AUTH_ENDPOINT: ${NEXT_PUBLIC_AUTH_ENDPOINT}
+            NEXT_PUBLIC_GQL_ENDPOINT: ${NEXT_PUBLIC_GQL_ENDPOINT}
+            ACCESS_SECRET: ${ACCESS_SECRET}
+        ports:
+            - ${SERVER_PORT}:80
+        networks:
+            - sujin_public
+            - sujin_graphql
+
+networks:
+    sujin_public:
+        external: true
+        internal: false
+    sujin_graphql:
+        external: true
+        internal: true

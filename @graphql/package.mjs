@@ -128,6 +128,9 @@ exec(`docker build --build-arg SERVER_PORT=${process.env.SERVER_PORT} -t ${image
     console.log(`👀 stdout: ${stdout}`)
     console.error(`👀 stderr: ${stderr}`)
 
+    // Delay 1 sec for finishing build
+    setTimeout(() => {}, 1000); 
+
     console.log('🤟 \x1B[32m- Running docker compose... \x1B[0m')
     exec(`docker-compose up -d --remove-orphans`, async (error, stdout, stderr) => {
         if (error) {

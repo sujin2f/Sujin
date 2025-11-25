@@ -3,23 +3,18 @@ services:
         container_name: sujin_auth
         image: sujin2f/auth:${VERSION}
         restart: always
+        environment:
+            CORS_ORIGINS: ${CORS_ORIGINS}
         ports:
             - ${SERVER_PORT}:${SERVER_PORT}
-        environment:
-            MONGO: sujin_mongo
-            MYSQL: sujin_mysql
         networks:
             - sujin_public
-            - sujin_database
             - sujin_graphql
 
 networks:
     sujin_public:
         external: true
         internal: false
-    sujin_database:
-        external: true
-        internal: true
     sujin_graphql:
         external: true
         internal: true

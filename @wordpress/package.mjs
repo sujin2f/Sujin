@@ -81,6 +81,9 @@ exec(
         console.log(`👀 stdout: ${stdout}`)
         console.error(`👀 stderr: ${stderr}`)
 
+        // Delay 1 sec for finishing build
+        setTimeout(() => {}, 1000); 
+
         console.log('🤟 \x1B[32m- Running docker compose... \x1B[0m')
         exec(`docker-compose -f docker-compose.prod.yml up -d --remove-orphans`, async (error, stdout, stderr) => {
             if (error) {

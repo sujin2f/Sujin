@@ -11,6 +11,8 @@ const allowedOrigins = JSON.parse(`${process.env.CORS_ORIGINS}`)
 
 const app = express()
 app.use(session(sessionOption))
+app.set('trust proxy', 1) // Trust first proxy
+
 app.use(
     cors({
         origin: (origin, callback) => {
@@ -37,4 +39,3 @@ app.listen(port, () => {
 })
 
 // TODO jest
-// TODO production

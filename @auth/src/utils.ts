@@ -23,3 +23,11 @@ export const gqlLogin = async (user: T_GoogleUser): Promise<ReturnTypeLogin> => 
         return { user: response.data.data.login, refresh: response.headers[HEADER_TOKEN] }
     })) satisfies ReturnTypeLogin
 }
+
+export const getOrigin = (url?: string) => {
+    try {
+        return new URL(`${url}`).origin
+    } catch {
+        return 'invalid origin'
+    }
+}
