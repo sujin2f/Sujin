@@ -1,6 +1,6 @@
 services:
-    mongo:
-        container_name: mongo
+    sujin_mongo:
+        container_name: sujin_mongo
         image: mongo:8.2
         restart: always
         environment:
@@ -15,10 +15,11 @@ services:
             - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
             - mongo:/data/db
         networks:
-            - private
+            - sujin_public # dev
+            - sujin_database
 
-    mysql:
-        container_name: mysql
+    sujin_mysql:
+        container_name: sujin_mysql
         image: mariadb:12.1.2-ubi10
         restart: always
         environment:
@@ -31,52 +32,34 @@ services:
         volumes:
             - mysql:/var/lib/mysql
         networks:
-            - private
-            - mysql
-
-    wordpress:
-        container_name: wordpress
-        image: wordpress:6.8-php8.3-fpm-alpine
-        restart: always
-        environment:
-            WORDPRESS_DB_HOST: mysql
-            WORDPRESS_DB_NAME: ${MYSQL_DB}
-            WORDPRESS_DB_USER: ${MYSQL_USER}
-            WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
-            WORDPRESS_DB_PORT: ${MYSQL_PORT}
-            WORDPRESS_DEBUG: 1
-            TZ: America/Toronto
-            ACCESS_SECRET: ${ACCESS_SECRET}
-            GQL_ENDPOINT: ${GQL_ENDPOINT}
-            VERSION: ${VERSION}
-            ENV: ${ENV}
-        ports:
-            - ${WP_PORT}:80
-        volumes:
-            - ./@wordpress/wordpress/wp-config.php:/var/www/html/wp-config.php
-            # Logger Recommendation https://lnav.org/
-            - ./@wordpress/debug.log:/var/www/html/wp-content/debug.log
-            - ./@wordpress/plugins/resume-item:/var/www/html/wp-content/plugins/resume-item
-            - ./@wordpress//theme:/var/www/html/wp-content/themes/sujin
-            - ./@next/public/uploads:/var/www/html/wp-content/uploads
-        depends_on:
-            - mysql
-        networks:
-            - public
-            - gql
-            - mysql
+            - sujin_public # dev
+            - sujin_database
+            - sujin_wordpress
 
 volumes:
     mongo:
     mysql:
 
-# Private is not real private. This is just dev setting.
+# Networks:
+#   - In dev environment, put everything into sujin_public
+# sujin_public    Public network to web
+#                 @auth, @graphql, @next, @wordpress
+#                 docker network create sujin_public.
+#
+# sujin_database  Private network for databases
+#                 @graphql, mysql, mongo
+#                 docker network create --internal sujin_database.
+#
+# sujin_wordpress Private network for WP
+#                 @wordpress, mysql
+#                 docker network create --internal sujin_wordpress.
 networks:
-    public:
-        driver: bridge
-    private:
-        driver: bridge
-    gql:
-        driver: bridge
-    mysql:
-        driver: bridge
+    sujin_public:
+        external: true
+        internal: false
+    sujin_database:
+        external: true
+        internal: true
+    sujin_wordpress:
+        external: true
+        internal: true

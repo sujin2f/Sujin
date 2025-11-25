@@ -36,7 +36,7 @@ await fs.promises.writeFile(path.join(files.envDev), envDev)
 console.log('🤟 \x1B[32m- Version updated. \x1B[0m')
 
 // Check if Docker image exists
-const image = `sujin2f/graphql:${VERSION}`
+const image = `sujin2f/auth:${VERSION}`
 const { stdout, stderr } = await execPromise(`docker image ls ${image}`)
 if (stdout.includes(image)) {
     console.error(`⛈️ Image ${image} already exists.`)
@@ -47,13 +47,13 @@ if (stderr) {
     process.exit(1)
 }
 
-// tsconfig.json
+// Replace tsconfig.json
 import tsConfig from './tsconfig.json' with { type: 'json' }
 delete tsConfig.compilerOptions.paths['@sujin/lib/*']
 delete tsConfig.compilerOptions.paths['@sujin/share/*']
 tsConfig.compilerOptions.paths['@sujin/*'] = ['./internal_modules/*']
 
-// webpack
+// Replace webpack configuration
 let webpack = await fs.promises.readFile(path.join(files.webpack), 'utf8')
 webpack = webpack.replace(`'@sujin/lib': path.resolve(import.meta.dirname, '..', '@lib', 'src'),`, '')
 webpack = webpack.replace(`'@sujin/share': path.resolve(import.meta.dirname, '..', '@common', 'src'),`, '')
@@ -118,7 +118,7 @@ await createDirectories()
 await backupFiles()
 await modifyFiles()
 
-console.log('🤟 \x1B[32m- Creating Docker image... \x1B[0m')
+console.log(`🤟 \x1B[32m- Creating Docker image ${image} with port ${process.env.SERVER_PORT}... \x1B[0m`)
 exec(`docker build --build-arg SERVER_PORT=${process.env.SERVER_PORT} -t ${image} .`, async (error, stdout, stderr) => {
     if (error) {
         console.error('🤬 \x1B[31m- docker build error: \x1B[0m', error)
@@ -129,7 +129,7 @@ exec(`docker build --build-arg SERVER_PORT=${process.env.SERVER_PORT} -t ${image
     console.error(`👀 stderr: ${stderr}`)
 
     // Delay 1 sec for finishing build
-    setTimeout(() => {}, 1000); 
+    setTimeout(() => {}, 1000)
 
     console.log('🤟 \x1B[32m- Running docker compose... \x1B[0m')
     exec(`docker-compose up -d --remove-orphans`, async (error, stdout, stderr) => {

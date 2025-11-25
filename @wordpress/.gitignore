@@ -3,7 +3,6 @@
 **/node_modules
 **/vendor
 **/coverage
-**/build
 wordpress
 
 # misc
@@ -19,4 +18,3 @@ debug.log
 
 # Dev mode
 **/.backup
-**/composer.lock

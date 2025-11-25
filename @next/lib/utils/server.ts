@@ -11,7 +11,7 @@ import {
 } from '@lib/constants'
 import { DAY_IN_SECONDS, HOUR_IN_SECONDS } from '@sujin/share/constants/datetime'
 import type { Nullable } from '@sujin/share/types'
-import type { T_Token, T_UserSub } from '@sujin/lib/types'
+import type { T_Login_Token, T_Token, T_UserSub } from '@sujin/lib/types'
 import { HEADER_TOKEN } from '@sujin/lib/constants'
 import { refresh } from '@lib/apollo/queries/users/refresh'
 
@@ -55,7 +55,8 @@ const ACCESS_SECRET = `${process.env.ACCESS_SECRET}`
  * @returns
  */
 export const createLoginToken = (origin: string) => {
-    return jwt.sign({ origin, rand: new Date().getTime() }, ACCESS_SECRET, { expiresIn: '10m' })
+    const payload = { iss: origin, sub: `${new Date().getTime()}` } satisfies T_Login_Token
+    return jwt.sign(payload, ACCESS_SECRET, { expiresIn: '10m' })
 }
 
 export const setCookies = async () => {

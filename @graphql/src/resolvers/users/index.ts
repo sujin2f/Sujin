@@ -12,7 +12,8 @@ import type { T_GoogleUser } from '@sujin/lib/types'
  */
 export const users = {
     Mutation: {
-        login: async (_: unknown, user: T_GoogleUser, context: T_Context) => await login(user, context.res),
+        login: async (_: unknown, user: T_GoogleUser, context: T_Context) =>
+            await login(user, context.token, context.res),
         refresh: async (_: unknown, __: unknown, context: T_Context) => await refresh(context.token, context.res),
         isAdmin: (_: unknown, __: unknown, context: T_Context) => isAdmin(context.token),
     },

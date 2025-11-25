@@ -4,13 +4,15 @@ import cors from 'cors'
 /* Models */
 import { Logger } from '@sujin/share/model/Logger'
 /* Utils */
-import { authRoutes } from '@src/router'
+import { googleRoutes } from '@src/routers/google'
 import { sessionOption } from '@src/session'
 
 const allowedOrigins = JSON.parse(`${process.env.CORS_ORIGINS}`)
 
 const app = express()
 app.use(session(sessionOption))
+app.set('trust proxy', 1) // Trust first proxy
+
 app.use(
     cors({
         origin: (origin, callback) => {
@@ -28,7 +30,7 @@ app.use(
         credentials: true, // If you need to send cookies or authentication headers
     }),
 )
-app.use('/', authRoutes)
+app.use('/', googleRoutes)
 
 // Start the server
 const port = process.env.SERVER_PORT
@@ -37,4 +39,3 @@ app.listen(port, () => {
 })
 
 // TODO jest
-// TODO production

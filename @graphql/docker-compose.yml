@@ -1,20 +1,21 @@
 services:
-    graphql:
-        container_name: graphql-${VERSION}
+    sujin_graphql:
+        container_name: sujin_graphql
         image: sujin2f/graphql:${VERSION}
         restart: always
         ports:
-            - ${SERVER_PORT}:3000
+            - ${SERVER_PORT}:${SERVER_PORT}
         environment:
-            MONGO: mongo
-            MYSQL: mysql
+            MONGO: sujin_mongo
+            MYSQL: sujin_mysql
         networks:
-            - private
+            - sujin_public
+            - sujin_database
 
-volumes:
-    mongo:
-
-# TODO prod secure network
 networks:
-    private:
+    sujin_public:
         external: true
+        internal: false
+    sujin_database:
+        external: true
+        internal: true

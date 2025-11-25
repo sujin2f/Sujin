@@ -1,4 +1,3 @@
-import type { PropsWithChildren } from 'react'
 import { notFound } from 'next/navigation'
 /* Components */
 import { Banner } from '@lib/components/header/Banner'
@@ -12,11 +11,11 @@ import RecipeEditClient from './Edit.client'
 import { cachedGQLRequest2 } from '@lib/apollo/queries/GQLRequest'
 import { recipe as getRecipe } from '@lib/apollo/queries/recipes/recipe'
 
-type Props = PropsWithChildren<{
+type Props = {
     params: Promise<{
         id: string
     }>
-}>
+}
 
 export default async function PageRecipeEdit({ params }: Props) {
     const user = await getUserInfo()

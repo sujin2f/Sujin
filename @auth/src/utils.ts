@@ -1,41 +1,9 @@
 import axios from 'axios'
-/* Models */
-import { Logger } from '@sujin/share/model/Logger'
+import jwt from 'jsonwebtoken'
 /* T_Types */
-import type { T_User, T_GoogleUser } from '@sujin/lib/types'
+import type { T_User, T_GoogleUser, T_Login_Token } from '@sujin/lib/types'
 /* CONSTANTS */
 import { HEADER_TOKEN } from '@sujin/lib/constants'
-
-const CLIENT_ID = process.env.GOOGLE_CLIENT_ID
-const CLIENT_SECRET = `${process.env.GOOGLE_CLIENT_SECRET}`
-const REDIRECT_URI = `${process.env.REDIRECT_URI}`
-
-export const fetchGoogleUser = async (code: string): Promise<T_GoogleUser> => {
-    let profile
-    try {
-        // Exchange authorization code for access token
-        const {
-            data: { access_token },
-        } = await axios.post('https://oauth2.googleapis.com/token', {
-            client_id: CLIENT_ID,
-            client_secret: CLIENT_SECRET,
-            code,
-            redirect_uri: REDIRECT_URI,
-            grant_type: 'authorization_code',
-        })
-
-        // Use access_token or id_token to fetch user profile
-        const data = await axios.get('https://www.googleapis.com/oauth2/v1/userinfo', {
-            headers: { Authorization: `Bearer ${access_token}` },
-        })
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        profile = (data as any).data
-    } catch (e) {
-        Logger.error('🤬 Fetching Google token has been failed: ', JSON.stringify(e))
-        throw new Error('🤬 Fetching Google token has been failed')
-    }
-    return profile
-}
 
 type ReturnTypeLogin = {
     user: T_User
@@ -52,7 +20,20 @@ export const gqlLogin = async (user: T_GoogleUser): Promise<ReturnTypeLogin> => 
             }
         }`
 
-    return (await axios.post(endpoint, { query: query }).then((response) => {
-        return { user: response.data.data.login, refresh: response.headers[HEADER_TOKEN] }
-    })) satisfies ReturnTypeLogin
+    const ACCESS_SECRET = `${process.env.ACCESS_SECRET}`
+    const payload = { iss: `${process.env.BASE_URL}`, sub: `${new Date().getTime()}` } satisfies T_Login_Token
+    const token = jwt.sign(payload, ACCESS_SECRET, { expiresIn: '10m' })
+    return (await axios
+        .post(endpoint, { query: query }, { headers: { Authorization: `Bearer ${token}` } })
+        .then((response) => {
+            return { user: response.data.data.login, refresh: response.headers[HEADER_TOKEN] }
+        })) satisfies ReturnTypeLogin
+}
+
+export const getOrigin = (url?: string) => {
+    try {
+        return new URL(`${url}`).origin
+    } catch {
+        return 'invalid origin'
+    }
 }

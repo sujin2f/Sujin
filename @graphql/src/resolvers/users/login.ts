@@ -1,3 +1,4 @@
+import jwt from 'jsonwebtoken'
 import sanitize from 'mongo-sanitize'
 /* Models */
 import { Logger } from '@sujin/share/model/Logger'
@@ -7,8 +8,9 @@ import { mysqlDisconnect } from '@src/utils/mysql'
 import { isUserAdmin } from '@src/utils/mysql/isUserAdmin'
 import { createHash } from '@sujin/share/utils/crypto'
 import { createRefreshToken, getSecret } from '@src/utils/security'
+import { verifyLoginToken } from '@sujin/lib/utils/token'
 /* T_Type */
-import type { T_GoogleUser, T_User } from '@sujin/lib/types'
+import type { T_GoogleUser, T_Login_Token, T_User } from '@sujin/lib/types'
 import type { Response } from '@src/types'
 import { HEADER_TOKEN } from '@sujin/lib/constants'
 
@@ -23,16 +25,20 @@ import { HEADER_TOKEN } from '@sujin/lib/constants'
  * // TODO check the request is from @auth
  *
  * @param {T_GoogleUser} user - A JWT issued by NextAuth containing the user's email.
+ * @param {string} token - temp token
  * @param {Response} res - Response from express.
  * @returns {T_User}
  * @throws {Error} When the incoming token is missing or invalid.
  */
-export const login = async (user: T_GoogleUser, res: Response): Promise<T_User> => {
+export const login = async (user: T_GoogleUser, token: string, res: Response): Promise<T_User> => {
     const email = sanitize(user.email)
-
     if (!email) {
         throw new Error('🤬 Login: email is empty')
     }
+    const payload = jwt.verify(token, getSecret('access')) as T_Login_Token
+    const origin = JSON.parse(`${process.env.CORS_ORIGINS}`) as string[]
+    verifyLoginToken(payload, origin)
+
     const hashed = createHash(email, getSecret('email'))
     const _id = await User.findOne<T_User>({ email: hashed }).then(async (result) => {
         if (result) {

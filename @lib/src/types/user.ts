@@ -39,3 +39,11 @@ export type T_Parsed_Token = {
     exp: number
     sub: T_UserSub
 }
+
+/**
+ * Token for temp validation of login
+ */
+export type T_Login_Token = {
+    iss: string
+    sub: string
+}
