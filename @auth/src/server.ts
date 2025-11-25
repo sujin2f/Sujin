@@ -4,7 +4,7 @@ import cors from 'cors'
 /* Models */
 import { Logger } from '@sujin/share/model/Logger'
 /* Utils */
-import { authRoutes } from '@src/router'
+import { googleRoutes } from '@src/routers/google'
 import { sessionOption } from '@src/session'
 
 const allowedOrigins = JSON.parse(`${process.env.CORS_ORIGINS}`)
@@ -28,7 +28,7 @@ app.use(
         credentials: true, // If you need to send cookies or authentication headers
     }),
 )
-app.use('/', authRoutes)
+app.use('/google', googleRoutes)
 
 // Start the server
 const port = process.env.SERVER_PORT

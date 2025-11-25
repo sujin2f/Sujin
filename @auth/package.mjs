@@ -27,10 +27,10 @@ const VERSION = packageJson.version
 // Overwrite VERSION info
 let env = await fs.promises.readFile(path.join(files.envProd), 'utf-8')
 let envDev = await fs.promises.readFile(path.join(files.envDev), 'utf-8')
-env = env.replace(/VERSION=[0-9.beta-]+\n\r/, '')
-env += `VERSION=${VERSION}\n\r`
-envDev = env.replace(/VERSION=[0-9.beta-]+\n\r/, '')
-envDev += `VERSION=${VERSION}\n\r`
+env = env.replace(/VERSION=[0-9.beta-]+\n/g, '')
+env += `VERSION=${VERSION}\n`
+envDev = env.replace(/VERSION=[0-9.beta-]+\n/g, '')
+envDev += `VERSION=${VERSION}\n`
 await fs.promises.writeFile(path.join(files.envProd), envDev)
 await fs.promises.writeFile(path.join(files.envDev), envDev)
 console.log('🤟 \x1B[32m- Version updated. \x1B[0m')
@@ -121,11 +121,23 @@ await modifyFiles()
 console.log('🤟 \x1B[32m- Creating Docker image... \x1B[0m')
 exec(`docker build --build-arg SERVER_PORT=${process.env.SERVER_PORT} -t ${image} .`, async (error, stdout, stderr) => {
     if (error) {
-        console.log('🤬 \x1B[31m- docker build error: \x1B[0m', error)
+        console.error('🤬 \x1B[31m- docker build error: \x1B[0m', error)
         await restoreFiles()
         return
     }
     console.log(`👀 stdout: ${stdout}`)
     console.error(`👀 stderr: ${stderr}`)
-    await restoreFiles()
+
+    console.log('🤟 \x1B[32m- Running docker compose... \x1B[0m')
+    exec(`docker-compose up -d --remove-orphans`, async (error, stdout, stderr) => {
+        if (error) {
+            console.error('🤬 \x1B[31m- docker compose error: \x1B[0m', error)
+            await restoreFiles()
+            return
+        }
+        console.log(`👀 stdout: ${stdout}`)
+        console.error(`👀 stderr: ${stderr}`)
+
+        await restoreFiles()
+    })
 })

@@ -1,0 +1,25 @@
+services:
+    sujin_auth:
+        container_name: sujin_auth
+        image: sujin2f/auth:${VERSION}
+        restart: always
+        ports:
+            - ${SERVER_PORT}:3000
+        environment:
+            MONGO: sujin_mongo
+            MYSQL: sujin_mysql
+        networks:
+            - sujin_public
+            - sujin_database
+            - sujin_graphql
+
+networks:
+    sujin_public:
+        external: true
+        internal: false
+    sujin_database:
+        external: true
+        internal: true
+    sujin_graphql:
+        external: true
+        internal: true

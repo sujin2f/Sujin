@@ -15,6 +15,7 @@ services:
             - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
             - mongo:/data/db
         networks:
+            # - sujin_public # dev
             - sujin_database
 
     sujin_mysql:
@@ -31,6 +32,7 @@ services:
         volumes:
             - mysql:/var/lib/mysql
         networks:
+            # - sujin_public # dev
             - sujin_database
             - sujin_wordpress
 

@@ -8,7 +8,8 @@ import { ACCESS_TOKEN_LIFETIME } from '@sujin/lib/constants'
 /* T_Types */
 import type { T_Token } from '@sujin/lib/types'
 /* Utils */
-import { fetchGoogleUser, gqlLogin } from '@src/utils'
+import { gqlLogin } from '@src/utils'
+import { fetchGoogleUser } from '@src/routers/google/utils'
 import { allowReferer, verifyToken, verifyRedirection, verifyCallbackRedirection } from '@src/middleware'
 
 declare module 'express-session' {
@@ -21,7 +22,7 @@ const routes = express.Router()
 
 const CLIENT_ID = process.env.GOOGLE_CLIENT_ID
 const ACCESS_SECRET = `${process.env.ACCESS_SECRET}`
-const REDIRECT_URI = `${process.env.REDIRECT_URI}`
+const REDIRECT_URI = `${process.env.GOOGLE_REDIRECT_URI}`
 const OAUTH_URL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=profile email`
 
 routes.get('/auth', allowReferer, verifyToken, verifyRedirection, (_, res) => {
@@ -77,4 +78,4 @@ routes.get(redirectPath, verifyCallbackRedirection, async (req, res) => {
     res.redirect(decodeURI(redirect))
 })
 
-export const authRoutes = routes
+export const googleRoutes = routes
