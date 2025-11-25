@@ -24,14 +24,12 @@ const mysqlConnect = async (): Promise<mysqld.Connection> => {
     const user = `${process.env.MYSQL_USER}`
     const password = `${process.env.MYSQL_PASSWORD}`
     const database = `${process.env.MYSQL_DB}`
-    const port = parseInt(process.env.MYSQL_PORT || '3306')
 
     const connection = mysqld.createConnection({
         host,
         user,
         password,
         database,
-        port,
     })
 
     global.mysql = await connection

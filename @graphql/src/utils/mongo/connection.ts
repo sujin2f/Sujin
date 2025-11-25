@@ -15,11 +15,6 @@ if (!process.env.MONGO) {
     throw new EnvironmentError('Invalid/Missing environment variable: "MONGO"')
 }
 
-if (!process.env.MONGO_PORT) {
-    Logger.error('⛈️ Invalid/Missing environment variable: "MONGO_PORT"')
-    throw new EnvironmentError('Invalid/Missing environment variable: "MONGO_PORT"')
-}
-
 if (!process.env.MONGO_USER) {
     Logger.error('⛈️ Invalid/Missing environment variable: "MONGO_USER"')
     throw new EnvironmentError('Invalid/Missing environment variable: "MONGO_USER"')
@@ -45,8 +40,7 @@ if (!process.env.MONGO_DATABASE) {
  * @throws {EnvironmentError} When the connection attempt fails.
  */
 export const connectToDatabase = async (): Promise<void> => {
-    const port = process.env.MONGO_PORT || '27018'
-    const connection = `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO}:${port}/${process.env.MONGO_DATABASE}?authSource=${process.env.MONGO_DATABASE}`
+    const connection = `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO}/${process.env.MONGO_DATABASE}?authSource=${process.env.MONGO_DATABASE}`
     try {
         await mongoose.connect(connection)
         Logger.info(`🚀 Successfully connected to MongoDB`)

@@ -18,9 +18,13 @@ const VERSION = packageJson.version
 
 // Overwrite VERSION info
 let env = await fs.promises.readFile(path.join(files.envProd), 'utf-8')
-env = env.replace(/VERSION=[0-9.beta-]+\n\r/, '')
-env += `VERSION=${VERSION}\n\r`
-await fs.promises.writeFile(path.join(files.envDev), env)
+let envDev = await fs.promises.readFile(path.join(files.envDev), 'utf-8')
+env = env.replace(/VERSION=[0-9.beta-]+\n/g, '')
+env += `VERSION=${VERSION}\n`
+envDev = env.replace(/VERSION=[0-9.beta-]+\n/g, '')
+envDev += `VERSION=${VERSION}\n`
+await fs.promises.writeFile(path.join(files.envProd), envDev)
+await fs.promises.writeFile(path.join(files.envDev), envDev)
 console.log('🤟 \x1B[32m- Version updated. \x1B[0m')
 
 // Check if Docker image exists
