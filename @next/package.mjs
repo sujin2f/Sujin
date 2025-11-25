@@ -51,6 +51,7 @@ import tsConfig from './tsconfig.json' with { type: 'json' }
 delete tsConfig.compilerOptions.paths['@sujin/lib/*']
 delete tsConfig.compilerOptions.paths['@sujin/share/*']
 tsConfig.compilerOptions.paths['@sujin/*'] = ['./internal_modules/*']
+tsConfig.exclude = ["node_modules", "**/*.spec.ts", "**/*.spec.tsx"]
 
 const createDirectories = async () => {
     console.log('🤟 \x1B[32m- Creating directories... \x1B[0m')

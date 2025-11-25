@@ -11,6 +11,8 @@ namespace Sujin\Theme;
 
 use Sujin\Theme\RestAPI;
 use Sujin\Theme\Post;
+use Sujin\Theme\Term;
+use Sujin\Theme\Background;
 use Sujin\Theme\Tokens;
 
 /**
@@ -35,6 +37,8 @@ class Bootstrap {
 	public function __construct() {
 		new RestAPI();
 		new Post();
+		new Term();
+		new Background();
 		new Tokens();
 
 		add_action( 'after_setup_theme', array( $this, 'check_plugin_dependency' ) );

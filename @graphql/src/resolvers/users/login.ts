@@ -33,11 +33,17 @@ import { HEADER_TOKEN } from '@sujin/lib/constants'
 export const login = async (user: T_GoogleUser, token: string, res: Response): Promise<T_User> => {
     const email = sanitize(user.email)
     if (!email) {
+        Logger.error('🤬 Login: email is empty')
         throw new Error('🤬 Login: email is empty')
     }
     const payload = jwt.verify(token, getSecret('access')) as T_Login_Token
     const origin = JSON.parse(`${process.env.CORS_ORIGINS}`) as string[]
-    verifyLoginToken(payload, origin)
+    try {
+        verifyLoginToken(payload, origin)
+    } catch (e: unknown) {
+        Logger.error((e as Error).message)
+        throw e
+    }
 
     const hashed = createHash(email, getSecret('email'))
     const _id = await User.findOne<T_User>({ email: hashed }).then(async (result) => {
@@ -62,6 +68,6 @@ export const login = async (user: T_GoogleUser, token: string, res: Response): P
     const refreshToken = createRefreshToken({ ...user, ...result })
     res.setHeader(HEADER_TOKEN, `Bearer ${refreshToken}`)
 
-    Logger.info(`🤟 login has been finished: ${email}`)
+    Logger.info(`🤟 login has been finished: ${JSON.stringify(result)}`)
     return result
 }

@@ -32,7 +32,8 @@ import { COLLECTION, ARCHIVE } from '@sujin/lib/constants'
 export const refreshCategory = async (_slug: string, token: string): Promise<boolean[]> => {
     const payload = await verifyAccessToken(token)
     if (!payload.sub.admin) {
-        throw new Error('🤬 refreshCategory mutation has been called by non admin user')
+        Logger.error(`🤬 refreshCategory mutation has been called by non admin user: ${JSON.stringify(payload.sub)}`)
+        throw new Error(`🤬 refreshCategory mutation has been called by non admin user: ${JSON.stringify(payload.sub)}`)
     }
 
     const slug = sanitize(_slug)

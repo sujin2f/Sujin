@@ -85,7 +85,6 @@ export const page: T_Page = {
         thumbnail: imageBlock,
     },
     meta: {
-        useBackgroundColor: false,
         backgroundColor: '#000000',
     },
 }

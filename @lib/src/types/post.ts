@@ -21,7 +21,6 @@ export type T_ArchivePost = T_PrevNext & {
 export type T_Post = T_ArchivePost & {
     content: string
     meta: {
-        useBackgroundColor: boolean
         backgroundColor: string
         version?: string
     }

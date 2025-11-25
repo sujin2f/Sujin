@@ -19,6 +19,6 @@ export const refresh = async (token: string, res: Response): Promise<boolean> =>
     }
     const accessToken = refreshAccessToken(token)
     res.setHeader(HEADER_TOKEN, `Bearer ${accessToken}`)
-    Logger.info(`🤟 refresh has been finished`)
+    Logger.info(`🤟 refresh token has been finished`)
     return true
 }

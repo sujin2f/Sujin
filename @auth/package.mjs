@@ -52,6 +52,7 @@ import tsConfig from './tsconfig.json' with { type: 'json' }
 delete tsConfig.compilerOptions.paths['@sujin/lib/*']
 delete tsConfig.compilerOptions.paths['@sujin/share/*']
 tsConfig.compilerOptions.paths['@sujin/*'] = ['./internal_modules/*']
+tsConfig.exclude = ['node_modules', 'src/**/*.spec.ts', '.jest/*']
 
 // Replace webpack configuration
 let webpack = await fs.promises.readFile(path.join(files.webpack), 'utf8')

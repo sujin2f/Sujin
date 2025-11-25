@@ -68,7 +68,7 @@ const start = async () => {
     const port = process.env.SERVER_PORT
     // Modified server startup
     await new Promise<void>((resolve) => httpServer.listen({ port }, resolve))
-    Logger.info(`🚀 Server ready at http://localhost:${port}`)
+    Logger.info(`🚀 @graphql Server ready at http://localhost:${port}`)
     await connectToDatabase()
 }
 
