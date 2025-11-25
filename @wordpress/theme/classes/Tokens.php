@@ -45,6 +45,14 @@ class Tokens {
 	 * @param \WP_User $user user.
 	 */
 	public static function request_tokens( string $_, \WP_User $user ): void {
+		$key     = getenv_docker( 'ACCESS_SECRET', '' );
+		$random  = (string) wp_rand( 100000000, 999999999 );
+		$payload = array(
+			'iss' => get_site_url(),
+			'sub' => $random,
+		);
+		$token   = JWT::encode( $payload, $key, 'HS256' );
+
 		$query    = wp_json_encode(
 			array(
 				'query' => '
@@ -58,7 +66,7 @@ class Tokens {
 		$options  = array(
 			'http' => array(
 				'method'  => 'POST',
-				'header'  => 'Content-type: application/json',
+				'header'  => "Content-type: application/json\r\nauthorization: Bearer {$token}",
 				'content' => $query,
 			),
 		);

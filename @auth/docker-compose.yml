@@ -9,12 +9,8 @@ services:
             - ${SERVER_PORT}:${SERVER_PORT}
         networks:
             - sujin_public
-            - sujin_graphql
 
 networks:
     sujin_public:
         external: true
         internal: false
-    sujin_graphql:
-        external: true
-        internal: true

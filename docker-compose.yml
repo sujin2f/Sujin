@@ -15,7 +15,7 @@ services:
             - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
             - mongo:/data/db
         networks:
-            # - sujin_public # dev
+            - sujin_public # dev
             - sujin_database
 
     sujin_mysql:
@@ -32,7 +32,7 @@ services:
         volumes:
             - mysql:/var/lib/mysql
         networks:
-            # - sujin_public # dev
+            - sujin_public # dev
             - sujin_database
             - sujin_wordpress
 
@@ -43,16 +43,12 @@ volumes:
 # Networks:
 #   - In dev environment, put everything into sujin_public
 # sujin_public    Public network to web
-#                 @auth, @next, @wordpress
+#                 @auth, @graphql, @next, @wordpress
 #                 docker network create sujin_public.
 #
 # sujin_database  Private network for databases
 #                 @graphql, mysql, mongo
 #                 docker network create --internal sujin_database.
-#
-# sujin_graphql   Private network for @graphql
-#                 @graphql, @auth, @next, @wordpress
-#                 docker network create --internal sujin_graphql.
 #
 # sujin_wordpress Private network for WP
 #                 @wordpress, mysql

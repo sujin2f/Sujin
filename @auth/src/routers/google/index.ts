@@ -6,10 +6,11 @@ import { Logger } from '@sujin/share/model/Logger'
 import { SECOND_IN_MS } from '@sujin/share/constants/datetime'
 import { ACCESS_TOKEN_LIFETIME } from '@sujin/lib/constants'
 /* T_Types */
-import type { T_Token } from '@sujin/lib/types'
+import type { T_Token, T_Login_Token } from '@sujin/lib/types'
 /* Utils */
 import { getOrigin, gqlLogin } from '@src/utils'
 import { fetchGoogleUser } from '@src/routers/google/utils'
+import { verifyLoginToken } from '@sujin/lib/utils/token'
 
 declare module 'express-session' {
     interface SessionData {
@@ -43,7 +44,8 @@ routes.get('/google/auth', (req, res) => {
         return
     }
     try {
-        jwt.verify(token.toString(), ACCESS_SECRET)
+        const payload = jwt.verify(token.toString(), ACCESS_SECRET) as T_Login_Token
+        verifyLoginToken(payload, allowed)
     } catch {
         Logger.error(`🤬 The verifying token has problem.`)
         res.status(404).send('You are Sorry.')
