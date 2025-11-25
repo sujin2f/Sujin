@@ -28,7 +28,7 @@ app.use(
         credentials: true, // If you need to send cookies or authentication headers
     }),
 )
-app.use('/google', googleRoutes)
+app.use('/', googleRoutes)
 
 // Start the server
 const port = process.env.SERVER_PORT

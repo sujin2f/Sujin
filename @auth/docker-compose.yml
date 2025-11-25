@@ -4,7 +4,7 @@ services:
         image: sujin2f/auth:${VERSION}
         restart: always
         ports:
-            - ${SERVER_PORT}:3000
+            - ${SERVER_PORT}:${SERVER_PORT}
         environment:
             MONGO: sujin_mongo
             MYSQL: sujin_mysql

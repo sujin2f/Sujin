@@ -57,7 +57,7 @@ const start = async () => {
     app.use(
         '/',
         cors<cors.CorsRequest>(corsOptions),
-        express.json({ limit: '50mb' }),
+        express.json({ limit: '3mb' }),
         expressMiddleware(server, {
             context: async ({ req, res }) => {
                 return { token: authenticateUser(req), res }

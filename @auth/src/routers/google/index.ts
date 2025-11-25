@@ -25,7 +25,7 @@ const ACCESS_SECRET = `${process.env.ACCESS_SECRET}`
 const REDIRECT_URI = `${process.env.GOOGLE_REDIRECT_URI}`
 const OAUTH_URL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=profile email`
 
-routes.get('/auth', allowReferer, verifyToken, verifyRedirection, (_, res) => {
+routes.get('/google/auth', allowReferer, verifyToken, verifyRedirection, (_, res) => {
     Logger.info('🤟 Start user authentication')
     res.redirect(OAUTH_URL)
 })

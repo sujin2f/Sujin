@@ -118,7 +118,7 @@ await createDirectories()
 await backupFiles()
 await modifyFiles()
 
-console.log('🤟 \x1B[32m- Creating Docker image... \x1B[0m')
+console.log(`🤟 \x1B[32m- Creating Docker image ${image} with port ${process.env.SERVER_PORT}... \x1B[0m`)
 exec(`docker build --build-arg SERVER_PORT=${process.env.SERVER_PORT} -t ${image} .`, async (error, stdout, stderr) => {
     if (error) {
         console.error('🤬 \x1B[31m- docker build error: \x1B[0m', error)

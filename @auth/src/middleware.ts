@@ -7,7 +7,11 @@ const allowed = JSON.parse(`${process.env.CORS_ORIGINS}`)
 const ACCESS_SECRET = `${process.env.ACCESS_SECRET}`
 
 const getOrigin = (url?: string) => {
-    return new URL(`${url}`).origin
+    try {
+        return new URL(`${url}`).origin
+    } catch {
+        return 'invalid origin'
+    }
 }
 
 export const allowReferer = (req: Request, res: Response, next: NextFunction) => {
