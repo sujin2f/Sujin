@@ -1,6 +1,5 @@
 services:
     sujin_wordpress_dev:
-        container_name: sujin_wordpress-${VERSION}
         container_name: sujin_wordpress_dev
         image: wordpress:6.8.3-php8.3
         restart: always

@@ -6,7 +6,6 @@ import util from "util";
 config();
 const execPromise = util.promisify(exec);
 
-const dirTemp = path.join("temp");
 const files = {
     env: ".env",
     package: "package.json",
@@ -21,7 +20,7 @@ const VERSION = packageJson.version;
 let env = await fs.promises.readFile(path.join(files.env), "utf-8");
 env = env.replace(/VERSION=[0-9.beta-]+\n/g, "");
 env += `VERSION=${VERSION}\n`;
-await fs.promises.writeFile(path.join(files.env), envDev);
+await fs.promises.writeFile(path.join(files.env), env);
 console.log("🤟 \x1B[32m- Version updated. \x1B[0m");
 
 // Check if Docker image exists
