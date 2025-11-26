@@ -1,13 +1,14 @@
 {
-	"name": "sujin-wordpress",
-	"version": "12.0.0",
-	"description": "Wordpress CMS for sujinc.com project",
-	"author": "Sujin Choi",
-	"license": "GPL-2.0-or-later",
-	"scripts": {
-		"package": "node ./package.mjs"
-	},
-	"devDependencies": {
-		"dotenv": "^17.2.3"
-	}
+    "name": "sujin-wordpress",
+    "version": "12.0.0",
+    "description": "Wordpress CMS for sujinc.com project",
+    "author": "Sujin Choi",
+    "license": "GPL-2.0-or-later",
+    "scripts": {
+        "lint": "composer run-script lint",
+        "package": "node ./package.mjs"
+    },
+    "devDependencies": {
+        "dotenv": "^17.2.3"
+    }
 }
