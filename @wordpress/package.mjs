@@ -45,7 +45,7 @@ exec(`sudo docker build -t ${image} .`, async (error, stdout, stderr) => {
 
     console.log("🤟 \x1B[32m- Running docker compose... \x1B[0m");
     exec(
-        `sudo docker-compose -f docker-compose.prod.yml up -d --remove-orphans`,
+        `sudo docker-compose -f docker-compose.yml up -d --remove-orphans`,
         async (error, stdout, stderr) => {
             if (error) {
                 console.log(

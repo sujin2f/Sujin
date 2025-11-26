@@ -15,8 +15,7 @@ const dirCommonModules = {
 
 const files = {
     tsConfig: 'tsconfig.json',
-    envDev: '.env',
-    envProd: '.env.production',
+    env: '.env',
     webpack: 'webpack.config.mjs',
     package: 'package.json',
 }
@@ -27,19 +26,19 @@ packageJson = JSON.parse(packageJson)
 const VERSION = packageJson.version
 
 // Overwrite VERSION info
-let env = await fs.promises.readFile(path.join(files.envProd), 'utf-8')
-let envDev = await fs.promises.readFile(path.join(files.envDev), 'utf-8')
+let env = await fs.promises.readFile(path.join(files.env), 'utf-8')
 env = env.replace(/VERSION=[0-9.beta-]+\n/g, '')
 env += `VERSION=${VERSION}\n`
-envDev = env.replace(/VERSION=[0-9.beta-]+\n/g, '')
-envDev += `VERSION=${VERSION}\n`
-await fs.promises.writeFile(path.join(files.envProd), envDev)
-await fs.promises.writeFile(path.join(files.envDev), envDev)
+await fs.promises.writeFile(path.join(files.env), env)
 console.log('🤟 \x1B[32m- Version updated. \x1B[0m')
 
 // Check if Docker image exists
 const image = `sujin2f/graphql:${VERSION}`
-const { stdout, stderr } = await execPromise(`sudo docker image ls ${image}`)
+const { stdout } = await execPromise(`sudo docker image ls ${image}`)
+if (stdout.includes(image)) {
+    console.error(`⛈️ Image ${image} already exists.`)
+    process.exit(1)
+}
 
 // tsconfig.json
 import tsConfig from './tsconfig.json' with { type: 'json' }
@@ -74,9 +73,6 @@ const backupFiles = async () => {
     // tsconfig.webpack.json
     await fs.promises.copyFile(path.join(files.tsConfig), path.join(dirTemp, files.tsConfig))
 
-    // .env
-    await fs.promises.copyFile(path.join(files.envDev), path.join(dirTemp, files.envDev))
-
     // webpack
     await fs.promises.copyFile(path.join(files.webpack), path.join(dirTemp, files.webpack))
 }
@@ -86,11 +82,6 @@ const modifyFiles = async () => {
     // tsconfig.webpack.json
     await fs.promises.writeFile(path.join(files.tsConfig), JSON.stringify(tsConfig, null, 2))
 
-    // .env
-    await fs.promises.unlink(path.join(files.envDev))
-    await fs.promises.copyFile(path.join(files.envProd), path.join(files.envDev))
-    await fs.promises.writeFile(path.join(files.envDev), env)
-
     // webpack
     await fs.promises.writeFile(path.join(files.webpack), webpack)
 }
@@ -98,11 +89,9 @@ const modifyFiles = async () => {
 const restoreFiles = async () => {
     console.log('🤟 \x1B[32m- Restore files... \x1B[0m')
     await fs.promises.unlink(path.join(files.tsConfig))
-    await fs.promises.unlink(path.join(files.envDev))
     await fs.promises.unlink(path.join(files.webpack))
 
     await fs.promises.copyFile(path.join(dirTemp, files.tsConfig), path.join(files.tsConfig))
-    await fs.promises.copyFile(path.join(dirTemp, files.envDev), path.join(files.envDev))
     await fs.promises.copyFile(path.join(dirTemp, files.webpack), path.join(files.webpack))
 
     await fs.promises.rm(dirModule, { recursive: true, force: true })

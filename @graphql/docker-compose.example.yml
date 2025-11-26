@@ -1,0 +1,20 @@
+services:
+    sujin_graphql:
+        container_name: sujin_graphql
+        image: sujin2f/graphql:${VERSION}
+        restart: always
+        ports:
+            - ${SERVER_PORT}:${SERVER_PORT}
+        environment:
+            MONGO: sujin_mongo
+            MYSQL: sujin_mysql
+        networks:
+            - sujin_public
+            - sujin_database
+networks:
+    sujin_public:
+        external: true
+        internal: false
+    sujin_database:
+        external: true
+        internal: true
