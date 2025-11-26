@@ -63,7 +63,7 @@ class Bootstrap {
 	public function missing_plugin_dependency_acf(): void {
 		?>
 		<div class="notice notice-error is-dismissible">
-			<p>This theme requires the "Advanced Custom Fields" to function correctly. Please install and activate it.</p>
+			<p>This theme requires the <a href="/wp-admin/plugin-install.php?s=Advanced%2520Custom%2520Fields&tab=search&type=term">Advanced Custom Fields</a> to function correctly. Please install and activate it.</p>
 		</div>
 		<?php
 	}

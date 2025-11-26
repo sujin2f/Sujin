@@ -27,9 +27,9 @@ new Sujin\Theme\Bootstrap();
  * @return void
  * @throws \WP_Error Only dev allows this usage.
  */
-function halp( mixed ...$value ) {
+function console( mixed ...$value ) {
 	if ( ! is_dev() ) {
-		throw new \WP_Error( 'Production should not use halp()' );
+		throw new \WP_Error( 'Production should not use console()' );
 	}
 	foreach ( $value as $item ) {
 		error_log( wp_json_encode( $item ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log

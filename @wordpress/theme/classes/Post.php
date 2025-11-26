@@ -79,6 +79,7 @@ class Post {
 		$query = match ( $post_type ) {
 			'post' => 'refreshPost',
 			'page' => 'refreshPage',
+			default => '',
 		};
 		if ( ! $query ) {
 			return;

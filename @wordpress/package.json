@@ -6,6 +6,7 @@
     "license": "GPL-2.0-or-later",
     "scripts": {
         "lint": "composer run-script lint",
+        "fix": "composer run-script fix",
         "package": "node ./package.mjs"
     },
     "devDependencies": {
