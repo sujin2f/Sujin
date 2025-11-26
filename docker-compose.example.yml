@@ -1,0 +1,65 @@
+services:
+    sujin_mongo:
+        container_name: sujin_mongo
+        image: mongo:8.2
+        restart: always
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER}
+            MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+            MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
+            MONGO_USER: ${MONGO_USER}
+            MONGO_PASSWORD: ${MONGO_PASSWORD}
+        ports:
+            - ${MONGO_PORT}:27017
+        volumes:
+            - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+            - mongo:/data/db
+        networks:
+            - sujin_public # dev
+            - sujin_database
+
+    sujin_mysql:
+        container_name: sujin_mysql
+        image: mariadb:12.1.2-ubi10
+        restart: always
+        environment:
+            MYSQL_DATABASE: ${MYSQL_DB}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        ports:
+            - ${MYSQL_PORT}:3306
+        volumes:
+            - mysql:/var/lib/mysql
+        networks:
+            - sujin_public # dev
+            - sujin_database
+            - sujin_wordpress
+
+volumes:
+    mongo:
+    mysql:
+
+# Networks:
+#   - In dev environment, put everything into sujin_public
+# sujin_public    Public network to web
+#                 @auth, @graphql, @next, @wordpress
+#                 docker network create sujin_public.
+#
+# sujin_database  Private network for databases
+#                 @graphql, mysql, mongo
+#                 docker network create --internal sujin_database.
+#
+# sujin_wordpress Private network for WP
+#                 @wordpress, mysql
+#                 docker network create --internal sujin_wordpress.
+networks:
+    sujin_public:
+        external: true
+        internal: false
+    sujin_database:
+        external: true
+        internal: true
+    sujin_wordpress:
+        external: true
+        internal: true
