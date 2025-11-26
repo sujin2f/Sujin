@@ -76,8 +76,15 @@ class Post {
 	 * @param string $post_type post or page.
 	 */
 	private function gql_refresh_post( string $slug, string $post_type ): void {
+		$query = match ( $post_type ) {
+			'post' => 'refreshPost',
+			'page' => 'refreshPage',
+		};
+		if ( ! $query ) {
+			return;
+		}
+
 		$client = new Client( getenv_docker( 'GQL_ENDPOINT', '' ), array( 'authorization' => 'Bearer ' . Tokens::get_token() ) );
-		$query  = 'post' === $post_type ? 'refreshPost' : 'refreshPage';
 		$gql    = ( new Mutation( $query ) )
 			->setVariables( array( new Variable( 'slug', 'String', true ) ) )
 			->setArguments( array( 'slug' => '$slug' ) );
