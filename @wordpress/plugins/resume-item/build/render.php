@@ -21,7 +21,7 @@ $rb_end_month   = isset( $attributes['endMonth'] ) ? $attributes['endMonth'] : '
 $rb_end_year    = isset( $attributes['endYear'] ) ? $attributes['endYear'] : '';
 $rb_tags        = isset( $attributes['tags'] ) && is_array( $attributes['tags'] ) ? $attributes['tags'] : array();
 ?>
-<div class="about-item">
+<div class="about-item--v2">
 	<div class="about-item__range">
 		<?php if ( $rb_start_month || $rb_start_year || $rb_end_month || $rb_end_year ) : ?>
 			<time datetime="<?php echo esc_attr( $rb_start_year ); ?>-<?php echo esc_attr( $rb_start_month ); ?>-01">

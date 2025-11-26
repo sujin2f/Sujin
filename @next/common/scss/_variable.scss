@@ -11,6 +11,7 @@ $lighter-gray: color.adjust($black, $lightness: 88%, $saturation: -30%);
 $white: #ffffff;
 $primary: #970000;
 $primary-dark: color.adjust($primary, $lightness: -10%);
+$secondary: rgb(243, 157, 46);
 $warning: #970000;
 $pastel-red: #f4aab9;
 $pastel-blue: #66ccff;
@@ -19,8 +20,7 @@ $pastel-blue: #66ccff;
  * Font
  */
 $font-size: 11pt;
-$font-family: 'Ubuntu', 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial,
-    sans-serif;
+$font-family: 'Ubuntu', 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
 /**
  * Size

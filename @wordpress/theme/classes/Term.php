@@ -28,11 +28,11 @@ class Term {
 	/**
 	 * Send refreshCategory to GQL
 	 *
-	 * @param int    $term_id  Term ID.
+	 * @param int    $_        Term ID.
 	 * @param int    $tt_id    Term taxonomy ID.
 	 * @param string $taxonomy Taxonomy slug.
 	 */
-	public function gql_refresh_term( int $term_id, int $tt_id, string $taxonomy ): void {
+	public function gql_refresh_term( int $_, int $tt_id, string $taxonomy ): void {
 		$term = get_term_by( 'term_taxonomy_id', $tt_id );
 		if ( ! $term ) {
 			return;

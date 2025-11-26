@@ -15,6 +15,8 @@ import { getThumbnailFromPost } from '@lib/utils/client'
 import { cachedGQLRequest } from '@lib/apollo/queries/GQLRequest'
 /* T_Types */
 import type { T_Post } from '@sujin/lib/types'
+/* Assets */
+import '@lib/components/single/AboutItem.scss'
 
 export const metadata: Metadata = {
     title: 'About Sujin Choi',
