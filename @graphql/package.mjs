@@ -40,14 +40,6 @@ console.log('🤟 \x1B[32m- Version updated. \x1B[0m')
 // Check if Docker image exists
 const image = `sujin2f/graphql:${VERSION}`
 const { stdout, stderr } = await execPromise(`sudo docker image ls ${image}`)
-if (stdout.includes(image)) {
-    console.error(`⛈️ Image ${image} already exists.`)
-    process.exit(1)
-}
-if (stderr) {
-    console.error(`👀 stderr: ${stderr}`)
-    process.exit(1)
-}
 
 // tsconfig.json
 import tsConfig from './tsconfig.json' with { type: 'json' }
