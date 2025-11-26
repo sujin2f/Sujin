@@ -3,24 +3,36 @@
 import { Banner } from '@lib/components/header/Banner'
 import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
+import { RecipeTable } from '@lib/components/recipes/RecipeTable'
+import { WidgetTitle } from '@lib/components/WidgetTitle'
 /* CONSTANTS */
-import { MENU_NAMES } from '@sujin/lib/constants'
+import { COLLECTION, MENU_NAMES } from '@sujin/lib/constants'
 /* Utils */
 import { getUserInfo } from '@lib/utils/server'
+import { nextCachedRequest } from '@lib/apollo/queries/GQLRequest'
+import { recipes as getRecipes } from '@lib/apollo/queries/recipes/recipes'
 
 export default async function PageRecipe() {
     const user = await getUserInfo()
+
+    async function action() {
+        'use server'
+        return await nextCachedRequest(getRecipes(1), COLLECTION.RECIPE, 'list', '1')
+    }
 
     return (
         <>
             <Banner
                 menu={user ? MENU_NAMES.RECIPE_USER : MENU_NAMES.RECIPE}
-                excerpt="Recipe Description asdfasdfasdf"
+                excerpt="The recipe manager with measurement conversion"
                 title="Recipe"
             />
             <Row>
                 <Column large={8} largeOffset={2} small={12}>
-                    Introduction 645a1sdf
+                    <article>
+                        <WidgetTitle>Recipe List</WidgetTitle>
+                        <RecipeTable action={action} page={1} />
+                    </article>
                 </Column>
             </Row>
         </>

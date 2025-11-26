@@ -2,7 +2,7 @@
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 /* Utils */
-import { refreshPost } from '@lib/apollo/queries/wordpress/posts/refreshPost'
+import { refreshPage } from '@lib/apollo/queries/wordpress/pages/refreshPage'
 
 type Props = {
     readonly slug: string
@@ -15,7 +15,7 @@ export function RefreshLink({ slug }: Props) {
         <Link
             href="#"
             onClick={async () => {
-                await refreshPost(slug)
+                await refreshPage(slug)
                 router.refresh()
             }}
         >

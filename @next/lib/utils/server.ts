@@ -1,7 +1,8 @@
 'server-only'
 import jwt, { TokenExpiredError } from 'jsonwebtoken'
 import { headers, cookies } from 'next/headers'
-
+import type { DefaultContext } from '@apollo/client'
+/* CONSTANTS */
 import {
     COOKIE_KEY_ACCESS_TOKEN,
     COOKIE_KEY_REFRESH_TOKEN,
@@ -10,9 +11,11 @@ import {
     METADATA,
 } from '@lib/constants'
 import { DAY_IN_SECONDS, HOUR_IN_SECONDS } from '@sujin/share/constants/datetime'
+import { HEADER_TOKEN } from '@sujin/lib/constants'
+/* T_Types */
 import type { Nullable } from '@sujin/share/types'
 import type { T_Login_Token, T_Token, T_UserSub } from '@sujin/lib/types'
-import { HEADER_TOKEN } from '@sujin/lib/constants'
+/* Utils */
 import { refresh } from '@lib/apollo/queries/users/refresh'
 
 /**
@@ -82,34 +85,51 @@ export const getUserInfo = async (): Promise<Nullable<T_UserSub>> => {
     return JSON.parse(cookie.value)
 }
 
-export const getAccessToken = async (): Promise<Nullable<string>> => {
+export const isAdmin = async () => {
+    const user = await getUserInfo()
+    return user?.admin
+}
+
+const getAccessToken = async (): Promise<Nullable<string>> => {
     const cookie = (await cookies()).get(COOKIE_KEY_ACCESS_TOKEN)
     if (!cookie || !cookie.value) {
+        return
+    }
+    if (!cookie.value) {
         return
     }
     return cookie.value
 }
 
-const verifyAccessToken = async (): Promise<Nullable<string>> => {
-    const token = await getAccessToken()
+const verifyAccessToken = async (_token: Nullable<string>): Promise<Nullable<string>> => {
+    let token = _token
     if (!token) {
         return
     }
+
     try {
         jwt.verify(token, ACCESS_SECRET) as T_Token
-        return token
     } catch (e) {
         if (!(e instanceof TokenExpiredError)) {
-            await removeAccessToken()
             throw e
         }
 
-        await refresh().catch(async () => {
-            await removeAccessToken()
-        })
-        const token = await getAccessToken()
-        return token
+        await refresh()
+        token = await getAccessToken()
     }
+    if (!token) {
+        return
+    }
+    const { sub } = jwt.verify(token, ACCESS_SECRET) as T_Token
+    const userInfo = await getUserInfo()
+    if (!userInfo) {
+        return
+    }
+    const tokenUser = JSON.parse(sub)
+    if (userInfo?._id !== tokenUser._id) {
+        return
+    }
+    return token
 }
 
 export const getRefreshToken = async (): Promise<Nullable<string>> => {
@@ -145,7 +165,9 @@ export const storeUserInfo = async (token: string) => {
 
 export const removeAccessToken = async () => {
     const cookie = await cookies()
-    cookie.delete(COOKIE_KEY_REFRESH_TOKEN)
+    try {
+        cookie.delete(COOKIE_KEY_ACCESS_TOKEN)
+    } catch {}
 }
 
 export const storeRefreshToken = async (token: string) => {
@@ -159,8 +181,9 @@ export const storeRefreshToken = async (token: string) => {
     })
 }
 
-export const getAuthHeader = async () => {
-    const token = await verifyAccessToken()
+export const getAuthHeader = async (): Promise<DefaultContext> => {
+    const _token = await getAccessToken()
+    const token = await verifyAccessToken(_token)
     if (!token) {
         return {}
     }

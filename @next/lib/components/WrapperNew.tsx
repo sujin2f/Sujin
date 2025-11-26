@@ -11,6 +11,7 @@ type Props = PropsWithChildren & {
 
 /**
  * Layout component
+ * // TODO replace all
  * @param {ReactNode} props.children - The content to be wrapped by the layout.
  */
 export function WrapperNew({ children, style, className }: Props) {

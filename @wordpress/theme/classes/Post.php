@@ -9,9 +9,7 @@
 
 namespace Sujin\Theme;
 
-use Firebase\JWT\JWT;
 use GraphQL\Client;
-use GraphQL\Query;
 use GraphQL\Mutation;
 use GraphQL\Variable;
 

@@ -36,7 +36,6 @@ const commonSchema = {
         required: true,
     },
     meta: {
-        useBackgroundColor: Boolean,
         backgroundColor: String,
     },
     content: {

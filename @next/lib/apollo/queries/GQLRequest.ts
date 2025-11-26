@@ -1,4 +1,4 @@
-'use server'
+'server-only'
 import { DocumentNode } from '@apollo/client'
 import { unstable_cache } from 'next/cache'
 /* Models */
@@ -8,7 +8,6 @@ import { REVALIDATION } from '@lib/constants'
 import { COLLECTION } from '@sujin/lib/constants'
 /* Utils */
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
-import { getAuthHeader } from '@lib/utils/server'
 
 // TODO pass function
 export const cachedGQLRequest = async <T>(
@@ -34,31 +33,32 @@ const GQLRequest = async <T>(doc: DocumentNode, variables: Record<string, unknow
     return await client.query<T>({
         query: doc,
         variables,
-        context: await getAuthHeader(),
     })
 }
 
-// TODO keep going
-/* eslint-disable @typescript-eslint/no-explicit-any */
-export const cachedGQLRequest2 = async <T>(
-    func: (...variables: any[]) => Promise<T>,
-    token: string,
-    cacheKeys: string[],
-    ...variables: any[]
-) => {
-    const request = unstable_cache(cached2, cacheKeys, {
+/**
+ * Pass promise and keep it in Next cache with unstable_cache
+ *
+ * @param promise Promise to execute
+ * @param keys    Cache keys
+ * @returns
+ */
+export const nextCachedRequest = async <T>(promise: Promise<T>, ...keys: string[]) => {
+    const request = unstable_cache(nodeCachedRequest, keys, {
         revalidate: REVALIDATION,
     })
-    return await request<T>(func, token, cacheKeys, ...variables)
+    return await request<T>(promise, ...keys)
 }
 
-const cached2 = async <T>(
-    func: (...variables: any[]) => Promise<T>,
-    token: string,
-    cacheKeys: string[],
-    ...variables: any[]
-) => {
-    const [collection, ...keys] = cacheKeys
-    const request = cachedRequest(func, getCacheKey(collection as COLLECTION, ...keys))
-    return await request(token, ...variables)
+/**
+ * Pass promise and keep it in Node cache
+ *
+ * @param promise Promise to execute
+ * @param keys    Cache keys
+ * @returns
+ */
+export const nodeCachedRequest = async <T>(promise: Promise<T>, ...keys: string[]) => {
+    const [collection, ...key] = keys
+    const request = cachedRequest(async () => await promise, getCacheKey(collection as COLLECTION, ...key))
+    return await request()
 }

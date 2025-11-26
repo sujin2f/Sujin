@@ -1,13 +1,18 @@
+import { notFound } from 'next/navigation'
 import type { PropsWithChildren } from 'react'
 /* Components */
-import Wrapper from '@lib/components/Wrapper'
+import { WrapperNew } from '@lib/components/WrapperNew'
 import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
 import Menu from '@common/components/layout/Menu'
+import { Footer } from '@lib/components/footer'
+import FixedHeader from '@lib/components/header/FixedHeader'
+/* CONSTANTS */
+import { MENU_NAMES } from '@sujin/lib/constants'
 /* Assets */
 import style from './layout.module.scss'
-import { notFound } from 'next/navigation'
-import { isAdmin } from '@lib/apollo/queries/users/isAdmin'
+/* Utils */
+import { isAdmin } from '@lib/utils/server'
 
 export const metadata = {
     robots: {
@@ -22,11 +27,11 @@ export const metadata = {
  * @param {ReactNode} props.children - The content to be wrapped by the layout.
  */
 export default async function AdminLayout({ children }: PropsWithChildren) {
-    // Admin credential validation
     if (!(await isAdmin())) notFound()
 
     return (
-        <Wrapper banner={false} style={style} className={style.wrapper}>
+        <WrapperNew style={style} className={style.wrapper}>
+            <FixedHeader menu={MENU_NAMES.MAIN} />
             <Row>
                 <Column small={2}>
                     <Menu
@@ -54,7 +59,7 @@ export default async function AdminLayout({ children }: PropsWithChildren) {
                             },
                             {
                                 title: 'Backgrounds',
-                                link: '/next-admin/backgrounds/1',
+                                link: '/next-admin/backgrounds',
                             },
                             {
                                 title: 'Cache',
@@ -66,6 +71,7 @@ export default async function AdminLayout({ children }: PropsWithChildren) {
                 </Column>
                 <Column small={10}>{children}</Column>
             </Row>
-        </Wrapper>
+            <Footer />
+        </WrapperNew>
     )
 }

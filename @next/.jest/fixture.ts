@@ -1,11 +1,5 @@
-import {
-    ARCHIVE,
-    POST_STATUS,
-    T_ImageBlock,
-    T_Archive,
-    T_Page,
-} from '@app/_lib/types'
-import type { WithoutId } from 'mongodb'
+import type { T_ImageBlock, T_Archive, T_Page } from '@sujin/lib/types'
+import { ARCHIVE, POST_STATUS } from '@sujin/lib/constants'
 
 export const imageBlock: T_ImageBlock = {
     mimeType: 'image/jpeg',
@@ -59,12 +53,12 @@ export const imageBlock: T_ImageBlock = {
     },
 }
 
-export const page: WithoutId<T_Page> = {
+export const page: T_Page = {
     id: 14253,
     slug: '%ea%b2%b0%ea%b5%ad%ec%9d%80-%ec%8b%a4%ed%8c%a8%ed%95%b4%eb%b2%84%eb%a6%b0-%ec%84%b1%ea%b3%b5%ed%9a%8c',
     title: '김조광수 감독의 교훈 없는 승리',
     excerpt: '밑은 없지만 끝은 있는 성공회의 결론',
-    date: new Date(),
+    date: new Date().getTime(),
     content:
         '<!-- wp:paragraph -->\n' +
         "<p>This is an example page. It's different from a blog post because it will stay in one place and will show up in your site navigation (in most themes). Most people start with an About page that introduces them to potential site visitors. It might say something like this:</p>\n" +
@@ -91,7 +85,6 @@ export const page: WithoutId<T_Page> = {
         thumbnail: imageBlock,
     },
     meta: {
-        useBackgroundColor: false,
         backgroundColor: '#000000',
     },
 }
@@ -106,7 +99,8 @@ export const post = {
         },
     ],
 }
-export const category: WithoutId<T_Archive> = {
+export const category: T_Archive = {
+    _id: 'category_id',
     title: 'Category Title',
     slug: 'category',
     excerpt: 'Category',
@@ -115,7 +109,8 @@ export const category: WithoutId<T_Archive> = {
     total: 3,
     hits: 10,
 }
-export const tag: WithoutId<T_Archive> = {
+export const tag: T_Archive = {
+    _id: 'tag_id',
     title: 'Tag Title',
     slug: 'tag',
     excerpt: 'Tag',

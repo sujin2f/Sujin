@@ -1,4 +1,4 @@
-import mysqld, { type ProcedureCallPacket } from 'mysql2/promise'
+import mysqld, { type ProcedureCallPacket, type ConnectionOptions } from 'mysql2/promise'
 import { isEmpty } from '@sujin/share/utils/object'
 import { Logger } from '@sujin/share/model/Logger'
 
@@ -24,13 +24,20 @@ const mysqlConnect = async (): Promise<mysqld.Connection> => {
     const user = `${process.env.MYSQL_USER}`
     const password = `${process.env.MYSQL_PASSWORD}`
     const database = `${process.env.MYSQL_DB}`
+    const port = process.env.MYSQL_PORT
 
-    const connection = mysqld.createConnection({
+    const options: ConnectionOptions = {
         host,
         user,
         password,
         database,
-    })
+    }
+
+    if (port) {
+        options.port = parseInt(port)
+    }
+
+    const connection = mysqld.createConnection(options)
 
     global.mysql = await connection
         .then((mysql) => {

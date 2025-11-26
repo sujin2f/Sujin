@@ -28,17 +28,12 @@ export function Header({ slug, page }: Props) {
 
     return (
         <>
-            <HeaderComponent title="Posts">
-                <Button
-                    title="Refresh All"
-                    onClick={() => startTransition(action)}
-                />
+            <HeaderComponent title={`Posts in ${slug}`}>
+                <Button title="Refresh All" onClick={() => startTransition(action)} />
             </HeaderComponent>
             {pending ? <Callout>..Updating DB</Callout> : null}
             {state === QuantumBool.TRUE ? <Callout>DB Updated</Callout> : null}
-            {state === QuantumBool.FALSE ? (
-                <Callout>DB Updated Failed</Callout>
-            ) : null}
+            {state === QuantumBool.FALSE ? <Callout>DB Updated Failed</Callout> : null}
         </>
     )
 }

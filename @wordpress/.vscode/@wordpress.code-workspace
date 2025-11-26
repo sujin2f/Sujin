@@ -2,15 +2,15 @@
     "folders": [
         {
             "name": "resume-item",
-            "path": "plugins/resume-item"
+            "path": "../plugins/resume-item"
         },
         {
             "name": "theme",
-            "path": "theme"
+            "path": "../theme"
         },
         {
             "name": "@wordpress",
-            "path": "."
+            "path": "../"
         }
     ],
     "settings": {

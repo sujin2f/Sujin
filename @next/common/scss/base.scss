@@ -25,6 +25,7 @@ html {
     --white: #{variable.$white};
     --primary: #{variable.$primary};
     --primary-dark: #{variable.$primary-dark};
+    --secondary: #{variable.$secondary};
     --warning: #{variable.$warning};
     --pastel-red: #{variable.$pastel-red};
     --pastel-blue: #{variable.$pastel-blue};
@@ -607,11 +608,7 @@ article {
     display: block;
     color: transparent;
     width: 1%;
-    background: linear-gradient(
-        90deg,
-        rgba(255, 255, 255, 0),
-        rgba(0, 0, 0, 0.5)
-    );
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.5));
     animation: 1s linear 0s infinite loader;
 }
 

@@ -141,7 +141,7 @@ export default function Edit({ attributes, setAttributes }: Props): React.ReactE
                         <div key={i} style={{ display: 'flex', gap: '8px', marginTop: '8px', alignItems: 'center' }}>
                             <RichText
                                 tagName="li" // The tag here is the element output and editable in the admin
-                                allowedFormats={['core/bold', 'core/italic']} // Allow the content to be made bold or italic, but do not allow other formatting options
+                                allowedFormats={['core/bold', 'core/italic', 'core/link']} // Allow the content to be made bold or italic, but do not allow other formatting options
                                 placeholder="List Item..." // Display this text before any content has been added by the user
                                 value={details}
                                 onChange={(val) => updateDetails(i, val)}

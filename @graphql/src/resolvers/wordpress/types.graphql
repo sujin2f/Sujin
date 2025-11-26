@@ -41,7 +41,6 @@ type Images {
 }
 
 type PostMeta {
-    useBackgroundColor: Boolean
     backgroundColor: String
 }
 

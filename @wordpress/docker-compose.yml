@@ -1,6 +1,6 @@
 services:
-    sujin_wordpress:
-        container_name: sujin_wordpress
+    sujin_wordpress_dev:
+        container_name: sujin_wordpress_dev
         image: wordpress:6.8.3-php8.3
         restart: always
         environment:
@@ -12,6 +12,7 @@ services:
             TZ: America/Toronto
             ACCESS_SECRET: ${ACCESS_SECRET}
             GQL_ENDPOINT: ${GQL_ENDPOINT}
+            NEXT_ENDPOINT: ${NEXT_ENDPOINT}
             VERSION: ${VERSION}
             ENV: ${ENV}
         ports:

@@ -35,7 +35,7 @@ app.use('/', googleRoutes)
 // Start the server
 const port = process.env.SERVER_PORT
 app.listen(port, () => {
-    Logger.info(`🚀 Server ready at http://localhost:${port}`)
+    Logger.info(`🚀 @auth Server ready at http://localhost:${port}`)
 })
 
 // TODO jest

@@ -52,6 +52,7 @@ import tsConfig from './tsconfig.json' with { type: 'json' }
 delete tsConfig.compilerOptions.paths['@sujin/lib/*']
 delete tsConfig.compilerOptions.paths['@sujin/share/*']
 tsConfig.compilerOptions.paths['@sujin/*'] = ['./internal_modules/*']
+tsConfig.exclude = ['node_modules', 'src/**/*.spec.ts']
 
 // webpack
 let webpack = await fs.promises.readFile(path.join(files.webpack), 'utf8')
@@ -129,7 +130,7 @@ exec(`docker build --build-arg SERVER_PORT=${process.env.SERVER_PORT} -t ${image
     console.error(`👀 stderr: ${stderr}`)
 
     // Delay 1 sec for finishing build
-    setTimeout(() => {}, 1000); 
+    setTimeout(() => {}, 1000)
 
     console.log('🤟 \x1B[32m- Running docker compose... \x1B[0m')
     exec(`docker-compose up -d --remove-orphans`, async (error, stdout, stderr) => {

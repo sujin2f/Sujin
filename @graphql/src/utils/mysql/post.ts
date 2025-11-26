@@ -4,12 +4,7 @@ import { FetchError } from '@sujin/share/model/Error'
 /* CONSTANTS */
 import { WPQuery } from '@src/utils/mysql/wp-query'
 import { PER_PAGE } from '@sujin/lib/constants'
-import {
-    POST_IMAGE_LOCATION,
-    ARCHIVE,
-    TAXONOMY,
-    POST_TYPE,
-} from '@sujin/lib/constants'
+import { POST_IMAGE_LOCATION, ARCHIVE, TAXONOMY, POST_TYPE } from '@sujin/lib/constants'
 /* Utils */
 import { getPostMeta } from '@src/utils/mysql/post-meta'
 import { getImageBlockFromAttachmentID } from '@src/utils/mysql/media'
@@ -23,15 +18,10 @@ export const getPostBy = async (
     type: POST_TYPE,
     ignoreStatus = false,
 ): Promise<T_MySQLPost> => {
-    return await getPostsBy(queryKey, type, queryValue, 1, ignoreStatus).then(
-        (result) => {
-            if (!result[0])
-                throw new FetchError(
-                    `Failed to find MySQL post with: ${queryKey}, ${queryValue}, and ${type}`,
-                )
-            return result[0]
-        },
-    )
+    return await getPostsBy(queryKey, type, queryValue, 1, ignoreStatus).then((result) => {
+        if (!result[0]) throw new FetchError(`Failed to find MySQL post with: ${queryKey}, ${queryValue}, and ${type}`)
+        return result[0]
+    })
 }
 
 export const getPostsBy = async (
@@ -43,79 +33,36 @@ export const getPostsBy = async (
 ): Promise<T_MySQLPost[]> => {
     const query = getPostQuery(queryKey, type, queryValue, page, ignoreStatus)
     const result = await select<T_MySQLPost>(query)
-
-    // Create Post from dbResult
-    const posts: T_MySQLPost[] = []
-    for await (const post of result) {
-        const terms: T_Archive[] = await getTermsByPost(post.id)
-        const meta = {
-            useBackgroundColor: await getPostMeta<boolean>(
-                post.id,
-                'use-background-color',
-                false,
-            ).then((response) => !!response),
-            backgroundColor: await getPostMeta<string>(
-                post.id,
-                'background-color',
-                '',
-            ),
-        }
-        const images = await getPostImages(post)
-
-        posts.push({
-            ...post,
-            images,
-            meta,
-            content: autop(post.content),
-            terms: terms.map((term) =>
-                term.type.toString() === TAXONOMY.POST_TAG
-                    ? { ...term, type: ARCHIVE.TAG }
-                    : term,
-            ),
-            link: post.type === 'page' ? `/${post.slug}` : `/blog/${post.slug}`,
-        })
-    }
-
-    return posts
+    return await formatPosts(result)
 }
 
-export const getPosts = async (
-    type: POST_TYPE,
-    page = 1,
-): Promise<T_MySQLPost[]> => {
+export const getPosts = async (type: POST_TYPE, page = 1): Promise<T_MySQLPost[]> => {
     const query = getPostQuery('all', type, '', page, true)
     const result = await select<T_MySQLPost>(query)
+    return await formatPosts(result)
+}
 
-    // Create Post from dbResult
+const formatPosts = async (result: T_MySQLPost[]): Promise<T_MySQLPost[]> => {
     const posts: T_MySQLPost[] = []
     for await (const post of result) {
         const terms: T_Archive[] = await getTermsByPost(post.id)
         const meta = {
-            useBackgroundColor: await getPostMeta<boolean>(
-                post.id,
-                'use-background-color',
-                false,
-            ).then((response) => !!response),
-            backgroundColor: await getPostMeta<string>(
-                post.id,
-                'background-color',
-                '',
-            ),
+            backgroundColor: await getPostMeta<string>(post.id, 'background-color', ''),
         }
+        // pre-formatted post (since 12.0.0)
+        const content = await getPostMeta<string>(post.id, 'the_content', '')
         const images = await getPostImages(post)
 
         posts.push({
             ...post,
             images,
             meta,
-            content: autop(post.content),
+            content: autop(content || post.content),
             terms: terms.map((term) =>
-                term.type.toString() === TAXONOMY.POST_TAG
-                    ? { ...term, type: ARCHIVE.TAG }
-                    : term,
+                term.type.toString() === TAXONOMY.POST_TAG ? { ...term, type: ARCHIVE.TAG } : term,
             ),
             link: post.type === 'page' ? `/${post.slug}` : `/blog/${post.slug}`,
-        })
+        } satisfies T_MySQLPost)
     }
 
     return posts
@@ -132,39 +79,15 @@ const getPostQuery = (
         case 'all':
             return WPQuery.getAllPosts(type, (page - 1) * PER_PAGE)
         case 'id':
-            return !queryValue
-                ? ''
-                : WPQuery.getPostBy(
-                      'posts.ID',
-                      queryValue,
-                      type,
-                      0,
-                      ignoreStatus,
-                  )
+            return !queryValue ? '' : WPQuery.getPostBy('posts.ID', queryValue, type, 0, ignoreStatus)
         case 'slug':
-            return !queryValue
-                ? ''
-                : WPQuery.getPostBy(
-                      'posts.post_name',
-                      queryValue,
-                      type,
-                      0,
-                      ignoreStatus,
-                  )
+            return !queryValue ? '' : WPQuery.getPostBy('posts.post_name', queryValue, type, 0, ignoreStatus)
         case 'search':
-            return !queryValue
-                ? ''
-                : WPQuery.getSearch(queryValue, (page - 1) * PER_PAGE)
+            return !queryValue ? '' : WPQuery.getSearch(queryValue, (page - 1) * PER_PAGE)
 
         case ARCHIVE.CATEGORY:
         case ARCHIVE.TAG:
-            return !queryValue
-                ? ''
-                : WPQuery.getTermItems(
-                      queryValue.toString(),
-                      (page - 1) * PER_PAGE,
-                      ignoreStatus,
-                  )
+            return !queryValue ? '' : WPQuery.getTermItems(queryValue.toString(), (page - 1) * PER_PAGE, ignoreStatus)
     }
     return ''
 }
@@ -176,9 +99,7 @@ type getPostImagesReturnType = {
     background?: T_ImageBlock
     thumbnail?: T_ImageBlock
 }
-const getPostImages = async (
-    post: T_MySQLPost,
-): Promise<getPostImagesReturnType> => {
+const getPostImages = async (post: T_MySQLPost): Promise<getPostImagesReturnType> => {
     const result: Record<string, T_ImageBlock> = {}
 
     const imageIds: Record<POST_IMAGE_LOCATION, number> = {
@@ -194,9 +115,7 @@ const getPostImages = async (
             continue
         }
 
-        const image = await getImageBlockFromAttachmentID(
-            imageIds[imageKey as POST_IMAGE_LOCATION],
-        )
+        const image = await getImageBlockFromAttachmentID(imageIds[imageKey as POST_IMAGE_LOCATION])
 
         if (image) {
             result[imageKey] = image
@@ -273,10 +192,7 @@ const autop = (text: string, br = true): string => {
         '(?:table|thead|tfoot|caption|col|colgroup|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre|form|map|area|blockquote|address|math|style|p|h[1-6]|hr|fieldset|legend|section|article|aside|hgroup|header|footer|nav|figure|figcaption|details|menu|summary)'
 
     // Add a double line break above block-level opening tags.
-    text = text.replace(
-        new RegExp('(<' + allBlocks + '[\\s/>])', 'g'),
-        '\n\n$1',
-    )
+    text = text.replace(new RegExp('(<' + allBlocks + '[\\s/>])', 'g'), '\n\n$1')
 
     // Add a double line break below block-level closing tags.
     text = text.replace(new RegExp('(</' + allBlocks + '>)', 'g'), '$1\n\n')
@@ -340,10 +256,7 @@ const autop = (text: string, br = true): string => {
     text = text.replace(/<p>([^<]+)<\/(div|address|form)>/g, '<p>$1</p></$2>')
 
     // If an opening or closing block element tag is wrapped in a <p>, unwrap it.
-    text = text.replace(
-        new RegExp('<p>\\s*(</?' + allBlocks + '[^>]*>)\\s*</p>', 'g'),
-        '$1',
-    )
+    text = text.replace(new RegExp('<p>\\s*(</?' + allBlocks + '[^>]*>)\\s*</p>', 'g'), '$1')
 
     // In some cases <li> may get wrapped in <p>, fix them.
     text = text.replace(/<p>(<li.+?)<\/p>/g, '$1')
@@ -353,23 +266,15 @@ const autop = (text: string, br = true): string => {
     text = text.replace(/<\/blockquote><\/p>/g, '</p></blockquote>')
 
     // If an opening or closing block element tag is preceded by an opening <p> tag, remove it.
-    text = text.replace(
-        new RegExp('<p>\\s*(</?' + allBlocks + '[^>]*>)', 'g'),
-        '$1',
-    )
+    text = text.replace(new RegExp('<p>\\s*(</?' + allBlocks + '[^>]*>)', 'g'), '$1')
 
     // If an opening or closing block element tag is followed by a closing <p> tag, remove it.
-    text = text.replace(
-        new RegExp('(</?' + allBlocks + '[^>]*>)\\s*</p>', 'g'),
-        '$1',
-    )
+    text = text.replace(new RegExp('(</?' + allBlocks + '[^>]*>)\\s*</p>', 'g'), '$1')
 
     // Optionally insert line breaks.
     if (br) {
         // Replace newlines that shouldn't be touched with a placeholder.
-        text = text.replace(/<(script|style).*?<\/\\1>/g, (match) =>
-            match[0].replace(/\n/g, '<WPPreserveNewline />'),
-        )
+        text = text.replace(/<(script|style).*?<\/\\1>/g, (match) => match[0].replace(/\n/g, '<WPPreserveNewline />'))
 
         // Normalize <br>
         text = text.replace(/<br>|<br\/>/g, '<br />')
@@ -382,16 +287,10 @@ const autop = (text: string, br = true): string => {
     }
 
     // If a <br /> tag is after an opening or closing block tag, remove it.
-    text = text.replace(
-        new RegExp('(</?' + allBlocks + '[^>]*>)\\s*<br />', 'g'),
-        '$1',
-    )
+    text = text.replace(new RegExp('(</?' + allBlocks + '[^>]*>)\\s*<br />', 'g'), '$1')
 
     // If a <br /> tag is before a subset of opening or closing block tags, remove it.
-    text = text.replace(
-        /<br \/>(\s*<\/?(?:p|li|div|dl|dd|dt|th|pre|td|ul|ol)[^>]*>)/g,
-        '$1',
-    )
+    text = text.replace(/<br \/>(\s*<\/?(?:p|li|div|dl|dd|dt|th|pre|td|ul|ol)[^>]*>)/g, '$1')
     text = text.replace(/\n<\/p>$/g, '</p>')
 
     // Replace placeholder <pre> tags with their original content.
@@ -416,10 +315,7 @@ const autop = (text: string, br = true): string => {
  *
  * @return {string} The formatted text.
  */
-const replaceInHtmlTags = (
-    haystack: string,
-    replacePairs: Record<string, string>,
-): string => {
+const replaceInHtmlTags = (haystack: string, replacePairs: Record<string, string>): string => {
     // Find all elements.
     const textArr = htmlSplit(haystack)
     let changed = false
@@ -432,10 +328,7 @@ const replaceInHtmlTags = (
         for (let j = 0; j < needles.length; j++) {
             const needle = needles[j]
             if (-1 !== textArr[i].indexOf(needle)) {
-                textArr[i] = textArr[i].replace(
-                    new RegExp(needle, 'g'),
-                    replacePairs[needle],
-                )
+                textArr[i] = textArr[i].replace(new RegExp(needle, 'g'), replacePairs[needle])
                 changed = true
                 // After one strtr() break out of the foreach loop and look at next element.
                 break

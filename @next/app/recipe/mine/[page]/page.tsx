@@ -1,11 +1,17 @@
-import { cachedGQLRequest2 } from '@lib/apollo/queries/GQLRequest'
-import { recipes as getRecipes } from '@lib/apollo/queries/recipes/recipes'
-import { LoadingTable } from '@lib/components/archive/LoadingTable'
-import { Table } from '@lib/components/recipes/Table'
-import { COLLECTION } from '@sujin/lib/constants'
-import { getUserInfo, getAccessToken } from '@lib/utils/server'
+'use server'
 import { notFound } from 'next/navigation'
-import { Suspense } from 'react'
+/* Components */
+import { Banner } from '@lib/components/header/Banner'
+import Row from '@common/components/layout/Row'
+import Column from '@common/components/layout/Column'
+import { RecipeTable } from '@lib/components/recipes/RecipeTable'
+import { WidgetTitle } from '@lib/components/WidgetTitle'
+/* CONSTANTS */
+import { COLLECTION, MENU_NAMES } from '@sujin/lib/constants'
+/* Utils */
+import { nodeCachedRequest } from '@lib/apollo/queries/GQLRequest'
+import { recipes as getRecipes } from '@lib/apollo/queries/recipes/recipes'
+import { getAuthHeader, getUserInfo } from '@lib/utils/server'
 
 type Props = {
     params: Promise<{
@@ -16,28 +22,34 @@ type Props = {
 export default async function RecipeMyListPage(props: Props) {
     const params = await props.params
     const page = parseInt(params.page)
-
     const user = await getUserInfo()
-    const token = await getAccessToken()
 
-    if (!user || !token) {
+    if (!user) {
         notFound()
     }
 
-    const promise = cachedGQLRequest2(
-        getRecipes,
-        token,
-        [COLLECTION.RECIPE, 'my-list', user._id, page.toString()],
-        page,
-        true,
-    )
+    async function action() {
+        'use server'
+        return await nodeCachedRequest(
+            getRecipes(page, await getAuthHeader()),
+            COLLECTION.RECIPE,
+            'my-list',
+            user!._id,
+            page.toString(),
+        )
+    }
 
     return (
-        <article>
-            <h2>My Recipes</h2>
-            <Suspense fallback={<LoadingTable />}>
-                <Table promise={promise} page={page} />
-            </Suspense>
-        </article>
+        <>
+            <Banner menu={MENU_NAMES.RECIPE_USER} title="My Recipes" prefix="recipe" />
+            <Row>
+                <Column large={8} largeOffset={2} small={12}>
+                    <article>
+                        <WidgetTitle>Recipe List</WidgetTitle>
+                        <RecipeTable action={action} page={page} />
+                    </article>
+                </Column>
+            </Row>
+        </>
     )
 }

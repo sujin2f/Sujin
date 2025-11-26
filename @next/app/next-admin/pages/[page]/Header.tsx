@@ -13,17 +13,14 @@ import { QuantumBool } from '@sujin/share/types'
 export function Header() {
     const router = useRouter()
 
-    const [state, action, pending] = useActionState<QuantumBool, string>(
-        async (_: QuantumBool, slug: string) => {
-            return await refreshPage(slug)
-                .then(() => {
-                    router.refresh()
-                    return QuantumBool.TRUE
-                })
-                .catch(() => QuantumBool.FALSE)
-        },
-        QuantumBool.MOD,
-    )
+    const [state, action, pending] = useActionState<QuantumBool, string>(async (_: QuantumBool, slug: string) => {
+        return await refreshPage(slug)
+            .then(() => {
+                router.refresh()
+                return QuantumBool.TRUE
+            })
+            .catch(() => QuantumBool.FALSE)
+    }, QuantumBool.MOD)
     const ref = useRef<HTMLInputElement>(null)
 
     return (
@@ -45,9 +42,7 @@ export function Header() {
 
             {pending ? <Callout>..Updating DB</Callout> : null}
             {state === QuantumBool.TRUE ? <Callout>DB Updated</Callout> : null}
-            {state === QuantumBool.FALSE ? (
-                <Callout>DB Updated Failed</Callout>
-            ) : null}
+            {state === QuantumBool.FALSE ? <Callout>DB Updated Failed</Callout> : null}
         </>
     )
 }
