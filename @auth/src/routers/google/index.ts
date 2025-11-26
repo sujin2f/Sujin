@@ -36,7 +36,8 @@ routes.get('/google/auth', (req, res) => {
         return
     }
 
-    // // Validate token
+    // Validate token
+    let tokenOrigin = ''
     const { token, redirect } = req.query
     if (!token) {
         Logger.error(`🤬 The request is not with verifying token.`)
@@ -45,7 +46,8 @@ routes.get('/google/auth', (req, res) => {
     }
     try {
         const payload = jwt.verify(token.toString(), ACCESS_SECRET) as T_Login_Token
-        verifyLoginToken(payload, allowed)
+        tokenOrigin = verifyLoginToken(payload, allowed)
+        Logger.info(`🤟 User authentication from ${tokenOrigin}`)
     } catch {
         Logger.error(`🤬 The verifying token has problem.`)
         res.status(404).send('You are Sorry.')
@@ -73,7 +75,7 @@ routes.get('/google/auth', (req, res) => {
     }
 
     req.session.redirect = redirect.toString()
-    Logger.info('🤟 redirection URL is:'.toString())
+    Logger.info(`🤟 redirection URL is: ${redirect.toString()}`)
     res.redirect(OAUTH_URL)
 })
 
@@ -142,7 +144,7 @@ routes.get(redirectPath, async (req, res) => {
     res.cookie('x-token-at', access, { maxAge: 10 * SECOND_IN_MS })
     res.cookie('x-token-rt', refresh.slice(7), { maxAge: 10 * SECOND_IN_MS })
 
-    Logger.info('🤟 User authentication!')
+    Logger.info('⭐️ User authentication finished!')
     res.redirect(decodeURI(redirect))
 })
 

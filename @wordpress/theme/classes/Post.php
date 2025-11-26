@@ -90,10 +90,14 @@ class Post {
 			->setVariables( array( new Variable( 'slug', 'String', true ) ) )
 			->setArguments( array( 'slug' => '$slug' ) );
 
-		$client->runQuery(
-			$gql,
-			true,
-			array( 'slug' => $slug )
-		);
+		try {
+			$client->runQuery(
+				$gql,
+				true,
+				array( 'slug' => $slug )
+			);
+		} catch ( \Exception $_ ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
+			// do nothing.
+		}
 	}
 }

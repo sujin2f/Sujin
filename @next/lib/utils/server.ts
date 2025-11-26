@@ -2,6 +2,8 @@
 import jwt, { TokenExpiredError } from 'jsonwebtoken'
 import { headers, cookies } from 'next/headers'
 import type { DefaultContext } from '@apollo/client'
+/* Models */
+import { Logger } from '@sujin/share/model/Logger'
 /* CONSTANTS */
 import {
     COOKIE_KEY_ACCESS_TOKEN,
@@ -68,13 +70,14 @@ export const setCookies = async () => {
     const refreshToken = cookie.get('x-token-rt')?.value
 
     if (!accessToken || !refreshToken) {
-        // TODO error
+        Logger.error('🤬 Tokens are empty!')
         return
     }
 
     await storeAccessToken(accessToken)
     await storeUserInfo(accessToken)
     await storeRefreshToken(refreshToken)
+    Logger.info('🤟 Sessions!')
 }
 
 export const getUserInfo = async (): Promise<Nullable<T_UserSub>> => {

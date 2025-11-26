@@ -7,7 +7,7 @@ import type { T_Login_Token } from '../types'
  * @returns {void}          Validation passed
  * @throws  {Error}         If `token` is falsy
  */
-export const verifyLoginToken = (payload: T_Login_Token, allowed: string[]): void => {
+export const verifyLoginToken = (payload: T_Login_Token, allowed: string[]): string => {
     if (typeof payload === 'string') {
         throw new Error('🤬 Token is invalid')
     }
@@ -24,5 +24,5 @@ export const verifyLoginToken = (payload: T_Login_Token, allowed: string[]): voi
         throw new Error('🤬 Token is invalid')
     }
 
-    return
+    return payload.iss
 }

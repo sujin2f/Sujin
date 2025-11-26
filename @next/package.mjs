@@ -31,7 +31,7 @@ console.log('🤟 \x1B[32m- Version updated. \x1B[0m')
 
 // Check if Docker image exists
 const image = `sujin2f/next:${VERSION}`
-const { stdout  } = await execPromise(`sudo docker image ls ${image}`)
+const { stdout  } = await execPromise(`docker image ls ${image}`)
 if (stdout.includes(image)) {
     console.error(`⛈️ Image ${image} already exists.`)
     process.exit(1)
@@ -84,7 +84,7 @@ await backupFiles()
 await modifyFiles()
 
 console.log('🤟 \x1B[32m- Creating Docker image... \x1B[0m')
-exec(`sudo docker build -t ${image} .`, async (error, stdout, stderr) => {
+exec(`docker build -t ${image} .`, async (error, stdout, stderr) => {
     if (error) {
         console.error('🤬 \x1B[31m- docker build error: \x1B[0m', error)
         await restoreFiles()
@@ -97,7 +97,7 @@ exec(`sudo docker build -t ${image} .`, async (error, stdout, stderr) => {
     setTimeout(() => {}, 1000); 
 
     console.log('🤟 \x1B[32m- Running docker compose... \x1B[0m')
-    exec(`sudo docker-compose up -d --remove-orphans`, async (error, stdout, stderr) => {
+    exec(`docker-compose up -d --remove-orphans`, async (error, stdout, stderr) => {
         if (error) {
             console.error('🤬 \x1B[31m- docker compose error: \x1B[0m', error)
             await restoreFiles()

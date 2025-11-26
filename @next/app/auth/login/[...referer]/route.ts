@@ -1,5 +1,8 @@
 import { NextRequest } from 'next/server'
+/* Utils */
 import { createLoginToken } from '@lib/utils/server'
+/* Models */
+import { Logger } from '@sujin/share/model/Logger'
 
 const getLoginURL = (request: NextRequest) => {
     const url = new URL(request.url)
@@ -13,5 +16,6 @@ const getLoginURL = (request: NextRequest) => {
 }
 
 export async function GET(request: NextRequest) {
+    Logger.info('🤟 login started!')
     return Response.redirect(getLoginURL(request))
 }
