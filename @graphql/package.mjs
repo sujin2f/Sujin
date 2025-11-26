@@ -1,9 +1,14 @@
+/* eslint-disable no-console */
+/**
+ * @use yarn package -- graphql:1.0.0 sudo
+ */
 import * as fs from 'node:fs'
 import * as path from 'node:path'
 import { exec } from 'node:child_process'
 import { config } from 'dotenv'
 import util from 'util'
 config()
+
 const execPromise = util.promisify(exec)
 
 const dirModule = path.join('internal_modules')
@@ -12,7 +17,6 @@ const dirCommonModules = {
     lib: path.join('..', '@lib', 'src'),
     share: path.join('..', '@common', 'src'),
 }
-
 const files = {
     tsConfig: 'tsconfig.json',
     env: '.env',
@@ -20,21 +24,23 @@ const files = {
     package: 'package.json',
 }
 
-// Version
-let packageJson = await fs.promises.readFile(path.join(files.package), 'utf-8')
-packageJson = JSON.parse(packageJson)
-const VERSION = packageJson.version
-
-// Overwrite VERSION info
-let env = await fs.promises.readFile(path.join(files.env), 'utf-8')
-env = env.replace(/VERSION=[0-9.beta-]+\n/g, '')
-env += `VERSION=${VERSION}\n`
-await fs.promises.writeFile(path.join(files.env), env)
-console.log('🤟 \x1B[32m- Version updated. \x1B[0m')
+// Version & sudo
+let VERSION = process.env.npm_package_version
+const sudo = process.argv.indexOf('sudo') !== -1 ? 'sudo ' : ''
 
 // Check if Docker image exists
-const image = `sujin2f/graphql:${VERSION}`
-const { stdout } = await execPromise(`sudo docker image ls ${image}`)
+let image = `sujin2f/graphql:${VERSION}`
+if (process.argv.slice(2)[0] !== 'sudo') {
+    image = process.argv.slice(2)[0]
+}
+// Overwrite IMAGE info to .env
+let env = await fs.promises.readFile(path.join(files.env), 'utf-8')
+env = env.replace(/IMAGE=.*?(?:\r?\n|$)/g, '')
+env += `IMAGE=${image}\n`
+await fs.promises.writeFile(path.join(files.env), env)
+console.log('🤟 \x1B[32m- IMAGE updated. \x1B[0m')
+
+const { stdout } = await execPromise(`${sudo}docker image ls ${image}`)
 if (stdout.includes(image)) {
     console.error(`⛈️ Image ${image} already exists.`)
     process.exit(1)
@@ -104,7 +110,7 @@ await modifyFiles()
 
 console.log('🤟 \x1B[32m- Creating Docker image... \x1B[0m')
 exec(
-    `sudo docker build --build-arg SERVER_PORT=${process.env.SERVER_PORT} -t ${image} .`,
+    `${sudo}docker build --build-arg SERVER_PORT=${process.env.SERVER_PORT} -t ${image} .`,
     async (error, stdout, stderr) => {
         if (error) {
             console.error('🤬 \x1B[31m- docker build error: \x1B[0m', error)
@@ -114,20 +120,6 @@ exec(
         console.log(`👀 stdout: ${stdout}`)
         console.error(`👀 stderr: ${stderr}`)
 
-        // Delay 1 sec for finishing build
-        setTimeout(() => {}, 1000)
-
-        console.log('🤟 \x1B[32m- Running docker compose... \x1B[0m')
-        exec(`sudo docker-compose up -d --remove-orphans`, async (error, stdout, stderr) => {
-            if (error) {
-                console.error('🤬 \x1B[31m- docker compose error: \x1B[0m', error)
-                await restoreFiles()
-                return
-            }
-            console.log(`👀 stdout: ${stdout}`)
-            console.error(`👀 stderr: ${stderr}`)
-
-            await restoreFiles()
-        })
+        await restoreFiles()
     },
 )

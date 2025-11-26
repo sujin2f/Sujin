@@ -1,7 +1,7 @@
 services:
     sujin_graphql:
         container_name: sujin_graphql
-        image: sujin2f/graphql:${VERSION}
+        image: ${IMAGE}
         restart: always
         ports:
             - ${SERVER_PORT}:${SERVER_PORT}
