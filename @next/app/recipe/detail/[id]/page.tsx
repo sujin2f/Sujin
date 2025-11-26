@@ -2,12 +2,12 @@
 import { Banner } from '@lib/components/header/Banner'
 import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
-import { DetailClient } from './Detail.client'
+import { DetailClient } from './page.client'
 /* CONSTANTS */
 import { COLLECTION, MENU_NAMES } from '@sujin/lib/constants'
 /* Utils */
 import { getUserInfo } from '@lib/utils/server'
-import { cachedGQLRequest2 } from '@lib/apollo/queries/GQLRequest'
+import { nextCachedRequest } from '@lib/apollo/queries/GQLRequest'
 import { recipe as getRecipe } from '@lib/apollo/queries/recipes/recipe'
 
 type Props = {
@@ -19,15 +19,11 @@ type Props = {
 export default async function RecipeDetailLayout({ params }: Props) {
     const { id } = await params
     const user = await getUserInfo()
-    const recipe = await cachedGQLRequest2(getRecipe, '', [COLLECTION.RECIPE, 'detail', id], id)
+    const recipe = await nextCachedRequest(getRecipe(id), COLLECTION.RECIPE, 'detail', id)
 
     return (
         <>
-            <Banner
-                menu={user ? MENU_NAMES.RECIPE_USER : MENU_NAMES.RECIPE}
-                title={recipe.title}
-                excerpt={recipe.url}
-            />
+            <Banner menu={user ? MENU_NAMES.RECIPE_USER : MENU_NAMES.RECIPE} title={recipe.title} prefix="Recipe" />
             <Row>
                 <Column large={8} largeOffset={2} small={12}>
                     <DetailClient recipe={recipe} />

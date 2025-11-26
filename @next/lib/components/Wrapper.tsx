@@ -21,6 +21,7 @@ type Props = ColumnProps &
 
 /**
  * Layout component
+ * // TODO replace all
  * @param {ReactNode} props.children - The content to be wrapped by the layout.
  */
 export default function Wrapper({
@@ -34,14 +35,7 @@ export default function Wrapper({
     ...props
 }: PropsWithChildren<Props>) {
     return (
-        <div
-            className={joinClassNames(
-                'wrapper',
-                className,
-                style?.wrapper,
-                !banner && 'wrapper--no-banner',
-            )}
-        >
+        <div className={joinClassNames('wrapper', className, style?.wrapper, !banner && 'wrapper--no-banner')}>
             <ScrollToTop />
             <FixedHeader menu={menu} style={style} />
 

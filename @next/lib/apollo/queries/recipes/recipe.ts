@@ -4,7 +4,7 @@ import { client } from '@lib/apollo/apollo-client-server'
 import GQL_QUERY from '@lib/apollo/queries/recipes/recipe.graphql'
 import type { T_Recipe } from '@sujin/lib/types'
 
-export const recipe = async (_: string, id: string) => {
+export const recipe = async (id: string) => {
     return await client
         .query<{ recipe: T_Recipe }>({
             query: GQL_QUERY,

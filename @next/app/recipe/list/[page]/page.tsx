@@ -1,9 +1,16 @@
-import { cachedGQLRequest2 } from '@lib/apollo/queries/GQLRequest'
+'use server'
+/* Utils */
+import { nextCachedRequest } from '@lib/apollo/queries/GQLRequest'
 import { recipes as getRecipes } from '@lib/apollo/queries/recipes/recipes'
-import { LoadingTable } from '@lib/components/archive/LoadingTable'
-import { Table } from '@lib/components/recipes/Table'
-import { COLLECTION } from '@sujin/lib/constants'
-import { Suspense } from 'react'
+import { getUserInfo } from '@lib/utils/server'
+/* Components */
+import { Banner } from '@lib/components/header/Banner'
+import { RecipeTable } from '@lib/components/recipes/RecipeTable'
+import { WidgetTitle } from '@lib/components/WidgetTitle'
+import Row from '@common/components/layout/Row'
+import Column from '@common/components/layout/Column'
+/* CONSTANTS */
+import { COLLECTION, MENU_NAMES } from '@sujin/lib/constants'
 
 type Props = {
     params: Promise<{
@@ -12,22 +19,30 @@ type Props = {
 }
 
 export default async function ListPage(props: Props) {
+    const user = await getUserInfo()
     const params = await props.params
     const page = parseInt(params.page)
-    const promise = cachedGQLRequest2(
-        getRecipes,
-        '',
-        [COLLECTION.RECIPE, 'list', page.toString()],
-        page,
-    )
+    async function action() {
+        'use server'
+        return await nextCachedRequest(getRecipes(page), COLLECTION.RECIPE, 'list', page.toString())
+    }
 
     return (
-        <article>
-            <h2>Recipes as;df nasdfljhb</h2>
-            List {page}
-            <Suspense fallback={<LoadingTable />}>
-                <Table promise={promise} page={page} />
-            </Suspense>
-        </article>
+        <>
+            <Banner
+                menu={user ? MENU_NAMES.RECIPE_USER : MENU_NAMES.RECIPE}
+                title="Recipe List"
+                excerpt="The recipe manager with measurement conversion"
+                prefix="recipe"
+            />
+            <Row>
+                <Column large={8} largeOffset={2} small={12}>
+                    <article>
+                        <WidgetTitle>Recipe List</WidgetTitle>
+                        <RecipeTable action={action} page={page} />
+                    </article>
+                </Column>
+            </Row>
+        </>
     )
 }

@@ -1,0 +1,3 @@
+mutation ReplaceRecipe($recipe: RecipeInput!) {
+    replaceRecipe(recipe: $recipe)
+}

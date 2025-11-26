@@ -10,6 +10,7 @@ export const pages = async (page: number): Promise<T_ArchivePost[]> => {
             query: GQL_QUERY,
             variables: { page },
             context: await getAuthHeader(),
+            fetchPolicy: 'network-only',
         })
         .then((result) => {
             if (!result.data) return []

@@ -10,6 +10,7 @@ export const tags = async (page: number): Promise<T_Archive[]> => {
             query: TAG_LIST,
             variables: { page },
             context: await getAuthHeader(),
+            fetchPolicy: 'network-only',
         })
         .then((result) => {
             if (!result.data) {

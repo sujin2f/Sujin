@@ -2,6 +2,7 @@
 import { type ChangeEvent, useCallback, useState } from 'react'
 import { notFound } from 'next/navigation'
 /* Components */
+import { WidgetTitle } from '@lib/components/WidgetTitle'
 import Link from 'next/link'
 import Table from '@common/components/containers/Table'
 import Input from '@common/components/forms/Input'
@@ -18,10 +19,11 @@ import {
     UNITS_VOLUMES,
     CONVERT_WEIGHT,
     CONVERT_VOLUMES,
-} from '@sujin/lib/types'
+} from '@sujin/lib/types' // TODO
 /* CONSTANTS */
-import { QuantumBool } from '@sujin/share/types'
-// import { useSession } from 'next-auth/react'
+import { QuantumBool } from '@sujin/share/types' // TODO
+/* Utils */
+import { useUserInfo } from '@lib/hooks/useUserInfo'
 import { useRecipeDelete } from '@lib/hooks/useRecipeDelete'
 
 type Props = {
@@ -29,12 +31,7 @@ type Props = {
 }
 
 export function DetailClient({ recipe }: Props) {
-    // TODO session
-    // const session = useSession()
-    // const userId = session?.data?.user
-    //     ? (session?.data?.user as T_User)._id
-    //     : undefined
-    const userId = undefined
+    const user = useUserInfo()
     const { setConfirm, pending, Confirm } = useRecipeDelete(recipe._id)
 
     const [converted, setConverted] = useState(recipe?.ingredients || [])
@@ -66,16 +63,12 @@ export function DetailClient({ recipe }: Props) {
         (index: number, value: UNITS) => {
             const result = [...converted]
             const unit = result[index].unit
-            const conversion: Record<string, number> = Object.keys(
-                CONVERT_VOLUMES,
-            ).includes(unit)
+            const conversion: Record<string, number> = Object.keys(CONVERT_VOLUMES).includes(unit)
                 ? CONVERT_VOLUMES
                 : CONVERT_WEIGHT
 
             if (conversion[unit] && conversion[value]) {
-                result[index].amount =
-                    (result[index].amount * conversion[unit]) /
-                    conversion[value]
+                result[index].amount = (result[index].amount * conversion[unit]) / conversion[value]
                 result[index].unit = value
             }
             setConverted(result)
@@ -90,6 +83,8 @@ export function DetailClient({ recipe }: Props) {
         <>
             {Confirm}
 
+            <WidgetTitle>{recipe.title}</WidgetTitle>
+
             {recipe.url && (
                 <h3>
                     <Link href={recipe.url} target="_blank">
@@ -102,73 +97,37 @@ export function DetailClient({ recipe }: Props) {
                 <tbody>
                     {converted.map((item, index) => (
                         <tr key={item.title}>
-                            <th className="recipe__ingredient --right">
-                                {item.title}
-                            </th>
+                            <th className="recipe__ingredient --right">{item.title}</th>
                             <td className="recipe__amount">
                                 <Input
                                     type="number"
                                     value={
-                                        focused !== index
-                                            ? parseFloat(
-                                                  item.amount.toString(),
-                                              ).toFixed(2)
-                                            : item.amount
+                                        focused !== index ? parseFloat(item.amount.toString()).toFixed(2) : item.amount
                                     }
-                                    onChange={(
-                                        e: ChangeEvent<HTMLInputElement>,
-                                    ) => {
+                                    onChange={(e: ChangeEvent<HTMLInputElement>) => {
                                         setFocused(index)
-                                        onQuantityChange(
-                                            index,
-                                            parseFloat(e.target.value),
-                                        )
+                                        onQuantityChange(index, parseFloat(e.target.value))
                                     }}
-                                    onBlur={(
-                                        e: ChangeEvent<HTMLInputElement>,
-                                    ) => {
+                                    onBlur={(e: ChangeEvent<HTMLInputElement>) => {
                                         setFocused(false)
-                                        onQuantityChange(
-                                            index,
-                                            parseFloat(e.target.value),
-                                        )
+                                        onQuantityChange(index, parseFloat(e.target.value))
                                     }}
                                 />
                             </td>
                             <td className="recipe__unit">
-                                {item.unit === 'ea' && (
-                                    <>{item.unit as string}</>
-                                )}
-                                {(UNITS_WEIGHT as unknown as string[]).includes(
-                                    item.unit,
-                                ) && (
+                                {item.unit === 'ea' && <>{item.unit as string}</>}
+                                {(UNITS_WEIGHT as unknown as string[]).includes(item.unit) && (
                                     <Select
-                                        options={
-                                            UNITS_WEIGHT as unknown as string[]
-                                        }
+                                        options={UNITS_WEIGHT as unknown as string[]}
                                         value={item.unit}
-                                        onChange={(e) =>
-                                            onUnitChange(
-                                                index,
-                                                e.target.value as UNITS,
-                                            )
-                                        }
+                                        onChange={(e) => onUnitChange(index, e.target.value as UNITS)}
                                     />
                                 )}
-                                {(
-                                    UNITS_VOLUMES as unknown as string[]
-                                ).includes(item.unit) && (
+                                {(UNITS_VOLUMES as unknown as string[]).includes(item.unit) && (
                                     <Select
-                                        options={
-                                            UNITS_VOLUMES as unknown as string[]
-                                        }
+                                        options={UNITS_VOLUMES as unknown as string[]}
                                         value={item.unit}
-                                        onChange={(e) =>
-                                            onUnitChange(
-                                                index,
-                                                e.target.value as UNITS,
-                                            )
-                                        }
+                                        onChange={(e) => onUnitChange(index, e.target.value as UNITS)}
                                     />
                                 )}
                             </td>
@@ -179,28 +138,16 @@ export function DetailClient({ recipe }: Props) {
 
             <Row fullWidth>
                 <Column large={6}>
-                    {userId ? (
-                        <Button
-                            href="/recipe/mine/1"
-                            title="My Recipes"
-                            disabled={pending}
-                        />
+                    {user && user._id ? (
+                        <Button href="/recipe/mine/1" title="My Recipes" disabled={pending} />
                     ) : (
-                        <Button
-                            href="/recipe/1"
-                            title="Public Recipes"
-                            disabled={pending}
-                        />
+                        <Button href="/recipe/1" title="Public Recipes" disabled={pending} />
                     )}
                 </Column>
                 <Column className="--right" large={6}>
-                    {userId === recipe.user && (
+                    {user && user._id === recipe.user ? (
                         <ButtonGroup gap>
-                            <Button
-                                href={`/recipe/edit/${recipe._id}`}
-                                title="Edit"
-                                disabled={pending}
-                            />
+                            <Button href={`/recipe/edit/${recipe._id}`} title="Edit" disabled={pending} />
                             <Button
                                 onClick={() => {
                                     setConfirm(QuantumBool.MOD)
@@ -209,6 +156,8 @@ export function DetailClient({ recipe }: Props) {
                                 disabled={pending}
                             />
                         </ButtonGroup>
+                    ) : (
+                        <></>
                     )}
                 </Column>
             </Row>

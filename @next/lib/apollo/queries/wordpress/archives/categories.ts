@@ -10,6 +10,7 @@ export const categories = async (page: number): Promise<T_Archive[]> => {
             query: CATEGORY_LIST,
             variables: { page },
             context: await getAuthHeader(),
+            fetchPolicy: 'network-only',
         })
         .then((result) => {
             if (!result.data) {

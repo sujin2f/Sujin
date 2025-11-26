@@ -9,7 +9,6 @@ query Page($slug: String!) {
         date
         content
         meta {
-            useBackgroundColor
             backgroundColor
         }
         images {

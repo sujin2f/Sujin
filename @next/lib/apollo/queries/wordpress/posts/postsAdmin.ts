@@ -10,6 +10,7 @@ export const postsAdmin = async (slug: string, page: number): Promise<T_ArchiveP
             query: GQL_QUERY,
             variables: { slug, page },
             context: await getAuthHeader(),
+            fetchPolicy: 'network-only',
         })
         .then((result) => {
             if (!result.data) return []

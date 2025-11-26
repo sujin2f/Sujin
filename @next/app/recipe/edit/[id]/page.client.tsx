@@ -38,51 +38,24 @@ export default function RecipeEditClient({ recipe }: Props) {
                     defaultValue={recipe.title}
                     className="--gap--bottom"
                 />
-                <Input
-                    label="URL"
-                    type="url"
-                    name="url"
-                    defaultValue={recipe.url}
-                    className="--gap--bottom"
-                />
+                <Input label="URL" type="url" name="url" defaultValue={recipe.url} className="--gap--bottom" />
                 <fieldset className="--gap--bottom">
                     <legend>Ingredients</legend>
 
-                    {errors[1] && (
-                        <p className="form__input__error-message">
-                            {errors[1]}
-                        </p>
-                    )}
+                    {errors[1] && <p className="form__input__error-message">{errors[1]}</p>}
 
                     {map(numFields, (_, index) => (
-                        <Row
-                            key={`recipe-input-${index}`}
-                            dom="section"
-                            fullWidth
-                        >
+                        <Row key={`recipe-input-${index}`} dom="section" fullWidth>
                             <Column small={4}>
-                                <Input
-                                    label="Ingredient"
-                                    name={`ingredient[${index}]`}
-                                />
+                                <Input label="Ingredient" name={`ingredient[${index}]`} />
                             </Column>
                             <Column small={4}>
-                                <Input
-                                    label="Amount"
-                                    type="number"
-                                    step="0.01"
-                                    name={`amount[${index}]`}
-                                />
+                                <Input label="Amount" type="number" step="0.01" name={`amount[${index}]`} />
                             </Column>
                             <Column small={4}>
                                 <Select
                                     label="Unit"
-                                    options={
-                                        UNITS_SELECTION as unknown as Record<
-                                            string,
-                                            string | string[]
-                                        >
-                                    }
+                                    options={UNITS_SELECTION as unknown as Record<string, string | string[]>}
                                     name={`unit[${index}]`}
                                 />
                             </Column>

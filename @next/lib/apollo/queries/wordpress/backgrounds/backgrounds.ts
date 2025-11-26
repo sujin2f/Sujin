@@ -5,7 +5,7 @@ import type { T_Background } from '@sujin/lib/types'
 
 export const backgrounds = async (): Promise<T_Background[]> => {
     return await client
-        .query<{ backgrounds: T_Background[] }>({ query: BACKGROUND_LIST })
+        .query<{ backgrounds: T_Background[] }>({ query: BACKGROUND_LIST, fetchPolicy: 'network-only' })
         .then((result) => {
             if (!result.data) return []
             return result.data.backgrounds
