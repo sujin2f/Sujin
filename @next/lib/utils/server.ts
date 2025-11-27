@@ -75,7 +75,6 @@ export const setCookies = async (token: string) => {
     await storeAccessToken(accessToken)
     await storeRefreshToken(refreshToken)
 
-    getSafeAccessToken(accessToken)
     Logger.info('🤟 Sessions!')
 }
 

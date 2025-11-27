@@ -24,8 +24,11 @@ import type { T_Background } from '@sujin/lib/types'
  * @returns An empty array on success.
  */
 export const refreshBackgrounds = async (token: string): Promise<T_Background[]> => {
+    Logger.info(`🤟 refreshBackground mutation start`)
     const user = await verifyAccessToken(token)
+    Logger.info(`🤟 Access token verified. ${JSON.stringify(user)}`)
     await verifyAdmin(user.email)
+    Logger.info(`🤟 Access token verified. ${JSON.stringify(user)}`)
 
     await getBackgrounds().then(async (result) => {
         const backgrounds = result.map((image) => convertWPImageURL(image))
@@ -34,6 +37,6 @@ export const refreshBackgrounds = async (token: string): Promise<T_Background[]>
     })
     await mysqlDisconnect()
     await Cached.getInstance().flush(getCacheKey(COLLECTION.BACKGROUNDS))
-    Logger.info(`🤟 refreshBackground mutation done`)
+    Logger.info(`⭐️ refreshBackground mutation done`)
     return []
 }

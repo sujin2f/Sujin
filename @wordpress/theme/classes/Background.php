@@ -37,12 +37,14 @@ class Background {
 		if ( 'background_image' !== $meta_key ) {
 			return;
 		}
-
-		$term_id = $this->get_background_term_id();
+		
+		console($object_id);
 		if ( $_meta_value ) {
-			wp_set_object_terms( $object_id, $term_id, 'category' );
+			$term_id = $this->get_background_term_id();
+			wp_set_post_terms( $object_id, array( $term_id ), 'category' );
+			console($term_id);
 		} else {
-			wp_remove_object_terms( $object_id, $term_id, 'category' );
+			wp_set_post_terms( $object_id, array(), 'category' );
 		}
 
 		$client = new Client( getenv_docker( 'GQL_ENDPOINT', '' ), array( 'authorization' => 'Bearer ' . Tokens::get_token() ) );
@@ -62,6 +64,7 @@ class Background {
 	 */
 	private function get_background_term_id(): int {
 		$term = get_term_by( 'slug', 'background', 'category' );
+		console($term);
 		if ( ! $term ) {
 			$term = wp_insert_term( 'background', 'category' );
 		}
