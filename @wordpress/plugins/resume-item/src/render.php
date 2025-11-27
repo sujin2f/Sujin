@@ -13,6 +13,9 @@
 
 // Render attributes safely.
 $rb_title       = isset( $attributes['title'] ) ? $attributes['title'] : '';
+$rb_url         = isset( $attributes['url'] ) ? $attributes['url'] : '';
+$rb_target      = isset( $attributes['target'] ) ? $attributes['target'] : '';
+$rb_title       = isset( $attributes['title'] ) ? $attributes['title'] : '';
 $rb_subhead     = isset( $attributes['subhead'] ) ? $attributes['subhead'] : '';
 $rb_details     = isset( $attributes['details'] ) && is_array( $attributes['details'] ) ? $attributes['details'] : array();
 $rb_start_month = isset( $attributes['startMonth'] ) ? $attributes['startMonth'] : '';
@@ -35,7 +38,15 @@ $rb_tags        = isset( $attributes['tags'] ) && is_array( $attributes['tags'] 
 
 	<?php /* title */ ?>
 	<?php if ( $rb_title ) : ?>
-		<h3 class="about-item__title"><?php echo esc_html( $rb_title ); ?></h3>
+		<h3 class="about-item__title">
+			<?php if ( $rb_url ) : ?>
+				<a href="<?php echo esc_url( $rb_url ); ?> target="<?php $rb_target || '_self'; ?>">
+			<?php endif; ?>
+					<?php echo esc_html( $rb_title ); ?>
+			<?php if ( $rb_url ) : ?>
+				</a>
+			<?php endif; ?>
+		</h3>
 	<?php endif; ?>
 
 	<?php /* sub heading */ ?>
