@@ -13,7 +13,7 @@
         "lint:js": "wp-scripts lint-js",
         "packages-update": "wp-scripts packages-update",
         "plugin-zip": "wp-scripts plugin-zip",
-        "start": "wp-scripts start --experimental-modules"
+        "dev": "wp-scripts start --experimental-modules"
     },
     "dependencies": {
         "@wordpress/interactivity": "latest"
@@ -22,6 +22,7 @@
         "[^.]*"
     ],
     "devDependencies": {
+        "@types/react": "^19.2.7",
         "@types/wordpress__block-editor": "^14.21.2",
         "@types/wordpress__blocks": "^12.5.18",
         "@wordpress/scripts": "^31.0.0",

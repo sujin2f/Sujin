@@ -7,4 +7,6 @@ export type Attributes = {
     endYear: string
     startMonth: string
     startYear: string
+    url: string
+    target: string
 }

@@ -1,10 +1,12 @@
 {
     "editor.formatOnPaste": false,
+    "editor.formatOnSave": true,
     "editor.fontFamily": "Fira Code",
     "editor.fontLigatures": true,
     "editor.renderWhitespace": "all",
     "javascript.updateImportsOnFileMove.enabled": "always",
     "typescript.updateImportsOnFileMove.enabled": "always",
     "eslint.useFlatConfig": true,
-    "cSpell.words": ["Choi", "flickr", "sujin", "sujinc"]
+    "cSpell.words": ["Choi", "flickr", "sujin", "sujinc"],
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
 }

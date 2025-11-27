@@ -19,9 +19,9 @@ import type { Attributes } from './types'
  * @see https://developer.wordpress.org/block-editor/developers/block-api/#registering-a-block
  * @todo Typing - but this is official page description :(
  */
-registerBlockType<Attributes>(metadata.name, {
+registerBlockType< Attributes >( metadata.name, {
     /**
      * @see ./edit.js
      */
     edit: Edit,
-})
+} )
