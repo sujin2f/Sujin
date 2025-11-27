@@ -1,4 +1,4 @@
-import { createHash as nodeCreateHash, subtle, getRandomValues } from 'node:crypto'
+import { createHash as nodeCreateHash, getRandomValues, subtle } from 'node:crypto'
 
 /**
  * Creates an MD5 hash of a string with a secret.
@@ -10,41 +10,59 @@ export const createHash = (str: string, secret: string): string => {
     return nodeCreateHash('md5').update(str).update(secret).digest('hex')
 }
 
-export const encodeText = async (text: string, secret: string): Promise<[string, string]> => {
+/**
+ * Simple same-key encode/decode
+ * @returns base64 encoded string of JSON array. [k, iv(base64 array buffer)]
+ */
+export const generateKey = async () => {
+    const key = await subtle.generateKey(
+        {
+            name: 'AES-GCM',
+            length: 256,
+        },
+        true,
+        ['encrypt', 'decrypt'],
+    )
+    const exported = await subtle.exportKey('jwk', key)
     const iv = getRandomValues(new Uint8Array(12))
+    const merged = JSON.stringify([exported.k, bufferToBase64(iv.buffer)])
+    return btoa(merged)
+}
+
+export const encodeText = async (text: string, secret: string): Promise<string> => {
+    const [k, _iv] = JSON.parse(atob(secret))
+    const iv = base64ToArrayBuffer(_iv)
+
     const key = await subtle.importKey(
         'jwk',
-        { key_ops: ['encrypt', 'decrypt'], ext: true, alg: 'A256GCM', kty: 'oct', k: secret },
+        { key_ops: ['encrypt', 'decrypt'], ext: true, alg: 'A256GCM', kty: 'oct', k },
         { name: 'AES-GCM', length: 256 },
         true,
         ['encrypt', 'decrypt'],
     )
     const encodedData = new TextEncoder().encode(text)
     const buffer = await subtle.encrypt({ name: 'AES-GCM', iv }, key, encodedData)
-    const data = arrayBufferToBase64(buffer)
-    const ivString = arrayBufferToBase64(iv.buffer)
-
-    return [data, ivString]
+    return bufferToBase64(buffer)
 }
 
-export const decodeText = async (text: [string, string], secret: string): Promise<string> => {
+export const decodeText = async (encoded: string, secret: string): Promise<string> => {
+    const [k, _iv] = JSON.parse(atob(secret))
+    const iv = base64ToArrayBuffer(_iv)
+
     const key = await subtle.importKey(
         'jwk',
-        { key_ops: ['encrypt', 'decrypt'], ext: true, alg: 'A256GCM', kty: 'oct', k: secret },
+        { key_ops: ['encrypt', 'decrypt'], ext: true, alg: 'A256GCM', kty: 'oct', k },
         { name: 'AES-GCM', length: 256 },
         true,
         ['encrypt', 'decrypt'],
     )
 
-    const data = base64ToArrayBuffer(text[0])
-    const iv = base64ToArrayBuffer(text[1])
-
     const decoder = new TextDecoder()
-    const buffer = await subtle.decrypt({ name: 'AES-GCM', iv }, key, data)
-    return decoder.decode(buffer)
+    const data = await subtle.decrypt({ name: 'AES-GCM', iv }, key, base64ToArrayBuffer(encoded))
+    return decoder.decode(data)
 }
 
-const arrayBufferToBase64 = (buffer: ArrayBuffer) => {
+const bufferToBase64 = (buffer: ArrayBuffer) => {
     const bytes = new Uint8Array(buffer)
 
     let binary = ''

@@ -61,7 +61,7 @@ export const getMetaData = async (): Promise<Metadata> => {
  * @returns
  */
 export const createLoginToken = async (redirect: string) => {
-    return await generateToken({ redirect }, 10, INTER_COM_SECRET, CRYPTO_KEY)
+    return await generateToken(redirect, 10, INTER_COM_SECRET, CRYPTO_KEY)
 }
 
 export const setCookies = async (token: string) => {

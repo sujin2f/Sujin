@@ -6,7 +6,7 @@ import * as fs from 'node:fs'
 import * as path from 'node:path'
 import { exec } from 'node:child_process'
 import { config } from 'dotenv'
-import { subtle } from 'node:crypto'
+import { subtle, getRandomValues } from 'node:crypto'
 import util from 'util'
 config()
 
@@ -43,7 +43,17 @@ if (stdout.includes(image)) {
     process.exit(1)
 }
 
-// Create crypto key
+const bufferToBase64 = (buffer) => {
+    const bytes = new Uint8Array(buffer)
+
+    let binary = ''
+    for (let i = 0; i < bytes.byteLength; i++) {
+        binary += String.fromCharCode(bytes[i])
+    }
+    return btoa(binary)
+}
+
+// generate crypto key (you can use the same code from @common/utils/crypto)
 const key = await subtle.generateKey(
     {
         name: 'AES-GCM',
@@ -53,9 +63,13 @@ const key = await subtle.generateKey(
     ['encrypt', 'decrypt'],
 )
 const exported = await crypto.subtle.exportKey('jwk', key)
-const CRYPTO_KEY = exported.k
+const iv = getRandomValues(new Uint8Array(12))
+const merged = JSON.stringify([exported.k, bufferToBase64(iv.buffer)])
+const CRYPTO_KEY = btoa(merged)
+
 env = env.replace(/CRYPTO_KEY=.*?(?:\r?\n|$)/g, `CRYPTO_KEY=${CRYPTO_KEY}\n`)
 await fs.promises.writeFile(path.join(files.env), env)
+console.info(`👀 Your key is ${CRYPTO_KEY}. Apply this to @next, @graphql, and @wordpress`)
 
 // Replace tsconfig.json
 import tsConfig from './tsconfig.json' with { type: 'json' }
