@@ -37,12 +37,10 @@ class Background {
 		if ( 'background_image' !== $meta_key ) {
 			return;
 		}
-		
-		console($object_id);
+
 		if ( $_meta_value ) {
 			$term_id = $this->get_background_term_id();
 			wp_set_post_terms( $object_id, array( $term_id ), 'category' );
-			console($term_id);
 		} else {
 			wp_set_post_terms( $object_id, array(), 'category' );
 		}
@@ -64,7 +62,6 @@ class Background {
 	 */
 	private function get_background_term_id(): int {
 		$term = get_term_by( 'slug', 'background', 'category' );
-		console($term);
 		if ( ! $term ) {
 			$term = wp_insert_term( 'background', 'category' );
 		}
