@@ -10,3 +10,4 @@ temp
 .backup
 .jest
 .vscode
+public/wp-content
