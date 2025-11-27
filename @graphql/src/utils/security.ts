@@ -1,15 +1,17 @@
 import sanitize from 'mongo-sanitize'
-import jwt from 'jsonwebtoken'
 /* Models */
 import { User } from '@src/schema/users'
 /* Utils */
 import { isUserAdmin } from '@src/utils/mysql/isUserAdmin'
 import { createHash } from '@sujin/share/utils/crypto'
 /* T_Types */
-import type { T_Parsed_Token, T_Token, T_UserSub } from '@sujin/lib/types'
+import type { T_UserSub } from '@sujin/lib/types'
 /* CONSTANTS */
-import { SECOND_IN_MS } from '@sujin/share/constants/datetime'
-import { ACCESS_TOKEN_LIFETIME, REFRESH_TOKEN_LIFETIME } from '@sujin/lib/constants'
+import { verifyToken } from '@sujin/lib/utils/token'
+
+const ACCESS_SECRET = `${process.env.ACCESS_SECRET}`
+const EMAIL_SECRET = `${process.env.EMAIL_SECRET}`
+const CRYPTO_KEY = `${process.env.CRYPTO_KEY}`
 
 /**
  * Security helper utilities for JWT verification and secret retrieval.
@@ -27,65 +29,17 @@ import { ACCESS_TOKEN_LIFETIME, REFRESH_TOKEN_LIFETIME } from '@sujin/lib/consta
  *                           the underlying `jsonwebtoken` error). If the token is expired, callers may
  *                           choose to attempt re-validation depending on their flow.
  */
-export const verifyAccessToken = async (token: string): Promise<T_Parsed_Token> => {
-    if (!token) {
-        throw new Error('Missing token')
-    }
-
-    const payload = jwt.verify(token, getSecret('access')) as T_Token
-    if (typeof payload === 'string') {
-        throw new Error('🤬 Token is invalid')
-    }
-
-    if (typeof payload.sub !== 'string') {
-        throw new Error('🤬 Token is invalid')
-    }
-
-    const user = JSON.parse(payload.sub) as T_UserSub
+export const verifyAccessToken = async (token: string): Promise<T_UserSub> => {
+    const user = await verifyToken<T_UserSub>(token, ACCESS_SECRET, CRYPTO_KEY)
     if (user.admin) {
         verifyAdmin(user.email)
     }
 
-    const email = createHash(user.email, getSecret('email'))
+    const email = createHash(user.email, EMAIL_SECRET)
     await User.findOne({ _id: user._id, email }).then((result) => {
         if (!result) throw new Error('🤬 Cannot find the user!')
     })
-    return { ...payload, sub: user }
-}
-
-/**
- * Verify refresh token and return the new access token.
- *
- * @param   {string} token - The JWT string to verify (expected to be a refresh token).
- * @returns {string} The new access token.
- * @throws  {Error}  If `token` is falsy, or if verification fails (will rethrow
- *                   the underlying `jsonwebtoken` error). If the token is expired, callers may
- *                   choose to attempt re-validation depending on their flow.
- */
-export const refreshAccessToken = (token: string): string => {
-    if (!token) {
-        throw new Error('Missing token')
-    }
-
-    const payload = jwt.verify(token, getSecret('refresh'))
-    if (typeof payload === 'string') {
-        throw new Error('Token is invalid')
-    }
-
-    if (typeof payload.sub !== 'string') {
-        throw new Error('Token is invalid')
-    }
-
-    // issue, verify, and return
-    const iat = Math.trunc(new Date().getTime() / SECOND_IN_MS)
-    const accessPayload = {
-        ...payload,
-        iat,
-        exp: iat + ACCESS_TOKEN_LIFETIME,
-    } as T_Token
-    const accessToken = jwt.sign(accessPayload, getSecret('access'))
-    verifyAccessToken(accessToken)
-    return accessToken
+    return user
 }
 
 /**
@@ -98,53 +52,11 @@ export const refreshAccessToken = (token: string): string => {
  * @throws {Error} If token verification fails or the decoded token does not
  * contain an `admin` truthy flag.
  */
-const verifyAdmin = async (_email: string): Promise<boolean> => {
+export const verifyAdmin = async (_email: string): Promise<boolean> => {
     const email = sanitize(_email)
 
     if (!(await isUserAdmin(email))) {
-        throw new Error(`🤬 User is not admin`)
+        throw new Error(`🤬 User is not admin: ${email}`)
     }
     return true
-}
-
-/**
- * Get a secret value from environment variables.
- *
- * Supported types:
- * - `'access'`   -> `process.env.ACCESS_SECRET`
- * - `'email'` -> `process.env.EMAIL_SECRET`
- *
- * @param type - The kind of secret to retrieve.
- * @returns The secret string from the environment.
- * @throws {Error} If the requested secret is not set in the environment.
- */
-export const getSecret = (type: 'access' | 'refresh' | 'email'): string => {
-    let secret = ''
-    switch (type) {
-        case 'access':
-            secret = `${process.env.ACCESS_SECRET}`
-            break
-        case 'refresh':
-            secret = `${process.env.REFRESH_SECRET}`
-            break
-        case 'email':
-            secret = `${process.env.EMAIL_SECRET}`
-            break
-    }
-
-    if (!secret) {
-        throw new Error(`Missing secret for type: ${type}`)
-    }
-    return secret
-}
-
-export const createRefreshToken = (user: T_UserSub): string => {
-    const iat = Math.trunc(new Date().getTime() / SECOND_IN_MS)
-    const payload: T_Token = {
-        iss: 'https://sujinc.com',
-        iat,
-        exp: iat + REFRESH_TOKEN_LIFETIME,
-        sub: JSON.stringify(user),
-    }
-    return jwt.sign(payload, getSecret('refresh'))
 }

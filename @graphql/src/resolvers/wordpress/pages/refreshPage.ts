@@ -8,7 +8,7 @@ import { POST_TYPE, POST_IMAGE_LOCATION, COLLECTION } from '@sujin/lib/constants
 import { DAY_IN_MS } from '@sujin/share/constants/datetime'
 /* Utils */
 import { getCacheKey } from '@sujin/lib/utils/cache'
-import { verifyAccessToken } from '@src/utils/security'
+import { verifyAccessToken, verifyAdmin } from '@src/utils/security'
 import { getPostBy } from '@src/utils/mysql/post'
 import { mysqlDisconnect } from '@src/utils/mysql'
 import { convertWPImageURL } from '@src/utils/mongo/convertWPImageURL'
@@ -26,10 +26,8 @@ import { convertWPImageURL } from '@src/utils/mongo/convertWPImageURL'
  * @returns An empty array on success.
  */
 export const refreshPage = async (_slug: string, token: string): Promise<boolean[]> => {
-    const payload = await verifyAccessToken(token)
-    if (!payload.sub.admin) {
-        throw new Error('🤬 refreshPage mutation query has been called by non admin user')
-    }
+    const user = await verifyAccessToken(token)
+    await verifyAdmin(user.email)
 
     const slug = sanitize(_slug)
     const wpPage = await getPostBy('slug', slug, POST_TYPE.PAGE)

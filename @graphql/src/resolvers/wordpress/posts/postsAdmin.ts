@@ -9,7 +9,7 @@ import { PER_PAGE } from '@sujin/lib/constants'
 import { AGGREGATE_ARCHIVE_POST, AGGREGATE_EXPAND_ARCHIVES } from '@src/constants'
 /* Utils */
 import { category as getCategory } from '@src/resolvers/wordpress/archives/category'
-import { verifyAccessToken } from '@src/utils/security'
+import { verifyAccessToken, verifyAdmin } from '@src/utils/security'
 /* T_Types */
 import type { T_Post } from '@sujin/lib/types'
 
@@ -25,10 +25,8 @@ import type { T_Post } from '@sujin/lib/types'
  * @throws {GraphQLError} When no posts are found for the archive.
  */
 export const postsAdmin = async (_slug: string, _page: number, token: string): Promise<T_Post[]> => {
-    const payload = await verifyAccessToken(token)
-    if (!payload.sub.admin) {
-        throw new Error('🤬 postsAdmin query has been called by non admin user')
-    }
+    const user = await verifyAccessToken(token)
+    await verifyAdmin(user.email)
 
     const slug = sanitize(_slug)
     const page = sanitize(_page)

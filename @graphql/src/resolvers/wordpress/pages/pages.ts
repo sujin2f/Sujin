@@ -5,7 +5,7 @@ import { Page } from '@src/schema/post'
 /* CONSTANTS */
 import { PER_PAGE } from '@sujin/lib/constants'
 /* Utils */
-import { verifyAccessToken } from '@src/utils/security'
+import { verifyAccessToken, verifyAdmin } from '@src/utils/security'
 /* T_Types */
 import type { T_Page } from '@sujin/lib/types'
 
@@ -21,10 +21,8 @@ import type { T_Page } from '@sujin/lib/types'
  * @throws {Error} When the caller is not an admin.
  */
 export const pages = async (_page: number, token: string): Promise<T_Page[]> => {
-    const payload = await verifyAccessToken(token)
-    if (!payload.sub.admin) {
-        throw new Error('🤬 pages query has been called by non admin user')
-    }
+    const user = await verifyAccessToken(token)
+    await verifyAdmin(user.email)
 
     const page = sanitize(_page)
     const result = await Page.find<T_Page>()

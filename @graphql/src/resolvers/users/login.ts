@@ -1,4 +1,3 @@
-import jwt from 'jsonwebtoken'
 import sanitize from 'mongo-sanitize'
 /* Models */
 import { Logger } from '@sujin/share/model/Logger'
@@ -7,12 +6,17 @@ import { User } from '@src/schema/users'
 import { mysqlDisconnect } from '@src/utils/mysql'
 import { isUserAdmin } from '@src/utils/mysql/isUserAdmin'
 import { createHash } from '@sujin/share/utils/crypto'
-import { createRefreshToken, getSecret } from '@src/utils/security'
-import { verifyLoginToken } from '@sujin/lib/utils/token'
+import { getTokenSub, generateToken } from '@sujin/lib/utils/token'
 /* T_Type */
-import type { T_GoogleUser, T_Login_Token, T_User } from '@sujin/lib/types'
+import type { T_GoogleUser, T_User } from '@sujin/lib/types'
 import type { Response } from '@src/types'
-import { HEADER_TOKEN } from '@sujin/lib/constants'
+import { ACCESS_TOKEN_LIFETIME, HEADER_TOKEN, REFRESH_TOKEN_LIFETIME } from '@sujin/lib/constants'
+
+const ACCESS_SECRET = `${process.env.ACCESS_SECRET}`
+const REFRESH_SECRET = `${process.env.REFRESH_SECRET}`
+const EMAIL_SECRET = `${process.env.EMAIL_SECRET}`
+const INTER_COM_SECRET = `${process.env.INTER_COM_SECRET}`
+const CRYPTO_KEY = `${process.env.CRYPTO_KEY}`
 
 /**
  * Exchange a Next.js `nextToken` for an application GraphQL access token.
@@ -30,22 +34,21 @@ import { HEADER_TOKEN } from '@sujin/lib/constants'
  * @returns {T_User}
  * @throws {Error} When the incoming token is missing or invalid.
  */
-export const login = async (user: T_GoogleUser, token: string, res: Response): Promise<T_User> => {
-    const email = sanitize(user.email)
+export const login = async (googleUser: T_GoogleUser, token: string, res: Response): Promise<boolean> => {
+    Logger.info(`🤟 login has been finished`)
+    const email = sanitize(googleUser.email)
     if (!email) {
         Logger.error('🤬 Login: email is empty')
         throw new Error('🤬 Login: email is empty')
     }
-    const payload = jwt.verify(token, getSecret('access')) as T_Login_Token
-    const origin = JSON.parse(`${process.env.CORS_ORIGINS}`) as string[]
-    try {
-        verifyLoginToken(payload, origin)
-    } catch (e: unknown) {
-        Logger.error((e as Error).message)
-        throw e
+
+    // verify token
+    const sub = await getTokenSub<T_GoogleUser>(token, CRYPTO_KEY)
+    if (sub.email !== email) {
+        throw new Error(`🤬 The request is malformed ${sub.email} ${email}`)
     }
 
-    const hashed = createHash(email, getSecret('email'))
+    const hashed = createHash(email, EMAIL_SECRET)
     const _id = await User.findOne<T_User>({ email: hashed }).then(async (result) => {
         if (result) {
             return result._id.toString()
@@ -59,15 +62,33 @@ export const login = async (user: T_GoogleUser, token: string, res: Response): P
     const admin = await isUserAdmin(email)
     await mysqlDisconnect()
 
-    const result: T_User = {
+    const mongoUser: T_User = {
         _id,
         admin,
     }
 
-    // Refresh Token
-    const refreshToken = createRefreshToken({ ...user, ...result })
-    res.setHeader(HEADER_TOKEN, `Bearer ${refreshToken}`)
+    // Tokens
+    const refreshToken = await generateToken(
+        { ...googleUser, ...mongoUser },
+        REFRESH_TOKEN_LIFETIME,
+        REFRESH_SECRET,
+        CRYPTO_KEY,
+    )
+    const accessToken = await generateToken(
+        { ...googleUser, ...mongoUser },
+        ACCESS_TOKEN_LIFETIME,
+        ACCESS_SECRET,
+        CRYPTO_KEY,
+    )
+    const commToken = await generateToken(
+        { user: { ...googleUser, ...mongoUser }, refreshToken, accessToken },
+        15,
+        INTER_COM_SECRET,
+        CRYPTO_KEY,
+    )
 
-    Logger.info(`🤟 login has been finished: ${JSON.stringify(result)}`)
-    return result
+    res.setHeader(HEADER_TOKEN, `Bearer ${commToken}`)
+
+    Logger.info(`🤟 login has been finished: ${JSON.stringify(mongoUser)}`)
+    return true
 }

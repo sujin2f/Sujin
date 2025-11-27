@@ -1,28 +1,35 @@
-import type { T_Login_Token } from '../types'
+import jwt from 'jsonwebtoken'
+import { SECOND_IN_MS } from '@sujin/share/constants/datetime'
+import { decodeText, encodeText } from '@sujin/share/utils/crypto'
+import type { T_Token } from '../types'
 
-/**
- * Simple verification.
- *
- * @param   {T_Login_Token} payload - The JWT string to verify (expected to be a GraphQL auth token).
- * @returns {void}          Validation passed
- * @throws  {Error}         If `token` is falsy
- */
-export const verifyLoginToken = (payload: T_Login_Token, allowed: string[]): string => {
-    if (typeof payload === 'string') {
-        throw new Error('🤬 Token is invalid')
+export const generateToken = async (_sub: unknown, lifetime: number, secret: string, cryptoKey: string) => {
+    const iat = Math.trunc(new Date().getTime() / SECOND_IN_MS)
+    const sub = await encodeText(JSON.stringify(_sub), cryptoKey)
+    const payload: T_Token = {
+        iss: 'https://sujinc.com',
+        iat,
+        exp: iat + lifetime,
+        sub: JSON.stringify(sub),
     }
+    return jwt.sign(payload, secret)
+}
 
-    if (typeof payload.sub !== 'string') {
-        throw new Error('🤬 Token is invalid')
+export const getExpiration = (token: string) => {
+    const decoded = jwt.decode(token)
+    if (!decoded || typeof decoded === 'string' || !decoded.exp) {
+        return
     }
-    const sub = parseInt(payload.sub)
-    if (isNaN(sub)) {
-        throw new Error('🤬 Token is invalid')
-    }
+    return decoded.exp
+}
 
-    if (allowed.indexOf(payload.iss) === -1) {
-        throw new Error('🤬 Token is invalid')
-    }
+export const getTokenSub = async <T>(token: string, cryptoKey: string): Promise<T> => {
+    const decoded = jwt.decode(token)
+    const sub = await decodeText(JSON.parse(`${decoded && decoded.sub}`), cryptoKey)
+    return JSON.parse(sub) as T
+}
 
-    return payload.iss
+export const verifyToken = async <T>(token: string, secret: string, cryptoKey: string): Promise<T> => {
+    jwt.verify(token, secret)
+    return await getTokenSub(token, cryptoKey)
 }

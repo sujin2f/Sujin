@@ -20,7 +20,7 @@ import { Archive } from '@src/schema/archive'
 import Cached from '@sujin/share/model/Cache'
 import { Logger } from '@sujin/share/model/Logger'
 /* Utils */
-import { verifyAccessToken } from '@src/utils/security'
+import { verifyAccessToken, verifyAdmin } from '@src/utils/security'
 import { getCacheKey } from '@sujin/lib/utils/cache'
 import { getTermBySlug } from '@src/utils/mysql/term'
 import { mysqlDisconnect } from '@src/utils/mysql'
@@ -30,11 +30,8 @@ import { updateTotal } from '@src/utils/mongo/updateTotal'
 import { COLLECTION, ARCHIVE } from '@sujin/lib/constants'
 
 export const refreshCategory = async (_slug: string, token: string): Promise<boolean[]> => {
-    const payload = await verifyAccessToken(token)
-    if (!payload.sub.admin) {
-        Logger.error(`🤬 refreshCategory mutation has been called by non admin user: ${JSON.stringify(payload.sub)}`)
-        throw new Error(`🤬 refreshCategory mutation has been called by non admin user: ${JSON.stringify(payload.sub)}`)
-    }
+    const user = await verifyAccessToken(token)
+    await verifyAdmin(user.email)
 
     const slug = sanitize(_slug)
     const wp = await getTermBySlug(slug)

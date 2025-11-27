@@ -25,8 +25,8 @@ import { COLLECTION } from '@sujin/lib/constants'
  */
 export const replaceRecipe = async (_recipe: T_Recipe, token: string): Promise<string> => {
     // Verify Token
-    const payload = await verifyAccessToken(token)
-    if (!payload || !payload.sub || !payload.sub._id) throw new Error()
+    const user = await verifyAccessToken(token)
+    if (!user._id) throw new Error()
 
     if (!_recipe._id) throw new Error()
 
@@ -37,7 +37,7 @@ export const replaceRecipe = async (_recipe: T_Recipe, token: string): Promise<s
     if (!recipe) {
         throw new Error()
     }
-    if (recipe.user.toString() !== payload.sub._id) {
+    if (recipe.user.toString() !== user._id) {
         throw new Error()
     }
 

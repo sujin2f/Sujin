@@ -29,9 +29,8 @@ export const recipes = async (_page: number, mine: boolean, token: string): Prom
     }
     let user: Nullable<T_UserSub>
     if (mine) {
-        const payload = await verifyAccessToken(token)
-        if (!payload || !payload.sub || !payload.sub._id) throw new Error()
-        user = payload.sub
+        user = await verifyAccessToken(token)
+        if (!user._id) throw new Error()
     }
 
     const userId = user ? user._id : ''

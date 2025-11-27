@@ -10,6 +10,6 @@ export const sessionOption: SessionOptions = {
     cookie: {
         maxAge: 10 * MINUTE_IN_MS,
         sameSite: 'lax',
-        secure: false,
+        secure: true,
     },
 }

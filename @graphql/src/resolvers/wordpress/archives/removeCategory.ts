@@ -4,7 +4,7 @@ import { Archive } from '@src/schema/archive'
 import Cached from '@sujin/share/model/Cache'
 import { Logger } from '@sujin/share/model/Logger'
 /* Utils */
-import { verifyAccessToken } from '@src/utils/security'
+import { verifyAccessToken, verifyAdmin } from '@src/utils/security'
 import { getCacheKey } from '@sujin/lib/utils/cache'
 /* CONSTANTS */
 import { COLLECTION, ARCHIVE } from '@sujin/lib/constants'
@@ -22,10 +22,8 @@ import { COLLECTION, ARCHIVE } from '@sujin/lib/constants'
  * @returns An empty boolean array (placeholder) upon completion.
  */
 export const removeCategory = async (_slug: string, token: string): Promise<boolean[]> => {
-    const payload = await verifyAccessToken(token)
-    if (!payload.sub.admin) {
-        throw new Error('🤬 removeCategory mutation has been called by non admin user')
-    }
+    const user = await verifyAccessToken(token)
+    await verifyAdmin(user.email)
 
     const slug = sanitize(_slug)
     await Archive.deleteOne({ slug, type: ARCHIVE.CATEGORY })

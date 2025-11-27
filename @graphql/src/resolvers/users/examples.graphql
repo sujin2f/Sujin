@@ -1,8 +1,5 @@
 mutation {
-    login(email: "?", name: "?", picture: "?") {
-        _id
-        admin
-    }
+    login(email: "?", name: "?", picture: "?")
     refresh
     isAdmin
 }

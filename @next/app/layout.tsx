@@ -2,8 +2,10 @@
 import React, { type PropsWithChildren, Suspense } from 'react'
 import { Ubuntu } from 'next/font/google'
 import Script from 'next/script'
-import type { Metadata } from 'next'
 import { ErrorBoundary } from 'next/dist/client/components/error-boundary'
+import type { Metadata } from 'next'
+/* Models */
+import { Logger } from '@sujin/share/model/Logger'
 /* CONSTANTS */
 import { BASE_URL, DEFAULT_THUMBNAIL } from '@lib/constants'
 /* Components */
@@ -61,6 +63,7 @@ const ubuntu = Ubuntu({
  */
 export default async function AppLayout({ children }: PropsWithChildren) {
     const user = await getUserInfo().catch(() => null)
+    Logger.info(`👀 user info: ${JSON.stringify(user)}`)
     const adSense = process.env.NEXT_PUBLIC_GOOGLE_AD_CLIENT ? (
         <Script
             async

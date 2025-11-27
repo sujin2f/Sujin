@@ -9,4 +9,4 @@ RUN yarn run build
 
 ARG SERVER_PORT
 EXPOSE $SERVER_PORT
-CMD ["yarn", "start"]
+CMD ["yarn", "dev"]

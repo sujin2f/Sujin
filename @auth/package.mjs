@@ -6,6 +6,7 @@ import * as fs from 'node:fs'
 import * as path from 'node:path'
 import { exec } from 'node:child_process'
 import { config } from 'dotenv'
+import { subtle } from 'node:crypto'
 import util from 'util'
 config()
 
@@ -34,16 +35,27 @@ if (process.argv.slice(2)[0] !== 'sudo') {
 }
 // Overwrite IMAGE info to .env
 let env = await fs.promises.readFile(path.join(files.env), 'utf-8')
-env = env.replace(/IMAGE=.*?(?:\r?\n|$)/g, '')
-env += `IMAGE=${image}\n`
-await fs.promises.writeFile(path.join(files.env), env)
-console.log('🤟 \x1B[32m- IMAGE updated. \x1B[0m')
+env = env.replace(/IMAGE=.*?(?:\r?\n|$)/g, `IMAGE=${image}\n`)
 
 const { stdout } = await execPromise(`${sudo}docker image ls ${image}`)
 if (stdout.includes(image)) {
     console.error(`⛈️ Image ${image} already exists.`)
     process.exit(1)
 }
+
+// Create crypto key
+const key = await subtle.generateKey(
+    {
+        name: 'AES-GCM',
+        length: 256,
+    },
+    true,
+    ['encrypt', 'decrypt'],
+)
+const exported = await crypto.subtle.exportKey('jwk', key)
+const CRYPTO_KEY = exported.k
+env = env.replace(/CRYPTO_KEY=.*?(?:\r?\n|$)/g, `CRYPTO_KEY=${CRYPTO_KEY}\n`)
+await fs.promises.writeFile(path.join(files.env), env)
 
 // Replace tsconfig.json
 import tsConfig from './tsconfig.json' with { type: 'json' }
