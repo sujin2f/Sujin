@@ -22,8 +22,8 @@ services:
             # Logger Recommendation https://lnav.org/
             - ./wordpress/wp-config.php:/var/www/html/wp-config.php # dev
             - ./debug.log:/var/www/html/wp-content/debug.log # dev
-            - ./plugins/resume-item:/var/www/html/wp-content/plugins/resume-item # dev
             - ./theme:/var/www/html/wp-content/themes/sujin # dev
+            - ./plugins/resume-item:/var/www/html/wp-content/plugins/resume-item
             - ../@next/public/uploads:/var/www/html/wp-content/uploads
         networks:
             - sujin_public
