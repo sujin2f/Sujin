@@ -136,7 +136,6 @@ const storeUserInfo = async (token: T_UserSub) => {
 }
 
 export const getUserInfo = async (): Promise<Nullable<T_UserSub>> => {
-    Logger.info('🤟 getUserInfo started')
     const cookie = (await cookies()).get(COOKIE_KEY_USER_INFO)
     if (!cookie || !cookie.value) {
         return

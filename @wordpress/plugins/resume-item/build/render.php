@@ -23,19 +23,14 @@ $rb_start_year  = isset( $attributes['startYear'] ) ? $attributes['startYear'] :
 $rb_end_month   = isset( $attributes['endMonth'] ) ? $attributes['endMonth'] : '';
 $rb_end_year    = isset( $attributes['endYear'] ) ? $attributes['endYear'] : '';
 $rb_tags        = isset( $attributes['tags'] ) && is_array( $attributes['tags'] ) ? $attributes['tags'] : array();
+$has_range      = ( $rb_start_month || $rb_start_year || $rb_end_month || $rb_end_year );
 ?>
-<div class="about-item--v2">
-	<div class="about-item__range">
-		<?php if ( $rb_start_month || $rb_start_year || $rb_end_month || $rb_end_year ) : ?>
-			<time datetime="<?php echo esc_attr( $rb_start_year ); ?>-<?php echo esc_attr( $rb_start_month ); ?>-01">
-				<?php echo esc_html( $rb_start_year ); ?>
-			</time>
-			<time datetime="<?php echo esc_attr( $rb_end_year ); ?>-<?php echo esc_attr( $rb_end_month ); ?>-01">
-				<?php echo esc_html( $rb_end_year ); ?>
-			</time>
-		<?php endif; ?>
-	</div>
-
+<div class="about-item <?php echo esc_attr( $has_range ? 'about-item--with_range' : '' ); ?>">
+	<?php /* sub heading */ ?>
+	<?php if ( $rb_subhead ) : ?>
+		<p class="about-item__subhead"><?php echo esc_html( $rb_subhead ); ?></p>
+	<?php endif; ?>
+	
 	<?php /* title */ ?>
 	<?php if ( $rb_title ) : ?>
 		<h3 class="about-item__title">
@@ -49,10 +44,6 @@ $rb_tags        = isset( $attributes['tags'] ) && is_array( $attributes['tags'] 
 		</h3>
 	<?php endif; ?>
 
-	<?php /* sub heading */ ?>
-	<?php if ( $rb_subhead ) : ?>
-		<p class="about-item__subhead"><?php echo esc_html( $rb_subhead ); ?></p>
-	<?php endif; ?>
 
 	<?php /* detail */ ?>
 	<?php if ( ! empty( $rb_details ) ) : ?>
@@ -70,5 +61,17 @@ $rb_tags        = isset( $attributes['tags'] ) && is_array( $attributes['tags'] 
 				<li><?php echo esc_html( $rb_tag ); ?></li>
 			<?php endforeach; ?>
 		</ul>
+	<?php endif; ?>
+
+	<?php /* range */ ?>
+	<?php if ( $has_range ) : ?>
+		<div class="about-item__range">
+			<time datetime="<?php echo esc_attr( $rb_start_year ); ?>-<?php echo esc_attr( $rb_start_month ); ?>-01">
+				<?php echo esc_html( $rb_start_year ); ?>
+			</time>
+			<time datetime="<?php echo esc_attr( $rb_end_year ); ?>-<?php echo esc_attr( $rb_end_month ); ?>-01">
+				<?php echo esc_html( $rb_end_year ); ?>
+			</time>
+		</div>
 	<?php endif; ?>
 </div>

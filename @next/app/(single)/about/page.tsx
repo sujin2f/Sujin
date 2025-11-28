@@ -9,12 +9,10 @@ import { Content } from '@lib/components/single/Content'
 /* CONSTANTS */
 import { BASE_URL } from '@lib/constants'
 import { COLLECTION, IMAGE_SIZE, MENU_NAMES } from '@sujin/lib/constants'
-import PAGE_QUERY from '@lib/apollo/queries/wordpress/pages/page.graphql'
 /* Utils */
+import { page as getPage } from '@lib/apollo/queries/wordpress/pages/page'
 import { getThumbnailFromPost } from '@lib/utils/client'
-import { cachedGQLRequest } from '@lib/apollo/queries/GQLRequest'
-/* T_Types */
-import type { T_Post } from '@sujin/lib/types'
+import { nextCachedRequest } from '@lib/apollo/queries/GQLRequest'
 /* Assets */
 import '@lib/components/single/AboutItem.scss'
 
@@ -27,15 +25,7 @@ export const metadata: Metadata = {
 }
 
 export default async function AboutPage() {
-    const post = await cachedGQLRequest<{ page: T_Post }>(PAGE_QUERY, { slug: 'about' }, [COLLECTION.PAGE, 'about'])
-        .then((result) => {
-            if (!result || !result.data) {
-                notFound()
-            }
-            return result.data.page
-        })
-        .catch(() => notFound())
-
+    const post = await nextCachedRequest(getPage('about'), COLLECTION.PAGE, 'about').catch(() => notFound())
     const thumbnail = getThumbnailFromPost(post.images, IMAGE_SIZE.MEDIUM_LARGE)
 
     return (

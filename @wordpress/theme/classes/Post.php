@@ -51,6 +51,8 @@ class Post {
 	 * @param string $post_content Post content.
 	 */
 	private function save_content( int $post_id, string $post_content ): void {
+		remove_filter( 'the_content', 'wpautop' );
+
 		$content = apply_filters( 'the_content', $post_content );
 		update_post_meta( $post_id, 'the_content', $content );
 	}
