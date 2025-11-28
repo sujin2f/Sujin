@@ -24,6 +24,8 @@ $rb_end_month   = isset( $attributes['endMonth'] ) ? $attributes['endMonth'] : '
 $rb_end_year    = isset( $attributes['endYear'] ) ? $attributes['endYear'] : '';
 $rb_tags        = isset( $attributes['tags'] ) && is_array( $attributes['tags'] ) ? $attributes['tags'] : array();
 $has_range      = ( $rb_start_month || $rb_start_year || $rb_end_month || $rb_end_year );
+
+ob_start();
 ?>
 <div class="about-item <?php echo esc_attr( $has_range ? 'about-item--with_range' : '' ); ?>">
 	<?php /* sub heading */ ?>
@@ -75,3 +77,10 @@ $has_range      = ( $rb_start_month || $rb_start_year || $rb_end_month || $rb_en
 		</div>
 	<?php endif; ?>
 </div>
+<?php
+
+$content = ob_get_contents();
+ob_end_clean();
+
+$needle = array( "\n", "\r", "\t" );
+echo str_replace( $needle, '', $content ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

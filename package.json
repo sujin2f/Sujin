@@ -5,7 +5,7 @@
     "license": "MIT",
     "scripts": {
         "install-modules": "yarn --cwd ./@auth && yarn --cwd ./@common && yarn --cwd ./@graphql && yarn --cwd ./@lib && yarn --cwd ./@next && yarn --cwd ./@wordpress/plugins/resume-item",
-        "build": "yarn --cwd ./@auth build && yarn --cwd ./@common build && yarn --cwd ./@lib build && yarn --cwd ./@wordpress/plugins/resume-item build",
+        "build": "yarn --cwd ./@auth build && yarn --cwd ./@common build && yarn --cwd ./@lib build && yarn --cwd ./@wordpress/plugins/resume-item build, yarn --cwd ./@wordpress build",
         "lint": "yarn lint:auth && yarn lint:common && yarn lint:gql && yarn lint:lib && yarn lint:next && yarn lint:wordpress",
         "lint:auth": "yarn --cwd ./@auth lint",
         "lint:common": "yarn --cwd ./@common lint",
@@ -13,8 +13,6 @@
         "lint:lib": "yarn --cwd ./@lib lint",
         "lint:next": "yarn --cwd ./@next lint",
         "lint:wordpress": "yarn --cwd ./@wordpress lint",
-        "package": "yarn package:wordpress",
-        "package:wordpress": "yarn --cwd ./@wordpress package",
         "test": "yarn --cwd ./@common test && yarn --cwd ./@graphql test",
         "prepare": "husky"
     },

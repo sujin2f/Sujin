@@ -1,9 +1,5 @@
-import {
-    OnLoadingComplete,
-    PlaceholderValue,
-    StaticImport,
-} from 'next/dist/shared/lib/get-img-props'
-import Image from 'next/image'
+import { OnLoadingComplete, PlaceholderValue } from 'next/dist/shared/lib/get-img-props'
+import Image, { ImageLoaderProps } from 'next/image'
 import { ReactNode } from 'react'
 import Caption from './Caption'
 import Picture from './Picture'
@@ -11,30 +7,34 @@ import type { ImageMap } from './Picture'
 /* Helpers */
 import { joinClassNames } from '@sujin/share/utils/string'
 
-type Props = {
-    readonly src: string | StaticImport
-    readonly alt: string
-    readonly width: number | `${number}`
-    readonly height?: number | `${number}`
-    readonly fill?: boolean
-    readonly quality?: number | `${number}`
-    readonly priority?: boolean
-    readonly loading?: 'eager' | 'lazy' | undefined
-    readonly placeholder?: PlaceholderValue
-    readonly blurDataURL?: string
-    readonly unoptimized?: boolean
-    readonly overrideSrc?: string
-    readonly onLoadingComplete?: OnLoadingComplete
-    readonly layout?: string
-    readonly objectFit?: string
-    readonly objectPosition?: string
-    readonly lazyBoundary?: string
-    readonly lazyRoot?: string
-    readonly caption?: ReactNode
-    readonly center?: boolean
-    readonly sources?: ImageMap[]
-    readonly className?: string
-}
+type Props = Omit<
+    React.DetailedHTMLProps<React.ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement>,
+    'height' | 'width' | 'loading' | 'ref' | 'alt' | 'src' | 'srcSet'
+> & {
+    src: string
+    alt: string
+    width?: number | `${number}`
+    height?: number | `${number}`
+    fill?: boolean
+    loader?: (p: ImageLoaderProps) => string
+    quality?: number | `${number}`
+    priority?: boolean
+    loading?: 'eager' | 'lazy' | undefined
+    placeholder?: PlaceholderValue
+    blurDataURL?: string
+    unoptimized?: boolean
+    overrideSrc?: string
+    onLoadingComplete?: OnLoadingComplete
+    layout?: string
+    objectFit?: string
+    objectPosition?: string
+    lazyBoundary?: string
+    lazyRoot?: string
+} & React.RefAttributes<HTMLImageElement | null> & {
+        readonly caption?: ReactNode
+        readonly center?: boolean
+        readonly sources?: ImageMap[]
+    }
 
 /**
  * Image component that wraps Next.js Image with additional props and features.
@@ -86,11 +86,7 @@ export const NextImage = ({
     sources,
     className: clsName,
 }: Props) => {
-    const className = joinClassNames(
-        'image__container',
-        center && 'image__container--center',
-        clsName,
-    )
+    const className = joinClassNames('image__container', center && 'image__container--center', clsName)
     const img = (
         <Image
             src={src}
@@ -122,11 +118,7 @@ export const NextImage = ({
             </Caption>
         )
     }
-    return (
-        <figure className={className}>
-            {sources ? <Picture sources={sources}>{img}</Picture> : img}
-        </figure>
-    )
+    return <figure className={className}>{sources ? <Picture sources={sources}>{img}</Picture> : img}</figure>
 }
 
 export default NextImage

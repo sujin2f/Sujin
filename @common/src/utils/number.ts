@@ -74,3 +74,11 @@ export const hexToRgb = (hex: string) => {
 
     return [red, green, blue]
 }
+
+/**
+ * Returns ratio of num2 when num1 is 1 - like with & height
+ * @param {number} num1
+ * @param {number} num2
+ * @returns {number}
+ */
+export const getRatio = (num1: number, num2: number): number => num2 / num1

@@ -1,15 +1,28 @@
 {
-    "name": "sujin-wordpress",
-    "version": "12.0.0",
-    "description": "Wordpress CMS for sujinc.com project",
-    "author": "Sujin Choi",
-    "license": "GPL-2.0-or-later",
-    "scripts": {
-        "lint": "composer run-script lint",
-        "fix": "composer run-script fix",
-        "package": "node ./package.mjs"
-    },
-    "devDependencies": {
-        "dotenv": "^17.2.3"
-    }
+	"name": "sujin-wordpress",
+	"version": "12.0.0",
+	"description": "Wordpress CMS for sujinc.com project",
+	"author": "Sujin Choi",
+	"license": "GPL-2.0-or-later",
+	"scripts": {
+		"lint": "composer run-script lint",
+		"fix": "composer run-script fix",
+		"build": "yarn --cwd ./plugins/carousel build && yarn --cwd ./plugins/resume-item build",
+		"package": "node ./package.mjs"
+	},
+	"devDependencies": {
+		"dotenv": "^17.2.3"
+	},
+	"prettier": {
+		"arrowParens": "always",
+		"bracketSpacing": true,
+		"endOfLine": "lf",
+		"printWidth": 120,
+		"proseWrap": "preserve",
+		"quoteProps": "as-needed",
+		"tabWidth": 4,
+		"useTabs": true,
+		"singleQuote": true,
+		"trailingComma": "all"
+	}
 }

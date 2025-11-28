@@ -1,10 +1,9 @@
 {
-    "name": "sujin-resume-block",
+    "name": "carousel",
     "version": "0.1.0",
-    "description": "The item block in About page which contains title, description, period, and tags.",
+    "description": "An interactive block with the Interactivity API using TypeScript.",
     "author": "Sujin Choi",
     "license": "GPL-2.0-or-later",
-    "homepage": "sujinc.com",
     "main": "build/index.js",
     "scripts": {
         "build": "wp-scripts build --experimental-modules",
@@ -25,6 +24,6 @@
         "@types/react": "^19.2.7",
         "@types/wordpress__block-editor": "^14.21.2",
         "@types/wordpress__blocks": "^12.5.18",
-        "@wordpress/scripts": "^31.0.0"
+        "@wordpress/scripts": "^31.1.0"
     }
 }

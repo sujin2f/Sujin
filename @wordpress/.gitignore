@@ -3,9 +3,6 @@
 **/node_modules
 **/vendor
 **/coverage
-wordpress
-plugins
-!plugins/resume-item
 
 # misc
 .DS_Store

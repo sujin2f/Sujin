@@ -84,7 +84,7 @@ export default async function PostPage(props: Props) {
                 backgroundColor={post.meta?.backgroundColor}
             />
             <Row>
-                <Column small={12} large={8}>
+                <Column medium={12} large={7} largeOffset={2}>
                     <Content post={post} type="post">
                         <Tags items={tags} />
                         <SocialShare title={post.title} excerpt={post.excerpt} thumbnail={thumbnail} />

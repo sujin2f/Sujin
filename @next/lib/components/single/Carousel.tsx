@@ -11,6 +11,8 @@ import type { T_ShortcodeAttrMatch } from '@sujin/lib/types'
 /* Assets */
 import Arrow from '@common/images/prev.svg'
 import './Carousel.scss'
+import NextImage from '@common/components/containers/NextImage'
+import { getRatio } from '@sujin/share/utils/number'
 
 interface Props {
     value: T_ShortcodeAttrMatch
@@ -28,7 +30,21 @@ export const Carousel = ({ value: { named } }: Props) => {
         () =>
             Object.keys(named)
                 .filter((key) => key.match(/sc[0-9]+/))
-                .map((key) => named[key]),
+                .map((key) => named[key].replaceAll(/&#8221;|&#8243;/g, '')),
+        [named],
+    )
+    const widths = useMemo(
+        () =>
+            Object.keys(named)
+                .filter((key) => key.match(/width[0-9]+/))
+                .map((key) => parseInt(named[key].replaceAll(/&#8221;|&#8243;/g, ''))),
+        [named],
+    )
+    const heights = useMemo(
+        () =>
+            Object.keys(named)
+                .filter((key) => key.match(/height[0-9]+/))
+                .map((key) => parseInt(named[key].replaceAll(/&#8221;|&#8243;/g, ''))),
         [named],
     )
 
@@ -41,9 +57,7 @@ export const Carousel = ({ value: { named } }: Props) => {
         setIndex(idx)
     }, [images, index])
     const onClick = useCallback((e: MouseEvent<HTMLImageElement>) => {
-        const index = parseInt(
-            e.currentTarget.getAttribute('data-index') || '0',
-        )
+        const index = parseInt(e.currentTarget.getAttribute('data-index') || '0')
         setIndex(index)
     }, [])
 
@@ -51,37 +65,30 @@ export const Carousel = ({ value: { named } }: Props) => {
         <section className="carousel" aria-label="Gallery">
             {/* Arrow Navigation */}
             <nav className="carousel__arrow__container">
-                <Button
-                    className="carousel__arrow carousel__arrow__prev"
-                    onClick={prev}
-                    aria-label="Show Prev Image"
-                >
+                <Button className="carousel__arrow carousel__arrow__prev" onClick={prev} aria-label="Show Prev Image">
                     <Arrow />
                 </Button>
                 <div className="carousel__arrow__number">
                     {index + 1}/{images.length}
                 </div>
-                <Button
-                    className="carousel__arrow carousel__arrow__next"
-                    onClick={next}
-                    aria-label="Show Next Image"
-                >
+                <Button className="carousel__arrow carousel__arrow__next" onClick={next} aria-label="Show Next Image">
                     <Arrow />
                 </Button>
             </nav>
 
             <picture className="carousel__picture">
-                <img
+                <NextImage
                     src={removeURLProtocol(images[index])}
                     alt={removeURLProtocol(images[index])}
                     role="presentation"
+                    width={980}
+                    height={980 * getRatio(widths[index], heights[index])}
                 />
             </picture>
 
             <nav className="carousel__nav">
                 {images.map((image, key) => (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
+                    <NextImage
                         src={removeURLProtocol(image)}
                         className={`${key === index && 'current'}`}
                         role="presentation"
@@ -89,6 +96,8 @@ export const Carousel = ({ value: { named } }: Props) => {
                         alt={image}
                         onClick={onClick}
                         data-index={key}
+                        width={105}
+                        height={105 * getRatio(widths[index], heights[index])}
                     />
                 ))}
             </nav>
