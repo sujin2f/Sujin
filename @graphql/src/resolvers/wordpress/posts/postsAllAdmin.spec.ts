@@ -34,11 +34,11 @@ describe('postsAllAdmin', () => {
         expect(result).toEqual(fakePosts)
     })
 
-    it('throws GraphQLError when no posts found', async () => {
+    it('returns [] when no posts found', async () => {
         ;(Post.aggregate as jest.Mock).mockResolvedValue([])
-        ;(verifyAccessToken as jest.Mock).mockResolvedValue({ sub: { admin: true } })
+        ;(verifyAccessToken as jest.Mock).mockResolvedValue({ admin: true })
 
-        await expect(postsAllAdmin(1, 'admin-token')).rejects.toThrow('Cannot find any post')
+        expect(await postsAllAdmin(1, 'admin-token')).toStrictEqual([])
         expect(verifyAccessToken).toHaveBeenCalled()
     })
 })
