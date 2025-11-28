@@ -57,7 +57,7 @@ const postSchema = new Schema({
     ],
 })
 
-postSchema.index({ content: 'text' })
+postSchema.index({ content: 'text', title: 'text' })
 postSchema.index({ slug: 1 })
 postSchema.index({ date: 1 })
 

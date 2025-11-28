@@ -32,10 +32,7 @@ export const RecentPosts = ({ id }: Props) => {
     // Read from GraphQL with Intersection Observer & update store
     const ref = useRef(null)
     const [skip, setSkip] = useState(true)
-    const { loading, error, data } = useQuery<{ recent: T_ArchivePost[] }>(
-        RECENT_QUERY,
-        { skip: skip || hasStore },
-    )
+    const { loading, error, data } = useQuery<{ recent: T_ArchivePost[] }>(RECENT_QUERY, { skip: skip || hasStore })
 
     useEffect(() => {
         if (!hasStore && data && data.recent.length) {
@@ -64,7 +61,7 @@ export const RecentPosts = ({ id }: Props) => {
                 posts={{ list, numPages: 0 }}
                 keyPrefix="recent"
                 listKey="list"
-                imageSize={IMAGE_SIZE.RECENT_POST}
+                imageSize={[IMAGE_SIZE.RECENT_POST]}
             />
         </section>
     )

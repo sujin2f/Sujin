@@ -11,15 +11,12 @@ type Props<T extends string> = ColumnProps & {
     readonly posts: Promise<WithNumPages<T_ArchivePost, T>>
     readonly listKey: T
     readonly keyPrefix: string
-    readonly imageSize?: IMAGE_SIZE
+    readonly imageSize?: IMAGE_SIZE[]
     readonly page?: number
     readonly pageURLPrefix?: string
 }
 
-export const Cards = <T extends string>({
-    posts: promise,
-    ...props
-}: Props<T>) => {
+export const Cards = <T extends string>({ posts: promise, ...props }: Props<T>) => {
     const posts = use(promise)
     return <CardsComponent posts={posts} {...props} />
 }

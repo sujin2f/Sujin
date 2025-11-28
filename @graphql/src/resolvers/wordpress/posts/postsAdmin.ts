@@ -1,5 +1,4 @@
 import { Types } from 'mongoose'
-import { GraphQLError } from 'graphql'
 import sanitize from 'mongo-sanitize'
 /* Models */
 import { Logger } from '@sujin/share/model/Logger'
@@ -42,16 +41,7 @@ export const postsAdmin = async (_slug: string, _page: number, token: string): P
         { $limit: PER_PAGE },
         ...AGGREGATE_EXPAND_ARCHIVES,
         ...AGGREGATE_ARCHIVE_POST,
-    ]).then((result) => {
-        if (!result || !result.length) {
-            throw new GraphQLError(`Cannot find the post from archive ${slug}`, {
-                extensions: {
-                    code: 'NO_CONTENT',
-                },
-            })
-        }
-        return result
-    })
+    ])
     Logger.info(`🤟 postsAdmin query done: ${slug}, ${page}`)
     return result
 }

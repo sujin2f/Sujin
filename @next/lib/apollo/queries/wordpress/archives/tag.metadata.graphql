@@ -1,6 +1,0 @@
-query TagMetadata($slug: String!) {
-    archive: tag(slug: $slug) {
-        title
-        excerpt
-    }
-}

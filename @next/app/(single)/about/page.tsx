@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 
 export default async function AboutPage() {
     const post = await nextCachedRequest(getPage('about'), COLLECTION.PAGE, 'about').catch(() => notFound())
-    const thumbnail = getThumbnailFromPost(post.images, IMAGE_SIZE.MEDIUM_LARGE)
+    const thumbnail = getThumbnailFromPost(post.images, [IMAGE_SIZE.MEDIUM_LARGE])
 
     return (
         <>

@@ -1,8 +1,5 @@
 'server-only'
-import { DocumentNode } from '@apollo/client'
 import { unstable_cache } from 'next/cache'
-/* Models */
-import { client } from '@lib/apollo/apollo-client-server'
 /* CONSTANTS */
 import { REVALIDATION } from '@lib/constants'
 import { COLLECTION } from '@sujin/lib/constants'
@@ -10,33 +7,6 @@ import { COLLECTION } from '@sujin/lib/constants'
 import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 import { DAY_IN_SECONDS } from '@sujin/share/constants/datetime'
 import { IS_DEV } from '@sujin/share/constants/helper'
-
-// TODO pass function
-export const cachedGQLRequest = async <T>(
-    doc: DocumentNode,
-    variables: Record<string, unknown>,
-    cacheKeys: string[],
-) => {
-    const request = unstable_cache(
-        async <T>(doc: DocumentNode, variables: Record<string, unknown>, cacheKeys: string[]) => {
-            const [collection, ...keys] = cacheKeys
-            const request = cachedRequest(GQLRequest, getCacheKey(collection as COLLECTION, ...keys))
-            return await request<T>(doc, variables)
-        },
-        cacheKeys,
-        {
-            revalidate: REVALIDATION,
-        },
-    )
-    return await request<T>(doc, variables, cacheKeys)
-}
-
-const GQLRequest = async <T>(doc: DocumentNode, variables: Record<string, unknown>) => {
-    return await client.query<T>({
-        query: doc,
-        variables,
-    })
-}
 
 /**
  * Pass promise and keep it in Next cache with unstable_cache

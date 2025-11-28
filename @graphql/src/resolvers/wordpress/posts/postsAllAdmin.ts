@@ -1,4 +1,3 @@
-import { GraphQLError } from 'graphql'
 import sanitize from 'mongo-sanitize'
 /* Models */
 import { Logger } from '@sujin/share/model/Logger'
@@ -34,16 +33,7 @@ export const postsAllAdmin = async (_page: number, token: string): Promise<T_Pos
         { $limit: PER_PAGE },
         ...AGGREGATE_EXPAND_ARCHIVES,
         ...AGGREGATE_ARCHIVE_POST,
-    ]).then((result) => {
-        if (!result || !result.length) {
-            throw new GraphQLError(`Cannot find any post`, {
-                extensions: {
-                    code: 'NO_CONTENT',
-                },
-            })
-        }
-        return result
-    })
+    ])
     Logger.info(`🤟 postsAllAdmin query done`)
     return result
 }

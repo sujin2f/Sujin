@@ -1,5 +1,5 @@
 query Category($slug: String!) {
-    archive: category(slug: $slug) {
+    category(slug: $slug) {
         _id
         title
         slug

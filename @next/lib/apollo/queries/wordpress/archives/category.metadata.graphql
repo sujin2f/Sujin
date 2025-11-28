@@ -1,6 +1,0 @@
-query CategoryMetadata($slug: String!) {
-    archive: category(slug: $slug) {
-        title
-        excerpt
-    }
-}
