@@ -1,4 +1,4 @@
-import { OnLoadingComplete, PlaceholderValue } from 'next/dist/shared/lib/get-img-props'
+import { OnLoadingComplete, PlaceholderValue, StaticImageData } from 'next/dist/shared/lib/get-img-props'
 import Image, { ImageLoaderProps } from 'next/image'
 import { ReactNode } from 'react'
 import Caption from './Caption'
@@ -11,7 +11,7 @@ type Props = Omit<
     React.DetailedHTMLProps<React.ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement>,
     'height' | 'width' | 'loading' | 'ref' | 'alt' | 'src' | 'srcSet'
 > & {
-    src: string
+    src: string | StaticImageData
     alt: string
     width?: number | `${number}`
     height?: number | `${number}`
