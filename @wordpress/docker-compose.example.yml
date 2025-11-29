@@ -8,27 +8,28 @@ services:
             WORDPRESS_DB_NAME: ${MYSQL_DB}
             WORDPRESS_DB_USER: ${MYSQL_USER}
             WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
-            WORDPRESS_DEBUG: 1
+            WORDPRESS_DEBUG: 1 # dev
             TZ: America/Toronto
-            ACCESS_SECRET: ${ACCESS_SECRET}
+            INTER_COM_SECRET: ${INTER_COM_SECRET}
+            CRYPTO_KEY: ${CRYPTO_KEY}
             GQL_ENDPOINT: ${GQL_ENDPOINT}
             NEXT_ENDPOINT: ${NEXT_ENDPOINT}
             VERSION: ${VERSION}
             ENV: ${ENV}
         ports:
-            - ${SERVER_PORT}:80
+            - ${PORT}:80
         volumes:
             # Debug purpose
             # Logger Recommendation https://lnav.org/
             - ./wordpress/wp-config.php:/var/www/html/wp-config.php # dev
             - ./debug.log:/var/www/html/wp-content/debug.log # dev
             - ./theme:/var/www/html/wp-content/themes/sujin # dev
-            - ./plugins/resume-item:/var/www/html/wp-content/plugins/resume-item
+            - ./plugins/resume-item:/var/www/html/wp-content/plugins/resume-item # dev
+            - ./plugins/carousel:/var/www/html/wp-content/plugins/carousel # dev
             - ../@next/public/wp-content/uploads:/var/www/html/wp-content/uploads
         networks:
             - sujin_public
             - sujin_wordpress
-
 networks:
     sujin_public:
         external: true

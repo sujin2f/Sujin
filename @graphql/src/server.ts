@@ -65,7 +65,7 @@ const start = async () => {
         }),
     )
 
-    const port = process.env.SERVER_PORT
+    const port = process.env.SERVER_PORT // TODO strips all env string
     // Modified server startup
     await new Promise<void>((resolve) => httpServer.listen({ port }, resolve))
     Logger.info(`🚀 @graphql Server ready at http://localhost:${port}`)

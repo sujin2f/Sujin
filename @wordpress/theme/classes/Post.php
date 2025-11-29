@@ -76,8 +76,9 @@ class Post {
 	 *
 	 * @param string $slug      Post slug.
 	 * @param string $post_type post or page.
+	 * @param int    $attempt   recursive for refresh token.
 	 */
-	private function gql_refresh_post( string $slug, string $post_type ): void {
+	private function gql_refresh_post( string $slug, string $post_type, int $attempt = 1 ): void {
 		$query = match ( $post_type ) {
 			'post' => 'refreshPost',
 			'page' => 'refreshPage',
@@ -98,8 +99,13 @@ class Post {
 				true,
 				array( 'slug' => $slug )
 			);
-		} catch ( \Exception $_ ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
-			// do nothing.
+
+			// TODO remove @next cache.
+		} catch ( \Exception $_ ) {
+			if ( 1 === $attempt ) {
+				Tokens::refresh_token();
+				$this->gql_refresh_post( $slug, $post_type, 2 );
+			}
 		}
 	}
 }

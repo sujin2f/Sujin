@@ -2,9 +2,13 @@
 **/vendor
 **/node_modules
 **/temp
+**/.backup
 
-**/.dockerignore
-**/docker-compose**
+.env
+.env*
+.dockerignore
+docker-compose**
+Dockerfile
 
 **/**.spec.ts
 yarn.lock

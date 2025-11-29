@@ -31,8 +31,9 @@ class Term {
 	 * @param int    $_        Term ID.
 	 * @param int    $tt_id    Term taxonomy ID.
 	 * @param string $taxonomy Taxonomy slug.
+	 * @param int    $attempt  recursive for refresh token.
 	 */
-	public function gql_refresh_term( int $_, int $tt_id, string $taxonomy ): void {
+	public function gql_refresh_term( int $_, int $tt_id, string $taxonomy, int $attempt = 1 ): void {
 		$term = get_term_by( 'term_taxonomy_id', $tt_id );
 		if ( ! $term ) {
 			return;
@@ -55,8 +56,13 @@ class Term {
 				true,
 				array( 'slug' => $slug )
 			);
-		} catch ( \Exception $_ ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
-			// do nothing.
+
+			// TODO remove @next cache.
+		} catch ( \Exception $_ ) {
+			if ( 1 === $attempt ) {
+				Tokens::refresh_token();
+				$this->gql_refresh_term( 0, $tt_id, $taxonomy, 2 );
+			}
 		}
 	}
 }

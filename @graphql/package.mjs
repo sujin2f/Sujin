@@ -5,10 +5,7 @@
 import * as fs from 'node:fs'
 import * as path from 'node:path'
 import { exec } from 'node:child_process'
-import { config } from 'dotenv'
 import util from 'util'
-config()
-
 const execPromise = util.promisify(exec)
 
 const dirModule = path.join('internal_modules')
@@ -25,21 +22,11 @@ const files = {
 }
 
 // Version & sudo
-let VERSION = process.env.npm_package_version
+const VERSION = process.env.npm_package_version
 const sudo = process.argv.indexOf('sudo') !== -1 ? 'sudo ' : ''
 
 // Check if Docker image exists
 let image = `sujin2f/graphql:${VERSION}`
-if (process.argv.slice(2)[0] !== 'sudo') {
-    image = process.argv.slice(2)[0]
-}
-// Overwrite IMAGE info to .env
-let env = await fs.promises.readFile(path.join(files.env), 'utf-8')
-env = env.replace(/IMAGE=.*?(?:\r?\n|$)/g, '')
-env += `IMAGE=${image}\n`
-await fs.promises.writeFile(path.join(files.env), env)
-console.log('🤟 \x1B[32m- IMAGE updated. \x1B[0m')
-
 const { stdout } = await execPromise(`${sudo}docker image ls ${image}`)
 if (stdout.includes(image)) {
     console.error(`⛈️ Image ${image} already exists.`)
@@ -109,17 +96,14 @@ await backupFiles()
 await modifyFiles()
 
 console.log('🤟 \x1B[32m- Creating Docker image... \x1B[0m')
-exec(
-    `${sudo}docker build --build-arg SERVER_PORT=${process.env.SERVER_PORT} -t ${image} .`,
-    async (error, stdout, stderr) => {
-        if (error) {
-            console.error('🤬 \x1B[31m- docker build error: \x1B[0m', error)
-            await restoreFiles()
-            return
-        }
-        console.log(`👀 stdout: ${stdout}`)
-        console.error(`👀 stderr: ${stderr}`)
-
+exec(`${sudo}docker build -t ${image} .`, async (error, stdout, stderr) => {
+    if (error) {
+        console.error('🤬 \x1B[31m- docker build error: \x1B[0m', error)
         await restoreFiles()
-    },
-)
+        return
+    }
+    console.log(`👀 stdout: ${stdout}`)
+    console.error(`👀 stderr: ${stderr}`)
+
+    await restoreFiles()
+})

@@ -5,11 +5,8 @@
 import * as fs from 'node:fs'
 import * as path from 'node:path'
 import { exec } from 'node:child_process'
-import { config } from 'dotenv'
 import { subtle, getRandomValues } from 'node:crypto'
 import util from 'util'
-config()
-
 const execPromise = util.promisify(exec)
 
 const dirModule = path.join('internal_modules')
@@ -25,18 +22,11 @@ const files = {
 }
 
 // Version & sudo
-let VERSION = process.env.npm_package_version
+const VERSION = process.env.npm_package_version
 const sudo = process.argv.indexOf('sudo') !== -1 ? 'sudo ' : ''
 
 // Check if Docker image exists
 let image = `sujin2f/auth:${VERSION}`
-if (process.argv.slice(2)[0] !== 'sudo') {
-    image = process.argv.slice(2)[0]
-}
-// Overwrite IMAGE info to .env
-let env = await fs.promises.readFile(path.join(files.env), 'utf-8')
-env = env.replace(/IMAGE=.*?(?:\r?\n|$)/g, `IMAGE=${image}\n`)
-
 const { stdout } = await execPromise(`${sudo}docker image ls ${image}`)
 if (stdout.includes(image)) {
     console.error(`⛈️ Image ${image} already exists.`)
@@ -70,14 +60,8 @@ const generateCryptoKey = async () => {
     const merged = JSON.stringify([exported.k, bufferToBase64(iv.buffer)])
     return btoa(merged)
 }
-
-if (env.indexOf('CRYPTO_KEY=') === -1) {
-    const CRYPTO_KEY = generateCryptoKey()
-    env += `\nCRYPTO_KEY=${CRYPTO_KEY}\n`
-    console.info(`👀 Your key is ${CRYPTO_KEY}. Apply this to @next, @graphql, and @wordpress`)
-}
-
-await fs.promises.writeFile(path.join(files.env), env)
+const CRYPTO_KEY = generateCryptoKey()
+console.info(`👀 The crypto key is ${CRYPTO_KEY}. Apply this to @next, @graphql, and @wordpress`)
 
 // Replace tsconfig.json
 import tsConfig from './tsconfig.json' with { type: 'json' }
@@ -142,16 +126,13 @@ await backupFiles()
 await modifyFiles()
 
 console.log(`🤟 \x1B[32m- Creating Docker image ${image} with port ${process.env.SERVER_PORT}... \x1B[0m`)
-exec(
-    `${sudo}docker build --build-arg SERVER_PORT=${process.env.SERVER_PORT} -t ${image} .`,
-    async (error, stdout, stderr) => {
-        if (error) {
-            console.error('🤬 \x1B[31m- docker build error: \x1B[0m', error)
-            await restoreFiles()
-            return
-        }
-        console.log(`👀 stdout: ${stdout}`)
-        console.error(`👀 stderr: ${stderr}`)
+exec(`${sudo}docker build -t ${image} .`, async (error, stdout, stderr) => {
+    if (error) {
+        console.error('🤬 \x1B[31m- docker build error: \x1B[0m', error)
         await restoreFiles()
-    },
-)
+        return
+    }
+    console.log(`👀 stdout: ${stdout}`)
+    console.error(`👀 stderr: ${stderr}`)
+    await restoreFiles()
+})

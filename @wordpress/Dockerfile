@@ -3,7 +3,9 @@ FROM wordpress:6.8.3-php8.3
 
 WORKDIR /var/www/html
 
-COPY ./theme/ ./wp-content/themes/sujin/
+COPY /theme /var/www/html/wp-content/themes/sujin
+COPY /plugins/resume-item /var/www/html/wp-content/plugins/resume-item
+COPY /plugins/carousel /var/www/html/wp-content/plugins/carousel
 
 # Install Composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
