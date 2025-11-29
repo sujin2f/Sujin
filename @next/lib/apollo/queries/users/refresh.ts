@@ -1,6 +1,6 @@
 'use server'
 import fetch from 'cross-fetch'
-import { getRefreshToken, storeAccessToken } from '@lib/utils/server'
+import { getRefreshToken, storeAccessToken } from '@lib/utils/server/header'
 /* Models */
 import { Logger } from '@sujin/share/model/Logger'
 

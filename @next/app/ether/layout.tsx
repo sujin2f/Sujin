@@ -1,7 +1,7 @@
 import type { Metadata } from 'next/types'
 import type { PropsWithChildren } from 'react'
 /* Utils */
-import { getMetaData } from '@lib/utils/server'
+import { getMetaData } from '@lib/utils/server/header'
 /* Assets */
 import './layout.scss'
 

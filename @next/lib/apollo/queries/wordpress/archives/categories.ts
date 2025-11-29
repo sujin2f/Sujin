@@ -2,7 +2,7 @@
 /* Models */
 import { client } from '@lib/apollo/apollo-client-server'
 /* Utils */
-import { getAuthHeader } from '@lib/utils/server'
+import { getAuthHeader } from '@lib/utils/server/header'
 /* CONSTANTS */
 import CATEGORY_LIST from '@lib/apollo/queries/wordpress/archives/categories.graphql'
 /* T_Types */

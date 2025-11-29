@@ -7,7 +7,7 @@ import { RecipeEdit } from '@lib/components/recipes/RecipeEdit'
 /* CONSTANTS */
 import { MENU_NAMES } from '@sujin/lib/constants'
 /* Utils */
-import { getUserInfo } from '@lib/utils/server'
+import { getUserInfo } from '@lib/utils/server/header'
 
 export default async function LayoutRecipeAdd() {
     const user = await getUserInfo()

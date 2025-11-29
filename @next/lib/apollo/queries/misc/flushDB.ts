@@ -1,6 +1,6 @@
 'use server'
 import { client } from '@lib/apollo/apollo-client-server'
-import { getAuthHeader } from '@lib/utils/server'
+import { getAuthHeader } from '@lib/utils/server/header'
 import FLUSH_MUTATION from '@lib/apollo/queries/misc/flushDB.graphql'
 
 export const flushDB = async () => {

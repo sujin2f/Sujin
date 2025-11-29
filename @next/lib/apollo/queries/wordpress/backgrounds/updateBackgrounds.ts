@@ -1,6 +1,6 @@
 'use server'
 import { client } from '@lib/apollo/apollo-client-server'
-import { getAuthHeader } from '@lib/utils/server'
+import { getAuthHeader } from '@lib/utils/server/header'
 /* CONSTANTS */
 import REFRESH_MUTATION from '@lib/apollo/queries/wordpress/backgrounds/backgrounds.refresh.graphql'
 /* Models */

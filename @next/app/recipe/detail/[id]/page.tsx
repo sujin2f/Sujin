@@ -6,7 +6,7 @@ import { DetailClient } from './page.client'
 /* CONSTANTS */
 import { COLLECTION, MENU_NAMES } from '@sujin/lib/constants'
 /* Utils */
-import { getUserInfo } from '@lib/utils/server'
+import { getUserInfo } from '@lib/utils/server/header'
 import { nextCachedRequest } from '@lib/apollo/queries/GQLRequest'
 import { recipe as getRecipe } from '@lib/apollo/queries/recipes/recipe'
 

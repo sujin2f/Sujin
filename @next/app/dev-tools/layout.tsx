@@ -3,7 +3,7 @@ import type { Metadata } from 'next/types'
 /* Components */
 import Wrapper from '@lib/components/Wrapper'
 /* Utils */
-import { getMetaData } from '@lib/utils/server'
+import { getMetaData } from '@lib/utils/server/header'
 /* CONSTANTS */
 import { MENU_NAMES } from '@sujin/lib/constants'
 /* Assets */

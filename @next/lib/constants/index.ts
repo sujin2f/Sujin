@@ -170,6 +170,17 @@ export const MENUS: Record<MENU_NAMES, MenuItem[]> = {
             children: [
                 {
                     ...menuFixture,
+                    title: 'Focus Browser',
+                    link: 'https://github.com/sujin2f/focus-browser',
+                    target: '_blank',
+                },
+                {
+                    ...menuFixture,
+                    title: 'Recipe',
+                    link: '/recipe',
+                },
+                {
+                    ...menuFixture,
                     title: 'Dev Tool',
                     link: '/dev-tools/case',
                 },
@@ -182,11 +193,6 @@ export const MENUS: Record<MENU_NAMES, MenuItem[]> = {
                     ...menuFixture,
                     title: 'Design System',
                     link: '/design-system/elements',
-                },
-                {
-                    ...menuFixture,
-                    title: 'Recipe',
-                    link: '/recipe',
                 },
             ],
         },

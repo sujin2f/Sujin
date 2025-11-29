@@ -8,7 +8,7 @@ import { WidgetTitle } from '@lib/components/WidgetTitle'
 /* CONSTANTS */
 import { COLLECTION, MENU_NAMES } from '@sujin/lib/constants'
 /* Utils */
-import { getUserInfo } from '@lib/utils/server'
+import { getUserInfo } from '@lib/utils/server/header'
 import { nextCachedRequest } from '@lib/apollo/queries/GQLRequest'
 import { recipes as getRecipes } from '@lib/apollo/queries/recipes/recipes'
 

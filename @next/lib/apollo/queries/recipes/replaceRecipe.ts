@@ -3,7 +3,7 @@
 import Cached from '@sujin/share/model/Cache'
 /* Utils */
 import { client } from '@lib/apollo/apollo-client-server'
-import { getAuthHeader } from '@lib/utils/server'
+import { getAuthHeader } from '@lib/utils/server/header'
 import { getCacheKey } from '@sujin/lib/utils/cache'
 /* CONSTANTS */
 import QUERY from '@lib/apollo/queries/recipes/replaceRecipe.graphql'

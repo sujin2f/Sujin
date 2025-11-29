@@ -13,7 +13,7 @@ import Error from '@app/global-error'
 import Loading from '@app/loading'
 import { UserInfoProvider } from '@lib/components/UserInfoProvider'
 /* Utils */
-import { getUserInfo } from '@lib/utils/server'
+import { getUserInfo } from '@lib/utils/server/header'
 /* Assets */
 import '@app/layout.scss'
 import '@common/scss/base.scss'

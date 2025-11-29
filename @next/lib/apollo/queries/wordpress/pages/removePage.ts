@@ -3,7 +3,7 @@
 import Cached from '@sujin/share/model/Cache'
 import { client } from '@lib/apollo/apollo-client-server'
 /* Utils */
-import { getAuthHeader } from '@lib/utils/server'
+import { getAuthHeader } from '@lib/utils/server/header'
 import { getCacheKey } from '@sujin/lib/utils/cache'
 /* CONSTANTS */
 import { COLLECTION } from '@sujin/lib/constants'

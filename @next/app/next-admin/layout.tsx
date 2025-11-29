@@ -12,7 +12,7 @@ import { MENU_NAMES } from '@sujin/lib/constants'
 /* Assets */
 import style from './layout.module.scss'
 /* Utils */
-import { isAdmin } from '@lib/utils/server'
+import { isAdmin } from '@lib/utils/server/header'
 
 export const metadata = {
     robots: {
@@ -62,8 +62,8 @@ export default async function AdminLayout({ children }: PropsWithChildren) {
                                 link: '/next-admin/backgrounds',
                             },
                             {
-                                title: 'Cache',
-                                link: '/next-admin/cache',
+                                title: 'Flush Cache',
+                                link: '/next-admin/flush-cache',
                             },
                         ]}
                         direction="vertical"
