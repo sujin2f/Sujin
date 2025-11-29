@@ -15,11 +15,13 @@ import { IS_DEV } from '@sujin/share/constants/helper'
  * @param keys    Cache keys
  * @returns
  */
-export const nextCachedRequest = async <T>(promise: Promise<T>, ...keys: string[]) => {
-    const request = unstable_cache(nodeCachedRequest, keys, {
+export const nextCachedRequest = async <T>(promise: Promise<T>, ...tags: string[]) => {
+    // TODO API that WP requests removing caches
+    const request = unstable_cache(nodeCachedRequest, [], {
         revalidate: REVALIDATION,
+        tags, // TODO makes tags to : ['category', 'category-slug', 'category-slug-1']
     })
-    return await request<T>(promise, ...keys)
+    return await request<T>(promise, ...tags)
 }
 
 /**

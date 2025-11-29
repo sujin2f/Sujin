@@ -1,15 +1,22 @@
 'use server'
+import { revalidateTag } from 'next/cache'
+/* Models */
+import Cached from '@sujin/share/model/Cache'
 import { client } from '@lib/apollo/apollo-client-server'
+/* Utils */
 import { getAuthHeader } from '@lib/utils/server'
-import REMOVE_MUTATION from '@lib/apollo/queries/wordpress/archives/removeCategory.graphql'
+import { getCacheKey } from '@sujin/lib/utils/cache'
+/* CONSTANTS */
+import { COLLECTION } from '@sujin/lib/constants'
+import MUTATION from '@lib/apollo/queries/wordpress/archives/removeCategory.graphql'
 
 export const removeCategory = async (slug: string) => {
+    await Cached.getInstance().flush(getCacheKey(COLLECTION.ARCHIVE, 'category', slug))
+    revalidateTag(COLLECTION.ARCHIVE)
     return await client
         .mutate({
-            mutation: REMOVE_MUTATION,
-            variables: {
-                slug,
-            },
+            mutation: MUTATION,
+            variables: { slug },
             context: await getAuthHeader(),
         })
         .then((result) => {

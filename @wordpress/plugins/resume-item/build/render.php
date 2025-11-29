@@ -79,7 +79,8 @@ ob_start();
 </div>
 <?php
 
-$needle  = array( "\n", "\r", "\t" );
 $content = ob_get_contents();
-echo str_replace( $needle, '', $content ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 ob_end_clean();
+
+$needle = array( "\n", "\r", "\t" );
+echo str_replace( $needle, '', $content ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
