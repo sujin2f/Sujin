@@ -34,6 +34,6 @@ export const refresh = async (token: string, res: Response): Promise<boolean> =>
 
     const accessToken = await generateToken(user, ACCESS_TOKEN_LIFETIME, ACCESS_SECRET, CRYPTO_KEY)
     res.setHeader(HEADER_TOKEN, `Bearer ${accessToken}`)
-    Logger.info(`🤟 refresh token has been finished`)
+    Logger.info(`🤞 refresh token has been finished`)
     return true
 }

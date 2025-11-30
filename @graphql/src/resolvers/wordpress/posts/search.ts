@@ -54,6 +54,6 @@ export const search = async (_keyword: string, _page: number): Promise<WithNumPa
         getCacheKey(COLLECTION.POST, 'search', keyword, page),
     )
     const result = await request()
-    Logger.info(`🤟 post search done: ${keyword}, ${page}`)
+    Logger.info(`🤞 post search done: ${keyword}, ${page}`)
     return result
 }

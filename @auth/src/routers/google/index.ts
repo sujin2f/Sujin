@@ -23,7 +23,7 @@ const OAUTH_URL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIE
 const allowed = JSON.parse(`${process.env.CORS_ORIGINS}`)
 
 routes.get('/google/auth', async (req, res) => {
-    Logger.info('🤟 Start user authentication')
+    Logger.info('� Start user authentication')
     const { token } = req.query
 
     const redirect: string = await getTokenSub<string>(`${token}`, CRYPTO_KEY)

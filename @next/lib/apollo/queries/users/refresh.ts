@@ -5,13 +5,13 @@ import { getRefreshToken, storeAccessToken } from '@lib/utils/server/header'
 import { Logger } from '@sujin/share/model/Logger'
 
 export const refresh = async (): Promise<undefined> => {
-    Logger.info('🤟 refresh token start!')
+    Logger.info('🤞 refresh token start!')
     const refreshToken = await getRefreshToken()
     if (!refreshToken) {
         throw new Error()
     }
 
-    const endpoint = `${process.env.NEXT_PUBLIC_GQL_ENDPOINT}`
+    const endpoint = `${process.env.GQL_ENDPOINT_INTERNAL}`
     const body = {
         query: `
         mutation {

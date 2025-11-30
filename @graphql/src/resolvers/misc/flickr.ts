@@ -72,11 +72,11 @@ const requestFlickrImages = async (): Promise<T_FlickrImage[]> => {
  * @returns {Promise<T_FlickrImage[]>} Promise resolving to `T_FlickrImage[]`.
  */
 export const flickr = async (): Promise<T_FlickrImage[]> => {
-    const cached = cachedRequest(requestFlickrImages, getCacheKey(COLLECTION.ARCHIVE, 'tag-cloud'), {
+    const cached = cachedRequest(requestFlickrImages, getCacheKey(COLLECTION.ARCHIVE, 'flickr'), {
         ttl: DAY_IN_SECONDS * 30,
     })
 
     const result = await cached()
-    Logger.info('🤟 flickr query has been finished')
+    Logger.info('⭐️ flickr query has been finished')
     return result
 }

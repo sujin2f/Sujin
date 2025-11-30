@@ -35,7 +35,7 @@ const CRYPTO_KEY = `${process.env.CRYPTO_KEY}`
  * @throws {Error} When the incoming token is missing or invalid.
  */
 export const login = async (googleUser: T_GoogleUser, token: string, res: Response): Promise<boolean> => {
-    Logger.info(`🤟 login has been finished`)
+    Logger.info(`🤞 login has been finished`)
     const email = sanitize(googleUser.email)
     if (!email) {
         Logger.error('🤬 Login: email is empty')
@@ -89,6 +89,6 @@ export const login = async (googleUser: T_GoogleUser, token: string, res: Respon
 
     res.setHeader(HEADER_TOKEN, `Bearer ${commToken}`)
 
-    Logger.info(`🤟 login has been finished: ${JSON.stringify(mongoUser)}`)
+    Logger.info(`🤞 login has been finished: ${JSON.stringify(mongoUser)}`)
     return true
 }

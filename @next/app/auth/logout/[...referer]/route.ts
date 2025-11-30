@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
     if (!user) {
         return redirect(new URL(request.url))
     }
-    Logger.info(`🤟 logout started!: ${user.email}`)
+    Logger.info(`🤞 logout started!: ${user.email}`)
     await logout()
     return redirect(new URL(request.url))
 }

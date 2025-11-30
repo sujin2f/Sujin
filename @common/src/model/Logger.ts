@@ -24,7 +24,7 @@ export const Logger = winston.createLogger({
         printf((info) => `[${info.timestamp}] ${info.level}: ${info.message}`),
     ),
     transports: [new winston.transports.Console()],
-    // TODO production setting
+    // TODO production setting https://github.com/sujin2f/Sujin/issues/178
     //   transports: [
     //     new winston.transports.File({
     //       filename: 'combined.log',

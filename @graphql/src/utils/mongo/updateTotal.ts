@@ -28,7 +28,5 @@ export const updateTotal = async (_ids: Types.ObjectId[]): Promise<void> => {
         await Archive.updateOne({ _id }, { $set: { total } })
     }
 
-    await Cached.getInstance().flush(
-        getCacheKey(COLLECTION.ARCHIVE, 'tag-cloud'),
-    )
+    Cached.getInstance().flush(getCacheKey(COLLECTION.ARCHIVE, 'tag-cloud'))
 }

@@ -75,7 +75,7 @@ export const setCookies = async (token: string) => {
     await storeAccessToken(accessToken)
     await storeRefreshToken(refreshToken)
 
-    Logger.info('🤟 Sessions!')
+    Logger.info('🤞 Sessions!')
 }
 
 export const isAdmin = async () => {

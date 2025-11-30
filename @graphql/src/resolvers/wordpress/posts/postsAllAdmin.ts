@@ -34,6 +34,6 @@ export const postsAllAdmin = async (_page: number, token: string): Promise<T_Pos
         ...AGGREGATE_EXPAND_ARCHIVES,
         ...AGGREGATE_ARCHIVE_POST,
     ])
-    Logger.info(`🤟 postsAllAdmin query done`)
+    Logger.info(`🤞 postsAllAdmin query done`)
     return result
 }

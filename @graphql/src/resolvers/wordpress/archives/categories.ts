@@ -30,6 +30,6 @@ export const categories = async (_page: number, token: string): Promise<T_Archiv
         .skip(PER_PAGE * (page - 1))
         .limit(PER_PAGE)
 
-    Logger.info(`🤟 archives query done: ${page}`)
+    Logger.info(`🤞 archives query done: ${page}`)
     return result
 }

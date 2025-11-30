@@ -3,6 +3,7 @@
 import { client } from '@lib/apollo/apollo-client-server'
 /* CONSTANTS */
 import QUERY from '@lib/apollo/queries/wordpress/archives/category.graphql'
+import { IS_DEV } from '@sujin/share/constants/helper'
 /* T_Types */
 import type { T_Archive } from '@sujin/lib/types'
 
@@ -11,6 +12,7 @@ export const category = async (slug: string): Promise<T_Archive> => {
         .query<{ category: T_Archive }>({
             query: QUERY,
             variables: { slug },
+            fetchPolicy: IS_DEV ? 'network-only' : 'cache-first',
         })
         .then((result) => {
             if (!result.data) {

@@ -1,5 +1,3 @@
-import * as fs from 'node:fs';
-import * as path from 'node:path';
 import { exec } from 'node:child_process';
 import { config } from 'dotenv';
 import util from 'util';
@@ -13,25 +11,17 @@ const files = {
 
 // Version
 const VERSION = process.env.npm_package_version;
-const sudo = process.argv.indexOf('sudo') !== -1 ? 'sudo ' : '';
-
-// Overwrite VERSION info
-let env = await fs.promises.readFile(path.join(files.env), 'utf-8');
-env = env.replace(/VERSION=[0-9.beta-]+\n/g, '');
-env += `VERSION=${VERSION}\n`;
-await fs.promises.writeFile(path.join(files.env), env);
-console.log('🤟 \x1B[32m- Version updated. \x1B[0m');
 
 // Check if Docker image exists
 const image = `sujin2f/wordpress:${VERSION}`;
-const { stdout } = await execPromise(`${sudo}docker image ls ${image}`);
+const { stdout } = await execPromise(`docker image ls ${image}`);
 if (stdout.includes(image)) {
 	console.error(`⛈️ Image ${image} already exists.`);
 	process.exit(1);
 }
 
-console.log('🤟 \x1B[32m- Creating Docker image... \x1B[0m');
-exec(`${sudo}docker build -t ${image} .`, async (error, stdout, stderr) => {
+console.log('🤞 \x1B[32m- Creating Docker image... \x1B[0m');
+exec(`docker build -t ${image} .`, async (error, stdout, stderr) => {
 	if (error) {
 		console.log('🤬 \x1B[31m- docker build error: \x1B[0m', error);
 		return;

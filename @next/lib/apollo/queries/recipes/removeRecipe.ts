@@ -20,7 +20,7 @@ export const removeRecipe = async (_id: string) => {
             if (!result.data || !result.data.removeRecipe) {
                 throw new Error()
             }
-            await Cached.getInstance().flush(getCacheKey(COLLECTION.RECIPE))
+            Cached.getInstance().flush(getCacheKey(COLLECTION.RECIPE))
             return result.data.removeRecipe
         })
 }

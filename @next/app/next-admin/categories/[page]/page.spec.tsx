@@ -48,7 +48,7 @@ describe('Categories.server.spec.tsx', () => {
 
     afterEach(async () => {
         await clearMongo(COLLECTION.ARCHIVE)
-        await Cached.getInstance().flush()
+        Cached.getInstance().flush()
     })
 
     afterAll(async () => {

@@ -34,6 +34,6 @@ const query = async (): Promise<T_ArchivePost[]> => {
 export const recent = async (): Promise<T_ArchivePost[]> => {
     const request = cachedRequest(query, getCacheKey(COLLECTION.ARCHIVE, 'recent'))
     const result = await request()
-    Logger.info('🤟 recent query has been finished')
+    Logger.info('⭐️ recent query has been finished')
     return result
 }

@@ -45,7 +45,7 @@ export const replaceRecipe = async (_recipe: T_Recipe, token: string): Promise<s
 
     await Recipe.replaceOne({ _id: new Types.ObjectId(_recipe._id) }, { ..._recipe, user: recipe.user, search })
 
-    await Cached.getInstance().flush(getCacheKey(COLLECTION.RECIPE))
-    Logger.info('🤟 updateRecipe mutation has been finished')
+    Cached.getInstance().flush(getCacheKey(COLLECTION.RECIPE))
+    Logger.info('🤞 updateRecipe mutation has been finished')
     return _recipe._id.toString()
 }

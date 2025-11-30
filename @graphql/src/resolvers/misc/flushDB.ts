@@ -25,6 +25,6 @@ export const flushDB = async (token: string): Promise<boolean> => {
     //     await mongoose.connection.dropCollection('posts')
     // }
 
-    Logger.info(`🤟 flushDB mutation has been finished`)
+    Logger.info(`🤞 flushDB mutation has been finished`)
     return true
 }

@@ -1,4 +1,4 @@
-// TODO use graphql-tools https://the-guild.dev/graphql/tools/docs/schema-merging#merging-resolvers
+// TODO use graphql-tools https://the-guild.dev/graphql/tools/docs/schema-merging#merging-resolvers https://github.com/sujin2f/Sujin/issues/179
 
 import { users } from '@src/resolvers/users'
 import { recipes } from '@src/resolvers/recipes'

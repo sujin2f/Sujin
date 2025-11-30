@@ -85,11 +85,11 @@ class Tokens {
 				$token   = substr( $header, 22 );
 				$payload = JWT::decode( $token, new Key( $key, 'HS256' ) );
 				try {
-					$sub = self::decode_text( $payload['sub'] );
+					$sub = self::decode_text( $payload->sub );
 					$sub = json_decode( $sub );
 
-					$_SESSION[ self::REFRESH ] = $sub['refreshToken'];
-					$_SESSION[ self::ACCESS ]  = $sub['accessToken'];
+					$_SESSION[ self::REFRESH ] = $sub->refreshToken; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+					$_SESSION[ self::ACCESS ]  = $sub->accessToken; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 				} catch ( \Exception $_ ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
 				}
 

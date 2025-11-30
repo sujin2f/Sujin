@@ -29,6 +29,6 @@ export const pages = async (_page: number, token: string): Promise<T_Page[]> => 
         .sort({ date: -1 })
         .skip(PER_PAGE * (page - 1))
         .limit(PER_PAGE)
-    Logger.info(`🤟 pages query done: ${page}`)
+    Logger.info(`🤞 pages query done: ${page}`)
     return result
 }

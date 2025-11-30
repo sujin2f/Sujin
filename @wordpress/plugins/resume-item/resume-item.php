@@ -10,7 +10,7 @@
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       resume-block
  *
- * // TODO Tailwind.css
+ * // TODO Tailwind.css https://github.com/sujin2f/Sujin/issues/165
  *
  * @package           sujinc.com
  */

@@ -53,9 +53,9 @@ export const refreshCategory = async (_slug: string, token: string): Promise<boo
         },
     )
 
-    await Cached.getInstance().flush(getCacheKey(COLLECTION.ARCHIVE, ARCHIVE.CATEGORY, slug))
+    Cached.getInstance().flush(getCacheKey(COLLECTION.ARCHIVE, ARCHIVE.CATEGORY, slug))
     // TODO connect post-category
     await updateTotal([archive._id])
-    Logger.info(`🤟 refreshCategory mutation done: ${slug}`)
+    Logger.info(`🤞 refreshCategory mutation done: ${slug}`)
     return []
 }

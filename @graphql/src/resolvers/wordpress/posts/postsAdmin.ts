@@ -42,6 +42,6 @@ export const postsAdmin = async (_slug: string, _page: number, token: string): P
         ...AGGREGATE_EXPAND_ARCHIVES,
         ...AGGREGATE_ARCHIVE_POST,
     ])
-    Logger.info(`🤟 postsAdmin query done: ${slug}, ${page}`)
+    Logger.info(`🤞 postsAdmin query done: ${slug}, ${page}`)
     return result
 }

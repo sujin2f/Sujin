@@ -11,7 +11,7 @@ import { COLLECTION } from '@sujin/lib/constants'
 import MUTATION from '@lib/apollo/queries/wordpress/archives/removeCategory.graphql'
 
 export const removeCategory = async (slug: string) => {
-    await Cached.getInstance().flush(getCacheKey(COLLECTION.ARCHIVE, 'category', slug))
+    Cached.getInstance().flush(getCacheKey(COLLECTION.ARCHIVE, 'category', slug))
     revalidateTag(COLLECTION.ARCHIVE)
     return await client
         .mutate({

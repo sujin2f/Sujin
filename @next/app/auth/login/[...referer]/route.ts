@@ -12,6 +12,6 @@ const getLoginURL = async (request: NextRequest) => {
 }
 
 export async function GET(request: NextRequest) {
-    Logger.info('🤟 login started!')
+    Logger.info('🤞 login started!')
     return Response.redirect(await getLoginURL(request))
 }

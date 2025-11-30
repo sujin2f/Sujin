@@ -11,7 +11,7 @@ import MUTATION from '@lib/apollo/queries/wordpress/archives/refreshCategory.gra
 import { COLLECTION } from '@sujin/lib/constants'
 
 export const refreshCategory = async (slug: string) => {
-    await Cached.getInstance().flush(getCacheKey(COLLECTION.ARCHIVE, 'category', slug))
+    Cached.getInstance().flush(getCacheKey(COLLECTION.ARCHIVE, 'category', slug))
     revalidateTag(COLLECTION.ARCHIVE)
     return await client
         .mutate({

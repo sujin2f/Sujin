@@ -22,13 +22,11 @@ import { DAY_IN_MS } from '@sujin/share/constants/datetime'
  * @param post - The source post object coming from MySQL (`T_MySQLPost`).
  * @returns An array of `ObjectId`s for the archives associated with the post.
  */
-export const updatePost = async (
-    post: T_MySQLPost,
-): Promise<Types.ObjectId[]> => {
+export const updatePost = async (post: T_MySQLPost): Promise<Types.ObjectId[]> => {
     const slug = post.slug
     const archives: Types.ObjectId[] = []
 
-    await Cached.getInstance().flush(getCacheKey(COLLECTION.POST, slug))
+    Cached.getInstance().flush(getCacheKey(COLLECTION.POST, slug))
 
     // Image
     Object.keys(post.images).forEach((key) => {
@@ -37,8 +35,7 @@ export const updatePost = async (
     })
 
     for (const term of post.terms.filter(
-        (term: T_Archive) =>
-            term.type === ARCHIVE.CATEGORY || term.type === ARCHIVE.TAG,
+        (term: T_Archive) => term.type === ARCHIVE.CATEGORY || term.type === ARCHIVE.TAG,
     )) {
         await Archive.findOne({
             slug: term.slug,
@@ -49,23 +46,19 @@ export const updatePost = async (
                 return
             }
 
-            await Archive.insertOne({ ...term, hits: 0, total: 0 }).then(
-                (result) => {
-                    archives.push(result._id)
-                },
-            )
+            await Archive.insertOne({ ...term, hits: 0, total: 0 }).then((result) => {
+                archives.push(result._id)
+            })
         })
     }
 
     const date = Math.trunc(post.date.getTime() / DAY_IN_MS)
 
-    await Post.findOneAndReplace({ slug }, { ...post, archives, date }).then(
-        async (result) => {
-            if (!result) {
-                await Post.insertOne({ ...post, archives, date })
-            }
-        },
-    )
+    await Post.findOneAndReplace({ slug }, { ...post, archives, date }).then(async (result) => {
+        if (!result) {
+            await Post.insertOne({ ...post, archives, date })
+        }
+    })
 
     return archives
 }

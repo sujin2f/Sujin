@@ -33,7 +33,7 @@ export const removeRecipe = async (__id: string, token: string): Promise<string[
     if (recipe.user.toString() !== user._id) throw new Error('The recipe you are trying to remove is not yours.')
 
     await Recipe.deleteOne({ _id: new Types.ObjectId(_id) })
-    await Cached.getInstance().flush(getCacheKey(COLLECTION.RECIPE))
-    Logger.info('🤟 recipe removal has been finished')
+    Cached.getInstance().flush(getCacheKey(COLLECTION.RECIPE))
+    Logger.info('🤞 recipe removal has been finished')
     return []
 }

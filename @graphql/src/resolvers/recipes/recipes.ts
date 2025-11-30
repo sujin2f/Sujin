@@ -47,6 +47,6 @@ export const recipes = async (_page: number, mine: boolean, token: string): Prom
 
     const result = await cached()
     const total = await Recipe.countDocuments(doc)
-    Logger.info('🤟 recipes query has been finished')
+    Logger.info('🤞 recipes query has been finished')
     return { items: result, numPages: Math.ceil(total / PER_PAGE) }
 }

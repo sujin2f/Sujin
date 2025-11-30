@@ -28,7 +28,7 @@ export const related = async (_slug: string): Promise<T_ArchivePost[]> => {
     const slug = sanitize(_slug)
     const request = cachedRequest(query, getCacheKey(COLLECTION.POST, slug, 'related'))
     const result = await request(slug)
-    Logger.info('🤟 related query has been finished')
+    Logger.info('⭐️ related query has been finished')
     return result
 }
 

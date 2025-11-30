@@ -42,7 +42,7 @@ describe('RelatedPosts.server.spec.tsx', () => {
 
     afterEach(async () => {
         await clearMongo(COLLECTION.PAGE)
-        await Cached.getInstance().flush()
+        Cached.getInstance().flush()
     })
 
     afterAll(async () => {

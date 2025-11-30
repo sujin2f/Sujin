@@ -22,7 +22,7 @@ export const removePage = async (_slug: string, token: string): Promise<boolean[
 
     const slug = sanitize(_slug)
     await Page.deleteOne({ slug })
-    await Cached.getInstance().flush(getCacheKey(COLLECTION.PAGE, slug))
-    Logger.info(`🤟 removePage mutation done: ${slug}`)
+    Cached.getInstance().flush(getCacheKey(COLLECTION.PAGE, slug))
+    Logger.info(`🤞 removePage mutation done: ${slug}`)
     return []
 }

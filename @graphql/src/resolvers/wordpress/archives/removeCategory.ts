@@ -27,10 +27,10 @@ export const removeCategory = async (_slug: string, token: string): Promise<bool
 
     const slug = sanitize(_slug)
     await Archive.deleteOne({ slug, type: ARCHIVE.CATEGORY })
-    await Cached.getInstance().flush(
+    Cached.getInstance().flush(
         getCacheKey(COLLECTION.ARCHIVE, ARCHIVE.CATEGORY, slug),
         getCacheKey(COLLECTION.ARCHIVE, 'tag-cloud'),
     )
-    Logger.info(`🤟 removeCategory mutation done: ${slug}`)
+    Logger.info(`🤞 removeCategory mutation done: ${slug}`)
     return []
 }

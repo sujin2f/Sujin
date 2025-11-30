@@ -19,12 +19,12 @@ import type { T_Page } from '@sujin/lib/types'
  * @returns The `T_Page` document.
  */
 export const page = async (_slug: string): Promise<T_Page> => {
-    Logger.info(`🤟 preparing page query: ${_slug}`)
+    Logger.info(`🤞 preparing page query: ${_slug}`)
     const slug = sanitize(_slug)
 
     const request = cachedRequest(
-        async (): Promise<T_Page> => {
-            return await Page.findOne<T_Page>({
+        async (slug: string) => {
+            return await Page.findOne({
                 slug,
                 status: POST_STATUS.PUBLISH,
             }).then((result) => {
@@ -36,12 +36,16 @@ export const page = async (_slug: string): Promise<T_Page> => {
                     })
                 }
 
-                return result
+                return result.toObject()
             })
         },
         getCacheKey(COLLECTION.PAGE, slug),
     )
-    const result = await request()
-    Logger.info(`🤟 page query done: ${slug}`)
-    return result
+    const result = await request(slug).catch((e) => {
+        Logger.error(`🤬 Failed to find page: ${_slug}, reason ${e}`)
+        throw e
+    })
+
+    Logger.info(`⭐️ page query done: ${slug}`)
+    return result as unknown as T_Page
 }

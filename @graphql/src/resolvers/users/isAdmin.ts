@@ -12,6 +12,6 @@ import { verifyAccessToken, verifyAdmin } from '@src/utils/security'
 export const isAdmin = async (token: string): Promise<boolean> => {
     const user = await verifyAccessToken(token)
     await verifyAdmin(user.email)
-    Logger.info(`🤟 isAdmin has been finished`)
+    Logger.info(`🤞 isAdmin has been finished`)
     return true
 }

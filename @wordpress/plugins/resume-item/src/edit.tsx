@@ -55,7 +55,6 @@ export default function Edit( { attributes, setAttributes }: Props ): React.Reac
 	const { className, ...blockProps } = useBlockProps();
 	const years = generateYears();
 
-	// TODO custom hook
 	const addDetails = useCallback( () => {
 		const next = [ ...( attributes.details || [] ), '' ];
 		setAttributes( { details: next } );

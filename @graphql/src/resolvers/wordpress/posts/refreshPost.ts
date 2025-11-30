@@ -41,9 +41,9 @@ export const refreshPost = async (_slug: string, token: string): Promise<boolean
         const archives = await updatePost(post)
         await updateTotal(archives)
     })
-    await Cached.getInstance().flush(getCacheKey(COLLECTION.POST))
+    Cached.getInstance().flush(getCacheKey(COLLECTION.POST))
     await mysqlDisconnect()
 
-    Logger.info(`🤟 refreshPost mutation done: ${slug}`)
+    Logger.info(`🤞 refreshPost mutation done: ${slug}`)
     return []
 }

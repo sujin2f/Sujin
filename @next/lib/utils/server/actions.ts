@@ -6,7 +6,7 @@ import Cached from '@sujin/share/model/Cache'
 import { COLLECTION } from '@sujin/lib/constants'
 
 export const flushCache = async () => {
-    await Cached.getInstance().flush()
+    Cached.getInstance().flush()
     revalidateTag(COLLECTION.ARCHIVE)
     revalidateTag(COLLECTION.BACKGROUNDS)
     revalidateTag(COLLECTION.PAGE)

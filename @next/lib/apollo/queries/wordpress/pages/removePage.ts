@@ -10,7 +10,7 @@ import { COLLECTION } from '@sujin/lib/constants'
 import MUTATION from '@lib/apollo/queries/wordpress/pages/removePage.graphql'
 
 export const removePage = async (slug: string) => {
-    await Cached.getInstance().flush(getCacheKey(COLLECTION.PAGE, slug))
+    Cached.getInstance().flush(getCacheKey(COLLECTION.PAGE, slug))
     return await client
         .mutate({
             mutation: MUTATION,

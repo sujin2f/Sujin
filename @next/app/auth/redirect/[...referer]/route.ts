@@ -5,7 +5,7 @@ import { setCookies } from '@lib/utils/server/header'
 import { Logger } from '@sujin/share/model/Logger'
 
 export async function GET(request: NextRequest) {
-    Logger.info('🤟 login redirected!')
+    Logger.info('🤞 login redirected!')
     const url = new URL(request.url)
     await setCookies(`${url.searchParams.get('token')}`)
 

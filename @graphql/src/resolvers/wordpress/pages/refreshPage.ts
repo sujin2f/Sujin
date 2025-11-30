@@ -33,7 +33,7 @@ export const refreshPage = async (_slug: string, token: string): Promise<boolean
     const wpPage = await getPostBy('slug', slug, POST_TYPE.PAGE)
     const date = Math.trunc(wpPage.date.getTime() / DAY_IN_MS)
 
-    await Cached.getInstance().flush(getCacheKey(COLLECTION.PAGE, slug))
+    Cached.getInstance().flush(getCacheKey(COLLECTION.PAGE, slug))
     await mysqlDisconnect()
     if (wpPage.images) {
         Object.keys(wpPage.images).forEach((key) => {
@@ -48,7 +48,7 @@ export const refreshPage = async (_slug: string, token: string): Promise<boolean
         }
     })
 
-    await Cached.getInstance().flush(getCacheKey(COLLECTION.PAGE, slug))
-    Logger.info(`🤟 refreshPage mutation done: ${slug}`)
+    Cached.getInstance().flush(getCacheKey(COLLECTION.PAGE, slug))
+    Logger.info(`🤞 refreshPage mutation done: ${slug}`)
     return []
 }

@@ -22,7 +22,7 @@ export const createRecipe = async (recipe: Partial<T_Recipe>) => {
             if (!result.data || !result.data.createRecipe) {
                 throw new Error()
             }
-            await Cached.getInstance().flush(getCacheKey(COLLECTION.RECIPE))
+            Cached.getInstance().flush(getCacheKey(COLLECTION.RECIPE))
             return result.data.createRecipe
         })
 }

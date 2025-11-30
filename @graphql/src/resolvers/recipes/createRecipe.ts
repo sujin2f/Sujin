@@ -37,7 +37,7 @@ export const createRecipe = async (recipe: T_Recipe, token: string): Promise<str
         user: new Types.ObjectId(user._id),
         search: Array.from(search).join(' '),
     })
-    await Cached.getInstance().flush(getCacheKey(COLLECTION.RECIPE))
-    Logger.info('🤟 recipe mutation has been finished')
+    Cached.getInstance().flush(getCacheKey(COLLECTION.RECIPE))
+    Logger.info('🤞 recipe mutation has been finished')
     return result._id.toString()
 }

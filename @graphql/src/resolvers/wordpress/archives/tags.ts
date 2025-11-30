@@ -30,6 +30,6 @@ export const tags = async (_page: number, token: string): Promise<T_Archive[]> =
         .skip(PER_PAGE * (page - 1))
         .limit(PER_PAGE)
 
-    Logger.info(`🤟 tags query done: ${page}`)
+    Logger.info(`🤞 tags query done: ${page}`)
     return result
 }

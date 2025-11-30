@@ -11,7 +11,7 @@ import { COLLECTION } from '@sujin/lib/constants'
 import MUTATION from '@lib/apollo/queries/wordpress/posts/refreshPost.graphql'
 
 export const refreshPost = async (slug: string) => {
-    await Cached.getInstance().flush(getCacheKey(COLLECTION.POST, slug))
+    Cached.getInstance().flush(getCacheKey(COLLECTION.POST, slug))
     revalidateTag(COLLECTION.POST)
     return await client
         .mutate({

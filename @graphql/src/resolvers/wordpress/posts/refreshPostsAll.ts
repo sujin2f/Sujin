@@ -42,7 +42,7 @@ export const refreshPostsAll = async (_page: number, token: string): Promise<boo
     })
     await mysqlDisconnect()
 
-    await Cached.getInstance().flush(getCacheKey(COLLECTION.POST))
-    Logger.info(`🤟 refreshPostsAll mutation done: ${page}`)
+    Cached.getInstance().flush(getCacheKey(COLLECTION.POST))
+    Logger.info(`🤞 refreshPostsAll mutation done: ${page}`)
     return []
 }

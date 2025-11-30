@@ -45,7 +45,7 @@ const nextConfig: NextConfig = {
         return config
     },
     typescript: {
-        tsconfigPath: 'tsconfig.json', // TODO Production
+        tsconfigPath: 'tsconfig.json',
     },
 }
 

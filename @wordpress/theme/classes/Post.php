@@ -59,7 +59,6 @@ class Post {
 
 	/**
 	 * Update content version for GQL to process content differently
-	 * // TODO create deployment script to update VERSION env from package.json.
 	 *
 	 * @param int $post_id Post ID.
 	 */

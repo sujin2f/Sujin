@@ -66,6 +66,6 @@ export const posts = async (_type: ARCHIVE, _slug: string, _page: number): Promi
         getCacheKey(COLLECTION.POST, type, slug, page),
     )
     const result = await request()
-    Logger.info(`🤟 posts query done: ${slug}, ${page}`)
+    Logger.info(`⭐️ posts query done: ${slug}, ${page}`)
     return result
 }

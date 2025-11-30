@@ -7,7 +7,7 @@ import REFRESH_MUTATION from '@lib/apollo/queries/wordpress/backgrounds/backgrou
 import { Logger } from '@sujin/share/model/Logger'
 
 export const updateBackgrounds = async () => {
-    Logger.info('🤟 updateBackgrounds query start!')
+    Logger.info('🤞 updateBackgrounds query start!')
     return await client
         .mutate({
             mutation: REFRESH_MUTATION,

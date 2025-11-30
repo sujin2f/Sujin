@@ -7,8 +7,6 @@
  * @author  Sujin 수진 Choi
  */
 
-// TODO Gallery.
-
 // Redirect to @next.
 $next = getenv_docker( 'NEXT_ENDPOINT', '' );
 if ( ! $next ) {

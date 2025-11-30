@@ -34,7 +34,7 @@ if (stdout.includes(image)) {
 }
 
 const generateCryptoKey = async () => {
-    console.log('🤟 \x1B[32m- Generating key... \x1B[0m')
+    console.log('🤞 \x1B[32m- Generating key... \x1B[0m')
 
     const bufferToBase64 = (buffer) => {
         const bytes = new Uint8Array(buffer)
@@ -79,7 +79,7 @@ const alias = `${target} '@sujin': path.resolve(import.meta.dirname, 'internal_m
 webpack = webpack.replace(target, alias)
 
 const createDirectories = async () => {
-    console.log('🤟 \x1B[32m- Creating directories... \x1B[0m')
+    console.log('🤞 \x1B[32m- Creating directories... \x1B[0m')
     await fs.promises.mkdir(dirModule)
     await fs.promises.mkdir(dirTemp)
 
@@ -92,7 +92,7 @@ const createDirectories = async () => {
 }
 
 const backupFiles = async () => {
-    console.log('🤟 \x1B[32m- Backup files... \x1B[0m')
+    console.log('🤞 \x1B[32m- Backup files... \x1B[0m')
     // tsconfig.webpack.json
     await fs.promises.copyFile(path.join(files.tsConfig), path.join(dirTemp, files.tsConfig))
 
@@ -101,7 +101,7 @@ const backupFiles = async () => {
 }
 
 const modifyFiles = async () => {
-    console.log('🤟 \x1B[32m- Modifying files... \x1B[0m')
+    console.log('🤞 \x1B[32m- Modifying files... \x1B[0m')
     // tsconfig.webpack.json
     await fs.promises.writeFile(path.join(files.tsConfig), JSON.stringify(tsConfig, null, 2))
 
@@ -110,7 +110,7 @@ const modifyFiles = async () => {
 }
 
 const restoreFiles = async () => {
-    console.log('🤟 \x1B[32m- Restore files... \x1B[0m')
+    console.log('🤞 \x1B[32m- Restore files... \x1B[0m')
     await fs.promises.unlink(path.join(files.tsConfig))
     await fs.promises.unlink(path.join(files.webpack))
 
@@ -125,7 +125,7 @@ await createDirectories()
 await backupFiles()
 await modifyFiles()
 
-console.log(`🤟 \x1B[32m- Creating Docker image ${image} with port ${process.env.SERVER_PORT}... \x1B[0m`)
+console.log(`🤞 \x1B[32m- Creating Docker image ${image}... \x1B[0m`)
 exec(`${sudo}docker build -t ${image} .`, async (error, stdout, stderr) => {
     if (error) {
         console.error('🤬 \x1B[31m- docker build error: \x1B[0m', error)
