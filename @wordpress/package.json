@@ -8,6 +8,7 @@
 		"lint": "composer run-script lint",
 		"fix": "composer run-script fix",
 		"build": "yarn --cwd ./plugins/carousel build && yarn --cwd ./plugins/resume-item build",
+		"install-modules": "yarn --cwd ./@wordpress/plugins/resume-item && yarn --cwd ./@wordpress/plugins/carousel && composer install",
 		"package": "node ./package.mjs"
 	},
 	"devDependencies": {

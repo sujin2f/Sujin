@@ -6,7 +6,7 @@ name: sujinc.com CI
 on: [push]
 
 jobs:
-    typescript:
+    push:
         runs-on: ubuntu-latest
 
         container:
@@ -16,13 +16,9 @@ jobs:
             - name: Git checkout
               uses: actions/checkout@v5
 
-            - name: Install PHP Composer
-              uses: php-actions/composer@v6
-              working-directory: ./@wordpress
-              run: composer install --no-interaction --no-progress
-
-            - name: Yarn Install
+            - name: Yarn/Composer Install
               uses: borales/actions-yarn@v3.0.0
+              uses: php-actions/composer@v6
               with:
                   cmd: install-modules # install dependencies
 
