@@ -16,10 +16,15 @@ jobs:
             - name: Git checkout
               uses: actions/checkout@v5
 
-            - name: Yarn/Composer Install
-              uses: php-actions/composer@v6
+            - name: Yarn Install
+              uses: borales/actions-yarn@v3.0.0
               with:
                   cmd: npm install-modules # install dependencies
+
+            - name: Composer Install
+              uses: php-actions/composer@v6
+              with:
+                  working_dir: "@wordpress"
 
             - name: Lint
               uses: borales/actions-yarn@v3.0.0
