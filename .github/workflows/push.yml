@@ -16,11 +16,6 @@ jobs:
             - name: Git checkout
               uses: actions/checkout@v5
 
-            - name: Composer Install
-              uses: php-actions/composer@v6
-              with:
-                  command: install
-
             - name: Composer Lint
               uses: php-actions/composer@v6
               with:
