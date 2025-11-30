@@ -24,7 +24,7 @@ jobs:
             - name: Composer Install
               uses: php-actions/composer@v6
               with:
-                  working_dir: "@wordpress"
+                  working_dir: ./@wordpress
 
             - name: Lint
               uses: borales/actions-yarn@v3.0.0
