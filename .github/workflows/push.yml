@@ -13,20 +13,17 @@ jobs:
             image: node:24
 
         steps:
-            - name: Git checkout
-              uses: actions/checkout@v5
+            - uses: actions/checkout@v3
+            - uses: php-actions/composer@v6
 
-            - name: Composer Install
-              uses: php-actions/composer@v6
-              with:
-                  command: install
-                  args: --no-ansi --no-interaction --no-progress --no-suggest --prefer-dist
+            # - name: Composer Install
+            #   uses: php-actions/composer@v6
+            #   with:
+            #       command: install
+            #       args: --no-ansi --no-interaction --no-progress --no-suggest --prefer-dist
 
             - name: Composer Lint
-              uses: php-actions/composer@v6
-              with:
-                  command: run-script
-                  args: lint
+              run: composer run lint
 
             - name: Yarn Install
               uses: borales/actions-yarn@v3.0.0
