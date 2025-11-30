@@ -1,5 +1,5 @@
 query Tag($slug: String!) {
-    archive: tag(slug: $slug) {
+    tag(slug: $slug) {
         _id
         title
         slug

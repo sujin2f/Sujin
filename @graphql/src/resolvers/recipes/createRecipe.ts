@@ -27,17 +27,17 @@ import { COLLECTION } from '@sujin/lib/constants'
  */
 export const createRecipe = async (recipe: T_Recipe, token: string): Promise<string> => {
     // Verify Token
-    const payload = await verifyAccessToken(token)
-    if (!payload || !payload.sub || !payload.sub._id) throw new Error()
+    const user = await verifyAccessToken(token)
+    if (!user._id) throw new Error()
 
     const search = new Set([recipe.title, ...recipe.ingredients.map((item) => item.title)])
 
     const result = await Recipe.insertOne({
         ...recipe,
-        user: new Types.ObjectId(payload.sub._id),
+        user: new Types.ObjectId(user._id),
         search: Array.from(search).join(' '),
     })
-    await Cached.getInstance().flush(getCacheKey(COLLECTION.RECIPE))
-    Logger.info('🤟 recipe mutation has been finished')
+    Cached.getInstance().flush(getCacheKey(COLLECTION.RECIPE))
+    Logger.info('🤞 recipe mutation has been finished')
     return result._id.toString()
 }

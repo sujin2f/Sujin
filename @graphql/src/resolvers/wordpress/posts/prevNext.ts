@@ -9,7 +9,7 @@ import { post as getPost } from '@src/resolvers/wordpress/posts/post'
 /* CONSTANTS */
 import { COLLECTION, ARCHIVE, POST_STATUS } from '@sujin/lib/constants'
 /* T_Types */
-import type { T_Post, T_PrevNext } from '@sujin/lib/types'
+import type { T_PrevNext } from '@sujin/lib/types'
 
 /**
  * Get the previous and next post relative to a given post slug within the same
@@ -20,11 +20,11 @@ import type { T_Post, T_PrevNext } from '@sujin/lib/types'
  * @param _slug - The slug of the reference post.
  * @returns A tuple-like array `[previous, next]` where either element may be `undefined`.
  */
-export const prevNext = async (_slug: string): Promise<T_PrevNext[]> => {
+export const prevNext = async (_slug: string): Promise<(T_PrevNext | undefined)[]> => {
     const slug = sanitize(_slug)
     const request = cachedRequest(query, getCacheKey(COLLECTION.POST, slug, 'prev-next'))
     const result = await request(slug)
-    Logger.info('🤟 prevNext query has been finished')
+    Logger.info('⭐️ prevNext query has been finished')
     return result
 }
 
@@ -35,13 +35,13 @@ export const prevNext = async (_slug: string): Promise<T_PrevNext[]> => {
  * @param slug - The reference post slug.
  * @returns Array with previous and next `T_Post` (may contain undefined values).
  */
-const query = async (slug: string): Promise<T_PrevNext[]> => {
+const query = async (slug: string): Promise<(T_PrevNext | undefined)[]> => {
     const post = await getPost(slug)
     const _ids = post.archives
         .filter((archive) => archive.type === ARCHIVE.CATEGORY)
         .map((category) => new mongoose.Types.ObjectId(category._id))
 
-    const prev = await Post.find<T_Post>({
+    const prev = await Post.find({
         id: { $ne: post.id },
         status: POST_STATUS.PUBLISH,
         date: { $lt: post.date },
@@ -49,8 +49,14 @@ const query = async (slug: string): Promise<T_PrevNext[]> => {
     })
         .sort({ date: -1 })
         .limit(1)
+        .then((result) => {
+            if (!result.length) {
+                return
+            }
+            return result[0].toObject() as unknown as T_PrevNext
+        })
 
-    const next = await Post.find<T_Post>({
+    const next = await Post.find({
         id: { $ne: post.id },
         status: POST_STATUS.PUBLISH,
         date: { $gt: post.date },
@@ -58,6 +64,12 @@ const query = async (slug: string): Promise<T_PrevNext[]> => {
     })
         .sort({ date: 1 })
         .limit(1)
+        .then((result) => {
+            if (!result.length) {
+                return
+            }
+            return result[0].toObject() as unknown as T_PrevNext
+        })
 
-    return [prev[0], next[0]]
+    return [prev, next]
 }

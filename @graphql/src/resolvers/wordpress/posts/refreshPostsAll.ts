@@ -7,7 +7,7 @@ import Cached from '@sujin/share/model/Cache'
 import { POST_TYPE, COLLECTION } from '@sujin/lib/constants'
 /* Utils */
 import { getCacheKey } from '@sujin/lib/utils/cache'
-import { verifyAccessToken } from '@src/utils/security'
+import { verifyAccessToken, verifyAdmin } from '@src/utils/security'
 import { getPosts } from '@src/utils/mysql/post'
 import { updatePost as updateMongoPost } from '@src/utils/mongo/updatePost'
 import { updateTotal } from '@src/utils/mongo/updateTotal'
@@ -28,10 +28,8 @@ import { mysqlDisconnect } from '@src/utils/mysql'
  * @returns An empty boolean array (placeholder) when done.
  */
 export const refreshPostsAll = async (_page: number, token: string): Promise<boolean[]> => {
-    const payload = await verifyAccessToken(token)
-    if (!payload.sub.admin) {
-        throw new Error('🤬 refreshPostsAll mutation has been called by non admin user')
-    }
+    const user = await verifyAccessToken(token)
+    await verifyAdmin(user.email)
 
     const page = sanitize(_page)
 
@@ -44,7 +42,7 @@ export const refreshPostsAll = async (_page: number, token: string): Promise<boo
     })
     await mysqlDisconnect()
 
-    await Cached.getInstance().flush(getCacheKey(COLLECTION.POST))
-    Logger.info(`🤟 refreshPostsAll mutation done: ${page}`)
+    Cached.getInstance().flush(getCacheKey(COLLECTION.POST))
+    Logger.info(`🤞 refreshPostsAll mutation done: ${page}`)
     return []
 }

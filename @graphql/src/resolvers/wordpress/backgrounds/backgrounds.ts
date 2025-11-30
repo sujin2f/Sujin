@@ -22,6 +22,6 @@ export const backgrounds = async (): Promise<T_Background[]> => {
         getCacheKey(COLLECTION.BACKGROUNDS),
     )
     const result = await request()
-    Logger.info(`🤟 backgrounds query done`)
+    Logger.info(`🤞 backgrounds query done`)
     return result
 }

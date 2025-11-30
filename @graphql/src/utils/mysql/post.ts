@@ -57,7 +57,7 @@ const formatPosts = async (result: T_MySQLPost[]): Promise<T_MySQLPost[]> => {
             ...post,
             images,
             meta,
-            content: autop(content || post.content),
+            content: content || post.content,
             terms: terms.map((term) =>
                 term.type.toString() === TAXONOMY.POST_TAG ? { ...term, type: ARCHIVE.TAG } : term,
             ),
@@ -139,15 +139,14 @@ const getTermsByPost = async (id: number): Promise<T_Archive[]> => {
  * @param {string}  text The text which has to be formatted.
  * @param {boolean} br   Optional. If set, will convert all remaining line-
  *                       breaks after paragraphing. Default true.
- *
  * @example
  *```js
  * import { autop } from '@wordpress/autop';
  * autop( 'my text' ); // "<p>my text</p>"
- * ```
- *
  * @return {string} Text which has been converted into paragraph tags.
+ * @deprecated
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const autop = (text: string, br = true): string => {
     const preTags: string[][] = []
 

@@ -1,42 +1,49 @@
 {
-    "folders": [
-        {
-            "name": "resume-item",
-            "path": "../plugins/resume-item"
-        },
-        {
-            "name": "theme",
-            "path": "../theme"
-        },
-        {
-            "name": "@wordpress",
-            "path": "../"
-        }
-    ],
-    "settings": {
-        "workbench.iconTheme": "material-icon-theme",
-        "explorer.confirmDragAndDrop": false,
-        "editor.formatOnSave": true,
-        "editor.defaultFormatter": "valeryanm.vscode-phpsab",
-        "window.zoomLevel": 1,
-        "github.copilot.enable": {
-            "*": false,
-            "plaintext": false,
-            "markdown": false,
-            "scminput": false
-        },
-        // "php.executablePath": "/usr/local/Cellar/php/8.4.3/bin/php",
-        // "phpcs.enable": true,
-        // "phpcs.executablePath": "vendor/bin/phpcs",
-        // "phpcs.standard": ".phpcs.xml.dist",
-        // "phpcbf.executablePath": "vendor/bin/phpcbf",
-        "phpsab.standard": ".phpcs.xml.dist",
-        "phpsab.snifferEnable": true, // disable this if you don't need suggestions
-        "phpsab.executablePathCBF": "vendor/bin/phpcbf",
-        "phpsab.executablePathCS": "vendor/bin/phpcs",
-        "phpsab.snifferShowSources": true,
-        "[php]": {
-            "editor.defaultFormatter": "valeryanm.vscode-phpsab"
-        }
-    }
+	"folders": [
+		{
+			"name": "theme",
+			"path": "../theme"
+		},
+		{
+			"name": "carousel",
+			"path": "../plugins/carousel"
+		},
+		{
+			"name": "resume-item",
+			"path": "../plugins/resume-item"
+		},
+		{
+			"name": "@wordpress",
+			"path": ".."
+		}
+	],
+	"settings": {
+		"workbench.iconTheme": "material-icon-theme",
+		"explorer.confirmDragAndDrop": false,
+		"editor.formatOnPaste": false,
+		"editor.formatOnSave": true,
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"editor.fontFamily": "Fira Code",
+		"editor.fontLigatures": true,
+		"editor.renderWhitespace": "all",
+		"window.zoomLevel": 1,
+		"github.copilot.enable": {
+			"*": false,
+			"plaintext": false,
+			"markdown": false,
+			"scminput": false
+		},
+		"phpsab.standard": ".phpcs.xml.dist",
+		"phpsab.snifferEnable": true,
+		"phpsab.executablePathCBF": "vendor/bin/phpcbf",
+		"phpsab.executablePathCS": "vendor/bin/phpcs",
+		"phpsab.snifferShowSources": true,
+		"[php]": {
+			"editor.defaultFormatter": "valeryanm.vscode-phpsab"
+		},
+		"javascript.updateImportsOnFileMove.enabled": "always",
+		"typescript.updateImportsOnFileMove.enabled": "always",
+		"eslint.useFlatConfig": true,
+		"cSpell.words": ["Choi", "flickr", "sujin", "sujinc"]
+	}
 }

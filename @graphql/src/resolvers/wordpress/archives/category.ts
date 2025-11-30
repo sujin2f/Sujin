@@ -18,8 +18,8 @@ export const category = async (_slug: string): Promise<T_Archive> => {
      * Throws a GraphQLError with `NO_CONTENT` when the archive is not found.
      */
     const request = cachedRequest(
-        async (slug: string): Promise<T_Archive> => {
-            return await Archive.findOne<T_Archive>({
+        async (slug: string) => {
+            return await Archive.findOne({
                 type: ARCHIVE.CATEGORY,
                 slug,
             }).then((result) => {
@@ -30,13 +30,16 @@ export const category = async (_slug: string): Promise<T_Archive> => {
                         },
                     })
                 }
-                return result
+                return result.toObject()
             })
         },
         getCacheKey(COLLECTION.ARCHIVE, slug),
     )
 
-    const result = await request(slug)
-    Logger.info(`🤟 category query done: ${slug}`)
-    return result
+    const result = await request(slug).catch((e) => {
+        Logger.error(`🤬 Failed to find category: ${_slug}, reason ${e}`)
+        throw e
+    })
+    Logger.info(`⭐️ category query done: ${slug}`)
+    return result as unknown as T_Archive
 }

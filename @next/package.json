@@ -1,10 +1,10 @@
 {
     "name": "sujin-next",
-    "version": "12.0.0-beta.2",
+    "version": "12.0.0-beta.13",
     "description": "React + Node + WordPress theme for sujinc.com",
     "license": "MIT",
     "scripts": {
-        "dev": "next dev -p 8000",
+        "dev": "cross-env NODE_ENV=development next dev -p 8000",
         "build": "next build",
         "start": "next start",
         "test": "jest --no-cache --forceExit --coverage",

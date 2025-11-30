@@ -3,7 +3,7 @@
 import Cached from '@sujin/share/model/Cache'
 /* Utils */
 import { client } from '@lib/apollo/apollo-client-server'
-import { getAuthHeader } from '@lib/utils/server'
+import { getAuthHeader } from '@lib/utils/server/header'
 import { getCacheKey } from '@sujin/lib/utils/cache'
 /* CONSTANTS */
 import RECIPE_CREATE from '@lib/apollo/queries/recipes/createRecipe.graphql'
@@ -22,7 +22,7 @@ export const createRecipe = async (recipe: Partial<T_Recipe>) => {
             if (!result.data || !result.data.createRecipe) {
                 throw new Error()
             }
-            await Cached.getInstance().flush(getCacheKey(COLLECTION.RECIPE))
+            Cached.getInstance().flush(getCacheKey(COLLECTION.RECIPE))
             return result.data.createRecipe
         })
 }

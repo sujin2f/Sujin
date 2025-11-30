@@ -72,6 +72,6 @@ const query = async (): Promise<Partial<T_Archive>[]> => {
 export const tagCloud = async (): Promise<Partial<T_Archive>[]> => {
     const request = cachedRequest(query, getCacheKey(COLLECTION.ARCHIVE, 'tag-cloud'))
     const result = await request()
-    Logger.info('🤟 tagCloud query has been finished')
+    Logger.info('⭐️ tagCloud query has been finished')
     return result
 }

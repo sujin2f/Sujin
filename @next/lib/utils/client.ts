@@ -1,10 +1,18 @@
+/* CONSTANTS */
 import { DEFAULT_THUMBNAIL } from '@lib/constants'
 import { IMAGE_SIZE } from '@sujin/lib/constants'
+/* T_Types */
 import type { T_PostImages, T_ImageBlock } from '@sujin/lib/types'
 
-export const getThumbnailFromPost = (images: T_PostImages, size: IMAGE_SIZE) => {
+export const getThumbnailFromPost = (images: T_PostImages, sizes: IMAGE_SIZE[]) => {
     if (!images) return DEFAULT_THUMBNAIL
-    return images.list?.sizes?.[size]?.url || images.thumbnail?.sizes?.[size]?.url || DEFAULT_THUMBNAIL
+    const availableSizes = {
+        ...(images.thumbnail?.sizes || {}),
+        ...(images.list?.sizes || {}),
+    }
+    const image = sizes.map((size) => availableSizes[size])[0]
+
+    return image?.url || DEFAULT_THUMBNAIL
 }
 
 const replaceURL = (url: string) => {

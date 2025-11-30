@@ -18,6 +18,14 @@
     "subhead": {
       "type": "string"
     },
+    "url": {
+      "type": "string",
+      "default": ""
+    },
+    "target": {
+      "type": "string",
+      "default": ""
+    },
     "details": {
       "type": "array",
       "items": {

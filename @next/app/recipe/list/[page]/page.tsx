@@ -2,7 +2,7 @@
 /* Utils */
 import { nextCachedRequest } from '@lib/apollo/queries/GQLRequest'
 import { recipes as getRecipes } from '@lib/apollo/queries/recipes/recipes'
-import { getUserInfo } from '@lib/utils/server'
+import { getUserInfo } from '@lib/utils/server/header'
 /* Components */
 import { Banner } from '@lib/components/header/Banner'
 import { RecipeTable } from '@lib/components/recipes/RecipeTable'

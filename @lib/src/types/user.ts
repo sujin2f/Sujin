@@ -1,3 +1,5 @@
+import type { JwtPayload } from 'jsonwebtoken'
+
 /**
  * Mongo
  */
@@ -23,27 +25,17 @@ export type T_UserSub = T_User & T_GoogleUser
 /**
  * Token content
  */
-export type T_Token = {
+export type T_Token = JwtPayload & {
     iss: string
     iat: number
     exp: number
-    sub: string // JSON.stringify(user: T_UserSub)
+    sub: string
 }
 
 /**
  * Token content: parsed sub
+ * // TODO remove
  */
-export type T_Parsed_Token = {
-    iss: string
-    iat: number
-    exp: number
+export type T_Parsed_Token = Omit<T_Token, 'sub'> & {
     sub: T_UserSub
-}
-
-/**
- * Token for temp validation of login
- */
-export type T_Login_Token = {
-    iss: string
-    sub: string
 }

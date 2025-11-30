@@ -51,13 +51,14 @@ class Post {
 	 * @param string $post_content Post content.
 	 */
 	private function save_content( int $post_id, string $post_content ): void {
+		remove_filter( 'the_content', 'wpautop' );
+
 		$content = apply_filters( 'the_content', $post_content );
 		update_post_meta( $post_id, 'the_content', $content );
 	}
 
 	/**
 	 * Update content version for GQL to process content differently
-	 * // TODO create deployment script to update VERSION env from package.json.
 	 *
 	 * @param int $post_id Post ID.
 	 */
@@ -74,18 +75,36 @@ class Post {
 	 *
 	 * @param string $slug      Post slug.
 	 * @param string $post_type post or page.
+	 * @param int    $attempt   recursive for refresh token.
 	 */
-	private function gql_refresh_post( string $slug, string $post_type ): void {
+	private function gql_refresh_post( string $slug, string $post_type, int $attempt = 1 ): void {
+		$query = match ( $post_type ) {
+			'post' => 'refreshPost',
+			'page' => 'refreshPage',
+			default => '',
+		};
+		if ( ! $query ) {
+			return;
+		}
+
 		$client = new Client( getenv_docker( 'GQL_ENDPOINT', '' ), array( 'authorization' => 'Bearer ' . Tokens::get_token() ) );
-		$query  = 'post' === $post_type ? 'refreshPost' : 'refreshPage';
 		$gql    = ( new Mutation( $query ) )
 			->setVariables( array( new Variable( 'slug', 'String', true ) ) )
 			->setArguments( array( 'slug' => '$slug' ) );
 
-		$client->runQuery(
-			$gql,
-			true,
-			array( 'slug' => $slug )
-		);
+		try {
+			$client->runQuery(
+				$gql,
+				true,
+				array( 'slug' => $slug )
+			);
+
+			// TODO remove @next cache.
+		} catch ( \Exception $_ ) {
+			if ( 1 === $attempt ) {
+				Tokens::refresh_token();
+				$this->gql_refresh_post( $slug, $post_type, 2 );
+			}
+		}
 	}
 }

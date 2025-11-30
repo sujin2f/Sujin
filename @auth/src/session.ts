@@ -8,7 +8,7 @@ export const sessionOption: SessionOptions = {
     resave: false,
     saveUninitialized: true,
     cookie: {
-        maxAge: 10 * MINUTE_IN_MS,
+        maxAge: 3 * MINUTE_IN_MS,
         sameSite: 'lax',
         secure: false,
     },

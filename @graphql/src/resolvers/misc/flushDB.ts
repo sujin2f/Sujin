@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 /* Models */
 import { Logger } from '@sujin/share/model/Logger'
 /* Utils */
-import { verifyAccessToken } from '@src/utils/security'
+import { verifyAccessToken, verifyAdmin } from '@src/utils/security'
 
 /**
  * Mutation that flushes selected MongoDB collections. Requires an admin
@@ -12,10 +12,8 @@ import { verifyAccessToken } from '@src/utils/security'
  * @throws {Error} When the caller is not an admin.
  */
 export const flushDB = async (token: string): Promise<boolean> => {
-    const payload = await verifyAccessToken(token)
-    if (!payload.sub.admin) {
-        throw new Error('🤬 flushDB mutation has been called by non admin user')
-    }
+    const user = await verifyAccessToken(token)
+    await verifyAdmin(user.email)
 
     // Object.keys(mongoose.connection.collections).
 
@@ -27,6 +25,6 @@ export const flushDB = async (token: string): Promise<boolean> => {
     //     await mongoose.connection.dropCollection('posts')
     // }
 
-    Logger.info(`🤟 flushDB mutation has been finished`)
+    Logger.info(`🤞 flushDB mutation has been finished`)
     return true
 }

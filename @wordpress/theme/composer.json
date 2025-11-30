@@ -7,7 +7,7 @@
         }
     },
     "scripts": {
-        "lint": "phpcs -s -w",
+        "lint": "phpcs -s -w --report=full",
         "fix": "phpcbf"
     },
     "require": {

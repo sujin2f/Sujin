@@ -9,17 +9,5 @@
     "dependencies": {},
     "files": [
         "[^.]*"
-    ],
-    "prettier": {
-        "arrowParens": "always",
-        "bracketSpacing": true,
-        "endOfLine": "lf",
-        "printWidth": 120,
-        "proseWrap": "preserve",
-        "quoteProps": "as-needed",
-        "tabWidth": 4,
-        "useTabs": true,
-        "singleQuote": true,
-        "trailingComma": "all",
-    }
+    ]
 }

@@ -3,7 +3,6 @@
 **/node_modules
 **/vendor
 **/coverage
-wordpress
 
 # misc
 .DS_Store

@@ -2,12 +2,13 @@
 **/.jest
 **/.vscode
 **/coverage
-**/deployment
 **/node_modules
 **/temp
 
-**/.dockerignore
-**/docker-compose**
+.dockerignore
+Dockerfile
+docker-compose.yml
+.env
+.env.example
 
 **/**.spec.ts
-yarn.lock

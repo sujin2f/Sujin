@@ -31,18 +31,19 @@ class Background {
 	 * @param int    $object_id   ID of the object metadata is for.
 	 * @param string $meta_key    Metadata key.
 	 * @param mixed  $_meta_value Metadata value.
+	 * @param int    $attempt     recursive for refresh token.
 	 * @return void
 	 */
-	public function gql_refresh_background( int $_, int $object_id, string $meta_key, mixed $_meta_value ): void {
+	public function gql_refresh_background( int $_, int $object_id, string $meta_key, mixed $_meta_value, int $attempt = 1 ): void {
 		if ( 'background_image' !== $meta_key ) {
 			return;
 		}
 
-		$term_id = $this->get_background_term_id();
 		if ( $_meta_value ) {
-			wp_set_object_terms( $object_id, $term_id, 'category' );
+			$term_id = $this->get_background_term_id();
+			wp_set_post_terms( $object_id, array( $term_id ), 'category' );
 		} else {
-			wp_remove_object_terms( $object_id, $term_id, 'category' );
+			wp_set_post_terms( $object_id, array(), 'category' );
 		}
 
 		$client = new Client( getenv_docker( 'GQL_ENDPOINT', '' ), array( 'authorization' => 'Bearer ' . Tokens::get_token() ) );
@@ -50,8 +51,12 @@ class Background {
 
 		try {
 			$client->runQuery( $gql );
-		} catch ( \Exception $_ ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
-			// do nothing.
+			// TODO remove @next cache.
+		} catch ( \Exception $_ ) {
+			if ( 1 === $attempt ) {
+				Tokens::refresh_token();
+				$this->gql_refresh_background( 0, $object_id, $meta_key, $_meta_value, 2 );
+			}
 		}
 	}
 

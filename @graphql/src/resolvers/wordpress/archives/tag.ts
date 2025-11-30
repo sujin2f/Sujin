@@ -37,6 +37,6 @@ export const tag = async (_slug: string): Promise<T_Archive> => {
     )
 
     const result = await request(slug)
-    Logger.info(`🤟 tag query done: ${slug}`)
+    Logger.info(`🤞 tag query done: ${slug}`)
     return result
 }

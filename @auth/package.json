@@ -1,12 +1,12 @@
 {
     "name": "sujin-auth",
-    "version": "1.0.0-beta.4",
+    "version": "12.0.0-beta.2",
     "main": "src/server.ts",
     "author": "Sujin Choi",
     "license": "MIT",
     "scripts": {
         "build": "cross-env rimraf .build && webpack",
-        "start": "node --env-file=.env .build/bundle.js",
+        "start": "node .build/bundle.js",
         "dev": "concurrently \"yarn dev:webpack\" \"yarn dev:nodemon\"",
         "dev:webpack": "cross-env NODE_ENV=development webpack --watch",
         "dev:nodemon": "cross-env NODE_ENV=development node --env-file=.env --watch .build/bundle.js",

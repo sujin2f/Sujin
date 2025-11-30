@@ -1,5 +1,4 @@
 /* Utils */
-import { getPostBy } from '@src/utils/mysql/post'
 import { isEmpty } from '@sujin/share/utils/object'
 import { getPostMeta } from '@src/utils/mysql/post-meta'
 /* Models */
@@ -7,13 +6,9 @@ import { select } from '@src/utils/mysql'
 import { FetchError } from '@sujin/share/model/Error'
 /* CONSTANTS */
 import { WPQuery } from '@src/utils/mysql/wp-query'
-import { POST_TYPE, IMAGE_SIZE } from '@sujin/lib/constants'
+import { IMAGE_SIZE } from '@sujin/lib/constants'
 /* T_Types */
-import {
-    type T_ImageBlock,
-    type T_Background,
-    type T_MySQLPost,
-} from '@sujin/lib/types'
+import { type T_ImageBlock, type T_Background, type T_MySQLPost } from '@sujin/lib/types'
 import type { Nullable } from '@sujin/share/types'
 
 enum META_KEYS {
@@ -26,9 +21,7 @@ enum META_KEYS {
  * @returns
  * @throws
  */
-const getImageBlockFromPost = async <T extends T_ImageBlock>(
-    post: T_MySQLPost,
-): Promise<T> => {
+const getImageBlockFromPost = async <T extends T_ImageBlock>(post: T_MySQLPost): Promise<T> => {
     const WP_IMAGE_SIZE = {
         medium_large: IMAGE_SIZE.MEDIUM_LARGE,
         'post-thumbnail': IMAGE_SIZE.POST_THUMBNAIL,
@@ -49,15 +42,8 @@ const getImageBlockFromPost = async <T extends T_ImageBlock>(
         >
     }
 
-    const meta = await getPostMeta<T_WPMedia>(
-        post.id,
-        META_KEYS.ATTACHMENT_META,
-        {} as T_WPMedia,
-    )
-    if (isEmpty(meta))
-        throw new FetchError(
-            `Failed to find MySQL attached media with post ID: ${post.id}`,
-        )
+    const meta = await getPostMeta<T_WPMedia>(post.id, META_KEYS.ATTACHMENT_META, {} as T_WPMedia)
+    if (isEmpty(meta)) throw new FetchError(`Failed to find MySQL attached media with post ID: ${post.id}`)
 
     const result: Record<string, unknown> = {
         mimeType: post.mimeType,
@@ -69,21 +55,13 @@ const getImageBlockFromPost = async <T extends T_ImageBlock>(
 
     if (meta.sizes) {
         const sizes: Record<string, unknown> = {}
-        const location = (result.url as string).replace(
-            /\/[a-zA-Z0-9-_.]+$/,
-            '',
-        )
+        const location = (result.url as string).replace(/\/[a-zA-Z0-9-_.]+$/, '')
 
         Object.entries(meta.sizes).forEach(([key, image]) => {
-            const mongoSize =
-                key in WP_IMAGE_SIZE ? WP_IMAGE_SIZE[key as WP_IMAGE_SIZE] : key
-            const file = image.file.startsWith('/')
-                ? image.file.slice(1)
-                : image.file
+            const mongoSize = key in WP_IMAGE_SIZE ? WP_IMAGE_SIZE[key as WP_IMAGE_SIZE] : key
+            const file = image.file.startsWith('/') ? image.file.slice(1) : image.file
             sizes[mongoSize] = {
-                url: image.file.includes('/')
-                    ? `/${file}`
-                    : `${location}/${image.file}`,
+                url: image.file.includes('/') ? `/${file}` : `${location}/${image.file}`,
                 width: image.width,
                 height: image.height,
                 mimeType: image['mime-type'],
@@ -95,19 +73,14 @@ const getImageBlockFromPost = async <T extends T_ImageBlock>(
     return result as T
 }
 
-export const getImageBlockFromAttachmentID = async (
-    postId: number,
-): Promise<Nullable<T_ImageBlock>> => {
-    const post = await getPostBy(
-        'id',
-        postId,
-        POST_TYPE.ATTACHMENT,
-        true,
-    ).catch(() => null)
+export const getImageBlockFromAttachmentID = async (postId: number): Promise<Nullable<T_ImageBlock>> => {
+    const query = WPQuery.getAttachment(postId)
+    const post = await select<T_MySQLPost>(query)
     if (!post) {
         return
     }
-    return getImageBlockFromPost(post)
+
+    return getImageBlockFromPost(post[0])
 }
 
 /**
@@ -116,15 +89,13 @@ export const getImageBlockFromAttachmentID = async (
  * @throws
  */
 export const getBackgrounds = async (): Promise<T_Background[]> => {
-    const result = await select<T_MySQLPost>(WPQuery.getBackgrounds()).then(
-        async (posts: T_MySQLPost[]) => {
-            const result: T_Background[] = []
-            for await (const post of posts) {
-                result.push(await getImageBlockFromPost(post))
-            }
-            return result
-        },
-    )
+    const result = await select<T_MySQLPost>(WPQuery.getBackgrounds()).then(async (posts: T_MySQLPost[]) => {
+        const result: T_Background[] = []
+        for await (const post of posts) {
+            result.push(await getImageBlockFromPost(post))
+        }
+        return result
+    })
 
     if (!result.length) throw new FetchError('MySQL Background is empty')
 

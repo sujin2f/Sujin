@@ -35,6 +35,6 @@ export const recipe = async (__id: string): Promise<T_Recipe> => {
 
     const result = await cached(_id)
     if (!result) throw new Error('Recipe not found')
-    Logger.info('🤟 recipe query has been finished')
+    Logger.info('🤞 recipe query has been finished')
     return result
 }

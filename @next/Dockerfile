@@ -47,8 +47,6 @@ ENV NODE_ENV=production
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-COPY --from=builder /app/public ./public
-
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
@@ -58,6 +56,14 @@ USER nextjs
 
 EXPOSE 80
 
+ARG FLICKR_ID
+ENV FLICKR_ID=${FLICKR_ID}
+ARG GQL_ENDPOINT_INTERNAL
+ENV GQL_ENDPOINT_INTERNAL=${GQL_ENDPOINT_INTERNAL}
+ARG INTER_COM_SECRET
+ENV INTER_COM_SECRET=${INTER_COM_SECRET}
+ARG CRYPTO_KEY
+ENV CRYPTO_KEY=${CRYPTO_KEY}
 ENV PORT=80
 
 # server.js is created by next build from the standalone output

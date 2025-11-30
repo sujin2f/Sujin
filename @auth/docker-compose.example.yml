@@ -1,0 +1,25 @@
+services:
+    sujin_auth:
+        container_name: sujin_auth
+        image: sujin2f/auth:12.0.0
+        restart: always
+        environment:
+            SERVER_PORT:
+            BASE_URL: http://localhost:8010
+            GOOGLE_CLIENT_ID:
+            GOOGLE_CLIENT_SECRET:
+            GOOGLE_REDIRECT_URI:
+            GQL_ENDPOINT:
+            CORS_ORIGINS:
+            SESSION_SECRET:
+            INTER_COM_SECRET:
+            CRYPTO_KEY:
+        ports:
+            - 80:80
+        networks:
+            - sujin_public
+
+networks:
+    sujin_public:
+        external: true
+        internal: false

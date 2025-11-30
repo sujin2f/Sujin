@@ -7,7 +7,7 @@ import Cached from '@sujin/share/model/Cache'
 import { COLLECTION } from '@sujin/lib/constants'
 /* Utils */
 import { getCacheKey } from '@sujin/lib/utils/cache'
-import { verifyAccessToken } from '@src/utils/security'
+import { verifyAccessToken, verifyAdmin } from '@src/utils/security'
 
 /**
  * Remove a page document. Requires an admin token.
@@ -17,14 +17,12 @@ import { verifyAccessToken } from '@src/utils/security'
  * @returns An empty array on success.
  */
 export const removePage = async (_slug: string, token: string): Promise<boolean[]> => {
-    const payload = await verifyAccessToken(token)
-    if (!payload.sub.admin) {
-        throw new Error('🤬 removePage mutation query has been called by non admin user')
-    }
+    const user = await verifyAccessToken(token)
+    await verifyAdmin(user.email)
 
     const slug = sanitize(_slug)
     await Page.deleteOne({ slug })
-    await Cached.getInstance().flush(getCacheKey(COLLECTION.PAGE, slug))
-    Logger.info(`🤟 removePage mutation done: ${slug}`)
+    Cached.getInstance().flush(getCacheKey(COLLECTION.PAGE, slug))
+    Logger.info(`🤞 removePage mutation done: ${slug}`)
     return []
 }

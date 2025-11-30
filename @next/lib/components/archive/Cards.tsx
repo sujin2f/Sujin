@@ -16,7 +16,7 @@ type Props<T extends string> = ColumnProps & {
     readonly posts: WithNumPages<T_ArchivePost, T>
     readonly listKey: T
     readonly keyPrefix: string
-    readonly imageSize?: IMAGE_SIZE
+    readonly imageSize?: IMAGE_SIZE[]
     readonly page?: number
     readonly pageURLPrefix?: string
 }
@@ -27,36 +27,27 @@ export const Cards = <T extends string>({
     pageURLPrefix,
     keyPrefix,
     listKey,
-    imageSize = IMAGE_SIZE.POST_THUMBNAIL,
+    imageSize = [IMAGE_SIZE.THUMBNAIL, IMAGE_SIZE.POST_THUMBNAIL],
     ...props
 }: Props<T>) => {
     const { numPages } = posts
     const list = posts[listKey]
+
     return (
         <>
             <Row fullWidth>
                 {list && list.length
                     ? list.map((post: T_ArchivePost, index: number) => {
-                          const tags = post.archives
-                              ? post.archives.filter(
-                                    (term) => term.type === ARCHIVE.TAG,
-                                )
-                              : []
+                          const tags = post.archives ? post.archives.filter((term) => term.type === ARCHIVE.TAG) : []
 
                           return (
-                              <Column
-                                  key={`card-${keyPrefix}-${index}-${post._id}`}
-                                  {...props}
-                              >
+                              <Column key={`card-${keyPrefix}-${index}-${post._id}`} {...props}>
                                   <Card
                                       title={post.title}
                                       description={post.excerpt}
                                       to={post.link}
                                       timestamp={post.date}
-                                      image={getThumbnailFromPost(
-                                          post.images,
-                                          imageSize,
-                                      )}
+                                      image={getThumbnailFromPost(post.images, imageSize)}
                                   >
                                       <Tags items={tags} />
                                   </Card>
@@ -67,13 +58,7 @@ export const Cards = <T extends string>({
             </Row>
 
             {/* <Cards posts={list} {...props} /> */}
-            {page && pageURLPrefix ? (
-                <Paging
-                    pages={numPages}
-                    page={page}
-                    urlPrefix={pageURLPrefix}
-                />
-            ) : null}
+            {page && pageURLPrefix ? <Paging pages={numPages} page={page} urlPrefix={pageURLPrefix} /> : null}
         </>
     )
 }

@@ -2,8 +2,8 @@
 import React, { type PropsWithChildren, Suspense } from 'react'
 import { Ubuntu } from 'next/font/google'
 import Script from 'next/script'
-import type { Metadata } from 'next'
 import { ErrorBoundary } from 'next/dist/client/components/error-boundary'
+import type { Metadata } from 'next'
 /* CONSTANTS */
 import { BASE_URL, DEFAULT_THUMBNAIL } from '@lib/constants'
 /* Components */
@@ -13,7 +13,7 @@ import Error from '@app/global-error'
 import Loading from '@app/loading'
 import { UserInfoProvider } from '@lib/components/UserInfoProvider'
 /* Utils */
-import { getUserInfo } from '@lib/utils/server'
+import { getUserInfo } from '@lib/utils/server/header'
 /* Assets */
 import '@app/layout.scss'
 import '@common/scss/base.scss'

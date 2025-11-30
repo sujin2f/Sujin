@@ -1,4 +1,4 @@
-query ListPost($type: ARCHIVE_TYPE!, $page: Int!, $slug: String!) {
+query Posts($type: ARCHIVE_TYPE!, $page: Int!, $slug: String!) {
     posts(type: $type, slug: $slug, page: $page) {
         items {
             _id

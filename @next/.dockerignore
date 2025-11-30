@@ -1,12 +1,20 @@
+# .dockerignore @see https://docs.docker.com/build/concepts/context/#dockerignore-files
+
+# Docker files
 Dockerfile
 .dockerignore
+
+# npm related
 node_modules
 npm-debug.log
-README.md
-.next
+
+# Dev env
 .git
+.next
 coverage
+README.md
 temp
 .backup
 .jest
 .vscode
+public

@@ -8,26 +8,17 @@ import { NodeModuleError } from './Error'
  * Node Cache
  */
 export default class Cached extends Singleton<Cached>() {
-    /**
-     * Gets or creates the cache instance.
-     * @returns {Promise<NodeCache>} The cache instance.
-     * @throws {NodeModuleError} If NodeCache cannot be initialized.
-     * @private
-     */
-    private async getCache() {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const cache = (global as any)['cache']
-        if (cache) {
-            return cache as NodeCache
+    private _cached: Nullable<NodeCache>
+    private get cached(): NodeCache {
+        if (this._cached) {
+            return this._cached
         }
 
-        const newCache = await this.init()
-        if (!newCache) {
+        this._cached = new NodeCache()
+        if (!this._cached) {
             throw new NodeModuleError('NodeCache cannot be set.')
         }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ;(global as any)['cache'] = newCache
-        return newCache
+        return this._cached
     }
 
     /**
@@ -35,18 +26,7 @@ export default class Cached extends Singleton<Cached>() {
      */
     constructor() {
         super()
-        this.init()
-    }
-
-    /**
-     * Initializes the NodeCache instance.
-     * @returns {Promise<NodeCache>} The initialized cache instance.
-     */
-    public async init() {
-        const cache = new NodeCache()
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ;(global as any)['cache'] = cache
-        return cache
+        this._cached = new NodeCache()
     }
 
     /**
@@ -55,12 +35,16 @@ export default class Cached extends Singleton<Cached>() {
      * @param {string} key The cache key.
      * @param {T} value The value to cache.
      * @param {number} [ttl=0] The time-to-live in seconds (0 = no expiration).
-     * @returns {Promise<void>}
      */
-    public async set<T>(key: string, value: T, ttl = 0) {
+    public set<T>(key: string, value: T, ttl: number = 0) {
         try {
-            const cache = await this.getCache()
-            cache.set<T>(key, value, ttl)
+            this.cached.set<T>(key, value, ttl)
+            // eslint-disable-next-line no-console
+            console.info(`⭐️ cache set is done! ${key}`)
+        } catch (e) {
+            // eslint-disable-next-line no-console
+            console.error(`🤬 Setting cache failed! ${JSON.stringify(e)}`)
+            /* empty */
         } finally {
             /* empty */
         }
@@ -70,12 +54,11 @@ export default class Cached extends Singleton<Cached>() {
      * Gets a value from the cache.
      * @template T The type of the cached value.
      * @param {string} key The cache key.
-     * @returns {Promise<Nullable<T>>} The cached value or undefined if not found or expired.
+     * @returns {Nullable<T>} The cached value or undefined if not found or expired.
      */
-    public async get<T>(key: string): Promise<Nullable<T>> {
+    public get<T>(key: string): Nullable<T> {
         try {
-            const cache = await this.getCache()
-            return cache.get<T>(key)
+            return this.cached.get<T>(key)
         } catch {
             return undefined
         }
@@ -103,32 +86,30 @@ export default class Cached extends Singleton<Cached>() {
             return await callback
         }
 
-        const get = await this.get<T>(key)
+        const get = this.get<T>(key)
         if (get) {
             return get
         }
 
         const result = await callback
-        await this.set(key, result, option.ttl)
+        this.set<T>(key, result, option.ttl)
         return result
     }
 
     /**
      * Flushes cache entries by key prefix or all entries if no keys provided.
      * @param {...string[]} keys The key prefixes to flush (no args = flush all).
-     * @returns {Promise<void>}
      */
-    public async flush(...keys: string[]): Promise<void> {
+    public flush(...keys: string[]) {
         try {
-            const cache = await this.getCache()
             if (keys.length === 0) {
-                cache.flushAll()
+                this.cached.flushAll()
                 return
             }
-            cache.keys().forEach((key) =>
+            this.cached.keys().forEach((key) =>
                 keys.forEach((del) => {
                     if (key.startsWith(del)) {
-                        cache.del(key)
+                        this.cached.del(key)
                     }
                 }),
             )
@@ -139,12 +120,11 @@ export default class Cached extends Singleton<Cached>() {
 
     /**
      * Lists all cache keys.
-     * @returns {Promise<string[]>} Array of cache keys or empty array on error.
+     * @returns {string[]} Array of cache keys or empty array on error.
      */
-    public async list(): Promise<string[]> {
+    public list(): string[] {
         try {
-            const cache = await this.getCache()
-            return cache.keys()
+            return this.cached.keys()
         } catch {
             return []
         }

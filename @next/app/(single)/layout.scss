@@ -25,6 +25,25 @@ article {
         }
     }
 
+    .wp-block-image {
+        margin: 0 0 var(--gap);
+
+        .aligncenter {
+            > * {
+                margin: 0 auto;
+            }
+        }
+    }
+
+    .wp-element-button {
+        margin: 0 0 var(--gap);
+        padding: var(--gap);
+        border-radius: 2em;
+        display: inline-block;
+        background-color: var(--primary);
+        color: var(--white);
+    }
+
     .image__container {
         width: 100%;
     }

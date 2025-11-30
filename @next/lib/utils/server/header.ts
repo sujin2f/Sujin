@@ -1,7 +1,8 @@
 'server-only'
-import jwt, { TokenExpiredError } from 'jsonwebtoken'
 import { headers, cookies } from 'next/headers'
 import type { DefaultContext } from '@apollo/client'
+/* Models */
+import { Logger } from '@sujin/share/model/Logger'
 /* CONSTANTS */
 import {
     COOKIE_KEY_ACCESS_TOKEN,
@@ -10,13 +11,17 @@ import {
     Metadata,
     METADATA,
 } from '@lib/constants'
-import { DAY_IN_SECONDS, HOUR_IN_SECONDS } from '@sujin/share/constants/datetime'
+import { DAY_IN_SECONDS, HOUR_IN_SECONDS, SECOND_IN_MS } from '@sujin/share/constants/datetime'
 import { HEADER_TOKEN } from '@sujin/lib/constants'
 /* T_Types */
 import type { Nullable } from '@sujin/share/types'
-import type { T_Login_Token, T_Token, T_UserSub } from '@sujin/lib/types'
+import type { T_UserSub } from '@sujin/lib/types'
 /* Utils */
 import { refresh } from '@lib/apollo/queries/users/refresh'
+import { generateToken, verifyToken, getExpiration } from '@sujin/lib/utils/token'
+
+const INTER_COM_SECRET = `${process.env.INTER_COM_SECRET}`
+const CRYPTO_KEY = `${process.env.CRYPTO_KEY}`
 
 /**
  * Retrieves the current pathname from the headers.
@@ -49,40 +54,28 @@ export const getMetaData = async (): Promise<Metadata> => {
     return METADATA[path]
 }
 
-const ACCESS_SECRET = `${process.env.ACCESS_SECRET}`
-
 /**
  * Create the temporary token for verifying origin to @auth server
  *
- * @param origin
+ * @param redirect
  * @returns
  */
-export const createLoginToken = (origin: string) => {
-    const payload = { iss: origin, sub: `${new Date().getTime()}` } satisfies T_Login_Token
-    return jwt.sign(payload, ACCESS_SECRET, { expiresIn: '10m' })
+export const createLoginToken = async (redirect: string) => {
+    return await generateToken(redirect, 10, INTER_COM_SECRET, CRYPTO_KEY)
 }
 
-export const setCookies = async () => {
-    const cookie = await cookies()
-    const accessToken = cookie.get('x-token-at')?.value
-    const refreshToken = cookie.get('x-token-rt')?.value
+export const setCookies = async (token: string) => {
+    const { user, accessToken, refreshToken } = await verifyToken<{
+        user: T_UserSub
+        accessToken: string
+        refreshToken: string
+    }>(token, INTER_COM_SECRET, CRYPTO_KEY)
 
-    if (!accessToken || !refreshToken) {
-        // TODO error
-        return
-    }
-
+    await storeUserInfo(user)
     await storeAccessToken(accessToken)
-    await storeUserInfo(accessToken)
     await storeRefreshToken(refreshToken)
-}
 
-export const getUserInfo = async (): Promise<Nullable<T_UserSub>> => {
-    const cookie = (await cookies()).get(COOKIE_KEY_USER_INFO)
-    if (!cookie || !cookie.value) {
-        return
-    }
-    return JSON.parse(cookie.value)
+    Logger.info('🤞 Sessions!')
 }
 
 export const isAdmin = async () => {
@@ -101,34 +94,21 @@ const getAccessToken = async (): Promise<Nullable<string>> => {
     return cookie.value
 }
 
-const verifyAccessToken = async (_token: Nullable<string>): Promise<Nullable<string>> => {
+const getSafeAccessToken = async (_token: Nullable<string>): Promise<Nullable<string>> => {
     let token = _token
     if (!token) {
         return
     }
 
-    try {
-        jwt.verify(token, ACCESS_SECRET) as T_Token
-    } catch (e) {
-        if (!(e instanceof TokenExpiredError)) {
-            throw e
-        }
+    const now = Math.trunc(new Date().getTime() / SECOND_IN_MS) + 60
+    const exp = getExpiration(token) || 0
 
+    // expired
+    if (now > exp) {
         await refresh()
         token = await getAccessToken()
     }
-    if (!token) {
-        return
-    }
-    const { sub } = jwt.verify(token, ACCESS_SECRET) as T_Token
-    const userInfo = await getUserInfo()
-    if (!userInfo) {
-        return
-    }
-    const tokenUser = JSON.parse(sub)
-    if (userInfo?._id !== tokenUser._id) {
-        return
-    }
+
     return token
 }
 
@@ -140,6 +120,33 @@ export const getRefreshToken = async (): Promise<Nullable<string>> => {
     return cookie.value
 }
 
+/**
+ * Userinfo
+ * @param token
+ */
+const storeUserInfo = async (token: T_UserSub) => {
+    const cookie = await cookies()
+    cookie.set(COOKIE_KEY_USER_INFO, JSON.stringify(token), {
+        httpOnly: true,
+        secure: true,
+        maxAge: 30 * DAY_IN_SECONDS,
+        sameSite: 'lax',
+        path: '/',
+    })
+}
+
+export const getUserInfo = async (): Promise<Nullable<T_UserSub>> => {
+    const cookie = (await cookies()).get(COOKIE_KEY_USER_INFO)
+    if (!cookie || !cookie.value) {
+        return
+    }
+    return JSON.parse(cookie.value)
+}
+
+/**
+ * Access token
+ * @param token
+ */
 export const storeAccessToken = async (token: string) => {
     const cookie = await cookies()
     cookie.set(COOKIE_KEY_ACCESS_TOKEN, token, {
@@ -151,26 +158,11 @@ export const storeAccessToken = async (token: string) => {
     })
 }
 
-export const storeUserInfo = async (token: string) => {
-    const payload = jwt.verify(token, ACCESS_SECRET) as T_Token
-    const cookie = await cookies()
-    cookie.set(COOKIE_KEY_USER_INFO, payload.sub, {
-        httpOnly: true,
-        secure: true,
-        maxAge: 30 * DAY_IN_SECONDS,
-        sameSite: 'lax',
-        path: '/',
-    })
-}
-
-export const removeAccessToken = async () => {
-    const cookie = await cookies()
-    try {
-        cookie.delete(COOKIE_KEY_ACCESS_TOKEN)
-    } catch {}
-}
-
-export const storeRefreshToken = async (token: string) => {
+/**
+ * Refresh token
+ * @param token
+ */
+const storeRefreshToken = async (token: string) => {
     const cookie = await cookies()
     cookie.set(COOKIE_KEY_REFRESH_TOKEN, token, {
         httpOnly: true,
@@ -183,7 +175,7 @@ export const storeRefreshToken = async (token: string) => {
 
 export const getAuthHeader = async (): Promise<DefaultContext> => {
     const _token = await getAccessToken()
-    const token = await verifyAccessToken(_token)
+    const token = await getSafeAccessToken(_token)
     if (!token) {
         return {}
     }

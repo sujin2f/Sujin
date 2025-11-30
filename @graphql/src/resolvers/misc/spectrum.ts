@@ -36,7 +36,7 @@ export const spectrum = async (_number: number, _ion: number): Promise<ISpectrum
         ttl: DAY_IN_SECONDS * 30,
     })
     const result = await request(atom, ion)
-    Logger.info('🤟 spectra query has been finished')
+    Logger.info('🤞 spectra query has been finished')
     return result
 }
 
@@ -71,7 +71,7 @@ const find = async (atom: Atom, ion: number): Promise<ISpectrum[]> => {
 }
 
 const requestNIST = async (atom: Atom, ion: number) => {
-    Logger.info(`🤟 Request NIST -- atom:${atom.number}, ion:${ion}`)
+    Logger.info(`🤞 Request NIST -- atom:${atom.number}, ion:${ion}`)
     const ionRoman = romanize(ion)
     const nistUrl = `https://physics.nist.gov/cgi-bin/ASD/lines1.pl?spectra=${atom.symbol}+${ionRoman}&limits_type=0&low_w=&upp_w=&unit=1&de=0&I_scale_type=1&format=2&line_out=0&remove_js=on&en_unit=1&output=0&bibrefs=1&page_size=15&show_obs_wl=1&show_calc_wl=1&unc_out=1&order_out=0&max_low_enrg=&show_av=2&max_upp_enrg=&tsb_value=0&min_str=&A_out=0&intens_out=on&max_str=&allowed_out=1&forbid_out=1&min_accur=&min_intens=&conf_out=on&term_out=on&enrg_out=on&J_out=on&submit=Retrieve+Data`
     return await fetch(nistUrl, {

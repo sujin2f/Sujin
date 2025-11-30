@@ -3,7 +3,7 @@
 import Cached from '@sujin/share/model/Cache'
 /* Utils */
 import { client } from '@lib/apollo/apollo-client-server'
-import { getAuthHeader } from '@lib/utils/server'
+import { getAuthHeader } from '@lib/utils/server/header'
 import { getCacheKey } from '@sujin/lib/utils/cache'
 /* CONSTANTS */
 import { COLLECTION } from '@sujin/lib/constants'
@@ -20,7 +20,7 @@ export const removeRecipe = async (_id: string) => {
             if (!result.data || !result.data.removeRecipe) {
                 throw new Error()
             }
-            await Cached.getInstance().flush(getCacheKey(COLLECTION.RECIPE))
+            Cached.getInstance().flush(getCacheKey(COLLECTION.RECIPE))
             return result.data.removeRecipe
         })
 }

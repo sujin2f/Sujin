@@ -29,9 +29,8 @@ export const recipes = async (_page: number, mine: boolean, token: string): Prom
     }
     let user: Nullable<T_UserSub>
     if (mine) {
-        const payload = await verifyAccessToken(token)
-        if (!payload || !payload.sub || !payload.sub._id) throw new Error()
-        user = payload.sub
+        user = await verifyAccessToken(token)
+        if (!user._id) throw new Error()
     }
 
     const userId = user ? user._id : ''
@@ -48,6 +47,6 @@ export const recipes = async (_page: number, mine: boolean, token: string): Prom
 
     const result = await cached()
     const total = await Recipe.countDocuments(doc)
-    Logger.info('🤟 recipes query has been finished')
+    Logger.info('🤞 recipes query has been finished')
     return { items: result, numPages: Math.ceil(total / PER_PAGE) }
 }

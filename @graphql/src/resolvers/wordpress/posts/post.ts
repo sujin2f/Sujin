@@ -45,6 +45,6 @@ export const post = async (_slug: string): Promise<T_Post> => {
         getCacheKey(COLLECTION.POST, slug),
     )
     const result = await request()
-    Logger.info(`🤟 post query done: ${slug}`)
+    Logger.info(`⭐️ post query done: ${slug}`)
     return result
 }

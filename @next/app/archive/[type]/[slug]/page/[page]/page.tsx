@@ -4,14 +4,12 @@ import type { Metadata } from 'next/types'
 import { SearchServer } from '@app/archive/[type]/[slug]/page/[page]/Search.server'
 import { ArchiveServer } from '@app/archive/[type]/[slug]/page/[page]/Archive.server'
 /* Utils */
-import { cachedGQLRequest } from '@lib/apollo/queries/GQLRequest'
+import { nextCachedRequest } from '@lib/apollo/queries/GQLRequest'
+import { category as getCategory } from '@lib/apollo/queries/wordpress/archives/category'
+import { tag as getTag } from '@lib/apollo/queries/wordpress/archives/tag'
 /* CONSTANTS */
 import { ARCHIVE, COLLECTION } from '@sujin/lib/constants'
 import { BASE_URL } from '@lib/constants'
-import CATEGORY_QUERY from '@lib/apollo/queries/wordpress/archives/category.metadata.graphql'
-import TAG_QUERY from '@lib/apollo/queries/wordpress/archives/tag.metadata.graphql'
-/* T_Type */
-import type { T_Archive } from '@sujin/lib/types'
 
 type Props = {
     params: Promise<{
@@ -43,18 +41,12 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
     }
 
     // TODO thumbnail
-    const archive = await cachedGQLRequest<{ archive: T_Archive[] }>(
-        type === ARCHIVE.CATEGORY ? CATEGORY_QUERY : TAG_QUERY,
-        { slug, type },
-        [COLLECTION.ARCHIVE, type, slug, 'metadata'],
-    )
-        .then((result) => {
-            if (!result.data || !result.data.archive.length) {
-                return
-            }
-            return result.data.archive[0]
-        })
-        .catch(() => {})
+    const archive = await nextCachedRequest(
+        type === ARCHIVE.CATEGORY ? getCategory(slug) : getTag(slug),
+        COLLECTION.ARCHIVE,
+        type,
+        slug,
+    ).catch(() => {})
 
     if (!archive) {
         return {

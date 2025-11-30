@@ -1,7 +1,11 @@
 'use server'
+/* Models */
 import { client } from '@lib/apollo/apollo-client-server'
-import { getAuthHeader } from '@lib/utils/server'
+/* Utils */
+import { getAuthHeader } from '@lib/utils/server/header'
+/* CONSTANTS */
 import CATEGORY_LIST from '@lib/apollo/queries/wordpress/archives/categories.graphql'
+/* T_Types */
 import type { T_Archive } from '@sujin/lib/types'
 
 export const categories = async (page: number): Promise<T_Archive[]> => {

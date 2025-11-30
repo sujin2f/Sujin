@@ -83,6 +83,16 @@ const GET_SEARCH = `
     LIMIT ${PER_PAGE} OFFSET {1}
 `
 
+const GET_ATTACHMENT = `
+    SELECT ${POST_FIELDS}
+    FROM wp_posts AS posts
+    WHERE
+        posts.ID={0} AND
+        posts.post_type="attachment"
+    ORDER BY posts.ID DESC
+    LIMIT 1
+`
+
 const GET_POST_META = `
     SELECT meta_value
     FROM wp_postmeta
@@ -225,13 +235,7 @@ export const WPQuery = {
         const newKey = key === 'id' ? 'terms.term_id' : 'terms.slug'
         return format(GET_ARCHIVE_BY, newKey, value)
     },
-    getBackgrounds: () =>
-        format(
-            GET_TERM_ITEMS,
-            'background',
-            'AND posts.post_status="inherit"',
-            '',
-        ),
+    getBackgrounds: () => format(GET_TERM_ITEMS, 'background', 'AND posts.post_status="inherit"', ''),
     // @deprecated
     getAllPostMeta: (postId: number) => format(GET_ALL_POST_META, postId),
     // @deprecated
@@ -244,35 +248,19 @@ export const WPQuery = {
         ),
     getOption: (optionName: string) => format(GET_OPTION, optionName),
     deleteOption: (optionName: string) => format(DELETE_OPTION, optionName),
-    getPostMeta: (postId: number, metaKey: string) =>
-        format(GET_POST_META, postId, metaKey),
-    getPostBy: (
-        key: string,
-        value: string | number,
-        type: POST_TYPE,
-        offset: number,
-        ignoreStatus: boolean,
-    ) =>
-        format(
-            GET_POST_BY,
-            key,
-            value,
-            type,
-            offset,
-            ignoreStatus ? '' : 'AND posts.post_status="publish"',
-        ),
-    getAllPosts: (type: POST_TYPE, offset: number) =>
-        format(GET_ALL_POSTS, type, offset),
-    getSearch: (value: string | number, offset: number) =>
-        format(GET_SEARCH, value, offset),
+    getPostMeta: (postId: number, metaKey: string) => format(GET_POST_META, postId, metaKey),
+    getPostBy: (key: string, value: string | number, type: POST_TYPE, offset: number, ignoreStatus: boolean) =>
+        format(GET_POST_BY, key, value, type, offset, ignoreStatus ? '' : 'AND posts.post_status="publish"'),
+    getAllPosts: (type: POST_TYPE, offset: number) => format(GET_ALL_POSTS, type, offset),
+    getSearch: (value: string | number, offset: number) => format(GET_SEARCH, value, offset),
+    getAttachment: (id: number) => format(GET_ATTACHMENT, id),
     // @deprecated
     getTermBy: (key: string, value: string) => {
         const newKey = key === 'id' ? 'terms.term_id' : 'terms.slug'
         return format(GET_TERM_BY, newKey, value)
     },
     getTaxonomies: (postId: number) => format(GET_TAXONOMIES, postId),
-    getTermMeta: (id: number, metaKey: string) =>
-        format(GET_TERM_META, id, metaKey),
+    getTermMeta: (id: number, metaKey: string) => format(GET_TERM_META, id, metaKey),
     // @deprecated
     getTagCount: () => format(GET_TAG_COUNT),
     // @deprecated

@@ -3,7 +3,7 @@ import sanitize from 'mongo-sanitize'
 import { Logger } from '@sujin/share/model/Logger'
 import { Archive } from '@src/schema/archive'
 /* Utils */
-import { verifyAccessToken } from '@src/utils/security'
+import { verifyAccessToken, verifyAdmin } from '@src/utils/security'
 /* CONSTANTS */
 import { ARCHIVE, PER_PAGE } from '@sujin/lib/constants'
 /* T_Types */
@@ -20,10 +20,8 @@ import type { T_Archive } from '@sujin/lib/types'
  * @returns An array of `T_Archive` documents for the requested page.
  */
 export const tags = async (_page: number, token: string): Promise<T_Archive[]> => {
-    const payload = await verifyAccessToken(token)
-    if (!payload.sub.admin) {
-        throw new Error('🤬 tags query has been called by non admin user')
-    }
+    const user = await verifyAccessToken(token)
+    await verifyAdmin(user.email)
 
     const page = sanitize(_page)
 
@@ -32,6 +30,6 @@ export const tags = async (_page: number, token: string): Promise<T_Archive[]> =
         .skip(PER_PAGE * (page - 1))
         .limit(PER_PAGE)
 
-    Logger.info(`🤟 tags query done: ${page}`)
+    Logger.info(`🤞 tags query done: ${page}`)
     return result
 }

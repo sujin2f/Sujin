@@ -4,10 +4,7 @@
  * @param {string} _comparison The comparison version (e.g., '1.2.4').
  * @returns {-1 | 0 | 1} -1 if comparison is greater, 0 if equal, 1 if current is greater.
  */
-export const compareVersions = (
-    _current: string,
-    _comparison: string,
-): -1 | 0 | 1 => {
+export const compareVersions = (_current: string, _comparison: string): -1 | 0 | 1 => {
     const current = _current.split('.').map(Number)
     const comparison = _comparison.split('.').map(Number)
     const length = Math.max(current.length, comparison.length)

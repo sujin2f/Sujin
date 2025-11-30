@@ -1,4 +1,3 @@
-import { GraphQLError } from 'graphql'
 import sanitize from 'mongo-sanitize'
 /* Models */
 import { Logger } from '@sujin/share/model/Logger'
@@ -7,7 +6,7 @@ import { Post } from '@src/schema/post'
 import { PER_PAGE } from '@sujin/lib/constants'
 import { AGGREGATE_ARCHIVE_POST, AGGREGATE_EXPAND_ARCHIVES } from '@src/constants'
 /* Utils */
-import { verifyAccessToken } from '@src/utils/security'
+import { verifyAccessToken, verifyAdmin } from '@src/utils/security'
 /* T_Types */
 import type { T_Post } from '@sujin/lib/types'
 
@@ -23,10 +22,8 @@ import type { T_Post } from '@sujin/lib/types'
  * @throws {GraphQLError} When no posts are found.
  */
 export const postsAllAdmin = async (_page: number, token: string): Promise<T_Post[]> => {
-    const payload = await verifyAccessToken(token)
-    if (!payload.sub.admin) {
-        throw new Error('🤬 postsAllAdmin query has been called by non admin user')
-    }
+    const user = await verifyAccessToken(token)
+    await verifyAdmin(user.email)
 
     const page = sanitize(_page)
 
@@ -36,16 +33,7 @@ export const postsAllAdmin = async (_page: number, token: string): Promise<T_Pos
         { $limit: PER_PAGE },
         ...AGGREGATE_EXPAND_ARCHIVES,
         ...AGGREGATE_ARCHIVE_POST,
-    ]).then((result) => {
-        if (!result || !result.length) {
-            throw new GraphQLError(`Cannot find any post`, {
-                extensions: {
-                    code: 'NO_CONTENT',
-                },
-            })
-        }
-        return result
-    })
-    Logger.info(`🤟 postsAllAdmin query done`)
+    ])
+    Logger.info(`🤞 postsAllAdmin query done`)
     return result
 }

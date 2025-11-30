@@ -11,7 +11,7 @@ import { COLLECTION, MENU_NAMES } from '@sujin/lib/constants'
 /* Utils */
 import { nodeCachedRequest } from '@lib/apollo/queries/GQLRequest'
 import { recipes as getRecipes } from '@lib/apollo/queries/recipes/recipes'
-import { getAuthHeader, getUserInfo } from '@lib/utils/server'
+import { getAuthHeader, getUserInfo } from '@lib/utils/server/header'
 
 type Props = {
     params: Promise<{
