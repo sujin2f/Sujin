@@ -2,7 +2,6 @@
 
 import '@testing-library/jest-dom'
 import { render, waitFor, screen, fireEvent } from '@testing-library/react'
-import Cached from '@sujin/common/model/Cached'
 import { VERSION } from '@sujin/common/constants/helper'
 import { pageFactory } from '@jest/helpers'
 import { clearMongo } from '@sujin/common/.jest/helpers'
@@ -12,9 +11,6 @@ import { COLLECTION } from '@app/_lib/types'
 import { count, migrate } from '@sujin/common/data/mongo/mongo'
 import { act } from 'react'
 
-jest.mock('next/cache', () => ({
-    unstable_cache: (fn: unknown) => fn,
-}))
 jest.mock('next-auth', () => ({
     getServerSession: jest.fn(async () =>
         Promise.resolve({
@@ -57,7 +53,6 @@ describe('Pages.server.spec.tsx', () => {
 
     afterEach(async () => {
         await clearMongo(COLLECTION.PAGE)
-        Cached.getInstance().flush()
     })
 
     afterAll(async () => {

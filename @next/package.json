@@ -20,13 +20,13 @@
         "jsonwebtoken": "^9.0.2",
         "next": "^15.3.3",
         "next-images": "^1.8.5",
-        "node-cache": "^5.1.2",
         "quartic": "^0.0.2",
         "react": "^19.0.0",
         "react-color": "^2.19.3",
         "react-dom": "^19.0.0",
         "react-katex": "^3.0.1",
         "react-redux": "^9.2.0",
+        "redis": "^5.10.0",
         "winston": "^3.18.3"
     },
     "devDependencies": {

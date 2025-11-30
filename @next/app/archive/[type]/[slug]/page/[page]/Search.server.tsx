@@ -8,7 +8,7 @@ import { Cards } from '@lib/components/archive/Cards'
 import { ARCHIVE, COLLECTION } from '@sujin/lib/constants'
 import { search } from '@lib/apollo/queries/wordpress/posts/search'
 /* Utils */
-import { nextCachedRequest } from '@lib/apollo/queries/GQLRequest'
+import { redisCachedRequest } from '@lib/apollo/queries/GQLRequest'
 
 type Props = {
     slug: string
@@ -16,14 +16,9 @@ type Props = {
 }
 
 export async function SearchServer({ slug, page }: Props) {
-    const posts = await nextCachedRequest(
-        search(slug, page),
-        COLLECTION.ARCHIVE,
-        'posts',
-        'search',
-        slug,
-        page.toString(),
-    ).catch((e) => {
+    const posts = await redisCachedRequest(async () => await search(slug, page), {
+        key: `${COLLECTION.POST}-search-${slug}-${page}`,
+    }).catch((e) => {
         Logger.error(e.message)
         notFound()
     })

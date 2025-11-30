@@ -1,6 +1,6 @@
 'use server'
 /* Utils */
-import { nextCachedRequest } from '@lib/apollo/queries/GQLRequest'
+import { redisCachedRequest } from '@lib/apollo/queries/GQLRequest'
 import { recipes as getRecipes } from '@lib/apollo/queries/recipes/recipes'
 import { getUserInfo } from '@lib/utils/server/header'
 /* Components */
@@ -24,7 +24,9 @@ export default async function ListPage(props: Props) {
     const page = parseInt(params.page)
     async function action() {
         'use server'
-        return await nextCachedRequest(getRecipes(page), COLLECTION.RECIPE, 'list', page.toString())
+        return await redisCachedRequest(async () => await getRecipes(page), {
+            key: `${COLLECTION.RECIPE}-list-${page}`,
+        })
     }
 
     return (

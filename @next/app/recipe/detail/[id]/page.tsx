@@ -7,7 +7,7 @@ import { DetailClient } from './page.client'
 import { COLLECTION, MENU_NAMES } from '@sujin/lib/constants'
 /* Utils */
 import { getUserInfo } from '@lib/utils/server/header'
-import { nextCachedRequest } from '@lib/apollo/queries/GQLRequest'
+import { redisCachedRequest } from '@lib/apollo/queries/GQLRequest'
 import { recipe as getRecipe } from '@lib/apollo/queries/recipes/recipe'
 
 type Props = {
@@ -19,7 +19,9 @@ type Props = {
 export default async function RecipeDetailLayout({ params }: Props) {
     const { id } = await params
     const user = await getUserInfo()
-    const recipe = await nextCachedRequest(getRecipe(id), COLLECTION.RECIPE, 'detail', id)
+    const recipe = await redisCachedRequest(async () => await getRecipe(id), {
+        key: `${COLLECTION.RECIPE}-${id}`,
+    })
 
     return (
         <>

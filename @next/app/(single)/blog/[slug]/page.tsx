@@ -19,7 +19,7 @@ import { MENU_NAMES, IMAGE_SIZE, COLLECTION, POST_STATUS } from '@sujin/lib/cons
 import { post as getPost } from '@lib/apollo/queries/wordpress/posts/post'
 /* Utils */
 import { getThumbnailFromPost } from '@lib/utils/client'
-import { nextCachedRequest } from '@lib/apollo/queries/GQLRequest'
+import { redisCachedRequest } from '@lib/apollo/queries/GQLRequest'
 import { updateHits } from '@lib/apollo/queries/wordpress/archives/updateHits'
 /* T_Types */
 import type { T_Post } from '@sujin/lib/types'
@@ -34,7 +34,9 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
     const params = await props.params
     const slug = params.slug.toLowerCase()
 
-    const post = await nextCachedRequest<T_Post>(getPost(slug), COLLECTION.POST, slug).catch(() => undefined)
+    const post = await redisCachedRequest<T_Post>(async () => await getPost(slug), {
+        key: `${COLLECTION.POST}-${slug}`,
+    }).catch(() => undefined)
 
     if (!post) {
         return {}
@@ -60,11 +62,12 @@ export default async function PostPage(props: Props) {
     const params = await props.params
     const slug = params.slug.toLowerCase()
 
-    const post = await nextCachedRequest<T_Post>(getPost(slug), COLLECTION.POST, slug).catch((e) => {
+    const post = await redisCachedRequest<T_Post>(async () => await getPost(slug), {
+        key: `${COLLECTION.POST}-${slug}`,
+    }).catch((e) => {
         Logger.error(e.message)
         notFound()
     })
-
     const thumbnail = getThumbnailFromPost(post.images, [IMAGE_SIZE.MEDIUM_LARGE])
     const tags = post.archives.filter((tag) => tag.type === 'tag')
 

@@ -4,7 +4,7 @@ import type { Metadata } from 'next/types'
 import { SearchServer } from '@app/archive/[type]/[slug]/page/[page]/Search.server'
 import { ArchiveServer } from '@app/archive/[type]/[slug]/page/[page]/Archive.server'
 /* Utils */
-import { nextCachedRequest } from '@lib/apollo/queries/GQLRequest'
+import { redisCachedRequest } from '@lib/apollo/queries/GQLRequest'
 import { category as getCategory } from '@lib/apollo/queries/wordpress/archives/category'
 import { tag as getTag } from '@lib/apollo/queries/wordpress/archives/tag'
 /* CONSTANTS */
@@ -41,11 +41,11 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
     }
 
     // TODO thumbnail
-    const archive = await nextCachedRequest(
-        type === ARCHIVE.CATEGORY ? getCategory(slug) : getTag(slug),
-        COLLECTION.ARCHIVE,
-        type,
-        slug,
+    const archive = await redisCachedRequest(
+        async () => await (type === ARCHIVE.CATEGORY ? getCategory(slug) : getTag(slug)),
+        {
+            key: `${COLLECTION.ARCHIVE}-${type}-${slug}`,
+        },
     ).catch(() => {})
 
     if (!archive) {

@@ -2,6 +2,8 @@ import mysqld, { type ProcedureCallPacket, type ConnectionOptions } from 'mysql2
 import { isEmpty } from '@sujin/share/utils/object'
 import { Logger } from '@sujin/share/model/Logger'
 
+// TODO connect MySQL when it uses
+
 declare global {
     var mysql: mysqld.Connection | null
 }

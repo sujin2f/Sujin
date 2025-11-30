@@ -1,10 +1,8 @@
 'use server'
-/* Models */
-import Cached from '@sujin/share/model/Cache'
 /* Utils */
 import { client } from '@lib/apollo/apollo-client-server'
 import { getAuthHeader } from '@lib/utils/server/header'
-import { getCacheKey } from '@sujin/lib/utils/cache'
+import { removeCache } from '@lib/redis'
 /* CONSTANTS */
 import { COLLECTION } from '@sujin/lib/constants'
 import RECIPE_REMOVE from '@lib/apollo/queries/recipes/removeRecipe.graphql'
@@ -20,7 +18,7 @@ export const removeRecipe = async (_id: string) => {
             if (!result.data || !result.data.removeRecipe) {
                 throw new Error()
             }
-            Cached.getInstance().flush(getCacheKey(COLLECTION.RECIPE))
+            await removeCache(COLLECTION.RECIPE) // TODO when the return type of endpoint is recipe, remove list, _id, and mine
             return result.data.removeRecipe
         })
 }

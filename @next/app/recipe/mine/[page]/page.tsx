@@ -9,7 +9,7 @@ import { WidgetTitle } from '@lib/components/WidgetTitle'
 /* CONSTANTS */
 import { COLLECTION, MENU_NAMES } from '@sujin/lib/constants'
 /* Utils */
-import { nodeCachedRequest } from '@lib/apollo/queries/GQLRequest'
+import { redisCachedRequest } from '@lib/apollo/queries/GQLRequest'
 import { recipes as getRecipes } from '@lib/apollo/queries/recipes/recipes'
 import { getAuthHeader, getUserInfo } from '@lib/utils/server/header'
 
@@ -30,13 +30,9 @@ export default async function RecipeMyListPage(props: Props) {
 
     async function action() {
         'use server'
-        return await nodeCachedRequest(
-            getRecipes(page, await getAuthHeader()),
-            COLLECTION.RECIPE,
-            'my-list',
-            user!._id,
-            page.toString(),
-        )
+        return await redisCachedRequest(async () => await getRecipes(page, await getAuthHeader()), {
+            key: `${COLLECTION.RECIPE}-user-${user!._id}-${page}`,
+        })
     }
 
     return (

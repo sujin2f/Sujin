@@ -11,7 +11,7 @@ import { tag as getTag } from '@lib/apollo/queries/wordpress/archives/tag'
 import { posts as getPosts } from '@lib/apollo/queries/wordpress/posts/posts'
 /* Utils */
 import { updateHits } from '@lib/apollo/queries/wordpress/archives/updateHits'
-import { nextCachedRequest } from '@lib/apollo/queries/GQLRequest'
+import { redisCachedRequest } from '@lib/apollo/queries/GQLRequest'
 
 type Props = {
     type: ARCHIVE
@@ -20,11 +20,11 @@ type Props = {
 }
 
 export async function ArchiveServer({ type, slug, page }: Props) {
-    const archive = await nextCachedRequest(
-        type === ARCHIVE.CATEGORY ? getCategory(slug) : getTag(slug),
-        COLLECTION.ARCHIVE,
-        type,
-        slug,
+    const archive = await redisCachedRequest(
+        async () => await (type === ARCHIVE.CATEGORY ? getCategory(slug) : getTag(slug)),
+        {
+            key: `${COLLECTION.ARCHIVE}-${type}-${slug}`,
+        },
     ).catch((e) => {
         Logger.error(e.message)
         notFound()
@@ -36,14 +36,9 @@ export async function ArchiveServer({ type, slug, page }: Props) {
         await updateHits(slug)
     }
 
-    const posts = await nextCachedRequest(
-        getPosts(type, slug, page),
-        COLLECTION.ARCHIVE,
-        'posts',
-        type,
-        slug,
-        page.toString(),
-    ).catch((e) => {
+    const posts = await redisCachedRequest(async () => await getPosts(type, slug, page), {
+        key: `${COLLECTION.POST}-archive-${type}-${slug}-${page}`,
+    }).catch((e) => {
         Logger.error(e.message)
         notFound()
     })
