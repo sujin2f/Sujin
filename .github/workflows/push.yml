@@ -23,8 +23,11 @@ jobs:
 
             - name: Composer Install
               uses: php-actions/composer@v6
+
+            - name: Composer Lint
+              uses: php-actions/composer@v6
               with:
-                  working_dir: ./@wordpress
+                  command: run lint
 
             - name: Lint
               uses: borales/actions-yarn@v3.0.0

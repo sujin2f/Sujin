@@ -6,13 +6,12 @@
     "scripts": {
         "install-modules": "yarn --cwd ./@auth && yarn --cwd ./@common && yarn --cwd ./@graphql && yarn --cwd ./@lib && yarn --cwd ./@next && yarn --cwd ./@wordpress install-modules",
         "build": "yarn --cwd ./@auth build && yarn --cwd ./@common build && yarn --cwd ./@lib build && yarn --cwd ./@wordpress build",
-        "lint": "yarn lint:auth && yarn lint:common && yarn lint:gql && yarn lint:lib && yarn lint:next && yarn lint:wordpress",
+        "lint": "yarn lint:auth && yarn lint:common && yarn lint:gql && yarn lint:lib && yarn lint:next",
         "lint:auth": "yarn --cwd ./@auth lint",
         "lint:common": "yarn --cwd ./@common lint",
         "lint:gql": "yarn --cwd ./@graphql lint",
         "lint:lib": "yarn --cwd ./@lib lint",
         "lint:next": "yarn --cwd ./@next lint",
-        "lint:wordpress": "yarn --cwd ./@wordpress lint",
         "test": "yarn --cwd ./@common test && yarn --cwd ./@graphql test",
         "prepare": "husky"
     },

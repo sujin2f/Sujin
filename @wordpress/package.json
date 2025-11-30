@@ -5,8 +5,6 @@
 	"author": "Sujin Choi",
 	"license": "GPL-2.0-or-later",
 	"scripts": {
-		"lint": "composer run-script lint",
-		"fix": "composer run-script fix",
 		"build": "yarn --cwd ./plugins/carousel build && yarn --cwd ./plugins/resume-item build",
 		"install-modules": "yarn --cwd ./plugins/resume-item && yarn --cwd ./plugins/carousel",
 		"package": "node ./package.mjs"

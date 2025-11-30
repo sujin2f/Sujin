@@ -35,8 +35,8 @@
 		},
 		"phpsab.standard": ".phpcs.xml.dist",
 		"phpsab.snifferEnable": true,
-		"phpsab.executablePathCBF": "vendor/bin/phpcbf",
-		"phpsab.executablePathCS": "vendor/bin/phpcs",
+		"phpsab.executablePathCBF": "../vendor/bin/phpcbf",
+		"phpsab.executablePathCS": "../vendor/bin/phpcs",
 		"phpsab.snifferShowSources": true,
 		"[php]": {
 			"editor.defaultFormatter": "valeryanm.vscode-phpsab"
