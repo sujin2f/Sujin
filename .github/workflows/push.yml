@@ -17,10 +17,9 @@ jobs:
               uses: actions/checkout@v5
 
             - name: Yarn/Composer Install
-              uses: borales/actions-yarn@v3.0.0
               uses: php-actions/composer@v6
               with:
-                  cmd: install-modules # install dependencies
+                  cmd: npm install-modules # install dependencies
 
             - name: Lint
               uses: borales/actions-yarn@v3.0.0
