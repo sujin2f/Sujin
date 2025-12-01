@@ -4,10 +4,10 @@ services:
         image: sujin2f/next:12.0.0
         restart: always
         environment:
-            GQL_ENDPOINT_INTERNAL:
+            GQL_ENDPOINT:
             INTER_COM_SECRET:
             CRYPTO_KEY:
-            REDIS_PASSWORD:
+            REDIS_SERVER:
         ports:
             - 80:80
         networks:

@@ -20,9 +20,12 @@ import { post as getPost } from '@lib/apollo/queries/wordpress/posts/post'
 /* Utils */
 import { getThumbnailFromPost } from '@lib/utils/client'
 import { redisCachedRequest } from '@lib/apollo/queries/GQLRequest'
+import { prevNext } from '@lib/apollo/queries/wordpress/posts/prevNext'
+import { related } from '@lib/apollo/queries/wordpress/posts/related'
 import { updateHits } from '@lib/apollo/queries/wordpress/archives/updateHits'
 /* T_Types */
 import type { T_Post } from '@sujin/lib/types'
+import { recent } from '@lib/apollo/queries/wordpress/posts/recent'
 
 type Props = {
     params: Promise<{
@@ -76,6 +79,25 @@ export default async function PostPage(props: Props) {
         tags.forEach((tag) => updateHits(tag.slug))
     }
 
+    async function requestPrevNext() {
+        'use server'
+        return await redisCachedRequest(async () => await prevNext(slug), {
+            key: `${COLLECTION.POST}-${slug}-prevNext`,
+        }).catch(() => [])
+    }
+    async function requestRelated() {
+        'use server'
+        return await redisCachedRequest(async () => await related(slug), {
+            key: `${COLLECTION.POST}-${slug}-related`,
+        }).catch(() => [])
+    }
+    async function requestRecent() {
+        'use server'
+        return await redisCachedRequest(async () => await recent(), {
+            key: `${COLLECTION.POST}-recent`,
+        }).catch(() => [])
+    }
+
     return (
         <>
             <Banner
@@ -91,13 +113,13 @@ export default async function PostPage(props: Props) {
                     <Content post={post} type="post">
                         <Tags items={tags} />
                         <SocialShare title={post.title} excerpt={post.excerpt} thumbnail={thumbnail} />
-                        <PrevNextPost slug={slug} />
-                        <RelatedPosts slug={slug} />
+                        <PrevNextPost action={requestPrevNext} />
+                        <RelatedPosts action={requestRelated} />
                     </Content>
                 </Column>
 
                 <Column small={12} large={3} className="layout__article__right" dom="aside">
-                    <RecentPosts id={post.id} />
+                    <RecentPosts id={post.id} action={requestRecent} />
                     <GoogleAdvert responsive place="sidebar" />
                 </Column>
             </Row>

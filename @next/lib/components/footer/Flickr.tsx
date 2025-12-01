@@ -1,6 +1,5 @@
 'use client'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { useQuery } from '@apollo/client/react'
 import { useDispatch, useSelector } from 'react-redux'
 /* Components */
 import { Card } from '@common/components/containers/Card'
@@ -9,15 +8,18 @@ import Row from '@common/components/layout/Row'
 import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
 /* Utils */
 import useIntersectionObserver from '@common/hooks/useIntersectionObserver'
+import { useServerAction } from '@lib/hooks/useServerAction'
 /* Store */
 import { setFlickr } from '@lib/store/slices/flickr'
 import { RootState } from '@lib/store'
 /* T_Type */
 import type { T_FlickrImage } from '@sujin/lib/types'
-/* CONSTANTS */
-import FLICKR_QUERY from '@lib/apollo/queries/misc/flickr.graphql'
 
-const Flickr = () => {
+type Props = {
+    readonly action: () => Promise<T_FlickrImage[]>
+}
+
+const Flickr = ({ action }: Props) => {
     // Redux store
     const flickr = useSelector((state: RootState) => state.flickr)
     const dispatch = useDispatch()
@@ -26,13 +28,12 @@ const Flickr = () => {
     // Read from GraphQL with Intersection Observer & update store
     const ref = useRef(null)
     const [skip, setSkip] = useState(true)
-    const { loading, error, data } = useQuery<{ flickr: T_FlickrImage[] }>(
-        FLICKR_QUERY,
-        { skip: skip || hasStore },
-    )
+    // Read from GraphQL
+    const { loading, error, data } = useServerAction(action, skip || hasStore)
+
     useEffect(() => {
-        if (!hasStore && data && data.flickr.length) {
-            dispatch(setFlickr(data.flickr))
+        if (!hasStore && data && data.length) {
+            dispatch(setFlickr(data))
         }
     }, [data, hasStore, dispatch])
     useIntersectionObserver(ref, async () => {
@@ -46,16 +47,7 @@ const Flickr = () => {
 
     return (
         <section className="widget--flickr" ref={ref}>
-            {loading && (
-                <LoadingArchive
-                    className="flickr"
-                    counts={12}
-                    large={3}
-                    medium={4}
-                    small={3}
-                    fullWidth
-                />
-            )}
+            {loading && <LoadingArchive className="flickr" counts={12} large={3} medium={4} small={3} fullWidth />}
             <Row fullWidth>
                 {flickr.slice(0, 12).map((item) => (
                     <Column
@@ -65,11 +57,7 @@ const Flickr = () => {
                         medium={4}
                         small={3}
                     >
-                        <Card
-                            to={item.link}
-                            title={item.title}
-                            image={item.media.replace('_m.jpg', '_s.jpg')}
-                        />
+                        <Card to={item.link} title={item.title} image={item.media.replace('_m.jpg', '_s.jpg')} />
                     </Column>
                 ))}
             </Row>

@@ -4,7 +4,7 @@ import { Logger } from '@sujin/share/model/Logger'
 /* CONSTANTS */
 import { DAY_IN_SECONDS } from '@sujin/share/constants/datetime'
 /* Utils */
-import { getClient } from '@lib/redis'
+import { getClient } from '@lib/utils/redis'
 
 type redisCacheOption = {
     ttl?: number

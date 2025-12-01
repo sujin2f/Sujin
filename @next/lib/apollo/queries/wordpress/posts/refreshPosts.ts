@@ -2,7 +2,7 @@
 /* Models */
 import { client } from '@lib/apollo/apollo-client-server'
 /* Utils */
-import { removeCache } from '@lib/redis'
+import { removeCache } from '@lib/utils/redis'
 import { getAuthHeader } from '@lib/utils/server/header'
 /* CONSTANTS */
 import { COLLECTION } from '@sujin/lib/constants'

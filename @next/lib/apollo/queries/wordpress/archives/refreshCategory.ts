@@ -3,7 +3,7 @@
 import { client } from '@lib/apollo/apollo-client-server'
 /* Utils */
 import { getAuthHeader } from '@lib/utils/server/header'
-import { removeCache } from '@lib/redis'
+import { removeCache } from '@lib/utils/redis'
 /* CONSTANTS */
 import MUTATION from '@lib/apollo/queries/wordpress/archives/refreshCategory.graphql'
 import { ARCHIVE, COLLECTION } from '@sujin/lib/constants'

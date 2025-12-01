@@ -2,7 +2,7 @@
 /* Utils */
 import { client } from '@lib/apollo/apollo-client-server'
 import { getAuthHeader } from '@lib/utils/server/header'
-import { removeCache } from '@lib/redis'
+import { removeCache } from '@lib/utils/redis'
 /* CONSTANTS */
 import RECIPE_CREATE from '@lib/apollo/queries/recipes/createRecipe.graphql'
 import { COLLECTION } from '@sujin/lib/constants'

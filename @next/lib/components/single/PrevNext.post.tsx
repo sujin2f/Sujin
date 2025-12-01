@@ -1,27 +1,22 @@
 'use client'
 import React, { useRef, useState } from 'react'
-import { useQuery } from '@apollo/client/react'
 /* Components */
 import { PrevNext } from '@lib/components/single/PrevNext'
 /* Utils */
-import { client } from '@lib/apollo/apollo-client-frontend'
 import useIntersectionObserver from '@common/hooks/useIntersectionObserver'
+import { useServerAction } from '@lib/hooks/useServerAction'
 /* T_Type */
 import type { T_PrevNext } from '@sujin/lib/types'
-/* CONSTANTS */
-import PREV_NEXT_QUERY from '@lib/apollo/queries/wordpress/posts/prevNext.graphql'
 
 type Props = {
-    slug: string
+    readonly action: () => Promise<T_PrevNext[]>
 }
 
-export const PrevNextPost = ({ slug }: Props) => {
+export const PrevNextPost = ({ action }: Props) => {
     const ref = useRef(null)
     const [skip, setSkip] = useState(true)
-    const { loading, error, data } = useQuery<{ prevNext: T_PrevNext[] }>(
-        PREV_NEXT_QUERY,
-        { skip, client, variables: { slug } },
-    )
+    // Read from GraphQL
+    const { loading, error, data } = useServerAction(action, skip)
     useIntersectionObserver(ref, async () => {
         setSkip(false)
     })
@@ -30,7 +25,7 @@ export const PrevNextPost = ({ slug }: Props) => {
         return <div ref={ref} />
     }
 
-    const [prev, next] = data?.prevNext
+    const [prev, next] = data
     if (!prev && !next) return <></>
     return <PrevNext prev={prev} next={next} />
 }

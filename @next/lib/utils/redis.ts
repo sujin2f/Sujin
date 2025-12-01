@@ -2,7 +2,7 @@
 import { createClient } from 'redis'
 
 declare global {
-    var redis: Awaited<ReturnType<typeof connect>> | null
+    var redis: Awaited<ReturnType<typeof connect>> | void
 }
 
 export const getClient = async () => {
@@ -15,8 +15,11 @@ export const getClient = async () => {
 }
 
 const connect = async () => {
+    if (!process.env.REDIS_SERVER) {
+        return
+    }
     return await createClient({
-        url: 'redis://:eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81@localhost:6379',
+        url: `redis://${process.env.REDIS_SERVER}`,
     }).connect()
 }
 
@@ -37,7 +40,6 @@ export const removeCache = async (...keys: (string | number)[]): Promise<void> =
 
     const match = await redis.keys(`@next-${keys.join('-')}*`)
     for await (const key of match) {
-        console.log(key)
         await redis.del(key)
     }
 }

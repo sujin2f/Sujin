@@ -7,7 +7,6 @@ import type { Metadata } from 'next'
 /* CONSTANTS */
 import { BASE_URL, DEFAULT_THUMBNAIL } from '@lib/constants'
 /* Components */
-import { ApolloProvider } from '@lib/components/ApolloProvider'
 import { ReduxProvider } from '@lib/components/ReduxProvider'
 import Error from '@app/global-error'
 import Loading from '@app/loading'
@@ -75,13 +74,11 @@ export default async function AppLayout({ children }: PropsWithChildren) {
             <head>{adSense}</head>
             <body className={ubuntu.className}>
                 <Suspense fallback={<Loading />}>
-                    <ApolloProvider>
-                        <ReduxProvider>
-                            <UserInfoProvider user={user}>
-                                <ErrorBoundary errorComponent={Error}>{children}</ErrorBoundary>
-                            </UserInfoProvider>
-                        </ReduxProvider>
-                    </ApolloProvider>
+                    <ReduxProvider>
+                        <UserInfoProvider user={user}>
+                            <ErrorBoundary errorComponent={Error}>{children}</ErrorBoundary>
+                        </UserInfoProvider>
+                    </ReduxProvider>
                 </Suspense>
             </body>
         </html>
