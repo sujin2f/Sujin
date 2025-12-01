@@ -1,6 +1,8 @@
 import React from 'react'
 /* Components */
-import Wrapper from '@lib/components/Wrapper'
+import { Wrapper } from '@lib/components/Wrapper'
+import FixedHeader from '@lib/components/header/FixedHeader'
+import { Banner } from '@lib/components/header/Banner'
 /* CONSTANTS */
 import { MENU_NAMES } from '@sujin/lib/constants'
 /* Assets */
@@ -13,11 +15,9 @@ type Props = {
 
 export default async function Loading({ menu }: Props) {
     return (
-        <Wrapper
-            footer={false}
-            menu={menu}
-            title={<LoadingImg />}
-            style={style}
-        />
+        <Wrapper>
+            <FixedHeader menu={menu || MENU_NAMES.MAIN} />
+            <Banner title={<LoadingImg />} menu={menu || MENU_NAMES.MAIN} style={style} />
+        </Wrapper>
     )
 }

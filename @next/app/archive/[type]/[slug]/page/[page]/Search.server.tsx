@@ -2,10 +2,12 @@ import { notFound } from 'next/navigation'
 /* Models */
 import { Logger } from '@sujin/share/model/Logger'
 /* Components */
-import Wrapper from '@lib/components/Wrapper'
+import { Banner } from '@lib/components/header/Banner'
+import Row from '@common/components/layout/Row'
+import Column from '@common/components/layout/Column'
 import { Cards } from '@lib/components/archive/Cards'
 /* CONSTANTS */
-import { ARCHIVE, COLLECTION } from '@sujin/lib/constants'
+import { ARCHIVE, COLLECTION, MENU_NAMES } from '@sujin/lib/constants'
 import { search } from '@lib/apollo/queries/wordpress/posts/search'
 /* Utils */
 import { redisCachedRequest } from '@lib/apollo/queries/GQLRequest'
@@ -24,17 +26,22 @@ export async function SearchServer({ slug, page }: Props) {
     })
 
     return (
-        <Wrapper title={`Search Result: ${decodeURIComponent(slug)}`} prefix={'Search'}>
-            <Cards
-                keyPrefix={`${ARCHIVE.SEARCH}-${slug}-${page}`}
-                posts={posts}
-                listKey="items"
-                page={page}
-                pageURLPrefix={`/${ARCHIVE.SEARCH}/${slug}/page`}
-                large={4}
-                medium={6}
-                small={12}
-            />
-        </Wrapper>
+        <>
+            <Banner menu={MENU_NAMES.MAIN} title={`Search Result: ${decodeURIComponent(slug)}`} prefix={'Search'} />
+            <Row>
+                <Column>
+                    <Cards
+                        keyPrefix={`${ARCHIVE.SEARCH}-${slug}-${page}`}
+                        posts={posts}
+                        listKey="items"
+                        page={page}
+                        pageURLPrefix={`/${ARCHIVE.SEARCH}/${slug}/page`}
+                        large={4}
+                        medium={6}
+                        small={12}
+                    />
+                </Column>
+            </Row>
+        </>
     )
 }

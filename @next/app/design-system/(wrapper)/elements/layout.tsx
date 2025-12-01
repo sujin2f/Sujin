@@ -1,13 +1,11 @@
 import type { PropsWithChildren } from 'react'
 import type { Metadata } from 'next'
 /* Components */
-import { Wrapper } from '@lib/components/Wrapper'
-import { Footer } from '@lib/components/footer'
-import FixedHeader from '@lib/components/header/FixedHeader'
+import { Banner } from '@lib/components/header/Banner'
+import Row from '@common/components/layout/Row'
+import Column from '@common/components/layout/Column'
 /* CONSTANTS */
 import { MENU_NAMES } from '@sujin/lib/constants'
-/* Assets */
-import './layout.scss'
 
 export const metadata: Metadata = {
     robots: {
@@ -23,10 +21,13 @@ export const metadata: Metadata = {
  */
 export default async function Layout({ children }: PropsWithChildren) {
     return (
-        <Wrapper>
-            <FixedHeader menu={MENU_NAMES.DESIGN_SYSTEM} />
-            {children}
-            <Footer />
-        </Wrapper>
+        <>
+            <Banner title="HTML Elements" prefix="Design System" menu={MENU_NAMES.DESIGN_SYSTEM} />
+            <Row>
+                <Column small={12}>
+                    <article>{children}</article>
+                </Column>
+            </Row>
+        </>
     )
 }

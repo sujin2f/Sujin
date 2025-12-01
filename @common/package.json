@@ -10,7 +10,6 @@
         "lint": "eslint ./src/**/*.ts"
     },
     "dependencies": {
-        "node-cache": "^5.1.2",
         "winston": "^3.18.3"
     },
     "devDependencies": {

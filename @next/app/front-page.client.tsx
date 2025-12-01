@@ -2,7 +2,7 @@
 import React, { useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 /* Components */
-import { WrapperNew } from '@lib/components/WrapperNew'
+import { Wrapper } from '@lib/components/Wrapper'
 import { Main } from '@lib/components/Main'
 import FixedHeader from '@lib/components/header/FixedHeader'
 import { Banner } from '@lib/components/header/Banner'
@@ -43,7 +43,7 @@ export function FrontPageClient({ action, title, description }: Props) {
     const background = backgrounds[Math.floor(Math.random() * backgrounds.length)]
 
     return (
-        <WrapperNew style={style} className={style.wrapper}>
+        <Wrapper style={style} className={style.wrapper}>
             <FixedHeader menu={MENU_NAMES.MAIN} style={style} />
 
             <Main style={style}>
@@ -55,6 +55,6 @@ export function FrontPageClient({ action, title, description }: Props) {
                     title={<Logo aria-label={title} className="banner__logo" />}
                 />
             </Main>
-        </WrapperNew>
+        </Wrapper>
     )
 }

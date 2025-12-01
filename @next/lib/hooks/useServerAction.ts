@@ -3,7 +3,7 @@ import type { Nullable } from '@sujin/share/types'
 
 export const useServerAction = <T>(action: () => Promise<T>, skip: boolean = false) => {
     const [data, setData] = useState<Nullable<T>>()
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(!skip)
     const [error, setError] = useState(false)
 
     useEffect(() => {

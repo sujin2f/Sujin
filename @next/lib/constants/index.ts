@@ -365,11 +365,6 @@ export const MENUS: Record<MENU_NAMES, MenuItem[]> = {
         },
         {
             ...menuFixture,
-            title: 'Loading',
-            link: '/design-system/pages/loading',
-        },
-        {
-            ...menuFixture,
             title: 'Not Found',
             link: '/design-system/pages/not-found',
         },

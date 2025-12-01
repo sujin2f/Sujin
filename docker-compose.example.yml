@@ -84,3 +84,6 @@ networks:
     sujin_redis:
         external: true
         internal: true
+    sujin_graphql:
+        external: true
+        internal: true

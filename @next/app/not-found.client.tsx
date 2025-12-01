@@ -5,11 +5,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@lib/store'
 /* Components */
 import { Cards } from '@lib/components/archive/Cards'
-import Wrapper from '@lib/components/Wrapper'
 import { WidgetTitle } from '@lib/components/WidgetTitle'
 import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
 /* CONSTANTS */
-import { MENU_NAMES, PER_PAGE } from '@sujin/lib/constants'
+import { PER_PAGE } from '@sujin/lib/constants'
 /* Utils */
 import { setRecent } from '@lib/store/slices/recent'
 import { useServerAction } from '@lib/hooks/useServerAction'
@@ -45,11 +44,7 @@ export const NotFoundClient = ({ action }: Props) => {
     }
 
     return (
-        <Wrapper
-            title="404 Not Found"
-            excerpt="We cannot find the result. See below for recent articles."
-            menu={MENU_NAMES.MAIN}
-        >
+        <>
             <WidgetTitle>Recent Posts</WidgetTitle>
             <Cards
                 posts={{
@@ -62,6 +57,6 @@ export const NotFoundClient = ({ action }: Props) => {
                 medium={6}
                 small={12}
             />
-        </Wrapper>
+        </>
     )
 }

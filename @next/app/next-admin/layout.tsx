@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import type { PropsWithChildren } from 'react'
 /* Components */
-import { WrapperNew } from '@lib/components/WrapperNew'
+import { Wrapper } from '@lib/components/Wrapper'
 import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
 import Menu from '@common/components/layout/Menu'
@@ -30,7 +30,7 @@ export default async function AdminLayout({ children }: PropsWithChildren) {
     if (!(await isAdmin())) notFound()
 
     return (
-        <WrapperNew style={style} className={style.wrapper}>
+        <Wrapper style={style} className={style.wrapper}>
             <FixedHeader menu={MENU_NAMES.MAIN} />
             <Row>
                 <Column small={2}>
@@ -72,6 +72,6 @@ export default async function AdminLayout({ children }: PropsWithChildren) {
                 <Column small={10}>{children}</Column>
             </Row>
             <Footer />
-        </WrapperNew>
+        </Wrapper>
     )
 }
