@@ -3,8 +3,6 @@ import React from 'react'
 import { usePathname } from 'next/navigation'
 /* Components */
 import Button from '@common/components/forms/Button'
-/* Helpers */
-import { BASE_URL } from '@lib/constants'
 /* Assets */
 import Twitter from '@common/images/twitter.svg'
 import Facebook from '@common/images/facebook.svg'
@@ -15,10 +13,11 @@ type Props = {
     title: string
     excerpt: string
     thumbnail: string
+    baseUrl: string
 }
 
-export const SocialShare = ({ title, excerpt, thumbnail }: Props) => {
-    const path = `${BASE_URL}${usePathname()}`
+export const SocialShare = ({ title, excerpt, thumbnail, baseUrl }: Props) => {
+    const path = `${baseUrl}${usePathname()}`
 
     return (
         <nav className="social-share">
@@ -52,12 +51,7 @@ const shareTwitter = (path: string, text: string): void => {
     window.open(url, 'Twitter', getNewWindowFeatures())
 }
 
-const shareFacebook = (
-    path: string,
-    title: string,
-    excerpt: string,
-    thumbnail: string,
-): void => {
+const shareFacebook = (path: string, title: string, excerpt: string, thumbnail: string): void => {
     const url = addQueryArgs(FACEBOOK_SHARE, {
         u: path,
         picture: thumbnail,

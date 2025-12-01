@@ -16,5 +16,11 @@ export default async function FrontPage() {
         }).catch(() => [])
     }
 
-    return <FrontPageClient action={action} />
+    return (
+        <FrontPageClient
+            action={action}
+            title={`${process.env.SITE_NAME}`}
+            description={`${process.env.SITE_DESCRIPTION}`}
+        />
+    )
 }

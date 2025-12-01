@@ -33,7 +33,12 @@ export const Footer = async () => {
         <footer className="footer">
             <Row className="footer__top" dom="aside">
                 <Column dom="section" medium={4} small={12}>
-                    <GoogleAdvert responsive place="footer" />
+                    <GoogleAdvert
+                        responsive
+                        place="footer"
+                        clientId={`${process.env.GOOGLE_AD_CLIENT}`}
+                        slot={`${process.env.GOOGLE_AD_SLOT_FOOTER}`}
+                    />
                 </Column>
 
                 <Column dom="section" medium={4} small={12}>

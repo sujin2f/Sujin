@@ -4,8 +4,7 @@ import { HOUR_IN_SECONDS } from '@sujin/share/constants/datetime'
 import { IS_DEV } from '@sujin/share/constants/helper'
 import type { MenuItem } from '@sujin/lib/types/menu'
 
-export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
-export const DEFAULT_THUMBNAIL = `${BASE_URL}/assets/thumbnail.png`
+export const DEFAULT_THUMBNAIL = `/assets/thumbnail.png`
 export const PER_PAGE = 12
 
 export type Metadata = {
@@ -20,7 +19,7 @@ export const METADATA: Record<string, Metadata> = {
         description: 'Convert a string into many cases.',
         keywords: ['Next.js', 'React', 'JavaScript', 'TypeScript', 'Express'],
         openGraph: {
-            url: `${BASE_URL}/dev-tools/case`,
+            url: `/dev-tools/case`,
         },
     },
     '/dev-tools/text-sort': {
@@ -28,7 +27,7 @@ export const METADATA: Record<string, Metadata> = {
         description: 'Text sorting tool',
         keywords: ['Next.js', 'React', 'JavaScript', 'TypeScript', 'Express'],
         openGraph: {
-            url: `${BASE_URL}/dev-tools/text-sort`,
+            url: `/dev-tools/text-sort`,
         },
     },
     '/ether/kor': {
@@ -36,7 +35,7 @@ export const METADATA: Record<string, Metadata> = {
         description: '물질의 공간성과 시간성에 대한 가설',
         keywords: ['Quantum Physics', 'Theory', 'Hypothesis'],
         openGraph: {
-            url: `${BASE_URL}/ether/kor`,
+            url: `/ether/kor`,
         },
     },
     '/ether/kor/document/hypothesis': {
@@ -44,7 +43,7 @@ export const METADATA: Record<string, Metadata> = {
         description: 'Brief History of the Study',
         keywords: ['Quantum Physics', 'Theory', 'Hypothesis'],
         openGraph: {
-            url: `${BASE_URL}/ether/kor/document/hypothesis`,
+            url: `/ether/kor/document/hypothesis`,
         },
     },
     '/ether/kor/document/classic-physics': {
@@ -52,7 +51,7 @@ export const METADATA: Record<string, Metadata> = {
         description: '보어의 원자 모형에 기초한 광자-에테르의 방출 파장',
         keywords: ['Quantum Physics', 'Theory', 'Hypothesis'],
         openGraph: {
-            url: `${BASE_URL}/ether/kor/document/classic-physics`,
+            url: `/ether/kor/document/classic-physics`,
         },
     },
     '/ether/kor/document/rydberg-formula': {
@@ -60,7 +59,7 @@ export const METADATA: Record<string, Metadata> = {
         description: '다전자원자에서 뤼드베리 방정식 적용',
         keywords: ['Quantum Physics', 'Theory', 'Hypothesis'],
         openGraph: {
-            url: `${BASE_URL}/ether/kor/document/rydberg-formula`,
+            url: `/ether/kor/document/rydberg-formula`,
         },
     },
     '/ether/kor/document/analysis': {
@@ -68,7 +67,7 @@ export const METADATA: Record<string, Metadata> = {
         description: '관측값과의 비교',
         keywords: ['Quantum Physics', 'Theory', 'Hypothesis'],
         openGraph: {
-            url: `${BASE_URL}/ether/kor/document/analysis`,
+            url: `/ether/kor/document/analysis`,
         },
     },
     '/ether/kor/document/between': {
@@ -76,7 +75,7 @@ export const METADATA: Record<string, Metadata> = {
         description: '오차 보정',
         keywords: ['Quantum Physics', 'Theory', 'Hypothesis'],
         openGraph: {
-            url: `${BASE_URL}/ether/kor/document/between`,
+            url: `/ether/kor/document/between`,
         },
     },
     '/ether/kor/document/conclusion': {
@@ -84,7 +83,7 @@ export const METADATA: Record<string, Metadata> = {
         description: '결론과 후속 연구',
         keywords: ['Quantum Physics', 'Theory', 'Hypothesis'],
         openGraph: {
-            url: `${BASE_URL}/ether/kor/document/conclusion`,
+            url: `/ether/kor/document/conclusion`,
         },
     },
     '/ether': {
@@ -92,7 +91,7 @@ export const METADATA: Record<string, Metadata> = {
         description: 'Hypothesis on the Spatial and Temporal Aspects of Matter',
         keywords: ['Quantum Physics', 'Theory', 'Hypothesis'],
         openGraph: {
-            url: `${BASE_URL}/ether`,
+            url: `/ether`,
         },
     },
     '/ether/document/hypothesis': {
@@ -100,7 +99,7 @@ export const METADATA: Record<string, Metadata> = {
         description: 'Brief History of the Study',
         keywords: ['Quantum Physics', 'Theory', 'Hypothesis'],
         openGraph: {
-            url: `${BASE_URL}/ether/document/hypothesis`,
+            url: `/ether/document/hypothesis`,
         },
     },
     '/ether/document/classic-physics': {
@@ -108,7 +107,7 @@ export const METADATA: Record<string, Metadata> = {
         description: "Ether from Bohr's Atomic Model",
         keywords: ['Quantum Physics', 'Theory', 'Hypothesis'],
         openGraph: {
-            url: `${BASE_URL}/ether/document/classic-physics`,
+            url: `/ether/document/classic-physics`,
         },
     },
     '/ether/document/rydberg-formula': {
@@ -116,7 +115,7 @@ export const METADATA: Record<string, Metadata> = {
         description: 'Rydberg Formula for Multi Electron Atoms',
         keywords: ['Quantum Physics', 'Theory', 'Hypothesis'],
         openGraph: {
-            url: `${BASE_URL}/ether/document/rydberg-formula`,
+            url: `/ether/document/rydberg-formula`,
         },
     },
     '/ether/document/analysis': {
@@ -124,7 +123,7 @@ export const METADATA: Record<string, Metadata> = {
         description: 'Comparing with Actual Data',
         keywords: ['Quantum Physics', 'Theory', 'Hypothesis'],
         openGraph: {
-            url: `${BASE_URL}/ether/document/analysis`,
+            url: `/ether/document/analysis`,
         },
     },
     '/ether/document/between': {
@@ -132,7 +131,7 @@ export const METADATA: Record<string, Metadata> = {
         description: 'Minimizing Margin',
         keywords: ['Quantum Physics', 'Theory', 'Hypothesis'],
         openGraph: {
-            url: `${BASE_URL}/ether/document/between`,
+            url: `/ether/document/between`,
         },
     },
     '/ether/document/conclusion': {
@@ -140,7 +139,7 @@ export const METADATA: Record<string, Metadata> = {
         description: 'For Further Study',
         keywords: ['Quantum Physics', 'Theory', 'Hypothesis'],
         openGraph: {
-            url: `${BASE_URL}/ether/document/conclusion`,
+            url: `/ether/document/conclusion`,
         },
     },
 }

@@ -21,10 +21,12 @@ import style from './front-page.module.scss'
 
 type Props = {
     readonly action: () => Promise<T_Background[]>
+    readonly title: string
+    readonly description: string
 }
 
 // TODO height transition start/stop
-export function FrontPageClient({ action }: Props) {
+export function FrontPageClient({ action, title, description }: Props) {
     // Redux store
     const backgrounds = useSelector((state: RootState) => state.background)
     const dispatch = useDispatch()
@@ -49,8 +51,8 @@ export function FrontPageClient({ action }: Props) {
                     menu={MENU_NAMES.MAIN}
                     background={background}
                     style={style}
-                    excerpt={process.env.NEXT_PUBLIC_EXCERPT}
-                    title={<Logo aria-label={process.env.NEXT_PUBLIC_TITLE} className="banner__logo" />}
+                    excerpt={description}
+                    title={<Logo aria-label={title} className="banner__logo" />}
                 />
             </Main>
         </WrapperNew>

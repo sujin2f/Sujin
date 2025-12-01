@@ -14,7 +14,6 @@ import Column from '@common/components/layout/Column'
 import { Content } from '@lib/components/single/Content'
 import { GoogleAdvert } from '@common/components/GoogleAdvert'
 /* CONSTANTS */
-import { BASE_URL } from '@lib/constants'
 import { MENU_NAMES, IMAGE_SIZE, COLLECTION, POST_STATUS } from '@sujin/lib/constants'
 import { post as getPost } from '@lib/apollo/queries/wordpress/posts/post'
 /* Utils */
@@ -45,7 +44,7 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
         return {}
     }
 
-    const url = `${BASE_URL}/blog/${slug}`
+    const url = `${process.env.BASE_URL}/blog/${slug}`
     const images = getThumbnailFromPost(post.images, [IMAGE_SIZE.MEDIUM_LARGE])
     const keywords = post.archives.map((term) => term.title)
 
@@ -112,7 +111,12 @@ export default async function PostPage(props: Props) {
                 <Column medium={12} large={7} largeOffset={2}>
                     <Content post={post} type="post">
                         <Tags items={tags} />
-                        <SocialShare title={post.title} excerpt={post.excerpt} thumbnail={thumbnail} />
+                        <SocialShare
+                            title={post.title}
+                            excerpt={post.excerpt}
+                            thumbnail={thumbnail}
+                            baseUrl={`${process.env.BASE_URL}`}
+                        />
                         <PrevNextPost action={requestPrevNext} />
                         <RelatedPosts action={requestRelated} />
                     </Content>
@@ -120,7 +124,12 @@ export default async function PostPage(props: Props) {
 
                 <Column small={12} large={3} className="layout__article__right" dom="aside">
                     <RecentPosts id={post.id} action={requestRecent} />
-                    <GoogleAdvert responsive place="sidebar" />
+                    <GoogleAdvert
+                        responsive
+                        place="sidebar"
+                        clientId={`${process.env.GOOGLE_AD_CLIENT}`}
+                        slot={`${process.env.GOOGLE_AD_SLOT_SIDEBAR}`}
+                    />
                 </Column>
             </Row>
         </>

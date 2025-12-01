@@ -9,7 +9,6 @@ import { category as getCategory } from '@lib/apollo/queries/wordpress/archives/
 import { tag as getTag } from '@lib/apollo/queries/wordpress/archives/tag'
 /* CONSTANTS */
 import { ARCHIVE, COLLECTION } from '@sujin/lib/constants'
-import { BASE_URL } from '@lib/constants'
 
 type Props = {
     params: Promise<{
@@ -57,7 +56,7 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
             },
         }
     }
-    const url = `${BASE_URL}/archive/${type}/${slug}/page/${page}`
+    const url = `${process.env.BASE_URL}/archive/${type}/${slug}/page/${page}`
 
     return {
         title: `Sujin | ${archive.title}`,

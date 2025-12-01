@@ -7,7 +7,6 @@ import Column from '@common/components/layout/Column'
 import { SocialShare } from '@lib/components/single/SocialShare.client'
 import { Content } from '@lib/components/single/Content'
 /* CONSTANTS */
-import { BASE_URL } from '@lib/constants'
 import { COLLECTION, IMAGE_SIZE, MENU_NAMES } from '@sujin/lib/constants'
 /* Utils */
 import { page as getPage } from '@lib/apollo/queries/wordpress/pages/page'
@@ -20,7 +19,7 @@ export const metadata: Metadata = {
     title: 'About Sujin Choi',
     openGraph: {
         title: 'About Sujin Choi',
-        url: `${BASE_URL}/about`,
+        url: `${process.env.BASE_URL}/about`,
     },
 }
 
@@ -43,7 +42,12 @@ export default async function AboutPage() {
             <Row fullWidth>
                 <Column medium={12} large={6} largeOffset={3}>
                     <Content post={post} type="page">
-                        <SocialShare title={post.title} excerpt={post.excerpt} thumbnail={thumbnail} />
+                        <SocialShare
+                            title={post.title}
+                            excerpt={post.excerpt}
+                            thumbnail={thumbnail}
+                            baseUrl={`${process.env.BASE_URL}`}
+                        />
                     </Content>
                 </Column>
             </Row>

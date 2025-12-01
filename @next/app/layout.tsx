@@ -5,7 +5,7 @@ import Script from 'next/script'
 import { ErrorBoundary } from 'next/dist/client/components/error-boundary'
 import type { Metadata } from 'next'
 /* CONSTANTS */
-import { BASE_URL, DEFAULT_THUMBNAIL } from '@lib/constants'
+import { DEFAULT_THUMBNAIL } from '@lib/constants'
 /* Components */
 import { ReduxProvider } from '@lib/components/ReduxProvider'
 import Error from '@app/global-error'
@@ -26,7 +26,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
         referrer: 'origin',
         openGraph: {
             images: DEFAULT_THUMBNAIL,
-            url: BASE_URL,
+            url: process.env.BASE_URL,
             title: 'Sujin',
             siteName: 'Sujin',
         },
@@ -36,14 +36,14 @@ export const generateMetadata = async (): Promise<Metadata> => {
             nocache: true,
         },
         icons: {
-            icon: `${BASE_URL}/assets/favicon-16x16.png`,
-            shortcut: `${BASE_URL}/assets/favicon-32x32.png`,
-            apple: `${BASE_URL}/assets/favicon-32x32.png`,
+            icon: `${process.env.BASE_URL}/assets/favicon-16x16.png`,
+            shortcut: `${process.env.BASE_URL}/assets/favicon-32x32.png`,
+            apple: `${process.env.BASE_URL}/assets/favicon-32x32.png`,
         },
     }
 
-    if (BASE_URL) {
-        metadata.metadataBase = new URL(BASE_URL)
+    if (process.env.BASE_URL) {
+        metadata.metadataBase = new URL(process.env.BASE_URL)
     }
 
     return metadata
@@ -60,10 +60,10 @@ const ubuntu = Ubuntu({
  */
 export default async function AppLayout({ children }: PropsWithChildren) {
     const user = await getUserInfo().catch(() => null)
-    const adSense = process.env.NEXT_PUBLIC_GOOGLE_AD_CLIENT ? (
+    const adSense = process.env.GOOGLE_AD_CLIENT ? (
         <Script
             async
-            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_GOOGLE_AD_CLIENT}`}
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.GOOGLE_AD_CLIENT}`}
             crossOrigin="anonymous"
         ></Script>
     ) : (

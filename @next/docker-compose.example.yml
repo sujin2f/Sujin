@@ -4,7 +4,14 @@ services:
         image: sujin2f/next:12.0.0
         restart: always
         environment:
+            SITE_NAME:
+            SITE_DESCRIPTION:
+            BASE_URL:
+            GOOGLE_AD_CLIENT:
+            GOOGLE_AD_SLOT_FOOTER:
+            GOOGLE_AD_SLOT_SIDEBAR:
             GQL_ENDPOINT:
+            AUTH_ENDPOINT:
             INTER_COM_SECRET:
             CRYPTO_KEY:
             REDIS_SERVER:
