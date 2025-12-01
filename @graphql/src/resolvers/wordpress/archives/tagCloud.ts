@@ -2,10 +2,9 @@
 import { Logger } from '@sujin/share/model/Logger'
 import { Archive } from '@src/schema/archive'
 /* Utils */
-import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 import { shuffle } from '@sujin/share/utils/array'
 /* CONSTANTS */
-import { COLLECTION, ARCHIVE } from '@sujin/lib/constants'
+import { ARCHIVE } from '@sujin/lib/constants'
 import type { T_Archive } from '@sujin/lib/types'
 
 /**
@@ -16,7 +15,7 @@ import type { T_Archive } from '@sujin/lib/types'
  * rankings into a combined structure, then shuffles the result for front-end
  * consumption.
  */
-const query = async (): Promise<Partial<T_Archive>[]> => {
+export const tagCloud = async (): Promise<Partial<T_Archive>[]> => {
     const tags: Record<string, Partial<T_Archive>> = {}
 
     await Archive.find<T_Archive>({
@@ -61,17 +60,7 @@ const query = async (): Promise<Partial<T_Archive>[]> => {
                 }
             })
         })
-    return shuffle(Object.values(tags))
-}
-
-/**
- * Return a shuffled tag-cloud payload suitable for the front-end.
- *
- * This function is cached under the key `COLLECTION.ARCHIVE + 'tag-cloud'`.
- */
-export const tagCloud = async (): Promise<Partial<T_Archive>[]> => {
-    const request = cachedRequest(query, getCacheKey(COLLECTION.ARCHIVE, 'tag-cloud'))
-    const result = await request()
+    const result = shuffle(Object.values(tags))
     Logger.info('⭐️ tagCloud query has been finished')
     return result
 }

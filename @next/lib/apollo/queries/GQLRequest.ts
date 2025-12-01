@@ -5,6 +5,7 @@ import { Logger } from '@sujin/share/model/Logger'
 import { DAY_IN_SECONDS } from '@sujin/share/constants/datetime'
 /* Utils */
 import { getClient } from '@lib/utils/redis'
+import { IS_DEV } from '@sujin/share/constants/helper'
 
 type redisCacheOption = {
     ttl?: number
@@ -24,7 +25,7 @@ export const redisCachedRequest = async <T>(
     const redis = await getClient().catch((e) => {
         Logger.error(`🤬 Redis connection failed: ${JSON.stringify(e)}`)
     })
-    if (redis && key) {
+    if (redis && key && !IS_DEV) {
         const result = await redis.get(`@next-${key}`)
         if (result) {
             return JSON.parse(result)

@@ -3,13 +3,9 @@ import { Types } from 'mongoose'
 /* Models */
 import { Recipe } from '@src/schema/recipe'
 import { Logger } from '@sujin/share/model/Logger'
-import Cached from '@sujin/share/model/Cache'
 /* Utils */
-import { getCacheKey } from '@sujin/lib/utils/cache'
 import { verifyAccessToken } from '@src/utils/security'
 import { recipe as getRecipe } from '@src/resolvers/recipes/recipe'
-/* CONSTANTS */
-import { COLLECTION } from '@sujin/lib/constants'
 
 /**
  * Remove a recipe owned by the authenticated user.
@@ -33,7 +29,6 @@ export const removeRecipe = async (__id: string, token: string): Promise<string[
     if (recipe.user.toString() !== user._id) throw new Error('The recipe you are trying to remove is not yours.')
 
     await Recipe.deleteOne({ _id: new Types.ObjectId(_id) })
-    Cached.getInstance().flush(getCacheKey(COLLECTION.RECIPE))
     Logger.info('🤞 recipe removal has been finished')
     return []
 }

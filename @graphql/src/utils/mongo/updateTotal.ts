@@ -1,12 +1,9 @@
 import { Types } from 'mongoose'
 /* CONSTANTS */
-import { COLLECTION, POST_STATUS } from '@sujin/lib/constants'
-/* Utils */
-import { getCacheKey } from '@sujin/lib/utils/cache'
+import { POST_STATUS } from '@sujin/lib/constants'
 /* Models */
 import { Post } from '@src/schema/post'
 import { Archive } from '@src/schema/archive'
-import Cached from '@sujin/share/model/Cache'
 
 /**
  * Recalculate and update the total number of published posts for the given
@@ -27,6 +24,4 @@ export const updateTotal = async (_ids: Types.ObjectId[]): Promise<void> => {
         })
         await Archive.updateOne({ _id }, { $set: { total } })
     }
-
-    Cached.getInstance().flush(getCacheKey(COLLECTION.ARCHIVE, 'tag-cloud'))
 }

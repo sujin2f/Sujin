@@ -1,11 +1,9 @@
 import sanitize from 'mongo-sanitize'
 /* Models */
 import { Logger } from '@sujin/share/model/Logger'
-import Cached from '@sujin/share/model/Cache'
 /* CONSTANTS */
-import { POST_TYPE, COLLECTION } from '@sujin/lib/constants'
+import { POST_TYPE } from '@sujin/lib/constants'
 /* Utils */
-import { getCacheKey } from '@sujin/lib/utils/cache'
 import { verifyAccessToken, verifyAdmin } from '@src/utils/security'
 import { getPostBy } from '@src/utils/mysql/post'
 import { updatePost } from '@src/utils/mongo/updatePost'
@@ -41,7 +39,6 @@ export const refreshPost = async (_slug: string, token: string): Promise<boolean
         const archives = await updatePost(post)
         await updateTotal(archives)
     })
-    Cached.getInstance().flush(getCacheKey(COLLECTION.POST))
     await mysqlDisconnect()
 
     Logger.info(`🤞 refreshPost mutation done: ${slug}`)

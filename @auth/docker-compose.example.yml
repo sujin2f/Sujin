@@ -18,8 +18,12 @@ services:
             - 80:80
         networks:
             - sujin_public
+            - sujin_graphql
 
 networks:
     sujin_public:
         external: true
         internal: false
+    sujin_graphql:
+        external: true
+        internal: true

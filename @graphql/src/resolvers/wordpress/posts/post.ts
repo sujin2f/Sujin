@@ -4,10 +4,8 @@ import sanitize from 'mongo-sanitize'
 import { Logger } from '@sujin/share/model/Logger'
 import { Post } from '@src/schema/post'
 /* CONSTANTS */
-import { COLLECTION, POST_STATUS } from '@sujin/lib/constants'
+import { POST_STATUS } from '@sujin/lib/constants'
 import { AGGREGATE_EXPAND_ARCHIVES } from '@src/constants'
-/* Utils */
-import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 /* T_Types */
 import type { T_Post } from '@sujin/lib/types'
 
@@ -23,28 +21,20 @@ import type { T_Post } from '@sujin/lib/types'
  */
 export const post = async (_slug: string): Promise<T_Post> => {
     const slug = sanitize(_slug)
-
-    const request = cachedRequest(
-        async (): Promise<T_Post> => {
-            return await Post.aggregate<T_Post>([
-                {
-                    $match: { slug, status: POST_STATUS.PUBLISH },
-                },
-                ...AGGREGATE_EXPAND_ARCHIVES,
-            ]).then((result) => {
-                if (!result || !result.length) {
-                    throw new GraphQLError(`Cannot find the post ${slug}`, {
-                        extensions: {
-                            code: 'NO_CONTENT',
-                        },
-                    })
-                }
-                return result[0]
-            })
+    return await Post.aggregate<T_Post>([
+        {
+            $match: { slug, status: POST_STATUS.PUBLISH },
         },
-        getCacheKey(COLLECTION.POST, slug),
-    )
-    const result = await request()
-    Logger.info(`⭐️ post query done: ${slug}`)
-    return result
+        ...AGGREGATE_EXPAND_ARCHIVES,
+    ]).then((result) => {
+        if (!result || !result.length) {
+            throw new GraphQLError(`Cannot find the post ${slug}`, {
+                extensions: {
+                    code: 'NO_CONTENT',
+                },
+            })
+        }
+        Logger.info(`⭐️ post query done: ${slug}`)
+        return result[0]
+    })
 }

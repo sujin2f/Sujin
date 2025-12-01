@@ -3,11 +3,9 @@ import mongoose from 'mongoose'
 /* Models */
 import { Logger } from '@sujin/share/model/Logger'
 import { Post } from '@src/schema/post'
-/* Utils */
-import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 import { post as getPost } from '@src/resolvers/wordpress/posts/post'
 /* CONSTANTS */
-import { COLLECTION, ARCHIVE, POST_STATUS } from '@sujin/lib/constants'
+import { ARCHIVE, POST_STATUS } from '@sujin/lib/constants'
 /* T_Types */
 import type { T_PrevNext } from '@sujin/lib/types'
 
@@ -22,20 +20,6 @@ import type { T_PrevNext } from '@sujin/lib/types'
  */
 export const prevNext = async (_slug: string): Promise<(T_PrevNext | undefined)[]> => {
     const slug = sanitize(_slug)
-    const request = cachedRequest(query, getCacheKey(COLLECTION.POST, slug, 'prev-next'))
-    const result = await request(slug)
-    Logger.info('⭐️ prevNext query has been finished')
-    return result
-}
-
-/**
- * Internal query that finds the previous and next posts by date within the
- * same category archives as the provided post.
- *
- * @param slug - The reference post slug.
- * @returns Array with previous and next `T_Post` (may contain undefined values).
- */
-const query = async (slug: string): Promise<(T_PrevNext | undefined)[]> => {
     const post = await getPost(slug)
     const _ids = post.archives
         .filter((archive) => archive.type === ARCHIVE.CATEGORY)
@@ -71,5 +55,7 @@ const query = async (slug: string): Promise<(T_PrevNext | undefined)[]> => {
             return result[0].toObject() as unknown as T_PrevNext
         })
 
-    return [prev, next]
+    const result = [prev, next]
+    Logger.info('⭐️ prevNext query has been finished')
+    return result
 }

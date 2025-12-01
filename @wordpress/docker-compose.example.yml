@@ -30,10 +30,14 @@ services:
         networks:
             - sujin_public
             - sujin_wordpress
+            - sujin_graphql
 networks:
     sujin_public:
         external: true
         internal: false
     sujin_wordpress:
+        external: true
+        internal: true
+    sujin_graphql:
         external: true
         internal: true

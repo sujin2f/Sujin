@@ -6,11 +6,6 @@ import { Logger } from '@sujin/share/model/Logger'
 import type { T_Recipe } from '@sujin/lib/types'
 /* Utils */
 import { verifyAccessToken } from '@src/utils/security'
-import { getCacheKey } from '@sujin/lib/utils/cache'
-/* Models */
-import Cached from '@sujin/share/model/Cache'
-/* CONSTANTS */
-import { COLLECTION } from '@sujin/lib/constants'
 
 /**
  * Create a new recipe document for the authenticated user.
@@ -37,7 +32,6 @@ export const createRecipe = async (recipe: T_Recipe, token: string): Promise<str
         user: new Types.ObjectId(user._id),
         search: Array.from(search).join(' '),
     })
-    Cached.getInstance().flush(getCacheKey(COLLECTION.RECIPE))
     Logger.info('🤞 recipe mutation has been finished')
     return result._id.toString()
 }

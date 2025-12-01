@@ -2,11 +2,9 @@ import { Types } from 'mongoose'
 import sanitize from 'mongo-sanitize'
 /* Models */
 import { Logger } from '@sujin/share/model/Logger'
-import Cached from '@sujin/share/model/Cache'
 /* CONSTANTS */
-import { POST_TYPE, COLLECTION } from '@sujin/lib/constants'
+import { POST_TYPE } from '@sujin/lib/constants'
 /* Utils */
-import { getCacheKey } from '@sujin/lib/utils/cache'
 import { verifyAccessToken, verifyAdmin } from '@src/utils/security'
 import { getPosts } from '@src/utils/mysql/post'
 import { updatePost as updateMongoPost } from '@src/utils/mongo/updatePost'
@@ -42,7 +40,6 @@ export const refreshPostsAll = async (_page: number, token: string): Promise<boo
     })
     await mysqlDisconnect()
 
-    Cached.getInstance().flush(getCacheKey(COLLECTION.POST))
     Logger.info(`🤞 refreshPostsAll mutation done: ${page}`)
     return []
 }

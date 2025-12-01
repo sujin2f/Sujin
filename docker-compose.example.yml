@@ -53,7 +53,7 @@ volumes:
 # Networks:
 #   - In dev environment, put everything into sujin_public
 # sujin_public    Public network to web
-#                 @auth, @graphql, @next, @wordpress
+#                 @auth, @next, @wordpress
 #                 docker network create sujin_public.
 #
 # sujin_database  Private network for databases
@@ -64,9 +64,13 @@ volumes:
 #                 @wordpress, mysql
 #                 docker network create --internal sujin_wordpress.
 #
-# sujin_redis     Private network for Radis
+# sujin_redis     Private network for Redis
 #                 @next, redis
 #                 docker network create --internal sujin_redis.
+#
+# sujin_graphql   Private network for Graphql
+#                 @next, @auth, @wordpress, @graphql
+#                 docker network create --internal sujin_graphql.
 networks:
     sujin_public:
         external: true
