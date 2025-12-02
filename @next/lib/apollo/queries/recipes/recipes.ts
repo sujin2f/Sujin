@@ -1,7 +1,7 @@
 'server-only'
 import type { DefaultContext } from '@apollo/client'
 /* Utils */
-import { client } from '@lib/apollo/apollo-client-server'
+import { client } from '@lib/utils/apollo-client'
 /* CONSTANTS */
 import GQL_QUERY from '@lib/apollo/queries/recipes/recipes.graphql'
 /* T_Types */

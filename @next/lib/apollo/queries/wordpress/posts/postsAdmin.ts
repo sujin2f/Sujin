@@ -1,5 +1,5 @@
 'use server'
-import { client } from '@lib/apollo/apollo-client-server'
+import { client } from '@lib/utils/apollo-client'
 import GQL_QUERY from '@lib/apollo/queries/wordpress/posts/postsAdmin.graphql'
 import { getAuthHeader } from '@lib/utils/server/header'
 import type { T_ArchivePost } from '@sujin/lib/types'

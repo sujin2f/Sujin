@@ -18,7 +18,7 @@ import { MENU_NAMES, IMAGE_SIZE, COLLECTION, POST_STATUS } from '@sujin/lib/cons
 import { post as getPost } from '@lib/apollo/queries/wordpress/posts/post'
 /* Utils */
 import { getThumbnailFromPost } from '@lib/utils/client'
-import { redisCachedRequest } from '@lib/apollo/queries/GQLRequest'
+import { gqlRequest } from '@lib/utils/redis'
 import { prevNext } from '@lib/apollo/queries/wordpress/posts/prevNext'
 import { related } from '@lib/apollo/queries/wordpress/posts/related'
 import { updateHits } from '@lib/apollo/queries/wordpress/archives/updateHits'
@@ -36,7 +36,7 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
     const params = await props.params
     const slug = params.slug.toLowerCase()
 
-    const post = await redisCachedRequest<T_Post>(async () => await getPost(slug), {
+    const post = await gqlRequest<T_Post>(async () => await getPost(slug), {
         key: `${COLLECTION.POST}-${slug}`,
     }).catch(() => undefined)
 
@@ -64,7 +64,7 @@ export default async function PostPage(props: Props) {
     const params = await props.params
     const slug = params.slug.toLowerCase()
 
-    const post = await redisCachedRequest<T_Post>(async () => await getPost(slug), {
+    const post = await gqlRequest<T_Post>(async () => await getPost(slug), {
         key: `${COLLECTION.POST}-${slug}`,
     }).catch((e) => {
         Logger.error(e.message)
@@ -80,19 +80,19 @@ export default async function PostPage(props: Props) {
 
     async function requestPrevNext() {
         'use server'
-        return await redisCachedRequest(async () => await prevNext(slug), {
+        return await gqlRequest(async () => await prevNext(slug), {
             key: `${COLLECTION.POST}-${slug}-prevNext`,
         }).catch(() => [])
     }
     async function requestRelated() {
         'use server'
-        return await redisCachedRequest(async () => await related(slug), {
+        return await gqlRequest(async () => await related(slug), {
             key: `${COLLECTION.POST}-${slug}-related`,
         }).catch(() => [])
     }
     async function requestRecent() {
         'use server'
-        return await redisCachedRequest(async () => await recent(), {
+        return await gqlRequest(async () => await recent(), {
             key: `${COLLECTION.POST}-recent`,
         }).catch(() => [])
     }

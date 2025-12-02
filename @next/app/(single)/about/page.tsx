@@ -11,7 +11,7 @@ import { COLLECTION, IMAGE_SIZE, MENU_NAMES } from '@sujin/lib/constants'
 /* Utils */
 import { page as getPage } from '@lib/apollo/queries/wordpress/pages/page'
 import { getThumbnailFromPost } from '@lib/utils/client'
-import { redisCachedRequest } from '@lib/apollo/queries/GQLRequest'
+import { gqlRequest } from '@lib/utils/redis'
 /* Assets */
 import '@lib/components/single/AboutItem.scss'
 
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 }
 
 export default async function AboutPage() {
-    const post = await redisCachedRequest(async () => await getPage('about'), {
+    const post = await gqlRequest(async () => await getPage('about'), {
         key: `${COLLECTION.PAGE}-about`,
     }).catch(() => notFound())
     const thumbnail = getThumbnailFromPost(post.images, [IMAGE_SIZE.MEDIUM_LARGE])

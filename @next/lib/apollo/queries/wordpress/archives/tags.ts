@@ -1,5 +1,5 @@
 'use server'
-import { client } from '@lib/apollo/apollo-client-server'
+import { client } from '@lib/utils/apollo-client'
 import { getAuthHeader } from '@lib/utils/server/header'
 import TAG_LIST from '@lib/apollo/queries/wordpress/archives/tags.graphql'
 import type { T_Archive } from '@sujin/lib/types'

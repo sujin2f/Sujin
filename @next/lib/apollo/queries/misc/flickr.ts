@@ -1,6 +1,6 @@
 'use server'
 /* Models */
-import { client } from '@lib/apollo/apollo-client-server'
+import { client } from '@lib/utils/apollo-client'
 /* CONSTANTS */
 import QUERY from '@lib/apollo/queries/misc/flickr.graphql'
 import { IS_DEV } from '@sujin/share/constants/helper'

@@ -7,7 +7,7 @@ import FixedHeader from '@lib/components/header/FixedHeader'
 /* CONSTANTS */
 import { ARCHIVE, COLLECTION, MENU_NAMES } from '@sujin/lib/constants'
 /* Utils */
-import { redisCachedRequest } from '@lib/apollo/queries/GQLRequest'
+import { gqlRequest } from '@lib/utils/redis'
 import { category as getCategory } from '@lib/apollo/queries/wordpress/archives/category'
 import { tag as getTag } from '@lib/apollo/queries/wordpress/archives/tag'
 
@@ -41,12 +41,9 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
     }
 
     // TODO thumbnail
-    const archive = await redisCachedRequest(
-        async () => await (type === ARCHIVE.CATEGORY ? getCategory(slug) : getTag(slug)),
-        {
-            key: `${COLLECTION.ARCHIVE}-${type}-${slug}`,
-        },
-    ).catch(() => {})
+    const archive = await gqlRequest(async () => await (type === ARCHIVE.CATEGORY ? getCategory(slug) : getTag(slug)), {
+        key: `${COLLECTION.ARCHIVE}-${type}-${slug}`,
+    }).catch(() => {})
 
     if (!archive) {
         return {
