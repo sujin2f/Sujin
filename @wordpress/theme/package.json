@@ -1,13 +1,13 @@
 {
-    "name": "wp-theme",
-    "version": "11.0.0",
-    "description": "WP theme for sujinc.com.",
-    "author": "Sujin Choi",
-    "license": "GPL-2.0-or-later",
-    "homepage": "sujinc.com",
-    "scripts": {},
-    "dependencies": {},
-    "files": [
-        "[^.]*"
-    ]
+	"name": "wp-theme",
+	"version": "12.0.1",
+	"description": "WP theme for sujinc.com.",
+	"author": "Sujin Choi",
+	"license": "GPL-2.0-or-later",
+	"homepage": "sujinc.com",
+	"scripts": {},
+	"dependencies": {},
+	"files": [
+		"[^.]*"
+	]
 }

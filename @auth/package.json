@@ -1,6 +1,6 @@
 {
     "name": "sujin-auth",
-    "version": "12.0.0-beta.2",
+    "version": "12.0.1-prod.1",
     "main": "src/server.ts",
     "author": "Sujin Choi",
     "license": "MIT",
