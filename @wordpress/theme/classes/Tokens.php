@@ -78,8 +78,11 @@ class Tokens {
 		);
 		$context  = stream_context_create( $options );
 		$endpoint = getenv_docker( 'GQL_ENDPOINT', '' );
-		file_get_contents( $endpoint, true, $context );
+		$response = file_get_contents( $endpoint, true, $context );
 
+		if ( ! $response || ! $http_response_header ) {
+			return;
+		}
 		foreach ( $http_response_header as $header ) {
 			if ( str_starts_with( $header, 'authorization: Bearer ' ) ) {
 				$token   = substr( $header, 22 );
@@ -128,8 +131,11 @@ class Tokens {
 		);
 		$context  = stream_context_create( $options );
 		$endpoint = getenv_docker( 'GQL_ENDPOINT', '' );
-		file_get_contents( $endpoint, true, $context );
+		$response = file_get_contents( $endpoint, true, $context );
 
+		if ( ! $response || ! $http_response_header ) {
+			return;
+		}
 		foreach ( $http_response_header as $header ) {
 			if ( str_starts_with( $header, 'authorization: Bearer ' ) ) {
 				$_SESSION[ self::ACCESS ] = substr( $header, 22 );

@@ -10,6 +10,7 @@
 namespace Sujin\Theme;
 
 use Sujin\Theme\Tokens;
+use Sujin\Theme\Redis;
 use GraphQL\Client;
 use GraphQL\Mutation;
 use GraphQL\Variable;
@@ -57,7 +58,8 @@ class Term {
 				array( 'slug' => $slug )
 			);
 
-			// TODO remove @next cache.
+			$redis = new Redis();
+			$redis->del( "archives-category-{$slug}" );
 		} catch ( \Exception $_ ) {
 			if ( 1 === $attempt ) {
 				Tokens::refresh_token();

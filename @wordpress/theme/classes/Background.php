@@ -10,6 +10,7 @@
 namespace Sujin\Theme;
 
 use Sujin\Theme\Tokens;
+use Sujin\Theme\Redis;
 use GraphQL\Client;
 use GraphQL\Mutation;
 
@@ -51,7 +52,8 @@ class Background {
 
 		try {
 			$client->runQuery( $gql );
-			// TODO remove @next cache.
+			$redis = new Redis();
+			$redis->del( 'backgrounds' );
 		} catch ( \Exception $_ ) {
 			if ( 1 === $attempt ) {
 				Tokens::refresh_token();
