@@ -8,7 +8,7 @@
         "start": "node .build/bundle.js",
         "dev": "concurrently \"yarn dev:webpack\" \"yarn dev:nodemon\"",
         "dev:webpack": "cross-env NODE_ENV=development webpack --watch",
-        "dev:nodemon": "cross-env NODE_ENV=development node --env-file=.env --watch .build/bundle.js",
+        "dev:nodemon": "cross-env NODE_ENV=development node --env-file=../.env --watch .build/bundle.js",
         "package": "cross-env rimraf internal_modules temp && node ./package.mjs",
         "lint": "eslint ./src/**/*.ts",
         "test": "jest --no-cache --forceExit --coverage"

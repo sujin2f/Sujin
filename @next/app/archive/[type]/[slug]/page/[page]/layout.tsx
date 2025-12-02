@@ -54,7 +54,7 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
             },
         }
     }
-    const url = `${process.env.BASE_URL}/archive/${type}/${slug}/page/${page}`
+    const url = `${process.env.NEXT_BASE_URL}/archive/${type}/${slug}/page/${page}`
 
     return {
         title: `Sujin | ${archive.title}`,

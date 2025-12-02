@@ -8,7 +8,7 @@
  */
 
 // Redirect to @next.
-$next = getenv_docker( 'NEXT_ENDPOINT', '' );
+$next = getenv_docker( 'NEXT_BASE_URL', '' );
 if ( ! $next ) {
 	return;
 }

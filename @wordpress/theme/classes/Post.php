@@ -88,7 +88,7 @@ class Post {
 			return;
 		}
 
-		$client = new Client( getenv_docker( 'GQL_ENDPOINT', '' ), array( 'authorization' => 'Bearer ' . Tokens::get_token() ) );
+		$client = new Client( getenv_docker( 'GQL_BASE_URL', '' ), array( 'authorization' => 'Bearer ' . Tokens::get_token() ) );
 		$gql    = ( new Mutation( $query ) )
 			->setVariables( array( new Variable( 'slug', 'String', true ) ) )
 			->setArguments( array( 'slug' => '$slug' ) );

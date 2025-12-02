@@ -4,11 +4,6 @@ import util from 'util';
 config();
 const execPromise = util.promisify(exec);
 
-const files = {
-	env: '.env',
-	package: 'package.json',
-};
-
 // Version
 const VERSION = process.env.npm_package_version;
 

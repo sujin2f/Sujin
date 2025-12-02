@@ -11,7 +11,7 @@ export const refresh = async (): Promise<undefined> => {
         throw new Error()
     }
 
-    const endpoint = `${process.env.GQL_ENDPOINT}`
+    const endpoint = `${process.env.GQL_BASE_URL}`
     const body = {
         query: `
         mutation {

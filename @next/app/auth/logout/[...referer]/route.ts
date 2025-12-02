@@ -6,7 +6,7 @@ import { Logger } from '@sujin/share/model/Logger'
 
 const redirect = (url: URL) => {
     const pathname = url.pathname.replace('/auth/logout', '')
-    return Response.redirect(`${process.env.BASE_URL}${pathname === '/root' ? '/' : pathname}`)
+    return Response.redirect(`${process.env.NEXT_BASE_URL}${pathname === '/root' ? '/' : pathname}`)
 }
 
 export async function GET(request: NextRequest) {

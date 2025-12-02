@@ -77,7 +77,7 @@ class Tokens {
 			),
 		);
 		$context  = stream_context_create( $options );
-		$endpoint = getenv_docker( 'GQL_ENDPOINT', '' );
+		$endpoint = getenv_docker( 'GQL_BASE_URL', '' );
 		$response = file_get_contents( $endpoint, true, $context );
 
 		if ( ! $response || ! $http_response_header ) {
@@ -130,7 +130,7 @@ class Tokens {
 			),
 		);
 		$context  = stream_context_create( $options );
-		$endpoint = getenv_docker( 'GQL_ENDPOINT', '' );
+		$endpoint = getenv_docker( 'GQL_BASE_URL', '' );
 		$response = file_get_contents( $endpoint, true, $context );
 
 		if ( ! $response || ! $http_response_header ) {

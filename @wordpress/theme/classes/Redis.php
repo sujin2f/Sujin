@@ -25,11 +25,11 @@ class Redis {
 	 * Constructor
 	 */
 	public function __construct() {
-		$password = getenv_docker( 'REDIS_PASSWORD', '' );
-		if ( ! $password ) {
+		$endpoint = getenv_docker( 'REDIS_ENDPOINT', '' );
+		if ( ! $endpoint ) {
 			return;
 		}
-		$this->redis = new RedisClient( "redis://:{$password}@sujin_redis:6379" );
+		$this->redis = new RedisClient( "redis://{$endpoint}" );
 	}
 
 	/**

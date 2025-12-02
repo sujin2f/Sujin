@@ -44,7 +44,7 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
         return {}
     }
 
-    const url = `${process.env.BASE_URL}/blog/${slug}`
+    const url = `${process.env.NEXT_BASE_URL}/blog/${slug}`
     const images = getThumbnailFromPost(post.images, [IMAGE_SIZE.MEDIUM_LARGE])
     const keywords = post.archives.map((term) => term.title)
 
@@ -115,7 +115,7 @@ export default async function PostPage(props: Props) {
                             title={post.title}
                             excerpt={post.excerpt}
                             thumbnail={thumbnail}
-                            baseUrl={`${process.env.BASE_URL}`}
+                            baseUrl={`${process.env.NEXT_BASE_URL}`}
                         />
                         <PrevNextPost action={requestPrevNext} />
                         <RelatedPosts action={requestRelated} />

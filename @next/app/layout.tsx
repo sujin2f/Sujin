@@ -26,7 +26,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
         referrer: 'origin',
         openGraph: {
             images: DEFAULT_THUMBNAIL,
-            url: process.env.BASE_URL,
+            url: process.env.NEXT_BASE_URL,
             title: 'Sujin',
             siteName: 'Sujin',
         },
@@ -36,14 +36,14 @@ export const generateMetadata = async (): Promise<Metadata> => {
             nocache: true,
         },
         icons: {
-            icon: `${process.env.BASE_URL}/assets/favicon-16x16.png`,
-            shortcut: `${process.env.BASE_URL}/assets/favicon-32x32.png`,
-            apple: `${process.env.BASE_URL}/assets/favicon-32x32.png`,
+            icon: `${process.env.NEXT_BASE_URL}/assets/favicon-16x16.png`,
+            shortcut: `${process.env.NEXT_BASE_URL}/assets/favicon-32x32.png`,
+            apple: `${process.env.NEXT_BASE_URL}/assets/favicon-32x32.png`,
         },
     }
 
-    if (process.env.BASE_URL) {
-        metadata.metadataBase = new URL(process.env.BASE_URL)
+    if (process.env.NEXT_BASE_URL) {
+        metadata.metadataBase = new URL(process.env.NEXT_BASE_URL)
     }
 
     return metadata

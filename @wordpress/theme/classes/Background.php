@@ -47,7 +47,7 @@ class Background {
 			wp_set_post_terms( $object_id, array(), 'category' );
 		}
 
-		$client = new Client( getenv_docker( 'GQL_ENDPOINT', '' ), array( 'authorization' => 'Bearer ' . Tokens::get_token() ) );
+		$client = new Client( getenv_docker( 'GQL_BASE_URL', '' ), array( 'authorization' => 'Bearer ' . Tokens::get_token() ) );
 		$gql    = new Mutation( 'refreshBackgrounds' );
 
 		try {

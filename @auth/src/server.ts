@@ -7,7 +7,7 @@ import { Logger } from '@sujin/share/model/Logger'
 import { googleRoutes } from '@src/routers/google'
 import { sessionOption } from '@src/session'
 
-const allowedOrigins = JSON.parse(`${process.env.CORS_ORIGINS}`)
+const allowedOrigins = JSON.parse(`${process.env.AUTH_CORS_ORIGINS}`)
 
 const app = express()
 app.use(session(sessionOption))
@@ -33,7 +33,7 @@ app.use(
 app.use('/', googleRoutes)
 
 // Start the server
-const port = process.env.SERVER_PORT
+const port = process.env.AUTH_SERVER_PORT
 app.listen(port, () => {
     Logger.info(`🚀 @auth Server ready at http://localhost:${port}`)
 })

@@ -11,7 +11,7 @@ declare global {
 }
 
 const client = async (): Promise<RedisClientType | void> => {
-    if (!process.env.REDIS_SERVER) {
+    if (!process.env.REDIS_ENDPOINT) {
         return
     }
 
@@ -26,7 +26,7 @@ const client = async (): Promise<RedisClientType | void> => {
     }
 
     global.redis = (await createClient({
-        url: `redis://${process.env.REDIS_SERVER}`,
+        url: `redis://${process.env.REDIS_ENDPOINT}`,
     }).connect()) as RedisClientType
     return global.redis
 }

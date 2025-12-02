@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     title: 'About Sujin Choi',
     openGraph: {
         title: 'About Sujin Choi',
-        url: `${process.env.BASE_URL}/about`,
+        url: `${process.env.NEXT_BASE_URL}/about`,
     },
 }
 
@@ -46,7 +46,7 @@ export default async function AboutPage() {
                             title={post.title}
                             excerpt={post.excerpt}
                             thumbnail={thumbnail}
-                            baseUrl={`${process.env.BASE_URL}`}
+                            baseUrl={`${process.env.NEXT_BASE_URL}`}
                         />
                     </Content>
                 </Column>

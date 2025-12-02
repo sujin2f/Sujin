@@ -16,7 +16,6 @@ const dirCommonModules = {
 }
 const files = {
     tsConfig: 'tsconfig.json',
-    env: '.env',
     webpack: 'webpack.config.mjs',
     package: 'package.json',
 }
