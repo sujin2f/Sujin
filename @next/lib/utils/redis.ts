@@ -97,3 +97,16 @@ export const gqlRequest = async <T>(
         return result
     })
 }
+
+export const getPublisher = async () => {
+    const redis = await client().catch((e) => {
+        throw e
+    })
+    if (!redis || !redis.isReady) {
+        throw new Error(`🤬 Redis connection failed: ${JSON.stringify(redis)}`)
+    }
+    const publisher = redis.duplicate()
+    return await publisher.connect().catch((e) => {
+        throw e
+    })
+}

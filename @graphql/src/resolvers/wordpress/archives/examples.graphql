@@ -17,7 +17,6 @@ query {
 }
 
 mutation {
-    updateHits(slug: "?")
     refreshCategory(slug: "?")
     removeCategory(slug: "?")
 }

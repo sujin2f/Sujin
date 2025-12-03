@@ -26,3 +26,7 @@ type T_FlickrResponseImage = {
 export type T_FlickrResponse = {
     items: T_FlickrResponseImage[]
 }
+
+export type PubMessage = {
+    slug: string
+}

@@ -7,7 +7,6 @@ type Query {
 }
 
 type Mutation {
-    updateHits(slug: String!): [Boolean]
     refreshCategory(slug: String!): [Boolean]
     removeCategory(slug: String!): [Boolean]
 }

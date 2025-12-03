@@ -18,10 +18,9 @@ import { MENU_NAMES, IMAGE_SIZE, COLLECTION, POST_STATUS } from '@sujin/lib/cons
 import { post as getPost } from '@lib/apollo/queries/wordpress/posts/post'
 /* Utils */
 import { getThumbnailFromPost } from '@lib/utils/client'
-import { gqlRequest } from '@lib/utils/redis'
+import { gqlRequest, getPublisher } from '@lib/utils/redis'
 import { prevNext } from '@lib/apollo/queries/wordpress/posts/prevNext'
 import { related } from '@lib/apollo/queries/wordpress/posts/related'
-import { updateHits } from '@lib/apollo/queries/wordpress/archives/updateHits'
 /* T_Types */
 import type { T_Post } from '@sujin/lib/types'
 import { recent } from '@lib/apollo/queries/wordpress/posts/recent'
@@ -73,10 +72,18 @@ export default async function PostPage(props: Props) {
     const thumbnail = getThumbnailFromPost(post.images, [IMAGE_SIZE.MEDIUM_LARGE])
     const tags = post.archives.filter((tag) => tag.type === 'tag')
 
-    // Update Tag Cloud
-    if (tags.length && post.status === POST_STATUS.PUBLISH) {
-        tags.forEach((tag) => updateHits(tag.slug))
-    }
+    getPublisher()
+        .then((pub) => {
+            // Update Tag Cloud
+            const slugs: string[] = []
+            if (tags.length && post.status === POST_STATUS.PUBLISH) {
+                tags.forEach((tag) => slugs.push(tag.slug))
+            }
+            pub.publish('updateHit', JSON.stringify(slugs))
+        })
+        .catch((e) => {
+            Logger.error(e)
+        })
 
     async function requestPrevNext() {
         'use server'
