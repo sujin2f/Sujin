@@ -1,10 +1,8 @@
 'use server'
-/* Models */
-import Cached from '@sujin/share/model/Cache'
 /* Utils */
-import { client } from '@lib/apollo/apollo-client-server'
+import { client } from '@lib/utils/apollo-client'
 import { getAuthHeader } from '@lib/utils/server/header'
-import { getCacheKey } from '@sujin/lib/utils/cache'
+import { removeCache } from '@lib/utils/redis'
 /* CONSTANTS */
 import QUERY from '@lib/apollo/queries/recipes/replaceRecipe.graphql'
 import { COLLECTION } from '@sujin/lib/constants'
@@ -22,7 +20,8 @@ export const replaceRecipe = async (recipe: Partial<T_Recipe>) => {
             if (!result.data || !result.data.replaceRecipe) {
                 throw new Error()
             }
-            Cached.getInstance().flush(getCacheKey(COLLECTION.RECIPE))
+            // TODO store recipe list as individual recipes
+            await removeCache(COLLECTION.RECIPE) // TODO when the return type of endpoint is recipe, remove list, _id, and mine
             return result.data.replaceRecipe
         })
 }

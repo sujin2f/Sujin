@@ -1,6 +1,6 @@
 'use server'
 /* Models */
-import { client } from '@lib/apollo/apollo-client-server'
+import { client } from '@lib/utils/apollo-client'
 /* T_Types */
 import type { T_Archive } from '@sujin/lib/types'
 /* CONSTANTS */

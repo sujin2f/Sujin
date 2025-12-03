@@ -1,7 +1,6 @@
 'use client'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useQuery } from '@apollo/client/react'
 /* Module */
 import { RootState } from '@lib/store'
 /* Components */
@@ -10,10 +9,10 @@ import { Cards } from '@lib/components/archive/Cards'
 import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
 /* Utils */
 import { setRecent } from '@lib/store/slices/recent'
+import { useServerAction } from '@lib/hooks/useServerAction'
 import useIntersectionObserver from '@common/hooks/useIntersectionObserver'
 /* CONSTANTS */
 import { IMAGE_SIZE } from '@sujin/lib/constants'
-import RECENT_QUERY from '@lib/apollo/queries/wordpress/posts/recent.graphql'
 /* T_Types */
 import type { T_ArchivePost } from '@sujin/lib/types'
 /* Assets */
@@ -21,9 +20,10 @@ import './RecentPosts.scss'
 
 type Props = {
     id: number
+    readonly action: () => Promise<T_ArchivePost[]>
 }
 
-export const RecentPosts = ({ id }: Props) => {
+export const RecentPosts = ({ id, action }: Props) => {
     // Redux store
     const recent = useSelector((state: RootState) => state.recent)
     const dispatch = useDispatch()
@@ -32,11 +32,12 @@ export const RecentPosts = ({ id }: Props) => {
     // Read from GraphQL with Intersection Observer & update store
     const ref = useRef(null)
     const [skip, setSkip] = useState(true)
-    const { loading, error, data } = useQuery<{ recent: T_ArchivePost[] }>(RECENT_QUERY, { skip: skip || hasStore })
+    // Read from GraphQL
+    const { loading, error, data } = useServerAction(action, skip || hasStore)
 
     useEffect(() => {
-        if (!hasStore && data && data.recent.length) {
-            dispatch(setRecent(data.recent))
+        if (!hasStore && data && data.length) {
+            dispatch(setRecent(data))
         }
     }, [data, hasStore, dispatch])
     useIntersectionObserver(ref, async () => {

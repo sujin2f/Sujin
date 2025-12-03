@@ -1,28 +1,25 @@
 'use server'
-import { revalidateTag } from 'next/cache'
 /* Models */
-import Cached from '@sujin/share/model/Cache'
-import { client } from '@lib/apollo/apollo-client-server'
+import { client } from '@lib/utils/apollo-client'
 /* Utils */
 import { getAuthHeader } from '@lib/utils/server/header'
-import { getCacheKey } from '@sujin/lib/utils/cache'
+import { removeCache } from '@lib/utils/redis'
 /* CONSTANTS */
 import { COLLECTION } from '@sujin/lib/constants'
 import MUTATION from '@lib/apollo/queries/wordpress/pages/refreshPage.graphql'
 
 export const refreshPage = async (slug: string) => {
-    Cached.getInstance().flush(getCacheKey(COLLECTION.PAGE, slug))
-    revalidateTag(COLLECTION.PAGE)
     return await client
         .mutate({
             mutation: MUTATION,
             variables: { slug },
             context: await getAuthHeader(),
         })
-        .then((result) => {
+        .then(async (result) => {
             if (!result.data) {
                 return false
             }
+            await removeCache(COLLECTION.PAGE, slug)
             return true
         })
 }

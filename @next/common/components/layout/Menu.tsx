@@ -38,25 +38,11 @@ export default function Menu({
     callback,
 }: Props) {
     const direction = propDirection || 'horizontal'
-    const dropdown =
-        direction === 'horizontal' && !propDropdown ? 'hover' : propDropdown
+    const dropdown = direction === 'horizontal' && !propDropdown ? 'hover' : propDropdown
 
     return (
-        <nav
-            className={joinClassNames(
-                'menu__container',
-                `menu__container--${direction}`,
-                className,
-            )}
-            ref={ref}
-        >
-            <MenuBlock
-                callback={callback}
-                direction={direction}
-                dropdown={dropdown}
-                items={items}
-                depth={1}
-            />
+        <nav className={joinClassNames('menu__container', `menu__container--${direction}`, className)} ref={ref}>
+            <MenuBlock callback={callback} direction={direction} dropdown={dropdown} items={items} depth={1} />
         </nav>
     )
 }
@@ -69,13 +55,7 @@ type BlockProps = {
     readonly depth: number
 }
 
-function MenuBlock({
-    items,
-    dropdown,
-    direction,
-    depth,
-    callback,
-}: BlockProps) {
+function MenuBlock({ items, dropdown, direction, depth, callback }: BlockProps) {
     return (
         <ul className={`menu menu--depth-${depth}`}>
             {items.map((menu, index) => (
@@ -102,9 +82,7 @@ type ItemProps = {
 
 function MenuItem({ item, dropdown, direction, depth, callback }: ItemProps) {
     const hasChildren = item.children && item.children.length > 0
-    const [closed, changeClosed] = useState(
-        hasChildren && dropdown ? true : false,
-    )
+    const [closed, changeClosed] = useState(hasChildren && dropdown ? true : false)
 
     const onMouseOver = useCallback(() => {
         if (dropdown === 'hover') {
@@ -144,26 +122,14 @@ function MenuItem({ item, dropdown, direction, depth, callback }: ItemProps) {
             onMouseLeave={onMouseLeave}
             onMouseOver={onMouseOver}
         >
-            <Link
-                className="menu__link"
-                onClick={callback}
-                href={linkTo}
-                target={item.target}
-            >
+            <Link className="menu__link" onClick={callback} href={linkTo} target={item.target}>
                 {item.title}
 
-                {dropdown && hasChildren ? (
-                    <Arrow className="menu__link__arrow" />
-                ) : null}
+                {dropdown && hasChildren ? <Arrow className="menu__link__arrow" /> : null}
             </Link>
 
             {hasChildren ? (
-                <MenuBlock
-                    callback={callback}
-                    direction={direction}
-                    items={item.children || []}
-                    depth={depth + 1}
-                />
+                <MenuBlock callback={callback} direction={direction} items={item.children || []} depth={depth + 1} />
             ) : null}
         </li>
     )

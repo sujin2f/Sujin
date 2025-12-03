@@ -2,12 +2,10 @@ import sanitize from 'mongo-sanitize'
 /* Models */
 import { Logger } from '@sujin/share/model/Logger'
 import { Page } from '@src/schema/post'
-import Cached from '@sujin/share/model/Cache'
 /* CONSTANTS */
-import { POST_TYPE, POST_IMAGE_LOCATION, COLLECTION } from '@sujin/lib/constants'
+import { POST_TYPE, POST_IMAGE_LOCATION } from '@sujin/lib/constants'
 import { DAY_IN_MS } from '@sujin/share/constants/datetime'
 /* Utils */
-import { getCacheKey } from '@sujin/lib/utils/cache'
 import { verifyAccessToken, verifyAdmin } from '@src/utils/security'
 import { getPostBy } from '@src/utils/mysql/post'
 import { mysqlDisconnect } from '@src/utils/mysql'
@@ -33,7 +31,6 @@ export const refreshPage = async (_slug: string, token: string): Promise<boolean
     const wpPage = await getPostBy('slug', slug, POST_TYPE.PAGE)
     const date = Math.trunc(wpPage.date.getTime() / DAY_IN_MS)
 
-    Cached.getInstance().flush(getCacheKey(COLLECTION.PAGE, slug))
     await mysqlDisconnect()
     if (wpPage.images) {
         Object.keys(wpPage.images).forEach((key) => {
@@ -48,7 +45,6 @@ export const refreshPage = async (_slug: string, token: string): Promise<boolean
         }
     })
 
-    Cached.getInstance().flush(getCacheKey(COLLECTION.PAGE, slug))
     Logger.info(`🤞 refreshPage mutation done: ${slug}`)
     return []
 }

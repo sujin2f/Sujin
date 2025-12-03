@@ -1,13 +1,12 @@
 {
 	"name": "sujin-wordpress",
-	"version": "12.0.0-beta.3",
+	"version": "12.0.1-prod.1",
 	"description": "Wordpress CMS for sujinc.com project",
 	"author": "Sujin Choi",
 	"license": "GPL-2.0-or-later",
 	"scripts": {
-		"lint": "composer run-script lint",
-		"fix": "composer run-script fix",
 		"build": "yarn --cwd ./plugins/carousel build && yarn --cwd ./plugins/resume-item build",
+		"install-modules": "yarn --cwd ./plugins/resume-item && yarn --cwd ./plugins/carousel",
 		"package": "node ./package.mjs"
 	},
 	"devDependencies": {

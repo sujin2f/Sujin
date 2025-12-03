@@ -9,10 +9,7 @@ import type { Nullable } from '@sujin/share/types'
 /* Utils */
 import { getAtom } from '@sujin/lib/utils/ether'
 import { romanize } from '@sujin/share/utils/number'
-import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 /* CONSTANTS */
-import { DAY_IN_SECONDS } from '@sujin/share/constants/datetime'
-import { COLLECTION } from '@sujin/lib/constants'
 import { orbitalKeys } from '@sujin/lib/constants/ether'
 
 /**
@@ -32,24 +29,7 @@ export const spectrum = async (_number: number, _ion: number): Promise<ISpectrum
     const ion = sanitize(_ion)
     const atom = getAtom(number)
 
-    const request = cachedRequest(find, getCacheKey(COLLECTION.SPECTRA, number, ion), {
-        ttl: DAY_IN_SECONDS * 30,
-    })
-    const result = await request(atom, ion)
-    Logger.info('🤞 spectra query has been finished')
-    return result
-}
-
-/**
- * Requests spectra data
- *
- * @param {Atom} atom - The atom object.
- * @param {number} ion - The ionization state.
- * @returns {Promise<ISpectrum[]>} The spectra data.
- */
-const find = async (atom: Atom, ion: number): Promise<ISpectrum[]> => {
-    const number = atom.number
-    return await Spectra.find<ISpectrum>({
+    const result = await Spectra.find<ISpectrum>({
         number,
         ion,
     }).then(async (result) => {
@@ -68,6 +48,9 @@ const find = async (atom: Atom, ion: number): Promise<ISpectrum[]> => {
             ion,
         })
     })
+
+    Logger.info('🤞 spectra query has been finished')
+    return result
 }
 
 const requestNIST = async (atom: Atom, ion: number) => {

@@ -14,9 +14,7 @@ export function FooterBottom() {
                     <Logo aria-label="Sujin" />
                 </Link>
 
-                <p className="footer__copyright">
-                    Copyright &copy; 2017 sujinc.com
-                </p>
+                <p className="footer__copyright">Copyright &copy; 2017 sujinc.com</p>
             </Column>
         </Row>
     )

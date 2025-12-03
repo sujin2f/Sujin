@@ -6,11 +6,6 @@ import { Logger } from '@sujin/share/model/Logger'
 import type { T_Recipe } from '@sujin/lib/types'
 /* Utils */
 import { verifyAccessToken } from '@src/utils/security'
-import { getCacheKey } from '@sujin/lib/utils/cache'
-/* Models */
-import Cached from '@sujin/share/model/Cache'
-/* CONSTANTS */
-import { COLLECTION } from '@sujin/lib/constants'
 
 /**
  * Update an existing recipe document.
@@ -45,7 +40,6 @@ export const replaceRecipe = async (_recipe: T_Recipe, token: string): Promise<s
 
     await Recipe.replaceOne({ _id: new Types.ObjectId(_recipe._id) }, { ..._recipe, user: recipe.user, search })
 
-    Cached.getInstance().flush(getCacheKey(COLLECTION.RECIPE))
     Logger.info('🤞 updateRecipe mutation has been finished')
     return _recipe._id.toString()
 }

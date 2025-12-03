@@ -10,7 +10,7 @@ const INTER_COM_SECRET = `${process.env.INTER_COM_SECRET}`
 const CRYPTO_KEY = `${process.env.CRYPTO_KEY}`
 
 export const gqlLogin = async (user: T_GoogleUser): Promise<string> => {
-    const endpoint = `${process.env.GQL_ENDPOINT}`
+    const endpoint = `${process.env.GQL_BASE_URL}`
 
     const query = `
         mutation {

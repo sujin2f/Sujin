@@ -1,16 +1,14 @@
 import type { Types } from 'mongoose'
-/* Models */
-import Cached from '@sujin/share/model/Cache'
 /* T_Types */
+import type { T_Archive, T_MySQLPost } from '@sujin/lib/types'
 /* Utils */
-import { getCacheKey } from '@sujin/lib/utils/cache'
-/* CONSTANTS */
-import { COLLECTION, POST_IMAGE_LOCATION, ARCHIVE } from '@sujin/lib/constants'
-import { T_Archive, T_MySQLPost } from '@sujin/lib/types'
-import { Post } from '@src/schema/post'
 import { convertWPImageURL } from '@src/utils/mongo/convertWPImageURL'
-import { Archive } from '@src/schema/archive'
+/* CONSTANTS */
+import { POST_IMAGE_LOCATION, ARCHIVE } from '@sujin/lib/constants'
 import { DAY_IN_MS } from '@sujin/share/constants/datetime'
+/* Models */
+import { Post } from '@src/schema/post'
+import { Archive } from '@src/schema/archive'
 
 /**
  * Update or insert a post document in MongoDB from a MySQL-post representation.
@@ -25,8 +23,6 @@ import { DAY_IN_MS } from '@sujin/share/constants/datetime'
 export const updatePost = async (post: T_MySQLPost): Promise<Types.ObjectId[]> => {
     const slug = post.slug
     const archives: Types.ObjectId[] = []
-
-    Cached.getInstance().flush(getCacheKey(COLLECTION.POST, slug))
 
     // Image
     Object.keys(post.images).forEach((key) => {

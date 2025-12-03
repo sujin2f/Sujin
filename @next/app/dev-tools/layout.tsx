@@ -1,7 +1,12 @@
 import type { PropsWithChildren } from 'react'
 import type { Metadata } from 'next/types'
 /* Components */
-import Wrapper from '@lib/components/Wrapper'
+import { Wrapper } from '@lib/components/Wrapper'
+import { Footer } from '@lib/components/footer'
+import FixedHeader from '@lib/components/header/FixedHeader'
+import { Banner } from '@lib/components/header/Banner'
+import Row from '@common/components/layout/Row'
+import Column from '@common/components/layout/Column'
 /* Utils */
 import { getMetaData } from '@lib/utils/server/header'
 /* CONSTANTS */
@@ -22,5 +27,14 @@ export const generateMetadata = async (): Promise<Metadata> => {
 }
 
 export default async function Layout({ children }: PropsWithChildren) {
-    return <Wrapper menu={MENU_NAMES.DEV_TOOL}>{children}</Wrapper>
+    return (
+        <Wrapper>
+            <FixedHeader menu={MENU_NAMES.DEV_TOOL} />
+            <Banner menu={MENU_NAMES.DEV_TOOL} />
+            <Row>
+                <Column small={12}>{children}</Column>
+            </Row>
+            <Footer />
+        </Wrapper>
+    )
 }

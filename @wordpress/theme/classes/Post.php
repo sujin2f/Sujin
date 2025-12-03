@@ -9,6 +9,7 @@
 
 namespace Sujin\Theme;
 
+use Sujin\Theme\Redis;
 use GraphQL\Client;
 use GraphQL\Mutation;
 use GraphQL\Variable;
@@ -87,7 +88,7 @@ class Post {
 			return;
 		}
 
-		$client = new Client( getenv_docker( 'GQL_ENDPOINT', '' ), array( 'authorization' => 'Bearer ' . Tokens::get_token() ) );
+		$client = new Client( getenv_docker( 'GQL_BASE_URL', '' ), array( 'authorization' => 'Bearer ' . Tokens::get_token() ) );
 		$gql    = ( new Mutation( $query ) )
 			->setVariables( array( new Variable( 'slug', 'String', true ) ) )
 			->setArguments( array( 'slug' => '$slug' ) );
@@ -99,7 +100,9 @@ class Post {
 				array( 'slug' => $slug )
 			);
 
-			// TODO remove @next cache.
+			$redis = new Redis();
+			$redis->del( "{$post_type}s-archive" );
+			$redis->del( "{$post_type}s-{$slug}" );
 		} catch ( \Exception $_ ) {
 			if ( 1 === $attempt ) {
 				Tokens::refresh_token();

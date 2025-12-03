@@ -1,11 +1,7 @@
 /* Models */
 import { Logger } from '@sujin/share/model/Logger'
-import Cached from '@sujin/share/model/Cache'
 import { Background } from '@src/schema/background'
-/* CONSTANTS */
-import { COLLECTION } from '@sujin/lib/constants'
 /* Utils */
-import { getCacheKey } from '@sujin/lib/utils/cache'
 import { verifyAccessToken, verifyAdmin } from '@src/utils/security'
 import { mysqlDisconnect } from '@src/utils/mysql'
 import { convertWPImageURL } from '@src/utils/mongo/convertWPImageURL'
@@ -36,7 +32,6 @@ export const refreshBackgrounds = async (token: string): Promise<T_Background[]>
         await Background.insertMany(backgrounds)
     })
     await mysqlDisconnect()
-    Cached.getInstance().flush(getCacheKey(COLLECTION.BACKGROUNDS))
     Logger.info(`⭐️ refreshBackground mutation done`)
     return []
 }

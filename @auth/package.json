@@ -1,6 +1,6 @@
 {
     "name": "sujin-auth",
-    "version": "12.0.0-beta.2",
+    "version": "12.0.1-prod.1",
     "main": "src/server.ts",
     "author": "Sujin Choi",
     "license": "MIT",
@@ -9,7 +9,7 @@
         "start": "node .build/bundle.js",
         "dev": "concurrently \"yarn dev:webpack\" \"yarn dev:nodemon\"",
         "dev:webpack": "cross-env NODE_ENV=development webpack --watch",
-        "dev:nodemon": "cross-env NODE_ENV=development node --env-file=.env --watch .build/bundle.js",
+        "dev:nodemon": "cross-env NODE_ENV=development node --env-file=../.env --watch .build/bundle.js",
         "package": "cross-env rimraf internal_modules temp && node ./package.mjs",
         "lint": "eslint ./src/**/*.ts",
         "test": "jest --no-cache --forceExit --coverage"
@@ -20,7 +20,6 @@
         "express": "^5.1.0",
         "express-session": "^1.18.2",
         "jsonwebtoken": "^9.0.2",
-        "node-cache": "^5.1.2",
         "winston": "^3.18.3"
     },
     "devDependencies": {

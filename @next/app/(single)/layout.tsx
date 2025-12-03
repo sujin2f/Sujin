@@ -1,5 +1,5 @@
 import { type PropsWithChildren } from 'react'
-import { WrapperNew } from '@lib/components/WrapperNew'
+import { Wrapper } from '@lib/components/Wrapper'
 import { Footer } from '@lib/components/footer'
 import FixedHeader from '@lib/components/header/FixedHeader'
 /* CONSTANTS */
@@ -9,10 +9,10 @@ import '@app/(single)/layout.scss'
 
 export default async function SingleLayout({ children }: PropsWithChildren) {
     return (
-        <WrapperNew>
+        <Wrapper>
             <FixedHeader menu={MENU_NAMES.MAIN} />
             {children}
             <Footer />
-        </WrapperNew>
+        </Wrapper>
     )
 }

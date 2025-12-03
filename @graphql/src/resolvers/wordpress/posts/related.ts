@@ -4,11 +4,10 @@ import mongoose from 'mongoose'
 import { Logger } from '@sujin/share/model/Logger'
 import { Post } from '@src/schema/post'
 /* Utils */
-import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 import { post as getPost } from '@src/resolvers/wordpress/posts/post'
 import { recent } from '@src/resolvers/wordpress/posts/recent'
 /* CONSTANTS */
-import { POST_STATUS, COLLECTION } from '@sujin/lib/constants'
+import { POST_STATUS } from '@sujin/lib/constants'
 import { AGGREGATE_ARCHIVE_POST, AGGREGATE_EXPAND_ARCHIVES } from '@src/constants'
 /* T_Types */
 import type { T_ArchivePost } from '@sujin/lib/types'
@@ -26,8 +25,7 @@ import type { T_ArchivePost } from '@sujin/lib/types'
  */
 export const related = async (_slug: string): Promise<T_ArchivePost[]> => {
     const slug = sanitize(_slug)
-    const request = cachedRequest(query, getCacheKey(COLLECTION.POST, slug, 'related'))
-    const result = await request(slug)
+    const result = await query(slug)
     Logger.info('⭐️ related query has been finished')
     return result
 }

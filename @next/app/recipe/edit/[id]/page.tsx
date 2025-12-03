@@ -8,7 +8,7 @@ import { RecipeEdit } from '@lib/components/recipes/RecipeEdit'
 import { COLLECTION, MENU_NAMES } from '@sujin/lib/constants'
 /* Utils */
 import { getUserInfo } from '@lib/utils/server/header'
-import { nextCachedRequest } from '@lib/apollo/queries/GQLRequest'
+import { gqlRequest } from '@lib/utils/redis'
 import { recipe as getRecipe } from '@lib/apollo/queries/recipes/recipe'
 
 type Props = {
@@ -24,7 +24,9 @@ export default async function PageRecipeEdit({ params }: Props) {
     }
 
     const { id } = await params
-    const recipe = await nextCachedRequest(getRecipe(id), COLLECTION.RECIPE, 'detail', id)
+    const recipe = await gqlRequest(async () => await getRecipe(id), {
+        key: `${COLLECTION.RECIPE}-${id}`,
+    })
 
     if (recipe.user !== user._id) {
         notFound()

@@ -1,99 +1,28 @@
-'use client'
-import { useEffect, useMemo } from 'react'
-import { useParams } from 'next/navigation'
+'use server'
 /* Components */
-import { DataHeader } from '@lib/components/ether/DataHeader'
-import ScrollToTop from '@common/components/ScrollToTop'
-import Row from '@common/components/layout/Row'
-import Column from '@common/components/layout/Column'
-import { Chart } from '@lib/components/ether/Chart'
-import { Table } from '@lib/components/ether/Table'
-/* Helpers */
-import type { ISpectrum } from '@sujin/lib/types'
-import { DataContainer } from '@app/ether/data/models/DataContainer'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '@lib/store'
-import { useQuery } from '@apollo/client/react'
-import { pushSpectrum } from '@lib/store/slices/spectrum'
-/* CONSTANTS */
-import SPECTRUM_QUERY from '@lib/apollo/queries/misc/spectrum.graphql'
+import { DataPageClient } from '@app/ether/data/[type]/[atom]/[ion]/page.client'
+/* Utils */
+import { spectrum } from '@lib/apollo/queries/misc/spectrum'
+import { gqlRequest } from '@lib/utils/redis'
 /* Assets */
-import LoadingImg from '@common/images/loading.svg'
+import { COLLECTION } from '@sujin/lib/constants'
 
-export default function DataPage() {
-    const params = useParams<EtherDataProps>()
+type Props = {
+    params: Promise<{
+        type: 'ether' | 'orbital'
+        atom: string
+        ion: string
+        term: string
+    }>
+}
 
-    const atom = parseInt(params.atom)
-    const ion = parseInt(params.ion)
-
-    // Redux
-    const dispatch = useDispatch()
-    const store = useSelector((state: RootState) => state.spectrum.spectrum)
-    const spectrum = useMemo(
-        () => (store[atom] && store[atom][ion] ? store[atom][ion] : []),
-        [atom, ion, store],
-    )
-    const hasStore = useMemo(() => !!spectrum.length, [spectrum])
-
-    // Read from GraphQL with Intersection Observer & update store
-    const { data, loading } = useQuery<{ spectrum: ISpectrum[] }>(
-        SPECTRUM_QUERY,
-        {
-            variables: { number: atom, ion },
-            skip: hasStore,
-        },
-    )
-
-    useEffect(() => {
-        if (!hasStore && data && data.spectrum.length) {
-            dispatch(pushSpectrum([atom, ion, data.spectrum]))
-        }
-    }, [data, hasStore, dispatch, atom, ion])
-
-    if (loading) {
-        return (
-            <>
-                <ScrollToTop />
-                <DataHeader atom={atom} ion={ion} type={params.type} />
-                <Row>
-                    <Column small={12}>
-                        <LoadingImg />
-                    </Column>
-                </Row>
-            </>
-        )
+export default async function DataPage({ params }: Props) {
+    const { atom, ion } = await params
+    async function action() {
+        'use server'
+        return await gqlRequest(async () => await spectrum(parseInt(atom), parseInt(ion)), {
+            key: `${COLLECTION.SPECTRA}-${atom}-${ion}`,
+        }).catch(() => [])
     }
-    if (!spectrum.length) {
-        return (
-            <>
-                <ScrollToTop />
-                <DataHeader atom={atom} ion={ion} type={params.type} />
-            </>
-        )
-    }
-
-    const container = new DataContainer(spectrum, params.type)
-    const orbital = container.get(atom, ion)
-
-    return (
-        <>
-            <ScrollToTop />
-            <DataHeader
-                container={orbital}
-                atom={atom}
-                ion={ion}
-                type={params.type}
-            />
-            <Row>
-                <Column small={12}>
-                    <Chart data={orbital.chartData} />
-                </Column>
-            </Row>
-            <Row>
-                <Column small={12}>
-                    <Table orbital={orbital} />
-                </Column>
-            </Row>
-        </>
-    )
+    return <DataPageClient action={action} />
 }

@@ -10,6 +10,7 @@
 namespace Sujin\Theme;
 
 use Sujin\Theme\Tokens;
+use Sujin\Theme\Redis;
 use GraphQL\Client;
 use GraphQL\Mutation;
 
@@ -46,12 +47,13 @@ class Background {
 			wp_set_post_terms( $object_id, array(), 'category' );
 		}
 
-		$client = new Client( getenv_docker( 'GQL_ENDPOINT', '' ), array( 'authorization' => 'Bearer ' . Tokens::get_token() ) );
+		$client = new Client( getenv_docker( 'GQL_BASE_URL', '' ), array( 'authorization' => 'Bearer ' . Tokens::get_token() ) );
 		$gql    = new Mutation( 'refreshBackgrounds' );
 
 		try {
 			$client->runQuery( $gql );
-			// TODO remove @next cache.
+			$redis = new Redis();
+			$redis->del( 'backgrounds' );
 		} catch ( \Exception $_ ) {
 			if ( 1 === $attempt ) {
 				Tokens::refresh_token();

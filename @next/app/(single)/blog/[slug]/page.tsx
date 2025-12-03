@@ -14,15 +14,17 @@ import Column from '@common/components/layout/Column'
 import { Content } from '@lib/components/single/Content'
 import { GoogleAdvert } from '@common/components/GoogleAdvert'
 /* CONSTANTS */
-import { BASE_URL } from '@lib/constants'
 import { MENU_NAMES, IMAGE_SIZE, COLLECTION, POST_STATUS } from '@sujin/lib/constants'
 import { post as getPost } from '@lib/apollo/queries/wordpress/posts/post'
 /* Utils */
 import { getThumbnailFromPost } from '@lib/utils/client'
-import { nextCachedRequest } from '@lib/apollo/queries/GQLRequest'
+import { gqlRequest } from '@lib/utils/redis'
+import { prevNext } from '@lib/apollo/queries/wordpress/posts/prevNext'
+import { related } from '@lib/apollo/queries/wordpress/posts/related'
 import { updateHits } from '@lib/apollo/queries/wordpress/archives/updateHits'
 /* T_Types */
 import type { T_Post } from '@sujin/lib/types'
+import { recent } from '@lib/apollo/queries/wordpress/posts/recent'
 
 type Props = {
     params: Promise<{
@@ -34,13 +36,15 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
     const params = await props.params
     const slug = params.slug.toLowerCase()
 
-    const post = await nextCachedRequest<T_Post>(getPost(slug), COLLECTION.POST, slug).catch(() => undefined)
+    const post = await gqlRequest<T_Post>(async () => await getPost(slug), {
+        key: `${COLLECTION.POST}-${slug}`,
+    }).catch(() => undefined)
 
     if (!post) {
         return {}
     }
 
-    const url = `${BASE_URL}/blog/${slug}`
+    const url = `${process.env.NEXT_BASE_URL}/blog/${slug}`
     const images = getThumbnailFromPost(post.images, [IMAGE_SIZE.MEDIUM_LARGE])
     const keywords = post.archives.map((term) => term.title)
 
@@ -60,17 +64,37 @@ export default async function PostPage(props: Props) {
     const params = await props.params
     const slug = params.slug.toLowerCase()
 
-    const post = await nextCachedRequest<T_Post>(getPost(slug), COLLECTION.POST, slug).catch((e) => {
+    const post = await gqlRequest<T_Post>(async () => await getPost(slug), {
+        key: `${COLLECTION.POST}-${slug}`,
+    }).catch((e) => {
         Logger.error(e.message)
         notFound()
     })
-
     const thumbnail = getThumbnailFromPost(post.images, [IMAGE_SIZE.MEDIUM_LARGE])
     const tags = post.archives.filter((tag) => tag.type === 'tag')
 
     // Update Tag Cloud
     if (tags.length && post.status === POST_STATUS.PUBLISH) {
         tags.forEach((tag) => updateHits(tag.slug))
+    }
+
+    async function requestPrevNext() {
+        'use server'
+        return await gqlRequest(async () => await prevNext(slug), {
+            key: `${COLLECTION.POST}-${slug}-prevNext`,
+        }).catch(() => [])
+    }
+    async function requestRelated() {
+        'use server'
+        return await gqlRequest(async () => await related(slug), {
+            key: `${COLLECTION.POST}-${slug}-related`,
+        }).catch(() => [])
+    }
+    async function requestRecent() {
+        'use server'
+        return await gqlRequest(async () => await recent(), {
+            key: `${COLLECTION.POST}-recent`,
+        }).catch(() => [])
     }
 
     return (
@@ -87,15 +111,25 @@ export default async function PostPage(props: Props) {
                 <Column medium={12} large={7} largeOffset={2}>
                     <Content post={post} type="post">
                         <Tags items={tags} />
-                        <SocialShare title={post.title} excerpt={post.excerpt} thumbnail={thumbnail} />
-                        <PrevNextPost slug={slug} />
-                        <RelatedPosts slug={slug} />
+                        <SocialShare
+                            title={post.title}
+                            excerpt={post.excerpt}
+                            thumbnail={thumbnail}
+                            baseUrl={`${process.env.NEXT_BASE_URL}`}
+                        />
+                        <PrevNextPost action={requestPrevNext} />
+                        <RelatedPosts action={requestRelated} />
                     </Content>
                 </Column>
 
                 <Column small={12} large={3} className="layout__article__right" dom="aside">
-                    <RecentPosts id={post.id} />
-                    <GoogleAdvert responsive place="sidebar" />
+                    <RecentPosts id={post.id} action={requestRecent} />
+                    <GoogleAdvert
+                        responsive
+                        place="sidebar"
+                        clientId={`${process.env.GOOGLE_AD_CLIENT}`}
+                        slot={`${process.env.GOOGLE_AD_SLOT_SIDEBAR}`}
+                    />
                 </Column>
             </Row>
         </>

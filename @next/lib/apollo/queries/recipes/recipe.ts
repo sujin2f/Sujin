@@ -1,5 +1,5 @@
 'use server'
-import { client } from '@lib/apollo/apollo-client-server'
+import { client } from '@lib/utils/apollo-client'
 /* CONSTANTS */
 import GQL_QUERY from '@lib/apollo/queries/recipes/recipe.graphql'
 import type { T_Recipe } from '@sujin/lib/types'

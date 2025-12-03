@@ -18,7 +18,6 @@ const dirCommonModules = {
 }
 const files = {
     tsConfig: 'tsconfig.json',
-    env: '.env',
 }
 
 // Version & sudo

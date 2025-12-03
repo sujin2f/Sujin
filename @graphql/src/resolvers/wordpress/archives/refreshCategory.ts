@@ -17,17 +17,15 @@ import sanitize from 'mongo-sanitize'
  */
 /* Models */
 import { Archive } from '@src/schema/archive'
-import Cached from '@sujin/share/model/Cache'
 import { Logger } from '@sujin/share/model/Logger'
 /* Utils */
 import { verifyAccessToken, verifyAdmin } from '@src/utils/security'
-import { getCacheKey } from '@sujin/lib/utils/cache'
 import { getTermBySlug } from '@src/utils/mysql/term'
 import { mysqlDisconnect } from '@src/utils/mysql'
 import { convertWPImageURL } from '@src/utils/mongo/convertWPImageURL'
 import { updateTotal } from '@src/utils/mongo/updateTotal'
 /* CONSTANTS */
-import { COLLECTION, ARCHIVE } from '@sujin/lib/constants'
+import { ARCHIVE } from '@sujin/lib/constants'
 
 export const refreshCategory = async (_slug: string, token: string): Promise<boolean[]> => {
     const user = await verifyAccessToken(token)
@@ -53,7 +51,6 @@ export const refreshCategory = async (_slug: string, token: string): Promise<boo
         },
     )
 
-    Cached.getInstance().flush(getCacheKey(COLLECTION.ARCHIVE, ARCHIVE.CATEGORY, slug))
     // TODO connect post-category
     await updateTotal([archive._id])
     Logger.info(`🤞 refreshCategory mutation done: ${slug}`)

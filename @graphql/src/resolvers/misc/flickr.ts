@@ -1,14 +1,10 @@
 /* Models */
 import { Logger } from '@sujin/share/model/Logger'
 /* CONSTANTS */
-import { DAY_IN_SECONDS } from '@sujin/share/constants/datetime'
 import { IS_DEV } from '@sujin/share/constants/helper'
 import { STATIC_FLICKR } from '@src/constants'
-import { COLLECTION } from '@sujin/lib/constants'
 /* T_Types */
 import type { T_FlickrImage, T_FlickrResponse } from '@sujin/lib/types'
-/* Utils */
-import { cachedRequest, getCacheKey } from '@sujin/lib/utils/cache'
 
 /**
  * Default set of Flickr items used when the environment is in dev mode or
@@ -72,11 +68,7 @@ const requestFlickrImages = async (): Promise<T_FlickrImage[]> => {
  * @returns {Promise<T_FlickrImage[]>} Promise resolving to `T_FlickrImage[]`.
  */
 export const flickr = async (): Promise<T_FlickrImage[]> => {
-    const cached = cachedRequest(requestFlickrImages, getCacheKey(COLLECTION.ARCHIVE, 'flickr'), {
-        ttl: DAY_IN_SECONDS * 30,
-    })
-
-    const result = await cached()
+    const result = await requestFlickrImages()
     Logger.info('⭐️ flickr query has been finished')
     return result
 }

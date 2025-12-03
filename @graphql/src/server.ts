@@ -35,7 +35,7 @@ const server = new ApolloServer({
     ],
 })
 
-const origin = process.env.CORS_ORIGINS ? JSON.parse(process.env.CORS_ORIGINS) : ['*']
+const origin = process.env.GQL_CORS_ORIGINS ? JSON.parse(process.env.GQL_CORS_ORIGINS) : ['*']
 const corsOptions = {
     origin,
     credentials: true,
@@ -65,7 +65,7 @@ const start = async () => {
         }),
     )
 
-    const port = process.env.SERVER_PORT // TODO strips all env string
+    const port = process.env.GQL_SERVER_PORT // TODO strips all env string
     // Modified server startup
     await new Promise<void>((resolve) => httpServer.listen({ port }, resolve))
     Logger.info(

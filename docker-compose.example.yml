@@ -10,12 +10,11 @@ services:
             MONGO_USER: ${MONGO_USER}
             MONGO_PASSWORD: ${MONGO_PASSWORD}
         ports:
-            - ${MONGO_PORT}:27017
+            - 27017:27017
         volumes:
             - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
             - mongo:/data/db
         networks:
-            - sujin_public # dev
             - sujin_database
 
     sujin_mysql:
@@ -28,13 +27,126 @@ services:
             MYSQL_PASSWORD: ${MYSQL_PASSWORD}
             MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
         ports:
-            - ${MYSQL_PORT}:3306
+            - 3306:3306
         volumes:
             - mysql:/var/lib/mysql
         networks:
-            - sujin_public # dev
             - sujin_database
             - sujin_wordpress
+
+    sujin_redis:
+        container_name: sujin_redis
+        image: redis:8.4.0-alpine
+        restart: always
+        ports:
+            - 6379:6379
+        networks:
+            - sujin_redis
+
+    sujin_wordpress:
+        container_name: sujin_wordpress
+        image: wordpress:6.8.3-php8.3
+        restart: always
+        environment:
+            WORDPRESS_DB_HOST: sujin_mysql
+            WORDPRESS_DB_NAME: ${MYSQL_DB}
+            WORDPRESS_DB_USER: ${MYSQL_USER}
+            WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+            WORDPRESS_DEBUG: 1
+            TZ: America/Toronto
+            INTER_COM_SECRET: ${INTER_COM_SECRET}
+            CRYPTO_KEY: ${CRYPTO_KEY}
+            GQL_BASE_URL: ${GQL_BASE_URL}
+            NEXT_BASE_URL: ${NEXT_BASE_URL}
+            REDIS_ENDPOINT:
+            VERSION: 12.0.0
+            ENV: development
+        ports:
+            - ${WP_SERVER_PORT}:80
+        volumes:
+            # Debug purpose
+            # Logger Recommendation https://lnav.org/
+            - ./@wordpress/wordpress/wp-config.php:/var/www/html/wp-config.php # dev
+            - ./@wordpress/debug.log:/var/www/html/wp-content/debug.log # dev
+            - ./@wordpress/plugins/resume-item:/var/www/html/wp-content/plugins/resume-item # dev
+            - ./@wordpress/plugins/carousel:/var/www/html/wp-content/plugins/carousel # dev
+            - ./@wordpress/theme:/var/www/html/wp-content/themes/sujin # dev
+            - ./@wordpress/wordpress/wp-content/plugins:/var/www/html/wp-content/plugins # dev
+            - ./@next/public/wp-content/uploads:/var/www/html/wp-content/uploads
+        networks:
+            - sujin_public
+            - sujin_wordpress
+
+    sujin_next:
+        container_name: sujin_next
+        image: sujin2f/next:12.0.1
+        restart: always
+        environment:
+            SITE_NAME: ${SITE_NAME}
+            SITE_DESCRIPTION: ${SITE_DESCRIPTION}
+            NEXT_BASE_URL: ${NEXT_BASE_URL}
+            GQL_BASE_URL: http://sujin_graphql
+            AUTH_BASE_URL: ${AUTH_BASE_URL}
+            GOOGLE_AD_CLIENT: ${GOOGLE_AD_CLIENT}
+            GOOGLE_AD_SLOT_FOOTER: ${GOOGLE_AD_SLOT_FOOTER}
+            GOOGLE_AD_SLOT_SIDEBAR: ${GOOGLE_AD_SLOT_SIDEBAR}
+            INTER_COM_SECRET: ${INTER_COM_SECRET}
+            CRYPTO_KEY: ${CRYPTO_KEY}
+            REDIS_ENDPOINT:
+            BYPASS_CACHE: ${BYPASS_CACHE}
+        ports:
+            - ${NEXT_SERVER_PORT}:80
+        volumes:
+            - ./@next/public:/app/public
+        networks:
+            - sujin_public
+            - sujin_graphql
+            - sujin_redis
+
+    sujin_graphql:
+        container_name: sujin_graphql
+        image: sujin2f/graphql:12.0.1
+        restart: always
+        environment:
+            GQL_SERVER_PORT: 80
+            MONGO: sujin_mongo:27017
+            MYSQL: sujin_mysql
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_DB: ${MYSQL_DB}
+            MONGO_DATABASE: ${MONGO_DATABASE}
+            MONGO_USER: ${MONGO_USER}
+            MONGO_PASSWORD: ${MONGO_PASSWORD}
+            GQL_CORS_ORIGINS: ${GQL_CORS_ORIGINS}
+            FLICKR_ID: ${FLICKR_ID}
+            ACCESS_SECRET: ${ACCESS_SECRET}
+            REFRESH_SECRET: ${REFRESH_SECRET}
+            INTER_COM_SECRET: ${INTER_COM_SECRET}
+            EMAIL_SECRET: ${EMAIL_SECRET}
+            CRYPTO_KEY: ${CRYPTO_KEY}
+        networks:
+            - sujin_graphql
+            - sujin_database
+
+    sujin_auth:
+        container_name: sujin_auth
+        image: sujin2f/auth:12.0.0-beta.2
+        restart: always
+        environment:
+            AUTH_SERVER_PORT: 80
+            GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+            GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+            GOOGLE_REDIRECT_URI: ${GOOGLE_REDIRECT_URI}
+            GQL_BASE_URL: ${GQL_BASE_URL}
+            AUTH_CORS_ORIGINS: ${AUTH_CORS_ORIGINS}
+            SESSION_SECRET: ${SESSION_SECRET}
+            INTER_COM_SECRET: ${INTER_COM_SECRET}
+            CRYPTO_KEY: ${CRYPTO_KEY}
+        ports:
+            - ${AUTH_SERVER_PORT}:80
+        networks:
+            - sujin_public
+            - sujin_graphql
 
 volumes:
     mongo:
@@ -43,7 +155,7 @@ volumes:
 # Networks:
 #   - In dev environment, put everything into sujin_public
 # sujin_public    Public network to web
-#                 @auth, @graphql, @next, @wordpress
+#                 @auth, @next, @wordpress
 #                 docker network create sujin_public.
 #
 # sujin_database  Private network for databases
@@ -53,6 +165,14 @@ volumes:
 # sujin_wordpress Private network for WP
 #                 @wordpress, mysql
 #                 docker network create --internal sujin_wordpress.
+#
+# sujin_redis     Private network for Redis
+#                 @wordpress, @next, @graphql, redis
+#                 docker network create --internal sujin_redis.
+#
+# sujin_graphql   Private network for Graphql
+#                 @next, @auth, @wordpress, @graphql
+#                 docker network create --internal sujin_graphql.
 networks:
     sujin_public:
         external: true
@@ -61,5 +181,11 @@ networks:
         external: true
         internal: true
     sujin_wordpress:
+        external: true
+        internal: true
+    sujin_redis:
+        external: true
+        internal: true
+    sujin_graphql:
         external: true
         internal: true

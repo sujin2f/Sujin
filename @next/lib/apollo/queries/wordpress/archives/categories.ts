@@ -1,6 +1,6 @@
 'use server'
 /* Models */
-import { client } from '@lib/apollo/apollo-client-server'
+import { client } from '@lib/utils/apollo-client'
 /* Utils */
 import { getAuthHeader } from '@lib/utils/server/header'
 /* CONSTANTS */
