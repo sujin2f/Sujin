@@ -1,9 +1,9 @@
 const client = {
-    connect: () => jest.fn(),
+    connect: async () => jest.fn(),
     isReady: true,
-    keys: () => jest.fn(),
-    del: () => jest.fn(),
-    set: () => jest.fn(),
+    keys: async () => jest.fn(),
+    del: async () => jest.fn(),
+    set: async () => jest.fn(),
     destroy: () => jest.fn(),
 }
 export const redis = { createClient: () => client }
