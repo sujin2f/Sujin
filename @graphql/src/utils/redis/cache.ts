@@ -9,7 +9,14 @@ import { createClient } from 'redis'
 export const removeCache = async (...keys: (string | number)[]): Promise<void> => {
     const redis = await createClient({
         url: `redis://${process.env.REDIS_ENDPOINT}`,
-    }).connect()
+    })
+        .connect()
+        .catch((e) => {
+            Logger.error(
+                `🤬 Redis.createClient() failed to connect from removeCache ${process.env.REDIS_ENDPOINT}, ${e.message}`,
+            )
+            throw e
+        })
 
     if (!redis || !redis.isReady) {
         return
@@ -36,7 +43,14 @@ export const removeCache = async (...keys: (string | number)[]): Promise<void> =
 export const setCache = async (data: string, key: string, ttl: number = DAY_IN_SECONDS): Promise<void> => {
     const redis = await createClient({
         url: `redis://${process.env.REDIS_ENDPOINT}`,
-    }).connect()
+    })
+        .connect()
+        .catch((e) => {
+            Logger.error(
+                `🤬 Redis.createClient() failed to connect from setCache ${process.env.REDIS_ENDPOINT}, ${e.message}`,
+            )
+            throw e
+        })
 
     if (!redis || !redis.isReady) {
         return

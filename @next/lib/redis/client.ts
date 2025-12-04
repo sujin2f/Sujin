@@ -1,4 +1,4 @@
-'server-only'
+'use server'
 import { createClient, type RedisClientType } from 'redis'
 /* Models */
 import { Logger } from '@sujin/share/model/Logger'
@@ -8,6 +8,7 @@ declare global {
 }
 
 const client = async (): Promise<RedisClientType | void> => {
+    'use server'
     if (!process.env.REDIS_ENDPOINT) {
         return
     }
@@ -37,6 +38,7 @@ const client = async (): Promise<RedisClientType | void> => {
  * @returns
  */
 export const gqlRequest = async <T>(callback: () => Promise<T>, key: string): Promise<T> => {
+    'use server'
     if (process.env.BYPASS_CACHE) {
         return await callback()
     }
@@ -62,6 +64,7 @@ export const gqlRequest = async <T>(callback: () => Promise<T>, key: string): Pr
 }
 
 export const publish = async (channel: string, _message?: unknown) => {
+    'use server'
     const redis = await client().catch((e) => {
         Logger.error(`🤬 Redis connection failed on publish: ${JSON.stringify(e)}`)
     })

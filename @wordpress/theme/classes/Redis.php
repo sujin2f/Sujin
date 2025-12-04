@@ -30,6 +30,7 @@ class Redis {
 			return;
 		}
 		$this->redis = new RedisClient( "redis://{$endpoint}" );
+		$this->redis->connect();
 	}
 
 	/**

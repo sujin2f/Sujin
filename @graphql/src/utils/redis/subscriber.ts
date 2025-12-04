@@ -21,7 +21,14 @@ import type { RedisMessageWordpress } from '@sujin/lib/types'
 ;(async () => {
     const subscriber = await createClient({
         url: `redis://${process.env.REDIS_ENDPOINT}`,
-    }).connect()
+    })
+        .connect()
+        .catch((e) => {
+            Logger.error(
+                `🤬 Redis.createClient() failed to connect from subscriber ${process.env.REDIS_ENDPOINT}, ${e.message}`,
+            )
+            throw e
+        })
 
     if (!subscriber || !subscriber.isReady) {
         return
