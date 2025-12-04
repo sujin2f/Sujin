@@ -5,7 +5,10 @@ import { Logger } from '@sujin/share/model/Logger'
 /* T_Types */
 import type { T_Recipe } from '@sujin/lib/types'
 /* Utils */
+import { removeCache } from '@src/utils/redis/cache'
 import { verifyAccessToken } from '@src/utils/security'
+/* CONSTANTS */
+import { COLLECTION } from '@sujin/lib/constants'
 
 /**
  * Create a new recipe document for the authenticated user.
@@ -33,5 +36,7 @@ export const createRecipe = async (recipe: T_Recipe, token: string): Promise<str
         search: Array.from(search).join(' '),
     })
     Logger.info('🤞 recipe mutation has been finished')
+    // TODO store recipe list as individual recipes
+    await removeCache(COLLECTION.RECIPE) // TODO when the return type of endpoint is recipe, remove list, _id, and mine
     return result._id.toString()
 }

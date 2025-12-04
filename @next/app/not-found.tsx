@@ -10,7 +10,7 @@ import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
 /* Utils */
 import { recent } from '@lib/apollo/queries/wordpress/posts/recent'
-import { gqlRequest } from '@lib/utils/redis'
+import { gqlRequest } from '@lib/redis/client'
 /* CONSTANTS */
 import { COLLECTION, MENU_NAMES } from '@sujin/lib/constants'
 
@@ -25,9 +25,7 @@ export const metadata: Metadata = {
 export default async function NotFound() {
     async function action() {
         'use server'
-        return await gqlRequest(async () => await recent(), {
-            key: `${COLLECTION.POST}-recent`,
-        }).catch(() => [])
+        return await gqlRequest(async () => await recent(), `${COLLECTION.POST}-recent`).catch(() => [])
     }
 
     return (

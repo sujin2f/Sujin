@@ -7,7 +7,10 @@ import packageJson from './package.json' with { type: 'json' }
 const config = {
     mode: process.env.NODE_ENV === 'development' ? 'development' : 'production',
     target: 'node',
-    entry: './src/server.ts',
+    entry: {
+        bundle: './src/server.ts',
+        subscriber: './src/utils/redis/subscriber.ts',
+    },
     externals: [nodeExternals()],
     module: {
         rules: [
@@ -34,7 +37,7 @@ const config = {
         },
     },
     output: {
-        filename: 'bundle.js',
+        filename: '[name].js',
         path: path.resolve(import.meta.dirname, '.build'),
     },
     optimization: {
@@ -52,6 +55,8 @@ const config = {
 if (process.env.NODE_ENV === 'development') {
     config.devServer = {
         compress: true,
+        watchFiles: ['src/**/*', '../@lib/src/**/*', '../@common/src/**/*'],
+
         port: 4000,
         hot: true, // Enable Hot Module Replacement
     }

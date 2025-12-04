@@ -10,7 +10,7 @@ import { WidgetTitle } from '@lib/components/WidgetTitle'
 /* Utils */
 import { flickr as getFlickr } from '@lib/apollo/queries/misc/flickr'
 import { tagCloud as getTagCloud } from '@lib/apollo/queries/wordpress/archives/tagCloud'
-import { gqlRequest } from '@lib/utils/redis'
+import { gqlRequest } from '@lib/redis/client'
 /* Assets */
 import './index.scss'
 import { COLLECTION } from '@sujin/lib/constants'
@@ -18,15 +18,11 @@ import { COLLECTION } from '@sujin/lib/constants'
 export const Footer = async () => {
     async function requestFlickr() {
         'use server'
-        return await gqlRequest(async () => await getFlickr(), {
-            key: `flickr`,
-        }).catch(() => [])
+        return await gqlRequest(async () => await getFlickr(), `flickr`)
     }
     async function requestTagCloud() {
         'use server'
-        return await gqlRequest(async () => await getTagCloud(), {
-            key: `${COLLECTION.ARCHIVE}-tagCloud`,
-        }).catch(() => [])
+        return await gqlRequest(async () => await getTagCloud(), `${COLLECTION.ARCHIVE}-tagCloud`)
     }
 
     return (

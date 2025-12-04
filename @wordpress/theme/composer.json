@@ -1,18 +1,16 @@
 {
-    "name": "sujin/theme",
-    "description": "A WordPress theme.",
-    "autoload": {
-        "psr-4": {
-            "Sujin\\Theme\\": "classes/"
-        }
-    },
-    "scripts": {
-        "lint": "phpcs -s -w --report=full",
-        "fix": "phpcbf"
-    },
-    "require": {
-        "firebase/php-jwt": "^6.11",
-        "carnage/php-graphql-client": "^1.14",
-        "predis/predis": "^3.3"
-    }
+	"name": "sujin/theme",
+	"description": "A WordPress theme.",
+	"autoload": {
+		"psr-4": {
+			"Sujin\\Theme\\": "classes/"
+		}
+	},
+	"scripts": {
+		"lint": "phpcs -s -w --report=full",
+		"fix": "phpcbf"
+	},
+	"require": {
+		"predis/predis": "^3.3"
+	}
 }

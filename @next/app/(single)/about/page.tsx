@@ -1,5 +1,7 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next/types'
+/* Model */
+import { Logger } from '@sujin/share/model/Logger'
 /* Components */
 import { Banner } from '@lib/components/header/Banner'
 import Row from '@common/components/layout/Row'
@@ -11,7 +13,7 @@ import { COLLECTION, IMAGE_SIZE, MENU_NAMES } from '@sujin/lib/constants'
 /* Utils */
 import { page as getPage } from '@lib/apollo/queries/wordpress/pages/page'
 import { getThumbnailFromPost } from '@lib/utils/client'
-import { gqlRequest } from '@lib/utils/redis'
+import { gqlRequest } from '@lib/redis/client'
 /* Assets */
 import '@lib/components/single/AboutItem.scss'
 
@@ -24,9 +26,17 @@ export const metadata: Metadata = {
 }
 
 export default async function AboutPage() {
-    const post = await gqlRequest(async () => await getPage('about'), {
-        key: `${COLLECTION.PAGE}-about`,
-    }).catch(() => notFound())
+    const post = await gqlRequest(async () => await getPage('about'), `${COLLECTION.PAGE}-about`)
+        .then((result) => {
+            if (!result.slug) {
+                throw new Error(`🤬 Page about request has been failed: No-content.`)
+            }
+            return result
+        })
+        .catch((e) => {
+            Logger.error(e.message)
+            notFound()
+        })
     const thumbnail = getThumbnailFromPost(post.images, [IMAGE_SIZE.MEDIUM_LARGE])
 
     return (

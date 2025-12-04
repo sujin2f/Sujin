@@ -5,9 +5,12 @@ import { Logger } from '@sujin/share/model/Logger'
 import { Post } from '@src/schema/post'
 import { post as getPost } from '@src/resolvers/wordpress/posts/post'
 /* CONSTANTS */
-import { ARCHIVE, POST_STATUS } from '@sujin/lib/constants'
+import { ARCHIVE, COLLECTION, POST_STATUS } from '@sujin/lib/constants'
+import { WEEK_IN_SECONDS } from '@sujin/share/constants/datetime'
 /* T_Types */
 import type { T_PrevNext } from '@sujin/lib/types'
+/* Utils */
+import { setCache } from '@src/utils/redis/cache'
 
 /**
  * Get the previous and next post relative to a given post slug within the same
@@ -56,6 +59,7 @@ export const prevNext = async (_slug: string): Promise<(T_PrevNext | undefined)[
         })
 
     const result = [prev, next]
-    Logger.info('⭐️ prevNext query has been finished')
+    setCache(JSON.stringify(result), `${COLLECTION.POST}-${_slug}-prevNext`, WEEK_IN_SECONDS)
+    Logger.info(`⭐️ prevNext query has been finished ${slug}`)
     return result
 }

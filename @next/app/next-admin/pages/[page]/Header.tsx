@@ -5,16 +5,24 @@ import { useRouter } from 'next/navigation'
 import HeaderComponent from '@lib/components/admin/Header'
 import Callout from '@common/components/containers/Callout'
 import InputGroup from '@common/components/forms/InputGroup'
-/* Utils */
-import { refreshPage } from '@lib/apollo/queries/wordpress/pages/refreshPage'
 /* CONSTANTS */
 import { QuantumBool } from '@sujin/share/types'
+import { POST_TYPE } from '@sujin/lib/constants'
+/* Utils */
+import { publish } from '@lib/redis/client'
+/* T_Types */
+import type { RedisMessageWordpress } from '@sujin/lib/types'
 
 export function Header() {
     const router = useRouter()
 
     const [state, action, pending] = useActionState<QuantumBool, string>(async (_: QuantumBool, slug: string) => {
-        return await refreshPage(slug)
+        const message: RedisMessageWordpress = {
+            type: POST_TYPE.PAGE,
+            action: 'update',
+            slug,
+        }
+        return await publish('wordpress', message)
             .then(() => {
                 router.refresh()
                 return QuantumBool.TRUE

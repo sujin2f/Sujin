@@ -8,8 +8,10 @@ import type { T_Recipe, T_UserSub, WithNumPages } from '@sujin/lib/types'
 import type { Nullable } from '@sujin/share/types'
 /* Utils */
 import { verifyAccessToken } from '@src/utils/security'
+import { setCache } from '@src/utils/redis/cache'
 /* CONSTANTS */
-import { PER_PAGE } from '@sujin/lib/constants'
+import { COLLECTION, PER_PAGE } from '@sujin/lib/constants'
+import { MINUTE_IN_SECONDS } from '@sujin/share/constants/datetime'
 
 /**
  * Fetch a paginated list of recipes.
@@ -35,11 +37,13 @@ export const recipes = async (_page: number, mine: boolean, token: string): Prom
     const userId = user ? user._id : ''
     const page = sanitize(_page)
     const doc = userId ? { user: new Types.ObjectId(userId) } : {}
-    const result = await Recipe.find<T_Recipe>(doc)
+    const items = await Recipe.find<T_Recipe>(doc)
         .sort({ created: -1 })
         .skip(PER_PAGE * (page - 1))
         .limit(PER_PAGE)
     const total = await Recipe.countDocuments(doc)
-    Logger.info('🤞 recipes query has been finished')
-    return { items: result, numPages: Math.ceil(total / PER_PAGE) }
+    const result = { items, numPages: Math.ceil(total / PER_PAGE) }
+    setCache(JSON.stringify(result), `${COLLECTION.RECIPE}-${mine ? userId : 'list'}-${_page}`, 30 * MINUTE_IN_SECONDS)
+    Logger.info(`⭐️ recipes query has been finished ${userId} ${page}`)
+    return result
 }

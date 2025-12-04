@@ -9,7 +9,7 @@ import { WidgetTitle } from '@lib/components/WidgetTitle'
 /* CONSTANTS */
 import { COLLECTION, MENU_NAMES } from '@sujin/lib/constants'
 /* Utils */
-import { gqlRequest } from '@lib/utils/redis'
+import { gqlRequest } from '@lib/redis/client'
 import { recipes as getRecipes } from '@lib/apollo/queries/recipes/recipes'
 import { getAuthHeader, getUserInfo } from '@lib/utils/server/header'
 
@@ -30,9 +30,10 @@ export default async function RecipeMyListPage(props: Props) {
 
     async function action() {
         'use server'
-        return await gqlRequest(async () => await getRecipes(page, await getAuthHeader()), {
-            key: `${COLLECTION.RECIPE}-user-${user!._id}-${page}`,
-        })
+        return await gqlRequest(
+            async () => await getRecipes(page, await getAuthHeader()),
+            `${COLLECTION.RECIPE}-${user!._id}-${page}`,
+        )
     }
 
     return (

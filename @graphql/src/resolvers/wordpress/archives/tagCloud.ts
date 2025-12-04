@@ -3,8 +3,11 @@ import { Logger } from '@sujin/share/model/Logger'
 import { Archive } from '@src/schema/archive'
 /* Utils */
 import { shuffle } from '@sujin/share/utils/array'
+import { setCache } from '@src/utils/redis/cache'
 /* CONSTANTS */
-import { ARCHIVE } from '@sujin/lib/constants'
+import { ARCHIVE, COLLECTION } from '@sujin/lib/constants'
+import { DAY_IN_SECONDS } from '@sujin/share/constants/datetime'
+/* T_Types */
 import type { T_Archive } from '@sujin/lib/types'
 
 /**
@@ -61,6 +64,7 @@ export const tagCloud = async (): Promise<Partial<T_Archive>[]> => {
             })
         })
     const result = shuffle(Object.values(tags))
+    setCache(JSON.stringify(result), `${COLLECTION.ARCHIVE}-tagCloud`, DAY_IN_SECONDS)
     Logger.info('⭐️ tagCloud query has been finished')
     return result
 }

@@ -21,7 +21,7 @@ export const tagCloud = async (): Promise<T_Archive[]> => {
             return result.data.tagCloud
         })
         .catch((e) => {
-            Logger.error(`🤬 Error fetching tagCloud`)
-            throw e
+            Logger.error(`🤬 Error fetching tagCloud ${JSON.stringify(e)}`)
+            return []
         })
 }

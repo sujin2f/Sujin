@@ -7,7 +7,7 @@ import { DetailClient } from './page.client'
 import { COLLECTION, MENU_NAMES } from '@sujin/lib/constants'
 /* Utils */
 import { getUserInfo } from '@lib/utils/server/header'
-import { gqlRequest } from '@lib/utils/redis'
+import { gqlRequest } from '@lib/redis/client'
 import { recipe as getRecipe } from '@lib/apollo/queries/recipes/recipe'
 
 type Props = {
@@ -19,9 +19,7 @@ type Props = {
 export default async function RecipeDetailLayout({ params }: Props) {
     const { id } = await params
     const user = await getUserInfo()
-    const recipe = await gqlRequest(async () => await getRecipe(id), {
-        key: `${COLLECTION.RECIPE}-${id}`,
-    })
+    const recipe = await gqlRequest(async () => await getRecipe(id), `${COLLECTION.RECIPE}-${id}`)
 
     return (
         <>

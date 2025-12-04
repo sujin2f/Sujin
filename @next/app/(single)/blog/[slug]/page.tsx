@@ -18,10 +18,9 @@ import { MENU_NAMES, IMAGE_SIZE, COLLECTION, POST_STATUS } from '@sujin/lib/cons
 import { post as getPost } from '@lib/apollo/queries/wordpress/posts/post'
 /* Utils */
 import { getThumbnailFromPost } from '@lib/utils/client'
-import { gqlRequest } from '@lib/utils/redis'
+import { gqlRequest, publish } from '@lib/redis/client'
 import { prevNext } from '@lib/apollo/queries/wordpress/posts/prevNext'
 import { related } from '@lib/apollo/queries/wordpress/posts/related'
-import { updateHits } from '@lib/apollo/queries/wordpress/archives/updateHits'
 /* T_Types */
 import type { T_Post } from '@sujin/lib/types'
 import { recent } from '@lib/apollo/queries/wordpress/posts/recent'
@@ -36,9 +35,9 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
     const params = await props.params
     const slug = params.slug.toLowerCase()
 
-    const post = await gqlRequest<T_Post>(async () => await getPost(slug), {
-        key: `${COLLECTION.POST}-${slug}`,
-    }).catch(() => undefined)
+    const post = await gqlRequest<T_Post>(async () => await getPost(slug), `${COLLECTION.POST}-${slug}`).catch(
+        () => undefined,
+    )
 
     if (!post) {
         return {}
@@ -64,37 +63,39 @@ export default async function PostPage(props: Props) {
     const params = await props.params
     const slug = params.slug.toLowerCase()
 
-    const post = await gqlRequest<T_Post>(async () => await getPost(slug), {
-        key: `${COLLECTION.POST}-${slug}`,
-    }).catch((e) => {
-        Logger.error(e.message)
-        notFound()
-    })
+    const post = await gqlRequest<T_Post>(async () => await getPost(slug), `${COLLECTION.POST}-${slug}`)
+        .then((result) => {
+            if (!result.slug) {
+                throw new Error(`🤬 Post ${slug} request has been failed: No-content.`)
+            }
+            return result
+        })
+        .catch((e) => {
+            Logger.error(e.message)
+            notFound()
+        })
     const thumbnail = getThumbnailFromPost(post.images, [IMAGE_SIZE.MEDIUM_LARGE])
     const tags = post.archives.filter((tag) => tag.type === 'tag')
 
-    // Update Tag Cloud
+    const slugs: string[] = []
     if (tags.length && post.status === POST_STATUS.PUBLISH) {
-        tags.forEach((tag) => updateHits(tag.slug))
+        tags.forEach((tag) => slugs.push(tag.slug))
+    }
+    if (slug.length) {
+        publish('update-hits', slugs)
     }
 
     async function requestPrevNext() {
         'use server'
-        return await gqlRequest(async () => await prevNext(slug), {
-            key: `${COLLECTION.POST}-${slug}-prevNext`,
-        }).catch(() => [])
+        return await gqlRequest(async () => await prevNext(slug), `${COLLECTION.POST}-${slug}-prevNext`).catch(() => [])
     }
     async function requestRelated() {
         'use server'
-        return await gqlRequest(async () => await related(slug), {
-            key: `${COLLECTION.POST}-${slug}-related`,
-        }).catch(() => [])
+        return await gqlRequest(async () => await related(slug), `${COLLECTION.POST}-${slug}-related`).catch(() => [])
     }
     async function requestRecent() {
         'use server'
-        return await gqlRequest(async () => await recent(), {
-            key: `${COLLECTION.POST}-recent`,
-        }).catch(() => [])
+        return await gqlRequest(async () => await recent(), `${COLLECTION.POST}-recent`).catch(() => [])
     }
 
     return (

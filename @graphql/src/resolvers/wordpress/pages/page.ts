@@ -1,12 +1,14 @@
-import { GraphQLError } from 'graphql'
 import sanitize from 'mongo-sanitize'
 /* Models */
 import { Logger } from '@sujin/share/model/Logger'
 import { Page } from '@src/schema/post'
 /* CONSTANTS */
-import { POST_STATUS } from '@sujin/lib/constants'
+import { COLLECTION, POST_STATUS } from '@sujin/lib/constants'
+import { WEEK_IN_SECONDS } from '@sujin/share/constants/datetime'
 /* T_Types */
 import type { T_Page } from '@sujin/lib/types'
+/* Utils */
+import { setCache } from '@src/utils/redis/cache'
 
 /**
  * Fetch a published page by slug, using a cached request wrapper.
@@ -17,27 +19,26 @@ import type { T_Page } from '@sujin/lib/types'
  * @returns The `T_Page` document.
  */
 export const page = async (_slug: string): Promise<T_Page> => {
-    Logger.info(`🤞 preparing page query: ${_slug}`)
     const slug = sanitize(_slug)
 
-    return await Page.findOne({
+    const result = await Page.findOne({
         slug,
         status: POST_STATUS.PUBLISH,
     })
         .then((result) => {
             if (!result) {
-                throw new GraphQLError(`Cannot find the page ${slug}`, {
-                    extensions: {
-                        code: 'NO_CONTENT',
-                    },
-                })
+                setCache(JSON.stringify({ slug: '' }), `${COLLECTION.PAGE}-${_slug}`, WEEK_IN_SECONDS)
+                throw new Error(`🤬 Cannot find the page ${slug}`)
             }
 
             Logger.info(`⭐️ page query done: ${slug}`)
             return result.toObject() as unknown as T_Page
         })
         .catch((e) => {
-            Logger.error(`🤬 Failed to find page: ${_slug}, reason ${e}`)
+            Logger.error(e.message)
             throw e
         })
+    setCache(JSON.stringify(result), `${COLLECTION.PAGE}-${_slug}`, WEEK_IN_SECONDS)
+    Logger.info(`⭐️ page query done: ${slug}`)
+    return result
 }

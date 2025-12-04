@@ -6,10 +6,10 @@ import Callout from '@common/components/containers/Callout'
 /* CONSTANTS */
 import { VERSION } from '@sujin/share/constants/helper'
 /* Utils */
-import { flushDB } from '@lib/apollo/queries/misc/flushDB'
+import { publish } from '@lib/redis/client'
 
 export default function FrontPage() {
-    const [state, action, pending] = useActionState(flushDB, false)
+    const [state, action, pending] = useActionState(() => publish('flush'), false)
     return (
         <>
             <h2>Admin</h2>

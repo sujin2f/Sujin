@@ -1,13 +1,15 @@
-import { GraphQLError } from 'graphql'
 import sanitize from 'mongo-sanitize'
 /* Models */
 import { Logger } from '@sujin/share/model/Logger'
 import { Post } from '@src/schema/post'
 /* CONSTANTS */
-import { PER_PAGE, POST_STATUS } from '@sujin/lib/constants'
+import { COLLECTION, PER_PAGE, POST_STATUS } from '@sujin/lib/constants'
 import { AGGREGATE_ARCHIVE_POST, AGGREGATE_EXPAND_ARCHIVES } from '@src/constants'
+import { WEEK_IN_SECONDS } from '@sujin/share/constants/datetime'
 /* T_Types */
 import type { T_Post, WithNumPages } from '@sujin/lib/types'
+/* Utils */
+import { setCache } from '@src/utils/redis/cache'
 
 /**
  * Search posts by text index and return paginated results.
@@ -31,21 +33,25 @@ export const search = async (_keyword: string, _page: number): Promise<WithNumPa
         { $limit: PER_PAGE },
         ...AGGREGATE_EXPAND_ARCHIVES,
         ...AGGREGATE_ARCHIVE_POST,
-    ]).then((result) => {
-        if (!result || !result.length) {
-            throw new GraphQLError(`Cannot find the post from search: ${keyword}, ${page}`, {
-                extensions: {
-                    code: 'NO_CONTENT',
-                },
-            })
-        }
-        return result
-    })
+    ])
+        .then((result) => {
+            if (!result || !result.length) {
+                setCache(JSON.stringify([]), `${COLLECTION.POST}-search-${_keyword}-${page}`, WEEK_IN_SECONDS)
+                throw new Error(`🤬 Cannot find the post from search: ${keyword}, ${page}`)
+            }
+            return result
+        })
+        .catch((e) => {
+            Logger.error(e.message)
+            throw e
+        })
+
     const total = await Post.countDocuments($match)
     const result = {
         items,
         numPages: Math.ceil(total / PER_PAGE),
     }
-    Logger.info(`🤞 post search done: ${keyword}, ${page}`)
+    setCache(JSON.stringify(result), `${COLLECTION.POST}-search-${_keyword}-${page}`, WEEK_IN_SECONDS)
+    Logger.info(`⭐️ post search done: ${keyword}, ${page}`)
     return result
 }

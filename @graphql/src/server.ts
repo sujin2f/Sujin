@@ -1,6 +1,7 @@
 import express from 'express'
 import http from 'http'
 import cors from 'cors'
+import { Worker } from 'worker_threads'
 
 import { ApolloServer } from '@apollo/server'
 import { ApolloServerPluginLandingPageDisabled } from '@apollo/server/plugin/disabled'
@@ -72,6 +73,7 @@ const start = async () => {
         `🚀 @graphql Server ready at http://localhost:${port} with config: CORS_ORIGINS: ${JSON.stringify(origin)}`,
     )
     await connectToDatabase()
+    new Worker('./.build/subscriber.js')
 }
 
 start()

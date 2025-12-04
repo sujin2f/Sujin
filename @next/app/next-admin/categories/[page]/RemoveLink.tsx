@@ -1,9 +1,12 @@
 'use client'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-
 /* Utils */
-import { removeCategory } from '@lib/apollo/queries/wordpress/archives/removeCategory'
+import { publish } from '@lib/redis/client'
+/* T_Types */
+import type { RedisMessageWordpress } from '@sujin/lib/types'
+/* CONSTANTS */
+import { ARCHIVE } from '@sujin/lib/constants'
 
 type Props = {
     readonly slug: string
@@ -16,7 +19,12 @@ export function RemoveLink({ slug }: Props) {
         <Link
             href="#"
             onClick={async () => {
-                await removeCategory(slug)
+                const message: RedisMessageWordpress = {
+                    type: ARCHIVE.CATEGORY,
+                    action: 'remove',
+                    slug,
+                }
+                await publish('wordpress', message)
                 router.refresh()
             }}
         >

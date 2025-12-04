@@ -2,10 +2,13 @@
 import { Logger } from '@sujin/share/model/Logger'
 import { Post } from '@src/schema/post'
 /* CONSTANTS */
-import { POST_STATUS, PER_PAGE } from '@sujin/lib/constants'
+import { POST_STATUS, PER_PAGE, COLLECTION } from '@sujin/lib/constants'
 import { AGGREGATE_ARCHIVE_POST, AGGREGATE_EXPAND_ARCHIVES } from '@src/constants'
+import { WEEK_IN_SECONDS } from '@sujin/share/constants/datetime'
 /* T_Types */
 import type { T_ArchivePost } from '@sujin/lib/types'
+/* Utils */
+import { setCache } from '@src/utils/redis/cache'
 
 /**
  * Public resolver that returns a cached list of recent posts.
@@ -20,6 +23,7 @@ export const recent = async (): Promise<T_ArchivePost[]> => {
         ...AGGREGATE_EXPAND_ARCHIVES,
         ...AGGREGATE_ARCHIVE_POST,
     ])
+    setCache(JSON.stringify(result), `${COLLECTION.POST}-recent`, WEEK_IN_SECONDS)
     Logger.info('⭐️ recent query has been finished')
     return result
 }

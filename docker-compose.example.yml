@@ -54,9 +54,6 @@ services:
             WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
             WORDPRESS_DEBUG: 1
             TZ: America/Toronto
-            INTER_COM_SECRET: ${INTER_COM_SECRET}
-            CRYPTO_KEY: ${CRYPTO_KEY}
-            GQL_BASE_URL: ${GQL_BASE_URL}
             NEXT_BASE_URL: ${NEXT_BASE_URL}
             REDIS_ENDPOINT:
             VERSION: 12.0.0
@@ -76,6 +73,7 @@ services:
         networks:
             - sujin_public
             - sujin_wordpress
+            - sujin_redis
 
     sujin_next:
         container_name: sujin_next

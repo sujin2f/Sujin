@@ -1,6 +1,7 @@
 'use server'
 /* Models */
 import { client } from '@lib/utils/apollo-client'
+import { Logger } from '@sujin/share/model/Logger'
 /* CONSTANTS */
 import BACKGROUND_LIST from '@lib/apollo/queries/wordpress/backgrounds/backgrounds.graphql'
 /* T_Types */
@@ -12,5 +13,9 @@ export const backgrounds = async (): Promise<T_Background[]> => {
         .then((result) => {
             if (!result.data) return []
             return result.data.backgrounds
+        })
+        .catch((e) => {
+            Logger.error(`🤬 Error fetching backgrounds ${JSON.stringify(e)}`)
+            return []
         })
 }

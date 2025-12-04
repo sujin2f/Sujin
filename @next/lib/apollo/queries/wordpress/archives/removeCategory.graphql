@@ -1,3 +1,0 @@
-mutation RemoveCategory($slug: String!) {
-    removeCategory(slug: $slug)
-}

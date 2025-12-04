@@ -6,6 +6,9 @@ import { Logger } from '@sujin/share/model/Logger'
 /* Utils */
 import { verifyAccessToken } from '@src/utils/security'
 import { recipe as getRecipe } from '@src/resolvers/recipes/recipe'
+import { removeCache } from '@src/utils/redis/cache'
+/* CONSTANTS */
+import { COLLECTION } from '@sujin/lib/constants'
 
 /**
  * Remove a recipe owned by the authenticated user.
@@ -29,6 +32,8 @@ export const removeRecipe = async (__id: string, token: string): Promise<string[
     if (recipe.user.toString() !== user._id) throw new Error('The recipe you are trying to remove is not yours.')
 
     await Recipe.deleteOne({ _id: new Types.ObjectId(_id) })
+    // TODO store recipe list as individual recipes
+    await removeCache(COLLECTION.RECIPE) // TODO when the return type of endpoint is recipe, remove list, _id, and mine
     Logger.info('🤞 recipe removal has been finished')
     return []
 }

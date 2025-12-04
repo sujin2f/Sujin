@@ -7,6 +7,9 @@ import { Spectra } from '@src/schema/spectra'
 // Mock Logger
 import LoggerMock from '@test/mocks/utils/logger'
 jest.doMock('@sujin/share/model/Logger', () => LoggerMock)
+// Mock Redis
+import { redis } from '@test/mocks/redis'
+jest.doMock('redis', () => redis)
 // Mock global fetch
 global.fetch = jest.fn(() =>
     Promise.resolve({

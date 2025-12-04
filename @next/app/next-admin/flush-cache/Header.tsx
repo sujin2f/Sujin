@@ -9,7 +9,7 @@ import Button from '@common/components/forms/Button'
 import { QuantumBool } from '@sujin/share/types'
 
 type Props = {
-    readonly action: () => Promise<void>
+    readonly action: () => Promise<boolean>
 }
 
 export function Header({ action: flushCache }: Props) {

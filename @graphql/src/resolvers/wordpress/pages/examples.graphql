@@ -6,8 +6,3 @@ query {
         title
     }
 }
-
-mutation {
-    refreshPage(slug: "about")
-    removePage(slug: "about")
-}

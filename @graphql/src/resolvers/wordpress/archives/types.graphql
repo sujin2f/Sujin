@@ -6,12 +6,6 @@ type Query {
     tags(page: Int!): [Archive]
 }
 
-type Mutation {
-    updateHits(slug: String!): [Boolean]
-    refreshCategory(slug: String!): [Boolean]
-    removeCategory(slug: String!): [Boolean]
-}
-
 type TagCloud {
     id: Int
     title: String

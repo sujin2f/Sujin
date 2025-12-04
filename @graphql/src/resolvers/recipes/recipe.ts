@@ -5,6 +5,11 @@ import { Recipe } from '@src/schema/recipe'
 import { Logger } from '@sujin/share/model/Logger'
 /* T_Types */
 import type { T_Recipe } from '@sujin/lib/types'
+/* CONSTANTS */
+import { COLLECTION } from '@sujin/lib/constants'
+import { WEEK_IN_SECONDS } from '@sujin/share/constants/datetime'
+/* Utils */
+import { setCache } from '@src/utils/redis/cache'
 
 /**
  * Fetch a single recipe by id.
@@ -25,6 +30,7 @@ export const recipe = async (__id: string): Promise<T_Recipe> => {
         _id: new Types.ObjectId(_id),
     })
     if (!result) throw new Error('Recipe not found')
+    setCache(JSON.stringify(result), `${COLLECTION.RECIPE}-${__id}`, WEEK_IN_SECONDS)
     Logger.info('🤞 recipe query has been finished')
     return result
 }

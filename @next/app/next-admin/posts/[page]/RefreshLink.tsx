@@ -2,7 +2,11 @@
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 /* Utils */
-import { refreshPost } from '@lib/apollo/queries/wordpress/posts/refreshPost'
+import { publish } from '@lib/redis/client'
+/* T_Types */
+import type { RedisMessageWordpress } from '@sujin/lib/types'
+/* CONSTANTS */
+import { POST_TYPE } from '@sujin/lib/constants'
 
 type Props = {
     readonly slug: string
@@ -15,7 +19,12 @@ export function RefreshLink({ slug }: Props) {
         <Link
             href="#"
             onClick={async () => {
-                await refreshPost(slug)
+                const message: RedisMessageWordpress = {
+                    type: POST_TYPE.POST,
+                    action: 'update',
+                    slug,
+                }
+                await publish('wordpress', message)
                 router.refresh()
             }}
         >

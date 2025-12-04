@@ -30,9 +30,3 @@ query {
         title
     }
 }
-
-mutation {
-    refreshPost(slug: "?")
-    refreshPosts(slug: "?", page: 1)
-    refreshPostsAll(page: 1)
-}

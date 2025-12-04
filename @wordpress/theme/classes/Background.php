@@ -9,10 +9,7 @@
 
 namespace Sujin\Theme;
 
-use Sujin\Theme\Tokens;
 use Sujin\Theme\Redis;
-use GraphQL\Client;
-use GraphQL\Mutation;
 
 /**
  * Post controller
@@ -22,20 +19,19 @@ class Background {
 	 * Constructor
 	 */
 	public function __construct() {
-		add_action( 'updated_post_meta', array( $this, 'gql_refresh_background' ), 10, 4 );
+		add_action( 'updated_post_meta', array( $this, 'set_background_term' ), 10, 4 );
 	}
 
 	/**
-	 * Send GQL refresh background when attachment changes.
+	 * Set background term to attachment and sene message to Redis.
 	 *
 	 * @param int    $_           ID of updated metadata entry.
 	 * @param int    $object_id   ID of the object metadata is for.
 	 * @param string $meta_key    Metadata key.
 	 * @param mixed  $_meta_value Metadata value.
-	 * @param int    $attempt     recursive for refresh token.
 	 * @return void
 	 */
-	public function gql_refresh_background( int $_, int $object_id, string $meta_key, mixed $_meta_value, int $attempt = 1 ): void {
+	public function set_background_term( int $_, int $object_id, string $meta_key, mixed $_meta_value ): void {
 		if ( 'background_image' !== $meta_key ) {
 			return;
 		}
@@ -47,19 +43,9 @@ class Background {
 			wp_set_post_terms( $object_id, array(), 'category' );
 		}
 
-		$client = new Client( getenv_docker( 'GQL_BASE_URL', '' ), array( 'authorization' => 'Bearer ' . Tokens::get_token() ) );
-		$gql    = new Mutation( 'refreshBackgrounds' );
-
-		try {
-			$client->runQuery( $gql );
-			$redis = new Redis();
-			$redis->del( 'backgrounds' );
-		} catch ( \Exception $_ ) {
-			if ( 1 === $attempt ) {
-				Tokens::refresh_token();
-				$this->gql_refresh_background( 0, $object_id, $meta_key, $_meta_value, 2 );
-			}
-		}
+		$redis = new Redis();
+		$redis->publish( 'backgrounds' );
+		$redis->quit();
 	}
 
 	/**

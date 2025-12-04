@@ -8,6 +8,7 @@ query Post($slug: String!) {
         excerpt
         date
         content
+        status
         meta {
             backgroundColor
         }
@@ -64,6 +65,7 @@ query Post($slug: String!) {
         }
         archives {
             title
+            slug
             type
         }
     }

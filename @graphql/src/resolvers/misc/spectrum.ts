@@ -9,8 +9,11 @@ import type { Nullable } from '@sujin/share/types'
 /* Utils */
 import { getAtom } from '@sujin/lib/utils/ether'
 import { romanize } from '@sujin/share/utils/number'
+import { setCache } from '@src/utils/redis/cache'
 /* CONSTANTS */
 import { orbitalKeys } from '@sujin/lib/constants/ether'
+import { COLLECTION } from '@sujin/lib/constants'
+import { DAY_IN_SECONDS, WEEK_IN_SECONDS } from '@sujin/share/constants/datetime'
 
 /**
  * Public resolver that returns spectra for a given atomic `number` and
@@ -32,24 +35,27 @@ export const spectrum = async (_number: number, _ion: number): Promise<ISpectrum
     const result = await Spectra.find<ISpectrum>({
         number,
         ion,
-    }).then(async (result) => {
-        if (result && result.length) {
-            return result
-        }
-
-        const csv = await requestNIST(atom, ion)
-        if (!csv) {
-            return []
-        }
-
-        await insertManyFromCSV(atom.number, ion, csv)
-        return await Spectra.find({
-            number,
-            ion,
-        })
     })
+        .then(async (result) => {
+            if (result && result.length) {
+                return result
+            }
 
-    Logger.info('🤞 spectra query has been finished')
+            const csv = await requestNIST(atom, ion)
+            await insertManyFromCSV(atom.number, ion, csv)
+            return await Spectra.find({
+                number,
+                ion,
+            })
+        })
+        .catch((e) => {
+            Logger.error(e.message)
+            setCache(JSON.stringify([]), `${COLLECTION.SPECTRA}-${_number}-${_ion}`, 3 * DAY_IN_SECONDS)
+            throw e
+        })
+
+    setCache(JSON.stringify(result), `${COLLECTION.SPECTRA}-${_number}-${_ion}`, 42 * WEEK_IN_SECONDS)
+    Logger.info(`⭐️ spectra query has been finished ${_number}-${_ion}`)
     return result
 }
 
@@ -62,8 +68,7 @@ const requestNIST = async (atom: Atom, ion: number) => {
         cache: 'force-cache',
     }).then((response) => {
         if (response.status >= 400) {
-            Logger.error(`⛈️ Failed to request NIST -- atom:${atom.number}, ion:${ion}`)
-            return ''
+            throw new Error(`⛈️ Failed to request NIST -- atom:${atom.number}, ion:${ion}`)
         }
         return response.text()
     })

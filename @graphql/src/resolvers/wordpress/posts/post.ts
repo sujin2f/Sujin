@@ -1,13 +1,15 @@
-import { GraphQLError } from 'graphql'
 import sanitize from 'mongo-sanitize'
 /* Models */
 import { Logger } from '@sujin/share/model/Logger'
 import { Post } from '@src/schema/post'
 /* CONSTANTS */
-import { POST_STATUS } from '@sujin/lib/constants'
+import { COLLECTION, POST_STATUS } from '@sujin/lib/constants'
 import { AGGREGATE_EXPAND_ARCHIVES } from '@src/constants'
+import { WEEK_IN_SECONDS } from '@sujin/share/constants/datetime'
 /* T_Types */
 import type { T_Post } from '@sujin/lib/types'
+/* Utils */
+import { setCache } from '@src/utils/redis/cache'
 
 /**
  * Fetch a single published post by slug and expand related archive data.
@@ -21,20 +23,26 @@ import type { T_Post } from '@sujin/lib/types'
  */
 export const post = async (_slug: string): Promise<T_Post> => {
     const slug = sanitize(_slug)
-    return await Post.aggregate<T_Post>([
+    const result = await Post.aggregate<T_Post>([
         {
             $match: { slug, status: POST_STATUS.PUBLISH },
         },
         ...AGGREGATE_EXPAND_ARCHIVES,
-    ]).then((result) => {
-        if (!result || !result.length) {
-            throw new GraphQLError(`Cannot find the post ${slug}`, {
-                extensions: {
-                    code: 'NO_CONTENT',
-                },
-            })
-        }
-        Logger.info(`⭐️ post query done: ${slug}`)
-        return result[0]
-    })
+    ])
+        .then((result) => {
+            if (!result || !result.length) {
+                setCache(JSON.stringify({ slug: '' }), `${COLLECTION.POST}-${_slug}`, WEEK_IN_SECONDS)
+                throw new Error(`🤬 Cannot find the post ${slug}`)
+            }
+            Logger.info(`⭐️ post query done: ${slug}`)
+            return result[0]
+        })
+        .catch((e) => {
+            Logger.error(e.message)
+            throw e
+        })
+
+    setCache(JSON.stringify(result), `${COLLECTION.POST}-${_slug}`, WEEK_IN_SECONDS)
+    Logger.info(`⭐️ post query done: ${slug}`)
+    return result
 }

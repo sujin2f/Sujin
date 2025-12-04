@@ -1,33 +1,22 @@
-import sanitize from 'mongo-sanitize'
 /* Models */
 import { Logger } from '@sujin/share/model/Logger'
 import { Page } from '@src/schema/post'
 /* CONSTANTS */
-import { POST_TYPE, POST_IMAGE_LOCATION } from '@sujin/lib/constants'
+import { POST_TYPE, POST_IMAGE_LOCATION, COLLECTION } from '@sujin/lib/constants'
 import { DAY_IN_MS } from '@sujin/share/constants/datetime'
 /* Utils */
-import { verifyAccessToken, verifyAdmin } from '@src/utils/security'
 import { getPostBy } from '@src/utils/mysql/post'
 import { mysqlDisconnect } from '@src/utils/mysql'
 import { convertWPImageURL } from '@src/utils/mongo/convertWPImageURL'
+import { removeCache } from '@src/utils/redis/cache'
 
 /**
  * Refresh a page by fetching the latest content from MySQL and updating the
  * MongoDB `Page` document.
  *
- * - Requires an admin token.
- * - Normalizes image URLs and updates/inserts the page document.
- * - Flushes related cache keys.
- *
- * @param _slug - The slug of the page to refresh.
- * @param token - Admin GraphQL JWT.
- * @returns An empty array on success.
+ * @param slug - The slug of the page to refresh.
  */
-export const refreshPage = async (_slug: string, token: string): Promise<boolean[]> => {
-    const user = await verifyAccessToken(token)
-    await verifyAdmin(user.email)
-
-    const slug = sanitize(_slug)
+export const updatePage = async (slug: string): Promise<void> => {
     const wpPage = await getPostBy('slug', slug, POST_TYPE.PAGE)
     const date = Math.trunc(wpPage.date.getTime() / DAY_IN_MS)
 
@@ -45,6 +34,6 @@ export const refreshPage = async (_slug: string, token: string): Promise<boolean
         }
     })
 
-    Logger.info(`🤞 refreshPage mutation done: ${slug}`)
-    return []
+    removeCache(`${COLLECTION.PAGE}-${slug}`)
+    Logger.info(`⭐️ updatePage done: ${slug}`)
 }
