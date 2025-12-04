@@ -6,9 +6,11 @@ import { Post } from '@src/schema/post'
 /* Utils */
 import { post as getPost } from '@src/resolvers/wordpress/posts/post'
 import { recent } from '@src/resolvers/wordpress/posts/recent'
+import { setCache } from '@src/utils/redis/cache'
 /* CONSTANTS */
-import { POST_STATUS } from '@sujin/lib/constants'
+import { COLLECTION, POST_STATUS } from '@sujin/lib/constants'
 import { AGGREGATE_ARCHIVE_POST, AGGREGATE_EXPAND_ARCHIVES } from '@src/constants'
+import { WEEK_IN_SECONDS } from '@sujin/share/constants/datetime'
 /* T_Types */
 import type { T_ArchivePost } from '@sujin/lib/types'
 
@@ -26,7 +28,8 @@ import type { T_ArchivePost } from '@sujin/lib/types'
 export const related = async (_slug: string): Promise<T_ArchivePost[]> => {
     const slug = sanitize(_slug)
     const result = await query(slug)
-    Logger.info('⭐️ related query has been finished')
+    setCache(JSON.stringify(result), `${COLLECTION.POST}-${_slug}-related`, WEEK_IN_SECONDS)
+    Logger.info(`⭐️ related query has been finished ${slug}`)
     return result
 }
 

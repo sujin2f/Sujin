@@ -9,7 +9,7 @@ const config = {
     target: 'node',
     entry: {
         bundle: './src/server.ts',
-        subscriber: './src/subscriber/index.ts',
+        subscriber: './src/utils/redis/subscriber.ts',
     },
     externals: [nodeExternals()],
     module: {
@@ -55,6 +55,8 @@ const config = {
 if (process.env.NODE_ENV === 'development') {
     config.devServer = {
         compress: true,
+        watchFiles: ['src/**/*', '../@lib/src/**/*', '../@common/src/**/*'],
+
         port: 4000,
         hot: true, // Enable Hot Module Replacement
     }

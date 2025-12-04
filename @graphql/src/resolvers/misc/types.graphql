@@ -2,10 +2,6 @@ type Query {
     flickr: [FlickrImage]
     spectrum(number: Int!, ion: Int!): [Spectra]
 }
-type Mutation {
-    flushDB: Boolean
-}
-
 type FlickrImage {
     title: String
     link: String

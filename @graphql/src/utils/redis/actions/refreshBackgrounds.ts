@@ -2,12 +2,14 @@
 import { Logger } from '@sujin/share/model/Logger'
 import { Background } from '@src/schema/background'
 /* Utils */
-import { verifyAccessToken, verifyAdmin } from '@src/utils/security'
 import { mysqlDisconnect } from '@src/utils/mysql'
 import { convertWPImageURL } from '@src/utils/mongo/convertWPImageURL'
 import { getBackgrounds } from '@src/utils/mysql/media'
+import { removeCache } from '@src/utils/redis/cache'
 /* T_Types */
 import type { T_Background } from '@sujin/lib/types'
+/* CONSTANTS */
+import { COLLECTION } from '@sujin/lib/constants'
 
 /**
  * Refresh background images from MySQL and replace the MongoDB collection.
@@ -19,19 +21,14 @@ import type { T_Background } from '@sujin/lib/types'
  * @param token - Admin GraphQL JWT.
  * @returns An empty array on success.
  */
-export const refreshBackgrounds = async (token: string): Promise<T_Background[]> => {
-    Logger.info(`🤞 refreshBackground mutation start`)
-    const user = await verifyAccessToken(token)
-    Logger.info(`🤞 Access token verified. ${JSON.stringify(user)}`)
-    await verifyAdmin(user.email)
-    Logger.info(`🤞 Access token verified. ${JSON.stringify(user)}`)
-
+export const refreshBackgrounds = async (): Promise<T_Background[]> => {
     await getBackgrounds().then(async (result) => {
         const backgrounds = result.map((image) => convertWPImageURL(image))
         await Background.deleteMany({})
         await Background.insertMany(backgrounds)
     })
     await mysqlDisconnect()
-    Logger.info(`⭐️ refreshBackground mutation done`)
+    removeCache(COLLECTION.BACKGROUNDS)
+    Logger.info(`⭐️ refreshBackground done`)
     return []
 }

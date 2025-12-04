@@ -3,6 +3,9 @@ import { Logger } from '@sujin/share/model/Logger'
 /* CONSTANTS */
 import { IS_DEV } from '@sujin/share/constants/helper'
 import { STATIC_FLICKR } from '@src/constants'
+import { DAY_IN_SECONDS } from '@sujin/share/constants/datetime'
+/* Utils */
+import { setCache } from '@src/utils/redis/cache'
 /* T_Types */
 import type { T_FlickrImage, T_FlickrResponse } from '@sujin/lib/types'
 
@@ -69,6 +72,7 @@ const requestFlickrImages = async (): Promise<T_FlickrImage[]> => {
  */
 export const flickr = async (): Promise<T_FlickrImage[]> => {
     const result = await requestFlickrImages()
+    setCache(JSON.stringify(result), 'flickr', 30 * DAY_IN_SECONDS)
     Logger.info('⭐️ flickr query has been finished')
     return result
 }

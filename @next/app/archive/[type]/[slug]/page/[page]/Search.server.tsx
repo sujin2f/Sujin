@@ -10,7 +10,7 @@ import { Cards } from '@lib/components/archive/Cards'
 import { ARCHIVE, COLLECTION, MENU_NAMES } from '@sujin/lib/constants'
 import { search } from '@lib/apollo/queries/wordpress/posts/search'
 /* Utils */
-import { gqlRequest } from '@lib/utils/redis'
+import { gqlRequest } from '@lib/redis/client'
 
 type Props = {
     slug: string
@@ -18,12 +18,17 @@ type Props = {
 }
 
 export async function SearchServer({ slug, page }: Props) {
-    const posts = await gqlRequest(async () => await search(slug, page), {
-        key: `${COLLECTION.POST}-search-${slug}-${page}`,
-    }).catch((e) => {
-        Logger.error(e.message)
-        notFound()
-    })
+    const posts = await gqlRequest(async () => await search(slug, page), `${COLLECTION.POST}-search-${slug}-${page}`)
+        .then((result) => {
+            if (!result.items.length) {
+                throw new Error(`🤬 Search result ${slug} ${page} request has been failed: No-content.`)
+            }
+            return result
+        })
+        .catch((e) => {
+            Logger.error(e.message)
+            notFound()
+        })
 
     return (
         <>

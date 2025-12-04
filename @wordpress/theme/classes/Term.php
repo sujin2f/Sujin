@@ -9,11 +9,7 @@
 
 namespace Sujin\Theme;
 
-use Sujin\Theme\Tokens;
 use Sujin\Theme\Redis;
-use GraphQL\Client;
-use GraphQL\Mutation;
-use GraphQL\Variable;
 
 /**
  * Post controller
@@ -23,18 +19,17 @@ class Term {
 	 * Constructor
 	 */
 	public function __construct() {
-		add_action( 'saved_term', array( $this, 'gql_refresh_term' ), 10, 3 );
+		add_action( 'saved_term', array( $this, 'redis_refresh_term' ), 10, 3 );
 	}
 
 	/**
-	 * Send refreshCategory to GQL
+	 * Send Redis a message to update change
 	 *
 	 * @param int    $_        Term ID.
 	 * @param int    $tt_id    Term taxonomy ID.
 	 * @param string $taxonomy Taxonomy slug.
-	 * @param int    $attempt  recursive for refresh token.
 	 */
-	public function gql_refresh_term( int $_, int $tt_id, string $taxonomy, int $attempt = 1 ): void {
+	public function redis_refresh_term( int $_, int $tt_id, string $taxonomy ): void {
 		$term = get_term_by( 'term_taxonomy_id', $tt_id );
 		if ( ! $term ) {
 			return;
@@ -46,25 +41,15 @@ class Term {
 			return;
 		}
 
-		$client = new Client( getenv_docker( 'GQL_BASE_URL', '' ), array( 'authorization' => 'Bearer ' . Tokens::get_token() ) );
-		$gql    = ( new Mutation( 'refreshCategory' ) )
-			->setVariables( array( new Variable( 'slug', 'String', true ) ) )
-			->setArguments( array( 'slug' => '$slug' ) );
-
-		try {
-			$client->runQuery(
-				$gql,
-				true,
-				array( 'slug' => $slug )
-			);
-
-			$redis = new Redis();
-			$redis->del( "archives-category-{$slug}" );
-		} catch ( \Exception $_ ) {
-			if ( 1 === $attempt ) {
-				Tokens::refresh_token();
-				$this->gql_refresh_term( 0, $tt_id, $taxonomy, 2 );
-			}
-		}
+		$redis = new Redis();
+		$redis->publish(
+			'wordpress', // phpcs:ignore WordPress.WP.CapitalPDangit.MisspelledInText
+			array(
+				'type'   => 'category',
+				'action' => 'update',
+				'slug'   => $slug,
+			)
+		);
+		$redis->quit();
 	}
 }

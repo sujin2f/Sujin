@@ -20,6 +20,4 @@ export const Query = {
 export const Mutation = {
     ...users.Mutation,
     ...recipes.Mutation,
-    ...misc.Mutation,
-    ...wordpress.Mutation,
 }

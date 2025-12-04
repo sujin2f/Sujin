@@ -10,12 +10,6 @@ type Query {
     related(slug: String!): [Post]
 }
 
-type Mutation {
-    refreshPost(slug: String!): [Boolean]
-    refreshPosts(slug: String!, page: Int!): [Boolean]
-    refreshPostsAll(page: Int!): [Boolean]
-}
-
 type Post implements I_Page {
     _id: String
     id: Int

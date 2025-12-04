@@ -6,24 +6,29 @@ import HeaderComponent from '@lib/components/admin/Header'
 import Callout from '@common/components/containers/Callout'
 import InputGroup from '@common/components/forms/InputGroup'
 /* Utils */
-import { refreshCategory } from '@lib/apollo/queries/wordpress/archives/refreshCategory'
+import { publish } from '@lib/redis/client'
 /* CONSTANTS */
 import { QuantumBool } from '@sujin/share/types'
+import { ARCHIVE } from '@sujin/lib/constants'
+/* T_Types */
+import type { RedisMessageWordpress } from '@sujin/lib/types'
 
 export function Header() {
     const router = useRouter()
 
-    const [state, action, pending] = useActionState<QuantumBool, string>(
-        async (_: QuantumBool, slug: string) => {
-            return await refreshCategory(slug)
-                .then(() => {
-                    router.refresh()
-                    return QuantumBool.TRUE
-                })
-                .catch(() => QuantumBool.FALSE)
-        },
-        QuantumBool.MOD,
-    )
+    const [state, action, pending] = useActionState<QuantumBool, string>(async (_: QuantumBool, slug: string) => {
+        const message: RedisMessageWordpress = {
+            type: ARCHIVE.CATEGORY,
+            action: 'update',
+            slug,
+        }
+        return await publish('wordpress', message)
+            .then(() => {
+                router.refresh()
+                return QuantumBool.TRUE
+            })
+            .catch(() => QuantumBool.FALSE)
+    }, QuantumBool.MOD)
     const ref = useRef<HTMLInputElement>(null)
 
     return (
@@ -45,9 +50,7 @@ export function Header() {
 
             {pending ? <Callout>..Updating DB</Callout> : null}
             {state === QuantumBool.TRUE ? <Callout>DB Updated</Callout> : null}
-            {state === QuantumBool.FALSE ? (
-                <Callout>DB Updated Failed</Callout>
-            ) : null}
+            {state === QuantumBool.FALSE ? <Callout>DB Updated Failed</Callout> : null}
         </>
     )
 }

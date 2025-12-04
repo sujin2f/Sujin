@@ -15,8 +15,3 @@ query {
         title
     }
 }
-
-mutation {
-    refreshCategory(slug: "?")
-    removeCategory(slug: "?")
-}

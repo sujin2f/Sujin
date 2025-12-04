@@ -15,10 +15,4 @@ export const wordpress = {
         ...backgrounds.Query,
         ...archives.Query,
     },
-    Mutation: {
-        ...posts.Mutation,
-        ...pages.Mutation,
-        ...backgrounds.Mutation,
-        ...archives.Mutation,
-    },
 }

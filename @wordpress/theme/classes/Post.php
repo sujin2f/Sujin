@@ -10,9 +10,6 @@
 namespace Sujin\Theme;
 
 use Sujin\Theme\Redis;
-use GraphQL\Client;
-use GraphQL\Mutation;
-use GraphQL\Variable;
 
 /**
  * Post controller
@@ -38,10 +35,10 @@ class Post {
 		if ( 'publish' === $post->post_status ) {
 			$this->save_content( $post_id, $post->post_content );
 			$this->update_version( $post_id, );
-			$this->gql_refresh_post( $post->post_name, $post->post_type );
+			$this->redis_refresh_post( $post->post_name, $post->post_type );
 		} else {
 			delete_post_meta( $post_id, 'the_content' );
-			$this->gql_refresh_post( $post->post_name, $post->post_type );
+			$this->redis_refresh_post( $post->post_name, $post->post_type );
 		}
 	}
 
@@ -72,42 +69,30 @@ class Post {
 	}
 
 	/**
-	 * Send refreshPost/Page to GQL
+	 * Send Redis a message to update change
 	 *
 	 * @param string $slug      Post slug.
 	 * @param string $post_type post or page.
-	 * @param int    $attempt   recursive for refresh token.
 	 */
-	private function gql_refresh_post( string $slug, string $post_type, int $attempt = 1 ): void {
-		$query = match ( $post_type ) {
-			'post' => 'refreshPost',
-			'page' => 'refreshPage',
+	private function redis_refresh_post( string $slug, string $post_type ): void {
+		$type = match ( $post_type ) {
+			'post' => 'post',
+			'page' => 'post',
 			default => '',
 		};
-		if ( ! $query ) {
+		if ( ! $type ) {
 			return;
 		}
 
-		$client = new Client( getenv_docker( 'GQL_BASE_URL', '' ), array( 'authorization' => 'Bearer ' . Tokens::get_token() ) );
-		$gql    = ( new Mutation( $query ) )
-			->setVariables( array( new Variable( 'slug', 'String', true ) ) )
-			->setArguments( array( 'slug' => '$slug' ) );
-
-		try {
-			$client->runQuery(
-				$gql,
-				true,
-				array( 'slug' => $slug )
-			);
-
-			$redis = new Redis();
-			$redis->del( "{$post_type}s-archive" );
-			$redis->del( "{$post_type}s-{$slug}" );
-		} catch ( \Exception $_ ) {
-			if ( 1 === $attempt ) {
-				Tokens::refresh_token();
-				$this->gql_refresh_post( $slug, $post_type, 2 );
-			}
-		}
+		$redis = new Redis();
+		$redis->publish(
+			'wordpress', // phpcs:ignore WordPress.WP.CapitalPDangit.MisspelledInText
+			array(
+				'type'   => $type,
+				'action' => 'update',
+				'slug'   => $slug,
+			)
+		);
+		$redis->quit();
 	}
 }

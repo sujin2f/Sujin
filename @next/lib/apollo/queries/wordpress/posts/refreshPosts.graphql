@@ -1,3 +1,0 @@
-mutation RefreshPosts($slug: String!, $page: Int!) {
-    refreshPosts(slug: $slug, page: $page)
-}

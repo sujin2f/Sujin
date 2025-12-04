@@ -23,8 +23,4 @@ export const page = async (slug: string): Promise<T_Page> => {
             Logger.info(`⭐️ page query done! ${slug}`)
             return result.data.page
         })
-        .catch((e) => {
-            Logger.error(JSON.stringify(e))
-            throw e
-        })
 }

@@ -33,31 +33,26 @@ class Redis {
 	}
 
 	/**
-	 * Delete Redis cache
+	 * Send Redis publishing message
 	 *
-	 * @param string $key key to delete.
+	 * @param string $channel message channel.
+	 * @param mixed  $message .
 	 * @return void
 	 */
-	public function del( string $key ): void {
+	public function publish( string $channel, mixed $message = '' ): void {
 		if ( ! $this->redis || ! $this->redis->isConnected() ) {
 			return;
 		}
-
-		$keys = $this->keys( $key );
-		if ( $keys ) {
-			foreach ( $keys as $key ) {
-				$this->redis->del( $key );
-			}
-		}
+		$this->redis->publish( $channel, wp_json_encode( $message ) );
 	}
 
 	/**
-	 * Get keys
-	 *
-	 * @param string $key starts with.
-	 * @return array key array that starts with the $key
+	 * Destroy Redis client
 	 */
-	private function keys( string $key ): array {
-		return $this->redis->keys( "@next-{$key}*" );
+	public function quit(): void {
+		if ( ! $this->redis ) {
+			return;
+		}
+		$this->redis->quit();
 	}
 }

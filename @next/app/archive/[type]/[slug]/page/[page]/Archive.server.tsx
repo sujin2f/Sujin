@@ -12,7 +12,7 @@ import { category as getCategory } from '@lib/apollo/queries/wordpress/archives/
 import { tag as getTag } from '@lib/apollo/queries/wordpress/archives/tag'
 import { posts as getPosts } from '@lib/apollo/queries/wordpress/posts/posts'
 /* Utils */
-import { gqlRequest, getPublisher } from '@lib/utils/redis'
+import { gqlRequest, publish } from '@lib/redis/client'
 
 type Props = {
     type: ARCHIVE
@@ -21,32 +21,41 @@ type Props = {
 }
 
 export async function ArchiveServer({ type, slug, page }: Props) {
-    const archive = await gqlRequest(async () => await (type === ARCHIVE.CATEGORY ? getCategory(slug) : getTag(slug)), {
-        key: `${COLLECTION.ARCHIVE}-${type}-${slug}`,
-    }).catch((e) => {
-        Logger.error(e.message)
-        notFound()
-    })
+    const archive = await gqlRequest(
+        async () => await (type === ARCHIVE.CATEGORY ? getCategory(slug) : getTag(slug)),
+        `${COLLECTION.ARCHIVE}-${type}-${slug}`,
+    )
+        .then((result) => {
+            if (!result.slug) {
+                throw new Error(`🤬 Archive ${type} ${slug} ${page} request has been failed: No-content.`)
+            }
+            return result
+        })
+        .catch((e) => {
+            Logger.error(e.message)
+            notFound()
+        })
     const { title, excerpt, image } = archive
 
     // Update Tag Cloud
     if (type === ARCHIVE.TAG) {
-        getPublisher()
-            .then((pub) => {
-                // Update Tag Cloud
-                pub.publish('updateHit', JSON.stringify([slug]))
-            })
-            .catch((e) => {
-                Logger.info(e)
-            })
+        publish('update-hits', JSON.stringify([slug]))
     }
 
-    const posts = await gqlRequest(async () => await getPosts(type, slug, page), {
-        key: `${COLLECTION.POST}-archive-${type}-${slug}-${page}`,
-    }).catch((e) => {
-        Logger.error(e.message)
-        notFound()
-    })
+    const posts = await gqlRequest(
+        async () => await getPosts(type, slug, page),
+        `${COLLECTION.POST}-archive-${type}-${slug}-${page}`,
+    )
+        .then((result) => {
+            if (!result.items.length) {
+                throw new Error(`🤬 Posts from ${type} ${slug} ${page} request has been failed: No-content.`)
+            }
+            return result
+        })
+        .catch((e) => {
+            Logger.error(e.message)
+            notFound()
+        })
 
     return (
         <>

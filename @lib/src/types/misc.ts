@@ -1,3 +1,5 @@
+import { ARCHIVE, POST_TYPE } from '../constants'
+
 export type T_Option = {
     key: string
     value: string
@@ -27,6 +29,9 @@ export type T_FlickrResponse = {
     items: T_FlickrResponseImage[]
 }
 
-export type PubMessage = {
+export type RedisMessageWordpress = {
+    type: ARCHIVE | POST_TYPE
+    action: 'update' | 'remove'
     slug: string
+    page?: number
 }

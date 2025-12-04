@@ -3,11 +3,6 @@ type Query {
     pages(page: Int!): [Page]
 }
 
-type Mutation {
-    refreshPage(slug: String!): [Boolean]
-    removePage(slug: String!): [Boolean]
-}
-
 type Page implements I_Page {
     _id: String
     id: Int

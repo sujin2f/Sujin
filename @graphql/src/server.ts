@@ -73,7 +73,6 @@ const start = async () => {
         `🚀 @graphql Server ready at http://localhost:${port} with config: CORS_ORIGINS: ${JSON.stringify(origin)}`,
     )
     await connectToDatabase()
-
     new Worker('./.build/subscriber.js')
 }
 

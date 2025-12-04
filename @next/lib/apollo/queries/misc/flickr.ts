@@ -21,7 +21,7 @@ export const flickr = async (): Promise<T_FlickrImage[]> => {
             return result.data.flickr
         })
         .catch((e) => {
-            Logger.error(`🤬 Error fetching flickr`)
-            throw e
+            Logger.error(`🤬 Error fetching flickr ${JSON.stringify(e)}`)
+            return []
         })
 }

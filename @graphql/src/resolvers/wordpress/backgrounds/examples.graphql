@@ -14,7 +14,3 @@ query {
         }
     }
 }
-
-mutation {
-    refreshBackgrounds
-}
