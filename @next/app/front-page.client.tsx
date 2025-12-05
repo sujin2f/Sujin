@@ -17,7 +17,7 @@ import { MENU_NAMES } from '@sujin/lib/constants'
 import type { T_Background } from '@sujin/lib/types'
 /* Assets */
 import Logo from '@common/images/logo.svg'
-import style from './front-page.module.scss'
+// import style from './front-page.module.scss'
 
 type Props = {
     readonly action: () => Promise<T_Background[]>
@@ -43,14 +43,13 @@ export function FrontPageClient({ action, title, description }: Props) {
     const background = backgrounds[Math.floor(Math.random() * backgrounds.length)]
 
     return (
-        <Wrapper style={style} className={style.wrapper}>
-            <FixedHeader menu={MENU_NAMES.MAIN} style={style} />
+        <Wrapper>
+            <FixedHeader menu={MENU_NAMES.MAIN} />
 
-            <Main style={style}>
+            <Main>
                 <Banner
                     menu={MENU_NAMES.MAIN}
                     background={background}
-                    style={style}
                     excerpt={description}
                     title={<Logo aria-label={title} className="banner__logo" />}
                 />
@@ -58,3 +57,17 @@ export function FrontPageClient({ action, title, description }: Props) {
         </Wrapper>
     )
 }
+
+// <Wrapper style={style} className={style.wrapper}>
+//     <FixedHeader menu={MENU_NAMES.MAIN} style={style} />
+
+//     <Main style={style}>
+//         <Banner
+//             menu={MENU_NAMES.MAIN}
+//             background={background}
+//             style={style}
+//             excerpt={description}
+//             title={<Logo aria-label={title} className="banner__logo" />}
+//         />
+//     </Main>
+// </Wrapper>

@@ -1,22 +1,13 @@
 'use client'
-import {
-    useCallback,
-    useMemo,
-    type MouseEventHandler,
-    type ButtonHTMLAttributes,
-    type DetailedHTMLProps,
-} from 'react'
+import { useCallback, useMemo, type MouseEventHandler, type ButtonHTMLAttributes, type DetailedHTMLProps } from 'react'
 import { redirect } from 'next/navigation'
 /* Utils */
 import { filterEmpty } from '@sujin/share/utils/object'
 import { joinClassNames } from '@sujin/share/utils/string'
 /* Assets */
-import '@common/scss/form.scss'
+// import '@common/scss/form.scss'
 
-type Props = DetailedHTMLProps<
-    ButtonHTMLAttributes<HTMLButtonElement>,
-    HTMLButtonElement
-> & {
+type Props = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> & {
     readonly color?: 'primary' | 'secondary' | 'success' | 'alert' | 'warning'
     readonly hollow?: boolean
     readonly vanilla?: boolean

@@ -5,16 +5,11 @@ import Input from './Input'
 /* Utils */
 import { joinClassNames } from '@sujin/share/utils/string'
 /* Assets */
-import '@common/scss/form.scss'
+// import '@common/scss/form.scss'
 
-type Options =
-    | string[]
-    | { [key: string]: string | Record<string, string> | string[] }
+type Options = string[] | { [key: string]: string | Record<string, string> | string[] }
 
-type Props<T extends Options> = DetailedHTMLProps<
-    SelectHTMLAttributes<HTMLSelectElement>,
-    HTMLSelectElement
-> & {
+type Props<T extends Options> = DetailedHTMLProps<SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement> & {
     readonly options: T
     readonly errorMessage?: string
     readonly helpText?: string
@@ -31,15 +26,8 @@ type Props<T extends Options> = DetailedHTMLProps<
  * @param {string} [props.label] - The label for the input field.
  * @param {RefObject<HTMLSelectElement>} [props.ref] - The ref object for the select field.
  */
-const Select = <T extends Options>({
-    helpText,
-    errorMessage,
-    ...props
-}: Props<T>) => {
-    const ariaDescribedby =
-        helpText && props.id
-            ? `${props.id}-help-text`
-            : props['aria-describedby']
+const Select = <T extends Options>({ helpText, errorMessage, ...props }: Props<T>) => {
+    const ariaDescribedby = helpText && props.id ? `${props.id}-help-text` : props['aria-describedby']
 
     return (
         <Input {...props} helpText={helpText} errorMessage={errorMessage}>
@@ -54,23 +42,14 @@ const Select = <T extends Options>({
     )
 }
 
-const Options = ({
-    options,
-    depth = 0,
-}: {
-    options: Options
-    depth?: number
-}) => {
+const Options = ({ options, depth = 0 }: { options: Options; depth?: number }) => {
     // ['Option']
     if (Array.isArray(options)) {
         return (
             <>
                 {options.map((option, index) => {
                     return (
-                        <option
-                            value={option}
-                            key={`option-${depth}-${index}-${option}`}
-                        >
+                        <option value={option} key={`option-${depth}-${index}-${option}`}>
                             {option}
                         </option>
                     )
@@ -85,19 +64,13 @@ const Options = ({
                 // { option: 'Option' }
                 if (typeof option === 'string') {
                     return (
-                        <option
-                            key={`optgroup-${depth}-${index}-${option}-${label}`}
-                            value={label}
-                        >
+                        <option key={`optgroup-${depth}-${index}-${option}-${label}`} value={label}>
                             {option}
                         </option>
                     )
                 }
                 return (
-                    <optgroup
-                        label={label}
-                        key={`optgroup-${depth}-${index}-${label}`}
-                    >
+                    <optgroup label={label} key={`optgroup-${depth}-${index}-${label}`}>
                         <Options options={option} depth={depth + 1} />
                     </optgroup>
                 )

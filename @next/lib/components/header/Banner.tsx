@@ -18,7 +18,7 @@ import { debounce } from '@sujin/share/utils/dom'
 import type { T_ImageBlock } from '@sujin/lib/types'
 import type { ImageMap } from '@common/components/containers/Picture'
 /* Assets */
-import './Banner.scss'
+// import './Banner.scss'
 
 export type BannerProps = {
     readonly title?: string | ReactNode
@@ -37,22 +37,13 @@ export type BannerProps = {
  * @param {BannerType} props.banner - The banner data.
  * @param {string} props.menu - The menu name to be used in the banner.
  */
-export function Banner({
-    icon,
-    background,
-    backgroundColor,
-    prefix,
-    style,
-    ...props
-}: BannerProps) {
+export function Banner({ icon, background, backgroundColor, prefix, style, ...props }: BannerProps) {
     const menu = MENUS[props.menu!]
     const path = usePathname()
     const [isBackground, setIsBackground] = useState(false)
 
     const title = path && METADATA[path] ? METADATA[path].title : props.title
-    const excerpt =
-        props.excerpt ||
-        (path && METADATA[path] ? METADATA[path].description : null)
+    const excerpt = props.excerpt || (path && METADATA[path] ? METADATA[path].description : null)
 
     const styleBg = backgroundColor
         ? {
@@ -71,11 +62,7 @@ export function Banner({
     return (
         <>
             <section
-                className={joinClassNames(
-                    style?.banner,
-                    'banner',
-                    isBackground && 'banner--show',
-                )}
+                className={joinClassNames(style?.banner, 'banner', isBackground && 'banner--show')}
                 style={styleBg}
             >
                 <div className="show-for-large menu__container--banner">
@@ -87,12 +74,7 @@ export function Banner({
                 </div>
 
                 {background && background.url && (
-                    <div
-                        className={joinClassNames(
-                            style?.banner__overlay,
-                            'banner__overlay',
-                        )}
-                    />
+                    <div className={joinClassNames(style?.banner__overlay, 'banner__overlay')} />
                 )}
                 {background && background.url ? (
                     <NextImage
@@ -101,10 +83,7 @@ export function Banner({
                         alt=""
                         width={background.width || 1000}
                         height={background.height || 700}
-                        className={joinClassNames(
-                            style?.banner__background,
-                            'banner__background',
-                        )}
+                        className={joinClassNames(style?.banner__background, 'banner__background')}
                     />
                 ) : null}
 
@@ -118,30 +97,14 @@ export function Banner({
                 >
                     <Row>
                         <Column small={12} className="column--banner__title">
-                            <h1
-                                className={joinClassNames(
-                                    'banner__title',
-                                    style?.banner__title,
-                                )}
-                            >
-                                {prefix ? (
-                                    <span className="banner__title__tag">
-                                        {prefix}
-                                    </span>
-                                ) : null}
+                            <h1 className={joinClassNames('banner__title', style?.banner__title)}>
+                                {prefix ? <span className="banner__title__tag">{prefix}</span> : null}
 
                                 {title}
                             </h1>
 
                             {excerpt && typeof excerpt === 'string' ? (
-                                <p
-                                    className={joinClassNames(
-                                        'banner__excerpt',
-                                        style?.banner__excerpt,
-                                    )}
-                                >
-                                    {excerpt}
-                                </p>
+                                <p className={joinClassNames('banner__excerpt', style?.banner__excerpt)}>{excerpt}</p>
                             ) : (
                                 excerpt
                             )}
@@ -152,13 +115,7 @@ export function Banner({
 
             {icon && icon.url ? (
                 <picture className="banner__icon__container">
-                    <Image
-                        src={icon.url}
-                        alt=""
-                        width={300}
-                        height={300}
-                        className="banner__icon"
-                    />
+                    <Image src={icon.url} alt="" width={300} height={300} className="banner__icon" />
                 </picture>
             ) : (
                 <></>
@@ -179,10 +136,7 @@ const getBannerImageMap = (image: T_ImageBlock): ImageMap[] => {
     }
 
     return entries(image.sizes)
-        .filter(
-            ([size, value]) =>
-                Object.keys(bannerMediaQueries).includes(size) && value,
-        )
+        .filter(([size, value]) => Object.keys(bannerMediaQueries).includes(size) && value)
         .map(([size, value]) => {
             const key = size
             return {

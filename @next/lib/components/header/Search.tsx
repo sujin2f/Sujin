@@ -1,15 +1,7 @@
 'use client'
-import React, {
-    useState,
-    useRef,
-    type ChangeEvent,
-    type KeyboardEvent,
-    useCallback,
-} from 'react'
+import React, { useState, useRef, type ChangeEvent, type KeyboardEvent, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-
 import { KeyCodes } from '@sujin/share/constants/keycode'
-import { joinClassNames } from '@sujin/share/utils/string'
 /* Assets */
 import Magnify from '@common/images/magnify.svg'
 
@@ -39,12 +31,9 @@ export default function Search() {
         },
         [keyword, opened, router],
     )
-    const handleChangeSearch = useCallback(
-        (e: ChangeEvent<HTMLInputElement>) => {
-            setKeyword(e.target.value)
-        },
-        [],
-    )
+    const handleChangeSearch = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+        setKeyword(e.target.value)
+    }, [])
     const handleKeyDownSearch = useCallback(
         (e: KeyboardEvent<HTMLInputElement>) => {
             if (e.key === KeyCodes.ENTER) {
@@ -54,12 +43,14 @@ export default function Search() {
         [handleSubmitSearch],
     )
 
-    const className = joinClassNames(opened && 'open', 'search')
-
     return (
-        <section className={className}>
+        <section
+            className={`${
+                opened ? '' : 'w-7'
+            } max-md:hidden flex h-7 items-center justify-center bg-primary rounded-full mr-0.5`}
+        >
             <input
-                className="search__input"
+                className={`${opened ? '' : 'hidden'} text-white font-light text-sm w-40 pl-2 shadow-none outline-none`}
                 onChange={handleChangeSearch}
                 onKeyDown={handleKeyDownSearch}
                 ref={ref}
@@ -67,12 +58,8 @@ export default function Search() {
                 value={keyword}
             />
 
-            <button
-                className="search__button"
-                onClick={handleSubmitSearch}
-                type="submit"
-            >
-                <Magnify />
+            <button className="flex w-7 h-7 items-center justify-center" onClick={handleSubmitSearch} type="submit">
+                <Magnify className="w-4 h-4 fill-white" />
             </button>
         </section>
     )

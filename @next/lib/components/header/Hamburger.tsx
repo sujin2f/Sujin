@@ -1,5 +1,5 @@
 'use client'
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 /* Components */
 import Menu from '@common/components/layout/Menu'
 /* Utils */
@@ -11,41 +11,28 @@ import HamburgerIcon from '@common/images/hamburger.svg'
 
 type Props = {
     menu: MenuItem[]
+    className: string
 }
 
 export default function Hamburger(props: Props) {
-    // Click outside
-    const ref = useDocumentClick<HTMLElement>(() => {
+    const [menuOpened, setMenuOpened] = useState(false)
+    const ref = useDocumentClick<HTMLDivElement>(() => {
         if (menuOpened) {
-            toggleMenu()
+            setMenuOpened(false)
         }
     })
 
-    // Open/Close menu
-    const [menuOpened, setMenuOpened] = useState(false)
-    const toggleMenu = useCallback(
-        () => setMenuOpened(!menuOpened),
-        [menuOpened],
-    )
-
     return (
-        <>
-            <button
-                className="hide-for-large hamburger"
-                onClick={toggleMenu}
-                type="button"
-            >
-                <HamburgerIcon />
+        <div ref={ref} className={props.className}>
+            <button className="w-12" onClick={() => setMenuOpened(!menuOpened)} type="button">
+                <HamburgerIcon className="fill-primary" />
             </button>
             <Menu
-                callback={toggleMenu}
-                className={`hide-for-large top-bar__menu__container--mobile ${
-                    menuOpened || 'hide'
-                }`}
+                callback={() => setMenuOpened(false)}
+                className={`fixed top-12 w-full bg-white menu--hamburger ${menuOpened || 'hidden'}`}
                 direction="vertical"
                 items={props.menu}
-                ref={ref}
             />
-        </>
+        </div>
     )
 }

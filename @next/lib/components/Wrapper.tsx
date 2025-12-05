@@ -15,9 +15,9 @@ type Props = PropsWithChildren & {
  */
 export function Wrapper({ children, style, className }: Props) {
     return (
-        <div className={joinClassNames('wrapper', className, style?.wrapper)}>
+        <>
             <ScrollToTop />
             {children}
-        </div>
+        </>
     )
 }

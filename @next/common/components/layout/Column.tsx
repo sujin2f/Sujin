@@ -3,7 +3,7 @@ import { type PropsWithChildren, createElement } from 'react'
 /* Helpers */
 import { joinClassNames } from '@sujin/share/utils/string'
 /* Assets */
-import '../../scss/layout.scss'
+// import '../../scss/layout.scss'
 
 export type OneToEleven = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11
 export type OneToTwelve = OneToEleven | 12
@@ -48,11 +48,9 @@ const Column = (props: Props) => {
     const large = props.large && `large-${props.large}`
     const larger = props.larger && `larger-${props.larger}`
     const smallOffset = props.smallOffset && `small-offset-${props.smallOffset}`
-    const mediumOffset =
-        props.mediumOffset && `medium-offset-${props.mediumOffset}`
+    const mediumOffset = props.mediumOffset && `medium-offset-${props.mediumOffset}`
     const largeOffset = props.largeOffset && `large-offset-${props.largeOffset}`
-    const largerOffset =
-        props.largerOffset && `larger-offset-${props.largerOffset}`
+    const largerOffset = props.largerOffset && `larger-offset-${props.largerOffset}`
 
     return createElement(
         props.dom || 'div',

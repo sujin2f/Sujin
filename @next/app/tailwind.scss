@@ -1,0 +1,86 @@
+@use 'tailwindcss';
+@tailwind base;
+
+@theme {
+    --color-primary: rgb(151 0 0);
+    --spacing-header: 3rem;
+}
+
+.menu--hamburger {
+    z-index: 100;
+
+    .menu__link {
+        padding: calc(var(--spacing) * 3);
+        color: var(--color-white);
+        background-color: var(--color-black);
+        width: 100vw;
+
+        &:hover {
+            background-color: var(--color-primary);
+        }
+    }
+
+    .menu__block .menu__block {
+        .menu__link {
+            padding-left: calc(var(--spacing) * 9);
+        }
+    }
+}
+
+.top-bar__menu__container {
+    $elements: 15;
+
+    > .menu__block {
+        display: flex;
+
+        @for $i from 0 to $elements {
+            $px: -1 * (50 + ($i * 30));
+
+            > .menu__item:nth-child(#{$i}) > .menu__link {
+                margin-top: #{$px}px;
+                color: var(--color-primary);
+            }
+        }
+
+        .menu__block {
+            position: fixed;
+            top: var(--spacing-header);
+            display: none;
+        }
+    }
+
+    .menu__link {
+        display: flex;
+        align-items: center;
+        height: var(--spacing-header);
+        background-color: var(--color-white);
+        transition: ease-out 0.3s background, ease-out 0.3s color, ease-out 0.7s margin;
+        padding: 0 calc(var(--spacing) * 3);
+
+        &:hover {
+            background-color: var(--color-primary) !important;
+            color: var(--color-white) !important;
+        }
+
+        &.current {
+            background-color: var(--color-primary);
+            color: var(--color-white);
+        }
+    }
+
+    .menu__item {
+        &:hover {
+            .menu__block {
+                display: block;
+            }
+        }
+    }
+
+    .menu__link__arrow {
+        display: none;
+    }
+
+    &.scrolled .menu__link {
+        margin-top: 0 !important;
+    }
+}

@@ -3,7 +3,7 @@ import type { HTMLElementType, DetailedHTMLProps, HTMLAttributes } from 'react'
 /* Helpers */
 import { joinClassNames } from '@sujin/share/utils/string'
 /* Assets */
-import '../../scss/layout.scss'
+// import '../../scss/layout.scss'
 
 type Props<T extends HTMLElement> = DetailedHTMLProps<HTMLAttributes<T>, T> & {
     readonly className?: string
@@ -19,19 +19,9 @@ type Props<T extends HTMLElement> = DetailedHTMLProps<HTMLAttributes<T>, T> & {
  * @param {string} [props.id] - The id of the row.
  * @param {JSX.ElementType} [props.dom] - The DOM element or component to use for the row.
  */
-function Row<T extends HTMLElement>({
-    className: propClassName,
-    dom,
-    fullWidth,
-    children,
-    ...props
-}: Props<T>) {
+function Row<T extends HTMLElement>({ className: propClassName, dom, fullWidth, children, ...props }: Props<T>) {
     const type = dom || 'div'
-    const className = joinClassNames(
-        'row',
-        propClassName,
-        fullWidth && 'row--full-width',
-    )
+    const className = joinClassNames('row', propClassName, fullWidth && 'row--full-width')
 
     return createElement(
         type,

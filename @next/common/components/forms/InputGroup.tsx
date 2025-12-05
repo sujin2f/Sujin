@@ -4,24 +4,15 @@ import Input, { type InputProps } from './Input'
 import Button from './Button'
 import { KeyCodes } from '@sujin/share/constants/keycode'
 /* Assets */
-import '@common/scss/form.scss'
+// import '@common/scss/form.scss'
 
 type Props = InputProps<HTMLInputElement> & {
     button?: string
     readonly onSubmit?: () => void
 }
 
-export const InputGroup = ({
-    onSubmit,
-    button,
-    helpText,
-    errorMessage,
-    ...props
-}: Props) => {
-    const ariaDescribedby =
-        helpText && props.id
-            ? `${props.id}-help-text`
-            : props['aria-describedby']
+export const InputGroup = ({ onSubmit, button, helpText, errorMessage, ...props }: Props) => {
+    const ariaDescribedby = helpText && props.id ? `${props.id}-help-text` : props['aria-describedby']
 
     const onKeyDown = useCallback(
         (e: KeyboardEvent<HTMLInputElement>) => {
@@ -33,13 +24,7 @@ export const InputGroup = ({
     const label = props.label || 'Label'
 
     return (
-        <Input
-            {...props}
-            label={label}
-            helpText={helpText}
-            errorMessage={errorMessage}
-            className="form__input-group"
-        >
+        <Input {...props} label={label} helpText={helpText} errorMessage={errorMessage} className="form__input-group">
             <input
                 className="form__input"
                 aria-describedby={ariaDescribedby}

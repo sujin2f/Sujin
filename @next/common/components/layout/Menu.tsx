@@ -8,10 +8,12 @@ import type { MenuItem as TypeMenuItem } from '@sujin/lib/types/menu'
 import { joinClassNames } from '@sujin/share/utils/string'
 /* Assets */
 import Arrow from '../../images/icons/arrow_drop_up.svg'
-import '../../scss/menu.scss'
+// import '../../scss/menu.scss'
 
 type Props = {
     readonly className?: string
+    readonly classNameBlock?: string
+    readonly classNameItem?: string
     readonly dropdown?: 'hover' | 'click'
     readonly items: TypeMenuItem[]
     readonly direction?: 'vertical' | 'horizontal'
@@ -33,7 +35,7 @@ export default function Menu({
     items,
     direction: propDirection,
     dropdown: propDropdown,
-    className,
+    className = '',
     ref,
     callback,
 }: Props) {
@@ -41,7 +43,7 @@ export default function Menu({
     const dropdown = direction === 'horizontal' && !propDropdown ? 'hover' : propDropdown
 
     return (
-        <nav className={joinClassNames('menu__container', `menu__container--${direction}`, className)} ref={ref}>
+        <nav className={`menu ${className}`} ref={ref}>
             <MenuBlock callback={callback} direction={direction} dropdown={dropdown} items={items} depth={1} />
         </nav>
     )
@@ -57,14 +59,14 @@ type BlockProps = {
 
 function MenuBlock({ items, dropdown, direction, depth, callback }: BlockProps) {
     return (
-        <ul className={`menu menu--depth-${depth}`}>
+        <ul className={`menu__block menu__block--depth-${depth}`}>
             {items.map((menu, index) => (
                 <MenuItem
                     callback={callback}
                     direction={direction}
                     dropdown={dropdown}
                     item={menu}
-                    key={`menu-${menu.title}-${index}`}
+                    key={`menu__block-${menu.title}-${index}`}
                     depth={depth}
                 />
             ))}
@@ -122,7 +124,7 @@ function MenuItem({ item, dropdown, direction, depth, callback }: ItemProps) {
             onMouseLeave={onMouseLeave}
             onMouseOver={onMouseOver}
         >
-            <Link className="menu__link" onClick={callback} href={linkTo} target={item.target}>
+            <Link className="menu__link block" onClick={callback} href={linkTo} target={item.target}>
                 {item.title}
 
                 {dropdown && hasChildren ? <Arrow className="menu__link__arrow" /> : null}

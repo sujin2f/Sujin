@@ -5,7 +5,7 @@ import Column from './Column'
 /* Helpers */
 import { joinClassNames } from '@sujin/share/utils/string'
 /* Assets */
-import '../../scss/top-bar.scss'
+// import '../../scss/top-bar.scss'
 
 type Props = PropsWithChildren<{
     readonly left?: JSX.Element
@@ -25,21 +25,10 @@ type Props = PropsWithChildren<{
  * @param {boolean} [props.fullWidth] - Whether the top bar should span the full width of the container.
  * @param {boolean} [props.fixed] - Whether the top bar should be fixed at the top of the page.
  */
-export function TopBar({
-    left,
-    right,
-    fullWidth,
-    children,
-    fixed,
-    className,
-}: Props) {
+export function TopBar({ left, right, fullWidth, children, fixed, className }: Props) {
     return (
         <Row
-            className={joinClassNames(
-                'top-bar',
-                className,
-                fixed && 'top-bar--fixed',
-            )}
+            className={joinClassNames('top-bar', className, fixed && 'top-bar--fixed')}
             dom="section"
             fullWidth={fullWidth}
         >
