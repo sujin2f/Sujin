@@ -5,25 +5,5 @@ query {
         height
         url
         mimeType
-        sizes {
-            large {
-                width
-                height
-                url
-                mimeType
-            }
-            medium {
-                width
-                height
-                url
-                mimeType
-            }
-            mediumLarge {
-                width
-                height
-                url
-                mimeType
-            }
-        }
     }
 }

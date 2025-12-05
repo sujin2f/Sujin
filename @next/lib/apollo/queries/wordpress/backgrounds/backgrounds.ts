@@ -8,6 +8,7 @@ import BACKGROUND_LIST from '@lib/apollo/queries/wordpress/backgrounds/backgroun
 import type { T_Background } from '@sujin/lib/types'
 
 export const backgrounds = async (): Promise<T_Background[]> => {
+    'use server'
     return await client
         .query<{ backgrounds: T_Background[] }>({ query: BACKGROUND_LIST, fetchPolicy: 'network-only' })
         .then((result) => {

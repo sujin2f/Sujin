@@ -106,7 +106,6 @@ export default async function PostPage(props: Props) {
                 title={post.title}
                 icon={post.images?.icon}
                 background={post.images?.background}
-                backgroundColor={post.meta?.backgroundColor}
             />
             <Row>
                 <Column medium={12} large={7} largeOffset={2}>

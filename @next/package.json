@@ -4,9 +4,9 @@
     "description": "React + Node + WordPress theme for sujinc.com",
     "license": "MIT",
     "scripts": {
-        "dev": "cross-env NODE_ENV=development next dev -p 8000",
-        "build": "next build",
-        "start": "next start",
+        "dev": "cross-env NODE_ENV=development next dev -p 8000  --webpack",
+        "build": "next build --webpack",
+        "start": "next start --webpack",
         "test": "jest --no-cache --forceExit --coverage",
         "package": "cross-env rimraf internal_modules temp && node ./package.mjs",
         "lint": "eslint \"{app,common}/**/*.{ts,tsx}\""

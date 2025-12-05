@@ -47,23 +47,23 @@ const FixedHeader = (props: Props) => {
     }, [handleScrolled])
 
     return (
-        <>
+        <header>
             {/* Background */}
-            <div className="fixed top-0 left-0 w-screen h-header flex">
+            <div className="fixed top-0 left-0 w-screen h-header flex z-45">
                 <div className="bg-white h-header" style={{ width: 'calc(50vw - 50px)' }} />
                 {/* Center */}
-                <div style={{ width: '100px' }}>
-                    <Logo className="h-header fill-white" />
-                </div>
+                <h1 style={{ width: '100px' }}>
+                    <Logo className="h-header fill-white" alt="Home" />
+                </h1>
                 <div className="bg-white h-header " style={{ width: 'calc(50vw - 50px)' }} />
             </div>
 
-            <div className="fixed top-0 left-0 w-screen h-header">
-                <header className="h-header flex container mx-auto">
+            <div className="fixed top-0 left-0 w-screen h-header z-50">
+                <div className="h-header flex container mx-auto">
                     {/* Left */}
                     <div className="h-header flex" style={{ width: 'calc(50% - 50px)' }}>
                         <Hamburger menu={menu} className="min-md:hidden flex pl-1" /> {/* Mobile */}
-                        <Menu className={`max-md:hidden top-bar__menu__container ${scrolled}`} items={menu} />
+                        <Menu className={`max-md:hidden menu--top ${scrolled}`} items={menu} />
                     </div>
 
                     {/* Center */}
@@ -74,7 +74,6 @@ const FixedHeader = (props: Props) => {
                     {/* Right */}
                     <div className="flex items-center justify-end h-header pr-1" style={{ width: 'calc(50% - 50px)' }}>
                         <Search />
-
                         <nav className="flex">
                             <a
                                 className="w-7 mr-0.5"
@@ -95,11 +94,11 @@ const FixedHeader = (props: Props) => {
                         </nav>
                         <Profile />
                     </div>
-                </header>
+                </div>
             </div>
 
             <div className="bg-black w-screen h-header" />
-        </>
+        </header>
     )
 }
 

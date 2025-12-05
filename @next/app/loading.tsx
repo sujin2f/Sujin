@@ -7,7 +7,6 @@ import { Banner } from '@lib/components/header/Banner'
 import { MENU_NAMES } from '@sujin/lib/constants'
 /* Assets */
 import LoadingImg from '@common/images/loading.svg'
-import style from '@app/front-page.module.scss'
 
 type Props = {
     readonly menu?: MENU_NAMES
@@ -17,7 +16,7 @@ export default async function Loading({ menu }: Props) {
     return (
         <Wrapper>
             <FixedHeader menu={menu || MENU_NAMES.MAIN} />
-            <Banner title={<LoadingImg />} menu={menu || MENU_NAMES.MAIN} style={style} />
+            <Banner title={<LoadingImg />} menu={menu || MENU_NAMES.MAIN} />
         </Wrapper>
     )
 }

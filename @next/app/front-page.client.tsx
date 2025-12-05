@@ -3,7 +3,6 @@ import React, { useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 /* Components */
 import { Wrapper } from '@lib/components/Wrapper'
-import { Main } from '@lib/components/Main'
 import FixedHeader from '@lib/components/header/FixedHeader'
 import { Banner } from '@lib/components/header/Banner'
 /* Utils */
@@ -45,29 +44,15 @@ export function FrontPageClient({ action, title, description }: Props) {
     return (
         <Wrapper>
             <FixedHeader menu={MENU_NAMES.MAIN} />
-
-            <Main>
+            <main>
                 <Banner
                     menu={MENU_NAMES.MAIN}
                     background={background}
                     excerpt={description}
                     title={<Logo aria-label={title} className="banner__logo" />}
+                    fullHeight
                 />
-            </Main>
+            </main>
         </Wrapper>
     )
 }
-
-// <Wrapper style={style} className={style.wrapper}>
-//     <FixedHeader menu={MENU_NAMES.MAIN} style={style} />
-
-//     <Main style={style}>
-//         <Banner
-//             menu={MENU_NAMES.MAIN}
-//             background={background}
-//             style={style}
-//             excerpt={description}
-//             title={<Logo aria-label={title} className="banner__logo" />}
-//         />
-//     </Main>
-// </Wrapper>

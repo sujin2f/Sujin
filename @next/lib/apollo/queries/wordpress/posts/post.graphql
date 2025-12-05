@@ -9,9 +9,6 @@ query Post($slug: String!) {
         date
         content
         status
-        meta {
-            backgroundColor
-        }
         images {
             icon {
                 url

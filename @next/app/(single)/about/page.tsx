@@ -47,7 +47,6 @@ export default async function AboutPage() {
                 title={post.title}
                 icon={post.images?.icon}
                 background={post.images?.background}
-                backgroundColor={post.meta?.backgroundColor}
             />
             <Row fullWidth>
                 <Column medium={12} large={6} largeOffset={3}>
