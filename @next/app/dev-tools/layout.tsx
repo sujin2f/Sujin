@@ -11,8 +11,6 @@ import Column from '@common/components/layout/Column'
 import { getMetaData } from '@lib/utils/server/header'
 /* CONSTANTS */
 import { MENU_NAMES } from '@sujin/lib/constants'
-/* Assets */
-import './layout.scss'
 
 export const generateMetadata = async (): Promise<Metadata> => {
     const metadata = await getMetaData()

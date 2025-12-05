@@ -8,8 +8,6 @@ import useIntersectionObserver from '@common/hooks/useIntersectionObserver'
 import { useServerAction } from '@lib/hooks/useServerAction'
 /* T_Type */
 import type { T_ArchivePost } from '@sujin/lib/types'
-/* Assets */
-import './RelatedPosts.scss'
 
 type Props = {
     readonly action: () => Promise<T_ArchivePost[]>

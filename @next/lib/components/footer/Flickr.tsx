@@ -46,22 +46,17 @@ const Flickr = ({ action }: Props) => {
     }
 
     return (
-        <section className="widget--flickr" ref={ref}>
+        <ul className="columns-4" ref={ref}>
             {loading && <LoadingArchive className="flickr" counts={12} large={3} medium={4} small={3} fullWidth />}
-            <Row fullWidth>
-                {flickr.slice(0, 12).map((item) => (
-                    <Column
-                        key={`flickr-${item.link}`}
-                        className="widget--flickr__column"
-                        large={3}
-                        medium={4}
-                        small={3}
-                    >
-                        <Card to={item.link} title={item.title} image={item.media.replace('_m.jpg', '_s.jpg')} />
-                    </Column>
-                ))}
-            </Row>
-        </section>
+            {flickr.slice(0, 12).map((item) => (
+                <Card
+                    to={item.link}
+                    image={item.media.replace('_m.jpg', '_s.jpg')}
+                    key={`flickr-${item.link}`}
+                    className="aspect-square mb-4"
+                />
+            ))}
+        </ul>
     )
 }
 export default Flickr

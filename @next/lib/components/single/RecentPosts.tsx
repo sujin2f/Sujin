@@ -15,8 +15,6 @@ import useIntersectionObserver from '@common/hooks/useIntersectionObserver'
 import { IMAGE_SIZE } from '@sujin/lib/constants'
 /* T_Types */
 import type { T_ArchivePost } from '@sujin/lib/types'
-/* Assets */
-import './RecentPosts.scss'
 
 type Props = {
     id: number

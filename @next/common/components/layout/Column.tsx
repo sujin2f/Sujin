@@ -2,8 +2,6 @@ import { type PropsWithChildren, createElement } from 'react'
 
 /* Helpers */
 import { joinClassNames } from '@sujin/share/utils/string'
-/* Assets */
-// import '../../scss/layout.scss'
 
 export type OneToEleven = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11
 export type OneToTwelve = OneToEleven | 12

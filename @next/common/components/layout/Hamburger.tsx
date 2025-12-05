@@ -8,8 +8,6 @@ import { joinClassNames } from '@sujin/share/utils/string'
 import { useDocumentClick } from '../../hooks/useDocumentClick'
 import { useKeyDown } from '../../hooks/useKeyDown'
 import { KeyCodes } from '@sujin/share/constants/keycode'
-/* Assets */
-import '../../scss/hamburger.scss'
 
 type Props = {
     menu: MenuItem[]
@@ -32,19 +30,12 @@ export const Hamburger = ({ menu, className }: Props) => {
 
     return (
         <div ref={ref}>
-            <button
-                className={joinClassNames('hamburger', className)}
-                onClick={onClick}
-            >
+            <button className={joinClassNames('hamburger', className)} onClick={onClick}>
                 <div></div>
                 <div></div>
                 <div></div>
             </button>
-            <Menu
-                items={menu}
-                className={joinClassNames('menu--hamburger', hidden && 'hide')}
-                dropdown="click"
-            />
+            <Menu items={menu} className={joinClassNames('menu--hamburger', hidden && 'hide')} dropdown="click" />
         </div>
     )
 }

@@ -42,7 +42,7 @@ const TagCloud = ({ action }: Props) => {
     }
 
     return (
-        <section className="widget--tag-cloud" ref={ref}>
+        <div className="tag-cloud__container" ref={ref}>
             {loading && <LoadingArchive fullWidth className="tag-cloud" counts={1} small={12} />}
             {tagCloud.slice(0, 20).map((tag) => (
                 <Link
@@ -54,7 +54,7 @@ const TagCloud = ({ action }: Props) => {
                     {tag.title}
                 </Link>
             ))}
-        </section>
+        </div>
     )
 }
 export default TagCloud

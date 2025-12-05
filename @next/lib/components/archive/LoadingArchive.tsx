@@ -5,8 +5,6 @@ import Column, { type ColumnProps } from '@common/components/layout/Column'
 /* Utils */
 import { map } from '@sujin/share/utils/array'
 import { joinClassNames } from '@sujin/share/utils/string'
-/* Assets */
-import './LoadingArchive.scss'
 
 type Props = ColumnProps & {
     readonly className?: string
@@ -14,15 +12,8 @@ type Props = ColumnProps & {
     readonly fullWidth?: boolean
 }
 
-export const LoadingArchive = ({
-    small = 4,
-    counts = 12,
-    fullWidth = true,
-    ...props
-}: Props) => {
-    const className = joinClassNames(
-        props.className && `loader--${props.className}`,
-    )
+export const LoadingArchive = ({ small = 4, counts = 12, fullWidth = true, ...props }: Props) => {
+    const className = joinClassNames(props.className && `loader--${props.className}`)
     return (
         <Row className={`loader ${className}`} fullWidth={fullWidth}>
             {map(counts, (_, index: number) => (

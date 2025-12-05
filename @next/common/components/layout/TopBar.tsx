@@ -4,8 +4,6 @@ import Row from './Row'
 import Column from './Column'
 /* Helpers */
 import { joinClassNames } from '@sujin/share/utils/string'
-/* Assets */
-// import '../../scss/top-bar.scss'
 
 type Props = PropsWithChildren<{
     readonly left?: JSX.Element

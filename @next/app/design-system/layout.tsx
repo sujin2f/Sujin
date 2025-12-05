@@ -6,8 +6,6 @@ import { Footer } from '@lib/components/footer'
 import FixedHeader from '@lib/components/header/FixedHeader'
 /* CONSTANTS */
 import { MENU_NAMES } from '@sujin/lib/constants'
-/* Assets */
-import './layout.scss'
 
 export const metadata: Metadata = {
     robots: {

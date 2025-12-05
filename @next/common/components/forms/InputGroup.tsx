@@ -3,8 +3,6 @@ import { useCallback, type KeyboardEvent } from 'react'
 import Input, { type InputProps } from './Input'
 import Button from './Button'
 import { KeyCodes } from '@sujin/share/constants/keycode'
-/* Assets */
-// import '@common/scss/form.scss'
 
 type Props = InputProps<HTMLInputElement> & {
     button?: string

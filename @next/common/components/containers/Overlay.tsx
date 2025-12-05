@@ -4,9 +4,6 @@ import { useRef, MouseEvent, PropsWithChildren, useCallback } from 'react'
 import { MouseEventCallback } from '../../types/react'
 import { joinClassNames } from '@sujin/share/utils/string'
 
-/* Assets */
-import '../../scss/overlay.scss'
-
 type Props = PropsWithChildren<{
     className?: string
     onClick?: MouseEventCallback

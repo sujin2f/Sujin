@@ -6,8 +6,6 @@ import Button from '@common/components/forms/Button'
 /* Assets */
 import Twitter from '@common/images/twitter.svg'
 import Facebook from '@common/images/facebook.svg'
-/* Assets */
-import './SocialShare.scss'
 
 type Props = {
     title: string

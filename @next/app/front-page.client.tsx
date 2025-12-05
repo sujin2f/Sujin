@@ -16,7 +16,6 @@ import { MENU_NAMES } from '@sujin/lib/constants'
 import type { T_Background } from '@sujin/lib/types'
 /* Assets */
 import Logo from '@common/images/logo.svg'
-// import style from './front-page.module.scss'
 
 type Props = {
     readonly action: () => Promise<T_Background[]>
@@ -44,15 +43,13 @@ export function FrontPageClient({ action, title, description }: Props) {
     return (
         <Wrapper>
             <FixedHeader menu={MENU_NAMES.MAIN} />
-            <main>
-                <Banner
-                    menu={MENU_NAMES.MAIN}
-                    background={background}
-                    excerpt={description}
-                    title={<Logo aria-label={title} className="banner__logo" />}
-                    fullHeight
-                />
-            </main>
+            <Banner
+                menu={MENU_NAMES.MAIN}
+                background={background}
+                excerpt={description}
+                title={<Logo aria-label={title} className="w-sm mx-auto" />}
+                fullHeight
+            />
         </Wrapper>
     )
 }

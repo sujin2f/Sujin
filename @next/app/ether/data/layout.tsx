@@ -5,8 +5,6 @@ import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
 /* CONSTANTS */
 import { METADATA } from '@lib/constants'
-/* Assets */
-import './style.scss'
 
 export const metadata: Metadata = {
     ...METADATA['/ether'],

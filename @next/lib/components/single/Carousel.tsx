@@ -10,7 +10,6 @@ import { getPrev, getNext } from '@sujin/share/utils/array'
 import type { T_ShortcodeAttrMatch } from '@sujin/lib/types'
 /* Assets */
 import Arrow from '@common/images/prev.svg'
-import './Carousel.scss'
 import NextImage from '@common/components/containers/NextImage'
 import { getRatio } from '@sujin/share/utils/number'
 

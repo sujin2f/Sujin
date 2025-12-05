@@ -8,7 +8,6 @@ import type { MenuItem as TypeMenuItem } from '@sujin/lib/types/menu'
 import { joinClassNames } from '@sujin/share/utils/string'
 /* Assets */
 import Arrow from '../../images/icons/arrow_drop_up.svg'
-// import '../../scss/menu.scss'
 
 type Props = {
     readonly className?: string

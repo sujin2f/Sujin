@@ -11,8 +11,6 @@ import {
 import { CloseButton } from '../forms/CloseButton'
 /* Helpers */
 import { joinClassNames } from '@sujin/share/utils/string'
-/* Assets */
-import '../../scss/callout.scss'
 
 type Props = DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement> &
     PropsWithChildren<{
@@ -29,13 +27,7 @@ type Props = DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement> &
  * @param {boolean} [props.closeButton] - Whether to display a close button.
  * @param {string | JSX.ElementType} [props.dom] - The DOM element or component to use for the callout.
  */
-const Callout = ({
-    closeButton,
-    dom = 'div',
-    className,
-    children,
-    ...props
-}: Props) => {
+const Callout = ({ closeButton, dom = 'div', className, children, ...props }: Props) => {
     const [closed, setClosed] = useState(false)
 
     if (closed) {

@@ -4,8 +4,6 @@ import { redirect } from 'next/navigation'
 /* Utils */
 import { filterEmpty } from '@sujin/share/utils/object'
 import { joinClassNames } from '@sujin/share/utils/string'
-/* Assets */
-// import '@common/scss/form.scss'
 
 type Props = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> & {
     readonly color?: 'primary' | 'secondary' | 'success' | 'alert' | 'warning'

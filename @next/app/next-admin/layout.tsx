@@ -9,8 +9,6 @@ import { Footer } from '@lib/components/footer'
 import FixedHeader from '@lib/components/header/FixedHeader'
 /* CONSTANTS */
 import { MENU_NAMES } from '@sujin/lib/constants'
-/* Assets */
-import style from './layout.module.scss'
 /* Utils */
 import { isAdmin } from '@lib/utils/server/header'
 
@@ -30,12 +28,11 @@ export default async function AdminLayout({ children }: PropsWithChildren) {
     if (!(await isAdmin())) notFound()
 
     return (
-        <Wrapper style={style} className={style.wrapper}>
+        <Wrapper>
             <FixedHeader menu={MENU_NAMES.MAIN} />
             <Row>
                 <Column small={2}>
                     <Menu
-                        className={style.menu}
                         items={[
                             {
                                 title: 'Home',

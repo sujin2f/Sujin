@@ -14,8 +14,6 @@ import { COLLECTION, IMAGE_SIZE, MENU_NAMES } from '@sujin/lib/constants'
 import { page as getPage } from '@lib/apollo/queries/wordpress/pages/page'
 import { getThumbnailFromPost } from '@lib/utils/client'
 import { gqlRequest } from '@lib/redis/client'
-/* Assets */
-import '@lib/components/single/AboutItem.scss'
 
 export const metadata: Metadata = {
     title: 'About Sujin Choi',

@@ -2,12 +2,9 @@ import React, { PropsWithChildren, useMemo } from 'react'
 import Link from 'next/link'
 
 /* Utils */
-import { joinClassNames } from '@sujin/share/utils/string'
 import { formatDate } from '@sujin/share/utils/datetime'
 import { removeURLProtocol } from '@sujin/share/utils/string'
 import { DAY_IN_MS, ShortMonthNames } from '@sujin/share/constants/datetime'
-/* Assets */
-import '../../scss/card.scss'
 
 type Props = {
     readonly to: string
@@ -29,49 +26,24 @@ type Props = {
  * @param {string} props.image - The URL of the image to display on the card.
  * @param {string} [props.className] - Additional class names for the card.
  */
-export const Card = ({
-    children,
-    title,
-    description,
-    to,
-    timestamp,
-    image,
-    className,
-}: PropsWithChildren<Props>) => {
-    const datetime = useMemo(
-        () => timestamp && new Date(timestamp * DAY_IN_MS),
-        [timestamp],
-    )
+export const Card = ({ children, title, description, to, timestamp, image, className }: PropsWithChildren<Props>) => {
+    const datetime = useMemo(() => timestamp && new Date(timestamp * DAY_IN_MS), [timestamp])
 
     return (
-        <section className={joinClassNames('card', className)}>
-            <figure className="card__thumbnail">
+        <li className={className}>
+            <figure className="overflow-hidden relative">
                 <Link title={title || ''} href={to}>
-                    <div className="card__thumbnail__zoom"></div>
+                    <div className="absolute z-2 w-full h-full bg-primary opacity-0 hover:opacity-40"></div>
                     <div className="card__thumbnail__shadow"></div>
                     {datetime && !isNaN(datetime.getTime()) && (
-                        <time
-                            className="card__time"
-                            dateTime={formatDate(datetime)}
-                        >
-                            <span className="card__time__day">
-                                {datetime.getDate()}
-                            </span>
-                            <span className="card__time__month">
-                                {ShortMonthNames[datetime.getMonth()]}
-                            </span>
-                            <span className="card__time__year">
-                                {datetime.getFullYear()}
-                            </span>
+                        <time className="card__time" dateTime={formatDate(datetime)}>
+                            <span className="card__time__day">{datetime.getDate()}</span>
+                            <span className="card__time__month">{ShortMonthNames[datetime.getMonth()]}</span>
+                            <span className="card__time__year">{datetime.getFullYear()}</span>
                         </time>
                     )}
                     <picture className="card__image__container">
-                        <img
-                            src={removeURLProtocol(image)}
-                            role="presentation"
-                            alt={title || ''}
-                            className="card__image"
-                        />
+                        <img src={removeURLProtocol(image)} role="presentation" alt={title || ''} className="w-full" />
                     </picture>
                 </Link>
             </figure>
@@ -82,13 +54,11 @@ export const Card = ({
                             {title}
                         </Link>
                     </h2>
-                    {description && (
-                        <p className="card__description">{description}</p>
-                    )}
+                    {description && <p className="card__description">{description}</p>}
                     {children && children}
                 </div>
             )}
-        </section>
+        </li>
     )
 }
 

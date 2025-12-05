@@ -43,7 +43,7 @@ export function Banner({
 
     return (
         <>
-            <section
+            <header
                 className={`relative w-full bg-gradient-to-b from-gray-900 to-slate-950 ${fullHeight ? 'h-full' : ''}`}
                 style={{ height: fullHeight ? 'calc(100vh - var(--spacing-header))' : 'auto' }}
             >
@@ -66,7 +66,7 @@ export function Banner({
                 ) : null}
 
                 <div
-                    className={`relative z-1 container mx-auto pt-20 flex flex-col ${
+                    className={`relative z-1 container mx-auto pt-20 flex flex-col h-full justify-center ${
                         icon && icon.url ? 'pb-25' : 'pb-15'
                     }`}
                 >
@@ -81,7 +81,7 @@ export function Banner({
                         excerpt
                     )}
                 </div>
-            </section>
+            </header>
             {icon && icon.url && (
                 <Image
                     src={icon.url}

@@ -2,8 +2,6 @@ import { createElement } from 'react'
 import type { HTMLElementType, DetailedHTMLProps, HTMLAttributes } from 'react'
 /* Helpers */
 import { joinClassNames } from '@sujin/share/utils/string'
-/* Assets */
-// import '../../scss/layout.scss'
 
 type Props<T extends HTMLElement> = DetailedHTMLProps<HTMLAttributes<T>, T> & {
     readonly className?: string

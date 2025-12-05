@@ -8,7 +8,6 @@ import Column from '@common/components/layout/Column'
 import type { T_PrevNext } from '@sujin/lib/types'
 /* Assets */
 import Icon from '@common/images/prev.svg'
-import './PrevNext.scss'
 
 type Props = {
     readonly prev?: T_PrevNext | false
@@ -31,9 +30,7 @@ export const PrevNext = (items: Props) => {
                         {item ? (
                             <Link href={item.link} className="prev-next__link">
                                 <Icon />
-                                <span className="prev-next__link__title">
-                                    {item.title}
-                                </span>
+                                <span className="prev-next__link__title">{item.title}</span>
                             </Link>
                         ) : (
                             <></>

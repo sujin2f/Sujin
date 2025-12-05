@@ -6,8 +6,6 @@ import { useStyleLoader } from '../../hooks/useStyleLoader'
 import { joinClassNames } from '@sujin/share/utils/string'
 import { languages } from '@sujin/share/constants/helper'
 import { map } from '@sujin/share/utils/array'
-/* Assets */
-import '../../scss/code.scss'
 
 type Props = {
     readonly lang?: (typeof languages)[number]
@@ -26,9 +24,7 @@ const highlightVersion = '11.11.1'
  * @see https://highlightjs.org/
  */
 export const Code = ({ lang, children, className }: Props) => {
-    useStyleLoader(
-        `https://cdnjs.cloudflare.com/ajax/libs/highlight.js/${highlightVersion}/styles/default.min.css`,
-    )
+    useStyleLoader(`https://cdnjs.cloudflare.com/ajax/libs/highlight.js/${highlightVersion}/styles/default.min.css`)
     const [hljs, setHljs] = useState(false)
     const lineCount = (children.match(/\n/g) || []).length + 1
 
@@ -49,16 +45,8 @@ export const Code = ({ lang, children, className }: Props) => {
                 <Script
                     src={`https://cdnjs.cloudflare.com/ajax/libs/highlight.js/${highlightVersion}/languages/${lang}.min.js`}
                     crossOrigin="anonymous"
-                    onReady={() =>
-                        window.hljs
-                            ? window.hljs.highlightAll()
-                            : setHljs(false)
-                    }
-                    onError={() =>
-                        window.hljs
-                            ? window.hljs.highlightAll()
-                            : setHljs(false)
-                    }
+                    onReady={() => (window.hljs ? window.hljs.highlightAll() : setHljs(false))}
+                    onError={() => (window.hljs ? window.hljs.highlightAll() : setHljs(false))}
                 />
             )}
             <pre className={joinClassNames('code', className)}>

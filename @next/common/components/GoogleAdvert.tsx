@@ -17,7 +17,7 @@ export const GoogleAdvert = ({ clientId, responsive, slot }: Props) => {
 
     return (
         <>
-            <section className="widget google-advert">
+            <section className="">
                 <ins
                     className="adsbygoogle"
                     data-ad-client={clientId}

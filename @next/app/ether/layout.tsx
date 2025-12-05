@@ -8,8 +8,6 @@ import FixedHeader from '@lib/components/header/FixedHeader'
 import { MENU_NAMES } from '@sujin/lib/constants'
 /* Utils */
 import { getMetaData } from '@lib/utils/server/header'
-/* Assets */
-import './layout.scss'
 
 export const generateMetadata = async (): Promise<Metadata> => {
     let metadata: Metadata

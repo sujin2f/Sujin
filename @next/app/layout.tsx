@@ -14,8 +14,6 @@ import { UserInfoProvider } from '@lib/components/UserInfoProvider'
 /* Utils */
 import { getUserInfo } from '@lib/utils/server/header'
 /* Assets */
-// import '@app/layout.scss'
-// import '@common/scss/base.scss'
 import '@app/tailwind.scss'
 
 export const generateMetadata = async (): Promise<Metadata> => {
