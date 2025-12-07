@@ -1,7 +1,7 @@
 'use server'
 import { notFound } from 'next/navigation'
 /* Components */
-import { Banner } from '@lib/components/header/Banner'
+import { Banner } from '@app/@banner/_components'
 import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
 import { RecipeTable } from '@lib/components/recipes/RecipeTable'
@@ -9,7 +9,7 @@ import { WidgetTitle } from '@lib/components/WidgetTitle'
 /* CONSTANTS */
 import { COLLECTION, MENU_NAMES } from '@sujin/lib/constants'
 /* Utils */
-import { gqlRequest } from '@lib/redis/client'
+import { gqlRequest } from '@app/_lib/redis'
 import { recipes as getRecipes } from '@lib/apollo/queries/recipes/recipes'
 import { getAuthHeader, getUserInfo } from '@lib/utils/server/header'
 

@@ -1,11 +1,11 @@
 'use client'
 import React, { useRef, useState } from 'react'
 /* Components */
-import { WidgetTitle } from '../WidgetTitle'
-import { Cards } from '../archive/Cards'
+import { WidgetTitle } from '../../../lib/components/WidgetTitle'
+import { Cards } from '../../../lib/components/archive/Cards'
 /* Utils */
 import useIntersectionObserver from '@common/hooks/useIntersectionObserver'
-import { useServerAction } from '@lib/hooks/useServerAction'
+import { useServerAction } from '@app/_hooks/useServerAction'
 /* T_Type */
 import type { T_ArchivePost } from '@sujin/lib/types'
 

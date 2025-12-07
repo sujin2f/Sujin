@@ -2,7 +2,7 @@ import type { Metadata } from 'next/types'
 import type { PropsWithChildren } from 'react'
 /* Components */
 import { Wrapper } from '@lib/components/Wrapper'
-import { Footer } from '@lib/components/footer'
+import { Footer } from '@app/@footer/_components'
 import FixedHeader from '@lib/components/header/FixedHeader'
 /* CONSTANTS */
 import { MENU_NAMES } from '@sujin/lib/constants'

@@ -3,9 +3,9 @@ import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
 /* Components */
 import Menu from '@common/components/layout/Menu'
-import Hamburger from '@lib/components/header/Hamburger'
-import Search from '@lib/components/header/Search'
-import { Profile } from '@lib/components/header/Profile'
+import Hamburger from '@app/@topbar/_components/Hamburger'
+import Search from '@app/@topbar/_components/Search'
+import { Profile } from '@app/@topbar/_components/Profile'
 /* CONSTANTS */
 import { MENUS } from '@lib/constants'
 import { MENU_NAMES } from '@sujin/lib/constants'

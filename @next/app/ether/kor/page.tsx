@@ -1,5 +1,5 @@
 /* Components */
-import { PrevNext } from '@lib/components/single/PrevNext'
+import { PrevNext } from '@app/_components/single/PrevNext'
 
 export default function Intro() {
     return (

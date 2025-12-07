@@ -1,17 +1,15 @@
 'use client'
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 /* Components */
 import { Card } from '@common/components/containers/Card'
-import Column from '@common/components/layout/Column'
-import Row from '@common/components/layout/Row'
 import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
 /* Utils */
 import useIntersectionObserver from '@common/hooks/useIntersectionObserver'
-import { useServerAction } from '@lib/hooks/useServerAction'
+import { useServerAction } from '@app/_hooks/useServerAction'
 /* Store */
-import { setFlickr } from '@lib/store/slices/flickr'
-import { RootState } from '@lib/store'
+import { setFlickr } from '@app/_store/slices/flickr'
+import { RootState } from '@app/_store'
 /* T_Type */
 import type { T_FlickrImage } from '@sujin/lib/types'
 

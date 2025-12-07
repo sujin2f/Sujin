@@ -23,8 +23,8 @@ import {
 /* CONSTANTS */
 import { QuantumBool } from '@sujin/share/types' // TODO
 /* Utils */
-import { useUserInfo } from '@lib/hooks/useUserInfo'
-import { useRecipeDelete } from '@lib/hooks/useRecipeDelete'
+import { useUserInfo } from '@app/_hooks/useUserInfo'
+import { useRecipeDelete } from '@app/_hooks/useRecipeDelete'
 
 type Props = {
     readonly recipe: T_Recipe

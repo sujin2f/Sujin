@@ -1,52 +1,35 @@
-import {
-    createElement,
-    Fragment,
-    type PropsWithChildren,
-    type ReactNode,
-} from 'react'
+import { createElement, Fragment, type PropsWithChildren, type ReactNode } from 'react'
 /* Components */
-import { Gist } from '@lib/components/single/Gist'
-import { TweetEmbed } from '@lib/components/single/TweetEmbed'
-import { AboutItem } from '@lib/components/single/AboutItem'
-import { Carousel } from '@lib/components/single/Carousel'
-import { Caption } from '@lib/components/single/Caption'
-import { Code } from '@lib/components/single/Code'
+import { Gist } from '@app/_components/single/Gist'
+import { TweetEmbed } from '@app/_components/single/TweetEmbed'
+import { AboutItem } from '@app/_components/single/AboutItem'
+import { Carousel } from '@app/_components/single/Carousel'
+import { Caption } from '@app/_components/single/Caption'
+import { Code } from '@app/_components/single/Code'
 /* Utils */
 import { removeEmptyParagraphs } from '@sujin/share/utils/string'
 /* T_Types */
 import type { T_Post, T_Page, T_ShortcodeAttrMatch } from '@sujin/lib/types'
+/* Assets */
+import '@app/_components/single/Content.scss'
 
 type Props = {
     post: T_Post | T_Page
-    type: 'page' | 'post'
 }
 
-export const Content = (props: PropsWithChildren<Props>) => {
-    const {
-        post: { id, slug, content },
-        type,
-        children,
-    } = props
-
+export const Content = ({ post: { content }, children }: PropsWithChildren<Props>) => {
     const contents = [...parseContent(content)]
 
     return (
         <>
-            <article
-                className={`content--${type} content--${decodeURIComponent(
-                    slug,
-                )} content--${type}-${id} content--${id} content`}
-            >
-                {contents}
-            </article>
+            <article className="article">{contents}</article>
             <footer className="content__footer">{children}</footer>
         </>
     )
 }
 
 function parseContent(content: string): ReactNode[] {
-    const patternShortcode =
-        /(\[([\w-]+)[^\]]*?\][^\x02]*?\[\/[^\]]*\2\]|\[[\w-]+[^\]]*?\/\])/gi
+    const patternShortcode = /(\[([\w-]+)[^\]]*?\][^\x02]*?\[\/[^\]]*\2\]|\[[\w-]+[^\]]*?\/\])/gi
     const str = content
 
     const matched: {
@@ -177,8 +160,7 @@ const attrs = (text: string): T_ShortcodeAttrMatch => {
     }
     // tslint:enable:no-conditional-assignment
 
-    const patternShortcode =
-        /(\[([\w-]+)[^\]]*?\]([^\x02]*)?\[\/[^\]]*\2\]|\[[\w-]+[^\]]*?\/\])/gi
+    const patternShortcode = /(\[([\w-]+)[^\]]*?\]([^\x02]*)?\[\/[^\]]*\2\]|\[[\w-]+[^\]]*?\/\])/gi
     const shortcodeMatch = patternShortcode.exec(text)
     if (shortcodeMatch && shortcodeMatch[3]) {
         named.innerContent = shortcodeMatch[3]

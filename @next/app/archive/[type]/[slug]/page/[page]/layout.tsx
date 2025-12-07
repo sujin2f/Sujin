@@ -2,12 +2,12 @@ import type { PropsWithChildren } from 'react'
 import type { Metadata } from 'next/types'
 /* Components */
 import { Wrapper } from '@lib/components/Wrapper'
-import { Footer } from '@lib/components/footer'
+import { Footer } from '@app/@footer/_components'
 import FixedHeader from '@lib/components/header/FixedHeader'
 /* CONSTANTS */
 import { ARCHIVE, COLLECTION, MENU_NAMES } from '@sujin/lib/constants'
 /* Utils */
-import { gqlRequest } from '@lib/redis/client'
+import { gqlRequest } from '@app/_lib/redis'
 import { category as getCategory } from '@lib/apollo/queries/wordpress/archives/category'
 import { tag as getTag } from '@lib/apollo/queries/wordpress/archives/tag'
 

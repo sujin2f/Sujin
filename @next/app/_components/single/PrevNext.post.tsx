@@ -1,10 +1,10 @@
 'use client'
 import React, { useRef, useState } from 'react'
 /* Components */
-import { PrevNext } from '@lib/components/single/PrevNext'
+import { PrevNext } from '@app/_components/single/PrevNext'
 /* Utils */
 import useIntersectionObserver from '@common/hooks/useIntersectionObserver'
-import { useServerAction } from '@lib/hooks/useServerAction'
+import { useServerAction } from '@app/_hooks/useServerAction'
 /* T_Type */
 import type { T_PrevNext } from '@sujin/lib/types'
 

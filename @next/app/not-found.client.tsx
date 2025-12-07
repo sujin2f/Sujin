@@ -2,7 +2,7 @@
 import React, { useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 /* Module */
-import { RootState } from '@lib/store'
+import { RootState } from '@app/_store'
 /* Components */
 import { Cards } from '@lib/components/archive/Cards'
 import { WidgetTitle } from '@lib/components/WidgetTitle'
@@ -10,8 +10,8 @@ import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
 /* CONSTANTS */
 import { PER_PAGE } from '@sujin/lib/constants'
 /* Utils */
-import { setRecent } from '@lib/store/slices/recent'
-import { useServerAction } from '@lib/hooks/useServerAction'
+import { setRecent } from '@app/_store/slices/recent'
+import { useServerAction } from '@app/_hooks/useServerAction'
 /* T_Types */
 import type { T_ArchivePost } from '@sujin/lib/types'
 

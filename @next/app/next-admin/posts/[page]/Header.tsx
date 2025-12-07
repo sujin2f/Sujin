@@ -9,7 +9,7 @@ import Callout from '@common/components/containers/Callout'
 import { QuantumBool } from '@sujin/share/types'
 import Button from '@common/components/forms/Button'
 /* Utils */
-import { publish } from '@lib/redis/client'
+import { publish } from '@app/_lib/redis'
 /* CONSTANTS */
 import { ARCHIVE } from '@sujin/lib/constants'
 /* T_Types */

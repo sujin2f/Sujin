@@ -3,6 +3,8 @@ import { replaceQuotes } from '@lib/utils/replaceQuotes'
 import { removeEmptyParagraphs } from '@sujin/share/utils/string'
 /* T_Types */
 import type { T_ShortcodeAttrMatch } from '@sujin/lib/types'
+/* Assets */
+import '@app/_components/single/AboutItem.scss'
 
 interface Props {
     value: T_ShortcodeAttrMatch
@@ -18,7 +20,7 @@ export const AboutItem = (props: Props) => {
     const content = replaceQuotes(named, 'innerContent')
 
     return (
-        <div className="about-item">
+        <div className="about-item border border-t-primary">
             <div className="about-item__year">
                 <div>{from}</div>
                 <div className="about-item__separator"></div>

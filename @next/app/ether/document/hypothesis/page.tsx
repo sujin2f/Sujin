@@ -1,7 +1,7 @@
 import Link from 'next/link'
 /* Components */
 import { NextImage } from '@common/components/containers/NextImage'
-import { PrevNext } from '@lib/components/single/PrevNext'
+import { PrevNext } from '@app/_components/single/PrevNext'
 /* Assets */
 import pic1 from '@lib/images/ether/pic1_eng.png'
 import pic2 from '@lib/images/ether/pic2_eng.png'

@@ -1,5 +1,5 @@
 /* Components */
-import { Banner } from '@lib/components/header/Banner'
+import { Banner } from '@app/@banner/_components'
 import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
 import { DetailClient } from './page.client'
@@ -7,7 +7,7 @@ import { DetailClient } from './page.client'
 import { COLLECTION, MENU_NAMES } from '@sujin/lib/constants'
 /* Utils */
 import { getUserInfo } from '@lib/utils/server/header'
-import { gqlRequest } from '@lib/redis/client'
+import { gqlRequest } from '@app/_lib/redis'
 import { recipe as getRecipe } from '@lib/apollo/queries/recipes/recipe'
 
 type Props = {

@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation'
 /* Models */
 import { Logger } from '@sujin/share/model/Logger'
 /* Components */
-import { Banner } from '@lib/components/header/Banner'
+import { Banner } from '@app/@banner/_components'
 import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
 import { Cards } from '@lib/components/archive/Cards'
@@ -12,7 +12,7 @@ import { category as getCategory } from '@lib/apollo/queries/wordpress/archives/
 import { tag as getTag } from '@lib/apollo/queries/wordpress/archives/tag'
 import { posts as getPosts } from '@lib/apollo/queries/wordpress/posts/posts'
 /* Utils */
-import { gqlRequest, publish } from '@lib/redis/client'
+import { gqlRequest, publish } from '@app/_lib/redis'
 
 type Props = {
     type: ARCHIVE

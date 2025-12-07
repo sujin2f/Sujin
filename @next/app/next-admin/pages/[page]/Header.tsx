@@ -9,7 +9,7 @@ import InputGroup from '@common/components/forms/InputGroup'
 import { QuantumBool } from '@sujin/share/types'
 import { POST_TYPE } from '@sujin/lib/constants'
 /* Utils */
-import { publish } from '@lib/redis/client'
+import { publish } from '@app/_lib/redis'
 /* T_Types */
 import type { RedisMessageWordpress } from '@sujin/lib/types'
 

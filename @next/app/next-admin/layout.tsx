@@ -5,7 +5,7 @@ import { Wrapper } from '@lib/components/Wrapper'
 import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
 import Menu from '@common/components/layout/Menu'
-import { Footer } from '@lib/components/footer'
+import { Footer } from '@app/@footer/_components'
 import FixedHeader from '@lib/components/header/FixedHeader'
 /* CONSTANTS */
 import { MENU_NAMES } from '@sujin/lib/constants'

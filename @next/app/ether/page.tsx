@@ -1,6 +1,6 @@
 /* Components */
-import { PrevNext } from '@lib/components/single/PrevNext'
-import { Banner } from '@lib/components/header/Banner'
+import { PrevNext } from '@app/_components/single/PrevNext'
+import { Banner } from '@app/@banner/_components'
 import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
 import { MENU_NAMES } from '@sujin/lib/constants'

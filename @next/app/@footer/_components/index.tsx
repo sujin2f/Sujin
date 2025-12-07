@@ -2,18 +2,22 @@
 import Link from 'next/link'
 /* Components */
 import { GoogleAdvert } from '@common/components/GoogleAdvert'
-import TagCloud from '@lib/components/footer/TagCloud'
-import Flickr from '@lib/components/footer/Flickr'
+import TagCloud from '@app/@footer/_components/TagCloud'
+import Flickr from '@app/@footer/_components/Flickr'
 import { WidgetTitle } from '@lib/components/WidgetTitle'
 /* Utils */
 import { flickr as getFlickr } from '@lib/apollo/queries/misc/flickr'
 import { tagCloud as getTagCloud } from '@lib/apollo/queries/wordpress/archives/tagCloud'
-import { gqlRequest } from '@lib/redis/client'
+import { gqlRequest } from '@app/_lib/redis'
 import { COLLECTION } from '@sujin/lib/constants'
 /* Assets */
 import Logo from '@common/images/logo.svg'
 
-export const Footer = async () => {
+type Props = {
+    className?: string
+}
+
+export const Footer = async ({ className = '' }: Props) => {
     async function requestFlickr() {
         'use server'
         return await gqlRequest(async () => await getFlickr(), `flickr`)
@@ -24,8 +28,8 @@ export const Footer = async () => {
     }
 
     return (
-        <footer className="bg-slate-900">
-            <aside className="container mx-auto grid grid-cols-3 pt-10 pb-3 gap-15">
+        <footer className={`${className} bg-slate-900`}>
+            <aside className="container mx-auto grid grid-cols-3 pt-10 pb-3 gap-15 max-w-6xl">
                 <section>
                     <GoogleAdvert
                         responsive

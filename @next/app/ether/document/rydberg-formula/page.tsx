@@ -3,8 +3,8 @@ import { InlineMath } from 'react-katex'
 /* Components */
 import { NextImage } from '@common/components/containers/NextImage'
 import Table from '@common/components/containers/Table'
-import { Latex } from '@lib/components/single/Latex'
-import { PrevNext } from '@lib/components/single/PrevNext'
+import { Latex } from '@app/_components/single/Latex'
+import { PrevNext } from '@app/_components/single/PrevNext'
 /* Assets */
 import pic9 from '@lib/images/ether/pic9.png'
 import pic10 from '@lib/images/ether/pic10.png'

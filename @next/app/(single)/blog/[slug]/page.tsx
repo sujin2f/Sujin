@@ -3,22 +3,22 @@ import { notFound } from 'next/navigation'
 /* Models */
 import { Logger } from '@sujin/share/model/Logger'
 /* Components */
-import { Banner } from '@lib/components/header/Banner'
+import { Banner } from '@app/@banner/_components'
 import Row from '@common/components/layout/Row'
-import { Tags } from '@lib/components/single/Tags'
-import { PrevNextPost } from '@lib/components/single/PrevNext.post'
-import { RelatedPosts } from '@lib/components/single/RelatedPosts'
-import { RecentPosts } from '@lib/components/single/RecentPosts'
-import { SocialShare } from '@lib/components/single/SocialShare.client'
+import { Tags } from '@app/_components/single/Tags'
+import { PrevNextPost } from '@app/_components/single/PrevNext.post'
+import { RelatedPosts } from '@app/_components/single/RelatedPosts'
+import { RecentPosts } from '@app/_components/single/RecentPosts'
+import { SocialShare } from '@app/_components/single/SocialShare.client'
 import Column from '@common/components/layout/Column'
-import { Content } from '@lib/components/single/Content'
+import { Content } from '@app/_components/single/Content'
 import { GoogleAdvert } from '@common/components/GoogleAdvert'
 /* CONSTANTS */
 import { MENU_NAMES, IMAGE_SIZE, COLLECTION, POST_STATUS } from '@sujin/lib/constants'
 import { post as getPost } from '@lib/apollo/queries/wordpress/posts/post'
 /* Utils */
 import { getThumbnailFromPost } from '@lib/utils/client'
-import { gqlRequest, publish } from '@lib/redis/client'
+import { gqlRequest, publish } from '@app/_lib/redis'
 import { prevNext } from '@lib/apollo/queries/wordpress/posts/prevNext'
 import { related } from '@lib/apollo/queries/wordpress/posts/related'
 /* T_Types */
@@ -109,7 +109,7 @@ export default async function PostPage(props: Props) {
             />
             <Row>
                 <Column medium={12} large={7} largeOffset={2}>
-                    <Content post={post} type="post">
+                    <Content post={post}>
                         <Tags items={tags} />
                         <SocialShare
                             title={post.title}

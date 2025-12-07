@@ -2,9 +2,9 @@ import type { PropsWithChildren } from 'react'
 import type { Metadata } from 'next/types'
 /* Components */
 import { Wrapper } from '@lib/components/Wrapper'
-import { Footer } from '@lib/components/footer'
+import { Footer } from '@app/@footer/_components'
 import FixedHeader from '@lib/components/header/FixedHeader'
-import { Banner } from '@lib/components/header/Banner'
+import { Banner } from '@app/@banner/_components'
 import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
 /* Utils */

@@ -8,7 +8,7 @@ import { PrevNextAdmin } from '@lib/components/admin/PrevNextAdmin'
 import { Header } from './Header'
 import { RefreshLink } from './RefreshLink'
 /* Utils */
-import { useServerAction } from '@lib/hooks/useServerAction'
+import { useServerAction } from '@app/_hooks/useServerAction'
 /* T_Type */
 import type { T_ArchivePost } from '@sujin/lib/types'
 

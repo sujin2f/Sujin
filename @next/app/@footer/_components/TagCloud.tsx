@@ -5,11 +5,11 @@ import { useDispatch, useSelector } from 'react-redux'
 /* Components */
 import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
 /* Store */
-import { setTagCloud } from '@lib/store/slices/tag-cloud'
-import { RootState } from '@lib/store'
+import { setTagCloud } from '@app/_store/slices/tag-cloud'
+import { RootState } from '@app/_store'
 /* Utils */
 import useIntersectionObserver from '@common/hooks/useIntersectionObserver'
-import { useServerAction } from '@lib/hooks/useServerAction'
+import { useServerAction } from '@app/_hooks/useServerAction'
 /* T_Type */
 import type { T_Archive } from '@sujin/lib/types'
 
@@ -42,19 +42,20 @@ const TagCloud = ({ action }: Props) => {
     }
 
     return (
-        <div className="tag-cloud__container" ref={ref}>
+        <ul className="tag-cloud__container" ref={ref}>
             {loading && <LoadingArchive fullWidth className="tag-cloud" counts={1} small={12} />}
             {tagCloud.slice(0, 20).map((tag) => (
-                <Link
-                    className={`tag-cloud tag-cloud--size-${tag.total} tag-cloud--color-${tag.hits}`}
-                    key={`tag-cloud-${tag.slug}-${tag.title}`}
-                    title={tag.title}
-                    href={`/tag/${tag.slug}`}
-                >
-                    {tag.title}
-                </Link>
+                <li key={`tag-cloud-${tag.slug}-${tag.title}`}>
+                    <Link
+                        className={`tag-cloud tag-cloud--size-${tag.total} tag-cloud--color-${tag.hits}`}
+                        title={tag.title}
+                        href={`/tag/${tag.slug}`}
+                    >
+                        {tag.title}
+                    </Link>
+                </li>
             ))}
-        </div>
+        </ul>
     )
 }
 export default TagCloud

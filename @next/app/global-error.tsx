@@ -2,7 +2,7 @@
 /* Components */
 import { Wrapper } from '@lib/components/Wrapper'
 import FixedHeader from '@lib/components/header/FixedHeader'
-import { Banner } from '@lib/components/header/Banner'
+import { Banner } from '@app/@banner/_components'
 /* CONSTANTS */
 import { MENU_NAMES } from '@sujin/lib/constants'
 

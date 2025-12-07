@@ -27,17 +27,19 @@ $has_range      = ( $rb_start_month || $rb_start_year || $rb_end_month || $rb_en
 
 ob_start();
 ?>
-<div class="about-item <?php echo esc_attr( $has_range ? 'about-item--with_range' : '' ); ?>">
+<div class="about-item border-t border-t-primary mb-3 pt-3 <?php echo esc_attr( $has_range ? 'about-item--with_range' : '' ); ?>">
 	<?php /* sub heading */ ?>
 	<?php if ( $rb_subhead ) : ?>
-		<p class="about-item__subhead"><?php echo esc_html( $rb_subhead ); ?></p>
+		<p class="about-item__subhead text-slate-600 font-normal ml-2 mb-0! leading-normal">
+			<?php echo esc_html( $rb_subhead ); ?>
+		</p>
 	<?php endif; ?>
 	
 	<?php /* title */ ?>
 	<?php if ( $rb_title ) : ?>
-		<h3 class="about-item__title">
+		<h3 class="about-item__title ml-2 mb-1 text-xl font-semibold">
 			<?php if ( $rb_url ) : ?>
-				<a href="<?php echo esc_url( $rb_url ); ?> target="<?php $rb_target || '_self'; ?>">
+				<a href="<?php echo esc_url( $rb_url ); ?>" target="<?php $rb_target || '_self'; ?>">
 			<?php endif; ?>
 					<?php echo esc_html( $rb_title ); ?>
 			<?php if ( $rb_url ) : ?>
@@ -46,28 +48,31 @@ ob_start();
 		</h3>
 	<?php endif; ?>
 
-
 	<?php /* detail */ ?>
 	<?php if ( ! empty( $rb_details ) ) : ?>
-		<ul class="about-item__details">
+		<ul class="about-item__details ml-2 mb-2">
 			<?php foreach ( $rb_details as $rb_desc ) : ?>
-				<li><?php echo esc_html( $rb_desc ); ?></li>
+				<li class="flex gap-2">
+					<?php echo esc_html( $rb_desc ); ?>
+				</li>
 			<?php endforeach; ?>
 		</ul>
 	<?php endif; ?>
 
 	<?php /* detail */ ?>
 	<?php if ( ! empty( $rb_tags ) ) : ?>
-		<ul class="about-item__tags">
+		<ul class="about-item__tags flex flex-wrap ml-5">
 			<?php foreach ( $rb_tags as $rb_tag ) : ?>
-				<li><?php echo esc_html( $rb_tag ); ?></li>
+				<li class="bg-secondary text-white px-2 py-0.5 mr-2 mb-2">
+					<?php echo esc_html( $rb_tag ); ?>
+				</li>
 			<?php endforeach; ?>
 		</ul>
 	<?php endif; ?>
 
 	<?php /* range */ ?>
 	<?php if ( $has_range ) : ?>
-		<div class="about-item__range">
+		<div class="about-item__range bg-primary text-white text-normal aspect-square text-center flex flex-col justify-center">
 			<time datetime="<?php echo esc_attr( $rb_start_year ); ?>-<?php echo esc_attr( $rb_start_month ); ?>-01">
 				<?php echo esc_html( $rb_start_year ); ?>
 			</time>

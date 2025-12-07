@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from 'react'
 /* Components */
-import { Banner } from '@lib/components/header/Banner'
+import { Banner } from '@app/@banner/_components'
 import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
 /* CONSTANTS */

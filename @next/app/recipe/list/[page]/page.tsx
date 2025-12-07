@@ -1,10 +1,10 @@
 'use server'
 /* Utils */
-import { gqlRequest } from '@lib/redis/client'
+import { gqlRequest } from '@app/_lib/redis'
 import { recipes as getRecipes } from '@lib/apollo/queries/recipes/recipes'
 import { getUserInfo } from '@lib/utils/server/header'
 /* Components */
-import { Banner } from '@lib/components/header/Banner'
+import { Banner } from '@app/@banner/_components'
 import { RecipeTable } from '@lib/components/recipes/RecipeTable'
 import { WidgetTitle } from '@lib/components/WidgetTitle'
 import Row from '@common/components/layout/Row'

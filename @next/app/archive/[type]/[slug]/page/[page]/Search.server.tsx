@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation'
 /* Models */
 import { Logger } from '@sujin/share/model/Logger'
 /* Components */
-import { Banner } from '@lib/components/header/Banner'
+import { Banner } from '@app/@banner/_components'
 import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
 import { Cards } from '@lib/components/archive/Cards'
@@ -10,7 +10,7 @@ import { Cards } from '@lib/components/archive/Cards'
 import { ARCHIVE, COLLECTION, MENU_NAMES } from '@sujin/lib/constants'
 import { search } from '@lib/apollo/queries/wordpress/posts/search'
 /* Utils */
-import { gqlRequest } from '@lib/redis/client'
+import { gqlRequest } from '@app/_lib/redis'
 
 type Props = {
     slug: string

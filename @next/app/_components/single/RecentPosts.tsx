@@ -2,14 +2,14 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 /* Module */
-import { RootState } from '@lib/store'
+import { RootState } from '@app/_store'
 /* Components */
 import { WidgetTitle } from '@lib/components/WidgetTitle'
 import { Cards } from '@lib/components/archive/Cards'
 import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
 /* Utils */
-import { setRecent } from '@lib/store/slices/recent'
-import { useServerAction } from '@lib/hooks/useServerAction'
+import { setRecent } from '@app/_store/slices/recent'
+import { useServerAction } from '@app/_hooks/useServerAction'
 import useIntersectionObserver from '@common/hooks/useIntersectionObserver'
 /* CONSTANTS */
 import { IMAGE_SIZE } from '@sujin/lib/constants'

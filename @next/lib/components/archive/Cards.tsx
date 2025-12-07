@@ -3,7 +3,7 @@ import { Paging } from '@lib/components/archive/Paging'
 import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
 import Card from '@common/components/containers/Card'
-import { Tags } from '@lib/components/single/Tags'
+import { Tags } from '@app/_components/single/Tags'
 /* CONSTANTS */
 import { ARCHIVE, IMAGE_SIZE } from '@sujin/lib/constants'
 /* T_Types */
