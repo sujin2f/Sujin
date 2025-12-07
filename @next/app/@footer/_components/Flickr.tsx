@@ -52,6 +52,7 @@ const Flickr = ({ action }: Props) => {
                     image={item.media.replace('_m.jpg', '_s.jpg')}
                     key={`flickr-${item.link}`}
                     className="aspect-square mb-4"
+                    ratio="aspect-square"
                 />
             ))}
         </ul>

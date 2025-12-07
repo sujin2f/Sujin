@@ -42,8 +42,8 @@ const TagCloud = ({ action }: Props) => {
     }
 
     return (
-        <ul className="tag-cloud__container" ref={ref}>
-            {loading && <LoadingArchive fullWidth className="tag-cloud" counts={1} small={12} />}
+        <ul className="tag-cloud flex flex-wrap gap-1 justify-center" ref={ref}>
+            {loading && <LoadingArchive fullWidth counts={1} small={12} />}
             {tagCloud.slice(0, 20).map((tag) => (
                 <li key={`tag-cloud-${tag.slug}-${tag.title}`}>
                     <Link

@@ -7,7 +7,8 @@ import { useNextClient } from '@app/_hooks/useNextClient'
 import { useLogInOut } from '@app/_hooks/useLogInOut'
 import { useUserInfo } from '@app/_hooks/useUserInfo'
 
-const classNameButton = 'flex items-center justify-center bg-primary rounded-full p-0.5 h-9 min-md:pr-2.5'
+const classNameButton =
+    'flex items-center justify-center bg-primary rounded-full p-0.5 h-9 min-md:pr-2.5 cursor-pointer'
 const classNamePicture = 'flex items-center justify-center w-8 h-8 rounded-full bg-white min-md:mr-1'
 
 /**

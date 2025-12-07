@@ -8,6 +8,9 @@ interface Props {
     pageOffset?: number
 }
 
+const className =
+    'flex items-center justify-center w-12 aspect-square cursor-pointer text-primary border border-slate-300 text-center'
+
 export const Paging = (props: Props) => {
     const { totalPages, urlPrefix, currentPage } = props
     const pageOffset = props.pageOffset || 5
@@ -32,26 +35,28 @@ export const Paging = (props: Props) => {
     }
 
     return (
-        <nav className="paging__container" role="navigation" aria-label="Navigate to another page">
+        <nav className="flex justify-center gap-2 mb-10" role="navigation" aria-label="Navigate to page">
             {entities.map((entity, index) => {
                 const url = `${urlPrefix}/${entity}`
                 const isCurrent = currentPage.toString() === entity.toString()
 
                 return (
                     <Fragment key={`paging-${entity}-${index}`}>
-                        {isCurrent && <span className="paging paging--active">{entity}</span>}
+                        {isCurrent && (
+                            <span className={`${className} bg-primary text-white border-primary!`}>{entity}</span>
+                        )}
 
                         {entity !== -1 && !isCurrent && (
-                            <Link href={url} className="paging">
+                            <Link href={url} className={className}>
                                 {entity.toString()}
                             </Link>
                         )}
 
                         {entity === -1 && (
-                            <div className="paging paging--hellip">
-                                <span />
-                                <span />
-                                <span />
+                            <div className={`${className} border-none gap-1`}>
+                                <span className="w-1 h-1 bg-slate-300" />
+                                <span className="w-1 h-1 bg-slate-300" />
+                                <span className="w-1 h-1 bg-slate-300" />
                             </div>
                         )}
                     </Fragment>

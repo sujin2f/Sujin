@@ -34,7 +34,7 @@ export default async function AboutPage() {
     const thumbnail = getThumbnailFromPost(post.images, [IMAGE_SIZE.MEDIUM_LARGE])
 
     return (
-        <main className="container mx-auto max-w-4xl">
+        <main className="container mx-auto max-w-4xl mt-15">
             <Content post={post}>
                 <SocialShare
                     title={post.title}

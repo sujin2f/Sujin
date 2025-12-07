@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useMemo } from 'react'
+import { type PropsWithChildren, useMemo, type ReactNode } from 'react'
 import Link from 'next/link'
 
 /* Utils */
@@ -13,6 +13,8 @@ type Props = {
     readonly timestamp?: number
     readonly image: string
     readonly className?: string
+    readonly ratio?: string
+    readonly picture?: ReactNode
 }
 
 /**
@@ -26,35 +28,57 @@ type Props = {
  * @param {string} props.image - The URL of the image to display on the card.
  * @param {string} [props.className] - Additional class names for the card.
  */
-export const Card = ({ children, title, description, to, timestamp, image, className }: PropsWithChildren<Props>) => {
+export const Card = ({
+    children,
+    title,
+    description,
+    to,
+    timestamp,
+    image,
+    picture,
+    className,
+    ratio,
+}: PropsWithChildren<Props>) => {
     const datetime = useMemo(() => timestamp && new Date(timestamp * DAY_IN_MS), [timestamp])
 
     return (
         <li className={className}>
-            <figure className="overflow-hidden relative">
+            <figure className={`card__figure overflow-hidden relative shadow ${ratio}`}>
                 <Link title={title || ''} href={to}>
-                    <div className="absolute z-2 w-full h-full bg-primary opacity-0 hover:opacity-40"></div>
-                    <div className="card__thumbnail__shadow"></div>
+                    <div className="card__zoom absolute z-2 w-full h-full"></div>
+                    {/* <div className="card__shadow absolute z-3 w-full h-full shadow shadow-inner shadow-lg"></div> */}
                     {datetime && !isNaN(datetime.getTime()) && (
-                        <time className="card__time" dateTime={formatDate(datetime)}>
-                            <span className="card__time__day">{datetime.getDate()}</span>
-                            <span className="card__time__month">{ShortMonthNames[datetime.getMonth()]}</span>
-                            <span className="card__time__year">{datetime.getFullYear()}</span>
+                        <time
+                            className="absolute z-3 right-0 w-fit aspect-square bg-primary text-white p-3"
+                            dateTime={formatDate(datetime)}
+                        >
+                            <span className="block font-bold text-5xl text-center">{datetime.getDate()}</span>
+                            <div className="text-center leading-5">
+                                <span className="mr-1">{ShortMonthNames[datetime.getMonth()]}</span>
+                                <span>{datetime.getFullYear()}</span>
+                            </div>
                         </time>
                     )}
-                    <picture className="card__image__container">
-                        <img src={removeURLProtocol(image)} role="presentation" alt={title || ''} className="w-full" />
-                    </picture>
+                    {picture || (
+                        <picture>
+                            <img
+                                src={removeURLProtocol(image)}
+                                role="presentation"
+                                alt={title || ''}
+                                className="w-full h-full object-cover object-center"
+                            />
+                        </picture>
+                    )}
                 </Link>
             </figure>
             {title && (
-                <div className="card__text">
-                    <h2 className="card__title">
-                        <Link title={title} href={to} className="card__link">
+                <div className="mt-2">
+                    <h3>
+                        <Link title={title} href={to} className="text-primary font-bold text-2xl">
                             {title}
                         </Link>
-                    </h2>
-                    {description && <p className="card__description">{description}</p>}
+                    </h3>
+                    {description && <p>{description}</p>}
                     {children && children}
                 </div>
             )}

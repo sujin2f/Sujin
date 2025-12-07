@@ -10,7 +10,6 @@ import { MENU_NAMES } from '@sujin/lib/constants'
 import { getPage } from '@app/_lib/graphql/getPage'
 
 export default async function AboutBanner() {
-    console.log('AboutBanner')
     const post = await getPage('about')
         .then((result) => {
             if (!result.slug) {

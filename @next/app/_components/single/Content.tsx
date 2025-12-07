@@ -2,7 +2,6 @@ import { createElement, Fragment, type PropsWithChildren, type ReactNode } from 
 /* Components */
 import { Gist } from '@app/_components/single/Gist'
 import { TweetEmbed } from '@app/_components/single/TweetEmbed'
-import { AboutItem } from '@app/_components/single/AboutItem'
 import { Carousel } from '@app/_components/single/Carousel'
 import { Caption } from '@app/_components/single/Caption'
 import { Code } from '@app/_components/single/Code'
@@ -79,7 +78,6 @@ function parseContent(content: string): ReactNode[] {
 const shortcodes: Record<string, (prop: any) => ReactNode> = {
     gist: Gist,
     tweet: TweetEmbed,
-    'about-item': AboutItem,
     caption: Caption,
     carousel: Carousel,
     code: Code,
