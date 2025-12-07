@@ -9,7 +9,7 @@ import { Banner } from '@app/@banner/_components'
 import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
 /* Utils */
-import { recent } from '@lib/apollo/queries/wordpress/posts/recent'
+import { recent } from '@app/blog/_lib/getRecent'
 import { gqlRequest } from '@app/_lib/redis'
 /* CONSTANTS */
 import { COLLECTION, MENU_NAMES } from '@sujin/lib/constants'

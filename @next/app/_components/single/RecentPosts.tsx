@@ -1,18 +1,17 @@
 'use client'
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import Image from 'next/image'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 /* Module */
 import { RootState } from '@app/_store'
 /* Components */
 import { WidgetTitle } from '@lib/components/WidgetTitle'
-import { Cards } from '@lib/components/archive/Cards'
+import Card from '@common/components/containers/Card'
 import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
 /* Utils */
 import { setRecent } from '@app/_store/slices/recent'
 import { useServerAction } from '@app/_hooks/useServerAction'
 import useIntersectionObserver from '@common/hooks/useIntersectionObserver'
-/* CONSTANTS */
-import { IMAGE_SIZE } from '@sujin/lib/constants'
 /* T_Types */
 import type { T_ArchivePost } from '@sujin/lib/types'
 
@@ -54,14 +53,37 @@ export const RecentPosts = ({ id, action }: Props) => {
     const list = recent.filter((post) => post.id !== id).slice(0, 4)
 
     return (
-        <section className="recent-posts show-for-large">
+        <section aria-label="Recent Posts">
             <WidgetTitle>Recent Posts</WidgetTitle>
-            <Cards
-                posts={{ list, numPages: 0 }}
-                keyPrefix="recent"
-                listKey="list"
-                imageSize={[IMAGE_SIZE.RECENT_POST]}
-            />
+
+            <ul className="recent-posts grid grid-cols-1 gap-4">
+                {list.map((post: T_ArchivePost, index: number) => {
+                    const url = post.images && (post.images.list?.url || post.images.thumbnail?.url)
+                    const picture = (
+                        <Image
+                            src={url || '/assets/thumbnail.png'}
+                            alt={post.title}
+                            loading="lazy"
+                            width={400}
+                            height={300}
+                            className="w-full h-full object-cover object-center"
+                        />
+                    )
+
+                    return (
+                        <Card
+                            key={`card-recent-${index}-${post._id}`}
+                            title={post.title}
+                            description={post.excerpt}
+                            to={post.link}
+                            timestamp={post.date}
+                            ratio="aspect-square"
+                            picture={picture}
+                            image=""
+                        />
+                    )
+                })}
+            </ul>
         </section>
     )
 }

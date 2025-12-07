@@ -5,11 +5,8 @@ import { Logger } from '@sujin/share/model/Logger'
 /* Components */
 import { SocialShare } from '@app/_components/single/SocialShare.client'
 import { Content } from '@app/_components/single/Content'
-/* CONSTANTS */
-import { IMAGE_SIZE } from '@sujin/lib/constants'
 /* Utils */
 import { getPage } from '@app/_lib/graphql/getPage'
-import { getThumbnailFromPost } from '@lib/utils/client'
 
 export const metadata: Metadata = {
     title: 'About Sujin Choi',
@@ -31,7 +28,7 @@ export default async function AboutPage() {
             Logger.error(e.message)
             notFound()
         })
-    const thumbnail = getThumbnailFromPost(post.images, [IMAGE_SIZE.MEDIUM_LARGE])
+    const url = post.images && (post.images.list?.url || post.images.thumbnail?.url)
 
     return (
         <main className="container mx-auto max-w-4xl mt-15">
@@ -39,7 +36,7 @@ export default async function AboutPage() {
                 <SocialShare
                     title={post.title}
                     excerpt={post.excerpt}
-                    thumbnail={thumbnail}
+                    thumbnail={url || '/assets/thumbnail.png'}
                     baseUrl={`${process.env.NEXT_BASE_URL}`}
                 />
             </Content>

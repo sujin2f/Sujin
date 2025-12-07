@@ -2,29 +2,29 @@
 /* Models */
 import { client } from '@lib/utils/apollo-client'
 /* CONSTANTS */
-import query from '@app/_lib/graphql/category.graphql'
+import query from '@app/blog/_lib/post.graphql'
 import { IS_DEV } from '@sujin/share/constants/helper'
 import { COLLECTION } from '@sujin/lib/constants'
 /* Utils */
 import { gqlRequest } from '@app/_lib/redis'
 /* T_Types */
-import type { T_Archive } from '@sujin/lib/types'
+import type { T_Post } from '@sujin/lib/types'
 
-export const getCategory = async (slug: string): Promise<T_Archive> => {
-    return await gqlRequest(
+export const getPost = async (slug: string): Promise<T_Post> => {
+    return await gqlRequest<T_Post>(
         async () =>
             await client
-                .query<{ category: T_Archive }>({
+                .query<{ post: T_Post }>({
                     query,
                     variables: { slug },
                     fetchPolicy: IS_DEV ? 'network-only' : 'cache-first',
                 })
                 .then((result) => {
                     if (!result.data) {
-                        throw new Error(`🤬 Cannot find the category with ${slug}`)
+                        throw new Error(`🤬 Cannot find the post with slug ${slug}`)
                     }
-                    return result.data.category
+                    return result.data.post
                 }),
-        `${COLLECTION.ARCHIVE}-category-${slug}`,
+        `${COLLECTION.POST}-${slug}`,
     )
 }

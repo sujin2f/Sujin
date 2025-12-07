@@ -1,8 +1,12 @@
 'use client'
-import React, { useRef, useState } from 'react'
+import Image from 'next/image'
+import { useRef, useState } from 'react'
 /* Components */
 import { WidgetTitle } from '../../../lib/components/WidgetTitle'
-import { Cards } from '../../../lib/components/archive/Cards'
+import Card from '@common/components/containers/Card'
+import { Tags } from '@app/_components/single/Tags'
+/* CONSTANTS */
+import { ARCHIVE } from '@sujin/lib/constants'
 /* Utils */
 import useIntersectionObserver from '@common/hooks/useIntersectionObserver'
 import { useServerAction } from '@app/_hooks/useServerAction'
@@ -26,15 +30,41 @@ export const RelatedPosts = ({ action }: Props) => {
         return <div ref={ref} />
     }
 
-    const posts = {
-        related: data,
-        numPages: 0,
-    }
-
     return (
-        <section className="related-posts">
+        <section aria-label="Related Posts">
             <WidgetTitle>Related Posts</WidgetTitle>
-            <Cards posts={posts} listKey="related" keyPrefix="related" medium={6} small={12} />
+
+            <ul className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                {data.map((post: T_ArchivePost, index: number) => {
+                    const tags = post.archives ? post.archives.filter((term) => term.type === ARCHIVE.TAG) : []
+                    const url = post.images && (post.images.list?.url || post.images.thumbnail?.url)
+                    const picture = (
+                        <Image
+                            src={url || '/assets/thumbnail.png'}
+                            alt={post.title}
+                            loading="lazy"
+                            width={400}
+                            height={300}
+                            className="w-full h-full object-cover object-center"
+                        />
+                    )
+
+                    return (
+                        <Card
+                            key={`card-related-${index}-${post._id}`}
+                            title={post.title}
+                            description={post.excerpt}
+                            to={post.link}
+                            timestamp={post.date}
+                            ratio="aspect-video"
+                            picture={picture}
+                            image=""
+                        >
+                            <Tags items={tags} />
+                        </Card>
+                    )
+                })}
+            </ul>
         </section>
     )
 }

@@ -42,7 +42,7 @@ export const Card = ({
     const datetime = useMemo(() => timestamp && new Date(timestamp * DAY_IN_MS), [timestamp])
 
     return (
-        <li className={className}>
+        <li className={`${className}`}>
             <figure className={`card__figure overflow-hidden relative shadow ${ratio}`}>
                 <Link title={title || ''} href={to}>
                     <div className="card__zoom absolute z-2 w-full h-full"></div>
@@ -72,15 +72,15 @@ export const Card = ({
                 </Link>
             </figure>
             {title && (
-                <div className="mt-2">
-                    <h3>
+                <>
+                    <h3 className="mt-2">
                         <Link title={title} href={to} className="text-primary font-bold text-2xl">
                             {title}
                         </Link>
                     </h3>
                     {description && <p>{description}</p>}
                     {children && children}
-                </div>
+                </>
             )}
         </li>
     )

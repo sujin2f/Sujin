@@ -7,8 +7,8 @@ import { Banner } from '@app/@banner/_components'
 /* CONSTANTS */
 import { ARCHIVE, MENU_NAMES } from '@sujin/lib/constants'
 /* Utils */
-import { getCategory } from '@app/_lib/graphql/getCategory'
-import { getTag } from '@app/_lib/graphql/getTag'
+import { getCategory } from '@app/archive/_lib/getCategory'
+import { getTag } from '@app/archive/_lib/getTag'
 
 type Props = {
     params: Promise<{

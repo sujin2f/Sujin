@@ -16,27 +16,6 @@ query Page($slug: String!) {
                 width
                 height
                 url
-                mimeType
-                sizes {
-                    medium {
-                        width
-                        height
-                        url
-                        mimeType
-                    }
-                    mediumLarge {
-                        width
-                        height
-                        url
-                        mimeType
-                    }
-                    large {
-                        width
-                        height
-                        url
-                        mimeType
-                    }
-                }
             }
             list {
                 sizes {

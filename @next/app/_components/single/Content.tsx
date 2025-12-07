@@ -1,5 +1,6 @@
 import { createElement, Fragment, type PropsWithChildren, type ReactNode } from 'react'
 /* Components */
+import { Image } from '@app/_components/single/Image'
 import { Gist } from '@app/_components/single/Gist'
 import { TweetEmbed } from '@app/_components/single/TweetEmbed'
 import { Carousel } from '@app/_components/single/Carousel'
@@ -21,8 +22,8 @@ export const Content = ({ post: { content }, children }: PropsWithChildren<Props
 
     return (
         <>
-            <article className="article">{contents}</article>
-            <footer className="content__footer">{children}</footer>
+            <article>{contents}</article>
+            <footer>{children}</footer>
         </>
     )
 }
@@ -76,6 +77,7 @@ function parseContent(content: string): ReactNode[] {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const shortcodes: Record<string, (prop: any) => ReactNode> = {
+    image: Image,
     gist: Gist,
     tweet: TweetEmbed,
     caption: Caption,
