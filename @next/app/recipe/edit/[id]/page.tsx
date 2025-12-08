@@ -3,13 +3,13 @@ import { notFound } from 'next/navigation'
 import { Banner } from '@app/@banner/_components'
 import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
-import { RecipeEdit } from '@lib/components/recipes/RecipeEdit'
+import { RecipeEdit } from '@app/recipe/_components/RecipeEdit'
 /* CONSTANTS */
 import { COLLECTION, MENU_NAMES } from '@sujin/lib/constants'
 /* Utils */
 import { getUserInfo } from '@lib/utils/server/header'
 import { gqlRequest } from '@app/_lib/redis'
-import { recipe as getRecipe } from '@lib/apollo/queries/recipes/recipe'
+import { recipe as getRecipe } from '@app/recipe/_lib/getRecipe'
 
 type Props = {
     params: Promise<{

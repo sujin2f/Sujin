@@ -9,10 +9,9 @@ import { Banner } from '@app/@banner/_components'
 import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
 /* Utils */
-import { recent } from '@app/blog/_lib/getRecent'
-import { gqlRequest } from '@app/_lib/redis'
+import { getRecent } from '@app/blog/_lib/getRecent'
 /* CONSTANTS */
-import { COLLECTION, MENU_NAMES } from '@sujin/lib/constants'
+import { MENU_NAMES } from '@sujin/lib/constants'
 
 export const metadata: Metadata = {
     robots: {
@@ -25,7 +24,7 @@ export const metadata: Metadata = {
 export default async function NotFound() {
     async function action() {
         'use server'
-        return await gqlRequest(async () => await recent(), `${COLLECTION.POST}-recent`).catch(() => [])
+        return await getRecent()
     }
 
     return (

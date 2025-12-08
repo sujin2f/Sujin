@@ -4,13 +4,13 @@ import { notFound } from 'next/navigation'
 import { Banner } from '@app/@banner/_components'
 import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
-import { RecipeTable } from '@lib/components/recipes/RecipeTable'
-import { WidgetTitle } from '@lib/components/WidgetTitle'
+import { RecipeTable } from '@app/recipe/_components/RecipeTable'
+import { WidgetTitle } from '@app/_components/WidgetTitle'
 /* CONSTANTS */
 import { COLLECTION, MENU_NAMES } from '@sujin/lib/constants'
 /* Utils */
 import { gqlRequest } from '@app/_lib/redis'
-import { recipes as getRecipes } from '@lib/apollo/queries/recipes/recipes'
+import { recipes as getRecipes } from '@app/recipe/_lib/getRecipes'
 import { getAuthHeader, getUserInfo } from '@lib/utils/server/header'
 
 type Props = {

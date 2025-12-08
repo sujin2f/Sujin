@@ -1,43 +1,79 @@
-'use server'
+'use client'
+import Link from 'next/link'
+import { useState } from 'react'
 /* Components */
-import { Banner } from '@app/@banner/_components'
-import Row from '@common/components/layout/Row'
-import Column from '@common/components/layout/Column'
-import { RecipeTable } from '@lib/components/recipes/RecipeTable'
-import { WidgetTitle } from '@lib/components/WidgetTitle'
+import { Paging } from '@common/components/containers/Paging'
+import { LoadingTable } from '@lib/components/archive/LoadingTable'
+import { WidgetTitle } from '@app/_components/WidgetTitle'
+/* T_Types */
+import type { WithNumPages, T_Recipe } from '@sujin/lib/types'
 /* CONSTANTS */
-import { COLLECTION, MENU_NAMES } from '@sujin/lib/constants'
+import { QuantumBool } from '@sujin/share/types'
 /* Utils */
-import { getUserInfo } from '@lib/utils/server/header'
-import { gqlRequest } from '@app/_lib/redis'
-import { recipes as getRecipes } from '@lib/apollo/queries/recipes/recipes'
+import { useUserInfo } from '@app/_hooks/useUserInfo'
+import { useRecipeDelete } from '@app/_hooks/useRecipeDelete'
+import { useServerAction } from '@app/_hooks/useServerAction'
+import { getRecipes } from '@app/recipe/_lib/getRecipes'
 
-export default async function PageRecipe() {
-    const user = await getUserInfo()
+type Props = { mine: boolean; page: number }
 
-    async function action() {
-        'use server'
-        return await gqlRequest(async () => await getRecipes(1), `${COLLECTION.RECIPE}-list-1`).catch(() => ({
-            numPages: 0,
-            items: [],
-        }))
+export default function PageRecipe({ mine, page }: Props) {
+    const user = useUserInfo()
+    const { data, loading, error } = useServerAction<WithNumPages<T_Recipe>>(async () => await getRecipes(page))
+    const [_id, set_id] = useState<string>('')
+    const { setConfirm, Confirm } = useRecipeDelete(_id)
+
+    if (loading) {
+        return <LoadingTable />
     }
+    if (error) {
+        throw error
+    }
+
+    const { items, numPages } = data!
 
     return (
         <>
-            <Banner
-                menu={user ? MENU_NAMES.RECIPE_USER : MENU_NAMES.RECIPE}
-                excerpt="The recipe manager with measurement conversion"
-                title="Recipe"
-            />
-            <Row>
-                <Column large={8} largeOffset={2} small={12}>
-                    <article>
-                        <WidgetTitle>Recipe List</WidgetTitle>
-                        <RecipeTable action={action} page={1} />
-                    </article>
-                </Column>
-            </Row>
+            {Confirm}
+            <WidgetTitle>Recipe List</WidgetTitle>
+            <table>
+                <thead>
+                    <tr>
+                        <th className="text-left">Item</th>
+                        {user?._id && <th>Edit</th>}
+                    </tr>
+                </thead>
+                <tbody>
+                    {items.map((item) => (
+                        <tr key={`recipe-item-${item._id.toString()}`}>
+                            <td>
+                                <Link href={`/recipe/detail/${item._id}`} className="text-primary hover:underline">
+                                    {item.title}
+                                </Link>
+                            </td>
+                            {user?._id && (
+                                <td>
+                                    {user._id === item.user.toString() && (
+                                        <>
+                                            <Link href={`/recipe/edit/${item._id}`}>Edit</Link> |{' '}
+                                            <Link
+                                                href="#"
+                                                onClick={() => {
+                                                    set_id(item._id.toString())
+                                                    setConfirm(QuantumBool.MOD)
+                                                }}
+                                            >
+                                                Delete
+                                            </Link>
+                                        </>
+                                    )}
+                                </td>
+                            )}
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+            <Paging totalPages={numPages} currentPage={page} urlPrefix={`/recipe/${mine ? 'mine' : ''}`} />
         </>
     )
 }

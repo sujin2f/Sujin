@@ -2,7 +2,7 @@
 import Image from 'next/image'
 import { useRef, useState } from 'react'
 /* Components */
-import { WidgetTitle } from '../../../lib/components/WidgetTitle'
+import { WidgetTitle } from '../WidgetTitle'
 import Card from '@common/components/containers/Card'
 import { Tags } from '@app/_components/single/Tags'
 /* CONSTANTS */

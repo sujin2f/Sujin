@@ -9,14 +9,13 @@ import { removeRecipe } from '@lib/apollo/queries/recipes/removeRecipe'
 
 export const useRecipeDelete = (id: string) => {
     const router = useRouter()
-    // const [redirection, setRedirect] = useState<boolean>(false)
     const [confirm, setConfirm] = useState<QuantumBool>(QuantumBool.FALSE)
     const [pending, startPending] = useTransition()
 
     const confirmDelete = useCallback(
         async (value: QuantumBool) => {
             setConfirm(value)
-            if (value === QuantumBool.TRUE) {
+            if (value === QuantumBool.TRUE && id) {
                 startPending(async () => {
                     await removeRecipe(id)
                     router.back()

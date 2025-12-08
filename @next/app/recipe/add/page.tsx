@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import { Banner } from '@app/@banner/_components'
 import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
-import { RecipeEdit } from '@lib/components/recipes/RecipeEdit'
+import { RecipeEdit } from '@app/recipe/_components/RecipeEdit'
 /* CONSTANTS */
 import { MENU_NAMES } from '@sujin/lib/constants'
 /* Utils */

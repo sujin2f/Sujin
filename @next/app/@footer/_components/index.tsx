@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { GoogleAdvert } from '@common/components/GoogleAdvert'
 import TagCloud from '@app/@footer/_components/TagCloud'
 import Flickr from '@app/@footer/_components/Flickr'
-import { WidgetTitle } from '@lib/components/WidgetTitle'
+import { WidgetTitle } from '@app/_components/WidgetTitle'
 /* Utils */
 import { flickr as getFlickr } from '@lib/apollo/queries/misc/flickr'
 import { tagCloud as getTagCloud } from '@lib/apollo/queries/wordpress/archives/tagCloud'

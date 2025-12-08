@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 /* Module */
 import { RootState } from '@app/_store'
 /* Components */
-import { WidgetTitle } from '@lib/components/WidgetTitle'
+import { WidgetTitle } from '@app/_components/WidgetTitle'
 import Card from '@common/components/containers/Card'
 import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
 /* Utils */

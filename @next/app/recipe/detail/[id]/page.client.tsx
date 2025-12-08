@@ -2,7 +2,7 @@
 import { type ChangeEvent, useCallback, useState } from 'react'
 import { notFound } from 'next/navigation'
 /* Components */
-import { WidgetTitle } from '@lib/components/WidgetTitle'
+import { WidgetTitle } from '@app/_components/WidgetTitle'
 import Link from 'next/link'
 import Table from '@common/components/containers/Table'
 import Input from '@common/components/forms/Input'
