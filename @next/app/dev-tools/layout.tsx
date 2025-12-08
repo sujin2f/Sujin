@@ -1,16 +1,7 @@
 import type { PropsWithChildren } from 'react'
 import type { Metadata } from 'next/types'
-/* Components */
-import { Wrapper } from '@lib/components/Wrapper'
-import { Footer } from '@app/@footer/_components'
-import FixedHeader from '@lib/components/header/FixedHeader'
-import { Banner } from '@app/@banner/_components'
-import Row from '@common/components/layout/Row'
-import Column from '@common/components/layout/Column'
 /* Utils */
 import { getMetaData } from '@lib/utils/server/header'
-/* CONSTANTS */
-import { MENU_NAMES } from '@sujin/lib/constants'
 
 export const generateMetadata = async (): Promise<Metadata> => {
     const metadata = await getMetaData()
@@ -25,14 +16,5 @@ export const generateMetadata = async (): Promise<Metadata> => {
 }
 
 export default async function Layout({ children }: PropsWithChildren) {
-    return (
-        <Wrapper>
-            <FixedHeader menu={MENU_NAMES.DEV_TOOL} />
-            <Banner menu={MENU_NAMES.DEV_TOOL} />
-            <Row>
-                <Column small={12}>{children}</Column>
-            </Row>
-            <Footer />
-        </Wrapper>
-    )
+    return <main className="container mx-auto max-w-4xl my-15">{children}</main>
 }
