@@ -1,17 +1,12 @@
 'use client'
 import { useRouter } from 'next/navigation'
-/* Components */
-import Button from '@common/components/forms/Button'
-import Input from '@common/components/forms/Input'
-import Select from '@common/components/forms/Select'
-import Row from '@common/components/layout/Row'
-import Column from '@common/components/layout/Column'
-import ButtonGroup from '@common/components/forms/ButtonGroup'
 /* T_Types */
 import { T_Recipe, UNITS_SELECTION } from '@sujin/lib/types'
 /* Utils */
 import { map } from '@sujin/share/utils/array'
 import { useRecipeCreate } from '@app/_hooks/useRecipeMutate'
+/* CONSTANTS */
+import { TAILWIND_BUTTON, TAILWIND_INPUT } from '@app/_lib/constants'
 
 type Props = {
     recipe?: T_Recipe
@@ -30,57 +25,85 @@ export function RecipeEdit({ recipe }: Props) {
                 }}
                 onChange={onChange}
             >
-                <Input
-                    label="Title"
-                    name="title"
-                    required
-                    errorMessage={errors[0]}
-                    className="--gap--bottom"
-                    defaultValue={recipe?.title}
-                />
-                <Input label="URL" type="url" name="url" className="--gap--bottom" defaultValue={recipe?.url} />
-                <Input type="hidden" name="_id" value={recipe?._id} />
+                <input type="hidden" name="_id" value={recipe?._id} />
+                <label className="mb-1">
+                    <div className="font-bold">Title</div>
+                    <input name="title" required className={TAILWIND_INPUT} defaultValue={recipe?.title} />
+                    {errors[0] && <p>{errors[0]}</p>}
+                </label>
+                <label className="mb-1">
+                    <div className="font-bold">URL</div>
+                    <input type="url" name="url" required className={TAILWIND_INPUT} defaultValue={recipe?.url} />
+                </label>
 
-                <fieldset className="--gap--bottom">
-                    <legend>Ingredients</legend>
+                <fieldset>
+                    <legend className="font-bold">Ingredients</legend>
 
-                    {errors[1] && <p className="form__input__error-message">{errors[1]}</p>}
+                    {errors[1] && <p className="">{errors[1]}</p>}
 
-                    {map(numFields, (_, index) => (
-                        <Row key={`recipe-input-${index}`} dom="section" fullWidth>
-                            <Column small={4}>
-                                <Input
-                                    label="Ingredient"
-                                    name={`ingredient[${index}]`}
-                                    defaultValue={recipe?.ingredients[index]?.title}
-                                />
-                            </Column>
-                            <Column small={4}>
-                                <Input
-                                    label="Amount"
-                                    type="number"
-                                    step="0.01"
-                                    name={`amount[${index}]`}
-                                    defaultValue={recipe?.ingredients[index]?.amount}
-                                />
-                            </Column>
-                            <Column small={4}>
-                                <Select
-                                    label="Unit"
-                                    options={UNITS_SELECTION as unknown as Record<string, string | string[]>}
-                                    name={`unit[${index}]`}
-                                    defaultValue={recipe?.ingredients[index]?.unit}
-                                />
-                            </Column>
-                        </Row>
-                    ))}
+                    <ul>
+                        {map(numFields, (_, index) => (
+                            <li
+                                key={`recipe-input-${index}`}
+                                className="border border-slate-300 rounded-lg p-4 mb-3 bg-slate-100"
+                            >
+                                <label className="mb-1">
+                                    <div className="font-bold">Ingredient {index + 1}</div>
+                                    <input
+                                        name={`ingredient[${index}]`}
+                                        className={TAILWIND_INPUT}
+                                        defaultValue={recipe?.ingredients[index]?.title}
+                                    />
+                                </label>
+                                <label className="mb-1">
+                                    <div className="font-bold">Amount {index + 1}</div>
+                                    <input
+                                        type="number"
+                                        step="0.01"
+                                        name={`amount[${index}]`}
+                                        className={TAILWIND_INPUT}
+                                        defaultValue={recipe?.ingredients[index]?.amount}
+                                    />
+                                </label>
+                                <label className="mb-1">
+                                    <div className="font-bold">Unit {index + 1}</div>
+                                    <select
+                                        name={`unit[${index}]`}
+                                        defaultValue={recipe?.ingredients[index]?.unit}
+                                        className={`${TAILWIND_INPUT} py-1.5`}
+                                    >
+                                        {Object.entries(UNITS_SELECTION).map(([index, value]) => {
+                                            if (typeof value === 'string') {
+                                                return (
+                                                    <option key={`selection-${index}-${value}`} value={index}>
+                                                        {value}
+                                                    </option>
+                                                )
+                                            }
+                                            return (
+                                                <optgroup label={index} key={`optgroup-${index}`}>
+                                                    {value.map((value) => (
+                                                        <option key={`selection-${index}-${value}`} value={value}>
+                                                            {value}
+                                                        </option>
+                                                    ))}
+                                                </optgroup>
+                                            )
+                                        })}
+                                    </select>
+                                </label>
+                            </li>
+                        ))}
+                    </ul>
                 </fieldset>
-                <ButtonGroup className="--gap--bottom">
-                    <Button hollow onClick={() => router.back()} type="button">
+                <div className="flex gap-1">
+                    <button className={TAILWIND_BUTTON} onClick={() => router.back()} type="button">
                         Cancel
-                    </Button>
-                    <Button type="submit">Submit</Button>
-                </ButtonGroup>
+                    </button>
+                    <button type="submit" className={TAILWIND_BUTTON}>
+                        Submit
+                    </button>
+                </div>
             </form>
         </>
     )

@@ -1,14 +1,14 @@
 import { notFound } from 'next/navigation'
 import type { PropsWithChildren } from 'react'
 /* Components */
-import { Wrapper } from '@lib/components/Wrapper'
+import { Wrapper } from '@app/_components/Wrapper'
 import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
 import Menu from '@common/components/layout/Menu'
 import { Footer } from '@app/@footer/_components'
 import FixedHeader from '@lib/components/header/FixedHeader'
 /* CONSTANTS */
-import { MENU_NAMES } from '@sujin/lib/constants'
+import { MENU_NAMES } from '@lib/constants'
 /* Utils */
 import { isAdmin } from '@lib/utils/server/header'
 

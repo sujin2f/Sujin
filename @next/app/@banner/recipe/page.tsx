@@ -2,7 +2,7 @@
 /* Components */
 import { Banner } from '@app/@banner/_components'
 /* CONSTANTS */
-import { MENU_NAMES } from '@sujin/lib/constants'
+import { MENU_NAMES } from '@lib/constants'
 /* Utils */
 import { getUserInfo } from '@lib/utils/server/header'
 

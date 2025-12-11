@@ -1,4 +1,4 @@
-import { Paging as PagingComponent } from '@common/components/containers/Paging'
+import { Paging as PagingComponent } from '@app/archive/_components/Paging'
 
 type Props = {
     readonly pages: number

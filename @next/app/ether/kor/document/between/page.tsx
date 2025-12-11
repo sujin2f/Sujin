@@ -4,8 +4,8 @@ import { InlineMath } from 'react-katex'
 import { NextImage } from '@common/components/containers/NextImage'
 import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
-import { Latex } from '@app/_components/single/Latex'
-import { PrevNext } from '@app/_components/single/PrevNext'
+import { Latex } from '@app/blog/_components/Latex'
+import { PrevNext } from '@app/blog/_components/PrevNext'
 /* Assets */
 import pic58 from '@lib/images/ether/pic58.png'
 import pic114 from '@lib/images/ether/pic114.png'
@@ -20,6 +20,15 @@ import pic122 from '@lib/images/ether/pic122.png'
 import pic123 from '@lib/images/ether/pic123.png'
 import pic125 from '@lib/images/ether/pic125.png'
 import 'katex/dist/katex.min.css'
+
+export const metadata = {
+    title: '가설의 검증(4): 비교 기준, Between',
+    description: '오차 보정',
+    keywords: ['Quantum Physics', 'Theory', 'Hypothesis'],
+    openGraph: {
+        url: `/ether/kor/document/between`,
+    },
+}
 
 export default function Between() {
     return (

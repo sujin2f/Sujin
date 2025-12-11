@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { UserInfoContext } from '@lib/components/UserInfoProvider'
+import { UserInfoContext } from '@app/_components/UserInfoProvider'
 
 export const useUserInfo = () => {
     const { user } = useContext(UserInfoContext)

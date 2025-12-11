@@ -1,9 +1,7 @@
 'use client'
-import Link from 'next/link'
 import { useState } from 'react'
 /* Components */
-import { Paging } from '@common/components/containers/Paging'
-import { LoadingTable } from '@lib/components/archive/LoadingTable'
+import { Paging } from '@app/archive/_components/Paging'
 import { WidgetTitle } from '@app/_components/WidgetTitle'
 /* T_Types */
 import type { WithNumPages, T_Recipe } from '@sujin/lib/types'
@@ -14,57 +12,73 @@ import { useUserInfo } from '@app/_hooks/useUserInfo'
 import { useRecipeDelete } from '@app/_hooks/useRecipeDelete'
 import { useServerAction } from '@app/_hooks/useServerAction'
 import { getRecipes } from '@app/recipe/_lib/getRecipes'
+import { map } from '@sujin/share/utils/array'
 
-type Props = { mine: boolean; page: number }
+type Props = { mine?: boolean; page: number }
 
 export default function PageRecipe({ mine, page }: Props) {
     const user = useUserInfo()
-    const { data, loading, error } = useServerAction<WithNumPages<T_Recipe>>(async () => await getRecipes(page))
+    const { data, loading, error } = useServerAction<WithNumPages<T_Recipe>>(getRecipes)
     const [_id, set_id] = useState<string>('')
     const { setConfirm, Confirm } = useRecipeDelete(_id)
 
-    if (loading) {
-        return <LoadingTable />
-    }
     if (error) {
         throw error
     }
+    if (!data) {
+        return <></>
+    }
 
-    const { items, numPages } = data!
+    const { items, numPages } = data
 
     return (
         <>
             {Confirm}
             <WidgetTitle>Recipe List</WidgetTitle>
-            <table>
+            <table className="w-full">
                 <thead>
                     <tr>
                         <th className="text-left">Item</th>
-                        {user?._id && <th>Edit</th>}
+                        {user?._id && <th className="text-center w-fit">Edit</th>}
                     </tr>
                 </thead>
                 <tbody>
+                    {loading &&
+                        map(12, (_, index) => (
+                            <tr key={`loading-table-${index}`}>
+                                <td>
+                                    <div className="animate-pulse w-full bg-slate-500 text-slate-500 my-1">Loading</div>
+                                </td>
+                            </tr>
+                        ))}
                     {items.map((item) => (
                         <tr key={`recipe-item-${item._id.toString()}`}>
                             <td>
-                                <Link href={`/recipe/detail/${item._id}`} className="text-primary hover:underline">
+                                <a href={`/recipe/detail/${item._id}`} className="text-primary hover:underline">
                                     {item.title}
-                                </Link>
+                                </a>
                             </td>
                             {user?._id && (
-                                <td>
+                                <td className="text-center w-1 whitespace-nowrap">
                                     {user._id === item.user.toString() && (
                                         <>
-                                            <Link href={`/recipe/edit/${item._id}`}>Edit</Link> |{' '}
-                                            <Link
+                                            <a
+                                                href={`/recipe/edit/${item._id}`}
+                                                className="text-primary hover:underline"
+                                            >
+                                                Edit
+                                            </a>{' '}
+                                            |{' '}
+                                            <a
                                                 href="#"
+                                                className="text-primary hover:underline"
                                                 onClick={() => {
                                                     set_id(item._id.toString())
                                                     setConfirm(QuantumBool.MOD)
                                                 }}
                                             >
                                                 Delete
-                                            </Link>
+                                            </a>
                                         </>
                                     )}
                                 </td>

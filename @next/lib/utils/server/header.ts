@@ -1,16 +1,10 @@
 'server-only'
-import { headers, cookies } from 'next/headers'
+import { cookies } from 'next/headers'
 import type { DefaultContext } from '@apollo/client'
 /* Models */
 import { Logger } from '@sujin/share/model/Logger'
 /* CONSTANTS */
-import {
-    COOKIE_KEY_ACCESS_TOKEN,
-    COOKIE_KEY_REFRESH_TOKEN,
-    COOKIE_KEY_USER_INFO,
-    Metadata,
-    METADATA,
-} from '@lib/constants'
+import { COOKIE_KEY_ACCESS_TOKEN, COOKIE_KEY_REFRESH_TOKEN, COOKIE_KEY_USER_INFO } from '@lib/constants'
 import { DAY_IN_SECONDS, HOUR_IN_SECONDS, SECOND_IN_MS } from '@sujin/share/constants/datetime'
 import { HEADER_TOKEN } from '@sujin/lib/constants'
 /* T_Types */
@@ -22,37 +16,6 @@ import { generateToken, verifyToken, getExpiration } from '@sujin/lib/utils/toke
 
 const INTER_COM_SECRET = `${process.env.INTER_COM_SECRET}`
 const CRYPTO_KEY = `${process.env.CRYPTO_KEY}`
-
-/**
- * Retrieves the current pathname from the headers.
- *
- * This function fetches the value of the `x-pathname` header and returns it.
- * If the header is not found, it returns `undefined`.
- *
- * @async
- * @returns {Promise<Nullable<string>>} The pathname as a string if found, otherwise `undefined`.
- */
-const getPathName = async (): Promise<Nullable<string>> => (await headers()).get('x-pathname') || undefined
-
-/**
- * Retrieves metadata based on the current pathname.
- *
- * This function fetches the current pathname from the headers and looks up
- * the corresponding metadata from the `METADATA` object. If the pathname
- * is not available or the metadata is not found for the given path, an error
- * is thrown.
- *
- * @async
- * @returns {Promise<Metadata>} The metadata corresponding to the current pathname.
- * @throws {Error} If the pathname is not found or metadata for the path is missing.
- */
-export const getMetaData = async (): Promise<Metadata> => {
-    const path = await getPathName()
-    if (!path || !METADATA[path]) {
-        throw Error('Cannot get metadata.')
-    }
-    return METADATA[path]
-}
 
 /**
  * Create the temporary token for verifying origin to @auth server

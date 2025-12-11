@@ -3,8 +3,8 @@ import { InlineMath } from 'react-katex'
 /* Components */
 import { NextImage } from '@common/components/containers/NextImage'
 import Table from '@common/components/containers/Table'
-import { Latex } from '@app/_components/single/Latex'
-import { PrevNext } from '@app/_components/single/PrevNext'
+import { Latex } from '@app/blog/_components/Latex'
+import { PrevNext } from '@app/blog/_components/PrevNext'
 /* Assets */
 import pic9 from '@lib/images/ether/pic9.png'
 import pic10 from '@lib/images/ether/pic10.png'
@@ -19,6 +19,15 @@ import pic94 from '@lib/images/ether/pic94.png'
 import pic95 from '@lib/images/ether/pic95.png'
 import pic113 from '@lib/images/ether/pic113.png'
 import 'katex/dist/katex.min.css'
+
+export const metadata = {
+    title: '가설의 검증(2): 뤼드베리 방정식',
+    description: '다전자원자에서 뤼드베리 방정식 적용',
+    keywords: ['Quantum Physics', 'Theory', 'Hypothesis'],
+    openGraph: {
+        url: `/ether/kor/document/rydberg-formula`,
+    },
+}
 
 export default function RydbergFormula() {
     return (

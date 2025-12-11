@@ -10,7 +10,7 @@ import { getBackgrounds } from '@app/@banner/_lib/getBackgrounds'
 /* Module */
 import { RootState } from '@app/_store'
 /* CONSTANTS */
-import { MENU_NAMES } from '@sujin/lib/constants'
+import { MENU_NAMES } from '@lib/constants'
 /* Assets */
 import Logo from '@common/images/logo.svg'
 

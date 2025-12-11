@@ -7,15 +7,17 @@ import type { Metadata } from 'next'
 /* CONSTANTS */
 import { DEFAULT_THUMBNAIL } from '@lib/constants'
 /* Components */
-import { ReduxProvider } from '@lib/components/ReduxProvider'
+import { ReduxProvider } from '@app/_components/ReduxProvider'
 import Error from '@app/global-error'
 import Loading from '@app/loading'
-import { UserInfoProvider } from '@lib/components/UserInfoProvider'
-import { Wrapper } from '@lib/components/Wrapper'
+import { UserInfoProvider } from '@app/_components/UserInfoProvider'
+import { Wrapper } from '@app/_components/Wrapper'
+import DefaultTopBar from '@app/@topbar/default'
+import DefaultFooter from '@app/@footer/default'
 /* Utils */
 import { getUserInfo } from '@lib/utils/server/header'
 /* Assets */
-import '@app/tailwind.scss'
+import '@app/_lib/scss/style.scss'
 
 export const generateMetadata = async (): Promise<Metadata> => {
     const metadata: Metadata = {
@@ -75,6 +77,7 @@ export default async function AppLayout({ children, banner, topbar, footer }: Pr
     ) : (
         <></>
     )
+
     return (
         <html lang="en">
             <head>{adSense}</head>
@@ -82,14 +85,15 @@ export default async function AppLayout({ children, banner, topbar, footer }: Pr
                 <Suspense fallback={<Loading />}>
                     <ReduxProvider>
                         <UserInfoProvider user={user}>
-                            <ErrorBoundary errorComponent={Error}>
-                                <Wrapper>
-                                    {topbar}
+                            <Wrapper>
+                                <ErrorBoundary errorComponent={Error}>
+                                    {/* For not-found and error */}
+                                    {topbar || <DefaultTopBar />}
                                     {banner}
                                     {children}
-                                    {footer}
-                                </Wrapper>
-                            </ErrorBoundary>
+                                    {footer || <DefaultFooter />}
+                                </ErrorBoundary>
+                            </Wrapper>
                         </UserInfoProvider>
                     </ReduxProvider>
                 </Suspense>

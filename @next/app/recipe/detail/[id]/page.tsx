@@ -1,11 +1,8 @@
 'use client'
-import { type ChangeEvent, useCallback, useEffect, useState } from 'react'
-import { notFound, useParams } from 'next/navigation'
+import { type ChangeEvent, Fragment, useCallback, useEffect, useState } from 'react'
+import { notFound, useParams, useRouter } from 'next/navigation'
 /* Components */
 import { WidgetTitle } from '@app/_components/WidgetTitle'
-import Input from '@common/components/forms/Input'
-import Button from '@common/components/forms/Button'
-import ButtonGroup from '@common/components/forms/ButtonGroup'
 import Select from '@common/components/forms/Select'
 // /* CONSTANTS */
 import { QuantumBool } from '@sujin/share/types' // TODO
@@ -23,12 +20,14 @@ import {
     CONVERT_WEIGHT,
     CONVERT_VOLUMES,
 } from '@sujin/lib/types' // TODO
+import { TAILWIND_BUTTON } from '@app/_lib/constants'
 
 type Props = {
     id: string
 }
 
 export default function DetailClient() {
+    const router = useRouter()
     const { id } = useParams<Props>()
     const user = useUserInfo()
     const { data: recipe, loading, error } = useServerAction<T_Recipe>(async () => await getRecipe(id))
@@ -87,76 +86,89 @@ export default function DetailClient() {
     if (error) {
         throw error
     }
-    if (!pending && !recipe) notFound()
+    // if (!pending && !recipe) notFound()
     if (!recipe) return <></>
+    if (!loading && !error && !recipe) notFound()
 
     return (
         <>
             {Confirm}
 
-            <WidgetTitle>{recipe.title}</WidgetTitle>
+            <WidgetTitle>Ingredients</WidgetTitle>
 
-            <table>
-                <tbody>
-                    {converted.map((item, index) => (
-                        <tr key={item.title}>
-                            <th>{item.title}</th>
-                            <td>
-                                <Input
-                                    type="number"
-                                    value={
-                                        focused !== index ? parseFloat(item.amount.toString()).toFixed(2) : item.amount
-                                    }
-                                    onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                                        setFocused(index)
-                                        onQuantityChange(index, parseFloat(e.target.value))
-                                    }}
-                                    onBlur={(e: ChangeEvent<HTMLInputElement>) => {
-                                        setFocused(false)
-                                        onQuantityChange(index, parseFloat(e.target.value))
-                                    }}
+            <dl className="grid grid-cols-2">
+                {converted.map((item, index) => (
+                    <Fragment key={`recipe-${item.title}-${index}`}>
+                        <dt className="col-span-2">{item.title}</dt>
+                        <dd>
+                            <input
+                                type="number"
+                                value={focused !== index ? parseFloat(item.amount.toString()).toFixed(2) : item.amount}
+                                onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                                    setFocused(index)
+                                    onQuantityChange(index, parseFloat(e.target.value))
+                                }}
+                                onBlur={(e: ChangeEvent<HTMLInputElement>) => {
+                                    setFocused(false)
+                                    onQuantityChange(index, parseFloat(e.target.value))
+                                }}
+                            />
+                        </dd>
+                        <dd>
+                            {item.unit === 'ea' && <>{item.unit as string}</>}
+                            {(UNITS_WEIGHT as unknown as string[]).includes(item.unit) && (
+                                <Select
+                                    options={UNITS_WEIGHT as unknown as string[]}
+                                    value={item.unit}
+                                    onChange={(e) => onUnitChange(index, e.target.value as UNITS)}
                                 />
-                            </td>
-                            <td>
-                                {item.unit === 'ea' && <>{item.unit as string}</>}
-                                {(UNITS_WEIGHT as unknown as string[]).includes(item.unit) && (
-                                    <Select
-                                        options={UNITS_WEIGHT as unknown as string[]}
-                                        value={item.unit}
-                                        onChange={(e) => onUnitChange(index, e.target.value as UNITS)}
-                                    />
-                                )}
-                                {(UNITS_VOLUMES as unknown as string[]).includes(item.unit) && (
-                                    <Select
-                                        options={UNITS_VOLUMES as unknown as string[]}
-                                        value={item.unit}
-                                        onChange={(e) => onUnitChange(index, e.target.value as UNITS)}
-                                    />
-                                )}
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-
+                            )}
+                            {(UNITS_VOLUMES as unknown as string[]).includes(item.unit) && (
+                                <Select
+                                    options={UNITS_VOLUMES as unknown as string[]}
+                                    value={item.unit}
+                                    onChange={(e) => onUnitChange(index, e.target.value as UNITS)}
+                                />
+                            )}
+                        </dd>
+                    </Fragment>
+                ))}
+            </dl>
             <nav>
                 {user && user._id ? (
-                    <Button href="/recipe/mine/1" title="My Recipes" disabled={pending} />
+                    <button
+                        onClick={() => router.replace('/recipe/mine/1')}
+                        title="My Recipes"
+                        disabled={pending}
+                        className={TAILWIND_BUTTON}
+                    />
                 ) : (
-                    <Button href="/recipe/list/1" title="Public Recipes" disabled={pending} />
+                    <button
+                        onClick={() => router.replace('/recipe/list/1')}
+                        disabled={pending}
+                        className={TAILWIND_BUTTON}
+                    >
+                        Public Recipes
+                    </button>
                 )}
 
                 {user && user._id === recipe.user ? (
-                    <ButtonGroup gap>
-                        <Button href={`/recipe/edit/${recipe._id}`} title="Edit" disabled={pending} />
-                        <Button
+                    <>
+                        <button
+                            onClick={() => router.replace(`/recipe/edit/${recipe._id}`)}
+                            title="Edit"
+                            disabled={pending}
+                            className={TAILWIND_BUTTON}
+                        />
+                        <button
                             onClick={() => {
                                 setConfirm(QuantumBool.MOD)
                             }}
                             title="Delete"
                             disabled={pending}
+                            className={TAILWIND_BUTTON}
                         />
-                    </ButtonGroup>
+                    </>
                 ) : (
                     <></>
                 )}

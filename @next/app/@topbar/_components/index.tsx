@@ -8,7 +8,7 @@ import Search from '@app/@topbar/_components/Search'
 import { Profile } from '@app/@topbar/_components/Profile'
 /* CONSTANTS */
 import { MENUS } from '@lib/constants'
-import { MENU_NAMES } from '@sujin/lib/constants'
+import { MENU_NAMES } from '@lib/constants'
 /* Assets */
 import Logo from '@common/images/logo-top-bar.svg'
 import Facebook from '@common/images/facebook.svg'

@@ -3,10 +3,11 @@ import type { Metadata } from 'next/types'
 /* Model */
 import { Logger } from '@sujin/share/model/Logger'
 /* Components */
-import { SocialShare } from '@app/_components/single/SocialShare.client'
-import { Content } from '@app/_components/single/Content'
+import { SocialShare } from '@app/blog/_components/SocialShare'
+import { Content } from '@app/blog/_components/Content'
 /* Utils */
-import { getPage } from '@app/_lib/graphql/getPage'
+import { getPage } from '@app/about/_lib/getPage'
+import { TAILWIND_MAIN } from '@app/_lib/constants'
 
 export const metadata: Metadata = {
     title: 'About Sujin Choi',
@@ -19,7 +20,7 @@ export const metadata: Metadata = {
 export default async function AboutPage() {
     const post = await getPage('about')
         .then((result) => {
-            if (!result.slug) {
+            if (!result || !result.slug) {
                 throw new Error(`🤬 Page about request has been failed: No-content.`)
             }
             return result
@@ -28,15 +29,15 @@ export default async function AboutPage() {
             Logger.error(e.message)
             notFound()
         })
-    const url = post.images && (post.images.list?.url || post.images.thumbnail?.url)
+    const thumbnail = post.images && (post.images.list?.url || post.images.thumbnail?.url)
 
     return (
-        <main className="container mx-auto max-w-4xl mt-15">
+        <main className={`${TAILWIND_MAIN} max-w-4xl`}>
             <Content post={post}>
                 <SocialShare
                     title={post.title}
                     excerpt={post.excerpt}
-                    thumbnail={url || '/assets/thumbnail.png'}
+                    thumbnail={thumbnail || '/assets/thumbnail.png'}
                     baseUrl={`${process.env.NEXT_BASE_URL}`}
                 />
             </Content>

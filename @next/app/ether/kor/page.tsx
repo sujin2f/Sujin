@@ -1,5 +1,14 @@
 /* Components */
-import { PrevNext } from '@app/_components/single/PrevNext'
+import { PrevNext } from '@app/blog/_components/PrevNext'
+
+export const metadata = {
+    title: 'Ether',
+    description: '물질의 공간성과 시간성에 대한 가설',
+    keywords: ['Quantum Physics', 'Theory', 'Hypothesis'],
+    openGraph: {
+        url: `/ether/kor`,
+    },
+}
 
 export default function Intro() {
     return (

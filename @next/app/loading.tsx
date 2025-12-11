@@ -1,10 +1,9 @@
-import React from 'react'
 /* Components */
-import { Wrapper } from '@lib/components/Wrapper'
+import { Wrapper } from '@app/_components/Wrapper'
 import FixedHeader from '@lib/components/header/FixedHeader'
 import { Banner } from '@app/@banner/_components'
 /* CONSTANTS */
-import { MENU_NAMES } from '@sujin/lib/constants'
+import { MENU_NAMES } from '@lib/constants'
 /* Assets */
 import LoadingImg from '@common/images/loading.svg'
 

@@ -1,12 +1,21 @@
 import Link from 'next/link'
 /* Components */
 import { NextImage } from '@common/components/containers/NextImage'
-import { PrevNext } from '@app/_components/single/PrevNext'
+import { PrevNext } from '@app/blog/_components/PrevNext'
 /* Assets */
 import pic13 from '@lib/images/ether/pic13_eng.png'
 import pic14 from '@lib/images/ether/pic14_eng.png'
 import pic15 from '@lib/images/ether/pic15.png'
 import pic124 from '@lib/images/ether/pic124.jpeg'
+
+export const metadata = {
+    title: '결론',
+    description: '결론과 후속 연구',
+    keywords: ['Quantum Physics', 'Theory', 'Hypothesis'],
+    openGraph: {
+        url: `/ether/kor/document/conclusion`,
+    },
+}
 
 export default function Conclusion() {
     return (

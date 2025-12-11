@@ -1,6 +1,8 @@
 'use server'
 import type { PropsWithChildren } from 'react'
+/* CONSTANTS */
+import { TAILWIND_MAIN } from '@app/_lib/constants'
 
 export default async function PageRecipe({ children }: PropsWithChildren) {
-    return <main className="container mx-auto max-w-4xl my-15">{children}</main>
+    return <main className={`${TAILWIND_MAIN} max-w-4xl`}>{children}</main>
 }

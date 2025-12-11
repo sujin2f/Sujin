@@ -1,51 +1,36 @@
 'use client'
-import { useEffect, useMemo, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 /* Components */
-import { Card } from '@common/components/containers/Card'
-import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
+import { Card } from '@app/archive/_components/Card'
 /* Utils */
-import useIntersectionObserver from '@common/hooks/useIntersectionObserver'
-import { useServerAction } from '@app/_hooks/useServerAction'
-/* Store */
+import { getFlickr } from '@app/@footer/_lib/getFlickr'
+import { useStoreOrAction } from '@app/_hooks/useStoreOrAction'
+import { map } from '@sujin/share/utils/array'
 import { setFlickr } from '@app/_store/slices/flickr'
-import { RootState } from '@app/_store'
-/* T_Type */
-import type { T_FlickrImage } from '@sujin/lib/types'
 
-type Props = {
-    readonly action: () => Promise<T_FlickrImage[]>
-}
+const Flickr = () => {
+    const { ref, loading, error, data: flickr } = useStoreOrAction('flickr', getFlickr, setFlickr)
 
-const Flickr = ({ action }: Props) => {
-    // Redux store
-    const flickr = useSelector((state: RootState) => state.flickr)
-    const dispatch = useDispatch()
-    const hasStore = useMemo(() => !!flickr.length, [flickr])
-
-    // Read from GraphQL with Intersection Observer & update store
-    const ref = useRef(null)
-    const [skip, setSkip] = useState(true)
-    // Read from GraphQL
-    const { loading, error, data } = useServerAction(action, skip || hasStore)
-
-    useEffect(() => {
-        if (!hasStore && data && data.length) {
-            dispatch(setFlickr(data))
-        }
-    }, [data, hasStore, dispatch])
-    useIntersectionObserver(ref, async () => {
-        setSkip(false)
-    })
+    if (error) {
+        return
+    }
 
     // Data is not yet ready
-    if (!hasStore && (error || !data)) {
-        return <div ref={ref} />
+    if (!flickr || !flickr.length) {
+        return (
+            <ul className="columns-4" ref={ref}>
+                {map(12, (_, index) => (
+                    <li key={`flickr-loading-${index}`} className="bg-slate-500 aspect-square mb-4 animate-pulse"></li>
+                ))}
+            </ul>
+        )
     }
 
     return (
         <ul className="columns-4" ref={ref}>
-            {loading && <LoadingArchive className="flickr" counts={12} large={3} medium={4} small={3} fullWidth />}
+            {loading &&
+                map(12, (_, index) => (
+                    <li key={`flickr-loading-${index}`} className="bg-slate-500 aspect-square mb-4 animate-pulse"></li>
+                ))}
             {flickr.slice(0, 12).map((item) => (
                 <Card
                     to={item.link}

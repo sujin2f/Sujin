@@ -1,43 +1,24 @@
 'use client'
 import Link from 'next/link'
-import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 /* Components */
 import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
 /* Store */
 import { setTagCloud } from '@app/_store/slices/tag-cloud'
-import { RootState } from '@app/_store'
 /* Utils */
-import useIntersectionObserver from '@common/hooks/useIntersectionObserver'
-import { useServerAction } from '@app/_hooks/useServerAction'
-/* T_Type */
-import type { T_Archive } from '@sujin/lib/types'
+import { getTagCloud } from '@app/@footer/_lib/getTagCloud'
+import { useStoreOrAction } from '@app/_hooks/useStoreOrAction'
+/* Assets */
+import '@app/_lib/scss/tag-cloud.scss'
 
-type Props = {
-    readonly action: () => Promise<T_Archive[]>
-}
+const TagCloud = () => {
+    const { ref, loading, error, data: tagCloud } = useStoreOrAction('tagCloud', getTagCloud, setTagCloud)
 
-const TagCloud = ({ action }: Props) => {
-    // Redux store
-    const tagCloud = useSelector((state: RootState) => state.tagCloud)
-    const dispatch = useDispatch()
-    const hasStore = useMemo(() => !!tagCloud.length, [tagCloud])
-
-    const ref = useRef(null)
-    const [skip, setSkip] = useState(true)
-    // Read from GraphQL
-    const { loading, error, data } = useServerAction(action, skip || hasStore)
-    useEffect(() => {
-        if (!hasStore && data && data.length) {
-            dispatch(setTagCloud(data))
-        }
-    }, [data, hasStore, dispatch])
-    useIntersectionObserver(ref, async () => {
-        setSkip(false)
-    })
+    if (error) {
+        return
+    }
 
     // Data is not yet ready
-    if (!hasStore && (error || !data)) {
+    if (!tagCloud || !tagCloud.length) {
         return <div ref={ref} />
     }
 

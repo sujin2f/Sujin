@@ -5,8 +5,8 @@ import { NextImage } from '@common/components/containers/NextImage'
 import Table from '@common/components/containers/Table'
 import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
-import { Latex } from '@app/_components/single/Latex'
-import { PrevNext } from '@app/_components/single/PrevNext'
+import { Latex } from '@app/blog/_components/Latex'
+import { PrevNext } from '@app/blog/_components/PrevNext'
 /* Assets */
 import pic29 from '@lib/images/ether/pic29.png'
 import pic42 from '@lib/images/ether/pic42.png'
@@ -30,6 +30,15 @@ import pic110 from '@lib/images/ether/pic110.png'
 import pic111 from '@lib/images/ether/pic111.png'
 import pic112 from '@lib/images/ether/pic112.png'
 import 'katex/dist/katex.min.css'
+
+export const metadata = {
+    title: 'Proof(3): Emission Energy Analysis',
+    description: 'Comparing with Actual Data',
+    keywords: ['Quantum Physics', 'Theory', 'Hypothesis'],
+    openGraph: {
+        url: `/ether/document/analysis`,
+    },
+}
 
 export default function Analysis() {
     return (

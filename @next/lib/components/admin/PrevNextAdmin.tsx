@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from 'react'
 /* Components */
-import { PrevNext } from '@app/_components/single/PrevNext'
+import { PrevNext } from '@app/blog/_components/PrevNext'
 /* CONSTANTS */
 import { PER_PAGE } from '@sujin/lib/constants'
 

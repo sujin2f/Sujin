@@ -10,14 +10,14 @@ import { COLLECTION } from '@sujin/lib/constants'
 /* T_Types */
 import type { T_Recipe, WithNumPages } from '@sujin/lib/types'
 
-export const getRecipes = async (page: number, context?: DefaultContext) => {
+export const getRecipes = async (page?: number, context?: DefaultContext) => {
     'use server'
     return await gqlRequest(
         async () =>
             await client
                 .query<{ recipes: WithNumPages<T_Recipe> }>({
                     query,
-                    variables: { page, mine: !!context },
+                    variables: { page: page || 1, mine: !!context },
                     context,
                     fetchPolicy: IS_DEV ? 'network-only' : 'cache-first',
                 })

@@ -2,7 +2,7 @@
 /* Utils */
 import { gqlRequest } from '@app/_lib/redis'
 /* CONSTANTS */
-import query from '@app/@banner/_lib/backgrounds.graphql'
+import query from '@app/@banner/_lib/getBackgrounds.graphql'
 import { COLLECTION } from '@sujin/lib/constants'
 /* Models */
 import { client } from '@lib/utils/apollo-client'

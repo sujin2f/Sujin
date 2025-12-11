@@ -3,11 +3,11 @@ import { notFound } from 'next/navigation'
 /* Models */
 import { Logger } from '@sujin/share/model/Logger'
 /* Components */
-import { Tags } from '@app/_components/single/Tags'
-import { RelatedPosts } from '@app/_components/single/RelatedPosts'
-import { RecentPosts } from '@app/_components/single/RecentPosts'
-import { SocialShare } from '@app/_components/single/SocialShare.client'
-import { Content } from '@app/_components/single/Content'
+import { Tags } from '@app/blog/_components/Tags'
+import { RelatedPosts } from '@app/blog/_components/RelatedPosts'
+import { RecentPosts } from '@app/blog/_components/RecentPosts'
+import { SocialShare } from '@app/blog/_components/SocialShare'
+import { Content } from '@app/blog/_components/Content'
 import { GoogleAdvert } from '@common/components/GoogleAdvert'
 /* CONSTANTS */
 import { IMAGE_SIZE, POST_STATUS } from '@sujin/lib/constants'
@@ -15,8 +15,7 @@ import { IMAGE_SIZE, POST_STATUS } from '@sujin/lib/constants'
 import { getPost } from '@app/blog/_lib/getPost'
 import { getThumbnailFromPost } from '@lib/utils/client'
 import { publish } from '@app/_lib/redis'
-import { getRelated } from '@app/blog/_lib/getRelated'
-import { getRecent } from '@app/blog/_lib/getRecent'
+import { TAILWIND_MAIN } from '@app/_lib/constants'
 
 type Props = {
     params: Promise<{
@@ -76,17 +75,10 @@ export default async function PostPage(props: Props) {
         publish('update-hits', slugs)
     }
 
-    async function requestRelated() {
-        'use server'
-        return await getRelated(slug)
-    }
-    async function requestRecent() {
-        'use server'
-        return await getRecent()
-    }
-
     return (
-        <main className="post mx-auto mt-15 grid w-full max-w-2xl grid-cols-1 gap-8 xl:max-w-6xl xl:grid-cols-[minmax(0,1fr)_var(--container-3xs)]">
+        <main
+            className={`${TAILWIND_MAIN} grid w-full max-w-2xl grid-cols-1 gap-8 xl:max-w-6xl xl:grid-cols-[minmax(0,1fr)_var(--container-3xs)]`}
+        >
             <div>
                 <Content post={post}>
                     <Tags items={tags} />
@@ -96,12 +88,12 @@ export default async function PostPage(props: Props) {
                         thumbnail={url || '/assets/thumbnail.png'}
                         baseUrl={`${process.env.NEXT_BASE_URL}`}
                     />
-                    <RelatedPosts action={requestRelated} />
+                    <RelatedPosts slug={post.slug} />
                 </Content>
             </div>
 
             <aside>
-                <RecentPosts id={post.id} action={requestRecent} />
+                <RecentPosts id={post.id} />
                 <GoogleAdvert
                     responsive
                     place="sidebar"

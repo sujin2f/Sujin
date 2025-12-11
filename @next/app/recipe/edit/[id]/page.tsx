@@ -1,15 +1,12 @@
 import { notFound } from 'next/navigation'
 /* Components */
-import { Banner } from '@app/@banner/_components'
-import Row from '@common/components/layout/Row'
-import Column from '@common/components/layout/Column'
 import { RecipeEdit } from '@app/recipe/_components/RecipeEdit'
 /* CONSTANTS */
-import { COLLECTION, MENU_NAMES } from '@sujin/lib/constants'
+import { COLLECTION } from '@sujin/lib/constants'
 /* Utils */
 import { getUserInfo } from '@lib/utils/server/header'
 import { gqlRequest } from '@app/_lib/redis'
-import { recipe as getRecipe } from '@app/recipe/_lib/getRecipe'
+import { getRecipe } from '@app/recipe/_lib/getRecipe'
 
 type Props = {
     params: Promise<{
@@ -30,14 +27,5 @@ export default async function PageRecipeEdit({ params }: Props) {
         notFound()
     }
 
-    return (
-        <>
-            <Banner menu={MENU_NAMES.RECIPE_USER} prefix="Recipe" title={`Edit ${recipe.title}`} />
-            <Row>
-                <Column large={8} largeOffset={2} small={12}>
-                    <RecipeEdit recipe={recipe} />
-                </Column>
-            </Row>
-        </>
-    )
+    return <RecipeEdit recipe={recipe} />
 }

@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react'
 import type { Nullable } from '@sujin/share/types'
 
-export const useServerAction = <T>(action: () => Promise<T>, _skip: boolean = false) => {
+export const useServerAction = <T>(action: () => Promise<T>, skip: boolean = false) => {
     const [data, setData] = useState<Nullable<T>>()
-    const [loading, setLoading] = useState(!_skip)
-    const [skip, setSkip] = useState(_skip)
+    const [loading, setLoading] = useState(false)
     const [error, setError] = useState(false)
 
     useEffect(() => {
@@ -14,14 +13,17 @@ export const useServerAction = <T>(action: () => Promise<T>, _skip: boolean = fa
                     setLoading(false)
                     setData(data)
                 })
-                .catch((e) => setError(e))
+                .catch(() => {
+                    setLoading(false)
+                    setError(true)
+                })
         }
 
-        if (!skip) {
+        if (!skip && !loading && !error && !data) {
+            setLoading(true)
             doAction()
-            setSkip(true)
         }
-    }, [action, skip])
+    }, [action, error, loading, skip, data])
 
     return { data, loading, error }
 }

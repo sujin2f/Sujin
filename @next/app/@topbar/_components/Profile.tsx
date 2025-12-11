@@ -9,7 +9,7 @@ import { useUserInfo } from '@app/_hooks/useUserInfo'
 
 const classNameButton =
     'flex items-center justify-center bg-primary rounded-full p-0.5 h-9 min-md:pr-2.5 cursor-pointer'
-const classNamePicture = 'flex items-center justify-center w-8 h-8 rounded-full bg-white min-md:mr-1'
+const classNamePicture = 'flex items-center justify-center w-8 h-8 rounded-full bg-white min-md:mr-1 overflow-hidden'
 
 /**
  * Login/out
@@ -42,7 +42,7 @@ export const Profile = () => {
                             />
                         </picture>
                     )}
-                    <span>Logout</span>
+                    <span className="max-md:hidden text-white font-light text-xs">Logout</span>
                 </Button>
             ) : (
                 <Button className={classNameButton} onClick={() => login(pathname)}>

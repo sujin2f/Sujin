@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import { useRouter } from 'next/navigation'
 
-import { UserInfoContext } from '@lib/components/UserInfoProvider'
+import { UserInfoContext } from '@app/_components/UserInfoProvider'
 
 export const useLogInOut = () => {
     const router = useRouter()
