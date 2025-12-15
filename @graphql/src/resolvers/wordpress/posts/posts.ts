@@ -48,7 +48,11 @@ export const posts = async (_type: ARCHIVE, _slug: string, _page: number): Promi
     ])
         .then((result) => {
             if (!result || !result.length) {
-                setCache(JSON.stringify([]), `${COLLECTION.POST}-archive-${_type}-${_slug}-${_page}`, WEEK_IN_SECONDS)
+                setCache(
+                    JSON.stringify({ items: [], numPages: 0 }),
+                    `${COLLECTION.POST}-archive-${_type}-${_slug}-${_page}`,
+                    WEEK_IN_SECONDS,
+                )
                 throw new Error(`🤬 Cannot find the post from archive ${slug}`)
             }
             return result

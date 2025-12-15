@@ -1,0 +1,45 @@
+@use 'tailwindcss';
+
+.recent-posts {
+    @media (width >= 80rem) {
+        li {
+            display: grid;
+            grid-template-rows: auto;
+            grid-template-columns: 5.5em auto;
+            grid-template-areas:
+                'image title'
+                'image excerpt';
+
+            column-gap: 0.5rem;
+
+            figure {
+                grid-area: image;
+                aspect-ratio: 1/1;
+
+                time {
+                    display: none;
+                }
+
+                img {
+                    aspect-ratio: 1/1;
+                }
+            }
+
+            h3 {
+                grid-area: title;
+                margin-top: 0;
+
+                a {
+                    font-size: 1rem;
+                    line-height: 1.2rem;
+                }
+            }
+
+            p {
+                grid-area: excerpt;
+                font-size: 0.8rem;
+                line-height: 1rem;
+            }
+        }
+    }
+}

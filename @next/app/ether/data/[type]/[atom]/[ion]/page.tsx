@@ -3,7 +3,7 @@
 import { DataPageClient } from '@app/ether/data/[type]/[atom]/[ion]/page.client'
 /* Utils */
 import { spectrum } from '@lib/apollo/queries/misc/spectrum'
-import { gqlRequest } from '@lib/redis/client'
+import { gqlRequest } from '@app/_lib/redis'
 /* Assets */
 import { COLLECTION } from '@sujin/lib/constants'
 

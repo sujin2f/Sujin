@@ -1,18 +1,19 @@
+import Image from 'next/image'
 import { notFound } from 'next/navigation'
 /* Models */
 import { Logger } from '@sujin/share/model/Logger'
 /* Components */
-import { Banner } from '@lib/components/header/Banner'
-import Row from '@common/components/layout/Row'
-import Column from '@common/components/layout/Column'
-import { Cards } from '@lib/components/archive/Cards'
+import Card from '@app/archive/_components/Card'
+import { Tags } from '@app/blog/_components/Tags'
+import { Paging } from '@app/archive/_components/Paging'
 /* CONSTANTS */
-import { ARCHIVE, COLLECTION, MENU_NAMES } from '@sujin/lib/constants'
-import { category as getCategory } from '@lib/apollo/queries/wordpress/archives/category'
-import { tag as getTag } from '@lib/apollo/queries/wordpress/archives/tag'
-import { posts as getPosts } from '@lib/apollo/queries/wordpress/posts/posts'
+import { ARCHIVE } from '@sujin/lib/constants'
+import { TAILWIND_CARD_IMAGE, TAILWIND_MAIN } from '@app/_lib/constants'
 /* Utils */
-import { gqlRequest, publish } from '@lib/redis/client'
+import { publish } from '@app/_lib/redis'
+import { getPosts } from '@app/archive/_lib/getPosts'
+/* T_Type */
+import type { T_ArchivePost } from '@sujin/lib/types'
 
 type Props = {
     type: ARCHIVE
@@ -21,33 +22,14 @@ type Props = {
 }
 
 export async function ArchiveServer({ type, slug, page }: Props) {
-    const archive = await gqlRequest(
-        async () => await (type === ARCHIVE.CATEGORY ? getCategory(slug) : getTag(slug)),
-        `${COLLECTION.ARCHIVE}-${type}-${slug}`,
-    )
-        .then((result) => {
-            if (!result.slug) {
-                throw new Error(`🤬 Archive ${type} ${slug} ${page} request has been failed: No-content.`)
-            }
-            return result
-        })
-        .catch((e) => {
-            Logger.error(e.message)
-            notFound()
-        })
-    const { title, excerpt, image } = archive
-
     // Update Tag Cloud
     if (type === ARCHIVE.TAG) {
         publish('update-hits', JSON.stringify([slug]))
     }
 
-    const posts = await gqlRequest(
-        async () => await getPosts(type, slug, page),
-        `${COLLECTION.POST}-archive-${type}-${slug}-${page}`,
-    )
+    const result = await getPosts(type, slug, page)
         .then((result) => {
-            if (!result.items.length) {
+            if (!result || !result.items.length) {
                 throw new Error(`🤬 Posts from ${type} ${slug} ${page} request has been failed: No-content.`)
             }
             return result
@@ -57,23 +39,41 @@ export async function ArchiveServer({ type, slug, page }: Props) {
             notFound()
         })
 
+    const { items: posts, numPages } = result
+
     return (
         <>
-            <Banner menu={MENU_NAMES.MAIN} title={title} excerpt={excerpt} prefix={type} background={image} />
-            <Row>
-                <Column>
-                    <Cards
-                        keyPrefix={`${type}-${slug}-${page}`}
-                        posts={posts}
-                        listKey="items"
-                        page={page}
-                        pageURLPrefix={`/${type}/${slug}/page`}
-                        large={4}
-                        medium={6}
-                        small={12}
-                    />
-                </Column>
-            </Row>
+            <ul className={`${TAILWIND_MAIN} grid grid-cols-1 gap-6 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2`}>
+                {posts.map((post: T_ArchivePost, index: number) => {
+                    const tags = post.archives ? post.archives.filter((term) => term.type === ARCHIVE.TAG) : []
+                    const url = post.images && (post.images.list?.url || post.images.thumbnail?.url)
+                    const image = (
+                        <Image
+                            src={url || '/assets/thumbnail.png'}
+                            alt={post.title}
+                            loading="lazy"
+                            width={400}
+                            height={300}
+                            className={TAILWIND_CARD_IMAGE}
+                        />
+                    )
+
+                    return (
+                        <Card
+                            key={`card-${type}-${slug}-${page}-${index}-${post._id}`}
+                            title={post.title}
+                            description={post.excerpt}
+                            to={post.link}
+                            timestamp={post.date}
+                            image={image}
+                            ratio="aspect-[4/3]"
+                        >
+                            <Tags items={tags} />
+                        </Card>
+                    )
+                })}
+            </ul>
+            {page && <Paging totalPages={numPages} currentPage={page} urlPrefix={`/${type}/${slug}/page`} />}
         </>
     )
 }

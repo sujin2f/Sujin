@@ -1,0 +1,13 @@
+query Category($slug: String!) {
+    category(slug: $slug) {
+        _id
+        title
+        slug
+        excerpt
+        image {
+            url
+            width
+            height
+        }
+    }
+}

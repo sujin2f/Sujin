@@ -1,7 +1,7 @@
 import Link from 'next/link'
 /* Components */
 import { NextImage } from '@common/components/containers/NextImage'
-import { PrevNext } from '@lib/components/single/PrevNext'
+import { PrevNext } from '@app/blog/_components/PrevNext'
 /* Assets */
 import pic1 from '@lib/images/ether/pic1_eng.png'
 import pic2 from '@lib/images/ether/pic2_eng.png'
@@ -10,6 +10,15 @@ import pic4 from '@lib/images/ether/pic4_eng.png'
 import pic7 from '@lib/images/ether/pic7_eng.png'
 import pic8 from '@lib/images/ether/pic8_eng.png'
 import pic91 from '@lib/images/ether/pic91.jpeg'
+
+export const metadata = {
+    title: '가설 제시',
+    description: 'Brief History of the Study',
+    keywords: ['Quantum Physics', 'Theory', 'Hypothesis'],
+    openGraph: {
+        url: `${process.env.NEXT_BASE_URL}/ether/kor/document/hypothesis`,
+    },
+}
 
 export default function Hypothesis() {
     return (

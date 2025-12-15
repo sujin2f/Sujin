@@ -6,7 +6,7 @@ import Row from '@common/components/layout/Row'
 import { PrevNextAdmin } from '@lib/components/admin/PrevNextAdmin'
 import { Header } from '@lib/components/admin/Header'
 /* Utils */
-import { useServerAction } from '@lib/hooks/useServerAction'
+import { useServerAction } from '@app/_hooks/useServerAction'
 /* T_Type */
 import type { T_Archive } from '@sujin/lib/types'
 

@@ -15,6 +15,12 @@
 		{
 			"name": "@wordpress",
 			"path": ".."
+		},
+		{
+			"path": "../theme2"
+		},
+		{
+			"path": "../custom-form"
 		}
 	],
 	"settings": {

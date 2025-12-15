@@ -1,23 +1,7 @@
 import type { PropsWithChildren } from 'react'
-import type { Metadata } from 'next/types'
-/* Components */
-import Row from '@common/components/layout/Row'
-import Column from '@common/components/layout/Column'
 /* CONSTANTS */
-import { METADATA } from '@lib/constants'
-/* Assets */
-import './style.scss'
-
-export const metadata: Metadata = {
-    ...METADATA['/ether'],
-}
+import { TAILWIND_MAIN } from '@app/_lib/constants'
 
 export default async function Layout({ children }: PropsWithChildren) {
-    return (
-        <>
-            <Row>
-                <Column small={12}>{children}</Column>
-            </Row>
-        </>
-    )
+    return <article className={`${TAILWIND_MAIN}`}>{children}</article>
 }

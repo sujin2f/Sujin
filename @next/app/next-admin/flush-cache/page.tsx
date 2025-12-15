@@ -2,7 +2,7 @@
 /* Components */
 import { Header } from '@app/next-admin/flush-cache/Header'
 /* Utils */
-import { publish } from '@lib/redis/client'
+import { publish } from '@app/_lib/redis'
 
 export default async function FlushCache() {
     async function action() {

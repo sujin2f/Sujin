@@ -5,15 +5,7 @@ const REGEX_ARCHIVE = /^\/(category|tag|search)\/([^\/]+)(\/page\/(\d+))?$/
 const REGEX_SINGLE = /^\/(\d+)\/(\d+)\/(\d+)\/(.+)$/
 
 export const config = {
-    matcher: [
-        '/',
-        '/(category|tag|search)/:slug',
-        '/(category|tag|search)/:slug/page/:page',
-        '/:year/:month/:date/:slug',
-        '/dev-tools/:slug',
-        '/ether(.*)',
-        '/auth(.*)',
-    ],
+    matcher: ['/(category|tag|search)/:slug', '/(category|tag|search)/:slug/page/:page', '/:year/:month/:date/:slug'],
 }
 
 /**
@@ -63,15 +55,5 @@ export function middleware(request: NextRequest) {
         return responseSingle
     }
 
-    // Add pathname header
-    const requestHeaders = new Headers(request.headers)
-    requestHeaders.set('x-pathname', request.nextUrl.pathname)
-    const response = NextResponse.next({
-        request: {
-            // New request headers
-            headers: requestHeaders,
-        },
-    })
-    response.headers.set('x-pathname', request.nextUrl.pathname)
-    return response
+    return NextResponse.next()
 }

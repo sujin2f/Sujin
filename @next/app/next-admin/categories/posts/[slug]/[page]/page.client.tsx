@@ -7,7 +7,7 @@ import Column from '@common/components/layout/Column'
 import { PrevNextAdmin } from '@lib/components/admin/PrevNextAdmin'
 import Table from '@common/components/containers/Table'
 /* Utils */
-import { useServerAction } from '@lib/hooks/useServerAction'
+import { useServerAction } from '@app/_hooks/useServerAction'
 /* T_Type */
 import type { T_ArchivePost } from '@sujin/lib/types'
 

@@ -1,18 +1,9 @@
-import React from 'react'
 import type { Metadata } from 'next'
 /* Components */
 import { NotFoundClient } from '@app/not-found.client'
-import { Wrapper } from '@lib/components/Wrapper'
-import { Footer } from '@lib/components/footer'
-import FixedHeader from '@lib/components/header/FixedHeader'
-import { Banner } from '@lib/components/header/Banner'
-import Row from '@common/components/layout/Row'
-import Column from '@common/components/layout/Column'
-/* Utils */
-import { recent } from '@lib/apollo/queries/wordpress/posts/recent'
-import { gqlRequest } from '@lib/redis/client'
+import { Banner } from '@app/@banner/_components'
 /* CONSTANTS */
-import { COLLECTION, MENU_NAMES } from '@sujin/lib/constants'
+import { MENU_NAMES } from '@lib/constants'
 
 export const metadata: Metadata = {
     robots: {
@@ -23,26 +14,14 @@ export const metadata: Metadata = {
 }
 
 export default async function NotFound() {
-    async function action() {
-        'use server'
-        return await gqlRequest(async () => await recent(), `${COLLECTION.POST}-recent`).catch(() => [])
-    }
-
     return (
-        <Wrapper>
-            <FixedHeader menu={MENU_NAMES.MAIN} />
+        <>
             <Banner
+                menu={MENU_NAMES.MAIN}
                 title="404 Not Found"
                 excerpt="We cannot find the result. See below for recent articles."
-                menu={MENU_NAMES.MAIN}
             />
-            <Row>
-                <Column>
-                    <NotFoundClient action={action} />
-                </Column>
-            </Row>
-
-            <Footer />
-        </Wrapper>
+            <NotFoundClient />
+        </>
     )
 }

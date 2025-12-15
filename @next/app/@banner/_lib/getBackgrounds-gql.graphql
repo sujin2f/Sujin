@@ -1,0 +1,9 @@
+query {
+    backgrounds {
+        _id
+        width
+        height
+        url
+        mimeType
+    }
+}

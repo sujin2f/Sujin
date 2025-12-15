@@ -1,16 +1,14 @@
 import { notFound } from 'next/navigation'
 import type { PropsWithChildren } from 'react'
 /* Components */
-import { Wrapper } from '@lib/components/Wrapper'
+import { Wrapper } from '@app/_components/Wrapper'
 import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
 import Menu from '@common/components/layout/Menu'
-import { Footer } from '@lib/components/footer'
+import { Footer } from '@app/@footer/_components'
 import FixedHeader from '@lib/components/header/FixedHeader'
 /* CONSTANTS */
-import { MENU_NAMES } from '@sujin/lib/constants'
-/* Assets */
-import style from './layout.module.scss'
+import { MENU_NAMES } from '@lib/constants'
 /* Utils */
 import { isAdmin } from '@lib/utils/server/header'
 
@@ -30,12 +28,11 @@ export default async function AdminLayout({ children }: PropsWithChildren) {
     if (!(await isAdmin())) notFound()
 
     return (
-        <Wrapper style={style} className={style.wrapper}>
+        <Wrapper>
             <FixedHeader menu={MENU_NAMES.MAIN} />
             <Row>
                 <Column small={2}>
                     <Menu
-                        className={style.menu}
                         items={[
                             {
                                 title: 'Home',

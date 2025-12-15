@@ -1,11 +1,9 @@
 'use client'
-import React, { useState, useMemo, type ChangeEvent } from 'react'
-/* Components */
-import Input from '@common/components/forms/Input'
-import Row from '@common/components/layout/Row'
-import Column from '@common/components/layout/Column'
-/* Helpers */
+import { useState, useMemo, type ChangeEvent } from 'react'
+/* Utils */
 import { map } from '@sujin/share/utils/array'
+/* CONSTANTS */
+import { TAILWIND_INPUT } from '@app/_lib/constants'
 
 export default function TextSort() {
     const [text, setText] = useState('')
@@ -13,72 +11,76 @@ export default function TextSort() {
     const [groupEnter, setGroupEnter] = useState(false)
 
     const rows = useMemo(() => Math.max(getRows(text), 10), [text])
-    const converted = useMemo(
-        () => sortText(text, divider, groupEnter),
-        [divider, groupEnter, text],
-    )
+    const converted = useMemo(() => sortText(text, divider, groupEnter), [divider, groupEnter, text])
 
     return (
-        <article className="text-sort">
-            <Input
-                label="Primary Sort after"
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    setDivider(e.target.value)
-                }
-                type="text"
-            />
+        <>
+            <label className="block mb-2">
+                <div>Primary Sort after</div>
+                <input
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => setDivider(e.target.value)}
+                    type="text"
+                    className={TAILWIND_INPUT}
+                    autoFocus
+                />
+            </label>
 
-            <Input
-                label="Group divided by empty lines"
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    setGroupEnter(e.target.checked)
-                }
-                type="checkbox"
-            />
+            <label className="block mb-2">
+                <span className="mr-3">Group divided by empty lines</span>
+                <input
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => setGroupEnter(e.target.checked)}
+                    type="checkbox"
+                />
+            </label>
 
-            <Row fullWidth>
-                <Column className="text-sort__container" small={6}>
-                    <div className="text-sort__line-number">
-                        {map(rows, (_, index) => (
-                            <div key={`text-sort__line-number--input-${index}`}>
-                                {index + 1}
-                            </div>
-                        ))}
-                    </div>
+            {/* TODO convert to table */}
+            <section
+                aria-label="text input"
+                className="grid grid-cols-[fit-content(20px)_1fr] gap-2 border border-slate-300"
+            >
+                <div className="bg-slate-100 px-2">
+                    {map(rows, (_, index) => (
+                        <div key={`text-sort__line-number--input-${index}`} className="text-right">
+                            {index + 1}
+                        </div>
+                    ))}
+                </div>
 
-                    <div className="text-sort__section">
-                        <textarea
-                            className="text-sort__textarea"
-                            cols={getMaxCols(text)}
-                            onChange={(e) => setText(e.target.value)}
-                            rows={rows}
-                        />
-                    </div>
-                </Column>
+                <div className="">
+                    <textarea
+                        className="w-full outline-0"
+                        cols={getMaxCols(text)}
+                        onChange={(e) => setText(e.target.value)}
+                        rows={rows}
+                    />
+                </div>
+            </section>
 
-                <Column className="text-sort__container" small={6}>
-                    <div className="text-sort__line-number">
-                        {map(rows, (_, index) => (
-                            <div
-                                key={`text-sort__line-number--output-${index}`}
-                            >
-                                {index + 1}
-                            </div>
-                        ))}
-                    </div>
+            <div className="text-center">⬇️</div>
 
-                    <div className="text-sort__section">
-                        <textarea
-                            className="text-sort__textarea"
-                            cols={getMaxCols(text)}
-                            disabled
-                            rows={rows}
-                            value={converted}
-                        ></textarea>
-                    </div>
-                </Column>
-            </Row>
-        </article>
+            <section
+                aria-label="text input"
+                className="grid grid-cols-[fit-content(20px)_1fr] gap-2 border border-slate-300"
+            >
+                <div className="bg-slate-100 px-2">
+                    {map(rows, (_, index) => (
+                        <div key={`text-sort__line-number--output-${index}`} className="text-right">
+                            {index + 1}
+                        </div>
+                    ))}
+                </div>
+
+                <div className="">
+                    <textarea
+                        className="w-full outline-0"
+                        cols={getMaxCols(text)}
+                        disabled
+                        rows={rows}
+                        value={converted}
+                    />
+                </div>
+            </section>
+        </>
     )
 }
 
@@ -90,11 +92,7 @@ const getRows = (text: string): number => {
     return text.split('\n').length
 }
 
-const sortText = (
-    text: string,
-    primaryText: string,
-    groupByEmpty: boolean,
-): string => {
+const sortText = (text: string, primaryText: string, groupByEmpty: boolean): string => {
     if (groupByEmpty) {
         return text
             .split('\n\n')

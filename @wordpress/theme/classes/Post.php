@@ -77,7 +77,7 @@ class Post {
 	private function redis_refresh_post( string $slug, string $post_type ): void {
 		$type = match ( $post_type ) {
 			'post' => 'post',
-			'page' => 'post',
+			'page' => 'page',
 			default => '',
 		};
 		if ( ! $type ) {

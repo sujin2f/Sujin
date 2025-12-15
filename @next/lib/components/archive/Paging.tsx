@@ -1,6 +1,4 @@
-import Row from '@common/components/layout/Row'
-import Column from '@common/components/layout/Column'
-import { Paging as PagingComponent } from '@common/components/containers/Paging'
+import { Paging as PagingComponent } from '@app/archive/_components/Paging'
 
 type Props = {
     readonly pages: number
@@ -10,18 +8,12 @@ type Props = {
 
 export const Paging = ({ pages, page, urlPrefix }: Props) => {
     return (
-        <Row>
-            <Column small={12}>
-                {pages && pages > 1 ? (
-                    <PagingComponent
-                        totalPages={pages}
-                        currentPage={page}
-                        urlPrefix={urlPrefix}
-                    />
-                ) : (
-                    <></>
-                )}
-            </Column>
-        </Row>
+        <>
+            {pages && pages > 1 ? (
+                <PagingComponent totalPages={pages} currentPage={page} urlPrefix={urlPrefix} />
+            ) : (
+                <></>
+            )}
+        </>
     )
 }

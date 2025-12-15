@@ -1,96 +1,96 @@
-article {
-    h2 {
-        border-left: 9px solid var(--primary);
-        padding-left: 0.3em;
-    }
+// article {
+//     h2 {
+//         border-left: 9px solid var(--primary);
+//         padding-left: 0.3em;
+//     }
 
-    .gist {
-        width: 100%;
-        min-height: calc(100vh - var(--header-height));
-        border: 1px solid var(--light-gray);
-        padding: 0.5em 0;
-    }
+//     .gist {
+//         width: 100%;
+//         min-height: calc(100vh - var(--header-height));
+//         border: 1px solid var(--light-gray);
+//         padding: 0.5em 0;
+//     }
 
-    blockquote {
-        background-image: url('~@common/images/quote.svg');
-        background-position: center var(--gap);
-        background-repeat: no-repeat;
-        background-size: 2em;
-        padding: 4em 1.2em var(--gap);
-        background-color: var(--light-gray);
-        margin: 0 0 var(--gap);
+//     blockquote {
+//         background-image: url('/common/images/quote.svg');
+//         background-position: center var(--gap);
+//         background-repeat: no-repeat;
+//         background-size: 2em;
+//         padding: 4em 1.2em var(--gap);
+//         background-color: var(--light-gray);
+//         margin: 0 0 var(--gap);
 
-        *:last-child {
-            margin-bottom: 0;
-        }
-    }
+//         *:last-child {
+//             margin-bottom: 0;
+//         }
+//     }
 
-    .wp-block-image {
-        margin: 0 0 var(--gap);
+//     .wp-block-image {
+//         margin: 0 0 var(--gap);
 
-        .aligncenter {
-            > * {
-                margin: 0 auto;
-            }
-        }
-    }
+//         .aligncenter {
+//             > * {
+//                 margin: 0 auto;
+//             }
+//         }
+//     }
 
-    .wp-element-button {
-        margin: 0 0 var(--gap);
-        padding: var(--gap);
-        border-radius: 2em;
-        display: inline-block;
-        background-color: var(--primary);
-        color: var(--white);
-    }
+//     .wp-element-button {
+//         margin: 0 0 var(--gap);
+//         padding: var(--gap);
+//         border-radius: 2em;
+//         display: inline-block;
+//         background-color: var(--primary);
+//         color: var(--white);
+//     }
 
-    .image__container {
-        width: 100%;
-    }
+//     .image__container {
+//         width: 100%;
+//     }
 
-    .image__container--center {
-        img {
-            margin: 0 auto;
-        }
-    }
+//     .image__container--center {
+//         img {
+//             margin: 0 auto;
+//         }
+//     }
 
-    .image__container,
-    .latex__container,
-    .table__container {
-        margin-bottom: var(--gap);
+//     .image__container,
+//     .latex__container,
+//     .table__container {
+//         margin-bottom: var(--gap);
 
-        .caption {
-            margin-top: 0.5em;
-        }
+//         .caption {
+//             margin-top: 0.5em;
+//         }
 
-        .caption::before {
-            content: ' ';
-            display: block;
-            border-top: 2px solid var(--primary);
-            width: 30px;
-            padding-top: 0.5em;
-        }
+//         .caption::before {
+//             content: ' ';
+//             display: block;
+//             border-top: 2px solid var(--primary);
+//             width: 30px;
+//             padding-top: 0.5em;
+//         }
 
-        .caption__text::before {
-            display: inline;
-            border-top: none;
-            width: auto;
-            padding-top: 0.5em;
-        }
-    }
+//         .caption__text::before {
+//             display: inline;
+//             border-top: none;
+//             width: auto;
+//             padding-top: 0.5em;
+//         }
+//     }
 
-    .image__container .caption__text::before {
-        counter-increment: fig;
-        content: 'Fig. ' counter(fig) ' ';
-    }
+//     .image__container .caption__text::before {
+//         counter-increment: fig;
+//         content: 'Fig. ' counter(fig) ' ';
+//     }
 
-    .latex__container .caption__text::before {
-        counter-increment: equ;
-        content: 'Equ. ' counter(equ) ' ';
-    }
+//     .latex__container .caption__text::before {
+//         counter-increment: equ;
+//         content: 'Equ. ' counter(equ) ' ';
+//     }
 
-    .table__container .caption .caption__text::before {
-        counter-increment: tbl;
-        content: 'Tbl. ' counter(tbl) ' ';
-    }
-}
+//     .table__container .caption .caption__text::before {
+//         counter-increment: tbl;
+//         content: 'Tbl. ' counter(tbl) ' ';
+//     }
+// }

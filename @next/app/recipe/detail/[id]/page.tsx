@@ -1,34 +1,178 @@
+'use client'
+import { type ChangeEvent, Fragment, useCallback, useEffect, useState } from 'react'
+import { notFound, useParams, useRouter } from 'next/navigation'
 /* Components */
-import { Banner } from '@lib/components/header/Banner'
-import Row from '@common/components/layout/Row'
-import Column from '@common/components/layout/Column'
-import { DetailClient } from './page.client'
-/* CONSTANTS */
-import { COLLECTION, MENU_NAMES } from '@sujin/lib/constants'
+import { WidgetTitle } from '@app/_components/WidgetTitle'
+import Select from '@common/components/forms/Select'
+// /* CONSTANTS */
+import { QuantumBool } from '@sujin/share/types' // TODO
 /* Utils */
-import { getUserInfo } from '@lib/utils/server/header'
-import { gqlRequest } from '@lib/redis/client'
-import { recipe as getRecipe } from '@lib/apollo/queries/recipes/recipe'
+import { getRecipe } from '@app/recipe/_lib/getRecipe'
+import { useUserInfo } from '@app/_hooks/useUserInfo'
+import { useRecipeDelete } from '@app/_hooks/useRecipeDelete'
+import { useServerAction } from '@app/_hooks/useServerAction'
+/* T_Types */
+import {
+    type T_Recipe,
+    type UNITS,
+    UNITS_WEIGHT,
+    UNITS_VOLUMES,
+    CONVERT_WEIGHT,
+    CONVERT_VOLUMES,
+} from '@sujin/lib/types' // TODO
+import { TAILWIND_BUTTON } from '@app/_lib/constants'
 
 type Props = {
-    params: Promise<{
-        id: string
-    }>
+    id: string
 }
 
-export default async function RecipeDetailLayout({ params }: Props) {
-    const { id } = await params
-    const user = await getUserInfo()
-    const recipe = await gqlRequest(async () => await getRecipe(id), `${COLLECTION.RECIPE}-${id}`)
+export default function DetailClient() {
+    const router = useRouter()
+    const { id } = useParams<Props>()
+    const user = useUserInfo()
+    const { data: recipe, loading, error } = useServerAction<T_Recipe>(async () => await getRecipe(id))
+    const { setConfirm, pending, Confirm } = useRecipeDelete(id)
+    const [converted, setConverted] = useState<T_Recipe['ingredients']>([])
+    const [focused, setFocused] = useState<false | number>(false)
+
+    const onQuantityChange = useCallback(
+        (index: number, value: number) => {
+            if (isNaN(value)) {
+                return
+            }
+
+            const ratio = (value || 0) / converted[index].amount
+            setConverted(
+                converted.map((item, i) => {
+                    if (i === index) {
+                        return { ...item, amount: value || 0 }
+                    }
+                    return {
+                        ...item,
+                        amount: item.amount * ratio,
+                    }
+                }),
+            )
+        },
+        [converted],
+    )
+
+    const onUnitChange = useCallback(
+        (index: number, value: UNITS) => {
+            const result = [...converted]
+            const unit = result[index].unit
+            const conversion: Record<string, number> = Object.keys(CONVERT_VOLUMES).includes(unit)
+                ? CONVERT_VOLUMES
+                : CONVERT_WEIGHT
+
+            if (conversion[unit] && conversion[value]) {
+                result[index].amount = (result[index].amount * conversion[unit]) / conversion[value]
+                result[index].unit = value
+            }
+            setConverted(result)
+        },
+        [converted],
+    )
+
+    useEffect(() => {
+        if (recipe) {
+            setConverted(recipe.ingredients)
+        }
+    }, [recipe])
+
+    if (loading) {
+        return <></>
+    }
+    if (error) {
+        throw error
+    }
+    // if (!pending && !recipe) notFound()
+    if (!recipe) return <></>
+    if (!loading && !error && !recipe) notFound()
 
     return (
         <>
-            <Banner menu={user ? MENU_NAMES.RECIPE_USER : MENU_NAMES.RECIPE} title={recipe.title} prefix="Recipe" />
-            <Row>
-                <Column large={8} largeOffset={2} small={12}>
-                    <DetailClient recipe={recipe} />
-                </Column>
-            </Row>
+            {Confirm}
+
+            <WidgetTitle>Ingredients</WidgetTitle>
+
+            <dl className="grid grid-cols-2">
+                {converted.map((item, index) => (
+                    <Fragment key={`recipe-${item.title}-${index}`}>
+                        <dt className="col-span-2">{item.title}</dt>
+                        <dd>
+                            <input
+                                type="number"
+                                value={focused !== index ? parseFloat(item.amount.toString()).toFixed(2) : item.amount}
+                                onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                                    setFocused(index)
+                                    onQuantityChange(index, parseFloat(e.target.value))
+                                }}
+                                onBlur={(e: ChangeEvent<HTMLInputElement>) => {
+                                    setFocused(false)
+                                    onQuantityChange(index, parseFloat(e.target.value))
+                                }}
+                            />
+                        </dd>
+                        <dd>
+                            {item.unit === 'ea' && <>{item.unit as string}</>}
+                            {(UNITS_WEIGHT as unknown as string[]).includes(item.unit) && (
+                                <Select
+                                    options={UNITS_WEIGHT as unknown as string[]}
+                                    value={item.unit}
+                                    onChange={(e) => onUnitChange(index, e.target.value as UNITS)}
+                                />
+                            )}
+                            {(UNITS_VOLUMES as unknown as string[]).includes(item.unit) && (
+                                <Select
+                                    options={UNITS_VOLUMES as unknown as string[]}
+                                    value={item.unit}
+                                    onChange={(e) => onUnitChange(index, e.target.value as UNITS)}
+                                />
+                            )}
+                        </dd>
+                    </Fragment>
+                ))}
+            </dl>
+            <nav>
+                {user && user._id ? (
+                    <button
+                        onClick={() => router.replace('/recipe/mine/1')}
+                        title="My Recipes"
+                        disabled={pending}
+                        className={TAILWIND_BUTTON}
+                    />
+                ) : (
+                    <button
+                        onClick={() => router.replace('/recipe/list/1')}
+                        disabled={pending}
+                        className={TAILWIND_BUTTON}
+                    >
+                        Public Recipes
+                    </button>
+                )}
+
+                {user && user._id === recipe.user ? (
+                    <>
+                        <button
+                            onClick={() => router.replace(`/recipe/edit/${recipe._id}`)}
+                            title="Edit"
+                            disabled={pending}
+                            className={TAILWIND_BUTTON}
+                        />
+                        <button
+                            onClick={() => {
+                                setConfirm(QuantumBool.MOD)
+                            }}
+                            title="Delete"
+                            disabled={pending}
+                            className={TAILWIND_BUTTON}
+                        />
+                    </>
+                ) : (
+                    <></>
+                )}
+            </nav>
         </>
     )
 }

@@ -1,17 +1,8 @@
 'use server'
-import { notFound } from 'next/navigation'
 /* Components */
-import { Banner } from '@lib/components/header/Banner'
-import Row from '@common/components/layout/Row'
-import Column from '@common/components/layout/Column'
-import { RecipeTable } from '@lib/components/recipes/RecipeTable'
-import { WidgetTitle } from '@lib/components/WidgetTitle'
+import PageRecipe from '@app/recipe/page'
 /* CONSTANTS */
-import { COLLECTION, MENU_NAMES } from '@sujin/lib/constants'
 /* Utils */
-import { gqlRequest } from '@lib/redis/client'
-import { recipes as getRecipes } from '@lib/apollo/queries/recipes/recipes'
-import { getAuthHeader, getUserInfo } from '@lib/utils/server/header'
 
 type Props = {
     params: Promise<{
@@ -22,31 +13,6 @@ type Props = {
 export default async function RecipeMyListPage(props: Props) {
     const params = await props.params
     const page = parseInt(params.page)
-    const user = await getUserInfo()
 
-    if (!user) {
-        notFound()
-    }
-
-    async function action() {
-        'use server'
-        return await gqlRequest(
-            async () => await getRecipes(page, await getAuthHeader()),
-            `${COLLECTION.RECIPE}-${user!._id}-${page}`,
-        )
-    }
-
-    return (
-        <>
-            <Banner menu={MENU_NAMES.RECIPE_USER} title="My Recipes" prefix="recipe" />
-            <Row>
-                <Column large={8} largeOffset={2} small={12}>
-                    <article>
-                        <WidgetTitle>Recipe List</WidgetTitle>
-                        <RecipeTable action={action} page={page} />
-                    </article>
-                </Column>
-            </Row>
-        </>
-    )
+    return <PageRecipe page={page} mine />
 }

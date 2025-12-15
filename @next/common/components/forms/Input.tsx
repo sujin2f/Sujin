@@ -13,12 +13,8 @@ import {
 /* Helpers */
 import { filterEmpty } from '@sujin/share/utils/object'
 import { joinClassNames } from '@sujin/share/utils/string'
-/* Assets */
-import '@common/scss/form.scss'
 
-export type InputProps<T extends HTMLElement> = PropsWithChildren<
-    DetailedHTMLProps<InputHTMLAttributes<T>, T>
-> & {
+export type InputProps<T extends HTMLElement> = PropsWithChildren<DetailedHTMLProps<InputHTMLAttributes<T>, T>> & {
     readonly errorMessage?: string
     readonly helpText?: string
     readonly label?: string
@@ -49,10 +45,7 @@ const Input = <T extends HTMLElement>({
 }: InputProps<T>) => {
     const type = props.type || 'text'
     const isCheckbox = type === 'checkbox' || type === 'radio'
-    const ariaDescribedby =
-        helpText && props.id
-            ? `${props.id}-help-text`
-            : props['aria-describedby']
+    const ariaDescribedby = helpText && props.id ? `${props.id}-help-text` : props['aria-describedby']
 
     const onKeyDown = useCallback(
         (e: KeyboardEvent<HTMLInputElement>) => {
@@ -84,22 +77,11 @@ const Input = <T extends HTMLElement>({
         )
 
     return (
-        <div
-            className={joinClassNames(
-                'form__input__container',
-                errorMessage && 'form__input--error',
-                className,
-            )}
-        >
+        <div className={joinClassNames('form__input__container', errorMessage && 'form__input--error', className)}>
             {label ? (
                 <label htmlFor={props.id}>
                     {isCheckbox && Element}
-                    <span
-                        className={joinClassNames(
-                            'form__label',
-                            props.required && 'form__label--required',
-                        )}
-                    >
+                    <span className={joinClassNames('form__label', props.required && 'form__label--required')}>
                         {label}
                     </span>
                     {!isCheckbox && Element}
@@ -108,9 +90,7 @@ const Input = <T extends HTMLElement>({
                 Element
             )}
 
-            {errorMessage ? (
-                <p className="form__input__error-message">{errorMessage}</p>
-            ) : null}
+            {errorMessage ? <p className="form__input__error-message">{errorMessage}</p> : null}
 
             {helpText ? (
                 <p className="form__input__help-text" id={ariaDescribedby}>

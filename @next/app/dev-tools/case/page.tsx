@@ -1,13 +1,11 @@
 'use client'
 import React, { useState, useCallback } from 'react'
 import Link from 'next/link'
-/* Components */
-import Input from '@common/components/forms/Input'
-import Column from '@common/components/layout/Column'
-import Row from '@common/components/layout/Row'
-/* Helpers */
+/* Utils */
 import { copyText } from '@sujin/share/utils/dom'
 import { capitalize } from '@sujin/share/utils/string'
+/* CONSTANTS */
+import { TAILWIND_INPUT } from '@app/_lib/constants'
 
 /*
  * String to array word by word
@@ -49,44 +47,37 @@ const camelCase = (texts: string[]): string => {
 /*
  * CONSTANT_CASE
  */
-const constantCase = (texts: string[]): string =>
-    texts.map((text) => text.toUpperCase()).join('_')
+const constantCase = (texts: string[]): string => texts.map((text) => text.toUpperCase()).join('_')
 
 /*
  * dot.case
  */
-const dotCase = (texts: string[]): string =>
-    texts.map((text) => text.toLowerCase()).join('.')
+const dotCase = (texts: string[]): string => texts.map((text) => text.toLowerCase()).join('.')
 
 /*
  * param-case
  */
-const paramCase = (texts: string[]): string =>
-    texts.map((text) => text.toLowerCase()).join('-')
+const paramCase = (texts: string[]): string => texts.map((text) => text.toLowerCase()).join('-')
 
 /*
  * PascalCase
  */
-const pascalCase = (texts: string[]): string =>
-    texts.map((text) => capitalize(text)).join('')
+const pascalCase = (texts: string[]): string => texts.map((text) => capitalize(text)).join('')
 
 /*
  * path/case
  */
-const pathCase = (texts: string[]): string =>
-    texts.map((text) => text.toLowerCase()).join('/')
+const pathCase = (texts: string[]): string => texts.map((text) => text.toLowerCase()).join('/')
 
 /*
  * snake_case
  */
-const snakeCase = (texts: string[]): string =>
-    texts.map((text) => text.toLowerCase()).join('_')
+const snakeCase = (texts: string[]): string => texts.map((text) => text.toLowerCase()).join('_')
 
 /*
  * Title Case
  */
-const titleCase = (texts: string[]): string =>
-    texts.map((text) => capitalize(text)).join(' ')
+const titleCase = (texts: string[]): string => texts.map((text) => capitalize(text)).join(' ')
 
 const CASES: Record<string, (text: string[]) => string> = {
     camelCase: camelCase,
@@ -107,41 +98,29 @@ export default function CaseTool() {
     }, [])
 
     return (
-        <article className="case-tool">
-            <Input
-                helpText="Click result to copy to the clipboard."
-                id="convert-keyword"
-                label="Keyword"
-                onChange={change}
-                type="text"
-            />
+        <>
+            <label>
+                <div className="text-bold">Keyword</div>
+                <input onChange={change} className={TAILWIND_INPUT} autoFocus />
+                <p>Click result to copy to the clipboard.</p>
+            </label>
 
             {textArr.length > 0 && (
-                <Row className="case-tool__result" dom="dl" fullWidth>
-                    {Object.keys(CASES).map((key) => {
-                        const converted = CASES[key](textArr)
-
-                        return (
-                            <Column
-                                key={`case-tool-${key}`}
-                                large={6}
-                                medium={12}
-                            >
+                <dl className="grid grid-cols-1 gap-1 md:grid-cols-2">
+                    {Object.keys(CASES)
+                        .map((key) => [key, CASES[key](textArr)])
+                        .map(([key, converted]) => (
+                            <div key={`case-tool-${key}`}>
                                 <dt>{key}</dt>
-
-                                <dd className="lead">
-                                    <Link
-                                        onClick={() => copyText(converted)}
-                                        href="#"
-                                    >
+                                <dd>
+                                    <Link onClick={() => copyText(converted)} href="#">
                                         <code data-lang="txt">{converted}</code>
                                     </Link>
                                 </dd>
-                            </Column>
-                        )
-                    })}
-                </Row>
+                            </div>
+                        ))}
+                </dl>
             )}
-        </article>
+        </>
     )
 }

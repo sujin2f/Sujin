@@ -2,11 +2,20 @@ import { InlineMath } from 'react-katex'
 /* Components */
 import { NextImage } from '@common/components/containers/NextImage'
 import Table from '@common/components/containers/Table'
-import { Latex } from '@lib/components/single/Latex'
-import { PrevNext } from '@lib/components/single/PrevNext'
+import { Latex } from '@app/blog/_components/Latex'
+import { PrevNext } from '@app/blog/_components/PrevNext'
 /* Assets */
 import pic5 from '@lib/images/ether/pic5_eng.png'
 import 'katex/dist/katex.min.css'
+
+export const metadata = {
+    title: 'Proof(1): Classic Physics',
+    description: "Ether from Bohr's Atomic Model",
+    keywords: ['Quantum Physics', 'Theory', 'Hypothesis'],
+    openGraph: {
+        url: `${process.env.NEXT_BASE_URL}/ether/document/classic-physics`,
+    },
+}
 
 export default function ClassicPhysics() {
     return (

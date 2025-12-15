@@ -1,13 +1,8 @@
 import type { ReactNode, DetailedHTMLProps, TableHTMLAttributes } from 'react'
 /* Helpers */
 import { joinClassNames } from '@sujin/share/utils/string'
-/* Assets */
-import '../../scss/table.scss'
 
-type Props = DetailedHTMLProps<
-    TableHTMLAttributes<HTMLTableElement>,
-    HTMLTableElement
-> & {
+type Props = DetailedHTMLProps<TableHTMLAttributes<HTMLTableElement>, HTMLTableElement> & {
     readonly center?: boolean
     readonly fullWidth?: boolean
     readonly caption?: ReactNode
@@ -23,14 +18,7 @@ type Props = DetailedHTMLProps<
  * @param {string} [props.className] - Additional class names for the table.
  * @example <Table center><thead><tr><th>...</th></tr></thead></Table>
  */
-const Table = ({
-    center,
-    caption,
-    className,
-    children,
-    fullWidth,
-    ...props
-}: Props) => {
+const Table = ({ center, caption, className, children, fullWidth, ...props }: Props) => {
     return (
         <>
             <div

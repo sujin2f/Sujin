@@ -1,0 +1,69 @@
+query Post($slug: String!) {
+    post(slug: $slug) {
+        _id
+        title
+        link
+        id
+        slug
+        excerpt
+        date
+        content
+        status
+        images {
+            icon {
+                url
+            }
+            background {
+                width
+                height
+                url
+                mimeType
+                sizes {
+                    medium {
+                        width
+                        height
+                        url
+                        mimeType
+                    }
+                    mediumLarge {
+                        width
+                        height
+                        url
+                        mimeType
+                    }
+                    large {
+                        width
+                        height
+                        url
+                        mimeType
+                    }
+                }
+            }
+            list {
+                sizes {
+                    mediumLarge {
+                        width
+                        height
+                        url
+                        mimeType
+                    }
+                }
+            }
+            thumbnail {
+                sizes {
+                    mediumLarge {
+                        width
+                        height
+                        url
+                        mimeType
+                    }
+                }
+            }
+        }
+        archives {
+            title
+            slug
+            type
+        }
+    }
+}

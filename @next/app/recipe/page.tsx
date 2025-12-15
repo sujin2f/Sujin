@@ -1,43 +1,93 @@
-'use server'
+'use client'
+import { useState } from 'react'
 /* Components */
-import { Banner } from '@lib/components/header/Banner'
-import Row from '@common/components/layout/Row'
-import Column from '@common/components/layout/Column'
-import { RecipeTable } from '@lib/components/recipes/RecipeTable'
-import { WidgetTitle } from '@lib/components/WidgetTitle'
+import { Paging } from '@app/archive/_components/Paging'
+import { WidgetTitle } from '@app/_components/WidgetTitle'
+/* T_Types */
+import type { WithNumPages, T_Recipe } from '@sujin/lib/types'
 /* CONSTANTS */
-import { COLLECTION, MENU_NAMES } from '@sujin/lib/constants'
+import { QuantumBool } from '@sujin/share/types'
 /* Utils */
-import { getUserInfo } from '@lib/utils/server/header'
-import { gqlRequest } from '@lib/redis/client'
-import { recipes as getRecipes } from '@lib/apollo/queries/recipes/recipes'
+import { useUserInfo } from '@app/_hooks/useUserInfo'
+import { useRecipeDelete } from '@app/_hooks/useRecipeDelete'
+import { useServerAction } from '@app/_hooks/useServerAction'
+import { getRecipes } from '@app/recipe/_lib/getRecipes'
+import { map } from '@sujin/share/utils/array'
 
-export default async function PageRecipe() {
-    const user = await getUserInfo()
+type Props = { mine?: boolean; page: number }
 
-    async function action() {
-        'use server'
-        return await gqlRequest(async () => await getRecipes(1), `${COLLECTION.RECIPE}-list-1`).catch(() => ({
-            numPages: 0,
-            items: [],
-        }))
+export default function PageRecipe({ mine, page }: Props) {
+    const user = useUserInfo()
+    const { data, loading, error } = useServerAction<WithNumPages<T_Recipe>>(getRecipes)
+    const [_id, set_id] = useState<string>('')
+    const { setConfirm, Confirm } = useRecipeDelete(_id)
+
+    if (error) {
+        throw error
     }
+    if (!data) {
+        return <></>
+    }
+
+    const { items, numPages } = data
 
     return (
         <>
-            <Banner
-                menu={user ? MENU_NAMES.RECIPE_USER : MENU_NAMES.RECIPE}
-                excerpt="The recipe manager with measurement conversion"
-                title="Recipe"
-            />
-            <Row>
-                <Column large={8} largeOffset={2} small={12}>
-                    <article>
-                        <WidgetTitle>Recipe List</WidgetTitle>
-                        <RecipeTable action={action} page={1} />
-                    </article>
-                </Column>
-            </Row>
+            {Confirm}
+            <WidgetTitle>Recipe List</WidgetTitle>
+            <table className="w-full">
+                <thead>
+                    <tr>
+                        <th className="text-left">Item</th>
+                        {user?._id && <th className="text-center w-fit">Edit</th>}
+                    </tr>
+                </thead>
+                <tbody>
+                    {loading &&
+                        map(12, (_, index) => (
+                            <tr key={`loading-table-${index}`}>
+                                <td>
+                                    <div className="animate-pulse w-full bg-slate-500 text-slate-500 my-1">Loading</div>
+                                </td>
+                            </tr>
+                        ))}
+                    {items.map((item) => (
+                        <tr key={`recipe-item-${item._id.toString()}`}>
+                            <td>
+                                <a href={`/recipe/detail/${item._id}`} className="text-primary hover:underline">
+                                    {item.title}
+                                </a>
+                            </td>
+                            {user?._id && (
+                                <td className="text-center w-1 whitespace-nowrap">
+                                    {user._id === item.user.toString() && (
+                                        <>
+                                            <a
+                                                href={`/recipe/edit/${item._id}`}
+                                                className="text-primary hover:underline"
+                                            >
+                                                Edit
+                                            </a>{' '}
+                                            |{' '}
+                                            <a
+                                                href="#"
+                                                className="text-primary hover:underline"
+                                                onClick={() => {
+                                                    set_id(item._id.toString())
+                                                    setConfirm(QuantumBool.MOD)
+                                                }}
+                                            >
+                                                Delete
+                                            </a>
+                                        </>
+                                    )}
+                                </td>
+                            )}
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+            <Paging totalPages={numPages} currentPage={page} urlPrefix={`/recipe/${mine ? 'mine' : ''}`} />
         </>
     )
 }

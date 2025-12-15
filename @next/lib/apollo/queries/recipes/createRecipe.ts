@@ -3,7 +3,7 @@
 import { client } from '@lib/utils/apollo-client'
 import { getAuthHeader } from '@lib/utils/server/header'
 /* CONSTANTS */
-import RECIPE_CREATE from '@lib/apollo/queries/recipes/createRecipe.graphql'
+import RECIPE_CREATE from '@lib/apollo/queries/recipes/createRecipe-gql.graphql'
 /* T_Type */
 import type { T_Recipe } from '@sujin/lib/types'
 

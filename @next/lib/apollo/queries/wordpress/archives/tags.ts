@@ -1,7 +1,7 @@
 'use server'
 import { client } from '@lib/utils/apollo-client'
 import { getAuthHeader } from '@lib/utils/server/header'
-import TAG_LIST from '@lib/apollo/queries/wordpress/archives/tags.graphql'
+import TAG_LIST from '@lib/apollo/queries/wordpress/archives/tags-gql.graphql'
 import type { T_Archive } from '@sujin/lib/types'
 
 export const tags = async (page: number): Promise<T_Archive[]> => {

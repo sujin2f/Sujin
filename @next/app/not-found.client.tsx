@@ -1,62 +1,71 @@
 'use client'
-import React, { useEffect, useMemo } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-/* Module */
-import { RootState } from '@lib/store'
+import Image from 'next/image'
 /* Components */
-import { Cards } from '@lib/components/archive/Cards'
-import { WidgetTitle } from '@lib/components/WidgetTitle'
-import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
-/* CONSTANTS */
-import { PER_PAGE } from '@sujin/lib/constants'
+import { WidgetTitle } from '@app/_components/WidgetTitle'
+import Card from '@app/archive/_components/Card'
+import { Tags } from '@app/blog/_components/Tags'
 /* Utils */
-import { setRecent } from '@lib/store/slices/recent'
-import { useServerAction } from '@lib/hooks/useServerAction'
+import { getRecent } from '@app/blog/_lib/getRecent'
+import { setRecent } from '@app/_store/slices/recent'
+import { map } from '@sujin/share/utils/array'
+import { useStoreOrAction } from '@app/_hooks/useStoreOrAction'
+/* CONSTANTS */
+import { ARCHIVE } from '@sujin/lib/constants'
+import { TAILWIND_CARD_IMAGE, TAILWIND_MAIN } from '@app/_lib/constants'
 /* T_Types */
 import type { T_ArchivePost } from '@sujin/lib/types'
 
-type Props = {
-    readonly action: () => Promise<T_ArchivePost[]>
-}
+export function NotFoundClient() {
+    const { ref, loading, error, data: recent } = useStoreOrAction('recent', getRecent, setRecent)
 
-export const NotFoundClient = ({ action }: Props) => {
-    // Redux store
-    const recent = useSelector((state: RootState) => state.recent)
-    const dispatch = useDispatch()
-    const hasStore = useMemo(() => !!recent.length, [recent])
-
-    // Read from GraphQL
-    const { data, loading, error } = useServerAction(action, hasStore)
-
-    useEffect(() => {
-        if (!hasStore && data && data.length) {
-            dispatch(setRecent(data))
-        }
-    }, [data, hasStore, dispatch])
-
-    // Data is not yet ready
-    if (!hasStore && (error || !data)) {
-        return <></>
+    if (error) {
+        return
     }
 
-    if (loading) {
-        return <LoadingArchive />
-    }
+    const posts = recent ? recent.slice(0, 12) : null
 
     return (
-        <>
+        <main ref={ref} className={TAILWIND_MAIN}>
             <WidgetTitle>Recent Posts</WidgetTitle>
-            <Cards
-                posts={{
-                    list: recent.slice(0, PER_PAGE),
-                    numPages: 0,
-                }}
-                keyPrefix="not-found"
-                listKey="list"
-                large={4}
-                medium={6}
-                small={12}
-            />
-        </>
+            <ul className={`grid grid-cols-1 gap-6 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2`}>
+                {(loading || !posts || !posts.length) &&
+                    map(4, (_, index) => (
+                        <li
+                            key={`related-loading-${index}`}
+                            className="bg-slate-500 aspect-video mb-4 animate-pulse"
+                        ></li>
+                    ))}
+                {posts
+                    ? posts.map((post: T_ArchivePost, index: number) => {
+                          const tags = post.archives ? post.archives.filter((term) => term.type === ARCHIVE.TAG) : []
+                          const url = post.images && (post.images.list?.url || post.images.thumbnail?.url)
+                          const image = (
+                              <Image
+                                  src={url || '/assets/thumbnail.png'}
+                                  alt={post.title}
+                                  loading="lazy"
+                                  width={400}
+                                  height={300}
+                                  className={TAILWIND_CARD_IMAGE}
+                              />
+                          )
+
+                          return (
+                              <Card
+                                  key={`not-found-${index}-${post._id}`}
+                                  title={post.title}
+                                  description={post.excerpt}
+                                  to={post.link}
+                                  timestamp={post.date}
+                                  image={image}
+                                  ratio="aspect-[4/3]"
+                              >
+                                  <Tags items={tags} />
+                              </Card>
+                          )
+                      })
+                    : ''}
+            </ul>
+        </main>
     )
 }

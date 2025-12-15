@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from 'react'
 /* Components */
-import { PrevNext } from '@lib/components/single/PrevNext'
+import { PrevNext } from '@app/blog/_components/PrevNext'
 /* CONSTANTS */
 import { PER_PAGE } from '@sujin/lib/constants'
 
@@ -10,11 +10,7 @@ type Props = {
     readonly path: string
 }
 
-export const PrevNextAdmin = ({
-    page,
-    length,
-    path,
-}: PropsWithChildren<Props>) => {
+export const PrevNextAdmin = ({ page, length, path }: PropsWithChildren<Props>) => {
     const prev = page !== 1 && {
         title: 'Prev',
         link: `/next-admin/${path}/${page - 1}`,

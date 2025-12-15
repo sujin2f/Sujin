@@ -1,12 +1,21 @@
 import Link from 'next/link'
 /* Components */
 import { NextImage } from '@common/components/containers/NextImage'
-import { PrevNext } from '@lib/components/single/PrevNext'
+import { PrevNext } from '@app/blog/_components/PrevNext'
 /* Assets */
 import pic13 from '@lib/images/ether/pic13_eng.png'
 import pic14 from '@lib/images/ether/pic14_eng.png'
 import pic15 from '@lib/images/ether/pic15.png'
 import pic124 from '@lib/images/ether/pic124.jpeg'
+
+export const metadata = {
+    title: 'Conclusion',
+    description: 'For Further Study',
+    keywords: ['Quantum Physics', 'Theory', 'Hypothesis'],
+    openGraph: {
+        url: `${process.env.NEXT_BASE_URL}/ether/document/conclusion`,
+    },
+}
 
 export default function Conclusion() {
     return (

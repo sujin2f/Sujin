@@ -1,5 +1,5 @@
 'use server'
-import React, { type PropsWithChildren, Suspense } from 'react'
+import { type PropsWithChildren, type ReactNode, Suspense } from 'react'
 import { Ubuntu } from 'next/font/google'
 import Script from 'next/script'
 import { ErrorBoundary } from 'next/dist/client/components/error-boundary'
@@ -7,15 +7,17 @@ import type { Metadata } from 'next'
 /* CONSTANTS */
 import { DEFAULT_THUMBNAIL } from '@lib/constants'
 /* Components */
-import { ReduxProvider } from '@lib/components/ReduxProvider'
+import { ReduxProvider } from '@app/_components/ReduxProvider'
 import Error from '@app/global-error'
 import Loading from '@app/loading'
-import { UserInfoProvider } from '@lib/components/UserInfoProvider'
+import { UserInfoProvider } from '@app/_components/UserInfoProvider'
+import { Wrapper } from '@app/_components/Wrapper'
+import DefaultTopBar from '@app/@topbar/default'
+import DefaultFooter from '@app/@footer/default'
 /* Utils */
 import { getUserInfo } from '@lib/utils/server/header'
 /* Assets */
-import '@app/layout.scss'
-import '@common/scss/base.scss'
+import '@app/_lib/scss/style.scss'
 
 export const generateMetadata = async (): Promise<Metadata> => {
     const metadata: Metadata = {
@@ -54,11 +56,17 @@ const ubuntu = Ubuntu({
     subsets: ['latin'],
 })
 
+type Props = PropsWithChildren & {
+    banner: ReactNode
+    topbar: ReactNode
+    footer: ReactNode
+}
+
 /**
  * Layout component that wraps the application with common layout elements.
  * @param {ReactNode} props.children - The content to be wrapped by the layout.
  */
-export default async function AppLayout({ children }: PropsWithChildren) {
+export default async function AppLayout({ children, banner, topbar, footer }: Props) {
     const user = await getUserInfo().catch(() => null)
     const adSense = process.env.GOOGLE_AD_CLIENT ? (
         <Script
@@ -69,14 +77,23 @@ export default async function AppLayout({ children }: PropsWithChildren) {
     ) : (
         <></>
     )
+
     return (
         <html lang="en">
             <head>{adSense}</head>
-            <body className={ubuntu.className}>
+            <body className={`${ubuntu.className} font-light leading-8`}>
                 <Suspense fallback={<Loading />}>
                     <ReduxProvider>
                         <UserInfoProvider user={user}>
-                            <ErrorBoundary errorComponent={Error}>{children}</ErrorBoundary>
+                            <Wrapper>
+                                <ErrorBoundary errorComponent={Error}>
+                                    {/* For not-found and error */}
+                                    {topbar || <DefaultTopBar />}
+                                    {banner}
+                                    {children}
+                                    {footer || <DefaultFooter />}
+                                </ErrorBoundary>
+                            </Wrapper>
                         </UserInfoProvider>
                     </ReduxProvider>
                 </Suspense>

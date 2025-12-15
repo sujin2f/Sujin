@@ -2,7 +2,7 @@
 /* Models */
 import { client } from '@lib/utils/apollo-client'
 /* CONSTANTS */
-import QUERY from '@lib/apollo/queries/wordpress/posts/search.graphql'
+import QUERY from '@lib/apollo/queries/wordpress/posts/search-gql.graphql'
 import { IS_DEV } from '@sujin/share/constants/helper'
 /* T_Types */
 import type { T_ArchivePost, WithNumPages } from '@sujin/lib/types'
