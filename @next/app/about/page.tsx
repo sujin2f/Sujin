@@ -1,3 +1,4 @@
+import { connection } from 'next/server'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next/types'
 /* Model */
@@ -18,6 +19,8 @@ export const metadata: Metadata = {
 }
 
 export default async function AboutPage() {
+    await connection()
+
     const post = await getPage('about')
         .then((result) => {
             if (!result || !result.slug) {

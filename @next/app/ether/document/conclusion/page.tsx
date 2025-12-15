@@ -13,7 +13,7 @@ export const metadata = {
     description: 'For Further Study',
     keywords: ['Quantum Physics', 'Theory', 'Hypothesis'],
     openGraph: {
-        url: `/ether/document/conclusion`,
+        url: `${process.env.NEXT_BASE_URL}/ether/document/conclusion`,
     },
 }
 

@@ -13,7 +13,7 @@ export const metadata = {
     description: "Ether from Bohr's Atomic Model",
     keywords: ['Quantum Physics', 'Theory', 'Hypothesis'],
     openGraph: {
-        url: `/ether/document/classic-physics`,
+        url: `${process.env.NEXT_BASE_URL}/ether/document/classic-physics`,
     },
 }
 

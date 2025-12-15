@@ -41,7 +41,7 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
 
     // TODO thumbnail
     const archive = await (type === ARCHIVE.CATEGORY ? getCategory(slug) : getTag(slug))
-        .then((result) => (!result.slug ? null : result))
+        .then((result) => (!result || !result.slug ? null : result))
         .catch(() => {})
 
     if (!archive) {

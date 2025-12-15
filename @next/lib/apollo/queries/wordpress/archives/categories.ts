@@ -4,7 +4,7 @@ import { client } from '@lib/utils/apollo-client'
 /* Utils */
 import { getAuthHeader } from '@lib/utils/server/header'
 /* CONSTANTS */
-import CATEGORY_LIST from '@lib/apollo/queries/wordpress/archives/categories.graphql'
+import CATEGORY_LIST from '@lib/apollo/queries/wordpress/archives/categories-gql.graphql'
 /* T_Types */
 import type { T_Archive } from '@sujin/lib/types'
 

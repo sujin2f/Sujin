@@ -10,8 +10,8 @@ import { getPrev, getNext } from '@sujin/share/utils/array'
 import type { T_ShortcodeAttrMatch } from '@sujin/lib/types'
 /* Assets */
 import Arrow from '@common/images/prev.svg'
-import NextImage from '@common/components/containers/NextImage'
 import { getRatio } from '@sujin/share/utils/number'
+import Image from 'next/image'
 
 interface Props {
     value: T_ShortcodeAttrMatch
@@ -61,33 +61,41 @@ export const Carousel = ({ value: { named } }: Props) => {
     }, [])
 
     return (
-        <section className="carousel" aria-label="Gallery">
+        <section className="relative bg-slate-300 flex flex-row-reverse transition-[height]" aria-label="Gallery">
             {/* Arrow Navigation */}
-            <nav className="carousel__arrow__container">
-                <Button className="carousel__arrow carousel__arrow__prev" onClick={prev} aria-label="Show Prev Image">
-                    <Arrow />
+            <nav className="absolute w-full flex h-10 items-center justify-center" aria-label="Gallery Navigation">
+                <Button
+                    className="bg-primary w-10 h-10 cursor-pointer flex items-center justify-center"
+                    onClick={prev}
+                    aria-label="Show Prev Image"
+                >
+                    <Arrow className="w-7 h-7 fill-white" />
                 </Button>
-                <div className="carousel__arrow__number">
+                <div className="bg-black text-white min-w-10 h-10 cursor-pointer flex items-center justify-center">
                     {index + 1}/{images.length}
                 </div>
-                <Button className="carousel__arrow carousel__arrow__next" onClick={next} aria-label="Show Next Image">
-                    <Arrow />
+                <Button
+                    className="bg-primary w-10 h-10 cursor-pointer flex items-center justify-center"
+                    onClick={next}
+                    aria-label="Show Next Image"
+                >
+                    <Arrow className="w-7 h-7 fill-white rotate-180" />
                 </Button>
             </nav>
 
-            <picture className="carousel__picture">
-                <NextImage
-                    src={removeURLProtocol(images[index])}
-                    alt={removeURLProtocol(images[index])}
+            <picture className="p-3">
+                <Image
+                    src={removeURLProtocol(images[index]).replace('//sujinc.com', '').replace('//cms.sujinc.com', '')}
+                    alt={'Slide'}
                     role="presentation"
                     width={980}
                     height={980 * getRatio(widths[index], heights[index])}
                 />
             </picture>
 
-            <nav className="carousel__nav">
+            <nav className="carousel__nav pt-3 pl-3 pb-3 flex-col gap-2 hidden sm:flex">
                 {images.map((image, key) => (
-                    <NextImage
+                    <Image
                         src={removeURLProtocol(image)}
                         className={`${key === index && 'current'}`}
                         role="presentation"

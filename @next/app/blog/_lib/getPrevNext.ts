@@ -3,7 +3,7 @@
 import { client } from '@lib/utils/apollo-client'
 /* CONSTANTS */
 import { COLLECTION } from '@sujin/lib/constants'
-import query from '@app/blog/_lib/getPrevNext.graphql'
+import query from '@app/blog/_lib/getPrevNext-gql.graphql'
 /* Utils */
 import { gqlRequest } from '@app/_lib/redis'
 import { IS_DEV } from '@sujin/share/constants/helper'

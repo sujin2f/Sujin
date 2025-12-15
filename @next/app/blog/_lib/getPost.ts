@@ -2,7 +2,7 @@
 /* Models */
 import { client } from '@lib/utils/apollo-client'
 /* CONSTANTS */
-import query from '@app/blog/_lib/getPost.graphql'
+import query from '@app/blog/_lib/getPost-gql.graphql'
 import { IS_DEV } from '@sujin/share/constants/helper'
 import { COLLECTION } from '@sujin/lib/constants'
 /* Utils */

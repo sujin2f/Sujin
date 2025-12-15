@@ -6,7 +6,7 @@ export const metadata = {
     description: '물질의 공간성과 시간성에 대한 가설',
     keywords: ['Quantum Physics', 'Theory', 'Hypothesis'],
     openGraph: {
-        url: `/ether/kor`,
+        url: `${process.env.NEXT_BASE_URL}/ether/kor`,
     },
 }
 

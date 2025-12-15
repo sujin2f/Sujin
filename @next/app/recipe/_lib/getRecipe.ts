@@ -3,7 +3,7 @@
 import { client } from '@lib/utils/apollo-client'
 import { gqlRequest } from '@app/_lib/redis'
 /* CONSTANTS */
-import query from '@app/recipe/_lib/getRecipe.graphql'
+import query from '@app/recipe/_lib/getRecipe-gql.graphql'
 import { COLLECTION } from '@sujin/lib/constants'
 /* T_Types */
 import type { T_Recipe } from '@sujin/lib/types'

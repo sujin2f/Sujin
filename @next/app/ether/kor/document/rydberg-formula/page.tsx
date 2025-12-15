@@ -25,7 +25,7 @@ export const metadata = {
     description: '다전자원자에서 뤼드베리 방정식 적용',
     keywords: ['Quantum Physics', 'Theory', 'Hypothesis'],
     openGraph: {
-        url: `/ether/kor/document/rydberg-formula`,
+        url: `${process.env.NEXT_BASE_URL}/ether/kor/document/rydberg-formula`,
     },
 }
 

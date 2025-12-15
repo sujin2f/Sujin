@@ -3,7 +3,7 @@
 import { client } from '@lib/utils/apollo-client'
 import { Logger } from '@sujin/share/model/Logger'
 /* CONSTANTS */
-import query from '@app/@footer/_lib/getFlickr.graphql'
+import query from '@app/@footer/_lib/getFlickr-gql.graphql'
 import { IS_DEV } from '@sujin/share/constants/helper'
 /* T_Types */
 import type { T_FlickrImage } from '@sujin/lib/types'

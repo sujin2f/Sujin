@@ -26,7 +26,7 @@ export const metadata = {
     description: 'Minimizing Margin',
     keywords: ['Quantum Physics', 'Theory', 'Hypothesis'],
     openGraph: {
-        url: `/ether/document/between`,
+        url: `${process.env.NEXT_BASE_URL}/ether/document/between`,
     },
 }
 

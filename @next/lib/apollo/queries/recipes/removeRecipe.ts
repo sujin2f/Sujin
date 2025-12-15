@@ -3,7 +3,7 @@
 import { client } from '@lib/utils/apollo-client'
 import { getAuthHeader } from '@lib/utils/server/header'
 /* CONSTANTS */
-import RECIPE_REMOVE from '@lib/apollo/queries/recipes/removeRecipe.graphql'
+import RECIPE_REMOVE from '@lib/apollo/queries/recipes/removeRecipe-gql.graphql'
 
 export const removeRecipe = async (_id: string) => {
     return await client

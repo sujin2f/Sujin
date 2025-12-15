@@ -26,7 +26,7 @@ export const metadata = {
     description: '오차 보정',
     keywords: ['Quantum Physics', 'Theory', 'Hypothesis'],
     openGraph: {
-        url: `/ether/kor/document/between`,
+        url: `${process.env.NEXT_BASE_URL}/ether/kor/document/between`,
     },
 }
 

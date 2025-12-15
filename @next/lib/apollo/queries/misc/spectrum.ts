@@ -2,7 +2,7 @@
 /* Models */
 import { client } from '@lib/utils/apollo-client'
 /* CONSTANTS */
-import QUERY from '@lib/apollo/queries/misc/spectrum.graphql'
+import QUERY from '@lib/apollo/queries/misc/spectrum-gql.graphql'
 import { IS_DEV } from '@sujin/share/constants/helper'
 /* T_Types */
 import type { ISpectrum } from '@sujin/lib/types'

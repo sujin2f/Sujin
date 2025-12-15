@@ -3,7 +3,7 @@
 import { client } from '@lib/utils/apollo-client'
 import { Logger } from '@sujin/share/model/Logger'
 /* CONSTANTS */
-import QUERY from '@lib/apollo/queries/wordpress/pages/pages.graphql'
+import QUERY from '@lib/apollo/queries/wordpress/pages/pages-gql.graphql'
 /* Utils */
 import { getAuthHeader } from '@lib/utils/server/header'
 /* T_Types */

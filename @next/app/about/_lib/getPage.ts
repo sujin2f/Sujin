@@ -3,7 +3,7 @@
 import { client } from '@lib/utils/apollo-client'
 import { Logger } from '@sujin/share/model/Logger'
 /* CONSTANTS */
-import query from '@app/about/_lib/getPage.graphql'
+import query from '@app/about/_lib/getPage-gql.graphql'
 import { IS_DEV } from '@sujin/share/constants/helper'
 import { COLLECTION } from '@sujin/lib/constants'
 /* Utils */

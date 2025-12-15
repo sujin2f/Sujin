@@ -10,7 +10,7 @@ export const metadata = {
     description: 'Hypothesis on the Spatial and Temporal Aspects of Matter',
     keywords: ['Quantum Physics', 'Theory', 'Hypothesis'],
     openGraph: {
-        url: `/ether`,
+        url: `${process.env.NEXT_BASE_URL}/ether`,
     },
 }
 

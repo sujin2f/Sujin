@@ -22,6 +22,7 @@ declare module '*.scss' {
 }
 
 declare module '*.graphql' {
-    const content: any
-    export default content
+    import type { DocumentNode } from 'graphql'
+    const value: DocumentNode
+    export = value
 }

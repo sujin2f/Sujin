@@ -5,7 +5,7 @@ export const metadata = {
     description: 'Text sorting tool',
     keywords: ['Next.js', 'React', 'JavaScript', 'TypeScript', 'Express'],
     openGraph: {
-        url: `/dev-tools/text-sort`,
+        url: `${process.env.NEXT_BASE_URL}/dev-tools/text-sort`,
     },
 }
 

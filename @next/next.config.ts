@@ -35,6 +35,27 @@ const nextConfig: NextConfig = {
 
         return config
     },
+    turbopack: {
+        rules: {
+            '*.txt': {
+                loaders: ['raw-loader'],
+                as: '*.js',
+            },
+            '*.graphql': {
+                loaders: ['graphql-tag/loader'],
+                as: '*.txt',
+            },
+            '*.svg': {
+                loaders: [
+                    {
+                        loader: '@svgr/webpack',
+                    },
+                ],
+                as: '*.js',
+            },
+        },
+        resolveExtensions: ['.graphql', '.gql', '.txt', '.js', '.jsx', '.ts', '.tsx'],
+    },
 }
 
 export default nextConfig

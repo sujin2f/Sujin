@@ -36,7 +36,7 @@ export const metadata = {
     description: '관측값과의 비교',
     keywords: ['Quantum Physics', 'Theory', 'Hypothesis'],
     openGraph: {
-        url: `/ether/kor/document/analysis`,
+        url: `${process.env.NEXT_BASE_URL}/ether/kor/document/analysis`,
     },
 }
 

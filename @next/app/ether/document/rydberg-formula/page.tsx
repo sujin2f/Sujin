@@ -25,7 +25,7 @@ export const metadata = {
     description: 'Rydberg Formula for Multi Electron Atoms',
     keywords: ['Quantum Physics', 'Theory', 'Hypothesis'],
     openGraph: {
-        url: `/ether/document/rydberg-formula`,
+        url: `${process.env.NEXT_BASE_URL}/ether/document/rydberg-formula`,
     },
 }
 

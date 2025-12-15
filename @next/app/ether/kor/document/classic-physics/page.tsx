@@ -13,7 +13,7 @@ export const metadata = {
     description: '보어의 원자 모형에 기초한 광자-에테르의 방출 파장',
     keywords: ['Quantum Physics', 'Theory', 'Hypothesis'],
     openGraph: {
-        url: `/ether/kor/document/classic-physics`,
+        url: `${process.env.NEXT_BASE_URL}/ether/kor/document/classic-physics`,
     },
 }
 

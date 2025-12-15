@@ -16,7 +16,7 @@ export const metadata = {
     description: 'Brief History of the Study',
     keywords: ['Quantum Physics', 'Theory', 'Hypothesis'],
     openGraph: {
-        url: `/ether/document/hypothesis`,
+        url: `${process.env.NEXT_BASE_URL}/ether/document/hypothesis`,
     },
 }
 

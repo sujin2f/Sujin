@@ -4,7 +4,7 @@ import type { DefaultContext } from '@apollo/client'
 import { client } from '@lib/utils/apollo-client'
 import { gqlRequest } from '@app/_lib/redis'
 /* CONSTANTS */
-import query from '@app/recipe/_lib/getRecipes.graphql'
+import query from '@app/recipe/_lib/getRecipes-gql.graphql'
 import { IS_DEV } from '@sujin/share/constants/helper'
 import { COLLECTION } from '@sujin/lib/constants'
 /* T_Types */
