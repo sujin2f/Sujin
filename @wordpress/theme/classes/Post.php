@@ -32,6 +32,10 @@ class Post {
 	 * @param \WP_Post $post    Post instance.
 	 */
 	public function save_post( int $post_id, \WP_Post $post ): void {
+		if ( 'post' !== $post->post_type && 'page' !== $post->post_type ) {
+			return;
+		}
+
 		if ( 'publish' === $post->post_status ) {
 			$this->save_content( $post_id, $post->post_content );
 			$this->update_version( $post_id, );

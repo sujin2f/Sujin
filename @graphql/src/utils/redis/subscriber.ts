@@ -15,6 +15,7 @@ import { removePage } from '@src/utils/redis/actions/removePage'
 import { updatePost } from '@src/utils/redis/actions/updatePost'
 import { updatePostsByCategory } from '@src/utils/redis/actions/updatePostsByCategory'
 import { updatePosts } from '@src/utils/redis/actions/updatePosts'
+import { updateMenu } from '@src/utils/redis/actions/updateMenu'
 import { removeCache } from '@src/utils/redis/cache'
 /* T_Types */
 import type { RedisMessageWordpress } from '@sujin/lib/types'
@@ -96,6 +97,12 @@ import type { RedisMessageWordpress } from '@sujin/lib/types'
             case POST_TYPE.POST:
                 if (action === 'update') {
                     await updatePost(slug)
+                    return
+                }
+                return
+            case POST_TYPE.MENU:
+                if (action === 'update') {
+                    await updateMenu(slug)
                     return
                 }
                 return

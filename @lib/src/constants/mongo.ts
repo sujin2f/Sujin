@@ -13,4 +13,5 @@ export enum COLLECTION {
     USERS = 'users',
     ARCHIVE = 'archives',
     RECIPE = 'recipes',
+    MENU = 'menus',
 }

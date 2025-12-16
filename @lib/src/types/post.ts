@@ -16,6 +16,10 @@ export type T_ArchivePost = T_PrevNext & {
     images: T_PostImages
     status: POST_STATUS
     archives: T_Archive[]
+    menu_order?: number
+    parent?: number
+    target?: string
+    url?: string
 }
 
 export type T_Post = T_ArchivePost & {

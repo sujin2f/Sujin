@@ -1,11 +1,6 @@
 // yarn test string.spec.ts
 
-import {
-    phpSerialized1,
-    phpSerialized2,
-    phpSerialized3,
-    phpSerialized4,
-} from '@test/fixture'
+import { phpSerialized1, phpSerialized2, phpSerialized3, phpSerialized4 } from '@test/fixture'
 import { toNumber, generateUUID, phpUnSerialize } from './string'
 
 describe('string.ts', () => {
@@ -22,9 +17,7 @@ describe('string.ts', () => {
     })
 
     test('phpUnSerialize(): 1', () => {
-        const result = phpUnSerialize(
-            phpSerialized1.replaceAll(' ', '').replaceAll('\n', ''),
-        )
+        const result = phpUnSerialize(phpSerialized1.replaceAll(' ', '').replaceAll('\n', ''))
         expect(result).toStrictEqual({
             width: 800,
             height: 582,
@@ -69,5 +62,10 @@ describe('string.ts', () => {
         expect(result).toBeTruthy()
         result = phpUnSerialize(phpSerialized4)
         expect(result).toBeTruthy()
+    })
+
+    test('phpUnSerialize(): 3', () => {
+        const result = phpUnSerialize('a:2:{i:0;b:0;s:18:"nav_menu_locations";a:1:{s:7:"primary";i:19;}}')
+        expect(result).toStrictEqual({ '0': 0, nav_menu_locations: { primary: 19 } })
     })
 })

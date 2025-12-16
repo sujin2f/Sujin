@@ -44,6 +44,11 @@ class RestAPI {
 			}
 		}
 
-		not_found( 'This page is unable to read.' );
+		$block = getenv_docker( 'BLOCK_REST', '' );
+
+		if ( $block ) {
+			not_found( 'This page is unable to read.' );
+			die();
+		}
 	}
 }

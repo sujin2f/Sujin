@@ -14,6 +14,7 @@ use Sujin\Theme\Post;
 use Sujin\Theme\Term;
 use Sujin\Theme\Background;
 use Sujin\Theme\ImageBlock;
+use Sujin\Theme\Menu;
 
 /**
  * Entry Point
@@ -40,6 +41,7 @@ class Bootstrap {
 		new Term();
 		new Background();
 		new ImageBlock();
+		new Menu();
 
 		add_action( 'after_setup_theme', array( $this, 'check_plugin_dependency' ) );
 		add_action( 'after_setup_theme', array( $this, 'after_setup_theme' ) );
@@ -87,6 +89,16 @@ class Bootstrap {
 
 		// Page has excerpt.
 		add_post_type_support( 'page', 'excerpt' );
+
+		register_nav_menus(
+			array(
+				'primary'   => 'Primary Menu',
+				'ether'     => 'Ether Menu',
+				'dev-tools' => 'DevTools Menu',
+				'recipe'    => 'Recipe Menu',
+				'admin'     => 'Admin Menu',
+			)
+		);
 	}
 
 	/**

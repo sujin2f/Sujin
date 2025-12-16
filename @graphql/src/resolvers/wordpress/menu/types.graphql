@@ -1,0 +1,12 @@
+type Query {
+    menu(slug: String!): [Menu]
+}
+
+type Menu {
+    _id: String
+    id: Int
+    title: String
+    target: String
+    link: String
+    parent: Int
+}

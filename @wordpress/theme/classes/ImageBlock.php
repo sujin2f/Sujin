@@ -45,12 +45,15 @@ class ImageBlock {
 		if ( ! $image ) {
 			return '';
 		}
-		$image   = "/wp-content/uploads/{$image}";
-		$meta    = get_post_meta( $attributes['id'], '_wp_attachment_metadata', true );
-		$result  = "[image src=\"{$image}\" align=\"{$attributes['align']}\" ";
+		$image  = "/wp-content/uploads/{$image}";
+		$meta   = get_post_meta( $attributes['id'], '_wp_attachment_metadata', true );
+		$result = "[image src=\"{$image}\" ";
+		if ( array_key_exists( 'align', $attributes ) ) {
+			$result .= "align=\"{$attributes['align']}\" ";
+		}
 		$result .= "width=\"{$meta['width']}\" height=\"{$meta['height']}\" ";
 		preg_match_all( '/<figcaption class=\"wp-element-caption\">(.*?)<\/figcaption>/s', $content, $matches );
-		if ( $matches[1][0] ) {
+		if ( $matches[1] && $matches[1][0] ) {
 			$result .= "caption=\"{$matches[1][0]}\" ";
 		}
 		$result .= '/]';
