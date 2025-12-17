@@ -3,7 +3,6 @@
 import { Banner } from '@app/@banner/_components'
 /* CONSTANTS */
 import { ARCHIVE } from '@sujin/lib/constants'
-import { MENU_NAMES } from '@lib/constants'
 /* Utils */
 import { getCategory } from '@app/archive/_lib/getCategory'
 import { getTag } from '@app/archive/_lib/getTag'
@@ -27,5 +26,5 @@ export default async function ArchiveBanner(props: Props) {
     }
     const { title, excerpt, image } = archive
 
-    return <Banner menu={MENU_NAMES.MAIN} title={title} excerpt={excerpt} prefix={type} background={image} />
+    return <Banner menu="primary" title={title} excerpt={excerpt} prefix={type} background={image} />
 }

@@ -32,7 +32,7 @@ export const metadata = {
 
 export default function Between() {
     return (
-        <article style={{ counterReset: 'fig 40 tbl 7 equ 9' }}>
+        <div style={{ counterReset: 'fig 40 tbl 7 equ 9' }}>
             <p>
                 It raises a question: Is it really appropriate to shift the changes in circular ether towards the s
                 orbital side and the rest towards the p orbital side for comparison? Could combining changes involving
@@ -265,6 +265,6 @@ export default function Between() {
                     link: '/ether/document/conclusion',
                 }}
             ></PrevNext>
-        </article>
+        </div>
     )
 }

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { T_Background } from '@sujin/lib/types'
+import type { T_Background } from '@sujin/lib/types'
 
 const initialState: T_Background[] = []
 

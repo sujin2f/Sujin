@@ -1,11 +1,15 @@
 import type { PropsWithChildren } from 'react'
-/* CONSTANTS */
-import { TAILWIND_MAIN } from '@app/_lib/constants'
+/* Components */
+import { Main } from '@app/_components/html-elements/Main'
 
 /**
  * Layout component
  * @param {ReactNode} props.children - The content to be wrapped by the layout.
  */
 export default async function Layout({ children }: PropsWithChildren) {
-    return <article className={`${TAILWIND_MAIN} max-w-4xl`}>{children}</article>
+    return (
+        <Main dom="article" className="max-w-4xl">
+            {children}
+        </Main>
+    )
 }

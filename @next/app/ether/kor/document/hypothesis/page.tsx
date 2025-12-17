@@ -22,7 +22,7 @@ export const metadata = {
 
 export default function Hypothesis() {
     return (
-        <article style={{ counterReset: 'fig' }}>
+        <div style={{ counterReset: 'fig' }}>
             <p>
                 본 문서는 하나의 의문에서 출발한다. 양자물리학에 따르면 입자, 즉 물질은 확률로서 존재한다. 그런데 확률
                 공간은 정말로 의미 없이 비어있는 것일까? 원자를 이루는 핵과 전자 사이에는 진정 아무 것도 존재하지
@@ -220,6 +220,6 @@ export default function Hypothesis() {
                     link: '/ether/kor/document/classic-physics',
                 }}
             ></PrevNext>
-        </article>
+        </div>
     )
 }

@@ -9,7 +9,7 @@ import { removeURLProtocol } from '@sujin/share/utils/string'
 import { getPrev, getNext } from '@sujin/share/utils/array'
 import type { T_ShortcodeAttrMatch } from '@sujin/lib/types'
 /* Assets */
-import Arrow from '@common/images/prev.svg'
+import Arrow from '@app/_lib/images/prev.svg'
 import { getRatio } from '@sujin/share/utils/number'
 import Image from 'next/image'
 

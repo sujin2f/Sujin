@@ -1,8 +1,8 @@
 'use server'
 import type { PropsWithChildren } from 'react'
-/* CONSTANTS */
-import { TAILWIND_MAIN } from '@app/_lib/constants'
+/* Components */
+import { Main } from '@app/_components/html-elements/Main'
 
 export default async function PageRecipe({ children }: PropsWithChildren) {
-    return <main className={`${TAILWIND_MAIN} max-w-4xl`}>{children}</main>
+    return <Main className="max-w-4xl">{children}</Main>
 }

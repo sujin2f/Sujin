@@ -31,7 +31,7 @@ export const metadata = {
 
 export default function RydbergFormula() {
     return (
-        <article style={{ counterReset: 'fig 7 tbl 6 equ 2' }}>
+        <div style={{ counterReset: 'fig 7 tbl 6 equ 2' }}>
             <p>
                 지금까지는 보어의 원자모형을 기준으로 가설을 검증했었다. 그러나 보어 원자모형은 더 이상 유효하지 않다.
                 다전자 원자에서는 성립하지 않으며, 실제 전자는 원형 궤도를 도는 존재가 아니다. 양자물리학이 밝혀낸 것은
@@ -631,6 +631,6 @@ export default function RydbergFormula() {
                     link: '/ether/kor/document/analysis',
                 }}
             ></PrevNext>
-        </article>
+        </div>
     )
 }

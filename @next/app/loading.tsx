@@ -1,21 +1,15 @@
 /* Components */
-import { Wrapper } from '@app/_components/Wrapper'
-import FixedHeader from '@lib/components/header/FixedHeader'
+import { Wrapper } from '@app/_components/layout/Wrapper'
+import { TopBar } from '@app/@topbar/_components'
 import { Banner } from '@app/@banner/_components'
-/* CONSTANTS */
-import { MENU_NAMES } from '@lib/constants'
 /* Assets */
-import LoadingImg from '@common/images/loading.svg'
+import LoadingImg from '@app/_lib/images/loading.svg'
 
-type Props = {
-    readonly menu?: MENU_NAMES
-}
-
-export default async function Loading({ menu }: Props) {
+export default async function Loading() {
     return (
         <Wrapper>
-            <FixedHeader menu={menu || MENU_NAMES.MAIN} />
-            <Banner title={<LoadingImg />} menu={menu || MENU_NAMES.MAIN} />
+            <TopBar menu="primary" />
+            <Banner title={<LoadingImg />} menu="primary" />
         </Wrapper>
     )
 }

@@ -92,11 +92,13 @@ class Bootstrap {
 
 		register_nav_menus(
 			array(
-				'primary'   => 'Primary Menu',
-				'ether'     => 'Ether Menu',
-				'dev-tools' => 'DevTools Menu',
-				'recipe'    => 'Recipe Menu',
-				'admin'     => 'Admin Menu',
+				'primary'     => 'Primary Menu',
+				'ether'       => 'Ether Menu',
+				'ether-kor'   => 'Ether Korean Menu',
+				'dev-tools'   => 'DevTools Menu',
+				'recipe'      => 'Recipe Menu',
+				'recipe-user' => 'Recipe User Menu',
+				'admin'       => 'Admin Menu',
 			)
 		);
 	}

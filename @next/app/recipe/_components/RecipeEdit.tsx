@@ -5,8 +5,10 @@ import { T_Recipe, UNITS_SELECTION } from '@sujin/lib/types'
 /* Utils */
 import { map } from '@sujin/share/utils/array'
 import { useRecipeCreate } from '@app/_hooks/useRecipeMutate'
-/* CONSTANTS */
-import { TAILWIND_BUTTON, TAILWIND_INPUT } from '@app/_lib/constants'
+/* Components */
+import { Input } from '@app/_components/html-elements/Input'
+import { Select } from '@app/_components/html-elements/Select'
+import { Button } from '@app/_components/html-elements/Button'
 
 type Props = {
     recipe?: T_Recipe
@@ -28,12 +30,12 @@ export function RecipeEdit({ recipe }: Props) {
                 <input type="hidden" name="_id" value={recipe?._id} />
                 <label className="mb-1">
                     <div className="font-bold">Title</div>
-                    <input name="title" required className={TAILWIND_INPUT} defaultValue={recipe?.title} />
+                    <Input name="title" required defaultValue={recipe?.title} />
                     {errors[0] && <p>{errors[0]}</p>}
                 </label>
                 <label className="mb-1">
                     <div className="font-bold">URL</div>
-                    <input type="url" name="url" required className={TAILWIND_INPUT} defaultValue={recipe?.url} />
+                    <Input type="url" name="url" defaultValue={recipe?.url} />
                 </label>
 
                 <fieldset>
@@ -49,29 +51,23 @@ export function RecipeEdit({ recipe }: Props) {
                             >
                                 <label className="mb-1">
                                     <div className="font-bold">Ingredient {index + 1}</div>
-                                    <input
+                                    <Input
                                         name={`ingredient[${index}]`}
-                                        className={TAILWIND_INPUT}
                                         defaultValue={recipe?.ingredients[index]?.title}
                                     />
                                 </label>
                                 <label className="mb-1">
                                     <div className="font-bold">Amount {index + 1}</div>
-                                    <input
+                                    <Input
                                         type="number"
                                         step="0.01"
                                         name={`amount[${index}]`}
-                                        className={TAILWIND_INPUT}
                                         defaultValue={recipe?.ingredients[index]?.amount}
                                     />
                                 </label>
                                 <label className="mb-1">
                                     <div className="font-bold">Unit {index + 1}</div>
-                                    <select
-                                        name={`unit[${index}]`}
-                                        defaultValue={recipe?.ingredients[index]?.unit}
-                                        className={`${TAILWIND_INPUT} py-1.5`}
-                                    >
+                                    <Select name={`unit[${index}]`} defaultValue={recipe?.ingredients[index]?.unit}>
                                         {Object.entries(UNITS_SELECTION).map(([index, value]) => {
                                             if (typeof value === 'string') {
                                                 return (
@@ -90,19 +86,17 @@ export function RecipeEdit({ recipe }: Props) {
                                                 </optgroup>
                                             )
                                         })}
-                                    </select>
+                                    </Select>
                                 </label>
                             </li>
                         ))}
                     </ul>
                 </fieldset>
                 <div className="flex gap-1">
-                    <button className={TAILWIND_BUTTON} onClick={() => router.back()} type="button">
+                    <Button onClick={() => router.back()} type="button">
                         Cancel
-                    </button>
-                    <button type="submit" className={TAILWIND_BUTTON}>
-                        Submit
-                    </button>
+                    </Button>
+                    <Button type="submit">Submit</Button>
                 </div>
             </form>
         </>

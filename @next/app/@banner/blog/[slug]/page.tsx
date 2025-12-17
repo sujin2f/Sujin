@@ -1,7 +1,5 @@
 /* Components */
 import { Banner } from '@app/@banner/_components'
-/* CONSTANTS */
-import { MENU_NAMES } from '@lib/constants'
 /* Utils */
 import { getPost } from '@app/blog/_lib/getPost'
 
@@ -22,7 +20,7 @@ export default async function PostBanner(props: Props) {
 
     return (
         <Banner
-            menu={MENU_NAMES.MAIN}
+            menu="primary"
             excerpt={post.excerpt}
             title={post.title}
             icon={post.images?.icon}

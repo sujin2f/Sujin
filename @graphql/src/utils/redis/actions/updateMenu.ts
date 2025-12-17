@@ -8,6 +8,8 @@ import { removeCache } from '@src/utils/redis/cache'
 import { COLLECTION } from '@sujin/lib/constants'
 
 export const updateMenu = async (position: string) => {
+    await MenuItem.deleteMany({ position })
+
     const location = await fetch(`${process.env.WP_REST_BASE_URL}/wp-json/wp/v2/menu-locations/${position}`, {
         method: 'GET',
         cache: 'force-cache',
@@ -37,7 +39,7 @@ export const updateMenu = async (position: string) => {
             Logger.error(`🤬 Failed to request REST menu-items -- ${position}`)
             throw new Error(`🤬 Failed to request REST menu-items -- ${position}`)
         }
-        return json.sort((prev, next) => (prev.menu_order || 0) - (next.menu_order || 0))
+        return json
     })
 
     for (const item of menu) {
@@ -55,7 +57,7 @@ export const updateMenu = async (position: string) => {
             if (!result) {
                 await MenuItem.insertOne(menuItem)
             } else {
-                await MenuItem.updateOne(menuItem)
+                await MenuItem.updateOne({ id: item.id }, menuItem)
             }
         })
     }

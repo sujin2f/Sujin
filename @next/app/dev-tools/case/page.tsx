@@ -1,11 +1,11 @@
 'use client'
 import React, { useState, useCallback } from 'react'
 import Link from 'next/link'
+/* Components */
+import { Input } from '@app/_components/html-elements/Input'
 /* Utils */
 import { copyText } from '@sujin/share/utils/dom'
 import { capitalize } from '@sujin/share/utils/string'
-/* CONSTANTS */
-import { TAILWIND_INPUT } from '@app/_lib/constants'
 
 /*
  * String to array word by word
@@ -101,7 +101,7 @@ export default function CaseTool() {
         <>
             <label>
                 <div className="text-bold">Keyword</div>
-                <input onChange={change} className={TAILWIND_INPUT} autoFocus />
+                <Input onChange={change} autoFocus />
                 <p>Click result to copy to the clipboard.</p>
             </label>
 

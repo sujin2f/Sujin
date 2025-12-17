@@ -6,9 +6,10 @@ import { Logger } from '@sujin/share/model/Logger'
 import Card from '@app/archive/_components/Card'
 import { Tags } from '@app/blog/_components/Tags'
 import { Paging } from '@app/archive/_components/Paging'
+import { Main } from '@app/_components/html-elements/Main'
 /* CONSTANTS */
 import { ARCHIVE } from '@sujin/lib/constants'
-import { TAILWIND_CARD_IMAGE, TAILWIND_MAIN } from '@app/_lib/constants'
+import { TAILWIND_CARD_IMAGE } from '@app/_lib/constants'
 /* Utils */
 import { publish } from '@app/_lib/redis'
 import { getPosts } from '@app/archive/_lib/getPosts'
@@ -43,7 +44,7 @@ export async function ArchiveServer({ type, slug, page }: Props) {
 
     return (
         <>
-            <ul className={`${TAILWIND_MAIN} grid grid-cols-1 gap-6 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2`}>
+            <Main dom="ul" className="grid grid-cols-1 gap-6 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2">
                 {posts.map((post: T_ArchivePost, index: number) => {
                     const tags = post.archives ? post.archives.filter((term) => term.type === ARCHIVE.TAG) : []
                     const url = post.images && (post.images.list?.url || post.images.thumbnail?.url)
@@ -72,7 +73,7 @@ export async function ArchiveServer({ type, slug, page }: Props) {
                         </Card>
                     )
                 })}
-            </ul>
+            </Main>
             {page && <Paging totalPages={numPages} currentPage={page} urlPrefix={`/${type}/${slug}/page`} />}
         </>
     )

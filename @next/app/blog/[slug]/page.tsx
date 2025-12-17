@@ -9,13 +9,13 @@ import { RecentPosts } from '@app/blog/_components/RecentPosts'
 import { SocialShare } from '@app/blog/_components/SocialShare'
 import { Content } from '@app/blog/_components/Content'
 import { GoogleAdvert } from '@common/components/GoogleAdvert'
+import { Main } from '@app/_components/html-elements/Main'
 /* CONSTANTS */
 import { IMAGE_SIZE, POST_STATUS } from '@sujin/lib/constants'
 /* Utils */
 import { getPost } from '@app/blog/_lib/getPost'
 import { getThumbnailFromPost } from '@lib/utils/client'
 import { publish } from '@app/_lib/redis'
-import { TAILWIND_MAIN } from '@app/_lib/constants'
 
 type Props = {
     params: Promise<{
@@ -76,9 +76,7 @@ export default async function PostPage(props: Props) {
     }
 
     return (
-        <main
-            className={`${TAILWIND_MAIN} grid w-full max-w-2xl grid-cols-1 gap-8 xl:max-w-6xl xl:grid-cols-[minmax(0,1fr)_var(--container-3xs)]`}
-        >
+        <Main className="grid w-full max-w-2xl grid-cols-1 gap-8 xl:max-w-6xl xl:grid-cols-[minmax(0,1fr)_var(--container-3xs)]">
             <div>
                 <Content post={post}>
                     <Tags items={tags} />
@@ -101,6 +99,6 @@ export default async function PostPage(props: Props) {
                     slot={`${process.env.GOOGLE_AD_SLOT_SIDEBAR}`}
                 />
             </aside>
-        </main>
+        </Main>
     )
 }

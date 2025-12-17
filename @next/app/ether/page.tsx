@@ -1,7 +1,6 @@
 /* Components */
 import { PrevNext } from '@app/blog/_components/PrevNext'
-/* CONSTANTS */
-import { TAILWIND_MAIN } from '@app/_lib/constants'
+import { Main } from '@app/_components/html-elements/Main'
 /* Assets */
 import '@app/_lib/scss/content.scss'
 
@@ -16,7 +15,7 @@ export const metadata = {
 
 export default function Intro() {
     return (
-        <article className={`${TAILWIND_MAIN} max-w-4xl`}>
+        <Main dom="article" className="max-w-4xl">
             <p>
                 Substance as a composite of mass and electromagnetic waves, photons as mass-independent electromagnetic
                 waves, and electromagnetic waves independent of mass.
@@ -46,6 +45,6 @@ export default function Intro() {
                     link: '/ether/document/hypothesis',
                 }}
             ></PrevNext>
-        </article>
+        </Main>
     )
 }

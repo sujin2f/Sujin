@@ -3,7 +3,7 @@ import React, { useState, useRef, type ChangeEvent, type KeyboardEvent, useCallb
 import { useRouter } from 'next/navigation'
 import { KeyCodes } from '@sujin/share/constants/keycode'
 /* Assets */
-import Magnify from '@common/images/magnify.svg'
+import Magnify from '@app/_lib/images/magnify.svg'
 
 export default function Search() {
     const [opened, setOpened] = useState<boolean>(false)

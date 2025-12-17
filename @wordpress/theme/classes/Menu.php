@@ -17,12 +17,13 @@ use Sujin\Theme\Redis;
  * 1. Block RestAPI
  */
 class Menu {
+	static $attempts = 0;
 	/**
 	 * Constructor
 	 */
 	public function __construct() {
 		add_filter( 'rest_menu_read_access', '__return_true' );
-		add_action( 'wp_update_nav_menu', array( $this, 'save_post' ) );
+		add_action( 'wp_update_nav_menu', array( $this, 'update_gql_menu' ) );
 	}
 
 	/**
@@ -30,7 +31,10 @@ class Menu {
 	 *
 	 * @param int $menu_id Menu ID.
 	 */
-	public function save_post( int $menu_id ): void {
+	public function update_gql_menu( int $menu_id ): void {
+		if ( 0 !== self::$attempts ) {
+			return;
+		}
 		$locations = array_flip( get_nav_menu_locations() );
 		$location  = array_key_exists( $menu_id, $locations ) ? $locations[ $menu_id ] : '';
 		if ( ! $location ) {
@@ -47,5 +51,6 @@ class Menu {
 			)
 		);
 		$redis->quit();
+		++self::$attempts;
 	}
 }

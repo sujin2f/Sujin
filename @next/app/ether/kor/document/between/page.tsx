@@ -32,7 +32,7 @@ export const metadata = {
 
 export default function Between() {
     return (
-        <article style={{ counterReset: 'fig 40 tbl 7 equ 9' }}>
+        <div style={{ counterReset: 'fig 40 tbl 7 equ 9' }}>
             <p>
                 여기서 하나 의문이 생긴다. 원형 에테르의 변화를 s 오비탈 쪽으로, 나머지를 p 오비탈 쪽으로 이동시킨 후
                 비교하는 것이 과연 적당했을까? 선형이 포함된 변화를 서로 모으면 그들만의 패턴이 나타나는 것일 수 있지
@@ -259,6 +259,6 @@ export default function Between() {
                     link: '/ether/kor/document/conclusion',
                 }}
             ></PrevNext>
-        </article>
+        </div>
     )
 }

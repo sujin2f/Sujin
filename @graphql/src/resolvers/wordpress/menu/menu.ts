@@ -29,17 +29,17 @@ export const menu = async (_position: string): Promise<T_MenuItem[]> => {
         try {
             if (!item.target) {
                 const newLink = new URL(item.link)
-                link = `/${newLink.pathname}`
+                link = `${newLink.pathname}`
             }
         } catch {
             // do nothing
         }
         if (!item.parent) {
-            menu.push({ ...item, link, children: [] })
+            menu.push({ ...item.toObject(), link, children: [] })
             return
         }
 
-        menu[menu.length - 1].children?.push({ ...item, link })
+        menu[menu.length - 1].children?.push({ ...item.toObject(), link })
     })
 
     setCache(JSON.stringify(menu), `${COLLECTION.MENU}-${_position}`, WEEK_IN_SECONDS)

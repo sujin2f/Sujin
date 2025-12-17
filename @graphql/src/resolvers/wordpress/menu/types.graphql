@@ -9,4 +9,5 @@ type Menu {
     target: String
     link: String
     parent: Int
+    children: [Menu]
 }

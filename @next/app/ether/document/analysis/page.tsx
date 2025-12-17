@@ -42,7 +42,7 @@ export const metadata = {
 
 export default function Analysis() {
     return (
-        <article style={{ counterReset: 'fig 19 tbl 6 equ 7' }}>
+        <div style={{ counterReset: 'fig 19 tbl 6 equ 7' }}>
             <p>
                 The formula is ready. Let&apos;s proceed to the comparisons. I will bring back the last graph from the
                 previous section with some enhancements.
@@ -616,6 +616,6 @@ export default function Analysis() {
                     link: '/ether/document/between',
                 }}
             ></PrevNext>
-        </article>
+        </div>
     )
 }

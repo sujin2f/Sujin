@@ -19,7 +19,7 @@ export const metadata = {
 
 export default function ClassicPhysics() {
     return (
-        <article style={{ counterReset: 'fig 6 tbl equ' }}>
+        <div style={{ counterReset: 'fig 6 tbl equ' }}>
             <h2>The emitted wavelengths of the Photon-Ether based on Bohr&apos;s atomic model</h2>
 
             <p>
@@ -390,6 +390,6 @@ export default function ClassicPhysics() {
                     link: '/ether/document/rydberg-formula',
                 }}
             ></PrevNext>
-        </article>
+        </div>
     )
 }

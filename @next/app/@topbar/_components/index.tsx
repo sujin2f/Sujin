@@ -1,23 +1,23 @@
 'use client'
-import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
+import { useDispatch, useSelector } from 'react-redux'
 /* Components */
-import Menu from '@common/components/layout/Menu'
-import Hamburger from '@app/@topbar/_components/Hamburger'
+import { Menu } from '@app/@topbar/_components/Menu'
+// import Hamburger from '@app/@topbar/_components/Hamburger'
 import Search from '@app/@topbar/_components/Search'
 import { Profile } from '@app/@topbar/_components/Profile'
-/* CONSTANTS */
-import { MENUS } from '@lib/constants'
-import { MENU_NAMES } from '@lib/constants'
+/* Utils */
+import { setMobile } from '@app/_store/slices/menu'
+/* T_Types */
+import type { RootState } from '@app/_store'
 /* Assets */
-import Logo from '@common/images/logo-top-bar.svg'
-import Facebook from '@common/images/facebook.svg'
-import Twitter from '@common/images/twitter.svg'
-
-const TOP_MENU_SCROLLED_POSITION = 80
+import Logo from '@app/_lib/images/logo-top-bar.svg'
+import Facebook from '@app/_lib/images/facebook.svg'
+import Twitter from '@app/_lib/images/twitter.svg'
+import HamburgerIcon from '@app/_lib/images/hamburger.svg'
 
 type Props = {
-    readonly menu?: MENU_NAMES
+    readonly menu: 'primary' | 'ether' | 'ether-kor' | 'dev-tools' | 'recipe' | 'recipe-user' | 'admin'
 }
 
 /**
@@ -26,25 +26,10 @@ type Props = {
  *
  * @param {string} props.menu - The menu items to be displayed in the top bar.
  */
-export const TopBar = ({ menu: _menu = MENU_NAMES.MAIN }: Props) => {
-    const menu = MENUS[_menu]
-    const [scrolled, setScrolled] = useState('')
-
-    const handleScrolled = useCallback(() => {
-        if (window.scrollY > TOP_MENU_SCROLLED_POSITION && !scrolled) {
-            setScrolled('scrolled')
-            return
-        }
-
-        if (window.scrollY <= TOP_MENU_SCROLLED_POSITION && scrolled) {
-            setScrolled('')
-        }
-    }, [scrolled])
-
-    useEffect(() => {
-        window.addEventListener('scroll', handleScrolled)
-        return () => window.removeEventListener('scroll', handleScrolled)
-    }, [handleScrolled])
+export const TopBar = ({ menu }: Props) => {
+    // Mobile
+    const dispatch = useDispatch()
+    const opened = useSelector((state: RootState) => state.menu.mobile)
 
     return (
         <header>
@@ -62,8 +47,14 @@ export const TopBar = ({ menu: _menu = MENU_NAMES.MAIN }: Props) => {
                 <div className="h-header flex container mx-auto">
                     {/* Left */}
                     <div className="h-header flex" style={{ width: 'calc(50% - 50px)' }}>
-                        <Hamburger menu={menu} className="min-md:hidden flex pl-1" /> {/* Mobile */}
-                        <Menu className={`max-md:hidden menu--top ${scrolled}`} items={menu} />
+                        <button
+                            className="min-md:hidden flex pl-1 w-12 cursor-pointer"
+                            onClick={() => dispatch(setMobile(!opened))}
+                            type="button"
+                        >
+                            <HamburgerIcon className="fill-primary" />
+                        </button>
+                        <Menu position={menu} key="top-bar" />
                     </div>
 
                     {/* Center */}

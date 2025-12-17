@@ -11,7 +11,7 @@ import { ReduxProvider } from '@app/_components/ReduxProvider'
 import Error from '@app/global-error'
 import Loading from '@app/loading'
 import { UserInfoProvider } from '@app/_components/UserInfoProvider'
-import { Wrapper } from '@app/_components/Wrapper'
+import { Wrapper } from '@app/_components/layout/Wrapper'
 import DefaultTopBar from '@app/@topbar/default'
 import DefaultFooter from '@app/@footer/default'
 /* Utils */

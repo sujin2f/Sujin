@@ -42,7 +42,7 @@ export const metadata = {
 
 export default function Analysis() {
     return (
-        <article style={{ counterReset: 'fig 19 tbl 6 equ 7' }}>
+        <div style={{ counterReset: 'fig 19 tbl 6 equ 7' }}>
             <p>공식이 준비되었다. 비교에 들어가보자. 이전 장의 마지막 그래프를 약간 보완해서 다시 가져오겠다.</p>
 
             <NextImage src={pic96} alt="헬륨 오비탈 값의 변화" caption="헬륨 오비탈 값의 변화" width={600} center />
@@ -553,6 +553,6 @@ export default function Analysis() {
                     link: '/ether/kor/document/between',
                 }}
             ></PrevNext>
-        </article>
+        </div>
     )
 }

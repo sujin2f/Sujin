@@ -22,7 +22,7 @@ export const metadata = {
 
 export default function Hypothesis() {
     return (
-        <article style={{ counterReset: 'fig' }}>
+        <div style={{ counterReset: 'fig' }}>
             <p>
                 This document begins with a single question. According to quantum physics, matter exists as a
                 probability. However, is the probability space truly empty and devoid of meaning? What if that space is
@@ -238,6 +238,6 @@ export default function Hypothesis() {
                     link: '/ether/document/classic-physics',
                 }}
             ></PrevNext>
-        </article>
+        </div>
     )
 }

@@ -31,7 +31,7 @@ export const metadata = {
 
 export default function RydbergFormula() {
     return (
-        <article style={{ counterReset: 'fig 7 tbl 6 equ 2' }}>
+        <div style={{ counterReset: 'fig 7 tbl 6 equ 2' }}>
             <p>
                 So far, the hypothesis has been tested based on Bohr&apos;s atomic model. However, Bohr&apos;s atomic
                 model is no longer valid. It does not apply to multi-electron atoms, and in reality, electrons do not
@@ -683,6 +683,6 @@ export default function RydbergFormula() {
                     link: '/ether/document/analysis',
                 }}
             ></PrevNext>
-        </article>
+        </div>
     )
 }

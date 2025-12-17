@@ -6,7 +6,7 @@ import TagCloud from '@app/@footer/_components/TagCloud'
 import Flickr from '@app/@footer/_components/Flickr'
 import { WidgetTitle } from '@app/_components/WidgetTitle'
 /* Assets */
-import Logo from '@common/images/logo.svg'
+import Logo from '@app/_lib/images/logo.svg'
 import '@app/_lib/scss/recent-posts.scss'
 
 export const Footer = async () => {

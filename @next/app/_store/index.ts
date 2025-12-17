@@ -4,6 +4,7 @@ import { background } from './slices/background'
 import { tagCloud } from './slices/tag-cloud'
 import { recent } from './slices/recent'
 import { spectrum } from './slices/spectrum'
+import { menu } from './slices/menu'
 
 export const store = configureStore({
     reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
         tagCloud,
         recent,
         spectrum,
+        menu,
     },
 })
 

@@ -3,15 +3,13 @@
 import { getUserInfo } from '@lib/utils/server/header'
 /* Components */
 import { Banner } from '@app/@banner/_components'
-/* CONSTANTS */
-import { MENU_NAMES } from '@lib/constants'
 
 export default async function ListPage() {
     const user = await getUserInfo()
 
     return (
         <Banner
-            menu={user ? MENU_NAMES.RECIPE_USER : MENU_NAMES.RECIPE}
+            menu={user ? 'recipe-user' : 'recipe'}
             title="Recipe List"
             excerpt="The recipe manager with measurement conversion"
             prefix="recipe"

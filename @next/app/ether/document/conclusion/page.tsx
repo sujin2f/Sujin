@@ -19,7 +19,7 @@ export const metadata = {
 
 export default function Conclusion() {
     return (
-        <article style={{ counterReset: 'fig 52' }}>
+        <div style={{ counterReset: 'fig 52' }}>
             <ul>
                 <li>Rydberg is magnificent, sir.</li>
 
@@ -218,6 +218,6 @@ export default function Conclusion() {
                     link: '/ether/document/between',
                 }}
             ></PrevNext>
-        </article>
+        </div>
     )
 }

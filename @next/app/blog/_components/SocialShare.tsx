@@ -1,8 +1,8 @@
 'use client'
 import { usePathname } from 'next/navigation'
 /* Assets */
-import Twitter from '@common/images/twitter.svg'
-import Facebook from '@common/images/facebook.svg'
+import Twitter from '@app/_lib/images/twitter.svg'
+import Facebook from '@app/_lib/images/facebook.svg'
 
 type Props = {
     title: string

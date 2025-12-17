@@ -6,9 +6,9 @@ import { Logger } from '@sujin/share/model/Logger'
 /* Components */
 import { SocialShare } from '@app/blog/_components/SocialShare'
 import { Content } from '@app/blog/_components/Content'
+import { Main } from '@app/_components/html-elements/Main'
 /* Utils */
 import { getPage } from '@app/about/_lib/getPage'
-import { TAILWIND_MAIN } from '@app/_lib/constants'
 
 export const metadata: Metadata = {
     title: 'About Sujin Choi',
@@ -35,7 +35,7 @@ export default async function AboutPage() {
     const thumbnail = post.images && (post.images.list?.url || post.images.thumbnail?.url)
 
     return (
-        <main className={`${TAILWIND_MAIN} max-w-4xl`}>
+        <Main className="max-w-4xl">
             <Content post={post}>
                 <SocialShare
                     title={post.title}
@@ -44,6 +44,6 @@ export default async function AboutPage() {
                     baseUrl={`${process.env.NEXT_BASE_URL}`}
                 />
             </Content>
-        </main>
+        </Main>
     )
 }

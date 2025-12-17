@@ -19,7 +19,7 @@ export const metadata = {
 
 export default function ClassicPhysics() {
     return (
-        <article style={{ counterReset: 'fig 6 tbl equ' }}>
+        <div style={{ counterReset: 'fig 6 tbl equ' }}>
             <p>
                 전자가 방출하는 파장은 뤼드베리 공식을 통해 구할 수 있다. 아래는 뤼드베리 공식과{' '}
                 <InlineMath>n \geq 2</InlineMath>에서 <InlineMath>n = 1</InlineMath>
@@ -375,6 +375,6 @@ export default function ClassicPhysics() {
                     link: '/ether/kor/document/rydberg-formula',
                 }}
             ></PrevNext>
-        </article>
+        </div>
     )
 }

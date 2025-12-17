@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { WidgetTitle } from '@app/_components/WidgetTitle'
 import Card from '@app/archive/_components/Card'
 import { Tags } from '@app/blog/_components/Tags'
+import { Main } from '@app/_components/html-elements/Main'
 /* Utils */
 import { getRecent } from '@app/blog/_lib/getRecent'
 import { setRecent } from '@app/_store/slices/recent'
@@ -11,7 +12,7 @@ import { map } from '@sujin/share/utils/array'
 import { useStoreOrAction } from '@app/_hooks/useStoreOrAction'
 /* CONSTANTS */
 import { ARCHIVE } from '@sujin/lib/constants'
-import { TAILWIND_CARD_IMAGE, TAILWIND_MAIN } from '@app/_lib/constants'
+import { TAILWIND_CARD_IMAGE } from '@app/_lib/constants'
 /* T_Types */
 import type { T_ArchivePost } from '@sujin/lib/types'
 
@@ -25,7 +26,7 @@ export function NotFoundClient() {
     const posts = recent ? recent.slice(0, 12) : null
 
     return (
-        <main ref={ref} className={TAILWIND_MAIN}>
+        <Main ref={ref}>
             <WidgetTitle>Recent Posts</WidgetTitle>
             <ul className={`grid grid-cols-1 gap-6 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2`}>
                 {(loading || !posts || !posts.length) &&
@@ -66,6 +67,6 @@ export function NotFoundClient() {
                       })
                     : ''}
             </ul>
-        </main>
+        </Main>
     )
 }
