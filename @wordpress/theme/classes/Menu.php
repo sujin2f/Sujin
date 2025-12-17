@@ -17,7 +17,12 @@ use Sujin\Theme\Redis;
  * 1. Block RestAPI
  */
 class Menu {
-	static $attempts = 0;
+	/**
+	 * Prevent double push.
+	 *
+	 * @var int $attempts
+	 */
+	public static $attempts = 0;
 	/**
 	 * Constructor
 	 */
