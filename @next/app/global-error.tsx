@@ -1,6 +1,6 @@
 'use client'
 /* Components */
-import { TopBar } from '@app/@topbar/_components'
+import TopBar from '@app/@topbar/_components'
 import { Banner } from '@app/@banner/_components'
 
 export default function GlobalError({ error }: { error: Error & { digest?: string }; reset?: () => void }) {

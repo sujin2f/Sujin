@@ -1,6 +1,3 @@
-/* Components */
-import { TopBar } from '@app/@topbar/_components'
-
-export default function DefaultTapBar() {
-    return <TopBar menu="primary" />
-}
+'use server'
+import { HideMenu } from '@app/@topbar/_components'
+export default HideMenu

@@ -15,9 +15,11 @@ import Logo from '@app/_lib/images/logo-top-bar.svg'
 import Facebook from '@app/_lib/images/facebook.svg'
 import Twitter from '@app/_lib/images/twitter.svg'
 import HamburgerIcon from '@app/_lib/images/hamburger.svg'
+import { useDocumentClick } from '@common/hooks/useDocumentClick'
 
 type Props = {
     readonly menu: 'primary' | 'ether' | 'ether-kor' | 'dev-tools' | 'recipe' | 'recipe-user' | 'admin'
+    readonly showMenu?: boolean
 }
 
 /**
@@ -26,10 +28,16 @@ type Props = {
  *
  * @param {string} props.menu - The menu items to be displayed in the top bar.
  */
-export const TopBar = ({ menu }: Props) => {
+export default function TopBar({ menu, showMenu = false }: Props) {
     // Mobile
     const dispatch = useDispatch()
     const opened = useSelector((state: RootState) => state.menu.mobile)
+
+    const ref = useDocumentClick<HTMLDivElement>(() => {
+        if (opened) {
+            dispatch(setMobile(false))
+        }
+    })
 
     return (
         <header>
@@ -46,7 +54,7 @@ export const TopBar = ({ menu }: Props) => {
             <div className="fixed top-0 left-0 w-screen h-header z-50">
                 <div className="h-header flex container mx-auto">
                     {/* Left */}
-                    <div className="h-header flex" style={{ width: 'calc(50% - 50px)' }}>
+                    <div ref={ref} className="h-header flex" style={{ width: 'calc(50% - 50px)' }}>
                         <button
                             className="min-md:hidden flex pl-1 w-12 cursor-pointer"
                             onClick={() => dispatch(setMobile(!opened))}
@@ -54,7 +62,7 @@ export const TopBar = ({ menu }: Props) => {
                         >
                             <HamburgerIcon className="fill-primary" />
                         </button>
-                        <Menu position={menu} key="top-bar" />
+                        <Menu position={menu} id="top-bar" showMenu={showMenu} />
                     </div>
 
                     {/* Center */}
@@ -91,4 +99,12 @@ export const TopBar = ({ menu }: Props) => {
             <div className="bg-black w-screen h-header" />
         </header>
     )
+}
+
+export function ShowMenu() {
+    return <TopBar menu="primary" showMenu={true} />
+}
+
+export function HideMenu() {
+    return <TopBar menu="primary" />
 }

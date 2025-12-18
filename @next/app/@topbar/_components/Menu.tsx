@@ -8,24 +8,19 @@ import { getMenu } from '@app/_lib/graphql/getMenu'
 import { setMenu, setMobile } from '@app/_store/slices/menu'
 /* T_Types */
 import type { RootState } from '@app/_store'
-import { useDocumentClick } from '@common/hooks/useDocumentClick'
 
 type Props = {
-    key: string
+    id: string
     position: string
+    showMenu: boolean
 }
 
 const TOP_MENU_SCROLLED_POSITION = 80
 
-export function Menu({ key, position }: Props) {
+export function Menu({ id, position, showMenu }: Props) {
     const dispatch = useDispatch()
     // Mobile
     const opened = useSelector((state: RootState) => state.menu.mobile)
-    const ref = useDocumentClick<HTMLDivElement>(() => {
-        if (opened) {
-            dispatch(setMobile(false))
-        }
-    })
 
     // Scroll
     const [scrolled, setScrolled] = useState('')
@@ -63,7 +58,7 @@ export function Menu({ key, position }: Props) {
     }, [data, hasStore, dispatch, position])
 
     return (
-        <nav ref={ref}>
+        <nav>
             <ul
                 className={`${
                     opened ? 'flex' : 'hidden'
@@ -72,9 +67,9 @@ export function Menu({ key, position }: Props) {
             >
                 {menus[position] &&
                     menus[position].map((item, index) => (
-                        <li key={`menu-item-${key}-${position}-${item.link}`} className="group">
+                        <li key={`menu-item-${id}-${position}-${item.link}`} className="group">
                             <Link
-                                style={{ marginTop: `${-1 * (50 + index * 40)}px` }}
+                                style={showMenu ? {} : { marginTop: `${-1 * (50 + index * 40)}px` }}
                                 className={`${
                                     scrolled && 'mt-0!'
                                 } bg-primary transition-all duration-700 px-4 flex items-center text-white group-hover:bg-primary group-hover:text-white h-auto py-3 max-md:mt-0! min-md:bg-transparent min-md:text-primary min-md:h-full min-md:py-0`}
@@ -87,7 +82,7 @@ export function Menu({ key, position }: Props) {
                             {item.children && 0 !== item.children.length && (
                                 <ul className="group-hover:block min-md:hidden min-md:absolute">
                                     {item.children.map((child) => (
-                                        <li key={`menu-item${key}-${position}-${child.link}`}>
+                                        <li key={`menu-item-${id}-${position}-${child.link}`}>
                                             <Link
                                                 className="bg-slate-600 transition-colors py-3 px-5 flex items-center hover:bg-slate-800"
                                                 href={child.link}

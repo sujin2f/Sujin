@@ -35,7 +35,7 @@ export const Banner = ({ icon, background, prefix, fullHeight, menu, title, exce
             >
                 <div className="absolute w-full z-5">
                     <div className="container mx-auto flex justify-end">
-                        <Menu position={menu} key="banner" />
+                        <Menu position={menu} id="banner" />
                     </div>
                 </div>
 
