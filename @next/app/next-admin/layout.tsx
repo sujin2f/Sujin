@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import type { PropsWithChildren } from 'react'
 /* Components */
-import TopBar from '@app/@topbar/_components'
+import TopBar from '@app/@topbar/_components/TopBar'
 import { Wrapper } from '@app/_components/layout/Wrapper'
 import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
