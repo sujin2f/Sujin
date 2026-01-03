@@ -86,7 +86,7 @@ export const NextImage = ({
     sources,
     className: clsName,
 }: Props) => {
-    const className = joinClassNames('image__container', center && 'image__container--center', clsName)
+    const className = joinClassNames('image__container mb-5', center && 'image__container--center', clsName)
     const img = (
         <Image
             src={src}

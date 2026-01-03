@@ -1,50 +1,337 @@
+import { InlineMath } from 'react-katex'
 /* Components */
-import { PrevNext } from '@app/blog/_components/PrevNext'
 import { Main } from '@app/_components/html-elements/Main'
+import { Latex } from '@app/blog/_components/Latex'
+import { NextImage } from '@common/components/containers/NextImage'
 /* Assets */
+import pic01 from '@lib/images/ether/ether-01.jpg'
+import pic02 from '@lib/images/ether/pic1_eng.png'
+import pic03 from '@lib/images/ether/pic10.png'
 import '@app/_lib/scss/content.scss'
+import 'katex/dist/katex.min.css'
 
 export const metadata = {
-    title: 'Ether',
-    description: 'Hypothesis on the Spatial and Temporal Aspects of Matter',
+    title: '시간의 물리량',
+    description: '시간이란 무엇인가',
     keywords: ['Quantum Physics', 'Theory', 'Hypothesis'],
     openGraph: {
         url: `${process.env.NEXT_BASE_URL}/ether`,
     },
 }
 
-export default function Intro() {
-    return (
-        <Main dom="article" className="max-w-4xl">
-            <p>
-                Substance as a composite of mass and electromagnetic waves, photons as mass-independent electromagnetic
-                waves, and electromagnetic waves independent of mass.
-            </p>
-            <p>since 2024 Sujin</p>
-            <h2>Abstract</h2>
-            <p>
-                This document aims to propose a new hypothesis regarding the structure of matter. According to the
-                proposed hypothesis, matter can be divided into particles-waves that make up mass and possess
-                electromagnetic wave properties. If matter, such as electrons, is considered a composite of space and
-                particles-waves, then photons are assumed to be particles-waves without space.
-            </p>
-            <p>
-                To demonstrate this, this document will explore the existence of mass space without particles-waves. To
-                achieve this, the Bohr model and orbitals will be reinterpreted. If phenomena observed in matter from
-                the perspective of space and particles-waves can be explained more simply, it may suggest a small
-                possibility for the hypothesis.
-            </p>
-            <p>
-                The author of this document is a non-expert in the field. I lack the ability to discern how
-                scientifically clear this is. The document is written with as much explanation as possible to make it
-                understandable for non-experts like myself, which may result in verbose explanations.
-            </p>
-            <PrevNext
-                next={{
-                    title: 'Hypothesis',
-                    link: '/ether/document/hypothesis',
-                }}
-            ></PrevNext>
-        </Main>
-    )
-}
+const Intro = () => (
+    <Main dom="article" className="max-w-4xl">
+        <p>since 2024 Sujin v-2.0</p>
+
+        <h2>시간이란 무엇일까?</h2>
+        <p>
+            물질의 변화를 기술하는 학문인 물리의 많은 수식은 시간을 포함하고 있다. 시간에 따른 변화를 기술하고 나아가서
+            예측하기 위함이다. 여기서 한가지 의문을 던져본다. 시간은 물질이 변화하기 위한 조건일까? 지구가 태양의 주변을
+            도는 공전을 보자. 공전의 이유는 두 천체 사이에 작용하는 중력과 각운동량 등으로 설명이 가능하다. 시간이라는
+            물리량은 지구의 공전에 어떤 영향을 주고 있을까?
+        </p>
+        <p>
+            여기 시간을 멈출 수 있는 빌런 &lt;시간을 지배하는 자&gt;가 있다. 그는 보안이 강화된 루브르 박물관을 노리고
+            있다. 그가 손가락을 튕긴다. 우주의 시간이 멈춘다. 이 장면을 영화적으로 표현하면 날아가는 새는 공중에
+            머무르고 사람들의 움직임이 멈추며 지구가 그 공전을 중단하게 된다. 다시 손가락을 튕겨 시간을 흐르게 만들면
+            사람들은 어떤 일이 일어났는지 모르는 채 하던 일을 계속하게 된다. 시간이 멈춘 사람들의 시점에서는 사건이
+            연속적으로 흘러간 것으로 보인다. 이 때 지구는 어떤 방식으로 멈추게 될까? 스퀴드 마크를 남기면서 끼~~익 하고
+            멈출까? 비디오를 정지시킨 것 처럼 일순간에 멈출까? 시간의 물리량을 0으로 만드는 것이 천체의 움직임을 멈추는
+            것이라면 시간은 중력 등의 힘 위에 존재하는 초월적인 무엇이 된다. 시간은 이 거대한 우주가 변화하는 원인이
+            된다. 그러한 존재를 가정하는 것이 오히려 비과학적이지 않을까?
+        </p>
+        <NextImage src={pic01} alt="시간은 이렇게 멈출까?" caption="fig1. 시간은 이렇게 멈출까?" width={600} center />
+
+        <p>
+            사고실험을 하나 더 해보자. 여기 우리 우주의 머나먼 미래, 혹은 가상의 우주가 있다. 이 우주의 모든 물질은
+            하나의 블랙홀 속, 사건의 지평선 안에 들어가 있다. 이 우주에는 하나의 블랙홀만 존재하는 것이다. 블랙홀 속의
+            시간이 멈추었다고 볼 때, 이 우주에 시간이 존재한다고 말할 수 있을까? 답은 둘 중 하나이다. 존재한다와
+            존재하지 않는다. 어떤 경우라도 좋다. 진짜 질문, 그 블랙홀은 움직이고 있을까? 움직이지 않을 이유가 없다.
+        </p>
+        <p>
+            시간은 물질의 변화를 만드는 원인이 아니다. 즉, 시간이 사라져도 천체는 움직일 것이다. 천체가 움직이기 위해
+            시간이 존재할 필요가 없다. 하지만 우리는 시간이 무엇인지 알고 있다. 시간은 존재한다. 그렇다면 시간은 어디에
+            있는가? 시간은 관측자인 우리가 물질의 움직임을 기술하고 예측하기 위해 도입한 개념이다. 왜? 우리가 시간을
+            가진 존재이기 때문이다. 시간은 우주에 존재하는 것이 아니라 물질에 존재하는 무엇이라는 뜻이 된다. &lt;시간을
+            지배하는 자&gt;가 시간을 멈추면 인간의 사고는 정지할 수 있겠지만 물리 법칙은 지속된다. 우리의 육체는
+            쓰러지고 몸 속의 피는 중력에 의해 아래로 쏠릴 것이다. 날아가는 새는 떨어지고 도로마다 교통사고가 발생할
+            것이다. 우리가 시간의 연속성을 느끼고 본다는 것은 시간이 멈추지 않았다는 근거인 것이다. 시간은 물질 안의
+            무엇인가이며 물질은 시간과 관계 없이 움직인다. 세상이 앤트로피가 증가하는 방향으로 변화한다 해도 그것은 시간
+            때문이 아닌 것이다.
+        </p>
+
+        <h3>⭐️ 지금까지 정리한 것</h3>
+        <ol>
+            <li>물질의 이동은 시간과 무관하다.</li>
+            <li>시간은 물질 속에 있다.</li>
+        </ol>
+
+        <h2>빛이 있으라</h2>
+        <p>
+            물질이 시간이라는 물리량을 가지고 있다는 가정을 했다. 이 시간은 우리가 알고 있는 시간의 개념과는 다른
+            무언가이며 그것은 우리가 가진 시간이라는 개념을 가지게 만든다. 시간이란 무엇일까? 특수 상대성 이론에 따르면
+            물체의 이동이 질량의 증가와 시간 지연을 만들며 일반 상대성 이론에 따르면 강력한 중력장 안에서 역시 시간
+            지연이 일어난다. 시간과 질량=중력은 서로 밀접한 관계를 가지고 얽혀있다.
+        </p>
+        <p>
+            여기 광속으로 비행하는 우주선이 있다. 시간은 0에 수렴하고 있다. 물질의 이동은 시간과 무관하다는 정리를
+            고려할 때, 이 사고실험에서 물질의 움직임과 무관한 것은 무엇일까? 빛이다. 빛의 속력은 절대적이기 때문에 우리
+            개념 속 시간이 &apos;상대적으로&apos; 변화하는 것이다. 빛과 시간이 강한 상관관계가 있다고 가정하여도 큰
+            무리가 없을 것이라 생각한다.
+        </p>
+        <p>
+            그렇다면 빛의 특성을 살펴보는 것이 다음 단계일 것이다. 빛의 정지질량은 0이다. 중력과 시간이 얽혀있기 때문에
+            빛의 속력은 우리 우주에 존재하는 시간의 최대치라고 정의할 수 있다. 빛은 전자기파이다. 전기장과 자기장이
+            직교하며 직선으로 날아간다. 광속의 우주선과 수평을 이루며 날아가는 빛을 보자. 그 빛은 정지해 있으며 그
+            자리에서 전기장과 자기장, 파동을 만들고 있을 것이다. 우리가 우유 광고에서 보듯 정지된 파원을 중심으로 파동이
+            퍼져가는 모습으로 보일 것이다. 다만 이는 상대적으로 정지한 빛이지 절대적인 시간을 바꾼 것은 아니기에 시간이
+            빛의 속력만을 만드는지 전자기 파동 역시 시간에 의해서 만들어지는지는 알 수 없지만 확실한 것은 빛의 속력과는
+            밀접한 것, 나아가서는 빛의 속력을 만드는 원인이라고 볼 수 있다. 시간이 물질의 속성이라면 시간은 빛을
+            전진시키는 힘이라고도 말할 수 있다. 그리고 그 힘은 중력과 반비례적 관계를 가지며 얽혀있다.
+        </p>
+        <p>
+            전선에 전류가 흐르는 것을 보자. 전자의 이동 속도는 초속 몇 mm로 아주 느리지만 전하의 이동은 빛의 속도에
+            맞먹게 빠르다. 앞서 가정한 것들을 대입해 보자면 전자의 이동은 중력을 가진 물질이 이동하는 것, 전하의 이동은
+            시간, 즉 파동의 이동일 것이다.
+        </p>
+        <p>
+            시간을 뒤로 돌릴 수 있다면 어떻게 될까? 초광속 우주선과 수평하게 나아가는 빛은 반대방향으로 나아갈 것이다.
+            시간이란 파동의 벡터인 것이며 시간을 뒤로 돌린다는 것은 마치 거울 속의 상 같은 것이다. 거울 속에서도
+            물리법칙은 그대로 존재한다. 광속을 초월하더라도 과거로의 시간여행이 불가능하다는 이야기이다. 물질과 반물질이
+            만나면 서로 반대 방향으로 질량에 해당하는 광자 한 쌍이 방출된다. 하나는 시간, 다른 하나가 음의 시간이라고
+            말할 수 있다. 시간을 뒤로 돌리는 것은 파동의 벡터를 뒤집는다는 의미일 뿐 물질의 이동이 뒤로감기가 된다는
+            것이 아니다.
+        </p>
+        <p>
+            전류의 이동에서 전자 자체, 즉 질량의 움직임은 입자의 움직임을 의미하는 것일테고 전자의 파동이 움직이는 것은
+            시간을 의미하는 것이라고 볼 수 있다. 물질이 입자성과 파동성을 동시에 가지고 있다는 말은 물질은 질량과 시간을
+            모두 가지고 있다는 말과 동일한 뜻일 수도 있을 것이다.
+        </p>
+
+        <h3>⭐️ 지금까지 정리한 것</h3>
+        <ol>
+            <li>물질의 이동은 시간과 무관하다.</li>
+            <li>시간은 물질 속에 있다.</li>
+            <li>빛의 속력은 시간의 최대치이다.</li>
+            <li>물질의 이동은 입자성, 파동의 이동은 파동성과 관련된다.</li>
+        </ol>
+
+        <h2>시간, 물질, 그리고 에테르 Ether</h2>
+        <p>
+            물질은 질량을 가지고 있다. 시간의 최대치를 1로 하였을 때, 물질은 0 보다 크고 1 보다 작은 시간을 가진
+            질량이다. 물질이 무엇인지 생각해보기 전에 극단의 성질을 가진 시간 덩어리 빛을 바탕으로 반대의 극단을
+            생각해보자. 사간의 극단에 빛이 있다면 질량의 극단에는 무엇이 있을까? 시간의 크기가 0인 무엇인가, 파동이
+            존재하지 않거나 파동의 이동이 존재하지 않는, 시간 덩어리인 빛과는 완전히 정반대의 성질을 가진 무엇인가가
+            존재할 수 있을까? 여기서 빛은 입자성도 가진다는 것을 떠올려 보자. 빛의 입자성에 중요한 근거를 제시한 것은
+            아인슈타인의 광전효과 논문이다. 물질이 빛이라는 에너지를 흡수했을 때 빛이 입자의 성질을 가지고 작용한다는
+            것이다.
+        </p>
+        <p>
+            여기 보어의 원자모형이 있다. 빛이 원자에 흡수되면 전자의 에너지 준위가 변화한다. 빛이 흡수된다는 것은
+            무엇일까? 빛이 가진 에너지가 다른 것으로 전환된다는 이야기가 아닐까? 시간-파동인 빛이 입자-질량이 된다는
+            뜻이 아닐까? 그렇다면 어떤 일이 일어날까? 전자의 궤도가 한순간에 높아질 것이다. 반대로 이 질량이 시간으로
+            변화하여 방출되었을 때 궤도는 한순간에 낮아질 것이다.
+        </p>
+        <NextImage
+            src={pic02}
+            alt="궤도 사이에 존재하는 것이 물질이라면?"
+            caption="fig2. 궤도 사이에 존재하는 것이 물질이라면?"
+            width={440}
+            center
+        />
+        <p>
+            이를 오비탈에 적용해보자. 오비탈의 형태를 가르는 검은 부분이 존재한다. 그것은 시간이 0인, 질량을 가진 빛이
+            아닐까? 우리가 관측하는 것은 대개 파동이다. 우리는 빛이라는 매개를 통해 관측장비를 설계한다. 시간이 0인
+            물질, 즉 파동이 존재하지 않거나 이동하지 않는 물질이라면 우리는 그것을 관측할 수 있을까? 우리는 이것에
+            어둠의 딥 다크, 암흑이라 이름 붙이지 않을까? 이를 에테르라 명명하도록 하겠다.
+        </p>
+        <NextImage
+            src={pic03}
+            alt="오비탈의 검은 부분이 빛이라면?"
+            caption="fig3. 오비탈의 검은 부분이 빛이라면?"
+            center
+            width={600}
+        />
+        <p>
+            시간이 1이며 질량이 없는 빛, 그리고 빛이 변화된, 시간이 0이며 질량을 갖는 에테르에 대한 가정 하에 물질은
+            빛과 에테르 사이에 존재하는 무엇이라 가정할 수 있을 것이다. 물질은 입자이자 파동이며 에테르이자 시간이다.
+            물질은 극단적인 두 성질 사이에 존재하는 무언가이다. 이제는 오비탈의 하얀 부분을 보자. 전자가 나타날 수 있는
+            확률 공간, 전자 구름이다. 이것이 빈 공간이 아니라 에테르라면?
+        </p>
+        <p>
+            에테르가 질량 덩어리라면 질량을 가진 물질 역시 에테르를 가지거나 그 성질을 가진 무엇이지 않을까? 그렇다면
+            전자도 보이지 않는 질량 덩어리를 가지고 있지 않을까? 이렇게 생각하면 오비탈에서 보이는 확률 공간이 전자
+            에테르의 밀도로 보이게된다. 우리는 가능한 물질의 모델들을 생각해볼 수 있다. 확률공간이라는 에테르 속에 빛과
+            유사한 파동 하나가 움직이는 것일 수도, 에테르가 특정한 파동을 가지고 요동을 치는 형태일 수도, 혹은 에테르와
+            시간이 교차하며 존재하는 것일 수도 있다. 세번째 모델을 떠올린 것은 약간의 억측에서 출발한다. 중력 방정식과
+            전기 방정식이 유사한 형태라는 것과 중력과 시간이 얽혀있는 힘이라는 점이다. 중력-시간을 전기-자기의 관계와
+            동일하게 생각한 것이지만 그 형태를 시각적으로 떠올리는 것은 내게는 불가능하다. 중력과 시간이 얽힌 것은 빛과
+            에테르가 같은 것이기 때문일 수도 있지, 둘이 교차하여 나타날 필요는 없다. 첫번째 모델은 도식화하기는 좋으나
+            왜 파동 하나만 존재하는지 그냥 그렇다는 것 외에는 설명이 힘들어진다. 결론은 존재하지 않으며 여기서는 물질이
+            에테르와 파동을 동시에 가지는 것 정도로만 정리하도록 하겠다.
+        </p>
+
+        <h3>⭐️ 지금까지 정리한 것</h3>
+        <ol>
+            <li>물질의 이동은 시간과 무관하다.</li>
+            <li>시간은 물질 속에 있다.</li>
+            <li>빛의 속력은 시간의 최대치이다.</li>
+            <li>물질의 이동은 입자성, 파동의 이동은 파동성과 관련된다.</li>
+            <li>
+                빛이 물질에 흡수되어 에너지 준위를 높이는 것을 파동-시간이 에테르-질량으로 변환되는 것으로 가정하자.
+            </li>
+            <li>물질은 에테르와 시간을 동시에 가지고 있다.</li>
+        </ol>
+
+        <h2>이중슬릿과 불확정성 원리</h2>
+        <p>
+            이중슬릿 실험을 다시 보자. 전자는 관측 전에는 파동이며 관측을 하게되면 입자가 된다. 관측이란 다른 물질과의
+            상호작용 까지 포함한다. 또한 관측률을 조절하면 입자/파동의 특성도 조절된다. 에너지 준위란 전자에 형성된
+            에테르의 양이라 가정하였다. 에테르는 시간-파동이 존재하지 않는 질량, 즉, 입자성을 상징한다. 혹시 전자는
+            에너지 준위가 낮을 수록 파동의 성격을 더 강하게 띄고 높은 에너지 준위에서는 그가 가진 에테르로 인해 입자의
+            성질이 더 커지는 것이 아닐까? 다른 물질과의 상호작용이란 다른 물질에 포함된 에너지, 즉 에테르를 교환하는
+            행위일 수 있으며 혹은 자유 에테르가 존재할 수 있다면 그를 흡수했다는 가능성도 존재한다. 관측은 물질의
+            질량-입자-에테르를 증가시키고 그것이 상대적으로 입자성을 강화하는 방향으로 변화시키는 것이라 정의할 수 있을
+            것이다.
+        </p>
+        <p>
+            입자의 속도와 위치를 동시에 측정할 수 없다는 것은 무엇일까? 내 배움의 정도로는 속도/위치의 정확한 정의를 알
+            수 없으며 측정 방법도 알 수 없다. 다만 속도라는 것이 물질 자체의 이동이고 위치가 파동의 이동에서 결정되는
+            것이라면 상관관계가 없는 질량과 파동이 가진 별도의 움직임을 동시에 측정하는 것이 불가능하다는 뜻은 아닐까?
+            만일 물질이 첫번째 모델과 같이 에테르 속 시간이라면 에테르의 위치와 속도, 시간이라는 파동의 위치와 속도는
+            서로 다를 것이다. 내가 가정한 시간과 에테르가 맞다면 우리는 시간이라는 힘을, 에테르라는 질량을 물리 모델에
+            포함시키지 않았다. 각자의 위치와 속도를 가진 서로의 운동에 영향을 미치지 않는 두 성질을 말이다.
+        </p>
+
+        <h3>⭐️ 지금까지 정리한 것</h3>
+        <ol>
+            <li>물질의 이동은 시간과 무관하다.</li>
+            <li>시간은 물질 속에 있다.</li>
+            <li>빛의 속력은 시간의 최대치이다.</li>
+            <li>물질의 이동은 입자성, 파동의 이동은 파동성과 관련된다.</li>
+            <li>
+                빛이 물질에 흡수되어 에너지 준위를 높이는 것을 파동-시간이 에테르-질량으로 변환되는 것으로 가정하자.
+            </li>
+            <li>물질은 에테르와 시간을 동시에 가지고 있다.</li>
+            <li>관측은 물질에 에테르를 형성하여 입자성을 증가시킨다.</li>
+            <li>물질을 이루는 에테르의 위치와 속도, 시간의 위치와 속도는 서로 다르다.</li>
+        </ol>
+
+        <h2>로런츠와 뤼드베리</h2>
+        <p>
+            여기 시간 지연을 나타내는 로런츠 변환이 있다. 시간은 0에서 1 사이의 값을 가지는 물리량이라 가정했을 때, 빛의
+            속도 c는 시간의 최대치 1이 되며 이는 정지 좌표계의 시간 t와 일치한다. 속도 v는 0에서 최대 빛의 속도 1 까지의
+            값을 가지며 시간 지연을 0에서 1 까지의 시간으로 뱐환, 즉, 역수를 취하면. 결과는 원의 방정식이다. 시간의 힘은
+            물질의 속력이 증가함에 따라 원의 호를 따라 변화한다.
+        </p>
+        <Latex>{`\\Delta t' = \\frac{\\Delta t}{\\sqrt{1 - \\frac{v^2}{c^2}}} \\hspace{10pt} \\{ c=1, \\Delta t = 1\\}`}</Latex>
+        <Latex>{`\\to \\Delta t' = \\frac{1}{\\sqrt{1 - v^2}} \\hspace{10pt} \\{ 0 \\leq v < 1 \\}`}</Latex>
+        <Latex>{`\\to t = \\sqrt{1 - v^2} \\hspace{10pt} \\{ 0 \\leq v \\leq 1, 0 \\leq t \\leq 1 \\}`}</Latex>
+        <p>
+            조금 다른 이야기를 해보자. 수소 원자에서 빛의 방출 파장이다. 이는 뤼드베리 방정식으로 설명이 되며{' '}
+            <a
+                href="https://physics.nist.gov/cgi-bin/ASD/lines1.pl?spectra=H&output_type=2&low_w=&upp_w=&unit=5&submit=Retrieve+Data&de=0&plot_out=0&I_scale_type=1&format=0&line_out=0&en_unit=0&output=0&bibrefs=1&page_size=15&show_obs_wl=1&show_calc_wl=1&unc_out=1&order_out=0&max_low_enrg=&max_upp_enrg=&tsb_value=0&min_str=&A_out=0&intens_out=on&max_str=&allowed_out=1&forbid_out=1&min_accur=&min_intens=&conf_out=on&term_out=on&enrg_out=on&J_out=on"
+                target="_blank"
+            >
+                실제 관측값
+            </a>
+            이 존재한다. n번 궤도에서 1번 궤도로 에너지 준위가 떨어지며 방출하는 에너지를 이온화 에너지를 1로 놓았을
+            때의 값으로 변환하면 2번 궤도에서는 0.750000874923, 3번 궤도에서는 0.888891088717 등의 값을 얻을 수 있다. 이
+            값의 제곱근이 신기하게도 시간의 값과 일치한다. 원이다.
+        </p>
+        <Latex>
+            {`\\lambda = \\dfrac{R}{\\dfrac{1}{m^2} - \\dfrac{1}{n^2}} \\hspace{10pt} \\{ R=1.0973731568539 \\times 10^7 m^{-1} \\}`}
+        </Latex>
+        <p>
+            뤼드베리 방정식 역시 상수 R을 1로, 파장의 역수인 파수로 치환하고, 바닥상태를 기준으로한 변화를 나타내기 위해
+            m을 1로 놓으면, 원의 방정식에서 y 축의 제곱만 빠진 형태가 된다. 아래 표는 원의 방정식에서 1/n 지점의 값과
+            수소 원자에서의 실제 방출 에너지의 제곱근을 나열한 것이다.
+        </p>
+
+        <table>
+            <thead>
+                <tr className="border-l-1 border-l-slate-500 border-t-1 border-t-slate-500 border-b-1 border-b-slate-500">
+                    <th className="p-2 border-r-1 border-r-slate-500"></th>
+                    <th className="p-2 border-r-1 border-r-slate-500">circle (1/n)</th>
+                    <th className="p-2 border-r-1 border-r-slate-500">energy (actual value)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr className="border-l-1 border-l-slate-500 border-b-1 border-b-slate-500">
+                    <td className="p-2 border-r-1 border-r-slate-500">2</td>
+                    <td className="p-2 border-r-1 border-r-slate-500">0.866025403784</td>
+                    <td className="p-2 border-r-1 border-r-slate-500">0.866025908921</td>
+                </tr>
+                <tr className="border-l-1 border-l-slate-500 border-b-1 border-b-slate-500">
+                    <td className="p-2 border-r-1 border-r-slate-500">3</td>
+                    <td className="p-2 border-r-1 border-r-slate-500">0.942809041582</td>
+                    <td className="p-2 border-r-1 border-r-slate-500">0.942810208216</td>
+                </tr>
+                <tr className="border-l-1 border-l-slate-500 border-b-1 border-b-slate-500">
+                    <td className="p-2 border-r-1 border-r-slate-500">4</td>
+                    <td className="p-2 border-r-1 border-r-slate-500">0.968245836552</td>
+                    <td className="p-2 border-r-1 border-r-slate-500">0.968247154638</td>
+                </tr>
+                <tr className="border-l-1 border-l-slate-500 border-b-1 border-b-slate-500">
+                    <td className="p-2 border-r-1 border-r-slate-500">5</td>
+                    <td className="p-2 border-r-1 border-r-slate-500">0.979795897113</td>
+                    <td className="p-2 border-r-1 border-r-slate-500">0.979797255991</td>
+                </tr>
+                <tr className="border-l-1 border-l-slate-500 border-b-1 border-b-slate-500">
+                    <td className="p-2 border-r-1 border-r-slate-500">6</td>
+                    <td className="p-2 border-r-1 border-r-slate-500">0.986013297183</td>
+                    <td className="p-2 border-r-1 border-r-slate-500">0.986014667093</td>
+                </tr>
+                <tr className="border-l-1 border-l-slate-500 border-b-1 border-b-slate-500">
+                    <td className="p-2 border-r-1 border-r-slate-500">7</td>
+                    <td className="p-2 border-r-1 border-r-slate-500">0.989743318611</td>
+                    <td className="p-2 border-r-1 border-r-slate-500">0.989744689579</td>
+                </tr>
+                <tr className="border-l-1 border-l-slate-500 border-b-1 border-b-slate-500">
+                    <td className="p-2 border-r-1 border-r-slate-500">8</td>
+                    <td className="p-2 border-r-1 border-r-slate-500">0.992156741649</td>
+                    <td className="p-2 border-r-1 border-r-slate-500">0.992158110729</td>
+                </tr>
+                <tr className="border-l-1 border-l-slate-500 border-b-1 border-b-slate-500">
+                    <td className="p-2 border-r-1 border-r-slate-500">9</td>
+                    <td className="p-2 border-r-1 border-r-slate-500">0.99380799</td>
+                    <td className="p-2 border-r-1 border-r-slate-500">0.993809356354</td>
+                </tr>
+                <tr className="border-l-1 border-l-slate-500 border-b-1 border-b-slate-500">
+                    <td className="p-2 border-r-1 border-r-slate-500">10</td>
+                    <td className="p-2 border-r-1 border-r-slate-500">0.994987437107</td>
+                    <td className="p-2 border-r-1 border-r-slate-500">0.994988800688</td>
+                </tr>
+            </tbody>
+        </table>
+        <Latex>{`\\gamma = \\sqrt{\\lambda}`}</Latex>
+        <p>
+            로런츠 변환과 뤼드베리 방정식은 실은 완전히 동일한 형태이다. 원자가 빛을 흡수/방출하는 에너지, 양자라는
+            단어를 만든 그 값이 시간 지연과 같은 값이다. 우연일 수도 있다. 원이라는 형태는 직선 만큼이나 흔한 모양이고
+            나는 그 연관성을 증명할 도구는 없다. 그러나 관계 없어 보이는 두 방정식이 같은 결과값을 주는 것은 매우
+            흥미롭다. 혹자는 뤠드베리 방정식이 수소 원자 이외의 것을 설명하지 못한다고 할 수 있지만, 실은 다른 원자들의
+            방출 파장도 뤼드베리 방정식을 조금만 응용하면 적용할 수 있는 형태이다. 나는 그 방법을 알고 있으나 여백이
+            부족...이 아니라 별도로 적도록 하겠다.
+        </p>
+
+        <h3>⭐️ 지금까지 정리한 것</h3>
+        <ol>
+            <li>물질의 이동은 시간과 무관하다.</li>
+            <li>시간은 물질 속에 있다.</li>
+            <li>빛의 속력은 시간의 최대치이다.</li>
+            <li>물질의 이동은 입자성, 파동의 이동은 파동성과 관련된다.</li>
+            <li>
+                빛이 물질에 흡수되어 에너지 준위를 높이는 것을 파동-시간이 에테르-질량으로 변환되는 것으로 가정하자.
+            </li>
+            <li>물질은 에테르와 시간을 동시에 가지고 있다.</li>
+            <li>관측은 물질에 에테르를 형성하여 입자성을 증가시킨다.</li>
+            <li>물질을 이루는 에테르의 위치와 속도, 시간의 위치와 속도는 서로 다르다.</li>
+            <li>시간 지연을 기술하는 로런츠 변환과 방출 파장을 기술하는 뤼드베리 방정식은 동일한 값을 나타낸다.</li>
+        </ol>
+
+        <h2>결론</h2>
+        <p>별도의 결론은 생략한다.</p>
+    </Main>
+)
+
+export default Intro
