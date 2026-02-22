@@ -58,6 +58,12 @@ function not_found( string $message ): void {
 	throw new \Exception( esc_attr( $message ) );
 }
 
+/**
+ * Get attachment data from its ID
+ *
+ * @param int $id attachment ID.
+ * @return array attachment Data
+ */
 function get_attachment_by_id( int $id ): ?array {
 	$post  = get_post( $id, ARRAY_A );
 	$image = get_post_meta( $id, '_wp_attached_file', true );

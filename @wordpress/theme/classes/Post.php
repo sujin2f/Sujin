@@ -100,17 +100,4 @@ class Post {
 		);
 		$redis->quit();
 	}
-
-	public function register_rest_fields(): void {
-		// register_rest_field( 'post', 'archives', array(
-		// 'get_callback' => function( $comment_arr ) {
-		// $comment_obj = get_comment( $comment_arr['id'] );
-		// return (int) $comment_obj->comment_karma;
-		// },
-		// 'schema' => array(
-		// 'description' => __( 'Post Archives.' ),
-		// 'type'        => 'integer'
-		// ),
-		// ) );
-	}
 }

@@ -54,6 +54,9 @@ class Term {
 		$redis->quit();
 	}
 
+	/**
+	 * Register thumbnail field to category and tag
+	 */
 	public function register_rest_fields(): void {
 		register_rest_field(
 			'category',
@@ -78,10 +81,13 @@ class Term {
 			'tag',
 			'thumbnail',
 			array(
-				'get_callback' => function ( $comment_arr ) {
-					console( $comment_arr );
-					// $comment_obj = get_comment( $comment_arr['id'] );
-					return array( 1 );
+				'get_callback' => function ( array $term_arr ) {
+					$thumbnail = get_term_meta( $term_arr['id'], 'thumbnail', true );
+					if ( ! $thumbnail ) {
+						return null;
+					}
+					$image = get_attachment_by_id( $thumbnail );
+					return $image;
 				},
 				'schema'       => array(
 					'description' => __( 'Term Images.' ),
