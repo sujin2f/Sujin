@@ -8,7 +8,6 @@ import Column from '@common/components/layout/Column'
 import { Cards } from '@lib/components/archive/Cards'
 /* CONSTANTS */
 import { ARCHIVE, COLLECTION } from '@sujin/lib/constants'
-import { MENU_NAMES } from '@lib/constants'
 import { search } from '@lib/apollo/queries/wordpress/posts/search'
 /* Utils */
 import { gqlRequest } from '@app/_lib/redis'
@@ -17,6 +16,8 @@ type Props = {
     slug: string
     page: number
 }
+
+export const dynamic = 'force-dynamic'
 
 export async function SearchServer({ slug, page }: Props) {
     const posts = await gqlRequest(async () => await search(slug, page), `${COLLECTION.POST}-search-${slug}-${page}`)
@@ -33,7 +34,7 @@ export async function SearchServer({ slug, page }: Props) {
 
     return (
         <>
-            <Banner menu={MENU_NAMES.MAIN} title={`Search Result: ${decodeURIComponent(slug)}`} prefix={'Search'} />
+            <Banner menu="primary" title={`Search Result: ${decodeURIComponent(slug)}`} prefix={'Search'} />
             <Row>
                 <Column>
                     <Cards

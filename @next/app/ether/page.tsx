@@ -7,6 +7,7 @@ import { NextImage } from '@common/components/containers/NextImage'
 import pic01 from '@lib/images/ether/ether-01.jpg'
 import pic02 from '@lib/images/ether/pic1_eng.png'
 import pic03 from '@lib/images/ether/pic10.png'
+import pic04 from '@lib/images/ether/ether-02.png'
 import '@app/_lib/scss/content.scss'
 import 'katex/dist/katex.min.css'
 
@@ -228,7 +229,24 @@ const Intro = () => (
         <Latex>{`\\to \\Delta t' = \\frac{1}{\\sqrt{1 - v^2}} \\hspace{10pt} \\{ 0 \\leq v < 1 \\}`}</Latex>
         <Latex>{`\\to t = \\sqrt{1 - v^2} \\hspace{10pt} \\{ 0 \\leq v \\leq 1, 0 \\leq t \\leq 1 \\}`}</Latex>
         <p>
-            조금 다른 이야기를 해보자. 수소 원자에서 빛의 방출 파장이다. 이는 뤼드베리 방정식으로 설명이 되며{' '}
+            일반 상대성 이론은 어떨까? 중력장에서의 시간 지연 공식을 역시 비슷한 방식으로 변형해보자. 상수를 모두 1로,
+            약한 중력에서의 시간을 1로 설정하면 시간은 <InlineMath>{`\\frac{M}{r}`}</InlineMath>에 의해 결정된다. 편의상
+            중력도 1로 놓기로 한다.
+        </p>
+        <Latex>{`t' = t \\sqrt{1 - \\frac{2GM}{rc^2}} \\hspace{10pt} \\{ c=1, \\Delta t = 1, 2G = 1\\}`}</Latex>
+        <Latex>{`t' = \\sqrt{1 - \\frac{M}{r}} \\hspace{10pt} \\{ M = 1\\}`}</Latex>
+        <Latex>{`t' = \\sqrt{1 - \\frac{1}{r}}`}</Latex>
+        <p>
+            특수 상대성 이론에서는 0에서 1 까지의 값을 가지는 v의 제곱, 일반 상대성 이론에서는{' '}
+            <InlineMath>{`\\frac{1}{r}`}</InlineMath>의해서 결정되는 시간 값을 구했다. 그럼 거리의 제곱에서 어떤 값들이
+            나올 수 있을까? 거리 2에서 1/4을 취하고 3에서 1/9를 취하면 이것 역시 원의 방정식이다. 즉 두 수식은 x축의
+            비율만 다른 것이다. 이를 그림으로 표현하면 아래와 같다. 조금 아시는 분은 이 그림을 어디서 많이 본 것임을 알
+            수 있을 것이다.
+        </p>
+        <NextImage src={pic04} alt="중력장에서의 시간" caption="fig4. 중력장에서의 시간" center />
+        <p>
+            그렇다면 어디서 많이 본 이야기를 해보자. 수소 원자에서 빛의 방출 파장이다. 이는 뤼드베리 방정식으로 설명이
+            되며{' '}
             <a
                 href="https://physics.nist.gov/cgi-bin/ASD/lines1.pl?spectra=H&output_type=2&low_w=&upp_w=&unit=5&submit=Retrieve+Data&de=0&plot_out=0&I_scale_type=1&format=0&line_out=0&en_unit=0&output=0&bibrefs=1&page_size=15&show_obs_wl=1&show_calc_wl=1&unc_out=1&order_out=0&max_low_enrg=&max_upp_enrg=&tsb_value=0&min_str=&A_out=0&intens_out=on&max_str=&allowed_out=1&forbid_out=1&min_accur=&min_intens=&conf_out=on&term_out=on&enrg_out=on&J_out=on"
                 target="_blank"
@@ -236,12 +254,13 @@ const Intro = () => (
                 실제 관측값
             </a>
             이 존재한다. n번 궤도에서 1번 궤도로 에너지 준위가 떨어지며 방출하는 에너지를 이온화 에너지를 1로 놓았을
-            때의 값으로 변환하면 2번 궤도에서는 0.750000874923, 3번 궤도에서는 0.888891088717 등의 값을 얻을 수 있다. 이
-            값의 제곱근이 신기하게도 시간의 값과 일치한다. 원이다.
+            때의 eV값으로 변환하면 2번 궤도에서는 10.198726, 3번 궤도에서는 12.087395 등의 값을 얻을 수 있다. 수소
+            원자의 이온화 에너지 1312J을 eV로 환산하면 13.5970432이다. 이들의 제곱근은 2번 궤도 3.19354442586916, 3번
+            궤도 3.47669311271501 등이고 이온화 에너지는 3.68741687363932이다. 이제는 이온화 에너지를 1로 하는 궤도
+            에너지의 비율을 보자. 2번에서는 0.866065469488746, 3번에서는 0.942853285065018이다.
         </p>
-        <Latex>
-            {`\\lambda = \\dfrac{R}{\\dfrac{1}{m^2} - \\dfrac{1}{n^2}} \\hspace{10pt} \\{ R=1.0973731568539 \\times 10^7 m^{-1} \\}`}
-        </Latex>
+        <Latex>{`\\lambda = \\dfrac{R}{\\dfrac{1}{m^2} - \\dfrac{1}{n^2}} \\hspace{10pt} \\{ R=1, m=1 \\}`}</Latex>
+        <Latex>{`\\dfrac{1}{\\lambda} = 1 - \\dfrac{1}{n^2}`}</Latex>
         <p>
             뤼드베리 방정식 역시 상수 R을 1로, 파장의 역수인 파수로 치환하고, 바닥상태를 기준으로한 변화를 나타내기 위해
             m을 1로 놓으면, 원의 방정식에서 y 축의 제곱만 빠진 형태가 된다. 아래 표는 원의 방정식에서 1/n 지점의 값과
@@ -252,58 +271,62 @@ const Intro = () => (
             <thead>
                 <tr className="border-l-1 border-l-slate-500 border-t-1 border-t-slate-500 border-b-1 border-b-slate-500">
                     <th className="p-2 border-r-1 border-r-slate-500"></th>
-                    <th className="p-2 border-r-1 border-r-slate-500">circle (1/n)</th>
-                    <th className="p-2 border-r-1 border-r-slate-500">energy (actual value)</th>
+                    <th className="p-2 border-r-1 border-r-slate-500">time</th>
+                    <th className="p-2 border-r-1 border-r-slate-500">sqrt of energy (actual value)</th>
                 </tr>
             </thead>
             <tbody>
                 <tr className="border-l-1 border-l-slate-500 border-b-1 border-b-slate-500">
                     <td className="p-2 border-r-1 border-r-slate-500">2</td>
                     <td className="p-2 border-r-1 border-r-slate-500">0.866025403784</td>
-                    <td className="p-2 border-r-1 border-r-slate-500">0.866025908921</td>
+                    <td className="p-2 border-r-1 border-r-slate-500">0.866065469488746</td>
                 </tr>
                 <tr className="border-l-1 border-l-slate-500 border-b-1 border-b-slate-500">
                     <td className="p-2 border-r-1 border-r-slate-500">3</td>
                     <td className="p-2 border-r-1 border-r-slate-500">0.942809041582</td>
-                    <td className="p-2 border-r-1 border-r-slate-500">0.942810208216</td>
+                    <td className="p-2 border-r-1 border-r-slate-500">0.942853285065018</td>
                 </tr>
                 <tr className="border-l-1 border-l-slate-500 border-b-1 border-b-slate-500">
                     <td className="p-2 border-r-1 border-r-slate-500">4</td>
                     <td className="p-2 border-r-1 border-r-slate-500">0.968245836552</td>
-                    <td className="p-2 border-r-1 border-r-slate-500">0.968247154638</td>
+                    <td className="p-2 border-r-1 border-r-slate-500">0.968291409897704</td>
                 </tr>
                 <tr className="border-l-1 border-l-slate-500 border-b-1 border-b-slate-500">
                     <td className="p-2 border-r-1 border-r-slate-500">5</td>
                     <td className="p-2 border-r-1 border-r-slate-500">0.979795897113</td>
-                    <td className="p-2 border-r-1 border-r-slate-500">0.979797255991</td>
+                    <td className="p-2 border-r-1 border-r-slate-500">0.979842041418051</td>
                 </tr>
                 <tr className="border-l-1 border-l-slate-500 border-b-1 border-b-slate-500">
                     <td className="p-2 border-r-1 border-r-slate-500">6</td>
                     <td className="p-2 border-r-1 border-r-slate-500">0.986013297183</td>
-                    <td className="p-2 border-r-1 border-r-slate-500">0.986014667093</td>
+                    <td className="p-2 border-r-1 border-r-slate-500">0.986059744099623</td>
                 </tr>
                 <tr className="border-l-1 border-l-slate-500 border-b-1 border-b-slate-500">
                     <td className="p-2 border-r-1 border-r-slate-500">7</td>
                     <td className="p-2 border-r-1 border-r-slate-500">0.989743318611</td>
-                    <td className="p-2 border-r-1 border-r-slate-500">0.989744689579</td>
+                    <td className="p-2 border-r-1 border-r-slate-500">0.989789926090246</td>
                 </tr>
                 <tr className="border-l-1 border-l-slate-500 border-b-1 border-b-slate-500">
                     <td className="p-2 border-r-1 border-r-slate-500">8</td>
                     <td className="p-2 border-r-1 border-r-slate-500">0.992156741649</td>
-                    <td className="p-2 border-r-1 border-r-slate-500">0.992158110729</td>
+                    <td className="p-2 border-r-1 border-r-slate-500">0.99220346266933</td>
                 </tr>
                 <tr className="border-l-1 border-l-slate-500 border-b-1 border-b-slate-500">
                     <td className="p-2 border-r-1 border-r-slate-500">9</td>
                     <td className="p-2 border-r-1 border-r-slate-500">0.99380799</td>
-                    <td className="p-2 border-r-1 border-r-slate-500">0.993809356354</td>
+                    <td className="p-2 border-r-1 border-r-slate-500">0.993854778837253</td>
                 </tr>
                 <tr className="border-l-1 border-l-slate-500 border-b-1 border-b-slate-500">
                     <td className="p-2 border-r-1 border-r-slate-500">10</td>
                     <td className="p-2 border-r-1 border-r-slate-500">0.994987437107</td>
-                    <td className="p-2 border-r-1 border-r-slate-500">0.994988800688</td>
+                    <td className="p-2 border-r-1 border-r-slate-500">0.995034270307363</td>
                 </tr>
             </tbody>
         </table>
+        <p>
+            로런츠 인자 감마가 의미하는 것은 뤼드베리 방정식에서 파장의 제곱근과 동일하다는 것을 좀 있어 보이게 표현해
+            보겠다.
+        </p>
         <Latex>{`\\gamma = \\sqrt{\\lambda}`}</Latex>
         <p>
             로런츠 변환과 뤼드베리 방정식은 실은 완전히 동일한 형태이다. 원자가 빛을 흡수/방출하는 에너지, 양자라는

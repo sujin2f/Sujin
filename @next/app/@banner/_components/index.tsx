@@ -1,8 +1,9 @@
 'use client'
-import { useEffect, type ReactNode } from 'react'
+import type { ReactNode } from 'react'
+import dynamic from 'next/dynamic'
 import Image from 'next/image'
 /* Components */
-import { Menu } from '@app/@banner/_components/Menu'
+// import { Menu } from '@app/@banner/_components/Menu'
 /* T_Types */
 import type { T_ImageBlock } from '@sujin/lib/types'
 
@@ -16,6 +17,10 @@ export type BannerProps = {
     readonly fullHeight?: boolean
 }
 
+const Menu = dynamic(() => import('@app/@banner/_components/Menu').then((mod) => ({ default: mod.Menu })), {
+    ssr: false,
+})
+
 /**
  * Banner component that renders a banner with a title, excerpt, icon, and background image.
  *
@@ -23,8 +28,6 @@ export type BannerProps = {
  * @param {string} props.menu - The menu name to be used in the banner.
  */
 export const Banner = ({ icon, background, prefix, fullHeight, menu, title, excerpt }: BannerProps) => {
-    useEffect(() => {}, [])
-
     return (
         <>
             <header

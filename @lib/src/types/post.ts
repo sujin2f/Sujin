@@ -44,3 +44,23 @@ export type WithNumPages<T, N extends string = 'items'> = {
 } & {
     [key in N]: T[]
 }
+
+export type T_RestPost = {
+    id: number
+    date: string
+    slug: string
+    excerpt: {
+        rendered: string
+    }
+    status: POST_STATUS
+    link: string
+    content: {
+        rendered: string
+    }
+    title: {
+        rendered: string
+    }
+
+    archives: T_Archive[]
+    images: T_PostImages
+}

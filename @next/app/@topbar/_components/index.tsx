@@ -1,9 +1,10 @@
+'use client'
 import TopBar from '@app/@topbar/_components/TopBar'
 
-export async function ShowMenu() {
+export function ShowMenu() {
     return <TopBar menu="primary" showMenu={true} />
 }
 
-export async function HideMenu() {
+export function HideMenu() {
     return <TopBar menu="primary" />
 }

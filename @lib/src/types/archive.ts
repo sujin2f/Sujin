@@ -15,3 +15,12 @@ export type T_Archive = {
 export type T_MySQLArchive = T_Archive & {
     id: number
 }
+
+export type T_RestArchive = {
+    name: string
+    slug: string
+    taxonomy: ARCHIVE
+    description: string
+    count: number
+    thumbnail?: T_ImageBlock
+}

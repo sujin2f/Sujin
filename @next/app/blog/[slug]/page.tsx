@@ -23,6 +23,8 @@ type Props = {
     }>
 }
 
+export const dynamic = 'force-dynamic'
+
 export const generateMetadata = async (props: Props): Promise<Metadata> => {
     const params = await props.params
     const slug = params.slug.toLowerCase()

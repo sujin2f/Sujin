@@ -1,0 +1,5 @@
+export const REST_MENU_LOCATIONS = 'wp-json/wp/v2/menu-locations'
+export const REST_MENU_ITEMS = 'wp-json/wp/v2/menu-items'
+export const REST_POSTS = 'wp-json/wp/v2/posts'
+export const REST_PAGES = 'wp-json/wp/v2/pages'
+export const REST_CATEGORIES = 'wp-json/wp/v2/categories'

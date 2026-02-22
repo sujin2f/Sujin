@@ -20,6 +20,7 @@ class Post {
 	 */
 	public function __construct() {
 		add_action( 'save_post', array( $this, 'save_post' ), 15, 2 );
+		add_action( 'rest_api_init', array( $this, 'register_rest_fields' ) );
 	}
 
 	/**
@@ -98,5 +99,18 @@ class Post {
 			)
 		);
 		$redis->quit();
+	}
+
+	public function register_rest_fields(): void {
+		// register_rest_field( 'post', 'archives', array(
+		// 'get_callback' => function( $comment_arr ) {
+		// $comment_obj = get_comment( $comment_arr['id'] );
+		// return (int) $comment_obj->comment_karma;
+		// },
+		// 'schema' => array(
+		// 'description' => __( 'Post Archives.' ),
+		// 'type'        => 'integer'
+		// ),
+		// ) );
 	}
 }

@@ -41,17 +41,16 @@ class ImageBlock {
 	 * @return string The block content with the data-id attribute added.
 	 */
 	public function replace_image_block( array $attributes, string $content ): string {
-		$image = get_post_meta( $attributes['id'], '_wp_attached_file', true );
+		$image = get_attachment_by_id( $attributes['id'] );
 		if ( ! $image ) {
 			return '';
 		}
-		$image  = "/wp-content/uploads/{$image}";
-		$meta   = get_post_meta( $attributes['id'], '_wp_attachment_metadata', true );
+		$image  = "/wp-content/uploads/{$image['url']}";
 		$result = "[image src=\"{$image}\" ";
 		if ( array_key_exists( 'align', $attributes ) ) {
 			$result .= "align=\"{$attributes['align']}\" ";
 		}
-		$result .= "width=\"{$meta['width']}\" height=\"{$meta['height']}\" ";
+		$result .= "width=\"{$image['width']}\" height=\"{$image['height']}\" ";
 		preg_match_all( '/<figcaption class=\"wp-element-caption\">(.*?)<\/figcaption>/s', $content, $matches );
 		if ( $matches[1] && $matches[1][0] ) {
 			$result .= "caption=\"{$matches[1][0]}\" ";

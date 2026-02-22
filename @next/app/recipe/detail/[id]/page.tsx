@@ -1,6 +1,6 @@
 'use client'
 import { type ChangeEvent, Fragment, useCallback, useEffect, useState } from 'react'
-import { notFound, useParams, useRouter } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 /* Components */
 import { WidgetTitle } from '@app/_components/WidgetTitle'
 import Select from '@common/components/forms/Select'
@@ -25,6 +25,8 @@ import {
 type Props = {
     id: string
 }
+
+export const dynamic = 'force-dynamic'
 
 export default function DetailClient() {
     const router = useRouter()
@@ -84,11 +86,10 @@ export default function DetailClient() {
         return <></>
     }
     if (error) {
-        throw error
+        return <></>
     }
-    // if (!pending && !recipe) notFound()
     if (!recipe) return <></>
-    if (!loading && !error && !recipe) notFound()
+    if (!loading && !error && !recipe) return <></>
 
     return (
         <>

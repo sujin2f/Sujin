@@ -22,6 +22,8 @@ type Props = {
     page: number
 }
 
+export const dynamic = 'force-dynamic'
+
 export async function ArchiveServer({ type, slug, page }: Props) {
     // Update Tag Cloud
     if (type === ARCHIVE.TAG) {

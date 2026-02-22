@@ -14,6 +14,8 @@ type Props = {
     }>
 }
 
+export const dynamic = 'force-dynamic'
+
 export default async function PageRecipeEdit({ params }: Props) {
     const user = await getUserInfo()
     if (!user) {

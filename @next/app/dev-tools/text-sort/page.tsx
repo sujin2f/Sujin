@@ -5,6 +5,8 @@ import { map } from '@sujin/share/utils/array'
 /* Components */
 import { Input } from '@app/_components/html-elements/Input'
 
+export const dynamic = 'force-dynamic'
+
 export default function TextSort() {
     const [text, setText] = useState('')
     const [divider, setDivider] = useState<string>('')
