@@ -6,7 +6,7 @@ import { COLLECTION } from '@sujin/lib/constants'
 import { IS_DEV } from '@sujin/share/constants/helper'
 import query from '@app/blog/_lib/getRecent-gql.graphql'
 /* Utils */
-import { gqlRequest } from '@app/_lib/redis'
+import { gqlRequest } from '@app/_lib/utils/redis'
 /* T_Types */
 import type { T_ArchivePost } from '@sujin/lib/types'
 

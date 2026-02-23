@@ -7,7 +7,7 @@ import query from '@app/about/_lib/getPage-gql.graphql'
 import { IS_DEV } from '@sujin/share/constants/helper'
 import { COLLECTION } from '@sujin/lib/constants'
 /* Utils */
-import { gqlRequest } from '@app/_lib/redis'
+import { gqlRequest } from '@app/_lib/utils/redis'
 /* T_Types */
 import type { T_Page } from '@sujin/lib/types'
 import type { Nullable } from '@sujin/share/types'

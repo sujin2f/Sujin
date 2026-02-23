@@ -1,6 +1,6 @@
 'use server'
 /* Utils */
-import { gqlRequest } from '@app/_lib/redis'
+import { gqlRequest } from '@app/_lib/utils/redis'
 /* CONSTANTS */
 import query from '@app/_lib/graphql/getMenu-gql.graphql'
 import { COLLECTION } from '@sujin/lib/constants'

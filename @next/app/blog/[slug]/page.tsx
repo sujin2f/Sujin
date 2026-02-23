@@ -15,7 +15,7 @@ import { IMAGE_SIZE, POST_STATUS } from '@sujin/lib/constants'
 /* Utils */
 import { getPost } from '@app/blog/_lib/getPost'
 import { getThumbnailFromPost } from '@lib/utils/client'
-import { publish } from '@app/_lib/redis'
+import { publish } from '@app/_lib/utils/redis'
 
 type Props = {
     params: Promise<{

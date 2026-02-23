@@ -10,7 +10,7 @@ import { IS_DEV } from '@sujin/share/constants/helper'
 import type { T_ArchivePost, WithNumPages } from '@sujin/lib/types'
 import type { Nullable } from '@sujin/share/types'
 /* Utils */
-import { gqlRequest } from '@app/_lib/redis'
+import { gqlRequest } from '@app/_lib/utils/redis'
 
 export const getPosts = async (
     type: ARCHIVE,

@@ -8,7 +8,7 @@ import { IS_DEV } from '@sujin/share/constants/helper'
 /* T_Types */
 import type { T_FlickrImage } from '@sujin/lib/types'
 /* Utils */
-import { gqlRequest } from '@app/_lib/redis'
+import { gqlRequest } from '@app/_lib/utils/redis'
 
 export const getFlickr = async (): Promise<T_FlickrImage[]> => {
     return await gqlRequest(

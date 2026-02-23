@@ -8,7 +8,7 @@ import { IS_DEV } from '@sujin/share/constants/helper'
 /* T_Types */
 import type { T_Archive } from '@sujin/lib/types'
 /* Utils */
-import { gqlRequest } from '@app/_lib/redis'
+import { gqlRequest } from '@app/_lib/utils/redis'
 import { COLLECTION } from '@sujin/lib/constants'
 
 export const getTagCloud = async (): Promise<T_Archive[]> => {

@@ -6,7 +6,7 @@ import query from '@app/blog/_lib/getPost-gql.graphql'
 import { IS_DEV } from '@sujin/share/constants/helper'
 import { COLLECTION } from '@sujin/lib/constants'
 /* Utils */
-import { gqlRequest } from '@app/_lib/redis'
+import { gqlRequest } from '@app/_lib/utils/redis'
 /* T_Types */
 import type { T_Post } from '@sujin/lib/types'
 

@@ -5,7 +5,7 @@ import { RecipeEdit } from '@app/recipe/_components/RecipeEdit'
 import { COLLECTION } from '@sujin/lib/constants'
 /* Utils */
 import { getUserInfo } from '@lib/utils/server/header'
-import { gqlRequest } from '@app/_lib/redis'
+import { gqlRequest } from '@app/_lib/utils/redis'
 import { getRecipe } from '@app/recipe/_lib/getRecipe'
 
 type Props = {
