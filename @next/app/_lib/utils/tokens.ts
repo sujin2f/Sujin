@@ -10,7 +10,13 @@ import { DAY_IN_SECONDS, HOUR_IN_SECONDS, SECOND_IN_MS } from '@sujin/share/cons
 import type { Nullable } from '@sujin/share/types'
 import type { T_UserSub } from '@sujin/lib/types'
 /* Utils */
-import { generateToken, verifyToken, getExpiration, createAuthHeader } from '@sujin/lib/utils/token'
+import {
+    generateToken,
+    verifyToken,
+    getExpiration,
+    createAuthHeader,
+    getAuthHeader as getAuthHeaderFromHeader,
+} from '@sujin/lib/utils/token'
 
 /**
  * Internal communication functions that uses next/headers
@@ -154,24 +160,26 @@ export const logout = async (): Promise<Nullable<void>> => {
     cookieStore.delete(COOKIE_KEY_REFRESH_TOKEN)
 }
 
-export const refreshAccessToken = async (_refreshToken: string = ''): Promise<undefined> => {
+export const refreshAccessToken = async (_token: string = ''): Promise<undefined> => {
     Logger.info('🤞 refresh token start!')
-    const refreshToken = _refreshToken || (await getRefreshToken())
-    if (!refreshToken) {
+    const token = _token || (await getRefreshToken())
+    if (!token) {
         throw new Error()
     }
 
-    const endpoint = `${process.env.GQL_BASE_URL}`
     const body = {
         query: `
         mutation {
             refresh
-            }`,
+        }`,
     }
 
-    await fetch(endpoint, {
+    await fetch(`${process.env.GQL_BASE_URL}`, {
         method: 'POST',
-        headers: { authorization: `Bearer ${refreshToken}`, 'Content-Type': 'application/json' },
+        headers: {
+            ...createAuthHeader(token).headers,
+            'Content-Type': 'application/json',
+        },
         body: JSON.stringify(body),
     })
         .then(async (response) => {
@@ -179,13 +187,13 @@ export const refreshAccessToken = async (_refreshToken: string = ''): Promise<un
                 throw new Error()
             }
 
-            const token = response.headers.get('authorization')
+            const token = getAuthHeaderFromHeader(response.headers)
             if (!token) {
                 throw new Error()
             }
 
             Logger.info('⭐️ refresh token done!')
-            await storeAccessToken(token.slice(7))
+            await storeAccessToken(token)
         })
         .catch((e) => {
             Logger.error(`🤬 refresh token failed! ${JSON.stringify(e)}`)
