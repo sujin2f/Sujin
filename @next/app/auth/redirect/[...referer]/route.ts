@@ -1,6 +1,6 @@
 import type { NextRequest } from 'next/server'
 /* Utils */
-import { setCookies } from '@lib/utils/server/header'
+import { setCookies } from '@app/_lib/utils/tokens'
 /* Models */
 import { Logger } from '@sujin/share/model/Logger'
 

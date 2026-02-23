@@ -14,7 +14,7 @@ import { Wrapper } from '@app/_components/layout/Wrapper'
 import DefaultTopBar from '@app/@topbar/default'
 import DefaultFooter from '@app/@footer/default'
 /* Utils */
-import { getUserInfo } from '@lib/utils/server/header'
+import { getUserInfo } from '@app/_lib/utils/tokens'
 /* Assets */
 import '@app/_lib/scss/style.scss'
 
@@ -80,7 +80,8 @@ export default async function AppLayout({ children, banner, topbar, footer }: Pr
     return (
         <html lang="en">
             <head>{adSense}</head>
-            <body className={`${ubuntu.className} font-light leading-8`}>
+            {/* TODO Dark mode support */}
+            <body className={`${ubuntu.className} font-light leading-8 bg-white`}>
                 <ReduxProvider>
                     <UserInfoProvider user={user}>
                         <Wrapper>

@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation'
 /* Components */
 import { RecipeEdit } from '@app/recipe/_components/RecipeEdit'
 /* Utils */
-import { getUserInfo } from '@lib/utils/server/header'
+import { getUserInfo } from '@app/_lib/utils/tokens'
 
 export const dynamic = 'force-dynamic'
 

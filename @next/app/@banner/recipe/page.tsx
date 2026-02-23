@@ -2,7 +2,7 @@
 /* Components */
 import { Banner } from '@app/@banner/_components'
 /* Utils */
-import { getUserInfo } from '@lib/utils/server/header'
+import { getUserInfo } from '@app/_lib/utils/tokens'
 
 export default async function DefaultBanner() {
     const user = await getUserInfo()

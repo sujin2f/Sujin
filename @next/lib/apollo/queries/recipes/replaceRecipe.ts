@@ -1,7 +1,7 @@
 'use server'
 /* Utils */
 import { client } from '@lib/utils/apollo-client'
-import { getAuthHeader } from '@lib/utils/server/header'
+import { getAuthHeader } from '@app/_lib/utils/tokens'
 /* CONSTANTS */
 import QUERY from '@lib/apollo/queries/recipes/replaceRecipe-gql.graphql'
 /* T_Type */

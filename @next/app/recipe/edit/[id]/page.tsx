@@ -4,7 +4,7 @@ import { RecipeEdit } from '@app/recipe/_components/RecipeEdit'
 /* CONSTANTS */
 import { COLLECTION } from '@sujin/lib/constants'
 /* Utils */
-import { getUserInfo } from '@lib/utils/server/header'
+import { getUserInfo } from '@app/_lib/utils/tokens'
 import { gqlRequest } from '@app/_lib/utils/redis'
 import { getRecipe } from '@app/recipe/_lib/getRecipe'
 

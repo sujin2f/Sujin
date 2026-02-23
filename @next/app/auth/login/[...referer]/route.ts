@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server'
 /* Utils */
-import { createLoginToken } from '@lib/utils/server/header'
+import { createLoginToken } from '@app/_lib/utils/tokens'
 /* Models */
 import { Logger } from '@sujin/share/model/Logger'
 

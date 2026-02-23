@@ -7,7 +7,7 @@ import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
 import { Footer } from '@app/@footer/_components'
 /* Utils */
-import { isAdmin } from '@lib/utils/server/header'
+import { isAdmin } from '@app/_lib/utils/tokens'
 
 export const metadata = {
     robots: {
