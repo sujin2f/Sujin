@@ -1,0 +1,16 @@
+query Menu($slug: String!) {
+    menu(slug: $slug) {
+        id
+        title
+        target
+        link
+        parent
+        children {
+            id
+            title
+            target
+            link
+            parent
+        }
+    }
+}

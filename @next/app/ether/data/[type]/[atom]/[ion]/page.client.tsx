@@ -17,7 +17,7 @@ import { useServerAction } from '@app/_hooks/useServerAction'
 /* T_Types */
 import type { ISpectrum } from '@sujin/lib/types'
 /* Assets */
-import LoadingImg from '@common/images/loading.svg'
+import LoadingImg from '@app/_lib/images/loading.svg'
 
 type Props = {
     readonly action: () => Promise<ISpectrum[]>

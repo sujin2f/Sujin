@@ -2,8 +2,6 @@
 import { connection } from 'next/server'
 /* Components */
 import { Banner } from '@app/@banner/_components'
-/* CONSTANTS */
-import { MENU_NAMES } from '@lib/constants'
 /* Utils */
 import { getPage } from '@app/about/_lib/getPage'
 
@@ -16,7 +14,7 @@ export default async function AboutBanner() {
 
     return (
         <Banner
-            menu={MENU_NAMES.MAIN}
+            menu="primary"
             excerpt={post.excerpt}
             title={post.title}
             icon={post.images?.icon}

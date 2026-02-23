@@ -1,14 +1,11 @@
 import { notFound } from 'next/navigation'
 import type { PropsWithChildren } from 'react'
 /* Components */
-import { Wrapper } from '@app/_components/Wrapper'
+import TopBar from '@app/@topbar/_components/TopBar'
+import { Wrapper } from '@app/_components/layout/Wrapper'
 import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
-import Menu from '@common/components/layout/Menu'
 import { Footer } from '@app/@footer/_components'
-import FixedHeader from '@lib/components/header/FixedHeader'
-/* CONSTANTS */
-import { MENU_NAMES } from '@lib/constants'
 /* Utils */
 import { isAdmin } from '@lib/utils/server/header'
 
@@ -29,10 +26,10 @@ export default async function AdminLayout({ children }: PropsWithChildren) {
 
     return (
         <Wrapper>
-            <FixedHeader menu={MENU_NAMES.MAIN} />
+            <TopBar menu="primary" />
             <Row>
                 <Column small={2}>
-                    <Menu
+                    {/* <Menu
                         items={[
                             {
                                 title: 'Home',
@@ -64,7 +61,7 @@ export default async function AdminLayout({ children }: PropsWithChildren) {
                             },
                         ]}
                         direction="vertical"
-                    />
+                    /> */}
                 </Column>
                 <Column small={10}>{children}</Column>
             </Row>

@@ -20,6 +20,7 @@ class Term {
 	 */
 	public function __construct() {
 		add_action( 'saved_term', array( $this, 'redis_refresh_term' ), 10, 3 );
+		add_action( 'rest_api_init', array( $this, 'register_rest_fields' ) );
 	}
 
 	/**
@@ -51,5 +52,48 @@ class Term {
 			)
 		);
 		$redis->quit();
+	}
+
+	/**
+	 * Register thumbnail field to category and tag
+	 */
+	public function register_rest_fields(): void {
+		register_rest_field(
+			'category',
+			'thumbnail',
+			array(
+				'get_callback' => function ( array $term_arr ) {
+					$thumbnail = get_term_meta( $term_arr['id'], 'thumbnail', true );
+					if ( ! $thumbnail ) {
+						return null;
+					}
+					$image = get_attachment_by_id( $thumbnail );
+					return $image;
+				},
+				'schema'       => array(
+					'description' => __( 'Term Images.' ),
+					'type'        => 'array',
+				),
+			)
+		);
+
+		register_rest_field(
+			'tag',
+			'thumbnail',
+			array(
+				'get_callback' => function ( array $term_arr ) {
+					$thumbnail = get_term_meta( $term_arr['id'], 'thumbnail', true );
+					if ( ! $thumbnail ) {
+						return null;
+					}
+					$image = get_attachment_by_id( $thumbnail );
+					return $image;
+				},
+				'schema'       => array(
+					'description' => __( 'Term Images.' ),
+					'type'        => 'array',
+				),
+			)
+		);
 	}
 }

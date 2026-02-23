@@ -1,7 +1,5 @@
 /* Components */
 import { Banner } from '@app/@banner/_components'
-/* CONSTANTS */
-import { MENU_NAMES } from '@lib/constants'
 /* Utils */
 import { getUserInfo } from '@lib/utils/server/header'
 import { getRecipe } from '@app/recipe/_lib/getRecipe'
@@ -21,7 +19,7 @@ export default async function RecipeDetailLayout({ params }: Props) {
     return (
         <>
             <Banner
-                menu={user ? MENU_NAMES.RECIPE_USER : MENU_NAMES.RECIPE}
+                menu={user ? 'recipe-user' : 'recipe'}
                 title={recipe.title}
                 excerpt={
                     recipe.url ? (

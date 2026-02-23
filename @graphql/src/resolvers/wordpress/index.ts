@@ -2,6 +2,7 @@ import { posts } from '@src/resolvers/wordpress/posts'
 import { pages } from '@src/resolvers/wordpress/pages'
 import { backgrounds } from '@src/resolvers/wordpress/backgrounds'
 import { archives } from '@src/resolvers/wordpress/archives'
+import { menus } from '@src/resolvers/wordpress/menu'
 
 /**
  * WordPress-related resolver group.
@@ -14,5 +15,6 @@ export const wordpress = {
         ...pages.Query,
         ...backgrounds.Query,
         ...archives.Query,
+        ...menus.Query,
     },
 }

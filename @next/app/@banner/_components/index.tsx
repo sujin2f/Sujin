@@ -1,11 +1,9 @@
 'use client'
-import { type ReactNode } from 'react'
+import type { ReactNode } from 'react'
+import dynamic from 'next/dynamic'
 import Image from 'next/image'
 /* Components */
-import Menu from '@common/components/layout/Menu'
-/* CONSTANTS */
-import { MENUS } from '@lib/constants'
-import { MENU_NAMES } from '@lib/constants'
+// import { Menu } from '@app/@banner/_components/Menu'
 /* T_Types */
 import type { T_ImageBlock } from '@sujin/lib/types'
 
@@ -15,9 +13,13 @@ export type BannerProps = {
     readonly excerpt?: string | ReactNode
     readonly prefix?: string
     readonly background?: T_ImageBlock
-    readonly menu?: MENU_NAMES
+    readonly menu: 'primary' | 'ether' | 'ether-kor' | 'dev-tools' | 'recipe' | 'recipe-user' | 'admin'
     readonly fullHeight?: boolean
 }
+
+const Menu = dynamic(() => import('@app/@banner/_components/Menu').then((mod) => ({ default: mod.Menu })), {
+    ssr: false,
+})
 
 /**
  * Banner component that renders a banner with a title, excerpt, icon, and background image.
@@ -25,9 +27,7 @@ export type BannerProps = {
  * @param {BannerType} props.banner - The banner data.
  * @param {string} props.menu - The menu name to be used in the banner.
  */
-export function Banner({ icon, background, prefix, fullHeight, menu: _menu, title, excerpt }: BannerProps) {
-    const menu = MENUS[_menu || MENU_NAMES.MAIN]
-
+export const Banner = ({ icon, background, prefix, fullHeight, menu, title, excerpt }: BannerProps) => {
     return (
         <>
             <header
@@ -38,7 +38,7 @@ export function Banner({ icon, background, prefix, fullHeight, menu: _menu, titl
             >
                 <div className="absolute w-full z-5">
                     <div className="container mx-auto flex justify-end">
-                        <Menu items={menu} className="menu--banner" />
+                        <Menu position={menu} id="banner" />
                     </div>
                 </div>
 

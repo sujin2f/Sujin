@@ -1,4 +1,3 @@
-'use server'
 /* Components */
 import PageRecipe from '@app/recipe/page'
 /* CONSTANTS */
@@ -9,6 +8,8 @@ type Props = {
         page: string
     }>
 }
+
+export const dynamic = 'force-dynamic'
 
 export default async function RecipeMyListPage(props: Props) {
     const params = await props.params

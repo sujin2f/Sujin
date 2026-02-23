@@ -1,9 +1,10 @@
 'use client'
 import { type ChangeEvent, Fragment, useCallback, useEffect, useState } from 'react'
-import { notFound, useParams, useRouter } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 /* Components */
 import { WidgetTitle } from '@app/_components/WidgetTitle'
 import Select from '@common/components/forms/Select'
+import { Button } from '@app/_components/html-elements/Button'
 // /* CONSTANTS */
 import { QuantumBool } from '@sujin/share/types' // TODO
 /* Utils */
@@ -20,11 +21,12 @@ import {
     CONVERT_WEIGHT,
     CONVERT_VOLUMES,
 } from '@sujin/lib/types' // TODO
-import { TAILWIND_BUTTON } from '@app/_lib/constants'
 
 type Props = {
     id: string
 }
+
+export const dynamic = 'force-dynamic'
 
 export default function DetailClient() {
     const router = useRouter()
@@ -84,11 +86,10 @@ export default function DetailClient() {
         return <></>
     }
     if (error) {
-        throw error
+        return <></>
     }
-    // if (!pending && !recipe) notFound()
     if (!recipe) return <></>
-    if (!loading && !error && !recipe) notFound()
+    if (!loading && !error && !recipe) return <></>
 
     return (
         <>
@@ -136,37 +137,26 @@ export default function DetailClient() {
             </dl>
             <nav>
                 {user && user._id ? (
-                    <button
-                        onClick={() => router.replace('/recipe/mine/1')}
-                        title="My Recipes"
-                        disabled={pending}
-                        className={TAILWIND_BUTTON}
-                    />
+                    <Button onClick={() => router.replace('/recipe/mine/1')} title="My Recipes" disabled={pending} />
                 ) : (
-                    <button
-                        onClick={() => router.replace('/recipe/list/1')}
-                        disabled={pending}
-                        className={TAILWIND_BUTTON}
-                    >
+                    <Button onClick={() => router.replace('/recipe/list/1')} disabled={pending}>
                         Public Recipes
-                    </button>
+                    </Button>
                 )}
 
                 {user && user._id === recipe.user ? (
                     <>
-                        <button
+                        <Button
                             onClick={() => router.replace(`/recipe/edit/${recipe._id}`)}
                             title="Edit"
                             disabled={pending}
-                            className={TAILWIND_BUTTON}
                         />
-                        <button
+                        <Button
                             onClick={() => {
                                 setConfirm(QuantumBool.MOD)
                             }}
                             title="Delete"
                             disabled={pending}
-                            className={TAILWIND_BUTTON}
                         />
                     </>
                 ) : (

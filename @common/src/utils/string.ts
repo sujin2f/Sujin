@@ -51,8 +51,7 @@ export const generateUUID = (): string => {
  * @param {string} input The input string.
  * @returns {string} The capitalized string.
  */
-export const capitalize = (input: string): string =>
-    `${input.charAt(0).toUpperCase()}${input.slice(1)}`
+export const capitalize = (input: string): string => `${input.charAt(0).toUpperCase()}${input.slice(1)}`
 
 /**
  * Joins multiple values into a single class name string (filters and trims).
@@ -70,8 +69,7 @@ export const joinClassNames = (...input: unknown[]): string =>
  * @param {string} url The input URL.
  * @returns {string} The URL without the protocol.
  */
-export const removeURLProtocol = (url: string): string =>
-    url.replace(/(^\w+:|^)\/\//, '//')
+export const removeURLProtocol = (url: string): string => url.replace(/(^\w+:|^)\/\//, '//')
 
 /**
  * Parses a PHP serialized string into a JavaScript object.
@@ -102,8 +100,7 @@ export const phpUnSerialize = (input: string) => {
             return 'a'
         }
 
-        const matched =
-            input.match(/^s:[0-9]+:(.*?);/) || input.match(/^[ibd]:([0-9]+);/)
+        const matched = input.match(/^s:[0-9]+:(.*?);/) || input.match(/^[ibd]:([0-9]+);/)
         if (!matched) {
             return false
         }
@@ -154,7 +151,11 @@ export const phpUnSerialize = (input: string) => {
                 if (Array.isArray(block)) {
                     converted = converted.replace(block[0], '')
                     if (cursor === QuantumBool.TRUE) {
-                        result += block[1]
+                        if (block[1] !== '$%quote%$') {
+                            result += `"${block[1]}"`
+                        } else {
+                            result += block[1]
+                        }
                         cursor = QuantumBool.FALSE
                     } else if (cursor === QuantumBool.FALSE) {
                         result += `:${block[1]},`

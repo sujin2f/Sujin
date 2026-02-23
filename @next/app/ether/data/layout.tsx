@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from 'react'
-/* CONSTANTS */
-import { TAILWIND_MAIN } from '@app/_lib/constants'
+/* Components */
+import { Main } from '@app/_components/html-elements/Main'
 
 export default async function Layout({ children }: PropsWithChildren) {
-    return <article className={`${TAILWIND_MAIN}`}>{children}</article>
+    return <Main>{children}</Main>
 }

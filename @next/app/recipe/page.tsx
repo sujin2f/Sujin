@@ -16,6 +16,8 @@ import { map } from '@sujin/share/utils/array'
 
 type Props = { mine?: boolean; page: number }
 
+export const dynamic = 'force-dynamic'
+
 export default function PageRecipe({ mine, page }: Props) {
     const user = useUserInfo()
     const { data, loading, error } = useServerAction<WithNumPages<T_Recipe>>(getRecipes)

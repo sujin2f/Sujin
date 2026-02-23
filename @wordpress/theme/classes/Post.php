@@ -20,6 +20,7 @@ class Post {
 	 */
 	public function __construct() {
 		add_action( 'save_post', array( $this, 'save_post' ), 15, 2 );
+		add_action( 'rest_api_init', array( $this, 'register_rest_fields' ) );
 	}
 
 	/**
@@ -32,6 +33,10 @@ class Post {
 	 * @param \WP_Post $post    Post instance.
 	 */
 	public function save_post( int $post_id, \WP_Post $post ): void {
+		if ( 'post' !== $post->post_type && 'page' !== $post->post_type ) {
+			return;
+		}
+
 		if ( 'publish' === $post->post_status ) {
 			$this->save_content( $post_id, $post->post_content );
 			$this->update_version( $post_id, );

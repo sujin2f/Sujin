@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
     typescript: {
         tsconfigPath: 'tsconfig.json',
     },
+    compress: false,
     webpack(config) {
         // SVG loader
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

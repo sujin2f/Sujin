@@ -148,6 +148,18 @@ const GET_TERM_ITEMS = `
     {2}
 `
 
+const GET_MENU_ITEMS = `
+    SELECT ${POST_FIELDS}
+    FROM wp_posts AS posts
+    INNER JOIN wp_term_relationships AS relationships
+        ON posts.ID = relationships.object_id
+    INNER JOIN wp_term_taxonomy AS taxonomy
+        ON taxonomy.term_taxonomy_id = relationships.term_taxonomy_id
+    INNER JOIN wp_terms AS terms
+        ON terms.term_id = taxonomy.term_id
+    WHERE terms.term_id={0}
+`
+
 const GET_TAXONOMIES = `
     SELECT
         terms.term_id AS id,
@@ -246,6 +258,7 @@ export const WPQuery = {
             ignoreStatus ? '' : 'AND posts.post_status="publish"',
             `ORDER BY posts.ID DESC LIMIT ${PER_PAGE} OFFSET ${offset}`,
         ),
+    getMenuItems: (id: number) => format(GET_MENU_ITEMS, id),
     getOption: (optionName: string) => format(GET_OPTION, optionName),
     deleteOption: (optionName: string) => format(DELETE_OPTION, optionName),
     getPostMeta: (postId: number, metaKey: string) => format(GET_POST_META, postId, metaKey),

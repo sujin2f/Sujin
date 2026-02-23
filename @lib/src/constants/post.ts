@@ -5,6 +5,7 @@
 export enum POST_TYPE {
     POST = 'post',
     PAGE = 'page',
+    MENU = 'menu',
     ATTACHMENT = 'attachment',
 }
 

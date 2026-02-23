@@ -1,5 +1,5 @@
 'use server'
-import { type PropsWithChildren, type ReactNode, Suspense } from 'react'
+import { type PropsWithChildren, type ReactNode } from 'react'
 import { Ubuntu } from 'next/font/google'
 import Script from 'next/script'
 import { ErrorBoundary } from 'next/dist/client/components/error-boundary'
@@ -9,9 +9,8 @@ import { DEFAULT_THUMBNAIL } from '@lib/constants'
 /* Components */
 import { ReduxProvider } from '@app/_components/ReduxProvider'
 import Error from '@app/global-error'
-import Loading from '@app/loading'
 import { UserInfoProvider } from '@app/_components/UserInfoProvider'
-import { Wrapper } from '@app/_components/Wrapper'
+import { Wrapper } from '@app/_components/layout/Wrapper'
 import DefaultTopBar from '@app/@topbar/default'
 import DefaultFooter from '@app/@footer/default'
 /* Utils */
@@ -82,21 +81,19 @@ export default async function AppLayout({ children, banner, topbar, footer }: Pr
         <html lang="en">
             <head>{adSense}</head>
             <body className={`${ubuntu.className} font-light leading-8`}>
-                <Suspense fallback={<Loading />}>
-                    <ReduxProvider>
-                        <UserInfoProvider user={user}>
-                            <Wrapper>
-                                <ErrorBoundary errorComponent={Error}>
-                                    {/* For not-found and error */}
-                                    {topbar || <DefaultTopBar />}
-                                    {banner}
-                                    {children}
-                                    {footer || <DefaultFooter />}
-                                </ErrorBoundary>
-                            </Wrapper>
-                        </UserInfoProvider>
-                    </ReduxProvider>
-                </Suspense>
+                <ReduxProvider>
+                    <UserInfoProvider user={user}>
+                        <Wrapper>
+                            <ErrorBoundary errorComponent={Error}>
+                                {/* For not-found and error */}
+                                {topbar || <DefaultTopBar />}
+                                {banner}
+                                {children}
+                                {footer || <DefaultFooter />}
+                            </ErrorBoundary>
+                        </Wrapper>
+                    </UserInfoProvider>
+                </ReduxProvider>
             </body>
         </html>
     )

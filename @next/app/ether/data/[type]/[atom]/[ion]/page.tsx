@@ -1,4 +1,3 @@
-'use server'
 /* Components */
 import { DataPageClient } from '@app/ether/data/[type]/[atom]/[ion]/page.client'
 /* Utils */
@@ -15,6 +14,8 @@ type Props = {
         term: string
     }>
 }
+
+export const dynamic = 'force-dynamic'
 
 export default async function DataPage({ params }: Props) {
     const { atom, ion } = await params

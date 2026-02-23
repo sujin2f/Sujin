@@ -57,3 +57,27 @@ function not_found( string $message ): void {
 	error_log( $message ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 	throw new \Exception( esc_attr( $message ) );
 }
+
+/**
+ * Get attachment data from its ID
+ *
+ * @param int $id attachment ID.
+ * @return array attachment Data
+ */
+function get_attachment_by_id( int $id ): ?array {
+	$post  = get_post( $id, ARRAY_A );
+	$image = get_post_meta( $id, '_wp_attached_file', true );
+	if ( ! $image ) {
+		return null;
+	}
+	$image = "/wp-content/uploads/{$image}";
+	$meta  = get_post_meta( $id, '_wp_attachment_metadata', true );
+
+	return array(
+		'title'    => $post['post_title'],
+		'url'      => $image,
+		'width'    => $meta['width'],
+		'height'   => $meta['height'],
+		'mimeType' => $post['post_mime_type'],
+	);
+}

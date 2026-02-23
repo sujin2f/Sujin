@@ -6,6 +6,8 @@ import { removeURLProtocol } from '@sujin/share/utils/string'
 /* CONSTANTS */
 import { DAY_IN_MS, ShortMonthNames } from '@sujin/share/constants/datetime'
 import { TAILWIND_CARD_IMAGE } from '@app/_lib/constants'
+/* Assets */
+import Magnify from '@app/_lib/images/magnify.svg'
 
 type Props = {
     readonly to: string
@@ -44,7 +46,9 @@ export const Card = ({
         <li className={`${className}`}>
             <figure className={`group card__figure overflow-hidden relative shadow ${ratio}`}>
                 <Link title={title || ''} href={to}>
-                    <div className="group-hover:opacity-50 bg-[url(../../../common/images/icons/magnify.svg)] transition-opacity bg-no-repeat bg-center bg-size-[4em] bg-primary absolute z-2 w-full h-full opacity-0"></div>
+                    <div className="group-hover:opacity-50 transition-opacity bg-primary absolute z-2 w-full h-full opacity-0 flex items-center justify-center">
+                        <Magnify className="w-[30%] min-w-10" />
+                    </div>
 
                     {datetime && !isNaN(datetime.getTime()) && (
                         <time

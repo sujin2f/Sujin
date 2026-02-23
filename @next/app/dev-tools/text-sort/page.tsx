@@ -2,8 +2,10 @@
 import { useState, useMemo, type ChangeEvent } from 'react'
 /* Utils */
 import { map } from '@sujin/share/utils/array'
-/* CONSTANTS */
-import { TAILWIND_INPUT } from '@app/_lib/constants'
+/* Components */
+import { Input } from '@app/_components/html-elements/Input'
+
+export const dynamic = 'force-dynamic'
 
 export default function TextSort() {
     const [text, setText] = useState('')
@@ -17,10 +19,9 @@ export default function TextSort() {
         <>
             <label className="block mb-2">
                 <div>Primary Sort after</div>
-                <input
+                <Input
                     onChange={(e: ChangeEvent<HTMLInputElement>) => setDivider(e.target.value)}
                     type="text"
-                    className={TAILWIND_INPUT}
                     autoFocus
                 />
             </label>

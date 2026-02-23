@@ -4,6 +4,8 @@ import { RecipeEdit } from '@app/recipe/_components/RecipeEdit'
 /* Utils */
 import { getUserInfo } from '@lib/utils/server/header'
 
+export const dynamic = 'force-dynamic'
+
 export default async function LayoutRecipeAdd() {
     const user = await getUserInfo()
     if (!user) {

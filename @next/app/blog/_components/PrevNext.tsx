@@ -3,7 +3,7 @@ import Link from 'next/link'
 /* T_Types */
 import type { T_PrevNext } from '@sujin/lib/types'
 /* Assets */
-import Icon from '@common/images/prev.svg'
+import Icon from '@app/_lib/images/prev.svg'
 
 type Props = {
     readonly prev?: T_PrevNext | false

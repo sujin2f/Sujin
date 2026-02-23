@@ -9,10 +9,8 @@ import { useServerAction } from '@app/_hooks/useServerAction'
 import { getBackgrounds } from '@app/@banner/_lib/getBackgrounds'
 /* Module */
 import { RootState } from '@app/_store'
-/* CONSTANTS */
-import { MENU_NAMES } from '@lib/constants'
 /* Assets */
-import Logo from '@common/images/logo.svg'
+import Logo from '@app/_lib/images/logo.svg'
 
 // TODO height transition start/stop
 export default function FrontPageBanner() {
@@ -33,7 +31,7 @@ export default function FrontPageBanner() {
 
     return (
         <Banner
-            menu={MENU_NAMES.MAIN}
+            menu="primary"
             background={background}
             excerpt={`${process.env.NEXT_PUBLIC_SITE_DESCRIPTION}`}
             title={<Logo aria-label={`${process.env.NEXT_PUBLIC_SITE_NAME}`} className="w-sm mx-auto" />}
