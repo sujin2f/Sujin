@@ -1,12 +1,10 @@
-import { useRef, MouseEvent, PropsWithChildren, useCallback } from 'react'
-
+import { useRef, useCallback, type MouseEventHandler, type MouseEvent, type PropsWithChildren } from 'react'
 /* Helpers */
-import { MouseEventCallback } from '../../types/react'
 import { joinClassNames } from '@sujin/share/utils/string'
 
 type Props = PropsWithChildren<{
     className?: string
-    onClick?: MouseEventCallback
+    onClick?: MouseEventHandler<Element>
 }>
 
 /**
@@ -23,7 +21,7 @@ const Overlay = ({ children, className, onClick }: Props) => {
     const close = useCallback(
         (e: MouseEvent) => {
             if (e.target !== overlayRef.current) return
-            if (onClick) onClick()
+            if (onClick) onClick(e)
         },
         [onClick],
     )

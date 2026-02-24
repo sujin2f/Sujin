@@ -1,7 +1,7 @@
 import type { NextRequest } from 'next/server'
 /* Models */
 import { Logger } from '@sujin/share/model/Logger'
-import { client } from '@lib/utils/apollo-client'
+import { client } from '@app/_lib/graphql/client'
 /* CONSTANTS */
 import CREATE from '@app/focus/_lib/createFocusBookmark.graphql'
 import REMOVE from '@app/focus/_lib/removeFocusBookmark.graphql'

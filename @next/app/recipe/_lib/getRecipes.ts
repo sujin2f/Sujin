@@ -1,7 +1,7 @@
 'use server'
 import type { DefaultContext } from '@apollo/client'
 /* Utils */
-import { client } from '@lib/utils/apollo-client'
+import { client } from '@app/_lib/graphql/client'
 import { gqlRequest } from '@app/_lib/utils/redis'
 /* CONSTANTS */
 import query from '@app/recipe/_lib/getRecipes-gql.graphql'

@@ -15,7 +15,7 @@ import Logo from '@app/_lib/images/logo-top-bar.svg'
 import Facebook from '@app/_lib/images/facebook.svg'
 import Twitter from '@app/_lib/images/twitter.svg'
 import HamburgerIcon from '@app/_lib/images/hamburger.svg'
-import { useDocumentClick } from '@common/hooks/useDocumentClick'
+import { useDocumentClick } from '@app/_lib/hooks/useDocumentClick'
 
 type Props = {
     readonly menu: 'primary' | 'ether' | 'ether-kor' | 'dev-tools' | 'recipe' | 'recipe-user' | 'admin'

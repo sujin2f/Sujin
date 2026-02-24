@@ -6,7 +6,7 @@ import query from '@app/_lib/graphql/getMenu-gql.graphql'
 import { COLLECTION } from '@sujin/lib/constants'
 import { DEFAULT_MENUS } from '@lib/constants'
 /* Models */
-import { client } from '@lib/utils/apollo-client'
+import { client } from '@app/_lib/graphql/client'
 import { Logger } from '@sujin/share/model/Logger'
 /* T_Types */
 import type { MenuItem } from '@sujin/lib/types/menu'

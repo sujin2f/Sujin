@@ -1,6 +1,6 @@
 'use server'
 /* Models */
-import { client } from '@lib/utils/apollo-client'
+import { client } from '@app/_lib/graphql/client'
 /* CONSTANTS */
 import QUERY from '@lib/apollo/queries/wordpress/posts/search-gql.graphql'
 import { IS_DEV } from '@sujin/share/constants/helper'

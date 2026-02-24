@@ -5,7 +5,7 @@ import { gqlRequest } from '@app/_lib/utils/redis'
 import query from '@app/@banner/_lib/getBackgrounds-gql.graphql'
 import { COLLECTION } from '@sujin/lib/constants'
 /* Models */
-import { client } from '@lib/utils/apollo-client'
+import { client } from '@app/_lib/graphql/client'
 import { Logger } from '@sujin/share/model/Logger'
 /* T_Types */
 import type { T_Background } from '@sujin/lib/types'

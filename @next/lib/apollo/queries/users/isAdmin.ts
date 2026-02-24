@@ -1,5 +1,5 @@
 'use server'
-import { client } from '@lib/utils/apollo-client'
+import { client } from '@app/_lib/graphql/client'
 import IS_ADMIN from '@lib/apollo/queries/users/isAdmin-gql.graphql'
 import { getAuthHeader } from '@app/_lib/utils/tokens'
 

@@ -4,11 +4,10 @@ import { type PropsWithChildren, useCallback, useEffect, useState } from 'react'
 import { CloseButton } from '../forms/CloseButton'
 import Button from '../forms/Button'
 import Overlay from '../containers/Overlay'
-import { MouseEventCallback } from '../../types/react'
 import { KeyCodes } from '@sujin/share/constants/keycode'
 
 type Props = {
-    closeModal?: MouseEventCallback
+    closeModal?: () => void
     closeButton?: boolean
     className?: string
     show?: boolean
@@ -69,13 +68,7 @@ const Modal = ({
             <div className="modal --fit-content">
                 {children}
 
-                {closeButton && (
-                    <Button
-                        className="secondary"
-                        onClick={close}
-                        title="Cancel"
-                    />
-                )}
+                {closeButton && <Button className="secondary" onClick={close} title="Cancel" />}
 
                 <CloseButton onClick={close} />
             </div>
