@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 import { T_Recipe, UNITS_SELECTION } from '@sujin/lib/types'
 /* Utils */
 import { map } from '@sujin/share/utils/array'
-import { useRecipeCreate } from '@app/_hooks/useRecipeMutate'
+import { useRecipeCreate } from '@app/_lib/hooks/useRecipeMutate'
 /* Components */
 import { Input } from '@app/_components/html-elements/Input'
 import { Select } from '@app/_components/html-elements/Select'

@@ -2,7 +2,7 @@
 import React, { useRef } from 'react'
 import Script from 'next/script'
 /* Helpers */
-import { replaceQuotes } from '@lib/utils/replaceQuotes'
+import { replaceQuotes } from '@app/_lib/utils/wordpress'
 import type { T_ShortcodeAttrMatch } from '@sujin/lib/types'
 
 interface Props {

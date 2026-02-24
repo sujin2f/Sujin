@@ -1,17 +1,12 @@
-import React from 'react'
-import { MouseEventCallback } from '@common/types/react'
+import type { MouseEventHandler } from 'react'
 
 type Props = {
-    onClick?: MouseEventCallback
+    onClick?: MouseEventHandler<HTMLButtonElement>
 }
 
 export const CloseButton = (props: Props) => {
     return (
-        <button
-            className="button button--close"
-            aria-label="Close"
-            onClick={props.onClick}
-        >
+        <button className="button button--close" aria-label="Close" onClick={props.onClick}>
             <span aria-hidden="true">&times;</span>
         </button>
     )

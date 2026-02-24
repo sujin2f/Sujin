@@ -2,7 +2,7 @@ import { RootState } from '@app/_store'
 import { RefObject, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useServerAction } from './useServerAction'
-import useIntersectionObserver from '@common/hooks/useIntersectionObserver'
+import useIntersectionObserver from '@app/_lib/hooks/useIntersectionObserver'
 import { ActionCreatorWithPayload } from '@reduxjs/toolkit'
 import { Nullable } from '@sujin/share/types'
 

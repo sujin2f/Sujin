@@ -1,6 +1,6 @@
 'use server'
 /* Models */
-import { client } from '@lib/utils/apollo-client'
+import { client } from '@app/_lib/graphql/client'
 /* CONSTANTS */
 import { COLLECTION } from '@sujin/lib/constants'
 import { IS_DEV } from '@sujin/share/constants/helper'

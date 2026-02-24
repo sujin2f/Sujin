@@ -4,7 +4,7 @@ import type { DefaultContext } from '@apollo/client'
 /* Models */
 import { Logger } from '@sujin/share/model/Logger'
 /* CONSTANTS */
-import { COOKIE_KEY_ACCESS_TOKEN, COOKIE_KEY_REFRESH_TOKEN, COOKIE_KEY_USER_INFO } from '@lib/constants'
+import { COOKIE_KEY_ACCESS_TOKEN, COOKIE_KEY_REFRESH_TOKEN, COOKIE_KEY_USER_INFO } from '@app/_lib/constants'
 import { DAY_IN_SECONDS, HOUR_IN_SECONDS, SECOND_IN_MS } from '@sujin/share/constants/datetime'
 /* T_Types */
 import type { Nullable } from '@sujin/share/types'

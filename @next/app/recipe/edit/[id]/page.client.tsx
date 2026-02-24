@@ -11,7 +11,7 @@ import ButtonGroup from '@common/components/forms/ButtonGroup'
 import { T_Recipe, UNITS_SELECTION } from '@sujin/lib/types'
 /* Utils */
 import { map } from '@sujin/share/utils/array'
-import { useRecipeCreate } from '@app/_hooks/useRecipeMutate'
+import { useRecipeCreate } from '@app/_lib/hooks/useRecipeMutate'
 
 type Props = {
     recipe: T_Recipe

@@ -3,9 +3,9 @@ import { useMemo } from 'react'
 /* Components */
 import Button from '@common/components/forms/Button'
 /* Utils */
-import { useNextClient } from '@app/_hooks/useNextClient'
-import { useLogInOut } from '@app/_hooks/useLogInOut'
-import { useUserInfo } from '@app/_hooks/useUserInfo'
+import { useNextClient } from '@app/_lib/hooks/useNextClient'
+import { useLogInOut } from '@app/_lib/hooks/useLogInOut'
+import { useUserInfo } from '@app/_lib/hooks/useUserInfo'
 
 const classNameButton =
     'flex items-center justify-center bg-primary rounded-full p-0.5 h-9 min-md:pr-2.5 cursor-pointer'

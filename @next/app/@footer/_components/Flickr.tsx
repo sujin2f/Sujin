@@ -3,7 +3,7 @@
 import { Card } from '@app/archive/_components/Card'
 /* Utils */
 import { getFlickr } from '@app/@footer/_lib/getFlickr'
-import { useStoreOrAction } from '@app/_hooks/useStoreOrAction'
+import { useStoreOrAction } from '@app/_lib/hooks/useStoreOrAction'
 import { map } from '@sujin/share/utils/array'
 import { setFlickr } from '@app/_store/slices/flickr'
 

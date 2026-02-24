@@ -14,7 +14,7 @@ import { Main } from '@app/_components/html-elements/Main'
 import { IMAGE_SIZE, POST_STATUS } from '@sujin/lib/constants'
 /* Utils */
 import { getPost } from '@app/blog/_lib/getPost'
-import { getThumbnailFromPost } from '@lib/utils/client'
+import { getThumbnailFromPost } from '@app/_lib/utils/wordpress'
 import { publish } from '@app/_lib/utils/redis'
 
 type Props = {

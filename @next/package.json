@@ -7,7 +7,7 @@
         "dev": "cross-env NODE_ENV=development next dev -p 8000 --webpack",
         "build": "next build --webpack",
         "start": "next start --webpack",
-        "test": "jest --no-cache --forceExit --coverage",
+        "test": "jest --no-cache --verbose --passWithNoTests --coverage",
         "package": "cross-env rimraf internal_modules temp && node ./package.mjs",
         "lint": "eslint \"{app,common}/**/*.{ts,tsx}\""
     },
@@ -45,6 +45,7 @@
         "@types/react-color": "^3.0.6",
         "@types/react-dom": "^19",
         "@types/react-katex": "^3.0.4",
+        "baseline-browser-mapping": "^2.10.0",
         "concurrently": "^9.2.1",
         "cross-env": "^10.1.0",
         "dotenv": "^17.2.3",

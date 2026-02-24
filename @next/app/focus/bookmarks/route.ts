@@ -4,7 +4,7 @@ import query from '@app/focus/_lib/focusBookmarks.graphql'
 import { COLLECTION } from '@sujin/lib/constants'
 /* Models */
 import { Logger } from '@sujin/share/model/Logger'
-import { client } from '@lib/utils/apollo-client'
+import { client } from '@app/_lib/graphql/client'
 /* T_Types */
 import type { T_Focus_Message } from '@sujin/lib/types'
 /* Utils */
