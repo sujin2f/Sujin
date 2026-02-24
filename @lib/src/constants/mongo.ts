@@ -14,4 +14,5 @@ export enum COLLECTION {
     ARCHIVE = 'archives',
     RECIPE = 'recipes',
     MENU = 'menus',
+    BOOKMARK = 'focus-bookmark',
 }

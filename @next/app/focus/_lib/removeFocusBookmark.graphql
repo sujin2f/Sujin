@@ -1,3 +1,9 @@
 mutation RemoveFocusBookmark($id: String!) {
-    removeFocusBookmark(id: $id)
+    removeFocusBookmark(id: $id) {
+        _id
+        type
+        title
+        device
+        message
+    }
 }

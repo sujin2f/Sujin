@@ -7,6 +7,8 @@ import CREATE from '@app/focus/_lib/createFocusBookmark.graphql'
 import REMOVE from '@app/focus/_lib/removeFocusBookmark.graphql'
 /* Utils */
 import { createAuthHeader, getAuthHeader } from '@sujin/lib/utils/token'
+/* T_Types */
+import type { T_Focus_Message } from '@sujin/lib/types'
 
 export async function PUT(request: NextRequest) {
     Logger.info('🤞 Focus upload')
@@ -44,13 +46,21 @@ export async function DELETE(request: NextRequest) {
     const { id } = JSON.parse(text)
 
     const result = await client
-        .mutate({
+        .mutate<{ removeFocusBookmark: T_Focus_Message[] }>({
             mutation: REMOVE,
             variables: { id },
             context: createAuthHeader(token),
         })
-        .then(() => true)
-        .catch(() => false)
+        .then((result) => {
+            if (!result.data || !result.data.removeFocusBookmark) {
+                throw new Error()
+            }
+            return result.data.removeFocusBookmark
+        })
+        .catch((e) => {
+            Logger.error(`🤬 Focus delete failed, ${e.message}`)
+            return []
+        })
 
-    return Response.json({ result })
+    return Response.json(result)
 }

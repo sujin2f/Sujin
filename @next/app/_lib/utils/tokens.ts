@@ -100,7 +100,7 @@ const storeUserInfo = async (token: T_UserSub) => {
     cookie.set(COOKIE_KEY_USER_INFO, JSON.stringify(token), {
         httpOnly: true,
         secure: true,
-        maxAge: 30 * DAY_IN_SECONDS,
+        maxAge: 35 * DAY_IN_SECONDS,
         sameSite: 'lax',
         path: '/',
     })

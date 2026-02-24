@@ -1,6 +1,6 @@
 {
     "name": "sujin-graphql-api",
-    "version": "12.2.2",
+    "version": "12.2.3",
     "description": "GraphQL API for sujinc.com with WP DB and additional MongoDB dataset",
     "main": "src/server.ts",
     "scripts": {
