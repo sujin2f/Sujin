@@ -1,7 +1,9 @@
 /* Utils */
 import { getBookmarks } from './getBookmarks'
+import { createBookmark } from './createBookmark'
 /* T_Types */
 import type { T_Context } from '@src/types'
+import type { T_Focus_Message } from '@sujin/lib/types'
 
 /**
  * Focus resolvers that belongs to Focus Browser.
@@ -9,5 +11,9 @@ import type { T_Context } from '@src/types'
 export const focus = {
     Query: {
         focusBookmarks: async (_: unknown, __: unknown, context: T_Context) => await getBookmarks(context.token),
+    },
+    Mutation: {
+        createFocusBookmark: async (_: unknown, message: { message: T_Focus_Message }, context: T_Context) =>
+            await createBookmark(message.message, context.token),
     },
 }

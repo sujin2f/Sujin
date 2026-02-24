@@ -14,7 +14,7 @@ export const getBookmarks = async (token: string): Promise<T_Focus_Message[]> =>
     const now = Math.round(new Date().getTime() / HOUR_IN_MS)
     if (!user._id) throw new Error()
 
-    const message = (await Focus.find({ user: new Types.ObjectId(user._id) }))
+    const message = (await Focus.find({ user: new Types.ObjectId(user._id), type: 'bookmark' }))
         .filter(async (data) => {
             // Remove expired
             if (data.expires < now) {
@@ -30,7 +30,7 @@ export const getBookmarks = async (token: string): Promise<T_Focus_Message[]> =>
                     key: data.key,
                     title: data.title,
                     device: data.device,
-                    messageType: data.messageType,
+                    type: data.type,
                     message: data.message,
                 }) satisfies T_Focus_Message,
         )

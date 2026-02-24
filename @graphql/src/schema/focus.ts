@@ -23,7 +23,7 @@ const focusSchema = new Schema({
         type: String,
         required: true,
     },
-    messageType: {
+    type: {
         type: String,
         enum: ['bookmark', 'keystroke'],
         required: true,

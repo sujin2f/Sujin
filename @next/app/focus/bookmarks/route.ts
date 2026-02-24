@@ -1,6 +1,6 @@
 import type { NextRequest } from 'next/server'
 /* CONSTANTS */
-import QUERY from '@app/focus/_lib/focusBookmarks.graphql'
+import query from '@app/focus/_lib/focusBookmarks.graphql'
 /* Models */
 import { Logger } from '@sujin/share/model/Logger'
 import { client } from '@lib/utils/apollo-client'
@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
 
     const response = await client
         .query<{ focusBookmarks: T_Focus_Message[] }>({
-            query: QUERY,
+            query,
             context: createAuthHeader(token),
             fetchPolicy: 'network-only',
         })

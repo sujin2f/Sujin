@@ -22,4 +22,5 @@ export const Query = {
 export const Mutation = {
     ...users.Mutation,
     ...recipes.Mutation,
+    ...focus.Mutation,
 }
