@@ -1,6 +1,6 @@
 {
     "name": "sujin-next",
-    "version": "12.2.5",
+    "version": "12.2.6-beta.1",
     "description": "React + Node + WordPress theme for sujinc.com",
     "license": "MIT",
     "scripts": {

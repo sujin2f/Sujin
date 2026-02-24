@@ -12,6 +12,7 @@ type FocusMessage {
     title: String
     device: String
     type: String
+    machineId: String
     message: String
 }
 
@@ -19,6 +20,7 @@ input FocusMessageInput {
     key: String
     title: String
     device: String
+    machineId: String
     type: String
     message: String
 }
