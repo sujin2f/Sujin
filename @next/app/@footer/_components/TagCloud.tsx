@@ -6,7 +6,7 @@ import { LoadingArchive } from '@lib/components/archive/LoadingArchive'
 import { setTagCloud } from '@app/_store/slices/tag-cloud'
 /* Utils */
 import { getTagCloud } from '@app/@footer/_lib/getTagCloud'
-import { useStoreOrAction } from '@app/_hooks/useStoreOrAction'
+import { useStoreOrAction } from '@app/_lib/hooks/useStoreOrAction'
 /* Assets */
 import '@app/_lib/scss/tag-cloud.scss'
 

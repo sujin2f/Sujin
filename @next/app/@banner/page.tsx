@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Banner } from '@app/@banner/_components'
 /* Utils */
 import { setBackground } from '@app/_store/slices/background'
-import { useServerAction } from '@app/_hooks/useServerAction'
+import { useServerAction } from '@app/_lib/hooks/useServerAction'
 import { getBackgrounds } from '@app/@banner/_lib/getBackgrounds'
 /* Module */
 import { RootState } from '@app/_store'

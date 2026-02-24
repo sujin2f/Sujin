@@ -10,7 +10,7 @@ import { ARCHIVE } from '@sujin/lib/constants'
 import { TAILWIND_CARD_IMAGE } from '@app/_lib/constants'
 /* Utils */
 import useIntersectionObserver from '@common/hooks/useIntersectionObserver'
-import { useServerAction } from '@app/_hooks/useServerAction'
+import { useServerAction } from '@app/_lib/hooks/useServerAction'
 import { getRelated } from '@app/blog/_lib/getRelated'
 import { map } from '@sujin/share/utils/array'
 /* T_Type */

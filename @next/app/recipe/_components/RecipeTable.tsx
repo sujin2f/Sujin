@@ -10,9 +10,9 @@ import type { WithNumPages, T_Recipe } from '@sujin/lib/types'
 /* CONSTANTS */
 import { QuantumBool } from '@sujin/share/types'
 /* Utils */
-import { useUserInfo } from '@app/_hooks/useUserInfo'
-import { useRecipeDelete } from '@app/_hooks/useRecipeDelete'
-import { useServerAction } from '@app/_hooks/useServerAction'
+import { useUserInfo } from '@app/_lib/hooks/useUserInfo'
+import { useRecipeDelete } from '@app/_lib/hooks/useRecipeDelete'
+import { useServerAction } from '@app/_lib/hooks/useServerAction'
 
 type Props = {
     readonly action: () => Promise<WithNumPages<T_Recipe>>

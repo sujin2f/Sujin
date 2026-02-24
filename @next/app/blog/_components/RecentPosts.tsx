@@ -6,7 +6,7 @@ import Card from '@app/archive/_components/Card'
 /* Utils */
 import { setRecent } from '@app/_store/slices/recent'
 import { map } from '@sujin/share/utils/array'
-import { useStoreOrAction } from '@app/_hooks/useStoreOrAction'
+import { useStoreOrAction } from '@app/_lib/hooks/useStoreOrAction'
 import { getRecent } from '@app/blog/_lib/getRecent'
 /* T_Types */
 import type { T_ArchivePost } from '@sujin/lib/types'

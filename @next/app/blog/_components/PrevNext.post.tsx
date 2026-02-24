@@ -4,7 +4,7 @@ import React, { useRef, useState } from 'react'
 import { PrevNext } from '@app/blog/_components/PrevNext'
 /* Utils */
 import useIntersectionObserver from '@common/hooks/useIntersectionObserver'
-import { useServerAction } from '@app/_hooks/useServerAction'
+import { useServerAction } from '@app/_lib/hooks/useServerAction'
 /* T_Type */
 import type { T_PrevNext } from '@sujin/lib/types'
 

@@ -9,9 +9,9 @@ import { Button } from '@app/_components/html-elements/Button'
 import { QuantumBool } from '@sujin/share/types' // TODO
 /* Utils */
 import { getRecipe } from '@app/recipe/_lib/getRecipe'
-import { useUserInfo } from '@app/_hooks/useUserInfo'
-import { useRecipeDelete } from '@app/_hooks/useRecipeDelete'
-import { useServerAction } from '@app/_hooks/useServerAction'
+import { useUserInfo } from '@app/_lib/hooks/useUserInfo'
+import { useRecipeDelete } from '@app/_lib/hooks/useRecipeDelete'
+import { useServerAction } from '@app/_lib/hooks/useServerAction'
 /* T_Types */
 import {
     type T_Recipe,
