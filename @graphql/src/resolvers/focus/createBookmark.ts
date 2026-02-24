@@ -15,11 +15,12 @@ export const createBookmark = async (message: T_Focus_Message, token: string): P
     Logger.info('🤞 createFocusMessage start')
     const user = await verifyAccessToken(token)
     if (!user._id) throw new Error()
+    const userId = new Types.ObjectId(user._id)
 
-    const exists = await Focus.findOne({ type: 'bookmark', key: message.key })
+    const exists = await Focus.findOne({ type: message.type, key: message.key, user: userId })
     if (!exists) {
         const expires = Math.round(new Date().getTime() / HOUR_IN_MS) + 24 // Expires in 24 hours
-        await Focus.insertOne({ ...message, user: new Types.ObjectId(user._id), expires })
+        await Focus.insertOne({ ...message, user: userId, expires })
         await removeCache(`${COLLECTION.BOOKMARK}-${user.email}`)
         Logger.info('🤞 createFocusMessage created')
         return 'ok'
