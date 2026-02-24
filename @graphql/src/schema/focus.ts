@@ -23,6 +23,10 @@ const focusSchema = new Schema({
         type: String,
         required: true,
     },
+    machineId: {
+        type: String,
+        required: true,
+    },
     type: {
         type: String,
         enum: ['bookmark', 'keystroke'],
@@ -43,3 +47,24 @@ focusSchema.index({ user: 1, key: 1 })
  * Exported model `Focus` (collection name: `focus`).
  */
 export const Focus = model('focus', focusSchema)
+
+/**
+ * Mongoose model for a Focus browser.
+ */
+const focusBrowserSchema = new Schema({
+    user: {
+        type: SchemaTypes.ObjectId,
+        ref: 'user',
+        required: true,
+    },
+    device: {
+        type: String,
+        required: true,
+    },
+})
+focusBrowserSchema.index({ user: 1, device: 1 })
+
+/**
+ * Exported model `Focus` (collection name: `focus`).
+ */
+export const FocusBrowser = model('focus-browser', focusBrowserSchema)

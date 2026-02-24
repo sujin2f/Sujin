@@ -10,12 +10,15 @@ import { COLLECTION } from '@sujin/lib/constants'
 /* Utils */
 import { verifyAccessToken } from '@src/utils/security'
 import { removeCache } from '@src/utils/redis/cache'
+import { createFocusBrowser } from '@src/utils/mongo/focus'
 
 export const createBookmark = async (message: T_Focus_Message, token: string): Promise<string> => {
     Logger.info('🤞 createFocusMessage start')
     const user = await verifyAccessToken(token)
     if (!user._id) throw new Error()
     const userId = new Types.ObjectId(user._id)
+
+    await createFocusBrowser(userId, message)
 
     const exists = await Focus.findOne({ type: message.type, key: message.key, user: userId })
     if (!exists) {
