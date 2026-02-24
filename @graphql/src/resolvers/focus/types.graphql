@@ -2,8 +2,8 @@ type Query {
     focusBookmarks: [FocusMessage]
 }
 type Mutation {
-    createBookmark(message: FocusMessageInput!): String
-    removeFocusMessage(id: String!): String
+    createFocusBookmark(message: FocusMessageInput!): String
+    removeFocusBookmark(id: String!): String
 }
 
 type FocusMessage {
