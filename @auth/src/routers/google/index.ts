@@ -47,6 +47,8 @@ routes.get('/google/auth', async (req, res) => {
 const redirectPath = new URL(REDIRECT_URI).pathname
 // Callback URL for handling the Google Login response
 routes.get(redirectPath, async (req, res) => {
+    Logger.info(`🤞 Finishing user authentication, ${redirectPath}`)
+
     // validate session from /google/auth
     const redirect: string = await getTokenSub<string>(`${req.session.redirect}`, CRYPTO_KEY)
         .then((redirect) => {

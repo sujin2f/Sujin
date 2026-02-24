@@ -52,7 +52,7 @@ ob_start();
 	<?php if ( ! empty( $rb_details ) ) : ?>
 		<ul class="about-item__details">
 			<?php foreach ( $rb_details as $rb_desc ) : ?>
-				<li>
+				<li class="about-item__detail">
 					<?php echo esc_html( $rb_desc ); ?>
 				</li>
 			<?php endforeach; ?>
@@ -63,7 +63,7 @@ ob_start();
 	<?php if ( ! empty( $rb_tags ) ) : ?>
 		<ul class="about-item__tags">
 			<?php foreach ( $rb_tags as $rb_tag ) : ?>
-				<li>
+				<li class="about-item__tag">
 					<?php echo esc_html( $rb_tag ); ?>
 				</li>
 			<?php endforeach; ?>

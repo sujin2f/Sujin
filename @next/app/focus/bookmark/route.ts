@@ -26,7 +26,10 @@ export async function PUT(request: NextRequest) {
             context: createAuthHeader(token),
         })
         .then(() => true)
-        .catch(() => false)
+        .catch((e) => {
+            Logger.error(`🤬 Focus upload failed, ${e.message}`)
+            return false
+        })
 
     return Response.json({ result })
 }
