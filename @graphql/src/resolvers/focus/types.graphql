@@ -1,0 +1,11 @@
+type Mutation {
+    createFocusMessage(message: FocusMessageInput!): String
+    removeFocusMessage(id: String!): String
+}
+input FocusMessageInput {
+    key: String
+    title: String
+    device: String
+    messageType: String
+    message: String
+}
