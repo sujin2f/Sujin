@@ -1,7 +1,7 @@
 import React from 'react'
 
 /* Helpers */
-import { replaceQuotes } from '@lib/utils/replaceQuotes'
+import { replaceQuotes } from '@app/_lib/utils/wordpress'
 import type { T_ShortcodeAttrMatch } from '@sujin/lib/types'
 
 interface Props {
@@ -25,16 +25,10 @@ export const Caption = ({ value: { named } }: Props) => {
 
     return (
         <figure className="image__container">
-            <div
-                className="caption__image"
-                dangerouslySetInnerHTML={{ __html: image }}
-            />
+            <div className="caption__image" dangerouslySetInnerHTML={{ __html: image }} />
             {text && (
                 <div className="caption">
-                    <div
-                        className="caption__text"
-                        dangerouslySetInnerHTML={{ __html: text }}
-                    />
+                    <div className="caption__text" dangerouslySetInnerHTML={{ __html: text }} />
                 </div>
             )}
         </figure>

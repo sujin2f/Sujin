@@ -10,7 +10,7 @@ import { ARCHIVE, IMAGE_SIZE } from '@sujin/lib/constants'
 import type { ColumnProps } from '@common/components/layout/Column'
 import type { WithNumPages, T_ArchivePost } from '@sujin/lib/types'
 /* Utils */
-import { getThumbnailFromPost } from '@lib/utils/client'
+import { getThumbnailFromPost } from '@app/_lib/utils/wordpress'
 
 type Props<T extends string> = ColumnProps & {
     readonly posts: WithNumPages<T_ArchivePost, T>

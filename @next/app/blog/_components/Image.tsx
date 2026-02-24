@@ -1,4 +1,4 @@
-import { replaceQuotes } from '@lib/utils/replaceQuotes'
+import { replaceQuotes } from '@app/_lib/utils/wordpress'
 import type { T_ShortcodeAttrMatch } from '@sujin/lib/types'
 import { default as NextImage } from 'next/image'
 

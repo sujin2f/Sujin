@@ -5,7 +5,7 @@ import Script from 'next/script'
 import { ErrorBoundary } from 'next/dist/client/components/error-boundary'
 import type { Metadata } from 'next'
 /* CONSTANTS */
-import { DEFAULT_THUMBNAIL } from '@lib/constants'
+import { DEFAULT_THUMBNAIL } from '@app/_lib/constants'
 /* Components */
 import { ReduxProvider } from '@app/_components/ReduxProvider'
 import Error from '@app/global-error'

@@ -2,7 +2,7 @@
 
 import '@testing-library/jest-dom'
 import { getMenu } from './getMenu'
-import { DEFAULT_MENUS } from '@lib/constants'
+import { DEFAULT_MENUS } from '@app/_lib/constants'
 
 /* Mock: logger @test/mock.logger */
 jest.mock('@sujin/share/model/Logger', () => ({

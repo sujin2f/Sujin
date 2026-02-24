@@ -4,7 +4,7 @@ import { gqlRequest } from '@app/_lib/utils/redis'
 /* CONSTANTS */
 import query from '@app/_lib/graphql/query/menu.graphql'
 import { COLLECTION } from '@sujin/lib/constants'
-import { DEFAULT_MENUS } from '@lib/constants'
+import { DEFAULT_MENUS } from '@app/_lib/constants'
 /* Models */
 import { client } from '@app/_lib/graphql/client'
 import { Logger } from '@sujin/share/model/Logger'

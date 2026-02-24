@@ -12,7 +12,7 @@
         "lint:gql": "yarn --cwd ./@graphql lint",
         "lint:lib": "yarn --cwd ./@lib lint",
         "lint:next": "yarn --cwd ./@next lint",
-        "test": "yarn --cwd ./@common test && yarn --cwd ./@graphql test",
+        "test": "yarn --cwd ./@common test && yarn --cwd ./@graphql test && yarn --cwd ./@next test",
         "prepare": "husky"
     },
     "devDependencies": {
