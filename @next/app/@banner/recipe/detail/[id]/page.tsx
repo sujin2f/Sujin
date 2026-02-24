@@ -1,7 +1,7 @@
 /* Components */
 import { Banner } from '@app/@banner/_components'
 /* Utils */
-import { getUserInfo } from '@lib/utils/server/header'
+import { getUserInfo } from '@app/_lib/utils/tokens'
 import { getRecipe } from '@app/recipe/_lib/getRecipe'
 import Link from 'next/link'
 

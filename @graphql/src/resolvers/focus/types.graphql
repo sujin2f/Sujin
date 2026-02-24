@@ -1,0 +1,24 @@
+type Query {
+    focusBookmarks: [FocusMessage]
+}
+type Mutation {
+    createFocusBookmark(message: FocusMessageInput!): String
+    removeFocusBookmark(id: String!): [FocusMessage]
+}
+
+type FocusMessage {
+    _id: String
+    key: String
+    title: String
+    device: String
+    type: String
+    message: String
+}
+
+input FocusMessageInput {
+    key: String
+    title: String
+    device: String
+    type: String
+    message: String
+}

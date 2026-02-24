@@ -1,0 +1,9 @@
+mutation RemoveFocusBookmark($id: String!) {
+    removeFocusBookmark(id: $id) {
+        _id
+        type
+        title
+        device
+        message
+    }
+}

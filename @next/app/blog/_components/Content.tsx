@@ -10,8 +10,6 @@ import { Code } from '@app/blog/_components/Code'
 import { removeEmptyParagraphs } from '@sujin/share/utils/string'
 /* T_Types */
 import type { T_Post, T_Page, T_ShortcodeAttrMatch } from '@sujin/lib/types'
-/* Assets */
-import '@app/_lib/scss/content.scss'
 
 type Props = {
     post: T_Post | T_Page

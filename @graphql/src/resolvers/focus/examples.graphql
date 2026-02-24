@@ -1,0 +1,10 @@
+query {
+    focusBookmarks {
+        _id
+        key
+        title
+        device
+        messageType
+        message
+    }
+}

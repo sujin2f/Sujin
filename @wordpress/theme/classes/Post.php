@@ -20,7 +20,6 @@ class Post {
 	 */
 	public function __construct() {
 		add_action( 'save_post', array( $this, 'save_post' ), 15, 2 );
-		add_action( 'rest_api_init', array( $this, 'register_rest_fields' ) );
 	}
 
 	/**

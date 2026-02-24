@@ -1,6 +1,6 @@
 'use server'
 import { client } from '@lib/utils/apollo-client'
-import { getAuthHeader } from '@lib/utils/server/header'
+import { getAuthHeader } from '@app/_lib/utils/tokens'
 import TAG_LIST from '@lib/apollo/queries/wordpress/archives/tags-gql.graphql'
 import type { T_Archive } from '@sujin/lib/types'
 

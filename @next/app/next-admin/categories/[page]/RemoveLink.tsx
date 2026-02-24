@@ -2,7 +2,7 @@
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 /* Utils */
-import { publish } from '@app/_lib/redis'
+import { publish } from '@app/_lib/utils/redis'
 /* T_Types */
 import type { RedisMessageWordpress } from '@sujin/lib/types'
 /* CONSTANTS */

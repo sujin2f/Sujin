@@ -8,7 +8,6 @@ import pic01 from '@lib/images/ether/ether-01.jpg'
 import pic02 from '@lib/images/ether/pic1_eng.png'
 import pic03 from '@lib/images/ether/pic10.png'
 import pic04 from '@lib/images/ether/ether-02.png'
-import '@app/_lib/scss/content.scss'
 import 'katex/dist/katex.min.css'
 
 export const metadata = {

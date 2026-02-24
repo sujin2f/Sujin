@@ -6,7 +6,7 @@ import HeaderComponent from '@lib/components/admin/Header'
 import Callout from '@common/components/containers/Callout'
 import InputGroup from '@common/components/forms/InputGroup'
 /* Utils */
-import { publish } from '@app/_lib/redis'
+import { publish } from '@app/_lib/utils/redis'
 /* CONSTANTS */
 import { QuantumBool } from '@sujin/share/types'
 import { ARCHIVE } from '@sujin/lib/constants'

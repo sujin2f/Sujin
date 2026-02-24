@@ -1,7 +1,7 @@
 'use server'
 import { client } from '@lib/utils/apollo-client'
 import IS_ADMIN from '@lib/apollo/queries/users/isAdmin-gql.graphql'
-import { getAuthHeader } from '@lib/utils/server/header'
+import { getAuthHeader } from '@app/_lib/utils/tokens'
 
 export const isAdmin = async (): Promise<boolean> => {
     return await client

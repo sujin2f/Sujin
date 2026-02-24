@@ -11,7 +11,7 @@ import { Main } from '@app/_components/html-elements/Main'
 import { ARCHIVE } from '@sujin/lib/constants'
 import { TAILWIND_CARD_IMAGE } from '@app/_lib/constants'
 /* Utils */
-import { publish } from '@app/_lib/redis'
+import { publish } from '@app/_lib/utils/redis'
 import { getPosts } from '@app/archive/_lib/getPosts'
 /* T_Type */
 import type { T_ArchivePost } from '@sujin/lib/types'

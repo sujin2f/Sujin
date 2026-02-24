@@ -10,7 +10,7 @@ import { Cards } from '@lib/components/archive/Cards'
 import { ARCHIVE, COLLECTION } from '@sujin/lib/constants'
 import { search } from '@lib/apollo/queries/wordpress/posts/search'
 /* Utils */
-import { gqlRequest } from '@app/_lib/redis'
+import { gqlRequest } from '@app/_lib/utils/redis'
 
 type Props = {
     slug: string

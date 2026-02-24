@@ -1,0 +1,9 @@
+query GetFocusBookmarks {
+    focusBookmarks {
+        _id
+        type
+        title
+        device
+        message
+    }
+}

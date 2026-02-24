@@ -5,6 +5,7 @@
         "moduleResolution": "node16",
         "lib": ["dom", "es2022"],
         "outDir": "./dist",
+        "rootDir": "./src",
         "strict": true,
         "esModuleInterop": true,
         "skipLibCheck": true,
@@ -13,8 +14,9 @@
         "paths": {
             "@test/*": ["./.jest/*"],
             "@sujin/share/*": ["../@common/src/*"]
-        }
+        },
+        "types": ["jest"]
     },
     "include": ["src/**/*.ts"],
-    "exclude": ["node_modules", "internal_modules", "src/**/*.spec.ts"]
+    "exclude": ["node_modules", "internal_modules"]
 }

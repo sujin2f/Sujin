@@ -6,7 +6,7 @@ import Callout from '@common/components/containers/Callout'
 /* CONSTANTS */
 import { VERSION } from '@sujin/share/constants/helper'
 /* Utils */
-import { publish } from '@app/_lib/redis'
+import { publish } from '@app/_lib/utils/redis'
 
 export default function FrontPage() {
     const [state, action, pending] = useActionState(() => publish('flush'), false)

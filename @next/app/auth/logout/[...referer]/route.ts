@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server'
 /* Utils */
-import { getUserInfo, logout } from '@lib/utils/server/header'
+import { getUserInfo, logout } from '@app/_lib/utils/tokens'
 import { promiseLike } from '@sujin/share/utils/helper'
 /* Models */
 import { Logger } from '@sujin/share/model/Logger'

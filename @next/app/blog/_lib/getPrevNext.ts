@@ -5,7 +5,7 @@ import { client } from '@lib/utils/apollo-client'
 import { COLLECTION } from '@sujin/lib/constants'
 import query from '@app/blog/_lib/getPrevNext-gql.graphql'
 /* Utils */
-import { gqlRequest } from '@app/_lib/redis'
+import { gqlRequest } from '@app/_lib/utils/redis'
 import { IS_DEV } from '@sujin/share/constants/helper'
 /* T_Types */
 import type { T_PrevNext } from '@sujin/lib/types'

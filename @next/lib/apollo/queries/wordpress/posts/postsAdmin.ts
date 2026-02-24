@@ -1,7 +1,7 @@
 'use server'
 import { client } from '@lib/utils/apollo-client'
 import GQL_QUERY from '@lib/apollo/queries/wordpress/posts/postsAdmin-gql.graphql'
-import { getAuthHeader } from '@lib/utils/server/header'
+import { getAuthHeader } from '@app/_lib/utils/tokens'
 import type { T_ArchivePost } from '@sujin/lib/types'
 
 export const postsAdmin = async (slug: string, page: number): Promise<T_ArchivePost[]> => {

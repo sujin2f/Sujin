@@ -3,6 +3,6 @@ export type T_Focus_Message = {
     title: string
     key: string
     device: string
-    messageType: string
+    type: 'bookmark' | 'keystroke'
     message: string
 }

@@ -5,7 +5,7 @@ import { Logger } from '@sujin/share/model/Logger'
 /* CONSTANTS */
 import QUERY from '@lib/apollo/queries/wordpress/pages/pages-gql.graphql'
 /* Utils */
-import { getAuthHeader } from '@lib/utils/server/header'
+import { getAuthHeader } from '@app/_lib/utils/tokens'
 /* T_Types */
 import type { T_ArchivePost } from '@sujin/lib/types'
 

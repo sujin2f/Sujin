@@ -1,6 +1,6 @@
 'use server'
 /* Utils */
-import { getUserInfo } from '@lib/utils/server/header'
+import { getUserInfo } from '@app/_lib/utils/tokens'
 /* Components */
 import { Banner } from '@app/@banner/_components'
 

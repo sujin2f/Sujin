@@ -6,13 +6,21 @@ import { Logger } from '@sujin/share/model/Logger'
 /* CONSTANTS */
 import { COOKIE_KEY_ACCESS_TOKEN, COOKIE_KEY_REFRESH_TOKEN, COOKIE_KEY_USER_INFO } from '@lib/constants'
 import { DAY_IN_SECONDS, HOUR_IN_SECONDS, SECOND_IN_MS } from '@sujin/share/constants/datetime'
-import { HEADER_TOKEN } from '@sujin/lib/constants'
 /* T_Types */
 import type { Nullable } from '@sujin/share/types'
 import type { T_UserSub } from '@sujin/lib/types'
 /* Utils */
-import { refresh } from '@lib/apollo/queries/users/refresh'
-import { generateToken, verifyToken, getExpiration } from '@sujin/lib/utils/token'
+import {
+    generateToken,
+    verifyToken,
+    getExpiration,
+    createAuthHeader,
+    getAuthHeader as getAuthHeaderFromHeader,
+} from '@sujin/lib/utils/token'
+
+/**
+ * Internal communication functions that uses next/headers
+ */
 
 const INTER_COM_SECRET = `${process.env.INTER_COM_SECRET}`
 const CRYPTO_KEY = `${process.env.CRYPTO_KEY}`
@@ -46,7 +54,7 @@ export const isAdmin = async () => {
     return user?.admin
 }
 
-const getAccessToken = async (): Promise<Nullable<string>> => {
+export const getAccessToken = async (): Promise<Nullable<string>> => {
     const cookie = (await cookies()).get(COOKIE_KEY_ACCESS_TOKEN)
     if (!cookie || !cookie.value) {
         return
@@ -68,7 +76,7 @@ const getSafeAccessToken = async (_token: Nullable<string>): Promise<Nullable<st
 
     // expired
     if (now > exp) {
-        await refresh()
+        await refreshAccessToken()
         token = await getAccessToken()
     }
 
@@ -92,7 +100,7 @@ const storeUserInfo = async (token: T_UserSub) => {
     cookie.set(COOKIE_KEY_USER_INFO, JSON.stringify(token), {
         httpOnly: true,
         secure: true,
-        maxAge: 30 * DAY_IN_SECONDS,
+        maxAge: 35 * DAY_IN_SECONDS,
         sameSite: 'lax',
         path: '/',
     })
@@ -142,7 +150,7 @@ export const getAuthHeader = async (): Promise<DefaultContext> => {
     if (!token) {
         return {}
     }
-    return { headers: { [HEADER_TOKEN]: `Bearer ${token}` } }
+    return createAuthHeader(token)
 }
 
 export const logout = async (): Promise<Nullable<void>> => {
@@ -150,4 +158,45 @@ export const logout = async (): Promise<Nullable<void>> => {
     cookieStore.delete(COOKIE_KEY_USER_INFO)
     cookieStore.delete(COOKIE_KEY_ACCESS_TOKEN)
     cookieStore.delete(COOKIE_KEY_REFRESH_TOKEN)
+}
+
+export const refreshAccessToken = async (_token: string = ''): Promise<undefined> => {
+    Logger.info('🤞 refresh token start!')
+    const token = _token || (await getRefreshToken())
+    if (!token) {
+        throw new Error()
+    }
+
+    const body = {
+        query: `
+        mutation {
+            refresh
+        }`,
+    }
+
+    await fetch(`${process.env.GQL_BASE_URL}`, {
+        method: 'POST',
+        headers: {
+            ...createAuthHeader(token).headers,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+    })
+        .then(async (response) => {
+            if (response.status !== 200) {
+                throw new Error()
+            }
+
+            const token = getAuthHeaderFromHeader(response.headers)
+            if (!token) {
+                throw new Error()
+            }
+
+            Logger.info('⭐️ refresh token done!')
+            await storeAccessToken(token)
+        })
+        .catch((e) => {
+            Logger.error(`🤬 refresh token failed! ${JSON.stringify(e)}`)
+            throw e
+        })
 }
