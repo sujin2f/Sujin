@@ -10,13 +10,7 @@ import { DAY_IN_SECONDS, HOUR_IN_SECONDS, SECOND_IN_MS } from '@sujin/share/cons
 import type { Nullable } from '@sujin/share/types'
 import type { T_UserSub } from '@sujin/lib/types'
 /* Utils */
-import {
-    generateToken,
-    verifyToken,
-    getExpiration,
-    createAuthHeader,
-    getAuthHeader as getAuthHeaderFromHeader,
-} from '@sujin/lib/utils/token'
+import { generateToken, verifyToken, getExpiration, createAuthHeader, getTokenFromHeader } from '@sujin/lib/utils/token'
 
 /**
  * Internal communication functions that uses next/headers
@@ -187,7 +181,7 @@ export const refreshAccessToken = async (_token: string = ''): Promise<undefined
                 throw new Error()
             }
 
-            const token = getAuthHeaderFromHeader(response.headers)
+            const token = getTokenFromHeader(response.headers)
             if (!token) {
                 throw new Error()
             }

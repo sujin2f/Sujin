@@ -1,0 +1,9 @@
+query GetFocusCloudItems {
+    focusCloudItems {
+        _id
+        type
+        title
+        device
+        message
+    }
+}

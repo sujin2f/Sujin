@@ -11,10 +11,7 @@ import { verifyAccessToken } from '@src/utils/security'
 import { setCache } from '@src/utils/redis/cache'
 import { COLLECTION } from '@sujin/lib/constants'
 
-/**
- * @deprecated Backward compatibility
- */
-export const getBookmarks = async (token: string): Promise<T_Focus_Message[]> => {
+export const getFocusCloudItems = async (token: string): Promise<T_Focus_Message[]> => {
     const user = await verifyAccessToken(token)
 
     return await Focus.find({ user: new Types.ObjectId(user._id), type: 'bookmark' })
@@ -41,13 +38,13 @@ export const getBookmarks = async (token: string): Promise<T_Focus_Message[]> =>
                             message: item.message,
                         }) satisfies T_Focus_Message,
                 )
-            Logger.log('getBookmarks() attempted', user.email, items.length)
-            setCache(JSON.stringify(items), `${COLLECTION.BOOKMARK}-${user.email}`, 30 * MINUTE_IN_SECONDS)
+            Logger.log('getFocusCloudItems() attempted', user.email, items.length)
+            setCache(JSON.stringify(items), `${COLLECTION.FOCUS_MESSAGE}-${user.email}`, 30 * MINUTE_IN_SECONDS)
             return items
         })
         .catch((e) => {
-            Logger.error('getBookmarks() failed', user.email, e.message)
-            setCache(JSON.stringify([]), `${COLLECTION.BOOKMARK}-${user.email}`, 30 * MINUTE_IN_SECONDS)
+            Logger.error('getFocusCloudItems() failed', user.email, e.message)
+            setCache(JSON.stringify([]), `${COLLECTION.FOCUS_MESSAGE}-${user.email}`, 30 * MINUTE_IN_SECONDS)
             return []
         })
 }

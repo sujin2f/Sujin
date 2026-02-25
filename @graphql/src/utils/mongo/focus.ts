@@ -4,7 +4,7 @@ import { FocusBrowser } from '@src/schema/focus'
 /* T_Types */
 import type { T_Focus_Message } from '@sujin/lib/types'
 
-export const createFocusBrowser = async (user: Types.ObjectId, message: T_Focus_Message) => {
+export const registerFocusBrowser = async (user: Types.ObjectId, message: T_Focus_Message) => {
     if (message.machineId === 'N/A') {
         return
     }

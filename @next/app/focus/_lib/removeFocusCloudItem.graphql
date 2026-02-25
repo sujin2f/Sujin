@@ -1,0 +1,3 @@
+mutation RemoveFocusCloudItem($id: String!) {
+    removeFocusCloudItem(id: $id)
+}

@@ -30,7 +30,7 @@ export const getExpiration = (token: string) => {
 export const getTokenSub = async <T>(token: string, cryptoKey: string): Promise<T> => {
     const decoded = jwt.decode(token)
     if (!decoded || typeof decoded === 'string' || !decoded.sub) {
-        throw new Error('🤬 Token is not valid!')
+        throw new Error('Token is not valid!')
     }
     const sub = await decodeText(decoded!.sub, cryptoKey)
     return JSON.parse(sub) as T
@@ -53,10 +53,10 @@ export const createAuthHeader = (token: string) => {
     return { headers: { [HEADER_TOKEN]: addHeaderPrefix(token) } }
 }
 
-export const getAuthHeader = (headers: { get: (key: string) => string | null }) => {
+export const getTokenFromHeader = (headers: { get: (key: string) => string | null }): string | void => {
     const token = headers.get(HEADER_TOKEN)
     if (!token) {
-        throw new Error('Token does not exist')
+        return
     }
     return removeHeaderPrefix(token)
 }
