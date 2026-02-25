@@ -23,10 +23,10 @@ export const getPage = async (slug: string): Promise<Nullable<T_Page>> => {
                 })
                 .then((result) => {
                     if (!result.data || !result.data.page.slug) {
-                        Logger.error(`🤬 page query failed! ${slug}`)
+                        Logger.error(`page query failed! ${slug}`)
                         return
                     }
-                    Logger.info(`⭐️ page query done! ${slug}`)
+                    Logger.info(`page query done! ${slug}`)
                     return result.data.page
                 }),
         `${COLLECTION.PAGE}-about`,

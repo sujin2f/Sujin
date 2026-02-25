@@ -12,7 +12,7 @@ import { Logger } from '@sujin/share/model/Logger'
  * @returns
  */
 export async function POST(request: NextRequest): Promise<Response> {
-    Logger.info('🤞 Focus refresh token')
+    Logger.info('Focus refresh token')
     const token = getAuthHeader(request.headers)
     if (!token) {
         return Response.error()

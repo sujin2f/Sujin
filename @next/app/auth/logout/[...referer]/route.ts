@@ -16,13 +16,13 @@ const redirect = (url: URL | string) => {
 export async function GET(request: NextRequest) {
     const user = await getUserInfo()
     const url = await promiseLike(() => new URL(request.url)).catch(() => {
-        Logger.error(`🤬 Cannot parse the URL: ${request.url}`)
+        Logger.error(`Cannot parse the URL: ${request.url}`)
         return `${process.env.AUTH_BASE_URL}`
     })
     if (!user) {
         return redirect(url)
     }
-    Logger.info(`🤞 logout started!: ${user.email}`)
+    Logger.info(`logout started!: ${user.email}`)
     await logout()
     return redirect(url)
 }

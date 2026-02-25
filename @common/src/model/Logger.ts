@@ -13,7 +13,7 @@ const { combine, timestamp, printf, colorize, align } = winston.format
  * Logger.info('Server started')
  * ```
  */
-export const Logger = winston.createLogger({
+export const logger = winston.createLogger({
     level: process.env.LOG_LEVEL || 'info',
     format: combine(
         colorize({ all: true }),
@@ -34,3 +34,20 @@ export const Logger = winston.createLogger({
     //       level: 'error',
     //     }),
 })
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+const join = (prefix: string, message: any[]) => [prefix, ...message].map((item) => item.toString()).join(' ')
+export const Logger = {
+    info: (...message: any[]) => {
+        logger.info(join('👀', message))
+    },
+    error: (...message: any[]) => {
+        logger.error(join('🤬', message))
+    },
+    warn: (...message: any[]) => {
+        logger.warn(join('⚠️', message))
+    },
+    log: (...message: any[]) => {
+        logger.data(join('⭐️', message))
+    },
+}

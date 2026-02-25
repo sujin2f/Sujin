@@ -13,6 +13,6 @@ const getLoginURL = async (request: NextRequest) => {
 }
 
 export async function GET(request: NextRequest) {
-    Logger.info('🤞 login started!', process.env.AUTH_BASE_URL)
+    Logger.info('login started!', process.env.AUTH_BASE_URL)
     return Response.redirect(await getLoginURL(request))
 }

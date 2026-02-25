@@ -23,10 +23,10 @@ export const getTag = async (slug: string): Promise<Nullable<T_Archive>> => {
                 })
                 .then((result) => {
                     if (!result.data || !result.data.tag.slug) {
-                        Logger.error(`🤬 tag query failed! ${slug}`)
+                        Logger.error(`tag query failed! ${slug}`)
                         return
                     }
-                    Logger.info(`⭐️ tag query done! ${slug}`)
+                    Logger.info(`tag query done! ${slug}`)
                     return result.data.tag
                 }),
         `${COLLECTION.ARCHIVE}-tag-${slug}`,

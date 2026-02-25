@@ -21,7 +21,7 @@ export const getMenu = async (slug: string): Promise<MenuItem[]> => {
         })
 
     return await gqlRequest(action, `${COLLECTION.MENU}-${slug}`).catch((e) => {
-        Logger.error(`🤬 Error fetching backgrounds ${JSON.stringify(e)}`)
+        Logger.error(`Error fetching backgrounds ${JSON.stringify(e)}`)
         return DEFAULT_MENUS
     })
 }

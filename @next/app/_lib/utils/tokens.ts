@@ -46,7 +46,7 @@ export const setCookies = async (token: string) => {
     await storeAccessToken(accessToken)
     await storeRefreshToken(refreshToken)
 
-    Logger.info('🤞 Sessions!')
+    Logger.info('Sessions!')
 }
 
 export const isAdmin = async () => {
@@ -161,7 +161,7 @@ export const logout = async (): Promise<Nullable<void>> => {
 }
 
 export const refreshAccessToken = async (_token: string = ''): Promise<undefined> => {
-    Logger.info('🤞 refresh token start!')
+    Logger.info('refresh token start!')
     const token = _token || (await getRefreshToken())
     if (!token) {
         throw new Error()
@@ -192,11 +192,11 @@ export const refreshAccessToken = async (_token: string = ''): Promise<undefined
                 throw new Error()
             }
 
-            Logger.info('⭐️ refresh token done!')
+            Logger.info('refresh token done!')
             await storeAccessToken(token)
         })
         .catch((e) => {
-            Logger.error(`🤬 refresh token failed! ${JSON.stringify(e)}`)
+            Logger.error(`refresh token failed! ${JSON.stringify(e)}`)
             throw e
         })
 }

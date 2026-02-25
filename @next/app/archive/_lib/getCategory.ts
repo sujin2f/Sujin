@@ -23,10 +23,10 @@ export const getCategory = async (slug: string): Promise<Nullable<T_Archive>> =>
                 })
                 .then((result) => {
                     if (!result.data || !result.data.category.slug) {
-                        Logger.error(`🤬 category query failed! ${slug}`)
+                        Logger.error(`category query failed! ${slug}`)
                         return
                     }
-                    Logger.info(`⭐️ category query done! ${slug}`)
+                    Logger.info(`category query done! ${slug}`)
                     return result.data.category
                 }),
         `${COLLECTION.ARCHIVE}-category-${slug}`,
