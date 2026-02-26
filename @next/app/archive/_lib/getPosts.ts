@@ -27,10 +27,10 @@ export const getPosts = async (
                 })
                 .then((result) => {
                     if (!result.data || !result.data.posts.items.length) {
-                        Logger.error(`🤬 posts query failed with ${type} ${slug} ${page}`)
+                        Logger.error(`posts query failed with ${type} ${slug} ${page}`)
                         return
                     }
-                    Logger.info(`⭐️ posts query done with ${type} ${slug} ${page}`)
+                    Logger.info(`posts query done with ${type} ${slug} ${page}`)
                     return result.data.posts
                 }),
         `${COLLECTION.POST}-archive-${type}-${slug}-${page}`,

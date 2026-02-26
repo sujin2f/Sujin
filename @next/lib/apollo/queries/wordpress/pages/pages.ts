@@ -10,7 +10,7 @@ import { getAuthHeader } from '@app/_lib/utils/tokens'
 import type { T_ArchivePost } from '@sujin/lib/types'
 
 export const pages = async (page: number): Promise<T_ArchivePost[]> => {
-    Logger.info(`🤞 pages query requested! ${page}`)
+    Logger.info(`pages query requested! ${page}`)
     return await client
         .query<{ pages: T_ArchivePost[] }>({
             query: QUERY,

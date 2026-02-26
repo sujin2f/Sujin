@@ -1,7 +1,7 @@
 import type { NextRequest } from 'next/server'
 /* Utils */
 import { getAccessToken, refreshAccessToken, storeAccessToken } from '@app/_lib/utils/tokens'
-import { getAuthHeader } from '@sujin/lib/utils/token'
+import { getTokenFromHeader } from '@sujin/lib/utils/token'
 /* Models */
 import { Logger } from '@sujin/share/model/Logger'
 
@@ -12,8 +12,8 @@ import { Logger } from '@sujin/share/model/Logger'
  * @returns
  */
 export async function POST(request: NextRequest): Promise<Response> {
-    Logger.info('🤞 Focus refresh token')
-    const token = getAuthHeader(request.headers)
+    Logger.info('Focus refresh token')
+    const token = getTokenFromHeader(request.headers)
     if (!token) {
         return Response.error()
     }

@@ -8,13 +8,13 @@ import { client } from '@app/_lib/graphql/client'
 /* T_Types */
 import type { T_Focus_Message } from '@sujin/lib/types'
 /* Utils */
-import { createAuthHeader, getAuthHeader } from '@sujin/lib/utils/token'
+import { createAuthHeader, getTokenFromHeader } from '@sujin/lib/utils/token'
 import { gqlRequest } from '@app/_lib/utils/redis'
 
 export async function GET(request: NextRequest) {
-    Logger.info('🤞 Focus list bookmark')
+    Logger.info('Focus list GET from old Browser')
 
-    const token = getAuthHeader(request.headers)
+    const token = getTokenFromHeader(request.headers)
     const email = request.headers.get('email')
     if (!token || !email) {
         return Response.error()
@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
                 }),
         `${COLLECTION.BOOKMARK}-${email}`,
     ).catch((e) => {
-        Logger.error(`🤬 Error fetching bookmarks: ${e.message}`)
+        Logger.error(`Focus list GET from old Browser failed: ${e.message}`)
         return [] as T_Focus_Message[]
     })
 

@@ -11,6 +11,9 @@ import type { T_Focus_Message } from '@sujin/lib/types'
 /* CONSTANTS */
 import { COLLECTION } from '@sujin/lib/constants'
 
+/**
+ * @deprecated Backward compatibility
+ */
 export const removeBookmark = async (id: string, token: string): Promise<T_Focus_Message[]> => {
     Logger.info('🤞 removeFocusMessage start')
     const user = await verifyAccessToken(token)

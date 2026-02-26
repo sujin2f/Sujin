@@ -6,13 +6,16 @@ import { client } from '@app/_lib/graphql/client'
 import CREATE from '@app/focus/_lib/createFocusBookmark.graphql'
 import REMOVE from '@app/focus/_lib/removeFocusBookmark.graphql'
 /* Utils */
-import { createAuthHeader, getAuthHeader } from '@sujin/lib/utils/token'
+import { createAuthHeader, getTokenFromHeader } from '@sujin/lib/utils/token'
 /* T_Types */
 import type { T_Focus_Message } from '@sujin/lib/types'
 
+/**
+ * @deprecated Backward compatibility
+ */
 export async function PUT(request: NextRequest) {
-    Logger.info('🤞 Focus upload')
-    const token = getAuthHeader(request.headers)
+    Logger.info('Focus DELETE from old Browser')
+    const token = getTokenFromHeader(request.headers)
     if (!token) {
         return Response.error()
     }
@@ -29,16 +32,19 @@ export async function PUT(request: NextRequest) {
         })
         .then(() => true)
         .catch((e) => {
-            Logger.error(`🤬 Focus upload failed, ${e.message}`)
+            Logger.error(`Focus DELETE from old Browser failed, ${e.message}`)
             return false
         })
 
     return Response.json({ result })
 }
 
+/**
+ * @deprecated Backward compatibility
+ */
 export async function DELETE(request: NextRequest) {
-    Logger.info('🤞 Focus remove')
-    const token = getAuthHeader(request.headers)
+    Logger.info('Focus DELETE from old Browser')
+    const token = getTokenFromHeader(request.headers)
     if (!token) {
         return Response.error()
     }
@@ -58,7 +64,7 @@ export async function DELETE(request: NextRequest) {
             return result.data.removeFocusBookmark
         })
         .catch((e) => {
-            Logger.error(`🤬 Focus delete failed, ${e.message}`)
+            Logger.error(`Focus DELETE from old Browser failed, ${e.message}`)
             return []
         })
 

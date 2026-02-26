@@ -12,11 +12,8 @@ import { verifyAccessToken } from '@src/utils/security'
 import { removeCache } from '@src/utils/redis/cache'
 import { registerFocusBrowser } from '@src/utils/mongo/focus'
 
-/**
- * @deprecated Backward compatibility
- */
-export const createBookmark = async (message: T_Focus_Message, token: string): Promise<string> => {
-    Logger.info('createBookmark() attempted')
+export const createFocusCloudItem = async (message: T_Focus_Message, token: string): Promise<string> => {
+    Logger.info('createFocusCloudItem() attempted')
 
     const user = await verifyAccessToken(token)
     const userId = new Types.ObjectId(user._id)
@@ -38,10 +35,10 @@ export const createBookmark = async (message: T_Focus_Message, token: string): P
     if (!exists) {
         const expires = now + 24 // Expires in 24 hours
         await Focus.insertOne({ ...message, user: userId, expires })
-        await removeCache(`${COLLECTION.BOOKMARK}-${user.email}`)
-        Logger.info('createBookmark() created')
+        await removeCache(`${COLLECTION.FOCUS_MESSAGE}-${user.email}`)
+        Logger.info('createFocusCloudItem() created')
         return 'ok'
     }
 
-    return 'duplicated'
+    return exists._id.toString() || 'duplicated'
 }

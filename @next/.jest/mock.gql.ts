@@ -1,7 +1,15 @@
 import '@testing-library/jest-dom'
-const mockQuery = jest.fn()
+import { client } from '@app/_lib/graphql/client'
 jest.mock('@app/_lib/graphql/client', () => ({
     client: {
-        query: () => mockQuery,
+        query: jest.fn(),
+        mutate: jest.fn(),
+    },
+}))
+
+import { NextResponse } from 'next/server'
+jest.mock('next/server', () => ({
+    NextResponse: {
+        json: jest.fn(),
     },
 }))

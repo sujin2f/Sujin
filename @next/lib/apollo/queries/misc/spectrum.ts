@@ -22,7 +22,7 @@ export const spectrum = async (number: number, ion: number): Promise<ISpectrum[]
             return result.data.spectrum
         })
         .catch((e) => {
-            Logger.error(`🤬 Error fetching spectrum with ${number}, ${ion}, ${JSON.stringify(e)}`)
+            Logger.error(`Error fetching spectrum with ${number}, ${ion}, ${JSON.stringify(e)}`)
             return []
         })
 }

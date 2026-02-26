@@ -14,12 +14,13 @@ jest.mock('@sujin/share/model/Logger', () => ({
 const mockQuery = jest.fn()
 jest.mock('@app/_lib/graphql/client', () => ({
     client: {
-        query: () => mockQuery,
+        query: async () => mockQuery,
+        mutate: async () => mockQuery,
     },
 }))
 
 describe('getMenu.spec.ts', () => {
-    it('getMenu.spec.ts', async () => {
+    it('getMenu()', async () => {
         const menu = await getMenu('slug')
         expect(menu).toStrictEqual(DEFAULT_MENUS)
     })

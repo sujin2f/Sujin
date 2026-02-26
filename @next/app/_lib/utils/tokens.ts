@@ -10,13 +10,7 @@ import { DAY_IN_SECONDS, HOUR_IN_SECONDS, SECOND_IN_MS } from '@sujin/share/cons
 import type { Nullable } from '@sujin/share/types'
 import type { T_UserSub } from '@sujin/lib/types'
 /* Utils */
-import {
-    generateToken,
-    verifyToken,
-    getExpiration,
-    createAuthHeader,
-    getAuthHeader as getAuthHeaderFromHeader,
-} from '@sujin/lib/utils/token'
+import { generateToken, verifyToken, getExpiration, createAuthHeader, getTokenFromHeader } from '@sujin/lib/utils/token'
 
 /**
  * Internal communication functions that uses next/headers
@@ -46,7 +40,7 @@ export const setCookies = async (token: string) => {
     await storeAccessToken(accessToken)
     await storeRefreshToken(refreshToken)
 
-    Logger.info('🤞 Sessions!')
+    Logger.info('Sessions!')
 }
 
 export const isAdmin = async () => {
@@ -161,7 +155,7 @@ export const logout = async (): Promise<Nullable<void>> => {
 }
 
 export const refreshAccessToken = async (_token: string = ''): Promise<undefined> => {
-    Logger.info('🤞 refresh token start!')
+    Logger.info('refresh token start!')
     const token = _token || (await getRefreshToken())
     if (!token) {
         throw new Error()
@@ -187,16 +181,16 @@ export const refreshAccessToken = async (_token: string = ''): Promise<undefined
                 throw new Error()
             }
 
-            const token = getAuthHeaderFromHeader(response.headers)
+            const token = getTokenFromHeader(response.headers)
             if (!token) {
                 throw new Error()
             }
 
-            Logger.info('⭐️ refresh token done!')
+            Logger.info('refresh token done!')
             await storeAccessToken(token)
         })
         .catch((e) => {
-            Logger.error(`🤬 refresh token failed! ${JSON.stringify(e)}`)
+            Logger.error(`refresh token failed! ${JSON.stringify(e)}`)
             throw e
         })
 }

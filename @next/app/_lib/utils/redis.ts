@@ -44,7 +44,7 @@ export const gqlRequest = async <T>(callback: () => Promise<T>, key: string): Pr
     }
 
     const redis = await client().catch((e) => {
-        Logger.error(`🤬 Redis connection failed: ${JSON.stringify(e)}`)
+        Logger.error(`Redis connection failed: ${JSON.stringify(e)}`)
     })
 
     if (!redis || !redis.isReady || !key) {
@@ -52,7 +52,7 @@ export const gqlRequest = async <T>(callback: () => Promise<T>, key: string): Pr
     }
 
     const result = await redis.get(`@next-${key}`).catch((e) => {
-        Logger.error(`🤬 Redis.get() failed: ${JSON.stringify(e)}`)
+        Logger.error(`Redis.get() failed: ${JSON.stringify(e)}`)
     })
 
     if (result) {
@@ -66,17 +66,17 @@ export const gqlRequest = async <T>(callback: () => Promise<T>, key: string): Pr
 export const publish = async (channel: string, _message?: unknown) => {
     'use server'
     const redis = await client().catch((e) => {
-        Logger.error(`🤬 Redis connection failed on publish: ${JSON.stringify(e)}`)
+        Logger.error(`Redis connection failed on publish: ${JSON.stringify(e)}`)
     })
     if (!redis || !redis.isReady) {
-        Logger.error(`🤬 Redis does not exist or not ready on publish: ${JSON.stringify(redis)}`)
+        Logger.error(`Redis does not exist or not ready on publish: ${JSON.stringify(redis)}`)
         return false
     }
     const publisher = await redis
         .duplicate()
         .connect()
         .catch((e) => {
-            Logger.error(`🤬 Redis does not exist or not ready on publish: ${JSON.stringify(e)}`)
+            Logger.error(`Redis does not exist or not ready on publish: ${JSON.stringify(e)}`)
         })
 
     if (!publisher) {

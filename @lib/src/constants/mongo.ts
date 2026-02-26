@@ -14,5 +14,9 @@ export enum COLLECTION {
     ARCHIVE = 'archives',
     RECIPE = 'recipes',
     MENU = 'menus',
+    FOCUS_MESSAGE = 'focus-cloud-message',
+    /**
+     * @deprecated Backward compatibility
+     */
     BOOKMARK = 'focus-bookmark',
 }

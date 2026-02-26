@@ -21,7 +21,7 @@ export const getBackgrounds = async () => {
                     return result.data.backgrounds
                 })
                 .catch((e) => {
-                    Logger.error(`🤬 Error fetching backgrounds ${JSON.stringify(e)}`)
+                    Logger.error(`Error fetching backgrounds ${JSON.stringify(e)}`)
                     return []
                 }),
         COLLECTION.BACKGROUNDS,
