@@ -1,5 +1,5 @@
 /* Components */
-import PageRecipe from '@app/recipe/page'
+import { RecipeList } from '@app/recipe/_components/RecipeList'
 
 type Props = {
     params: Promise<{
@@ -13,5 +13,5 @@ export default async function ListPage(props: Props) {
     const params = await props.params
     const page = parseInt(params.page)
 
-    return <PageRecipe page={page} />
+    return <RecipeList page={page} />
 }

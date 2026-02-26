@@ -3,6 +3,7 @@ query GetFocusCloudItems {
         _id
         type
         title
+        key
         device
         message
     }
