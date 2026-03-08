@@ -5,6 +5,7 @@ import { recipes } from '@src/resolvers/recipes'
 import { misc } from '@src/resolvers/misc'
 import { wordpress } from '@src/resolvers/wordpress'
 import { focus } from '@src/resolvers/focus'
+import { admin } from '@src/resolvers/admin'
 
 /**
  * Root GraphQL resolver map assembled from feature-specific resolvers.
@@ -17,10 +18,12 @@ export const Query = {
     ...misc.Query,
     ...wordpress.Query,
     ...focus.Query,
+    ...admin.Query,
 }
 
 export const Mutation = {
     ...users.Mutation,
     ...recipes.Mutation,
     ...focus.Mutation,
+    ...admin.Mutation,
 }

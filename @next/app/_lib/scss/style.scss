@@ -159,18 +159,15 @@ article {
 
         .about-item__range {
             grid-area: range;
+            @apply bg-primary text-white aspect-square text-center flex flex-col justify-center;
 
             time::before {
                 content: '';
-                display: block;
-                margin: 0.1em auto;
-                background-color: var(--color-white);
-                height: 0.3em;
-                width: 0.3em;
+                @apply block bg-white h-1.5 w-1.5 mx-auto my-1;
             }
 
             time:first-child::before {
-                display: none;
+                @apply hidden;
             }
         }
 
@@ -190,12 +187,7 @@ article {
 
             li::before {
                 content: '';
-                display: block;
-                margin-top: 0.75em;
-                width: 0.5rem;
-                height: 0.5rem;
-                background-color: var(--color-primary);
-                flex-shrink: 0;
+                @apply block bg-primary h-1.5 w-1.5 shrink-0 mt-3;
             }
         }
 

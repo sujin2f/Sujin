@@ -1,0 +1,13 @@
+type Query {
+    focusDevices(page: Int!): [FocusDevice]
+}
+
+type Mutation {
+    focusRemoveDevices: Boolean
+}
+
+type FocusDevice {
+    _id: String
+    device: String
+    machineId: String
+}

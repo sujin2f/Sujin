@@ -1,11 +1,8 @@
 import { notFound } from 'next/navigation'
 import type { PropsWithChildren } from 'react'
+import Link from 'next/link'
 /* Components */
-import TopBar from '@app/@topbar/_components/TopBar'
-import { Wrapper } from '@app/_components/layout/Wrapper'
-import Row from '@common/components/layout/Row'
-import Column from '@common/components/layout/Column'
-import { Footer } from '@app/@footer/_components'
+import { Main } from '@app/_components/html-elements/Main'
 /* Utils */
 import { isAdmin } from '@app/_lib/utils/tokens'
 
@@ -25,47 +22,37 @@ export default async function AdminLayout({ children }: PropsWithChildren) {
     if (!(await isAdmin())) notFound()
 
     return (
-        <Wrapper>
-            <TopBar menu="primary" />
-            <Row>
-                <Column small={2}>
-                    {/* <Menu
-                        items={[
-                            {
-                                title: 'Home',
-                                link: '/next-admin',
-                            },
-                            {
-                                title: 'Pages',
-                                link: '/next-admin/pages/1',
-                            },
-                            {
-                                title: 'Posts',
-                                link: '/next-admin/posts/1',
-                            },
-                            {
-                                title: 'Categories',
-                                link: '/next-admin/categories/1',
-                            },
-                            {
-                                title: 'Tags',
-                                link: '/next-admin/tags/1',
-                            },
-                            {
-                                title: 'Backgrounds',
-                                link: '/next-admin/backgrounds',
-                            },
-                            {
-                                title: 'Flush Cache',
-                                link: '/next-admin/flush-cache',
-                            },
-                        ]}
-                        direction="vertical"
-                    /> */}
-                </Column>
-                <Column small={10}>{children}</Column>
-            </Row>
-            <Footer />
-        </Wrapper>
+        <Main className="grid w-full max-w-2xl grid-cols-1 gap-8 xl:max-w-6xl xl:grid-cols-[var(--container-3xs)_minmax(0,1fr)]">
+            <nav>
+                <ul>
+                    <li>
+                        <Link href="/next-admin">Home</Link>
+                    </li>
+                    <li>
+                        <Link href="/next-admin/pages/1">Pages</Link>
+                    </li>
+                    <li>
+                        <Link href="/next-admin/posts/1">Posts</Link>
+                    </li>
+                    <li>
+                        <Link href="/next-admin/categories/1">Categories</Link>
+                    </li>
+                    <li>
+                        <Link href="/next-admin/tags/1">Tags</Link>
+                    </li>
+                    <li>
+                        <Link href="/next-admin/backgrounds">Backgrounds</Link>
+                    </li>
+                    <li>
+                        <Link href="/next-admin/flush-cache">Flush Cache</Link>
+                    </li>
+                    <li>
+                        <Link href="/next-admin/focus">Focus</Link>
+                    </li>
+                </ul>
+            </nav>
+
+            <aside>{children}</aside>
+        </Main>
     )
 }
