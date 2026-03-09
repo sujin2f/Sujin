@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 import Link from 'next/link'
-/* T_Type */
-import { usePage, type Props } from '@app/archive/_lib/usePage'
+/* Hooks */
+import { usePage, type Props } from '@app/_components/layout/usePage'
 
 const className =
     'flex items-center justify-center w-12 h-12 cursor-pointer text-primary border border-slate-300 hover:bg-primary hover:text-white transition-colors'
@@ -17,7 +17,15 @@ export const Paging = (props: Props) => {
                     )}
 
                     {!entity.ellipsis && props.currentPage !== entity.text && (
-                        <Link href={entity.link} className={className}>
+                        <Link
+                            href={entity.link}
+                            className={className}
+                            onClick={(e) => {
+                                if (!props.onClick) return
+                                e.preventDefault()
+                                props.onClick(entity.text)
+                            }}
+                        >
                             {entity.text}
                         </Link>
                     )}

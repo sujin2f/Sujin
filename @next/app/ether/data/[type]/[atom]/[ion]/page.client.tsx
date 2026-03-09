@@ -4,7 +4,7 @@ import { useParams } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
 /* Components */
 import { DataHeader } from '@lib/components/ether/DataHeader'
-import ScrollToTop from '@common/components/ScrollToTop'
+import ScrollToTop from '@app/_components/ScrollToTop'
 import Row from '@common/components/layout/Row'
 import Column from '@common/components/layout/Column'
 import { Chart } from '@lib/components/ether/Chart'

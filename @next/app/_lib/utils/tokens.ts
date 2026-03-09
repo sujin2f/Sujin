@@ -142,6 +142,7 @@ export const getAuthHeader = async (): Promise<DefaultContext> => {
     const _token = await getAccessToken()
     const token = await getSafeAccessToken(_token)
     if (!token) {
+        await logout()
         return {}
     }
     return createAuthHeader(token)

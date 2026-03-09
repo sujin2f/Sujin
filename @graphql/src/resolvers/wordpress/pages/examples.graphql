@@ -2,7 +2,4 @@ query {
     page(slug: "about") {
         title
     }
-    pages(page: 1) {
-        title
-    }
 }

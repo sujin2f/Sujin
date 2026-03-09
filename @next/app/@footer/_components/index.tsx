@@ -1,7 +1,7 @@
 'use server'
 import Link from 'next/link'
 /* Components */
-import { GoogleAdvert } from '@common/components/GoogleAdvert'
+import { GoogleAdvert } from '@app/_components/GoogleAdvert'
 import TagCloud from '@app/@footer/_components/TagCloud'
 import Flickr from '@app/@footer/_components/Flickr'
 import { WidgetTitle } from '@app/_components/WidgetTitle'

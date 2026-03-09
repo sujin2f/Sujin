@@ -51,13 +51,17 @@ export const Focus = model('focus', focusSchema)
 /**
  * Mongoose model for a Focus browser.
  */
-const focusBrowserSchema = new Schema({
+const focusBrowserSchema = new Schema<{ user: typeof SchemaTypes.ObjectId; device: string; machineId?: string }>({
     user: {
         type: SchemaTypes.ObjectId,
         ref: 'user',
         required: true,
     },
     device: {
+        type: String,
+        required: true,
+    },
+    machineId: {
         type: String,
         required: true,
     },

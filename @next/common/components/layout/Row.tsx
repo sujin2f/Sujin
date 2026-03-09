@@ -16,6 +16,7 @@ type Props<T extends HTMLElement> = DetailedHTMLProps<HTMLAttributes<T>, T> & {
  * @param {string} [props.className] - Additional class names for the row.
  * @param {string} [props.id] - The id of the row.
  * @param {JSX.ElementType} [props.dom] - The DOM element or component to use for the row.
+ * @deprecated
  */
 function Row<T extends HTMLElement>({ className: propClassName, dom, fullWidth, children, ...props }: Props<T>) {
     const type = dom || 'div'

@@ -7,3 +7,9 @@ export type T_Focus_Message = {
     type: 'bookmark' | 'keystroke'
     message: string
 }
+
+export type T_Focus_Device = {
+    _id: string
+    device: string
+    machineId: string
+}

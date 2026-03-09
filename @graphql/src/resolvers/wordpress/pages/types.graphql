@@ -1,6 +1,5 @@
 type Query {
     page(slug: String!): Page
-    pages(page: Int!): [Page]
 }
 
 type Page implements I_Page {

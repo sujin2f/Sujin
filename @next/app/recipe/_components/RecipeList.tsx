@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 /* Components */
-import { Paging } from '@app/archive/_components/Paging'
+import { Paging } from '@app/_components/layout/Paging'
 import { WidgetTitle } from '@app/_components/WidgetTitle'
 /* T_Types */
 import type { WithNumPages, T_Recipe } from '@sujin/lib/types'

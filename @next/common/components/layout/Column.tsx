@@ -39,6 +39,7 @@ type Props = ColumnProps &
  * @param {string} [props.className] - Additional class names for the column.
  * @param {string} [props.id] - The id of the column.
  * @param {string | React.ElementType} [props.dom] - The DOM element or component to use for the column.
+ * @deprecated
  */
 const Column = (props: Props) => {
     const small = props.small && `small-${props.small}`

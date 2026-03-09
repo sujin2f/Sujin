@@ -20,6 +20,7 @@ type Props = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButt
  * @param {boolean} [props.hollow] - Whether the button should have a hollow style.
  * @param {boolean} [props.vanilla] - Whether the button should have a vanilla style.
  * @param {string} [props.href] - The URL to redirect to when the button is clicked.
+ * @deprecated
  */
 const Button = ({
     title = 'Button',

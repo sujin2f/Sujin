@@ -1,0 +1,13 @@
+query focusDevices($page: Int!) {
+    focusDevices(page: $page) {
+        _id
+        device
+        machineId
+    }
+}
+
+query {
+    page(slug: "about") {
+        title
+    }
+}

@@ -5,7 +5,7 @@ import { Logger } from '@sujin/share/model/Logger'
 /* Components */
 import Card from '@app/archive/_components/Card'
 import { Tags } from '@app/blog/_components/Tags'
-import { Paging } from '@app/archive/_components/Paging'
+import { Paging } from '@app/_components/layout/Paging'
 import { Main } from '@app/_components/html-elements/Main'
 /* CONSTANTS */
 import { ARCHIVE } from '@sujin/lib/constants'
