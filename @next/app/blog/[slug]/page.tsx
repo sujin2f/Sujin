@@ -8,7 +8,7 @@ import { RelatedPosts } from '@app/blog/_components/RelatedPosts'
 import { RecentPosts } from '@app/blog/_components/RecentPosts'
 import { SocialShare } from '@app/blog/_components/SocialShare'
 import { Content } from '@app/blog/_components/Content'
-import { GoogleAdvert } from '@common/components/GoogleAdvert'
+import { GoogleAdvert } from '@app/_components/GoogleAdvert'
 import { Main } from '@app/_components/html-elements/Main'
 /* CONSTANTS */
 import { IMAGE_SIZE, POST_STATUS } from '@sujin/lib/constants'

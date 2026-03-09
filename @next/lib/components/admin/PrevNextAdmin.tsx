@@ -10,6 +10,12 @@ type Props = {
     readonly path: string
 }
 
+/**
+ *
+ * @param param0
+ * @returns
+ * @deprecated
+ */
 export const PrevNextAdmin = ({ page, length, path }: PropsWithChildren<Props>) => {
     const prev = page !== 1 && {
         title: 'Prev',

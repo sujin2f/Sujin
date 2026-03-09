@@ -5,3 +5,9 @@ query focusDevices($page: Int!) {
         machineId
     }
 }
+
+query {
+    page(slug: "about") {
+        title
+    }
+}

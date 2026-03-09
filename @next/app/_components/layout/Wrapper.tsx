@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from 'react'
 /* Components */
-import ScrollToTop from '@common/components/ScrollToTop'
+import ScrollToTop from '@app/_components/ScrollToTop'
 
 /**
  * Layout component

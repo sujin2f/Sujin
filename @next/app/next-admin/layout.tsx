@@ -29,7 +29,7 @@ export default async function AdminLayout({ children }: PropsWithChildren) {
                         <Link href="/next-admin">Home</Link>
                     </li>
                     <li>
-                        <Link href="/next-admin/pages/1">Pages</Link>
+                        <Link href="/next-admin/pages">Pages</Link>
                     </li>
                     <li>
                         <Link href="/next-admin/posts/1">Posts</Link>
