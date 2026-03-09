@@ -1,7 +1,6 @@
 'use client'
-import { Fragment, useState, startTransition, useActionState } from 'react'
+import { Fragment, useState, startTransition } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 /* Components */
 import { Paging } from '@app/_components/layout/Paging'
 import { Input } from '@app/_components/html-elements/Input'
@@ -9,37 +8,21 @@ import { Button } from '@app/_components/html-elements/Button'
 /* Utils */
 import { useServerAction } from '@app/_lib/hooks/useServerAction'
 import { queryPages } from '@app/next-admin/pages/_lib/queryPages'
-import { publish } from '@app/_lib/utils/redis'
+import { useRedisPub } from '@app/next-admin/_lib/useRedisPub'
 /* T_Type */
-import type { T_ArchivePost, RedisMessageWordpress } from '@sujin/lib/types'
+import type { T_ArchivePost } from '@sujin/lib/types'
 /* CONSTANTS */
 import { QuantumBool } from '@sujin/share/types'
 import { POST_TYPE } from '@sujin/lib/constants'
 
 export default function AdminPages() {
-    const router = useRouter()
     const [page, setPage] = useState<number>(1)
     const { data, loading, error } = useServerAction<{
         items: T_ArchivePost[]
         total: number
     }>(() => queryPages(page), false, page)
 
-    const [state, refresh, pending] = useActionState<QuantumBool, [string, 'update' | 'remove']>(
-        async (_: QuantumBool, [slug, action]: [string, 'update' | 'remove']) => {
-            const message: RedisMessageWordpress = {
-                type: POST_TYPE.PAGE,
-                action,
-                slug,
-            }
-            return await publish('wordpress', message)
-                .then(() => {
-                    router.refresh()
-                    return QuantumBool.TRUE
-                })
-                .catch(() => QuantumBool.FALSE)
-        },
-        QuantumBool.MOD,
-    )
+    const [state, action, pending] = useRedisPub()
 
     if (loading || error || !data)
         return (
@@ -61,7 +44,7 @@ export default function AdminPages() {
                     const data = new FormData(e.target as HTMLFormElement)
                     const slug = data.get('slug')?.toString()
                     if (!slug) return
-                    startTransition(() => refresh([slug, 'update']))
+                    startTransition(() => action([POST_TYPE.PAGE, 'update', slug]))
                 }}
             >
                 <div className="mr-2">Slug</div>
@@ -103,7 +86,7 @@ export default function AdminPages() {
                                 className="text-primary underline"
                                 onClick={(e) => {
                                     e.preventDefault()
-                                    startTransition(() => refresh([post.slug, 'remove']))
+                                    startTransition(() => action([POST_TYPE.PAGE, 'remove', post.slug]))
                                 }}
                             >
                                 Remove
@@ -115,7 +98,7 @@ export default function AdminPages() {
                                 className="text-primary underline"
                                 onClick={(e) => {
                                     e.preventDefault()
-                                    startTransition(() => refresh([post.slug, 'update']))
+                                    startTransition(() => action([POST_TYPE.PAGE, 'update', post.slug]))
                                 }}
                             >
                                 Refresh
