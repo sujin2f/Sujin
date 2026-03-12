@@ -1,6 +1,7 @@
 type Query {
     flickr: [FlickrImage]
     spectrum(number: Int!, ion: Int!): [Spectra]
+    test: Boolean
 }
 type FlickrImage {
     title: String

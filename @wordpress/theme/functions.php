@@ -79,5 +79,5 @@ function get_attachment_by_id( int $id ): ?array {
 		'width'    => $meta['width'],
 		'height'   => $meta['height'],
 		'mimeType' => $post['post_mime_type'],
-	);
+	); // same with T_ImageBlock.
 }

@@ -1,5 +1,6 @@
 import { flickr } from '@src/resolvers/misc/flickr'
 import { spectrum } from '@src/resolvers/misc/spectrum'
+import { test } from '@src/resolvers/misc/test'
 
 import type { T_GQL_Params_Spectrum } from '@sujin/lib/types'
 
@@ -13,5 +14,6 @@ export const misc = {
     Query: {
         flickr,
         spectrum: async (_: unknown, { number, ion }: T_GQL_Params_Spectrum) => await spectrum(number, ion),
+        test: async () => await test(),
     },
 }

@@ -60,7 +60,9 @@ export type T_RestPost = {
     title: {
         rendered: string
     }
-
     archives: T_Archive[]
     images: T_PostImages
+    acf: {
+        'background-color': string
+    }
 }
