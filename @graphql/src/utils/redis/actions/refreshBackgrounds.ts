@@ -22,6 +22,7 @@ import { COLLECTION } from '@sujin/lib/constants'
  * @returns An empty array on success.
  */
 export const refreshBackgrounds = async (): Promise<T_Background[]> => {
+    // TODO WP Rest
     await getBackgrounds().then(async (result) => {
         const backgrounds = result.map((image) => convertWPImageURL(image))
         await Background.deleteMany({})

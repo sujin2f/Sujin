@@ -1,6 +1,6 @@
 import { flickr } from '@src/resolvers/misc/flickr'
 import { spectrum } from '@src/resolvers/misc/spectrum'
-import { test } from '@src/resolvers/misc/test'
+import { test } from '@src/resolvers/misc/dev'
 
 import type { T_GQL_Params_Spectrum } from '@sujin/lib/types'
 
