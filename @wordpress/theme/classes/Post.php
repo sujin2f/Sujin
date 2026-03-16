@@ -20,6 +20,9 @@ class Post {
 	 */
 	public function __construct() {
 		add_action( 'save_post', array( $this, 'save_post' ), 15, 2 );
+		add_action( 'rest_api_init', array( $this, 'register_rest_fields' ) );
+		add_filter( 'rest_post_collection_params', array( $this, 'rest_post_collection_params' ) );
+		add_filter( 'rest_post_query', array( $this, 'rest_post_query' ), 15, 2 );
 	}
 
 	/**
@@ -98,5 +101,101 @@ class Post {
 			)
 		);
 		$redis->quit();
+	}
+
+	/**
+	 * Register images & archives fields
+	 */
+	public function register_rest_fields(): void {
+		register_rest_field(
+			'post',
+			'images',
+			array(
+				'get_callback' => function ( array $post ) {
+					$images = array(
+						'list'       => get_attachment_by_id( (int) $post['acf']['list'] ),
+						'icon'       => get_attachment_by_id( (int) $post['acf']['icon'] ),
+						'title'      => get_attachment_by_id( (int) $post['acf']['title'] ),
+						'background' => get_attachment_by_id( (int) $post['acf']['background'] ),
+						'thumbnail'  => get_attachment_by_id( (int) get_post_thumbnail_id( $post['id'] ) ),
+					); // same with T_ImageBlock and POST_IMAGE_LOCATION: list, icon, title, background, thumbnail.
+					return $images;
+				},
+				'schema'       => array(
+					'description' => __( 'Post Images.' ),
+					'type'        => 'array',
+				),
+			)
+		);
+
+		register_rest_field(
+			'post',
+			'archives',
+			array(
+				'get_callback' => function ( array $post ) {
+					$categories = array_map(
+						function ( $a ) {
+							$category = get_term( $a, 'category' );
+							return array(
+								'slug'    => $category->slug,
+								'title'   => $category->name,
+								'excerpt' => $category->description,
+								'total'   => $category->count,
+								'type'    => 'category',
+							); // same with T_Archive.
+						},
+						$post['categories']
+					);
+
+					$tags = array_map(
+						function ( $a ) {
+							$category = get_term( $a, 'post_tag' );
+							return array(
+								'slug'    => $category->slug,
+								'title'   => $category->name,
+								'excerpt' => $category->description,
+								'total'   => $category->count,
+								'type'    => 'tag',
+							); // same with T_Archive.
+						},
+						$post['tags']
+					);
+
+					return array_merge( $categories, $tags );
+				},
+				'schema'       => array(
+					'description' => __( 'Post Images.' ),
+					'type'        => 'array',
+				),
+			)
+		);
+	}
+
+	/**
+	 * Add category_slug to REST post query params
+	 *
+	 * @param array $query_params Collection schema.
+	 * @return array Updated schema.
+	 */
+	public function rest_post_collection_params( array $query_params ): array {
+			$query_params['category_slug'] = array(
+				'description' => 'Get posts by Category slugs.',
+				'type'        => 'string',
+			);
+			return $query_params;
+	}
+
+	/**
+	 * Query category_slug from REST post query params
+	 *
+	 * @param array            $args WP_Query args.
+	 * @param \WP_REST_Request $request Full details about the request.
+	 * @return array Updated args.
+	 */
+	public function rest_post_query( array $args, \WP_REST_Request $request ): array {
+		if ( $request['category_slug'] ) {
+			$args['category_name'] = $request['category_slug'];
+		}
+		return $args;
 	}
 }

@@ -18,6 +18,7 @@ import { removeCache } from '../cache'
  * @param page - 1-based page number to fetch from MySQL.
  */
 export const updatePostsByCategory = async (slug: string, page: number): Promise<void> => {
+    // TODO WP Rest
     await getPostsBy(ARCHIVE.CATEGORY, POST_TYPE.POST, slug, page, true).then(async (result) => {
         const archives: Types.ObjectId[] = []
         for (const item of result) {

@@ -45,8 +45,8 @@ class ImageBlock {
 		if ( ! $image ) {
 			return '';
 		}
-		$image  = "/wp-content/uploads/{$image['url']}";
-		$result = "[image src=\"{$image}\" ";
+		$url    = "/wp-content/uploads/{$image['url']}";
+		$result = "[image src=\"{$url}\" ";
 		if ( array_key_exists( 'align', $attributes ) ) {
 			$result .= "align=\"{$attributes['align']}\" ";
 		}

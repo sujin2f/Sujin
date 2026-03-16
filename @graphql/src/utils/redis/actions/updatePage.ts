@@ -17,6 +17,7 @@ import { removeCache } from '@src/utils/redis/cache'
  * @param slug - The slug of the page to refresh.
  */
 export const updatePage = async (slug: string): Promise<void> => {
+    // TODO WP Rest
     const wpPage = await getPostBy('slug', slug, POST_TYPE.PAGE)
     const date = Math.trunc(wpPage.date.getTime() / DAY_IN_MS)
 

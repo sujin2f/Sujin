@@ -17,6 +17,7 @@ import { removeCache } from '@src/utils/redis/cache'
  * @param page - 1-based page number to fetch from MySQL.
  */
 export const updatePosts = async (page: number): Promise<void> => {
+    // TODO WP Rest
     await getPosts(POST_TYPE.POST, page).then(async (result) => {
         const archives: Types.ObjectId[] = []
         for (const item of result) {
