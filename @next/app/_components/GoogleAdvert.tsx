@@ -1,6 +1,5 @@
-import Script from 'next/script'
-/* CONSTANTS */
-import { IS_DEV } from '@sujin/share/constants/helper'
+'use client'
+import { useEffect } from 'react'
 
 interface Props {
     readonly responsive?: boolean
@@ -10,22 +9,46 @@ interface Props {
 }
 
 export const GoogleAdvert = ({ clientId, responsive, slot }: Props) => {
-    if (IS_DEV || !clientId || !slot) {
-        return <></>
-    }
+    useEffect(() => {
+        const handleRouteChange = () => {
+            if (!clientId || !slot) return
+
+            const intervalId = setInterval(() => {
+                try {
+                    // Check if the 'ins' element already has an ad in it
+                    if (window.adsbygoogle) {
+                        window.adsbygoogle.push({})
+                        clearInterval(intervalId)
+                    }
+                } catch {
+                    clearInterval(intervalId) // Ensure we clear interval on errors too
+                }
+            }, 100)
+
+            return () => clearInterval(intervalId) // Clear interval on component unmount
+        }
+
+        // Run the function when the component mounts
+        handleRouteChange()
+
+        return () => {
+            handleRouteChange()
+        }
+    }, [clientId, slot])
+
+    if (!clientId || !slot) return <></>
 
     return (
         <>
             <section className="">
                 <ins
                     className="adsbygoogle"
-                    data-ad-client={clientId}
-                    data-ad-format="auto"
-                    data-ad-slot={slot}
-                    data-full-width-responsive={responsive ? 'true' : 'false'}
                     style={{ display: 'block', width: '100%' }}
-                />
-                <Script id={`google-ad-script-${slot}`}>{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
+                    data-ad-client={clientId}
+                    data-ad-slot={slot}
+                    data-ad-format="auto"
+                    data-full-width-responsive={responsive ? 'true' : 'false'}
+                ></ins>
             </section>
         </>
     )
