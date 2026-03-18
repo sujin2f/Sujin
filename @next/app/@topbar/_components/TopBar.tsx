@@ -12,8 +12,8 @@ import { setMobile } from '@app/_store/slices/menu'
 import type { RootState } from '@app/_store'
 /* Assets */
 import Logo from '@app/_lib/images/logo-top-bar.svg'
-import Facebook from '@app/_lib/images/facebook.svg'
-import Twitter from '@app/_lib/images/twitter.svg'
+import Facebook from '@app/_lib/images/icons/facebook.svg'
+import Twitter from '@app/_lib/images/icons/twitter.svg'
 import HamburgerIcon from '@app/_lib/images/hamburger.svg'
 import { useDocumentClick } from '@app/_lib/hooks/useDocumentClick'
 
