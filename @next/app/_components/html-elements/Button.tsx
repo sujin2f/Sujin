@@ -1,11 +1,22 @@
 import type { ComponentProps } from 'react'
 
-export const Button = ({ children, ...props }: ComponentProps<'button'>) => {
-    const className = `inline-block bg-primary text-white border border-primary px-3 cursor-pointer ${
-        props.className || ''
-    }`
+type Props<T extends 'button' | 'a'> = ComponentProps<T> & {
+    dom?: T
+}
+
+export const Button = <T extends 'button' | 'a'>({ dom, children, className, ...props }: Props<T>) => {
+    const css = `inline-block bg-primary text-white border border-primary px-3 cursor-pointer ${className || ''}`
+
+    if (dom === 'a') {
+        return (
+            <a className={css} {...(props as ComponentProps<'a'>)}>
+                {children}
+            </a>
+        )
+    }
+
     return (
-        <button className={className} {...props}>
+        <button className={css} {...(props as ComponentProps<'button'>)}>
             {children}
         </button>
     )

@@ -72,6 +72,7 @@ export default async function AppLayout({ children, banner, topbar, footer }: Pr
             async
             src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.GOOGLE_AD_CLIENT}`}
             crossOrigin="anonymous"
+            strategy="lazyOnload"
         ></Script>
     ) : (
         <></>
@@ -79,7 +80,6 @@ export default async function AppLayout({ children, banner, topbar, footer }: Pr
 
     return (
         <html lang="en">
-            <head>{adSense}</head>
             {/* TODO Dark mode support */}
             <body className={`${ubuntu.className} font-light leading-8 bg-white`}>
                 <ReduxProvider>
@@ -96,6 +96,7 @@ export default async function AppLayout({ children, banner, topbar, footer }: Pr
                     </UserInfoProvider>
                 </ReduxProvider>
             </body>
+            {adSense}
         </html>
     )
 }

@@ -1,32 +1,54 @@
-import Script from 'next/script'
-/* CONSTANTS */
-import { IS_DEV } from '@sujin/share/constants/helper'
+'use client'
+import { useEffect, useState } from 'react'
 
 interface Props {
     readonly responsive?: boolean
-    readonly place: 'footer' | 'sidebar'
     readonly clientId: string
     readonly slot: string
 }
 
 export const GoogleAdvert = ({ clientId, responsive, slot }: Props) => {
-    if (IS_DEV || !clientId || !slot) {
-        return <></>
-    }
+    const [intervalId, setIntervalId] = useState<NodeJS.Timeout>()
+
+    useEffect(() => {
+        const handleRouteChange = () => {
+            if (!clientId || !slot || intervalId) return
+
+            const _intervalId = setInterval(() => {
+                if (!window.adsbygoogle) return
+
+                try {
+                    // Check if the 'ins' element already has an ad in it
+                    window.adsbygoogle.push({})
+                    clearInterval(_intervalId)
+                } catch {}
+            }, 100)
+
+            setIntervalId(_intervalId)
+        }
+
+        // Run the function when the component mounts
+        handleRouteChange()
+
+        return () => {
+            // Clear interval on component unmount
+            if (!clientId || !slot || !intervalId) return
+
+            clearInterval(intervalId)
+            setIntervalId(undefined)
+        }
+    }, [clientId, slot, intervalId])
+
+    if (!clientId || !slot) return <></>
 
     return (
-        <>
-            <section className="">
-                <ins
-                    className="adsbygoogle"
-                    data-ad-client={clientId}
-                    data-ad-format="auto"
-                    data-ad-slot={slot}
-                    data-full-width-responsive={responsive ? 'true' : 'false'}
-                    style={{ display: 'block', width: '100%' }}
-                />
-                <Script id={`google-ad-script-${slot}`}>{`(adsbygoogle = window.adsbygoogle || []).push({});`}</Script>
-            </section>
-        </>
+        <ins
+            className="adsbygoogle"
+            style={{ display: 'block', width: '100%' }}
+            data-ad-client={clientId}
+            data-ad-slot={slot}
+            data-ad-format="auto"
+            data-full-width-responsive={responsive ? 'true' : 'false'}
+        ></ins>
     )
 }

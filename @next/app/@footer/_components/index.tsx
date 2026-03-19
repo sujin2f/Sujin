@@ -16,7 +16,6 @@ export const Footer = async () => {
                 <section>
                     <GoogleAdvert
                         responsive
-                        place="footer"
                         clientId={`${process.env.GOOGLE_AD_CLIENT}`}
                         slot={`${process.env.GOOGLE_AD_SLOT_FOOTER}`}
                     />
