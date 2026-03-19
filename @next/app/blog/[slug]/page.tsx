@@ -96,7 +96,6 @@ export default async function PostPage(props: Props) {
                 <RecentPosts id={post.id} />
                 <GoogleAdvert
                     responsive
-                    place="sidebar"
                     clientId={`${process.env.GOOGLE_AD_CLIENT}`}
                     slot={`${process.env.GOOGLE_AD_SLOT_SIDEBAR}`}
                 />
