@@ -1,55 +1,54 @@
 'use client'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 interface Props {
     readonly responsive?: boolean
-    readonly place: 'footer' | 'sidebar'
     readonly clientId: string
     readonly slot: string
 }
 
 export const GoogleAdvert = ({ clientId, responsive, slot }: Props) => {
+    const [intervalId, setIntervalId] = useState<NodeJS.Timeout>()
+
     useEffect(() => {
         const handleRouteChange = () => {
-            if (!clientId || !slot) return
+            if (!clientId || !slot || intervalId) return
 
-            const intervalId = setInterval(() => {
+            const _intervalId = setInterval(() => {
+                if (!window.adsbygoogle) return
+
                 try {
                     // Check if the 'ins' element already has an ad in it
-                    if (window.adsbygoogle) {
-                        window.adsbygoogle.push({})
-                        clearInterval(intervalId)
-                    }
-                } catch {
-                    clearInterval(intervalId) // Ensure we clear interval on errors too
-                }
+                    window.adsbygoogle.push({})
+                    clearInterval(_intervalId)
+                } catch {}
             }, 100)
 
-            return () => clearInterval(intervalId) // Clear interval on component unmount
+            setIntervalId(_intervalId)
         }
 
         // Run the function when the component mounts
         handleRouteChange()
 
         return () => {
-            handleRouteChange()
+            // Clear interval on component unmount
+            if (!clientId || !slot || !intervalId) return
+
+            clearInterval(intervalId)
+            setIntervalId(undefined)
         }
-    }, [clientId, slot])
+    }, [clientId, slot, intervalId])
 
     if (!clientId || !slot) return <></>
 
     return (
-        <>
-            <section className="">
-                <ins
-                    className="adsbygoogle"
-                    style={{ display: 'block', width: '100%' }}
-                    data-ad-client={clientId}
-                    data-ad-slot={slot}
-                    data-ad-format="auto"
-                    data-full-width-responsive={responsive ? 'true' : 'false'}
-                ></ins>
-            </section>
-        </>
+        <ins
+            className="adsbygoogle"
+            style={{ display: 'block', width: '100%' }}
+            data-ad-client={clientId}
+            data-ad-slot={slot}
+            data-ad-format="auto"
+            data-full-width-responsive={responsive ? 'true' : 'false'}
+        ></ins>
     )
 }

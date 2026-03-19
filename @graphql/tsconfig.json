@@ -1,20 +1,32 @@
 {
-    "compilerOptions": {
-        "module": "NodeNext",
-        "moduleResolution": "NodeNext",
-        "lib": ["es2022"],
-        "outDir": "./.build",
-        "strict": true,
-        "esModuleInterop": true,
-        "skipLibCheck": true,
-        "forceConsistentCasingInFileNames": true,
-        "paths": {
-            "@test/*": ["./.jest/*"],
-            "@src/*": ["./src/*"],
-            "@sujin/lib/*": ["../@lib/src/*"],
-            "@sujin/share/*": ["../@common/src/*"]
-        }
-    },
-    "include": ["src/**/*.ts"],
-    "exclude": ["node_modules"]
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": [
+      "es2022"
+    ],
+    "outDir": "./.build",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "@test/*": [
+        "./.jest/*"
+      ],
+      "@src/*": [
+        "./src/*"
+      ],
+      "@sujin/*": [
+        "./internal_modules/*"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "src/**/*.spec.ts"
+  ]
 }
