@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
-import { UNITS } from '@sujin/lib/types'
-import { COLLECTION } from '@sujin/lib/constants'
+import { UNITS } from '@common/types'
+import { COLLECTION } from '@common/constants'
 
 const { Schema, SchemaTypes, model } = mongoose
 

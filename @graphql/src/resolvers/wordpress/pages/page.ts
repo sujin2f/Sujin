@@ -1,12 +1,12 @@
 import sanitize from 'mongo-sanitize'
 /* Models */
-import { Logger } from '@sujin/share/model/Logger'
+import { Logger } from '@common/model/Logger'
 import { Page } from '@src/schema/post'
 /* CONSTANTS */
-import { COLLECTION, POST_STATUS } from '@sujin/lib/constants'
-import { WEEK_IN_SECONDS } from '@sujin/share/constants/datetime'
+import { COLLECTION, POST_STATUS } from '@common/constants'
+import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 /* T_Types */
-import type { T_Page } from '@sujin/lib/types'
+import type { T_Page } from '@common/types'
 /* Utils */
 import { setCache } from '@src/utils/redis/cache'
 

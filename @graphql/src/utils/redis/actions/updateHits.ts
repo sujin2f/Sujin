@@ -1,9 +1,9 @@
 import sanitize from 'mongo-sanitize'
 /* Models */
-import { Logger } from '@sujin/share/model/Logger'
+import { Logger } from '@common/model/Logger'
 import { Archive } from '@src/schema/archive'
 /* CONSTANTS */
-import { ARCHIVE } from '@sujin/lib/constants'
+import { ARCHIVE } from '@common/constants'
 
 /**
  * Increment the hit counter for a tag archive.

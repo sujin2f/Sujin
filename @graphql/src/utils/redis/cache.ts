@@ -1,8 +1,8 @@
 'server-only'
 /* CONSTANTS */
-import { DAY_IN_SECONDS } from '@sujin/share/constants/datetime'
+import { DAY_IN_SECONDS } from '@common/constants/datetime'
 /* Models */
-import { Logger } from '@sujin/share/model/Logger'
+import { Logger } from '@common/model/Logger'
 /* Utils */
 import { createClient } from 'redis'
 

@@ -1,9 +1,9 @@
 /* Models */
-import { Logger } from '@sujin/share/model/Logger'
+import { Logger } from '@common/model/Logger'
 /* CONSTANTS */
-import { REST_CATEGORIES } from '@sujin/lib/constants'
+import { REST_CATEGORIES } from '@common/constants'
 /* T_Types */
-import type { T_RestArchive } from '@sujin/lib/types'
+import type { T_RestArchive } from '@common/types'
 
 /**
  * Get a WordPress categories related a post from REST API.

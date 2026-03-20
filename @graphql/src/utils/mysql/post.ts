@@ -1,16 +1,16 @@
 /* Models */
 import { select } from '@src/utils/mysql'
-import { FetchError } from '@sujin/share/model/Error'
+import { FetchError } from '@common/model/Error'
 /* CONSTANTS */
 import { WPQuery } from '@src/utils/mysql/wp-query'
-import { PER_PAGE } from '@sujin/lib/constants'
-import { POST_IMAGE_LOCATION, ARCHIVE, TAXONOMY, POST_TYPE } from '@sujin/lib/constants'
+import { PER_PAGE } from '@common/constants'
+import { POST_IMAGE_LOCATION, ARCHIVE, TAXONOMY, POST_TYPE } from '@common/constants'
 /* Utils */
 import { getPostMeta } from '@src/utils/mysql/post-meta'
 import { getImageBlockFromAttachmentID } from '@src/utils/mysql/media'
 /* T_Types */
-import type { T_ImageBlock } from '@sujin/lib/types'
-import type { T_Archive, T_MySQLPost } from '@sujin/lib/types'
+import type { T_ImageBlock } from '@common/types'
+import type { T_Archive, T_MySQLPost } from '@common/types'
 
 export const getPostBy = async (
     queryKey: 'id' | 'slug',

@@ -7,7 +7,7 @@ import { createFocusCloudItem } from './createFocusCloudItem'
 import { removeFocusCloudItem } from './removeFocusCloudItem'
 /* T_Types */
 import type { T_Context } from '@src/types'
-import type { T_Focus_Message } from '@sujin/lib/types'
+import type { T_Focus_Message } from '@common/types'
 
 /**
  * Focus resolvers that belongs to Focus Browser.

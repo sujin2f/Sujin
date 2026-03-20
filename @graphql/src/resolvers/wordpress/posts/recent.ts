@@ -1,12 +1,12 @@
 /* Models */
-import { Logger } from '@sujin/share/model/Logger'
+import { Logger } from '@common/model/Logger'
 import { Post } from '@src/schema/post'
 /* CONSTANTS */
-import { POST_STATUS, PER_PAGE, COLLECTION } from '@sujin/lib/constants'
+import { POST_STATUS, PER_PAGE, COLLECTION } from '@common/constants'
 import { AGGREGATE_ARCHIVE_POST, AGGREGATE_EXPAND_ARCHIVES } from '@src/constants'
-import { WEEK_IN_SECONDS } from '@sujin/share/constants/datetime'
+import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 /* T_Types */
-import type { T_ArchivePost } from '@sujin/lib/types'
+import type { T_ArchivePost } from '@common/types'
 /* Utils */
 import { setCache } from '@src/utils/redis/cache'
 

@@ -1,5 +1,5 @@
-import { COLLECTION } from '@sujin/lib/constants'
-import { ISpectrum } from '@sujin/lib/types'
+import { COLLECTION } from '@common/constants'
+import { ISpectrum } from '@common/types'
 import mongoose from 'mongoose'
 
 const { Schema, model } = mongoose

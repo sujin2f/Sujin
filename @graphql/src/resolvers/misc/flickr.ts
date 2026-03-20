@@ -1,13 +1,13 @@
 /* Models */
-import { Logger } from '@sujin/share/model/Logger'
+import { Logger } from '@common/model/Logger'
 /* CONSTANTS */
-import { IS_DEV } from '@sujin/share/constants/helper'
+import { IS_DEV } from '@common/constants/helper'
 import { STATIC_FLICKR } from '@src/constants'
-import { DAY_IN_SECONDS } from '@sujin/share/constants/datetime'
+import { DAY_IN_SECONDS } from '@common/constants/datetime'
 /* Utils */
 import { setCache } from '@src/utils/redis/cache'
 /* T_Types */
-import type { T_FlickrImage, T_FlickrResponse } from '@sujin/lib/types'
+import type { T_FlickrImage, T_FlickrResponse } from '@common/types'
 
 /**
  * Default set of Flickr items used when the environment is in dev mode or

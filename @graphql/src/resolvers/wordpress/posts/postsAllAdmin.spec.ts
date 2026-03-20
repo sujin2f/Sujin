@@ -12,7 +12,7 @@ jest.doMock('@src/utils/security', () => SecurityMock)
 import { verifyAccessToken } from '@src/utils/security'
 // Mock Logger
 import LoggerMock from '@test/mocks/utils/logger'
-jest.doMock('@sujin/share/model/Logger', () => LoggerMock)
+jest.doMock('@common/model/Logger', () => LoggerMock)
 
 import { postsAllAdmin } from '@src/resolvers/wordpress/posts/postsAllAdmin'
 

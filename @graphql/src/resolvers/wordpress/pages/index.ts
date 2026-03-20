@@ -1,5 +1,5 @@
 import { page } from '@src/resolvers/wordpress/pages/page'
-import type { T_GQL_Params_Slug } from '@sujin/lib/types'
+import type { T_GQL_Params_Slug } from '@common/types'
 
 /**
  * Page-related GraphQL resolvers.

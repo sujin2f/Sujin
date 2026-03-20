@@ -1,15 +1,15 @@
 /* Utils */
-import { isEmpty } from '@sujin/share/utils/object'
+import { isEmpty } from '@common/utils/object'
 import { getPostMeta } from '@src/utils/mysql/post-meta'
 /* Models */
 import { select } from '@src/utils/mysql'
-import { FetchError } from '@sujin/share/model/Error'
+import { FetchError } from '@common/model/Error'
 /* CONSTANTS */
 import { WPQuery } from '@src/utils/mysql/wp-query'
-import { IMAGE_SIZE } from '@sujin/lib/constants'
+import { IMAGE_SIZE } from '@common/constants'
 /* T_Types */
-import { type T_ImageBlock, type T_Background, type T_MySQLPost } from '@sujin/lib/types'
-import type { Nullable } from '@sujin/share/types'
+import { type T_ImageBlock, type T_Background, type T_MySQLPost } from '@common/types'
+import type { Nullable } from '@common/types'
 
 enum META_KEYS {
     ATTACHMENT_META = '_wp_attachment_metadata',

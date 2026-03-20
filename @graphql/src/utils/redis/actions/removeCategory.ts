@@ -1,11 +1,11 @@
 import sanitize from 'mongo-sanitize'
 /* Models */
 import { Archive } from '@src/schema/archive'
-import { Logger } from '@sujin/share/model/Logger'
+import { Logger } from '@common/model/Logger'
 /* Utils */
 import { removeCache } from '@src/utils/redis/cache'
 /* CONSTANTS */
-import { ARCHIVE, COLLECTION } from '@sujin/lib/constants'
+import { ARCHIVE, COLLECTION } from '@common/constants'
 
 /**
  * Remove a category archive from MongoDB.

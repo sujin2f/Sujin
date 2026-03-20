@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 /* Models */
-import { Logger } from '@sujin/share/model/Logger'
+import { Logger } from '@common/model/Logger'
 /* Utils */
 import { removeCache } from '@src/utils/redis/cache'
 

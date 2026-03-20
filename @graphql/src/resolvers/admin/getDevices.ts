@@ -1,14 +1,14 @@
 import type { Document } from 'mongoose'
 /* Models */
 import { FocusBrowser } from '@src/schema/focus'
-import { Logger } from '@sujin/share/model/Logger'
+import { Logger } from '@common/model/Logger'
 /* T_Types */
-import type { T_Focus_Device } from '@sujin/lib/types'
+import type { T_Focus_Device } from '@common/types'
 import type { Response } from '@src/types'
 /* Utils */
 import { verifyAccessToken, verifyAdmin } from '@src/utils/security'
 /* CONSTANTS */
-import { PER_PAGE } from '@sujin/lib/constants'
+import { PER_PAGE } from '@common/constants'
 
 const then = async (devices: Document[]) => {
     Logger.log('getDevices() executed successfully: ', devices.length)

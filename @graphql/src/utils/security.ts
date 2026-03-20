@@ -3,11 +3,11 @@ import sanitize from 'mongo-sanitize'
 import { User } from '@src/schema/users'
 /* Utils */
 import { isUserAdmin } from '@src/utils/mysql/isUserAdmin'
-import { createHash } from '@sujin/share/utils/crypto'
+import { createHash } from '@common/utils/crypto'
 /* T_Types */
-import type { T_UserSub } from '@sujin/lib/types'
+import type { T_UserSub } from '@common/types'
 /* CONSTANTS */
-import { verifyToken } from '@sujin/lib/utils/token'
+import { verifyToken } from '@common/utils/token'
 
 const ACCESS_SECRET = `${process.env.ACCESS_SECRET}`
 const EMAIL_SECRET = `${process.env.EMAIL_SECRET}`

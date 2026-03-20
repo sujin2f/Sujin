@@ -30,10 +30,7 @@ const config = {
         extensions: ['.ts', '.js'],
         alias: {
             '@src': path.resolve(import.meta.dirname, 'src'),
-            // prettier-ignore
-            '@sujin/lib': path.resolve(import.meta.dirname, '..', '@lib', 'src'),
-            // prettier-ignore
-            '@sujin/share': path.resolve(import.meta.dirname, '..', '@common', 'src'),
+            '@common': path.resolve(import.meta.dirname, 'common', 'src'),
         },
     },
     output: {
@@ -55,7 +52,7 @@ const config = {
 if (process.env.NODE_ENV === 'development') {
     config.devServer = {
         compress: true,
-        watchFiles: ['src/**/*', '../@lib/src/**/*', '../@common/src/**/*'],
+        watchFiles: ['src/**/*', 'common/**/*'],
 
         port: 4000,
         hot: true, // Enable Hot Module Replacement

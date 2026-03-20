@@ -1,12 +1,12 @@
 import { Types } from 'mongoose'
 /* Models */
 import { Focus } from '@src/schema/focus'
-import { Logger } from '@sujin/share/model/Logger'
+import { Logger } from '@common/model/Logger'
 /* T_Types */
-import type { T_Focus_Message } from '@sujin/lib/types'
+import type { T_Focus_Message } from '@common/types'
 /* CONSTANTS */
-import { HOUR_IN_MS } from '@sujin/share/constants/datetime'
-import { COLLECTION } from '@sujin/lib/constants'
+import { HOUR_IN_MS } from '@common/constants/datetime'
+import { COLLECTION } from '@common/constants'
 /* Utils */
 import { verifyAccessToken } from '@src/utils/security'
 import { removeCache } from '@src/utils/redis/cache'

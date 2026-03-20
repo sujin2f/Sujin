@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-escape */
-import type { T_ImageBlock, T_Archive, T_Page } from '@sujin/lib/types'
-import { ARCHIVE, POST_STATUS } from '@sujin/lib/constants'
+import type { T_ImageBlock, T_Archive, T_Page } from '@common/types'
+import { ARCHIVE, POST_STATUS } from '@common/constants'
 
 export const imageBlock: T_ImageBlock = {
     mimeType: 'image/jpeg',

@@ -1,11 +1,11 @@
 import type { Types } from 'mongoose'
 /* T_Types */
-import type { T_Archive, T_MySQLPost } from '@sujin/lib/types'
+import type { T_Archive, T_MySQLPost } from '@common/types'
 /* Utils */
 import { convertWPImageURL } from '@src/utils/mongo/convertWPImageURL'
 /* CONSTANTS */
-import { POST_IMAGE_LOCATION, ARCHIVE } from '@sujin/lib/constants'
-import { DAY_IN_MS } from '@sujin/share/constants/datetime'
+import { POST_IMAGE_LOCATION, ARCHIVE } from '@common/constants'
+import { DAY_IN_MS } from '@common/constants/datetime'
 /* Models */
 import { Post } from '@src/schema/post'
 import { Archive } from '@src/schema/archive'

@@ -1,16 +1,16 @@
 import sanitize from 'mongo-sanitize'
 /* Models */
-import { Logger } from '@sujin/share/model/Logger'
+import { Logger } from '@common/model/Logger'
 import { User } from '@src/schema/users'
 /* Utils */
 import { mysqlDisconnect } from '@src/utils/mysql'
 import { isUserAdmin } from '@src/utils/mysql/isUserAdmin'
-import { createHash } from '@sujin/share/utils/crypto'
-import { getTokenSub, generateToken } from '@sujin/lib/utils/token'
+import { createHash } from '@common/utils/crypto'
+import { getTokenSub, generateToken } from '@common/utils/token'
 /* T_Type */
-import type { T_GoogleUser, T_User } from '@sujin/lib/types'
+import type { T_GoogleUser, T_User } from '@common/types'
 import type { Response } from '@src/types'
-import { ACCESS_TOKEN_LIFETIME, HEADER_TOKEN, REFRESH_TOKEN_LIFETIME } from '@sujin/lib/constants'
+import { ACCESS_TOKEN_LIFETIME, HEADER_TOKEN, REFRESH_TOKEN_LIFETIME } from '@common/constants'
 
 const ACCESS_SECRET = `${process.env.ACCESS_SECRET}`
 const REFRESH_SECRET = `${process.env.REFRESH_SECRET}`

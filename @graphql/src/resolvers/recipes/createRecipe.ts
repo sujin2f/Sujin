@@ -1,14 +1,14 @@
 /* Models */
 import { Recipe } from '@src/schema/recipe'
 import { Types } from 'mongoose'
-import { Logger } from '@sujin/share/model/Logger'
+import { Logger } from '@common/model/Logger'
 /* T_Types */
-import type { T_Recipe } from '@sujin/lib/types'
+import type { T_Recipe } from '@common/types'
 /* Utils */
 import { removeCache } from '@src/utils/redis/cache'
 import { verifyAccessToken } from '@src/utils/security'
 /* CONSTANTS */
-import { COLLECTION } from '@sujin/lib/constants'
+import { COLLECTION } from '@common/constants'
 
 /**
  * Create a new recipe document for the authenticated user.

@@ -1,5 +1,5 @@
 /* Utils */
-import { Logger } from '@sujin/share/model/Logger'
+import { Logger } from '@common/model/Logger'
 import { verifyAccessToken, verifyAdmin } from '@src/utils/security'
 
 /**

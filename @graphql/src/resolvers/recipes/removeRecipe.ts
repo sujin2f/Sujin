@@ -2,13 +2,13 @@ import sanitize from 'mongo-sanitize'
 import { Types } from 'mongoose'
 /* Models */
 import { Recipe } from '@src/schema/recipe'
-import { Logger } from '@sujin/share/model/Logger'
+import { Logger } from '@common/model/Logger'
 /* Utils */
 import { verifyAccessToken } from '@src/utils/security'
 import { recipe as getRecipe } from '@src/resolvers/recipes/recipe'
 import { removeCache } from '@src/utils/redis/cache'
 /* CONSTANTS */
-import { COLLECTION } from '@sujin/lib/constants'
+import { COLLECTION } from '@common/constants'
 
 /**
  * Remove a recipe owned by the authenticated user.

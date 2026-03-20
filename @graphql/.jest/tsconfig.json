@@ -12,8 +12,7 @@
         "paths": {
             "@test/*": ["./.jest/*"],
             "@src/*": ["./src/*"],
-            "@sujin/lib/*": ["../@lib/src/*"],
-            "@sujin/share/*": ["../@common/src/*"]
+            "@common/*": ["./common/*"]
         }
     },
     "include": ["src/**/*.ts"],

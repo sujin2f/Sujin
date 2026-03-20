@@ -1,7 +1,7 @@
 /* CONSTANTS */
-import { IMAGE_SIZE } from '@sujin/lib/constants'
+import { IMAGE_SIZE } from '@common/constants'
 /* T_Types */
-import type { T_ImageBlock } from '@sujin/lib/types'
+import type { T_ImageBlock } from '@common/types'
 
 /**
  * Normalize/convert a URL or path value for WordPress-uploaded images.

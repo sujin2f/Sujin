@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { ARCHIVE } from '@sujin/lib/constants'
+import { ARCHIVE } from '@common/constants'
 import { ImageBlock } from '@src/schema/image-block'
 
 const { Schema, model } = mongoose

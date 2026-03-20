@@ -9,14 +9,14 @@ import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer'
 import { expressMiddleware } from '@as-integrations/express5'
 
-import { Logger } from '@sujin/share/model/Logger'
+import { Logger } from '@common/model/Logger'
 import { connectToDatabase } from '@src/utils/mongo/connection'
 
 import { Mutation, Query } from '@src/resolvers'
 import { typeDefs } from '@src/resolvers/typeDefs'
 
-import { IS_DEV } from '@sujin/share/constants/helper'
-import { HEADER_TOKEN } from '@sujin/lib/constants'
+import { IS_DEV } from '@common/constants/helper'
+import { HEADER_TOKEN } from '@common/constants'
 
 // Resolvers define how to fetch the types defined in your schema.
 // This resolver retrieves books from the "books" array above.

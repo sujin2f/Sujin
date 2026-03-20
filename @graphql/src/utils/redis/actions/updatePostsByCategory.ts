@@ -1,8 +1,8 @@
 import { Types } from 'mongoose'
 /* Models */
-import { Logger } from '@sujin/share/model/Logger'
+import { Logger } from '@common/model/Logger'
 /* CONSTANTS */
-import { ARCHIVE, COLLECTION, POST_TYPE } from '@sujin/lib/constants'
+import { ARCHIVE, COLLECTION, POST_TYPE } from '@common/constants'
 /* Utils */
 import { getPostsBy } from '@src/utils/mysql/post'
 import { updatePost as updateMongoPost } from '@src/utils/mongo/updatePost'

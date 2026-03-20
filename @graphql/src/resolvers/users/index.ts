@@ -3,7 +3,7 @@ import { refresh } from '@src/resolvers/users/refresh'
 import { isAdmin } from '@src/resolvers/users/isAdmin'
 
 import type { T_Context } from '@src/types'
-import type { T_GoogleUser } from '@sujin/lib/types'
+import type { T_GoogleUser } from '@common/types'
 
 /**
  * User-related GraphQL resolvers.

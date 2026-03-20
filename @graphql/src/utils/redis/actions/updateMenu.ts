@@ -1,11 +1,11 @@
 /* Models */
-import { Logger } from '@sujin/share/model/Logger'
+import { Logger } from '@common/model/Logger'
 import { MenuItem } from '@src/schema/menu'
 /* Utils */
 import { removeCache } from '@src/utils/redis/cache'
 import { getMenuLocation, getMenuItems } from '@src/utils/wordpress/menu'
 /* CONSTANTS */
-import { COLLECTION } from '@sujin/lib/constants'
+import { COLLECTION } from '@common/constants'
 
 /**
  * Refresh a menu from WP REST.

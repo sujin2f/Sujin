@@ -1,5 +1,5 @@
 /* Models */
-import { Logger } from '@sujin/share/model/Logger'
+import { Logger } from '@common/model/Logger'
 import { Background } from '@src/schema/background'
 /* Utils */
 import { mysqlDisconnect } from '@src/utils/mysql'
@@ -7,9 +7,9 @@ import { convertWPImageURL } from '@src/utils/mongo/convertWPImageURL'
 import { getBackgrounds } from '@src/utils/mysql/media'
 import { removeCache } from '@src/utils/redis/cache'
 /* T_Types */
-import type { T_Background } from '@sujin/lib/types'
+import type { T_Background } from '@common/types'
 /* CONSTANTS */
-import { COLLECTION } from '@sujin/lib/constants'
+import { COLLECTION } from '@common/constants'
 
 /**
  * Refresh background images from MySQL and replace the MongoDB collection.

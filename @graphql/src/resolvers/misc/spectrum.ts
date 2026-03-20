@@ -1,19 +1,19 @@
 import { parse } from 'csv-parse'
 import sanitize from 'mongo-sanitize'
 /* Models */
-import { Logger } from '@sujin/share/model/Logger'
+import { Logger } from '@common/model/Logger'
 import { Spectra } from '@src/schema/spectra'
 /* T_Types */
-import type { Atom, ISpectrum } from '@sujin/lib/types/ether'
-import type { Nullable } from '@sujin/share/types'
+import type { Atom, ISpectrum } from '@common/types/ether'
+import type { Nullable } from '@common/types'
 /* Utils */
-import { getAtom } from '@sujin/lib/utils/ether'
-import { romanize } from '@sujin/share/utils/number'
+import { getAtom } from '@common/utils/ether'
+import { romanize } from '@common/utils/number'
 import { setCache } from '@src/utils/redis/cache'
 /* CONSTANTS */
-import { orbitalKeys } from '@sujin/lib/constants/ether'
-import { COLLECTION } from '@sujin/lib/constants'
-import { DAY_IN_SECONDS, WEEK_IN_SECONDS } from '@sujin/share/constants/datetime'
+import { orbitalKeys } from '@common/constants/ether'
+import { COLLECTION } from '@common/constants'
+import { DAY_IN_SECONDS, WEEK_IN_SECONDS } from '@common/constants/datetime'
 
 /**
  * Public resolver that returns spectra for a given atomic `number` and

@@ -1,18 +1,18 @@
 import { Types } from 'mongoose'
 import sanitize from 'mongo-sanitize'
 /* Models */
-import { Logger } from '@sujin/share/model/Logger'
+import { Logger } from '@common/model/Logger'
 import { Post } from '@src/schema/post'
 /* CONSTANTS */
-import { PER_PAGE, POST_STATUS, ARCHIVE, COLLECTION } from '@sujin/lib/constants'
+import { PER_PAGE, POST_STATUS, ARCHIVE, COLLECTION } from '@common/constants'
 import { AGGREGATE_ARCHIVE_POST, AGGREGATE_EXPAND_ARCHIVES } from '@src/constants'
-import { WEEK_IN_SECONDS } from '@sujin/share/constants/datetime'
+import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 /* Utils */
 import { category as getCategory } from '@src/resolvers/wordpress/archives/category'
 import { tag } from '@src/resolvers/wordpress/archives/tag'
 import { setCache } from '@src/utils/redis/cache'
 /* T_Types */
-import type { T_Post, WithNumPages } from '@sujin/lib/types'
+import type { T_Post, WithNumPages } from '@common/types'
 
 /**
  * Fetch paginated posts for a given archive (category or tag).

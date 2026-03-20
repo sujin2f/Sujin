@@ -5,7 +5,7 @@ import { tag } from '@src/resolvers/wordpress/archives/tag'
 import { tags } from '@src/resolvers/wordpress/archives/tags'
 
 import type { T_Context } from '@src/types'
-import type { T_GQL_Params_Page, T_GQL_Params_Slug } from '@sujin/lib/types'
+import type { T_GQL_Params_Page, T_GQL_Params_Slug } from '@common/types'
 
 /**
  * Archive-related resolver group    (categories & tags).

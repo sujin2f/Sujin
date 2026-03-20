@@ -1,13 +1,13 @@
 /* Models */
 import { Background } from '@src/schema/background'
-import { Logger } from '@sujin/share/model/Logger'
+import { Logger } from '@common/model/Logger'
 /* T_Types */
-import type { T_Background } from '@sujin/lib/types'
+import type { T_Background } from '@common/types'
 /* Utils */
 import { setCache } from '@src/utils/redis/cache'
 /* CONSTANTS */
-import { COLLECTION } from '@sujin/lib/constants'
-import { WEEK_IN_SECONDS } from '@sujin/share/constants/datetime'
+import { COLLECTION } from '@common/constants'
+import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 
 /**
  * Return a cached sample of background images.

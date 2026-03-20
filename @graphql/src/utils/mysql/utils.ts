@@ -1,7 +1,7 @@
 /* Models */
-import { Logger } from '@sujin/share/model/Logger'
+import { Logger } from '@common/model/Logger'
 /* Utils */
-import { phpUnSerialize } from '@sujin/share/utils/string'
+import { phpUnSerialize } from '@common/utils/string'
 
 /**
  * Internal helper to coerce / unserialize a stored meta value.

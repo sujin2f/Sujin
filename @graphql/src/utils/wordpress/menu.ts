@@ -1,9 +1,9 @@
 /* Models */
-import { Logger } from '@sujin/share/model/Logger'
+import { Logger } from '@common/model/Logger'
 /* T_Types */
-import type { T_Page } from '@sujin/lib/types'
+import type { T_Page } from '@common/types'
 /* CONSTANTS */
-import { REST_MENU_LOCATIONS, REST_MENU_ITEMS } from '@sujin/lib/constants'
+import { REST_MENU_LOCATIONS, REST_MENU_ITEMS } from '@common/constants'
 
 export const getMenuLocation = async (position: string): Promise<number> => {
     const requestURL = `${process.env.WP_REST_BASE_URL}/${REST_MENU_LOCATIONS}/${position}`

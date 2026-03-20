@@ -1,12 +1,12 @@
 /* Models */
-import { Logger } from '@sujin/share/model/Logger'
+import { Logger } from '@common/model/Logger'
 import { Page } from '@src/schema/post'
 /* CONSTANTS */
-import { PER_PAGE } from '@sujin/lib/constants'
+import { PER_PAGE } from '@common/constants'
 /* Utils */
 import { verifyAccessToken, verifyAdmin } from '@src/utils/security'
 /* T_Types */
-import type { T_Page } from '@sujin/lib/types'
+import type { T_Page } from '@common/types'
 import type { Response } from '@src/types'
 
 /**

@@ -1,6 +1,6 @@
 import { menu } from '@src/resolvers/wordpress/menu/menu'
 
-import type { T_GQL_Params_Slug } from '@sujin/lib/types'
+import type { T_GQL_Params_Slug } from '@common/types'
 
 /**
  * WordPress menu resolvers.

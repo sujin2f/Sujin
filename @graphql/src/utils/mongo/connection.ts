@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
-import { EnvironmentError } from '@sujin/share/model/Error'
+import { EnvironmentError } from '@common/model/Error'
 /* Models */
-import { Logger } from '@sujin/share/model/Logger'
+import { Logger } from '@common/model/Logger'
 
 /**
  * Ensure required MongoDB environment variables are present.

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 /* T_Types */
-import type { MenuItem as T_MenuItem } from '@sujin/lib/types/menu'
+import type { MenuItem as T_MenuItem } from '@common/types/menu'
 
 const { Schema, model } = mongoose
 

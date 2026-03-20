@@ -1,12 +1,12 @@
 import { Types } from 'mongoose'
 /* Models */
-import { Logger } from '@sujin/share/model/Logger'
+import { Logger } from '@common/model/Logger'
 import { Archive } from '@src/schema/archive'
 /* T_Types */
-import type { T_RestPost } from '@sujin/lib/types'
+import type { T_RestPost } from '@common/types'
 /* CONSTANTS */
-import { REST_POSTS, ARCHIVE } from '@sujin/lib/constants'
-import { DAY_IN_MS } from '@sujin/share/constants/datetime'
+import { REST_POSTS, ARCHIVE } from '@common/constants'
+import { DAY_IN_MS } from '@common/constants/datetime'
 /* Utils */
 import { updateCategory } from '@src/utils/redis/actions/updateCategory'
 

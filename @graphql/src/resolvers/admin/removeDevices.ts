@@ -1,6 +1,6 @@
 /* Models */
 import { FocusBrowser } from '@src/schema/focus'
-import { Logger } from '@sujin/share/model/Logger'
+import { Logger } from '@common/model/Logger'
 /* T_Types */
 /* Utils */
 import { verifyAccessToken, verifyAdmin } from '@src/utils/security'

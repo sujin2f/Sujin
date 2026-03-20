@@ -1,12 +1,12 @@
 /* Models */
-import { Logger } from '@sujin/share/model/Logger'
+import { Logger } from '@common/model/Logger'
 /* Utils */
-import { generateToken, verifyToken } from '@sujin/lib/utils/token'
+import { generateToken, verifyToken } from '@common/utils/token'
 /* T_Type */
 import type { Response } from '@src/types'
-import type { T_UserSub } from '@sujin/lib/types'
+import type { T_UserSub } from '@common/types'
 /* CONSTANTS */
-import { ACCESS_TOKEN_LIFETIME, HEADER_TOKEN } from '@sujin/lib/constants'
+import { ACCESS_TOKEN_LIFETIME, HEADER_TOKEN } from '@common/constants'
 import { verifyAdmin } from '@src/utils/security'
 
 const ACCESS_SECRET = `${process.env.ACCESS_SECRET}`

@@ -1,12 +1,12 @@
 import { Types } from 'mongoose'
 /* Models */
 import { Focus } from '@src/schema/focus'
-import { Logger } from '@sujin/share/model/Logger'
+import { Logger } from '@common/model/Logger'
 /* Utils */
 import { verifyAccessToken } from '@src/utils/security'
 import { removeCache } from '@src/utils/redis/cache'
 /* CONSTANTS */
-import { COLLECTION } from '@sujin/lib/constants'
+import { COLLECTION } from '@common/constants'
 
 export const removeFocusCloudItem = async (id: string, token: string): Promise<string> => {
     const user = await verifyAccessToken(token)

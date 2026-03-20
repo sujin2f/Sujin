@@ -1,9 +1,9 @@
 /* Models */
-import { Logger } from '@sujin/share/model/Logger'
+import { Logger } from '@common/model/Logger'
 import { Page } from '@src/schema/post'
 /* CONSTANTS */
-import { POST_TYPE, POST_IMAGE_LOCATION, COLLECTION } from '@sujin/lib/constants'
-import { DAY_IN_MS } from '@sujin/share/constants/datetime'
+import { POST_TYPE, POST_IMAGE_LOCATION, COLLECTION } from '@common/constants'
+import { DAY_IN_MS } from '@common/constants/datetime'
 /* Utils */
 import { getPostBy } from '@src/utils/mysql/post'
 import { mysqlDisconnect } from '@src/utils/mysql'

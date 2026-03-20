@@ -1,6 +1,6 @@
 import { Types } from 'mongoose'
 /* CONSTANTS */
-import { POST_STATUS } from '@sujin/lib/constants'
+import { POST_STATUS } from '@common/constants'
 /* Models */
 import { Post } from '@src/schema/post'
 import { Archive } from '@src/schema/archive'

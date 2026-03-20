@@ -1,16 +1,16 @@
 import { Types } from 'mongoose'
 import sanitize from 'mongo-sanitize'
 /* Models */
-import { Logger } from '@sujin/share/model/Logger'
+import { Logger } from '@common/model/Logger'
 import { Post } from '@src/schema/post'
 /* CONSTANTS */
-import { PER_PAGE } from '@sujin/lib/constants'
+import { PER_PAGE } from '@common/constants'
 import { AGGREGATE_ARCHIVE_POST, AGGREGATE_EXPAND_ARCHIVES } from '@src/constants'
 /* Utils */
 import { category as getCategory } from '@src/resolvers/wordpress/archives/category'
 import { verifyAccessToken, verifyAdmin } from '@src/utils/security'
 /* T_Types */
-import type { T_Post } from '@sujin/lib/types'
+import type { T_Post } from '@common/types'
 
 /**
  * Return posts that belong to the category identified by `slug` for admin

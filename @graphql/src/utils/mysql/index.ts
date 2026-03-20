@@ -1,6 +1,6 @@
 import mysqld, { type ProcedureCallPacket, type ConnectionOptions } from 'mysql2/promise'
-import { isEmpty } from '@sujin/share/utils/object'
-import { Logger } from '@sujin/share/model/Logger'
+import { isEmpty } from '@common/utils/object'
+import { Logger } from '@common/model/Logger'
 
 // TODO connect MySQL when it uses
 

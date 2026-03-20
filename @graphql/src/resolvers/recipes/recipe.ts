@@ -2,12 +2,12 @@ import sanitize from 'mongo-sanitize'
 import { Types } from 'mongoose'
 /* Models */
 import { Recipe } from '@src/schema/recipe'
-import { Logger } from '@sujin/share/model/Logger'
+import { Logger } from '@common/model/Logger'
 /* T_Types */
-import type { T_Recipe } from '@sujin/lib/types'
+import type { T_Recipe } from '@common/types'
 /* CONSTANTS */
-import { COLLECTION } from '@sujin/lib/constants'
-import { WEEK_IN_SECONDS } from '@sujin/share/constants/datetime'
+import { COLLECTION } from '@common/constants'
+import { WEEK_IN_SECONDS } from '@common/constants/datetime'
 /* Utils */
 import { setCache } from '@src/utils/redis/cache'
 

@@ -69,8 +69,7 @@
         "moduleNameMapper": {
             "^@test/(.*)$": "<rootDir>/.jest/$1",
             "^@src/(.*)$": "<rootDir>/src/$1",
-            "^@sujin/lib/(.*)$": "<rootDir>/../@lib/src/$1",
-            "^@sujin/share/(.*)$": "<rootDir>/../@common/src/$1"
+            "^@common/(.*)$": "<rootDir>/common/$1"
         },
         "extensionsToTreatAsEsm": [
             ".ts"

@@ -8,7 +8,7 @@ import { related } from '@src/resolvers/wordpress/posts/related'
 import { search } from '@src/resolvers/wordpress/posts/search'
 
 import type { Context } from '@src/types'
-import type { T_GQL_Params_Page, T_GQL_Params_Posts, T_GQL_Params_Slug } from '@sujin/lib/types'
+import type { T_GQL_Params_Page, T_GQL_Params_Posts, T_GQL_Params_Slug } from '@common/types'
 
 /**
  * WordPress posts resolvers.

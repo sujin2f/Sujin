@@ -1,12 +1,12 @@
 /* Models */
 import { Archive } from '@src/schema/archive'
-import { Logger } from '@sujin/share/model/Logger'
+import { Logger } from '@common/model/Logger'
 /* Utils */
 import { removeCache } from '@src/utils/redis/cache'
 import { getCategory } from '@src/utils/wordpress/category'
 /* CONSTANTS */
-import { ARCHIVE, COLLECTION } from '@sujin/lib/constants'
-import type { T_Archive } from '@sujin/lib/types'
+import { ARCHIVE, COLLECTION } from '@common/constants'
+import type { T_Archive } from '@common/types'
 
 /**
  * Refresh a WordPress category archive in the MongoDB `Archive` collection.

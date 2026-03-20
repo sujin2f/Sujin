@@ -1,13 +1,13 @@
 import sanitize from 'mongo-sanitize'
 /* Models */
-import { Logger } from '@sujin/share/model/Logger'
+import { Logger } from '@common/model/Logger'
 import { Archive } from '@src/schema/archive'
 /* Utils */
 import { verifyAccessToken, verifyAdmin } from '@src/utils/security'
 /* CONSTANTS */
-import { ARCHIVE, PER_PAGE } from '@sujin/lib/constants'
+import { ARCHIVE, PER_PAGE } from '@common/constants'
 /* T_Types */
-import type { T_Archive } from '@sujin/lib/types'
+import type { T_Archive } from '@common/types'
 
 /**
  * Return a paginated list of category archives.

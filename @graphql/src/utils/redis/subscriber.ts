@@ -1,8 +1,8 @@
 import { createClient } from 'redis'
 /* Models */
-import { Logger } from '@sujin/share/model/Logger'
+import { Logger } from '@common/model/Logger'
 /* CONSTANTS */
-import { ARCHIVE, POST_TYPE } from '@sujin/lib/constants'
+import { ARCHIVE, POST_TYPE } from '@common/constants'
 /* Utils */
 import { connectToDatabase } from '@src/utils/mongo/connection'
 import { updateHits } from '@src/utils/redis/actions/updateHits'
@@ -18,7 +18,7 @@ import { updatePosts } from '@src/utils/redis/actions/updatePosts'
 import { updateMenu } from '@src/utils/redis/actions/updateMenu'
 import { removeCache } from '@src/utils/redis/cache'
 /* T_Types */
-import type { RedisMessageWordpress } from '@sujin/lib/types'
+import type { RedisMessageWordpress } from '@common/types'
 ;(async () => {
     const subscriber = await createClient({
         url: `redis://${process.env.REDIS_ENDPOINT}`,

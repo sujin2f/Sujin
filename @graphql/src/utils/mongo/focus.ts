@@ -2,7 +2,7 @@ import { Types } from 'mongoose'
 /* Models */
 import { FocusBrowser } from '@src/schema/focus'
 /* T_Types */
-import type { T_Focus_Message } from '@sujin/lib/types'
+import type { T_Focus_Message } from '@common/types'
 
 export const registerFocusBrowser = async (user: Types.ObjectId, message: T_Focus_Message) => {
     const { device, machineId } = message

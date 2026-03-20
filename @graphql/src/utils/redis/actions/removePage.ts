@@ -1,10 +1,10 @@
 /* Models */
-import { Logger } from '@sujin/share/model/Logger'
+import { Logger } from '@common/model/Logger'
 import { Page } from '@src/schema/post'
 /* Utils */
 import { removeCache } from '@src/utils/redis/cache'
 /* CONSTANTS */
-import { COLLECTION } from '@sujin/lib/constants'
+import { COLLECTION } from '@common/constants'
 
 /**
  * Remove a page document. Requires an admin token.
