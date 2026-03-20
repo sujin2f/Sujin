@@ -1,4 +1,0 @@
-[submodule "@graphql/common"]
-	path = @graphql/common
-	url = https://github.com/sujin2f/common
-	branch = trunk
