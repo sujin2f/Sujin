@@ -1,9 +1,0 @@
-{
-    "recommendations": [
-        "apollographql.vscode-apollo",
-        "esbenp.prettier-vscode",
-        "eetami.whitespace-formatter",
-        "gruntfuggly.todo-tree",
-        "streetsidesoftware.code-spell-checker"
-    ]
-}
