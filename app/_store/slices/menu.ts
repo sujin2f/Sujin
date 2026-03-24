@@ -3,7 +3,7 @@ import type { MenuItem } from '@common/types/menu'
 
 const initialState: { mobile: boolean; items: Record<string, MenuItem[]> } = { mobile: false, items: {} }
 
-export const menuSlice = createSlice({
+const menuSlice = createSlice({
     name: 'menu',
     initialState,
     reducers: {

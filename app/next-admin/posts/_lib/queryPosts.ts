@@ -10,7 +10,7 @@ import type { T_ArchivePost } from '@common/types'
 
 export const queryPosts = async (page: number): Promise<{ items: T_ArchivePost[]; total: number }> => {
     'use server'
-    Logger.info(`pages query requested! ${page}`)
+    Logger.info(`posts query requested! ${page}`)
     const context = await getAuthHeader()
     context.headers.page = page
     return await fetch(`${process.env.GQL_BASE_URL}`, {
