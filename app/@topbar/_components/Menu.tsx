@@ -67,7 +67,7 @@ export function Menu({ id, position, showMenu }: Props) {
             >
                 {menus[position] &&
                     menus[position].map((item, index) => (
-                        <li key={`menu-item-${id}-${position}-${item.link}`} className="group">
+                        <li key={`menu-item-top-bar-${index}-${id}-${position}-${item.link}`} className="group">
                             <Link
                                 style={showMenu ? {} : { marginTop: `${-1 * (50 + index * 40)}px` }}
                                 className={`${

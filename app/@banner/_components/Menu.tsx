@@ -39,8 +39,8 @@ export function Menu({ id, position }: Props) {
         <nav>
             <ul className="flex text-white uppercase">
                 {menus[position] &&
-                    menus[position].map((item) => (
-                        <li key={`menu-item-${id}-${position}-${item.link}`} className="group">
+                    menus[position].map((item, index) => (
+                        <li key={`menu-item-banner-${index}-${id}-${position}-${item.link}`} className="group">
                             <Link
                                 className="bg-transparent border-b-transparent border-b-4 transition-colors py-3 px-5 flex items-center group-hover:bg-primary group-hover:border-b-primary-dark"
                                 href={item.children!.length ? '#' : item.link}

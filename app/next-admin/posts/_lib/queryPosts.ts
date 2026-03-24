@@ -23,10 +23,10 @@ export const queryPosts = async (page: number): Promise<{ items: T_ArchivePost[]
     })
         .then(async (response) => {
             const json = await response.json()
-            if (!json.data?.pages) return { items: [], total: 0 }
+            if (!json.data?.postsAllAdmin) return { items: [], total: 0 }
 
             const pages = response.headers.get('total-pages')
-            return { items: json.data.pages, total: parseInt(pages || '0') }
+            return { items: json.data.postsAllAdmin, total: parseInt(pages || '0') }
         })
         .catch(() => {
             return { items: [], total: 0 }

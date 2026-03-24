@@ -107,7 +107,7 @@ export default function AdminPages() {
                     </Fragment>
                 ))}
             </div>
-            <Paging totalPages={total} urlPrefix={''} currentPage={page} onClick={(page) => setPage(page)} />
+            <Paging totalPages={total + 1} urlPrefix={''} currentPage={page} onClick={(page) => setPage(page)} />
         </>
     )
 }

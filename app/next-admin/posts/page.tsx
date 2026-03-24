@@ -7,7 +7,7 @@ import { Input } from '@app/_components/html-elements/Input'
 import { Button } from '@app/_components/html-elements/Button'
 /* Utils */
 import { useServerAction } from '@app/_lib/hooks/useServerAction'
-import { queryPages } from '@app/next-admin/pages/_lib/queryPages'
+import { queryPosts } from '@app/next-admin/posts/_lib/queryPosts'
 import { useRedisPub } from '@app/next-admin/_lib/useRedisPub'
 /* T_Type */
 import type { T_ArchivePost } from '@common/types'
@@ -20,7 +20,7 @@ export default function AdminPosts() {
     const { data, loading, error } = useServerAction<{
         items: T_ArchivePost[]
         total: number
-    }>(() => queryPages(page), false, page)
+    }>(() => queryPosts(page), false, page)
 
     const [state, action, pending] = useRedisPub()
 
@@ -44,7 +44,7 @@ export default function AdminPosts() {
                     const data = new FormData(e.target as HTMLFormElement)
                     const slug = data.get('slug')?.toString()
                     if (!slug) return
-                    startTransition(() => action([POST_TYPE.PAGE, 'update', slug]))
+                    startTransition(() => action([POST_TYPE.POST, 'update', slug]))
                 }}
             >
                 <div className="mr-2">Slug</div>
@@ -86,7 +86,7 @@ export default function AdminPosts() {
                                 className="text-primary underline"
                                 onClick={(e) => {
                                     e.preventDefault()
-                                    startTransition(() => action([POST_TYPE.PAGE, 'remove', post.slug]))
+                                    startTransition(() => action([POST_TYPE.POST, 'remove', post.slug]))
                                 }}
                             >
                                 Remove
@@ -98,7 +98,7 @@ export default function AdminPosts() {
                                 className="text-primary underline"
                                 onClick={(e) => {
                                     e.preventDefault()
-                                    startTransition(() => action([POST_TYPE.PAGE, 'update', post.slug]))
+                                    startTransition(() => action([POST_TYPE.POST, 'update', post.slug]))
                                 }}
                             >
                                 Refresh
@@ -107,7 +107,7 @@ export default function AdminPosts() {
                     </Fragment>
                 ))}
             </div>
-            <Paging totalPages={total} urlPrefix={''} currentPage={page} onClick={(page) => setPage(page)} />
+            <Paging totalPages={total + 1} urlPrefix={''} currentPage={page} onClick={(page) => setPage(page)} />
         </>
     )
 }
