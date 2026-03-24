@@ -3,6 +3,7 @@
         "esbenp.prettier-vscode",
         "eetami.whitespace-formatter",
         "gruntfuggly.todo-tree",
-        "streetsidesoftware.code-spell-checker"
+        "streetsidesoftware.code-spell-checker",
+        "apollographql.vscode-apollo"
     ]
 }

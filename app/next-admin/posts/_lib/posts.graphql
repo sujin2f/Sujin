@@ -1,0 +1,10 @@
+query Pages($page: Int!) {
+    pages(page: $page) {
+        _id
+        id
+        title
+        slug
+        status
+        link
+    }
+}

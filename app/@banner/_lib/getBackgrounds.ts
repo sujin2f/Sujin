@@ -1,0 +1,29 @@
+'use server'
+/* Utils */
+import { gqlRequest } from '@app/_lib/utils/redis'
+/* CONSTANTS */
+import query from '@app/@banner/_lib/getBackgrounds-gql.graphql'
+import { COLLECTION } from '@common/constants'
+/* Models */
+import { client } from '@app/_lib/graphql/client'
+import { Logger } from '@common/model/Logger'
+/* T_Types */
+import type { T_Background } from '@common/types'
+
+export const getBackgrounds = async () => {
+    'use server'
+    return await gqlRequest(
+        async () =>
+            await client
+                .query<{ backgrounds: T_Background[] }>({ query, fetchPolicy: 'network-only' })
+                .then((result) => {
+                    if (!result.data) return []
+                    return result.data.backgrounds
+                })
+                .catch((e) => {
+                    Logger.error(`Error fetching backgrounds ${JSON.stringify(e)}`)
+                    return []
+                }),
+        COLLECTION.BACKGROUNDS,
+    ).catch(() => [])
+}

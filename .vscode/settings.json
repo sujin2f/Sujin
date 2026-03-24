@@ -9,7 +9,7 @@
         "source.fixAll.tslint": "explicit"
     },
     "workbench.iconTheme": "material-icon-theme",
-    "javascript.updateImportsOnFileMove.enabled": "always",
+    "js/ts.updateImportsOnFileMove.enabled": "always",
     "explorer.confirmDragAndDrop": false,
     "prettier.tabWidth": 4,
     "window.zoomLevel": 1,
@@ -19,7 +19,6 @@
         "markdown": false,
         "scminput": false
     },
-    "typescript.updateImportsOnFileMove.enabled": "always",
     "eslint.useFlatConfig": true,
     "cSpell.words": ["Choi", "flickr", "sujin", "sujinc"]
 }

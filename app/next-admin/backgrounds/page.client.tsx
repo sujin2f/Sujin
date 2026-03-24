@@ -1,0 +1,93 @@
+'use client'
+import Link from 'next/link'
+import Image from 'next/image'
+/* Components */
+import Table from '@common-old/components/containers/Table'
+import Column from '@common-old/components/layout/Column'
+import Row from '@common-old/components/layout/Row'
+import { Header } from './Header'
+/* Utils */
+import { entries } from '@common/utils/object'
+import { useServerAction } from '@app/_lib/hooks/useServerAction'
+/* T_Type */
+import type { T_Background } from '@common/types'
+
+type Props = {
+    readonly action: () => Promise<T_Background[]>
+}
+
+export function BackgroundsClient({ action }: Props) {
+    const { data: backgrounds, loading, error } = useServerAction(action)
+
+    if (loading || error) {
+        return <></>
+    }
+
+    return (
+        <>
+            <Header />
+            <Row dom="article" fullWidth>
+                <Column small={12}>
+                    <Table fullWidth>
+                        <thead>
+                            <tr>
+                                <th>mimeType</th>
+                                <th>width</th>
+                                <th>height</th>
+                                <th>URL</th>
+                                <th>Sizes</th>
+                                <th>Show</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {(backgrounds || []).map((background) => (
+                                <tr key={`admin-background-${background._id}`}>
+                                    <td className="center">{background.mimeType}</td>
+
+                                    <td className="center">{background.width}</td>
+                                    <td className="center">{background.height}</td>
+                                    <td>{background.url}</td>
+                                    <td>
+                                        {background.sizes ? (
+                                            <ul>
+                                                {entries(background.sizes)
+                                                    .filter(([key, value]) => {
+                                                        if ((key as string) === '__typename') {
+                                                            // TODO remove this from aggregation
+                                                            return false
+                                                        }
+                                                        return value
+                                                    })
+                                                    .map(([key, value]) => (
+                                                        <li key={`image-size-${background.url}-${key}`}>
+                                                            <Link href={value.url} target="_blank">
+                                                                {key}
+                                                            </Link>
+                                                        </li>
+                                                    ))}
+                                            </ul>
+                                        ) : null}
+                                    </td>
+                                    <td className="center">
+                                        <Link href={background.url} target="_blank">
+                                            {background.sizes?.medium ? (
+                                                <Image
+                                                    src={background.sizes.medium.url}
+                                                    width={88}
+                                                    height={88}
+                                                    alt=""
+                                                />
+                                            ) : (
+                                                'Show'
+                                            )}
+                                        </Link>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                </Column>
+            </Row>
+        </>
+    )
+}
