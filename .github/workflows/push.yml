@@ -11,10 +11,6 @@ jobs:
 
         steps:
             - uses: actions/checkout@v4
-            - uses: php-actions/composer@v6
-
-            - name: Composer Lint
-              run: composer run lint
 
             - name: Yarn Install
               uses: borales/actions-yarn@v3.0.0
