@@ -1,5 +1,5 @@
-query Pages($page: Int!) {
-    pages(page: $page) {
+query PostsAllAdmin($page: Int!) {
+    postsAllAdmin(page: $page) {
         _id
         id
         title

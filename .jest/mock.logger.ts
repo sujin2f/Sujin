@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom'
-jest.mock('@sujin/share/model/Logger', () => ({
+jest.mock('@common/model/Logger', () => ({
     Logger: {
         error: jest.fn(),
         log: jest.fn(),

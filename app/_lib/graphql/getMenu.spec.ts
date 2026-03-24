@@ -5,7 +5,7 @@ import { getMenu } from './getMenu'
 import { DEFAULT_MENUS } from '@app/_lib/constants'
 
 /* Mock: logger @test/mock.logger */
-jest.mock('@sujin/share/model/Logger', () => ({
+jest.mock('@common/model/Logger', () => ({
     Logger: {
         error: jest.fn(),
     },

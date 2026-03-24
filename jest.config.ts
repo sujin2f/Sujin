@@ -235,7 +235,7 @@ const config = {
     testEnvironment: 'jest-environment-jsdom',
     testMatch: [
         '<rootDir>/app/**/?(*.)+(spec|test).[tj]s?(x)',
-        '<rootDir>/common/**/?(*.)+(spec|test).[tj]s?(x)',
+        '<rootDir>/common-old/**/?(*.)+(spec|test).[tj]s?(x)',
         '<rootDir>/lib/**/?(*.)+(spec|test).[tj]s?(x)',
         '<rootDir>/.jest/**/?(*.)+(spec|test).[tj]s?(x)',
     ],

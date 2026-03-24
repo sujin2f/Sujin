@@ -6,7 +6,7 @@ import { focusMessage } from '@test/fixtures'
 import { PUT, DELETE } from './route'
 
 /* Mock: logger @test/mock.logger */
-jest.mock('@sujin/share/model/Logger', () => ({
+jest.mock('@common/model/Logger', () => ({
     Logger: {
         error: jest.fn(),
         log: jest.fn(),
