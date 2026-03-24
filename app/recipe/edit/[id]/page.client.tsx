@@ -1,8 +1,8 @@
 'use client'
 import { useRouter } from 'next/navigation'
 /* Components */
-import Button from '@common-old/components/forms/Button'
-import Input from '@common-old/components/forms/Input'
+import { Button } from '@app/_components/html-elements/Button'
+import { Input } from '@app/_components/html-elements/Input'
 import Select from '@common-old/components/forms/Select'
 import Row from '@common-old/components/layout/Row'
 import Column from '@common-old/components/layout/Column'
@@ -30,15 +30,15 @@ export default function RecipeEditClient({ recipe }: Props) {
                 }}
                 onChange={onChange}
             >
-                <Input
-                    label="Title"
-                    name="title"
-                    required
-                    errorMessage={errors[0]}
-                    defaultValue={recipe.title}
-                    className="--gap--bottom"
-                />
-                <Input label="URL" type="url" name="url" defaultValue={recipe.url} className="--gap--bottom" />
+                <label>
+                    Title
+                    <Input name="title" required defaultValue={recipe.title} className="--gap--bottom" />
+                    {errors[0] && <p>{errors[0]}</p>}
+                </label>
+                <label>
+                    URL
+                    <Input type="url" name="url" defaultValue={recipe.url} className="--gap--bottom" />
+                </label>
                 <fieldset className="--gap--bottom">
                     <legend>Ingredients</legend>
 
@@ -47,10 +47,16 @@ export default function RecipeEditClient({ recipe }: Props) {
                     {map(numFields, (_, index) => (
                         <Row key={`recipe-input-${index}`} dom="section" fullWidth>
                             <Column small={4}>
-                                <Input label="Ingredient" name={`ingredient[${index}]`} />
+                                <label>
+                                    Ingredient
+                                    <Input name={`ingredient[${index}]`} />
+                                </label>
                             </Column>
                             <Column small={4}>
-                                <Input label="Amount" type="number" step="0.01" name={`amount[${index}]`} />
+                                <label>
+                                    Amount
+                                    <Input type="number" step="0.01" name={`amount[${index}]`} />
+                                </label>
                             </Column>
                             <Column small={4}>
                                 <Select
@@ -63,7 +69,7 @@ export default function RecipeEditClient({ recipe }: Props) {
                     ))}
                 </fieldset>
                 <ButtonGroup className="--gap--bottom">
-                    <Button hollow onClick={() => router.back()} type="button">
+                    <Button onClick={() => router.back()} type="button">
                         Cancel
                     </Button>
                     <Button type="submit">Submit</Button>
