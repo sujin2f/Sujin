@@ -35,13 +35,7 @@ export const DEFAULT_MENUS: MenuItem[] = [
             {
                 ...menuFixture,
                 title: 'Focus Browser',
-                link: 'https://github.com/sujin2f/focus-browser',
-                target: '_blank',
-            },
-            {
-                ...menuFixture,
-                title: 'Recipe',
-                link: '/recipe',
+                link: '/focus',
             },
             {
                 ...menuFixture,

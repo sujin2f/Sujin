@@ -20,7 +20,6 @@ export function Menu({ id, position }: Props) {
     // Redux store
     const menus = useSelector((state: RootState) => state.menu.items)
     const dispatch = useDispatch()
-    // const hasStore = useMemo(() => !!(menus[position] && menus[position].length), [menus, position])
     const hasStore = useMemo(() => !!(menus[position] && menus[position].length), [menus, position])
     const [skip, setSkip] = useState(false)
 

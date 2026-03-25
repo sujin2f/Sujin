@@ -16,7 +16,7 @@ export const getMenu = async (slug: string): Promise<MenuItem[]> => {
     const variables = { slug }
     const action = async () =>
         await client.query<{ menu: MenuItem[] }>({ query, variables, fetchPolicy: 'network-only' }).then((result) => {
-            if (result.data?.menu.length) return DEFAULT_MENUS
+            if (!result.data?.menu.length) return DEFAULT_MENUS
             return result.data!.menu
         })
 
