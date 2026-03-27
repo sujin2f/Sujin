@@ -2,8 +2,6 @@
 /**
  * @use yarn package -- next:12.0.0 sudo
  */
-import * as fs from 'node:fs'
-import * as path from 'node:path'
 import { exec } from 'node:child_process'
 import { config } from 'dotenv'
 import util from 'util'
