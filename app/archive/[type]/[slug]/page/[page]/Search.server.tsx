@@ -1,0 +1,54 @@
+import { notFound } from 'next/navigation'
+/* Models */
+import { Logger } from '@common/model/Logger'
+/* Components */
+import { Banner } from '@app/@banner/_components'
+import Row from '@common-old/components/layout/Row'
+import Column from '@common-old/components/layout/Column'
+import { Cards } from '@lib/components/archive/Cards'
+/* CONSTANTS */
+import { ARCHIVE, COLLECTION } from '@common/constants'
+import { search } from '@lib/apollo/queries/wordpress/posts/search'
+/* Utils */
+import { gqlRequest } from '@app/_lib/utils/redis'
+
+type Props = {
+    slug: string
+    page: number
+}
+
+export const dynamic = 'force-dynamic'
+
+export async function SearchServer({ slug, page }: Props) {
+    const posts = await gqlRequest(async () => await search(slug, page), `${COLLECTION.POST}-search-${slug}-${page}`)
+        .then((result) => {
+            if (!result.items.length) {
+                throw new Error(`🤬 Search result ${slug} ${page} request has been failed: No-content.`)
+            }
+            return result
+        })
+        .catch((e) => {
+            Logger.error(e.message)
+            notFound()
+        })
+
+    return (
+        <>
+            <Banner menu="primary" title={`Search Result: ${decodeURIComponent(slug)}`} prefix={'Search'} />
+            <Row>
+                <Column>
+                    <Cards
+                        keyPrefix={`${ARCHIVE.SEARCH}-${slug}-${page}`}
+                        posts={posts}
+                        listKey="items"
+                        page={page}
+                        pageURLPrefix={`/${ARCHIVE.SEARCH}/${slug}/page`}
+                        large={4}
+                        medium={6}
+                        small={12}
+                    />
+                </Column>
+            </Row>
+        </>
+    )
+}

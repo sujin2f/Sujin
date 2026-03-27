@@ -1,8 +1,0 @@
-{
-    "name": "sujin/theme",
-    "description": "A WordPress theme.",
-    "scripts": {
-        "lint": "phpcs -s -w --report=full",
-        "fix": "phpcbf"
-    }
-}
