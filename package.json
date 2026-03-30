@@ -7,7 +7,7 @@
         "dev": "cross-env NODE_ENV=development next dev -p 8000 --webpack",
         "build": "next build --webpack",
         "start": "next start --webpack",
-        "test": "jest --no-cache --verbose --passWithNoTests --coverage",
+        "test": "jest --no-cache --verbose --passWithNoTests --coverage --config=.jest/jest.config.ts",
         "package": "cross-env rimraf internal_modules temp && node ./package.mjs",
         "lint": "eslint \"{app,common-old,lib}/**/*.{ts,tsx}\""
     },

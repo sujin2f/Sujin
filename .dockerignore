@@ -10,11 +10,16 @@ npm-debug.log
 
 # Dev env
 .git
+.github
+.husky
+.jest
 .next
+.vscode
 coverage
+design
+docs
 README.md
 temp
 .backup
-.jest
-.vscode
 public
+**/*.spec.ts
