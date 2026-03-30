@@ -14,7 +14,7 @@ const redirect = (url: URL | string) => {
 }
 
 export async function GET(request: NextRequest) {
-    const user = await getUserInfo()
+    const user = await getUserInfo().catch(() => undefined)
     const url = await promiseLike(() => new URL(request.url)).catch(() => {
         Logger.error(`Cannot parse the URL: ${request.url}`)
         return `${process.env.AUTH_BASE_URL}`

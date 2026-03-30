@@ -1,24 +1,13 @@
-import type { NextRequest } from 'next/server'
 /* Utils */
 import { getAccessToken, refreshAccessToken, storeAccessToken } from '@app/_lib/utils/tokens'
-import { getTokenFromHeader } from '@common/utils/token'
-/* Models */
-import { Logger } from '@common/model/Logger'
 
 /**
  * Refresh token from outside like Focus
- *
- * @param request
  * @returns
+ * @deprecated use auth.sujinc.com/refresh
  */
-export async function POST(request: NextRequest): Promise<Response> {
-    Logger.info('Focus refresh token')
-    const token = getTokenFromHeader(request.headers)
-    if (!token) {
-        return Response.error()
-    }
-
-    await refreshAccessToken(token)
+export async function POST(): Promise<Response> {
+    await refreshAccessToken()
     const response = await getAccessToken()
         .then(async (token) => {
             if (token) {

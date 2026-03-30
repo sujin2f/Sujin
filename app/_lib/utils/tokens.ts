@@ -5,12 +5,12 @@ import type { DefaultContext } from '@apollo/client'
 import { Logger } from '@common/model/Logger'
 /* CONSTANTS */
 import { COOKIE_KEY_ACCESS_TOKEN, COOKIE_KEY_REFRESH_TOKEN, COOKIE_KEY_USER_INFO } from '@app/_lib/constants'
-import { DAY_IN_SECONDS, HOUR_IN_SECONDS, SECOND_IN_MS } from '@common/constants/datetime'
+import { SECOND_IN_MS } from '@common/constants/datetime'
 /* T_Types */
-import type { Nullable } from '@common/types'
 import type { T_UserSub } from '@common/types'
 /* Utils */
 import { generateToken, verifyToken, getExpiration, createAuthHeader, getTokenFromHeader } from '@common/utils/token'
+import { ACCESS_TOKEN_LIFETIME, REFRESH_TOKEN_LIFETIME } from '@common/constants'
 
 /**
  * Internal communication functions that uses next/headers
@@ -44,25 +44,30 @@ export const setCookies = async (token: string) => {
 }
 
 export const isAdmin = async () => {
+    Logger.log('isAdmin()')
     const user = await getUserInfo()
     return user?.admin
 }
 
-export const getAccessToken = async (): Promise<Nullable<string>> => {
+export const getAccessToken = async (): Promise<string> => {
+    Logger.log('getAccessToken()')
     const cookie = (await cookies()).get(COOKIE_KEY_ACCESS_TOKEN)
     if (!cookie || !cookie.value) {
-        return
-    }
-    if (!cookie.value) {
-        return
+        throw Logger.throw('getAccessToken(): cookie empty.')
     }
     return cookie.value
 }
 
-const getSafeAccessToken = async (_token: Nullable<string>): Promise<Nullable<string>> => {
-    let token = _token
+const getSafeAccessToken = async (): Promise<string> => {
+    Logger.log('getSafeAccessToken()')
+    const token = await getAccessToken()
     if (!token) {
-        return
+        const refresh = await getRefreshToken()
+        if (!refresh)
+            throw Logger.throw('getSafeAccessToken() has been failed: neither access nor refresh do not exist.')
+
+        await refreshAccessToken()
+        return await getAccessToken()
     }
 
     const now = Math.trunc(new Date().getTime() / SECOND_IN_MS) + 60
@@ -71,16 +76,17 @@ const getSafeAccessToken = async (_token: Nullable<string>): Promise<Nullable<st
     // expired
     if (now > exp) {
         await refreshAccessToken()
-        token = await getAccessToken()
+        return await getAccessToken()
     }
 
     return token
 }
 
-export const getRefreshToken = async (): Promise<Nullable<string>> => {
+export const getRefreshToken = async (): Promise<string> => {
+    Logger.log('getRefreshToken()')
     const cookie = (await cookies()).get(COOKIE_KEY_REFRESH_TOKEN)
     if (!cookie || !cookie.value) {
-        return
+        throw Logger.throw('getRefreshToken(): cookie empty.')
     }
     return cookie.value
 }
@@ -94,16 +100,16 @@ const storeUserInfo = async (token: T_UserSub) => {
     cookie.set(COOKIE_KEY_USER_INFO, JSON.stringify(token), {
         httpOnly: true,
         secure: true,
-        maxAge: 35 * DAY_IN_SECONDS,
+        maxAge: REFRESH_TOKEN_LIFETIME,
         sameSite: 'lax',
         path: '/',
     })
 }
 
-export const getUserInfo = async (): Promise<Nullable<T_UserSub>> => {
+export const getUserInfo = async (): Promise<T_UserSub> => {
     const cookie = (await cookies()).get(COOKIE_KEY_USER_INFO)
     if (!cookie || !cookie.value) {
-        return
+        throw Logger.throw('getUserInfo(): cookie empty.')
     }
     return JSON.parse(cookie.value)
 }
@@ -113,11 +119,12 @@ export const getUserInfo = async (): Promise<Nullable<T_UserSub>> => {
  * @param token
  */
 export const storeAccessToken = async (token: string) => {
+    Logger.log('storeAccessToken()', token)
     const cookie = await cookies()
     cookie.set(COOKIE_KEY_ACCESS_TOKEN, token, {
         httpOnly: true,
         secure: true,
-        maxAge: 3 * HOUR_IN_SECONDS,
+        maxAge: ACCESS_TOKEN_LIFETIME,
         sameSite: 'lax',
         path: '/',
     })
@@ -128,39 +135,37 @@ export const storeAccessToken = async (token: string) => {
  * @param token
  */
 const storeRefreshToken = async (token: string) => {
+    Logger.log('storeRefreshToken()', token)
     const cookie = await cookies()
     cookie.set(COOKIE_KEY_REFRESH_TOKEN, token, {
         httpOnly: true,
         secure: true,
-        maxAge: 30 * DAY_IN_SECONDS,
+        maxAge: REFRESH_TOKEN_LIFETIME,
         sameSite: 'strict',
         path: '/',
     })
 }
 
 export const getAuthHeader = async (): Promise<DefaultContext> => {
-    const _token = await getAccessToken()
-    const token = await getSafeAccessToken(_token)
-    if (!token) {
+    Logger.log('getAuthHeader()')
+    const token = await getSafeAccessToken().catch(async (e) => {
         await logout()
-        return {}
-    }
+        throw e
+    })
     return createAuthHeader(token)
 }
 
-export const logout = async (): Promise<Nullable<void>> => {
+export const logout = async (): Promise<void> => {
+    Logger.log('logout()')
     const cookieStore = await cookies()
     cookieStore.delete(COOKIE_KEY_USER_INFO)
     cookieStore.delete(COOKIE_KEY_ACCESS_TOKEN)
     cookieStore.delete(COOKIE_KEY_REFRESH_TOKEN)
 }
 
-export const refreshAccessToken = async (_token: string = ''): Promise<undefined> => {
-    Logger.info('refresh token start!')
-    const token = _token || (await getRefreshToken())
-    if (!token) {
-        throw new Error()
-    }
+export const refreshAccessToken = async (): Promise<undefined> => {
+    Logger.log('refreshAccessToken()')
+    const token = await getRefreshToken()
 
     const body = {
         query: `
@@ -179,19 +184,19 @@ export const refreshAccessToken = async (_token: string = ''): Promise<undefined
     })
         .then(async (response) => {
             if (response.status !== 200) {
-                throw new Error()
+                throw Logger.throw(`refresh token failed!`, response.status)
             }
 
             const token = getTokenFromHeader(response.headers)
             if (!token) {
-                throw new Error()
+                throw Logger.throw(`refresh token failed! | token is empty`)
             }
 
             Logger.info('refresh token done!')
             await storeAccessToken(token)
         })
         .catch((e) => {
-            Logger.error(`refresh token failed! ${JSON.stringify(e)}`)
+            Logger.error(`refresh token failed!`, JSON.stringify(e))
             throw e
         })
 }
